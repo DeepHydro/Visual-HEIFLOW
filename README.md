@@ -22,7 +22,7 @@ If you use HEIFLOW in a publication, please cite the these papers:
 * Tian Y., Zheng Y., Zheng C., Xiao H., Fan W., Zou S., Wu B., Yao Y., Zhang A., Liu J. Exploring scale-dependent ecohydrological responses in a large endorheic river basin through integrated surface water-groundwater modeling, Water Resources Research, 2015, 51(6): 4065-4085.
 ## Quick Start
 ### Prerequisites
-    * .NET Framework 4.5.
+    * [NET Framework 4.5](https://www.microsoft.com/net/download/thank-you/net452)
     * [Microsoft Access Database Engine 2010 Redistributable](https://www.microsoft.com/en-us/download/details.aspx?id=13255)
 ### Step 1: Setup
     Download setup file from the link https://github.com/DeepHydro/VHF/releases
