@@ -16,11 +16,14 @@ simulate the hydrological effects of changing land use.
 - Visualizaiton of inputs/outputs
 ## Citing VHF
 If you use VHF in a publication, please cite the following paper that describes VHF:
+
 *Tian Y., Zheng Y., Han F., Zheng C., Li X. A comprehensive graphical modeling platform designed for integrated hydrological simulation. Environmental Modelling & Software, 2018, under review.
 
 If you use HEIFLOW in a publication, please cite the these papers:
+
 *Tian Y., Zheng Y., Wu B., Wu X., Liu J., Zheng C. Modeling surface water-groundwater interaction in arid and semi-arid regions with intensive agriculture, Environmental Modelling & Software, 2015, 63: 170-184.
 *Tian Y., Zheng Y., Zheng C., Xiao H., Fan W., Zou S., Wu B., Yao Y., Zhang A., Liu J. Exploring scale-dependent ecohydrological responses in a large endorheic river basin through integrated surface water-groundwater modeling, Water Resources Research, 2015, 51(6): 4065-4085.
+
 ## Quick Start
 ### Prerequisites
 * [NET Framework 4.5](https://www.microsoft.com/net/download/thank-you/net452)
