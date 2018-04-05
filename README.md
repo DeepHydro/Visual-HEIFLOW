@@ -40,11 +40,11 @@ If you use HEIFLOW in a publication, please cite the these papers:
 The Visual HEIFLOW project is supported by the National Natural Science Foundation of China (No. 41501024; No. 41622111; No. 91425303; No. 91225301). Additional support was provided by the Southern University of Science and Technology (No. G01296001) and the Shenzhen Municipal Science and Technology Innovation Committee (JCYJ20160530190547253).
 
 ## COPYRIGHT
-This package is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or any later version.
+This software is free; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or any later version.
 
-Note: only part of the files distributed in the package belong to the Visual HEIFLOW. The package also contains contributed files, which may have their own copyright notices. If not, the GNU General Public License holds for them, too, but so that the author(s) of the file have the Copyright.
+Note: The software contains contributed files, which may have their own copyright notices. If not, the GNU General Public License holds for them, too, but so that the author(s) of the file have the Copyright.
 
-This package is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 ## LICENSING THE LIBRARY FOR PROPRIETARY PROGRAMS
 As stated in the GNU General Public License (see the license in COPYING) it is not possible to include this software library in a commercial proprietary program without written permission from the owners of the copyright.
