@@ -1,0 +1,21 @@
+E:\PKU\Program\VHF\DotSpatial.Data.Rasters.GdalExtension\obj\Debug\DotSpatial.Data.Rasters.GdalExtension.csprojResolveAssemblyReference.cache
+E:\PKU\Program\VHF\bin\Debug\Application Extensions\DotSpatial.Data.Rasters.GdalExtension\Readme.txt
+E:\PKU\Program\VHF\bin\Debug\Application Extensions\DotSpatial.Data.Rasters.GdalExtension\DotSpatial.Data.Rasters.GdalExtension.dll
+E:\PKU\Program\VHF\bin\Debug\Application Extensions\DotSpatial.Data.Rasters.GdalExtension\DotSpatial.Data.Rasters.GdalExtension.pdb
+E:\PKU\Program\VHF\DotSpatial.Data.Rasters.GdalExtension\obj\Debug\DotSpatial.Data.Rasters.GdalExtension.dll
+E:\PKU\Program\VHF\DotSpatial.Data.Rasters.GdalExtension\obj\Debug\DotSpatial.Data.Rasters.GdalExtension.pdb
+H:\E\PKU\Program\VHF\bin\Debug\Application Extensions\DotSpatial.Data.Rasters.GdalExtension\Readme.txt
+H:\E\PKU\Program\VHF\bin\Debug\Application Extensions\DotSpatial.Data.Rasters.GdalExtension\DotSpatial.Data.Rasters.GdalExtension.dll
+H:\E\PKU\Program\VHF\bin\Debug\Application Extensions\DotSpatial.Data.Rasters.GdalExtension\DotSpatial.Data.Rasters.GdalExtension.pdb
+H:\E\PKU\Program\VHF\DotSpatial.Data.Rasters.GdalExtension\obj\Debug\DotSpatial.Data.Rasters.GdalExtension.csprojResolveAssemblyReference.cache
+H:\E\PKU\Program\VHF\DotSpatial.Data.Rasters.GdalExtension\obj\Debug\DotSpatial.Data.Rasters.GdalExtension.dll
+H:\E\PKU\Program\VHF\DotSpatial.Data.Rasters.GdalExtension\obj\Debug\DotSpatial.Data.Rasters.GdalExtension.pdb
+G:\E\PKU\Program\VHF\bin\Debug\Application Extensions\DotSpatial.Data.Rasters.GdalExtension\Readme.txt
+G:\E\PKU\Program\VHF\bin\Debug\Application Extensions\DotSpatial.Data.Rasters.GdalExtension\DotSpatial.Data.Rasters.GdalExtension.dll
+G:\E\PKU\Program\VHF\bin\Debug\Application Extensions\DotSpatial.Data.Rasters.GdalExtension\DotSpatial.Data.Rasters.GdalExtension.pdb
+G:\E\PKU\Program\VHF\DotSpatial.Data.Rasters.GdalExtension\obj\Debug\DotSpatial.Data.Rasters.GdalExtension.csprojResolveAssemblyReference.cache
+G:\E\PKU\Program\VHF\DotSpatial.Data.Rasters.GdalExtension\obj\Debug\DotSpatial.Data.Rasters.GdalExtension.dll
+G:\E\PKU\Program\VHF\DotSpatial.Data.Rasters.GdalExtension\obj\Debug\DotSpatial.Data.Rasters.GdalExtension.pdb
+F:\System Development\HEIFLOW\VHF\DotSpatial.Data.Rasters.GdalExtension\obj\Debug\DotSpatial.Data.Rasters.GdalExtension.csprojResolveAssemblyReference.cache
+F:\System Development\HEIFLOW\VHF\DotSpatial.Data.Rasters.GdalExtension\obj\Debug\DotSpatial.Data.Rasters.GdalExtension.dll
+F:\System Development\HEIFLOW\VHF\DotSpatial.Data.Rasters.GdalExtension\obj\Debug\DotSpatial.Data.Rasters.GdalExtension.pdb

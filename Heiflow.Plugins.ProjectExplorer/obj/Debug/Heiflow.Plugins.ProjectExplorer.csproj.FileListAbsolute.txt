@@ -1,0 +1,14 @@
+E:\PKU\Program\VHF\bin\Debug\Application Extensions\VHF\Heiflow.Plugins.ProjectExplorer.dll
+E:\PKU\Program\VHF\bin\Debug\Application Extensions\VHF\Heiflow.Plugins.ProjectExplorer.pdb
+E:\PKU\Program\VHF\Heiflow.Plugins.ProjectExplorer\obj\Debug\Heiflow.Plugins.ProjectExplorer.Properties.Resources.resources
+E:\PKU\Program\VHF\Heiflow.Plugins.ProjectExplorer\obj\Debug\Heiflow.Plugins.ProjectExplorer.csproj.GenerateResource.Cache
+E:\PKU\Program\VHF\Heiflow.Plugins.ProjectExplorer\obj\Debug\Heiflow.Plugins.ProjectExplorer.dll
+E:\PKU\Program\VHF\Heiflow.Plugins.ProjectExplorer\obj\Debug\Heiflow.Plugins.ProjectExplorer.pdb
+E:\PKU\Program\VHF\Heiflow.Plugins.ProjectExplorer\obj\Debug\Heiflow.Plugins.ProjectExplorer.csprojResolveAssemblyReference.cache
+H:\E\PKU\Program\VHF\bin\Debug\Application Extensions\VHF\Heiflow.Plugins.ProjectExplorer.dll
+H:\E\PKU\Program\VHF\bin\Debug\Application Extensions\VHF\Heiflow.Plugins.ProjectExplorer.pdb
+H:\E\PKU\Program\VHF\Heiflow.Plugins.ProjectExplorer\obj\Debug\Heiflow.Plugins.ProjectExplorer.csprojResolveAssemblyReference.cache
+H:\E\PKU\Program\VHF\Heiflow.Plugins.ProjectExplorer\obj\Debug\Heiflow.Plugins.ProjectExplorer.Properties.Resources.resources
+H:\E\PKU\Program\VHF\Heiflow.Plugins.ProjectExplorer\obj\Debug\Heiflow.Plugins.ProjectExplorer.csproj.GenerateResource.Cache
+H:\E\PKU\Program\VHF\Heiflow.Plugins.ProjectExplorer\obj\Debug\Heiflow.Plugins.ProjectExplorer.dll
+H:\E\PKU\Program\VHF\Heiflow.Plugins.ProjectExplorer\obj\Debug\Heiflow.Plugins.ProjectExplorer.pdb

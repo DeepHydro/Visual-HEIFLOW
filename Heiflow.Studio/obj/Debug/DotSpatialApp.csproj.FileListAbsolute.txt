@@ -1,0 +1,9 @@
+E:\PKU\Program\VHF\dotspatial-75706\dotspatialapp-75723\Source\bin\DotSpatialApp.exe.config
+E:\PKU\Program\VHF\dotspatial-75706\dotspatialapp-75723\Source\DotSpatialApp\obj\Debug\DotSpatialApp.MainForm.resources
+E:\PKU\Program\VHF\dotspatial-75706\dotspatialapp-75723\Source\DotSpatialApp\obj\Debug\DotSpatialApp.csproj.GenerateResource.Cache
+E:\PKU\Program\VHF\dotspatial-75706\dotspatialapp-75723\Source\DotSpatialApp\obj\Debug\DotSpatialApp.exe.licenses
+E:\PKU\Program\VHF\dotspatial-75706\dotspatialapp-75723\Source\bin\DotSpatialApp.exe
+E:\PKU\Program\VHF\dotspatial-75706\dotspatialapp-75723\Source\bin\DotSpatialApp.pdb
+E:\PKU\Program\VHF\dotspatial-75706\dotspatialapp-75723\Source\DotSpatialApp\obj\Debug\DotSpatialApp.exe
+E:\PKU\Program\VHF\dotspatial-75706\dotspatialapp-75723\Source\DotSpatialApp\obj\Debug\DotSpatialApp.pdb
+E:\PKU\Program\VHF\dotspatial-75706\dotspatialapp-75723\Source\DotSpatialApp\obj\Debug\DotSpatialApp.csprojResolveAssemblyReference.cache

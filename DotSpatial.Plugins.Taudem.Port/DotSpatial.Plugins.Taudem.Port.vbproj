@@ -1,0 +1,256 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>
+    </SchemaVersion>
+    <ProjectGuid>{820E1426-5BAE-4834-88FB-EC407D4E5CC8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>DotSpatial.Plugins.Taudem.Port</RootNamespace>
+    <AssemblyName>DotSpatial.Plugins.Taudem.Port</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\dotSpatial\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>..\bin\debug\Application Extensions\DotSpatial.Plugins.Taudem.Port\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\Release\Windows Extensions\DotSpatial.Plugins.Taudem.Port\</OutputPath>
+    <DocumentationFile>
+    </DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DotSpatial.Controls">
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Controls.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotSpatial.Data, Version=1.7.0.0, Culture=neutral, PublicKeyToken=c29dbf30e059ca9d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Data.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotSpatial.Extensions, Version=1.7.0.0, Culture=neutral, PublicKeyToken=4d9e49339a7d240c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Extensions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotSpatial.GeoAPI">
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.GeoAPI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotSpatial.NetTopologySuite">
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.NetTopologySuite.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotSpatial.NTSExtension">
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.NTSExtension.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotSpatial.Projections, Version=1.7.0.0, Culture=neutral, PublicKeyToken=272632bddd08a38b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Projections.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotSpatial.Projections.Forms, Version=1.7.0.0, Culture=neutral, PublicKeyToken=52099474f11b7ff0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Projections.Forms.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotSpatial.Symbology, Version=1.7.0.0, Culture=neutral, PublicKeyToken=6178c08da7998387, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Symbology.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotSpatial.Symbology.Forms, Version=1.7.0.0, Culture=neutral, PublicKeyToken=0544cdeefb662382, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Symbology.Forms.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="WpfApplicationFramework">
+      <HintPath>..\Bin\Debug\WpfApplicationFramework.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="frmAdvancedOptions_v3.designer.vb">
+      <DependentUpon>frmAdvancedOptions_v3.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmAdvancedOptions_v3.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAutomatic_v3.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmLoadDelinOutputs.designer.vb">
+      <DependentUpon>frmLoadDelinOutputs.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmLoadDelinOutputs.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmLoadOutputs.Designer.vb">
+      <DependentUpon>frmLoadOutputs.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmLoadOutputs.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Globals_v3.vb" />
+    <Compile Include="Manhattan\manhattanCustomBounds.vb" />
+    <Compile Include="Manhattan\manhattanCustomData.vb" />
+    <Compile Include="Manhattan\manhattanCustomGridRow.vb" />
+    <Compile Include="Manhattan\manhattanCustomLink.vb" />
+    <Compile Include="Manhattan\manhattanCustomOffSet.vb" />
+    <Compile Include="Manhattan\manhattanPolygon.vb" />
+    <Compile Include="Manhattan\manhattanPolygonParts.vb" />
+    <Compile Include="Manhattan\ManhattanShapes.vb" />
+    <Compile Include="Manhattan\PredicateWrapperDelegate.vb" />
+    <Compile Include="TaudemPlugin.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="tdbChoices_v3.vb" />
+    <Compile Include="tdbFileTypes_v3.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="frmAdvancedOptions_v3.resx">
+      <DependentUpon>frmAdvancedOptions_v3.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAutomatic_v3.resx">
+      <DependentUpon>frmAutomatic_v3.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmLoadDelinOutputs.resx">
+      <DependentUpon>frmLoadDelinOutputs.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmLoadOutputs.resx">
+      <DependentUpon>frmLoadOutputs.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="DotSpatial.Plugins.Taudem.Port.nuspec">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DotSpatial.Plugins.Taudem\DotSpatial.Plugins.Taudem.csproj">
+      <Project>{8b41651d-47cc-416d-93a1-c74b1b01fdb2}</Project>
+      <Name>DotSpatial.Plugins.Taudem</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Applications\Heiflow.Applications.csproj">
+      <Project>{feafec49-6f84-4852-9a57-f16df359b356}</Project>
+      <Name>Heiflow.Applications</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Models\Heiflow.Models.csproj">
+      <Project>{28e79461-3161-4130-81b0-2c36cd3a3315}</Project>
+      <Name>Heiflow.Models</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Presentation\Heiflow.Presentation.csproj">
+      <Project>{55d24eb1-96bb-4902-8240-e9019032db93}</Project>
+      <Name>Heiflow.Presentation</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Readme.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\vhf.ico" />
+    <None Include="Resources\watershed_dl.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

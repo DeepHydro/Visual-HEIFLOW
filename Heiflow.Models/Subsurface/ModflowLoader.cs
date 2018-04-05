@@ -1,0 +1,121 @@
+﻿// THIS FILE IS PART OF Visual HEIFLOW
+// THIS PROGRAM IS NOT FREE SOFTWARE. 
+// Copyright (c) 2015-2017 Yong Tian, SUSTech, Shenzhen, China. All rights reserved.
+// Email: tiany@sustc.edu.cn
+// Web: http://ese.sustc.edu.cn/homepage/index.aspx?lid=100000005794726
+using Heiflow.Core.Data;
+using Heiflow.Models.Generic;
+using Heiflow.Models.Generic.Project;
+using Heiflow.Models.Subsurface;
+using Heiflow.Models.UI;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Heiflow.Models.Subsurface
+{
+    public class ModflowLoader : IModelLoader
+    {
+        public ModflowLoader()
+        {
+
+        }
+
+        public string FileTypeDescription
+        {
+            get
+            {
+                return "Modflow";
+            }
+        }
+
+        public string Extension
+        {
+            get
+            {
+                return ".nam";
+            }
+        }
+        public bool CanImport(IProject project)
+        {
+            Modflow model = new Modflow();
+            return model.Exsit(project.RelativeControlFileName);
+        }
+        public void Import(IProject project, IImportProperty property, IProgress progress)
+        {
+            var succ = true;
+            ModelService.WorkDirectory = project.FullModelWorkDirectory;
+            if (project.Model == null)
+            {
+                project.Model = new Modflow();
+                project.Model.Project = project;
+            }
+            else
+            {
+                project.Model.Clear();
+            }
+            var model = project.Model as Modflow;
+                model.Project = project;
+                model.WorkDirectory = project.FullModelWorkDirectory;
+                model.ControlFileName = project.RelativeControlFileName;
+                model.Initialize();
+                model.Grid.Origin = new GeoAPI.Geometries.Coordinate(property.OriginX, property.OriginY);
+                project.Model = model;
+                succ = model.Load(progress);
+                if (succ)
+                {
+                    model.TimeService.PopulateTimelineFromSP(property.Start);
+                    model.TimeService.PopulateIOTimelineFromSP();
+                    model.Grid.Projection = property.Projection;
+                }
+        }
+
+        public bool Load(IProject project, IProgress progress)
+        {
+            ModelService.WorkDirectory = project.FullModelWorkDirectory;
+            Modflow model = new Modflow();
+            model.ControlFileName = project.RelativeControlFileName;
+            model.WorkDirectory = project.FullModelWorkDirectory;
+            model.Project = project;
+            project.Model = model;
+            model.Initialize();
+            var succ = model.Load(progress);
+            if(succ)
+            {
+                var dic =GetExtentSettings(model.ControlFileName+".ext");
+                var start=DateTime.Now;
+                if(dic.Keys.Contains("Start"))
+                {
+                    DateTime.TryParse(dic["Start"],out start);
+                }
+                model.TimeService.PopulateTimelineFromSP(start);
+                model.TimeService.PopulateIOTimelineFromSP();
+            }
+            return succ;
+        }
+
+        private Dictionary<string,string> GetExtentSettings( string filename)
+        {
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            if(File.Exists(filename))
+            {
+                StreamReader sr = new StreamReader(filename);
+                while(!sr.EndOfStream)
+                {
+                    var line = sr.ReadLine();
+                    if(!TypeConverterEx.IsNull(line))
+                    {
+                        var strs = TypeConverterEx.Split<string>(line, 2);
+                        dic.Add(strs[0], strs[1]);
+                    }
+                }
+                sr.Close();
+            }
+            return dic;
+        }
+    }
+}

@@ -1,0 +1,1354 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="SFRHead" xml:space="preserve">
+    <value># SFR: Stream-Flow Routing package file created on 2013/4/16 by ModelMuse version 2.17.1.0.
+REACHINPUT TRANSROUTE 
+TABFILES 12 4847
+ 10676 389 0 0 8.640000000000E+004  1.000000000000E-002  9 58 2 5 1 30 0 1 24 0.9 2.5  IFACE # Data Set 1: NSTRM NSS NSFRPAR NPARSEG CONST DLEAK ISTCB1  ISTCB2 ISFROPT NSTRAIL ISUZN NSFRSETS IRTFLG NUMTIM WEIGHT FLWTOL</value>
+  </data>
+  <data name="SFRSections" xml:space="preserve">
+    <value>389 0 0 # Data Set 5, Stress period 1: ITMP IRDFLG IPTFLG
+ 1 1 6 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 2 1 6 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 3 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 4 1 8 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 5 1 8 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 6 1 4 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 7 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 8 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 9 1 7 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 10 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 11 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 12 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 13 1 4 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 14 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 15 1 9 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 16 1 10 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 17 1 15 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 18 1 17 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 19 1 13 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 20 1 13 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 21 1 20 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 22 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 23 1 22 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 24 1 5 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 25 1 9 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 26 1 25 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 27 1 22 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 28 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 29 1 34 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 30 1 7 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 31 1 33 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 32 1 33 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 33 1 34 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 34 1 27 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 35 1 19 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 36 1 35 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 37 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 38 1 28 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 39 1 27 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 40 1 48 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 41 1 48 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 42 1 38 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 43 1 42 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 44 1 17 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 45 1 51 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 46 1 51 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 47 1 10 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 48 1 50 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 49 1 50 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 50 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 51 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 52 1 25 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 53 1 20 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 54 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 55 1 54 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 56 1 43 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 57 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 58 1 42 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 59 1 43 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 60 1 15 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 61 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 62 1 53 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 63 1 59 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 64 1 19 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 65 1 66 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 66 1 57 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 67 1 57 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 68 1 52 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 69 1 59 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 70 1 66 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 71 1 35 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 72 1 58 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 73 1 72 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 74 1 67 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 75 1 80 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 76 1 58 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 77 1 80 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 78 1 79 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 79 1 67 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 80 1 78 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 81 1 74 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 82 1 78 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 83 1 84 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 84 1 82 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 85 1 83 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 86 1 85 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 87 1 84 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 88 1 87 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 89 1 54 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 90 1 53 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 91 1 69 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 92 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 93 1 74 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 94 1 83 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 95 1 28 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 96 1 69 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 97 1 38 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 98 1 52 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 99 1 79 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 100 1 82 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 101 1 72 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 102 1 87 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 103 1 100 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 104 1 100 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 105 1 94 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 106 1 103 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 107 1 103 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 108 1 88 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 109 1 108 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 110 1 104 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 111 1 107 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 112 1 107 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 113 1 0 130 -2 0.3  0  0  0  2.500000000000E-002
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 114 1 94 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 115 1 88 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 116 1 112 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 117 1 110 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 118 1 104 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 119 1 116 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 120 1 119 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 121 1 122 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 122 1 -6 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 123 1 116 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 124 1 112 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 125 1 123 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 126 1 118 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 127 1 108 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 128 1 119 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 129 1 125 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 130 1 122 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 131 1 110 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 132 1 85 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 133 1 125 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 134 1 128 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 135 1 123 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 136 1 130 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 137 1 128 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 138 1 118 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 139 1 137 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 140 1 129 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 141 1 139 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 142 1 137 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 143 1 141 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 144 1 139 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 145 1 142 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 146 1 141 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 147 1 143 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 148 1 133 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 149 1 144 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 150 1 149 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 151 1 150 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 152 1 148 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 153 1 142 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 154 1 151 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 155 1 148 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 156 1 130 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 157 1 156 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 158 1 156 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 159 1 144 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 160 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 161 1 150 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 162 1 155 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 163 1 154 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 164 1 151 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 165 1 157 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 166 1 157 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 167 1 154 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 168 1 162 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 169 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 170 1 145 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 171 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 172 1 171 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 173 1 143 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 174 1 169 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 175 1 174 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 176 1 173 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 177 1 180 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 178 1 171 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 179 1 162 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 180 1 175 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 181 1 179 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 182 1 180 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 183 1 182 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 184 1 179 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 185 1 155 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 186 1 173 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 187 1 170 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 188 1 170 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 189 1 129 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 190 1 174 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 191 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 192 1 185 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 193 1 133 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 194 1 186 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 195 1 194 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 196 1 149 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 197 1 176 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 198 1 194 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 199 1 186 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 200 1 145 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 201 1 185 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 202 1 178 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 203 1 198 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 204 1 183 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 205 1 166 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 206 1 191 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 207 1 182 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 208 1 206 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 209 1 176 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 210 1 206 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 211 1 209 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 212 1 198 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 213 1 204 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 214 1 169 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 215 1 191 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 216 1 209 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 217 1 215 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 218 1 214 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 219 1 214 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 220 1 204 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 221 1 183 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 222 1 205 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 223 1 227 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 224 1 175 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 225 1 227 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 226 1 235 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 227 1 229 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 228 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 229 1 235 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 230 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 231 1 228 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 232 1 178 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 233 1 245 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 234 1 237 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 235 1 244 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 236 1 244 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 237 1 231 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 238 1 231 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 239 1 245 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 240 1 237 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 241 1 229 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 242 1 215 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 243 1 246 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 244 1 246 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 245 1 251 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 246 1 247 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 247 1 242 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 248 1 205 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 249 1 259 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 250 1 247 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 251 1 241 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 252 1 250 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 253 1 242 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 254 1 228 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 255 1 253 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 256 1 230 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 257 1 251 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 258 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 259 1 258 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 260 1 261 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 261 1 238 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 262 1 261 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 263 1 259 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 264 1 238 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 265 1 230 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 266 1 265 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 267 1 268 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 268 1 250 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 269 1 267 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 270 1 248 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 271 1 265 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 272 1 268 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 273 1 270 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 274 1 241 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 275 1 273 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 276 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 277 1 267 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 278 1 258 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 279 1 273 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 280 1 279 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 281 1 279 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 282 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 283 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 284 1 253 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 285 1 283 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 286 1 281 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 287 1 249 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 288 1 282 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 289 1 249 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 290 1 296 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 291 1 282 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 292 1 286 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 293 1 292 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 294 1 305 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 295 1 303 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 296 1 305 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 297 1 292 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 298 1 296 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 299 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 300 1 283 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 301 1 302 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 302 1 308 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 303 1 309 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 304 1 302 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 305 1 304 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 306 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 307 1 309 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 308 1 297 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 309 1 311 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 310 1 304 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 311 1 320 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 312 1 308 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 313 1 311 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 314 1 310 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 315 1 310 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 316 1 315 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 317 1 316 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 318 1 297 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 319 1 323 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 320 1 323 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 321 1 319 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 322 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 323 1 324 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 324 1 330 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 325 1 330 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 326 1 320 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 327 1 303 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 328 1 319 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 329 1 316 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 330 1 332 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 331 1 332 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 332 1 333 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 333 1 335 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 334 1 333 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 335 1 336 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 336 1 340 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 337 1 335 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 338 1 329 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 339 1 340 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 340 1 351 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 341 1 338 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 342 1 341 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 343 1 324 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 344 1 341 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 345 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 346 1 345 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 347 1 344 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 348 1 329 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 349 1 338 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 350 1 343 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 351 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 352 1 343 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 353 1 347 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 354 1 345 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 355 1 336 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 356 1 347 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 357 1 354 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 358 1 351 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 359 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 360 1 357 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 361 1 354 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 362 1 356 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 363 1 361 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 364 1 356 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 365 1 363 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 366 1 362 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 367 1 362 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 368 1 357 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 369 1 365 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 370 1 365 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 371 1 369 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 372 1 371 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 373 1 369 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 374 1 372 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 375 1 374 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 376 1 368 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 377 1 372 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 378 1 377 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 379 1 378 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 380 1 377 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 381 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 382 1 378 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 383 1 374 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 384 1 371 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 385 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 386 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 387 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 388 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+ 389 1 0 0 0  0  0  0  0.03  # Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH
+ 50  # Data set 6b: WIDTH1
+ 50  # Data set 6c: WIDTH2
+306	2213	300
+260	2213	301
+386	2213	302
+388	2213	303
+263	2213	304
+381	2213	305
+264	2213	306
+322	2213	307
+300	2213	308
+385	2213	309
+353	2213	310
+289	2213	311
+-1 0 0 # Data Set 5, Stress period 2: ITMP IRDFLG IPTFLG</value>
+  </data>
+  <data name="SWMMSections" xml:space="preserve">
+    <value>[TITLE]
+HRB
+
+[OPTIONS]
+FLOW_UNITS           CMS
+INFILTRATION         HORTON
+FLOW_ROUTING         KINWAVE
+START_DATE           01/01/2000
+START_TIME           00:00:00
+REPORT_START_DATE    01/01/2000
+REPORT_START_TIME    00:00:00
+END_DATE             12/31/2000
+END_TIME             00:00:00
+SWEEP_START          01/01
+SWEEP_END            12/31
+DRY_DAYS             0
+REPORT_STEP          24:00:00
+WET_STEP             24:00:00
+DRY_STEP             24:00:00
+ROUTING_STEP         24:00:00 
+ALLOW_PONDING        NO
+INERTIAL_DAMPING     NONE
+VARIABLE_STEP        0.00
+LENGTHENING_STEP     0
+MIN_SURFAREA         12.566
+NORMAL_FLOW_LIMITED  SLOPE
+SKIP_STEADY_STATE    NO
+FORCE_MAIN_EQUATION  H-W
+LINK_OFFSETS         DEPTH
+MIN_SLOPE            0.001
+
+[EVAPORATION]
+;;Type       Parameters
+;;---------- ----------
+CONSTANT     0.0
+DRY_ONLY     NO
+
+[REPORT]
+INPUT      YES
+CONTROLS   NO
+SUBCATCHMENTS NONE
+NODES ALL
+LINKS ALL</value>
+  </data>
+</root>

@@ -1,0 +1,16 @@
+/Heiflow.Susbed/
+/Heiflow.Plugins.Susbed/
+/UnitTest/
+/packages/
+/MiscUtil/
+/Heiflow.Controls.WPF/
+/Heiflow.Visualization.Applications/
+/Heiflow.Visualization.Core/
+/Heiflow.Visualization.Display/
+/Heiflow.Visualization.Studio/
+/DotSpatial-master/
+/bin/Plugin/
+/bin/Release/
+/bin/VGS backup/
+/bin/Visualization/
+Heiflow.sln

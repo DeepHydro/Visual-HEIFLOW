@@ -1,0 +1,38 @@
+F:\HUST\ModelBase\ArtificialIntelligence\ArtificialIntelligence\bin\Debug\HUST.WREIS.AI.dll
+F:\HUST\ModelBase\ArtificialIntelligence\ArtificialIntelligence\bin\Debug\HUST.WREIS.AI.pdb
+F:\HUST\ModelBase\ArtificialIntelligence\ArtificialIntelligence\obj\Debug\ResolveAssemblyReference.cache
+F:\HUST\ModelBase\ArtificialIntelligence\ArtificialIntelligence\obj\Debug\HUST.WREIS.AI.dll
+F:\HUST\ModelBase\ArtificialIntelligence\ArtificialIntelligence\obj\Debug\HUST.WREIS.AI.pdb
+F:\HUST\ModelBase10\HUST.WREIS.AI\bin\Debug\HUST.WREIS.AI.dll
+F:\HUST\ModelBase10\HUST.WREIS.AI\bin\Debug\HUST.WREIS.AI.pdb
+F:\HUST\ModelBase10\HUST.WREIS.AI\obj\Debug\ResolveAssemblyReference.cache
+F:\HUST\ModelBase10\HUST.WREIS.AI\obj\Debug\HUST.WREIS.AI.dll
+F:\HUST\ModelBase10\HUST.WREIS.AI\obj\Debug\HUST.WREIS.AI.pdb
+F:\HUST\ModelBase\HUST.WREIS.AI\bin\Debug\HUST.WREIS.AI.dll
+F:\HUST\ModelBase\HUST.WREIS.AI\bin\Debug\HUST.WREIS.AI.pdb
+F:\HUST\ModelBase\HUST.WREIS.AI\bin\Debug\ModelBase.Interface.dll
+F:\HUST\ModelBase\HUST.WREIS.AI\bin\Debug\ModelBase.Interface.pdb
+F:\HUST\ModelBase\HUST.WREIS.AI\obj\Debug\ResolveAssemblyReference.cache
+F:\HUST\ModelBase\HUST.WREIS.AI\obj\Debug\HUST.WREIS.AI.dll
+F:\HUST\ModelBase\HUST.WREIS.AI\obj\Debug\HUST.WREIS.AI.pdb
+E:\My Program\ModelBase\HUST.WREIS.AI\obj\Debug\ResolveAssemblyReference.cache
+E:\My Program\ModelBase\HUST.WREIS.AI\obj\Debug\HUST.WREIS.AI.dll
+E:\My Program\ModelBase\HUST.WREIS.AI\obj\Debug\HUST.WREIS.AI.pdb
+E:\My Program\ModelBase\HUST.WREIS.AI\bin\Debug\HUST.WREIS.AI.dll
+E:\My Program\ModelBase\HUST.WREIS.AI\bin\Debug\HUST.WREIS.AI.pdb
+E:\My Program\ModelBase\HUST.WREIS.AI\bin\Debug\ModelBase.Interface.dll
+E:\My Program\ModelBase\HUST.WREIS.AI\bin\Debug\ModelBase.Interface.pdb
+F:\HUST\Work Program\ArtificialIntelligence\HUST.WREIS.AI\obj\Debug\ResolveAssemblyReference.cache
+F:\HUST\Work Program\ArtificialIntelligence\HUST.WREIS.AI\obj\Debug\HUST.WREIS.AI.dll
+F:\HUST\Work Program\ArtificialIntelligence\HUST.WREIS.AI\obj\Debug\HUST.WREIS.AI.pdb
+F:\HUST\Work Program\ArtificialIntelligence\HUST.WREIS.AI\bin\Debug\HUST.WREIS.AI.dll
+F:\HUST\Work Program\ArtificialIntelligence\HUST.WREIS.AI\bin\Debug\HUST.WREIS.AI.pdb
+F:\HUST\Work Program\ArtificialIntelligence\HUST.WREIS.AI\bin\Debug\ModelBase.Interface.dll
+F:\HUST\Work Program\ArtificialIntelligence\HUST.WREIS.AI\bin\Debug\ModelBase.Interface.pdb
+E:\PKU\Work Program\ArtificialIntelligence\HUST.WREIS.AI\bin\Debug\HUST.WREIS.AI.dll
+E:\PKU\Work Program\ArtificialIntelligence\HUST.WREIS.AI\bin\Debug\HUST.WREIS.AI.pdb
+E:\PKU\Work Program\ArtificialIntelligence\HUST.WREIS.AI\bin\Debug\ModelBase.Interface.dll
+E:\PKU\Work Program\ArtificialIntelligence\HUST.WREIS.AI\bin\Debug\ModelBase.Interface.pdb
+E:\PKU\Work Program\ArtificialIntelligence\HUST.WREIS.AI\obj\Debug\HUST.WREIS.AI.dll
+E:\PKU\Work Program\ArtificialIntelligence\HUST.WREIS.AI\obj\Debug\HUST.WREIS.AI.pdb
+E:\PKU\Work Program\ArtificialIntelligence\HUST.WREIS.AI\obj\Debug\HUST.WREIS.AI.csprojResolveAssemblyReference.cache

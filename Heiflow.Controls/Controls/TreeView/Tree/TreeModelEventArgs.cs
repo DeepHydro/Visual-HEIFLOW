@@ -1,0 +1,55 @@
+// THIS FILE IS PART OF Visual HEIFLOW
+// THIS PROGRAM IS NOT FREE SOFTWARE. 
+// Copyright (c) 2015-2017 Yong Tian, SUSTech, Shenzhen, China. All rights reserved.
+// Email: tiany@sustc.edu.cn
+// Web: http://ese.sustc.edu.cn/homepage/index.aspx?lid=100000005794726
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Heiflow.Controls.Tree
+{
+	public class TreeModelEventArgs: TreePathEventArgs
+	{
+		private object[] _children;
+		public object[] Children
+		{
+			get { return _children; }
+		}
+
+		private int[] _indices;
+		public int[] Indices
+		{
+			get { return _indices; }
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="parent">Path to a parent node</param>
+		/// <param name="children">Child nodes</param>
+		public TreeModelEventArgs(TreePath parent, object[] children)
+			: this(parent, null, children)
+		{
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="parent">Path to a parent node</param>
+		/// <param name="indices">Indices of children in parent nodes collection</param>
+		/// <param name="children">Child nodes</param>
+		public TreeModelEventArgs(TreePath parent, int[] indices, object[] children)
+			: base(parent)
+		{
+			if (children == null)
+				throw new ArgumentNullException();
+
+			if (indices != null && indices.Length != children.Length)
+				throw new ArgumentException("indices and children arrays must have the same length");
+
+			_indices = indices;
+			_children = children;
+		}
+	}
+}

@@ -1,0 +1,8 @@
+E:\PKU\Program\VHF\VHF\obj\Debug\VHF.Core.csprojResolveAssemblyReference.cache
+E:\PKU\Program\VHF\VHF\obj\Debug\HEIFLOW.Properties.Resources.resources
+E:\PKU\Program\VHF\VHF\obj\Debug\VHF.Core.csproj.GenerateResource.Cache
+E:\PKU\Program\VHF\VHF\obj\Debug\VHF.pdb
+E:\PKU\Program\VHF\VHF\bin\Debug\VHF.dll.config
+E:\PKU\Program\VHF\VHF\bin\Debug\VHF.dll
+E:\PKU\Program\VHF\VHF\bin\Debug\VHF.pdb
+E:\PKU\Program\VHF\VHF\obj\Debug\VHF.dll

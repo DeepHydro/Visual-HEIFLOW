@@ -1,0 +1,156 @@
+﻿// THIS FILE IS PART OF Visual HEIFLOW
+// THIS PROGRAM IS NOT FREE SOFTWARE. 
+// Copyright (c) 2015-2017 Yong Tian, SUSTech, Shenzhen, China. All rights reserved.
+// Email: tiany@sustc.edu.cn
+// Web: http://ese.sustc.edu.cn/homepage/index.aspx?lid=100000005794726
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Heiflow.Core.Data
+{
+    public class MyMath
+    {
+        private static int _Full = -1;
+
+        public static int full
+        {
+            get
+            {
+                return _Full;
+            }
+        }
+        public static int none
+        {
+            get
+            {
+                return -2;
+            }
+        }
+
+        public static int end
+        {
+            get
+            {
+                return -3;
+            }
+        }
+
+        public static int[] GetSize(object array)
+        {
+            return (int[])array.GetType().GetProperty("Size").GetValue(array);
+        }
+
+        public static int[] GetSize<T>(T[][] value)
+        {
+            int[] size = new int[] { value.Length, value[0].Length };
+            return size;
+        }
+
+        public static int[] GetSize<T>(T[][][] value)
+        {
+            int[] size = new int[] { value.Length, value[0].Length, value[0][0].Length };
+            return size;
+        }
+
+        /// <summary>
+        /// perform minus
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="subtraction"></param>
+        /// <returns>3d mat: [1][1][nlen]</returns>
+        public static My3DMat<float> Minus(float[] source, float [] subtraction)
+        {
+            My3DMat<float> mat = new My3DMat<float>(1, 1, source.Length);
+            for (int i = 0; i < source.Length; i++)
+            {
+                mat.Value[0][0][i] = source[i] - subtraction[i];
+            }
+            return mat;
+        }
+
+        /// <summary>
+        /// perform plus
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="subtraction"></param>
+        /// <returns>3d mat: [1][1][nlen]</returns>
+        public static My3DMat<float> Plus(float[] source, float[] subtraction)
+        {
+            My3DMat<float> mat = new My3DMat<float>(1, 1, source.Length);
+            for (int i = 0; i < source.Length; i++)
+            {
+                mat.Value[0][0][i] = source[i] + subtraction[i];
+            }
+            return mat;
+        }
+
+        public static My3DMat<float> Plus(My3DMat<float> a, My3DMat<float> b)
+        {
+            var size = a.Size;
+            var mat = new My3DMat<float>(size[0], size[1], size[2]);
+            for (int i = 0; i < size[0]; i++)
+                for (int j = 0; j < size[1]; j++)
+                    for (int k = 0; k < size[2]; k++)
+                    {
+                        mat.Value[i][j][k] = a.Value[i][j][k] + b.Value[i][j][k];
+                    }
+            return mat;
+        }
+
+        public static My3DMat<float> TemporalMean(My3DMat<float> source, int zero_index, float multiplier = 1)
+        {
+            var mean_mat = new My3DMat<float>(1, 1, source.Size[2]);
+            for (int i = 0; i < source.Size[2]; i++)
+            {
+                var vec =  source.GetVector(zero_index, MyMath.full, i);
+                var av =vec.Average();
+                mean_mat.Value[0][0][i] = av * multiplier;
+            }
+            return mean_mat;
+        }
+
+        public static My3DMat<float> SpatialMean(My3DMat<float> source, int zero_index, float multiplier = 1)
+        {
+            var mean_mat = new My3DMat<float>(1, source.Size[1], 1);
+            for (int i = 0; i < source.Size[1]; i++)
+            {
+                mean_mat.Value[0][i][0] = source.Value[zero_index][i].Average() * multiplier;
+            }
+            return mean_mat;
+        }
+
+        public static My3DMat<float> Scale(My3DMat<float> source, float scale)
+        {
+            var size = source.Size;
+            var target = new My3DMat<float>(size[0], size[1], size[2]);
+            for (int i = 0; i < size[0]; i++)
+            {
+                for (int j = 0; j < size[1]; j++)
+                {
+                    for (int k = 0; k < size[2]; k++)
+                    {
+                        target.Value[i][j][k] = source.Value[i][j][k] * scale;
+                    }
+                }
+            }
+
+            return target;
+        }
+
+        public static double[] ToDouble(float[] vec)
+        {
+            var dou_vec = Array.ConvertAll<float, double>(vec, s => s);
+            return dou_vec;
+        }
+        public static double[] ToDouble(int[] vec)
+        {
+            var dou_vec = Array.ConvertAll<int, double>(vec, s => s);
+            return dou_vec;
+        }
+
+       
+    }
+}

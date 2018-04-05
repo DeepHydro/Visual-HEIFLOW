@@ -1,0 +1,8 @@
+E:\PKU\Program\VHF\bin\Debug\Application Extensions\VHF\Heiflow.Model.dll.config
+E:\PKU\Program\VHF\bin\Debug\Application Extensions\VHF\Heiflow.Model.dll
+E:\PKU\Program\VHF\bin\Debug\Application Extensions\VHF\Heiflow.Model.pdb
+E:\PKU\Program\VHF\Heiflow.Models\obj\x64\Debug\Heiflow.Models.csprojResolveAssemblyReference.cache
+E:\PKU\Program\VHF\Heiflow.Models\obj\x64\Debug\Heiflow.Models.Properties.Resources.resources
+E:\PKU\Program\VHF\Heiflow.Models\obj\x64\Debug\Heiflow.Models.csproj.GenerateResource.Cache
+E:\PKU\Program\VHF\Heiflow.Models\obj\x64\Debug\Heiflow.Model.dll
+E:\PKU\Program\VHF\Heiflow.Models\obj\x64\Debug\Heiflow.Model.pdb

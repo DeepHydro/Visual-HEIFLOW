@@ -1,0 +1,8 @@
+E:\PKU\Program\VHF\bin\Debug\Application Extensions\VHF\Heiflow.Controls.dll
+E:\PKU\Program\VHF\bin\Debug\Application Extensions\VHF\Heiflow.Controls.pdb
+E:\PKU\Program\VHF\Heiflow.Controls\obj\x64\Debug\Heiflow.Controls.csprojResolveAssemblyReference.cache
+E:\PKU\Program\VHF\Heiflow.Controls\obj\x64\Debug\Heiflow.Controls.NewPrjForm.resources
+E:\PKU\Program\VHF\Heiflow.Controls\obj\x64\Debug\Heiflow.Controls.Properties.Resources.resources
+E:\PKU\Program\VHF\Heiflow.Controls\obj\x64\Debug\Heiflow.Controls.csproj.GenerateResource.Cache
+E:\PKU\Program\VHF\Heiflow.Controls\obj\x64\Debug\Heiflow.Controls.dll
+E:\PKU\Program\VHF\Heiflow.Controls\obj\x64\Debug\Heiflow.Controls.pdb

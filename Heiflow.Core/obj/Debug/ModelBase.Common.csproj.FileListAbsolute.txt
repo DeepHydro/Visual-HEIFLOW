@@ -1,0 +1,9 @@
+F:\HUST\ModelBase\ModelBase.Common\obj\Debug\ResolveAssemblyReference.cache
+F:\HUST\ModelBase\ModelBase.Common\bin\Debug\ModelBase.Common.dll
+F:\HUST\ModelBase\ModelBase.Common\bin\Debug\ModelBase.Common.pdb
+F:\HUST\ModelBase\ModelBase.Common\bin\Debug\HUST.WREIS.Data.dll
+F:\HUST\ModelBase\ModelBase.Common\bin\Debug\ModelBase.Interface.dll
+F:\HUST\ModelBase\ModelBase.Common\bin\Debug\HUST.WREIS.Data.pdb
+F:\HUST\ModelBase\ModelBase.Common\bin\Debug\ModelBase.Interface.pdb
+F:\HUST\ModelBase\ModelBase.Common\obj\Debug\ModelBase.Common.dll
+F:\HUST\ModelBase\ModelBase.Common\obj\Debug\ModelBase.Common.pdb

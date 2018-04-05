@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Heiflow.Controls.WinForm.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="GagingStationSQL" Type="System.String" Scope="User">
+      <Value Profile="(Default)">select * from Sites where SiteType='水文站'</Value>
+    </Setting>
+    <Setting Name="HOBSQL" Type="System.String" Scope="User">
+      <Value Profile="(Default)">select * from Sites where SiteType='地下水观测井'</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

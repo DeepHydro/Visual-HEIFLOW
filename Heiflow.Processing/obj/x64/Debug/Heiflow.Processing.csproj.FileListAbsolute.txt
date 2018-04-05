@@ -1,0 +1,5 @@
+E:\PKU\Program\VHF\bin\Debug\Application Extensions\VHF\Heiflow.Processing.dll
+E:\PKU\Program\VHF\bin\Debug\Application Extensions\VHF\Heiflow.Processing.pdb
+E:\PKU\Program\VHF\Heiflow.Processing\obj\x64\Debug\Heiflow.Processing.csprojResolveAssemblyReference.cache
+E:\PKU\Program\VHF\Heiflow.Processing\obj\x64\Debug\Heiflow.Processing.dll
+E:\PKU\Program\VHF\Heiflow.Processing\obj\x64\Debug\Heiflow.Processing.pdb

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <authors>$author$</authors>
+    <owners />
+    <licenseUrl>http://dotspatialapp.codeplex.com/license</licenseUrl>
+    <projectUrl>http://dotspatialapp.codeplex.com/</projectUrl>
+    <iconUrl>http://download.codeplex.com/Download?ProjectName=dotspatial&amp;DownloadId=246554</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>$description$</description>
+    <summary />
+    <language>en-US</language>
+    <tags>HideReleaseFromEndUser</tags>
+  </metadata>
+  <files>
+    <file src="C:\Program Files (x86)\DevExpress 2011.2\Components\Bin\Framework\DevExpress.Data.v11.2.dll" target="lib\net40-client"/>
+    <file src="C:\Program Files (x86)\DevExpress 2011.2\Components\Bin\Framework\DevExpress.Utils.v11.2.dll" target="lib\net40-client"/>
+    <file src="C:\Program Files (x86)\DevExpress 2011.2\Components\Bin\Framework\DevExpress.XtraEditors.v11.2.dll" target="lib\net40-client"/>
+  </files>
+</package>

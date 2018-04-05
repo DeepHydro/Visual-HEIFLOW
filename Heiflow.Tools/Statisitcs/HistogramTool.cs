@@ -1,0 +1,83 @@
+﻿// THIS FILE IS PART OF Visual HEIFLOW
+// THIS PROGRAM IS NOT FREE SOFTWARE. 
+// Copyright (c) 2015-2017 Yong Tian, SUSTech, Shenzhen, China. All rights reserved.
+// Email: tiany@sustc.edu.cn
+// Web: http://ese.sustc.edu.cn/homepage/index.aspx?lid=100000005794726
+using Heiflow.Core.Data;
+using Heiflow.Models.Tools;
+using MathNet.Numerics.Statistics;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Heiflow.Tools.Statisitcs
+{
+    public class HistogramTool : ModelTool
+    {
+        public HistogramTool()
+        {
+            Name = "Histogram";
+            Category = "Statistics";
+            Description = "Calculate and histogram";
+            Version = "1.0.0.0";
+            this.Author = "Yong Tian";
+            Number = 10;
+        }
+
+        [Category("Input")]
+        [Description("The input matrix")]
+        public string Matrix
+        {
+            get;
+            set;
+        }
+
+        [Category("Parameter")]
+        [Description("The number of histogram")]
+        public int Number
+        {
+            get;
+            set;
+        }
+
+        public override void Initialize()
+        {
+            this.Initialized = Validate(Matrix);
+        }
+
+        public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
+        {
+            var vec = GetVector(Matrix);
+            var var_name = GetName(Matrix);
+            if (vec != null)
+            {
+                if (Number <= 0)
+                    Number = 10;
+                if (Number >= 100)
+                    Number = 100;
+                var vec_name = "Histogram of " + GetName(Matrix);
+                cancelProgressHandler.Progress("Package_Tool", 10, "Calculating...");
+                var dou_vec =MyMath.ToDouble(vec);
+                var hist = new Histogram(dou_vec, Number);
+                int nhist = hist.BucketCount;
+                int[] xx = new int[nhist];
+                int[] yy = new int[nhist];
+                for (int i = 0; i < nhist; i++)
+                {
+                    xx[i] = (int)((hist[i].LowerBound + hist[i].UpperBound) * 0.5);
+                    yy[i] = (int)hist[i].Count;
+                }
+                WorkspaceView.Plot<int>(xx, yy,  vec_name, Models.UI.MySeriesChartType.Column);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+    }
+}

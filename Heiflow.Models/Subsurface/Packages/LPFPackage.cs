@@ -1,0 +1,668 @@
+﻿// THIS FILE IS PART OF Visual HEIFLOW
+// THIS PROGRAM IS NOT FREE SOFTWARE. 
+// Copyright (c) 2015-2017 Yong Tian, SUSTech, Shenzhen, China. All rights reserved.
+// Email: tiany@sustc.edu.cn
+// Web: http://ese.sustc.edu.cn/homepage/index.aspx?lid=100000005794726
+using Heiflow.Core.Data;
+using Heiflow.Models.Generic;
+using Heiflow.Models.Generic.Attributes;
+using Heiflow.Models.UI;
+using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.ComponentModel.Composition;
+using System.IO;
+using System.Linq;
+
+namespace Heiflow.Models.Subsurface
+{
+    [PackageItem]
+    [PackageCategory("Basic", true)]
+    [CoverageItem]
+    [Export(typeof(IMFPackage))]
+    public class LPFPackage : MFPackage, INotifyPropertyChanged
+    {
+        public static string PackageName = "LPF";
+        public LPFPackage()
+        {
+            Name = "LPF";
+            _FullName = "Layer-Property Flow Package";
+            WETFCT = 0.5f;
+            IWETIT = 4;
+            IHDWET = 0;
+            ILPFCB = 9;
+            HDRY = -999.0f;
+            NPLPF = 0;
+            IPHDRY = 0;
+            Options = "CONSTANTCV ";
+            _PackageInfo.Format = FileFormat.Text;
+            _PackageInfo.IOState = IOState.OLD;
+            _PackageInfo.FileExtension = ".lpf";
+            _PackageInfo.ModuleName = "LPF";
+            IsMandatory = true;
+            Version = "LPF1";
+            _Layer3DToken = "RegularGrid";
+        }
+
+        #region Properties
+        /// <summary>
+        ///ILPFCB > 0, it is the unit number to which cell-by-cell flow terms will be written;ILPFCB= 0, cell-by-cell flow terms will not be written.
+        /// ILPFCB less than 0, cell-by-cell flow for constant-head cells will be written in the listing file when "SAVE BUDGET"
+        /// </summary>
+        public int ILPFCB { get; set; }
+        /// <summary>
+        /// the head that is assigned to cells that are converted to dry during a simulation
+        /// </summary>
+        public float HDRY { get; set; }
+        /// <summary>
+        /// the number of LPF parameters. 
+        /// </summary>
+        public int NPLPF { get; set; }
+
+        public int IPHDRY { get; set; }
+        /// <summary>
+        /// contains a flag for each layer that specifies the layer type. 0—confined ; not 0—convertible 
+        /// </summary>
+        public int[] LAYTYP { get; set; }
+        /// <summary>
+        /// 0—harmonic mean 1—logarithmic mean 2—arithmetic mean of saturated thickness and logarithmic-mean hydraulic conductivity. 
+        /// </summary>
+        public int[] LAYAVG { get; set; }
+        /// <summary>
+        /// contains a value for each layer that is a flag or the horizontal anisotropy. 
+        /// If CHANI is less than or equal to 0, then variable HANI defines horizontal anisotropy. 
+        /// If CHANI is greater than 0, then CHANI is the horizontal anisotropy for the entire layer, and HANI is not read.
+        /// </summary>
+        public float[] CHANI { get; set; }
+        /// <summary>
+        /// Contains a flag for each layer that indicates whether variable VKA is vertical hydraulic conductivity or the ratio of horizontal to vertical hydraulic conductivity. 
+        /// 0—indicates VKA is vertical hydraulic conductivity; 
+        /// not 0—indicates VKA is the ratio of horizontal to vertical hydraulic conductivity, where the horizontal hydraulic conductivity is specified as HK in item 10.
+        /// </summary>
+        public int[] LAYVKA { get; set; }
+        /// <summary>
+        /// contains a flag for each layer that indicates if wetting is active. Use as many records as needed to enter a value for each layer.
+        /// 	0—indicates wetting is inactive
+        ///	not 0—indicates wetting is active
+        /// </summary>
+        public int[] LAYWET { get; set; }
+        /// <summary>
+        ///  a factor that is included in the calculation of the head that is initially established at a cell when it is converted from dry to wet.
+        /// </summary>
+        public float WETFCT { get; set; }
+        /// <summary>
+        ///  iteration interval for attempting to wet cells. Wetting is attempted every IWETIT iteration.
+        /// </summary>
+        public int IWETIT { get; set; }
+        /// <summary>
+        ///  a flag that determines which equation is used to define the initial head at cells that become wet:0 or not 0
+        /// </summary>
+        [Description("a flag that determines which equation is used to define the initial head at cells that become wet:0 or not 0")]
+        public int IHDWET { get; set; }
+
+        /// <summary>
+        ///3DMat[ActualLayerCount,1,ActiveCellCount]: hydraulic conductivity along rows
+        /// </summary>
+        [StaticVariableItem("Layer")]
+        [ArealProperty(typeof(float), 10f)]
+        [Browsable(false)]
+        public MyVarient3DMat<float> HK { get; set; }
+
+        /// <summary>
+        /// 3DMat[ActualLayerCount,1,ActiveCellCount]: the ratio of hydraulic conductivity along columns to hydraulic conductivity along rows
+        /// </summary>
+        [StaticVariableItem("Layer")]
+        [Browsable(false)]
+        [ArealProperty(typeof(float), 1f)]
+        public MyVarient3DMat<float> HANI { get; set; }
+
+        /// <summary>
+        /// 3DMat[ActualLayerCount,1,ActiveCellCount]:
+        /// </summary>
+        [StaticVariableItem("Layer")]
+        [Browsable(false)]
+        [ArealProperty(typeof(float), 0.001f)]
+        public MyVarient3DMat<float> VKA { get; set; }
+
+        /// <summary>
+        /// 3DMat[ActualLayerCount,1,ActiveCellCount]:
+        /// </summary>
+        [StaticVariableItem("Layer")]
+        [Browsable(false)]
+        [ArealProperty(typeof(float), 0.0001f)]
+        public MyVarient3DMat<float> SS { get; set; }
+
+        /// <summary>
+        /// 3DMat[ActualLayerCount,1,ActiveCellCount]:
+        /// </summary>
+        [StaticVariableItem("Layer")]
+        [Browsable(false)]
+        [ArealProperty(typeof(float), 0.1f)]
+        public MyVarient3DMat<float> SY { get; set; }
+
+        /// <summary>
+        /// 3DMat[ActualLayerCount,1,ActiveCellCount]:
+        /// </summary>
+        [StaticVariableItem("Layer")]
+        [Browsable(false)]
+        [ArealProperty(typeof(float), 0.1f)]
+        public MyVarient3DMat<float> WETDRY { get; set; }
+        #endregion
+
+        public override void Initialize()
+        {
+            this.Grid = Owner.Grid;
+            this.Grid.Updated += this.OnGridUpdated;
+            this.TimeService = Owner.TimeService;
+            var mf = Owner as Modflow;
+            mf.LayerGroupManager.LayerGroups.CollectionChanged += LayerGroups_CollectionChanged;
+            mf.LayerGroupManager.LayerGroupChanged += LayerGroupManager_ItemChanged;
+            base.Initialize();
+        }
+
+
+        public override bool New()
+        {
+            this.ILPFCB = ModflowInstance.NameManager.NextFID();
+            var cbc_info = new PackageInfo()
+            {
+                FID = this.ILPFCB,
+                FileExtension = ".cbc",
+                FileName = string.Format("{0}{1}{2}", Modflow.OutputDic, ModflowInstance.Project.Name, ".cbc"),
+                Format = FileFormat.Binary,
+                IOState = IOState.REPLACE,
+                ModuleName = "DATA",
+                WorkDirectory = ModflowInstance.WorkDirectory,
+                Name = CBCPackage.CBCName
+            };
+            ModflowInstance.NameManager.Add(cbc_info);
+            base.New();
+            return true;
+        }
+        public override bool Load()
+        {
+            if (File.Exists(FileName))
+            {
+                var mf = Owner as Modflow;
+                var grid = (Owner.Grid as MFGrid);
+                int nlayer = grid.ActualLayerCount;
+
+                mf.LayerGroupManager.Clear();
+                StreamReader sr = new StreamReader(FileName);
+                //Data Set 1: # ILPFCB, HDRY, NPLPF
+                string newline = ReadComment(sr);
+                float[] fv = TypeConverterEx.Split<float>(newline, 3);
+                 int ncell= grid.ActiveCellCount;
+                ILPFCB = (int)fv[0];
+                HDRY = fv[1];
+                NPLPF = (int)fv[2];
+
+                //Data Set 2: # 
+                newline = sr.ReadLine();
+                LAYTYP = TypeConverterEx.Split<int>(newline, nlayer);
+
+                //Data Set 3: # 
+                newline = sr.ReadLine();
+                LAYAVG = TypeConverterEx.Split<int>(newline, nlayer);
+
+                //Data Set 4: # 
+                newline = sr.ReadLine();
+                CHANI = TypeConverterEx.Split<float>(newline, nlayer);
+
+                //Data Set 5: # 
+                newline = sr.ReadLine();
+                LAYVKA = TypeConverterEx.Split<int>(newline, nlayer);
+
+                //Data Set 6: # 
+                newline = sr.ReadLine();
+                LAYWET = TypeConverterEx.Split<int>(newline, nlayer);
+
+                if (LAYWET.Sum() != 0)
+                {
+                    //Data Set 7: # 
+                    newline = sr.ReadLine();
+                    fv = TypeConverterEx.Split<float>(newline, 3);
+                    WETFCT = fv[0];
+                    IWETIT = (int)fv[1];
+                    IHDWET = (int)fv[2];
+                }
+
+                mf.LayerGroupManager.LayerGroups.CollectionChanged -= this.LayerGroups_CollectionChanged;
+                mf.LayerGroupManager.Initialize(grid.ActualLayerCount);              
+                mf.LayerGroupManager.ConvertFrom(LAYTYP, "LAYTYP");
+                mf.LayerGroupManager.ConvertFrom(LAYAVG, "LAYAVG");
+                mf.LayerGroupManager.ConvertFrom(CHANI, "CHANI");
+                mf.LayerGroupManager.ConvertFrom(LAYVKA, "LAYVKA");
+                mf.LayerGroupManager.ConvertFrom(LAYWET, "LAYWET");
+                mf.LayerGroupManager.LayerGroups.CollectionChanged += this.LayerGroups_CollectionChanged;
+
+                HK = new MyVarient3DMat<float>(nlayer, 1)
+                {
+                    AllowTableEdit = true,
+                    TimeBrowsable = false,
+                    Name = "HK"
+                };
+              
+                HANI = new MyVarient3DMat<float>(nlayer, 1)
+                {
+                    AllowTableEdit = true,
+                    TimeBrowsable = false,
+                    Name = "HANI"
+                };
+                VKA = new MyVarient3DMat<float>(nlayer, 1)
+                {
+                    AllowTableEdit = true,
+                    TimeBrowsable = false,
+                    Name = "VKA"
+                };
+                SS = new MyVarient3DMat<float>(nlayer, 1)
+                {
+                    AllowTableEdit = true,
+                    TimeBrowsable = false,
+                    Name = "SS"
+                };
+                SY = new MyVarient3DMat<float>(nlayer, 1)
+                {
+                    AllowTableEdit = true,
+                    TimeBrowsable = false,
+                    Name = "SY"
+                };
+                WETDRY = new MyVarient3DMat<float>(nlayer, 1)
+                {
+                    AllowTableEdit = true,
+                    TimeBrowsable = false,
+                    Name = "WETDRY"
+                };
+
+                HK.Topology = grid.Topology;
+                HANI.Topology = grid.Topology;
+                VKA.Topology = grid.Topology;
+                SS.Topology = grid.Topology;
+                SY.Topology = grid.Topology;
+                WETDRY.Topology = grid.Topology;
+
+                for (int l = 0; l < grid.ActualLayerCount; l++)
+                {
+                    ReadSerialArray(sr, HK, l, 0);
+                    ReadSerialArray(sr, HANI, l, 0);
+                    ReadSerialArray(sr, VKA, l, 0);
+                    ReadSerialArray(sr, SS, l, 0);
+
+                    if (LAYTYP[l] != 0)
+                    {
+                        ReadSerialArray(sr, SY, l, 0);
+                    }
+                    else
+                    {
+                        SY.AllocateSpaceDim(l, 0, ncell);
+                    }
+                    if (LAYTYP[l] != 0 && LAYWET[l] != 0)
+                    {
+                        ReadSerialArray(sr, WETDRY, l, 0);
+                    }
+                    else
+                    {
+                        WETDRY.AllocateSpaceDim(l, 0, ncell);
+                    }
+                    HK.Variables[l] = "HK Layer" + (l + 1);
+                    HANI.Variables[l] = "HANI Layer" + (l + 1);
+                    VKA.Variables[l] = "VKA Layer" + (l + 1);
+                    SS.Variables[l] = "SS Layer" + (l + 1);
+                    SY.Variables[l] = "SY Layer" + (l + 1);
+                    WETDRY.Variables[l] = "WETDRY Layer" + (l + 1);
+                }
+                sr.Close();    
+                OnLoaded("Sucessfully loaded");
+                return true;
+            }
+            else
+            {
+                OnLoaded("Failed to load");
+                return false;
+            }
+        }
+        public override void Attach(DotSpatial.Controls.IMap map, string directory)
+        {
+            this.Feature = Owner.Grid.FeatureSet;
+            this.FeatureLayer = Owner.Grid.FeatureLayer;
+        }
+        public override bool SaveAs(string filename, IProgress prg)
+        {
+            var grid = (Owner.Grid as IRegularGrid);
+            StreamWriter sw = new StreamWriter(filename);
+            WriteDefaultComment(sw, this.Name);
+            string line = string.Format("{0}\t{1}\t{2}\t{3}\t# ILPFCB, HDRY, NPLPF", ILPFCB, HDRY, NPLPF, Options);
+            sw.WriteLine(line);
+
+            line = TypeConverterEx.Vector2String<int>(LAYTYP) + "\t# LAYTYP";
+            sw.WriteLine(line);
+
+            line = TypeConverterEx.Vector2String<int>(LAYAVG) + "\t# LAYAVG";
+            sw.WriteLine(line);
+
+            line = TypeConverterEx.Vector2String<float>(CHANI) + "\t# CHANI";
+            sw.WriteLine(line);
+
+            line = TypeConverterEx.Vector2String<int>(LAYVKA) + "\t# LAYVKA";
+            sw.WriteLine(line);
+
+            line = TypeConverterEx.Vector2String<int>(LAYWET) + "\t# LAYWET";
+            sw.WriteLine(line);
+
+            line = string.Format("{0}\t{1}\t{2}\t# WETFCT, IWETIT, IHDWET", WETFCT, IWETIT, IHDWET);
+            sw.WriteLine(line);
+
+            for (int l = 0; l < grid.ActualLayerCount; l++)
+            {
+                string cmt = string.Format("#HK Layer {0}", l + 1);
+
+               // WriteSerialFloatInternalMatrix(sw, HK[l, 0], 1, "E5", -1, cmt);
+                WriteSerialFloatArray(sw, HK, l, 0, "E5", cmt);
+                cmt = string.Format("#HANI Layer {0}", l + 1);
+               // WriteSerialFloatInternalMatrix(sw, HANI[l, 0], 1, "E5", -1, cmt);
+                WriteSerialFloatArray(sw, HANI, l, 0, "E5", cmt);
+                cmt = string.Format("#VKA Layer {0}", l + 1);
+                //WriteSerialFloatInternalMatrix(sw, VKA[l, 0], 1, "E5", -1, cmt);
+                WriteSerialFloatArray(sw, VKA, l, 0, "E5", cmt);
+                cmt = string.Format("#SS Layer {0}", l + 1);
+                //WriteSerialFloatInternalMatrix(sw, SS[l, 0], 1, "E5", -1, cmt);
+                WriteSerialFloatArray(sw, SS, l, 0, "E5", cmt);
+                if (LAYTYP[l] != 0)
+                {
+                    cmt = string.Format("#SY Layer {0}", l + 1);
+                    //WriteSerialFloatInternalMatrix(sw, SY[l, 0], 1, "E5", -1, cmt);
+                    WriteSerialFloatArray(sw, SY, l, 0, "E5", cmt);
+                }
+                if (LAYTYP[l] != 0 && LAYWET[l] != 0)
+                {
+                    cmt = string.Format("#WETDRY Layer {0}", l + 1);
+                  //  WriteSerialFloatInternalMatrix(sw, WETDRY[l, 0], 1, "E5", -1, cmt);
+                    WriteSerialFloatArray(sw, WETDRY, l, 0, "E5", cmt);
+                }
+            }
+            sw.Close();
+            this.OnSaved(prg);
+            return true;
+        }
+        public override void Clear()
+        {
+            if (_Initialized)
+            {
+                this.Grid.Updated -= this.OnGridUpdated;
+                var mf = Owner as Modflow;
+                mf.LayerGroupManager.LayerGroups.CollectionChanged -= LayerGroups_CollectionChanged;
+                mf.LayerGroupManager.LayerGroupChanged -= LayerGroupManager_ItemChanged;
+            }
+            base.Clear();
+        }
+        public override void CompositeOutput(MFOutputPackage mfout)
+        {
+            if (ILPFCB > 0)
+            {
+                var mf = Owner as Modflow;
+                var cbc_info = (from info in mf.NameManager.MasterList where info.FID == this.ILPFCB select info).First();
+                cbc_info.Name = CBCPackage.CBCName;
+                var CBC = new CBCPackage()
+                {
+                    Owner = mf,
+                    Parent = mfout,
+                    PackageInfo = cbc_info,
+                    FileName = cbc_info.FileName
+                };
+                CBC.Initialize();
+                var FlowField = new VelocityPackage()
+                 {
+                     Owner = mf,
+                     CBCPackage = CBC,
+                     PackageInfo = cbc_info,
+                     Parent = mfout
+                 };
+                FlowField.Initialize();
+            }
+        }
+        public override void OnGridUpdated(IGrid sender)
+        {
+            var mf = Owner as Modflow;
+            var grid = sender as RegularGrid;
+            int ncell = grid.ActiveCellCount;
+            this.FeatureLayer = this.Grid.FeatureLayer;
+            this.Feature = this.Grid.FeatureSet;
+            
+            //mf.LayerGroupManager.LayerGroups.CollectionChanged -= this.LayerGroups_CollectionChanged;
+            //mf.LayerGroupManager.Initialize(grid.ActualLayerCount);
+            //this.LAYTYP = mf.LayerGroupManager.ConvertToInt("LAYTYP");
+            //this.LAYAVG = mf.LayerGroupManager.ConvertToInt("LAYAVG");
+            //this.CHANI = mf.LayerGroupManager.ConvertToFloat("CHANI");
+            //this.LAYVKA = mf.LayerGroupManager.ConvertToInt("LAYVKA");
+            //this.LAYWET = mf.LayerGroupManager.ConvertToInt("LAYWET");
+            //mf.LayerGroupManager.LayerGroups.CollectionChanged += this.LayerGroups_CollectionChanged;
+
+            HK = new MyVarient3DMat<float>(grid.ActualLayerCount, 1)
+            {
+                Name="HK",
+                AllowTableEdit = true,
+                TimeBrowsable = false
+            };
+            HANI = new MyVarient3DMat<float>(grid.ActualLayerCount, 1)
+            {
+                Name = "HANI",
+                AllowTableEdit = true,
+                TimeBrowsable = false
+            };
+            VKA = new MyVarient3DMat<float>(grid.ActualLayerCount, 1)
+            {
+                Name = "VKA",
+                AllowTableEdit = true,
+                TimeBrowsable = false
+            };
+            SS = new MyVarient3DMat<float>(grid.ActualLayerCount, 1)
+            {
+                Name = "SS",
+                AllowTableEdit = true,
+                TimeBrowsable = false
+            };
+            SY = new MyVarient3DMat<float>(grid.ActualLayerCount, 1)
+            {
+                Name = "SY",
+                AllowTableEdit = true,
+                TimeBrowsable = false
+            };
+            WETDRY = new MyVarient3DMat<float>(grid.ActualLayerCount, 1)
+            {
+                Name = "WETDRY",
+                AllowTableEdit = true,
+                TimeBrowsable = false
+            };
+
+            HK.Topology = grid.Topology;
+            HANI.Topology = grid.Topology;
+            VKA.Topology = grid.Topology;
+            SS.Topology = grid.Topology;
+            SY.Topology = grid.Topology;
+            WETDRY.Topology = grid.Topology;
+
+            var hk = mf.LayerGroupManager.ConvertToFloat("HK");
+            var vka = mf.LayerGroupManager.ConvertToFloat("VKA");
+            var ss = mf.LayerGroupManager.ConvertToFloat("SS");
+            var sy = mf.LayerGroupManager.ConvertToFloat("SY");
+            var wetdry = mf.LayerGroupManager.ConvertToFloat("WETDRY");
+
+            for (int l = 0; l < grid.ActualLayerCount; l++)
+            {
+                HK.Value[l][0] = new float[ncell];
+                HANI.Value[l][0] = new float[ncell];
+                VKA.Value[l][0] = new float[ncell];
+                SS.Value[l][0] = new float[ncell];
+                if (LAYTYP[l] != 0)
+                {
+                    SY.Value[l][0] = new float[ncell];
+                    if(LAYWET[l] != 0)
+                        WETDRY.Value[l][0] = new float[ncell];
+                }
+                for (int i = 0; i < ncell; i++)
+                {
+                    HK.Value[l][0][i] = hk[l];
+                    HANI.Value[l][0][i] = 1;
+                    VKA.Value[l][0][i] = vka[l];
+                    SS.Value[l][0][i] = ss[l];
+                    if (LAYTYP[l] != 0)
+                    {
+                        SY.Value[l][0][i] = sy[l];
+                    }
+                    if (LAYTYP[l] != 0 && LAYWET[l] != 0)
+                    {
+                        WETDRY.Value[l][0][i] = wetdry[l];
+                    }
+                }
+                HK.Variables[l] = "HK Layer" + (l + 1);
+                HANI.Variables[l] = "HANI Layer" + (l + 1);
+                VKA.Variables[l] = "VKA Layer" + (l + 1);
+                SS.Variables[l] = "SS Layer" + (l + 1);
+                SY.Variables[l] = "SY Layer" + (l + 1);
+                WETDRY.Variables[l] = "WETDRY Layer" + (l + 1);
+            }
+            base.OnGridUpdated(sender);
+        }
+        public string Check()
+        {
+            string msg = "**********Checking layer property************\n";
+            //int r = 0;
+            //int c = 0;
+          //  var grid = (Owner.Grid as RegularGrid);
+
+            //foreach (var ac in grid.Topology.ActiveCellLocation)
+            //{
+            //    r = ac.Value[0];
+            //    c = ac.Value[1];
+            //    for (int l = 0; l < grid.ActualLayerCount; l++)
+            //    {
+            //        if (HK[r, c, l] <= 0)
+            //        {
+            //            msg += string.Format("HK\t{0}\t{1} equals to 0\n", r + 1, c + 1);
+            //        }
+            //        if (VKA[r, c, l] <= 0)
+            //        {
+            //            msg += string.Format("VKA\t{0}\t{1} equals to 0\n", r + 1, c + 1);
+            //        }
+            //    }
+            //}
+            return msg;
+        }
+        public override IPackage Extract(Modflow newmf)
+        {
+            LPFPackage lpf = new LPFPackage();
+            lpf.Owner = newmf;
+            lpf.ILPFCB = this.ILPFCB;
+            lpf.HDRY = this.HDRY;
+            lpf.NPLPF = this.NPLPF;
+            lpf.IPHDRY = this.IPHDRY;
+            lpf.LAYTYP = this.LAYTYP;
+            lpf.LAYAVG = this.LAYAVG;
+            lpf.CHANI = this.CHANI;
+            lpf.LAYVKA = this.LAYVKA;
+            lpf.LAYWET = this.LAYWET;
+            lpf.WETFCT = this.WETFCT;
+            lpf.IWETIT = this.IWETIT;
+            lpf.IHDWET = this.IHDWET;
+
+            MFGrid newgrid = newmf.Grid as MFGrid;
+            MFGrid rawgrid = Owner.Grid as MFGrid;
+
+            lpf.HK = new MyVarient3DMat<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount);
+            lpf.HANI = new MyVarient3DMat<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount);
+            lpf.VKA = new MyVarient3DMat<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount);
+            lpf.SS = new MyVarient3DMat<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount);
+            lpf.SY = new MyVarient3DMat<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount);
+            lpf.WETDRY = new MyVarient3DMat<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount);
+            for (int l = 0; l < newgrid.ActualLayerCount; l++)
+            {
+                //lpf.HK[l, 0] = rawgrid.GetSubSerialArray<float>(this.HK, newgrid, l).Value;
+                //lpf.HANI[l, 0] = rawgrid.GetSubSerialArray<float>(this.HANI, newgrid, l).Value;
+                //lpf.VKA[l, 0] = rawgrid.GetSubSerialArray<float>(this.VKA, newgrid, l).Value;
+                //lpf.SS[l, 0] = rawgrid.GetSubSerialArray<float>(this.SS, newgrid, l).Value;
+                //if (lpf.LAYTYP[l] != 0)
+                //    lpf.SY[l, 0] = rawgrid.GetSubSerialArray<float>(this.SY, newgrid, l).Value;
+                //if (LAYTYP[l] != 0 && LAYWET[l] != 0)
+                //    lpf.WETDRY[l, 0] = rawgrid.GetSubSerialArray<float>(this.WETDRY, newgrid, l).Value;
+            }
+
+            return lpf;
+        }
+
+        private void LayerGroupManager_ItemChanged(object sender, LayerGroup e, string propname)
+        {
+            var grid = this.Grid as RegularGrid;
+            int layer = e.LayerIndex;
+            int ncell = grid.ActiveCellCount;
+            switch(propname)
+            {
+                case "LAYTYP":
+                    LAYTYP[layer] = (int)e.LAYTYP;
+                    if (LAYTYP[layer] == 1)
+                        LAYWET[layer] = 1;
+                    else
+                        LAYWET[layer] = 0;
+                    break;
+                case "LAYAVG":
+                    LAYAVG[layer] = (int)e.LAYAVG;
+                    break;
+                case "CHANI":
+                    CHANI[layer] = (int)e.CHANI;
+                    break;
+                case "LAYVKA":
+                    LAYVKA[layer] = (int)e.LAYVKA;
+                    break;
+                case "LAYWET":
+                    LAYWET[layer] = (int)e.LAYWET;
+                    break;
+                case "HK":
+                    for (int i = 0; i < ncell; i++)
+                    {
+                        HK.Value[layer][0][i] = (float)e.HK;
+                        HANI.Value[layer][0][i] = 1;
+                    }
+                    break;
+                case "VKA":
+                    for (int i = 0; i < ncell; i++)
+                    {
+                        VKA.Value[layer][0][i] = (float)e.VKA;
+                    }
+                    break;
+                case "SS":
+                    for (int i = 0; i < ncell; i++)
+                    {
+                        SS.Value[layer][0][i] = (float)e.SS;
+                    }
+                    break;
+                case "SY":
+                    if (LAYTYP[layer] != 0)
+                    {
+                        for (int i = 0; i < ncell; i++)
+                        {
+                            SY.Value[layer][0][i] = (float)e.SY;
+                        }
+                    }
+                    break;
+                case "WETDRY":
+                    if (LAYTYP[layer] != 0 && LAYWET[layer] != 0)
+                    {
+                        for (int i = 0; i < ncell; i++)
+                        {
+                            WETDRY.Value[layer][0][i] = (float)e.WETDRY;
+                        }
+                    }
+                    break;
+            }
+        }
+
+        private void LayerGroups_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            var mf = Owner as Modflow;
+            LAYTYP = mf.LayerGroupManager.ConvertToInt("LAYTYP");
+            LAYAVG = mf.LayerGroupManager.ConvertToInt("LAYAVG");
+            CHANI = mf.LayerGroupManager.ConvertToFloat("CHANI");
+            LAYVKA = mf.LayerGroupManager.ConvertToInt("LAYVKA");
+            LAYWET = mf.LayerGroupManager.ConvertToInt("LAYWET");
+        }
+    }
+}

@@ -1,0 +1,339 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7CE656AE-6BD8-42AF-964A-E1A2296BC789}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Heiflow.Plugins.Default</RootNamespace>
+    <AssemblyName>Heiflow.Plugins.Default</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\debug\Application Extensions\VHF\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\..\..\..\dev\DotSpatial\Release\bin\Application Extensions\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\bin\debug\Application Extensions\SplashScreenManager\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Data.v12.1">
+      <HintPath>..\Bin\Debug\DevExpress.Data.v12.1.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v12.1">
+      <HintPath>..\Bin\Debug\DevExpress.Utils.v12.1.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraBars.v12.1">
+      <HintPath>..\Bin\Debug\DevExpress.XtraBars.v12.1.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors.v12.1">
+      <HintPath>..\Bin\Debug\DevExpress.XtraEditors.v12.1.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraGrid.v12.1">
+      <HintPath>..\Bin\Debug\DevExpress.XtraGrid.v12.1.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraLayout.v12.1">
+      <HintPath>..\Bin\Debug\DevExpress.XtraLayout.v12.1.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotSpatial.Controls">
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Controls.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotSpatial.Data">
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Data.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotSpatial.Data.Forms">
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Data.Forms.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotSpatial.Extensions">
+      <HintPath>..\Bin\Debug\DotSpatial.Extensions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotSpatial.GeoAPI">
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.GeoAPI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotSpatial.Modeling.Forms">
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Modeling.Forms.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotSpatial.NetTopologySuite">
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.NetTopologySuite.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotSpatial.Symbology">
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Symbology.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WpfApplicationFramework">
+      <HintPath>..\Bin\Debug\WpfApplicationFramework.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ModelActiveIdentifyPlugin.cs" />
+    <Compile Include="ModelAnalysisPlugin.cs" />
+    <Compile Include="ModelClimatePlugin.cs" />
+    <Compile Include="DatabaseExplorerPlugin.cs" />
+    <Compile Include="DataGridPanel.cs" />
+    <Compile Include="ModelTimePlugin.cs" />
+    <Compile Include="ModelToolManagerPlugin.cs" />
+    <Compile Include="ModelPlugin.cs" />
+    <Compile Include="MatEditorPlugin.cs" />
+    <Compile Include="View3DPlugin.cs" />
+    <Compile Include="DockingManager.cs" />
+    <Compile Include="LengendPlugin.cs" />
+    <Compile Include="PersistDockingState.cs" />
+    <Compile Include="ProgressPanelPlugin.cs" />
+    <Compile Include="ProjectExplorerPlugin.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="PropertyGridEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PropertyGridPlugin.cs" />
+    <Compile Include="RibbonHeader.cs" />
+    <Compile Include="ViewPlugin.cs" />
+    <Compile Include="ModelRunPlugin.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ModelBudgetAnalysisPlugin.cs" />
+    <Compile Include="TableEditorPlugin.cs" />
+    <Compile Include="ToolManagerPlugin.cs" />
+    <Compile Include="WinChartPlugin.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Heiflow.Plugins.Default.licenseheader" />
+    <None Include="package.nuspec" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Heiflow.Applications\Heiflow.Applications.csproj">
+      <Project>{feafec49-6f84-4852-9a57-f16df359b356}</Project>
+      <Name>Heiflow.Applications</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Controls\Heiflow.Controls.WinForm.csproj">
+      <Project>{04b4c21d-e554-4369-8c00-bfbbeca0fb2c}</Project>
+      <Name>Heiflow.Controls.WinForm</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Core\Heiflow.Core.csproj">
+      <Project>{e75a11b8-00a2-45de-a5e4-4b8180b5903c}</Project>
+      <Name>Heiflow.Core</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Models\Heiflow.Models.csproj">
+      <Project>{28e79461-3161-4130-81b0-2c36cd3a3315}</Project>
+      <Name>Heiflow.Models</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Presentation\Heiflow.Presentation.csproj">
+      <Project>{55d24eb1-96bb-4902-8240-e9019032db93}</Project>
+      <Name>Heiflow.Presentation</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\property16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\2905_-_Bell_Shaped_Graph-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AttributesWindow16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Map16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Map32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AttributesWindow32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GenericBlackStop32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GenericBlackRightArrowNoTail32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CatalogShowTree16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TrackingDataAnimationTool16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MetadataCreateUpdate32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MetadataCreateUpdate16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DatabaseServer16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3dplot16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Legend16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Legend32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DatabaseServer32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TrackingDataAnimationTool32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3dplot32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CatalogShowTree32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MetadataProperties16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MetadataProperties32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ModelBuilderAutoLayout32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ModelBuilderAutoLayout16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SpatialAnalystTrainingSampleHistograms32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SpatialAnalystTrainingSampleHistograms16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FileNetworkDataset32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\calendar-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\time-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\convert_to_mesh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1491980156_si-duo-stack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Abacus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve-chart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\table_green_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ThunderD-A-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\river.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\equilizer-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\matrix.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\matrix16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3d_plot_printing_printer.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

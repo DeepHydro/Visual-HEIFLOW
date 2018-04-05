@@ -1,0 +1,1818 @@
+<?xml version="1.0"?>
+<MMSPackage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>PRMS</Name>
+  <Description>null</Description>
+  <Version>1.0.0</Version>
+  <DefaultParameters>
+    <Parameter>
+      <Name>nform</Name>
+      <Description>Number of input columns in PRMS Data File used to specify form of precipitation (0 if no form data,</Description>
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>obs</ModuleName>
+      <Maximum>0</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </Parameter>
+    <Parameter>
+      <Name>nsnow</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>obs</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </Parameter>
+    <Parameter>
+      <Name>ngwcell</Name>
+      <Description>Number of MODFLOW finite-difference cells in a layer (includes active and inactive cells)</Description>
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>gwflow</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </Parameter>
+    <Parameter>
+      <Name>ndays</Name>
+      <Description>Maximum number of days in a year</Description>
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>366</DefaultValue>
+      <ModuleName>prms_time</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </Parameter>
+    <Parameter>
+      <Name>nlake</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>lake_route</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </Parameter>
+    <Parameter>
+      <Name>nhrucell</Name>
+      <Description>Number of unique intersections between gravity reservoirs in PRMS soil zone and MODFLOW finitedifference cells</Description>
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </Parameter>
+    <Parameter>
+      <Name>nrain</Name>
+      <Description>Number of measurement stations that measure precipitation </Description>
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>obs</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </Parameter>
+    <Parameter>
+      <Name>ntemp</Name>
+      <Description>Number of measurement stations that measure air temperature </Description>
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>obs</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </Parameter>
+    <Parameter>
+      <Name>one</Name>
+      <Description>A constant</Description>
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </Parameter>
+    <Parameter>
+      <Name>ncascade</Name>
+      <Description>Number of cascade paths associated with HRUs</Description>
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>cascade</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </Parameter>
+    <Parameter>
+      <Name>ngw</Name>
+      <Description>Number of PRMS ground-water reservoirs (used in PRMS-only simulations) </Description>
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>prms_only</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </Parameter>
+    <Parameter>
+      <Name>nsfres</Name>
+      <Description>Number of on-channel detainment reservoirs (used in PRMS-only simulations) </Description>
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>prms_only</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </Parameter>
+    <Parameter>
+      <Name>nhru</Name>
+      <Description>Number of HRUs </Description>
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </Parameter>
+    <Parameter>
+      <Name>ndepl</Name>
+      <Description>Number of snow-depletion curves used for snowmelt calculations</Description>
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>snowcomp</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </Parameter>
+    <Parameter>
+      <Name>nsegment</Name>
+      <Description>Number of stream segments </Description>
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>routing</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </Parameter>
+    <Parameter>
+      <Name>nsol</Name>
+      <Description>Number of measurement stations that measure solar radiation</Description>
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>obs</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </Parameter>
+    <Parameter>
+      <Name>ndeplval</Name>
+      <Description>Number of snow-depletion values for each snow-depletion curve</Description>
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>11</DefaultValue>
+      <ModuleName>snowcomp</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </Parameter>
+    <Parameter>
+      <Name>ncascdgw</Name>
+      <Description>Number of cascade paths associated with PRMS ground-water reservoirs</Description>
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>prms_only</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </Parameter>
+    <Parameter>
+      <Name>nobs</Name>
+      <Description>Number of streamflow-gaging stations</Description>
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>obs</ModuleName>
+      <Maximum>100</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </Parameter>
+    <Parameter>
+      <Name>nevap</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>obs</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </Parameter>
+    <Parameter>
+      <Name>nssr</Name>
+      <Description>Number of PRMS subsurface reservoirs (must be specified equal to nhru)</Description>
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </Parameter>
+    <Parameter>
+      <Name>nreach</Name>
+      <Description>Number of stream reaches on all stream segments </Description>
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>routing</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </Parameter>
+    <Parameter>
+      <Name>nmonths</Name>
+      <Description>Number of months in a year</Description>
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>12</DefaultValue>
+      <ModuleName>basin</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </Parameter>
+    <Parameter>
+      <Name>elev_units</Name>
+      <Description>Units of altitude (0=feet; 1=meters)</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>soil_type</Name>
+      <Description>Soil type in HRU (1=sand; 2=loam;</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>2</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+      <Maximum>3</Maximum>
+      <Minimum>1</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>tmax_allrain</Name>
+      <Description>Monthly minimum air temperature at an</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nmonths</DimensionNames>
+      <DefaultValue>40</DefaultValue>
+      <ModuleName>xyz_dist</ModuleName>
+      <Maximum>90</Maximum>
+      <Minimum>0</Minimum>
+      <Units>temp_units</Units>
+    </Parameter>
+    <Parameter>
+      <Name>radj_wppt</Name>
+      <Description>Precipitation-day adjustment factor tosolar radiation for a winter day withprecipitation greater than ppt_rad_adjas a decimal fraction</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>0.5</DefaultValue>
+      <ModuleName>ccsolrad</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>adjmix_rain</Name>
+      <Description>Monthly rain adjustment factor for amixed precipitation event (usually1.0)</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nmonths</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>xyz_dist</ModuleName>
+      <Maximum>3</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>carea_max</Name>
+      <Description>Maximum possible area contributingto surface runoff, expressed as adecimal fraction of HRU area</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0.6</DefaultValue>
+      <ModuleName>srunoff_smidx</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>transp_beg</Name>
+      <Description>Begin month for transpirationcomputations at HRU</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>4</DefaultValue>
+      <ModuleName>potet_jh</ModuleName>
+      <Maximum>12</Maximum>
+      <Minimum>1</Minimum>
+      <Units>month</Units>
+    </Parameter>
+    <Parameter>
+      <Name>hru_lat</Name>
+      <Description>Latitude of HRU centroid</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>40</DefaultValue>
+      <ModuleName>soltab</ModuleName>
+      <Maximum>90</Maximum>
+      <Minimum>-90</Minimum>
+      <Units>degrees latitude</Units>
+    </Parameter>
+    <Parameter>
+      <Name>circle_switch</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>cascade</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>rad_trncf</Name>
+      <Description>Transmission coefficient for short-wave radiation through winter plant canopyon an HRU as a decimal fraction</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0.5</DefaultValue>
+      <ModuleName>snowcomp</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>hru_area</Name>
+      <Description>Area of HRU</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>srunoff_smidx</ModuleName>
+      <Maximum>1E+09</Maximum>
+      <Minimum>0</Minimum>
+      <Units>acres</Units>
+    </Parameter>
+    <Parameter>
+      <Name>smidx_exp</Name>
+      <Description>Exponent in non-linear contributingarea algorithm</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0.3</DefaultValue>
+      <ModuleName>srunoff_smidx</ModuleName>
+      <Maximum>0.8</Maximum>
+      <Minimum>0.2</Minimum>
+      <Units>per inch</Units>
+    </Parameter>
+    <Parameter>
+      <Name>covden_win</Name>
+      <Description>Winter plant cover density for plant type as a decimal fraction</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0.5</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>szconverge</Name>
+      <Description>Convergence criterion for checking soil-zone states that is specified as the smallest change in gravity drainage</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>0.001</DefaultValue>
+      <ModuleName>gsflow_prms2mf</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>1E-10</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>pmn_mo</Name>
+      <Description>Mean monthly precipitation at base and lapse stations</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nrain</DimensionNames>
+      <DimensionNames>nmonths</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>precip_prms</ModuleName>
+      <Maximum>100</Maximum>
+      <Minimum>0</Minimum>
+      <Units>inches</Units>
+    </Parameter>
+    <Parameter>
+      <Name>hru_psta</Name>
+      <Description>Identifier of measurement station usedas base in calculating precipitationlapse rate</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>precip_prms</ModuleName>
+      <Maximum>100</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>srain_intcp</Name>
+      <Description>Maximum summer rain storage in the plant canopy for plant type on HRU</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>intcp</ModuleName>
+      <Maximum>5</Maximum>
+      <Minimum>0</Minimum>
+      <Units>inches</Units>
+    </Parameter>
+    <Parameter>
+      <Name>mxsziter</Name>
+      <Description>Maximum iterations for computing soil-zone flow to finite-difference cells during atime step</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>15</DefaultValue>
+      <ModuleName>gsflow_prms2mf</ModuleName>
+      <Maximum>200</Maximum>
+      <Minimum>2</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>snowinfil_max</Name>
+      <Description>Daily maximum snowmelt infiltration for the HRU</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>2</DefaultValue>
+      <ModuleName>srunoff_smidx</ModuleName>
+      <Maximum>20</Maximum>
+      <Minimum>0</Minimum>
+      <Units>inches</Units>
+    </Parameter>
+    <Parameter>
+      <Name>melt_force</Name>
+      <Description>Julian date to force snowmelt. Julian day to force the use of the isothermal form of the snowpack energy equation. This date should always be later than melt_look, varies by region, and is dependent on the persistence of the snowpack.</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>90</DefaultValue>
+      <ModuleName>snowcomp</ModuleName>
+      <Maximum>366</Maximum>
+      <Minimum>1</Minimum>
+      <Units>Julian day</Units>
+    </Parameter>
+    <Parameter>
+      <Name>epan_coef</Name>
+      <Description>Monthly pan evaporation coefficientused to convert value to potentialevapotranspiration</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nmonths</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>potet_pan</ModuleName>
+      <Maximum>3</Maximum>
+      <Minimum>0.2</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>gwflow_coef</Name>
+      <Description>ground-water routing coefficient. The coefficient is multiplied by the storage in the ground-water reservoir to calculate ground-water flow computation to downslope HRUs and(or) to streamflow.</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>ngw</DimensionNames>
+      <DefaultValue>0.015</DefaultValue>
+      <ModuleName>prms_only</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>per day</Units>
+    </Parameter>
+    <Parameter>
+      <Name>den_max</Name>
+      <Description>Average maximum snowpack density as a decimal fraction of the liquid water equivalent</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>0.6</DefaultValue>
+      <ModuleName>snowcomp</ModuleName>
+      <Maximum>0.8</Maximum>
+      <Minimum>0.1</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>temp_units</Name>
+      <Description>Units of measured air temperature (0=degrees Fahrenheit; 1=degreesCelsius)</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>climate_hru</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>hru_plaps</Name>
+      <Description>Identifier of lapse measurement station used in calculating precipitation lapse rate</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>precip_laps_prms</ModuleName>
+      <Maximum>100</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>gw_strmseg_down_id</Name>
+      <Description>Identification number of stream segment in PRMS that receives cascading flow from aground-water reservoir.</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>ncascdgw</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>prms_only</ModuleName>
+      <Maximum>1000000</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>hru_percent_imperv</Name>
+      <Description>Decimal fraction of HRU area that isimpervious</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>basin</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>runoff_units</Name>
+      <Description>Units of measured streamflows written in PRMS Water-Budget File (0=cubic feet per second; 1=cubic meters per second)</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin_sum</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>jh_coef_hru</Name>
+      <Description>Air temperature coefficient used in Jensen-Haise potentialevapotranspiration equation for eachHRU</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>13</DefaultValue>
+      <ModuleName>potet_jh</ModuleName>
+      <Maximum>120</Maximum>
+      <Minimum>5</Minimum>
+      <Units>temp_units</Units>
+    </Parameter>
+    <Parameter>
+      <Name>snow_intcp</Name>
+      <Description>Maximum snow storage in the plantcanopy for plant type on HRU</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0.1</DefaultValue>
+      <ModuleName>intcp</ModuleName>
+      <Maximum>5</Maximum>
+      <Minimum>0</Minimum>
+      <Units>inches</Units>
+    </Parameter>
+    <Parameter>
+      <Name>dday_intcp</Name>
+      <Description>Intercept of monthly degree-day totemperature relation</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nmonths</DimensionNames>
+      <DefaultValue>-10</DefaultValue>
+      <ModuleName>ddsolrad</ModuleName>
+      <Maximum>4</Maximum>
+      <Minimum>-60</Minimum>
+      <Units>degree-day</Units>
+    </Parameter>
+    <Parameter>
+      <Name>jh_coef</Name>
+      <Description>Monthly air temperature coefficientused in Jensen-Haise potentialevapotranspiration equation</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nmonths</DimensionNames>
+      <DefaultValue>0.04</DefaultValue>
+      <ModuleName>potet_jh</ModuleName>
+      <Maximum>0.06</Maximum>
+      <Minimum>0.005</Minimum>
+      <Units>temp_units</Units>
+    </Parameter>
+    <Parameter>
+      <Name>print_objfunc</Name>
+      <Description>Objective function output in PRMS WaterBudget File (0=no; 1=yes)</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin_sum</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>potet_sublim</Name>
+      <Description>Fraction of potential evapotranspirationsublimated from snow surface as adecimal fraction</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>0.5</DefaultValue>
+      <ModuleName>intcp</ModuleName>
+      <Maximum>0.75</Maximum>
+      <Minimum>0.1</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>pmo</Name>
+      <Description>Month for which monthly summaryis written to PRMS Water-Budget(0=no monthly summary; 1=January,2=February, and so forth)</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>hru_sum_prms</ModuleName>
+      <Maximum>12</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>ssr2gw_exp</Name>
+      <Description>Exponent in the equation used tocompute gravity drainage toPRMS ground-water reservoir orMODFLOW finite-difference cell</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nssr</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+      <Maximum>3</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>ssstor_init</Name>
+      <Description>Initial storage in PRMS subsurfacereservoir or gravity reservoir</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nssr</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+      <Maximum>20</Maximum>
+      <Minimum>0</Minimum>
+      <Units>inches</Units>
+    </Parameter>
+    <Parameter>
+      <Name>gw_pct_up</Name>
+      <Description>Fraction of outflow from a ground-water reservoir to be added as inflow to a ground-waterreservoir or stream segment</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>ncascdgw</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>prms_only</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>soil2gw_max</Name>
+      <Description>Maximum value of soil-water excessrouted directly to PRMS groundwater reservoir</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+      <Maximum>5</Maximum>
+      <Minimum>0</Minimum>
+      <Units>inches</Units>
+    </Parameter>
+    <Parameter>
+      <Name>objfunc_q</Name>
+      <Description>Streamflow-gaging station used in objectivefunction calculations</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>basin_sum</ModuleName>
+      <Maximum>100</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>sat_threshold</Name>
+      <Description>Maximum volume of water per unitarea in the soil zone (set to 999.0for infinite volume)</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>999</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+      <Maximum>999</Maximum>
+      <Minimum>1</Minimum>
+      <Units>inches</Units>
+    </Parameter>
+    <Parameter>
+      <Name>gvr_cell_pct</Name>
+      <Description>Decimal fraction of HRU area associated witha finite-difference cell</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhrucell</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>gsflow_setconv</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>soil_rechr_init</Name>
+      <Description>Initial value in capillary reservoirwhere evaporation and transpirationcan occur simultaneously (valuemust be less than or equal tosoil_moist_max)</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+      <Maximum>10</Maximum>
+      <Minimum>0</Minimum>
+      <Units>inches</Units>
+    </Parameter>
+    <Parameter>
+      <Name>gvr_hru_pct</Name>
+      <Description>Decimal fraction of HRU areaassociated with gravity reservoir</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhrucell</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>tsta_elev</Name>
+      <Description>Altitude of the air temperature measurementstation</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>ntemp</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>temp_dist2_prms</ModuleName>
+      <Maximum>30000</Maximum>
+      <Minimum>-300</Minimum>
+      <Units>elev_units</Units>
+    </Parameter>
+    <Parameter>
+      <Name>covden_sum</Name>
+      <Description>Summer plant canopy density as adecimal fraction of the HRU area</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0.5</DefaultValue>
+      <ModuleName>intcp</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>tmax_allsnow</Name>
+      <Description>Monthly maximum air temperature atwhich precipitation is all snow forthe HRU</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>32</DefaultValue>
+      <ModuleName>snowcomp</ModuleName>
+      <Maximum>40</Maximum>
+      <Minimum>-10</Minimum>
+      <Units>temp_units</Units>
+    </Parameter>
+    <Parameter>
+      <Name>pref_flow_den</Name>
+      <Description>Decimal fraction of the soil zoneavailable for preferential flow</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0.2</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>gwsink_coef</Name>
+      <Description>Linear coefficient to route water in ground-waterreservoir to ground-water sink</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>ngw</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>prms_only</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>per day</Units>
+    </Parameter>
+    <Parameter>
+      <Name>wrain_intcp</Name>
+      <Description>Maximum winter rain storage in theplant canopy for plant type on HRU</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0.1</DefaultValue>
+      <ModuleName>intcp</ModuleName>
+      <Maximum>5</Maximum>
+      <Minimum>0</Minimum>
+      <Units>inches</Units>
+    </Parameter>
+    <Parameter>
+      <Name>tstorm_mo</Name>
+      <Description>Monthly storm prevalence (0=frontalstorms prevalent; 1=convectivestorms prevalent)</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nmonths</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>snowcomp</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>lake_hru_id</Name>
+      <Description>MODFLOW lake number associated with an HRU</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>gsflow_prms2mf</ModuleName>
+      <Maximum>1000000</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>gvr_hru_id</Name>
+      <Description>HRU associated with a gravity reservoir</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhrucell</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>gsflow_prms2mf</ModuleName>
+      <Maximum>1000000</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>print_freq</Name>
+      <Description>Frequency of output written in PRMS WaterBudget File (0=none; 1=simulation totals;2=yearly; 4=monthly; 8=daily; or additivecombinations—for example, use 3 for outputof yearly and simulation totals)</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin_sum</ModuleName>
+      <Maximum>15</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>cascade_tol</Name>
+      <Description>Minimum contributing area of an upslope HRU considered for flow to a downslope HRU</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>cascade</ModuleName>
+      <Maximum>100</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>smidx_coef</Name>
+      <Description>Coefficient in non-linear contributing area algorithm</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0.01</DefaultValue>
+      <ModuleName>basin</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0.0001</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>transp_end</Name>
+      <Description>Last month for transpirationcomputations at HRU</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>10</DefaultValue>
+      <ModuleName>potet_jh</ModuleName>
+      <Maximum>12</Maximum>
+      <Minimum>1</Minimum>
+      <Units>month</Units>
+    </Parameter>
+    <Parameter>
+      <Name>radadj_intcp</Name>
+      <Description>Intercept of solar radiation adjustmentto temperature</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>ddsolrad</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>degree-day</Units>
+    </Parameter>
+    <Parameter>
+      <Name>snarea_curve</Name>
+      <Description>Snow area-depletion curve values, 11for each curve as a decimal fraction</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>ndeplval</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>snowcomp</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>gvr_cell_id</Name>
+      <Description>Finite-difference cell associated with a gravityreservoir</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhrucell</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>gsflow_setconv</ModuleName>
+      <Maximum>1000000</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>albset_snm</Name>
+      <Description>Minimum snow fall, in waterequivalent, needed to reset snowalbedo when snowpack is melting asa decimal fraction</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>0.2</DefaultValue>
+      <ModuleName>snowcomp</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0.001</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>basin_tsta</Name>
+      <Description>Identifier of measurement station used incomputing air temperature</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>basin_sum</ModuleName>
+      <Maximum>100</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>albset_rna</Name>
+      <Description>Decimal fraction of rain in a mixed rainand snow event above which snowalbedo is not reset (applied whensnowpack is accumulating)</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>0.8</DefaultValue>
+      <ModuleName>snowcomp</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>cov_type</Name>
+      <Description>Plant cover type for HRU (0=bare soil;1=grasses; 2=shrubs; 3=trees)</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>3</DefaultValue>
+      <ModuleName>snowcomp</ModuleName>
+      <Maximum>3</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>dday_slope</Name>
+      <Description>Slope of monthly degree-day totemperature relation</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nmonths</DimensionNames>
+      <DefaultValue>0.4</DefaultValue>
+      <ModuleName>ddsolrad</ModuleName>
+      <Maximum>0.7</Maximum>
+      <Minimum>0.2</Minimum>
+      <Units>degree-day per temp_units</Units>
+    </Parameter>
+    <Parameter>
+      <Name>radadj_slope</Name>
+      <Description>Slope of solar radiation adjustment totemperature</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>ddsolrad</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>degree-day per temp_units</Units>
+    </Parameter>
+    <Parameter>
+      <Name>psta_elev</Name>
+      <Description>Land surface altitude of base andlapse stations</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nrain</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>precip_dist2_prms</ModuleName>
+      <Maximum>30000</Maximum>
+      <Minimum>-300</Minimum>
+      <Units>elev_units</Units>
+    </Parameter>
+    <Parameter>
+      <Name>cascade_flg</Name>
+      <Description>Flag used to force outflow from an upslope HRU to be added as inflow to one downslope HRU. A zero allows for multiple routing of inflows and outflows among HRUs and a value of one forces routing from an upslope HRU to one downslope HRU thathas the greatest fraction of contributing area in the upslope HRU.</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>basin</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>basin_area</Name>
+      <Description>Total area of watershed</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+      <Maximum>1E+09</Maximum>
+      <Minimum>0.1</Minimum>
+      <Units>acres</Units>
+    </Parameter>
+    <Parameter>
+      <Name>albset_sna</Name>
+      <Description>Minimum snow fall, in waterequivalent, needed to resetsnow albedo when snowpack isaccumulating as a decimal fraction</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>0.05</DefaultValue>
+      <ModuleName>snowcomp</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0.001</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>fastcoef_lin</Name>
+      <Description>Linear flow-routing coefficient for fast interflow</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0.1</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>per day</Units>
+    </Parameter>
+    <Parameter>
+      <Name>hru_deplcrv</Name>
+      <Description>Identifier of snowpack areal-depletioncurve for HRU</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>snowcomp</ModuleName>
+      <Maximum>100</Maximum>
+      <Minimum>1</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>albset_rnm</Name>
+      <Description>Decimal fraction of rain in a mixed rainand snow event above which snowalbedo is not reset (applied whensnowpack is melting)</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>0.6</DefaultValue>
+      <ModuleName>snowcomp</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>hru_elev</Name>
+      <Description>Mean land-surface altitude of HRU</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>basin</ModuleName>
+      <Maximum>30000</Maximum>
+      <Minimum>-300</Minimum>
+      <Units>elev_units</Units>
+    </Parameter>
+    <Parameter>
+      <Name>emis_noppt</Name>
+      <Description>Emissivity of air on days withoutprecipitation</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>0.757</DefaultValue>
+      <ModuleName>basin</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0.757</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>fastcoef_sq</Name>
+      <Description>Non-linear flow-routing coefficient forfast interflow</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0.8</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>per inch-day</Units>
+    </Parameter>
+    <Parameter>
+      <Name>id_obsrunoff</Name>
+      <Description>Identifier for streamflow-gaging station</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>gsflow_sum</ModuleName>
+      <Maximum>100</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>outlet_sta</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>gsflow_sum</ModuleName>
+      <Maximum>100</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>moyrsum</Name>
+      <Description>Monthly and yearly summaries for eachHRU (0 for no summaries; 1 forsummaries)</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>hru_sum_prms</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>gwstor_init</Name>
+      <Description>Initial storage in ground-water reservoir</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>ngw</DimensionNames>
+      <DefaultValue>0.1</DefaultValue>
+      <ModuleName>prms_only</ModuleName>
+      <Maximum>20</Maximum>
+      <Minimum>0</Minimum>
+      <Units>inches</Units>
+    </Parameter>
+    <Parameter>
+      <Name>soil_rechr_max</Name>
+      <Description>Maximum quantity of water in thecapillary reservoir (value must be lessthan or equal to soil_moist_max)</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>2</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+      <Maximum>10</Maximum>
+      <Minimum>0</Minimum>
+      <Units>inches</Units>
+    </Parameter>
+    <Parameter>
+      <Name>slowcoef_sq</Name>
+      <Description>Non-linear flow-routing coefficient forslow interflow</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0.1</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>per inch-day</Units>
+    </Parameter>
+    <Parameter>
+      <Name>ssrmax_coef</Name>
+      <Description>Maximum amount of gravity drainageto PRMS ground-water reservoir orMODFLOW finite-difference cell</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nssr</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+      <Maximum>20</Maximum>
+      <Minimum>1</Minimum>
+      <Units>inches</Units>
+    </Parameter>
+    <Parameter>
+      <Name>den_init</Name>
+      <Description>Density of new-fallen snow as adecimal fraction</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>0.1</DefaultValue>
+      <ModuleName>snowcomp</ModuleName>
+      <Maximum>0.5</Maximum>
+      <Minimum>0.01</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>hru_slope</Name>
+      <Description>Slope of HRU, specified as change invertical length divided by change inhorizontal length</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>basin</ModuleName>
+      <Maximum>10</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>tmin_adj</Name>
+      <Description>Minimum daily HRU temperatureadjustment factor, which is estimated onthe basis of slope and aspect</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>temp_dist2_prms</ModuleName>
+      <Maximum>10</Maximum>
+      <Minimum>-10</Minimum>
+      <Units>temp_units</Units>
+    </Parameter>
+    <Parameter>
+      <Name>melt_look</Name>
+      <Description>Julian date to start looking for whensnowmelt begins</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>90</DefaultValue>
+      <ModuleName>snowcomp</ModuleName>
+      <Maximum>366</Maximum>
+      <Minimum>1</Minimum>
+      <Units>Julian day</Units>
+    </Parameter>
+    <Parameter>
+      <Name>radj_sppt</Name>
+      <Description>Precipitation-day adjustment factor tosolar radiation for a summer day withprecipitation greater than ppt_rad_adjas a decimal fraction</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>0.44</DefaultValue>
+      <ModuleName>climate_hru</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>print_type</Name>
+      <Description>Type of output written in PRMS Water-BudgetFile (0=measured and predicted flow only;1=water balance table; 2=detailed output)</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>2</DefaultValue>
+      <ModuleName>basin_sum</ModuleName>
+      <Maximum>2</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>soil_moist_init</Name>
+      <Description>Initial value of available water in thecapillary reservoir</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>3</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+      <Maximum>20</Maximum>
+      <Minimum>0</Minimum>
+      <Units>inches</Units>
+    </Parameter>
+    <Parameter>
+      <Name>imperv_stor_max</Name>
+      <Description>Maximum retention storage for HRUimpervious area</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>srunoff_smidx</ModuleName>
+      <Maximum>10</Maximum>
+      <Minimum>0</Minimum>
+      <Units>inches</Units>
+    </Parameter>
+    <Parameter>
+      <Name>freeh2o_cap</Name>
+      <Description>Free-water holding capacity ofsnowpack expressed as decimalfraction of total snowpack waterequivalent</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>0.05</DefaultValue>
+      <ModuleName>snowcomp</ModuleName>
+      <Maximum>0.2</Maximum>
+      <Minimum>0.01</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>settle_const</Name>
+      <Description>Snowpack settlement-time constant</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>0.1</DefaultValue>
+      <ModuleName>snowcomp</ModuleName>
+      <Maximum>0.5</Maximum>
+      <Minimum>0.01</Minimum>
+      <Units>per day</Units>
+    </Parameter>
+    <Parameter>
+      <Name>gw_down_id</Name>
+      <Description>Identification number of downslope ground-water reservoir.</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>ncascdgw</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>prms_only</ModuleName>
+      <Maximum>1000000</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>padj_sn</Name>
+      <Description>Mean monthly factor to adjust snowlapse rate computed betweenstation_psta andstation_plaps (positive factorsare used as multipliers and negativefactors are made positive andsubstituted for the computed lapserate)</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nrain</DimensionNames>
+      <DimensionNames>nmonths</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>precip_laps_prms</ModuleName>
+      <Maximum>10</Maximum>
+      <Minimum>-2</Minimum>
+      <Units>inches per day</Units>
+    </Parameter>
+    <Parameter>
+      <Name>ssr2gw_rate</Name>
+      <Description>Linear coefficient in the equationused to compute gravity drainageto PRMS ground-water reservoir orMODFLOW finite-difference cell</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nssr</DimensionNames>
+      <DefaultValue>0.1</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>inches per day</Units>
+    </Parameter>
+    <Parameter>
+      <Name>ppt_rad_adj</Name>
+      <Description>Precipitation threshold used to determineif solar radiation is adjusted for cloudcover.</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nmonths</DimensionNames>
+      <DefaultValue>0.02</DefaultValue>
+      <ModuleName>ddsolrad</ModuleName>
+      <Maximum>0.5</Maximum>
+      <Minimum>0</Minimum>
+      <Units>inches</Units>
+    </Parameter>
+    <Parameter>
+      <Name>slowcoef_lin</Name>
+      <Description>Linear flow-routing coefficient forslow interflow</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0.015</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>per day</Units>
+    </Parameter>
+    <Parameter>
+      <Name>hru_aspect</Name>
+      <Description>Aspect of HRU</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>soltab</ModuleName>
+      <Maximum>360</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </Parameter>
+    <Parameter>
+      <Name>hru_tlaps</Name>
+      <Description>Identifier of lapse measurement station usedfor air-temperature lapse rate calculations</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>temp_dist2_prms</ModuleName>
+      <Maximum>100</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>cecn_coef</Name>
+      <Description>Monthly convection-condensationenergy coefficient</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nmonths</DimensionNames>
+      <DefaultValue>5</DefaultValue>
+      <ModuleName>snowcomp</ModuleName>
+      <Maximum>20</Maximum>
+      <Minimum>0</Minimum>
+      <Units>nmonths</Units>
+    </Parameter>
+    <Parameter>
+      <Name>soil_moist_max</Name>
+      <Description>Maximum available capillary waterholding capacity of soil zone in an HRU</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>6</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+      <Maximum>20</Maximum>
+      <Minimum>0</Minimum>
+      <Units>inches</Units>
+    </Parameter>
+    <Parameter>
+      <Name>transp_tmax</Name>
+      <Description>Maximum temperature used to determine when transpiration begins in an HRU</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>500</DefaultValue>
+      <ModuleName>potet_hamon</ModuleName>
+      <Maximum>1000</Maximum>
+      <Minimum>0</Minimum>
+      <Units>degree-day</Units>
+    </Parameter>
+    <Parameter>
+      <Name>snarea_thresh</Name>
+      <Description>Maximum water equivalent threshold,water equivalent in an HRU less thanthreshold results in use of snowcovered-area curve</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>50</DefaultValue>
+      <ModuleName>snowcomp</ModuleName>
+      <Maximum>200</Maximum>
+      <Minimum>0</Minimum>
+      <Units>inches</Units>
+    </Parameter>
+    <Parameter>
+      <Name>radmax</Name>
+      <Description>Maximum fraction of potential solarradiation that reaches land surface as adecimal fraction</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>0.8</DefaultValue>
+      <ModuleName>ddsolrad</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>tmax_adj</Name>
+      <Description>Maximum daily HRU temperatureadjustment factor, which is estimated onthe basis of slope and aspect</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>temp_dist2_prms</ModuleName>
+      <Maximum>10</Maximum>
+      <Minimum>-10</Minimum>
+      <Units>temp_units</Units>
+    </Parameter>
+    <Parameter>
+      <Name>gw_up_id</Name>
+      <Description>Identification number of upslope ground-water reservoir.</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>ncascdgw</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>prms_only</ModuleName>
+      <Maximum>1000000</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>precip_units</Name>
+      <Description>Specify units of precipitation (0=inches;1=millimeters)</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>climate_hru</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>padj_rn</Name>
+      <Description>Mean monthly factor to adjust rainlapse rate computed betweenstation_psta andstation_plaps when precipitationis rain (positive factors are used asmultipliers and negative factors aremade positive and substituted for thecomputed lapse rate)</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nrain</DimensionNames>
+      <DimensionNames>nmonths</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+      <Maximum>10</Maximum>
+      <Minimum>-2</Minimum>
+      <Units>inches per day</Units>
+    </Parameter>
+    <Parameter>
+      <Name>hru_type</Name>
+      <Description>Type of HRU (0=inactive; 1=land;2=lake)</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>intcp</ModuleName>
+      <Maximum>2</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>hru_tsta</Name>
+      <Description>Identifier of the measurement station usedto compute HRU daily maximum andminimum air temperatures</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>temp_dist2_prms</ModuleName>
+      <Maximum>100</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>tmax_index</Name>
+      <Description>Maximum monthly air temperatureused to adjust solar radiation forprecipitation</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nmonths</DimensionNames>
+      <DefaultValue>50</DefaultValue>
+      <ModuleName>climate_hru</ModuleName>
+      <Maximum>110</Maximum>
+      <Minimum>-10</Minimum>
+      <Units>temp_units</Units>
+    </Parameter>
+    <Parameter>
+      <Name>hru_up_id</Name>
+      <Description>Identification number of upslope HRU.</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>ncascade</DimensionNames>
+      <DefaultValue>0</DefaultValue>
+      <ModuleName>cascade</ModuleName>
+      <Maximum>1000000</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>hru_down_id</Name>
+      <Description>Identification number of downslope HRU.</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>ncascade</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>cascade</ModuleName>
+      <Maximum>1000000</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>hru_strmseg_down_id</Name>
+      <Description>Identification number of stream segment that receives inflow from an upslope HRU.</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>ncascade</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>cascade</ModuleName>
+      <Maximum>1000000</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+    <Parameter>
+      <Name>hru_pct_up</Name>
+      <Description>Fraction of outflow from upslope HRU to be added as inflow to a downslope HRU or streamsegment</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>ncascade</DimensionNames>
+      <DefaultValue>0.1</DefaultValue>
+      <ModuleName>cascade</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units>dimensionless</Units>
+    </Parameter>
+  </DefaultParameters>
+</MMSPackage>

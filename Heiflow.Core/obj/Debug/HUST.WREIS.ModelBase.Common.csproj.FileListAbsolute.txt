@@ -1,0 +1,51 @@
+F:\HUST\ModelBase10\ModelBase.Common\obj\Debug\ResolveAssemblyReference.cache
+F:\HUST\ModelBase10\ModelBase.Common\obj\Debug\ModelBase.Common.dll
+F:\HUST\ModelBase10\ModelBase.Common\obj\Debug\ModelBase.Common.pdb
+F:\HUST\ModelBase10\ModelBase.Common\bin\Debug\ModelBase.Common.dll
+F:\HUST\ModelBase10\ModelBase.Common\bin\Debug\ModelBase.Common.pdb
+F:\HUST\ModelBase10\ModelBase.Common\bin\Debug\HUST.WREIS.AI.dll
+F:\HUST\ModelBase10\ModelBase.Common\bin\Debug\HUST.WREIS.Data.dll
+F:\HUST\ModelBase10\ModelBase.Common\bin\Debug\ModelBase.Interface.dll
+F:\HUST\ModelBase10\ModelBase.Common\bin\Debug\HUST.WREIS.AI.pdb
+F:\HUST\ModelBase10\ModelBase.Common\bin\Debug\HUST.WREIS.Data.pdb
+F:\HUST\ModelBase10\ModelBase.Common\bin\Debug\ModelBase.Interface.pdb
+F:\HUST\ModelBase\ModelBase.Common\bin\Debug\ModelBase.Common.dll
+F:\HUST\ModelBase\ModelBase.Common\bin\Debug\ModelBase.Common.pdb
+F:\HUST\ModelBase\ModelBase.Common\bin\Debug\HUST.WREIS.AI.dll
+F:\HUST\ModelBase\ModelBase.Common\bin\Debug\HUST.WREIS.Data.dll
+F:\HUST\ModelBase\ModelBase.Common\bin\Debug\HUST.WREIS.MathLibrary.dll
+F:\HUST\ModelBase\ModelBase.Common\bin\Debug\ModelBase.Interface.dll
+F:\HUST\ModelBase\ModelBase.Common\bin\Debug\HUST.WREIS.AI.pdb
+F:\HUST\ModelBase\ModelBase.Common\bin\Debug\HUST.WREIS.Data.pdb
+F:\HUST\ModelBase\ModelBase.Common\bin\Debug\HUST.WREIS.MathLibrary.pdb
+F:\HUST\ModelBase\ModelBase.Common\bin\Debug\ModelBase.Interface.pdb
+F:\HUST\ModelBase\ModelBase.Common\obj\Debug\ResolveAssemblyReference.cache
+F:\HUST\ModelBase\ModelBase.Common\obj\Debug\ModelBase.Common.dll
+F:\HUST\ModelBase\ModelBase.Common\obj\Debug\ModelBase.Common.pdb
+E:\My Program\ModelBase\ModelBase.Common\bin\Debug\ModelBase.Common.dll
+E:\My Program\ModelBase\ModelBase.Common\bin\Debug\ModelBase.Common.pdb
+E:\My Program\ModelBase\ModelBase.Common\bin\Debug\HUST.WREIS.AI.dll
+E:\My Program\ModelBase\ModelBase.Common\bin\Debug\HUST.WREIS.Data.dll
+E:\My Program\ModelBase\ModelBase.Common\bin\Debug\HUST.WREIS.MathLibrary.dll
+E:\My Program\ModelBase\ModelBase.Common\bin\Debug\ModelBase.Interface.dll
+E:\My Program\ModelBase\ModelBase.Common\bin\Debug\HUST.WREIS.AI.pdb
+E:\My Program\ModelBase\ModelBase.Common\bin\Debug\HUST.WREIS.Data.pdb
+E:\My Program\ModelBase\ModelBase.Common\bin\Debug\HUST.WREIS.MathLibrary.pdb
+E:\My Program\ModelBase\ModelBase.Common\bin\Debug\ModelBase.Interface.pdb
+E:\My Program\ModelBase\ModelBase.Common\obj\Debug\ResolveAssemblyReference.cache
+E:\My Program\ModelBase\ModelBase.Common\obj\Debug\ModelBase.Common.dll
+E:\My Program\ModelBase\ModelBase.Common\obj\Debug\ModelBase.Common.pdb
+F:\HUST\ModelBase\ModelBase.Common\bin\Debug\ILNumerics.dll
+F:\HUST\Work Program\ModelBase\ModelBase.Common\obj\Debug\ResolveAssemblyReference.cache
+F:\HUST\Work Program\ModelBase\ModelBase.Common\obj\Debug\ModelBase.Common.dll
+F:\HUST\Work Program\ModelBase\ModelBase.Common\obj\Debug\ModelBase.Common.pdb
+F:\HUST\Work Program\ModelBase\ModelBase.Common\bin\Debug\ModelBase.Common.dll
+F:\HUST\Work Program\ModelBase\ModelBase.Common\bin\Debug\ModelBase.Common.pdb
+F:\HUST\Work Program\ModelBase\ModelBase.Common\bin\Debug\HUST.WREIS.AI.dll
+F:\HUST\Work Program\ModelBase\ModelBase.Common\bin\Debug\HUST.WREIS.Data.dll
+F:\HUST\Work Program\ModelBase\ModelBase.Common\bin\Debug\HUST.WREIS.MathLibrary.dll
+F:\HUST\Work Program\ModelBase\ModelBase.Common\bin\Debug\ModelBase.Interface.dll
+F:\HUST\Work Program\ModelBase\ModelBase.Common\bin\Debug\HUST.WREIS.AI.pdb
+F:\HUST\Work Program\ModelBase\ModelBase.Common\bin\Debug\HUST.WREIS.Data.pdb
+F:\HUST\Work Program\ModelBase\ModelBase.Common\bin\Debug\HUST.WREIS.MathLibrary.pdb
+F:\HUST\Work Program\ModelBase\ModelBase.Common\bin\Debug\ModelBase.Interface.pdb

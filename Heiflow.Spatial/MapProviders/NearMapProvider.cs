@@ -1,0 +1,115 @@
+﻿// THIS FILE IS PART OF Visual HEIFLOW
+// THIS PROGRAM IS NOT FREE SOFTWARE. 
+// Copyright (c) 2015-2017 Yong Tian, SUSTech, Shenzhen, China. All rights reserved.
+// Email: tiany@sustc.edu.cn
+// Web: http://ese.sustc.edu.cn/homepage/index.aspx?lid=100000005794726
+
+namespace Heiflow.Spatial.MapProviders
+{
+   using System;
+   using Heiflow.Spatial.Projections;
+
+   public abstract class NearMapProviderBase : GMapProvider
+   {
+      #region GMapProvider Members
+      public override Guid Id
+      {
+         get
+         {
+            throw new NotImplementedException();
+         }
+      }
+
+      public override string Name
+      {
+         get
+         {
+            throw new NotImplementedException();
+         }
+      }
+
+      public override PureProjection Projection
+      {
+         get
+         {
+            return MercatorProjection.Instance;
+         }
+      }
+
+      GMapProvider[] overlays;
+      public override GMapProvider[] Overlays
+      {
+         get
+         {
+            if(overlays == null)
+            {
+               overlays = new GMapProvider[] { this };
+            }
+            return overlays;
+         }
+      }
+
+      public override PureImage GetTileImage(GPoint pos, int zoom)
+      {
+         throw new NotImplementedException();
+      }
+      #endregion
+   }
+
+   /// <summary>
+   /// NearMap provider
+   /// </summary>
+   public class NearMapProvider : NearMapProviderBase
+   {
+      public static readonly NearMapProvider Instance;
+
+      NearMapProvider()
+      {
+         RefererUrl = "http://www.nearmap.com/";
+      }
+
+      static NearMapProvider()
+      {
+         Instance = new NearMapProvider();
+      }
+
+      #region GMapProvider Members
+
+      readonly Guid id = new Guid("E33803DF-22CB-4FFA-B8E3-15383ED9969D");
+      public override Guid Id
+      {
+         get
+         {
+            return id;
+         }
+      }
+
+      readonly string name = "NearMap";
+      public override string Name
+      {
+         get
+         {
+            return name;
+         }
+      }
+
+      public override PureImage GetTileImage(GPoint pos, int zoom)
+      {
+         string url = MakeTileImageUrl(pos, zoom, LanguageStr);
+
+         return GetTileImageUsingHttp(url);
+      }
+
+      #endregion
+
+    public override  string MakeTileImageUrl(GPoint pos, int zoom, string language)
+      {
+         // http://web1.nearmap.com/maps/hl=en&x=18681&y=10415&z=15&nml=Map_&nmg=1&s=kY8lZssipLIJ7c5
+         // http://web1.nearmap.com/kh/v=nm&hl=en&x=20&y=8&z=5&nml=Map_&s=55KUZ
+
+         return string.Format(UrlFormat, GetServerNum(pos, 3), pos.X, pos.Y, zoom);
+      }
+
+      static readonly string UrlFormat = "http://web{0}.nearmap.com/kh/v=nm&hl=en&x={1}&y={2}&z={3}&nml=Map_";
+   }
+}

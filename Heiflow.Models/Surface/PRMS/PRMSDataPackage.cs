@@ -1,0 +1,176 @@
+﻿// THIS FILE IS PART OF Visual HEIFLOW
+// THIS PROGRAM IS NOT FREE SOFTWARE. 
+// Copyright (c) 2015-2017 Yong Tian, SUSTech, Shenzhen, China. All rights reserved.
+// Email: tiany@sustc.edu.cn
+// Web: http://ese.sustc.edu.cn/homepage/index.aspx?lid=100000005794726
+using Heiflow.Core.Data;
+using Heiflow.Core.IO;
+using Heiflow.Models.Generic;
+using Heiflow.Models.UI;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Heiflow.Models.IO
+{
+    public class PRMSDataPackage : DataPackage
+    {
+        private int _skipped_line = 0;
+        public PRMSDataPackage()
+        {
+            Name = "Driving Data";
+            IsMandatory = true;
+        }
+        public override void Initialize()
+        {
+            this.Grid = Owner.Grid;
+            this.TimeService = Owner.TimeService;
+            this.TimeService.Updated += this.OnTimeServiceUpdated;
+            State = ModelObjectState.Ready;
+            _Initialized = true;
+        }
+        public override bool New()
+        {
+            IsDirty = true;
+            return true;
+        }
+        public override bool Scan()
+        {
+            NumTimeStep = 0;
+            var fileStream = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            StreamReader sr = new StreamReader(fileStream, Encoding.Default);
+            string line = "";
+            _skipped_line = 1;
+            line = sr.ReadLine();
+            List<string> varnames = new List<string>();
+            while (!sr.EndOfStream)
+            {
+                line = sr.ReadLine();
+                if (!TypeConverterEx.IsNull(line))
+                {
+                    if (line.StartsWith("#"))
+                    {
+                        _skipped_line++;
+                        break;
+                    }
+                    if (!line.StartsWith("//"))
+                    {
+                        var buf = TypeConverterEx.Split<string>(line.Trim());
+                        var nvar = int.Parse(buf[1]);
+                        for (int i = 0; i < nvar; i++)
+                        {
+                            varnames.Add(buf[0] + (i + 1));
+                        }
+                    }
+                }
+                _skipped_line++;
+            }
+            while (!sr.EndOfStream)
+            {
+                line = sr.ReadLine();
+                if (!TypeConverterEx.IsNull(line))
+                {
+                    NumTimeStep++;
+                }
+            }
+            Variables = varnames.ToArray();
+            sr.Close();
+            fileStream.Close();
+
+            _StartLoading = TimeService.Start;
+            MaxTimeStep = NumTimeStep;
+            Start = TimeService.Start;
+            End = EndOfLoading;
+            return true;
+        }
+
+        public override bool Load()
+        {
+            OnLoading(0);
+            Scan();
+            int nvar = Variables.Length;
+            var mat = new MyLazy3DMat<float>(nvar, StepsToLoad, 1);
+            var fileStream = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            StreamReader sr = new StreamReader(fileStream, Encoding.Default);
+            string line = "";
+            int progress = 0;
+            mat.DateTimes = new DateTime[StepsToLoad];
+            for (int i = 0; i < _skipped_line; i++)
+            {
+                line = sr.ReadLine();
+            }
+            for (int j = 0; j < nvar; j++)
+            {
+                mat.Allocate(j, StepsToLoad, 1);
+            }
+            for (int i = 0; i < StepsToLoad; i++)
+            {
+                line = sr.ReadLine();
+                var buf = TypeConverterEx.Split<int>(line, 6);
+                mat.DateTimes[i] = new DateTime(buf[0], buf[1], buf[2], buf[3], buf[4], buf[5]);
+                var buf1= TypeConverterEx.SkipSplit<float>(line,6);
+                for (int j = 0; j < nvar; j++)
+                {
+                    mat.Value[j][i][0] = buf1[j];
+                }
+                progress = Convert.ToInt32(i * 100 / StepsToLoad);
+                OnLoading(progress);
+            }
+            OnLoading(100);
+            mat.Variables = Variables;
+            mat.TimeBrowsable = true;
+            sr.Close();
+            fileStream.Close();
+            Values = mat;
+            OnLoaded(mat);
+            IsDirty = false;
+            return true;
+        }
+
+        public override bool Load(int var_index)
+        {
+            return Load();
+        }
+
+        public override bool Save(IProgress progress)
+        {
+            if (IsDirty)
+            {
+                SaveAs(FileName,progress);
+                IsDirty = false;
+            }
+            return true;
+        }
+
+        public override bool SaveAs(string filename, IProgress progress)
+        {
+            StreamWriter sw = new StreamWriter(filename);
+            string line = "PRMS data file generated by Visual HEIFLOW. Created on " + DateTime.Now.ToString();
+            sw.WriteLine(line);
+            line = "tmax 1";
+            sw.WriteLine(line);
+            sw.WriteLine("#########################################################################");
+            foreach (var time in TimeService.Timeline)
+            {
+                line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t0", time.Year, time.Month, time.Day, time.Hour, 0, 0);
+                sw.WriteLine(line);
+            }
+            sw.Close();
+            OnSaved(progress);
+            return true;
+        }
+
+        public override void Clear()
+        {
+            if (_Initialized)
+                this.TimeService.Updated -= this.OnTimeServiceUpdated;
+            State = ModelObjectState.Standby;
+            _Initialized = false;
+        }
+
+     
+    }
+}

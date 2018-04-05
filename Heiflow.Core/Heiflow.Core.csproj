@@ -1,0 +1,396 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E75A11B8-00A2-45DE-A5E4-4B8180B5903C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Heiflow.Core</RootNamespace>
+    <AssemblyName>Heiflow.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Bin\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>vhf.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DotSpatial.Data, Version=1.7.0.0, Culture=neutral, PublicKeyToken=c29dbf30e059ca9d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="DotSpatial.GeoAPI">
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.GeoAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="DotSpatial.NetTopologySuite">
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.NetTopologySuite.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.5.452, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Debug\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ILNumerics, Version=3.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\External Libraries\ILNumerics_CommunityEdition_v3.2.2.0\bin\Debug\ILNumerics.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Alglib\alglibinternal.cs" />
+    <Compile Include="Alglib\alglibmisc.cs" />
+    <Compile Include="Alglib\ap.cs" />
+    <Compile Include="Alglib\dataanalysis.cs" />
+    <Compile Include="Alglib\diffequations.cs" />
+    <Compile Include="Alglib\fasttransforms.cs" />
+    <Compile Include="Alglib\integration.cs" />
+    <Compile Include="Alglib\interpolation.cs" />
+    <Compile Include="Alglib\linalg.cs" />
+    <Compile Include="Alglib\optimization.cs" />
+    <Compile Include="Alglib\solvers.cs" />
+    <Compile Include="Alglib\specialfunctions.cs" />
+    <Compile Include="Alglib\statistics.cs" />
+    <Compile Include="Animation\DataCubeAnimation.cs" />
+    <Compile Include="Animation\IDataCubeAnimation.cs" />
+    <Compile Include="Collections\ComparisonComparer.cs" />
+    <Compile Include="Collections\DictionaryByType.cs" />
+    <Compile Include="Collections\Extensions\ComparerExt.cs" />
+    <Compile Include="Collections\Extensions\DictionaryExt.cs" />
+    <Compile Include="Collections\Extensions\RangeBasedExt.cs" />
+    <Compile Include="Collections\Extensions\SmartEnumerableExt.cs" />
+    <Compile Include="Collections\LinkedComparer.cs" />
+    <Compile Include="Collections\ProjectionComparer.cs" />
+    <Compile Include="Collections\ProjectionEqualityComparer.cs" />
+    <Compile Include="Collections\RandomAccessQueue.cs" />
+    <Compile Include="Collections\Range.cs" />
+    <Compile Include="Collections\RangeIterator.cs" />
+    <Compile Include="Collections\ReverseComparer.cs" />
+    <Compile Include="Collections\SmartEnumerable.cs" />
+    <Compile Include="Collections\TimeRange.cs" />
+    <Compile Include="Data\Array\IDataCubeObject.cs" />
+    <Compile Include="Data\Array\IDataTableConvertable.cs" />
+    <Compile Include="Data\Array\IGridTopology.cs" />
+    <Compile Include="Data\Array\MyLazy3DMat.cs" />
+    <Compile Include="Data\Array\MyVarient3DMat.cs" />
+    <Compile Include="Data\Array\MyVarient4DMat.cs" />
+    <Compile Include="Data\GenericTable.cs" />
+    <Compile Include="Data\IDynamicTableBindable.cs" />
+    <Compile Include="Data\ODM\ODMExportSetting.cs" />
+    <Compile Include="Data\TimeSeries\ListTimeSeries.cs" />
+    <Compile Include="Data\TimeSeries\VectorTimeSeries.cs" />
+    <Compile Include="Data\Database\DatabaseSource.cs" />
+    <Compile Include="Data\Database\IDatabaseSource.cs" />
+    <Compile Include="Data\DateTimeHelper.cs" />
+    <Compile Include="Data\TimeSeries\TimeSeriesAnalyzer.cs" />
+    <Compile Include="Data\IDataTableBindable.cs" />
+    <Compile Include="Data\LookupTable.cs" />
+    <Compile Include="Data\ODM\CVTable.cs" />
+    <Compile Include="Data\ODM\DataValuesTable.cs" />
+    <Compile Include="Data\ODM\IDendritiRecord.cs" />
+    <Compile Include="Data\ODM\IODMTable.cs" />
+    <Compile Include="Data\ODM\ODMTable.cs" />
+    <Compile Include="Data\ODM\ParameterRecord.cs" />
+    <Compile Include="Data\ODM\SeriesCatalog.cs" />
+    <Compile Include="Data\ODM\ObservationSeries.cs" />
+    <Compile Include="Data\ODM\DendritiRecord.cs" />
+    <Compile Include="Data\ODM\SitesTable.cs" />
+    <Compile Include="Data\ODM\VariablesTable.cs" />
+    <Compile Include="Data\RasterEx.cs" />
+    <Compile Include="Data\TimeSeries\IVectorTimeSeries.cs" />
+    <Compile Include="Data\TimeSeries\TimeSeriesPair.cs" />
+    <Compile Include="Extensions\ReferenceExt.cs" />
+    <Compile Include="Extensions\TimeRelated\DateTimeBasedExt.cs" />
+    <Compile Include="Extensions\TimeRelated\TimeSpanBasedExt.cs" />
+    <Compile Include="IO\DataCubeDescriptor.cs" />
+    <Compile Include="IO\BaseDataCube.cs" />
+    <Compile Include="IO\DataCubeXStreamReader.cs" />
+    <Compile Include="IO\DataCubeStreamWriter.cs" />
+    <Compile Include="IO\MatrixBinaryStream.cs" />
+    <Compile Include="IO\TxtFileStream.cs" />
+    <Compile Include="IO\CSVFileStream.cs" />
+    <Compile Include="IO\IArrayStream.cs" />
+    <Compile Include="MyMath\mathenum.cs" />
+    <Compile Include="Utility\AboutAssemblyDataProvider.cs" />
+    <Compile Include="Animation\VariableAnimation.cs" />
+    <Compile Include="Animation\IVariableAnimation.cs" />
+    <Compile Include="Animation\IAnimation.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\Enums.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsBiffBlankCell.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsBiffBOF.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsBiffBoundSheet.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsBiffContinue.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsBiffDbCell.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsBiffDimensions.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsBiffEOF.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsBiffFormatString.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsBiffFormulaCell.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsBiffFormulaString.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsBiffIndex.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsBiffIntegerCell.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsBiffInterfaceHdr.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsBiffLabelCell.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsBiffLabelSSTCell.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsBiffMulBlankCell.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsBiffMulRKCell.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsBiffNumberCell.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsBiffQuickTip.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsBiffRecord.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsBiffRKCell.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsBiffRow.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsBiffSimpleValueRecord.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsBiffSST.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsBiffStream.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsBiffUncalced.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsBiffWindow1.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsDirectoryEntry.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsFat.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsFormattedUnicodeString.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsHeader.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsRootDirectory.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsStream.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsWorkbookGlobals.cs" />
+    <Compile Include="Data\Excel\Core\BinaryFormat\XlsWorksheet.cs" />
+    <Compile Include="Data\Excel\Core\FormatReader.cs" />
+    <Compile Include="Data\Excel\Core\Helpers.cs" />
+    <Compile Include="Data\Excel\Core\OpenXmlFormat\XlsxDimension.cs" />
+    <Compile Include="Data\Excel\Core\OpenXmlFormat\XlsxNumFmt.cs" />
+    <Compile Include="Data\Excel\Core\OpenXmlFormat\XlsxSST.cs" />
+    <Compile Include="Data\Excel\Core\OpenXmlFormat\XlsxStyles.cs" />
+    <Compile Include="Data\Excel\Core\OpenXmlFormat\XlsxWorkbook.cs" />
+    <Compile Include="Data\Excel\Core\OpenXmlFormat\XlsxWorksheet.cs" />
+    <Compile Include="Data\Excel\Core\OpenXmlFormat\XlsxXf.cs" />
+    <Compile Include="Data\Excel\Core\OpenXmlFormat\XmlReaderExtensions.cs" />
+    <Compile Include="Data\Excel\Core\ReferenceHelper.cs" />
+    <Compile Include="Data\Excel\Core\ZipWorker.cs" />
+    <Compile Include="Data\Excel\Errors.cs" />
+    <Compile Include="Data\Excel\ExcelBinaryReader.cs" />
+    <Compile Include="Data\Excel\ExcelOpenXmlReader.cs" />
+    <Compile Include="Data\Excel\ExcelReaderFactory.cs" />
+    <Compile Include="Data\Excel\Exceptions\BiffRecordException.cs" />
+    <Compile Include="Data\Excel\Exceptions\HeaderException.cs" />
+    <Compile Include="Data\Excel\IExcelDataReader.cs" />
+    <Compile Include="Data\Excel\Log\ILog-4.5.cs" />
+    <Compile Include="Data\Excel\Log\ILog.cs" />
+    <Compile Include="Data\Excel\Log\Log.cs" />
+    <Compile Include="Data\Excel\Log\LogExtensions.cs" />
+    <Compile Include="Data\Excel\Log\Logger\NullLog-4.5.cs" />
+    <Compile Include="Data\Excel\Log\Logger\NullLog.cs" />
+    <Compile Include="Data\Excel\Log\LogManager.cs" />
+    <Compile Include="Data\Excel\Log\StringExtensions.cs" />
+    <Compile Include="Data\TimeSeries\ITimeSeries.cs" />
+    <Compile Include="Data\ODM\ODMImporter.cs" />
+    <Compile Include="Data\ODM\ODMObject.cs" />
+    <Compile Include="Data\ODM\ODMSource.cs" />
+    <Compile Include="Data\OneToManyMap.cs" />
+    <Compile Include="Data\PropertyMapping.cs" />
+    <Compile Include="Drawing\ColorHsl.cs" />
+    <Compile Include="Drawing\ColorHsv.cs" />
+    <Compile Include="Drawing\ColorRgb.cs" />
+    <Compile Include="Drawing\ColorSchema.cs" />
+    <Compile Include="Drawing\ColourRamps.cs" />
+    <Compile Include="Drawing\RandomColor.cs" />
+    <Compile Include="Utility\ConstantNumber.cs" />
+    <Compile Include="Utility\ConstantWords.cs" />
+    <Compile Include="Utility\DirectoryHelper.cs" />
+    <Compile Include="Utility\IAboutDataProvider.cs" />
+    <Compile Include="IO\DBF\DBFBase.cs" />
+    <Compile Include="IO\DBF\DBFException.cs" />
+    <Compile Include="IO\DBF\DBFField.cs" />
+    <Compile Include="IO\DBF\DBFFieldType.cs" />
+    <Compile Include="IO\DBF\DBFHeader.cs" />
+    <Compile Include="IO\DBF\DBFReader.cs" />
+    <Compile Include="IO\DBF\DBFWriter.cs" />
+    <Compile Include="IO\DBF\DBTHeader.cs" />
+    <Compile Include="IO\DBF\MemoValue.cs" />
+    <Compile Include="IO\DBF\Utils.cs" />
+    <Compile Include="IO\FileProvider.cs" />
+    <Compile Include="IO\FileProviderFactory.cs" />
+    <Compile Include="IO\IFileProvider.cs" />
+    <Compile Include="IO\IMatFileProvider.cs" />
+    <Compile Include="IO\IOProgessChanged.cs" />
+    <Compile Include="IO\ITimeSeriesFileProvider.cs" />
+    <Compile Include="Log\Log.cs" />
+    <Compile Include="Data\DataManagement\DataRepair.cs" />
+    <Compile Include="Data\DataManagement\IDataSeries.cs" />
+    <Compile Include="Data\Database\DBaseFactory.cs" />
+    <Compile Include="Data\DBFieldFormater.cs" />
+    <Compile Include="Data\EnumHelper.cs" />
+    <Compile Include="Data\Array\My2DMat.cs" />
+    <Compile Include="Data\Array\My3DMat.cs" />
+    <Compile Include="Data\Array\MyArray.cs" />
+    <Compile Include="Data\Database\OleDBase.cs" />
+    <Compile Include="Data\Database\OracleDbase.cs" />
+    <Compile Include="Data\Database\SqlServerDatabase.cs" />
+    <Compile Include="DataDriven\Schema\CalibrationDataSelection.cs" />
+    <Compile Include="DataDriven\Schema\CalibrationSchema.cs" />
+    <Compile Include="DataDriven\Schema\DiagramApplication.cs" />
+    <Compile Include="DataDriven\Schema\WorkSpaceManager.cs" />
+    <Compile Include="DataDriven\Schema\MultivariateAnalysisSchema.cs" />
+    <Compile Include="DataDriven\Schema\WorkSpaceSettings.cs" />
+    <Compile Include="Data\EnumTypeConverter.cs" />
+    <Compile Include="IO\DataCubeStreamReader.cs" />
+    <Compile Include="IO\FileHelper.cs" />
+    <Compile Include="Hydrology\BoundingBox.cs" />
+    <Compile Include="Hydrology\Grid.cs" />
+    <Compile Include="Hydrology\HRU.cs" />
+    <Compile Include="Hydrology\IrrigationDistrict.cs" />
+    <Compile Include="Data\TimeSeries\TimeRange.cs" />
+    <Compile Include="Interfaces\IApplication.cs" />
+    <Compile Include="Interfaces\ICalibratonDataSets.cs" />
+    <Compile Include="Interfaces\ICommand.cs" />
+    <Compile Include="Interfaces\IConceptualModel.cs" />
+    <Compile Include="Interfaces\IConfiguration.cs" />
+    <Compile Include="Interfaces\IDBase.cs" />
+    <Compile Include="Interfaces\IDiagram.cs" />
+    <Compile Include="Interfaces\IDiagramApplication.cs" />
+    <Compile Include="Interfaces\ILink.cs" />
+    <Compile Include="Interfaces\IListener.cs" />
+    <Compile Include="Interfaces\IModel.cs" />
+    <Compile Include="Interfaces\IMultivariateAnalysis.cs" />
+    <Compile Include="Interfaces\INormalizationModel.cs" />
+    <Compile Include="Interfaces\IObserver.cs" />
+    <Compile Include="Interfaces\ITimeSeriesTransform.cs" />
+    <Compile Include="Interfaces\IVariable.cs" />
+    <Compile Include="Data\Array\MyMath.cs" />
+    <Compile Include="MyMath\StatisticsInfo.cs" />
+    <Compile Include="MyMath\MyStatisticsMath.cs" />
+    <Compile Include="Data\SharedEnum.cs" />
+    <Compile Include="Interfaces\Track.cs" />
+    <Compile Include="IO\AcFile.cs" />
+    <Compile Include="IO\CSVFile.cs" />
+    <Compile Include="IO\IPointTimeSeriesSource.cs" />
+    <Compile Include="IO\MatrixTextStream.cs" />
+    <Compile Include="IO\PointTimeSeriesWriter.cs" />
+    <Compile Include="Data\MatrixCube.cs" />
+    <Compile Include="Hydrology\Reach.cs" />
+    <Compile Include="Hydrology\River.cs" />
+    <Compile Include="Hydrology\RiverNetwork.cs" />
+    <Compile Include="Hydrology\Wells.cs" />
+    <Compile Include="Data\MatrixExtension.cs" />
+    <Compile Include="Data\MatrixOperation.cs" />
+    <Compile Include="DataDriven\MoSCEModel.cs" />
+    <Compile Include="DataDriven\MoSCEModelParameter.cs" />
+    <Compile Include="DataDriven\ForecastingModel.cs" />
+    <Compile Include="DataDriven\GPModel.cs" />
+    <Compile Include="DataDriven\MLRModel.cs" />
+    <Compile Include="DataDriven\ModelTree.cs" />
+    <Compile Include="DataDriven\NeuronNetwork.cs" />
+    <Compile Include="DataDriven\ModelParameter.cs" />
+    <Compile Include="Data\ObjectCopier.cs" />
+    <Compile Include="Data\Configuration.cs" />
+    <Compile Include="Data\DataManagement\ODMDataAdaptor.cs" />
+    <Compile Include="Data\DataManagement\RangeNormalization.cs" />
+    <Compile Include="Data\DataManagement\TimeSerisAnalysis.cs" />
+    <Compile Include="Hydrology\HydroArea.cs" />
+    <Compile Include="Hydrology\Basin.cs" />
+    <Compile Include="Hydrology\HydroFeature.cs" />
+    <Compile Include="Hydrology\DrainageTable.cs" />
+    <Compile Include="Hydrology\HydroFeatureFactory.cs" />
+    <Compile Include="Hydrology\HydroLine.cs" />
+    <Compile Include="Hydrology\HydroNetwork.cs" />
+    <Compile Include="Hydrology\HydroPoint.cs" />
+    <Compile Include="DataDriven\ModelFactory.cs" />
+    <Compile Include="DataDriven\Schema\DiagramSchema.cs" />
+    <Compile Include="DataDriven\Schema\VirtualVariable.cs" />
+    <Compile Include="DataDriven\ANNParameter.cs" />
+    <Compile Include="DataDriven\BpANNModel.cs" />
+    <Compile Include="DataDriven\ModelEnum.cs" />
+    <Compile Include="DataDriven\ComponentRunEpochEventArgs.cs" />
+    <Compile Include="DataDriven\SOMModel.cs" />
+    <Compile Include="DataDriven\SOMParameter.cs" />
+    <Compile Include="DataDriven\SVMModel.cs" />
+    <Compile Include="Data\DataManagement\DataSetsSelection.cs" />
+    <Compile Include="Data\DataManagement\ForecastingDataSets.cs" />
+    <Compile Include="Data\DataManagement\NumericalTimeSeries.cs" />
+    <Compile Include="DataDriven\Schema\PredicationSchema.cs" />
+    <Compile Include="Data\PrograssEvent.cs" />
+    <Compile Include="PlugIn\IDrawArgs.cs" />
+    <Compile Include="PlugIn\Plugin.cs" />
+    <Compile Include="PlugIn\PluginCompiler.cs" />
+    <Compile Include="PlugIn\PluginInfo.cs" />
+    <Compile Include="PlugIn\Widgets.Interfaces.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Data\DataManagement\TimeSeriesQueryCriteria.cs" />
+    <Compile Include="Utility\RegisterOperator.cs" />
+    <Compile Include="Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="IO\StreamReaderSequence.cs" />
+    <Compile Include="Data\TypeConverterEx.cs" />
+    <Compile Include="Data\Units.cs" />
+    <Compile Include="Data\Variable.cs" />
+    <Compile Include="Data\TypeConverter.cs" />
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\Excel\packages.config" />
+    <None Include="Heiflow.Core.licenseheader" />
+    <None Include="vhf.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Heiflow.AI\Heiflow.AI.csproj">
+      <Project>{a022b559-ab8a-4130-98ac-70a68b217c80}</Project>
+      <Name>Heiflow.AI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UI\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

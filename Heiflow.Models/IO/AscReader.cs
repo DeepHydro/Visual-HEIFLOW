@@ -1,0 +1,209 @@
+﻿// THIS FILE IS PART OF Visual HEIFLOW
+// THIS PROGRAM IS NOT FREE SOFTWARE. 
+// Copyright (c) 2015-2017 Yong Tian, SUSTech, Shenzhen, China. All rights reserved.
+// Email: tiany@sustc.edu.cn
+// Web: http://ese.sustc.edu.cn/homepage/index.aspx?lid=100000005794726
+using Heiflow.Core.Data;
+using Heiflow.Models.Generic;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+using Heiflow.Core.IO;
+
+namespace Heiflow.Models.IO
+{
+    public class AscReader : FileProvider
+    {
+        public AscReader()
+        {
+            Extension = ".asc";
+            FileTypeDescription = "ASC file";
+        }
+ 
+        public float NoDataValue
+        {
+            get;
+            set;
+        }
+
+        public float CellSize
+        {
+            get;
+            private set;
+        }
+
+        public string[] Variables
+        {
+            get;
+            private set;
+        }
+
+        public override void Initialize()
+        {
+            FileTypeDescription = "2d array file";
+            Extension = ".asc";
+        }
+ 
+        /// <summary>
+        /// load 2d mat
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public My2DMat<float> Load(string filename)
+        {
+            Variables = new string[] { Path.GetFileNameWithoutExtension(filename) };
+            FileName = filename;
+            My2DMat<float> mat = null;
+
+            StreamReader sr = new StreamReader(FileName);
+            string line = sr.ReadLine();
+            var temp = TypeConverterEx.Split<string>(line);
+            int ncol = int.Parse(temp[1]);
+            line = sr.ReadLine();
+            temp = TypeConverterEx.Split<string>(line);
+            int nrow = int.Parse(temp[1]);
+
+            line = sr.ReadLine();
+            line = sr.ReadLine();
+            line = sr.ReadLine();
+            temp = TypeConverterEx.Split<string>(line);
+            CellSize = float.Parse(temp[1]);
+
+            line = sr.ReadLine();
+            temp = TypeConverterEx.Split<string>(line);
+            NoDataValue = float.Parse(temp[1]);
+            mat = new My2DMat<float>(nrow, ncol);
+
+            for (int i = 0; i < nrow; i++)
+            {
+                line = sr.ReadLine();
+                var buf = TypeConverterEx.Split<float>(line);
+                for (int j = 0; j < ncol; j++)
+                {
+                    mat[i, j, MyMath.none] = buf[j];
+                }
+            }
+            sr.Close();
+            return mat;
+        }
+
+        public float[] LoadSerial(string filename, object arg)
+        {
+            Variables = new string[] { Path.GetFileNameWithoutExtension(filename) };
+            FileName = filename;
+
+            StreamReader sr = new StreamReader(FileName);
+            string line = sr.ReadLine();
+            var temp = TypeConverterEx.Split<string>(line);
+            int ncol = int.Parse(temp[1]);
+            line = sr.ReadLine();
+            temp = TypeConverterEx.Split<string>(line);
+            int nrow = int.Parse(temp[1]);
+
+            line = sr.ReadLine();
+            line = sr.ReadLine();
+            line = sr.ReadLine();
+            temp = TypeConverterEx.Split<string>(line);
+            CellSize = float.Parse(temp[1]);
+
+            line = sr.ReadLine();
+            temp = TypeConverterEx.Split<string>(line);
+            NoDataValue = float.Parse(temp[1]);
+            List<float> list = new List<float>();
+
+            if (arg == null)
+            {          
+                for (int i = 0; i < nrow; i++)
+                {
+                    line = sr.ReadLine();
+                    var buf = TypeConverterEx.Split<float>(line);
+                    for (int j = 0; j < ncol; j++)
+                    {
+                        if (buf[j] != NoDataValue)
+                            list.Add(buf[j]);
+                    }
+                }
+            }
+            else if (arg is IRegularGrid)
+            {
+                var grid = arg as IRegularGrid;
+                for (int i = 0; i < nrow; i++)
+                {
+                    line = sr.ReadLine();
+                    var buf = TypeConverterEx.Split<float>(line);
+                    for (int j = 0; j < ncol; j++)
+                    {
+                        if (grid.IBound[0, i, j] != 0)
+                        {
+                            list.Add(buf[j]);
+                        }
+                    }
+                }
+            }
+            list.Clear();
+            sr.Close();
+            return list.ToArray();
+        }
+
+        public My3DMat<float> LoadSerial(string filename, int nrow, int ncol)
+        {
+            Variables = new string[] { Path.GetFileNameWithoutExtension(filename) };
+            FileName = filename;
+            StreamReader sr = new StreamReader(FileName);
+            List<float> list = new List<float>();
+            string line = "";
+
+            for (int i = 0; i < nrow; i++)
+            {
+                line = sr.ReadLine();
+                var buf = TypeConverterEx.Split<float>(line);
+                for (int j = 0; j < ncol; j++)
+                {
+                    if (buf[j] != NoDataValue)
+                        list.Add(buf[j]);
+                }
+            }
+
+            var mat=new float[1][][];
+            mat[0] = new float[1][];
+            mat[0][0] = list.ToArray();
+           var array = new My3DMat<float>(mat);
+
+            list.Clear();
+            sr.Close();
+            return array;
+        }
+
+        public My3DMat<float> Load(string filename, My3DMat<float> ibound)
+        {
+            Variables = new string[] { Path.GetFileNameWithoutExtension(filename) };
+            FileName = filename;
+
+            StreamReader sr = new StreamReader(FileName);
+            List<float> list = new List<float>();
+            string line = "";
+
+            for (int i = 0; i < ibound.Size[0]; i++)
+            {
+                line = sr.ReadLine();
+                var buf = TypeConverterEx.Split<float>(line);
+                for (int j = 0; j < ibound.Size[1]; j++)
+                {
+                    if (ibound[i, j, 0] != 0)
+                        list.Add(buf[j]);
+                }
+            }
+            var mat = new float[1][][];
+            mat[0] = new float[1][];
+            mat[0][0] = list.ToArray();
+            var array = new My3DMat<float>(mat);
+
+            list.Clear();
+            sr.Close();
+            return array;
+        }
+    }
+}

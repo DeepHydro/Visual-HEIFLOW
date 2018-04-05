@@ -1,0 +1,249 @@
+﻿// THIS FILE IS PART OF Visual HEIFLOW
+// THIS PROGRAM IS NOT FREE SOFTWARE. 
+// Copyright (c) 2015-2017 Yong Tian, SUSTech, Shenzhen, China. All rights reserved.
+// Email: tiany@sustc.edu.cn
+// Web: http://ese.sustc.edu.cn/homepage/index.aspx?lid=100000005794726
+using Heiflow.Core;
+using Heiflow.Core.Data;
+using Heiflow.Core.Data.ODM;
+using Heiflow.Models.Generic;
+using Heiflow.Models.Tools;
+using MathNet.Numerics.Statistics;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Serialization;
+
+namespace Heiflow.Tools.Math
+{
+    [Serializable]
+    public class Deviation : ModelTool
+    {
+        
+        public Deviation()
+        {
+            Name = "Deviation";
+            Category = "Math";
+            Description = "Constrain deviation to a given inteval";
+            Version = "1.0.0.0";
+            Output = "newmat";
+            this.Author = "Yong Tian";
+            MaxPositiveDeviation = 10;
+            MinPositiveDeviation = -10;
+            NeighborCount = 3;
+            MaxPositiveDepth = 20;
+        }
+ 
+        [Category("Input")]
+        [Description("The input matrix which should be [0][-1][-1]")]
+        public string Source
+        {
+            get;
+            set;
+        }
+
+        [Category("Output")]
+        [Description("The output matrix name")]
+        public string Output
+        {
+            get;
+            set;
+        }
+
+        public float MaxPositiveDeviation
+        {
+            get;
+            set;
+        }
+
+        public float MinPositiveDeviation
+        {
+            get;
+            set;
+        }
+
+        public float MaxPositiveDepth
+        {
+            get;
+            set;
+        }
+
+        public int NeighborCount
+        {
+            get;
+            set;
+        }
+
+        public override void Initialize()
+        {
+            var m1 = Validate(Source);
+            this.Initialized = m1;
+        }
+
+        public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
+        {
+            var var_index = 0;
+            var mat = Get3DMat(Source, ref var_index);
+            double prg = 0;
+            var grid = ProjectService.Project.Model.Grid as RegularGrid;
+
+            if (mat != null && grid != null)
+            {
+                int nstep = mat.Size[1];
+                int ncell = mat.Size[2];
+
+                var mat_out = new My3DMat<float>(1, nstep, ncell);
+                mat_out.Name = Output;
+                mat_out.Variables = mat.Variables;
+                mat_out.DateTimes = mat.DateTimes;
+                mat.CopyTo(mat_out);
+                List<float[]> neibor = new List<float[]>();
+                int num_dep_modified = 0;
+                int num_head_modified = 0;
+                int num_no_neighbor_found = 0;
+                for (int c = 0; c < ncell; c++)
+                {
+                    var vec = mat.GetVector(var_index,MyMath.full, c);
+                    var buf = (from vv in vec select vv - grid.Elevations.Value[0][0][c]).ToArray();
+                    var max = buf.Maximum();
+                    if(max > MaxPositiveDepth)
+                    {
+                        var scale = max / MaxPositiveDepth;
+                        for (int i = 0; i < nstep; i++)
+                        {
+                            if (buf[i] > 0)
+                            {
+                                buf[i] /= scale;
+                                mat_out.Value[var_index][i][c] = grid.Elevations.Value[0][0][c] + buf[i];
+                            }                  
+                        }
+                        num_dep_modified++;
+                    }
+                }
+
+                for (int c = 0; c < ncell; c++)
+                {
+                    var vec = mat_out.GetVector(var_index,MyMath.full, c);
+                    var buf = (from vv in vec select vv - vec[0]).ToArray();
+                    var max = buf.Maximum();
+                    var min = buf.Minimum();
+                    bool modify = false;
+                    if (max > MaxPositiveDeviation)
+                    {
+                        var scale = max / MaxPositiveDeviation;
+                        for (int i = 1; i < nstep; i++)
+                        {
+                            if (buf[i] > 0)
+                            {
+                                buf[i] /= scale;
+                            }
+                        }
+                        modify = true;
+                    }
+
+                    if (min < MinPositiveDeviation)
+                    {
+                        var scale = min / MinPositiveDeviation;
+                        for (int i = 1; i < nstep; i++)
+                        {
+                            if (buf[i] < 0)
+                            {
+                                buf[i] /= scale;
+                            }
+                        }
+                        modify = true;
+                    }
+
+                    if (modify)
+                    {
+                        //var cell_id = grid.Topology.ActiveCellIDs[c];
+                        int[] loc = grid.Topology.ActiveCell[c];
+                        neibor.Clear();
+                        for (int ii = loc[0] - NeighborCount; ii <= loc[0] + NeighborCount; ii++)
+                        {
+                            for (int jj = loc[1] - NeighborCount; jj <= loc[1] + NeighborCount; jj++)
+                            {
+                                if (ii >= 0 && ii < grid.RowCount && jj >= 0 && jj < grid.ColumnCount && grid.IBound.Value[0][ii][jj] > 0)
+                                {
+                                    var cell_index = grid.Topology.GetSerialIndex(ii, jj);
+                                    if (!RequireModify(mat_out, var_index, cell_index))
+                                    {
+                                        var neibor_vec = mat_out.GetVector(var_index, MyMath.full, cell_index);
+                                        var buf_nei = (from vv in neibor_vec select vv - neibor_vec[0]).ToArray();
+                                        neibor.Add(buf_nei);
+                                    }
+                                }
+                            }
+                        }
+                        if (neibor.Count > 0)
+                        {
+                            for (int i = 1; i < nstep; i++)
+                            {
+                               // float av_value = 0;
+                                var sds = (from vv in neibor select vv.StandardDeviation()).ToArray();
+                                var min_sd = sds.Min();
+                                var min_sd_index = 0;
+                                for (int n = 0; n < sds.Count(); n++)
+                                {
+                                    if (min_sd == sds[n])
+                                    {
+                                        min_sd_index = n;
+                                        break;
+                                    }
+                                }
+                                //foreach (var ss in neibor)
+                                //{
+                                //    av_value += ss[i];
+                                //}
+                                //av_value /= neibor.Count;
+                                //mat_out.Value[var_index][i][c] = mat_out.Value[var_index][0][c] + av_value;
+                                mat_out.Value[var_index][i][c] = mat_out.Value[var_index][0][c] + neibor[min_sd_index][i];
+                            }
+                        }
+                        else
+                        {
+                            for (int i = 1; i < nstep; i++)
+                            {
+                                vec[i] = vec[0] + buf[i] * 0.5f;
+                                mat_out.Value[var_index][i][c] = vec[i];
+                            }
+                            num_no_neighbor_found++;
+                        }
+                        num_head_modified++;
+                    }
+
+                    prg = (c + 1) * 100.0 / ncell;
+                    if (prg % 10 == 0)
+                        cancelProgressHandler.Progress("Package_Tool", (int)prg, "Caculating Cell: " + (c + 1));
+                }
+                cancelProgressHandler.Progress("Package_Tool", 100, string.Format(" \num_dep_modified: {0};\n num_head_modified: {1};\n num_no_neighbor_found:{2}",
+                    num_dep_modified, num_head_modified, num_no_neighbor_found));
+
+                Workspace.Add(mat_out);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool RequireModify(My3DMat<float> mat, int var_index, int c)
+        {
+            var modify = false;
+            var vec = mat.GetVector(var_index, MyMath.full, c);
+            var buf = (from vv in vec select vv - vec[0]).ToArray();
+            var max = buf.Maximum();
+            var min = buf.Minimum();
+            if (max > MaxPositiveDeviation || min < MinPositiveDeviation)
+            {
+
+                modify = true;
+            }
+            return modify;
+        }
+    }
+}

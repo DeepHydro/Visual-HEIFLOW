@@ -1,0 +1,430 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{28E79461-3161-4130-81B0-2C36CD3A3315}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Heiflow.Models</RootNamespace>
+    <AssemblyName>Heiflow.Models</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\bin\Debug\Application Extensions\VHF\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>vhf.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DotSpatial.Controls, Version=1.7.0.0, Culture=neutral, PublicKeyToken=4d9e49339a7d240c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="DotSpatial.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c29dbf30e059ca9d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="DotSpatial.GeoAPI, Version=1.7.4.0, Culture=neutral, PublicKeyToken=a1a0da7def465678, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.GeoAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="DotSpatial.Modeling.Forms, Version=1.7.0.0, Culture=neutral, PublicKeyToken=712bef29a31a9354, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Modeling.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="DotSpatial.NetTopologySuite, Version=1.14.2.0, Culture=neutral, PublicKeyToken=f580a05016ebada1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.NetTopologySuite.dll</HintPath>
+    </Reference>
+    <Reference Include="DotSpatial.Projections, Version=2.0.0.0, Culture=neutral, PublicKeyToken=272632bddd08a38b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Projections.dll</HintPath>
+    </Reference>
+    <Reference Include="DotSpatial.Symbology, Version=1.7.0.0, Culture=neutral, PublicKeyToken=6178c08da7998387, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Symbology.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.5.452, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Debug\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ILNumerics, Version=3.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\External Libraries\ILNumerics_CommunityEdition_v3.2.2.0\bin\Debug\ILNumerics.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Serialization" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WpfApplicationFramework, Version=3.2.0.450, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\External Libraries\WpfApplicationFramework\WpfApplicationFramework\Output\Debug\WpfApplicationFramework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Atmosphere\UnitConversion.cs" />
+    <Compile Include="Generic\Attributes\ArealProperty.cs" />
+    <Compile Include="Generic\Attributes\CoverageItem.cs" />
+    <Compile Include="Generic\Attributes\PackageCategory.cs" />
+    <Compile Include="Generic\Attributes\SimplePropertyInfo.cs" />
+    <Compile Include="Generic\Attributes\VariablesFolderItem.cs" />
+    <Compile Include="Generic\Attributes\DynamicVariableItem.cs" />
+    <Compile Include="Generic\Attributes\DisplayablePropertyItem.cs" />
+    <Compile Include="Generic\Attributes\ExplorerItem.cs" />
+    <Compile Include="Generic\Attributes\GHMPackageItem.cs" />
+    <Compile Include="Generic\Attributes\DataPackageCollectionItem.cs" />
+    <Compile Include="Generic\Attributes\IExplorerItem.cs" />
+    <Compile Include="Generic\Attributes\MapLayerItem.cs" />
+    <Compile Include="Generic\Attributes\MMSPackageItem.cs" />
+    <Compile Include="Generic\Attributes\ModelItem.cs" />
+    <Compile Include="Generic\Attributes\StaticVariableItem.cs" />
+    <Compile Include="Generic\Attributes\PackageOptionalViewItem.cs" />
+    <Compile Include="Generic\Attributes\PackageItem.cs" />
+    <Compile Include="Generic\Attributes\TimeSeriesPackageItem.cs" />
+    <Compile Include="Generic\Attributes\FileMonitorItem.cs" />
+    <Compile Include="Generic\Attributes\VariableItem.cs" />
+    <Compile Include="Generic\Delegates.cs" />
+    <Compile Include="Generic\Enums.cs" />
+    <Compile Include="Generic\Grid\CellSite.cs" />
+    <Compile Include="Generic\Grid\GridFileFactory.cs" />
+    <Compile Include="Generic\Grid\ICell.cs" />
+    <Compile Include="Generic\Grid\IGridFileFactory.cs" />
+    <Compile Include="Generic\Grid\IGridGenerator.cs" />
+    <Compile Include="Generic\Grid\IGridRenderFactory.cs" />
+    <Compile Include="Generic\Grid\ITriangularGrid.cs" />
+    <Compile Include="Generic\Grid\ITriGridTopology.cs" />
+    <Compile Include="Generic\Grid\RegularGridGenerator.cs" />
+    <Compile Include="Generic\Grid\TriGridTopology.cs" />
+    <Compile Include="Generic\Grid\TriangularGrid.cs" />
+    <Compile Include="Generic\Grid\GridRenderFactory.cs" />
+    <Compile Include="Generic\IGridService.cs" />
+    <Compile Include="Generic\ITimeService.cs" />
+    <Compile Include="IO\SecurityFile.cs" />
+    <Compile Include="Running\ProgressChangedArgs.cs" />
+    <Compile Include="Subsurface\OpenModflowProjectFileProvider.cs" />
+    <Compile Include="Generic\TimeService.cs" />
+    <Compile Include="Generic\ModelService.cs" />
+    <Compile Include="Generic\Packages\FeatureElement.cs" />
+    <Compile Include="Generic\Packages\DataPackageCollection.cs" />
+    <Compile Include="Generic\Packages\ISitesProvider.cs" />
+    <Compile Include="Generic\Packages\PackageFeatureField.cs" />
+    <Compile Include="Generic\Packages\PackageInfo.cs" />
+    <Compile Include="Generic\Parameters\FeatureCoverage.cs" />
+    <Compile Include="Generic\Parameters\IValueMapping.cs" />
+    <Compile Include="Generic\Parameters\PackageCoverage.cs" />
+    <Compile Include="Generic\Parameters\RasterCoverage.cs" />
+    <Compile Include="Generic\Project\BaseProject.cs" />
+    <Compile Include="Generic\Project\IImportProperty.cs" />
+    <Compile Include="Integration\OpenGsflowProjectFileProvider.cs" />
+    <Compile Include="GeoSpatial\MapHelper.cs" />
+    <Compile Include="GeoSpatial\RasterEx.cs" />
+    <Compile Include="Integration\GsflowProject.cs" />
+    <Compile Include="Integration\HeiflowProject.cs" />
+    <Compile Include="IO\ArrayWatcher.cs" />
+    <Compile Include="IO\ArrayWatchObject.cs" />
+    <Compile Include="IO\AscWriter.cs" />
+    <Compile Include="IO\CBCFile.cs" />
+    <Compile Include="IO\ConsoleAutomator.cs" />
+    <Compile Include="IO\ConsoleAutomatorBase.cs" />
+    <Compile Include="IO\enums.cs" />
+    <Compile Include="IO\MFListWatcher.cs" />
+    <Compile Include="IO\MmsParameterFile.cs" />
+    <Compile Include="Subsurface\Packages\SubOutputPackage.cs" />
+    <Compile Include="Subsurface\Packages\SUBPackage.cs" />
+    <Compile Include="Subsurface\Packages\PCGPackage.cs" />
+    <Compile Include="Surface\PRMS\PRMSDataPackage.cs" />
+    <Compile Include="IO\TxtWatcher.cs" />
+    <Compile Include="IO\CSVWatcher.cs" />
+    <Compile Include="IO\FHDFile.cs" />
+    <Compile Include="IO\IArrayWatcher.cs" />
+    <Compile Include="IO\IConsoleAutomator.cs" />
+    <Compile Include="IO\IWatcher.cs" />
+    <Compile Include="IO\MergeACFile.cs" />
+    <Compile Include="Generic\Project\IProject.cs" />
+    <Compile Include="Generic\Project\IProjectSerialization.cs" />
+    <Compile Include="Integration\OpenHeiflowProjectFileProvider.cs" />
+    <Compile Include="Generic\Project\PackageChangeTracker.cs" />
+    <Compile Include="Generic\Project\ProjectChangeTracker.cs" />
+    <Compile Include="Generic\Project\ProjectSerialization.cs" />
+    <Compile Include="Generic\Project\SaveProjectFileProvider.cs" />
+    <Compile Include="IO\MMSDataFile.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Running\IrrigationMonitor.cs" />
+    <Compile Include="Running\MFMonitor.cs" />
+    <Compile Include="Running\MonitorItemCollection.cs" />
+    <Compile Include="Running\SequenceMonitorItem.cs" />
+    <Compile Include="Running\BudgetComponentMonitor.cs" />
+    <Compile Include="Running\AggregatedMonitorItem.cs" />
+    <Compile Include="Subsurface\mfenums.cs" />
+    <Compile Include="Subsurface\MFNameManager.cs" />
+    <Compile Include="Subsurface\ModflowService.cs" />
+    <Compile Include="Subsurface\Packages\ESFR.cs" />
+    <Compile Include="Subsurface\Packages\HeadObservation.cs" />
+    <Compile Include="Subsurface\Packages\HOBOutputPackage.cs" />
+    <Compile Include="Subsurface\Packages\HOBPackage.cs" />
+    <Compile Include="Subsurface\Packages\IMFDataPackage.cs" />
+    <Compile Include="Subsurface\Packages\IMFPackage.cs" />
+    <Compile Include="Subsurface\Packages\LakePackage.cs" />
+    <Compile Include="Subsurface\Packages\LAKOutputPackage.cs" />
+    <Compile Include="Subsurface\Packages\LayerGroup.cs" />
+    <Compile Include="Subsurface\Packages\LayerGroupManager.cs" />
+    <Compile Include="Subsurface\Packages\OCPackage.cs" />
+    <Compile Include="IO\WatchDirectory.cs" />
+    <Compile Include="IO\WatcherBase.cs" />
+    <Compile Include="IO\WatchObject.cs" />
+    <Compile Include="Running\BasinBudgetMonitor.cs" />
+    <Compile Include="Running\IFileMonitor.cs" />
+    <Compile Include="Running\IMonitorItem.cs" />
+    <Compile Include="Running\IRunningWorker.cs" />
+    <Compile Include="Running\FileMonitor.cs" />
+    <Compile Include="Running\MonitorItem.cs" />
+    <Compile Include="Running\RunningWorker.cs" />
+    <Compile Include="Subsurface\ModflowProject.cs" />
+    <Compile Include="Subsurface\Packages\MFOutputPackage.cs" />
+    <Compile Include="Subsurface\Packages\SFRInputPackage.cs" />
+    <Compile Include="Subsurface\Packages\GAGEPackage.cs" />
+    <Compile Include="Subsurface\StepOption.cs" />
+    <Compile Include="Surface\MIKE\MikeShpProvider.cs" />
+    <Compile Include="GHM\RenderableModelLayer.cs" />
+    <Compile Include="GHM\Providers\AscGridProvider.cs" />
+    <Compile Include="GHM\RenderItem.cs" />
+    <Compile Include="GHM\TimeVariantItem.cs" />
+    <Compile Include="Generic\Packages\DataPackage.cs" />
+    <Compile Include="Generic\Packages\IDataPackage.cs" />
+    <Compile Include="Generic\Grid\IExtractRegularGrid.cs" />
+    <Compile Include="GHM\GHMPackage.cs" />
+    <Compile Include="GHM\GHMSerializer.cs" />
+    <Compile Include="GHM\Item.cs" />
+    <Compile Include="GHM\Member.cs" />
+    <Compile Include="Generic\SpatialReference.cs" />
+    <Compile Include="Generic\TimeReference.cs" />
+    <Compile Include="Surface\MIKE\MikeMeshProvider.cs" />
+    <Compile Include="Integration\GHMLoader.cs" />
+    <Compile Include="Subsurface\IExtractMFPackage.cs" />
+    <Compile Include="Visualization\I3DLayer.cs" />
+    <Compile Include="Visualization\I3DLayerRender.cs" />
+    <Compile Include="Generic\Packages\IPackageFileNameProvider.cs" />
+    <Compile Include="Generic\Packages\IRenderablePackage.cs" />
+    <Compile Include="Generic\Parameters\IPackageCoverage.cs" />
+    <Compile Include="Generic\Parameters\IAssignParameter.cs" />
+    <Compile Include="Integration\HeiflowLoader.cs" />
+    <Compile Include="Generic\Project\IModelLoader.cs" />
+    <Compile Include="Subsurface\ModflowLoader.cs" />
+    <Compile Include="Subsurface\Packages\FHBPackage.cs" />
+    <Compile Include="Subsurface\MFFlowField.cs" />
+    <Compile Include="Subsurface\MFGrid.cs" />
+    <Compile Include="Subsurface\RegularGridTopology.cs" />
+    <Compile Include="Subsurface\MFPackage.cs" />
+    <Compile Include="Subsurface\MFPackFileNameProvider.cs" />
+    <Compile Include="Subsurface\MFWell.cs" />
+    <Compile Include="Subsurface\Packages\BASPackage.cs" />
+    <Compile Include="Subsurface\Packages\FHDPackage.cs" />
+    <Compile Include="Subsurface\Packages\CBCPackage.cs" />
+    <Compile Include="Subsurface\Packages\MFDataPackage.cs" />
+    <Compile Include="Subsurface\Packages\DISPackage.cs" />
+    <Compile Include="Subsurface\Packages\LPFPackage.cs" />
+    <Compile Include="Subsurface\Packages\UZFPackage.cs" />
+    <Compile Include="Subsurface\Packages\VelocityPackage.cs" />
+    <Compile Include="Subsurface\Packages\SFROutputPackage.cs" />
+    <Compile Include="Subsurface\Packages\SFRPackage.cs" />
+    <Compile Include="Subsurface\Packages\WELPackage.cs" />
+    <Compile Include="Subsurface\StreesPeriod.cs" />
+    <Compile Include="Generic\Project\BaseModel.cs" />
+    <Compile Include="Generic\Project\IIntegratedModel.cs" />
+    <Compile Include="Generic\Project\IntegratedModel.cs" />
+    <Compile Include="Generic\Parameters\ArrayParam.cs" />
+    <Compile Include="Generic\Parameters\Parameter.cs" />
+    <Compile Include="Generic\Parameters\SingleParam.cs" />
+    <Compile Include="Integration\HeiflowModel.cs" />
+    <Compile Include="Integration\MasterPackage.cs" />
+    <Compile Include="IO\AscReader.cs" />
+    <Compile Include="GHM\GHModel.cs" />
+    <Compile Include="Atmosphere\AirLongWaveRadiation.cs" />
+    <Compile Include="Atmosphere\PenmanMonteithET.cs" />
+    <Compile Include="Atmosphere\LongWaveRadiation.cs" />
+    <Compile Include="Atmosphere\Radiation.cs" />
+    <Compile Include="Atmosphere\ShortWaveRadiation.cs" />
+    <Compile Include="Atmosphere\SolarPostion.cs" />
+    <Compile Include="Atmosphere\SunEarth.cs" />
+    <Compile Include="Atmosphere\VaporPressure.cs" />
+    <Compile Include="Atmosphere\WaterLongWaveRadiation.cs" />
+    <Compile Include="Surface\PRMS\AnimationOutPackage.cs" />
+    <Compile Include="Surface\PRMS\ClimateDataPackage.cs" />
+    <Compile Include="Surface\PRMS\Cascade.cs" />
+    <Compile Include="Surface\PRMS\CRTProperty.cs" />
+    <Compile Include="Surface\PRMS\IMMSPackage.cs" />
+    <Compile Include="Surface\PRMS\PRMSDrivingDataPackage.cs" />
+    <Compile Include="Surface\PRMS\PRMSInputDataPackage.cs" />
+    <Compile Include="Surface\PRMS\PRMSOutputDataPackage.cs" />
+    <Compile Include="Surface\PRMS\PRMS.cs" />
+    <Compile Include="Generic\Grid\IRegularGrid.cs" />
+    <Compile Include="Generic\Project\IBasicModel.cs" />
+    <Compile Include="Generic\Packages\IPacakge.cs" />
+    <Compile Include="Generic\Parameters\IParameter.cs" />
+    <Compile Include="Generic\Grid\IGrid.cs" />
+    <Compile Include="Generic\Grid\IGridFileProvider.cs" />
+    <Compile Include="Subsurface\Modflow.cs" />
+    <Compile Include="Generic\Packages\Package.cs" />
+    <Compile Include="Generic\Project\IOpenProjectFileProvider.cs" />
+    <Compile Include="Generic\Project\ISaveProjectFileProvider.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Generic\Grid\RegularGrid.cs" />
+    <Compile Include="Surface\PRMS\MMSPackage.cs" />
+    <Compile Include="Tools\IMapLayerDescriptor.cs" />
+    <Compile Include="Tools\IMapLayerRequiredTool.cs" />
+    <Compile Include="Tools\IModelTool.cs" />
+    <Compile Include="Tools\IDataCubeWorkspace.cs" />
+    <Compile Include="Tools\IModelWorkspace.cs" />
+    <Compile Include="Tools\IWorkspaceView.cs" />
+    <Compile Include="Tools\MapLayerDescriptorConverter.cs" />
+    <Compile Include="Tools\MatMeta.cs" />
+    <Compile Include="Tools\DataCubeMeta.cs" />
+    <Compile Include="Tools\DataCubeWorkspace.cs" />
+    <Compile Include="Tools\ModelWorkspace.cs" />
+    <Compile Include="Tools\VariableMeta.cs" />
+    <Compile Include="UI\IChildView.cs" />
+    <Compile Include="UI\IPackageOptionalView.cs" />
+    <Compile Include="UI\IProgress.cs" />
+    <Compile Include="UI\IShowable.cs" />
+    <Compile Include="UI\MySeriesChartType.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Heiflow.Models.licenseheader" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="vhf.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Heiflow.Core\Heiflow.Core.csproj">
+      <Project>{e75a11b8-00a2-45de-a5e4-4b8180b5903c}</Project>
+      <Name>Heiflow.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Spatial\Heiflow.Spatial.csproj">
+      <Project>{2a3c4415-b678-4826-97d8-e25e6e63b088}</Project>
+      <Name>Heiflow.Spatial</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TableFolder16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RasterImageAnalysisPanSharpen16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RasterImageAnalysisPanSharpen32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ServiceWMSGroup16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ServiceWMSGroup32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mf32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mf16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RasterImageAnalysisDifference32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RasterImageAnalysisDifference16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pkg_File16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pkg_File32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CADFeatureClassMultiPatch32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CADFeatureClassMultiPatch16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MapPackageTiledTPKFile16.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

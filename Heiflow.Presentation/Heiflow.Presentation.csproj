@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{55D24EB1-96BB-4902-8240-E9019032DB93}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Heiflow.Presentation</RootNamespace>
+    <AssemblyName>Heiflow.Presentation</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>vhf.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DotSpatial.Controls, Version=2.0.0.0, Culture=neutral, PublicKeyToken=4d9e49339a7d240c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="DotSpatial.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c29dbf30e059ca9d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="DotSpatial.Modeling.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=712bef29a31a9354, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Modeling.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="DotSpatial.Symbology, Version=2.0.0.0, Culture=neutral, PublicKeyToken=6178c08da7998387, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Symbology.dll</HintPath>
+    </Reference>
+    <Reference Include="ILNumerics, Version=3.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Debug\ILNumerics.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WpfApplicationFramework, Version=3.2.0.450, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\External Libraries\WpfApplicationFramework\WpfApplicationFramework\Output\Debug\WpfApplicationFramework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Animation\D3DLayerAnimation.cs" />
+    <Compile Include="Animation\MapAnimation.cs" />
+    <Compile Include="Animation\SurfaceAnimation.cs" />
+    <Compile Include="Controls\ChildWindowNames.cs" />
+    <Compile Include="Controls\DockPanelNames.cs" />
+    <Compile Include="Controls\Enums.cs" />
+    <Compile Include="Controls\ExplorerMenuItem.cs" />
+    <Compile Include="Controls\Explorer\IMapLayerContextMenu.cs" />
+    <Compile Include="Controls\Explorer\IVariableContextMenu.cs" />
+    <Compile Include="Controls\Explorer\IModelContextMenu.cs" />
+    <Compile Include="Controls\Explorer\IPackageContextMemu.cs" />
+    <Compile Include="Controls\Explorer\IParameterContextMenu.cs" />
+    <Compile Include="Controls\IAnimationView.cs" />
+    <Compile Include="Controls\Explorer\IPEContextMenuFactory.cs" />
+    <Compile Include="Controls\ICoverageSetupView.cs" />
+    <Compile Include="Controls\Explorer\IExplorerNode.cs" />
+    <Compile Include="Controls\Explorer\IExplorerNodeCreator.cs" />
+    <Compile Include="Controls\Explorer\IExplorerNodeFactory.cs" />
+    <Compile Include="Controls\IModelTimeControl.cs" />
+    <Compile Include="Controls\IModelToolManager.cs" />
+    <Compile Include="Controls\ILookupTableView.cs" />
+    <Compile Include="Controls\Explorer\IPEContextMenu.cs" />
+    <Compile Include="Controls\IDataCubeEditor.cs" />
+    <Compile Include="Controls\IWinChartView.cs" />
+    <Compile Include="IConfigManager.cs" />
+    <Compile Include="Controls\IDataGridView.cs" />
+    <Compile Include="Controls\IModelSymbologyControl.cs" />
+    <Compile Include="Controls\INewProjectItemWindow.cs" />
+    <Compile Include="Controls\INewProjectWindow.cs" />
+    <Compile Include="Controls\IOptionControl.cs" />
+    <Compile Include="Controls\IOptionForm.cs" />
+    <Compile Include="Controls\IProgressView.cs" />
+    <Compile Include="IMyAppManager.cs" />
+    <Compile Include="IProjectController.cs" />
+    <Compile Include="Controls\Explorer\IProjectExplorer.cs" />
+    <Compile Include="Controls\IPropertyView.cs" />
+    <Compile Include="Controls\ISurfacePlotView.cs" />
+    <Compile Include="Services\IActiveDataService.cs" />
+    <Compile Include="Services\IFigureService.cs" />
+    <Compile Include="Services\IPackageService.cs" />
+    <Compile Include="Services\IPackageUIService.cs" />
+    <Compile Include="Services\IProjectService.cs" />
+    <Compile Include="Services\IShellService.cs" />
+    <Compile Include="Services\IMessageService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Services\IWindowService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Heiflow.Core\Heiflow.Core.csproj">
+      <Project>{e75a11b8-00a2-45de-a5e4-4b8180b5903c}</Project>
+      <Name>Heiflow.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Models\Heiflow.Models.csproj">
+      <Project>{28e79461-3161-4130-81b0-2c36cd3a3315}</Project>
+      <Name>Heiflow.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Heiflow.Presentation.licenseheader" />
+    <None Include="vhf.pfx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

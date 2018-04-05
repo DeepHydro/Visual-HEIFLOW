@@ -1,0 +1,20 @@
+E:\PKU\Program\VHF\Heiflow.Tools\obj\Debug\Heiflow.Tools.csprojResolveAssemblyReference.cache
+E:\PKU\Program\VHF\bin\Debug\Heiflow.Tools.dll
+E:\PKU\Program\VHF\bin\Debug\Heiflow.Tools.pdb
+E:\PKU\Program\VHF\Heiflow.Tools\obj\Debug\Heiflow.Tools.dll
+E:\PKU\Program\VHF\Heiflow.Tools\obj\Debug\Heiflow.Tools.pdb
+F:\System Development\HEIFLOW\VHF\Heiflow.Tools\obj\Debug\Heiflow.Tools.csprojResolveAssemblyReference.cache
+F:\System Development\HEIFLOW\VHF\Heiflow.Tools\obj\Debug\Heiflow.Tools.dll
+F:\System Development\HEIFLOW\VHF\Heiflow.Tools\obj\Debug\Heiflow.Tools.pdb
+F:\System Development\HEIFLOW\VHF\bin\Debug\Heiflow.Tools.dll
+F:\System Development\HEIFLOW\VHF\bin\Debug\Heiflow.Tools.pdb
+F:\System_Development\HEIFLOW\VHF\bin\Debug\Heiflow.Tools.dll
+F:\System_Development\HEIFLOW\VHF\bin\Debug\Heiflow.Tools.pdb
+F:\System_Development\HEIFLOW\VHF\Heiflow.Tools\obj\Debug\Heiflow.Tools.csprojResolveAssemblyReference.cache
+F:\System_Development\HEIFLOW\VHF\Heiflow.Tools\obj\Debug\Heiflow.Tools.dll
+F:\System_Development\HEIFLOW\VHF\Heiflow.Tools\obj\Debug\Heiflow.Tools.pdb
+F:\System\HEIFLOW\VHF\bin\Debug\Heiflow.Tools.dll
+F:\System\HEIFLOW\VHF\bin\Debug\Heiflow.Tools.pdb
+F:\System\HEIFLOW\VHF\Heiflow.Tools\obj\Debug\Heiflow.Tools.csprojResolveAssemblyReference.cache
+F:\System\HEIFLOW\VHF\Heiflow.Tools\obj\Debug\Heiflow.Tools.dll
+F:\System\HEIFLOW\VHF\Heiflow.Tools\obj\Debug\Heiflow.Tools.pdb

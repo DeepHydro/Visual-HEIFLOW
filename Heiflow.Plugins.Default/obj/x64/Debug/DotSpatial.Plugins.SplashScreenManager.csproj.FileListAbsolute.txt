@@ -1,0 +1,10 @@
+E:\PKU\Program\VHF\bin\debug\Application Extensions\SplashScreenManager\DotSpatial.Plugins.SplashScreenManager.dll.config
+E:\PKU\Program\VHF\bin\debug\Application Extensions\SplashScreenManager\DotSpatial.Plugins.SplashScreenManager.dll
+E:\PKU\Program\VHF\bin\debug\Application Extensions\SplashScreenManager\DotSpatial.Plugins.SplashScreenManager.pdb
+E:\PKU\Program\VHF\DotSpatial.Plugins.SplashScreenManager\obj\x64\Debug\DotSpatial.Plugins.SplashScreenManager.csprojResolveAssemblyReference.cache
+E:\PKU\Program\VHF\DotSpatial.Plugins.SplashScreenManager\obj\x64\Debug\DotSpatial.Plugins.SplashScreenManager.BrandedSplashScreen.resources
+E:\PKU\Program\VHF\DotSpatial.Plugins.SplashScreenManager\obj\x64\Debug\DotSpatial.Plugins.SplashScreenManager.Properties.Resources.resources
+E:\PKU\Program\VHF\DotSpatial.Plugins.SplashScreenManager\obj\x64\Debug\DotSpatial.Plugins.SplashScreenManager.csproj.GenerateResource.Cache
+E:\PKU\Program\VHF\DotSpatial.Plugins.SplashScreenManager\obj\x64\Debug\DotSpatial.Plugins.SplashScreenManager.dll.licenses
+E:\PKU\Program\VHF\DotSpatial.Plugins.SplashScreenManager\obj\x64\Debug\DotSpatial.Plugins.SplashScreenManager.dll
+E:\PKU\Program\VHF\DotSpatial.Plugins.SplashScreenManager\obj\x64\Debug\DotSpatial.Plugins.SplashScreenManager.pdb

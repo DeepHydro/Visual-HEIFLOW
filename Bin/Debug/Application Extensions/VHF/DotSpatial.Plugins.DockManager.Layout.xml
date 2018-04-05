@@ -1,0 +1,686 @@
+﻿<XtraSerializer version="1.0" application="DockManager">
+  <property name="#LayoutVersion" />
+  <property name="AutoHideContainers" iskey="true" value="0" />
+  <property name="AutoHiddenPanelCaptionShowMode">ShowForAllPanels</property>
+  <property name="Panels" iskey="true" value="15">
+    <property name="Item1" isnull="true" iskey="true">
+      <property name="Visibility">Visible</property>
+      <property name="FloatLocation">@1,X=0@1,Y=0</property>
+      <property name="Dock">Fill</property>
+      <property name="XtraActiveChildID">-1</property>
+      <property name="Footer" />
+      <property name="Tabbed">false</property>
+      <property name="TabsPosition">Bottom</property>
+      <property name="TabsScroll">false</property>
+      <property name="ImageIndex">0</property>
+      <property name="XtraZIndex">0</property>
+      <property name="TabText" />
+      <property name="Hint" />
+      <property name="Text">Attribute Data Explorer</property>
+      <property name="OriginalSize">@3,Width=200@3,Height=830</property>
+      <property name="Options" isnull="true" iskey="true">
+        <property name="AllowFloating">true</property>
+        <property name="AllowDockLeft">true</property>
+        <property name="AllowDockRight">true</property>
+        <property name="AllowDockTop">true</property>
+        <property name="AllowDockBottom">true</property>
+        <property name="AllowDockFill">true</property>
+        <property name="AllowDockAsTabbedDocument">true</property>
+        <property name="ShowMaximizeButton">true</property>
+        <property name="ShowAutoHideButton">true</property>
+        <property name="ShowCloseButton">true</property>
+        <property name="FloatOnDblClick">true</property>
+      </property>
+      <property name="XtraParentID">9</property>
+      <property name="XtraSavedParentID">-1</property>
+      <property name="XtraAutoHideContainerDock">Float</property>
+      <property name="ID">c57e251f-26b1-c40f-87d2-5b81f6fcace2</property>
+      <property name="XtraID">0</property>
+      <property name="DockVertical">Default</property>
+      <property name="FloatVertical">false</property>
+      <property name="Header" />
+      <property name="XtraBounds">@1,X=0@1,Y=0@3,Width=200@3,Height=200</property>
+      <property name="Count">0</property>
+      <property name="SavedMdiDocument">false</property>
+      <property name="SavedDock">Float</property>
+      <property name="SavedTabbed">false</property>
+      <property name="SavedIndex">-1</property>
+      <property name="FloatSize">@3,Width=200@3,Height=200</property>
+    </property>
+    <property name="Item2" isnull="true" iskey="true">
+      <property name="Visibility">Hidden</property>
+      <property name="FloatLocation">@1,X=0@1,Y=0</property>
+      <property name="Dock">Fill</property>
+      <property name="XtraActiveChildID">-1</property>
+      <property name="Footer" />
+      <property name="Tabbed">false</property>
+      <property name="TabsPosition">Bottom</property>
+      <property name="TabsScroll">false</property>
+      <property name="ImageIndex">1</property>
+      <property name="XtraZIndex">-1</property>
+      <property name="TabText" />
+      <property name="Hint" />
+      <property name="Text">Animation</property>
+      <property name="OriginalSize">@3,Width=200@3,Height=565</property>
+      <property name="Options" isnull="true" iskey="true">
+        <property name="AllowFloating">true</property>
+        <property name="AllowDockLeft">true</property>
+        <property name="AllowDockRight">true</property>
+        <property name="AllowDockTop">true</property>
+        <property name="AllowDockBottom">true</property>
+        <property name="AllowDockFill">true</property>
+        <property name="AllowDockAsTabbedDocument">true</property>
+        <property name="ShowMaximizeButton">true</property>
+        <property name="ShowAutoHideButton">true</property>
+        <property name="ShowCloseButton">true</property>
+        <property name="FloatOnDblClick">true</property>
+      </property>
+      <property name="XtraParentID">-1</property>
+      <property name="XtraSavedParentID">9</property>
+      <property name="XtraAutoHideContainerDock">Float</property>
+      <property name="ID">a1388cfa-2a7c-9acc-e3e7-870217c552d5</property>
+      <property name="XtraID">1</property>
+      <property name="DockVertical">Default</property>
+      <property name="FloatVertical">false</property>
+      <property name="Header" />
+      <property name="XtraBounds">@1,X=4@2,Y=25@3,Width=206@3,Height=480</property>
+      <property name="Count">0</property>
+      <property name="SavedMdiDocument">false</property>
+      <property name="SavedDock">Fill</property>
+      <property name="SavedTabbed">true</property>
+      <property name="SavedIndex">1</property>
+      <property name="FloatSize">@3,Width=200@3,Height=200</property>
+    </property>
+    <property name="Item3" isnull="true" iskey="true">
+      <property name="Visibility">Hidden</property>
+      <property name="FloatLocation">@1,X=0@1,Y=0</property>
+      <property name="Dock">Fill</property>
+      <property name="XtraActiveChildID">-1</property>
+      <property name="Footer" />
+      <property name="Tabbed">false</property>
+      <property name="TabsPosition">Bottom</property>
+      <property name="TabsScroll">false</property>
+      <property name="ImageIndex">2</property>
+      <property name="XtraZIndex">-1</property>
+      <property name="TabText" />
+      <property name="Hint" />
+      <property name="Text">Database</property>
+      <property name="OriginalSize">@3,Width=200@3,Height=486</property>
+      <property name="Options" isnull="true" iskey="true">
+        <property name="AllowFloating">true</property>
+        <property name="AllowDockLeft">true</property>
+        <property name="AllowDockRight">true</property>
+        <property name="AllowDockTop">true</property>
+        <property name="AllowDockBottom">true</property>
+        <property name="AllowDockFill">true</property>
+        <property name="AllowDockAsTabbedDocument">true</property>
+        <property name="ShowMaximizeButton">true</property>
+        <property name="ShowAutoHideButton">true</property>
+        <property name="ShowCloseButton">true</property>
+        <property name="FloatOnDblClick">true</property>
+      </property>
+      <property name="XtraParentID">-1</property>
+      <property name="XtraSavedParentID">9</property>
+      <property name="XtraAutoHideContainerDock">Float</property>
+      <property name="ID">ead82f1e-f510-7e18-dfa0-8fc7651ffa98</property>
+      <property name="XtraID">2</property>
+      <property name="DockVertical">Default</property>
+      <property name="FloatVertical">false</property>
+      <property name="Header" />
+      <property name="XtraBounds">@1,X=4@2,Y=25@3,Width=206@3,Height=480</property>
+      <property name="Count">0</property>
+      <property name="SavedMdiDocument">false</property>
+      <property name="SavedDock">Fill</property>
+      <property name="SavedTabbed">true</property>
+      <property name="SavedIndex">1</property>
+      <property name="FloatSize">@3,Width=200@3,Height=200</property>
+    </property>
+    <property name="Item4" isnull="true" iskey="true">
+      <property name="Visibility">Hidden</property>
+      <property name="FloatLocation">@3,X=350@3,Y=250</property>
+      <property name="Dock">Float</property>
+      <property name="XtraActiveChildID">-1</property>
+      <property name="Footer" />
+      <property name="Tabbed">false</property>
+      <property name="TabsPosition">Bottom</property>
+      <property name="TabsScroll">false</property>
+      <property name="ImageIndex">3</property>
+      <property name="XtraZIndex">-1</property>
+      <property name="TabText" />
+      <property name="Hint" />
+      <property name="Text">Table View</property>
+      <property name="OriginalSize">@3,Width=200@3,Height=504</property>
+      <property name="Options" isnull="true" iskey="true">
+        <property name="AllowFloating">true</property>
+        <property name="AllowDockLeft">true</property>
+        <property name="AllowDockRight">true</property>
+        <property name="AllowDockTop">true</property>
+        <property name="AllowDockBottom">true</property>
+        <property name="AllowDockFill">true</property>
+        <property name="AllowDockAsTabbedDocument">true</property>
+        <property name="ShowMaximizeButton">true</property>
+        <property name="ShowAutoHideButton">true</property>
+        <property name="ShowCloseButton">true</property>
+        <property name="FloatOnDblClick">true</property>
+      </property>
+      <property name="XtraParentID">-1</property>
+      <property name="XtraSavedParentID">-1</property>
+      <property name="XtraAutoHideContainerDock">Float</property>
+      <property name="ID">c841bb04-222e-eb88-3996-71e2c2a2a6f6</property>
+      <property name="XtraID">3</property>
+      <property name="DockVertical">Default</property>
+      <property name="FloatVertical">false</property>
+      <property name="Header" />
+      <property name="XtraBounds">@11,X=-2147483648@11,Y=-2147483648@3,Width=200@3,Height=200</property>
+      <property name="Count">0</property>
+      <property name="SavedMdiDocument">false</property>
+      <property name="SavedDock">Float</property>
+      <property name="SavedTabbed">false</property>
+      <property name="SavedIndex">1</property>
+      <property name="FloatSize">@4,Width=1022@3,Height=504</property>
+    </property>
+    <property name="Item5" isnull="true" iskey="true">
+      <property name="Visibility">Hidden</property>
+      <property name="FloatLocation">@1,X=0@1,Y=0</property>
+      <property name="Dock">Fill</property>
+      <property name="XtraActiveChildID">-1</property>
+      <property name="Footer" />
+      <property name="Tabbed">false</property>
+      <property name="TabsPosition">Bottom</property>
+      <property name="TabsScroll">false</property>
+      <property name="ImageIndex">4</property>
+      <property name="XtraZIndex">-1</property>
+      <property name="TabText" />
+      <property name="Hint" />
+      <property name="Text">Data Cube Editor</property>
+      <property name="OriginalSize">@3,Width=200@3,Height=800</property>
+      <property name="Options" isnull="true" iskey="true">
+        <property name="AllowFloating">true</property>
+        <property name="AllowDockLeft">true</property>
+        <property name="AllowDockRight">true</property>
+        <property name="AllowDockTop">true</property>
+        <property name="AllowDockBottom">true</property>
+        <property name="AllowDockFill">true</property>
+        <property name="AllowDockAsTabbedDocument">true</property>
+        <property name="ShowMaximizeButton">true</property>
+        <property name="ShowAutoHideButton">true</property>
+        <property name="ShowCloseButton">true</property>
+        <property name="FloatOnDblClick">true</property>
+      </property>
+      <property name="XtraParentID">-1</property>
+      <property name="XtraSavedParentID">3</property>
+      <property name="XtraAutoHideContainerDock">Float</property>
+      <property name="ID">b23c0ebc-e572-9cca-23f1-4706cf640a6c</property>
+      <property name="XtraID">4</property>
+      <property name="DockVertical">Default</property>
+      <property name="FloatVertical">false</property>
+      <property name="Header" />
+      <property name="XtraBounds">@1,X=4@2,Y=25@4,Width=1014@3,Height=475</property>
+      <property name="Count">0</property>
+      <property name="SavedMdiDocument">false</property>
+      <property name="SavedDock">Fill</property>
+      <property name="SavedTabbed">true</property>
+      <property name="SavedIndex">1</property>
+      <property name="FloatSize">@4,Width=1300@3,Height=800</property>
+    </property>
+    <property name="Item6" isnull="true" iskey="true">
+      <property name="Visibility">Visible</property>
+      <property name="FloatLocation">@1,X=0@1,Y=0</property>
+      <property name="Dock">Fill</property>
+      <property name="XtraActiveChildID">-1</property>
+      <property name="Footer" />
+      <property name="Tabbed">false</property>
+      <property name="TabsPosition">Bottom</property>
+      <property name="TabsScroll">false</property>
+      <property name="ImageIndex">5</property>
+      <property name="XtraZIndex">0</property>
+      <property name="TabText" />
+      <property name="Hint" />
+      <property name="Text">Legend</property>
+      <property name="OriginalSize">@3,Width=200@3,Height=532</property>
+      <property name="Options" isnull="true" iskey="true">
+        <property name="AllowFloating">true</property>
+        <property name="AllowDockLeft">true</property>
+        <property name="AllowDockRight">true</property>
+        <property name="AllowDockTop">true</property>
+        <property name="AllowDockBottom">true</property>
+        <property name="AllowDockFill">true</property>
+        <property name="AllowDockAsTabbedDocument">true</property>
+        <property name="ShowMaximizeButton">true</property>
+        <property name="ShowAutoHideButton">true</property>
+        <property name="ShowCloseButton">true</property>
+        <property name="FloatOnDblClick">true</property>
+      </property>
+      <property name="XtraParentID">7</property>
+      <property name="XtraSavedParentID">-1</property>
+      <property name="XtraAutoHideContainerDock">Float</property>
+      <property name="ID">31a5e1f7-b290-4eba-5f7a-af005f603301</property>
+      <property name="XtraID">5</property>
+      <property name="DockVertical">Default</property>
+      <property name="FloatVertical">false</property>
+      <property name="Header" />
+      <property name="XtraBounds">@1,X=0@1,Y=0@3,Width=200@3,Height=200</property>
+      <property name="Count">0</property>
+      <property name="SavedMdiDocument">false</property>
+      <property name="SavedDock">Float</property>
+      <property name="SavedTabbed">false</property>
+      <property name="SavedIndex">-1</property>
+      <property name="FloatSize">@3,Width=200@3,Height=200</property>
+    </property>
+    <property name="Item7" isnull="true" iskey="true">
+      <property name="Visibility">Visible</property>
+      <property name="FloatLocation">@1,X=0@1,Y=0</property>
+      <property name="Dock">Fill</property>
+      <property name="XtraActiveChildID">-1</property>
+      <property name="Footer" />
+      <property name="Tabbed">false</property>
+      <property name="TabsPosition">Bottom</property>
+      <property name="TabsScroll">false</property>
+      <property name="ImageIndex">6</property>
+      <property name="XtraZIndex">1</property>
+      <property name="TabText" />
+      <property name="Hint" />
+      <property name="Text">Project</property>
+      <property name="OriginalSize">@3,Width=200@3,Height=652</property>
+      <property name="Options" isnull="true" iskey="true">
+        <property name="AllowFloating">true</property>
+        <property name="AllowDockLeft">true</property>
+        <property name="AllowDockRight">true</property>
+        <property name="AllowDockTop">true</property>
+        <property name="AllowDockBottom">true</property>
+        <property name="AllowDockFill">true</property>
+        <property name="AllowDockAsTabbedDocument">true</property>
+        <property name="ShowMaximizeButton">true</property>
+        <property name="ShowAutoHideButton">true</property>
+        <property name="ShowCloseButton">true</property>
+        <property name="FloatOnDblClick">true</property>
+      </property>
+      <property name="XtraParentID">7</property>
+      <property name="XtraSavedParentID">-1</property>
+      <property name="XtraAutoHideContainerDock">Float</property>
+      <property name="ID">137874c1-c766-256a-191c-fdb96bbf538e</property>
+      <property name="XtraID">6</property>
+      <property name="DockVertical">Default</property>
+      <property name="FloatVertical">false</property>
+      <property name="Header" />
+      <property name="XtraBounds">@1,X=0@1,Y=0@3,Width=200@3,Height=200</property>
+      <property name="Count">0</property>
+      <property name="SavedMdiDocument">false</property>
+      <property name="SavedDock">Float</property>
+      <property name="SavedTabbed">false</property>
+      <property name="SavedIndex">-1</property>
+      <property name="FloatSize">@3,Width=200@3,Height=200</property>
+    </property>
+    <property name="Item8" isnull="true" iskey="true">
+      <property name="Visibility">Visible</property>
+      <property name="FloatLocation">@1,X=0@1,Y=0</property>
+      <property name="Dock">Left</property>
+      <property name="XtraActiveChildID">5</property>
+      <property name="Footer" />
+      <property name="Tabbed">true</property>
+      <property name="TabsPosition">Bottom</property>
+      <property name="TabsScroll">false</property>
+      <property name="ImageIndex">5</property>
+      <property name="XtraZIndex">1</property>
+      <property name="TabText" />
+      <property name="Hint" />
+      <property name="Text">DockPanel</property>
+      <property name="OriginalSize">@3,Width=176@3,Height=200</property>
+      <property name="Options" isnull="true" iskey="true">
+        <property name="AllowFloating">true</property>
+        <property name="AllowDockLeft">true</property>
+        <property name="AllowDockRight">true</property>
+        <property name="AllowDockTop">true</property>
+        <property name="AllowDockBottom">true</property>
+        <property name="AllowDockFill">true</property>
+        <property name="AllowDockAsTabbedDocument">true</property>
+        <property name="ShowMaximizeButton">true</property>
+        <property name="ShowAutoHideButton">true</property>
+        <property name="ShowCloseButton">true</property>
+        <property name="FloatOnDblClick">true</property>
+      </property>
+      <property name="XtraParentID">-1</property>
+      <property name="XtraSavedParentID">-1</property>
+      <property name="XtraAutoHideContainerDock">Float</property>
+      <property name="ID">9854b243-ec44-41e3-8d58-715887d78ff0</property>
+      <property name="XtraID">7</property>
+      <property name="DockVertical">Default</property>
+      <property name="FloatVertical">false</property>
+      <property name="Header" />
+      <property name="XtraBounds">@1,X=0@3,Y=156@3,Width=176@3,Height=867</property>
+      <property name="Count">3</property>
+      <property name="SavedMdiDocument">false</property>
+      <property name="SavedDock">Float</property>
+      <property name="SavedTabbed">false</property>
+      <property name="SavedIndex">-1</property>
+      <property name="FloatSize">@3,Width=200@3,Height=200</property>
+    </property>
+    <property name="Item9" isnull="true" iskey="true">
+      <property name="Visibility">Visible</property>
+      <property name="FloatLocation">@1,X=0@1,Y=0</property>
+      <property name="Dock">Fill</property>
+      <property name="XtraActiveChildID">-1</property>
+      <property name="Footer" />
+      <property name="Tabbed">false</property>
+      <property name="TabsPosition">Bottom</property>
+      <property name="TabsScroll">false</property>
+      <property name="ImageIndex">7</property>
+      <property name="XtraZIndex">1</property>
+      <property name="TabText" />
+      <property name="Hint" />
+      <property name="Text">Property</property>
+      <property name="OriginalSize">@3,Width=200@3,Height=130</property>
+      <property name="Options" isnull="true" iskey="true">
+        <property name="AllowFloating">true</property>
+        <property name="AllowDockLeft">true</property>
+        <property name="AllowDockRight">true</property>
+        <property name="AllowDockTop">true</property>
+        <property name="AllowDockBottom">true</property>
+        <property name="AllowDockFill">true</property>
+        <property name="AllowDockAsTabbedDocument">true</property>
+        <property name="ShowMaximizeButton">true</property>
+        <property name="ShowAutoHideButton">true</property>
+        <property name="ShowCloseButton">true</property>
+        <property name="FloatOnDblClick">true</property>
+      </property>
+      <property name="XtraParentID">9</property>
+      <property name="XtraSavedParentID">-1</property>
+      <property name="XtraAutoHideContainerDock">Float</property>
+      <property name="ID">89d85b79-5967-ae94-0170-c2bd89da7a1b</property>
+      <property name="XtraID">8</property>
+      <property name="DockVertical">Default</property>
+      <property name="FloatVertical">false</property>
+      <property name="Header" />
+      <property name="XtraBounds">@1,X=0@1,Y=0@3,Width=200@3,Height=200</property>
+      <property name="Count">0</property>
+      <property name="SavedMdiDocument">false</property>
+      <property name="SavedDock">Float</property>
+      <property name="SavedTabbed">false</property>
+      <property name="SavedIndex">-1</property>
+      <property name="FloatSize">@3,Width=200@3,Height=200</property>
+    </property>
+    <property name="Item10" isnull="true" iskey="true">
+      <property name="Visibility">Visible</property>
+      <property name="FloatLocation">@1,X=0@1,Y=0</property>
+      <property name="Dock">Right</property>
+      <property name="XtraActiveChildID">0</property>
+      <property name="Footer" />
+      <property name="Tabbed">true</property>
+      <property name="TabsPosition">Bottom</property>
+      <property name="TabsScroll">false</property>
+      <property name="ImageIndex">0</property>
+      <property name="XtraZIndex">2</property>
+      <property name="TabText" />
+      <property name="Hint" />
+      <property name="Text">DockPanel</property>
+      <property name="OriginalSize">@3,Width=214@3,Height=200</property>
+      <property name="Options" isnull="true" iskey="true">
+        <property name="AllowFloating">true</property>
+        <property name="AllowDockLeft">true</property>
+        <property name="AllowDockRight">true</property>
+        <property name="AllowDockTop">true</property>
+        <property name="AllowDockBottom">true</property>
+        <property name="AllowDockFill">true</property>
+        <property name="AllowDockAsTabbedDocument">true</property>
+        <property name="ShowMaximizeButton">true</property>
+        <property name="ShowAutoHideButton">true</property>
+        <property name="ShowCloseButton">true</property>
+        <property name="FloatOnDblClick">true</property>
+      </property>
+      <property name="XtraParentID">-1</property>
+      <property name="XtraSavedParentID">-1</property>
+      <property name="XtraAutoHideContainerDock">Float</property>
+      <property name="ID">7660dde1-351d-428b-8233-9e3df5fc1cd6</property>
+      <property name="XtraID">9</property>
+      <property name="DockVertical">Default</property>
+      <property name="FloatVertical">false</property>
+      <property name="Header" />
+      <property name="XtraBounds">@4,X=1706@3,Y=156@3,Width=214@3,Height=867</property>
+      <property name="Count">2</property>
+      <property name="SavedMdiDocument">false</property>
+      <property name="SavedDock">Float</property>
+      <property name="SavedTabbed">false</property>
+      <property name="SavedIndex">-1</property>
+      <property name="FloatSize">@3,Width=200@3,Height=200</property>
+    </property>
+    <property name="Item11" isnull="true" iskey="true">
+      <property name="Visibility">Hidden</property>
+      <property name="FloatLocation">@1,X=0@1,Y=0</property>
+      <property name="Dock">Fill</property>
+      <property name="XtraActiveChildID">-1</property>
+      <property name="Footer" />
+      <property name="Tabbed">false</property>
+      <property name="TabsPosition">Bottom</property>
+      <property name="TabsScroll">false</property>
+      <property name="ImageIndex">8</property>
+      <property name="XtraZIndex">-1</property>
+      <property name="TabText" />
+      <property name="Hint" />
+      <property name="Text">Budget Analysis</property>
+      <property name="OriginalSize">@3,Width=200@3,Height=713</property>
+      <property name="Options" isnull="true" iskey="true">
+        <property name="AllowFloating">true</property>
+        <property name="AllowDockLeft">true</property>
+        <property name="AllowDockRight">true</property>
+        <property name="AllowDockTop">true</property>
+        <property name="AllowDockBottom">true</property>
+        <property name="AllowDockFill">true</property>
+        <property name="AllowDockAsTabbedDocument">true</property>
+        <property name="ShowMaximizeButton">true</property>
+        <property name="ShowAutoHideButton">true</property>
+        <property name="ShowCloseButton">true</property>
+        <property name="FloatOnDblClick">true</property>
+      </property>
+      <property name="XtraParentID">-1</property>
+      <property name="XtraSavedParentID">3</property>
+      <property name="XtraAutoHideContainerDock">Float</property>
+      <property name="ID">5285b3b1-3bd0-0f72-b658-26d5ee3677a9</property>
+      <property name="XtraID">10</property>
+      <property name="DockVertical">Default</property>
+      <property name="FloatVertical">false</property>
+      <property name="Header" />
+      <property name="XtraBounds">@1,X=4@2,Y=25@4,Width=1014@3,Height=475</property>
+      <property name="Count">0</property>
+      <property name="SavedMdiDocument">false</property>
+      <property name="SavedDock">Fill</property>
+      <property name="SavedTabbed">true</property>
+      <property name="SavedIndex">1</property>
+      <property name="FloatSize">@4,Width=1334@3,Height=713</property>
+    </property>
+    <property name="Item12" isnull="true" iskey="true">
+      <property name="Visibility">Hidden</property>
+      <property name="FloatLocation">@1,X=0@1,Y=0</property>
+      <property name="Dock">Fill</property>
+      <property name="XtraActiveChildID">-1</property>
+      <property name="Footer" />
+      <property name="Tabbed">false</property>
+      <property name="TabsPosition">Bottom</property>
+      <property name="TabsScroll">false</property>
+      <property name="ImageIndex">9</property>
+      <property name="XtraZIndex">-1</property>
+      <property name="TabText" />
+      <property name="Hint" />
+      <property name="Text">Attribute Table</property>
+      <property name="OriginalSize">@3,Width=200@3,Height=600</property>
+      <property name="Options" isnull="true" iskey="true">
+        <property name="AllowFloating">true</property>
+        <property name="AllowDockLeft">true</property>
+        <property name="AllowDockRight">true</property>
+        <property name="AllowDockTop">true</property>
+        <property name="AllowDockBottom">true</property>
+        <property name="AllowDockFill">true</property>
+        <property name="AllowDockAsTabbedDocument">true</property>
+        <property name="ShowMaximizeButton">true</property>
+        <property name="ShowAutoHideButton">true</property>
+        <property name="ShowCloseButton">true</property>
+        <property name="FloatOnDblClick">true</property>
+      </property>
+      <property name="XtraParentID">-1</property>
+      <property name="XtraSavedParentID">3</property>
+      <property name="XtraAutoHideContainerDock">Float</property>
+      <property name="ID">eb5dfbd1-8b41-a8d8-5cc6-9074557cc840</property>
+      <property name="XtraID">11</property>
+      <property name="DockVertical">Default</property>
+      <property name="FloatVertical">false</property>
+      <property name="Header" />
+      <property name="XtraBounds">@1,X=4@2,Y=25@4,Width=1014@3,Height=475</property>
+      <property name="Count">0</property>
+      <property name="SavedMdiDocument">false</property>
+      <property name="SavedDock">Fill</property>
+      <property name="SavedTabbed">true</property>
+      <property name="SavedIndex">1</property>
+      <property name="FloatSize">@3,Width=800@3,Height=600</property>
+    </property>
+    <property name="Item13" isnull="true" iskey="true">
+      <property name="Visibility">Visible</property>
+      <property name="FloatLocation">@1,X=0@1,Y=0</property>
+      <property name="Dock">Fill</property>
+      <property name="XtraActiveChildID">-1</property>
+      <property name="Footer" />
+      <property name="Tabbed">false</property>
+      <property name="TabsPosition">Bottom</property>
+      <property name="TabsScroll">false</property>
+      <property name="ImageIndex">10</property>
+      <property name="XtraZIndex">2</property>
+      <property name="TabText" />
+      <property name="Hint" />
+      <property name="Text">Spatial Tools</property>
+      <property name="OriginalSize">@3,Width=200@3,Height=308</property>
+      <property name="Options" isnull="true" iskey="true">
+        <property name="AllowFloating">true</property>
+        <property name="AllowDockLeft">true</property>
+        <property name="AllowDockRight">true</property>
+        <property name="AllowDockTop">true</property>
+        <property name="AllowDockBottom">true</property>
+        <property name="AllowDockFill">true</property>
+        <property name="AllowDockAsTabbedDocument">true</property>
+        <property name="ShowMaximizeButton">true</property>
+        <property name="ShowAutoHideButton">true</property>
+        <property name="ShowCloseButton">true</property>
+        <property name="FloatOnDblClick">true</property>
+      </property>
+      <property name="XtraParentID">7</property>
+      <property name="XtraSavedParentID">-1</property>
+      <property name="XtraAutoHideContainerDock">Float</property>
+      <property name="ID">c5c014cc-a392-2dbc-eff7-172ce1551d0e</property>
+      <property name="XtraID">12</property>
+      <property name="DockVertical">Default</property>
+      <property name="FloatVertical">false</property>
+      <property name="Header" />
+      <property name="XtraBounds">@1,X=0@1,Y=0@3,Width=200@3,Height=200</property>
+      <property name="Count">0</property>
+      <property name="SavedMdiDocument">false</property>
+      <property name="SavedDock">Float</property>
+      <property name="SavedTabbed">false</property>
+      <property name="SavedIndex">-1</property>
+      <property name="FloatSize">@3,Width=200@3,Height=200</property>
+    </property>
+    <property name="Item14" isnull="true" iskey="true">
+      <property name="Visibility">Visible</property>
+      <property name="FloatLocation">@3,X=-42@1,Y=3</property>
+      <property name="Dock">Float</property>
+      <property name="XtraActiveChildID">-1</property>
+      <property name="Footer" />
+      <property name="Tabbed">false</property>
+      <property name="TabsPosition">Bottom</property>
+      <property name="TabsScroll">false</property>
+      <property name="ImageIndex">11</property>
+      <property name="XtraZIndex">0</property>
+      <property name="TabText" />
+      <property name="Hint" />
+      <property name="Text">Model Toolbox</property>
+      <property name="OriginalSize">@3,Width=200@3,Height=308</property>
+      <property name="Options" isnull="true" iskey="true">
+        <property name="AllowFloating">true</property>
+        <property name="AllowDockLeft">true</property>
+        <property name="AllowDockRight">true</property>
+        <property name="AllowDockTop">true</property>
+        <property name="AllowDockBottom">true</property>
+        <property name="AllowDockFill">true</property>
+        <property name="AllowDockAsTabbedDocument">true</property>
+        <property name="ShowMaximizeButton">true</property>
+        <property name="ShowAutoHideButton">true</property>
+        <property name="ShowCloseButton">true</property>
+        <property name="FloatOnDblClick">true</property>
+      </property>
+      <property name="XtraParentID">-10001</property>
+      <property name="XtraSavedParentID">-1</property>
+      <property name="XtraAutoHideContainerDock">Float</property>
+      <property name="ID">673f4e85-4b98-3961-5c86-17f1dd50bf12</property>
+      <property name="XtraID">13</property>
+      <property name="DockVertical">Default</property>
+      <property name="FloatVertical">false</property>
+      <property name="Header" />
+      <property name="XtraBounds">@1,X=0@1,Y=0@3,Width=200@3,Height=200</property>
+      <property name="Count">0</property>
+      <property name="SavedMdiDocument">false</property>
+      <property name="SavedDock">Float</property>
+      <property name="SavedTabbed">false</property>
+      <property name="SavedIndex">-1</property>
+      <property name="FloatSize">@3,Width=200@3,Height=200</property>
+    </property>
+    <property name="Item15" isnull="true" iskey="true">
+      <property name="Visibility">Visible</property>
+      <property name="FloatLocation">@5,X=-1348@4,Y=-690</property>
+      <property name="Dock">Float</property>
+      <property name="XtraActiveChildID">-1</property>
+      <property name="Footer" />
+      <property name="Tabbed">false</property>
+      <property name="TabsPosition">Bottom</property>
+      <property name="TabsScroll">false</property>
+      <property name="ImageIndex">-1</property>
+      <property name="XtraZIndex">0</property>
+      <property name="TabText" />
+      <property name="Hint" />
+      <property name="Text">Map</property>
+      <property name="OriginalSize">@3,Width=200@3,Height=313</property>
+      <property name="Options" isnull="true" iskey="true">
+        <property name="AllowFloating">true</property>
+        <property name="AllowDockLeft">true</property>
+        <property name="AllowDockRight">true</property>
+        <property name="AllowDockTop">true</property>
+        <property name="AllowDockBottom">true</property>
+        <property name="AllowDockFill">true</property>
+        <property name="AllowDockAsTabbedDocument">true</property>
+        <property name="ShowMaximizeButton">true</property>
+        <property name="ShowAutoHideButton">true</property>
+        <property name="ShowCloseButton">true</property>
+        <property name="FloatOnDblClick">true</property>
+      </property>
+      <property name="XtraParentID">-10001</property>
+      <property name="XtraSavedParentID">-1</property>
+      <property name="XtraAutoHideContainerDock">Float</property>
+      <property name="ID">a59753fb-7c03-edda-a0a6-04dcbfe8c01f</property>
+      <property name="XtraID">14</property>
+      <property name="DockVertical">Default</property>
+      <property name="FloatVertical">false</property>
+      <property name="Header" />
+      <property name="XtraBounds">@1,X=0@1,Y=0@4,Width=1524@3,Height=838</property>
+      <property name="Count">0</property>
+      <property name="SavedMdiDocument">false</property>
+      <property name="SavedDock">Float</property>
+      <property name="SavedTabbed">false</property>
+      <property name="SavedIndex">-1</property>
+      <property name="FloatSize">@4,Width=1524@3,Height=838</property>
+    </property>
+  </property>
+  <property name="TopZIndexControls" iskey="true" value="5">
+    <property name="Item1">DevExpress.XtraBars.BarDockControl</property>
+    <property name="Item2">DevExpress.XtraBars.StandaloneBarDockControl</property>
+    <property name="Item3">System.Windows.Forms.StatusBar</property>
+    <property name="Item4">DevExpress.XtraBars.Ribbon.RibbonStatusBar</property>
+    <property name="Item5">DevExpress.XtraBars.Ribbon.RibbonControl</property>
+  </property>
+  <property name="ActivePanelID">14</property>
+  <property name="DockingOptions" isnull="true" iskey="true">
+    <property name="CursorFloatCanceled" isnull="true" />
+    <property name="HideImmediatelyOnAutoHide">false</property>
+    <property name="CloseActiveTabOnly">true</property>
+    <property name="ShowCaptionOnMouseHover">false</property>
+    <property name="ShowCaptionImage">false</property>
+    <property name="ShowMaximizeButton">true</property>
+    <property name="ShowAutoHideButton">true</property>
+    <property name="ShowCloseButton">true</property>
+    <property name="FloatOnDblClick">true</property>
+  </property>
+</XtraSerializer>

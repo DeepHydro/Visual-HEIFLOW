@@ -1,0 +1,8 @@
+E:\PKU\Program\VHF\bin\debug\Application Extensions\AttributeDataExplorer\DotSpatial.Plugins.AttributeDataExplorer.dll
+E:\PKU\Program\VHF\bin\debug\Application Extensions\AttributeDataExplorer\DotSpatial.Plugins.AttributeDataExplorer.pdb
+E:\PKU\Program\VHF\DotSpatial.Plugins.AttributeDataExplorer\obj\x64\Debug\DotSpatial.Plugins.AttributeDataExplorer.csprojResolveAssemblyReference.cache
+E:\PKU\Program\VHF\DotSpatial.Plugins.AttributeDataExplorer\obj\x64\Debug\DotSpatial.Plugins.AttributeDataExplorer.MainForm.resources
+E:\PKU\Program\VHF\DotSpatial.Plugins.AttributeDataExplorer\obj\x64\Debug\DotSpatial.Plugins.AttributeDataExplorer.csproj.GenerateResource.Cache
+E:\PKU\Program\VHF\DotSpatial.Plugins.AttributeDataExplorer\obj\x64\Debug\DotSpatial.Plugins.AttributeDataExplorer.dll.licenses
+E:\PKU\Program\VHF\DotSpatial.Plugins.AttributeDataExplorer\obj\x64\Debug\DotSpatial.Plugins.AttributeDataExplorer.dll
+E:\PKU\Program\VHF\DotSpatial.Plugins.AttributeDataExplorer\obj\x64\Debug\DotSpatial.Plugins.AttributeDataExplorer.pdb

@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DotSpatial.Plugins.ScriptRunner.CSharpCodeCompletion</name>
+    </assembly>
+    <members>
+        <member name="T:CSharpEditor.CodeCompletionData">
+            <summary>
+            Represents an item in the code completion window.
+            </summary>
+        </member>
+        <member name="M:CSharpEditor.CodeCompletionData.GetText(ICSharpCode.SharpDevelop.Dom.IEntity)">
+            <summary>
+            Converts a member to text.
+            Returns the declaration of the member as C# or VB code, e.g.
+            "public void MemberName(string parameter)"
+            </summary>
+        </member>
+        <member name="T:CSharpEditor.MainForm">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:CSharpEditor.MainForm.DummyFileName">
+            <summary>
+            Many SharpDevelop.Dom methods take a file name, which is really just a unique identifier
+            for a file - Dom methods don't try to access code files on disk, so the file does not have
+            to exist.
+            SharpDevelop itself uses internal names of the kind "[randomId]/Class1.cs" to support
+            code-completion in unsaved files.
+            </summary>
+        </member>
+        <member name="F:CSharpEditor.MainForm.IsVisualBasic">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="F:CSharpEditor.MainForm.Language">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="F:CSharpEditor.MainForm.lastCompilationUnit">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="F:CSharpEditor.MainForm.myProjectContent">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="F:CSharpEditor.MainForm.parseInformation">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="F:CSharpEditor.MainForm.pcRegistry">
+             <summary>
+            
+             </summary>
+        </member>
+        <member name="M:CSharpEditor.MainForm.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:CSharpEditor.MainForm"/> class.
+            </summary>
+        </member>
+        <member name="P:CSharpEditor.MainForm.Text">
+            <summary>
+            </summary>
+            <returns>The text associated with this control.</returns>
+        </member>
+        <member name="M:CSharpEditor.MainForm.Init">
+            <summary>
+            Inits this instance.
+            </summary>
+        </member>
+        <member name="M:CSharpEditor.MainForm.Shutdown">
+            <summary>
+            Shutdowns this instance.
+            </summary>
+        </member>
+        <member name="M:CSharpEditor.MainForm.SetVB">
+            <summary>
+            Sets as VB.
+            </summary>
+        </member>
+        <member name="M:CSharpEditor.MainForm.SetCS">
+            <summary>
+            Sets as CS.
+            </summary>
+        </member>
+        <member name="F:CSharpEditor.MainForm.components">
+            <summary>
+            Designer variable used to keep track of non-visual components.
+            </summary>
+        </member>
+        <member name="M:CSharpEditor.MainForm.Dispose(System.Boolean)">
+            <summary>
+            Disposes resources used by the form.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:CSharpEditor.MainForm.InitializeComponent">
+            <summary>
+            This method is required for Windows Forms designer support.
+            Do not change the method contents inside the source code editor. The Forms designer might
+            not be able to load this method if it was changed manually.
+            </summary>
+        </member>
+        <member name="M:CSharpEditor.CodeCompletionProvider.InsertAction(ICSharpCode.TextEditor.Gui.CompletionWindow.ICompletionData,ICSharpCode.TextEditor.TextArea,System.Int32,System.Char)">
+            <summary>
+            Called when entry should be inserted. Forward to the insertion action of the completion data.
+            </summary>
+        </member>
+        <member name="M:CSharpEditor.CodeCompletionProvider.FindExpression(ICSharpCode.TextEditor.TextArea)">
+            <summary>
+            Find the expression the cursor is at.
+            Also determines the context (using statement, "new"-expression etc.) the
+            cursor is at.
+            </summary>
+        </member>
+        <member name="M:CSharpEditor.CodeCompletionKeyHandler.TextAreaKeyEventHandler(System.Char)">
+            <summary>
+            Return true to handle the keypress, return false to let the text area handle the keypress
+            </summary>
+        </member>
+        <member name="T:CSharpEditor.HostCallbackImplementation">
+            <summary>
+            ICSharpCode.SharpDevelop.Dom was created by extracting code from ICSharpCode.SharpDevelop.dll.
+            There are a few static method calls that refer to GUI code or the code for keeping the parse
+            information. These calls have to be implemented by the application hosting
+            ICSharpCode.SharpDevelop.Dom by settings static fields with a delegate to their method
+            implementation.
+            </summary>
+        </member>
+    </members>
+</doc>

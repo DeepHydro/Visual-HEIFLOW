@@ -1,0 +1,3 @@
+E:\PKU\Program\VHF\Heiflow.Models.Component\obj\Release\Heiflow.Core.csprojResolveAssemblyReference.cache
+E:\PKU\Program\VHF\Heiflow.Models.Component\obj\Release\Heiflow.Core.Resource.resources
+E:\PKU\Program\VHF\Heiflow.Models.Component\obj\Release\Heiflow.Core.csproj.GenerateResource.Cache

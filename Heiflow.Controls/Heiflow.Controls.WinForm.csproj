@@ -1,0 +1,1231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{04B4C21D-E554-4369-8C00-BFBBECA0FB2C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Heiflow.Controls.WinForm</RootNamespace>
+    <AssemblyName>Heiflow.Controls.WinForm</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\bin\Debug\Application Extensions\VHF\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>vhf.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Data.v12.1, Version=12.1.12.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Printing.v12.1.Core, Version=12.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Utils.v12.1, Version=12.1.12.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraEditors.v12.1, Version=12.1.12.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\bin\Debug\DevExpress.XtraEditors.v12.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DotSpatial.Controls">
+      <HintPath>..\External Libraries\dotspatial-75706\Trunk\bin\Debug\DotSpatial.Controls.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotSpatial.Data">
+      <HintPath>..\External Libraries\dotspatial-75706\Trunk\bin\Debug\DotSpatial.Data.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotSpatial.Data.Forms">
+      <HintPath>..\External Libraries\dotspatial-75706\Trunk\bin\Debug\DotSpatial.Data.Forms.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotSpatial.Extensions">
+      <HintPath>..\External Libraries\dotspatial-75706\Trunk\bin\Debug\DotSpatial.Extensions.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotSpatial.GeoAPI, Version=1.7.4.0, Culture=neutral, PublicKeyToken=a1a0da7def465678, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.GeoAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="DotSpatial.Modeling.Forms, Version=1.7.0.0, Culture=neutral, PublicKeyToken=712bef29a31a9354, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Debug\DotSpatial.Modeling.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="DotSpatial.Projections, Version=2.0.0.0, Culture=neutral, PublicKeyToken=272632bddd08a38b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Projections.dll</HintPath>
+    </Reference>
+    <Reference Include="DotSpatial.Projections.Forms, Version=1.7.0.0, Culture=neutral, PublicKeyToken=52099474f11b7ff0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Debug\DotSpatial.Projections.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="DotSpatial.Serialization, Version=1.7.0.0, Culture=neutral, PublicKeyToken=441f200f827611e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\External Libraries\dotspatial-75706\Trunk\bin\Debug\DotSpatial.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="DotSpatial.Symbology">
+      <HintPath>..\External Libraries\dotspatial-75706\Trunk\bin\Debug\DotSpatial.Symbology.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotSpatial.Symbology.Forms, Version=1.7.0.0, Culture=neutral, PublicKeyToken=0544cdeefb662382, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\bin\Debug\DotSpatial.Symbology.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Heiflow.Visualization.Display">
+      <HintPath>..\Heiflow.Visualization.Display\obj\Debug\Heiflow.Visualization.Display.dll</HintPath>
+    </Reference>
+    <Reference Include="ILNumerics, Version=3.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\External Libraries\ILNumerics_CommunityEdition_v3.2.2.0\bin\Debug\ILNumerics.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="NetCDFInterop, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Software\GIS\SDSlite-master\ScientificDataSet\bin\Debug\NetCDFInterop.dll</HintPath>
+    </Reference>
+    <Reference Include="ObjectListView">
+      <HintPath>..\..\..\..\Software\Winform\ListView\ObjectListViewDemo\ObjectListView\bin\Debug\ObjectListView.dll</HintPath>
+    </Reference>
+    <Reference Include="ScientificDataSet, Version=1.4.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Software\GIS\SDSlite-master\ScientificDataSet\bin\Debug\ScientificDataSet.dll</HintPath>
+    </Reference>
+    <Reference Include="SourceGrid">
+      <HintPath>..\packages\SourceGrid_4_40_src\SourceGrid\bin\Debug\SourceGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Controls.Ribbon" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WpfApplicationFramework, Version=3.2.0.450, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\External Libraries\WpfApplicationFramework\WpfApplicationFramework\Output\Debug\WpfApplicationFramework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Climate\WeatherGeneratorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Climate\WeatherGeneratorForm.Designer.cs">
+      <DependentUpon>WeatherGeneratorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ILSurfaceMeta.cs" />
+    <Compile Include="DatabaseExplorer\ImportODMData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DatabaseExplorer\ImportODMData.Designer.cs">
+      <DependentUpon>ImportODMData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseExplorer\ODMConextMenu.cs" />
+    <Compile Include="DatabaseExplorer\ODMNodeCreator.cs" />
+    <Compile Include="Controls\AnimationPlayer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\AnimationPlayer.Designer.cs">
+      <DependentUpon>AnimationPlayer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Display\FeatureMapLayer.cs" />
+    <Compile Include="Controls\DataGridEx.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\DataGridEx.Designer.cs">
+      <DependentUpon>DataGridEx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Display\ExportDataForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Display\ExportDataForm.Designer.cs">
+      <DependentUpon>ExportDataForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Display\PackageFeatureSet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Display\PackageFeatureSet.Designer.cs">
+      <DependentUpon>PackageFeatureSet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Display\LookupTableForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Display\LookupTableForm.Designer.cs">
+      <DependentUpon>LookupTableForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Display\CoverageSetup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Display\CoverageSetup.Designer.cs">
+      <DependentUpon>CoverageSetup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseExplorer\DatabaseExplorer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DatabaseExplorer\DatabaseExplorer.Designer.cs">
+      <DependentUpon>DatabaseExplorer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Display\FieldsCalculator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Display\FieldsCalculator.Designer.cs">
+      <DependentUpon>FieldsCalculator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\WinChart.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\WinChart.Designer.cs">
+      <DependentUpon>WinChart.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OperatorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\OperatorControl.Designer.cs">
+      <DependentUpon>OperatorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Display\Win3DView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Display\Win3DView.Designer.cs">
+      <DependentUpon>Win3DView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Editors\ModflowControlFileNameEditor.cs" />
+    <Compile Include="Project\ImportModflowProperty.cs" />
+    <Compile Include="Toolbox\DataCubeEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Toolbox\DataCubeEditor.Designer.cs">
+      <DependentUpon>DataCubeEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Editors\DropdownListSource.cs" />
+    <Compile Include="Editors\SaveFileNameEditor.cs" />
+    <Compile Include="Editors\StringDropdownList.cs" />
+    <Compile Include="Editors\MapLayerBrowserEditor.cs" />
+    <Compile Include="Editors\MapLayerDropdownList.cs" />
+    <Compile Include="Editors\FieldsDropdownList.cs" />
+    <Compile Include="Modflow\DISCreator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modflow\DISCreator.Designer.cs">
+      <DependentUpon>DISCreator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modflow\LayerGroupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modflow\LayerGroupForm.Designer.cs">
+      <DependentUpon>LayerGroupForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Monitors\RunningMonitor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Monitors\RunningMonitor.Designer.cs">
+      <DependentUpon>RunningMonitor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Monitors\StateMonitor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Monitors\StateMonitor.Designer.cs">
+      <DependentUpon>StateMonitor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Display\WinChartView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Display\WinChartView.Designer.cs">
+      <DependentUpon>WinChartView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Monitors\Nodes\StateMonitorNodeCreators.cs" />
+    <Compile Include="Processing\CascadeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Processing\CascadeForm.Designer.cs">
+      <DependentUpon>CascadeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modflow\RegularGridGenForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modflow\RegularGridGenForm.Designer.cs">
+      <DependentUpon>RegularGridGenForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Project\ImportHeiflowProperty.cs" />
+    <Compile Include="Project\NewEcoPackageForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Project\NewEcoPackageForm.Designer.cs">
+      <DependentUpon>NewEcoPackageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="SFRExplorer\SFRCreator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SFRExplorer\SFRCreator.Designer.cs">
+      <DependentUpon>SFRCreator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SymbologyFormsImages1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SymbologyFormsImages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="TimeSeriesExplorer\SQLSelection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TimeSeriesExplorer\SQLSelection.Designer.cs">
+      <DependentUpon>SQLSelection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TimeSeriesExplorer\HOBExplorerView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TimeSeriesExplorer\HOBExplorerView.Designer.cs">
+      <DependentUpon>HOBExplorerView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TimeSeriesExplorer\LakeExplorerView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TimeSeriesExplorer\LakeExplorerView.Designer.cs">
+      <DependentUpon>LakeExplorerView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TimeSeriesExplorer\SiteTimeSeriesExplorer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TimeSeriesExplorer\SiteTimeSeriesExplorer.Designer.cs">
+      <DependentUpon>SiteTimeSeriesExplorer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectExplorer\ContextMenu\VariablesFolderContextMenu.cs" />
+    <Compile Include="ProjectExplorer\ContextMenu\TimeSeriesVariableContextMemu.cs" />
+    <Compile Include="ProjectExplorer\ContextMenu\DynamicVariableContextMemu.cs" />
+    <Compile Include="ProjectExplorer\ContextMenu\DataPackageCollectionContextMenu.cs" />
+    <Compile Include="ProjectExplorer\ContextMenu\PEContextMenuFactory.cs" />
+    <Compile Include="ProjectExplorer\ContextMenu\DisplayablePropertyContextMenu.cs" />
+    <Compile Include="ProjectExplorer\ContextMenu\GHMElementItem.cs" />
+    <Compile Include="ProjectExplorer\ContextMenu\MapDataContextMenu.cs" />
+    <Compile Include="ProjectExplorer\ContextMenu\MapLayerContextMenu.cs" />
+    <Compile Include="ProjectExplorer\ContextMenu\MMSParaContextMenu.cs" />
+    <Compile Include="ProjectExplorer\ContextMenu\ModelContextMenu.cs" />
+    <Compile Include="ProjectExplorer\ContextMenu\StaticVariableContextMenu.cs" />
+    <Compile Include="ProjectExplorer\ContextMenu\PackageContextMenu.cs" />
+    <Compile Include="ProjectExplorer\ContextMenu\PEContextMenu.cs" />
+    <Compile Include="MessageService.cs" />
+    <Compile Include="ProjectExplorer\Node\VariablesFolderNodeCreator.cs" />
+    <Compile Include="ProjectExplorer\Node\TimieSeriesVariableNodeCreator.cs" />
+    <Compile Include="ProjectExplorer\Node\DynamicVariableNodeCreator.cs" />
+    <Compile Include="ProjectExplorer\Node\DisplayablePropertyNodeCreator.cs" />
+    <Compile Include="ProjectExplorer\Node\DataPackageCollectionNodeCreator.cs" />
+    <Compile Include="ProjectExplorer\Node\MapDataNodeCreator.cs" />
+    <Compile Include="ProjectExplorer\Node\MapLayerNodeCreator.cs" />
+    <Compile Include="ProjectExplorer\Node\ModelNodeCreator.cs" />
+    <Compile Include="ProjectExplorer\Node\StaticVariableNodeCreator.cs" />
+    <Compile Include="ProjectExplorer\Node\ExplorerNodeCreator.cs" />
+    <Compile Include="Project\HeiflowTimeControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Project\HeiflowTimeControl.Designer.cs">
+      <DependentUpon>HeiflowTimeControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Modflow\MFTimeControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modflow\MFTimeControl.Designer.cs">
+      <DependentUpon>MFTimeControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Options\MMSOptionPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Options\MMSOptionPanel.Designer.cs">
+      <DependentUpon>MMSOptionPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Options\OptionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Options\OptionForm.Designer.cs">
+      <DependentUpon>OptionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectExplorer\Node\MMSPackageNodeCreator.cs" />
+    <Compile Include="ProjectExplorer\Node\NodeFactory.cs" />
+    <Compile Include="ProjectExplorer\Node\PackageNodeCreator.cs" />
+    <Compile Include="Controls\View3DControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\View3DControl.Designer.cs">
+      <DependentUpon>View3DControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Editors\ControlFileNameEditor.cs" />
+    <Compile Include="Project\ImportModelForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Project\ImportModelForm.Designer.cs">
+      <DependentUpon>ImportModelForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Project\ImportGsflowProperty.cs" />
+    <Compile Include="Editors\MFFileNameEditor.cs" />
+    <Compile Include="Display\ProgressForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Display\ProgressForm.Designer.cs">
+      <DependentUpon>ProgressForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Project\NewProjectionItemForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Project\NewProjectionItemForm.Designer.cs">
+      <DependentUpon>NewProjectionItemForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Project\NewProjectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Project\NewProjectionForm.Designer.cs">
+      <DependentUpon>NewProjectionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectExplorer\ProjectExplorerControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ProjectExplorer\ProjectExplorerControl.Designer.cs">
+      <DependentUpon>ProjectExplorerControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SFRExplorer\SFRExplorer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SFRExplorer\SFRExplorer.Designer.cs">
+      <DependentUpon>SFRExplorer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SFRExplorer\SFRExplorerView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SFRExplorer\SFRExplorerView.Designer.cs">
+      <DependentUpon>SFRExplorerView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Spatial\SeachAndReplaceDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Spatial\SeachAndReplaceDialog.designer.cs">
+      <DependentUpon>SeachAndReplaceDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Spatial\TableEditorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SymbologyFormsImages.Designer.cs" />
+    <Compile Include="SymbologyFormsMessageStrings.Designer.cs" />
+    <Compile Include="SymbologyFormsMessageStrings1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SymbologyFormsMessageStrings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Toolbox\MapLayerDescriptor.cs" />
+    <Compile Include="Toolbox\ModelToolManager.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Toolbox\ModelToolManager.Designer.cs">
+      <DependentUpon>ModelToolManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Toolbox\SaveDcxForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Toolbox\SaveDcxForm.Designer.cs">
+      <DependentUpon>SaveDcxForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WindowService.cs" />
+    <Compile Include="Controls\ColorSlider.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\ColorSlider.Designer.cs" />
+    <Compile Include="Controls\Dialog\Enums.cs" />
+    <Compile Include="Controls\Dialog\Extensions.cs" />
+    <Compile Include="Controls\Dialog\FileDialogControlBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Dialog\FileDialogControlBase.designer.cs">
+      <DependentUpon>FileDialogControlBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Dialog\HelperTypes.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Dialog\structs.cs" />
+    <Compile Include="Controls\Dialog\Win32.cs" />
+    <Compile Include="Toolbox\LayerSelectionDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Toolbox\LayerSelectionDialog.Designer.cs">
+      <DependentUpon>LayerSelectionDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MyListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Editors\SRSEditor.cs" />
+    <Compile Include="Controls\TreeView\BitmapHelper.cs" />
+    <Compile Include="Controls\TreeView\GifDecoder.cs" />
+    <Compile Include="Controls\TreeView\NumericTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TreeView\PerformanceAnalyzer.cs" />
+    <Compile Include="Controls\TreeView\ResourceHelper.cs" />
+    <Compile Include="Controls\TreeView\StringCollectionEditor.cs" />
+    <Compile Include="Controls\TreeView\TextHelper.cs" />
+    <Compile Include="Controls\TreeView\Threading\AbortableThreadPool.cs" />
+    <Compile Include="Controls\TreeView\Threading\WorkItem.cs" />
+    <Compile Include="Controls\TreeView\Threading\WorkItemStatus.cs" />
+    <Compile Include="Controls\TreeView\TimeCounter.cs" />
+    <Compile Include="Controls\TreeView\Tree\AutoHeaderHeightLayout.cs" />
+    <Compile Include="Controls\TreeView\Tree\AutoRowHeightLayout.cs" />
+    <Compile Include="Controls\TreeView\Tree\ColumnCollection.cs" />
+    <Compile Include="Controls\TreeView\Tree\DrawContext.cs" />
+    <Compile Include="Controls\TreeView\Tree\DropNodeValidatingEventArgs.cs" />
+    <Compile Include="Controls\TreeView\Tree\DropPosition.cs" />
+    <Compile Include="Controls\TreeView\Tree\EditorContext.cs" />
+    <Compile Include="Controls\TreeView\Tree\Enums.cs" />
+    <Compile Include="Controls\TreeView\Tree\FixedHeaderHeightLayout.cs" />
+    <Compile Include="Controls\TreeView\Tree\FixedRowHeightLayout.cs" />
+    <Compile Include="Controls\TreeView\Tree\IHeaderLayout.cs" />
+    <Compile Include="Controls\TreeView\Tree\IncrementalSearch.cs" />
+    <Compile Include="Controls\TreeView\Tree\Input\ClickColumnState.cs" />
+    <Compile Include="Controls\TreeView\Tree\Input\ColumnState.cs" />
+    <Compile Include="Controls\TreeView\Tree\Input\InputState.cs" />
+    <Compile Include="Controls\TreeView\Tree\Input\InputWithControl.cs" />
+    <Compile Include="Controls\TreeView\Tree\Input\InputWithShift.cs" />
+    <Compile Include="Controls\TreeView\Tree\Input\NormalInputState.cs" />
+    <Compile Include="Controls\TreeView\Tree\Input\ReorderColumnState.cs" />
+    <Compile Include="Controls\TreeView\Tree\Input\ResizeColumnState.cs" />
+    <Compile Include="Controls\TreeView\Tree\IRowLayout.cs" />
+    <Compile Include="Controls\TreeView\Tree\IToolTipProvider.cs" />
+    <Compile Include="Controls\TreeView\Tree\ITreeModel.cs" />
+    <Compile Include="Controls\TreeView\Tree\ListModel.cs" />
+    <Compile Include="Controls\TreeView\Tree\NativeMethods.cs" />
+    <Compile Include="Controls\TreeView\Tree\Node.cs" />
+    <Compile Include="Controls\TreeView\Tree\NodeControlInfo.cs" />
+    <Compile Include="Controls\TreeView\Tree\NodeControls\BaseTextControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TreeView\Tree\NodeControls\BindableControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TreeView\Tree\NodeControls\DrawEventArgs.cs" />
+    <Compile Include="Controls\TreeView\Tree\NodeControls\EditableControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TreeView\Tree\NodeControls\EditEventArgs.cs" />
+    <Compile Include="Controls\TreeView\Tree\NodeControls\ExpandingIcon.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TreeView\Tree\NodeControls\InteractiveControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TreeView\Tree\NodeControls\LabelEventArgs.cs" />
+    <Compile Include="Controls\TreeView\Tree\NodeControls\NodeCheckBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TreeView\Tree\NodeControls\NodeComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TreeView\Tree\NodeControls\NodeControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TreeView\Tree\NodeControls\NodeControlsCollection.cs" />
+    <Compile Include="Controls\TreeView\Tree\NodeControls\NodeControlValueEventArgs.cs" />
+    <Compile Include="Controls\TreeView\Tree\NodeControls\NodeDecimalTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TreeView\Tree\NodeControls\NodeEventArgs.cs" />
+    <Compile Include="Controls\TreeView\Tree\NodeControls\NodeIcon.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TreeView\Tree\NodeControls\NodeIntegerTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TreeView\Tree\NodeControls\NodeNumericUpDown.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TreeView\Tree\NodeControls\NodePlusMinus.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TreeView\Tree\NodeControls\NodeStateIcon.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TreeView\Tree\NodeControls\NodeTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TreeView\Tree\SortedTreeModel.cs" />
+    <Compile Include="Controls\TreeView\Tree\TreeColumn.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TreeView\Tree\TreeColumnCollection.cs" />
+    <Compile Include="Controls\TreeView\Tree\TreeColumnEventArgs.cs" />
+    <Compile Include="Controls\TreeView\Tree\TreeListAdapter.cs" />
+    <Compile Include="Controls\TreeView\Tree\TreeModel.cs" />
+    <Compile Include="Controls\TreeView\Tree\TreeModelBase.cs" />
+    <Compile Include="Controls\TreeView\Tree\TreeModelEventArgs.cs" />
+    <Compile Include="Controls\TreeView\Tree\TreeNodeAdv.cs" />
+    <Compile Include="Controls\TreeView\Tree\TreeNodeAdvMouseEventArgs.cs" />
+    <Compile Include="Controls\TreeView\Tree\TreePath.cs" />
+    <Compile Include="Controls\TreeView\Tree\TreePathEventArgs.cs" />
+    <Compile Include="Controls\TreeView\Tree\TreeViewAdv.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TreeView\Tree\TreeViewAdv.Designer.cs">
+      <DependentUpon>TreeViewAdv.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TreeView\Tree\TreeViewAdv.Draw.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TreeView\Tree\TreeViewAdv.Editor.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TreeView\Tree\TreeViewAdv.Input.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TreeView\Tree\TreeViewAdv.Properties.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\TreeView\Tree\TreeViewAdvCancelEventArgs.cs" />
+    <Compile Include="Controls\TreeView\Tree\TreeViewAdvEventArgs.cs" />
+    <Compile Include="Controls\TreeView\Tree\TreeViewRowDrawEventArgs.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Climate\WeatherGeneratorForm.resx">
+      <DependentUpon>WeatherGeneratorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DatabaseExplorer\ImportODMData.resx">
+      <DependentUpon>ImportODMData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\AnimationPlayer.resx">
+      <DependentUpon>AnimationPlayer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\DataGridEx.resx">
+      <DependentUpon>DataGridEx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Display\ExportDataForm.resx">
+      <DependentUpon>ExportDataForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Display\PackageFeatureSet.resx">
+      <DependentUpon>PackageFeatureSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Display\LookupTableForm.resx">
+      <DependentUpon>LookupTableForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Display\CoverageSetup.resx">
+      <DependentUpon>CoverageSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DatabaseExplorer\DatabaseExplorer.resx">
+      <DependentUpon>DatabaseExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Display\FieldsCalculator.resx">
+      <DependentUpon>FieldsCalculator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\WinChart.resx">
+      <DependentUpon>WinChart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\OperatorControl.resx">
+      <DependentUpon>OperatorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Display\Win3DView.resx">
+      <DependentUpon>Win3DView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Toolbox\DataCubeEditor.resx">
+      <DependentUpon>DataCubeEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modflow\DISCreator.resx">
+      <DependentUpon>DISCreator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modflow\LayerGroupForm.resx">
+      <DependentUpon>LayerGroupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Monitors\RunningMonitor.resx">
+      <DependentUpon>RunningMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Monitors\StateMonitor.resx">
+      <DependentUpon>StateMonitor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Display\WinChartView.resx">
+      <DependentUpon>WinChartView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Processing\CascadeForm.resx">
+      <DependentUpon>CascadeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modflow\RegularGridGenForm.resx">
+      <DependentUpon>RegularGridGenForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Project\NewEcoPackageForm.resx">
+      <DependentUpon>NewEcoPackageForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SFRExplorer\SFRCreator.resx">
+      <DependentUpon>SFRCreator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeSeriesExplorer\SQLSelection.resx">
+      <DependentUpon>SQLSelection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeSeriesExplorer\HOBExplorerView.resx">
+      <DependentUpon>HOBExplorerView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeSeriesExplorer\LakeExplorerView.resx">
+      <DependentUpon>LakeExplorerView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimeSeriesExplorer\SiteTimeSeriesExplorer.resx">
+      <DependentUpon>SiteTimeSeriesExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Project\HeiflowTimeControl.resx">
+      <DependentUpon>HeiflowTimeControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modflow\MFTimeControl.resx">
+      <DependentUpon>MFTimeControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Options\MMSOptionPanel.resx">
+      <DependentUpon>MMSOptionPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Options\OptionForm.resx">
+      <DependentUpon>OptionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\View3DControl.resx">
+      <DependentUpon>View3DControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Project\ImportModelForm.resx">
+      <DependentUpon>ImportModelForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Display\ProgressForm.resx">
+      <DependentUpon>ProgressForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Project\NewProjectionItemForm.resx">
+      <DependentUpon>NewProjectionItemForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Project\NewProjectionForm.resx">
+      <DependentUpon>NewProjectionForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProjectExplorer\ProjectExplorerControl.resx">
+      <DependentUpon>ProjectExplorerControl.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SFRExplorer\SFRExplorer.resx">
+      <DependentUpon>SFRExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SFRExplorer\SFRExplorerView.resx">
+      <DependentUpon>SFRExplorerView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Spatial\SeachAndReplaceDialog.resx">
+      <DependentUpon>SeachAndReplaceDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Spatial\SeachAndReplaceDialog.zh-CN.resx">
+      <DependentUpon>SeachAndReplaceDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Spatial\TableEditorControl.cs.resx">
+      <DependentUpon>TableEditorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Spatial\TableEditorControl.resx">
+      <DependentUpon>TableEditorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Spatial\TableEditorControl.zh-CN.resx">
+      <DependentUpon>TableEditorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SymbologyFormsImages.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SymbologyFormsImages1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SymbologyFormsMessageStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SymbologyFormsMessageStrings1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Toolbox\ModelToolManager.resx">
+      <DependentUpon>ModelToolManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ColorSlider.resx" />
+    <EmbeddedResource Include="Controls\Dialog\FileDialogControlBase.resx">
+      <DependentUpon>FileDialogControlBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Toolbox\LayerSelectionDialog.resx">
+      <DependentUpon>LayerSelectionDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TreeView\Tree\TreeViewAdv.resx">
+      <DependentUpon>TreeViewAdv.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Toolbox\SaveDcxForm.resx">
+      <DependentUpon>SaveDcxForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Heiflow.Controls.licenseheader" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Resources\heiflow.ico" />
+    <None Include="Resources\loading_icon" />
+    <None Include="Controls\TreeView\Tree\ClassDiagram.cd" />
+    <None Include="Controls\TreeView\Tree\NodeControls\ClassDiagram.cd" />
+    <None Include="vhf.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Heiflow.Applications\Heiflow.Applications.csproj">
+      <Project>{feafec49-6f84-4852-9a57-f16df359b356}</Project>
+      <Name>Heiflow.Applications</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Core\Heiflow.Core.csproj">
+      <Project>{e75a11b8-00a2-45de-a5e4-4b8180b5903c}</Project>
+      <Name>Heiflow.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Models\Heiflow.Models.csproj">
+      <Project>{28e79461-3161-4130-81b0-2c36cd3a3315}</Project>
+      <Name>Heiflow.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Presentation\Heiflow.Presentation.csproj">
+      <Project>{55d24eb1-96bb-4902-8240-e9019032db93}</Project>
+      <Name>Heiflow.Presentation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Processing\Heiflow.Plugins.Tools.csproj">
+      <Project>{e5f99333-3e66-4a22-a519-07b78370f322}</Project>
+      <Name>Heiflow.Plugins.Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Spatial\Heiflow.Spatial.csproj">
+      <Project>{2a3c4415-b678-4826-97d8-e25e6e63b088}</Project>
+      <Name>Heiflow.Spatial</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\check.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Folder.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FolderClosed.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Leaf.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\minus.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\plus.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\uncheck.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\unknown.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DVSplit.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\property16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3dplot16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\round-palette-color-choose-16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\database-add-16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ZoomFixedZoomOut32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TableFolder16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SpatialAnalystTrainingSampleHistograms16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ViewCompact16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RasterImageAnalysisPanSharpen16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Surface16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DataFrame16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AddContent16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AttributesWindow16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MapProperties16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LayerBasemapNew16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LayerRasterOptimized16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LayerRaster_B_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GenericSplitThree16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ContentsWindowFloatingLayers16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AnimationVideo16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GenericBlueLeftArrowShortTail32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GenericBlueRightArrowNoTail32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GenericBluePause32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GenericBlueRightArrowLongTail32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DataFrameRotate_B_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DatabaseServerAdd16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DatabaseServer16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FolderWithGISData16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GeoStatAnalystHideShowLegend32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ItemInformation16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SelectionClearSelected16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SelectionSelectAll16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\script.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\table_edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\calculator.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\color_scheme.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FolderOpen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\info.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RunModel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\zoom.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pan.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EditingAdjustmentLinkTable16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GenericBlueArrowDoubleRightFastForward32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GenericBlueArrowDoubleLeftRewind32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PointDisplay16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LayerSchematic16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TmImportFeatures16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ContentsWindowListBySource32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ContentsWindowListBySource16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MetadataProperties16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CadastralBluePrint16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LayerRaster_B_16_gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SpatialAnalystTrainingSampleClear16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TmClearSelection16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MetadataGazetteerLoad16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GenericSave_B_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3DCacheGroupLayerSettings16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AnimationCreateGroup16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HostedServicesFolderOpenState32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TmImportFeatures32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KML_GroundOverlay16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LayerRemove16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Chart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GraphHistogram32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Surface32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SpatialAnalystTrainingSampleScatterplots16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GraphVerticalLine16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GraphScatterplotCreate16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GeoprocessingScriptUnfilled16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TableExport16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ToolboxesFolder16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GeoprocessingTool16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ReportRun16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GeostatisticalGraphCrossvarianceCloud16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CadastralParcelHistoric16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ViewList16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GeostatisticalGraphGeneralQQPlot16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\budget.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GenericOpen_B_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GenericOpen_B_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\excel-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SelectionStatistics_B_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hammer16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hammer32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\toolbox16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\toolbox32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\compare_24p.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Go_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ViewList161.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\image_regc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PkgInfo_File16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LayoutDataDrivenPagesChangeToPage16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MapPackageTiledTPKFile16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GenericDeleteRed32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GenericWindowLightBlue16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_edit-clear_15273.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TmRemoveFromSelected16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_selected-delete_37293.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_stock_chart-toggle-legend_93841.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_business-work_12_2377635.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\csv-3-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GeodatabaseXMLRecordSetImport32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\3d_plot_printing_printer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_Side_Panel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Load24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\download32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\setting32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\star32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\datasheet16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\single_object.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\import_db.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search_db.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cat_db.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_db.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\remove_db.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

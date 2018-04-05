@@ -1,0 +1,300 @@
+﻿// THIS FILE IS PART OF Visual HEIFLOW
+// THIS PROGRAM IS NOT FREE SOFTWARE. 
+// Copyright (c) 2015-2017 Yong Tian, SUSTech, Shenzhen, China. All rights reserved.
+// Email: tiany@sustc.edu.cn
+// Web: http://ese.sustc.edu.cn/homepage/index.aspx?lid=100000005794726
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+using System.Data;
+using ILNumerics;
+using Heiflow.Core.Data;
+using System.ComponentModel;
+
+namespace Heiflow.Core.IO
+{
+    public class CSVFileStream
+    {
+        private string _Filename;
+        public static string Comma = ",";
+        private StreamReader _StreamReader;
+
+        public CSVFileStream(string filename)
+        {
+            _Filename = filename;
+            HasHeader = true;
+        }
+        public bool HasHeader
+        {
+            get;
+            set;
+        }
+
+        public string ErrorMessage
+        {
+            get;
+            protected set;
+        }
+        public void Save(string content)
+        {
+            StreamWriter sw = new StreamWriter(_Filename);
+            sw.Write(content);
+            sw.Close();
+        }
+
+        public void Save(DataTable dt)
+        {
+            string line = "";
+            StreamWriter sw = new StreamWriter(_Filename);
+            var buf = from DataColumn dc in dt.Columns select dc.ColumnName;
+            string head = string.Join(Comma, buf.ToArray());
+            sw.WriteLine(head);
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                line = string.Join(Comma, dr.ItemArray);
+                sw.WriteLine(line);
+            }
+            sw.Close();
+        }
+
+        public void Save(Array array, string[] headers)
+        {
+            int nrow = array.GetLength(0);
+            int ncol = array.GetLength(1);
+            string line = "";
+            StreamWriter sw = new StreamWriter(_Filename);
+            line = string.Join(",", headers);
+            sw.WriteLine(line);
+
+            for (int i = 0; i < nrow; i++)
+            {
+                line = "";
+                for (int j = 0; j < ncol; j++)
+                {
+                    line += array.GetValue(i, j) + ",";
+                }
+                line = line.TrimEnd(TypeConverterEx.Comma);
+                sw.WriteLine(line);
+            }
+            sw.Close();
+        }
+
+        public Array LoadArray()
+        {
+            StreamReader sr = new StreamReader(_Filename);
+            string line = "";
+            line = sr.ReadLine();
+            int nrow = 0;
+            int ncol = 0;
+            var strs = TypeConverterEx.Split<string>(line);
+            ncol = strs.Length;
+            while (!sr.EndOfStream)
+            {
+                line = sr.ReadLine();
+                if (TypeConverterEx.IsNull(line))
+                    break;
+                nrow++;
+            }
+            sr.Close();
+
+            sr = new StreamReader(_Filename);
+            line = sr.ReadLine();
+            var array = new float[nrow, ncol];
+            for (int i = 0; i < nrow; i++)
+            {
+                line = sr.ReadLine();
+                var buf = TypeConverterEx.Split<float>(line);
+                for (int j = 0; j < ncol; j++)
+                {
+                    array[i, j] = buf[j];
+                }
+            }
+
+            sr.Close();
+            return array;
+        }
+
+        public void Save<T>(IVectorTimeSeries<T> ts)
+        {
+            if (ts != null)
+            {
+                string line = "";
+                StreamWriter sw = new StreamWriter(_Filename);
+                string head = "DateTime," + ts.Name;
+                sw.WriteLine(head);
+
+                for (int i = 0; i < ts.DateTimes.Length; i++)
+                {
+                    line = string.Join(Comma, ts.DateTimes[i].ToString("yyyy-MM-dd"), ts.Value[i]);
+                    sw.WriteLine(line);
+                }
+                sw.Close();
+            }
+        }
+
+        /// <summary>
+        /// load datatable from .csv file.
+        /// </summary>
+        /// <returns>DataTable that has one column with float type</returns>
+        public DataTable Load()
+        {
+            DataTable dt = new DataTable();
+            StreamReader sr = new StreamReader(_Filename);
+
+            string line = sr.ReadLine().Trim();
+            DataColumn dc = new DataColumn(line, Type.GetType("System.Single"));
+            dt.Columns.Add(dc);
+            while (!sr.EndOfStream)
+            {
+                line = sr.ReadLine().Trim();
+                if (!TypeConverterEx.IsNull(line))
+                {
+                    float vv = 0;
+                    float.TryParse(line, out vv);
+                    var dr = dt.NewRow();
+                    dr[0] = vv;
+                    dt.Rows.Add(dr);
+                }
+            }
+            sr.Close();
+            return dt;
+        }
+
+        public void LoadTo(DataTable source)
+        {
+            StreamReader sr = new StreamReader(_Filename);
+            string line = sr.ReadLine().Trim();
+            var varlist = (TypeConverterEx.Split<string>(line)).ToList();
+            var colnames = (from DataColumn dc in source.Columns select dc.ColumnName).ToList();
+            int nrow = source.Rows.Count;
+            var buf = varlist.Intersect(colnames);
+            int l = 0;
+            if (buf.Any())
+            {
+                int nvar = buf.Count();
+                int[] var_index = new int[nvar];
+                int[] col_index = new int[nvar];
+                TypeConverter[] converts = new TypeConverter[nvar];
+                for (int i = 0; i < nvar; i++)
+                {
+                    var var_name = buf.ElementAt(i);
+                    var_index[i] = varlist.IndexOf(var_name);
+                    col_index[i] = colnames.IndexOf(var_name);
+                    converts[i] = TypeDescriptor.GetConverter(source.Columns[col_index[i]].DataType);
+                }
+
+                while (!sr.EndOfStream)
+                {
+                    line = sr.ReadLine().Trim();
+                    var strs = TypeConverterEx.Split<string>(line);
+                    if (l < nrow)
+                    {
+                        var dr = source.Rows[l];
+                        for(int c=0;c<nvar;c++)
+                        {                 
+                            dr[col_index[c]] = converts[c].ConvertFromString(strs[var_index[c]]);
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                    l++;
+                }
+            }
+            sr.Close();
+        }
+
+        public void GetCotentInfo(ref int nrow, ref int ncol, ref string header)
+        {
+            nrow = 0;
+            StreamReader sr = new StreamReader(_Filename);
+            header = sr.ReadLine();
+            string line = sr.ReadLine();
+            var strs = TypeConverterEx.Split<string>(line);
+            nrow++;
+            ncol = strs.Length;
+            while (!sr.EndOfStream)
+            {
+                line = sr.ReadLine();
+                if(!TypeConverterEx.IsNull(line))
+                    nrow++;
+            }
+            sr.Close();
+        }
+
+        public T[][] Load<T>(int nrow, int ncol)
+        {
+            T[][] mat = new T[nrow][];
+            StreamReader sr = new StreamReader(_Filename);
+            var header = sr.ReadLine();
+            string line = "";
+            for (int i = 0; i < nrow; i++)
+            {
+                line = sr.ReadLine();
+                mat[i] = TypeConverterEx.Split<T>(line);
+            }
+            sr.Close();
+            return mat;
+        }
+
+        public ILArray<T> Load<T>()
+        {
+            int i = 0;
+             int nrow=0;
+            int ncol=0;
+             string header="";
+            GetCotentInfo(ref  nrow, ref  ncol, ref  header);
+            ILArray<T> array = ILMath.zeros<T>(nrow, ncol);
+            StreamReader sr = new StreamReader(_Filename);
+            try
+            {
+          
+                header = sr.ReadLine();
+                string line = "";
+                for (i = 0; i < nrow; i++)
+                {
+                    line = sr.ReadLine();
+                    var buf = TypeConverterEx.Split<T>(line);
+                    for (int j = 0; j < ncol; j++)
+                    {
+                        array.SetValue(buf[j], i, j);
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                ErrorMessage = ex.Message;
+            }
+            sr.Close();
+
+            return array;
+        }
+
+        public void Open()
+        {
+            _StreamReader = new StreamReader(_Filename);
+        }
+
+        public void Close()
+        {
+            _StreamReader.Close();
+        }
+
+        public string ReadHeader()
+        {
+            return _StreamReader.ReadLine();
+        }
+
+        public T[] ReadLine<T>()
+        {
+            string line = _StreamReader.ReadLine();
+            var vec=  TypeConverterEx.Split<T>(line);
+            return vec;
+        }
+    }
+}

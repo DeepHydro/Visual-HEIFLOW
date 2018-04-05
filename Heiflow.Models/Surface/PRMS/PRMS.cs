@@ -1,0 +1,281 @@
+﻿// THIS FILE IS PART OF Visual HEIFLOW
+// THIS PROGRAM IS NOT FREE SOFTWARE. 
+// Copyright (c) 2015-2017 Yong Tian, SUSTech, Shenzhen, China. All rights reserved.
+// Email: tiany@sustc.edu.cn
+// Web: http://ese.sustc.edu.cn/homepage/index.aspx?lid=100000005794726
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Heiflow.Models.Generic;
+using System.IO;
+using System.ComponentModel.Composition;
+using Heiflow.Models.Properties;
+using Heiflow.Models.Generic.Project;
+using Heiflow.Models.Integration;
+using Heiflow.Models.Generic.Parameters;
+using System.Collections.ObjectModel;
+using Heiflow.Models.Generic.Packages;
+using Heiflow.Models.UI;
+using Heiflow.Core.Data;
+using System.ComponentModel;
+using Heiflow.Core.Utility;
+
+namespace Heiflow.Models.Surface.PRMS
+{
+    [Export(typeof(IBasicModel))]
+    [ModelItem]
+    public class PRMS : BaseModel
+    {
+        public const string InputDic = ".\\Input\\";
+        private MMSPackage _mmsPackage;
+        private PRMSOutputDataPackage _outputPackage;
+        private PRMSInputDataPackage _inputPackage;
+        private PRMSDrivingDataPackage _drivingPackage;
+        private MasterPackage _master;
+
+        public PRMS()
+        {
+            Name = "Surface";
+            Icon = Resources.mf16;
+            LargeIcon = Resources.mf32;
+            _mmsPackage = new MMSPackage("PRMS Package")
+            {
+                Owner = this
+            };
+            _outputPackage = new PRMSOutputDataPackage()
+            {
+                Owner = this,
+                Name = "Surface Output"
+            };
+            _inputPackage = new PRMSInputDataPackage()
+            {
+                Owner = this,
+                Name = "Surface Input",
+            };
+            _drivingPackage = new  PRMSDrivingDataPackage()
+            {
+                Owner = this,
+                Name = "Surface Driving",
+            };
+            _mmsPackage.Owner = this;
+            AddInSilence(_inputPackage);
+            AddInSilence(_outputPackage);
+            AddInSilence(_drivingPackage);    
+        }
+        [Browsable(false)]
+        public int NHRU
+        {
+            get;
+            set;
+        }
+          [Browsable(false)]
+        public MMSPackage MMSPackage
+        {
+            get
+            {
+                return _mmsPackage;
+            }
+        }
+          [Browsable(false)]
+        public MasterPackage MasterPackage
+        {
+            get
+            {
+                return _master;
+            }
+            set
+            {
+                _master = value;
+                _inputPackage.MasterPackage = _master;
+                _outputPackage.MasterPackage = _master;
+                _drivingPackage.MasterPackage = _master;
+            }
+        }
+
+        public override void Initialize()
+        {
+            _mmsPackage.FileName = ControlFileName;
+            var pcks = new Package[] { _mmsPackage, _inputPackage, _outputPackage, _drivingPackage };
+            foreach (var pck in pcks)
+            {
+                pck.Initialize();
+            }
+           
+        }
+
+        public override bool Load(IProgress progress)
+        {
+            bool succ = true;
+            if (File.Exists(ControlFileName))
+            {
+                succ=_mmsPackage.Load();
+                if (succ)
+                {
+                    ResolveLoadedParameters(true);
+                    ResolveModules();
+                    foreach(var pck in Packages.Values)
+                    {
+                        pck.AfterLoad();
+                    }
+                    progress.Progress("\tParameters loaded.");
+                }
+                else
+                {
+                     progress.Progress( string.Format("\r\n Failed to load parameter file. Error message: {1}",  _mmsPackage.Message));
+                }
+            }
+            else
+            {
+                succ = false;
+                progress.Progress( string.Format("\r\n Failed to load {0}. The parameter file does not exist: {1}", Name, ControlFileName));
+            }
+            return succ;
+        }
+
+        public override bool LoadGrid(IProgress progress)
+        {
+            return true;
+        }
+
+        public override bool Validate()
+        {
+            return false;
+        }
+
+        public override bool New(IProgress progress)
+        {
+            string parafile = Path.Combine(BaseModel.ConfigPath, "heiflow.param");
+            var succ = true;
+            if (File.Exists(parafile))
+            {
+                File.Copy(parafile, _mmsPackage.FileName, true);
+                succ = _mmsPackage.Load();
+                if (succ)
+                {
+                    ResolveLoadedParameters(false);
+                    ResolveModules();
+                    _mmsPackage.FileName = this.ControlFileName;
+                    succ = _inputPackage.New();
+                    succ = _outputPackage.New();
+                }
+                else
+                {
+                    var msg =string.Format("\r\n Failed to load {0}. Error: {1}", Name, _mmsPackage.Message);
+                    progress.Progress(msg);
+                }
+            }
+            else
+            {
+                succ = false;
+                 var msg =string.Format("The template parameter file {0} is missing. Please repair the software.", parafile);
+                  progress.Progress(msg);
+            }
+            return succ;
+        }
+
+        public override void Clear()
+        {
+            foreach (var pck in Packages.Values)
+            {
+                pck.Clear();
+            }
+            Packages.Clear();
+        }
+
+        public override void Attach(DotSpatial.Controls.IMap map,  string directory)
+        {
+            foreach (var pck in Packages.Values)
+            {
+                pck.Attach(map, directory);
+                foreach (var ch in pck.Children)
+                {
+                    ch.Attach(map, directory);
+                }
+            }
+        }
+
+        public override void Save(IProgress progress)
+        {
+            _mmsPackage.Save(progress);
+            _inputPackage.Save(progress);
+            _drivingPackage.Save(progress);
+        }
+
+        public override void OnTimeServiceUpdated(ITimeService sender)
+        {
+            var ndays = _mmsPackage.Select("ndays");
+            if(ndays != null)
+                ndays.SetValue(sender.NumTimeStep, 0);
+        }
+
+        public override void OnGridUpdated(IGrid sender)
+        {
+    
+        }
+
+        public void ResolveModules()
+        {
+            var para = from par in _mmsPackage.Parameters.Values
+                       group par by par.ModuleName into pp
+                       select new
+                       {
+                           Module = pp.Key,
+                           Paras = pp.ToArray()
+                       };
+
+            foreach (var p in para)
+            {
+                MMSPackage pk = new MMSPackage(p.Module.ToString());
+                pk.Owner = this;
+                pk.FileName = _mmsPackage.FileName;
+                foreach (var ar in p.Paras)
+                {
+                    pk.Parameters.Add(ar.Name, ar);
+                }
+               // pk.Initialize();
+                AddInSilence(pk);
+            }
+        }
+
+        public void ResolveLoadedParameters(bool is_load)
+        {
+            string _Configfile = Path.Combine(ConfigPath, "mms.config.xml");
+            if (File.Exists(_Configfile))
+            {
+                _mmsPackage.LoadDefaultPara(_Configfile);
+                foreach (var para in _mmsPackage.Parameters)
+                {
+                    var pp = (from pr in _mmsPackage.DefaultParameters where pr.Name == para.Key select pr).FirstOrDefault();
+                    if (pp != null)
+                    {
+                        para.Value.ModuleName = pp.ModuleName;
+                        para.Value.DefaultValue = pp.DefaultValue;
+                        para.Value.Description = pp.Description;
+                        para.Value.Maximum = pp.Maximum;
+                        para.Value.Minimum = pp.Minimum;
+                        para.Value.Units = pp.Units;
+                    }
+                }
+            }
+            if (is_load)
+            {
+                var par = from pa in _mmsPackage.Parameters where pa.Key.ToLower() == "nhru" select pa;
+                NHRU = (int)par.First().Value.ToDouble().First();
+                ModelService.NHRU = NHRU;
+
+                var topo = (this.Grid as RegularGrid).Topology;
+                foreach (var para in _mmsPackage.Parameters)
+                {
+                    if (para.Value.ValueCount == NHRU)
+                        (para.Value as IDataCubeObject).Topology = topo;
+                }
+                var basin_area = _mmsPackage.Select("basin_area");
+                var area = basin_area.ToDouble().Average() * ConstantNumber.Acre2SqM;
+                ModelService.BasinArea = area;
+            }
+        }
+ 
+    }
+}

@@ -1,0 +1,263 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A022B559-AB8A-4130-98AC-70A68B217C80}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Heiflow.AI</RootNamespace>
+    <AssemblyName>Heiflow.AI</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>vhf.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="ColorMap.cs" />
+    <Compile Include="ComponentRunEpochEventArgs.cs" />
+    <Compile Include="License\Crypto.cs" />
+    <Compile Include="Core\DoublePoint.cs" />
+    <Compile Include="Core\DoubleRange.cs" />
+    <Compile Include="Core\Exceptions.cs" />
+    <Compile Include="Core\IntPoint.cs" />
+    <Compile Include="Core\IntRange.cs" />
+    <Compile Include="Core\Parallel.cs" />
+    <Compile Include="Core\PolishExpression.cs" />
+    <Compile Include="Core\SystemTools.cs" />
+    <Compile Include="Delegate.cs" />
+    <Compile Include="GeneticProgramming\ExcelHelper.cs" />
+    <Compile Include="GeneticProgramming\Fitness\AEFitness.cs" />
+    <Compile Include="GeneticProgramming\Fitness\CCFitness.cs" />
+    <Compile Include="GeneticProgramming\Fitness\IFitnessFunction.cs" />
+    <Compile Include="GeneticProgramming\Fitness\MAEFitness.cs" />
+    <Compile Include="GeneticProgramming\Fitness\MSEFitness.cs" />
+    <Compile Include="GeneticProgramming\Fitness\RAEFitness.cs" />
+    <Compile Include="GeneticProgramming\Fitness\REFitness.cs" />
+    <Compile Include="GeneticProgramming\Fitness\RMSEFitness.cs" />
+    <Compile Include="GeneticProgramming\Fitness\RRSEFitness.cs" />
+    <Compile Include="GeneticProgramming\Fitness\RSEFitness.cs" />
+    <Compile Include="GeneticProgramming\Fitness\r_MAEFitness.cs" />
+    <Compile Include="GeneticProgramming\Fitness\r_MSEFitness.cs" />
+    <Compile Include="GeneticProgramming\Fitness\r_RAEFitness.cs" />
+    <Compile Include="GeneticProgramming\Fitness\r_RMSEFitness.cs" />
+    <Compile Include="GeneticProgramming\Fitness\r_RRSEFitness.cs" />
+    <Compile Include="GeneticProgramming\Fitness\r_RSEFitness.cs" />
+    <Compile Include="GeneticProgramming\FunctionTree.cs" />
+    <Compile Include="GeneticProgramming\GPChromosome.cs" />
+    <Compile Include="GeneticProgramming\GPFunction.cs" />
+    <Compile Include="GeneticProgramming\GPFunctionSet.cs" />
+    <Compile Include="GeneticProgramming\GPParameters.cs" />
+    <Compile Include="GeneticProgramming\GPPopulation.cs" />
+    <Compile Include="GeneticProgramming\GPTerminal.cs" />
+    <Compile Include="GeneticProgramming\GPTerminalSet.cs" />
+    <Compile Include="GeneticProgramming\RandomThreadsafe.cs" />
+    <Compile Include="GeneticProgramming\Statistic.cs" />
+    <Compile Include="License\MyLicense.cs" />
+    <Compile Include="Math\Complex.cs" />
+    <Compile Include="Math\ContinuousHistogram.cs" />
+    <Compile Include="Math\FourierTransform.cs" />
+    <Compile Include="Math\Gaussian.cs" />
+    <Compile Include="Math\Geometry\ClosePointsMergingOptimizer.cs" />
+    <Compile Include="Math\Geometry\FlatAnglesOptimizer.cs" />
+    <Compile Include="Math\Geometry\GeometryTools.cs" />
+    <Compile Include="Math\Geometry\GrahamConvexHull.cs" />
+    <Compile Include="Math\Geometry\IConvexHullAlgorithm.cs" />
+    <Compile Include="Math\Geometry\IShapeOptimizer.cs" />
+    <Compile Include="Math\Geometry\Line.cs" />
+    <Compile Include="Math\Geometry\LineSegment.cs" />
+    <Compile Include="Math\Geometry\LineStraighteningOptimizer.cs" />
+    <Compile Include="Math\Geometry\PointsCloud.cs" />
+    <Compile Include="Math\Geometry\ShapeType.cs" />
+    <Compile Include="Math\Geometry\SimpleShapeChecker.cs" />
+    <Compile Include="Math\Histogram.cs" />
+    <Compile Include="Math\Metrics\CosineDistance.cs" />
+    <Compile Include="Math\Metrics\CosineSimilarity.cs" />
+    <Compile Include="Math\Metrics\EuclideanDistance.cs" />
+    <Compile Include="Math\Metrics\EuclideanSimilarity.cs" />
+    <Compile Include="Math\Metrics\HammingDistance.cs" />
+    <Compile Include="Math\Metrics\IDistance.cs" />
+    <Compile Include="Math\Metrics\ISimilarity.cs" />
+    <Compile Include="Math\Metrics\JaccardDistance.cs" />
+    <Compile Include="Math\Metrics\ManhattanDistance.cs" />
+    <Compile Include="Math\Metrics\PearsonCorrelation.cs" />
+    <Compile Include="Math\PerlinNoise.cs" />
+    <Compile Include="Math\Random\ExponentialGenerator.cs" />
+    <Compile Include="Math\Random\GaussianGenerator.cs" />
+    <Compile Include="Math\Random\IRandomNumberGenerator.cs" />
+    <Compile Include="Math\Random\StandardGenerator.cs" />
+    <Compile Include="Math\Random\UniformGenerator.cs" />
+    <Compile Include="Math\Random\UniformOneGenerator.cs" />
+    <Compile Include="Math\Statistics.cs" />
+    <Compile Include="Math\Tools.cs" />
+    <Compile Include="NeuronDotNet\Backpropagation\ActivationLayer.cs" />
+    <Compile Include="NeuronDotNet\Backpropagation\ActivationNeuron.cs" />
+    <Compile Include="NeuronDotNet\Backpropagation\BackpropagationConnector.cs" />
+    <Compile Include="NeuronDotNet\Backpropagation\BackpropagationNetwork.cs" />
+    <Compile Include="NeuronDotNet\Backpropagation\BackpropagationSynapse.cs" />
+    <Compile Include="NeuronDotNet\Backpropagation\LinearLayer.cs" />
+    <Compile Include="NeuronDotNet\Backpropagation\LogarithmLayer.cs" />
+    <Compile Include="NeuronDotNet\Backpropagation\SigmoidLayer.cs" />
+    <Compile Include="NeuronDotNet\Backpropagation\SineLayer.cs" />
+    <Compile Include="NeuronDotNet\Backpropagation\TanhLayer.cs" />
+    <Compile Include="NeuronDotNet\ConnectionMode.cs" />
+    <Compile Include="NeuronDotNet\Connector.cs" />
+    <Compile Include="NeuronDotNet\Helper.cs" />
+    <Compile Include="NeuronDotNet\IConnector.cs" />
+    <Compile Include="NeuronDotNet\IInitializer.cs" />
+    <Compile Include="NeuronDotNet\ILayer.cs" />
+    <Compile Include="NeuronDotNet\ILearningRateFunction.cs" />
+    <Compile Include="NeuronDotNet\INetwork.cs" />
+    <Compile Include="NeuronDotNet\INeuron.cs" />
+    <Compile Include="NeuronDotNet\Initializers\ConstantFunction.cs" />
+    <Compile Include="NeuronDotNet\Initializers\NguyenWidrowFunction.cs" />
+    <Compile Include="NeuronDotNet\Initializers\NormalizedRandomFunction.cs" />
+    <Compile Include="NeuronDotNet\Initializers\RandomFunction.cs" />
+    <Compile Include="NeuronDotNet\Initializers\ZeroFunction.cs" />
+    <Compile Include="NeuronDotNet\ISynapse.cs" />
+    <Compile Include="NeuronDotNet\Layer.cs" />
+    <Compile Include="NeuronDotNet\LearningRateFunctions\AbstractFunction.cs" />
+    <Compile Include="NeuronDotNet\LearningRateFunctions\ExponentialFunction.cs" />
+    <Compile Include="NeuronDotNet\LearningRateFunctions\HyperbolicFunction.cs" />
+    <Compile Include="NeuronDotNet\LearningRateFunctions\LinearFunction.cs" />
+    <Compile Include="NeuronDotNet\Network.cs" />
+    <Compile Include="NeuronDotNet\SOM\INeighborhoodFunction.cs" />
+    <Compile Include="NeuronDotNet\SOM\KohonenConnector.cs" />
+    <Compile Include="NeuronDotNet\SOM\KohonenLayer.cs" />
+    <Compile Include="NeuronDotNet\SOM\KohonenMapClassification.cs" />
+    <Compile Include="NeuronDotNet\SOM\KohonenNetwork.cs" />
+    <Compile Include="NeuronDotNet\SOM\KohonenSynapse.cs" />
+    <Compile Include="NeuronDotNet\SOM\LatticeTopology.cs" />
+    <Compile Include="NeuronDotNet\SOM\NeighborhoodFunctions\GaussianFunction.cs" />
+    <Compile Include="NeuronDotNet\SOM\NeighborhoodFunctions\MexicanHatFunction.cs" />
+    <Compile Include="NeuronDotNet\SOM\PositionNeuron.cs" />
+    <Compile Include="NeuronDotNet\TrainingEpochEventArgs.cs" />
+    <Compile Include="NeuronDotNet\TrainingMethod.cs" />
+    <Compile Include="NeuronDotNet\TrainingSample.cs" />
+    <Compile Include="NeuronDotNet\TrainingSampleEventArgs.cs" />
+    <Compile Include="NeuronDotNet\TrainingSet.cs" />
+    <Compile Include="Neuro\Activation Functions\BipolarSigmoidFunction.cs" />
+    <Compile Include="Neuro\Activation Functions\IActivationFunction.cs" />
+    <Compile Include="Neuro\Activation Functions\SigmoidFunction.cs" />
+    <Compile Include="Neuro\Activation Functions\ThresholdFunction.cs" />
+    <Compile Include="Neuro\Layers\ActivationLayer.cs" />
+    <Compile Include="Neuro\Layers\DistanceLayer.cs" />
+    <Compile Include="Neuro\Layers\Layer.cs" />
+    <Compile Include="Neuro\Learning\BackPropagationLearning.cs" />
+    <Compile Include="Neuro\Learning\DeltaRuleLearning.cs" />
+    <Compile Include="Neuro\Learning\ElasticNetworkLearning.cs" />
+    <Compile Include="Neuro\Learning\EvolutionaryFitness.cs" />
+    <Compile Include="Neuro\Learning\EvolutionaryLearning.cs" />
+    <Compile Include="Neuro\Learning\ISupervisedLearning.cs" />
+    <Compile Include="Neuro\Learning\IUnsupervisedLearning.cs" />
+    <Compile Include="Neuro\Learning\PerceptronLearning.cs" />
+    <Compile Include="Neuro\Learning\SOMLearning.cs" />
+    <Compile Include="Neuro\Networks\ActivationNetwork.cs" />
+    <Compile Include="Neuro\Networks\DistanceNetwork.cs" />
+    <Compile Include="Neuro\Networks\Network.cs" />
+    <Compile Include="Neuro\Neurons\ActivationNeuron.cs" />
+    <Compile Include="Neuro\Neurons\DistanceNeuron.cs" />
+    <Compile Include="Neuro\Neurons\Neuron.cs" />
+    <Compile Include="Generic\Chromosomes\BinaryChromosome.cs" />
+    <Compile Include="Generic\Chromosomes\ChromosomeBase.cs" />
+    <Compile Include="Generic\Chromosomes\DoubleArrayChromosome.cs" />
+    <Compile Include="Generic\Chromosomes\GP\ExtendedGeneFunction.cs" />
+    <Compile Include="Generic\Chromosomes\GP\GEPChromosome.cs" />
+    <Compile Include="Generic\Chromosomes\GP\GPTreeChromosome.cs" />
+    <Compile Include="Generic\Chromosomes\GP\GPTreeNode.cs" />
+    <Compile Include="Generic\Chromosomes\GP\IGPGene.cs" />
+    <Compile Include="Generic\Chromosomes\GP\SimpleGeneFunction.cs" />
+    <Compile Include="Generic\Chromosomes\IChromosome.cs" />
+    <Compile Include="Generic\Chromosomes\PermutationChromosome.cs" />
+    <Compile Include="Generic\Chromosomes\ShortArrayChromosome.cs" />
+    <Compile Include="Generic\Fitness Functions\IFitnessFunction.cs" />
+    <Compile Include="Generic\Fitness Functions\OptimizationFunction1D.cs" />
+    <Compile Include="Generic\Fitness Functions\OptimizationFunction2D.cs" />
+    <Compile Include="Generic\Fitness Functions\SymbolicRegressionFitness.cs" />
+    <Compile Include="Generic\Fitness Functions\TimeSeriesPredictionFitness.cs" />
+    <Compile Include="Generic\Population.cs" />
+    <Compile Include="Generic\Selection Algorithms\EliteSelection.cs" />
+    <Compile Include="Generic\Selection Algorithms\ISelectionMethod.cs" />
+    <Compile Include="Generic\Selection Algorithms\RankSelection.cs" />
+    <Compile Include="Generic\Selection Algorithms\RouletteWheelSelection.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="License\RegisterOperator.cs" />
+    <Compile Include="SVM\Cache.cs" />
+    <Compile Include="SVM\GaussianTransform.cs" />
+    <Compile Include="IModel.cs" />
+    <Compile Include="SVM\IRangeTransform.cs" />
+    <Compile Include="SVM\Kernel.cs" />
+    <Compile Include="SVM\Model.cs" />
+    <Compile Include="SVM\Node.cs" />
+    <Compile Include="SVM\Parameter.cs" />
+    <Compile Include="SVM\ParameterSelection.cs" />
+    <Compile Include="SVM\PerformanceEvaluator.cs" />
+    <Compile Include="SVM\PrecomputedKernel.cs" />
+    <Compile Include="SVM\Prediction.cs" />
+    <Compile Include="SVM\Problem.cs" />
+    <Compile Include="SVM\RangeTransform.cs" />
+    <Compile Include="SVM\Scaling.cs" />
+    <Compile Include="SVM\Solver.cs" />
+    <Compile Include="SVM\SupportClass.cs" />
+    <Compile Include="SVM\SVMExtensions.cs" />
+    <Compile Include="SVM\TemporaryCulture.cs" />
+    <Compile Include="SVM\Training.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Heiflow.AI.licenseheader" />
+    <None Include="vhf.pfx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
