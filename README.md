@@ -2,7 +2,7 @@
 ## Description
    VHF is a comprehensive graphical modeling environment for integrated hydrological modeling. Currently, VHF is specially designed for an integrated ecological-hydrological model called HIEFLOW, but it can be easily extended to support other hydrological models. 
    
-   VHF is Written by the HEIFLOW Team (see the CONTRIBUTORS file) at [School of Environmental Science & Technology](http://ese.sustc.edu.cn/en/), [Southern University of Science and Technology](http://www.sustc.edu.cn/en/).
+   VHF is Written by the HEIFLOW Team (see the [CONTRIBUTORS](https://github.com/DeepHydro/VHF/blob/master/CONTRIBUTORS) file) at [School of Environmental Science & Technology](http://ese.sustc.edu.cn/en/), [Southern University of Science and Technology](http://www.sustc.edu.cn/en/).
 
 ## Features
 * Streamlines the entire integrated modeling procedure, from data preparation at the very beginning to visualization and analysis of modeling results, in a uniform environment.
