@@ -137,7 +137,7 @@
     </property>
     <property name="Item4" isnull="true" iskey="true">
       <property name="Visibility">Hidden</property>
-      <property name="FloatLocation">@3,X=350@3,Y=250</property>
+      <property name="FloatLocation">@3,X=425@3,Y=325</property>
       <property name="Dock">Float</property>
       <property name="XtraActiveChildID">-1</property>
       <property name="Footer" />
@@ -342,7 +342,7 @@
       <property name="XtraParentID">-1</property>
       <property name="XtraSavedParentID">-1</property>
       <property name="XtraAutoHideContainerDock">Float</property>
-      <property name="ID">9854b243-ec44-41e3-8d58-715887d78ff0</property>
+      <property name="ID">d6112b5a-5a3a-46c5-be02-f2310139180e</property>
       <property name="XtraID">7</property>
       <property name="DockVertical">Default</property>
       <property name="FloatVertical">false</property>
@@ -430,7 +430,7 @@
       <property name="XtraParentID">-1</property>
       <property name="XtraSavedParentID">-1</property>
       <property name="XtraAutoHideContainerDock">Float</property>
-      <property name="ID">7660dde1-351d-428b-8233-9e3df5fc1cd6</property>
+      <property name="ID">7f7e5285-ed42-43d3-9369-3c65c9ada9a5</property>
       <property name="XtraID">9</property>
       <property name="DockVertical">Default</property>
       <property name="FloatVertical">false</property>
@@ -577,7 +577,7 @@
     </property>
     <property name="Item14" isnull="true" iskey="true">
       <property name="Visibility">Visible</property>
-      <property name="FloatLocation">@3,X=-42@1,Y=3</property>
+      <property name="FloatLocation">@2,X=33@2,Y=78</property>
       <property name="Dock">Float</property>
       <property name="XtraActiveChildID">-1</property>
       <property name="Footer" />

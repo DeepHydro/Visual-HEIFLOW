@@ -60,10 +60,10 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnLayerGroup = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.cmbRasterLayer = new System.Windows.Forms.ComboBox();
-            this.cmbAvMethod = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.cmbAvMethod = new System.Windows.Forms.ComboBox();
+            this.cmbRasterLayer = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -422,6 +422,16 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Spatial Data";
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Calibri", 10.5F);
+            this.label10.Location = new System.Drawing.Point(294, 89);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(148, 17);
+            this.label10.TabIndex = 21;
+            this.label10.Text = "Select averaging method";
+            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -431,16 +441,6 @@
             this.label9.Size = new System.Drawing.Size(95, 17);
             this.label9.TabIndex = 21;
             this.label9.Text = "Select the DEM";
-            // 
-            // cmbRasterLayer
-            // 
-            this.cmbRasterLayer.Font = new System.Drawing.Font("Calibri", 10.5F);
-            this.cmbRasterLayer.FormattingEnabled = true;
-            this.cmbRasterLayer.Location = new System.Drawing.Point(7, 109);
-            this.cmbRasterLayer.Name = "cmbRasterLayer";
-            this.cmbRasterLayer.Size = new System.Drawing.Size(270, 25);
-            this.cmbRasterLayer.TabIndex = 18;
-            this.cmbRasterLayer.SelectedIndexChanged += new System.EventHandler(this.cmbRasterLayer_SelectedIndexChanged);
             // 
             // cmbAvMethod
             // 
@@ -456,15 +456,15 @@
             this.cmbAvMethod.TabIndex = 18;
             this.cmbAvMethod.SelectedIndexChanged += new System.EventHandler(this.cmbRasterLayer_SelectedIndexChanged);
             // 
-            // label10
+            // cmbRasterLayer
             // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Calibri", 10.5F);
-            this.label10.Location = new System.Drawing.Point(294, 89);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(148, 17);
-            this.label10.TabIndex = 21;
-            this.label10.Text = "Select averaging method";
+            this.cmbRasterLayer.Font = new System.Drawing.Font("Calibri", 10.5F);
+            this.cmbRasterLayer.FormattingEnabled = true;
+            this.cmbRasterLayer.Location = new System.Drawing.Point(7, 109);
+            this.cmbRasterLayer.Name = "cmbRasterLayer";
+            this.cmbRasterLayer.Size = new System.Drawing.Size(270, 25);
+            this.cmbRasterLayer.TabIndex = 18;
+            this.cmbRasterLayer.SelectedIndexChanged += new System.EventHandler(this.cmbRasterLayer_SelectedIndexChanged);
             // 
             // RegularGridGenForm
             // 
@@ -485,7 +485,7 @@
             this.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.Name = "RegularGridGenForm";
             this.ShowInTaskbar = false;
-            this.Text = "Creat Finite Difference Grid";
+            this.Text = "Create Finite Difference Grid";
             this.Load += new System.EventHandler(this.RegularGridGenForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
