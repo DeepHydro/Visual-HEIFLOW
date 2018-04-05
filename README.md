@@ -1,19 +1,15 @@
-# Introduction to Visual HEIFLOW (VHF)
+#  Visual HEIFLOW (VHF)
 ## Description
-   VHF is a comprehensive graphical data processing for integrated surface water-groundwater modeling. Its
-distinctive features in comparison with existing systems include the following.
--First, VHF uses a generic multivariable-space-time
-data cube model, which enables the system to efficiently handle large
+   VHF is a comprehensive graphical modeling environment for integrated hydrological modeling. Currently, VHF is specially designed for an integrated ecological-hydrological model called HIEFLOW, but it can be easily extended to support other hydrological models. 
+   VHF Written by the HEIFLOW Team (see the CONTRIBUTORS file) at [School of Environmental Science & Technology](http://ese.sustc.edu.cn/en/), [Southern University of Science and Technology](http://www.sustc.edu.cn/en/).
+
+## Features
+-Streamlines the entire integrated modeling procedure, from data preparation at the very beginning to visualization and analysis of modeling results, in a uniform environment.
+-Provides complete access to the relational database, as well as mapping, and 3D visualization tools to support the model development process. It allow users to take advantage of all types of GIS data available for hydrologic modeling.
+-Uses a generic multivariable-space-time data cube model, which enables the system to efficiently handle large
 time-series datasets over a large spatial domain. 
--Second, VHF streamlines the
-entire integrated modeling procedure, from data preparation at the very
-beginning to visualization and analysis of modeling results, in a uniform
-environment.
--Third, VHF allows updating the land use input at user-specified time points
-without manual interruption and therefore enables the model to directly
-simulate the hydrological effects of changing land use.
-## Current Features and Functionality
-- Visualizaiton of inputs/outputs
+-Allows updating the land use input at user-specified time points without manual interruption and therefore enables the model to directly simulate the hydrological effects of changing land use.
+
 ## Citing VHF
 If you use VHF in a publication, please cite the following paper that describes VHF:
 
@@ -24,16 +20,30 @@ If you use HEIFLOW in a publication, please cite the these papers:
 * Tian Y., Zheng Y., Wu B., Wu X., Liu J., Zheng C. Modeling surface water-groundwater interaction in arid and semi-arid regions with intensive agriculture, Environmental Modelling & Software, 2015, 63: 170-184.
 * Tian Y., Zheng Y., Zheng C., Xiao H., Fan W., Zou S., Wu B., Yao Y., Zhang A., Liu J. Exploring scale-dependent ecohydrological responses in a large endorheic river basin through integrated surface water-groundwater modeling, Water Resources Research, 2015, 51(6): 4065-4085.
 
-## Quick Start
+## Installation
+
 ### Prerequisites
 * [NET Framework 4.5](https://www.microsoft.com/net/download/thank-you/net452)
 * [Microsoft Access Database Engine 2010 Redistributable](https://www.microsoft.com/en-us/download/details.aspx?id=13255)
-### Step 1: Setup
-    Download setup file from the link https://github.com/DeepHydro/VHF/releases
-### Step 2: Download tutorial data
+
+  Download the VHF setup file from the link https://github.com/DeepHydro/VHF/releases
+
+## Tutorial
+   A step-by-step [tutorial](https://github.com/DeepHydro/VHF/releases) for modeling the Miho catchment located in Korea is provided. All necessary data used for the modeling accompany the tutorial document.
      
 ## Major Libraries
+  Several third-party libraries are used when developing VHF:
 * [DotSpatial](https://github.com/DotSpatial)
-## License
 
-## Contact
+## COPYRIGHT
+This package is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or any later version.
+
+Note: only part of the files distributed in the package belong to the Visual HEIFLOW. The package also contains contributed files, which may have their own copyright notices. If not, the GNU General Public License holds for them, too, but so that the author(s) of the file have the Copyright.
+
+This package is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+## LICENSING THE LIBRARY FOR PROPRIETARY PROGRAMS
+As stated in the GNU General Public License (see the license in COPYING) it is not possible to include this software library in a commercial proprietary program without written permission from the owners of the copyright.
+
+## Acknowledgements
+The Visual HEIFLOW project is supported by the National Natural Science Foundation of China (No. 41501024; No. 41622111; No. 91425303; No. 91225301). Additional support was provided by the Southern University of Science and Technology (No. G01296001) and the Shenzhen Municipal Science and Technology Innovation Committee (JCYJ20160530190547253).
