@@ -22,10 +22,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 //
-// Note: only part of the files distributed in the software belong to the Visual HEIFLOW. 
-// The software also contains contributed files, which may have their own copyright notices.
-//  If not, the GNU General Public License holds for them, too, but so that the author(s) 
-// of the file have the Copyright.
+// Note:  The software also contains contributed files, which may have their own 
+// copyright notices. If not, the GNU General Public License holds for them, too, 
+// but so that the author(s) of the file have the Copyright.
+//
 
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
