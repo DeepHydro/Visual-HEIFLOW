@@ -10,3 +10,9 @@ F:\System\HEIFLOW\VHF\DotSpatial.Plugins.Taudem\obj\Debug\DotSpatial.Plugins.Tau
 F:\System\HEIFLOW\VHF\bin\debug\Application Extensions\DotSpatial.Plugins.Taudem.Port\DotSpatial.Plugins.Taudem.dll.config
 F:\System\HEIFLOW\VHF\bin\debug\Application Extensions\DotSpatial.Plugins.Taudem.Port\DotSpatial.Plugins.Taudem.dll
 F:\System\HEIFLOW\VHF\bin\debug\Application Extensions\DotSpatial.Plugins.Taudem.Port\DotSpatial.Plugins.Taudem.pdb
+F:\System\HEIFLOW\VHF_GIT\VHF\bin\debug\Application Extensions\DotSpatial.Plugins.Taudem.Port\DotSpatial.Plugins.Taudem.dll.config
+F:\System\HEIFLOW\VHF_GIT\VHF\bin\debug\Application Extensions\DotSpatial.Plugins.Taudem.Port\DotSpatial.Plugins.Taudem.dll
+F:\System\HEIFLOW\VHF_GIT\VHF\bin\debug\Application Extensions\DotSpatial.Plugins.Taudem.Port\DotSpatial.Plugins.Taudem.pdb
+F:\System\HEIFLOW\VHF_GIT\VHF\DotSpatial.Plugins.Taudem\obj\Debug\DotSpatial.Plugins.Taudem.csprojResolveAssemblyReference.cache
+F:\System\HEIFLOW\VHF_GIT\VHF\DotSpatial.Plugins.Taudem\obj\Debug\DotSpatial.Plugins.Taudem.dll
+F:\System\HEIFLOW\VHF_GIT\VHF\DotSpatial.Plugins.Taudem\obj\Debug\DotSpatial.Plugins.Taudem.pdb

@@ -19,3 +19,10 @@ F:\System\HEIFLOW\VHF\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.Proper
 F:\System\HEIFLOW\VHF\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.csproj.GenerateResource.Cache
 F:\System\HEIFLOW\VHF\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.dll
 F:\System\HEIFLOW\VHF\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.pdb
+F:\System\HEIFLOW\VHF_GIT\VHF\bin\Debug\Heiflow.Presentation.dll
+F:\System\HEIFLOW\VHF_GIT\VHF\bin\Debug\Heiflow.Presentation.pdb
+F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.csprojResolveAssemblyReference.cache
+F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.Properties.Resources.resources
+F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.csproj.GenerateResource.Cache
+F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.dll
+F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.pdb

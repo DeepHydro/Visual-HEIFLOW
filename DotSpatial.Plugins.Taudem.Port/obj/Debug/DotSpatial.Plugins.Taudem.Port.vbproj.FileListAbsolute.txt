@@ -28,3 +28,16 @@ F:\System\HEIFLOW\VHF\bin\debug\Application Extensions\DotSpatial.Plugins.Taudem
 F:\System\HEIFLOW\VHF\bin\debug\Application Extensions\DotSpatial.Plugins.Taudem.Port\DotSpatial.Plugins.Taudem.Port.dll.config
 F:\System\HEIFLOW\VHF\bin\debug\Application Extensions\DotSpatial.Plugins.Taudem.Port\DotSpatial.Plugins.Taudem.Port.dll
 F:\System\HEIFLOW\VHF\bin\debug\Application Extensions\DotSpatial.Plugins.Taudem.Port\DotSpatial.Plugins.Taudem.Port.pdb
+F:\System\HEIFLOW\VHF_GIT\VHF\bin\debug\Application Extensions\DotSpatial.Plugins.Taudem.Port\Readme.txt
+F:\System\HEIFLOW\VHF_GIT\VHF\bin\debug\Application Extensions\DotSpatial.Plugins.Taudem.Port\DotSpatial.Plugins.Taudem.Port.dll.config
+F:\System\HEIFLOW\VHF_GIT\VHF\bin\debug\Application Extensions\DotSpatial.Plugins.Taudem.Port\DotSpatial.Plugins.Taudem.Port.dll
+F:\System\HEIFLOW\VHF_GIT\VHF\bin\debug\Application Extensions\DotSpatial.Plugins.Taudem.Port\DotSpatial.Plugins.Taudem.Port.pdb
+F:\System\HEIFLOW\VHF_GIT\VHF\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.vbprojResolveAssemblyReference.cache
+F:\System\HEIFLOW\VHF_GIT\VHF\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.frmAdvancedOptions_v3.resources
+F:\System\HEIFLOW\VHF_GIT\VHF\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.frmAutomatic_v3.resources
+F:\System\HEIFLOW\VHF_GIT\VHF\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.frmLoadDelinOutputs.resources
+F:\System\HEIFLOW\VHF_GIT\VHF\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.frmLoadOutputs.resources
+F:\System\HEIFLOW\VHF_GIT\VHF\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.Resources.resources
+F:\System\HEIFLOW\VHF_GIT\VHF\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.vbproj.GenerateResource.Cache
+F:\System\HEIFLOW\VHF_GIT\VHF\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.dll
+F:\System\HEIFLOW\VHF_GIT\VHF\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.pdb

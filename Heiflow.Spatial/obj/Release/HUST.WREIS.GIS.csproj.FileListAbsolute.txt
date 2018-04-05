@@ -1,3 +1,0 @@
-E:\PKU\Work Program\GIS\HUST.WREIS.GIS\obj\Release\HUST.WREIS.GIS.csprojResolveAssemblyReference.cache
-E:\PKU\Work Program\GIS\HUST.WREIS.GIS\obj\Release\HUST.WREIS.GIS.Properties.Resources.resources
-E:\PKU\Work Program\GIS\HUST.WREIS.GIS\obj\Release\HUST.WREIS.GIS.csproj.GenerateResource.Cache

@@ -54,3 +54,12 @@ F:\System\HEIFLOW\VHF\Heiflow.Plugins.Default\obj\Debug\Heiflow.Plugins.Default.
 F:\System\HEIFLOW\VHF\Heiflow.Plugins.Default\obj\Debug\Heiflow.Plugins.Default.dll.licenses
 F:\System\HEIFLOW\VHF\Heiflow.Plugins.Default\obj\Debug\Heiflow.Plugins.Default.dll
 F:\System\HEIFLOW\VHF\Heiflow.Plugins.Default\obj\Debug\Heiflow.Plugins.Default.pdb
+F:\System\HEIFLOW\VHF_GIT\VHF\bin\debug\Application Extensions\VHF\Heiflow.Plugins.Default.dll.config
+F:\System\HEIFLOW\VHF_GIT\VHF\bin\debug\Application Extensions\VHF\Heiflow.Plugins.Default.dll
+F:\System\HEIFLOW\VHF_GIT\VHF\bin\debug\Application Extensions\VHF\Heiflow.Plugins.Default.pdb
+F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.Plugins.Default\obj\Debug\Heiflow.Plugins.Default.csprojResolveAssemblyReference.cache
+F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.Plugins.Default\obj\Debug\Heiflow.Plugins.Default.Properties.Resources.resources
+F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.Plugins.Default\obj\Debug\Heiflow.Plugins.Default.csproj.GenerateResource.Cache
+F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.Plugins.Default\obj\Debug\Heiflow.Plugins.Default.dll.licenses
+F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.Plugins.Default\obj\Debug\Heiflow.Plugins.Default.dll
+F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.Plugins.Default\obj\Debug\Heiflow.Plugins.Default.pdb

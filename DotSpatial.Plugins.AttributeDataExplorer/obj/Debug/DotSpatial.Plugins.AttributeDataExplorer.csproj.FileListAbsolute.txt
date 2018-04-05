@@ -57,3 +57,12 @@ F:\System\HEIFLOW\VHF\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpat
 F:\System\HEIFLOW\VHF\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.dll.licenses
 F:\System\HEIFLOW\VHF\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.dll
 F:\System\HEIFLOW\VHF\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.pdb
+F:\System\HEIFLOW\VHF_GIT\VHF\bin\debug\Application Extensions\AttributeDataExplorer\DotSpatial.Plugins.AttributeDataExplorer.dll
+F:\System\HEIFLOW\VHF_GIT\VHF\bin\debug\Application Extensions\AttributeDataExplorer\DotSpatial.Plugins.AttributeDataExplorer.pdb
+F:\System\HEIFLOW\VHF_GIT\VHF\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.csprojResolveAssemblyReference.cache
+F:\System\HEIFLOW\VHF_GIT\VHF\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.MainForm.resources
+F:\System\HEIFLOW\VHF_GIT\VHF\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.Properties.Resources.resources
+F:\System\HEIFLOW\VHF_GIT\VHF\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.csproj.GenerateResource.Cache
+F:\System\HEIFLOW\VHF_GIT\VHF\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.dll.licenses
+F:\System\HEIFLOW\VHF_GIT\VHF\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.dll
+F:\System\HEIFLOW\VHF_GIT\VHF\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.pdb
