@@ -75,31 +75,27 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.NetTopologySuite">
-      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.NetTopologySuite.dll</HintPath>
+      <HintPath>..\Bin\Debug\DotSpatial.NetTopologySuite.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.NTSExtension">
-      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.NTSExtension.dll</HintPath>
+      <HintPath>..\Bin\Debug\DotSpatial.NTSExtension.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="DotSpatial.Projections, Version=1.7.0.0, Culture=neutral, PublicKeyToken=272632bddd08a38b, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Projections.dll</HintPath>
+    <Reference Include="DotSpatial.Projections">
+      <HintPath>..\Bin\Debug\DotSpatial.Projections.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="DotSpatial.Projections.Forms, Version=1.7.0.0, Culture=neutral, PublicKeyToken=52099474f11b7ff0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Projections.Forms.dll</HintPath>
+    <Reference Include="DotSpatial.Projections.Forms">
+      <HintPath>..\Bin\Debug\DotSpatial.Projections.Forms.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="DotSpatial.Symbology, Version=1.7.0.0, Culture=neutral, PublicKeyToken=6178c08da7998387, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Symbology.dll</HintPath>
+    <Reference Include="DotSpatial.Symbology">
+      <HintPath>..\Bin\Debug\DotSpatial.Symbology.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="DotSpatial.Symbology.Forms, Version=1.7.0.0, Culture=neutral, PublicKeyToken=0544cdeefb662382, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Symbology.Forms.dll</HintPath>
+    <Reference Include="DotSpatial.Symbology.Forms">
+      <HintPath>..\Bin\Debug\DotSpatial.Symbology.Forms.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />

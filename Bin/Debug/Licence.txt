@@ -1,29 +1,56 @@
-==================================
+====================================================================
 The Visual HEIFLOW License
-==================================
-Copyright (c) 2016-2017 Yong Tian <tiany@sustc.edu.cn>
-All rights reserved.
-https://github.com/DeepHydro/VHF
+====================================================================
 
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-'Software'), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
+Copyright (c) 2015-2018 Yong Tian, SUSTech, Shenzhen, China. All rights reserved.
 
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
 
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-
-Contact: tiany@sustc.edu.cn
-Web: https://github.com/DeepHydro/VHF
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+
+Note:  The software also contains contributed files, which may have their own 
+copyright notices. If not, the GNU General Public License holds for them, too, 
+but so that the author(s) of the file have the Copyright.
+
+====================================================================
+COPYRIGHT
+====================================================================
+This software is free; you can redistribute it and/or modify it under the terms 
+of the GNU General Public License as published by the Free Software Foundation; 
+either version 3 of the License, or any later version.
+
+Note: The software contains contributed files, which may have their own copyright 
+notices. If not, the GNU General Public License holds for them, too, but so that 
+the author(s) of the file have the Copyright.
+
+This software is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+See the GNU General Public License for more details.
+
+====================================================================
+LICENSING THE LIBRARY FOR PROPRIETARY PROGRAMS
+====================================================================
+As stated in the GNU General Public License (see the license in COPYING) it is not possible 
+to include this software library in a commercial proprietary program without written 
+permission from the owners of the copyright.
+
+====================================================================
+CONTACT
+====================================================================
+Email: tiany@sustc.edu.cn
+Web: https://github.com/DeepHydro/Visual-HEIFLOW

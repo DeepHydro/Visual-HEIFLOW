@@ -87,11 +87,15 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.Controls">
-      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Controls.dll</HintPath>
+      <HintPath>..\Bin\Debug\DotSpatial.Controls.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.Data">
-      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Data.dll</HintPath>
+      <HintPath>..\Bin\Debug\DotSpatial.Data.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotSpatial.Data.Forms">
+      <HintPath>..\Bin\Debug\DotSpatial.Data.Forms.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.Extensions">
@@ -99,11 +103,11 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.NetTopologySuite">
-      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.NetTopologySuite.dll</HintPath>
+      <HintPath>..\Bin\Debug\DotSpatial.NetTopologySuite.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.Symbology">
-      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Symbology.dll</HintPath>
+      <HintPath>..\Bin\Debug\DotSpatial.Symbology.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="OSGeo.FDO, Version=3.7.1335.0, Culture=neutral, processorArchitecture=x86">

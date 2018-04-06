@@ -831,10 +831,6 @@
       <Project>{e5f99333-3e66-4a22-a519-07b78370f322}</Project>
       <Name>Heiflow.Plugins.Tools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Heiflow.Spatial\Heiflow.Spatial.csproj">
-      <Project>{2a3c4415-b678-4826-97d8-e25e6e63b088}</Project>
-      <Name>Heiflow.Spatial</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\check.bmp" />
