@@ -33,7 +33,7 @@ Download the VHF [setup file](https://github.com/DeepHydro/VHF/releases) and ins
 ## Tutorial
    A step-by-step [tutorial](https://github.com/DeepHydro/Visual-HEIFLOW/blob/master/tutorial/Tutorial.pdf) for modeling the Miho catchment located in Korea is provided. All necessary data used for the modeling accompany the tutorial document. 
    
-   A [demo vedio](https://youtu.be/KJUU5cVCfG8) is provided to illustrate how to use VHF.
+   A [demo video](https://youtu.be/KJUU5cVCfG8) is provided to illustrate how to use VHF.
    
      
 ## Major Libraries
