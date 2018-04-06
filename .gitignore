@@ -1,19 +1,20 @@
-/Heiflow.Susbed/
-/Heiflow.Plugins.Susbed/
-/UnitTest/
-/packages/
-/MiscUtil/
-/Heiflow.Spatial/
-/Heiflow.Controls.WPF/
-/Heiflow.Visualization.Applications/
-/Heiflow.Visualization.Core/
-/Heiflow.Visualization.Display/
-/Heiflow.Visualization.Studio/
-/DotSpatial-master/
-/bin/Plugin/
-/bin/Release/
-/bin/VGS backup/
-/bin/Visualization/
-Heiflow.sln
+/src/Heiflow.Susbed/
+/src/Heiflow.Plugins.Susbed/
+/src/UnitTest/
+/src/packages/
+/src/MiscUtil/
+/src/Heiflow.Spatial/
+/src/Heiflow.Controls.WPF/
+/src/Heiflow.Visualization.Applications/
+/src/Heiflow.Visualization.Core/
+/src/Heiflow.Visualization.Display/
+/src/Heiflow.Visualization.Studio/
+/src/DotSpatial-master/
+/src/bin/Plugin/
+/src/bin/Release/
+/src/bin/VGS backup/
+/src/bin/Visualization/
+/src/Heiflow.sln
+/src/Visual Heiflow.v12.suo
 *.pdb
-Visual Heiflow.V12.suo
+
