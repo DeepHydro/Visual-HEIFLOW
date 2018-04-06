@@ -43,7 +43,7 @@ If you use HEIFLOW in a publication, please cite the these papers:
 The Visual HEIFLOW project is supported by the National Natural Science Foundation of China (No. 41501024; No. 41622111; No. 91425303; No. 91225301). Additional support was provided by the Southern University of Science and Technology (No. G01296001) and the Shenzhen Municipal Science and Technology Innovation Committee (JCYJ20160530190547253).
 
 ## COPYRIGHT
-This software is free; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or any later version.
+This software is free; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or any later version.
 
 Note: The software contains contributed files, which may have their own copyright notices. If not, the GNU General Public License holds for them, too, but so that the author(s) of the file have the Copyright.
 
