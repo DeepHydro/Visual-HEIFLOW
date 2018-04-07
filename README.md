@@ -3,6 +3,8 @@
 Visual HEIFLOW(VHF) is a comprehensive graphical modeling environment for integrated hydrological modeling. Currently, VHF is specially designed for an integrated ecological-hydrological model called HIEFLOW, but it can be easily extended to support other hydrological models. 
    
    VHF is Written by the HEIFLOW Team (see the [CONTRIBUTORS](https://github.com/DeepHydro/VHF/blob/master/CONTRIBUTORS) file) at [School of Environmental Science and Engineering](http://ese.sustc.edu.cn/en/), [Southern University of Science and Technology](http://www.sustc.edu.cn/en/).
+   
+   A [demo video](https://youtu.be/KJUU5cVCfG8) is provided to illustrate how to use VHF.
 
 ## Features
 * Streamlines the entire integrated modeling procedure, from data preparation at the very beginning to visualization and analysis of modeling results, in a uniform environment.
@@ -32,8 +34,6 @@ Download the VHF [setup file](https://github.com/DeepHydro/VHF/releases) and ins
 
 ## Tutorial
    A step-by-step [tutorial](https://github.com/DeepHydro/Visual-HEIFLOW/blob/master/tutorial/Tutorial.pdf) for modeling the Miho catchment located in Korea is provided. All necessary data used for the modeling accompany the tutorial document. 
-   
-   A [demo video](https://youtu.be/KJUU5cVCfG8) is provided to illustrate how to use VHF.
    
      
 ## Major Libraries
