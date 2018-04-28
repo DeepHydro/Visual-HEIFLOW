@@ -37,3 +37,9 @@ F:\System\HEIFLOW\VHF_GIT\VHF\bin\Debug\Heiflow.AI.pdb
 F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.AI\obj\Debug\Heiflow.AI.csprojResolveAssemblyReference.cache
 F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.AI\obj\Debug\Heiflow.AI.dll
 F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.AI\obj\Debug\Heiflow.AI.pdb
+F:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Heiflow.AI.dll.config
+F:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Heiflow.AI.dll
+F:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Heiflow.AI.pdb
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.AI\obj\Debug\Heiflow.AI.csprojResolveAssemblyReference.cache
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.AI\obj\Debug\Heiflow.AI.dll
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.AI\obj\Debug\Heiflow.AI.pdb

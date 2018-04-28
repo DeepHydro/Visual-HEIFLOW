@@ -45,14 +45,16 @@ namespace Heiflow.Tools.DataManagement
     {
         private string _DiversionFileName;
         private string _QuotaFileName;
+        private double _Drawdown;
 
         public WithdrawObjects()
         {
-            Name = "Water Withdraw Objects";
+            Name = "Water Withdraw File";
             Category = "Irrigation Model";
-            Description = "Set Canal Parameters";
+            Description = "Create Water Withdraw File";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
+            _Drawdown = 2;
         }
 
         [Category("Input")]
@@ -82,6 +84,20 @@ namespace Heiflow.Tools.DataManagement
             set
             {
                 _QuotaFileName = value;
+            }
+        }
+
+        [Category("Input")]
+        [Description("The allowed maximum drawdown")]
+        public double Drawdown
+        {
+            get
+            {
+                return _Drawdown;
+            }
+            set
+            {
+                _Drawdown = value;
             }
         }
 
@@ -147,9 +163,10 @@ namespace Heiflow.Tools.DataManagement
             sw_out.WriteLine("# irrigation objects");
             for (int i = 0; i < nrrg_obj; i++)
             {
+                int oid = i + 1;
                 line = sr_source.ReadLine();
                 var buf = TypeConverterEx.Split<string>(line);
-                newline = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t#	oid, hrunum, iseg, ireach, num_well_layer", i, buf[1], buf[0], buf[2], num_well_layer);
+                newline = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t#	oid, hrunum, iseg, ireach, num_well_layer", oid, buf[1], buf[0], buf[2], num_well_layer);
                 sw_out.WriteLine(newline);
 
                 int nhru = int.Parse(buf[1]);
@@ -181,20 +198,27 @@ namespace Heiflow.Tools.DataManagement
                         newline = well_layer[j] + "\t" + layer_ratio[j] + " # well_layer layer_ratio";
                         sw_out.WriteLine(newline);
                     }
+                    newline = string.Format("{0}\t#	drawdown constaint of object {1}", _Drawdown, oid);
+                    sw_out.WriteLine(newline);
                 }
             }
             sw_out.WriteLine("# industrial objects");
             for (int i = 0; i < nindust_obj; i++)
             {
-                newline = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t#	oid, hrunum, iseg, ireach, num_well_layer", nrrg_obj + i, 1, 20, 1, num_well_layer);
+                int oid = nrrg_obj + i + 1;
+                newline = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t#	oid, hrunum, iseg, ireach, num_well_layer", oid, 1, 20, 1, num_well_layer);
                 sw_out.WriteLine(newline);
-                newline = string.Format("{0}\t#	%	hru_id_list", 52935);
+                newline = string.Format("{0}\t#	hru_id_list", 52935);
                 sw_out.WriteLine(newline);
                 for (int j = 0; j < num_well_layer; j++)
                 {
                     newline = well_layer[j] + "\t" + layer_ratio[j] + " # well_layer layer_ratio";
                     sw_out.WriteLine(newline);
                 }
+                newline = string.Format("{0}\t#	drawdown constaint of object {1}", _Drawdown, oid);
+                sw_out.WriteLine(newline);
+                newline = string.Format("{0}\t#	return_ratio", 0);
+                sw_out.WriteLine(newline);
             }
 
             sw_out.WriteLine("1 # cycle index");
@@ -209,11 +233,12 @@ namespace Heiflow.Tools.DataManagement
                 newline += "quota of object " + (i + 1);
                 sw_out.WriteLine(newline);
             }
-            newline = "1 1	1	1	1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag,plantarea_flag";
-            sw_out.WriteLine(newline);
 
             newline = "# irrigation objects";
             sw_out.WriteLine(newline);
+            newline = "1 1	1	1	1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag,plantarea_flag";
+            sw_out.WriteLine(newline);
+
             //ID	NAME	地表水比例
             line = sr_quota.ReadLine();
             for (int i = 0; i < nrrg_obj; i++)
@@ -227,7 +252,7 @@ namespace Heiflow.Tools.DataManagement
                  {
                      newline += ratio + "\t";
                  }
-                 newline += "SW ratio of object " + (i + 1);
+                 newline += "#SW ratio of object " + (i + 1);
                  sw_out.WriteLine(newline);
             }
             //地表引水控制系数
@@ -239,7 +264,7 @@ namespace Heiflow.Tools.DataManagement
                 {
                     newline +=  control + "\t";
                 }
-                newline += "SW control factor of object " + (i + 1);
+                newline += "#SW control factor of object " + (i + 1);
                 sw_out.WriteLine(newline);
             }
             //地下引水控制系数
@@ -255,7 +280,7 @@ namespace Heiflow.Tools.DataManagement
                         control = 1;
                     newline += control + "\t";
                 }
-                newline += "GW control factor of object " + (i + 1);
+                newline += "#GW control factor of object " + (i + 1);
                 sw_out.WriteLine(newline);
             }
             //作物类型
@@ -266,7 +291,7 @@ namespace Heiflow.Tools.DataManagement
                 {
                     newline += plant_type[i]+"\t";
                 }
-                newline += "Plant type of object " + (i + 1);
+                newline += "#Plant type of object " + (i + 1);
                 sw_out.WriteLine(newline);
             }
             //种植面积
@@ -274,6 +299,7 @@ namespace Heiflow.Tools.DataManagement
             {
                 newline = string.Join("\t", hru_areas[i]);
                 newline += "\t" + "Plant area of object " + (i + 1);
+                sw_out.WriteLine(newline);
             }
 
             newline = "# industrial objects";
@@ -289,7 +315,7 @@ namespace Heiflow.Tools.DataManagement
                 {
                     newline += control + "\t";
                 }
-                newline += "SW control factor of object " + (nrrg_obj + i + 1);
+                newline += "# SW control factor of object " + (nrrg_obj + i + 1);
                 sw_out.WriteLine(newline);
             }
 
@@ -303,7 +329,7 @@ namespace Heiflow.Tools.DataManagement
                 {
                     newline += control + "\t";
                 }
-                newline += "SW control factor of object " + (nrrg_obj + i + 1);
+                newline += "# SW control factor of object " + (nrrg_obj + i + 1);
                 sw_out.WriteLine(newline);               
             }
 
@@ -316,7 +342,7 @@ namespace Heiflow.Tools.DataManagement
                 {
                     newline += control + "\t";
                 }
-                newline += "GW control factor of object " + (nrrg_obj + i + 1);
+                newline += "# GW control factor of object " + (nrrg_obj + i + 1);
                 sw_out.WriteLine(newline);
             }
 
@@ -343,5 +369,13 @@ namespace Heiflow.Tools.DataManagement
             cancelProgressHandler.Progress("Package_Tool", 100, "Done");
             return true;
         }
+    }
+
+    public class WithdrawObject
+    {
+        public string Name { get; set; }
+        public double SW_Ratio { get; set; }
+        public int ObjType { get; set; }
+        public double Drawdown { get; set; }
     }
 }

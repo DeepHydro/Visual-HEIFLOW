@@ -31,3 +31,10 @@ F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.Core\obj\Debug\Heiflow.Core.Resource.resou
 F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.Core\obj\Debug\Heiflow.Core.csproj.GenerateResource.Cache
 F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.Core\obj\Debug\Heiflow.Core.dll
 F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.Core\obj\Debug\Heiflow.Core.pdb
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Bin\debug\Heiflow.Core.dll
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Bin\debug\Heiflow.Core.pdb
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Core\obj\Debug\Heiflow.Core.csprojResolveAssemblyReference.cache
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Core\obj\Debug\Heiflow.Core.Resource.resources
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Core\obj\Debug\Heiflow.Core.csproj.GenerateResource.Cache
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Core\obj\Debug\Heiflow.Core.dll
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Core\obj\Debug\Heiflow.Core.pdb

@@ -30,3 +30,11 @@ F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.Applications\obj\Debug\Heiflow.Application
 F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.Applications\obj\Debug\Heiflow.Applications.csproj.GenerateResource.Cache
 F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.Applications\obj\Debug\Heiflow.Applications.dll
 F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.Applications\obj\Debug\Heiflow.Applications.pdb
+F:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Heiflow.Applications.dll.config
+F:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Heiflow.Applications.dll
+F:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Heiflow.Applications.pdb
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Applications\obj\Debug\Heiflow.Applications.csprojResolveAssemblyReference.cache
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Applications\obj\Debug\Heiflow.Applications.Properties.Resources.resources
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Applications\obj\Debug\Heiflow.Applications.csproj.GenerateResource.Cache
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Applications\obj\Debug\Heiflow.Applications.dll
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Applications\obj\Debug\Heiflow.Applications.pdb
