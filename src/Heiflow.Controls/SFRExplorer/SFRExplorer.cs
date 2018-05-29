@@ -370,7 +370,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                 {
                     foreach (var re in river.Reaches)
                     {
-                        string line = string.Format("{0},{1},{2},{3}", river.ID, re.ID, re.Length, re.TopElevation);
+                        string line = string.Format("{0},{1},{2},{3}", river.ID, re.SubID, re.Length, re.TopElevation);
                         sw.WriteLine(line);
                     }
                 }

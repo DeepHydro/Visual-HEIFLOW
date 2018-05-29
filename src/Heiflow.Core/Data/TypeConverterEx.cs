@@ -45,6 +45,7 @@ namespace Heiflow.Core.Data
         /// ',' 
         /// </summary>
         public static char[] Comma = new char[] { ',' };
+        public static char[] Table = new char[] { '\t' };
         public static char[] Sharp = new char[] { '#' };
         public static char[] DoubleQuotationMark = new char[] { '"' };
         public static char[] SquareLeftBracket = new char[] { '[' };

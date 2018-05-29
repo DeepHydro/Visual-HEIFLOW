@@ -91,9 +91,11 @@ namespace Heiflow.Core.IO
             int ncol = array.GetLength(1);
             string line = "";
             StreamWriter sw = new StreamWriter(_Filename);
-            line = string.Join(",", headers);
-            sw.WriteLine(line);
-
+            if (headers != null)
+            {
+                line = string.Join(",", headers);
+                sw.WriteLine(line);
+            }
             for (int i = 0; i < nrow; i++)
             {
                 line = "";

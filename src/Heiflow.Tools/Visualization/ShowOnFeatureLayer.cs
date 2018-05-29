@@ -43,7 +43,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms.Design;
 
-namespace Heiflow.Tools.Statisitcs
+namespace Heiflow.Tools.Visualization
 {
     public class ShowOnFeatureLayer : ModelTool
     {

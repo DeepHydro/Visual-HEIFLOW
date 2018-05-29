@@ -33,6 +33,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -41,36 +42,23 @@ using System.Windows.Forms.Design;
 
 namespace Heiflow.Tools.DataManagement
 {
-    public class WithdrawObjects : ModelTool
+    public class WithdrawInputFile : ModelTool
     {
-        private string _DiversionFileName;
+     //   private string _DiversionFileName;
         private string _QuotaFileName;
-        private double _Drawdown;
-
-        public WithdrawObjects()
+        private List<WithdrawObject> irrg_obj_list = new List<WithdrawObject>();
+      private  List<WithdrawObject> indust_obj_list = new List<WithdrawObject>();
+        public WithdrawInputFile()
         {
-            Name = "Water Withdraw File";
+            Name = "Water Withdraw Input File";
             Category = "Irrigation Model";
-            Description = "Create Water Withdraw File";
+            Description = "Create Water Withdraw Input File";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
-            _Drawdown = 2;
+            EndCycle = 7;
+            StartCycle = 1; 
         }
 
-        [Category("Input")]
-        [Description("The diversion filename")]
-        [EditorAttribute(typeof(FileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
-        public string DiversionFileName
-        {
-            get
-            {
-                return _DiversionFileName;
-            }
-            set
-            {
-                _DiversionFileName = value;
-            }
-        }
 
         [Category("Input")]
         [Description("The quota filename")]
@@ -84,21 +72,26 @@ namespace Heiflow.Tools.DataManagement
             set
             {
                 _QuotaFileName = value;
+                OutputFileName = _QuotaFileName + ".out";
             }
         }
 
-        [Category("Input")]
-        [Description("The allowed maximum drawdown")]
-        public double Drawdown
+        public string OutputFileName
         {
-            get
-            {
-                return _Drawdown;
-            }
-            set
-            {
-                _Drawdown = value;
-            }
+            get;
+            set;
+        }
+
+        public int EndCycle
+        {
+            get;
+            set;
+        }
+
+        public int StartCycle
+        {
+            get;
+            set;
         }
 
         public override void Initialize()
@@ -106,38 +99,106 @@ namespace Heiflow.Tools.DataManagement
             this.Initialized = true;
         }
 
-        public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
+        private void SaveObj()
         {
-            int num_well_layer = 3;
-            int num_cycle = 13;
-            int[] well_layer = new int[] { 1, 2, 3 };
-            double[] layer_ratio = new double[] { 0.6, 0.1, 0.3 };
-            int nrrg_obj = 0;
-             int nindust_obj = 1;
+            StreamReader sr_source = new StreamReader(QuotaFileName);
+            string obj_out = QuotaFileName + ".obj";
+            StreamWriter sw_obj = new StreamWriter(obj_out);
 
-            string div_out = DiversionFileName + ".out";
-            StreamReader sr_source = new StreamReader(DiversionFileName);
-            StreamReader sr_quota = new StreamReader(QuotaFileName);
-            StreamWriter sw_out = new StreamWriter(div_out);
-            string newline = "";
-
+            var newline = "";
             var line = sr_source.ReadLine();
             line = sr_source.ReadLine();
-            var strs_buf = TypeConverterEx.Split<string>(line);
-            nrrg_obj = int.Parse(strs_buf[0]);
-            List<double[]> area_list = new List<double[]>();
+
+            for (int i = 0; i < 47; i++)
+            {
+                string obj_line = "";
+                line = sr_source.ReadLine();
+                var buf = TypeConverterEx.Split<string>(line);
+                obj_line = buf[0] + "," + buf[2] + "," + buf[1];
+                var nhru = int.Parse(buf[1]);
+                //hru id
+                newline = sr_source.ReadLine(); ;
+                obj_line += "," + newline.Trim();
+                // hru area
+                line = sr_source.ReadLine();          
+               var hru_area = new double[nhru];
+                var buf_num = TypeConverterEx.Split<double>(line);
+                for (int j = 0; j < nhru; j++)
+                {
+                    hru_area[j] = System.Math.Round(nhru * 1000000 * buf_num[j], 0);
+                    if (hru_area[j] > 1000000)
+                        hru_area[j] = 1000000;
+                }
+                obj_line += "," + string.Join("\t",hru_area);
+
+                //canal_effciency_rate
+                newline = sr_source.ReadLine();
+                var temp = TypeConverterEx.Split<double>(newline);
+                obj_line += "," + temp[0];
+                // canal_area_rate
+                newline = sr_source.ReadLine();
+                temp = TypeConverterEx.Split<double>(newline);
+                obj_line += "," + temp[0];
+                sw_obj.WriteLine(obj_line);
+            }
+            sw_obj.Close();
+        }
+
+        private void ReadObj(StreamReader sr, int numobj, List<WithdrawObject> list)
+        {
+            char[] trims = new char[] { ' ', '"' };
+              for (int i = 0; i < numobj;i++ )
+            {
+                var  line = sr.ReadLine();
+                 var buf = TypeConverterEx.Split<string>(line,TypeConverterEx.Comma);
+                 WithdrawObject obj = new WithdrawObject()
+                 {
+                     ID=int.Parse(buf[0].Trim()),
+                     Name = buf[1].Trim(),
+                     SW_Ratio = double.Parse(buf[2].Trim()),
+                     ObjType = int.Parse(buf[3].Trim()),
+                     Drawdown = double.Parse(buf[4].Trim()),
+                     SegID = int.Parse(buf[5].Trim()),
+                     ReachID = int.Parse(buf[6].Trim()),
+                     HRU_Num = int.Parse(buf[7].Trim())
+                 };
+                 obj.HRU_List = TypeConverterEx.Split<int>(buf[8].Trim(trims));
+                 obj.HRU_Area = TypeConverterEx.Split<double>(buf[9].Trim(trims));
+                 obj.Total_Area = obj.HRU_Area.Sum();
+                 Debug.WriteLine(obj.Total_Area);
+                 obj.Canal_Efficiency = double.Parse(buf[10].Trim());
+                 obj.Canal_Ratio = double.Parse(buf[11].Trim());
+                 obj.Inlet_Type = int.Parse(buf[12].Trim());
+                 obj.Inlet_MinFlow = double.Parse(buf[13].Trim());
+                 obj.Inlet_MaxFlow = double.Parse(buf[14].Trim());
+                 obj.Inlet_Flow_Ratio = double.Parse(buf[15].Trim());
+                list.Add(obj);
+            }
+        }
+        public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
+        {
+            //SaveObj();
+            //return true;
+
+            int num_well_layer = 3;
+            int[] well_layer = new int[] { 1, 2, 3 };
+            double[] layer_ratio = new double[] { 0.6, 0.1, 0.3 };
+             int num_irrg_obj, num_indust_obj;
+
+            StreamReader sr_quota = new StreamReader(QuotaFileName);
+            StreamWriter sw_out = new StreamWriter(OutputFileName);
+            string newline = "";
+
 
             int nquota = 1;
             int ntime = 36;
-            line = sr_quota.ReadLine();
-            strs_buf = TypeConverterEx.Split<string>(line);
+            var  line = sr_quota.ReadLine();
+
+           var strs_buf = TypeConverterEx.Split<string>(line);
             nquota = int.Parse(strs_buf[0]);
             ntime = int.Parse(strs_buf[1]);
             double[,] quota_src = new double[ntime, nquota];
             double[,] quota = new double [366,nquota];
-            double[][] hru_areas = new double[nrrg_obj][];
-            int[] hrunum = new int[nrrg_obj];
-            int[] plant_type = new int[nrrg_obj];
             int day = 0;
             var start = new DateTime(2000, 1, 1);
             for (int i = 0; i < ntime; i++)
@@ -147,81 +208,86 @@ namespace Heiflow.Tools.DataManagement
                 var ss = DateTime.Parse(buf[0]);
                 var ee = DateTime.Parse(buf[1]);
                 var cur = ss;
+                var step = (ee - ss).Days + 1;
                 while(cur <= ee)
                 {
                     for (int j = 0; j < nquota; j++)
-                        quota[day, j] = double.Parse(buf[2 + j]);
+                        quota[day, j] = System.Math.Round(double.Parse(buf[2 + j]) / step,2);
                     day++;
                     cur = cur.AddDays(1);
                 }
             }
+
+            line = sr_quota.ReadLine().Trim();
+            var inttemp = TypeConverterEx.Split<int>(line.Trim());
+            num_irrg_obj = inttemp[0];
+            num_indust_obj = inttemp[1];
+            //ID	NAME	地表水比例  用水类型  允许降深
+            line = sr_quota.ReadLine();
+            irrg_obj_list.Clear();
+            indust_obj_list.Clear();
+            ReadObj(sr_quota, num_irrg_obj, irrg_obj_list);
+            ReadObj(sr_quota, num_indust_obj, indust_obj_list);
+           
             newline = "# Water resources allocation package " + DateTime.Now;
             sw_out.WriteLine(newline);
-            newline = string.Format("{0}\t{1}\t0\t0\t # num_irrg_obj, num_indu_obj, num_doms_obj, num_ecos_obj ", nrrg_obj, nindust_obj);
+            newline = string.Format("{0}\t{1}\t0\t0\t # num_irrg_obj, num_indu_obj, num_doms_obj, num_ecos_obj ", num_irrg_obj, num_indust_obj);
             sw_out.WriteLine(newline);
 
             sw_out.WriteLine("# irrigation objects");
-            for (int i = 0; i < nrrg_obj; i++)
+            for (int i = 0; i < num_irrg_obj; i++)
             {
+                var obj = irrg_obj_list[i];
                 int oid = i + 1;
-                line = sr_source.ReadLine();
-                var buf = TypeConverterEx.Split<string>(line);
-                newline = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t#	oid, hrunum, iseg, ireach, num_well_layer", oid, buf[1], buf[0], buf[2], num_well_layer);
+                newline = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t#	oid, hrunum, iseg, ireach, num_well_layer, inlet_type {6}", obj.ID, obj.HRU_Num, obj.SegID, obj.ReachID, num_well_layer, obj.Inlet_Type, obj.Name);
                 sw_out.WriteLine(newline);
-
-                int nhru = int.Parse(buf[1]);
-                hrunum[i] = nhru;
-                if (nhru > 0)
+                newline = string.Join("\t", obj.HRU_List);
+                sw_out.WriteLine(newline);
+                var canal_eff = new double[obj.HRU_Num];
+                var canal_ratio = new double[obj.HRU_Num];
+                for (int j = 0; j< obj.HRU_Num; j++)
                 {
-                    //hru id
-                    line = sr_source.ReadLine();
-                    newline = line;
-                    sw_out.WriteLine(newline);
-                    // hru area
-                    line = sr_source.ReadLine();
-                    hru_areas[i] = new double[nhru];
-                    var buf_num = TypeConverterEx.Split<double>(line);
-                    for (int j = 0; j < nhru; j++)
-                    {
-                        hru_areas[i][j] = System.Math.Round(nhru * 1000000 * buf_num[j], 0);
-                    }
-
-                    //canal_effciency_rate
-                    newline = sr_source.ReadLine();
-                    sw_out.WriteLine(newline);
-                    // canal_area_rate
-                    newline = sr_source.ReadLine();
-                    sw_out.WriteLine(newline);
-
-                    for (int j = 0; j < num_well_layer; j++)
-                    {
-                        newline = well_layer[j] + "\t" + layer_ratio[j] + " # well_layer layer_ratio";
-                        sw_out.WriteLine(newline);
-                    }
-                    newline = string.Format("{0}\t#	drawdown constaint of object {1}", _Drawdown, oid);
-                    sw_out.WriteLine(newline);
+                    canal_eff[j] = obj.Canal_Efficiency;
+                    canal_ratio[j] = obj.Canal_Ratio;
                 }
-            }
-            sw_out.WriteLine("# industrial objects");
-            for (int i = 0; i < nindust_obj; i++)
-            {
-                int oid = nrrg_obj + i + 1;
-                newline = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t#	oid, hrunum, iseg, ireach, num_well_layer", oid, 1, 20, 1, num_well_layer);
+                newline = string.Join("\t", canal_eff);
                 sw_out.WriteLine(newline);
-                newline = string.Format("{0}\t#	hru_id_list", 52935);
+                newline = string.Join("\t", canal_ratio);
                 sw_out.WriteLine(newline);
                 for (int j = 0; j < num_well_layer; j++)
                 {
                     newline = well_layer[j] + "\t" + layer_ratio[j] + " # well_layer layer_ratio";
                     sw_out.WriteLine(newline);
                 }
-                newline = string.Format("{0}\t#	drawdown constaint of object {1}", _Drawdown, oid);
+                newline = string.Format("{0}\t#	drawdown constaint of object {1}", irrg_obj_list[i].Drawdown, oid);
+                sw_out.WriteLine(newline);
+                newline = string.Format("{0}\t{1}\t{2}\t#  inlet	min flow and max flow for object {3}", irrg_obj_list[i].Inlet_MinFlow, irrg_obj_list[i].Inlet_MaxFlow, irrg_obj_list[i].Inlet_Flow_Ratio,
+                    irrg_obj_list[i].ID);
+                sw_out.WriteLine(newline);
+            }
+            sw_out.WriteLine("# industrial objects");
+            for (int i = 0; i < num_indust_obj; i++)
+            {
+                var obj = indust_obj_list[i];
+                newline = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t#	oid, hrunum, iseg, ireach, num_well_layer, inlet_type {6}", obj.ID, obj.HRU_Num, obj.SegID, obj.ReachID, num_well_layer,
+                 obj.Inlet_Type,   obj.Name);
+                sw_out.WriteLine(newline);
+                newline = string.Format("{0}\t#	hru_id_list", string.Join(" ", obj.HRU_List));
+                sw_out.WriteLine(newline);
+                for (int j = 0; j < num_well_layer; j++)
+                {
+                    newline = well_layer[j] + "\t" + layer_ratio[j] + " # well_layer layer_ratio";
+                    sw_out.WriteLine(newline);
+                }
+                newline = string.Format("{0}\t#	drawdown constaint of object {1}", obj.Drawdown, obj.ID);
+                sw_out.WriteLine(newline);
+                newline = string.Format("{0}\t{1}\t{2}\t#  inlet	min flow,  max flow and flow ratio for object {3}", obj.Inlet_MinFlow, obj.Inlet_MaxFlow, obj.Inlet_Flow_Ratio, obj.ID);
                 sw_out.WriteLine(newline);
                 newline = string.Format("{0}\t#	return_ratio", 0);
                 sw_out.WriteLine(newline);
             }
 
-            sw_out.WriteLine("1 # cycle index");
+            sw_out.WriteLine( StartCycle + " # cycle index");
             sw_out.WriteLine("1	#	quota_flag");
             for (int i = 0; i < nquota; i++)
             {
@@ -239,24 +305,19 @@ namespace Heiflow.Tools.DataManagement
             newline = "1 1	1	1	1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag,plantarea_flag";
             sw_out.WriteLine(newline);
 
-            //ID	NAME	地表水比例
-            line = sr_quota.ReadLine();
-            for (int i = 0; i < nrrg_obj; i++)
+            for (int i = 0; i < num_irrg_obj; i++)
             {
-                  line = sr_quota.ReadLine();
-                  var buf = TypeConverterEx.Split<string>(line.Trim());
-                  var ratio = double.Parse(buf[2]);
-                  plant_type[i] = int.Parse(buf[3]);
-                  newline = "";
-                 for(int j=0;j<366;j++)
-                 {
-                     newline += ratio + "\t";
-                 }
-                 newline += "#SW ratio of object " + (i + 1);
-                 sw_out.WriteLine(newline);
+                var ratio = irrg_obj_list[i].SW_Ratio;
+                newline = "";
+                for (int j = 0; j < 366; j++)
+                {
+                    newline += ratio + "\t";
+                }
+                newline += "#SW ratio of object " + irrg_obj_list[i].ID;
+                sw_out.WriteLine(newline);
             }
             //地表引水控制系数
-            for (int i = 0; i < nrrg_obj; i++)
+            for (int i = 0; i < num_irrg_obj; i++)
             {
                 newline = "";
                 var control = 1;
@@ -268,7 +329,7 @@ namespace Heiflow.Tools.DataManagement
                 sw_out.WriteLine(newline);
             }
             //地下引水控制系数
-            for (int i = 0; i < nrrg_obj; i++)
+            for (int i = 0; i < num_irrg_obj; i++)
             {
                 newline = "";
                 var control = 1;
@@ -280,25 +341,25 @@ namespace Heiflow.Tools.DataManagement
                         control = 1;
                     newline += control + "\t";
                 }
-                newline += "#GW control factor of object " + (i + 1);
+                newline += "# GW control factor of object " + (i + 1);
                 sw_out.WriteLine(newline);
             }
             //作物类型
-            for (int i = 0; i < nrrg_obj; i++)
+            for (int i = 0; i < num_irrg_obj; i++)
             {
                 newline = "";
-                for (int j = 0; j < hrunum[i];j++ )
+                for (int j = 0; j < irrg_obj_list[i].HRU_Num; j++)
                 {
-                    newline += plant_type[i]+"\t";
+                    newline += irrg_obj_list[i].ObjType+"\t";
                 }
-                newline += "#Plant type of object " + (i + 1);
+                newline += "# Plant type of object " + (i + 1);
                 sw_out.WriteLine(newline);
             }
             //种植面积
-            for (int i = 0; i < nrrg_obj; i++)
+            for (int i = 0; i < num_irrg_obj; i++)
             {
-                newline = string.Join("\t", hru_areas[i]);
-                newline += "\t" + "Plant area of object " + (i + 1);
+                newline = string.Join("\t", irrg_obj_list[i].HRU_Area);
+                newline += "\t" + "# Plant area of object " + irrg_obj_list[i].ID;
                 sw_out.WriteLine(newline);
             }
 
@@ -307,7 +368,7 @@ namespace Heiflow.Tools.DataManagement
             newline = "1 1	1	1	1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag";
             sw_out.WriteLine(newline);
             //地表水比例
-            for (int i = 0; i < nindust_obj; i++)
+            for (int i = 0; i < num_indust_obj; i++)
             {
                 newline = "";
                 var control = 1;
@@ -315,26 +376,25 @@ namespace Heiflow.Tools.DataManagement
                 {
                     newline += control + "\t";
                 }
-                newline += "# SW control factor of object " + (nrrg_obj + i + 1);
+                newline += "# SW control factor of object " + (indust_obj_list[i].ID);
                 sw_out.WriteLine(newline);
             }
 
             //地表引水控制系数
-            for (int i = 0; i < nindust_obj; i++)
+            for (int i = 0; i < num_indust_obj; i++)
             {
-                
                 newline = "";
                 var control = 1;
                 for (int j = 0; j < 366; j++)
                 {
                     newline += control + "\t";
                 }
-                newline += "# SW control factor of object " + (nrrg_obj + i + 1);
+                newline += "# SW control factor of object " + indust_obj_list[i].ID;
                 sw_out.WriteLine(newline);               
             }
 
             //地下引水控制系数
-            for (int i = 0; i < nindust_obj; i++)
+            for (int i = 0; i < num_indust_obj; i++)
             {
                 newline = "";
                 var control = 1;
@@ -342,20 +402,21 @@ namespace Heiflow.Tools.DataManagement
                 {
                     newline += control + "\t";
                 }
-                newline += "# GW control factor of object " + (nrrg_obj + i + 1);
+                newline += "# GW control factor of object " + indust_obj_list[i].ID;
                 sw_out.WriteLine(newline);
             }
 
             //用水类型
-            for (int i = 0; i < nindust_obj; i++)
+            for (int i = 0; i < num_indust_obj; i++)
             {
-                newline = "3 Withdraw type of object " + (nrrg_obj+ i + 1);
+                var obj = indust_obj_list[i];
+                newline = string.Format("{0} # Withdraw type of object {1}", obj.ObjType, obj.ID);
                 sw_out.WriteLine(newline);
             }
 
-            for (int i = 1; i < num_cycle; i++)
+            for (int i = StartCycle+1; i <=EndCycle; i++)
             {
-                sw_out.WriteLine( (i+1) + " # cycle index");
+                sw_out.WriteLine(i + " # cycle index");
                 sw_out.WriteLine("-1 # quota_flag");
                 sw_out.WriteLine("# irrigation objects");
                 sw_out.WriteLine("-1 -1	-1	-1	-1  #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag,plantarea_flag");
@@ -363,7 +424,6 @@ namespace Heiflow.Tools.DataManagement
                 sw_out.WriteLine("-1 -1	-1	-1	-1  #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag");
             }
 
-            sr_source.Close();
             sr_quota.Close();
             sw_out.Close();
             cancelProgressHandler.Progress("Package_Tool", 100, "Done");
@@ -373,9 +433,35 @@ namespace Heiflow.Tools.DataManagement
 
     public class WithdrawObject
     {
+        public int ID { get; set; }
         public string Name { get; set; }
         public double SW_Ratio { get; set; }
         public int ObjType { get; set; }
         public double Drawdown { get; set; }
+        public int SegID { get; set; }
+        public int ReachID { get; set; }
+        public int HRU_Num { get; set; }
+        public int [] HRU_List { get; set; }
+        public double[] HRU_Area { get; set; }
+        public double Total_Area { get; set; }
+        public double Canal_Efficiency { get; set; }
+        public double Canal_Ratio { get; set; }
+        public int Inlet_Type { get; set; }
+        public double Inlet_MinFlow { get; set; }
+        public double Inlet_MaxFlow { get; set; }
+        public double Inlet_Flow_Ratio { get; set; }
+        public override string ToString()
+        {
+            var canal_eff = new double[HRU_Num];
+            var canal_ratio = new double[HRU_Num];
+            for(int i=0;i<HRU_Num;i++)
+            {
+                canal_eff[i] = Canal_Efficiency;
+                canal_ratio[i] = Canal_Ratio;
+            }
+            var str = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}", ID, Name, SW_Ratio, ObjType, Drawdown, SegID, ReachID, HRU_Num, string.Join("\t", HRU_List),
+                string.Join("\t", HRU_Area), string.Join("\t", canal_eff), string.Join("\t", canal_ratio));
+            return str;
+        }
     }
 }

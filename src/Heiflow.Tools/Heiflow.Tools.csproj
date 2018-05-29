@@ -114,7 +114,7 @@
     <Compile Include="Hydrology\PMPET6Batch.cs" />
     <Compile Include="Hydrology\PMPETSingle.cs" />
     <Compile Include="Hydrology\TemperatureConversion.cs" />
-    <Compile Include="IrrigationModel\WithdrawObjects.cs" />
+    <Compile Include="IrrigationModel\WithdrawInputFile.cs" />
     <Compile Include="Math\Deviation.cs" />
     <Compile Include="Math\CopyVectorTo.cs" />
     <Compile Include="Math\PlusMat.cs" />
@@ -154,6 +154,7 @@
     <Compile Include="Time\CreatMonthTimeInteval.cs" />
     <Compile Include="Visualization\ShowOnFeatureLayer.cs" />
     <Compile Include="Visualization\GridView.cs" />
+    <Compile Include="Visualization\WaterBodyMapping.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Heiflow.Applications\Heiflow.Applications.csproj">

@@ -37,11 +37,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Heiflow.Tools.Statisitcs
+namespace Heiflow.Tools.Visualization
 {
-    public class ShowOnMap : ModelTool
+    public class GridView : ModelTool
     {
-        public ShowOnMap()
+        public GridView()
         {
             Name = "Grid View";
             Category = "Visualization";

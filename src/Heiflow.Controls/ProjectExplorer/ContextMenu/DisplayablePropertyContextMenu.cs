@@ -201,7 +201,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
                 _ActiveDataService.Source.SelectedVariableIndex = this.VariableIndex;
                 _ActiveDataService.SourceStatistics = MyMath.SpatialMean(mat, this.VariableIndex);
             }
-            _ShellService.ProgressWindow.DoWork -= ProgressPanel_DoWork;
+          //  _ShellService.ProgressWindow.DoWork -= ProgressPanel_DoWork;
             dp.Loading -= dp_Loading;
             dp.Loaded -= dp_Loaded;
         }

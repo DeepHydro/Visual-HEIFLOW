@@ -259,6 +259,7 @@ namespace Heiflow.Applications.Controllers
           //  ShellService.ProgressWindow.Progress("Finished.");
             _ProjectService.RaiseProjectOpenedOrCreated(MapAppManager.Map, this.Project);
             _ShellService.ProgressWindow.DoWork -= ProgressPanel_DoOpenProject;
+            _ShellService.ProgressWindow.WorkCompleted -= ProgressWindow_DoOpenProjectCompleted;
             _ShellService.ProgressWindow.ProgressBarStyle = ProgressBarStyle.Continuous;
         }
         private void Serializer_OpenFailed(object sender, string e)

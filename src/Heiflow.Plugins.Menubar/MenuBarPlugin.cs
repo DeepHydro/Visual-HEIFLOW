@@ -152,11 +152,20 @@ namespace Heiflow.Plugins.Menubar
             if (ProjectManager.ProjectService.Project != null)
             {
                 var msg = string.Format("The project has  been opened. Do you want to save the project?", ProjectManager.ProjectService.Project.Name);
-                if (MessageBox.Show(msg, "Warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning) == DialogResult.Yes)
+                var result = MessageBox.Show(msg, "Warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning) ;
+                if (result == DialogResult.Yes)
                 {
                     ProjectManager.Save.Execute(null);
+                    ProjectManager.ShellService.ClearContents();
                 }
-                ProjectManager.ShellService.ClearContents();
+                else if (result == DialogResult.No)
+                {
+                    ProjectManager.ShellService.ClearContents();
+                }
+                else
+                {
+                    return;
+                }
             }
 
             ProjectManager.ProjectService.Clear();

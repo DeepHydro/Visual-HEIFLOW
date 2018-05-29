@@ -50,8 +50,6 @@ namespace Heiflow.Models.Studio
         [STAThread]
         private static void Main()
         {
-            //float a=0.001f;
-            //Debug.WriteLine(a.ToString("E5"));
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());

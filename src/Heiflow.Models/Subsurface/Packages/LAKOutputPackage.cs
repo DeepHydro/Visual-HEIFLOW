@@ -73,7 +73,8 @@ namespace Heiflow.Models.Subsurface
             NumTimeStep = 0;
             if (File.Exists(OutputFilesInfo[0].FileName))
             {
-                StreamReader sr = new StreamReader(OutputFilesInfo[0].FileName);
+                FileStream fs = new FileStream(OutputFilesInfo[0].FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                StreamReader sr = new StreamReader(fs);
                 string line = sr.ReadLine();
                 line = sr.ReadLine();
                 line = sr.ReadLine();
@@ -84,6 +85,7 @@ namespace Heiflow.Models.Subsurface
                 }
                 if (TypeConverterEx.IsNull(line))
                     NumTimeStep--;
+                
                 sr.Close();
 
                 Sites.Clear();
@@ -149,7 +151,8 @@ namespace Heiflow.Models.Subsurface
                 if (File.Exists(OutputFilesInfo[i].FileName))
                 {        
                     string line = "";
-                    StreamReader sr = new StreamReader(OutputFilesInfo[i].FileName);
+                    FileStream fs = new FileStream(OutputFilesInfo[i].FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                    StreamReader sr = new StreamReader(fs);
                     line = sr.ReadLine();
                     line = sr.ReadLine();
                     line = sr.ReadLine();
