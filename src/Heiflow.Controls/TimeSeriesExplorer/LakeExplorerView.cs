@@ -98,10 +98,14 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
 
         private void LakeExplorerView_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!CloseRequired)
+            if (e.CloseReason == CloseReason.UserClosing)
             {
                 this.Hide();
                 e.Cancel = true;
+            }
+            else
+            {
+                e.Cancel = false;
             }
         }
         public void ClearContent()

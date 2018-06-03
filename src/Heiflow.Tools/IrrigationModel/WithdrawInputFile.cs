@@ -172,6 +172,8 @@ namespace Heiflow.Tools.DataManagement
                  obj.Inlet_MinFlow = double.Parse(buf[13].Trim());
                  obj.Inlet_MaxFlow = double.Parse(buf[14].Trim());
                  obj.Inlet_Flow_Ratio = double.Parse(buf[15].Trim());
+                 obj.SW_Cntl_Factor = buf[16].Trim(trims);
+                 obj.GW_Cntl_Factor = buf[17].Trim(trims);
                 list.Add(obj);
             }
         }
@@ -261,7 +263,7 @@ namespace Heiflow.Tools.DataManagement
                 }
                 newline = string.Format("{0}\t#	drawdown constaint of object {1}", irrg_obj_list[i].Drawdown, oid);
                 sw_out.WriteLine(newline);
-                newline = string.Format("{0}\t{1}\t{2}\t#  inlet	min flow and max flow for object {3}", irrg_obj_list[i].Inlet_MinFlow, irrg_obj_list[i].Inlet_MaxFlow, irrg_obj_list[i].Inlet_Flow_Ratio,
+                newline = string.Format("{0}\t{1}\t{2}\t#  inlet	min flow,  max flow and flow ratio  for object {3}", irrg_obj_list[i].Inlet_MinFlow, irrg_obj_list[i].Inlet_MaxFlow, irrg_obj_list[i].Inlet_Flow_Ratio,
                     irrg_obj_list[i].ID);
                 sw_out.WriteLine(newline);
             }
@@ -319,29 +321,13 @@ namespace Heiflow.Tools.DataManagement
             //地表引水控制系数
             for (int i = 0; i < num_irrg_obj; i++)
             {
-                newline = "";
-                var control = 1;
-                for (int j = 0; j < 366; j++)
-                {
-                    newline +=  control + "\t";
-                }
-                newline += "#SW control factor of object " + (i + 1);
+                newline = string.Format("{0}\t#SW control factor of object {1}", irrg_obj_list[i].SW_Cntl_Factor, irrg_obj_list[i].ID);
                 sw_out.WriteLine(newline);
             }
             //地下引水控制系数
             for (int i = 0; i < num_irrg_obj; i++)
             {
-                newline = "";
-                var control = 1;
-                for (int j = 0; j < 366; j++)
-                {
-                    if (j < 75 || j > 305)
-                        control = 0;
-                    else
-                        control = 1;
-                    newline += control + "\t";
-                }
-                newline += "# GW control factor of object " + (i + 1);
+                newline = string.Format("{0}\t#GW control factor of object {1}", irrg_obj_list[i].GW_Cntl_Factor, irrg_obj_list[i].ID);
                 sw_out.WriteLine(newline);
             }
             //作物类型
@@ -383,26 +369,14 @@ namespace Heiflow.Tools.DataManagement
             //地表引水控制系数
             for (int i = 0; i < num_indust_obj; i++)
             {
-                newline = "";
-                var control = 1;
-                for (int j = 0; j < 366; j++)
-                {
-                    newline += control + "\t";
-                }
-                newline += "# SW control factor of object " + indust_obj_list[i].ID;
+                newline = string.Format("{0}\t#SW control factor of object {1}", indust_obj_list[i].SW_Cntl_Factor, indust_obj_list[i].ID);
                 sw_out.WriteLine(newline);               
             }
 
             //地下引水控制系数
             for (int i = 0; i < num_indust_obj; i++)
             {
-                newline = "";
-                var control = 1;
-                for (int j = 0; j < 366; j++)
-                {
-                    newline += control + "\t";
-                }
-                newline += "# GW control factor of object " + indust_obj_list[i].ID;
+                newline = string.Format("{0}\t#GW control factor of object {1}", indust_obj_list[i].GW_Cntl_Factor, indust_obj_list[i].ID);
                 sw_out.WriteLine(newline);
             }
 
@@ -450,6 +424,8 @@ namespace Heiflow.Tools.DataManagement
         public double Inlet_MinFlow { get; set; }
         public double Inlet_MaxFlow { get; set; }
         public double Inlet_Flow_Ratio { get; set; }
+        public string SW_Cntl_Factor { get; set; }
+        public string GW_Cntl_Factor { get; set; }
         public override string ToString()
         {
             var canal_eff = new double[HRU_Num];

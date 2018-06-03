@@ -113,7 +113,7 @@ namespace Heiflow.Models.Subsurface
                     }
                 }
                 StartOfLoading = TimeService.IOTimeline.First();
-                EndOfLoading = TimeService.IOTimeline.Last();
+                EndOfLoading = TimeService.IOTimeline[NumTimeStep];
                 return true;
             }
             else
@@ -174,7 +174,7 @@ namespace Heiflow.Models.Subsurface
             }
             Values.TimeBrowsable = true;
             Values.AllowTableEdit = false;
-            Values.DateTimes = TimeService.IOTimeline.ToArray();
+            Values.DateTimes = TimeService.IOTimeline.Take(nstep).ToArray();
             OnLoaded(Values);
 
             return true;
