@@ -137,7 +137,7 @@
     </property>
     <property name="Item4" isnull="true" iskey="true">
       <property name="Visibility">Hidden</property>
-      <property name="FloatLocation">@3,X=350@3,Y=250</property>
+      <property name="FloatLocation">@3,X=275@3,Y=175</property>
       <property name="Dock">Float</property>
       <property name="XtraActiveChildID">-1</property>
       <property name="Footer" />
@@ -171,7 +171,7 @@
       <property name="DockVertical">Default</property>
       <property name="FloatVertical">false</property>
       <property name="Header" />
-      <property name="XtraBounds">@6,X=-32768@6,Y=-32768@4,Width=1022@3,Height=504</property>
+      <property name="XtraBounds">@11,X=-2147483648@11,Y=-2147483648@3,Width=200@3,Height=200</property>
       <property name="Count">0</property>
       <property name="SavedMdiDocument">false</property>
       <property name="SavedDock">Float</property>
@@ -315,17 +315,17 @@
       <property name="Visibility">Visible</property>
       <property name="FloatLocation">@1,X=0@1,Y=0</property>
       <property name="Dock">Left</property>
-      <property name="XtraActiveChildID">6</property>
+      <property name="XtraActiveChildID">5</property>
       <property name="Footer" />
       <property name="Tabbed">true</property>
       <property name="TabsPosition">Bottom</property>
       <property name="TabsScroll">false</property>
-      <property name="ImageIndex">6</property>
+      <property name="ImageIndex">5</property>
       <property name="XtraZIndex">1</property>
       <property name="TabText" />
       <property name="Hint" />
       <property name="Text">DockPanel</property>
-      <property name="OriginalSize">@3,Width=253@3,Height=200</property>
+      <property name="OriginalSize">@3,Width=176@3,Height=200</property>
       <property name="Options" isnull="true" iskey="true">
         <property name="AllowFloating">true</property>
         <property name="AllowDockLeft">true</property>
@@ -342,12 +342,12 @@
       <property name="XtraParentID">-1</property>
       <property name="XtraSavedParentID">-1</property>
       <property name="XtraAutoHideContainerDock">Float</property>
-      <property name="ID">b59c380f-aee0-49d7-85a9-7ce6f3b2677b</property>
+      <property name="ID">7c1b5eb5-b5a4-4f6c-a858-dcafd8fd7210</property>
       <property name="XtraID">7</property>
       <property name="DockVertical">Default</property>
       <property name="FloatVertical">false</property>
       <property name="Header" />
-      <property name="XtraBounds">@1,X=0@3,Y=156@3,Width=253@3,Height=867</property>
+      <property name="XtraBounds">@1,X=0@3,Y=156@3,Width=176@3,Height=867</property>
       <property name="Count">3</property>
       <property name="SavedMdiDocument">false</property>
       <property name="SavedDock">Float</property>
@@ -430,7 +430,7 @@
       <property name="XtraParentID">-1</property>
       <property name="XtraSavedParentID">-1</property>
       <property name="XtraAutoHideContainerDock">Float</property>
-      <property name="ID">e7c6a7c1-c462-4a88-a52d-de7bd564610c</property>
+      <property name="ID">f889d7f8-2532-47db-a71e-3d18a461cb87</property>
       <property name="XtraID">9</property>
       <property name="DockVertical">Default</property>
       <property name="FloatVertical">false</property>
@@ -577,7 +577,7 @@
     </property>
     <property name="Item14" isnull="true" iskey="true">
       <property name="Visibility">Visible</property>
-      <property name="FloatLocation">@3,X=256@3,Y=174</property>
+      <property name="FloatLocation">@4,X=-117@3,Y=-72</property>
       <property name="Dock">Float</property>
       <property name="XtraActiveChildID">-1</property>
       <property name="Footer" />
@@ -611,13 +611,13 @@
       <property name="DockVertical">Default</property>
       <property name="FloatVertical">false</property>
       <property name="Header" />
-      <property name="XtraBounds">@1,X=0@1,Y=0@4,Width=1447@3,Height=838</property>
+      <property name="XtraBounds">@1,X=0@1,Y=0@3,Width=200@3,Height=200</property>
       <property name="Count">0</property>
       <property name="SavedMdiDocument">false</property>
       <property name="SavedDock">Float</property>
       <property name="SavedTabbed">false</property>
       <property name="SavedIndex">-1</property>
-      <property name="FloatSize">@4,Width=1447@3,Height=838</property>
+      <property name="FloatSize">@3,Width=200@3,Height=200</property>
     </property>
     <property name="Item15" isnull="true" iskey="true">
       <property name="Visibility">Visible</property>
@@ -671,7 +671,7 @@
     <property name="Item4">DevExpress.XtraBars.Ribbon.RibbonStatusBar</property>
     <property name="Item5">DevExpress.XtraBars.Ribbon.RibbonControl</property>
   </property>
-  <property name="ActivePanelID">13</property>
+  <property name="ActivePanelID">14</property>
   <property name="DockingOptions" isnull="true" iskey="true">
     <property name="CursorFloatCanceled" isnull="true" />
     <property name="HideImmediatelyOnAutoHide">false</property>

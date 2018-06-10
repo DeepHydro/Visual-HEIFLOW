@@ -563,7 +563,12 @@ namespace Heiflow.Controls.WinForm.Toolbox
 
         public void ClearContent()
         {
-           
+            _MatMataList.Clear();
+            _ModelWorkspace.Clear();
+            olvMatName.Clear();
+            olvVariableName.Clear();
+            propertyGrid1.SelectedObject = null;
+            richTextBox1.Clear();
         }
         public void InitService()
         {

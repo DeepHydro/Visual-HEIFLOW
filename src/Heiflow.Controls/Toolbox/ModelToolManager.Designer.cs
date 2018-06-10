@@ -59,6 +59,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.menu_Clear = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.btn_open_dcx = new System.Windows.Forms.ToolStripButton();
+            this.btnClear = new System.Windows.Forms.ToolStripButton();
             this.olvVariableName = new BrightIdeasSoftware.DataListView();
             this.olvColumn4 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvVariable = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -71,7 +72,6 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this._nodeTextBox = new Heiflow.Controls.Tree.NodeControls.NodeTextBox();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.btnClear = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -166,6 +166,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             // 
             this.propertyGrid1.CategoryForeColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGrid1.LineColor = System.Drawing.SystemColors.ControlDark;
             this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.Size = new System.Drawing.Size(693, 428);
@@ -207,7 +208,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.tabPageFigure.Location = new System.Drawing.Point(4, 4);
             this.tabPageFigure.Name = "tabPageFigure";
             this.tabPageFigure.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFigure.Size = new System.Drawing.Size(699, 610);
+            this.tabPageFigure.Size = new System.Drawing.Size(699, 608);
             this.tabPageFigure.TabIndex = 0;
             this.tabPageFigure.Text = "Figure";
             this.tabPageFigure.UseVisualStyleBackColor = true;
@@ -221,7 +222,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.winChart_timeseries.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.winChart_timeseries.Name = "winChart_timeseries";
             this.winChart_timeseries.ShowStatPanel = false;
-            this.winChart_timeseries.Size = new System.Drawing.Size(693, 604);
+            this.winChart_timeseries.Size = new System.Drawing.Size(693, 602);
             this.winChart_timeseries.TabIndex = 8;
             // 
             // tabPageTable
@@ -230,20 +231,24 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.tabPageTable.Location = new System.Drawing.Point(4, 4);
             this.tabPageTable.Name = "tabPageTable";
             this.tabPageTable.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageTable.Size = new System.Drawing.Size(699, 610);
+            this.tabPageTable.Size = new System.Drawing.Size(699, 608);
             this.tabPageTable.TabIndex = 1;
             this.tabPageTable.Text = "Table";
             this.tabPageTable.UseVisualStyleBackColor = true;
             // 
             // dataGridEx1
             // 
+            this.dataGridEx1.DataObjectName = "";
             this.dataGridEx1.DataTable = null;
             this.dataGridEx1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridEx1.Font = new System.Drawing.Font("Calibri", 9.5F);
             this.dataGridEx1.Location = new System.Drawing.Point(3, 3);
             this.dataGridEx1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dataGridEx1.Name = "dataGridEx1";
-            this.dataGridEx1.Size = new System.Drawing.Size(693, 604);
+            this.dataGridEx1.ShowImport = false;
+            this.dataGridEx1.ShowSave2Excel = false;
+            this.dataGridEx1.ShowSaveButton = false;
+            this.dataGridEx1.Size = new System.Drawing.Size(693, 602);
             this.dataGridEx1.TabIndex = 0;
             // 
             // tabPageOutput
@@ -252,7 +257,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.tabPageOutput.Location = new System.Drawing.Point(4, 4);
             this.tabPageOutput.Name = "tabPageOutput";
             this.tabPageOutput.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageOutput.Size = new System.Drawing.Size(699, 610);
+            this.tabPageOutput.Size = new System.Drawing.Size(699, 608);
             this.tabPageOutput.TabIndex = 3;
             this.tabPageOutput.Text = "Output";
             this.tabPageOutput.UseVisualStyleBackColor = true;
@@ -263,7 +268,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.txt_msg.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt_msg.Location = new System.Drawing.Point(3, 3);
             this.txt_msg.Name = "txt_msg";
-            this.txt_msg.Size = new System.Drawing.Size(693, 604);
+            this.txt_msg.Size = new System.Drawing.Size(693, 602);
             this.txt_msg.TabIndex = 1;
             this.txt_msg.Text = "";
             // 
@@ -397,7 +402,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             // menu_remove
             // 
             this.menu_remove.Name = "menu_remove";
-            this.menu_remove.Size = new System.Drawing.Size(176, 22);
+            this.menu_remove.Size = new System.Drawing.Size(180, 26);
             this.menu_remove.Text = "Remove";
             this.menu_remove.Click += new System.EventHandler(this.menu_Remove_Click);
             // 
@@ -412,7 +417,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(173, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // menu_Clear
             // 
@@ -443,6 +448,16 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.btn_open_dcx.Size = new System.Drawing.Size(24, 24);
             this.btn_open_dcx.Text = "Open a dcx file";
             this.btn_open_dcx.Click += new System.EventHandler(this.btn_open_dcx_Click);
+            // 
+            // btnClear
+            // 
+            this.btnClear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnClear.Image = global::Heiflow.Controls.WinForm.Properties.Resources.if_edit_clear_15273;
+            this.btnClear.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(24, 24);
+            this.btnClear.Text = "Clear workspace";
+            this.btnClear.Click += new System.EventHandler(this.menu_Clear_Click);
             // 
             // olvVariableName
             // 
@@ -582,16 +597,6 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             this.imageList1.Images.SetKeyName(0, "toolbox32.png");
             this.imageList1.Images.SetKeyName(1, "toolbox16.png");
-            // 
-            // btnClear
-            // 
-            this.btnClear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnClear.Image = global::Heiflow.Controls.WinForm.Properties.Resources.if_edit_clear_15273;
-            this.btnClear.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(24, 24);
-            this.btnClear.Text = "Clear workspace";
-            this.btnClear.Click += new System.EventHandler(this.menu_Clear_Click);
             // 
             // ModelToolManager
             // 
