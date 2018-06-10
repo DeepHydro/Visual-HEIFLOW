@@ -181,7 +181,7 @@ namespace Heiflow.Tools.SpatialAnalyst
                 if (Neighbors > nsource_sites)
                     Neighbors = nsource_sites;
                 var known_sites = new Site[nsource_sites];
-                My3DMat<float> mat = new My3DMat<float>(1, nstep, ntar_sites);
+                DataCube<float> mat = new DataCube<float>(1, nstep, ntar_sites);
                 mat.DateTimes = new DateTime[nstep];
                 mat.Name = OutputMatrix;
                 mat.TimeBrowsable = true;
@@ -222,15 +222,15 @@ namespace Heiflow.Tools.SpatialAnalyst
                         }
                         if (sumOfDis != 0)
                         {
-                            mat.Value[0][j][i] = (float)(sumOfVa / sumOfDis);
-                            if (!AllowNegative && mat.Value[0][j][i] < 0)
+                            mat[0,j,i] = (float)(sumOfVa / sumOfDis);
+                            if (!AllowNegative && mat[0, j, i] < 0)
                             {
-                                mat.Value[0][j][i] = MinmumValue;
+                                mat[0, j, i] = MinmumValue;
                             }
                         }
                         else
                         {
-                            mat.Value[0][j][i] = MinmumValue;
+                            mat[0, j, i] = MinmumValue;
                         }
                     }
                     progress = (i + 1) * 100 / ntar_sites;
@@ -270,100 +270,12 @@ namespace Heiflow.Tools.SpatialAnalyst
             double dy = a.LocalY - b.LocalY;
             return System.Math.Sqrt(dx * dx + dy * dy);
         }
-        //public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
-        //{
-        //    var fs_source = FeatureSet.Open(SourceFeatureFile);
-        //    var fs_target = FeatureSet.Open(TargetFeatureFile);
-        //    CSVFileStream csv = new CSVFileStream(DataFileName);
-        //    int nsou = fs_source.DataTable.Rows.Count;
-        //    int ntar = fs_target.DataTable.Rows.Count;
-        //    int nstep = 0;
-        //    int nsite_data = 0;
-        //    string header="";
-        //    int progress = 0;
-        //    csv.GetCotentInfo(ref nstep, ref nsite_data, ref header);
-
-        //    if (nsite_data != nsou)
-        //    {
-        //        cancelProgressHandler.Progress("Package_Tool", 100, "the number of sites in the data file dose not match to that in the source feature file");
-        //        return false;
-        //    }
-        //    else
-        //    {
-        //        int neighbors = System.Math.Min(nsou, Neighbors);
-        //        My3DMat<float> mat = new My3DMat<float>(1, nstep, ntar);
-        //        mat.Name = OutputMatrix;
-        //        if (Neighbors <= 0)
-        //            neighbors = nsou;
-
-        //        float[][] weights = new float[ntar][];
-
-        //        if (Neighbors <= 0 || nsou == neighbors)
-        //        {
-        //            for (int i = 0; i < ntar; i++)
-        //            {
-        //                var dis_buf = new float[neighbors];
-        //                var weight_buf = new float[neighbors];
-        //                float sum_weight = 0;
-        //                for (int j = 0; j < neighbors; j++)
-        //                {
-        //                    dis_buf[j] = Distance(fs_target.Features[i].Geometry.Coordinate, fs_source.Features[j].Geometry.Coordinate);
-        //                    weight_buf[j] = (float)(1.0 / System.Math.Pow(dis_buf[j], Power));
-        //                    sum_weight += weight_buf[j];
-        //                }                  
-        //                for (int j = 0; j < neighbors; j++)
-        //                {
-        //                    weight_buf[j] = weight_buf[j] / sum_weight;
-        //                }
-        //                weights[i] = weight_buf;
-        //            }
-        //        }
-        //        else
-        //        {
-        //            for (int i = 0; i < ntar; i++)
-        //            {
-
-        //            }
-        //        }
-
-        //        csv.Open();
-        //        csv.ReadHeader();
-        //        mat.DateTimes = new DateTime[nstep];
-        //        int count = 1;
-        //        for (int t = 0; t < nstep; t++)
-        //        {
-        //            var vec = csv.ReadLine<float>();
-        //            for (int i = 0; i < ntar; i++)
-        //            {
-        //                for (int j = 0; j < neighbors; j++)
-        //                {
-        //                    mat.Value[0][t][i] += weights[i][j] * vec[j];
-        //                }
-        //            }
-        //            mat.DateTimes[t] = Start.AddSeconds(t * TimeStep);
-        //            if (progress > count)
-        //            {
-        //                progress = t * 100 / nstep;
-        //                cancelProgressHandler.Progress("Package_Tool", progress, "");
-        //                count++;
-        //            }
-        //        }
-        //        csv.Close();
-        //        Workspace.Add(mat);
-
-        //        fs_source.Close();
-        //        fs_target.Close();
-
-        //        return true;
-        //    }
-        //}
+    
         private float Distance(Coordinate a, Coordinate b)
         {
             double dx = a.X - b.X;
             double dy = a.Y - b.Y;
             return (float)System.Math.Sqrt(dx * dx + dy * dy);
         }
-
-
     }
 }

@@ -134,12 +134,11 @@ namespace Heiflow.Tools.Conversion
 
             sr = new StreamReader(DataFileName);
             string var_name = Path.GetFileNameWithoutExtension(DataFileName);
-            var mat_out = new MyLazy3DMat<float>(1, nstep, ncell);
+            var mat_out = new DataCube<float>(1, nstep, ncell);
             mat_out.Name = OutputMatrix;
             mat_out.AllowTableEdit = false;
             mat_out.TimeBrowsable = true;
             mat_out.Variables = new string[] { var_name };
-            mat_out.Allocate(0, nstep);
             mat_out.DateTimes = new DateTime[nstep];
             if (ContainsHeader)
                 line = sr.ReadLine();
@@ -154,7 +153,7 @@ namespace Heiflow.Tools.Conversion
                     for (int i = 0; i < ncell; i++)
                     {
                         float.TryParse(strs[i + 1], out temp);
-                        mat_out.Value[0][t][i] = temp;
+                        mat_out[0, t, i] = temp;
                     }
                     if (progress > count)
                     {
@@ -169,7 +168,7 @@ namespace Heiflow.Tools.Conversion
                 {
                     line = sr.ReadLine();
                     var vec = TypeConverterEx.Split<float>(line);
-                    mat_out.Value[0][t] = vec;
+                    mat_out[0, t.ToString(), ":"] = vec;
                     mat_out.DateTimes[t] = Start.AddSeconds(Interval * t);
                     if (progress > count)
                     {

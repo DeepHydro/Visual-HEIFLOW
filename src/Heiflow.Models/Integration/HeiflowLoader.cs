@@ -38,6 +38,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using Heiflow.Models.UI;
+using DotSpatial.Data;
 
 namespace Heiflow.Models.Integration
 {
@@ -70,7 +71,7 @@ namespace Heiflow.Models.Integration
             return model.Exsit(project.RelativeControlFileName);
         }
 
-        public void Import(IProject project, IImportProperty property, IProgress progress)
+        public void Import(IProject project, IImportProperty property, ICancelProgressHandler progress)
         {
             var succ = true;
             ModelService.WorkDirectory = project.FullModelWorkDirectory;
@@ -96,7 +97,7 @@ namespace Heiflow.Models.Integration
             }
         }
 
-        public bool Load( IProject project, IProgress progress)
+        public bool Load( IProject project, ICancelProgressHandler progress)
         {
             ModelService.WorkDirectory = project.FullModelWorkDirectory;
             HeiflowModel model = new HeiflowModel();

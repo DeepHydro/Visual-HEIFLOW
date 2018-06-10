@@ -297,7 +297,7 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
                     {
                         var variable =_SeriesCatalog.ODM.GetVariable(qc.VariableID);
                         viewModel.Value.ShellService.SelectPanel(DockPanelNames.DataGridPanel);
-                        viewModel.Value.ShellService.DataGridView.Bind(ts.ToDataTable(variable.Name));
+                        viewModel.Value.ShellService.DataGridView.Bind(ts);
                     }
                 }
             }

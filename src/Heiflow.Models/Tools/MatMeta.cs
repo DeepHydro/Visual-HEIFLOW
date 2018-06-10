@@ -40,7 +40,7 @@ namespace Heiflow.Models.Tools
     {
         public string Name { get; set; }
         public string Size { get; set; }
-        public My3DMat<float> Mat { get; set; }
+        public DataCube<float> Mat { get; set; }
     }
 
 

@@ -105,14 +105,14 @@ namespace Heiflow.Plugins.Menubar
                 ToolTipText = "Save current project"
             });
 
-            header.Add(new SimpleActionItem(FileMenuKey, "Import Model", ImportModel_Click)
-            {
-                GroupCaption = HeaderControl.ApplicationMenuKey,
-                SortOrder = 3,
-                SmallImage = Resources.MapServiceDefinitionSave16,
-                LargeImage = Resources.MapServiceDefinitionSave32,
-                ToolTipText = "Import a model"
-            });
+            //header.Add(new SimpleActionItem(FileMenuKey, "Import Model", ImportModel_Click)
+            //{
+            //    GroupCaption = HeaderControl.ApplicationMenuKey,
+            //    SortOrder = 3,
+            //    SmallImage = Resources.MapServiceDefinitionSave16,
+            //    LargeImage = Resources.MapServiceDefinitionSave32,
+            //    ToolTipText = "Import a model"
+            //});
 
             header.Add(new SimpleActionItem(FileMenuKey, "About", About_Click)
             {
@@ -221,7 +221,6 @@ namespace Heiflow.Plugins.Menubar
                 MessageBox.Show("You cann't save since no project has been created!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-
         }
 
         private void ImportModel_Click(object sender, EventArgs e)

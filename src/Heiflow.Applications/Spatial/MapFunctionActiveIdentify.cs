@@ -97,7 +97,7 @@ namespace Heiflow.Applications.Spatial
                     float[] yy = new float[ntime];
                     for (int i = 0; i < ntime; i++)
                     {
-                        yy[i] = data_service.Source.Value[data_service.Source.SelectedVariableIndex][i][hru - 1];
+                        yy[i] = data_service.Source[data_service.Source.SelectedVariableIndex, i, hru - 1];
                     }
                     _chart.Plot<float>(data_service.Source.DateTimes, yy, "HRU_" + hru.ToString(), SeriesChartType.FastLine);
                 }

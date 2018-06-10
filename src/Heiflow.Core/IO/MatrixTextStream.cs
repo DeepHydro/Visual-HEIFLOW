@@ -45,10 +45,10 @@ namespace Heiflow.Core.IO
 
          }
 
-         public My2DMat<T> Load<T>(string filename)
+         public DataCube<T> Load<T>(string filename)
          {
              FileName = filename;
-             My2DMat<T> matrix = null;
+             DataCube<T> matrix = null;
              if (File.Exists(filename))
              {
                  StreamReader sr = new StreamReader(filename);
@@ -79,7 +79,7 @@ namespace Heiflow.Core.IO
                  sr.Close();
 
                  sr = new StreamReader(filename);
-                 matrix = new My2DMat<T>(nline, ncol);
+                 matrix = new DataCube<T>(1,nline, ncol);
                  int i = 0;
                  while (!sr.EndOfStream)
                  {
@@ -97,7 +97,7 @@ namespace Heiflow.Core.IO
              return matrix;
          }
 
-         public void  Save<T>(string filename, My2DMat<T> matrix)
+         public void Save<T>(string filename, DataCube<T> matrix)
          {
             if(matrix != null)
             {
@@ -120,21 +120,6 @@ namespace Heiflow.Core.IO
          {
              if (matrix != null)
              {
-                 StreamWriter sw = new StreamWriter(filename);
-                 for (int i = 0; i < matrix.Length; i++)
-                 {
-                     string line = string.Join("\n", matrix[i]);
-                     sw.WriteLine(line);
-                 }
-                 sw.Close();
-             }
-         }
-
-         public void SaveTo<T>(string filename, My2DMat<T> mat)
-         {
-             if (mat != null)
-             {
-                 var matrix = mat.Value;
                  StreamWriter sw = new StreamWriter(filename);
                  for (int i = 0; i < matrix.Length; i++)
                  {

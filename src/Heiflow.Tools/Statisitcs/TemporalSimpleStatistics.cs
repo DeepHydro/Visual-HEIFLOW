@@ -51,29 +51,29 @@ namespace Heiflow.Tools.Statisitcs
         }
 
         [Category("Input")]
-        [Description("The input matrix being analyzed. The matrix style shoud be mat[0][-1][-1]")]
-        public string Matrix { get; set; }
+        [Description("The input Data Cube being analyzed. The Data Cube style shoud be mat[0][:][:]")]
+        public string Source { get; set; }
 
-        [Category("Parameter")]
+        [Category("Optional")]
         [Description("Values equal to NoDataValue will be excluded during statistics")]
         public float NoDataValue { get; set; }
 
-        [Category("Parameter")]
+        [Category("Optional")]
         [Description("if BaseTimeStep >=0, spatial cells will be fixed on the basis of NoDataValue. Otherwise, spatial cells may change at different time step")]
         public int BaseTimeStep { get; set; }
 
         public override void Initialize()
         {
-            var mat = Get3DMat(Matrix);
+            var mat = Get3DMat(Source);
             Initialized = mat != null;
         }
 
         public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
         {
             int var_index = 0;
-            var mat = Get3DMat(Matrix, ref var_index);
+            var mat = Get3DMat(Source, ref var_index);
             double prg = 0;
-
+            int count = 1;
             if (mat != null)
             {
                 DataTable dt = new DataTable();
@@ -97,7 +97,7 @@ namespace Heiflow.Tools.Statisitcs
 
                 if (BaseTimeStep >= 0 && BaseTimeStep < mat.Size[0])
                 {
-                    var vec = mat[var_index, BaseTimeStep];
+                    var vec = mat[var_index, BaseTimeStep.ToString(), ":"];
                     for (int i = 0; i < vec.Length; i++)
                     {
                         if (vec[i] != NoDataValue)
@@ -108,7 +108,7 @@ namespace Heiflow.Tools.Statisitcs
                 for (int i = 0; i < nstep; i++)
                 {
                     var dr = dt.NewRow();
-                    var vec = mat[var_index, i];
+                    var vec = mat[var_index, i.ToString(), ":"];
                     double[] vec_selected = null;
                     if (use_selected)
                     {
@@ -131,8 +131,11 @@ namespace Heiflow.Tools.Statisitcs
                     dr[4] = kurtosis;
                     dt.Rows.Add(dr);
                     prg = (i + 1) * 100.0 / nstep;
-                    if (prg % 10 == 0)
+                    if (prg > count)
+                    {
                         cancelProgressHandler.Progress("Package_Tool", (int)prg, "Time Step:" + dr[0].ToString());
+                        count++;
+                    }
                 }
 
                 if (mat.DateTimes != null)

@@ -188,7 +188,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             if (!toolToExecute.Initialized)
                 return;
 
-            ToolProgress progForm = new ToolProgress(1);
+            DotSpatial.Modeling.Forms.ToolProgress progForm = new DotSpatial.Modeling.Forms.ToolProgress(1);
             if (toolToExecute.MultiThreadRequired)
             {
                 //We create a background worker thread to execute the tool
@@ -272,7 +272,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
         {
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
             {
-                var mat = e.OldItems[0] as My3DMat<float>;
+                var mat = e.OldItems[0] as DataCube<float>;
                 var matmata = from mm in _MatMataList where mm.Name == mat.Name select mm;
                 if(matmata.Any())
                     _MatMataList.Remove(matmata.First());
@@ -280,7 +280,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             }
             else if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
             {
-                var mat = e.NewItems[0] as My3DMat<float>;
+                var mat = e.NewItems[0] as DataCube<float>;
                 string size = mat.SizeString();         
                 _MatMataList.Add(new MatMeta() { Name = mat.Name, Size = size, Mat = mat });
             }    
@@ -296,7 +296,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
         {
             if (e.Column.Index == 0)
             {
-                var mat = e.ListViewItem.Tag as My3DMat<float>;
+                var mat = e.ListViewItem.Tag as DataCube<float>;
                 if (mat != null)
                 {
                     mat.Name = e.NewValue.ToString();
@@ -339,7 +339,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
         }
 
 
-        private void UpdateVariableView(My3DMat<float> mat)
+        private void UpdateVariableView(DataCube<float> mat)
         {
             if (mat == null)
             {
@@ -353,7 +353,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
                 string size = "empty";
                 for (int i = 0; i < nvar; i++)
                 {
-                    if (mat.Value[i] != null)
+                    if (mat[i] != null)
                     {
                         if (mat.Flags[i, 0] == TimeVarientFlag.Individual)
                             size = string.Format("{0}×{1}", mat.Size[1], mat.GetSpaceDimLength(i, 0));
@@ -426,7 +426,8 @@ namespace Heiflow.Controls.WinForm.Toolbox
             {
                 System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
                 DataCubeStreamReader asx = new DataCubeStreamReader(dlg.FileName);
-                var mat = asx.Load();
+               asx.LoadDataCube();
+                var  mat = asx.DataCube;
                 mat.Name = Path.GetFileNameWithoutExtension(dlg.FileName);
                 Workspace.Add(mat);
                 System.Windows.Forms.Cursor.Current = Cursors.Default;
@@ -511,7 +512,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             }
         }
 
-        public void Plot<T>(ITimeSeries<T> source, MySeriesChartType chartType)
+        public void Plot<T>(DataCube<T> source, MySeriesChartType chartType)
         {
             if (InvokeRequired)
             {

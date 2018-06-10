@@ -45,6 +45,7 @@ using Heiflow.Models.UI;
 using Heiflow.Core.Data;
 using System.ComponentModel;
 using Heiflow.Core.Utility;
+using DotSpatial.Data;
 
 namespace Heiflow.Models.Surface.PRMS
 {
@@ -70,23 +71,21 @@ namespace Heiflow.Models.Surface.PRMS
             };
             _outputPackage = new PRMSOutputDataPackage()
             {
-                Owner = this,
-                Name = "Surface Output"
+                Owner = this
             };
             _inputPackage = new PRMSInputDataPackage()
             {
-                Owner = this,
-                Name = "Surface Input",
+                Owner = this
             };
             _drivingPackage = new  PRMSDrivingDataPackage()
             {
-                Owner = this,
-                Name = "Surface Driving",
+                Owner = this
             };
             _mmsPackage.Owner = this;
             AddInSilence(_inputPackage);
             AddInSilence(_outputPackage);
-            AddInSilence(_drivingPackage);    
+            AddInSilence(_drivingPackage);
+            Description = "A deterministic, distributed-parameter, physical process based surface water model";
         }
         [Browsable(false)]
         public int NHRU
@@ -129,12 +128,12 @@ namespace Heiflow.Models.Surface.PRMS
            
         }
 
-        public override bool Load(IProgress progress)
+        public override bool Load(ICancelProgressHandler progress)
         {
             bool succ = true;
             if (File.Exists(ControlFileName))
             {
-                succ=_mmsPackage.Load();
+                succ=_mmsPackage.Load(progress);
                 if (succ)
                 {
                     ResolveLoadedParameters(true);
@@ -143,22 +142,22 @@ namespace Heiflow.Models.Surface.PRMS
                     {
                         pck.AfterLoad();
                     }
-                    progress.Progress("\tParameters loaded.");
+                    progress.Progress("PRMS",1,"\tParameters loaded.");
                 }
                 else
                 {
-                     progress.Progress( string.Format("\r\n Failed to load parameter file. Error message: {1}",  _mmsPackage.Message));
+                    progress.Progress("PRMS", 1, string.Format("\r\n Failed to load parameter file. Error message: {1}", _mmsPackage.Message));
                 }
             }
             else
             {
                 succ = false;
-                progress.Progress( string.Format("\r\n Failed to load {0}. The parameter file does not exist: {1}", Name, ControlFileName));
+                progress.Progress("PRMS", 1, string.Format("\r\n Failed to load {0}. The parameter file does not exist: {1}", Name, ControlFileName));
             }
             return succ;
         }
 
-        public override bool LoadGrid(IProgress progress)
+        public override bool LoadGrid(ICancelProgressHandler progress)
         {
             return true;
         }
@@ -168,14 +167,14 @@ namespace Heiflow.Models.Surface.PRMS
             return false;
         }
 
-        public override bool New(IProgress progress)
+        public override bool New(ICancelProgressHandler progress)
         {
             string parafile = Path.Combine(BaseModel.ConfigPath, "heiflow.param");
             var succ = true;
             if (File.Exists(parafile))
             {
                 File.Copy(parafile, _mmsPackage.FileName, true);
-                succ = _mmsPackage.Load();
+                succ = _mmsPackage.Load(progress);
                 if (succ)
                 {
                     ResolveLoadedParameters(false);
@@ -187,14 +186,14 @@ namespace Heiflow.Models.Surface.PRMS
                 else
                 {
                     var msg =string.Format("\r\n Failed to load {0}. Error: {1}", Name, _mmsPackage.Message);
-                    progress.Progress(msg);
+                    progress.Progress(this.Name, 1, msg);
                 }
             }
             else
             {
                 succ = false;
                  var msg =string.Format("The template parameter file {0} is missing. Please repair the software.", parafile);
-                  progress.Progress(msg);
+                 progress.Progress(this.Name, 1, msg);
             }
             return succ;
         }
@@ -220,7 +219,7 @@ namespace Heiflow.Models.Surface.PRMS
             }
         }
 
-        public override void Save(IProgress progress)
+        public override void Save(ICancelProgressHandler progress)
         {
             _mmsPackage.Save(progress);
             _inputPackage.Save(progress);

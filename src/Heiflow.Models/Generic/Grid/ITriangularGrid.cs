@@ -43,7 +43,7 @@ namespace Heiflow.Models.Generic
 
         int CellCount { get; set; }
 
-        My3DMat<float> Elevations { get; set; }
+        DataCube<float> Elevations { get; set; }
 
         ITriGridTopology Topology  { get; set; }
 

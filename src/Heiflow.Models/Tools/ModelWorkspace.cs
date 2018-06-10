@@ -44,12 +44,12 @@ namespace Heiflow.Models.Tools
 
         public ModelWorkspace()
         {
-            DataSources = new ObservableCollection<My3DMat<float>>(); 
+            DataSources = new ObservableCollection<DataCube<float>>(); 
         }
 
-        public ObservableCollection<My3DMat<float>> DataSources { get; protected set; }
+        public ObservableCollection<DataCube<float>> DataSources { get; protected set; }
 
-        public void Add(My3DMat<float> mat)
+        public void Add(DataCube<float> mat)
         {
             if (mat == null)
                 return;
@@ -65,7 +65,7 @@ namespace Heiflow.Models.Tools
             DataSources.Add(mat);
         }
 
-        public My3DMat<float> Get(string name)
+        public DataCube<float> Get(string name)
         {
             var buf = from mm in DataSources where mm.Name == name select mm;
             if (buf.Any())

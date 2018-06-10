@@ -40,6 +40,7 @@ using Heiflow.Core.Data;
 using System.ComponentModel;
 using System.IO;
 using System.Diagnostics;
+using DotSpatial.Data;
 
 namespace Heiflow.Models.Subsurface
 {
@@ -88,22 +89,20 @@ namespace Heiflow.Models.Subsurface
             State = ModelObjectState.Ready;
             _Initialized = true;
         }
-        public override bool Load()
+        public override bool Load(ICancelProgressHandler progresshandler)
         {
             var cbcpck = CBCPackage;
-            if (cbcpck.Values != null)
+            if (cbcpck.DataCube != null)
             {
-                var cbc = cbcpck.Values as My3DMat<float>;
+                var cbc = cbcpck.DataCube;
                 int steps = cbc.Size[1];
                 int nfea = cbc.Size[2];
                OnLoading(0);
                int progress = 0;
-                if (Values == null || Values.Size[1] != steps)
+               if (DataCube == null || DataCube.Size[1] != steps)
                 {
-                    Values = new MyLazy3DMat<float>(2, steps, nfea);
-                    Values.Allocate(0, steps, nfea);
-                    Values.Allocate(1, steps, nfea);
-                    Values.DateTimes = new DateTime[steps];
+                    DataCube = new DataCube<float>(2, steps, nfea);
+                    DataCube.DateTimes = new DateTime[steps];
                 }
 
                 if (cbc.IsAllocated(DimX) && cbc.IsAllocated(DimY))
@@ -112,14 +111,14 @@ namespace Heiflow.Models.Subsurface
                     {
                         for (int i = 0; i < nfea; i++)
                         {
-                            var r = Math.Sqrt(cbc.Value[DimX][s][i] * cbc.Value[DimX][s][i]
-                                + cbc.Value[DimY][s][i] * cbc.Value[DimY][s][i]);
+                            var r = Math.Sqrt(cbc[DimX,s,i] * cbc[DimX,s,i]
+                                + cbc[DimY,s,i] * cbc[DimY,s,i]);
                             if (r == 0)
                                 r = 1;
                             if (r < 0)
                                 r = 1;
-                            Values.Value[0][s][i] = (float)r;
-                            Values.Value[1][s][i] = (float)(Math.Asin(cbc.Value[DimY][s][i] / r)); //* 57.29578
+                            DataCube[0,s,i] = (float)r;
+                            DataCube[1,s,i] = (float)(Math.Asin(cbc[DimY, s, i] / r)); //* 57.29578
                         }
                         progress = Convert.ToInt32(s * 100 / steps);
                         OnLoading(progress);
@@ -127,12 +126,12 @@ namespace Heiflow.Models.Subsurface
                 }
                 for (int s = 0; s < steps; s++)
                 {
-                    Values.DateTimes[s] = TimeService.Timeline[s];
+                    DataCube.DateTimes[s] = TimeService.Timeline[s];
                 }
-                Values.Variables = this.Variables;
-                Values.Topology = (Grid as RegularGrid).Topology;
-                Values.TimeBrowsable = true;
-                OnLoaded(Values);
+                DataCube.Variables = this.Variables;
+                DataCube.Topology = (Grid as RegularGrid).Topology;
+                DataCube.TimeBrowsable = true;
+                OnLoaded(progresshandler);
                 return true;
             }
             else
@@ -152,15 +151,13 @@ namespace Heiflow.Models.Subsurface
             var vv = new string[] { "Magnitude", "Direction" };
             Variables = vv;
             var cbcpck = CBCPackage;
-            if (cbcpck.Values != null)
+            if (cbcpck.DataCube != null)
             {
-                var cbc = cbcpck.Values as My3DMat<float>;
+                var cbc = cbcpck.DataCube;
                 int steps = cbc.Size[1];
                 _StartLoading = TimeService.Start;
                 NumTimeStep = steps;
                 MaxTimeStep = steps;
-                Start = TimeService.Start;
-                End = EndOfLoading;
             }
             return true;
         }
@@ -171,9 +168,9 @@ namespace Heiflow.Models.Subsurface
             State = ModelObjectState.Standby;
             _Initialized = false;
         }
-        public override bool Load(int var_index)
+        public override bool Load(int var_index, ICancelProgressHandler progress)
         {
-            return Load();
+            return Load(progress);
         }
     }
 }

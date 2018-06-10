@@ -90,9 +90,9 @@ namespace Heiflow.Tools.Hydrology
                     var mat = ass.LoadStep();
                     for (int i = 0; i < mat.Size[2]; i++)
                     {
-                        mat.Value[0][0][i] = UnitConversion.Kelvin2Fahrenheit(mat.Value[0][0][i]);
+                        mat[0, 0, i] = UnitConversion.Kelvin2Fahrenheit(mat[0, 0, i]);
                     }
-                    dcw.WriteStep(1, ass.FeatureCount, mat.Value);
+                    dcw.WriteStep(1, ass.FeatureCount, mat);
                 }
             }
             else if (InputTemperatureUnit == TemperatureUnit.Celsius)
@@ -102,9 +102,9 @@ namespace Heiflow.Tools.Hydrology
                     var mat = ass.LoadStep();
                     for (int i = 0; i < mat.Size[2]; i++)
                     {
-                        mat.Value[0][0][i] = UnitConversion.Celsius2Fahrenheit(mat.Value[0][0][i]);
+                        mat[0, 0, i] = UnitConversion.Celsius2Fahrenheit(mat[0, 0, i]);
                     }
-                    dcw.WriteStep(1, ass.FeatureCount, mat.Value);
+                    dcw.WriteStep(1, ass.FeatureCount, mat);
                 }
             }
             ass.Close();

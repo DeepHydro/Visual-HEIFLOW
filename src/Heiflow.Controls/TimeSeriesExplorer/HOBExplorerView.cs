@@ -55,9 +55,9 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
         private IPackage _Package;
         private ToolStripComboBox cmbGwLayers;
         private FeatureMapLayer _SelectedFeatureMapLayer;
-        private FHDPackage _fhd;
-        private HOBPackage _hob;
-        private HOBOutputPackage _hob_out;
+        private FHDPackage _fhd_pck;
+        private HOBPackage _hob_pck;
+        private HOBOutputPackage _hob_out_pck;
         public HOBExplorerView()
         {
             InitializeComponent();
@@ -105,8 +105,8 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
                 _Package = value;
                 if(_Package != null)
                 {
-                     _hob_out = _Package as HOBOutputPackage;
-                     _hob = Package.Parent as HOBPackage;
+                     _hob_out_pck = _Package as HOBOutputPackage;
+                     _hob_pck = Package.Parent as HOBPackage;
                 }
             }
         }
@@ -121,11 +121,11 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
                 this.Show(pararent);
                 _ProjectService = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
                 var control = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectController>();
-                timeSeriesExplorer1.ODM = _ProjectService.Project.ODMSource;
-                this.timeSeriesExplorer1.Package = Package;
+                this.timeSeriesExplorer1.Package = this.Package;
+                cmbMapLayers.SelectedIndexChanged -= this.cmbGwLayers_SelectedIndexChanged;
                 var map_layers = from layer in control.MapAppManager.Map.Layers where layer is IFeatureLayer select new FeatureMapLayer { LegendText = layer.LegendText, DataSet = (layer as IFeatureLayer).DataSet };
                 cmbMapLayers.ComboBox.DataSource = map_layers.ToArray();
-
+                cmbMapLayers.SelectedIndexChanged += this.cmbGwLayers_SelectedIndexChanged;
                 cmbGwLayers.Items.Clear();
                 for (int i = 0; i < _ProjectService.Project.Model.Grid.LayerCount; i++)
                 {
@@ -149,9 +149,9 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
             bool can_load = false;
             if (Package.Owner.Packages.Keys.Contains(MFOutputPackage.PackageName) && cmbGwLayers.SelectedIndex >= 0)
             {
-                if (_fhd == null)
-                    GetFHD();
-                if (_fhd.Values == null || _fhd.Values.Value[cmbGwLayers.SelectedIndex] == null)
+                if (_fhd_pck == null)
+                    GetFHDPackage();
+                if (_fhd_pck.DataCube == null || _fhd_pck.DataCube[cmbGwLayers.SelectedIndex] == null)
                 {
                     MessageBox.Show("You need to load groundwater head from FHD pacakage at first!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
@@ -184,8 +184,8 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
                    // msg.ShowError(null, "No sites are found in the selected layer. Default sites will be used, but you can not compare simulated values with observed values" );
                     (Package as HOBOutputPackage).Sites = _hob.Observations;
                 }
-                 if (_fhd == null)
-                    GetFHD();
+                 if (_fhd_pck == null)
+                    GetFHDPackage();
               
             }
             catch (Exception ex)
@@ -203,7 +203,7 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
         {
             var hob_out = Package as HOBOutputPackage;
             var hob = hob_out.Parent as HOBPackage;
-            if (hob_out.Values == null || hob_out.Sites == null)
+            if (hob_out.DataCube == null || hob_out.Sites == null)
                 return;
 
             System.Windows.Forms.Cursor.Current = Cursors.WaitCursor;
@@ -227,26 +227,23 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
                         });
                         if (ts != null)
                         {
-                            if (ts.Value[0] > 0)
+                            if (ts[0,0,0] > 0)
                             {
-                                obs_list.Add((float)ts.Value[0]);
+                                obs_list.Add((float)ts[0, 0, 0]);
                                 sim_list.Add(heads[i]);
                             }
                         }
                     }
                 }
 
-                hob_out.ComparingValues = new MyLazy3DMat<float>(2, 1, obs_list.Count);
-                hob_out.ComparingValues.Allocate(0);
-                hob_out.ComparingValues.Allocate(1);
-
-                hob_out.ComparingValues.Value[0][0] = obs_list.ToArray();
-                hob_out.ComparingValues.Value[1][0] = sim_list.ToArray();
+                hob_out.ComparingValues = new DataCube<float>(2, 1, obs_list.Count);
+                hob_out.ComparingValues[0,"0",":"] = obs_list.ToArray();
+                hob_out.ComparingValues[1, "0", ":"] = sim_list.ToArray();
             }
 
 
-            var obs = hob_out.ComparingValues.Value[0][0];
-            var sim = hob_out.ComparingValues.Value[1][0];
+            var obs = hob_out.ComparingValues[0, "0", ":"];
+            var sim = hob_out.ComparingValues[1, "0", ":"];
 
             if (obs.Length > 0)
             {
@@ -265,9 +262,9 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
         {
             var hob_out = Package as HOBOutputPackage;
             var hob = hob_out.Parent as HOBPackage;
-            if (hob_out.Values == null || hob_out.Sites == null || _fhd == null)
+            if (hob_out.DataCube == null || hob_out.Sites == null || _fhd_pck == null)
                 return;
-            if (_SelectedFeatureMapLayer == null || hob_out.Values == null)
+            if (_SelectedFeatureMapLayer == null || hob_out.DataCube == null)
                 return;
 
             var dt = _SelectedFeatureMapLayer.DataSet.DataTable;
@@ -289,9 +286,9 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
             {
                 var cell_elev = float.Parse(dt.Rows[i]["Elevation"].ToString());    
                 var hobs = float.Parse(dt.Rows[i]["HOBS"].ToString());
-                var hsim = hob_out.Values.Value[var_index][0][i];
+                var hsim = hob_out.DataCube[var_index,0,i];
                 dt.Rows[i]["HSIM"] = Math.Round(hsim, 2);
-                dt.Rows[i]["HDIF"] = Math.Round((hobs - hob_out.Values.Value[var_index][0][i]), 2);
+                dt.Rows[i]["HDIF"] = Math.Round((hobs - hob_out.DataCube[var_index,0,i]), 2);
 
                 var dep_sim = cell_elev - hsim;
                 var dep_obs = float.Parse(dt.Rows[i]["DepOBS"].ToString());
@@ -327,12 +324,12 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
             }
         }
 
-        private void GetFHD()
+        private void GetFHDPackage()
         {
             var buf = from pp in Package.Owner.Packages[MFOutputPackage.PackageName].Children where pp.Name == FHDPackage.PackageName select pp;
             if (buf.Count() == 1)
             {
-                _fhd = buf.First() as FHDPackage;
+                _fhd_pck = buf.First() as FHDPackage;
                 //_hob_out.NumTimeStep = _fhd.NumTimeStep;
                 //_hob_out.StartOfLoading = _fhd.StartOfLoading;
                 //_hob_out.EndOfLoading = _fhd.EndOfLoading;                

@@ -43,6 +43,6 @@ namespace Heiflow.Models.Tools
         public string Size { get; set; }
         public string Max { get; set; }
         public string Min { get; set; }
-        public My3DMat<float> Mat { get; set; }
+        public DataCube<float> Mat { get; set; }
     }
 }

@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Core.IO;
 using Heiflow.Models.Generic;
@@ -90,7 +91,7 @@ namespace Heiflow.Models.Surface.PRMS
             return true;
         }
 
-        public override bool Load(int var_index)
+        public override bool Load(int var_index, ICancelProgressHandler progress)
         {
             return true;
         }
@@ -113,7 +114,7 @@ namespace Heiflow.Models.Surface.PRMS
             this.Feature = this.Grid.FeatureSet;
         }
 
-        public override bool Save(IProgress progress)
+        public override bool Save(ICancelProgressHandler progress)
         {
             return _climate.Save(progress);
         }

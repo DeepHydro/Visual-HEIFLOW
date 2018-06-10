@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Core.Data.ODM;
 using Heiflow.Models.Generic;
@@ -70,24 +71,11 @@ namespace Heiflow.Models.Subsurface
         {
             Variables = new string[] { "Stage", "Volume" };
             int nsite = OutputFilesInfo.Count;
-            NumTimeStep = 0;
+            NumTimeStep = TimeService.GetIOTimeLength(this.Owner.WorkDirectory);
+            _StartLoading = TimeService.Start;
+            MaxTimeStep = NumTimeStep; 
             if (File.Exists(OutputFilesInfo[0].FileName))
             {
-                FileStream fs = new FileStream(OutputFilesInfo[0].FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                StreamReader sr = new StreamReader(fs);
-                string line = sr.ReadLine();
-                line = sr.ReadLine();
-                line = sr.ReadLine();
-                while (!sr.EndOfStream)
-                {
-                    line = sr.ReadLine();
-                    NumTimeStep++;
-                }
-                if (TypeConverterEx.IsNull(line))
-                    NumTimeStep--;
-                
-                sr.Close();
-
                 Sites.Clear();
                 for (int i = 0; i < nsite; i++)
                 {
@@ -96,7 +84,7 @@ namespace Heiflow.Models.Subsurface
                         var site = new Site()
                         {
                             ID = i,
-                            Name = OutputFilesInfo[i].Name,
+                            Name = Path.GetFileNameWithoutExtension(OutputFilesInfo[i].Name)
                         };
                         site.Variables = new Variable[2];
                         site.Variables[0] = new Variable()
@@ -112,8 +100,6 @@ namespace Heiflow.Models.Subsurface
                         Sites.Add(site);
                     }
                 }
-                StartOfLoading = TimeService.IOTimeline.First();
-                EndOfLoading = TimeService.IOTimeline[NumTimeStep];
                 return true;
             }
             else
@@ -126,25 +112,26 @@ namespace Heiflow.Models.Subsurface
             this.Grid = Owner.Grid;
             this.TimeService = Owner.Owner.TimeServiceList["Base Timeline"];
             this.TimeService.Updated += this.OnTimeServiceUpdated;
+            StartOfLoading = TimeService.Start;
+            EndOfLoading = TimeService.End;
+            NumTimeStep = TimeService.IOTimeline.Count;
             State = ModelObjectState.Ready;
             _Initialized = true;
          
         }
-        public override bool Load()
+        public override bool Load(ICancelProgressHandler progresshandler)
         {
             if (Sites.Count == 0)
                 Scan();
- 
+            NumTimeStep = TimeService.GetIOTimeLength(this.Owner.WorkDirectory);
             int progress = 0;
             int nstep = StepsToLoad;
 
-            Values = new MyLazy3DMat<float>(2, nstep, Sites.Count);
-            Values.Allocate(0);
-            Values.Allocate(1);
+            DataCube = new DataCube<float>(2, nstep, Sites.Count);
             OnLoading(0);
 
-            Values.Variables = new string[] { "Stage", "Volume" };
-            Values.Name = "Lake Output";
+            DataCube.Variables = new string[] { "Stage", "Volume" };
+            DataCube.Name = "Lake Output";
 
             for (int i = 0; i < Sites.Count; i++)
             {
@@ -163,8 +150,8 @@ namespace Heiflow.Models.Subsurface
                         if (!TypeConverterEx.IsNull(line))
                         {
                             var vv = TypeConverterEx.Split<float>(line);
-                            Values.Value[0][t][i] = vv[1];
-                            Values.Value[1][t][i] = vv[2];
+                            DataCube[0,t,i] = vv[1];
+                            DataCube[1,t,i] = vv[2];
                         }
                     }
                     sr.Close();
@@ -172,17 +159,17 @@ namespace Heiflow.Models.Subsurface
                     OnLoading(progress);
                 }
             }
-            Values.TimeBrowsable = true;
-            Values.AllowTableEdit = false;
-            Values.DateTimes = TimeService.IOTimeline.Take(nstep).ToArray();
-            OnLoaded(Values);
+            DataCube.TimeBrowsable = true;
+            DataCube.AllowTableEdit = false;
+            DataCube.DateTimes = TimeService.IOTimeline.Take(nstep).ToArray();
+            OnLoaded(progresshandler);
 
             return true;
         }
-        
-        public override bool Load(int site_index)
+
+        public override bool Load(int site_index, ICancelProgressHandler progress)
         {
-            return Load();
+            return Load(progress);
         }
         public override void Clear()
         {

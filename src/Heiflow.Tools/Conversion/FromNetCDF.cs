@@ -237,7 +237,7 @@ namespace Heiflow.Tools.Conversion
                 var yy = _YVariable.GetData() as float[];
                 var nc_array= _SelectedVariable.GetData() as float[,,];
                 int nstep = time.Count();
-                var mat_out = new My3DMat<float>(1, time.Length, npt);
+                var mat_out = new DataCube<float>(1, time.Length, npt);
                 mat_out.Name = OutputMatrix;
                 mat_out.Variables = new string[] { _SelectedVariableName };
                 mat_out.DateTimes = new DateTime[nstep];
@@ -247,7 +247,7 @@ namespace Heiflow.Tools.Conversion
                 {
                     for (int i = 0; i < npt; i++)
                     {
-                        mat_out.Value[0][t][i] = nc_array[t, pt_index[i][1], pt_index[i][0]];
+                        mat_out[0,t,i] = nc_array[t, pt_index[i][1], pt_index[i][0]];
                     }
                     progress = t * 100 / nstep;
                     cancelProgressHandler.Progress("Package_Tool", progress, "Processing time step:" + t);

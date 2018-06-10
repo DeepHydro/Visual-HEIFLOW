@@ -57,6 +57,7 @@ namespace Heiflow.Models.Generic
         int TimeUnit { get; set; }
         int NumTimeStepInDay { get; }
         string Name { get; set; }
+        string IOTimeFile { get; set; }
         IBasicModel Model { get; set; }
         DateTime Start { get; set; }
         DateTime End { get; set; }
@@ -74,5 +75,6 @@ namespace Heiflow.Models.Generic
         void PopulateTimelineFromSP(DateTime start);
         void PopulateIOTimelineFromSP();
         int GetNumStepsBetween(List<DateTime> list, DateTime start, DateTime end);
+        int GetIOTimeLength(string work_dic);
     }
 }

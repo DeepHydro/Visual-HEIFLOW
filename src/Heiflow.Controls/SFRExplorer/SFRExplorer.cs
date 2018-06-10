@@ -48,7 +48,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
     {
         private BackgroundWorker worker;
         private SFROutputPackage _SFROutputPackage;
-        private My2DMat<double> _ProfileMat;
+        private DataCube<double> _ProfileMat;
         private List<River> _ProfileRivers;
         private IShellService _ShellService;
         private int _Selected_Sfr_var;
@@ -82,6 +82,8 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                 {
                     _SFROutputPackage.ScaleFactor = 1.0 / 86400;
                     propertyGrid1.SelectedObject = _SFROutputPackage;
+                    cmbSFRVars.ComboBox.DataSource = _SFROutputPackage.Variables;
+                    cmbSFRVars.SelectedIndex = 0;
                 }
             }
         }
@@ -178,9 +180,9 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
             if (_LoadAllVars)
-                SFROutput.Load();
+                SFROutput.Load(null);
             else
-                SFROutput.Load(_Selected_Sfr_var);
+                SFROutput.Load(_Selected_Sfr_var, null);
         }
 
         private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -203,9 +205,9 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                     tabControl_Chart.SelectedTab = this.tabPageTimeSeries;
                     if (cmbSFRVars.SelectedIndex < 0)
                         return;
-                    var fts = SFROutput.GetTimeSeries(river.ID - 1, cmbSFRVars.SelectedIndex, _SFROutputPackage.StartOfLoading);
+                    var fts = SFROutput.GetTimeSeries(river.ID - 1, cmbSFRVars.SelectedIndex);
                     string sereis = string.Format("{0} at Segment {1} Reach {2}", cmbSFRVars.SelectedItem.ToString(), river.ID, river.LastReach.SubID);
-                    winChart_timeseries.Plot<float>(fts.DateTimes, fts.Value, sereis);
+                    winChart_timeseries.Plot<float>(fts.DateTimes, fts[0,":","0"], sereis);
                 }
             }
         }
@@ -221,7 +223,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                 var reach = cmbRchID.SelectedItem as Reach;
                 var fts = SFROutput.GetTimeSeries(reach.Parent.SubIndex, reach.SubIndex, cmbSFRVars.SelectedIndex, _SFROutputPackage.StartOfLoading);
                 string sereis = string.Format("{0} at Segment {1} Reach {2}", cmbSFRVars.SelectedItem.ToString(), reach.Parent.ID, reach.SubID);
-                winChart_timeseries.Plot<float>(fts.DateTimes, fts.Value, sereis);
+                winChart_timeseries.Plot<float>(fts.DateTimes, fts[0,":","0"], sereis);
             }
         }
 
@@ -253,7 +255,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                 {
                     var derieved_ts = TimeSeriesAnalyzer.Derieve(ts, _SFROutputPackage.NumericalDataType, _SFROutputPackage.TimeUnits);
                     string sereis = string.Format("{1} at {0}", site.Name, varb.Name);
-                    winChart_timeseries.Plot<double>(derieved_ts.DateTimes, derieved_ts.Value, sereis);
+                    winChart_timeseries.Plot<double>(derieved_ts.DateTimes, derieved_ts[0, ":", "0"], sereis);
                 }
             }
         }
@@ -291,10 +293,10 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                 _ProfileRivers = SFROutput.RiverNetwork.BuildProfile(river_start, river_end);
                 _ProfileMat = SFROutput.ProfileTimeSeries(_ProfileRivers, cmbSFRVars.SelectedIndex, 0,
                     chbReadComplData.Checked, chbUnifiedByLength.Checked);
-                colorSlider1.Maximum = SFROutput.Values.Size[1] - 1;
+                colorSlider1.Maximum = SFROutput.DataCube.Size[1] - 1;
                 colorSlider1.Value = 0;
                 string series = string.Format("{0} from {1} to {2}", cmbSFRVars.SelectedItem.ToString(), river_start, river_end);
-                winChart_proflie.Plot(_ProfileMat.Value[0], _ProfileMat.Value[1], series);
+                winChart_proflie.Plot(_ProfileMat[0, "0", ":"], _ProfileMat[0, "1", ":"], series);
             }
         }
 
@@ -307,7 +309,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             _ProfileMat = SFROutput.ProfileTimeSeries(_ProfileRivers, cmbSFRVars.SelectedIndex, colorSlider1.Value,
                 chbReadComplData.Checked, chbUnifiedByLength.Checked);
             string series = string.Format("{0} from {1} to {2}", cmbSFRVars.SelectedItem.ToString(), cmbStartID.SelectedItem, cmbEndID.SelectedItem);
-            winChart_proflie.Plot(_ProfileMat.Value[0], _ProfileMat.Value[1], series);
+            winChart_proflie.Plot(_ProfileMat[0, "0", ":"], _ProfileMat[0, "1", ":"], series);
         }
 
         private void BindSites()
@@ -388,7 +390,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             if(_ShellService == null)
                 _ShellService = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
             Cursor.Current = Cursors.WaitCursor;
-            var mat = SFROutput.GetProfileTimeSeries(_ProfileRivers, cmbSFRVars.SelectedIndex, cmbSFRVars.SelectedItem.ToString(), SFROutput.Values.Size[1],
+            var mat = SFROutput.GetProfileTimeSeries(_ProfileRivers, cmbSFRVars.SelectedIndex, cmbSFRVars.SelectedItem.ToString(), SFROutput.DataCube.Size[1],
                    chbReadComplData.Checked, chbUnifiedByLength.Checked);
             _ShellService.PackageToolManager.Workspace.Add(mat);
             Cursor.Current = Cursors.Default;
@@ -399,7 +401,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             if (_ShellService == null)
                 _ShellService = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
             Cursor.Current = Cursors.WaitCursor;
-            _ShellService.PackageToolManager.Workspace.Add(SFROutput.Values);
+            _ShellService.PackageToolManager.Workspace.Add(SFROutput.DataCube);
             Cursor.Current = Cursors.Default;
         }
 
@@ -408,8 +410,6 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             menu_LoadAll.CheckState = CheckState.Checked;
             menu_LoadSingle.CheckState = CheckState.Unchecked;
             SFROutput.Scan();
-            cmbSFRVars.ComboBox.DataSource = SFROutput.Variables;
-            cmbSFRVars.SelectedIndex = 0;
             _LoadAllVars = true;
         }
 
@@ -418,14 +418,12 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             menu_LoadAll.CheckState = CheckState.Unchecked;
             menu_LoadSingle.CheckState = CheckState.Checked;
             SFROutput.Scan();
-            cmbSFRVars.ComboBox.DataSource = SFROutput.Variables;
-            cmbSFRVars.SelectedIndex = 0;
             _LoadAllVars = false;
         }
 
         private void menu_Clear_Click(object sender, EventArgs e)
         {
-            _SFROutputPackage.Values.Clear();
+            _SFROutputPackage.DataCube.Clear();
         }
 
         private void cmbSFRVars_SelectedIndexChanged(object sender, EventArgs e)

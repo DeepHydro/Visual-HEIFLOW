@@ -653,6 +653,16 @@ namespace Heiflow.Controls.WinForm.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap if_history_clear_9334 {
+            get {
+                object obj = ResourceManager.GetObject("if_history-clear_9334", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap if_selected_delete_37293 {
             get {
                 object obj = ResourceManager.GetObject("if_selected_delete_37293", resourceCulture);

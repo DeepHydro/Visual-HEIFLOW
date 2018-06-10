@@ -59,7 +59,7 @@ namespace Heiflow.Models.Subsurface
             Token = "Modflow2005";
         }
 
-        public override bool New(IProgress progress, bool ImportFromExistingModel)
+        public override bool New(ICancelProgressHandler progress, bool ImportFromExistingModel)
         {
             var succ = true;
             System.IO.Directory.CreateDirectory(GeoSpatialDirectory);
@@ -77,7 +77,6 @@ namespace Heiflow.Models.Subsurface
                 RelativeControlFileName = Name + ".nam";
                 var model = new Modflow()
                 {
-                    Name = Name,
                     Project = this,
                     WorkDirectory = FullModelWorkDirectory,
                     ControlFileName = RelativeControlFileName

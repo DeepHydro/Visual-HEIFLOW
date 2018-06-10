@@ -28,6 +28,7 @@
 //
 
 using DotSpatial.Controls;
+using DotSpatial.Data;
 using Heiflow.Models.Generic.Packages;
 using Heiflow.Models.Generic.Project;
 using Heiflow.Models.UI;
@@ -47,8 +48,8 @@ namespace Heiflow.Models.Generic
         event EventHandler<IPackage> PackageStatechanged;
 
         Dictionary<string, IPackage> Packages { get; }
-        string Name { get; set; }
-        string Description { get; set; }
+        string Name { get; }
+        string Description { get;}
         //string WorkDirectory { get; set; }
         IGrid Grid { get; set; }
         Image Icon { get; set; }
@@ -66,10 +67,10 @@ namespace Heiflow.Models.Generic
         /// </summary>
         void Initialize();
         bool Exsit(string filename);
-        bool New(IProgress progress);
-        bool Load(IProgress progress);
+        bool New(ICancelProgressHandler progress);
+        bool Load(ICancelProgressHandler progress);
         void Attach(IMap map, string directory);
-        void Save(IProgress progress);
+        void Save(ICancelProgressHandler progress);
         void Clear();
         void Add(IPackage pck);
         void Remove(IPackage pck);

@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using Heiflow.Core;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
@@ -151,11 +152,11 @@ namespace Heiflow.Models.Subsurface
             base.Initialize();
         }
 
-        public override bool Load()
+        public override bool Load(ICancelProgressHandler progresshandler)
         {
             return true;
         }
-        public override bool SaveAs(string filename, IProgress progress)
+        public override bool SaveAs(string filename, ICancelProgressHandler progress)
         {
             return true;
         }

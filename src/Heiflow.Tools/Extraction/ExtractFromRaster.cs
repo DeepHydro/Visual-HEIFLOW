@@ -110,7 +110,7 @@ namespace Heiflow.Tools.DataManagement
                 var nrow = _target_layer.NumRows();
                 var dx = System.Math.Sqrt(_target_layer.GetFeature(0).Geometry.Area);
                 int nsample = (int)System.Math.Floor(dx / _dem_layer.CellHeight);
-                var mat = new My3DMat<float>(1, 1, nrow);
+                var mat = new DataCube<float>(1, 1, nrow);
                 mat.Name = Matrix;
                 mat.Variables = new string[] { Matrix };
                 mat.TimeBrowsable = false;
@@ -151,7 +151,7 @@ namespace Heiflow.Tools.DataManagement
                         }
                         if (npt > 0)
                             sum_cellv = sum_cellv / npt;
-                        mat.Value[0][0][i] = sum_cellv;
+                        mat[0,0,i] = sum_cellv;
 
                         progress = i * 100 / nrow;
                         if (progress > count)
@@ -176,7 +176,7 @@ namespace Heiflow.Tools.DataManagement
                         var cell = _dem_layer.ProjToCell(coors[i]);
                         if (cell != null && cell.Row > 0)
                         {
-                            mat.Value[0][0][i] = (float)_dem_layer.Value[cell.Row, cell.Column];
+                            mat[0,0,i] = (float)_dem_layer.Value[cell.Row, cell.Column];
                         }
                         progress = i * 100 / nrow;
                         if (progress > count)

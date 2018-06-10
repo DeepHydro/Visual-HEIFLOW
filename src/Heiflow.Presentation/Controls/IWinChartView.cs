@@ -39,7 +39,7 @@ namespace Heiflow.Presentation.Controls
         bool IsDisposed { get; }
         void Plot<T>(DateTime[] xx, T[] yy, string series_name, SeriesChartType chartType);
         void Plot<T>(T[] yy, string series_name, SeriesChartType chartType);
-        void Plot<T>(ITimeSeries<T> source, SeriesChartType chartType);
+        void Plot<T>(DataCube<T> source, SeriesChartType chartType);
         void CloseView();
     }
 }

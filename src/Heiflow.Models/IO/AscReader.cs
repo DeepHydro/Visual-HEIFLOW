@@ -76,11 +76,11 @@ namespace Heiflow.Models.IO
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
-        public My2DMat<float> Load(string filename)
+        public DataCube<float> Load(string filename)
         {
             Variables = new string[] { Path.GetFileNameWithoutExtension(filename) };
             FileName = filename;
-            My2DMat<float> mat = null;
+            DataCube<float> mat = null;
 
             StreamReader sr = new StreamReader(FileName);
             string line = sr.ReadLine();
@@ -99,7 +99,7 @@ namespace Heiflow.Models.IO
             line = sr.ReadLine();
             temp = TypeConverterEx.Split<string>(line);
             NoDataValue = float.Parse(temp[1]);
-            mat = new My2DMat<float>(nrow, ncol);
+            mat = new DataCube<float>(1,nrow, ncol);
 
             for (int i = 0; i < nrow; i++)
             {
@@ -107,7 +107,7 @@ namespace Heiflow.Models.IO
                 var buf = TypeConverterEx.Split<float>(line);
                 for (int j = 0; j < ncol; j++)
                 {
-                    mat[i, j, MyMath.none] = buf[j];
+                    mat[0,i, j] = buf[j];
                 }
             }
             sr.Close();
@@ -172,7 +172,7 @@ namespace Heiflow.Models.IO
             return list.ToArray();
         }
 
-        public My3DMat<float> LoadSerial(string filename, int nrow, int ncol)
+        public DataCube<float> LoadSerial(string filename, int nrow, int ncol)
         {
             Variables = new string[] { Path.GetFileNameWithoutExtension(filename) };
             FileName = filename;
@@ -190,18 +190,14 @@ namespace Heiflow.Models.IO
                         list.Add(buf[j]);
                 }
             }
-
-            var mat=new float[1][][];
-            mat[0] = new float[1][];
-            mat[0][0] = list.ToArray();
-           var array = new My3DMat<float>(mat);
-
+           var array = new DataCube<float>(1,1,list.Count);
+           array[0, "0", ":"] = list.ToArray();
             list.Clear();
             sr.Close();
             return array;
         }
 
-        public My3DMat<float> Load(string filename, My3DMat<float> ibound)
+        public DataCube<float> Load(string filename, DataCube<float> ibound)
         {
             Variables = new string[] { Path.GetFileNameWithoutExtension(filename) };
             FileName = filename;
@@ -220,11 +216,8 @@ namespace Heiflow.Models.IO
                         list.Add(buf[j]);
                 }
             }
-            var mat = new float[1][][];
-            mat[0] = new float[1][];
-            mat[0][0] = list.ToArray();
-            var array = new My3DMat<float>(mat);
-
+            var array = new DataCube<float>(1, 1, list.Count);
+            array[0, "0", ":"] = list.ToArray();
             list.Clear();
             sr.Close();
             return array;

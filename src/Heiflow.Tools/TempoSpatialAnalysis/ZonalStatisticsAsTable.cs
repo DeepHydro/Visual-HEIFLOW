@@ -199,7 +199,7 @@ namespace Heiflow.Tools.Statisitcs
 
             if (BaseTimeStep >= 0 && BaseTimeStep < mat.Size[0])
             {
-                var vec = mat[var_indexA, BaseTimeStep];
+                var vec = mat[var_indexA, BaseTimeStep.ToString(),":"];
                 for (int c = 0; c < nzone; c++)
                 {
                     var key = dic.Keys.ElementAt(c);
@@ -220,7 +220,7 @@ namespace Heiflow.Tools.Statisitcs
                 int ncell = mat.Size[2];
                
 
-                var mat_out = new My3DMat<float>(1, nstep, nzone);
+                var mat_out = new DataCube<float>(1, nstep, nzone);
                 mat_out.Name = Output;
                 mat_out.Variables = new string[] { "Mean"};
                 for (int t = 0; t < nstep; t++)
@@ -233,16 +233,16 @@ namespace Heiflow.Tools.Statisitcs
                         int len = 0;
                         for (int j = 0; j < nsub_id; j++)
                         {
-                            if (mat.Value[var_indexA][t][sub_id[j]] != NoDataValue)
+                            if (mat[var_indexA,t,sub_id[j]] != NoDataValue)
                             {
-                                sum += mat.Value[var_indexA][t][sub_id[j]];
+                                sum += mat[var_indexA,t,sub_id[j]];
                                 len++;
                             }
                         }
                         if (len > 0)
-                            mat_out.Value[0][t][c] = sum / len;
+                            mat_out[0,t,c] = sum / len;
                         else
-                            mat_out.Value[0][t][c] = 0;
+                            mat_out[0,t,c] = 0;
                     }
                     prg = (t + 1) * 100.0 / nstep;
                     if (prg % 10 == 0)

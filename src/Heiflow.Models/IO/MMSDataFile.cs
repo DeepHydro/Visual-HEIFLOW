@@ -38,7 +38,7 @@ using Heiflow.Core.IO;
 
 namespace Heiflow.Models.IO
 {
-    public class MMSDataFile : BaseDataCube
+    public class MMSDataFile : BaseDataCubeStream
     {
         private string _FileName;
 
@@ -67,57 +67,61 @@ namespace Heiflow.Models.IO
             fileStream.Close();
         }
 
-        public override My3DMat<float> Load(int var_index)
-        {
-            OnLoading(0);
-              Scan();
-            var fileStream = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            StreamReader sr = new StreamReader(fileStream, Encoding.Default);
-            string line = "";
-            int nfeat = 0;
-            int nstep = StepsToLoad;
-            int progress = 0;
-            if (StepsToLoad < NumTimeStep && StepsToLoad > 0)
-                nstep = StepsToLoad;
+        //public override My3DMat<float> Load(int var_index)
+        //{
+        //    OnLoading(0);
+        //      Scan();
+        //    var fileStream = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+        //    StreamReader sr = new StreamReader(fileStream, Encoding.Default);
+        //    string line = "";
+        //    int nfeat = 0;
+        //    int nstep = StepsToLoad;
+        //    int progress = 0;
+        //    if (StepsToLoad < NumTimeStep && StepsToLoad > 0)
+        //        nstep = StepsToLoad;
 
-            sr.ReadLine();
-            line = sr.ReadLine();
-            sr.ReadLine();
+        //    sr.ReadLine();
+        //    line = sr.ReadLine();
+        //    sr.ReadLine();
 
-            var strs = TypeConverterEx.Split<string>(line);
-            nfeat = int.Parse(strs[1]);
+        //    var strs = TypeConverterEx.Split<string>(line);
+        //    nfeat = int.Parse(strs[1]);
         
-            if (!Source.IsAllocated(var_index) || Source.Size[1] != nstep)
-                Source.Allocate(var_index, nstep, nfeat);
-            Source.DateTimes = new DateTime[nstep];
+        //    if (!Source.IsAllocated(var_index) || Source.Size[1] != nstep)
+        //        Source.Allocate(var_index, nstep, nfeat);
+        //    Source.DateTimes = new DateTime[nstep];
 
-            for (int t = 0; t < nstep; t++)
-            {
-                line = sr.ReadLine();
-                var vv = TypeConverterEx.SkipSplit<float>(line, 6);
-                Source.Value[var_index][t] = vv;
-                progress = Convert.ToInt32(t * 100 / nstep);
-                var temp = TypeConverterEx.Split<int>(line, 6);
-                Source.DateTimes[t] = new DateTime(temp[0], temp[1], temp[2], temp[3], temp[4], temp[5]);
-                if (progress % 10 == 0)
-                    OnLoading(progress);
-            }
-            OnLoading(100);
-            fileStream.Close();
-            sr.Close();
-            OnLoaded(Source);
-            return Source;
-        }
+        //    for (int t = 0; t < nstep; t++)
+        //    {
+        //        line = sr.ReadLine();
+        //        var vv = TypeConverterEx.SkipSplit<float>(line, 6);
+        //        Source.Value[var_index][t] = vv;
+        //        progress = Convert.ToInt32(t * 100 / nstep);
+        //        var temp = TypeConverterEx.Split<int>(line, 6);
+        //        Source.DateTimes[t] = new DateTime(temp[0], temp[1], temp[2], temp[3], temp[4], temp[5]);
+        //        if (progress % 10 == 0)
+        //            OnLoading(progress);
+        //    }
+        //    OnLoading(100);
+        //    fileStream.Close();
+        //    sr.Close();
+        //    OnLoaded(Source);
+        //    return Source;
+        //}
 
         /// <summary>
         /// load based on a mapping table
         /// </summary>
         /// <param name="mapping">[station_id,hru_id]</param>
         /// <returns>3d mat</returns>
-        public My3DMat<float> Load(Dictionary<int, int> mapping, int var_index)
+        public void Load(Dictionary<int, int> mapping, int var_index)
         {
             OnLoading(0);
-             Scan();
+            if (MaxTimeStep <= 0 || NumTimeStep == 0)
+            {
+                Scan();
+                MaxTimeStep = NumTimeStep;
+            }
             var fileStream = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             StreamReader sr = new StreamReader(fileStream, Encoding.Default);
             string line = "";
@@ -136,11 +140,11 @@ namespace Heiflow.Models.IO
             var strs = TypeConverterEx.Split<string>(line);
             nfeat = int.Parse(strs[1]);
 
-            if (!Source.IsAllocated(var_index) || Source.Size[1] != nstep)
-                Source.Allocate(var_index, nstep, nhru);
-            Source.DateTimes = new DateTime[nstep];
-            Source.TimeBrowsable = true;
-            Source.AllowTableEdit = true;
+            if (!DataCube.IsAllocated(var_index) || DataCube.Size[1] != nstep)
+                DataCube.Allocate(var_index);
+            DataCube.DateTimes = new DateTime[nstep];
+            DataCube.TimeBrowsable = true;
+            DataCube.AllowTableEdit = true;
             if (nhru == 0)
             {
                 nhru = nfeat;
@@ -150,10 +154,10 @@ namespace Heiflow.Models.IO
                     var vv = TypeConverterEx.SkipSplit<float>(line, 6);
                     for (int i = 0; i < nhru; i++)
                     {
-                        Source.Value[var_index][t][i] = vv[i];
+                        DataCube[var_index,t,i] = vv[i];
                     }
                     var temp = TypeConverterEx.Split<int>(line, 6);
-                    Source.DateTimes[t] = new DateTime(temp[0], temp[1], temp[2], temp[3], temp[4], temp[5]);
+                    DataCube.DateTimes[t] = new DateTime(temp[0], temp[1], temp[2], temp[3], temp[4], temp[5]);
                     progress = Convert.ToInt32(t * 100 / nstep);
                     OnLoading(progress);
                 }
@@ -166,10 +170,10 @@ namespace Heiflow.Models.IO
                     var vv = TypeConverterEx.SkipSplit<float>(line, 6);
                     for (int i = 0; i < nhru; i++)
                     {
-                        Source.Value[var_index][t][i] = vv[mapping[i + 1]];
+                        DataCube[var_index,t,i] = vv[mapping[i + 1]];
                     }
                     var temp = TypeConverterEx.Split<int>(line, 6);
-                    Source.DateTimes[t] = new DateTime(temp[0], temp[1], temp[2], temp[3], temp[4], temp[5]);
+                    DataCube.DateTimes[t] = new DateTime(temp[0], temp[1], temp[2], temp[3], temp[4], temp[5]);
                     progress = Convert.ToInt32(t * 100 / nstep);
                     OnLoading(progress);
                 }
@@ -178,11 +182,11 @@ namespace Heiflow.Models.IO
             OnLoading(100);
             fileStream.Close();
             sr.Close();
-            OnLoaded(Source);
-            return Source;
+            //OnLoaded(Source);         
+            OnDataCubedLoaded(DataCube);
         }
 
-        public void Save(My3DMat<float> mat)
+        public void Save(DataCube<float> mat)
         {
             StreamWriter sw = new StreamWriter(_FileName);
             string line = "Metrological File, generated by VHF on " + DateTime.Now.ToString();
@@ -194,16 +198,60 @@ namespace Heiflow.Models.IO
             string buf = "";
             for (int i = 0; i < mat.Size[1]; i++)
             {
-                buf = string.Join("\t", mat.Value[0][i]);
+                buf = string.Join("\t", mat[0, i.ToString(), ":"]);
                 var cur = mat.DateTimes[i];
                 line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}", cur.Year, cur.Month, cur.Day, cur.Hour, cur.Minute, cur.Second, buf);
                 sw.WriteLine(line);
             }
             sw.Close();
         }
-        public override My3DMat<float> Load()
+        public override void LoadDataCube()
         {
             throw new NotImplementedException();
+        }
+
+        public override void LoadDataCube(int var_index)
+        {
+            OnLoading(0);
+            if (MaxTimeStep <= 0 || NumTimeStep == 0)
+            {
+                Scan();
+                MaxTimeStep = NumTimeStep;
+            }
+            var fileStream = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            StreamReader sr = new StreamReader(fileStream, Encoding.Default);
+            string line = "";
+            int nfeat = 0;
+            int nstep = StepsToLoad;
+            int progress = 0;
+
+            sr.ReadLine();
+            line = sr.ReadLine();
+            sr.ReadLine();
+
+            var strs = TypeConverterEx.Split<string>(line);
+            nfeat = int.Parse(strs[1]);
+
+            if (!DataCube.IsAllocated(var_index) || DataCube.Size[1] != nstep)
+                DataCube.Allocate(var_index);
+            DataCube.DateTimes = new DateTime[nstep];
+
+            for (int t = 0; t < nstep; t++)
+            {
+                line = sr.ReadLine();
+                var vv = TypeConverterEx.SkipSplit<float>(line, 6);
+                DataCube.ILArrays[var_index][t] = vv;
+                progress = Convert.ToInt32(t * 100 / nstep);
+                var temp = TypeConverterEx.Split<int>(line, 6);
+                DataCube.DateTimes[t] = new DateTime(temp[0], temp[1], temp[2], temp[3], temp[4], temp[5]);
+                if (progress % 10 == 0)
+                    OnLoading(progress);
+            }
+            OnLoading(100);
+            fileStream.Close();
+            sr.Close();
+            //OnLoaded(Source);
+            OnDataCubedLoaded(DataCube);
         }
     }
 }

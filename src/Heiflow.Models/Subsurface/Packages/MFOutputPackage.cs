@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using Heiflow.Models.Generic;
 using System;
 using System.Collections.Generic;
@@ -44,7 +45,7 @@ namespace Heiflow.Models.Subsurface
         public static string PackageName="ModelFlow Output";
         public MFOutputPackage()
         {
-            Name = "ModelFlow Output";
+            _Name = "ModelFlow Output";
         }
 
         public override void Initialize()
@@ -55,9 +56,9 @@ namespace Heiflow.Models.Subsurface
             }
             base.Initialize();
         }
-        public override bool Load()
+        public override bool Load(ICancelProgressHandler progress)
         {
-            OnLoaded("");
+            OnLoaded(progress);
             return true;
         }
 

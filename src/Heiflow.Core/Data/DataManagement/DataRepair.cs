@@ -66,37 +66,39 @@ namespace Heiflow.Core.Data
             }
         }
 
-        public void Repair(IVectorTimeSeries<double> ts)
+        public void Repair(DataCube<double> ts)
         {
             if (ts != null)
             {
-                var newdata = from d in ts.Value where d != NoDataValue select d;
+                var vec = ts[0, ":", "0"];
+                var newdata = from d in vec where d != NoDataValue select d;
                 double mean = newdata.Average();
 
-                for (int i = 0; i < ts.Value.Length; i++)
+                for (int i = 0; i < vec.Length; i++)
                 {
-                    if (ts.Value[i] == NoDataValue)
+                    if (ts[0,i,0] == NoDataValue)
                     {
-                        ts.Value[i] = FindNearestValue(ts.Value, i, mean, NoDataValue);
+                        ts[0, i, 0] = FindNearestValue(vec, i, mean, NoDataValue);
                     }
                 }
             }
         }
 
-        public void Repair(IVectorTimeSeries<double> ts, double multiplier)
+        public void Repair(DataCube<double> ts, double multiplier)
         {
             if (ts != null)
             {
-                var newdata = from d in ts.Value where d != NoDataValue select d;
+                var vec = ts[0, ":", "0"];
+                var newdata = from d in vec where d != NoDataValue select d;
                 double mean = newdata.Average();
 
-                for (int i = 0; i < ts.Value.Length; i++)
+                for (int i = 0; i < vec.Length; i++)
                 {
-                    if (ts.Value[i] == NoDataValue)
+                    if (ts[0, i, 0] == NoDataValue)
                     {
-                        ts.Value[i] = FindNearestValue(ts.Value, i, mean, NoDataValue);
+                        ts[0, i, 0] = FindNearestValue(vec, i, mean, NoDataValue);
                     }
-                    ts.Value[i] *= multiplier;
+                    ts[0, i, 0] *= multiplier;
                 }
             }
         }

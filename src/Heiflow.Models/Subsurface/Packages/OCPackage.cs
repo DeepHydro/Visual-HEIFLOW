@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.UI;
@@ -237,7 +238,7 @@ namespace Heiflow.Models.Subsurface
             State = ModelObjectState.Ready;
             return true;
         }
-        public override bool Load()
+        public override bool Load(ICancelProgressHandler progresshandler)
         {
             var mf = Owner as Modflow;
             var sp_start = Owner.TimeService.Start;
@@ -286,10 +287,10 @@ namespace Heiflow.Models.Subsurface
             }
             sr.Close();
             Owner.TimeService.UpdateStressPeriodTimeLine();
-            OnLoaded("Load successfully");
+            OnLoaded(progresshandler);
             return true;
         }
-        public override bool SaveAs(string filename, IProgress prg)
+        public override bool SaveAs(string filename, ICancelProgressHandler prg)
         {
             var mf = Owner as Modflow;
             var sp = mf.TimeService.StressPeriods;

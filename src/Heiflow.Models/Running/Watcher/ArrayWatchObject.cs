@@ -32,16 +32,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Heiflow.Core.Data;
-using System.Data;
 
-namespace Heiflow.Core.Data
+namespace Heiflow.Models.Running
 {
-    public interface IVectorTimeSeries<T> : ITimeSeries<T>
+    public  class ArrayWatchObject<T>:WatchObject
     {
-        T[] Value { get; set; }
-        TimeSeriesPair<T>[] ToPairs();
-        void From(IEnumerable<TimeSeriesPair<T>> source);
-        DataTable ToDataTable(string var_name);  
+        public ArrayWatchObject()
+        {
+
+        }
+
+        public T[] Values
+        {
+            get;
+            set;
+        }
     }
 }

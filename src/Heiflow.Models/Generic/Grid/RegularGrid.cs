@@ -163,7 +163,7 @@ namespace Heiflow.Models.Generic
         /// <summary>
         ///  3dmat[ LayerCount,1,ActiveCellCount]
         /// </summary>
-        public MyVarient3DMat<float> Elevations
+        public DataCube<float> Elevations
         {
             get;
             set;
@@ -171,7 +171,7 @@ namespace Heiflow.Models.Generic
         /// <summary>
         /// mat[ActualLayerCount, Row, Col]
         /// </summary>
-        public MyVarient3DMat<float> IBound
+        public DataCube<float> IBound
         {
             get;
             set;
@@ -214,7 +214,7 @@ namespace Heiflow.Models.Generic
         /// <summary>
         ///  mat[0][0][NCOL]. The cell width along rows. Read one value for each of the NCOL columns.
         /// </summary>
-        public MyVarient3DMat<float> DELR
+        public DataCube<float> DELR
         {
             get;
             set;
@@ -222,7 +222,7 @@ namespace Heiflow.Models.Generic
         /// <summary>
         ///  mat[0][0][NROW]. the cell width along columns. Read one value for each of the NROW rows. 
         /// </summary>
-        public MyVarient3DMat<float> DELC
+        public DataCube<float> DELC
         {
             get;
             set;
@@ -456,7 +456,7 @@ namespace Heiflow.Models.Generic
             return matrix;
         }
 
-        public T[, ,] To3DMatrix<T>(T[] vector, T novalue)
+        public T[, ,]       To3DMatrix<T>(T[] vector, T novalue)
         {
             T[, ,] matrix = new T[1, RowCount, ColumnCount];
             

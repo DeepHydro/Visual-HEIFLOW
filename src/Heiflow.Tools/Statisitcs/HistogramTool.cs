@@ -84,7 +84,7 @@ namespace Heiflow.Tools.Statisitcs
                     Number = 100;
                 var vec_name = "Histogram of " + GetName(Matrix);
                 cancelProgressHandler.Progress("Package_Tool", 10, "Calculating...");
-                var dou_vec =MyMath.ToDouble(vec);
+                var dou_vec = MatrixOperation.ToDouble(vec);
                 var hist = new Histogram(dou_vec, Number);
                 int nhist = hist.BucketCount;
                 int[] xx = new int[nhist];

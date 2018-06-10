@@ -43,7 +43,7 @@ namespace Heiflow.Models.Visualization
         string Name { get; set; }
         void Render(float [] vector);
 
-        MyArray<float> DataSource { get; set; }
+        DataCube<float> DataSource { get; set; }
 
         int VarIndex { get; set; }
         

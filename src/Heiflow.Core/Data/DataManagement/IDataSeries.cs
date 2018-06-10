@@ -39,7 +39,7 @@ namespace Heiflow.Core.Data
     {
         IObservationsSite Site { get;  }
         IVariable Variable { get; }
-        IVectorTimeSeries<double> TimeSeries { get; set; }
+        DataCube<double> TimeSeries { get; set; }
     }
 
     public class DataSeries : IDataSeries
@@ -63,7 +63,7 @@ namespace Heiflow.Core.Data
             private set;
         }
 
-        public IVectorTimeSeries<double> TimeSeries
+        public DataCube<double> TimeSeries
         {
             get;
             set;

@@ -270,7 +270,7 @@ namespace Heiflow.Models.Surface.PRMS
             StreamWriter sw = new StreamWriter(filename);
             string line = string.Format("{0}\t{1}\t#NROW NCOL", mGrid.RowCount, mGrid.ColumnCount);
             sw.WriteLine(line);
-            var ele = mGrid.Elevations[0,0];
+            var ele = mGrid.Elevations[0,"0",":"];
             var mat = mGrid.ToMatrix<float>(ele, 1000);
             for (int r = 0; r < mGrid.RowCount; r++)
             {

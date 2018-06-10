@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using Heiflow.Core.Hydrology;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Project;
@@ -144,7 +145,7 @@ namespace Heiflow.Models.Integration
             this.TimeServiceList.Add(_Modflow.TimeService.Name, _Modflow.TimeService);
         }
 
-        public override bool Load(IProgress progress)
+        public override bool Load(ICancelProgressHandler progress)
         {
             //try
             //{           
@@ -152,7 +153,7 @@ namespace Heiflow.Models.Integration
             _MasterPackage.FileName = ControlFileName;
             _MasterPackage.Initialize();
 
-            succ = _MasterPackage.Load();
+            succ = _MasterPackage.Load(progress);
             if (succ)
             {
                 ModelService.Model = this;
@@ -169,19 +170,19 @@ namespace Heiflow.Models.Integration
                 _Modflow.ControlFileName = _MasterPackage.ModflowFilePath;
                 _Modflow.Initialize();
 
-                progress.Progress("Loading Modflow packages...");
+                progress.Progress("Heiflow", 1, "Loading Modflow packages...");
                 succ = _Modflow.Load(progress);
                 if (!succ)
                 {
                     var msg = string.Format("Failed to load Modflow.");
-                    progress.Progress(msg);
+                    progress.Progress("Heiflow", 1, msg);
                 }
-                progress.Progress("Loading PRMS packages...");
+                progress.Progress("Heiflow", 1, "Loading PRMS packages...");
                 succ = _PRMS.Load(progress);
                 if (!succ)
                 {
                     var msg = string.Format("Failed to load PRMS.");
-                    progress.Progress(msg);
+                    progress.Progress("Heiflow", 1, msg);
                 }
 
                 if (succ)
@@ -192,13 +193,13 @@ namespace Heiflow.Models.Integration
                 else
                 {
                     var msg = string.Format("Failed to load HEIFLOW.");
-                    progress.Progress(msg);
+                    progress.Progress("Heiflow", 1, msg);
                 }
             }
             else
             {
                 var msg = string.Format("Failed to load Control file from " + _MasterPackage.FileName);
-                progress.Progress(msg);
+                progress.Progress("Heiflow", 1, msg);
             }
             return succ;
             //}
@@ -213,7 +214,7 @@ namespace Heiflow.Models.Integration
             return base.Validate();
         }
 
-        public override bool New(IProgress progress)
+        public override bool New(ICancelProgressHandler progress)
         {
             bool succ = true;
             _MasterPackage.FileName = ControlFileName;
@@ -222,7 +223,7 @@ namespace Heiflow.Models.Integration
             if (!succ)
             {
                 var msg = string.Format("Failed to create Control file. Error message: {0}", _MasterPackage.Message);
-                progress.Progress(msg);
+                progress.Progress(this.Name, 1, msg);
             }
             AddInSilence(_MasterPackage);
 
@@ -242,24 +243,26 @@ namespace Heiflow.Models.Integration
             if (!succ)
             {
                 var msg = string.Format("Failed to create PRMS.");
-                progress.Progress(msg);
+                if (progress != null)
+                    progress.Progress(this.Name, 1, msg);
             }
             succ = _Modflow.New(progress);
             if (!succ)
             {
                 var msg = string.Format("Failed to create MODFLOW.");
-                progress.Progress(msg);
+                if (progress != null)
+                    progress.Progress(this.Name, 1, msg);
             }
             _IsDirty = true;
             return succ;
         }
 
-        public override void Save(IProgress progress)
+        public override void Save(ICancelProgressHandler progress)
         {
             _MasterPackage.Save(progress);
-            progress.Progress("Saving PRMS input files...");
+            progress.Progress(this.Name, 1, "Saving PRMS input files...");
             _PRMS.Save(progress);
-            progress.Progress("Saving MODFLOW input files...");
+            progress.Progress(this.Name, 1, "Saving MODFLOW input files...");
             _Modflow.Save(progress);
         }
 
@@ -268,7 +271,7 @@ namespace Heiflow.Models.Integration
             bool existed = false;
             var master = new MasterPackage();
             master.FileName = filename;
-            if (master.Load())
+            if (master.Load(null))
             {
                 var mfn = Path.Combine(ModelService.WorkDirectory, master.ModflowFilePath);
                 if (File.Exists(mfn))

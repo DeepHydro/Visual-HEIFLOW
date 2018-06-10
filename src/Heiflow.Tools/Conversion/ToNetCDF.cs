@@ -144,7 +144,7 @@ namespace Heiflow.Tools.Conversion
                     times[t] = DateTime.Now.AddDays(t).ToFileTime();
                 }
             }
-            var mat_step = grid.To3DMatrix<float>(mat.Value[var_index][0], 0);
+            var mat_step = grid.To3DMatrix<float>(mat[var_index, "0", ":"], 0);
 
             nc_out = new NetCDFDataSet("e:\\test.nc");
          //   nc_out = new NetCDFDataSet(OutputFileName);
@@ -155,7 +155,7 @@ namespace Heiflow.Tools.Conversion
             nc_out.Commit();
             for (int t = 1; t < nsteps; t++)
             {
-                mat_step = grid.To3DMatrix<float>(mat.Value[var_index][0], t);
+                mat_step = grid.To3DMatrix<float>(mat[var_index, "0", ":"], t);
                 nc_var.Append(mat_step);
                 nc_dt.Append(new float[] { times[t] });
                 nc_out.Commit();

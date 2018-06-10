@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Parameters;
@@ -909,7 +910,7 @@ namespace Heiflow.Models.Integration
         /// Load from an  exsiting file
         /// </summary>
         /// <returns></returns>
-        public override bool Load()
+        public override bool Load(ICancelProgressHandler cancelprogess)
         {
             if (File.Exists(FileName))
             {
@@ -986,19 +987,19 @@ namespace Heiflow.Models.Integration
 
                 foreach (var pr in Parameters.Values)
                     pr.Owner = this;
-
+                this.TimeService.IOTimeFile = WaterBudgetCsvFile;
                 UpdateTimeService();
-                OnLoaded("Load successfully");
+                OnLoaded(cancelprogess);
                 return true;
             }
             else
             {
-                Message = string.Format("{0} does not exist. Please check the model file.", FileName);
-                OnLoadFailed(Message);
+                Message = string.Format("{0} does not exist. Please check the control file: ", FileName);
+                OnLoadFailed(Message, cancelprogess);
                 return false;
             }
         }
-        public override bool SaveAs(string filename, IProgress prg)
+        public override bool SaveAs(string filename, ICancelProgressHandler prg)
         {
             StreamWriter sw = new StreamWriter(filename);
             Save(sw);

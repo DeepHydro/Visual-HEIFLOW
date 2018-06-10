@@ -140,7 +140,7 @@ namespace Heiflow.Models.Generic
                 _Description = value;
             }
         }
-           [XmlElement]
+        [XmlElement]
         [Category("General")]
         public string Version
         {
@@ -403,7 +403,7 @@ namespace Heiflow.Models.Generic
         /// Load from  an  exsiting file
         /// </summary>
         /// <returns></returns>
-        public virtual bool Load()
+        public virtual bool Load(ICancelProgressHandler progess)
         {
             return true;
         }
@@ -418,7 +418,7 @@ namespace Heiflow.Models.Generic
         /// save to the default file
         /// </summary>
         /// <returns></returns>
-        public virtual bool Save(IProgress progress)
+        public virtual bool Save(ICancelProgressHandler progress)
         {
             if (IsDirty && State == ModelObjectState.Ready)
             {
@@ -429,7 +429,7 @@ namespace Heiflow.Models.Generic
                 if (progress != null)
                 {
                     string msg = string.Format("\t{0} unchanged", this.Name);
-                    progress.Progress(msg);
+                    progress.Progress(this.Name, 1, msg);
                 }
                 return true;
             }
@@ -440,7 +440,7 @@ namespace Heiflow.Models.Generic
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
-        public virtual bool SaveAs(string filename, IProgress progress)
+        public virtual bool SaveAs(string filename, ICancelProgressHandler progress)
         {
             return true;
         }
@@ -482,18 +482,21 @@ namespace Heiflow.Models.Generic
                 Loading(this, percent);
         }
 
-        protected void OnLoaded(object msg)
+        protected void OnLoaded(ICancelProgressHandler progress)
         {
             IsDirty = false;
             _IsUsed = true;
             State = ModelObjectState.Ready;
+            string msg = string.Format("{0} loaded", this.Name);
             if (Loaded != null)
             {
-                Loaded(this, msg);
+                Loaded(this,msg);
             }
+            if (progress != null)
+                progress.Progress(this.Name, 100, msg);
         }
 
-        protected void OnLoadFailed(string msg)
+        protected void OnLoadFailed(string msg, ICancelProgressHandler progress)
         {
             _IsUsed = false;
             State = ModelObjectState.Error;
@@ -501,6 +504,8 @@ namespace Heiflow.Models.Generic
             {
                 LoadFailed(this, msg);
             }
+            if (progress != null)
+                progress.Progress(this.Name, 100, msg);
         }
 
         protected void OnSaving(int percent)
@@ -509,7 +514,7 @@ namespace Heiflow.Models.Generic
                 Saving(this, percent);
         }
 
-        protected void OnSaved(IProgress progress)
+        protected void OnSaved(ICancelProgressHandler progress)
         {
             if (Saved != null)
             {
@@ -518,7 +523,7 @@ namespace Heiflow.Models.Generic
             IsDirty = false;
             string msg = string.Format("{0} saved", this.Name);
             if(progress != null)
-                progress.Progress(msg);
+                progress.Progress(this.Name, 100, msg);
         }
 
         public List<IParameter> GetParameters()

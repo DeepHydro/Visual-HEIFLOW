@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using Heiflow.Core.Animation;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
@@ -45,7 +46,7 @@ namespace Heiflow.Models.GHM
     {
         public GHMPackage()
         {
-            Name = "Master";
+            _Name = "Master";
         }
 
         public GHMSerializer Serializer
@@ -54,7 +55,7 @@ namespace Heiflow.Models.GHM
             set;
         }
 
-        public MyArray<float> DataSource
+        public DataCube<float> DataSource
         {
             get;
             protected set;
@@ -68,12 +69,12 @@ namespace Heiflow.Models.GHM
         }
 
 
-        public override bool Save(IProgress progress)
+        public override bool Save(ICancelProgressHandler progress)
         {
             throw new NotImplementedException();
         }
 
-        public override bool SaveAs(string filename, IProgress progress)
+        public override bool SaveAs(string filename, ICancelProgressHandler progress)
         {
             throw new NotImplementedException();
         }
@@ -85,18 +86,18 @@ namespace Heiflow.Models.GHM
 
         public override void Serialize(string filename)
         {
-            throw new NotImplementedException();
+            
         }
 
         public override void Deserialize(string filename)
         {
-            throw new NotImplementedException();
+            
         }
 
 
-        public override bool Load()
+        public override bool Load(ICancelProgressHandler progess)
         {
-            throw new NotImplementedException();
+            return true;
         }
     }
 }

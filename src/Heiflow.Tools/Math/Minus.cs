@@ -45,50 +45,54 @@ namespace Heiflow.Tools.Math
         {
             Name = "Minus";
             Category = "Math";
-            Description = "Minus two vectors expressed by the matrix style";
-            OutputMatrix = "Difference";
+            Description = "Perform Minus operation on given data cubes";
+            OutputDataCube = "Difference";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
         }
 
         [Category("Input")]
-        [Description("The matrix that is to be subtracted. The matrix style should be a vector like mat[0][0][:]")]
-        public string MinuendMatrix
+        [Description("The data cube that is to be subtracted. The data cube style should be mat[0][0][:]")]
+        public string MinuendDataCube
         {
             get;
             set;
         }
 
         [Category("Input")]
-        [Description("The subtraction matirx. The matrix style should be a vector like mat[0][0][:]")]
-        public string SubtrahendMatrix
+        [Description("The subtraction data cube. The data cube should be mat[0][0][:]")]
+        public string SubtrahendDataCube
         {
             get;
             set;
         }
         [Category("Output")]
-        [Description("The difference matrix")]
-        public string OutputMatrix
+        [Description("The difference data cube")]
+        public string OutputDataCube
         {
             get;
             set;
         }
         public override void Initialize()
         {
-            var m1 = Validate(MinuendMatrix);
-            var m2 = Validate(SubtrahendMatrix);
+            var m1 = Validate(MinuendDataCube);
+            var m2 = Validate(SubtrahendDataCube);
             this.Initialized = m1 && m2;
         }
 
         public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
         {
-            var vec_minu = GetVector(MinuendMatrix);
-            var vec_subt= GetVector(SubtrahendMatrix);
-            if (vec_minu != null && vec_subt != null)
+            var vec_minu = Get3DMat(MinuendDataCube);
+            var vec_subt = Get3DMat(SubtrahendDataCube);
+            if (vec_minu != null && vec_subt != null && vec_minu.SizeEquals(vec_subt))
             {
-               var vec = MyMath.Minus(vec_minu, vec_subt);
-               vec.Name = OutputMatrix;
-               Workspace.Add(vec);
+                var vec = new DataCube<float>(vec_minu.Size[0], vec_minu.Size[1], vec_minu.Size[2]);
+                for (int i = 0; i < vec_minu.Size[0]; i++)
+                {
+                    vec.ILArrays[i] = vec_minu.ILArrays[i] - vec_subt.ILArrays[i];
+                }
+                vec.Name = OutputDataCube;
+                Workspace.Add(vec);
                 return true;
             }
             else

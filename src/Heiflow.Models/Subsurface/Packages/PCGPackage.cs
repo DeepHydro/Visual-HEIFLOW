@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
@@ -39,7 +40,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Heiflow.Models.Subsurface.Packages
+namespace Heiflow.Models.Subsurface
 {
     [PackageItem]
     [PackageCategory("Solver", true)]
@@ -72,7 +73,7 @@ namespace Heiflow.Models.Subsurface.Packages
             MUTPCG = 1;
             DAMPPCG = -0.1f;
             DAMPPCGT = 0.98f;
-           
+
         }
         /// <summary>
         /// the maximum number of outer iterations
@@ -200,7 +201,7 @@ namespace Heiflow.Models.Subsurface.Packages
         {
             var pcg_info = new PackageInfo()
             {
-                FID =  ModflowInstance.NameManager.NextFID(),
+                FID = ModflowInstance.NameManager.NextFID(),
                 FileExtension = ".fhd",
                 FileName = string.Format("{0}{1}{2}", Modflow.OutputDic, ModflowInstance.Project.Name, ".pcg"),
                 Format = FileFormat.Text,
@@ -211,10 +212,10 @@ namespace Heiflow.Models.Subsurface.Packages
             pcg_info.Name = Path.GetFileName(pcg_info.FileName);
             ModflowInstance.NameManager.Add(pcg_info);
             base.New();
-            State = ModelObjectState.Ready;   
+            State = ModelObjectState.Ready;
             return true;
         }
-        public override bool Load()
+        public override bool Load(ICancelProgressHandler progresshandler)
         {
             if (File.Exists(FileName))
             {
@@ -253,23 +254,23 @@ namespace Heiflow.Models.Subsurface.Packages
                 DAMPPCGT = ff;
 
                 sr.Close();
-                OnLoaded("Load successfully");
+                OnLoaded(progresshandler);
                 return true;
             }
             else
             {
-                OnLoadFailed("Failed to load");
+                OnLoadFailed("Failed to load " + this.Name, progresshandler);
                 return false;
             }
         }
-        public override bool SaveAs(string filename, IProgress prg)
+        public override bool SaveAs(string filename, ICancelProgressHandler prg)
         {
             StreamWriter sw = new StreamWriter(filename);
             WriteDefaultComment(sw, this.Name);
 
             string line = string.Format("{0}\t{1}\t{2}\t{3}\t# MXITER, ITER1, NPCOND, IHCOFADD", MXITER, ITER1, NPCOND, IHCOFADD);
             sw.WriteLine(line);
-            line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t# HCLOSE, RCLOSE, RELAX, NBPOL, IPRPCG, MUTPCG, DAMPPCG, DAMPPCGT", 
+            line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t# HCLOSE, RCLOSE, RELAX, NBPOL, IPRPCG, MUTPCG, DAMPPCG, DAMPPCGT",
                 HCLOSE, RCLOSE, RELAX, NBPOL, IPRPCG, MUTPCG, DAMPPCG, DAMPPCGT);
             sw.WriteLine(line);
             sw.Close();

@@ -87,18 +87,18 @@ namespace Heiflow.Models.Generic.Parameters
                         }
                         else
                         {
-                            var mat = Package.GetType().GetProperty(ap.PropertyName).GetValue(Package) as My3DMat<float>;
+                            var mat = Package.GetType().GetProperty(ap.PropertyName).GetValue(Package) as DataCube<float>;
                             if (mat != null)
                             {
-                                if (mat.Value[GridLayer] != null)
+                                if (mat[GridLayer] != null)
                                 {
                                     for (int i = 0; i < vec.Length; i++)
                                     {
                                         var vv = GetValue(ap.PropertyName, vec[i].ToString());
                                         if (vv != ZonalStatastics.NoDataValueString)
-                                            mat.Value[GridLayer][0][i] = float.Parse(vv);
+                                            mat[GridLayer,0,i] = float.Parse(vv);
                                         else
-                                            mat.Value[GridLayer][0][i] = (float)ap.DefaultValue;
+                                            mat[GridLayer, 0, i] = (float)ap.DefaultValue;
                                     }
                                 }
                             }

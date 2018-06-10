@@ -73,7 +73,7 @@ namespace Heiflow.Models.IO
             int row_index = dbf.GetFiledNameIndex("row");
             int col_index = dbf.GetFiledNameIndex("col");
             int elev_index = dbf.GetFiledNameIndex("elev");
-            My2DMat<float> mat = new My2DMat<float>(nrow, ncol);
+            DataCube<float> mat = new DataCube<float>(1,nrow, ncol);
             int nact = 0;
             for (int n = 0; n < dbf.RecordCount; n++)
             {
@@ -83,15 +83,15 @@ namespace Heiflow.Models.IO
                 int act = int.Parse(obj[act_index].ToString());
                 if (act > 0)
                 {
-                    mat.Value[row - 1][col - 1] = float.Parse(obj[elev_index].ToString());
+                    mat[0,row - 1,col - 1] = float.Parse(obj[elev_index].ToString());
                     nact++;
                 }
                 else
-                    mat.Value[row - 1][col - 1] = nodatavalue;           
+                    mat[0,row - 1,col - 1] = nodatavalue;           
             }
 
             dbf.Close();
-            this.Save<float>(ascfile, mat.Value, nrow, ncol, cellsize, xcorner, ycorner, nodatavalue);
+          //  this.Save<float>(ascfile, Value, nrow, ncol, cellsize, xcorner, ycorner, nodatavalue);
 
         }
 

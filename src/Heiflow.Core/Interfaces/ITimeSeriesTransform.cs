@@ -38,7 +38,7 @@ namespace Heiflow.Core
 {
     public interface ITimeSeriesTransform
     {
-        IVectorTimeSeries<double> GetTimeSeries(ITimeSeriesQueryCriteria qc);
-        IVectorTimeSeries<double> GetTransformedTimeSeries(ITimeSeriesQueryCriteria qc, double multiplier);
+        DataCube<double> GetTimeSeries(ITimeSeriesQueryCriteria qc);
+        DataCube<double> GetTransformedTimeSeries(ITimeSeriesQueryCriteria qc, double multiplier);
     }
 }

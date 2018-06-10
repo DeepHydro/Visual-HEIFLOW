@@ -42,6 +42,7 @@ using System.Text.RegularExpressions;
 using Heiflow.Models.IO;
 using Heiflow.Core.Data.ODM;
 using Heiflow.Core;
+using DotSpatial.Data;
 
 namespace Heiflow.Models.Subsurface
 {
@@ -71,19 +72,21 @@ namespace Heiflow.Models.Subsurface
             this.TimeService.Updated += this.OnTimeServiceUpdated;
             base.Initialize();
         }
-        public override bool Load()
+        public override bool Load(ICancelProgressHandler progress)
         {
+            _ProgressHandler = progress;
             if (File.Exists(FileName))
             {
                 FHDFile fhd = new FHDFile(FileName, Owner.Grid as IRegularGrid);
-                fhd.SetDataSource(Values);
+                fhd.DataCube = this.DataCube;
                 fhd.Variables = this.Variables;
-                fhd.StepsToLoad = this.StepsToLoad;
+                fhd.MaxTimeStep = this.MaxTimeStep;
+                fhd.NumTimeStep = this.NumTimeStep;
                 fhd.Loading += fhd_Loading;
-                fhd.Loaded += fhd_Loaded;
+                fhd.DataCubeLoaded += fhd_DataCubeLoaded;
                 fhd.LoadFailed += fhd_LoadFailed;
                 //TODO: require modifcation
-                fhd.Load();
+                fhd.LoadDataCube();
                 return true;
             }
             else
@@ -110,42 +113,34 @@ namespace Heiflow.Models.Subsurface
 
             _StartLoading = TimeService.Start;
             MaxTimeStep = NumTimeStep;
-            Start = TimeService.Start;
-            End = EndOfLoading;
             return true;
         }
 
-        public override bool Load(int var_index)
+        public override bool Load(int var_index, ICancelProgressHandler progress)
         {
+            _ProgressHandler = progress;
             if (File.Exists(FileName))
             {
                 var grid = Owner.Grid as MFGrid;
-                if (Values == null)
+                if (DataCube == null || DataCube.Size[1] != StepsToLoad)
                 {
-                    Values = new MyLazy3DMat<float>(Variables.Length, StepsToLoad, grid.ActiveCellCount)
+                    DataCube = new DataCube<float>(Variables.Length, StepsToLoad, grid.ActiveCellCount)
                     {
                         Name = "vert_dis",
                         TimeBrowsable = true,
                         AllowTableEdit = false
                     };
                 }
-                else
-                {
-                    if (Values.Size[1] != StepsToLoad)
-                        Values = new MyLazy3DMat<float>(Variables.Length, StepsToLoad, grid.ActiveCellCount)
-                        {
-                            Name = "vert_dis",
-                            TimeBrowsable = true,
-                            AllowTableEdit = false
-                        };
-                }
-
+                DataCube.Topology = (this.Grid as RegularGrid).Topology;
                 FHDFile fhd = new FHDFile(FileName, grid);
-                fhd.SetDataSource(Values);
                 fhd.Variables = this.Variables;
-                fhd.StepsToLoad = this.StepsToLoad;
+                fhd.Variables = this.Variables;
+                fhd.MaxTimeStep = this.MaxTimeStep;
+                fhd.NumTimeStep = this.NumTimeStep;
+                fhd.DataCube = this.DataCube;
                 fhd.Loading += fhd_Loading;
-                fhd.Loaded += fhd_Loaded;
+                fhd.DataCubeLoaded += fhd_DataCubeLoaded;
+                fhd.LoadFailed += fhd_LoadFailed;
                 fhd.LoadVertDis(var_index);
                 return true;
             }
@@ -174,24 +169,13 @@ namespace Heiflow.Models.Subsurface
         {
             OnLoading(e);
         }
-        private void fhd_Loaded(object sender, MyLazy3DMat<float> e)
+        private void fhd_DataCubeLoaded(object sender, DataCube<float> e)
         {
-            Values = e;
-            Values.Topology = (this.Grid as RegularGrid).Topology;
-            Values.TimeBrowsable = true;
-            Values.DateTimes = new DateTime[Values.Size[1]];
-            for (int i = 0; i < Values.Size[1]; i++)
-            {
-                Values.DateTimes[i] = TimeService.IOTimeline[i];
-            }
-
-            Values.Variables = this.Variables;
-            OnLoaded(e);
+            OnLoaded(_ProgressHandler);
         }
-
         void fhd_LoadFailed(object sender, string e)
         {
-            OnLoadFailed(e);
+            OnLoadFailed(e,_ProgressHandler);
         }
     }
 }

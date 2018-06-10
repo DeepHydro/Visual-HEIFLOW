@@ -27,6 +27,9 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using Heiflow.Core.Data;
+using Heiflow.Models.Generic;
+using Heiflow.Models.Running;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -34,22 +37,56 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Heiflow.Models.IO
+namespace Heiflow.Models.Running
 {
-    public interface IConsoleAutomator
+    public abstract  class ArrayWatcher:WatcherBase, IArrayWatcher
     {
-        StreamWriter StandardInput { get; }
+        public event EventHandler<ArrayWatchObject<double>> Updated;
+        protected ListTimeSeries<double> _DataSource;
+        protected string _FileName;
 
-        event EventHandler<ConsoleInputReadEventArgs> StandardInputRead;
-    }
-
-    public class ConsoleInputReadEventArgs : EventArgs
-    {
-        public ConsoleInputReadEventArgs(string input)
+        public ArrayWatcher()
         {
-            this.Input = input;
+
+        }
+        public string FileName
+        {
+            get
+            {
+                if (TypeConverterEx.IsNull(_FileName))
+                    return _FileName;
+                else
+                    return Path.Combine(ModelService.WorkDirectory, _FileName);
+            }
+            set
+            {
+                _FileName = value;
+            }
+        }
+        public ListTimeSeries<double> DataSource
+        {
+            get
+            {
+                return _DataSource;
+            }
         }
 
-        public string Input { get; private set; }
+        public string[] Variables { get; protected set; }
+
+        public abstract void Load(string filename);
+
+        public void OnUpdated(object sender, ArrayWatchObject<double> e)
+        {
+            if (Updated != null)
+                Updated(sender, e);
+        }
+
+        public virtual void Clear()
+        {
+            if (State == RunningState.Busy)
+                Stop();
+            if (_DataSource != null)
+                _DataSource.Clear();
+        }
     }
 }

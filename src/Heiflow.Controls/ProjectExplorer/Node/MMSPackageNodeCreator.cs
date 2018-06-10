@@ -117,6 +117,7 @@ namespace Heiflow.Controls.WinForm.Project
                         mmsi.Enable(DisplayablePropertyContextMenu._SOM, false);
                         mmsi.Enable(DisplayablePropertyContextMenu._VI3, false);
                         mmsi.Enable(DisplayablePropertyContextMenu._AN, false);
+                        mmsi.Enable(DisplayablePropertyContextMenu._SETAS_ACTSource, false);
                         mmsi.Enable(DisplayablePropertyContextMenu._EX, false);
 
                         Node ndpara = new Node(pr.Name)

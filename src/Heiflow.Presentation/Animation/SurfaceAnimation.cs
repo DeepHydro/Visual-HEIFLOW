@@ -52,7 +52,6 @@ namespace Heiflow.Presentation.Animation
             _Name = "3D Animation";
         }
 
-
         public ISurfacePlotView SurfacePlot
         {
             get

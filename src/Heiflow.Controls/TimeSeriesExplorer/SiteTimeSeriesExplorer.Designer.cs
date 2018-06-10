@@ -95,7 +95,7 @@
             // btnLoad
             // 
             this.btnLoad.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnLoad.Image = global::Heiflow.Controls.WinForm.Properties.Resources.TmImportFeatures16;
+            this.btnLoad.Image = global::Heiflow.Controls.WinForm.Properties.Resources.Load24;
             this.btnLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(24, 25);
@@ -325,6 +325,7 @@
             // 
             this.propertyGrid1.CategoryForeColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGrid1.LineColor = System.Drawing.SystemColors.ControlDark;
             this.propertyGrid1.Location = new System.Drawing.Point(3, 3);
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.Size = new System.Drawing.Size(251, 593);
@@ -360,6 +361,7 @@
             this.winChart_timeseries.Location = new System.Drawing.Point(3, 3);
             this.winChart_timeseries.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.winChart_timeseries.Name = "winChart_timeseries";
+            this.winChart_timeseries.ShowStatPanel = true;
             this.winChart_timeseries.Size = new System.Drawing.Size(850, 591);
             this.winChart_timeseries.TabIndex = 7;
             // 

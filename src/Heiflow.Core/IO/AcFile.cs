@@ -37,7 +37,7 @@ using Heiflow.Core.Data;
 
 namespace Heiflow.Core.IO
 {
-    public class AcFile:IMatFileProvider
+    public class AcFile
     {
         public AcFile()
         {
@@ -239,7 +239,7 @@ namespace Heiflow.Core.IO
         /// <param name="maxsteps"></param>
         /// <param name="scale"></param>
         /// <returns>3D array: [variable][step][feature]</returns>
-        public  float[][][] Read(string filename, int flag, ref int step, ref string[] varNames, int maxsteps = -1, float scale = 1)
+        public  float[][][]Read(string filename, int flag, ref int step, ref string[] varNames, int maxsteps = -1, float scale = 1)
         {
             float[][][] acmatrix = null;
             step = 0;
@@ -719,33 +719,6 @@ namespace Heiflow.Core.IO
             br.Close();
             fs.Close();
             return stat;
-        }
-
-        /// <summary>
-        /// load 3d mat
-        /// </summary>
-        /// <param name="filename"></param>
-        /// <returns></returns>
-        public My3DMat<float> Load(string filename)
-        {
-            int steps=0;
-            string[] vars = null;
-            var buf = this.Read(filename, 0, ref steps, ref vars);
-            Variables = vars;
-            My3DMat<float> mat = new My3DMat<float>(buf);
-            mat.Name = Path.GetFileNameWithoutExtension(filename);
-            return mat;
-        }
-
-        /// <summary>
-        /// load 3d mat
-        /// </summary>
-        /// <param name="filename">file name</param>
-        /// <param name="arg">can be null</param>
-        /// <returns></returns>
-        public My3DMat<float> LoadSerial(string filename, object arg)
-        {
-            return Load(filename);
         }
 
     }

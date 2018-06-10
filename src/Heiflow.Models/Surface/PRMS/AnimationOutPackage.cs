@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Core.IO;
 using Heiflow.Models.Generic;
@@ -49,6 +50,7 @@ namespace Heiflow.Models.Surface.PRMS
         {
             Name = "Animation Output";
             _Layer3DToken = "RegularGrid";
+            Description = "Stores outputs of surface water model";
         }
         [Browsable(false)]
         public MasterPackage MasterPackage
@@ -63,7 +65,7 @@ namespace Heiflow.Models.Surface.PRMS
           
             }
         }
-        [Category("Metadata")]
+        [Category("General")]
         public int FeatureCount
         {
             get;
@@ -76,67 +78,71 @@ namespace Heiflow.Models.Surface.PRMS
             this.TimeService = Owner.TimeService;
             this.TimeService.Updated += this.OnTimeServiceUpdated;
             State = ModelObjectState.Ready;
+            StartOfLoading = TimeService.Start;
+            EndOfLoading = TimeService.End;
+            NumTimeStep = TimeService.IOTimeline.Count;
             _Initialized = true;
         }
 
         public override bool Scan()
         {
-            FileName = _master.AniOutFileName;
-            if (UseSpecifiedFile)
-                FileName = SpecifiedFileName;
             DataCubeStreamReader stream = new DataCubeStreamReader(FileName);
-            stream.StepsToLoad = StepsToLoad;
-            stream.Scan();
-            Variables = stream.Variables;
-            NumTimeStep = stream.NumTimeStep;
+            Variables = stream.GetVariables();
             FeatureCount = stream.FeatureCount;
+            NumTimeStep = TimeService.GetIOTimeLength(this.Owner.WorkDirectory);
             _StartLoading = TimeService.Start;
-            MaxTimeStep = NumTimeStep;
-            Start = TimeService.Start;
-            End = EndOfLoading;
+            MaxTimeStep = NumTimeStep; 
             return true;
         }
 
-        public override bool Load()
+        public override bool Load(ICancelProgressHandler progress)
         {
+            _ProgressHandler = progress;
+            string filename = this.FileName;
             if (UseSpecifiedFile)
-                FileName = SpecifiedFileName;
-            DataCubeStreamReader stream = new DataCubeStreamReader(FileName);
+                filename = SpecifiedFileName;
+            NumTimeStep = TimeService.GetIOTimeLength(this.Owner.WorkDirectory);
+            DataCubeStreamReader stream = new DataCubeStreamReader(filename);
             stream.Scale = (float)this.ScaleFactor;
-            stream.StepsToLoad = StepsToLoad;
+            stream.MaxTimeStep = MaxTimeStep;
             stream.Loading += stream_LoadingProgressChanged;
-            stream.Loaded += stream_Loaded;
-            stream.Load();
+            stream.DataCubeLoaded += stream_DataCubeLoaded;
+            stream.LoadFailed += stream_LoadFailed;
+            stream.LoadDataCube();
             return true;
         }
 
-        public override bool Load(int var_index)
+        public override bool Load(int var_index, ICancelProgressHandler progress)
         {
+            _ProgressHandler = progress;
+            NumTimeStep = TimeService.GetIOTimeLength(this.Owner.WorkDirectory);
+            string filename = this.FileName;
+            if (UseSpecifiedFile)
+                filename = SpecifiedFileName;
             int nstep = StepsToLoad;
 
-            if (Values == null)
+            if (DataCube == null)
             {
-                Values = new MyLazy3DMat<float>(Variables.Length, nstep, FeatureCount);
-                
+                DataCube = new DataCube<float>(Variables.Length, nstep, FeatureCount,true);
+                DataCube.Name = "sw_out";
             }
             else
             {
-                if (Values.Size[1] != nstep)
-                    Values = new MyLazy3DMat<float>(Variables.Length, nstep, FeatureCount);
+                if (DataCube.Size[1] != nstep)
+                    DataCube = new DataCube<float>(Variables.Length, nstep, FeatureCount, true);
             }
-            Values.Variables = this.Variables;
-            Values.Topology = (Owner.Grid as RegularGrid).Topology;
-
-            if (UseSpecifiedFile)
-                FileName = SpecifiedFileName;
-
-            DataCubeStreamReader stream = new DataCubeStreamReader(FileName);
+            DataCube.Variables = this.Variables;
+            DataCube.Topology = (Owner.Grid as RegularGrid).Topology;
+            DataCube.DateTimes = this.TimeService.IOTimeline.Take(StepsToLoad).ToArray();
+            DataCubeStreamReader stream = new DataCubeStreamReader(filename);
             stream.Scale = (float)this.ScaleFactor;
-            stream.Source = Values as MyLazy3DMat<float>;
-            stream.StepsToLoad = StepsToLoad;
+            stream.DataCube = this.DataCube;
+            stream.MaxTimeStep = this.StepsToLoad;
+            stream.NumTimeStep = this.NumTimeStep;
             stream.Loading += stream_LoadingProgressChanged;
-            stream.Loaded += stream_Loaded;
-            stream.Load(var_index);
+            stream.DataCubeLoaded += stream_DataCubeLoaded;
+            stream.LoadFailed += this.stream_LoadFailed;
+            stream.LoadDataCube(var_index);
             return true;
         }
 
@@ -160,20 +166,14 @@ namespace Heiflow.Models.Surface.PRMS
         {
             OnLoading(e);
         }
-
-        private void stream_Loaded(object sender, MyLazy3DMat<float> e)
+        private void stream_DataCubeLoaded(object sender, DataCube<float> e)
         {
-            Values = e;
-            if (Values.DateTimes == null || Values.DateTimes.Length != Values.Size[1])
-            {
-                Values.DateTimes = new DateTime[Values.Size[1]];
-                for (int i = 0; i < Values.Size[1]; i++)
-                {
-                    Values.DateTimes[i] = TimeService.Timeline[i];
-                }
-            }
-            Values.TimeBrowsable = true;
-            OnLoaded(e);
+            
+            OnLoaded( _ProgressHandler);
+        }
+        private void stream_LoadFailed(object sender, string e)
+        {
+            OnLoadFailed(e,_ProgressHandler);
         }
     }
 }

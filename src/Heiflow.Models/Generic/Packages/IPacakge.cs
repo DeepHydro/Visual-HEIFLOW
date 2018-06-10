@@ -56,7 +56,7 @@ namespace Heiflow.Models.Generic
         string Name { get; }
         string FullName { get; }
         string Description { get; }
-        string Version { get; set; }
+        string Version { get;}
         bool IsDirty { get; set; }
         bool IsUsed { get; set; }
         /// <summary>
@@ -94,13 +94,13 @@ namespace Heiflow.Models.Generic
         /// Load package from an exsiting file
         /// </summary>
         /// <returns></returns>
-        bool Load();
+        bool Load(ICancelProgressHandler progess);
         /// <summary>
         /// do something after loaded
         /// </summary>
         void AfterLoad();
-        bool Save(IProgress progress);
-        bool SaveAs(string filename, IProgress progress);
+        bool Save(ICancelProgressHandler progress);
+        bool SaveAs(string filename, ICancelProgressHandler progress);
         void Clear();
         bool Check(out string msg);
         void Remove();

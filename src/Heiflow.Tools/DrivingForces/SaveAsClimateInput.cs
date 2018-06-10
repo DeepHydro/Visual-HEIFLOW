@@ -62,7 +62,7 @@ namespace Heiflow.Tools.Conversion
         }
 
         [Category("Input")]
-        [Description("The name of the input matrix")]
+        [Description("The name of the input Data Cube")]
         public string Source { get; set; }
 
         [Category("Input")]
@@ -114,7 +114,7 @@ namespace Heiflow.Tools.Conversion
                     for (int t = 0; t < nstep; t++)
                     {
                         var date = mat.DateTimes[t];
-                        var scalar = mat.Value[var_index][t][0];
+                        var scalar = mat[var_index,t,0];
                         line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t", date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second);
 
                         for (int i = 0; i < CellCount; i++)
@@ -139,7 +139,7 @@ namespace Heiflow.Tools.Conversion
                     for (int t = 0; t < nstep; t++)
                     {
                         var date = mat.DateTimes[t];
-                        var vec = mat.Value[var_index][t];
+                        var vec = mat[var_index,t.ToString(),":"];
                         line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t", date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second);
 
                         for (int i = 0; i < vec.Length - 1; i++)

@@ -129,8 +129,8 @@ namespace Heiflow.Models.Surface.MIKE
                 }
 
                 var elev = (from vert in grid.Vertex select (float)vert.Z).ToArray();
-                grid.Elevations = new My3DMat<float>(1,1, grid.VertexCount);
-                grid.Elevations[0, 0] = elev;
+                grid.Elevations = new DataCube<float>(1,1, grid.VertexCount);
+                grid.Elevations[0, "0",":"] = elev;
                 topology.Grid = grid;
                 grid.Topology = topology;
                 sr.Close();

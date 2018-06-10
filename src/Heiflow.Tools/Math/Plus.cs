@@ -45,14 +45,14 @@ namespace Heiflow.Tools.Math
         {
             Name = "Plus";
             Category = "Math";
-            Description = "Plus two vectors";
-            OutputMatrix = "plused";
+            Description = "Plus two data cubes";
+            OutputDataCube = "plused";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
         }
 
         [Category("Input")]
-        [Description("The matrix that is to be subtracted. The matrix style should be a vector like mat[0][0][:]")]
+        [Description("The DataCube style should be mat[0][0][:]")]
         public string MatrixA
         {
             get;
@@ -60,15 +60,15 @@ namespace Heiflow.Tools.Math
         }
 
         [Category("Input")]
-        [Description("The subtraction matirx. The matrix style should be a vector like mat[0][0][:]")]
-        public string MatrixB
+        [Description("The DataCube style should be mat[0][0][:]")]
+        public string DataCubeB
         {
             get;
             set;
         }
         [Category("Output")]
-        [Description("The output matrix")]
-        public string OutputMatrix
+        [Description("The output DataCube")]
+        public string OutputDataCube
         {
             get;
             set;
@@ -76,19 +76,23 @@ namespace Heiflow.Tools.Math
         public override void Initialize()
         {
             var m1 = Validate(MatrixA);
-            var m2 = Validate(MatrixB);
+            var m2 = Validate(DataCubeB);
             this.Initialized = m1 && m2;
         }
 
         public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
         {
-            var vec_minu = GetVector(MatrixA);
-            var vec_subt= GetVector(MatrixB);
-            if (vec_minu != null && vec_subt != null)
+            var mata = Get3DMat(MatrixA);
+            var matb = Get3DMat(DataCubeB);
+            if (mata != null && matb != null && mata.SizeEquals(matb))
             {
-               var vec = MyMath.Plus(vec_minu, vec_subt);
-               vec.Name = OutputMatrix;
-               Workspace.Add(vec);
+                var vec = new DataCube<float>(mata.Size[0], mata.Size[1], mata.Size[2]);
+                for (int i = 0; i < mata.Size[0]; i++)
+                {
+                    vec.ILArrays[i] = mata.ILArrays[i] + matb.ILArrays[i];
+                }
+                vec.Name = OutputDataCube;
+                Workspace.Add(vec);
                 return true;
             }
             else

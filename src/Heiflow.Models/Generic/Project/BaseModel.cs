@@ -28,6 +28,7 @@
 //
 
 using DotSpatial.Controls;
+using DotSpatial.Data;
 using Heiflow.Core.Utility;
 using Heiflow.Models.Generic.Packages;
 using Heiflow.Models.Generic.Project;
@@ -100,7 +101,7 @@ namespace Heiflow.Models.Generic
         public string Name
         {
             get;
-            set;
+            protected set;
         }
 
         [XmlElement]
@@ -122,7 +123,7 @@ namespace Heiflow.Models.Generic
         public string Description
         {
             get;
-            set;
+            protected set;
         }
         [XmlIgnore]
         [Category("General")]
@@ -202,12 +203,12 @@ namespace Heiflow.Models.Generic
             protected set;
         }
         public abstract void Initialize();
-        public abstract bool Load(IProgress progress);
-        public abstract bool LoadGrid(IProgress progress);
+        public abstract bool Load(ICancelProgressHandler progress);
+        public abstract bool LoadGrid(ICancelProgressHandler progress);
         public abstract bool Validate();
-        public abstract bool New(IProgress progress);
+        public abstract bool New(ICancelProgressHandler progress);
         public abstract void Clear();
-        public abstract void Save(IProgress progress);
+        public abstract void Save(ICancelProgressHandler progress);
         public abstract void Attach(IMap map,  string directory);
 
         public virtual List<IPackage> GetPackages()
@@ -246,7 +247,7 @@ namespace Heiflow.Models.Generic
         }
 
 
-        public bool Load(string masterfile, IProgress progress)
+        public bool Load(string masterfile, ICancelProgressHandler progress)
         {
             return false;
         }

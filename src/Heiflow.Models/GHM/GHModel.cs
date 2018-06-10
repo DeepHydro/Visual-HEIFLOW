@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Packages;
@@ -68,7 +69,7 @@ namespace Heiflow.Models.GHM
             }
         }
 
-        public override bool New(IProgress progress)
+        public override bool New(ICancelProgressHandler progress)
         {
             _GHMSerializer = new GHMSerializer();
             _GHMSerializer.FileName = @"E:\Heihe\HRB\GeoData\GBHM\Model\section_v1.09_ylx\uhrb.ghm";
@@ -124,7 +125,7 @@ namespace Heiflow.Models.GHM
         }
 
 
-        public override bool Load(IProgress progress)
+        public override bool Load(ICancelProgressHandler progress)
         {
             string masterfile = ControlFileName;
             if (File.Exists(masterfile))
@@ -163,12 +164,12 @@ namespace Heiflow.Models.GHM
             }   
             {            
                 var msg= "\r\nThe model file dose not exist: " + ControlFileName;
-                progress.Progress(msg);
+                progress.Progress("GHModel", 1, msg);
                 return false;
             }
         }
 
-        public override bool LoadGrid(IProgress progress)
+        public override bool LoadGrid(ICancelProgressHandler progress)
         {
             var gridnode = (from fl in
                                 ((from layer in _GHMSerializer.Layers where layer.Name == "Base" select layer).First().Members)
@@ -196,7 +197,7 @@ namespace Heiflow.Models.GHM
             throw new NotImplementedException();
         }
 
-        public override void Save(IProgress progress)
+        public override void Save(ICancelProgressHandler progress)
         {
             throw new NotImplementedException();
         }

@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using Heiflow.Core.IO;
 using Heiflow.Models.UI;
 using System;
@@ -44,8 +45,8 @@ namespace Heiflow.Models.Generic.Project
         string Extension { get; }
         string FileTypeDescription { get; }
 
-        bool Load( IProject project, IProgress progress);
+        bool Load( IProject project, ICancelProgressHandler progress);
         bool CanImport(IProject project);
-        void Import(IProject project, IImportProperty property, IProgress progress);
+        void Import(IProject project, IImportProperty property, ICancelProgressHandler progress);
     }
 }

@@ -54,7 +54,7 @@ namespace Heiflow.Core.Data
 
          public IForecastingDataSets Select(IPredicationSchema schema)
         {
-            IVectorTimeSeries<double>[] tsList = new IVectorTimeSeries<double>[schema.Stimulus.Length];
+            DataCube<double>[] tsList = new DataCube<double>[schema.Stimulus.Length];
             int [] startIndexOfStimulus = new int[schema.Stimulus.Length];
             int i=0;
             int valuesCount = 0;
@@ -70,14 +70,14 @@ namespace Heiflow.Core.Data
                 };
                 tsList[i] = v.GetValues(qc, mOdmAdaptor);
                 if (v.NormalizationModel != null)
-                    v.NormalizationModel.Normalize(tsList[i].Value);
+                    v.NormalizationModel.Normalize(tsList[i][0,":","0"]);
                 if (i == 0)
                 {
-                    valuesCount = tsList[i].Value.Length;
+                    valuesCount = tsList[i].Size[1];
                 }
                 else
                 {
-                    if (valuesCount != tsList[i].Value.Length)
+                    if (valuesCount != tsList[i].Size[1])
                         throw new Exception("The value counts of the  input variables are not identical!");
                 }
                 startIndexOfStimulus[i] = schema.MaximumWindowSize - v.WindowSize;
@@ -91,7 +91,7 @@ namespace Heiflow.Core.Data
             double [][] inputData = builder.BuildInputSets(startIndexOfStimulus,tsList);
 
             i = 0;
-            tsList = new IVectorTimeSeries<double>[schema.Responses.Length];
+            tsList = new DataCube<double>[schema.Responses.Length];
            int [] startIndexOfResponses = new int[schema.Responses.Length];
             foreach (IVariable v in schema.Responses)
             {
@@ -104,8 +104,8 @@ namespace Heiflow.Core.Data
                 };
                 tsList[i] = v.GetValues(qc, mOdmAdaptor);
                 if (v.NormalizationModel != null)
-                    v.NormalizationModel.Normalize(tsList[i].Value);
-                if (valuesCount != tsList[i].Value.Length)
+                    v.NormalizationModel.Normalize(tsList[i][0, ":", "0"]);
+                if (valuesCount != tsList[i].Size[1])
                     throw new Exception("The value counts of the  input variables are not identical!");
                 startIndexOfResponses[i] = schema.MaximumWindowSize + v.PredicationSize;
                 if (i == 0)
@@ -170,7 +170,7 @@ namespace Heiflow.Core.Data
 
         private IPredicationSchema mSchema;
 
-        public double[][] BuildInputSets(int[] startIndexOfStimulus, IVectorTimeSeries<double>[] tsList)
+        public double[][] BuildInputSets(int[] startIndexOfStimulus, DataCube<double>[] tsList)
         {
             double[][] inputs = new double[mSchema.InstancesCount][];
 
@@ -186,7 +186,7 @@ namespace Heiflow.Core.Data
                     int size = !v.IncludeIntradayValue ? v.WindowSize : v.WindowSize + 1;
                     for (int t = 0; t < size; t++)
                     {
-                        inputs[r][c] = tsList[i].Value[startIndexOfStimulus[i] + t];
+                        inputs[r][c] = tsList[i][0,startIndexOfStimulus[i] + t,0];
                         c++;
                     }
                     startIndexOfStimulus[i]++;
@@ -196,7 +196,7 @@ namespace Heiflow.Core.Data
             return inputs;
         }
 
-        public double[][] BuildOutputSets(int[] startIndexOfResponses, IVectorTimeSeries<double>[] tsList)
+        public double[][] BuildOutputSets(int[] startIndexOfResponses, DataCube<double>[] tsList)
         {
             double[][] outputs = new double[mSchema.InstancesCount][];
             for (int r = 0; r < mSchema.InstancesCount; r++)
@@ -205,7 +205,7 @@ namespace Heiflow.Core.Data
                 int i = 0;
                 foreach (IVariable v in mSchema.Responses)
                 {
-                    outputs[r][i] = tsList[i].Value[startIndexOfResponses[i]];
+                    outputs[r][i] = tsList[i][0,startIndexOfResponses[i],0];
                     startIndexOfResponses[i]++;
                     i++;
                 }

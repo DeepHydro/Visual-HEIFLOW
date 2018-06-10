@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using Heiflow.Core;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
@@ -74,7 +75,7 @@ namespace Heiflow.Models.Subsurface
         }
 
         [Browsable(false)]
-        public MyLazy3DMat<float> ComparingValues
+        public DataCube<float> ComparingValues
         {
             get;
             set;
@@ -115,13 +116,21 @@ namespace Heiflow.Models.Subsurface
             }
         }
 
-        public override bool Load()
+        public override bool Load(ICancelProgressHandler progress)
         {
-            return ExtractTo();
+            var result = true;
+            _ProgressHandler = progress;
+             result = ExtractTo();
+             OnLoaded(progress);
+             return result;
         }
-        public override bool Load(int var_index)
+        public override bool Load(int var_index, ICancelProgressHandler progress)
         {
-            return ExtractTo();
+            var result = true;
+            _ProgressHandler = progress;
+            result = ExtractTo();
+            OnLoaded(progress);
+            return result;
         }
         public override void Clear()
         {
@@ -157,13 +166,12 @@ namespace Heiflow.Models.Subsurface
                     {
                         site.Variables = new Core.Data.ODM.Variable[] { new Core.Data.ODM.Variable() { Name = fhd.Variables[SelectedLayerIndex] } };
                     }
-                    if (fhd.Values != null && fhd.Values.Value[SelectedLayerIndex] != null)
+                    if (fhd.DataCube != null && fhd.DataCube[SelectedLayerIndex] != null)
                     {
                         int nstep = StepsToLoad;
                         OnLoading(50);
-                        Values = fhd.ExtractTo(Sites, SelectedLayerIndex);
-                        Values.Topology = hob.Topology;
-                        OnLoaded(Values);
+                        DataCube = fhd.ExtractTo(Sites, SelectedLayerIndex);
+                        DataCube.Topology = hob.Topology;
                         return true;
                     }
                     else
@@ -197,7 +205,7 @@ namespace Heiflow.Models.Subsurface
             if (File.Exists(FileName))
             {
                 StreamReader sr = new StreamReader(FileName);
-                ComparingValues = new MyLazy3DMat<float>(2, 1, _nsite);
+                ComparingValues = new DataCube<float>(2, 1, _nsite);
                 ComparingValues.Allocate(0, 1, _nsite);
                 ComparingValues.Allocate(1, 1, _nsite);
                 string line = sr.ReadLine();
@@ -207,8 +215,8 @@ namespace Heiflow.Models.Subsurface
                     if (!TypeConverterEx.IsNull(line))
                     {
                         var vv = TypeConverterEx.Split<float>(line);
-                        ComparingValues.Value[0][0][i] = vv[0];
-                        ComparingValues.Value[1][0][i] = vv[1];
+                        ComparingValues[0,0,i] = vv[0];
+                        ComparingValues[1,0,i] = vv[1];
                     }
                     progress = Convert.ToInt32(i * 100 / nstep);
                     OnLoading(progress);
@@ -216,20 +224,20 @@ namespace Heiflow.Models.Subsurface
                 if (progress < 100)
                     OnLoading(100);
                 ComparingValues.DateTimes = new DateTime[] { TimeService.Timeline[0] };
-                OnLoaded(ComparingValues);
+                OnLoaded(_ProgressHandler);
                 sr.Close();
             }
         }
         public float[] GetHeads(int var_index, int time_index)
         {
-            if (Values != null && Sites != null)
+            if (DataCube != null && Sites != null)
             {
                 int nsites = Sites.Count;
                 float[] heads = new float[nsites];
 
                 for (int i = 0; i < nsites; i++)
                 {
-                    heads[i] = Values.GetSeriesAt(var_index, i)[time_index];
+                    heads[i] = DataCube[var_index,time_index,i];
                 }
                 return heads;
             }

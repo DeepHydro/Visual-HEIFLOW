@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Project;
 using Heiflow.Models.UI;
@@ -46,9 +47,9 @@ namespace Heiflow.Models.Generic.Project
         IEnumerable<ISaveProjectFileProvider> SaveProjectFileProviders { get; }
         IEnumerable<IProject> SurpportedProjects { get; set; }
         IEnumerable<IModelLoader> SurpportedModelLoaders { get; set; }
-        void Open(string fileName,IProgress progress);
+        void Open(string fileName,ICancelProgressHandler progress);
         void Save(string fileName, Heiflow.Models.Generic.Project.IProject project);
         void Save(Heiflow.Models.Generic.Project.IProject project);
-        bool New(string prjName, string prjDic, Heiflow.Models.Generic.Project.IProject project, IProgress progress, bool from_exit_model);
+        bool New(string prjName, string prjDic, Heiflow.Models.Generic.Project.IProject project, ICancelProgressHandler progress, bool from_exit_model);
     }
 }

@@ -142,7 +142,7 @@ namespace Heiflow.Tools.Conversion
 
             sr = new StreamReader(DataFileName);
             string var_name = Path.GetFileNameWithoutExtension(DataFileName);
-            var mat_out = new My3DMat<float>(nvar, nstep, 1);
+            var mat_out = new DataCube<float>(nvar, nstep, 1);
             mat_out.Name = OutputMatrix;
             mat_out.AllowTableEdit = false;
             mat_out.TimeBrowsable = true;
@@ -161,7 +161,7 @@ namespace Heiflow.Tools.Conversion
                     for (int i = 0; i < nvar; i++)
                     {
                         float.TryParse(strs[i + 1], out temp);
-                        mat_out.Value[i][t][0] = temp;
+                        mat_out[i,t,0] = temp;
                     }
                     if (progress > count)
                     {
@@ -178,7 +178,7 @@ namespace Heiflow.Tools.Conversion
                     var vec = TypeConverterEx.Split<float>(line);
                     for (int i = 0; i < nvar; i++)
                     {
-                        mat_out.Value[i][t][0] = vec[i];
+                        mat_out[i,t,0] = vec[i];
                     }
                     mat_out.DateTimes[t] = Start.AddSeconds(Interval * t);
                     if (progress > count)

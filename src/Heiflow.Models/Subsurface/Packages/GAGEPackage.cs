@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
@@ -62,9 +63,9 @@ namespace Heiflow.Models.Subsurface
         }
 
         [DisplayablePropertyItem]
-        public My2DMat<int> GagingInfo { get; set; }
+        public DataCube<int> GagingInfo { get; set; }
 
-        public override bool Load()
+        public override bool Load(ICancelProgressHandler progress)
         {
             if (File.Exists(FileName))
             {
@@ -73,23 +74,23 @@ namespace Heiflow.Models.Subsurface
                 string line = sr.ReadLine();
                 var strs = TypeConverterEx.Split<string>(line);
                 num = int.Parse(strs[0]);
-                var mat = new My2DMat<int>(3, num);
+                var mat = new DataCube<int>(1,3, num);
                 for (int i = 0; i < num; i++)
                 {
                     line = sr.ReadLine();
                     var buf = TypeConverterEx.Split<int>(line, 3);
-                    mat.Value[0][i] = buf[0];
-                    mat.Value[1][i] = buf[1];
-                    mat.Value[2][i] = buf[2];
+                    mat[0,0,i] = buf[0];
+                    mat[0,1,i] = buf[1];
+                    mat[0, 2, i] = buf[2];
                 }
                 sr.Close();
                 GagingInfo = mat;
-                OnLoaded("Sucessfully loaded");
+                OnLoaded(progress);
                 return true;
             }
             else
             {             
-                OnLoadFailed("Failed to load");
+                OnLoadFailed("Failed to load " + this.Name, progress);
                 return false;
             }
         }
@@ -106,7 +107,7 @@ namespace Heiflow.Models.Subsurface
                     Parent = mf.Packages[LakePackage.PackageName]
                 };
                 lake_out.Initialize();
-                var uids = from vv in this.GagingInfo.Value[1] where vv < 0 select vv;
+                var uids = from vv in this.GagingInfo[0, "1", ":"] where vv < 0 select vv;
                 foreach (var uid in uids)
                 {
                     var finfo = (from info in mf.NameManager.MasterList where info.FID == -uid select info).First();

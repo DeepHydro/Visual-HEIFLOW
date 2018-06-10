@@ -74,12 +74,12 @@ namespace Heiflow.Models.GHM
             AscReader asc = new AscReader();
             var mat = asc.Load(filename);
             var mfgrid = new MFGrid();
-            mfgrid.RowCount = mat.Size[0];
-            mfgrid.ColumnCount = mat.Size[1];
+            mfgrid.RowCount = mat.Size[1];
+            mfgrid.ColumnCount = mat.Size[2];
             //mfgrid.RowInteval = new MyScalar<float>(asc.CellSize);
             //mfgrid.ColInteval = new MyScalar<float>(asc.CellSize);
 
-            mfgrid.IBound = new MyVarient3DMat<float>(1, mfgrid.RowCount, mfgrid.ColumnCount);
+            mfgrid.IBound = new DataCube<float>(1, mfgrid.RowCount, mfgrid.ColumnCount);
 
             mfgrid.ActiveCellCount = 0;
 
@@ -87,7 +87,7 @@ namespace Heiflow.Models.GHM
             {
                 for (int c = 0; c < mat.Size[1]; c++)
                 {
-                    if (mat[r, c,MyMath.none] == asc.NoDataValue)
+                    if (mat[0,r, c] == asc.NoDataValue)
                         mfgrid.IBound[0, r, c] = 0;
                     else
                     {
@@ -96,10 +96,10 @@ namespace Heiflow.Models.GHM
                     }
                 }
             }
-            mfgrid.Elevations = new MyVarient3DMat<float>(1, 1, mfgrid.ActiveCellCount);
+            mfgrid.Elevations = new DataCube<float>(1, 1, mfgrid.ActiveCellCount);
 
             var vector = asc.LoadSerial(filename, mfgrid);
-            mfgrid.Elevations.Value[0][0] = vector;
+            mfgrid.Elevations[0]["0",":"] = vector;
 
             return mfgrid;
         }

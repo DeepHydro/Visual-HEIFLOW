@@ -236,7 +236,7 @@ namespace Heiflow.Core
             set;
         }
 
-      public virtual IVectorTimeSeries<double> GetValues(ITimeSeriesQueryCriteria qc, ITimeSeriesTransform provider)
+      public virtual DataCube<double> GetValues(ITimeSeriesQueryCriteria qc, ITimeSeriesTransform provider)
         {
             if (provider != null && qc != null)
             {
@@ -248,7 +248,7 @@ namespace Heiflow.Core
             }
         }
 
-      public virtual IVectorTimeSeries<double> GetTransformedValues(ITimeSeriesQueryCriteria qc, ITimeSeriesTransform provider, double multiplier)
+      public virtual DataCube<double> GetTransformedValues(ITimeSeriesQueryCriteria qc, ITimeSeriesTransform provider, double multiplier)
         {
             if (provider != null && qc != null)
             {

@@ -47,16 +47,16 @@ namespace Heiflow.Core.IO
                 var snm = (from s in sites select s.Name).ToArray();
                 string line = string.Join(",", snm);
                 sw.WriteLine("Date," + line);
-                var ts = sites[0].TimeSeries as IVectorTimeSeries<double>;
-                int len = ts.Value.Length;
+                var ts = sites[0].TimeSeries;
+                int len = ts.Size[1];
 
                 for (int i = 0; i < len; i++)
                 {
                     line = sites[0].TimeSeries.DateTimes[i] + ",";
                     for (int t = 0; t < sites.Length; t++)
                     {
-                        ts = sites[t].TimeSeries as IVectorTimeSeries<double>;
-                        line += ts.Value[i] + ",";
+                        ts = sites[t].TimeSeries;
+                        line += ts[0,i,0] + ",";
                     }
                     line = line.Trim(new char[] { ',' });
                     sw.WriteLine(line);

@@ -128,7 +128,7 @@ namespace Heiflow.Core.Data.ODM
             var ODMDB = ODM.ODMDB;
             int total = sites.Count();
             int i = 1;
-            int progress = 0;
+            int progress = 0; 
 
             foreach(int site_id in sites)
             {

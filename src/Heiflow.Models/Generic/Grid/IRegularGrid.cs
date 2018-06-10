@@ -61,7 +61,7 @@ namespace Heiflow.Models.Generic
         /// <summary>
         /// 3DMat[LayerCount,1,ActiveCellCount]
         /// </summary>
-        MyVarient3DMat<float> Elevations
+        DataCube<float> Elevations
         {
             get;
             set;
@@ -69,7 +69,7 @@ namespace Heiflow.Models.Generic
         /// <summary>
         /// 3DMat[ ActualLayerCount,RowCount, ColumnCount,]:
         /// </summary>
-        MyVarient3DMat<float> IBound
+        DataCube<float> IBound
         {
             get;
             set;
@@ -77,7 +77,7 @@ namespace Heiflow.Models.Generic
         /// <summary>
         ///  mat[0][0][NCOL]. The cell width along rows. Read one value for each of the NCOL columns.
         /// </summary>
-        MyVarient3DMat<float> DELR
+        DataCube<float> DELR
         {
             get;
             set;
@@ -85,7 +85,7 @@ namespace Heiflow.Models.Generic
         /// <summary>
         ///  mat[0][0][NROW]. the cell width along columns. Read one value for each of the NROW rows. 
         /// </summary>
-        MyVarient3DMat<float> DELC
+        DataCube<float> DELC
         {
             get;
             set;

@@ -32,11 +32,11 @@ namespace Heiflow.Models.Tools
 {
     public  interface IModelWorkspace
     {
-        void Add(Heiflow.Core.Data.My3DMat<float> mat);
+        void Add(Heiflow.Core.Data.DataCube<float> mat);
         void Clear();
         bool Contains(string name);
-        System.Collections.ObjectModel.ObservableCollection<Heiflow.Core.Data.My3DMat<float>> DataSources { get; }
-        Heiflow.Core.Data.My3DMat<float> Get(string name);
+        System.Collections.ObjectModel.ObservableCollection<Heiflow.Core.Data.DataCube<float>> DataSources { get; }
+        Heiflow.Core.Data.DataCube<float> Get(string name);
         void Remove(string name);
     }
 }

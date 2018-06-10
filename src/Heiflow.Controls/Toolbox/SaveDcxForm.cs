@@ -43,14 +43,14 @@ namespace Heiflow.Controls.WinForm.Toolbox
 {
     public partial class SaveDcxForm : Form
     {
-        private My3DMat<float> _Mat;
-        public SaveDcxForm(My3DMat<float> mat)
+        private DataCube<float> _Mat;
+        public SaveDcxForm(DataCube<float> mat)
         {
             InitializeComponent();
             _Mat = mat;
             for (int i = 0; i < _Mat.Size[0]; i++)
             {
-                checkedListBox1.Items.Add(_Mat.Variables[i], _Mat.Value[i] != null);
+                checkedListBox1.Items.Add(_Mat.Variables[i], _Mat[i] != null);
             }
         }
 
@@ -92,7 +92,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
 
         private void checkedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            if (_Mat.Value[e.Index] == null)
+            if (_Mat[e.Index] == null)
                 e.NewValue = CheckState.Unchecked;
         }
     }

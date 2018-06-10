@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using Heiflow.Core;
 using Heiflow.Core.Data;
 using Heiflow.Core.Data.ODM;
@@ -129,8 +130,9 @@ namespace Heiflow.Models.Subsurface
                 return true;
             }
         }
-        public override bool Load()
+        public override bool Load(ICancelProgressHandler progresshandler)
         {
+            _ProgressHandler = progresshandler;
             Scan();
             OnLoading(0);
             var grid = Owner.Grid as MFGrid;
@@ -144,7 +146,7 @@ namespace Heiflow.Models.Subsurface
                 if (File.Exists(_SFRPackage.InputFilesInfo[i].FileName))
                 {
                     var dates = new DateTime[nstep];
-                    var mat = new My3DMat<double>(1, nstep, nsite);
+                    var mat = new DataCube<double>(1, nstep, nsite);
                     var site = (from ss in Sites where ss.Name == _SFRPackage.InputFilesInfo[i].Name select ss).First();
                     StreamReader sr = new StreamReader(_SFRPackage.InputFilesInfo[i].FileName);
                     string line = sr.ReadLine();
@@ -154,7 +156,7 @@ namespace Heiflow.Models.Subsurface
                         if (!TypeConverterEx.IsNull(line))
                         {
                             var vv = TypeConverterEx.Split<double>(line);
-                            mat.Value[0][t][0] = vv[1];
+                            mat[0,t,0] = vv[1];
                             dates[t] = TimeService.Timeline[(int)vv[0] - 1];
                         }
                     }
@@ -171,11 +173,12 @@ namespace Heiflow.Models.Subsurface
                 }
             }
 
-            OnLoaded(Sites);
+            OnLoaded(progresshandler);
             return true;
         }
-        public override bool Load(int site_index)
+        public override bool Load(int site_index, ICancelProgressHandler progresshandler)
         {
+            _ProgressHandler = progresshandler;
             Scan();
             OnLoading(0);
             var grid = Owner.Grid as MFGrid;
@@ -188,7 +191,7 @@ namespace Heiflow.Models.Subsurface
                 StreamReader sr = new StreamReader(_SFRPackage.InputFilesInfo[site_index].FileName);
                 string line = sr.ReadLine();
 
-                var mat = new My3DMat<double>(1, nstep, 1);
+                var mat = new DataCube<double>(1, nstep, 1);
                 var dates = new DateTime[nstep];
                 for (int t = 0; t < nstep; t++)
                 {
@@ -213,7 +216,7 @@ namespace Heiflow.Models.Subsurface
                 mat.Variables = new string[] { "Streamflow" };
                 site.TimeSeries = mat;
                 sr.Close();
-                OnLoaded(site);
+                OnLoaded(progresshandler);
             }
             return true;
         }

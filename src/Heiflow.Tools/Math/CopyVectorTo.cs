@@ -51,16 +51,16 @@ namespace Heiflow.Tools.Math
         }
 
         [Category("Input")]
-        [Description("The source matrix. The matrix style should be [0][0][:] ")]
-        public string SourceMatrix
+        [Description("The source Data Cube. The Data Cube style should be mat[0][0][:] ")]
+        public string SourceDataCube
         {
             get;
             set;
         }
 
         [Category("Input")]
-        [Description("The target matrix. The matrix style should be [0][0][:]")]
-        public string TargetMatrix
+        [Description("The target Data Cube. The Data Cube style should be mat[0][0][:]")]
+        public string TargetDataCube
         {
             get;
             set;
@@ -68,20 +68,19 @@ namespace Heiflow.Tools.Math
         
         public override void Initialize()
         {
-            var m1 = Validate(SourceMatrix);
-            var m2 = Validate(TargetMatrix);
+            var m1 = Validate(SourceDataCube);
+            var m2 = Validate(TargetDataCube);
             this.Initialized = m1 && m2;
         }
 
         public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
         {
-            var vec_src = GetVector(SourceMatrix);
-            var vec_tar = GetVector(TargetMatrix);
-            var mat_tar = Get3DMat(TargetMatrix);
-            if (vec_src != null && vec_tar != null && vec_src.Length == vec_tar.Length)
+            var vec_src = GetVector(SourceDataCube);
+            var mat_tar = Get3DMat(TargetDataCube);
+            if (vec_src != null)
             {
-               var dims =  GetDims(TargetMatrix);
-               mat_tar.SetBy(vec_src, dims[0], dims[1], dims[2]);
+               var dims =  GetDims(TargetDataCube);
+               mat_tar.ILArrays[int.Parse(dims[0])][dims[1], dims[2]]= vec_src;
                cancelProgressHandler.Progress("Package_Tool", 100, "Successful");
                 return true;
             }

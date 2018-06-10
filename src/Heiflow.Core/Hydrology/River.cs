@@ -87,7 +87,7 @@ namespace Heiflow.Core.Hydrology
             }
         }
 
-        public IVectorTimeSeries<double> TimeSeries
+        public DataCube<double> TimeSeries
         {
             get;
             set;

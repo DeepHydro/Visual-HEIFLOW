@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
@@ -74,7 +75,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 10)]
-        public MyVarient3DMat<float> HC
+        public DataCube<float> HC
         {
             get;
             set;
@@ -85,7 +86,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 0.0001)]
-        public MyVarient3DMat<float> Sfe
+        public DataCube<float> Sfe
         {
             get;
             set;
@@ -96,7 +97,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 0.0001)]
-        public MyVarient3DMat<float> Sfv
+        public DataCube<float> Sfv
         {
             get;
             set;
@@ -107,7 +108,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 0.0001)]
-        public MyVarient3DMat<float> Com
+        public DataCube<float> Com
         {
             get;
             set;
@@ -222,7 +223,7 @@ namespace Heiflow.Models.Subsurface
             get;
             set;
         }
-        public override bool Load()
+        public override bool Load(ICancelProgressHandler progresshandler)
         {
             if (File.Exists(FileName))
             {
@@ -256,25 +257,25 @@ namespace Heiflow.Models.Subsurface
 
                 if (NNDB > 0)
                 {
-                    this.HC = new MyVarient3DMat<float>(grid.ActualLayerCount, 1)
+                    this.HC = new DataCube<float>(grid.ActualLayerCount, 1,grid.ActiveCellCount)
                     {
                         Name = "HC",
                         TimeBrowsable = false,
                         AllowTableEdit = true
                     };
-                    this.Sfe = new MyVarient3DMat<float>(grid.ActualLayerCount, 1)
+                    this.Sfe = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
                     {
                         Name = "Sfe",
                         TimeBrowsable = false,
                         AllowTableEdit = true
                     };
-                    this.Sfv = new MyVarient3DMat<float>(grid.ActualLayerCount, 1)
+                    this.Sfv = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
                     {
                         Name = "Sfv",
                         TimeBrowsable = false,
                         AllowTableEdit = true
                     };
-                    this.Com = new MyVarient3DMat<float>(grid.ActualLayerCount, 1)
+                    this.Com = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
                     {
                         Name = "Com",
                         TimeBrowsable = false,
@@ -300,17 +301,17 @@ namespace Heiflow.Models.Subsurface
                 OutputFIDs = TypeConverterEx.Split<int>(newline, 12);
 
                 sr.Close();
-                OnLoaded("successfully loaded");          
+                OnLoaded(progresshandler);          
                 return true;
             }
             else
             {
                 Message = string.Format("\r\n Failed to load {0}. The package file does not exist: {1}", Name, FileName);
-                OnLoadFailed(Message);
+                OnLoadFailed(Message, progresshandler);
                 return false;
             }
         }
-        public override bool SaveAs(string filename,IProgress progress)
+        public override bool SaveAs(string filename,ICancelProgressHandler progress)
         {
             var grid = (Owner.Grid as IRegularGrid);
             StreamWriter sw = new StreamWriter(filename);

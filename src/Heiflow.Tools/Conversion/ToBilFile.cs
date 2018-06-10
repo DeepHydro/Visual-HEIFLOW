@@ -114,7 +114,7 @@ namespace Heiflow.Tools.Conversion
 
             for (int t = 0; t < nsteps; t++)
             {
-                var mat_step = grid.ToMatrix<float>(mat.Value[var_index][t], 0);
+                var mat_step = grid.ToMatrix<float>(mat[var_index, t.ToString(), ":"], 0);
                 for (int r = 0; r < nrow; r++)
                 {
                     for (int c = 0; c < ncol; c++)

@@ -78,7 +78,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
             }
         }
 
-        private MyArray<float> _DataSource;
+        private DataCube<float> _DataSource;
 
 
 
@@ -114,7 +114,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
         {
             if (_DataSource != null)
             {
-                var array = _DataSource.GetVector(0,0,0);
+                var array = _DataSource.GetVector(0,"0","0");
                 _ShellService.DataGridView.Bind<float>(array);
             }
         }
@@ -124,7 +124,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
             if (_DataSource != null)
             {
                 var dt = _ProjectService.Project.Model.Grid.FeatureSet.DataTable;
-                var array = _DataSource.GetVector(0, 0, 0);
+                var array = _DataSource.GetVector(0, "0", "0");
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
                     dt.Rows[i][RegularGrid.ParaValueField] = array[i];
@@ -138,7 +138,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
             if (_DataSource != null)
             {
                 var grid = _ProjectService.Project.Model.Grid as IGrid;
-                var array = _DataSource.GetVector(0, 0, 0);
+                var array = _DataSource.GetVector(0, "0", "0");
                 var matrix = grid.ToMatrix<float>(array, (float)RegularGrid.NoValue);
                 _ShellService.DataGridView.Bind<float>(matrix);
                 _ShellService.DataGridView.ShowView();
@@ -150,12 +150,12 @@ namespace Heiflow.Controls.WinForm.MenuItems
         {
             string dic = @"E:\Heihe\HRB\GeoData\GBHM\IHRB\上游模型集成数据_qy151228\3.merge_soil\";
             string ascfile = dic + "soil_200001.asc";
-            string acfile = @"C:\Users\Administrator\Documents\GBHM\GBHM\result\sm_month_2000-2012_gbhm.ac";
+           // string acfile = @"C:\Users\Administrator\Documents\GBHM\GBHM\result\sm_month_2000-2012_gbhm.ac";
             AscReader asc = new AscReader();
             AcFile ac = new AcFile();
             var vec = asc.LoadSerial(ascfile, _ProjectService.Project.Model.Grid as IRegularGrid);
             int nfeat = vec.Length;
-            My3DMat<float> mat = new My3DMat<float>(1, 156, nfeat);
+            DataCube<float> mat = new DataCube<float>(1, 156, nfeat);
 
             int i = 0;
             for (int y = 2000; y < 2013; y++)
@@ -170,11 +170,11 @@ namespace Heiflow.Controls.WinForm.MenuItems
                         if (buf[c] < 0)
                             buf[c] = 0;
                     }
-                    mat.Value[0][i] = buf;
+                    mat[0,i.ToString(),":"] = buf;
                     i++;
                 }
             }
-            ac.Save(acfile, mat.Value, new string[] { "Monthly Soil Moisture" });
+           // ac.Save(acfile, mat, new string[] { "Monthly Soil Moisture" });
         }
 
         private void ViewInGraphy_Clicked(object sender, EventArgs e)
@@ -182,7 +182,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
             if (_DataSource != null)
             {
                 var grid = _ProjectService.Project.Model.Grid as IGrid;
-                var vector = _DataSource.GetVector(0, 0, 0);
+                var vector = _DataSource.GetVector(0, "0", "0");
                 if (MyAppManager.Instance.AppMode == AppMode.VHF)
                 {
                     if (_ShellService.SurfacePlot != null)
@@ -202,7 +202,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
 
         private void Animation3D_Clicked(object sender, EventArgs e)
         {
-            if (_DataSource != null && _DataSource.GetType() == typeof(My3DMat<float>))
+            if (_DataSource != null )
             {
                 if (_AppManager.AppMode == AppMode.VHF)
                 {
@@ -250,7 +250,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
                 if(sfld.FileName.Contains(".txt"))
                 {
                     MatrixTextStream stream = new MatrixTextStream();
-                    var vector = _DataSource.GetVector(0, 0, 0);
+                    var vector = _DataSource.GetVector(0, "0", "0");
 
                     stream.Save<float>(sfld.FileName, vector);
                 }

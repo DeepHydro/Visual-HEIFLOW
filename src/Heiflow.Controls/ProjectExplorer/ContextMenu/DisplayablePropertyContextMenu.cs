@@ -57,7 +57,9 @@ namespace Heiflow.Controls.WinForm.MenuItems
         public const string _A2T = "Add to toolbox...";
         public const string _A2DC = "Edit...";
         public const string _RLEASE = "Release Data";
+        public const string _SETAS_ACTSource = "Set As Active Data Source";
         protected const string _S2DF = "Set To Default Values";
+        
         protected Node _SelectedNode;
         protected List<ExplorerMenuItem> _sub_menus = new List<ExplorerMenuItem>();
 
@@ -110,6 +112,10 @@ namespace Heiflow.Controls.WinForm.MenuItems
                 animate.Enabled = false;
                 _sub_menus.Add(animate);
 
+                var set_as_act = new ExplorerMenuItem(_SETAS_ACTSource, null, SetAsActiveSource_Clicked);
+                set_as_act.Enabled = false;
+                _sub_menus.Add(set_as_act);
+
                 _sub_menus.Add(new ExplorerMenuItem(PEContextMenu.MenuSeparator, null, null));
                 item = new ExplorerMenuItem(_EX, null, Export_Clicked);
                 _sub_menus.Add(item);
@@ -127,6 +133,8 @@ namespace Heiflow.Controls.WinForm.MenuItems
                 item =(new ExplorerMenuItem(_VI3, Resources._3dplot16, ShowOn3D_Clicked));
                    _sub_menus.Add(item);
                 item = new ExplorerMenuItem(_AN, Resources.AnimationVideo16, Animate_Clicked);
+                _sub_menus.Add(item);
+                item = new ExplorerMenuItem(_SETAS_ACTSource,null, SetAsActiveSource_Clicked);
                 _sub_menus.Add(item);
                   item = new ExplorerMenuItem(_RLEASE, null, ReleaseData_Clicked);
                 _sub_menus.Add(item);
@@ -166,20 +174,20 @@ namespace Heiflow.Controls.WinForm.MenuItems
         protected void dp_LoadFailed(object sender, string e)
         {
             var dp = _Package as IDataPackage;
-            _ShellService.MessageService.ShowWarning(null, e);
+            _ShellService.ProgressWindow.Progress(_Package.Name,100, e);
             dp.LoadFailed -= dp_LoadFailed;
         }
 
         protected virtual void ProgressPanel_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             var dp = e.Argument as IDataPackage;
-            dp.Load(VariableIndex);
+            dp.Load(VariableIndex, _ShellService.ProgressWindow);
         }
 
         protected virtual void dp_Loading(object sender, int e)
         {
             string msg = string.Format("Loading {0}%", e);
-            _ShellService.ProgressWindow.Progress(e, msg);
+            _ShellService.ProgressWindow.Progress(_Package.Name, e, msg);
         }
 
         protected virtual void dp_Loaded(object sender, object e)
@@ -194,14 +202,13 @@ namespace Heiflow.Controls.WinForm.MenuItems
             Enable(_VI3, false);
             Enable(_A2DC, false);
 
-            var mat = e as My3DMat<float>;
-            if (mat != null)
+            if (dp.DataCube != null)
             {
-                _ActiveDataService.Source = mat;
+                _ActiveDataService.Source = dp.DataCube;
                 _ActiveDataService.Source.SelectedVariableIndex = this.VariableIndex;
-                _ActiveDataService.SourceStatistics = MyMath.SpatialMean(mat, this.VariableIndex);
+                _ActiveDataService.SourceStatistics = dp.DataCube.SpatialMean(this.VariableIndex);
             }
-          //  _ShellService.ProgressWindow.DoWork -= ProgressPanel_DoWork;
+            _ShellService.ProgressWindow.DoWork -= ProgressPanel_DoWork;
             dp.Loading -= dp_Loading;
             dp.Loaded -= dp_Loaded;
         }
@@ -306,7 +313,10 @@ namespace Heiflow.Controls.WinForm.MenuItems
         {
 
         }
+        protected virtual void SetAsActiveSource_Clicked(object sender, EventArgs e)
+        {
 
+        }
         protected virtual void Export_Clicked(object sender, EventArgs e)
         {
 

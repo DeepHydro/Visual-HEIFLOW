@@ -40,7 +40,7 @@ using System.Threading.Tasks;
 
 namespace Heiflow.Models.IO
 {
-    public class CBCFile : BaseDataCube
+    public class CBCFile : BaseDataCubeStream
     {
         private string _FileName;
         private IRegularGrid _Grid;
@@ -96,27 +96,154 @@ namespace Heiflow.Models.IO
             fs.Close();
         }
 
-        public override My3DMat<float> Load()
+        //public override My3DMat<float> Load()
+        //{
+        //    Scan();
+        //    FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+        //    BinaryReader br = new BinaryReader(fs);
+        //    int nstep = NumTimeStep;
+        //    float vv = 0;
+        //    long layerbyte = _Grid.RowCount * _Grid.ColumnCount * 4;
+        //    fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+        //    br = new BinaryReader(fs);
+
+        //    if (StepsToLoad < NumTimeStep && StepsToLoad > 0)
+        //        nstep = StepsToLoad;
+
+        //    var mat = Source;
+        //    mat.Name = "CBC";
+
+        //    for (int v = 0; v < Variables.Length; v++)
+        //    {
+        //        mat.Allocate(v, nstep, _Grid.ActiveCellCount);
+        //    }
+
+        //    for (int s = 0; s < NumTimeStep; s++)
+        //    {
+        //        for (int v = 0; v < Variables.Length; v++)
+        //        {
+        //            fs.Seek(4 * 2, SeekOrigin.Current);
+        //            var vn = new string(br.ReadChars(16)).Trim();
+        //            fs.Seek(4 * 3, SeekOrigin.Current);
+        //            for (int l = 0; l < _Grid.ActualLayerCount; l++)
+        //            {
+        //                if (l == Layer)
+        //                {
+        //                    int index = 0;
+        //                    for (int r = 0; r < _Grid.RowCount; r++)
+        //                    {
+        //                        for (int c = 0; c < _Grid.ColumnCount; c++)
+        //                        {
+        //                            vv = br.ReadSingle();
+        //                            if (_Grid.IBound[Layer, r, c] != 0)
+        //                            {
+        //                                mat.Value[v][s][index] = vv;
+        //                                index++;
+        //                            }
+        //                        }
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    fs.Seek(layerbyte, SeekOrigin.Current);
+        //                }
+        //            }
+        //        }
+        //    }
+       
+        //    br.Close();
+        //    fs.Close();
+        //    return mat;
+        //}
+
+        //public override Core.Data.My3DMat<float> Load(int var_index)
+        //{
+        //    OnLoading(0);
+        //    Scan();
+        //    FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+        //    BinaryReader br = new BinaryReader(fs);
+        //    int nstep = NumTimeStep;
+        //    float vv = 0;
+        //    long layerbyte = _Grid.RowCount * _Grid.ColumnCount * 4;
+        //    long var_byte = 8 + 16 + 12 + layerbyte * _Grid.ActualLayerCount;
+        //    int progress = 0;
+
+        //    fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+        //    br = new BinaryReader(fs);
+
+        //    if (StepsToLoad < NumTimeStep && StepsToLoad > 0)
+        //        nstep = StepsToLoad;
+
+        //    if(Source == null)
+        //        Source = new MyLazy3DMat<float>(Variables.Length, nstep, _Grid.ActiveCellCount);
+        //    var mat = Source;
+        //    mat.Allocate(var_index, nstep, _Grid.ActiveCellCount);
+            
+        //    for (int t = 0; t < nstep; t++)
+        //    {
+        //        for (int v = 0; v < var_index; v++)
+        //        {
+        //            fs.Seek(var_byte, SeekOrigin.Current);
+        //        }
+        //        fs.Seek(4 * 2, SeekOrigin.Current);
+        //        var vn = new string(br.ReadChars(16)).Trim();
+        //        fs.Seek(4 * 3, SeekOrigin.Current);
+        //        for (int l = 0; l < _Grid.ActualLayerCount; l++)
+        //        {
+        //            if (l == Layer)
+        //            {
+        //                int index = 0;
+        //                for (int r = 0; r < _Grid.RowCount; r++)
+        //                {
+        //                    for (int c = 0; c < _Grid.ColumnCount; c++)
+        //                    {
+        //                        vv = br.ReadSingle();
+        //                        if (_Grid.IBound[Layer, r, c] != 0)
+        //                        {
+        //                            mat.Value[var_index][t][index] = vv * Scale;
+        //                            index++;
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //            else
+        //            {
+        //                fs.Seek(layerbyte, SeekOrigin.Current);
+        //            }
+        //        }
+
+        //        for (int v = var_index + 1; v < Variables.Length; v++)
+        //        {
+        //            fs.Seek(var_byte, SeekOrigin.Current);
+        //        }
+        //        progress = Convert.ToInt32(t * 100 / nstep);
+        //        OnLoading(progress);
+        //    }
+        //    if (progress < 100)
+        //        OnLoading(100);
+        //    br.Close();
+        //    fs.Close();
+        //    OnLoaded(mat);
+        //    return mat;
+        //}
+
+        public override void LoadDataCube()
         {
-            Scan();
+            if (MaxTimeStep <= 0 || NumTimeStep == 0)
+            {
+                Scan();
+                MaxTimeStep = NumTimeStep;
+            }
             FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             BinaryReader br = new BinaryReader(fs);
-            int nstep = NumTimeStep;
+            int nstep = StepsToLoad;
             float vv = 0;
             long layerbyte = _Grid.RowCount * _Grid.ColumnCount * 4;
             fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             br = new BinaryReader(fs);
 
-            if (StepsToLoad < NumTimeStep && StepsToLoad > 0)
-                nstep = StepsToLoad;
 
-            var mat = Source;
-            mat.Name = "CBC";
-
-            for (int v = 0; v < Variables.Length; v++)
-            {
-                mat.Allocate(v, nstep, _Grid.ActiveCellCount);
-            }
+            DataCube = new DataCube<float>(Variables.Length, nstep, _Grid.ActiveCellCount);
 
             for (int s = 0; s < NumTimeStep; s++)
             {
@@ -130,6 +257,7 @@ namespace Heiflow.Models.IO
                         if (l == Layer)
                         {
                             int index = 0;
+                            var buf = new float[_Grid.ActiveCellCount];
                             for (int r = 0; r < _Grid.RowCount; r++)
                             {
                                 for (int c = 0; c < _Grid.ColumnCount; c++)
@@ -137,11 +265,12 @@ namespace Heiflow.Models.IO
                                     vv = br.ReadSingle();
                                     if (_Grid.IBound[Layer, r, c] != 0)
                                     {
-                                        mat.Value[v][s][index] = vv;
+                                        buf[index] = vv;
                                         index++;
                                     }
                                 }
                             }
+                            DataCube.ILArrays[v][s, ":"] = buf;
                         }
                         else
                         {
@@ -150,19 +279,23 @@ namespace Heiflow.Models.IO
                     }
                 }
             }
-       
+
             br.Close();
             fs.Close();
-            return mat;
+
         }
 
-        public override Core.Data.My3DMat<float> Load(int var_index)
+        public override void LoadDataCube(int var_index)
         {
             OnLoading(0);
-            Scan();
+            if (MaxTimeStep <= 0 || NumTimeStep == 0)
+            {
+                Scan();
+                MaxTimeStep = NumTimeStep;
+            }
             FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             BinaryReader br = new BinaryReader(fs);
-            int nstep = NumTimeStep;
+            int nstep = StepsToLoad;
             float vv = 0;
             long layerbyte = _Grid.RowCount * _Grid.ColumnCount * 4;
             long var_byte = 8 + 16 + 12 + layerbyte * _Grid.ActualLayerCount;
@@ -170,15 +303,9 @@ namespace Heiflow.Models.IO
 
             fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             br = new BinaryReader(fs);
-
-            if (StepsToLoad < NumTimeStep && StepsToLoad > 0)
-                nstep = StepsToLoad;
-
-            if(Source == null)
-                Source = new MyLazy3DMat<float>(Variables.Length, nstep, _Grid.ActiveCellCount);
-            var mat = Source;
-            mat.Allocate(var_index, nstep, _Grid.ActiveCellCount);
-            
+            if (DataCube == null)
+                DataCube = new DataCube<float>(Variables.Length, nstep, _Grid.ActualLayerCount, true);
+            DataCube.Allocate(var_index);
             for (int t = 0; t < nstep; t++)
             {
                 for (int v = 0; v < var_index; v++)
@@ -193,6 +320,7 @@ namespace Heiflow.Models.IO
                     if (l == Layer)
                     {
                         int index = 0;
+                        var buf = new float[_Grid.ActiveCellCount];
                         for (int r = 0; r < _Grid.RowCount; r++)
                         {
                             for (int c = 0; c < _Grid.ColumnCount; c++)
@@ -200,11 +328,12 @@ namespace Heiflow.Models.IO
                                 vv = br.ReadSingle();
                                 if (_Grid.IBound[Layer, r, c] != 0)
                                 {
-                                    mat.Value[var_index][t][index] = vv * Scale;
+                                    buf[index] = vv * Scale;
                                     index++;
                                 }
                             }
                         }
+                        DataCube.ILArrays[var_index][t, ":"] = buf;
                     }
                     else
                     {
@@ -223,8 +352,7 @@ namespace Heiflow.Models.IO
                 OnLoading(100);
             br.Close();
             fs.Close();
-            OnLoaded(mat);
-            return mat;
+            OnDataCubedLoaded(DataCube);
         }
     }
 }

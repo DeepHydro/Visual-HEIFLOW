@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
@@ -90,7 +91,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 100)]
-        public MyVarient3DMat<float> STRT
+        public DataCube<float> STRT
         {
             get;
             set;
@@ -108,7 +109,7 @@ namespace Heiflow.Models.Subsurface
             base.New();
             return true;
         }
-        public override bool Load()
+        public override bool Load(ICancelProgressHandler progress)
         {
             if (File.Exists(FileName))
             {
@@ -120,17 +121,17 @@ namespace Heiflow.Models.Subsurface
 
                 var grid = (Owner.Grid as MFGrid);
 
-                grid.IBound = new MyVarient3DMat<float>(grid.ActualLayerCount, grid.RowCount,grid.ColumnCount);
+                grid.IBound = new DataCube<float>(grid.ActualLayerCount, grid.RowCount,grid.ColumnCount);
                 grid.ActiveCellCount = 0;
                 for (int l = 0; l < grid.ActualLayerCount; l++)
                 {
                     var array = ReadInternalMatrix<int>(sr);
-                    for (int r = 0; r < array.Size[0]; r++)
+                    for (int r = 0; r < array.Size[1]; r++)
                     {
-                        for (int c = 0; c < array.Size[1]; c++)
+                        for (int c = 0; c < array.Size[2]; c++)
                         {
-                            grid.IBound.Value[l][r][c] = array[r, c, MyMath.none];
-                            if (grid.IBound.Value[l][r][c] != 0)
+                            grid.IBound[l,r,c] = array[0,r, c];
+                            if (grid.IBound[l, r, c] != 0)
                                 grid.ActiveCellCount++;
                         }
                     }
@@ -149,7 +150,7 @@ namespace Heiflow.Models.Subsurface
                 //Data Set 3: # HNOFLO the value of head to be assigned to all inactive 
                 this.HNOFLO = TypeConverterEx.Split<float>(newline, 1)[0];
                 //Data Set 4: STRT—is initial (starting) head
-                this.STRT = new MyVarient3DMat<float>(grid.ActualLayerCount, 1)
+                this.STRT = new DataCube<float>(grid.ActualLayerCount, 1,grid.ActiveCellCount)
                 {
                     Name = "STRT",
                     TimeBrowsable = false,
@@ -162,17 +163,17 @@ namespace Heiflow.Models.Subsurface
                     ReadSerialArray(sr, this.STRT, l, 0);
                 }
                 sr.Close();
-                OnLoaded("successfully loaded");          
+                OnLoaded(progress);
                 return true;
             }
             else
             {
                 Message = string.Format("\r\n Failed to load {0}. The package file does not exist: {1}", Name, FileName);
-                OnLoadFailed(Message);
+                OnLoadFailed(Message,progress);
                 return false;
             }
         }
-        public override bool SaveAs(string filename,IProgress progress)
+        public override bool SaveAs(string filename,ICancelProgressHandler progress)
         {
             var grid = (Owner.Grid as IRegularGrid);
             StreamWriter sw = new StreamWriter(filename);
@@ -214,7 +215,7 @@ namespace Heiflow.Models.Subsurface
             this.FeatureLayer = this.Grid.FeatureLayer;
             this.Feature = this.Grid.FeatureSet;
             var grid = (sender as IRegularGrid);
-            this.STRT = new MyVarient3DMat<float>(grid.ActualLayerCount, 1)
+            this.STRT = new DataCube<float>(grid.ActualLayerCount, 1,grid.ActiveCellCount)
             {
                 Name = "STRT",
                 TimeBrowsable = false,
@@ -223,10 +224,10 @@ namespace Heiflow.Models.Subsurface
           
             for (int l = 0; l < grid.ActualLayerCount; l++)
             {
-                this.STRT.Value[l][0] = new float[grid.ActiveCellCount];
+             //   this.STRT.Value[l][0] = new float[grid.ActiveCellCount];
                 for (int i = 0; i < grid.ActiveCellCount; i++)
                 {
-                    this.STRT.Value[l][0][i] = grid.Elevations.Value[l + 1][0][i];
+                    this.STRT[l, 0, i] = grid.Elevations[l + 1, 0, i];
                 }
             }
             base.OnGridUpdated(sender);
@@ -252,7 +253,7 @@ namespace Heiflow.Models.Subsurface
             //    mfgrid.IBound = ILMath.zeros<int>(mfgrid.RowCount, mfgrid.ColumnCount, mfgrid.ActualLayerCount);
 
             if (mfgrid.IBound == null)
-                mfgrid.IBound = new MyVarient3DMat<float>(mfgrid.ActualLayerCount, mfgrid.RowCount, mfgrid.ColumnCount);
+                mfgrid.IBound = new DataCube<float>(mfgrid.ActualLayerCount, mfgrid.RowCount, mfgrid.ColumnCount);
 
             mfgrid.ActiveCellCount = 0;
             for (int l = 0; l < mfgrid.ActualLayerCount; l++)
@@ -268,7 +269,7 @@ namespace Heiflow.Models.Subsurface
             }
 
             if (this.STRT == null)
-                this.STRT = new MyVarient3DMat<float>(mfgrid.ActualLayerCount, 1);
+                this.STRT = new DataCube<float>(mfgrid.ActualLayerCount, 1, mfgrid.ActiveCellCount);
 
             for (int l = 0; l < mfgrid.ActualLayerCount; l++)
             {
@@ -288,7 +289,7 @@ namespace Heiflow.Models.Subsurface
             bas.Owner = newmf;
             MFGrid newgrid = newmf.Grid as MFGrid;
             MFGrid rawgrid = Owner.Grid as MFGrid;
-            bas.STRT = new MyVarient3DMat<float>(newgrid.ActualLayerCount, 1);
+            bas.STRT = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount);
             for (int l = 0; l < newgrid.ActualLayerCount; l++)
             {
                // bas.STRT[l, MyMath.full] = rawgrid.GetSubSerialArray(this.STRT, newgrid, l).Value;

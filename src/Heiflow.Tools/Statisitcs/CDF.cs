@@ -68,7 +68,7 @@ namespace Heiflow.Tools.Statisitcs
             var vec = GetVector(Matrix);
             if (vec != null)
             {
-                var dou_vec = MyMath.ToDouble(vec);
+                var dou_vec = MatrixOperation.ToDouble(vec);
                 string vec_name = "CDF of " + GetName(Matrix);
                 int nlen = dou_vec.Length;
                 cancelProgressHandler.Progress("Package_Tool", 10, "Calculating...");

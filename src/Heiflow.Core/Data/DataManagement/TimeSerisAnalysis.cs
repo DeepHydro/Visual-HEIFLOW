@@ -88,9 +88,6 @@ namespace Heiflow.Core.Data
                         }
                     }
                 }
-//                    Customer Number: G864910
-//License number : 8117376
-//Password : 814146992251470
 
                 else if (outseriesTimeUnit == TimeUnits.Month)
                 {

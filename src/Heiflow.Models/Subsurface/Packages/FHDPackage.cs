@@ -43,6 +43,7 @@ using Heiflow.Models.IO;
 using Heiflow.Core.Data.ODM;
 using Heiflow.Core;
 using System.Windows.Forms;
+using DotSpatial.Data;
 
 namespace Heiflow.Models.Subsurface
 {
@@ -65,8 +66,10 @@ namespace Heiflow.Models.Subsurface
             IsMandatory = true;
             Version = "FHD";
             _Layer3DToken = "RegularGrid";
+            Description = "Groundwater head output";
         }
-        public bool LoadDepth
+        [Category("File")]
+        public bool LoadAsDepth
         {
             get;
             set;
@@ -76,23 +79,29 @@ namespace Heiflow.Models.Subsurface
             this.Grid = Owner.Grid;
             this.TimeService = Owner.TimeService;
             this.TimeService.Updated += this.OnTimeServiceUpdated;
+            StartOfLoading = TimeService.Start;
+            EndOfLoading = TimeService.End;
+
+            NumTimeStep = TimeService.IOTimeline.Count;
             base.Initialize();
         }
-        public override bool Load()
+        public override bool Load(ICancelProgressHandler progress)
         {
+            _ProgressHandler = progress;
             if (File.Exists(FileName))
             {
                 try
                 {
                     FHDFile fhd = new FHDFile(FileName, Owner.Grid as IRegularGrid);
-                    fhd.SetDataSource(Values);
+                    fhd.DataCube = this.DataCube;
                     fhd.Variables = this.Variables;
-                    fhd.StepsToLoad = this.StepsToLoad;
-                    fhd.IsLoadDepth = LoadDepth;
+                    fhd.MaxTimeStep = this.MaxTimeStep;
+                    fhd.NumTimeStep = this.NumTimeStep;
+                    fhd.IsLoadDepth = LoadAsDepth;
                     fhd.Loading += fhd_Loading;
-                    fhd.Loaded += fhd_Loaded;
+                    fhd.DataCubeLoaded += fhd_DataCubeLoaded;
                     //TODO: require modifcation
-                    fhd.Load();
+                    fhd.LoadDataCube();
                     return true;
                 }
                 catch(Exception ex)
@@ -111,7 +120,7 @@ namespace Heiflow.Models.Subsurface
         {
             var grid = Owner.Grid as MFGrid;
             var vv = new string[grid.ActualLayerCount + 1];
-            if (this.LoadDepth)
+            if (this.LoadAsDepth)
             {
                 vv[0] = "Depth to Groudwater";
             }
@@ -119,7 +128,7 @@ namespace Heiflow.Models.Subsurface
                 vv[0] = "Groudwater Table";
             for (int ll = 0; ll < grid.ActualLayerCount; ll++)
             {
-                if (this.LoadDepth)
+                if (this.LoadAsDepth)
                     vv[ll + 1] = string.Format("Layer {0} Depth", ll + 1);
                 else
                     vv[ll + 1] = string.Format("Layer {0} Head", ll + 1);
@@ -131,53 +140,49 @@ namespace Heiflow.Models.Subsurface
 
             _StartLoading = TimeService.Start;
             MaxTimeStep = NumTimeStep;
-            Start = TimeService.Start;
-            End = EndOfLoading;
             return true;
         }
 
-        public override bool Load(int var_index)
+        public override bool Load(int var_index, ICancelProgressHandler progress)
         {
+            _ProgressHandler = progress;
+            string filename = this.FileName;
+            if (UseSpecifiedFile)
+                filename = SpecifiedFileName;
 
-            if (File.Exists(FileName))
+            if (File.Exists(filename))
             {
                 try
                 {
                     var grid = Owner.Grid as MFGrid;
-                    if (Values == null)
+                    if (DataCube == null || DataCube.Size[1] != StepsToLoad)
                     {
-                        Values = new MyLazy3DMat<float>(Variables.Length, StepsToLoad, grid.ActiveCellCount)
+                        DataCube = new DataCube<float>(Variables.Length, StepsToLoad, grid.ActiveCellCount, true)
                         {
                             Name = "FHD",
                             TimeBrowsable = true,
                             AllowTableEdit = false
                         };
+                        DataCube.Variables = this.Variables;
                     }
-                    else
-                    {
-                        if (Values.Size[1] != StepsToLoad)
-                            Values = new MyLazy3DMat<float>(Variables.Length, StepsToLoad, grid.ActiveCellCount)
-                            {
-                                Name = "FHD",
-                                TimeBrowsable = true,
-                                AllowTableEdit = false
-                            };
-                    }
-
-                    FHDFile fhd = new FHDFile(FileName, grid);
-                    fhd.SetDataSource(Values);
+                    DataCube.Topology = (this.Grid as RegularGrid).Topology;
+                    DataCube.DateTimes = this.TimeService.IOTimeline.Take(StepsToLoad).ToArray();
+                    FHDFile fhd = new FHDFile(filename, grid);
                     fhd.Variables = this.Variables;
-                    fhd.StepsToLoad = this.StepsToLoad;
-                    fhd.IsLoadDepth = LoadDepth;
+                    fhd.MaxTimeStep = this.StepsToLoad;
+                    fhd.NumTimeStep = this.NumTimeStep;
+                    fhd.DataCube = this.DataCube;
+                    fhd.IsLoadDepth = LoadAsDepth;
                     fhd.Loading += fhd_Loading;
-                    fhd.Loaded += fhd_Loaded;
-                    fhd.Load(var_index);
+                    fhd.DataCubeLoaded += fhd_DataCubeLoaded;
+                    fhd.LoadFailed += fhd_LoadFailed;
+                    fhd.LoadDataCube(var_index);
                     return true;
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
-                    OnLoadFailed(ex.Message);
+                    OnLoadFailed(ex.Message,progress);
                     return false;
                 }
             }
@@ -225,7 +230,7 @@ namespace Heiflow.Models.Subsurface
                     float av = 0;
                     for (int i = 0; i < intevals[t]; i++)
                     {
-                        av += Values[0, count, index];
+                        av += DataCube[0, count, index];
                         count++;
                     }
                     av /= intevals[t];
@@ -236,23 +241,22 @@ namespace Heiflow.Models.Subsurface
                 {
                     Name = Variables[0]
                 };
-                well.TimeSeries = new DoubleTimeSeries(values, dates);
+                well.TimeSeries = new DataCube<double>(values, dates);
                 well.TimeSeries.Name = well.Name;
             }
         }
 
-        public MyLazy3DMat<float> ExtractTo(IEnumerable<IObservationsSite> wells, int selectedLayerIndex)
+        public DataCube<float> ExtractTo(IEnumerable<IObservationsSite> wells, int selectedLayerIndex)
         {
             int nwell = wells.Count();
             var mfgrid = Owner.Grid as MFGrid;
-            int step = Values.Size[1];
-            MyLazy3DMat<float> mat = new MyLazy3DMat<float>(1, step, wells.Count())
+            int step = DataCube.Size[1];
+            DataCube<float> mat = new DataCube<float>(1, step, wells.Count())
             {
                 Name = "HOB_Output",
                 TimeBrowsable = true,
                 AllowTableEdit = false
             };
-            mat.Allocate(0);
             mat.DateTimes = new DateTime[step];
 
             for (int n = 0; n < nwell; n++)
@@ -263,7 +267,7 @@ namespace Heiflow.Models.Subsurface
                 site.SpatialIndex = index;
                 for (int t = 0; t < step; t++)
                 {
-                    mat.Value[0][t][n] = Values[selectedLayerIndex, t, index]; ;
+                    mat[0,t,n] = DataCube[selectedLayerIndex, t, index]; ;
                 }
             }
             for (int i = 0; i < step; i++)
@@ -276,19 +280,14 @@ namespace Heiflow.Models.Subsurface
         {
             OnLoading(e);
         }
-        private void fhd_Loaded(object sender, MyLazy3DMat<float> e)
-        {
-            Values = e;
-            Values.Topology = (this.Grid as RegularGrid).Topology;
-            Values.TimeBrowsable = true;
-            Values.DateTimes = new DateTime[Values.Size[1]];
-            for (int i = 0; i < Values.Size[1]; i++)
-            {
-                Values.DateTimes[i] = TimeService.IOTimeline[i];
-            }
 
-            Values.Variables = this.Variables;
-            OnLoaded(e);
+        private void fhd_DataCubeLoaded(object sender, DataCube<float> e)
+        {        
+            OnLoaded(_ProgressHandler);
+        }
+        private void fhd_LoadFailed(object sender, string e)
+        {
+            OnLoadFailed(e, _ProgressHandler);
         }
     }
 }

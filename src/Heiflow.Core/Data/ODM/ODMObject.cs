@@ -74,9 +74,9 @@ namespace Heiflow.Core.Data.ODM
 
         public string SiteType { get; set; }
 
-        public ITimeSeries<double> TimeSeries { get; set; }
+        public DataCube<double> TimeSeries { get; set; }
 
-        public List<IVectorTimeSeries<double>> TimeSeriesCollection { get; set; }
+        public List<DataCube<double>> TimeSeriesCollection { get; set; }
 
     }
 
@@ -97,146 +97,146 @@ namespace Heiflow.Core.Data.ODM
         public string GeneralCategory { get; set; }
 
     }
-    [ServiceContract]
-    public class DoubleTimeSeries : Heiflow.Core.Data.IVectorTimeSeries<double>
-    {
-        public DoubleTimeSeries()
-        {
-            Name = "Time Series";
-        }
-        public DoubleTimeSeries(double [] vv, DateTime [] dates)
-        {
-            Value = vv;
-            DateTimes = dates;
-            Name = "Time Series";
-        }
+    //[ServiceContract]
+    //public class DoubleTimeSeries : Heiflow.Core.Data.IVectorTimeSeries<double>
+    //{
+    //    public DoubleTimeSeries()
+    //    {
+    //        Name = "Time Series";
+    //    }
+    //    public DoubleTimeSeries(double [] vv, DateTime [] dates)
+    //    {
+    //        Value = vv;
+    //        DateTimes = dates;
+    //        Name = "Time Series";
+    //    }
 
-        [DataMember]
-        public double[] Value { get; set; }
-        [DataMember]
-        public DateTime[] DateTimes { get; set; }
-        public TimeSeriesPair<double>[] ToPairs()
-        {
-            var pairs = new TimeSeriesPair<double>[Value.Length];
-            for (int i = 0; i < Value.Length; i++)
-            {
-                pairs[i] = new TimeSeriesPair<double>(DateTimes[i], Value[i]);
-            }
-            return pairs;
-        }
+    //    [DataMember]
+    //    public double[] Value { get; set; }
+    //    [DataMember]
+    //    public DateTime[] DateTimes { get; set; }
+    //    public TimeSeriesPair<double>[] ToPairs()
+    //    {
+    //        var pairs = new TimeSeriesPair<double>[Value.Length];
+    //        for (int i = 0; i < Value.Length; i++)
+    //        {
+    //            pairs[i] = new TimeSeriesPair<double>(DateTimes[i], Value[i]);
+    //        }
+    //        return pairs;
+    //    }
 
-        public void From(IEnumerable<TimeSeriesPair<double>> source)
-        {
-            DateTimes = (from ss in source select ss.DateTime).ToArray();
-            Value = (from ss in source select ss.Value).ToArray();
-        }
+    //    public void From(IEnumerable<TimeSeriesPair<double>> source)
+    //    {
+    //        DateTimes = (from ss in source select ss.DateTime).ToArray();
+    //        Value = (from ss in source select ss.Value).ToArray();
+    //    }
 
-        public string[] Variables
-        {
-            get;
-            set;
-        }
-        public string Name
-        {
-            get;
-            set;
-        }
+    //    public string[] Variables
+    //    {
+    //        get;
+    //        set;
+    //    }
+    //    public string Name
+    //    {
+    //        get;
+    //        set;
+    //    }
 
-        public double[] GetSeriesAt(int var_index, int spatial_index)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public DataTable ToDataTable(string var_name)
-        {
-            DataTable dt = new DataTable();
-            DataColumn dc = new DataColumn("DateTime", typeof(DateTime));
-            dt.Columns.Add(dc);
-            dc = new DataColumn(var_name, typeof(double));
-            dt.Columns.Add(dc);
-            for (int i = 0; i < DateTimes.Length; i++)
-            {
-                var dr = dt.NewRow();
-                dr[0] = DateTimes[i];
-                dr[1] = Value[i];
-                dt.Rows.Add(dr);
-            }
-            return dt;
-        }
-    }
-    [ServiceContract]
-    public class FloatTimeSeries : Heiflow.Core.Data.IVectorTimeSeries<float>
-    {
-        public FloatTimeSeries()
-        {
-            Name = "Time Series";
-        }
-        public FloatTimeSeries(float[] vv, DateTime[] dates)
-        {
-            Value = vv;
-            DateTimes = dates;
-            Name = "Time Series";
-        }
-
-        public string Name
-        {
-            get;
-            set;
-        }
-
-        public string[] Variables
-        {
-            get;
-            set;
-        }
-
-        [DataMember]
-        public float[] Value { get; set; }
-        [DataMember]
-        public DateTime[] DateTimes { get; set; }
-        public TimeSeriesPair<float>[] ToPairs()
-        {
-            var pairs = new TimeSeriesPair<float>[Value.Length];
-            for (int i = 0; i < Value.Length; i++)
-            {
-                pairs[i] = new TimeSeriesPair<float>(DateTimes[i], Value[i]);
-            }
-            return pairs;
-        }
-
-        public void From(IEnumerable<TimeSeriesPair<float>> source)
-        {
-            DateTimes = (from ss in source select ss.DateTime).ToArray();
-            Value = (from ss in source select ss.Value).ToArray();
-        }
-
-        public float[] GetSeriesAt(int var_index, int spatial_index)
-        {
-            throw new NotImplementedException();
-        }
+    //    public double[] GetSeriesAt(int var_index, int spatial_index)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
 
 
-        public DataTable ToDataTable(string var_name)
-        {
-            DataTable dt = new DataTable();
-            DataColumn dc = new DataColumn("Date", typeof(DateTime));
-            dt.Columns.Add(dc);
-            DataColumn dc_value = new DataColumn(var_name, typeof(double));
-            dt.Columns.Add(dc_value);
-            if (Value != null)
-            {
-                for (int i = 0; i < Value.Length; i++)
-                {
-                    DataRow dr = dt.NewRow();
-                    dr[0] = DateTimes[i];
-                    dr[1] = Value[i];
-                    dt.Rows.Add(dr);
-                }
-            }
-            return dt;
-        }
-    }
+    //    public DataTable ToDataTable(string var_name)
+    //    {
+    //        DataTable dt = new DataTable();
+    //        DataColumn dc = new DataColumn("DateTime", typeof(DateTime));
+    //        dt.Columns.Add(dc);
+    //        dc = new DataColumn(var_name, typeof(double));
+    //        dt.Columns.Add(dc);
+    //        for (int i = 0; i < DateTimes.Length; i++)
+    //        {
+    //            var dr = dt.NewRow();
+    //            dr[0] = DateTimes[i];
+    //            dr[1] = Value[i];
+    //            dt.Rows.Add(dr);
+    //        }
+    //        return dt;
+    //    }
+    //}
+    //[ServiceContract]
+    //public class FloatTimeSeries : Heiflow.Core.Data.IVectorTimeSeries<float>
+    //{
+    //    public FloatTimeSeries()
+    //    {
+    //        Name = "Time Series";
+    //    }
+    //    public FloatTimeSeries(float[] vv, DateTime[] dates)
+    //    {
+    //        Value = vv;
+    //        DateTimes = dates;
+    //        Name = "Time Series";
+    //    }
+
+    //    public string Name
+    //    {
+    //        get;
+    //        set;
+    //    }
+
+    //    public string[] Variables
+    //    {
+    //        get;
+    //        set;
+    //    }
+
+    //    [DataMember]
+    //    public float[] Value { get; set; }
+    //    [DataMember]
+    //    public DateTime[] DateTimes { get; set; }
+    //    public TimeSeriesPair<float>[] ToPairs()
+    //    {
+    //        var pairs = new TimeSeriesPair<float>[Value.Length];
+    //        for (int i = 0; i < Value.Length; i++)
+    //        {
+    //            pairs[i] = new TimeSeriesPair<float>(DateTimes[i], Value[i]);
+    //        }
+    //        return pairs;
+    //    }
+
+    //    public void From(IEnumerable<TimeSeriesPair<float>> source)
+    //    {
+    //        DateTimes = (from ss in source select ss.DateTime).ToArray();
+    //        Value = (from ss in source select ss.Value).ToArray();
+    //    }
+
+    //    public float[] GetSeriesAt(int var_index, int spatial_index)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+
+
+    //    public DataTable ToDataTable(string var_name)
+    //    {
+    //        DataTable dt = new DataTable();
+    //        DataColumn dc = new DataColumn("Date", typeof(DateTime));
+    //        dt.Columns.Add(dc);
+    //        DataColumn dc_value = new DataColumn(var_name, typeof(double));
+    //        dt.Columns.Add(dc_value);
+    //        if (Value != null)
+    //        {
+    //            for (int i = 0; i < Value.Length; i++)
+    //            {
+    //                DataRow dr = dt.NewRow();
+    //                dr[0] = DateTimes[i];
+    //                dr[1] = Value[i];
+    //                dt.Rows.Add(dr);
+    //            }
+    //        }
+    //        return dt;
+    //    }
+    //}
 
     [ServiceContract]
     public class QueryCriteria

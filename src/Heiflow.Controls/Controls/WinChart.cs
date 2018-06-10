@@ -55,7 +55,7 @@ namespace Heiflow.Controls.WinForm.Controls
         private MessageService _MessageService = new MessageService();
         private string _selectedMenuItem = "";
         private IShellService _ShellService;
-        private bool _ShowStatPanel = true;
+        private bool _ShowStatPanel = false;
 
         public WinChart()
         {
@@ -399,7 +399,7 @@ namespace Heiflow.Controls.WinForm.Controls
             }
         }
 
-        public void Plot<T>(ITimeSeries<T> source, SeriesChartType chartType)
+        public void Plot<T>(DataCube<T> source, SeriesChartType chartType)
         {
             if (source == null)
                 return;
@@ -412,56 +412,16 @@ namespace Heiflow.Controls.WinForm.Controls
 
                 chart1.ChartAreas[0].AxisX.LabelStyle.IntervalType = DateTimeIntervalType.Auto;
 
-                if (source is My3DMat<T>)
+                var mat = source as DataCube<T>;
+                int nvar = mat.Size[0];
+                int nsite = mat.Size[2];
+                for (int i = 0; i < nvar; i++)
                 {
-                    var mat = source as My3DMat<T>;
-                    int nvar = mat.Size[0];
-                    int nsite = mat.Size[2];
-                    for (int i = 0; i < nvar; i++)
-                    {
-                        for (int n = 0; n < nsite; n++)
-                        {
-                            var vec = mat.GetSeriesAt(i, n);
-                            bool existed = false;
-                            var series1 = GetLegalSeries(mat.Variables[i] + (n + 1), ref existed);
-                            series1.ChartType = chartType;
-                            AddDateSeries<T>(series1, existed, mat.DateTimes, vec);
-                            var max = double.Parse(vec.Max().ToString());
-                            var min = double.Parse(vec.Min().ToString());
-                            _MaxList.Add(max);
-                            _MinList.Add(min);
-                            series1.Tag = new StatisticsInfo() { Max = max, Min = min };
-                        }
-                    }
-                }
-                SetScale();
-                btnZoomFull_Click(null, null);
-            }
-        }
-
-        public void Plot<T>(ITimeSeries<T> source, int var_index, SeriesChartType chartType)
-        {
-            if (source == null)
-                return;
-            if (!this.IsDisposed)
-            {
-                if (btnClearExist.Checked)
-                {
-                    Clear();
-                }
-
-                chart1.ChartAreas[0].AxisX.LabelStyle.IntervalType = DateTimeIntervalType.Auto;
-
-                if (source is My3DMat<T>)
-                {
-                    var mat = source as My3DMat<T>;
-                    int nsite = mat.Size[2];
-
                     for (int n = 0; n < nsite; n++)
                     {
-                        var vec = mat.GetSeriesAt(var_index, n);
+                        var vec = mat[i, ":", n.ToString()];
                         bool existed = false;
-                        var series1 = GetLegalSeries(mat.Variables[var_index] + (n + 1), ref existed);
+                        var series1 = GetLegalSeries(mat.Variables[i] + (n + 1), ref existed);
                         series1.ChartType = chartType;
                         AddDateSeries<T>(series1, existed, mat.DateTimes, vec);
                         var max = double.Parse(vec.Max().ToString());
@@ -470,10 +430,43 @@ namespace Heiflow.Controls.WinForm.Controls
                         _MinList.Add(min);
                         series1.Tag = new StatisticsInfo() { Max = max, Min = min };
                     }
-
-                    SetScale();
-                    btnZoomFull_Click(null, null);
                 }
+
+                SetScale();
+                btnZoomFull_Click(null, null);
+            }
+        }
+
+        public void Plot<T>(DataCube<T> source, int var_index, SeriesChartType chartType)
+        {
+            if (source == null)
+                return;
+            if (!this.IsDisposed)
+            {
+                if (btnClearExist.Checked)
+                {
+                    Clear();
+                }
+
+                chart1.ChartAreas[0].AxisX.LabelStyle.IntervalType = DateTimeIntervalType.Auto;
+                int nsite = source.Size[2];
+                for (int n = 0; n < nsite; n++)
+                {
+                    var vec = source[var_index, ":", n.ToString()];
+                    bool existed = false;
+                    var series1 = GetLegalSeries(source.Variables[var_index] + (n + 1), ref existed);
+                    series1.ChartType = chartType;
+                    AddDateSeries<T>(series1, existed, source.DateTimes, vec);
+                    var max = double.Parse(vec.Max().ToString());
+                    var min = double.Parse(vec.Min().ToString());
+                    _MaxList.Add(max);
+                    _MinList.Add(min);
+                    series1.Tag = new StatisticsInfo() { Max = max, Min = min };
+                }
+
+                SetScale();
+                btnZoomFull_Click(null, null);
+
             }
         }
 

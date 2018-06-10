@@ -43,7 +43,7 @@ namespace Heiflow.Core.Animation
          public event EventHandler<int> CurrentChanged;
          public event EventHandler DataSourceChanged;
          public event EventHandler RequiredUpdated;
-         protected MyArray<float> _DataSource;
+         protected DataCube<float> _DataSource;
          protected int _AnimatedDimension1;
          protected int _AnimatedDimension2;
 
@@ -55,7 +55,7 @@ namespace Heiflow.Core.Animation
              _Current = 0;
          }
 
-        public MyArray<float> DataSource
+         public DataCube<float> DataSource
         {
             get
             {

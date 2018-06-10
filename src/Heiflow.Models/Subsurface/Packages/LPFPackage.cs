@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
@@ -130,7 +131,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [ArealProperty(typeof(float), 10f)]
         [Browsable(false)]
-        public MyVarient3DMat<float> HK { get; set; }
+        public DataCube<float> HK { get; set; }
 
         /// <summary>
         /// 3DMat[ActualLayerCount,1,ActiveCellCount]: the ratio of hydraulic conductivity along columns to hydraulic conductivity along rows
@@ -138,7 +139,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 1f)]
-        public MyVarient3DMat<float> HANI { get; set; }
+        public DataCube<float> HANI { get; set; }
 
         /// <summary>
         /// 3DMat[ActualLayerCount,1,ActiveCellCount]:
@@ -146,7 +147,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 0.001f)]
-        public MyVarient3DMat<float> VKA { get; set; }
+        public DataCube<float> VKA { get; set; }
 
         /// <summary>
         /// 3DMat[ActualLayerCount,1,ActiveCellCount]:
@@ -154,7 +155,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 0.0001f)]
-        public MyVarient3DMat<float> SS { get; set; }
+        public DataCube<float> SS { get; set; }
 
         /// <summary>
         /// 3DMat[ActualLayerCount,1,ActiveCellCount]:
@@ -162,7 +163,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 0.1f)]
-        public MyVarient3DMat<float> SY { get; set; }
+        public DataCube<float> SY { get; set; }
 
         /// <summary>
         /// 3DMat[ActualLayerCount,1,ActiveCellCount]:
@@ -170,7 +171,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 0.1f)]
-        public MyVarient3DMat<float> WETDRY { get; set; }
+        public DataCube<float> WETDRY { get; set; }
         #endregion
 
         public override void Initialize()
@@ -203,7 +204,7 @@ namespace Heiflow.Models.Subsurface
             base.New();
             return true;
         }
-        public override bool Load()
+        public override bool Load(ICancelProgressHandler progresshandler)
         {
             if (File.Exists(FileName))
             {
@@ -260,38 +261,38 @@ namespace Heiflow.Models.Subsurface
                 mf.LayerGroupManager.ConvertFrom(LAYWET, "LAYWET");
                 mf.LayerGroupManager.LayerGroups.CollectionChanged += this.LayerGroups_CollectionChanged;
 
-                HK = new MyVarient3DMat<float>(nlayer, 1)
+                HK = new DataCube<float>(nlayer, 1,grid.ActiveCellCount)
                 {
                     AllowTableEdit = true,
                     TimeBrowsable = false,
                     Name = "HK"
                 };
-              
-                HANI = new MyVarient3DMat<float>(nlayer, 1)
+
+                HANI = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
                 {
                     AllowTableEdit = true,
                     TimeBrowsable = false,
                     Name = "HANI"
                 };
-                VKA = new MyVarient3DMat<float>(nlayer, 1)
+                VKA = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
                 {
                     AllowTableEdit = true,
                     TimeBrowsable = false,
                     Name = "VKA"
                 };
-                SS = new MyVarient3DMat<float>(nlayer, 1)
+                SS = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
                 {
                     AllowTableEdit = true,
                     TimeBrowsable = false,
                     Name = "SS"
                 };
-                SY = new MyVarient3DMat<float>(nlayer, 1)
+                SY = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
                 {
                     AllowTableEdit = true,
                     TimeBrowsable = false,
                     Name = "SY"
                 };
-                WETDRY = new MyVarient3DMat<float>(nlayer, 1)
+                WETDRY = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
                 {
                     AllowTableEdit = true,
                     TimeBrowsable = false,
@@ -316,18 +317,12 @@ namespace Heiflow.Models.Subsurface
                     {
                         ReadSerialArray(sr, SY, l, 0);
                     }
-                    else
-                    {
-                        SY.AllocateSpaceDim(l, 0, ncell);
-                    }
+
                     if (LAYTYP[l] != 0 && LAYWET[l] != 0)
                     {
                         ReadSerialArray(sr, WETDRY, l, 0);
                     }
-                    else
-                    {
-                        WETDRY.AllocateSpaceDim(l, 0, ncell);
-                    }
+
                     HK.Variables[l] = "HK Layer" + (l + 1);
                     HANI.Variables[l] = "HANI Layer" + (l + 1);
                     VKA.Variables[l] = "VKA Layer" + (l + 1);
@@ -336,12 +331,12 @@ namespace Heiflow.Models.Subsurface
                     WETDRY.Variables[l] = "WETDRY Layer" + (l + 1);
                 }
                 sr.Close();    
-                OnLoaded("Sucessfully loaded");
+                OnLoaded(progresshandler);
                 return true;
             }
             else
             {
-                OnLoaded("Failed to load");
+                OnLoadFailed("Failed to load " + this.Name, progresshandler);
                 return false;
             }
         }
@@ -350,7 +345,7 @@ namespace Heiflow.Models.Subsurface
             this.Feature = Owner.Grid.FeatureSet;
             this.FeatureLayer = Owner.Grid.FeatureLayer;
         }
-        public override bool SaveAs(string filename, IProgress prg)
+        public override bool SaveAs(string filename, ICancelProgressHandler prg)
         {
             var grid = (Owner.Grid as IRegularGrid);
             StreamWriter sw = new StreamWriter(filename);
@@ -461,37 +456,37 @@ namespace Heiflow.Models.Subsurface
             //this.LAYWET = mf.LayerGroupManager.ConvertToInt("LAYWET");
             //mf.LayerGroupManager.LayerGroups.CollectionChanged += this.LayerGroups_CollectionChanged;
 
-            HK = new MyVarient3DMat<float>(grid.ActualLayerCount, 1)
+            HK = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
             {
                 Name="HK",
                 AllowTableEdit = true,
                 TimeBrowsable = false
             };
-            HANI = new MyVarient3DMat<float>(grid.ActualLayerCount, 1)
+            HANI = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
             {
                 Name = "HANI",
                 AllowTableEdit = true,
                 TimeBrowsable = false
             };
-            VKA = new MyVarient3DMat<float>(grid.ActualLayerCount, 1)
+            VKA = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
             {
                 Name = "VKA",
                 AllowTableEdit = true,
                 TimeBrowsable = false
             };
-            SS = new MyVarient3DMat<float>(grid.ActualLayerCount, 1)
+            SS = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
             {
                 Name = "SS",
                 AllowTableEdit = true,
                 TimeBrowsable = false
             };
-            SY = new MyVarient3DMat<float>(grid.ActualLayerCount, 1)
+            SY = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
             {
                 Name = "SY",
                 AllowTableEdit = true,
                 TimeBrowsable = false
             };
-            WETDRY = new MyVarient3DMat<float>(grid.ActualLayerCount, 1)
+            WETDRY = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
             {
                 Name = "WETDRY",
                 AllowTableEdit = true,
@@ -513,29 +508,25 @@ namespace Heiflow.Models.Subsurface
 
             for (int l = 0; l < grid.ActualLayerCount; l++)
             {
-                HK.Value[l][0] = new float[ncell];
-                HANI.Value[l][0] = new float[ncell];
-                VKA.Value[l][0] = new float[ncell];
-                SS.Value[l][0] = new float[ncell];
-                if (LAYTYP[l] != 0)
-                {
-                    SY.Value[l][0] = new float[ncell];
-                    if(LAYWET[l] != 0)
-                        WETDRY.Value[l][0] = new float[ncell];
-                }
+                //if (LAYTYP[l] != 0)
+                //{
+                //    SY.Value[l][0] = new float[ncell];
+                //    if(LAYWET[l] != 0)
+                //        WETDRY.Value[l][0] = new float[ncell];
+                //}
                 for (int i = 0; i < ncell; i++)
                 {
-                    HK.Value[l][0][i] = hk[l];
-                    HANI.Value[l][0][i] = 1;
-                    VKA.Value[l][0][i] = vka[l];
-                    SS.Value[l][0][i] = ss[l];
+                    HK[l,0,i] = hk[l];
+                    HANI[l, 0, i] = 1;
+                    VKA[l, 0, i] = vka[l];
+                    SS[l,0,i] = ss[l];
                     if (LAYTYP[l] != 0)
                     {
-                        SY.Value[l][0][i] = sy[l];
+                        SY[l, 0, i] = sy[l];
                     }
                     if (LAYTYP[l] != 0 && LAYWET[l] != 0)
                     {
-                        WETDRY.Value[l][0][i] = wetdry[l];
+                        WETDRY[l, 0, i] = wetdry[l];
                     }
                 }
                 HK.Variables[l] = "HK Layer" + (l + 1);
@@ -592,12 +583,12 @@ namespace Heiflow.Models.Subsurface
             MFGrid newgrid = newmf.Grid as MFGrid;
             MFGrid rawgrid = Owner.Grid as MFGrid;
 
-            lpf.HK = new MyVarient3DMat<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount);
-            lpf.HANI = new MyVarient3DMat<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount);
-            lpf.VKA = new MyVarient3DMat<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount);
-            lpf.SS = new MyVarient3DMat<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount);
-            lpf.SY = new MyVarient3DMat<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount);
-            lpf.WETDRY = new MyVarient3DMat<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount);
+            lpf.HK = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount);
+            lpf.HANI = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount);
+            lpf.VKA = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount);
+            lpf.SS = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount);
+            lpf.SY = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount);
+            lpf.WETDRY = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount);
             for (int l = 0; l < newgrid.ActualLayerCount; l++)
             {
                 //lpf.HK[l, 0] = rawgrid.GetSubSerialArray<float>(this.HK, newgrid, l).Value;
@@ -642,20 +633,20 @@ namespace Heiflow.Models.Subsurface
                 case "HK":
                     for (int i = 0; i < ncell; i++)
                     {
-                        HK.Value[layer][0][i] = (float)e.HK;
-                        HANI.Value[layer][0][i] = 1;
+                        HK[layer, 0, i] = (float)e.HK;
+                        HANI[layer, 0, i] = 1;
                     }
                     break;
                 case "VKA":
                     for (int i = 0; i < ncell; i++)
                     {
-                        VKA.Value[layer][0][i] = (float)e.VKA;
+                        VKA[layer, 0, i] = (float)e.VKA;
                     }
                     break;
                 case "SS":
                     for (int i = 0; i < ncell; i++)
                     {
-                        SS.Value[layer][0][i] = (float)e.SS;
+                        SS[layer, 0, i] = (float)e.SS;
                     }
                     break;
                 case "SY":
@@ -663,7 +654,7 @@ namespace Heiflow.Models.Subsurface
                     {
                         for (int i = 0; i < ncell; i++)
                         {
-                            SY.Value[layer][0][i] = (float)e.SY;
+                            SY[layer, 0, i] = (float)e.SY;
                         }
                     }
                     break;
@@ -672,7 +663,7 @@ namespace Heiflow.Models.Subsurface
                     {
                         for (int i = 0; i < ncell; i++)
                         {
-                            WETDRY.Value[layer][0][i] = (float)e.WETDRY;
+                            WETDRY[layer, 0, i] = (float)e.WETDRY;
                         }
                     }
                     break;

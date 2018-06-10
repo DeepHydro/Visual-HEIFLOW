@@ -30,14 +30,9 @@
 using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
-using Heiflow.Models.Generic.Packages;
-using Heiflow.Models.Generic.Project;
 using Heiflow.Models.Properties;
-using Heiflow.Models.Subsurface.Packages;
-using Heiflow.Models.UI;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
@@ -76,10 +71,13 @@ namespace Heiflow.Models.Subsurface
 
             TimeUnit = 4;
             LengthUnit = 2;
+            Description = "the U.S. Geological Survey modular finite-difference flow model, which is a computer code that solves the groundwater flow equation.";
         }
+        [Category("Units")]
         public int TimeUnit { get; set; }
+        [Category("Units")]
         public int LengthUnit { get; set; }
-
+        [Browsable(false)]
         public MFNameManager NameManager
         {
             get
@@ -87,7 +85,7 @@ namespace Heiflow.Models.Subsurface
                 return _MFNameManager;
             }
         }
-
+        [Browsable(false)]
         public LayerGroupManager LayerGroupManager
         {
             get
@@ -100,7 +98,7 @@ namespace Heiflow.Models.Subsurface
         {
             TimeServiceList.Add(this.TimeService.Name, this.TimeService);
         }
-        public override bool New(IProgress progress)
+        public override bool New(ICancelProgressHandler progress)
         {
             bool succ = true;
             MFOutputPackage mfout = new MFOutputPackage()
@@ -129,7 +127,7 @@ namespace Heiflow.Models.Subsurface
                     AddInSilence(pck);
                 }
             }
-            foreach(var pck in Packages.Values)
+            foreach (var pck in Packages.Values)
             {
                 if (pck is IMFPackage)
                 {
@@ -139,33 +137,33 @@ namespace Heiflow.Models.Subsurface
             mfout.Initialize();
             return succ;
         }
-        public override bool Load(IProgress progress)
+        public override bool Load(ICancelProgressHandler progress)
         {
             string masterfile = ControlFileName;
             var succ = true;
             if (File.Exists(masterfile))
             {
                 Subscribe(masterfile, ModelService.WorkDirectory);
-               succ = LoadGrid(progress);
-               if (succ)
-               {
-                   LoadPackages(progress);
-               }
+                succ = LoadGrid(progress);
+                if (succ)
+                {
+                    LoadPackages(progress);
+                }
                 else
-               {
-                   progress.Progress("\tFailed to load model grid." );
-               }
-               return succ;
+                {
+                    progress.Progress("Modflow", 100, "\tFailed to load model grid.");
+                }
+                return succ;
             }
             else
             {
-                progress.Progress( "\tThe modflow name file dose not exist: " + ControlFileName);
+                progress.Progress("Modflow", 100, "\tThe modflow name file dose not exist: " + ControlFileName);
                 return false;
             }
         }
         public override void Clear()
         {
-            foreach(var pck in Packages.Values)
+            foreach (var pck in Packages.Values)
             {
                 pck.Clear();
             }
@@ -177,13 +175,13 @@ namespace Heiflow.Models.Subsurface
         {
             return true;
         }
-        public override void Save(IProgress progress)
+        public override void Save(ICancelProgressHandler progress)
         {
             string msg = "";
             if (_MFNameManager.IsDirty)
             {
                 _MFNameManager.Save(ControlFileName);
-                progress.Progress("\tNam file saved");
+                progress.Progress("Modflow", 1, "\tNam file saved");
             }
             foreach (var pck in Packages.Values)
             {
@@ -191,65 +189,34 @@ namespace Heiflow.Models.Subsurface
                 {
                     if (pck.IsDirty && pck.State == ModelObjectState.Ready)
                     {
-                        var succ = pck.Save(progress);
-                        if (!succ)
-                        {
-                            msg = string.Format("\tFailed to save {0}. Error message: {1}",pck.Name,pck.Message);
-                            progress.Progress(msg);
-                        }
+                        pck.Save(progress);
                     }
                     else
                     {
                         if (!pck.IsDirty)
                         {
                             msg = string.Format("\t{0} unchanged.", pck.Name);
-                            progress.Progress(msg);
+                            progress.Progress("Modflow", 1, msg);
                         }
                         if (pck.State != ModelObjectState.Ready)
                         {
                             msg = string.Format("\ttSkipped to save {0}, it is not ready", pck.Name);
-                            progress.Progress(msg);
+                            progress.Progress("Modflow", 1, msg);
                         }
                     }
                 }
             }
         }
-        public override bool LoadGrid(IProgress progress)
+        public override bool LoadGrid(ICancelProgressHandler progress)
         {
             var dis = (Packages["DIS"] as DISPackage);
             var bas = (Packages["BAS6"] as BASPackage);
             var oc = (Packages[OCPackage.PackageName] as OCPackage);
             var succ = true;
             dis.GetGridInfo(_MFGrid);
-        
-            if (!bas.Load())
-            {
-                progress.Progress("\tFailed to load BAS6 package. " + ". Error message: " + bas.Message);
-                succ = false;
-            }
-            else
-            {
-                progress.Progress("\tBAS6 loaded");
-            }
-            if (!dis.Load())
-            {
-                progress.Progress("\tFailed to load DIS package. " + ". Error message: " + dis.Message);
-                succ = false;
-            }
-            else
-            {
-                progress.Progress("\tDIS loaded");
-            }
-            
-            if (!oc.Load())
-            {
-                progress.Progress("\tFailed to load OC package. " + ". Error message: " + oc.Message);
-                succ = false;
-            }
-            else
-            {
-                progress.Progress("\tOC loaded");
-            }
+            succ = bas.Load(progress);
+            succ = dis.Load(progress);
+            succ = oc.Load(progress);
             if (succ)
             {
                 _MFGrid.Topology = new RegularGridTopology();
@@ -259,7 +226,7 @@ namespace Heiflow.Models.Subsurface
             }
             return succ;
         }
-        public override void Attach(DotSpatial.Controls.IMap map,  string directory)
+        public override void Attach(DotSpatial.Controls.IMap map, string directory)
         {
             foreach (var pck in Packages.Values)
             {
@@ -386,7 +353,7 @@ namespace Heiflow.Models.Subsurface
             }
             sr.Close();
         }
-        private void LoadPackages(IProgress progress)
+        private void LoadPackages(ICancelProgressHandler progress)
         {
             MFOutputPackage mfout = new MFOutputPackage()
             {
@@ -404,24 +371,24 @@ namespace Heiflow.Models.Subsurface
                         {
                             pck.Clear();
                             pck.Initialize();
-                            var loaded = pck.Load();
+                            var loaded = pck.Load(progress);
                             if (loaded)
                             {
                                 (pck as IMFPackage).CompositeOutput(mfout);
                                 pck.AfterLoad();
-                                progress.Progress("\t" + pck.Name + " loaded");
+                                // progress.Progress("Modflow", 1, "\t" + pck.Name + " loaded");
                             }
                             else
                             {
-                                var msg = string.Format("\tFailed to load {0}. Error message: {1}", pck.Name, pck.Message);
-                                progress.Progress(msg);
+                                //var msg = string.Format("\tFailed to load {0}. Error message: {1}", pck.Name, pck.Message);
+                                //progress.Progress("Modflow", 1, msg);
                             }
                         }
                     }
                     catch (Exception ex)
                     {
                         var msg = string.Format("\tFailed to load {0}. Error message: {1}", pck.Name, ex.Message);
-                        progress.Progress(msg);
+                        progress.Progress("Modflow", 1, msg);
                     }
                 }
             }
@@ -429,7 +396,7 @@ namespace Heiflow.Models.Subsurface
             oc.CompositeOutput(mfout);
             mfout.Initialize();
         }
-      
+
         public override void OnTimeServiceUpdated(ITimeService time)
         {
         }

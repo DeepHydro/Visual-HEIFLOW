@@ -127,7 +127,7 @@ namespace Heiflow.Models.Subsurface
         /// 3d mat [4 + NBDTIM][1][NFLW]. The variables are Layer Row Column IAUX  FLWRAT(NBDTIM)
         /// </summary>
       [StaticVariableItem]
-        public MyVarient3DMat<float> FlowRate { get; set; }
+        public DataCube<float> FlowRate { get; set; }
       public RegularGridTopology Topology { get; set; }
         public override void Initialize()
         {
@@ -166,12 +166,12 @@ namespace Heiflow.Models.Subsurface
                 fs.DataTable.Columns.Add(new DataColumn("Name", typeof(string)));
                 fs.DataTable.Columns.Add(new DataColumn(RegularGrid.ParaValueField, typeof(int)));
 
-                var mat = FlowRate.Value;
+                var mat = FlowRate;
                 for (int i = 0; i < FlowRate.Size[2];i++ )
                 {
-                     int layer = (int)mat[0][0][i];  
-                    int row = (int)mat[1][0][i];
-                    int col = (int)mat[2][0][i];
+                     int layer = (int)mat[0,0,i];  
+                    int row = (int)mat[1,0,i];
+                    int col = (int)mat[2,0,i];
                    
                     var coor = grid.LocateCentroid(col,row);
                     Point geom = new Point(coor);
@@ -201,7 +201,7 @@ namespace Heiflow.Models.Subsurface
                 return null;
             }
         }
-        public override bool Load()
+        public override bool Load(ICancelProgressHandler progress)
         {
             if (File.Exists(FileName))
             {
@@ -238,7 +238,7 @@ namespace Heiflow.Models.Subsurface
 
                 //# Data Set 5b Layer Row Column IAUX  FLWRAT(NBDTIM)
                 //   MFWell[] wells = new MFWell[NFLW];
-                FlowRate = new MyVarient3DMat<float>(4 + NBDTIM, 1, NFLW)
+                FlowRate = new DataCube<float>(4 + NBDTIM, 1, NFLW)
                 {
                     Name = "FHB_FlowRate",
                     TimeBrowsable = false,
@@ -256,29 +256,29 @@ namespace Heiflow.Models.Subsurface
                 {
                     line = sr.ReadLine();
                     var buf = TypeConverterEx.Split<float>(line);
-                    FlowRate.Value[0][0][i] = (int)buf[0];
-                    FlowRate.Value[1][0][i] = (int)buf[1];
-                    FlowRate.Value[2][0][i] = (int)buf[2];
-                    FlowRate.Value[3][0][i] = (int)buf[3];
+                    FlowRate[0,0,i] = (int)buf[0];
+                    FlowRate[1,0,i] = (int)buf[1];
+                    FlowRate[2,0,i] = (int)buf[2];
+                    FlowRate[3,0,i] = (int)buf[3];
                     for (int j = 0; j < NBDTIM; j++)
                     {
-                        FlowRate.Value[4+j][0][i] = buf[4+j];
+                        FlowRate[4+j,0,i] = buf[4+j];
                     }
                 }
                 FlowRate.TimeBrowsable = false;
                 BuildTopology();
                 sr.Close();
-                OnLoaded("Sucessfully loaded");
+                OnLoaded(progress);
                 return true;
             }
             else
             {
                 Message = string.Format("\r\n Failed to load {0}. The package file does not exist: {1}", Name, FileName);
-                OnLoadFailed(Message);
+                OnLoadFailed(Message, progress);
                 return false;
             }
         }
-        public override bool SaveAs(string filename,IProgress prg)
+        public override bool SaveAs(string filename,ICancelProgressHandler prg)
         {
             StreamWriter sw = new StreamWriter(filename);
             NBDTIM = BDTIM.Length;
@@ -299,10 +299,10 @@ namespace Heiflow.Models.Subsurface
 
             for (int i = 0; i < NFLW; i++)
             {
-                line = string.Format("{0}\t{1}\t{2}\t{3}\t", FlowRate.Value[0][0][i],FlowRate.Value[1][0][i],FlowRate.Value[2][0][i],FlowRate.Value[3][0][i]);
+                line = string.Format("{0}\t{1}\t{2}\t{3}\t", FlowRate[0,0,i],FlowRate[1,0,i],FlowRate[2,0,i],FlowRate[3,0,i]);
                 for (int n = 0; n < BDTIM.Length; n++)
                 {
-                    line += FlowRate.Value[4+n][0][i].ToString() + "\t";
+                    line += FlowRate[4+n,0,i].ToString() + "\t";
                 }
                 line += "# Data Set 5b Layer Row Column IAUX  FLWRAT(NBDTIM)";
                 sw.WriteLine(line);
@@ -324,12 +324,12 @@ namespace Heiflow.Models.Subsurface
             Topology.RowCount = grid.RowCount;
             Topology.ColumnCount = grid.ColumnCount;
             Topology.ActiveCellCount = NFLW;
-            var mat = FlowRate.Value;
+            var mat = FlowRate;
             for (int i = 0; i < NFLW; i++)
             {
-                int layer = (int)mat[0][0][i];
-                int row = (int)mat[1][0][i];
-                int col = (int)mat[2][0][i];
+                int layer = (int)mat[0,0,i];
+                int row = (int)mat[1,0,i];
+                int col = (int)mat[2,0,i];
                 Topology.ActiveCell[i] = new int[] { row - 1, col - 1 };
                 Topology.ActiveCellIDs[i] = grid.Topology.GetID(row - 1, col - 1);
             }

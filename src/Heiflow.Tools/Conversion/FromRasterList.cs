@@ -56,12 +56,12 @@ namespace Heiflow.Tools.Conversion
             Description = "Extract data cube from a set of rasters to a given point shapefile";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
- 
+
             VariableName = "unknown";
         }
-       [Category("Input")]
-       [Description("A text file that contains the list of raster file names")]
-       [EditorAttribute(typeof(FileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
+        [Category("Input")]
+        [Description("A text file that contains the list of raster file names")]
+        [EditorAttribute(typeof(FileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public string FilenameList
         {
             get;
@@ -81,9 +81,9 @@ namespace Heiflow.Tools.Conversion
         [EditorAttribute(typeof(FileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public string TargetFeatureFile { get; set; }
 
-         [Category("Output")]
-         [Description("The name of the output matrix")]
-        public string OutputMatrix { get; set; }
+        [Category("Output")]
+        [Description("The name of the output Data Cube")]
+        public string OutputDataCube { get; set; }
 
         public override void Initialize()
         {
@@ -92,7 +92,7 @@ namespace Heiflow.Tools.Conversion
 
         public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
         {
-            var fs =  FeatureSet.Open(TargetFeatureFile);
+            var fs = FeatureSet.Open(TargetFeatureFile);
             if (fs != null && File.Exists(FilenameList))
             {
                 var npt = fs.NumRows();
@@ -105,7 +105,7 @@ namespace Heiflow.Tools.Conversion
                 }
                 List<string> files = new List<string>();
                 StreamReader sr = new StreamReader(FilenameList);
-                while(!sr.EndOfStream)
+                while (!sr.EndOfStream)
                 {
                     var line = sr.ReadLine();
                     if (TypeConverterEx.IsNotNull(line))
@@ -115,8 +115,8 @@ namespace Heiflow.Tools.Conversion
                 if (files != null)
                 {
                     int nstep = files.Count();
-                    var mat_out = new My3DMat<float>(1, nstep, npt);
-                    mat_out.Name = OutputMatrix;
+                    var mat_out = new DataCube<float>(1, nstep, npt);
+                    mat_out.Name = OutputDataCube;
                     mat_out.Variables = new string[] { VariableName };
                     mat_out.TimeBrowsable = true;
                     mat_out.AllowTableEdit = false;
@@ -127,9 +127,9 @@ namespace Heiflow.Tools.Conversion
                         {
                             var cell = raster.ProjToCell(coors[i]);
                             if (cell != null && cell.Row > 0)
-                                mat_out.Value[0][t][i] = (float)raster.Value[cell.Row, cell.Column];
+                                mat_out[0, t, i] = (float)raster.Value[cell.Row, cell.Column];
                             else
-                                mat_out.Value[0][t][i] = 0;
+                                mat_out[0, t, i] = 0;
                         }
                         progress = t * 100 / nstep;
                         cancelProgressHandler.Progress("Package_Tool", progress, "Processing raster:" + files[t]);

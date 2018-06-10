@@ -250,7 +250,7 @@ namespace Heiflow.Tools.ConceptualModel
                 if (list.Count > 0)
                 {
                     pck.NFLW = list.Count;
-                    var FlowRate = new MyVarient3DMat<float>(4 + pck.NBDTIM, 1, pck.NFLW)
+                    var FlowRate = new DataCube<float>(4 + pck.NBDTIM, 1, pck.NFLW)
                     {
                         Name = "FHB_FlowRate",
                         TimeBrowsable = false,
@@ -267,13 +267,13 @@ namespace Heiflow.Tools.ConceptualModel
                     for (int i = 0; i < pck.NFLW; i++)
                     {
                         var bound = list[i];
-                        FlowRate.Value[0][0][i] = bound.Layer;
-                        FlowRate.Value[1][0][i] = bound.Row;
-                        FlowRate.Value[2][0][i] = bound.Col;
-                        FlowRate.Value[3][0][i] = 0;
+                        FlowRate[0,0,i] = bound.Layer;
+                        FlowRate[1, 0, i] = bound.Row;
+                        FlowRate[2, 0, i] = bound.Col;
+                        FlowRate[3, 0, i] = 0;
                         for (int j = 0; j < pck.NBDTIM; j++)
                         {
-                            FlowRate.Value[4 + j][0][i] = bound.FlowRate;
+                            FlowRate[4 + j,0,i] = bound.FlowRate;
                         }
                     }
                     FlowRate.TimeBrowsable = false;

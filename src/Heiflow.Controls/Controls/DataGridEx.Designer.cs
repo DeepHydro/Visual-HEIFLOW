@@ -234,6 +234,7 @@
             // 
             this.toolStripLabel1.Name = "toolStripLabel1";
             this.toolStripLabel1.Size = new System.Drawing.Size(0, 24);
+            this.toolStripLabel1.Visible = false;
             // 
             // dataGridView1
             // 

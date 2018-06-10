@@ -105,7 +105,7 @@ namespace Heiflow.Controls.WinForm.Display
         }
 
 
-        public void Plot<T>(Core.Data.ITimeSeries<T> source, SeriesChartType chartType)
+        public void Plot<T>(Core.Data.DataCube<T> source, SeriesChartType chartType)
         {
             winChart1.Plot<T>(source, chartType);
         }

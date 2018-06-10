@@ -134,7 +134,7 @@ namespace Heiflow.Applications.Controllers
         }
 
 
-        private void Watcher_Updated(object sender, Models.IO.ArrayWatchObject<double> e)
+        private void Watcher_Updated(object sender, Models.Running.ArrayWatchObject<double> e)
         {
             (_StateMonitor.View as IStateMonitorView).UpdateView();
      //       (_RunningMonitor.View as IRunningMonitorView).UpdateView();

@@ -113,13 +113,13 @@ namespace Heiflow.Tools.Math
             var var_index = 0;
             var mat = Get3DMat(Source, ref var_index);
             double prg = 0;
-
+            int count = 1;
             if (mat != null)
             {
                 int nstep = mat.Size[1];
                 int ncell = mat.Size[2];
-                var vec = mat.GetSeriesAt(var_index, 0);
-                var dou_vec = MyMath.ToDouble(vec);
+                var vec = mat[var_index, ":", "0"];
+                var dou_vec = MatrixOperation.ToDouble(vec);
 
                 var date_source = new DateTime[nstep];
                 if (mat.DateTimes != null && mat.DateTimes.Length >= nstep)
@@ -136,10 +136,10 @@ namespace Heiflow.Tools.Math
                         date_source[i] = ModelService.Start.AddDays(i);
                     }
                 }
-                var ts = new FloatTimeSeries(vec, date_source);
+                var ts = new DataCube<float>(vec, date_source);
                 var derieved_ts = TimeSeriesAnalyzer.Derieve(ts, NumericalDataType, TimeUnits);
                 var derieved_steps = derieved_ts.DateTimes.Length;
-                var mat_out = new My3DMat<float>(1, derieved_steps, ncell);
+                var mat_out = new DataCube<float>(1, derieved_steps, ncell);
 
                 mat_out.Name = Derived;
                 mat_out.Variables = new string[] { "Derived" };
@@ -147,16 +147,19 @@ namespace Heiflow.Tools.Math
                 mat_out.TimeBrowsable = true;
                 for (int c = 0; c < ncell; c++)
                 {
-                    vec = mat.GetSeriesAt(var_index, c);
-                    ts = new FloatTimeSeries(vec, date_source);
+                    vec = mat[var_index, ":", c.ToString()];
+                    ts = new DataCube<float>(vec, date_source);
                     derieved_ts = TimeSeriesAnalyzer.Derieve(ts, NumericalDataType, TimeUnits);
                     for (int t = 0; t < derieved_steps; t++)
                     {
-                        mat_out.Value[0][t][c] = derieved_ts.Value[t];
+                        mat_out[0, t, c] = derieved_ts[0,t,0];
                     }
                     prg = (c + 1) * 100.0 / ncell;
-                    if (prg % 10 == 0)
+                    if (prg > count)
+                    {
                         cancelProgressHandler.Progress("Package_Tool", (int)prg, "Caculating Cell: " + (c + 1));
+                        count++;
+                    }
                 }
 
                 Workspace.Add(mat_out);

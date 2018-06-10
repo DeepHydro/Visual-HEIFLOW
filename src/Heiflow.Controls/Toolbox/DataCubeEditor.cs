@@ -174,13 +174,13 @@ namespace Heiflow.Controls.WinForm.Toolbox
                     if (e.NewValue.ToString() == TimeVarientFlag.Constant.ToString())
                     {
                         meta.Owner.Flags[meta.TimeIndex, 0] = TimeVarientFlag.Constant;
-                        meta.Owner.Constants.SetValue(meta.Constant, meta.TimeIndex, 0);
+                        meta.Owner.Constants.SetValue((float)meta.Constant, meta.TimeIndex, 0);
                     }
                     else if (e.NewValue.ToString() == TimeVarientFlag.Individual.ToString())
                     {
                         meta.Owner.Flags[meta.TimeIndex, 0] = TimeVarientFlag.Individual;
                         meta.Owner.Multipliers[meta.TimeIndex, 0] = (float)meta.Multiplier;
-                        meta.Owner.AllocateSpaceDim(meta.TimeIndex, 0, meta.Owner.Topology.ActiveCellCount);
+                        //meta.Owner.AllocateSpaceDim(meta.TimeIndex, 0, meta.Owner.Topology.ActiveCellCount);
                     }
                     else if (e.NewValue.ToString() == TimeVarientFlag.Repeat.ToString())
                     {

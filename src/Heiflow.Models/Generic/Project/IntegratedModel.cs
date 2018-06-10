@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using Heiflow.Models.Generic.Packages;
 using Heiflow.Models.Generic.Project;
 using Heiflow.Models.UI;
@@ -61,16 +62,16 @@ namespace Heiflow.Models.Generic
         }
 
 
-        public override bool LoadGrid(IProgress progress)
+        public override bool LoadGrid(ICancelProgressHandler progress)
         {
             return true;
         }
-        public override bool Load(IProgress progress)
+        public override bool Load(ICancelProgressHandler progress)
         {
             return true;
         }
 
-        public override bool New(IProgress progress)
+        public override bool New(ICancelProgressHandler progress)
         {
             return true;
         }
@@ -107,7 +108,7 @@ namespace Heiflow.Models.Generic
             }
         }
 
-        public override void Save(IProgress progress)
+        public override void Save(ICancelProgressHandler progress)
         {
             foreach (var mod in Children.Values)
             {

@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using Heiflow.Core;
 using Heiflow.Core.Animation;
 using Heiflow.Core.Data;
@@ -50,6 +51,9 @@ namespace Heiflow.Models.Generic
         protected DateTime _EndLoading;
         protected NumericalDataType mNumericalDataType;
         protected int _MaxTimeStep;
+        protected int _NumTimeStep;
+        protected int _StepsToLoad;
+        protected ICancelProgressHandler _ProgressHandler;
 
         public DataPackage()
         {
@@ -58,8 +62,6 @@ namespace Heiflow.Models.Generic
             _MaxTimeStep = Settings.Default.MaxTimeStep;
             _StartLoading = DateTime.Now.AddDays(-_MaxTimeStep);
             _EndLoading = DateTime.Now;
-            Start = DateTime.Now;
-            End = DateTime.Now;
             DataViewMode = IO.DataViewMode.DayByDay;
             TimeUnits = TimeUnits.Day;
             NumericalDataType = Core.NumericalDataType.Average;
@@ -68,7 +70,7 @@ namespace Heiflow.Models.Generic
             UseSpecifiedFile = false;
         }
 
-        [Category("Metadata")]
+        [Category("General")]
         public virtual string[] Variables
         {
             get
@@ -82,57 +84,29 @@ namespace Heiflow.Models.Generic
             }
         }
 
-        [Category("Metadata")]
+        [Category("Time")]
         public int NumTimeStep
         {
-            get;
-            protected set;
-        }
-
-        [Category("Metadata")]
-        public DateTime Start
-        {
-            get;
-            protected set;
-        }
-
-        [Category("Metadata")]
-        public DateTime End
-        {
-            get;
-            protected set;
+            get
+            {
+                return _NumTimeStep;
+            }
+            protected set
+            {
+                _NumTimeStep = value;
+            }
         }
         /// <summary>
         /// 
         /// </summary>
         /// 
-         [Category("Metadata")]
+         [Category("Time")]
         public int StepsToLoad
         {
             get
             {
-                int ndays = TimeService.IOTimeline.Count;
-                int nstep = 0;
-                if (NumTimeStep > 0)
-                {
-                    if (MaxTimeStep < 1)
-                    {
-                        nstep = NumTimeStep;
-                    }
-                    else
-                    {
-                        nstep = Math.Min(MaxTimeStep, NumTimeStep);
-                    }
-                }
-                else
-                {
-                    if (MaxTimeStep < 1)
-                        nstep = ndays;
-                    else
-                        nstep = MaxTimeStep;
-                }
-                var buf = Math.Min(ndays, nstep);
-                return buf;
+                _StepsToLoad = Math.Min(MaxTimeStep, _NumTimeStep);
+                return _StepsToLoad;
             }
         }
         [Category("Spatial Behavior")]
@@ -160,14 +134,14 @@ namespace Heiflow.Models.Generic
             }
             set
             {
-                if (value > NumTimeStep)
-                    _MaxTimeStep = NumTimeStep;
-                else
-                    _MaxTimeStep = value;
-                if (_MaxTimeStep > 0 && _MaxTimeStep <= TimeService.IOTimeline.Count)
-                    _EndLoading = TimeService.IOTimeline[_MaxTimeStep - 1];
-                else
-                    _EndLoading = TimeService.IOTimeline.Last();
+                 _MaxTimeStep = value;
+                 if (_MaxTimeStep > 0 && _MaxTimeStep <= TimeService.IOTimeline.Count)
+                     _EndLoading = TimeService.IOTimeline[_MaxTimeStep - 1];
+                 else
+                 {
+                     _EndLoading = TimeService.IOTimeline.Last();
+                     _MaxTimeStep = TimeService.IOTimeline.Count;
+                 }
             }
         }
 
@@ -207,15 +181,20 @@ namespace Heiflow.Models.Generic
             }
             set
             {
-                if (value > End)
-                    value = End;
-                _EndLoading = value;
-                _MaxTimeStep = TimeService.GetNumStepsBetween(this.TimeService.IOTimeline, StartOfLoading, EndOfLoading);
-                if (_MaxTimeStep > NumTimeStep)
-                    _MaxTimeStep = NumTimeStep;
+                if (TimeService.IOTimeline.Count > 0)
+                {
+                    if (value > TimeService.IOTimeline.Last())
+                        value = TimeService.IOTimeline.Last();
+                    _EndLoading = value;
+                    _MaxTimeStep = TimeService.GetNumStepsBetween(this.TimeService.IOTimeline, _StartLoading, _EndLoading);
+                }
+                else
+                {
+                    _EndLoading = value;
+                    _MaxTimeStep = 1;
+                }
             }
         }
-    
 
         [Category("Numerical")]
         [Browsable(false)]
@@ -247,12 +226,9 @@ namespace Heiflow.Models.Generic
             get;
             set;
         }
-        /// <summary>
-        /// 3DMat [VarCount, TimeSteps, ActiveCellCount]
-        /// </summary>
-       // [PackageElement(typeof(MyArray<float>))]
+
         [Browsable(false)]
-        public MyLazy3DMat<float> Values
+        public DataCube<float> DataCube
         {
             get;
             protected set;
@@ -273,7 +249,7 @@ namespace Heiflow.Models.Generic
 
         public abstract  bool Scan();
 
-        public abstract bool Load(int var_index);
+        public abstract bool Load(int var_index, ICancelProgressHandler progess);
 
         public override void Attach(DotSpatial.Controls.IMap map, string directory)
         {
@@ -281,8 +257,6 @@ namespace Heiflow.Models.Generic
         }
         public override void OnTimeServiceUpdated(ITimeService time)
         {
-            this.Start = TimeService.Start;
-            this.End = TimeService.End;
             this.StartOfLoading = TimeService.Start;
             this.EndOfLoading = TimeService.End;
             ScaleFactor = 1.0;

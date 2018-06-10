@@ -88,7 +88,7 @@ namespace Heiflow.Tools.Conversion
             string line = "";
             for (int t = 0; t < nstep; t++)
             {
-                var vec = mat.Value[var_index][t];
+                var vec = mat.GetVector(var_index, t.ToString(), ":");
                 line = string.Join("\t", vec);
                 sw.WriteLine(line);
                 progress = t * 100 / nstep;

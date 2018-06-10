@@ -176,10 +176,12 @@ namespace Heiflow.Controls.WinForm.Controls
                 _SelectedAnimator.Stop();
                 isPlay = false;
                 btnPlay.Image = Resources.GenericBlueRightArrowNoTail32;
+                btnPlay.ToolTipText = "Play";
             }
             else
             {
                 btnPlay.Image = Resources.GenericBluePause32;
+                btnPlay.ToolTipText = "Stop";
                 isPlay = true;
                 _SelectedAnimator.Play();
             }
@@ -216,11 +218,12 @@ namespace Heiflow.Controls.WinForm.Controls
             }
         }
 
-
-
         public void ClearContent()
         {
-            
+            _WorkSpace.DataSources.Clear();
+            olvDataCubeTree.Clear();
+            listBox_timeline.Items.Clear();
+            _selectedDc = null;
         }
         public void InitService()
         {

@@ -62,7 +62,7 @@ namespace Heiflow.Models.Integration
             ModelExeFileName = Path.Combine(Application.StartupPath, "Models\\heiflow.exe");
         }
 
-        public override bool New(IProgress progress, bool ImportFromExistingModel)
+        public override bool New(ICancelProgressHandler progress, bool ImportFromExistingModel)
         {
             var succ = true;
             System.IO.Directory.CreateDirectory(GeoSpatialDirectory);
@@ -80,7 +80,6 @@ namespace Heiflow.Models.Integration
                 RelativeControlFileName = Name + ".control";
                 var model = new Heiflow.Models.Integration.HeiflowModel()
                 {
-                    Name = Name,
                     Project = this,
                     WorkDirectory = FullModelWorkDirectory,
                     ControlFileName = RelativeControlFileName

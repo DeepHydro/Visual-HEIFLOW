@@ -46,13 +46,13 @@ namespace Heiflow.Applications.Services
 
         }
 
-        public My3DMat<float> Source
+        public DataCube<float> Source
         {
             get;
             set;
         }
 
-        public My3DMat<float> SourceStatistics
+        public DataCube<float> SourceStatistics
         {
             get;
             set;

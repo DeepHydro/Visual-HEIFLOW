@@ -108,6 +108,7 @@
     <Compile Include="Collections\ReverseComparer.cs" />
     <Compile Include="Collections\SmartEnumerable.cs" />
     <Compile Include="Collections\TimeRange.cs" />
+    <Compile Include="Data\Array\DataCube.cs" />
     <Compile Include="Data\Array\IDataCubeObject.cs" />
     <Compile Include="Data\Array\IDataTableConvertable.cs" />
     <Compile Include="Data\Array\IGridTopology.cs" />
@@ -118,7 +119,6 @@
     <Compile Include="Data\IDynamicTableBindable.cs" />
     <Compile Include="Data\ODM\ODMExportSetting.cs" />
     <Compile Include="Data\TimeSeries\ListTimeSeries.cs" />
-    <Compile Include="Data\TimeSeries\VectorTimeSeries.cs" />
     <Compile Include="Data\Database\DatabaseSource.cs" />
     <Compile Include="Data\Database\IDatabaseSource.cs" />
     <Compile Include="Data\DateTimeHelper.cs" />
@@ -137,19 +137,17 @@
     <Compile Include="Data\ODM\SitesTable.cs" />
     <Compile Include="Data\ODM\VariablesTable.cs" />
     <Compile Include="Data\RasterEx.cs" />
-    <Compile Include="Data\TimeSeries\IVectorTimeSeries.cs" />
     <Compile Include="Data\TimeSeries\TimeSeriesPair.cs" />
     <Compile Include="Extensions\ReferenceExt.cs" />
     <Compile Include="Extensions\TimeRelated\DateTimeBasedExt.cs" />
     <Compile Include="Extensions\TimeRelated\TimeSpanBasedExt.cs" />
     <Compile Include="IO\DataCubeDescriptor.cs" />
-    <Compile Include="IO\BaseDataCube.cs" />
-    <Compile Include="IO\DataCubeXStreamReader.cs" />
+    <Compile Include="IO\BaseDataCubeStream.cs" />
     <Compile Include="IO\DataCubeStreamWriter.cs" />
     <Compile Include="IO\MatrixBinaryStream.cs" />
     <Compile Include="IO\TxtFileStream.cs" />
     <Compile Include="IO\CSVFileStream.cs" />
-    <Compile Include="IO\IArrayStream.cs" />
+    <Compile Include="IO\IDataCubeStream.cs" />
     <Compile Include="MyMath\mathenum.cs" />
     <Compile Include="Utility\AboutAssemblyDataProvider.cs" />
     <Compile Include="Animation\VariableAnimation.cs" />
@@ -218,7 +216,6 @@
     <Compile Include="Data\Excel\Log\Logger\NullLog.cs" />
     <Compile Include="Data\Excel\Log\LogManager.cs" />
     <Compile Include="Data\Excel\Log\StringExtensions.cs" />
-    <Compile Include="Data\TimeSeries\ITimeSeries.cs" />
     <Compile Include="Data\ODM\ODMImporter.cs" />
     <Compile Include="Data\ODM\ODMObject.cs" />
     <Compile Include="Data\ODM\ODMSource.cs" />
@@ -247,7 +244,6 @@
     <Compile Include="IO\FileProvider.cs" />
     <Compile Include="IO\FileProviderFactory.cs" />
     <Compile Include="IO\IFileProvider.cs" />
-    <Compile Include="IO\IMatFileProvider.cs" />
     <Compile Include="IO\IOProgessChanged.cs" />
     <Compile Include="IO\ITimeSeriesFileProvider.cs" />
     <Compile Include="Log\Log.cs" />

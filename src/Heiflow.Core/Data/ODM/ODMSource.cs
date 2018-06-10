@@ -421,7 +421,7 @@ namespace Heiflow.Core.Data.ODM
         /// </summary>
         /// <param name="qc">if qc.VariableID ==0, qc.VariableName will be used</param>
         /// <returns></returns>
-        public IVectorTimeSeries<double> GetTimeSeries(QueryCriteria qc)
+        public DataCube<double> GetTimeSeries(QueryCriteria qc)
         {
             if (qc.VariableID == 0)
             {
@@ -445,11 +445,7 @@ namespace Heiflow.Core.Data.ODM
             {
                 var dates = from dr in dt.AsEnumerable() select dr.Field<DateTime>("DateTimeUTC");
                 var values = from dr in dt.AsEnumerable() select dr.Field<double>("DataValue");
-                return new DoubleTimeSeries()
-                {
-                    DateTimes = dates.ToArray(),
-                    Value = values.ToArray()
-                };
+                return new DataCube<double>(values.ToArray(), dates.ToArray());
             }
             else
             {
@@ -465,7 +461,7 @@ namespace Heiflow.Core.Data.ODM
             return dt;
         }
 
-        public DoubleTimeSeries GetTimeSereis(ObservationSeries series)
+        public DataCube<double> GetTimeSereis(ObservationSeries series)
         {
             string sql = string.Format("select DateTimeUTC, DataValue from DataValues where SiteID={0} and VariableID={1} order by DateTimeUTC",
          series.SiteID, series.VariableID);
@@ -475,7 +471,7 @@ namespace Heiflow.Core.Data.ODM
                 var ds = dt.AsEnumerable();
                 var dates = from dr in ds select dr.Field<DateTime>("DateTimeUTC");
                 var values = from dr in ds select dr.Field<double>("DataValue");
-                DoubleTimeSeries ts = new DoubleTimeSeries(values.ToArray(), dates.ToArray());
+                DataCube<double> ts = new DataCube<double>(values.ToArray(), dates.ToArray());
                 return ts;
             }
             else
@@ -682,7 +678,7 @@ namespace Heiflow.Core.Data.ODM
 
             foreach (var s in site)
             {
-                var ts = s.TimeSeries as IVectorTimeSeries<double>;
+                var ts = s.TimeSeries;
                 // update DataValue table
                 for (int d = 0; d < s.TimeSeries.DateTimes.Length; d++)
                 {
@@ -691,14 +687,14 @@ namespace Heiflow.Core.Data.ODM
                     if (ODMDB.Exists(sql))
                     {
                         //  sql = string.Format("delete * from DataValues  where SiteID={0} and VariableID = {1} and DateTimeUTC= #{2}#", s.ID, varID, s.TimeSeries.DateTimeVector[d].ToString("yyyy/MM/dd"));
-                        sql = string.Format("update DataValues set datavalue={0} where SiteID={1} and variableid={2} and datetimeutc=#{3}#", ts.Value[d],
+                        sql = string.Format("update DataValues set datavalue={0} where SiteID={1} and variableid={2} and datetimeutc=#{3}#", ts[0,d,0],
                              s.ID, varID, s.TimeSeries.DateTimes[d].ToString("yyyy/MM/dd HH:mm:ss"));
                         ODMDB.CreateNonQueryCommand(sql);
                     }
                     else
                     {
                         sql = string.Format("insert into DataValues (SiteID,VariableID,DateTimeUTC,DataValue)  values ({0}, {1},  #{2}#,{3})",
-                               s.ID, varID, s.TimeSeries.DateTimes[d].ToString("yyyy/MM/dd HH:mm:ss"), ts.Value[d]);
+                               s.ID, varID, s.TimeSeries.DateTimes[d].ToString("yyyy/MM/dd HH:mm:ss"), ts[0, d, 0]);
                         ODMDB.CreateNonQueryCommand(sql);
                     }
                 }

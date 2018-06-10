@@ -171,9 +171,9 @@ namespace Heiflow.Core.Data
 
         #region ITimeSeriesProvider 成员
 
-        public IVectorTimeSeries<double> GetTimeSeries(ITimeSeriesQueryCriteria qc)
+        public DataCube<double> GetTimeSeries(ITimeSeriesQueryCriteria qc)
         {         
-            NumericalTimeSeries ts = null;
+            DataCube<double> ts = null;
             if (qc != null)
             {
                 string sql = "select * from " + Configuration.DataValuesTableName + " where VariableID =" + qc.VariableID + " and SiteID=" + qc.SiteID
@@ -183,7 +183,7 @@ namespace Heiflow.Core.Data
                 {                  
                     double [] dv = dt.AsEnumerable().Select(row => row.Field<double>("DataValue")).ToArray();
                     DateTime [] dtime = dt.AsEnumerable().Select(row => row.Field<DateTime>("DateTimeUTC")).ToArray();
-                    ts = new NumericalTimeSeries(dv, dtime);
+                    ts = new DataCube<double>(dv, dtime);
                     Variable variable = GetVariableInfo(qc.VariableID);
                     DataRepairer dr = new DataRepairer(variable.NoDataValue);
                     dr.Repair(ts);
@@ -192,9 +192,9 @@ namespace Heiflow.Core.Data
             return ts;
         }
 
-        public IVectorTimeSeries<double> GetTransformedTimeSeries(ITimeSeriesQueryCriteria qc, double multiplier)
+        public DataCube<double> GetTransformedTimeSeries(ITimeSeriesQueryCriteria qc, double multiplier)
         {
-            NumericalTimeSeries ts = null;
+            DataCube<double> ts = null;
             if (qc != null)
             {
                 string sql = "select * from " + Configuration.DataValuesTableName + " where VariableID =" + qc.VariableID + " and SiteID=" + qc.SiteID
@@ -204,7 +204,7 @@ namespace Heiflow.Core.Data
                 {
                     double[] dv = dt.AsEnumerable().Select(row => row.Field<double>("DataValue")).ToArray();
                     DateTime[] dtime = dt.AsEnumerable().Select(row => row.Field<DateTime>("DateTimeUTC")).ToArray();
-                    ts = new NumericalTimeSeries(dv, dtime);
+                    ts = new DataCube<double>(dv, dtime);
                     Variable variable = GetVariableInfo(qc.VariableID);
                     DataRepairer dr = new DataRepairer(variable.NoDataValue);
                     dr.Repair(ts,multiplier);
@@ -267,7 +267,7 @@ namespace Heiflow.Core.Data
            return  mDbase.CreateNonQueryCommand(delcmd);
         }
 
-        public void SaveTimeSeries(IVectorTimeSeries<double> ts, int variableID, int siteID)
+        public void SaveTimeSeries(DataCube<double> ts, int variableID, int siteID)
         {
             DateTime start = ts.DateTimes.Min();
             DateTime end = ts.DateTimes.Max();
@@ -282,12 +282,12 @@ namespace Heiflow.Core.Data
                     string insertcmd = "";
                     if (mDbase.DBKind == DBkind.Access2003 || mDbase.DBKind == DBkind.Access2007)
                     {
-                        insertcmd = "insert into " + Configuration.DataValuesTableName + " (DataValue,DateTimeUTC,SiteID,VariableID) values(" + ts.Value[i]
+                        insertcmd = "insert into " + Configuration.DataValuesTableName + " (DataValue,DateTimeUTC,SiteID,VariableID) values(" + ts[0,i,0]
                             + ",'" + t + "'," + siteID + "," + variableID + ")";
                     }
                     else
                     {
-                        insertcmd = "insert into " + Configuration.DataValuesTableName + " (DataValue,DateTimeUTC,SiteID,VariableID) values(" + ts.Value[i]
+                        insertcmd = "insert into " + Configuration.DataValuesTableName + " (DataValue,DateTimeUTC,SiteID,VariableID) values(" + ts[0, i, 0]
                           + "," + t + "," + siteID + "," + variableID + ")";
                     }
                     mDbase.CreateNonQueryCommand(insertcmd);

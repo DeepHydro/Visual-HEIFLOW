@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using Heiflow.Models.UI;
 using System;
 using System.Collections.Generic;
@@ -39,7 +40,7 @@ using System.Windows.Forms;
 namespace Heiflow.Presentation.Controls
 {
     public enum DialogMode { Show, ShowDialog};
-    public interface IProgressView : IProgress
+    public interface IProgressView : ICancelProgressHandler
     {
         event DoWorkEventHandler DoWork;
         event EventHandler WorkCompleted;
@@ -52,5 +53,6 @@ namespace Heiflow.Presentation.Controls
         void CloseView();
         void Run(object arg);
         void Reset();
+        void Progress(string msg);
     }
 }

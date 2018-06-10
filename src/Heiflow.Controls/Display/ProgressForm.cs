@@ -68,10 +68,9 @@ namespace Heiflow.Controls
         public ProgressForm()
         {
             InitializeComponent();
-            EnableCancel = true;
+            EnableCancel = false;
             DefaultStatusText = "Please wait...";
             CancellingText = "Cancelling operation...";
-            buttonCancel.Visible = false;
             this.ShowInTaskbar = false;
             this.FormClosing += ProgressForm_FormClosing;
             worker = new BackgroundWorker();
@@ -105,6 +104,11 @@ namespace Heiflow.Controls
         public bool CancellationPending
         {
             get { return worker.CancellationPending; }
+        }
+        public bool Cancel
+        {
+            get;
+            private set;
         }
         /// <summary>
         /// Text displayed once the Cancel button is clicked.
@@ -187,8 +191,8 @@ namespace Heiflow.Controls
         {
             if (!this.Visible)
             {
+                EnableCancel = true;
                 this.ShowView(this.MainForm);
-                //Reset();
                 worker.RunWorkerAsync(arg);          
             }
         }
@@ -225,6 +229,10 @@ namespace Heiflow.Controls
             {
                 this.Hide();
             });
+        }
+        public void Progress(string key, int percent, string message)
+        {
+            Progress(percent, message);
         }
 
         public void Progress(int percent, string message)
@@ -291,7 +299,7 @@ namespace Heiflow.Controls
             //notify the background worker we want to cancel
             worker.CancelAsync();
             //disable the cancel button and change the status text
-            buttonCancel.Enabled = false;
+            EnableCancel = false;
             _txtBoxStatus.AppendText("\r\n" + DateTime.Now + ": " + CancellingText);
         }
 
@@ -325,6 +333,7 @@ namespace Heiflow.Controls
         {
             //the background worker completed
             //keep the resul and close the form
+            buttonCancel.Enabled = false;
             Result = e;
             if (e.Error != null)
             {
@@ -341,26 +350,23 @@ namespace Heiflow.Controls
                 Reset();
                 DialogResult = DialogResult.OK;
             }
-
             if (WorkCompleted != null)
                 WorkCompleted(this, EventArgs.Empty);
+          
             if (checkBox1.Checked)
                 CloseView();
         }
 
-        private void btnClose_Click(object sender, EventArgs e)
-        {
-            CloseView();
-        }
-
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            btnClose.Visible = checkBox1.Checked;
+        
         }
         public void InitService()
         {
 
         }
+
+
 
     }
 }

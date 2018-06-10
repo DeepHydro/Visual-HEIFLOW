@@ -46,7 +46,7 @@ namespace Heiflow.Tools.Math
     [Serializable]
     public class Deviation : ModelTool
     {
-        
+
         public Deviation()
         {
             Name = "Deviation";
@@ -60,7 +60,7 @@ namespace Heiflow.Tools.Math
             NeighborCount = 3;
             MaxPositiveDepth = 20;
         }
- 
+
         [Category("Input")]
         [Description("The input matrix which should be [0][-1][-1]")]
         public string Source
@@ -112,6 +112,7 @@ namespace Heiflow.Tools.Math
             var var_index = 0;
             var mat = Get3DMat(Source, ref var_index);
             double prg = 0;
+            int count = 1;
             var grid = ProjectService.Project.Model.Grid as RegularGrid;
 
             if (mat != null && grid != null)
@@ -119,7 +120,7 @@ namespace Heiflow.Tools.Math
                 int nstep = mat.Size[1];
                 int ncell = mat.Size[2];
 
-                var mat_out = new My3DMat<float>(1, nstep, ncell);
+                var mat_out = new DataCube<float>(1, nstep, ncell);
                 mat_out.Name = Output;
                 mat_out.Variables = mat.Variables;
                 mat_out.DateTimes = mat.DateTimes;
@@ -130,10 +131,10 @@ namespace Heiflow.Tools.Math
                 int num_no_neighbor_found = 0;
                 for (int c = 0; c < ncell; c++)
                 {
-                    var vec = mat.GetVector(var_index,MyMath.full, c);
-                    var buf = (from vv in vec select vv - grid.Elevations.Value[0][0][c]).ToArray();
+                    var vec = mat[var_index, ":", c.ToString()];
+                    var buf = (from vv in vec select vv - grid.Elevations[0,0,c]).ToArray();
                     var max = buf.Maximum();
-                    if(max > MaxPositiveDepth)
+                    if (max > MaxPositiveDepth)
                     {
                         var scale = max / MaxPositiveDepth;
                         for (int i = 0; i < nstep; i++)
@@ -141,8 +142,8 @@ namespace Heiflow.Tools.Math
                             if (buf[i] > 0)
                             {
                                 buf[i] /= scale;
-                                mat_out.Value[var_index][i][c] = grid.Elevations.Value[0][0][c] + buf[i];
-                            }                  
+                                mat_out[var_index, i, c] = grid.Elevations[0,0,c] + buf[i];
+                            }
                         }
                         num_dep_modified++;
                     }
@@ -150,7 +151,7 @@ namespace Heiflow.Tools.Math
 
                 for (int c = 0; c < ncell; c++)
                 {
-                    var vec = mat_out.GetVector(var_index,MyMath.full, c);
+                    var vec = mat_out[var_index, ":", c.ToString()];
                     var buf = (from vv in vec select vv - vec[0]).ToArray();
                     var max = buf.Maximum();
                     var min = buf.Minimum();
@@ -190,12 +191,12 @@ namespace Heiflow.Tools.Math
                         {
                             for (int jj = loc[1] - NeighborCount; jj <= loc[1] + NeighborCount; jj++)
                             {
-                                if (ii >= 0 && ii < grid.RowCount && jj >= 0 && jj < grid.ColumnCount && grid.IBound.Value[0][ii][jj] > 0)
+                                if (ii >= 0 && ii < grid.RowCount && jj >= 0 && jj < grid.ColumnCount && grid.IBound[0,ii,jj] > 0)
                                 {
                                     var cell_index = grid.Topology.GetSerialIndex(ii, jj);
                                     if (!RequireModify(mat_out, var_index, cell_index))
                                     {
-                                        var neibor_vec = mat_out.GetVector(var_index, MyMath.full, cell_index);
+                                        var neibor_vec = mat_out[var_index, ":", cell_index.ToString()];
                                         var buf_nei = (from vv in neibor_vec select vv - neibor_vec[0]).ToArray();
                                         neibor.Add(buf_nei);
                                     }
@@ -206,7 +207,7 @@ namespace Heiflow.Tools.Math
                         {
                             for (int i = 1; i < nstep; i++)
                             {
-                               // float av_value = 0;
+                                // float av_value = 0;
                                 var sds = (from vv in neibor select vv.StandardDeviation()).ToArray();
                                 var min_sd = sds.Min();
                                 var min_sd_index = 0;
@@ -224,7 +225,7 @@ namespace Heiflow.Tools.Math
                                 //}
                                 //av_value /= neibor.Count;
                                 //mat_out.Value[var_index][i][c] = mat_out.Value[var_index][0][c] + av_value;
-                                mat_out.Value[var_index][i][c] = mat_out.Value[var_index][0][c] + neibor[min_sd_index][i];
+                                mat_out[var_index, i, c] = mat_out[var_index, 0, c] + neibor[min_sd_index][i];
                             }
                         }
                         else
@@ -232,7 +233,7 @@ namespace Heiflow.Tools.Math
                             for (int i = 1; i < nstep; i++)
                             {
                                 vec[i] = vec[0] + buf[i] * 0.5f;
-                                mat_out.Value[var_index][i][c] = vec[i];
+                                mat_out[var_index, i, c] = vec[i];
                             }
                             num_no_neighbor_found++;
                         }
@@ -240,8 +241,11 @@ namespace Heiflow.Tools.Math
                     }
 
                     prg = (c + 1) * 100.0 / ncell;
-                    if (prg % 10 == 0)
+                    if (prg > count)
+                    {
                         cancelProgressHandler.Progress("Package_Tool", (int)prg, "Caculating Cell: " + (c + 1));
+                        count++;
+                    }
                 }
                 cancelProgressHandler.Progress("Package_Tool", 100, string.Format(" \num_dep_modified: {0};\n num_head_modified: {1};\n num_no_neighbor_found:{2}",
                     num_dep_modified, num_head_modified, num_no_neighbor_found));
@@ -255,10 +259,10 @@ namespace Heiflow.Tools.Math
             }
         }
 
-        private bool RequireModify(My3DMat<float> mat, int var_index, int c)
+        private bool RequireModify(DataCube<float> mat, int var_index, int c)
         {
             var modify = false;
-            var vec = mat.GetVector(var_index, MyMath.full, c);
+            var vec = mat[var_index, ":", c.ToString()];
             var buf = (from vv in vec select vv - vec[0]).ToArray();
             var max = buf.Maximum();
             var min = buf.Minimum();

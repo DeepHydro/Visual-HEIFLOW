@@ -28,14 +28,28 @@
 //
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-namespace Heiflow.Core.Data
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Heiflow.Models.Running
 {
-    public interface ITimeSeries<T>
+    public interface IConsoleAutomator
     {
-        string Name { get; set; }
-        DateTime[] DateTimes { get; set; }
-        T[] GetSeriesAt(int var_index, int spatial_index);
+        StreamWriter StandardInput { get; }
+
+        event EventHandler<ConsoleInputReadEventArgs> StandardInputRead;
+    }
+
+    public class ConsoleInputReadEventArgs : EventArgs
+    {
+        public ConsoleInputReadEventArgs(string input)
+        {
+            this.Input = input;
+        }
+
+        public string Input { get; private set; }
     }
 }

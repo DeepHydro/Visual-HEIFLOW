@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
@@ -126,7 +127,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 1)]
-        public MyVarient3DMat<float> IUZFBND { get; set; }
+        public DataCube<float> IUZFBND { get; set; }
         /// <summary>
         /// [Serial] An array of integer values used to define the stream segments within the Streamflow-Routing (SFR2) Package or lake numbers in the Lake (LAK3) Package to which overland runoff from excess infiltration and ground-water discharge to land surface will be added. 
         /// A positive integer value identifies the stream segment and a negative integer value identifies the lake number.
@@ -135,7 +136,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 0)]
-        public MyVarient3DMat<float> IRUNBND { get; set; }
+        public DataCube<float> IRUNBND { get; set; }
         /// <summary>
         ///  the saturated vertical hydraulic conductivity of the unsaturated zone (LT-1).
         /// </summary>
@@ -143,7 +144,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 0.001f)]
-        public MyVarient3DMat<float> VKS { get; set; }
+        public DataCube<float> VKS { get; set; }
         /// <summary>
         ///  define the Brooks-Corey epsilon of the unsaturated zone
         /// </summary>
@@ -151,7 +152,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 0.3f)]
-        public MyVarient3DMat<float> EPS { get; set; }
+        public DataCube<float> EPS { get; set; }
         /// <summary>
         ///  define the saturated water content of the unsaturated zone in units of volume of water to total volume (L3L-3).
         /// </summary>
@@ -159,16 +160,16 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 0.3f)]
-        public MyVarient3DMat<float> THTS { get; set; }
+        public DataCube<float> THTS { get; set; }
         /// <summary>
         /// Initial water content
         /// </summary>
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 0.2f)]
-        public MyVarient3DMat<float> THTI { get; set; }
+        public DataCube<float> THTI { get; set; }
 
-        public My3DMat<int> UZGAG { get; set; }
+        public DataCube<int> UZGAG { get; set; }
 
         /// <summary>
         /// [Serial]  define the infiltration rates (LT-1) at land surface for each vertical column of cells.
@@ -177,8 +178,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Stress Period")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 0.001f)]
-        public MyVarient3DMat<float> FINF { get; set; }
-        //public My3DMat<float> FINF { get; set; }     
+        public DataCube<float> FINF { get; set; }
         /// <summary>
         /// An array of positive real values used to define the ET demand rates (L1T-1) within the ET extinction depth interval for each vertical column of cells.
         /// </summary>
@@ -186,7 +186,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Stress Period")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 0.001f)]
-        public MyVarient3DMat<float> PET { get; set; }
+        public DataCube<float> PET { get; set; }
         /// <summary>
         /// An array of positive real values used to define the ET extinction depths.
         /// </summary>
@@ -194,7 +194,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Stress Period")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 2)]
-        public MyVarient3DMat<float> EXTDP { get; set; }
+        public DataCube<float> EXTDP { get; set; }
         /// <summary>
         /// An array of positive real values used to define the extinction water content below which ET cannot be removed from the unsaturated zone.
         /// Note 8: EXTWC must have a value between (THTS-Sy) and THTS, where Sy is the specific yield specified in either the LPF or BCF Package
@@ -203,7 +203,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Stress Period")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 0.1f)]
-        public MyVarient3DMat<float> EXTWC { get; set; }
+        public DataCube<float> EXTWC { get; set; }
 
         public bool SPECIFYTHTI { get; set; }
         #endregion
@@ -221,7 +221,7 @@ namespace Heiflow.Models.Subsurface
             base.New();
             return true;
         }
-        public override bool Load()
+        public override bool Load(ICancelProgressHandler progresshandler)
         {
             if (File.Exists(FileName))
             {
@@ -253,37 +253,37 @@ namespace Heiflow.Models.Subsurface
                 this.NUZGAG = (int)fv[8];
                 this.SURFDEP = fv[9];
 
-                this.IUZFBND = new MyVarient3DMat<float>(1, 1)
+                this.IUZFBND = new DataCube<float>(1, 1,grid.ActiveCellCount)
                 {
                     Name = "IUZFBND",
                     AllowTableEdit = true,
                     TimeBrowsable = false
                 };
-                this.IRUNBND = new MyVarient3DMat<float>(1, 1)
+                this.IRUNBND = new DataCube<float>(1, 1, grid.ActiveCellCount)
                 {
                     Name = "IRUNBND",
                     AllowTableEdit = true,
                     TimeBrowsable = false
                 };
-                this.VKS = new MyVarient3DMat<float>(1, 1)
+                this.VKS = new DataCube<float>(1, 1, grid.ActiveCellCount)
                 {
                     Name = "VKS",
                     AllowTableEdit = true,
                     TimeBrowsable = false
                 };
-                this.EPS = new MyVarient3DMat<float>(1, 1)
+                this.EPS = new DataCube<float>(1, 1, grid.ActiveCellCount)
                 {
                     Name = "EPS",
                     AllowTableEdit = true,
                     TimeBrowsable = false
                 };
-                this.THTS = new MyVarient3DMat<float>(1, 1)
+                this.THTS = new DataCube<float>(1, 1, grid.ActiveCellCount)
                 {
                     Name = "THTS",
                     AllowTableEdit = true,
                     TimeBrowsable = false
                 };
-                this.THTI = new MyVarient3DMat<float>(1, 1)
+                this.THTI = new DataCube<float>(1, 1, grid.ActiveCellCount)
                 {
                     Name = "THTI",
                     AllowTableEdit = true,
@@ -327,19 +327,19 @@ namespace Heiflow.Models.Subsurface
                     var iv = TypeConverterEx.Split<int>(newline);
                     if (iv.Length == 4)
                     {
-                        UZGAG = new My3DMat<int>(NUZGAG, 1, 4);
-                        UZGAG.Value[0][0][0] = iv[0];
-                        UZGAG.Value[0][0][1] = iv[1];
-                        UZGAG.Value[0][0][2] = iv[2];
-                        UZGAG.Value[0][0][3] = iv[3];
+                        UZGAG = new DataCube<int>(NUZGAG, 1, 4);
+                        UZGAG[0,0,0] = iv[0];
+                        UZGAG[0, 0, 1] = iv[1];
+                        UZGAG[0, 0, 2] = iv[2];
+                        UZGAG[0, 0, 3] = iv[3];
                         for (int i = 1; i < NUZGAG; i++)
                         {
                             newline = sr.ReadLine();
                             iv = TypeConverterEx.Split<int>(newline);
-                            UZGAG.Value[i][0][0] = iv[0];
-                            UZGAG.Value[i][0][1] = iv[1];
-                            UZGAG.Value[i][0][2] = iv[2];
-                            UZGAG.Value[i][0][3] = iv[3];
+                            UZGAG[0, "0", ":"] = iv;
+                            //UZGAG.Value[i][0][1] = iv[1];
+                            //UZGAG.Value[i][0][2] = iv[2];
+                            //UZGAG.Value[i][0][3] = iv[3];
                         }
                     }
                     else
@@ -349,25 +349,25 @@ namespace Heiflow.Models.Subsurface
                 }
 
                 var np = TimeService.StressPeriods.Count;
-                this.FINF = new MyVarient3DMat<float>(np, 1)
+                this.FINF = new DataCube<float>(np, 1, grid.ActiveCellCount)
                 {
                     Name = "FINF",
                     AllowTableEdit = true,
                     TimeBrowsable = false
                 };
-                this.PET = new MyVarient3DMat<float>(np, 1)
+                this.PET = new DataCube<float>(np, 1, grid.ActiveCellCount)
                 {
                     Name = "PET",
                     AllowTableEdit = true,
                     TimeBrowsable = false
                 };
-                this.EXTDP = new MyVarient3DMat<float>(np, 1)
+                this.EXTDP = new DataCube<float>(np, 1, grid.ActiveCellCount)
                 {
                     Name = "EXTDP",
                     AllowTableEdit = true,
                     TimeBrowsable = false
                 };
-                this.EXTWC = new MyVarient3DMat<float>(np, 1)
+                this.EXTWC = new DataCube<float>(np, 1, grid.ActiveCellCount)
                 {
                     Name = "EXTWC",
                     AllowTableEdit = true,
@@ -391,6 +391,9 @@ namespace Heiflow.Models.Subsurface
                     else
                     {
                         FINF.Flags[p,0] = TimeVarientFlag.Repeat;
+                        var buf= new float[grid.ActiveCellCount];
+                        FINF[p - 1, "0", ":"].CopyTo(buf, 0);
+                        FINF[p, "0", ":"] = buf;
                     }
                     if (IETFLG > 0)
                     {
@@ -403,6 +406,9 @@ namespace Heiflow.Models.Subsurface
                         else
                         {
                             PET.Flags[p,0] = TimeVarientFlag.Repeat;
+                            var buf = new float[grid.ActiveCellCount];
+                            PET[p - 1, "0", ":"].CopyTo(buf, 0);
+                            PET[p, "0", ":"] = buf;
                         }
 
                         newline = sr.ReadLine();
@@ -414,6 +420,9 @@ namespace Heiflow.Models.Subsurface
                         else
                         {
                             EXTDP.Flags[p,0] = TimeVarientFlag.Repeat;
+                            var buf = new float[grid.ActiveCellCount];
+                            EXTDP[p - 1, "0", ":"].CopyTo(buf, 0);
+                            EXTDP[p, "0", ":"] = buf;
                         }
 
                         newline = sr.ReadLine();
@@ -425,6 +434,9 @@ namespace Heiflow.Models.Subsurface
                         else
                         {
                             EXTWC.Flags[p,0] = TimeVarientFlag.Repeat;
+                            var buf = new float[grid.ActiveCellCount];
+                            EXTWC[p - 1, "0", ":"].CopyTo(buf, 0);
+                            EXTWC[p, "0", ":"] = buf;
                         }
                     }
 
@@ -434,13 +446,13 @@ namespace Heiflow.Models.Subsurface
                     this.EXTWC.Variables[p] = "EXTWC Stress Period " + (p + 1);
                 }
                 State = ModelObjectState.Ready;
-                OnLoaded("Sucessfully loaded");
+                OnLoaded(progresshandler);
                 return true;
             }
             else
             {
                 State = ModelObjectState.Error;
-                OnLoadFailed("Failed to load");
+                OnLoadFailed("Failed to load" + this.Name, progresshandler);
                 return false;
             }
         }
@@ -455,7 +467,7 @@ namespace Heiflow.Models.Subsurface
             this.Feature = Owner.Grid.FeatureSet;
             this.FeatureLayer = Owner.Grid.FeatureLayer;
         }
-        public override bool SaveAs(string filename, IProgress prg)
+        public override bool SaveAs(string filename, ICancelProgressHandler prg)
         {
             int np = TimeService.StressPeriods.Count;
             var grid = this.Grid as IRegularGrid;
@@ -554,37 +566,37 @@ namespace Heiflow.Models.Subsurface
             this.FeatureLayer = this.Grid.FeatureLayer;
             this.Feature = this.Grid.FeatureSet;
 
-            this.IUZFBND = new MyVarient3DMat<float>(1, 1, grid.ActiveCellCount)
+            this.IUZFBND = new DataCube<float>(1, 1, grid.ActiveCellCount)
             {
                 Name = "IUZFBND",
                 AllowTableEdit = true,
                 TimeBrowsable = false
             };
-            this.IRUNBND = new MyVarient3DMat<float>(1, 1, grid.ActiveCellCount)
+            this.IRUNBND = new DataCube<float>(1, 1, grid.ActiveCellCount)
             {
                 Name = "IRUNBND",
                 AllowTableEdit = true,
                 TimeBrowsable = false
             };
-            this.VKS = new MyVarient3DMat<float>(1, 1, grid.ActiveCellCount)
+            this.VKS = new DataCube<float>(1, 1, grid.ActiveCellCount)
             {
                 Name = "VKS",
                 AllowTableEdit = true,
                 TimeBrowsable = false
             };
-            this.EPS = new MyVarient3DMat<float>(1, 1, grid.ActiveCellCount)
+            this.EPS = new DataCube<float>(1, 1, grid.ActiveCellCount)
             {
                 Name = "EPS",
                 AllowTableEdit = true,
                 TimeBrowsable = false
             };
-            this.THTS = new MyVarient3DMat<float>(1, 1, grid.ActiveCellCount)
+            this.THTS = new DataCube<float>(1, 1, grid.ActiveCellCount)
             {
                 Name = "THTS",
                 AllowTableEdit = true,
                 TimeBrowsable = false
             };
-            this.THTI = new MyVarient3DMat<float>(1, 1, grid.ActiveCellCount)
+            this.THTI = new DataCube<float>(1, 1, grid.ActiveCellCount)
             {
                 Name = "THTI",
                 AllowTableEdit = true,
@@ -607,11 +619,11 @@ namespace Heiflow.Models.Subsurface
             //# Data Set 2: IUZFBND
             for (int i = 0; i < grid.ActiveCellCount;i++ )
             {
-                this.IUZFBND.Value[0][0][i] = 1;
-                this.VKS.Value[0][0][i] = 0.1f;
-                this.EPS.Value[0][0][i] = 3.0f;
-                this.THTS.Value[0][0][i] = 0.3f;
-                this.THTI.Value[0][0][i] = 0.05f;
+                this.IUZFBND[0,0,i] = 1;
+                this.VKS[0, 0, i] = 0.1f;
+                this.EPS[0, 0, i] = 3.0f;
+                this.THTS[0,0,i]  = 0.3f;
+                this.THTI[0, 0, i] = 0.05f;
             }
             InitTVArrays();
             base.OnGridUpdated(sender);
@@ -631,25 +643,25 @@ namespace Heiflow.Models.Subsurface
             var grid = mf.Grid as MFGrid;
             int ncell=grid.ActiveCellCount;
             int np = TimeService.StressPeriods.Count;
-            this.FINF = new MyVarient3DMat<float>(np, 1)
+            this.FINF = new DataCube<float>(np, 1,grid.ActiveCellCount)
             {
                 Name = "FINF",
                 AllowTableEdit = true,
                 TimeBrowsable = false
             };
-            this.PET = new MyVarient3DMat<float>(np, 1)
+            this.PET = new DataCube<float>(np, 1, grid.ActiveCellCount)
             {
                 Name = "PET",
                 AllowTableEdit = true,
                 TimeBrowsable = false
             };
-            this.EXTDP = new MyVarient3DMat<float>(np, 1)
+            this.EXTDP = new DataCube<float>(np, 1, grid.ActiveCellCount)
             {
                 Name = "EXTDP",
                 AllowTableEdit = true,
                 TimeBrowsable = false
             };
-            this.EXTWC = new MyVarient3DMat<float>(np, 1)
+            this.EXTWC = new DataCube<float>(np, 1, grid.ActiveCellCount)
             {
                 Name = "EXTWC",
                 AllowTableEdit = true,
@@ -666,22 +678,17 @@ namespace Heiflow.Models.Subsurface
             this.EXTDP.Variables[0] = "EXTDP Stress Period 1";
             this.EXTWC.Variables[0] = "EXTWC Stress Period 1";
 
-            this.FINF.Value[0][0] = new float[ncell];
-            this.PET.Value[0][0] = new float[ncell];
-            this.EXTDP.Value[0][0] = new float[ncell];
-            this.EXTWC.Value[0][0] = new float[ncell];
-
             this.FINF.Flags[0,0] = TimeVarientFlag.Individual;
             this.PET.Flags[0,0] = TimeVarientFlag.Individual;
             this.EXTDP.Flags[0,0] = TimeVarientFlag.Individual;
             this.EXTWC.Flags[0,0] = TimeVarientFlag.Individual;
-            for (int i = 0; i < ncell; i++)
-            {
-                this.FINF.Value[0][0][i] = 0.0001f;
-                this.PET.Value[0][0][i] = 0.003f;
-                this.EXTDP.Value[0][0][i] = 3f;
-                this.EXTWC.Value[0][0][i] = 0.15f;
-            }
+            //for (int i = 0; i < ncell; i++)
+            //{
+                this.FINF.ILArrays[0]["0",":"] = 0.0001f;
+                this.PET.ILArrays[0]["0", ":"] = 0.003f;
+                this.EXTDP.ILArrays[0]["0", ":"] = 3f;
+                this.EXTWC.ILArrays[0]["0", ":"] = 0.15f;
+            //}
 
             for (int p = 1; p < np; p++)
             {

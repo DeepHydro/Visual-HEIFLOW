@@ -142,13 +142,15 @@ namespace Heiflow.Models.Generic.Grid
                 Source.ActualLayerCount = this.LayerCount;
                 Source.RowCount = RowCount;
                 Source.ColumnCount = ColumnCount;
-                Source.IBound = new MyVarient3DMat<float>(this.LayerCount, RowCount, ColumnCount);
-                Source.DELC = new MyVarient3DMat<float>(1, 1);
-                Source.DELR = new MyVarient3DMat<float>(1, 1);
+                Source.IBound = new DataCube<float>(this.LayerCount, RowCount, ColumnCount);
+                Source.DELC = new DataCube<float>(1, 1,RowCount);
+                Source.DELR = new DataCube<float>(1, 1,ColumnCount);
                 Source.DELC.Flags[0,0] = TimeVarientFlag.Constant;
                 Source.DELR.Flags[0,0] = TimeVarientFlag.Constant;
                 Source.DELC.Constants[0,0] = this.XSize;
                 Source.DELR.Constants[0,0] = this.YSize;
+                Source.DELC.ILArrays[0]["0", ":"] = this.XSize;
+                Source.DELR.ILArrays[0]["0", ":"] = this.YSize;
                 Source.Projection = Domain.Projection;
                 Source.BBox = new Envelope(Domain.Extent.MinX, Domain.Extent.MaxX, Domain.Extent.MinY, Domain.Extent.MaxY);
 
@@ -164,14 +166,14 @@ namespace Heiflow.Models.Generic.Grid
                         if (SpatialRelationship.PointInPolygon(geo, cor))
                         {
                             for (int l = 0; l < Source.ActualLayerCount; l++)
-                                Source.IBound.Value[l][r][c] = 1;
+                                Source.IBound[l,r,c] = 1;
                             active++;
                             centroids.Add(cor);
                         }
                     }
                 }
                 Source.ActiveCellCount = active;
-                Source.Elevations = new MyVarient3DMat<float>(Source.LayerCount, 1, active);
+                Source.Elevations = new DataCube<float>(Source.LayerCount, 1, active);
                 Source.Elevations.Variables[0] = "Top Elevation";
 
                 for (int i = 0; i < active; i++)
@@ -182,7 +184,7 @@ namespace Heiflow.Models.Generic.Grid
                     //else
                     //    Source.Elevations.Value[0][0][i] = 0;
                     var pt=new Coordinate(centroids[i].X-0.5*XSize,centroids[i].Y-0.5*YSize);
-                    Source.Elevations.Value[0][0][i] = ZonalStatastics.GetCellAverage(DEM, pt, XSize, AveragingMethod);
+                    Source.Elevations[0,0,i] = ZonalStatastics.GetCellAverage(DEM, pt, XSize, AveragingMethod);
                 }
 
                 for (int l = 1; l < Source.LayerCount; l++)
@@ -190,7 +192,7 @@ namespace Heiflow.Models.Generic.Grid
                     Source.Elevations.Variables[l] = string.Format("Layer {0} Bottom Elevation", l);
                     for (int i = 0; i < active; i++)
                     {
-                        Source.Elevations.Value[l][0][i] = (float)(Source.Elevations.Value[l - 1][0][i] - LayerGroups[l - 1].LayerHeight);
+                        Source.Elevations[l,0,i] = (float)(Source.Elevations[l - 1,0,i] - LayerGroups[l - 1].LayerHeight);
                     }
                 }
                 Source.BuildTopology();

@@ -65,7 +65,7 @@ namespace Heiflow.Core.Data
         public bool IsNormal { get; set; }
     }
 
-    public class NumericalTimeSeries : IVectorTimeSeries<double>
+    public class NumericalTimeSeries
     {
         protected DateTime[] mDateTimeVector;
         protected double[] mDataValueVector;

@@ -47,49 +47,52 @@ namespace Heiflow.Tools.Statisitcs
             Description = "  Calculate the temporal statistics at each spatial cell: mean, variance, skewness, kurtosis.";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
-            OutputMatrix = "SpatialStat";
+            OutputDataCube = "SpatialStat";
         }
 
         [Category("Input")]
-        [Description("The input matrix being analyzed. The matrix style shoud be mat[0][-1][-1]")]
-        public string Matrix { get; set; }
+        [Description("The input matrix being analyzed. The Data Cube style shoud be mat[0][:][:]")]
+        public string InputDataCube { get; set; }
 
         [Category("Output")]
-        [Description("The name of  output matrix")]
-        public string OutputMatrix { get; set; }
+        [Description("The name of  output DataCube")]
+        public string OutputDataCube { get; set; }
 
         public override void Initialize()
         {
-            var mat = Get3DMat(Matrix);
+            var mat = Get3DMat(InputDataCube);
             Initialized = mat != null;
         }
 
         public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
         {
             int var_index = 0;
-            var mat = Get3DMat(Matrix, ref var_index);
+            var mat = Get3DMat(InputDataCube, ref var_index);
             int prg = 0;
-
+            int count = 1;
             if (mat != null)
             {
                 int nstep = mat.Size[1];
                 int ncell = mat.Size[2];
-                var mat_out = new My3DMat<float>(4, 1, ncell);
-                mat_out.Name = OutputMatrix;
+                var mat_out = new DataCube<float>(4, 1, ncell);
+                mat_out.Name = OutputDataCube;
                 mat_out.Variables = new string[] { "Mean", "Variance", "Skewness", "kurtosis" };
                 for (int c = 0; c < ncell; c++)
                 {
                     double mean = 0, variance = 0, skewness = 0, kurtosis = 0;
-                    var vec = mat.GetVector(var_index, MyMath.full, c);
-                    var dou_vec = MyMath.ToDouble(vec);
+                    var vec = mat.GetVector(var_index, ":", c.ToString());
+                    var dou_vec = MatrixOperation.ToDouble(vec);
                     Heiflow.Core.Alglib.alglib.basestat.samplemoments(dou_vec, vec.Length, ref mean, ref variance, ref skewness, ref kurtosis);
                     mat_out[0, 0, c] =(float) mean;
                     mat_out[1, 0, c] = (float)variance;
                     mat_out[2, 0, c] = (float)skewness;
                     mat_out[3, 0, c] = (float)kurtosis;
                     prg = (c + 1) * 100 / ncell;
-                    if (prg % 10 == 5)
+                    if (prg > count)
+                    {
                         cancelProgressHandler.Progress("Package_Tool", prg, "Caculating Cell: " + (c + 1));
+                        count++;
+                    }
                 }
                 Workspace.Add(mat_out);
                 return true;

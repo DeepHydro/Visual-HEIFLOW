@@ -65,8 +65,8 @@ namespace Heiflow.Models.Generic.Parameters
                 _array.SetValue(_value, 0);
                 if (ValueType < 4)
                 {
-                    _DataCube = new Core.Data.My3DMat<float>(1, 1, 1);
-                    _DataCube.Value[0][0][0] = float.Parse(_value.ToString());
+                    _DataCube = new Core.Data.DataCube<float>(1, 1, 1);
+                    _DataCube[0,0,0] = float.Parse(_value.ToString());
                     _DataCube.Variables = new string[] { this.Name };
                 }
             }

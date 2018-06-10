@@ -49,7 +49,7 @@ namespace Heiflow.Core.Hydrology
 
         public int DatasourceFlag { get; set; }
 
-        public IVectorTimeSeries<double> Divserion { get; set; }
+        public DataCube<double> Divserion { get; set; }
 
         public double Scale { get; set; }
 

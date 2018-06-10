@@ -34,13 +34,18 @@ namespace Heiflow.Controls.WinForm.Display
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl3 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.treeView1 = new Heiflow.Controls.Tree.TreeViewAdv();
+            this.nodeStateIcon1 = new Heiflow.Controls.Tree.NodeControls.NodeStateIcon();
+            this.nodeTextBox1 = new Heiflow.Controls.Tree.NodeControls.NodeTextBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnLoad = new System.Windows.Forms.ToolStripButton();
             this.btnOpen = new System.Windows.Forms.ToolStripButton();
+            this.btnClearCache = new System.Windows.Forms.ToolStripButton();
             this.tabControl_Main = new System.Windows.Forms.TabControl();
             this.tabPage_Graph = new System.Windows.Forms.TabPage();
+            this.winChart1 = new Heiflow.Controls.WinForm.Controls.WinChart();
             this.tabPage_Report = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -91,10 +96,6 @@ namespace Heiflow.Controls.WinForm.Display
             this.canal_et = new System.Windows.Forms.TextBox();
             this.sfr_et = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.treeView1 = new Heiflow.Controls.Tree.TreeViewAdv();
-            this.nodeStateIcon1 = new Heiflow.Controls.Tree.NodeControls.NodeStateIcon();
-            this.nodeTextBox1 = new Heiflow.Controls.Tree.NodeControls.NodeTextBox();
-            this.winChart1 = new Heiflow.Controls.WinForm.Controls.WinChart();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -158,6 +159,45 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabPage5.Text = "Explorer";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
+            // treeView1
+            // 
+            this.treeView1.BackColor = System.Drawing.SystemColors.Window;
+            this.treeView1.BackColor2 = System.Drawing.SystemColors.Window;
+            this.treeView1.BackgroundPaintMode = Heiflow.Controls.Tree.BackgroundPaintMode.Default;
+            this.treeView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.treeView1.DefaultToolTipProvider = null;
+            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView1.DragDropMarkColor = System.Drawing.Color.Black;
+            this.treeView1.Font = new System.Drawing.Font("Calibri", 10.5F);
+            this.treeView1.HighlightColorActive = System.Drawing.SystemColors.Highlight;
+            this.treeView1.HighlightColorInactive = System.Drawing.SystemColors.InactiveBorder;
+            this.treeView1.LineColor = System.Drawing.SystemColors.ControlDark;
+            this.treeView1.Location = new System.Drawing.Point(3, 4);
+            this.treeView1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.treeView1.Model = null;
+            this.treeView1.Name = "treeView1";
+            this.treeView1.NodeControls.Add(this.nodeStateIcon1);
+            this.treeView1.NodeControls.Add(this.nodeTextBox1);
+            this.treeView1.OnVisibleOverride = null;
+            this.treeView1.SelectedNode = null;
+            this.treeView1.Size = new System.Drawing.Size(205, 650);
+            this.treeView1.TabIndex = 2;
+            this.treeView1.Text = "treeViewAdv1";
+            // 
+            // nodeStateIcon1
+            // 
+            this.nodeStateIcon1.LeftMargin = 1;
+            this.nodeStateIcon1.ParentColumn = null;
+            this.nodeStateIcon1.ScaleMode = Heiflow.Controls.Tree.ImageScaleMode.Clip;
+            // 
+            // nodeTextBox1
+            // 
+            this.nodeTextBox1.DataPropertyName = "Text";
+            this.nodeTextBox1.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.nodeTextBox1.IncrementalSearchEnabled = true;
+            this.nodeTextBox1.LeftMargin = 3;
+            this.nodeTextBox1.ParentColumn = null;
+            // 
             // tabPage6
             // 
             this.tabPage6.Controls.Add(this.propertyGrid1);
@@ -186,7 +226,8 @@ namespace Heiflow.Controls.WinForm.Display
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnLoad,
-            this.btnOpen});
+            this.btnOpen,
+            this.btnClearCache});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(219, 27);
@@ -212,6 +253,16 @@ namespace Heiflow.Controls.WinForm.Display
             this.btnOpen.Size = new System.Drawing.Size(24, 24);
             this.btnOpen.Text = "Open...";
             // 
+            // btnClearCache
+            // 
+            this.btnClearCache.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnClearCache.Image = global::Heiflow.Controls.WinForm.Properties.Resources.if_history_clear_9334;
+            this.btnClearCache.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnClearCache.Name = "btnClearCache";
+            this.btnClearCache.Size = new System.Drawing.Size(24, 24);
+            this.btnClearCache.Text = "Clear cache";
+            this.btnClearCache.Click += new System.EventHandler(this.btnClearCache_Click);
+            // 
             // tabControl_Main
             // 
             this.tabControl_Main.Controls.Add(this.tabPage_Graph);
@@ -236,14 +287,26 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabPage_Graph.Text = "Time Series";
             this.tabPage_Graph.UseVisualStyleBackColor = true;
             // 
+            // winChart1
+            // 
+            this.winChart1.BackColor = System.Drawing.SystemColors.Control;
+            this.winChart1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.winChart1.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.winChart1.Location = new System.Drawing.Point(3, 4);
+            this.winChart1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.winChart1.Name = "winChart1";
+            this.winChart1.ShowStatPanel = true;
+            this.winChart1.Size = new System.Drawing.Size(1097, 677);
+            this.winChart1.TabIndex = 0;
+            // 
             // tabPage_Report
             // 
             this.tabPage_Report.Controls.Add(this.tabControl2);
-            this.tabPage_Report.Location = new System.Drawing.Point(4, 24);
+            this.tabPage_Report.Location = new System.Drawing.Point(4, 22);
             this.tabPage_Report.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage_Report.Name = "tabPage_Report";
             this.tabPage_Report.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage_Report.Size = new System.Drawing.Size(1103, 685);
+            this.tabPage_Report.Size = new System.Drawing.Size(1103, 687);
             this.tabPage_Report.TabIndex = 1;
             this.tabPage_Report.Text = "Statistics";
             this.tabPage_Report.UseVisualStyleBackColor = true;
@@ -259,7 +322,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabControl2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(1097, 677);
+            this.tabControl2.Size = new System.Drawing.Size(1097, 679);
             this.tabControl2.TabIndex = 3;
             // 
             // tabPage3
@@ -269,7 +332,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabPage3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage3.Size = new System.Drawing.Size(1089, 646);
+            this.tabPage3.Size = new System.Drawing.Size(1089, 648);
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "Entire Region Budgets";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -297,7 +360,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.olvDataTree.RootKeyValueString = "";
             this.olvDataTree.ShowGroups = false;
             this.olvDataTree.ShowKeyColumns = false;
-            this.olvDataTree.Size = new System.Drawing.Size(1083, 638);
+            this.olvDataTree.Size = new System.Drawing.Size(1083, 640);
             this.olvDataTree.TabIndex = 4;
             this.olvDataTree.UseCompatibleStateImageBehavior = false;
             this.olvDataTree.UseFilterIndicator = true;
@@ -372,7 +435,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabPage1.Location = new System.Drawing.Point(4, 27);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1089, 646);
+            this.tabPage1.Size = new System.Drawing.Size(1089, 648);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "Zonal Budgets";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -801,57 +864,6 @@ namespace Heiflow.Controls.WinForm.Display
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // treeView1
-            // 
-            this.treeView1.BackColor = System.Drawing.SystemColors.Window;
-            this.treeView1.BackColor2 = System.Drawing.SystemColors.Window;
-            this.treeView1.BackgroundPaintMode = Heiflow.Controls.Tree.BackgroundPaintMode.Default;
-            this.treeView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.treeView1.DefaultToolTipProvider = null;
-            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView1.DragDropMarkColor = System.Drawing.Color.Black;
-            this.treeView1.Font = new System.Drawing.Font("Calibri", 10.5F);
-            this.treeView1.HighlightColorActive = System.Drawing.SystemColors.Highlight;
-            this.treeView1.HighlightColorInactive = System.Drawing.SystemColors.InactiveBorder;
-            this.treeView1.LineColor = System.Drawing.SystemColors.ControlDark;
-            this.treeView1.Location = new System.Drawing.Point(3, 4);
-            this.treeView1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.treeView1.Model = null;
-            this.treeView1.Name = "treeView1";
-            this.treeView1.NodeControls.Add(this.nodeStateIcon1);
-            this.treeView1.NodeControls.Add(this.nodeTextBox1);
-            this.treeView1.OnVisibleOverride = null;
-            this.treeView1.SelectedNode = null;
-            this.treeView1.Size = new System.Drawing.Size(205, 650);
-            this.treeView1.TabIndex = 2;
-            this.treeView1.Text = "treeViewAdv1";
-            // 
-            // nodeStateIcon1
-            // 
-            this.nodeStateIcon1.LeftMargin = 1;
-            this.nodeStateIcon1.ParentColumn = null;
-            this.nodeStateIcon1.ScaleMode = Heiflow.Controls.Tree.ImageScaleMode.Clip;
-            // 
-            // nodeTextBox1
-            // 
-            this.nodeTextBox1.DataPropertyName = "Text";
-            this.nodeTextBox1.Font = new System.Drawing.Font("Calibri", 9.5F);
-            this.nodeTextBox1.IncrementalSearchEnabled = true;
-            this.nodeTextBox1.LeftMargin = 3;
-            this.nodeTextBox1.ParentColumn = null;
-            // 
-            // winChart1
-            // 
-            this.winChart1.BackColor = System.Drawing.SystemColors.Control;
-            this.winChart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.winChart1.Font = new System.Drawing.Font("Calibri", 9.5F);
-            this.winChart1.Location = new System.Drawing.Point(3, 4);
-            this.winChart1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.winChart1.Name = "winChart1";
-            this.winChart1.ShowStatPanel = true;
-            this.winChart1.Size = new System.Drawing.Size(1097, 677);
-            this.winChart1.TabIndex = 0;
-            // 
             // StateMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -950,5 +962,6 @@ namespace Heiflow.Controls.WinForm.Display
         private System.Windows.Forms.TextBox uz_error;
         private System.Windows.Forms.TextBox sat_error;
         private System.Windows.Forms.TextBox soil_error;
+        private System.Windows.Forms.ToolStripButton btnClearCache;
     }
 }

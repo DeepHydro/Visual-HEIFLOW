@@ -74,6 +74,7 @@ namespace Heiflow.Controls.WinForm.Project
                 if (prjcntl.Import.CanExecute(_ImportProperty))
                 {
                     prjcntl.Import.Execute(_ImportProperty);
+                    this.Close();
                 }
                 else
                 {

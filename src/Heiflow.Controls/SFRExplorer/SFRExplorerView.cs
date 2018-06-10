@@ -88,8 +88,6 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         }
         private void SFRExplorerView_Load(object sender, EventArgs e)
         {
-            _ProjectService = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
-            sfrExplorer1.ODM = _ProjectService.Project.ODMSource;
         }
 
         public void ShowView(IWin32Window pararent)

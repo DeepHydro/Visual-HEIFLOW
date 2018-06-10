@@ -140,7 +140,7 @@ namespace Heiflow.Models.Generic
             set;
         }
         Array ArrayObject { get; }
-        My3DMat<float> DataCubeObject { get; }
+        DataCube<float> DataCubeObject { get; }
         IEnumerable<double> ToDouble();
 
         IEnumerable<float> ToFloat();

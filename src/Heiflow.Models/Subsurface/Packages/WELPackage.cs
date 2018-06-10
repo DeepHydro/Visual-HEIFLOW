@@ -42,7 +42,7 @@ namespace Heiflow.Models.Subsurface
 {
     [PackageItem]
     [Export(typeof(IMFPackage))]
-    [PackageCategory("Boundary Conditions,Specified Flux",false)]
+    [PackageCategory("Boundary Conditions,Specified Flux", false)]
     [CoverageItem]
     public class WELPackage : MFPackage
     {
@@ -68,7 +68,7 @@ namespace Heiflow.Models.Subsurface
         /// <summary>
         /// Default value is: AUXILIARY IFACE NOPRINT
         /// </summary>
-        public  string OptionString { get; set; }
+        public string OptionString { get; set; }
         [Description("Number of wells")]
         public int NWell { get; set; }
         /// <summary>
@@ -76,14 +76,14 @@ namespace Heiflow.Models.Subsurface
         /// </summary>
         [StaticVariableItem("")]
         [Browsable(false)]
-        public MyVarient3DMat<float> FluxRates
+        public DataCube<float> FluxRates
         {
             get;
             set;
         }
         [StaticVariableItem("")]
         [Browsable(false)]
-        public MyVarient4DMat<int> Locations
+        public DataCube<int> Locations
         {
             get;
             set;
@@ -128,9 +128,9 @@ namespace Heiflow.Models.Subsurface
 
                 for (int i = 0; i < NWell; i++)
                 {
-                    int layer = Locations.Value[0][0][i][0];
-                    int row = Locations.Value[0][0][i][1];
-                    int col = Locations.Value[0][0][i][2];
+                    int layer = Locations[0, i, 0];
+                    int row = Locations[0, i, 1];
+                    int col = Locations[0, i, 2];
                     var coor = grid.LocateCentroid(col, row);
                     Point geom = new Point(coor);
                     IFeature feature = fs.AddFeature(geom);
@@ -145,18 +145,17 @@ namespace Heiflow.Models.Subsurface
                     feature.DataRow[RegularGrid.ParaValueField] = 0;
                     for (int j = 0; j < np; j++)
                     {
-                        if(FluxRates.Flags[j,0] ==  TimeVarientFlag.Individual)
+                        if (FluxRates.Flags[j, 0] == TimeVarientFlag.Individual)
                         {
-                            feature.DataRow["Flux Rate" + (j + 1)] = FluxRates.Value[j][0][i];
+                            feature.DataRow["Flux Rate" + (j + 1)] = FluxRates[j, 0, i];
                         }
                         else if (FluxRates.Flags[j, 0] == TimeVarientFlag.Constant)
                         {
-                            feature.DataRow["Flux Rate" + (j + 1)] = FluxRates.Constants[j,0];
+                            feature.DataRow["Flux Rate" + (j + 1)] = FluxRates.Constants[j, 0];
                         }
                         else if (FluxRates.Flags[j, 0] == TimeVarientFlag.Repeat)
                         {
-                            int vv = FluxRates.RepeatAt(j);
-                            feature.DataRow["Flux Rate" + (j + 1)] = FluxRates.Value[vv][0][i];
+                            feature.DataRow["Flux Rate" + (j + 1)] = FluxRates[j, 0, i];
                         }
                     }
                     feature.DataRow.EndEdit();
@@ -174,7 +173,7 @@ namespace Heiflow.Models.Subsurface
         }
 
 
-        public override bool Load()
+        public override bool Load(ICancelProgressHandler progresshandler)
         {
             if (File.Exists(FileName))
             {
@@ -193,19 +192,19 @@ namespace Heiflow.Models.Subsurface
                     if (ss[0] > 0)
                     {
                         NWell = ss[0];
-                        Locations = new MyVarient4DMat<int>(1, 1);
-                        Locations.AllocateSpaceDim(0, 0, NWell, 3);
+                        Locations = new DataCube<int>(1, NWell, 3);
+                        //Locations.AllocateSpaceDim(0, 0, NWell, 3);
                         Locations.Variables = new string[] { "Well Locations" };
-                        Locations.ColumnNames = new string[] { "Layer", "Row", "Column" };
+                        //  Locations.ColumnNames = new string[] { "Layer", "Row", "Column" };
                         Locations.AllowTableEdit = true;
                         Locations.TimeBrowsable = false;
-                       
+
                         for (int i = 0; i < NWell; i++)
                         {
                             var vv = TypeConverterEx.Split<int>(sr.ReadLine(), 3);
-                            Locations.Value[0][0][i][0] = vv[0];
-                            Locations.Value[0][0][i][1] = vv[1];
-                            Locations.Value[0][0][i][2] = vv[2];                                          
+                            Locations[0, i, 0] = vv[0];
+                            Locations[0, i, 1] = vv[1];
+                            Locations[0, i, 2] = vv[2];
                         }
                         break;
                     }
@@ -214,13 +213,13 @@ namespace Heiflow.Models.Subsurface
 
                 Load2Mat4d();
                 State = ModelObjectState.Ready;
-                OnLoaded("Sucessfully loaded");
+                OnLoaded(progresshandler);
                 return true;
             }
             else
             {
                 State = ModelObjectState.Error;
-                OnLoadFailed("Failed to load");
+                OnLoadFailed("Failed to load", progresshandler);
                 return false;
             }
         }
@@ -250,10 +249,10 @@ namespace Heiflow.Models.Subsurface
                 StreamReader sr = new StreamReader(FileName);
                 var line = ReadComment(sr);
                 var ss = TypeConverterEx.Split<float>(line, 2);
-                MXACTW = (int) ss[0];
-                IWELCB =  (int)ss[1];
+                MXACTW = (int)ss[0];
+                IWELCB = (int)ss[1];
 
-                FluxRates = new MyVarient3DMat<float>(np, 1);
+                FluxRates = new DataCube<float>(np, 1, MXACTW, true);
                 FluxRates.DateTimes = new System.DateTime[np];
                 FluxRates.TimeBrowsable = true;
                 FluxRates.AllowTableEdit = false;
@@ -272,13 +271,13 @@ namespace Heiflow.Models.Subsurface
                         for (int i = 0; i < nwel; i++)
                         {
                             var vv = TypeConverterEx.Split<float>(sr.ReadLine());
-                            FluxRates.Value[n][0][i] = vv[3];
+                            FluxRates[n, 0, i] = vv[3];
                         }
                     }
                     else if (nwel == 0)
                     {
                         FluxRates.Flags[n, 0] = TimeVarientFlag.Constant;
-                        FluxRates.Multipliers[n, 0] =1;
+                        FluxRates.Multipliers[n, 0] = 1;
                         FluxRates.IPRN[n, 0] = -1;
                     }
                     else
@@ -286,6 +285,10 @@ namespace Heiflow.Models.Subsurface
                         FluxRates.Flags[n, 0] = TimeVarientFlag.Repeat;
                         FluxRates.Multipliers[n, 0] = ss[1];
                         FluxRates.IPRN[n, 0] = -1;
+                        var size = FluxRates.GetVariableSize(n - 1);
+                        var buf = new float[size[1]];
+                        FluxRates[n - 1, "0", ":"].CopyTo(buf, 0);
+                        FluxRates[n, "0", ":"] = buf;
                     }
                 }
 
@@ -296,12 +299,12 @@ namespace Heiflow.Models.Subsurface
 
         private void InitTVArrays()
         {
-               int np = TimeService.StressPeriods.Count;
-               this.FluxRates = new  MyVarient3DMat<float>(np, 1);
-               for (int n = 0; n < np; n++)
-               {
-                   FluxRates.Variables[n] = "Flux Rate" + (n + 1);
-               }
+            int np = TimeService.StressPeriods.Count;
+            this.FluxRates = new DataCube<float>(np, 1, 1, true);
+            for (int n = 0; n < np; n++)
+            {
+                FluxRates.Variables[n] = "Flux Rate" + (n + 1);
+            }
         }
 
         public void BuilTopology()
@@ -324,8 +327,8 @@ namespace Heiflow.Models.Subsurface
             _WellTopo.ActiveCellCount = NWell;
             for (int i = 0; i < NWell; i++)
             {
-                int row = (int)Locations.Value[0][0][i][1];
-                int col = (int)Locations.Value[0][0][i][2];
+                int row = (int)Locations[0, i, 1];
+                int col = (int)Locations[0, i, 2];
                 _WellTopo.ActiveCell[i] = new int[] { row - 1, col - 1 };
                 _WellTopo.ActiveCellIDs[i] = grid.Topology.GetID(row - 1, col - 1);
             }

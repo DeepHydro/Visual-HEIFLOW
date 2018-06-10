@@ -44,6 +44,7 @@ using Heiflow.Core.Data.ODM;
 using Heiflow.Core.Hydrology;
 using Heiflow.Models.UI;
 using Heiflow.Models.IO;
+using DotSpatial.Data;
 
 namespace Heiflow.Models.Subsurface
 {
@@ -67,7 +68,7 @@ namespace Heiflow.Models.Subsurface
             ReachIndex = new List<Tuple<int, int, int>>();
             _SFRPackage = sfr;
             _Layer3DToken = "SFR";
-            
+            Variables = DefaultAttachedVariables;
         }
 
         [Browsable(false)]
@@ -108,30 +109,38 @@ namespace Heiflow.Models.Subsurface
             get;
             set;
         }
-        public override bool Scan()
-        {
-            Variables = DefaultAttachedVariables;
-            NumTimeStep = TimeService.Timeline.Count;
-            _StartLoading = TimeService.Start;
-            MaxTimeStep = NumTimeStep;
-            Start = TimeService.Start;
-            End = EndOfLoading;
-            return true;
-        }
         public override void Initialize()
         {
             this.Grid = Owner.Grid;
             this.TimeService = Owner.Owner.TimeServiceList["Base Timeline"];
             this.TimeService.Updated += this.OnTimeServiceUpdated;
             State = ModelObjectState.Ready;
+            StartOfLoading = TimeService.Start;
+            EndOfLoading = TimeService.End;
+            NumTimeStep = TimeService.IOTimeline.Count;
             _Initialized = true;
         }
-        public override bool Load()
+        public override bool Scan()
         {
-            if (File.Exists(this.PackageInfo.FileName))
+            Variables = DefaultAttachedVariables;
+            NumTimeStep = TimeService.GetIOTimeLength(this.Owner.WorkDirectory);
+            _StartLoading = TimeService.Start;
+            MaxTimeStep = NumTimeStep; 
+            return true;
+        }
+        public override bool Load(ICancelProgressHandler progresshandler)
+        {
+            _ProgressHandler = progresshandler;
+               _NumTimeStep = TimeService.GetIOTimeLength(ModelService.WorkDirectory);
+            string filename = this.PackageInfo.FileName;
+            if (UseSpecifiedFile)
+                filename = SpecifiedFileName;
+
+            if (File.Exists(filename))
             {
                 var network = this._SFRPackage.RiverNetwork;
                 RiverNetwork = network;
+                int count = 1;
                 if (network == null)
                 {
                     return false;
@@ -145,12 +154,11 @@ namespace Heiflow.Models.Subsurface
                     if (PackageInfo.Format == FileFormat.Text)
                     {
                         OnLoading(0);
-                        FileStream fs = new FileStream(this.PackageInfo.FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                        FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                         StreamReader sr = new StreamReader(fs, System.Text.Encoding.Default);
 
                         string line = "";
                         int varLen = DefaultAttachedVariables.Length;
-                        // MyLazy3DMat<float> mat_buf = Values; 
                         int index = 0;
 
                         int progress = 0;
@@ -180,20 +188,14 @@ namespace Heiflow.Models.Subsurface
                         OnLoading(progress);
                         try
                         {
-                            if (Values == null || Values.Size[1] != nstep ||  Values.Size[2]!= reachNum)
+                            DataCube = new DataCube<float>(varLen, nstep, reachNum)
                             {
-                                Values = new MyLazy3DMat<float>(varLen, nstep, reachNum)
-                                {
-                                    Name = "SFR_Output",
-                                    AllowTableEdit = false,
-                                    TimeBrowsable = true
-                                };
-                                for (int i = 0; i < varLen; i++)
-                                {
-                                    Values.Allocate(i, nstep, reachNum);
-                                }
-                                Values.DateTimes = new DateTime[nstep];
-                            }
+                                Name = "SFR_Output",
+                                AllowTableEdit = false,
+                                TimeBrowsable = true
+                            };
+
+                            DataCube.DateTimes = new DateTime[nstep]; 
                         }
                         catch (Exception)
                         {
@@ -217,13 +219,14 @@ namespace Heiflow.Models.Subsurface
                                             var temp = TypeConverterEx.SkipSplit<float>(line, 5);
                                             for (int v = 0; v < varLen; v++)
                                             {
-                                                Values.Value[v][t][rch_index] = temp[v];
+                                                DataCube.ILArrays[v].SetValue(temp[v], t, rch_index);
+                                                //Values.Value[v][t][rch_index] = temp[v];
                                             }
                                         }
                                         else
                                         {
                                             //Debug.WriteLine(String.Format("step:{0} seg:{1} reach:{2}", t, i + 1, j + 1));
-                                            goto finished;  
+                                            goto finished;
                                         }
                                         rch_index++;
                                     }
@@ -240,42 +243,47 @@ namespace Heiflow.Models.Subsurface
                                     var temp = TypeConverterEx.SkipSplit<float>(line, 5);
                                     for (int v = 0; v < varLen; v++)
                                     {
-                                        Values.Value[v][t][i] = temp[v];
+                                       // Values.Value[v][t][i] = temp[v];
+                                        DataCube.ILArrays[v].SetValue(temp[v], t, i);
                                     }
                                 }
                             }
-                            Values.DateTimes[t] = TimeService.Timeline[t];
+                            DataCube.DateTimes[t] = TimeService.Timeline[t];
                             progress = t * 100 / nstep;
-                            OnLoading(progress);
+                            if (progress > count)
+                            {
+                                OnLoading(progress);
+                                count++;
+                            }
                         }
                     finished:
                         {
-                             OnLoading(99);
+                            OnLoading(100);
                         }
-                        OnLoading(100);
                         sr.Close();
                         fs.Close();
-                        if(IsLoadCompleteData)
-                            Values.Topology = _SFRPackage.ReachTopology;
+                        if (IsLoadCompleteData)
+                            DataCube.Topology = _SFRPackage.ReachTopology;
                         else
-                            Values.Topology = _SFRPackage.SegTopology;
-                        
-                        Values.Variables = DefaultAttachedVariables;
-                        Values.TimeBrowsable = true;
+                            DataCube.Topology = _SFRPackage.SegTopology;
+
+                        DataCube.Variables = DefaultAttachedVariables;
+                        DataCube.TimeBrowsable = true;
                         Variables = DefaultAttachedVariables;
-                        OnLoaded(Values);
+                        OnLoaded(progresshandler);
                         return true;
                     }
                     else
                     {
                         if (UseSpecifiedFile)
                             FileName = SpecifiedFileName;
-                        DataCubeXStreamReader stream = new DataCubeXStreamReader(FileName);
+                        DataCubeStreamReader stream = new DataCubeStreamReader(FileName);
                         stream.Scale = (float)this.ScaleFactor;
-                        stream.StepsToLoad = StepsToLoad;
+                        stream.MaxTimeStep = this.MaxTimeStep;
+                        stream.NumTimeStep = this.NumTimeStep;
                         stream.Loading += stream_LoadingProgressChanged;
-                        stream.Loaded += stream_Loaded;
-                        stream.Load();
+                        stream.DataCubeLoaded += stream_Loaded;
+                        stream.LoadDataCube();
                         return true;
                     }
                 }
@@ -297,21 +305,27 @@ namespace Heiflow.Models.Subsurface
             OnLoading(e);
         }
 
-        private void stream_Loaded(object sender, MyLazy3DMat<float> e)
+        private void stream_Loaded(object sender, DataCube<float> e)
         {
-            Values = e;
-            Variables = Values.Variables;
+            DataCube = e;
+            Variables = DataCube.Variables;
 
             if (IsLoadCompleteData)
-                Values.Topology = _SFRPackage.ReachTopology;
+                DataCube.Topology = _SFRPackage.ReachTopology;
             else
-                Values.Topology = _SFRPackage.SegTopology;
-            OnLoaded(e);
+                DataCube.Topology = _SFRPackage.SegTopology;
+            OnLoaded(_ProgressHandler);
         }
 
-        public override bool Load(int var_index)
-        {  
-            if (File.Exists(this.PackageInfo.FileName))
+        public override bool Load(int var_index, ICancelProgressHandler progresshandler)
+        {
+            _ProgressHandler = progresshandler;
+            _NumTimeStep = TimeService.GetIOTimeLength(ModelService.WorkDirectory);
+            string filename = this.PackageInfo.FileName;
+            if (UseSpecifiedFile)
+                filename = SpecifiedFileName;
+
+            if (File.Exists(filename))
             {
                 var network = _SFRPackage.RiverNetwork;
                 RiverNetwork = network;
@@ -323,12 +337,12 @@ namespace Heiflow.Models.Subsurface
                 {
                     ReachIndex.Clear();
                     int reachNum = network.ReachCount;
+                    int count = 1;
                     int nstep = StepsToLoad;
-                   // nstep = Math.Min(nmaxstep, nstep_option);
-                    OnLoading(0);
-                    FileStream fs = new FileStream(this.PackageInfo.FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                    StreamReader sr = new StreamReader(fs, System.Text.Encoding.Default);
 
+                    OnLoading(0);
+                    FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                    StreamReader sr = new StreamReader(fs, System.Text.Encoding.Default);
                     string line = "";
                     int varLen = DefaultAttachedVariables.Length;
                     int index = 0;
@@ -360,22 +374,19 @@ namespace Heiflow.Models.Subsurface
                     OnLoading(progress);
                     try
                     {
-                        if (Values == null)
+                        DataCube = new DataCube<float>(varLen, nstep, reachNum,true)
                         {
-                            Values = new MyLazy3DMat<float>(varLen, nstep, reachNum);
-                            Values.Allocate(var_index, nstep, reachNum);
-                            Values.DateTimes = new DateTime[nstep];
-                        }
-
-                        Values.Allocate(var_index, nstep, reachNum);
-                        Values.DateTimes = new DateTime[nstep];
-                        Values.TimeBrowsable = true;
-                        Values.AllowTableEdit = false;
+                            Name = "SFR_Output",
+                            AllowTableEdit = false,
+                            TimeBrowsable = true
+                        };
+                        DataCube.Allocate(var_index);
+                        DataCube.DateTimes = new DateTime[nstep]; 
                     }
                     catch (Exception)
                     {
                         Message = "Out of memory.";
-                        OnLoadFailed(Message);
+                        OnLoadFailed(Message,progresshandler);
                         return false;
                     }
                     for (int t = 0; t < nstep; t++)
@@ -393,7 +404,9 @@ namespace Heiflow.Models.Subsurface
                                     if (line != "")
                                     {
                                         var temp = TypeConverterEx.SkipSplit<float>(line, 5);
-                                        Values.Value[var_index][t][rch_index] = temp[var_index];
+                                        //Values.Value[var_index][t][rch_index] = temp[var_index];
+                                        DataCube.ILArrays[var_index].SetValue(temp[var_index], t, rch_index);
+                                        goto finished;
                                     }
                                     else
                                     {
@@ -410,24 +423,31 @@ namespace Heiflow.Models.Subsurface
                                 }
                                 line = sr.ReadLine().Trim();
                                 var temp = TypeConverterEx.SkipSplit<float>(line, 5);
-                                Values.Value[var_index][t][i] = temp[var_index];
+                                //Values.Value[var_index][t][i] = temp[var_index];
+                                DataCube.ILArrays[var_index].SetValue(temp[var_index], t, i);
                             }
                         }
-                        Values.DateTimes[t] = TimeService.Timeline[t];
+                        DataCube.DateTimes[t] = TimeService.Timeline[t];
                         progress = t * 100 / nstep;
-                        OnLoading(progress);
+                        if (progress > count)
+                        {
+                            OnLoading(progress);
+                            count++;
+                        }
                     }
-                    OnLoading(100);
+                finished:
+                    {
+                        OnLoading(100);
+                    }
                     sr.Close();
                     fs.Close();
                     if (IsLoadCompleteData)
-                        Values.Topology = _SFRPackage.ReachTopology;
+                        DataCube.Topology = _SFRPackage.ReachTopology;
                     else
-                        Values.Topology = _SFRPackage.SegTopology;
-                    Values.Variables = DefaultAttachedVariables;
-                    Values.TimeBrowsable = true;
+                        DataCube.Topology = _SFRPackage.SegTopology;
+                    DataCube.Variables = DefaultAttachedVariables;
                     Variables = DefaultAttachedVariables;
-                    OnLoaded(Values);
+                    OnLoaded(progresshandler);
                     return true;
                 }
             }
@@ -437,48 +457,55 @@ namespace Heiflow.Models.Subsurface
             }
         }
 
-        public FloatTimeSeries GetTimeSeries(int segIndex, int rchIndex, int varid, DateTime start)
+        public DataCube<float> GetTimeSeries(int segIndex, int rchIndex, int varid, DateTime start)
         {
-            FloatTimeSeries ts = null;
-            if (Values != null)
+            DataCube<float> ts = null;
+            if (DataCube != null)
             {
                 var scaleFactor = ScaleFactor;
                 var index = GetReachIndex(segIndex, rchIndex);
-                var vector = Values.GetVector(varid, MyMath.full, index);
-                DateTime[] dates = new DateTime[Values.Size[1]];
-                for (int t = 0; t < Values.Size[1]; t++)
+                var vector = DataCube.GetVector(varid, ":", index.ToString());
+                DateTime[] dates = new DateTime[DataCube.Size[1]];
+                for (int t = 0; t < DataCube.Size[1]; t++)
                 {
                     dates[t] = start.AddDays(t);
                 }
                 MatrixOperation.Mulitple(vector, (float)scaleFactor);
-                ts = new FloatTimeSeries()
-                {
-                    DateTimes = dates,
-                    Value = vector
-                };
-
+                ts = new DataCube<float>(vector, dates);
             }
             return ts;
         }
 
-        public IVectorTimeSeries<float> GetTimeSeries(int segIndex, int varid, DateTime start)
+        public DataCube<float> GetTimeSeries(int segIndex, int varid)
         {
-            IVectorTimeSeries<float> ts = null;
-            if (Values != null)
+            DataCube<float> ts = null;
+            if (DataCube != null)
             {
                 var scaleFactor = ScaleFactor;
-                var vector = Values.GetVector(varid, MyMath.full, segIndex);
-                DateTime[] dates = new DateTime[Values.Size[1]];
-                for (int t = 0; t < Values.Size[1]; t++)
+                var vector = DataCube.GetVector(varid, ":", segIndex.ToString());
+                DateTime[] dates = new DateTime[DataCube.Size[1]];
+                for (int t = 0; t < DataCube.Size[1]; t++)
                 {
-                    dates[t] = Values.DateTimes[t];
+                    dates[t] = DataCube.DateTimes[t];
                 }
                 MatrixOperation.Mulitple(vector, (float)scaleFactor);
-                ts = new FloatTimeSeries()
+                ts = new DataCube<float>(vector, dates);
+                if (TimeUnits != Core.TimeUnits.Day)
                 {
-                    DateTimes = dates,
-                    Value = vector
-                };
+                    ts = TimeSeriesAnalyzer.Derieve(ts, NumericalDataType, TimeUnits);
+                }
+            }
+            else if(DataCube != null)
+            {
+                var scaleFactor = ScaleFactor;
+                var vector = DataCube.GetVector(varid, ":",segIndex.ToString());
+                DateTime[] dates = new DateTime[DataCube.Size[1]];
+                for (int t = 0; t < DataCube.Size[1]; t++)
+                {
+                    dates[t] = DataCube.DateTimes[t];
+                }
+                MatrixOperation.Mulitple(vector, (float)scaleFactor);
+                ts = new DataCube<float>(vector, dates);
                 if (TimeUnits != Core.TimeUnits.Day)
                 {
                     ts = TimeSeriesAnalyzer.Derieve(ts, NumericalDataType, TimeUnits);
@@ -502,9 +529,9 @@ namespace Heiflow.Models.Subsurface
         /// <param name="allReach"></param>
         /// <param name="unified"></param>
         /// <returns></returns>
-        public My2DMat<double> ProfileTimeSeries(List<River> profile, int varIndex, int current, bool allReach, bool unified)
+        public DataCube<double> ProfileTimeSeries(List<River> profile, int varIndex, int current, bool allReach, bool unified)
         {
-            My2DMat<double> mat = null;
+            DataCube<double> mat = null;
             int startday = 0;
             var scaleFactor = ScaleFactor;
 
@@ -515,7 +542,7 @@ namespace Heiflow.Models.Subsurface
                 {
                     count += river.Reaches.Count;
                 }
-                mat = new My2DMat<double>(2, count);
+                mat = new DataCube<double>(1,2, count);
                 int i = 0;
                 double sumlen = 0;
                 if (unified)
@@ -526,8 +553,8 @@ namespace Heiflow.Models.Subsurface
                         {
                             int index = GetReachIndex(r.ID - 1, reach.SubID - 1);
                             sumlen += reach.Length;
-                            mat.Value[0][i] = sumlen;
-                            mat.Value[1][i] = Values[varIndex, startday + current, index] * scaleFactor / reach.Length;
+                            mat[0,0,i] = sumlen; 
+                            mat[0,1,i] = DataCube[varIndex, startday + current, index] * scaleFactor / reach.Length;
                             i++;
                         }
                     }
@@ -541,7 +568,7 @@ namespace Heiflow.Models.Subsurface
                             int index = GetReachIndex(r.ID - 1, reach.SubID - 1);
                             sumlen += reach.Length;
                             mat[0, i, 0] = sumlen;
-                            mat[1, i, 0] = Values[varIndex, startday + current, index] * scaleFactor;
+                            mat[1, i, 0] = DataCube[varIndex, startday + current, index] * scaleFactor;
                             i++;
                         }
                     }
@@ -549,9 +576,9 @@ namespace Heiflow.Models.Subsurface
             }
             else
             {
-                if (Values != null)
+                if (DataCube != null)
                 {
-                    mat = new My2DMat<double>(2, profile.Count);
+                    mat = new DataCube<double>(1,2, profile.Count);
                     int i = 0;
                     double sumlen = 0;
                     if (unified)
@@ -561,7 +588,7 @@ namespace Heiflow.Models.Subsurface
                             int index = r.ID - 1;
                             sumlen += r.Length;
                             mat[0, i, 0] = sumlen;
-                            mat[1, i, 0] = Values[varIndex, startday + current, index] * scaleFactor / r.LastReach.Length;
+                            mat[1, i, 0] = DataCube[varIndex, startday + current, index] * scaleFactor / r.LastReach.Length;
                             i++;
                         }
                     }
@@ -572,7 +599,7 @@ namespace Heiflow.Models.Subsurface
                             int index = r.ID - 1;
                             sumlen += r.Length;
                             mat[0, i, 0] = sumlen;
-                            mat[1, i, 0] = Values[varIndex, startday + current, index] * scaleFactor;
+                            mat[1, i, 0] = DataCube[varIndex, startday + current, index] * scaleFactor;
                             i++;
                         }
                     }
@@ -581,9 +608,9 @@ namespace Heiflow.Models.Subsurface
             return mat;
         }
 
-        public My3DMat<float> GetProfileTimeSeries(List<River> profile, int varIndex, string var_name,  int total_time, bool allReach, bool unified)
+        public DataCube<float> GetProfileTimeSeries(List<River> profile, int varIndex, string var_name, int total_time, bool allReach, bool unified)
         {
-            My3DMat<float> mat = null;
+            DataCube<float> mat = null;
             var scaleFactor = ScaleFactor;
 
             if (allReach)
@@ -593,7 +620,7 @@ namespace Heiflow.Models.Subsurface
                 {
                     count += river.Reaches.Count;
                 }
-                mat = new My3DMat<float>(1, total_time, count);
+                mat = new DataCube<float>(1, total_time, count);
                 if (unified)
                 {
                     for (int t = 0; t < total_time; t++)
@@ -604,7 +631,7 @@ namespace Heiflow.Models.Subsurface
                             foreach (var reach in r.Reaches)
                             {
                                 int index = GetReachIndex(r.ID - 1, reach.SubID - 1);
-                                mat.Value[0][t][i] = (float)(Values[varIndex, t, index] * scaleFactor / reach.Length);
+                                mat[0,t,i] = (float)(DataCube[varIndex, t, index] * scaleFactor / reach.Length);
                                 i++;
                             }
                         }
@@ -620,7 +647,7 @@ namespace Heiflow.Models.Subsurface
                             foreach (var reach in r.Reaches)
                             {
                                 int index = GetReachIndex(r.ID - 1, reach.SubID - 1);
-                                mat.Value[0][t][i] =  (float)(Values[varIndex, t, index] * scaleFactor);
+                                mat[0,t,i] = (float)(DataCube[varIndex, t, index] * scaleFactor);
                                 i++;
                             }
                         }
@@ -629,9 +656,9 @@ namespace Heiflow.Models.Subsurface
             }
             else
             {
-                if (Values != null)
+                if (DataCube != null)
                 {
-                    mat = new My3DMat<float>(1, total_time, profile.Count);
+                    mat = new DataCube<float>(1, total_time, profile.Count);
 
                     if (unified)
                     {
@@ -641,7 +668,7 @@ namespace Heiflow.Models.Subsurface
                             foreach (var r in profile)
                             {
                                 int index = r.ID - 1;
-                                mat.Value[0][t][i] = (float)(Values[varIndex, t, index] * scaleFactor / r.LastReach.Length);
+                                mat[0,t,i] = (float)(DataCube[varIndex, t, index] * scaleFactor / r.LastReach.Length);
                                 i++;
                             }
                         }
@@ -654,7 +681,7 @@ namespace Heiflow.Models.Subsurface
                             foreach (var r in profile)
                             {
                                 int index = r.ID - 1;
-                                mat.Value[0][t][i] = (float)(Values[varIndex, t, index] * scaleFactor);
+                                mat[0,t,i] = (float)(DataCube[varIndex, t, index] * scaleFactor);
                                 i++;
                             }
                         }

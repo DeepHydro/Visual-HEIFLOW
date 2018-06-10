@@ -40,6 +40,8 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Linq;
 using Heiflow.Controls.WinForm.Controls;
+using Heiflow.Applications;
+using Heiflow.Presentation.Services;
 
 namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
 {
@@ -135,7 +137,7 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
         private void Control_Load(object sender, EventArgs e)
         {
             labelStatus.Text = "";
-            BindSites();
+           // BindSites();
         }
 
         private void btnLoad_Click(object sender, EventArgs e)
@@ -162,7 +164,7 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
 
         private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            Package.Load();
+            Package.Load(null);
         }
 
         private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -220,7 +222,7 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
             {
                 var sim_site = cmbSimSite.SelectedItem as Site;
                 var pck = Package as IDataPackage;
-                var ts = pck.Values.GetDoubleSeriesBetween(SelectedVariableIndex, cmbSimSite.SelectedIndex, pck.StartOfLoading, pck.EndOfLoading);
+                var ts = pck.DataCube.GetDoubleSeriesBetween(SelectedVariableIndex, cmbSimSite.SelectedIndex, pck.StartOfLoading, pck.EndOfLoading);
                 var series_anme = sim_site.Name;
                 if (ts != null)
                 {
@@ -229,7 +231,7 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
                     var derieved_ts = TimeSeriesAnalyzer.Derieve(ts, pck.NumericalDataType, pck.TimeUnits);
                     string sereis = string.Format("{1} at {0}", sim_site.Name, cmbSimSite.SelectedItem.ToString());
                     sim_site.TimeSeries = derieved_ts;
-                    winChart_timeseries.Plot<double>(derieved_ts.DateTimes, derieved_ts.Value, sereis);
+                    winChart_timeseries.Plot<double>(derieved_ts.DateTimes, derieved_ts[0, ":", "0"], sereis);
 
                     var sites = cmbObsSite.DataSource as Site[];
                     if(sites != null)
@@ -284,13 +286,13 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
                         var sim_site = cmbSimSite.SelectedItem as Site;
                         if (sim_site != null && sim_site.TimeSeries != null)
                         {
-                           TimeSeriesAnalyzer.Compensate(derieved_ts, sim_site.TimeSeries as IVectorTimeSeries<double>);
-                           winChart_timeseries.Plot<double>(derieved_ts.DateTimes, derieved_ts.Value, sereis);
+                           TimeSeriesAnalyzer.Compensate(derieved_ts, sim_site.TimeSeries);
+                           winChart_timeseries.Plot<double>(derieved_ts.DateTimes, derieved_ts[0, ":", "0"], sereis);
                         }
                     }
                     else
                     {
-                        winChart_timeseries.Plot<double>(derieved_ts.DateTimes, derieved_ts.Value, sereis);
+                        winChart_timeseries.Plot<double>(derieved_ts.DateTimes, derieved_ts[0, ":", "0"], sereis);
                     }
                 }
             }
@@ -309,6 +311,8 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
 
         private void BindSites()
         {
+            var projectService = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
+            ODM = projectService.Project.ODMSource;
             if (ODM != null)
             {
                 var sites = ODM.GetSites(SQLSelection);

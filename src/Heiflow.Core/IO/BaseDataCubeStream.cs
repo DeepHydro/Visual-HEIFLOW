@@ -27,28 +27,71 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using Heiflow.Core.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Heiflow.Core.Data;
 
 namespace Heiflow.Core.IO
 {
-    public interface IMatFileProvider:IFileProvider
+    public abstract class BaseDataCubeStream:IDataCubeStream
     {
-        /// <summary>
-        /// return 2d/3d mat
-        /// </summary>
-        /// <returns></returns>
-        My3DMat<float> Load(string filename);
-        /// <summary>
-        /// return a vector
-        /// </summary>
-        /// <returns></returns>
-        My3DMat<float> LoadSerial(string filename, object arg);
+        public event EventHandler<DataCube<float>> DataCubeLoaded;
+        public event EventHandler<int> Loading;
+        public event EventHandler<string> LoadFailed;
+        public int StepsToLoad
+        {
+            get
+            {
+                return System.Math.Min(NumTimeStep, MaxTimeStep);
+            }
+        }
 
-        string[] Variables { get; }
+        public int NumTimeStep
+        {
+            get;
+            set;
+        }
+        public int MaxTimeStep
+        {
+            get;
+            set;
+        }
+
+        public string[] Variables
+        {
+            get;
+            set;
+        }
+
+        public DataCube<float> DataCube
+        {
+            get;
+            set;
+        }
+        public abstract void Scan();
+        public abstract void LoadDataCube();
+        public abstract void LoadDataCube(int var_index);
+        public void SetDataCube(DataCube<float> source)
+        {
+            this.DataCube = source;
+        }
+        protected virtual void OnLoading(int percent)
+        {
+            if (Loading != null)
+                Loading(this, percent);
+        }
+        protected virtual void OnDataCubedLoaded(DataCube<float> e)
+        {
+            if (DataCubeLoaded != null)
+                DataCubeLoaded(this, e);
+        }
+        protected virtual void OnLoadFailed(string msg)
+        {
+            if (LoadFailed != null)
+                LoadFailed(this, msg);
+        }
     }
 }

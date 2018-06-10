@@ -27,22 +27,22 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using Heiflow.Applications;
+using Heiflow.Core.Data;
+using Heiflow.Core.IO;
+using Heiflow.Models.Generic;
+using Heiflow.Models.Surface.PRMS;
+using Heiflow.Models.UI;
+using Heiflow.Presentation.Controls;
+using Heiflow.Presentation.Services;
+using ILNumerics;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
-using ILNumerics;
-using Heiflow.Core.Data;
-using Heiflow.Presentation.Controls;
-using Heiflow.Models.Generic;
-using Heiflow.Models.Surface.PRMS;
-using Heiflow.Core.IO;
-using Heiflow.Applications;
-using Heiflow.Presentation.Services;
 using System.Windows.Forms.DataVisualization.Charting;
-using Heiflow.Models.UI;
 
 namespace Heiflow.Controls.WinForm.Controls
 {
@@ -55,7 +55,7 @@ namespace Heiflow.Controls.WinForm.Controls
         private IShellService _ShellService;
         private IWindowService _WindowService;
         private IParameter[] _Parameters;
-
+        private bool _need_refresh_pages = false;
         public static string SaveButtion = "btnSave";
         public static string ImportButtion = "btnImport";
         public static string Save2ExcelButtion = "btnSave2Excel";
@@ -162,6 +162,11 @@ namespace Heiflow.Controls.WinForm.Controls
             
         }
         #region Binding
+        /// <summary>
+        /// display 2d matrix
+        /// </summary>
+        /// <typeparam name="T">data type</typeparam>
+        /// <param name="data">2d matrix</param>
         public void BindMatrix<T>(ILArray<T> data)
         {
             var dims = data.Size.ToIntArray();
@@ -171,7 +176,7 @@ namespace Heiflow.Controls.WinForm.Controls
                 var dr = dt.NewRow();
                 for (int c = 0; c < dims[1]; c++)
                 {
-                    dr[c] = data[r, c].ToArray()[0];
+                    dr[c] = data[r, c];
                 }
                 dt.Rows.Add(dr);
             }
@@ -253,34 +258,31 @@ namespace Heiflow.Controls.WinForm.Controls
         }
         public void Bind(IDataCubeObject dc)
         {
+            _need_refresh_pages = true;
             _DataCubeObject = dc;
             if (dc.SelectedVariableIndex < 0)
             {
                 DataObjectName = dc.Name;
-                _DataTable = dc.ToDataTable();
-                this.bindingSource1.DataSource = _DataTable;
-                this.dataGridView1.DataSource = bindingSource1;
-                EnableControls(dc.TimeBrowsable);
-                if (dc.TimeBrowsable)
-                    cmb_PrimaryKey.SelectedIndex = 0;
-                btnSave.Enabled = dc.AllowTableEdit;
-                btnImport.Enabled = dc.AllowTableEdit;
-                _Parameters = null;            
+                EnableControls(true);
+                cmb_PrimaryKey.SelectedIndex = 0;
+                if (_need_refresh_pages)
+                    cmb_PrimaryKey_SelectedIndexChanged(cmb_PrimaryKey, EventArgs.Empty);
+                _Parameters = null;
             }
             else
             {
                 if (dc.IsAllocated(dc.SelectedVariableIndex))
                 {
-                    DataObjectName = string.Format("{0}[{1}]", dc.Name,dc.Variables[dc.SelectedVariableIndex]);
-                    _DataTable = dc.ToDataTableByTime(dc.SelectedVariableIndex, 0);
-                    this.bindingSource1.DataSource = _DataTable;
-                    this.dataGridView1.DataSource = bindingSource1;
-                    EnableControls(dc.TimeBrowsable);
-                    if (dc.TimeBrowsable)
-                        cmb_PrimaryKey.SelectedIndex = 0;
-                    btnSave.Enabled = dc.AllowTableEdit;
-                    btnImport.Enabled = dc.AllowTableEdit;
+                    DataObjectName = string.Format("{0}[{1}]", dc.Name, dc.Variables[dc.SelectedVariableIndex]);
+                    EnableControls(true);
+                    cmb_PrimaryKey.SelectedIndex = 0;
+                    if (_need_refresh_pages)
+                        cmb_PrimaryKey_SelectedIndexChanged(cmb_PrimaryKey, EventArgs.Empty);
                     _Parameters = null;
+                    //_DataTable = dc.ToDataTableByTime(dc.SelectedVariableIndex, 0);
+                    //this.bindingSource1.DataSource = _DataTable;
+                    //this.dataGridView1.DataSource = bindingSource1;
+                   
                 }
                 else
                 {
@@ -482,7 +484,6 @@ namespace Heiflow.Controls.WinForm.Controls
         {
             cmb_PrimaryKey.Enabled = enable;
             cmbPage.Enabled = enable;
-            cmbPage.Enabled = enable;
             btnSave.Enabled = enable;
             btnImport.Enabled = enable;
         }
@@ -512,7 +513,7 @@ namespace Heiflow.Controls.WinForm.Controls
         {
             if (_DataCubeObject == null)
                 return;
-
+            _need_refresh_pages = false;
             if (cmb_PrimaryKey.SelectedIndex == 0)//time
             {
                 if (_DataCubeObject.DateTimes != null)
@@ -537,7 +538,8 @@ namespace Heiflow.Controls.WinForm.Controls
                 }
                 cmbPage.ComboBox.DataSource = pages;
             }
-            cmbPage.SelectedIndex = 0;
+            //cmbPage.SelectedIndex = 0;
+            cmbPage_SelectedIndexChanged(cmbPage, EventArgs.Empty);
         }
 
         private void sortingAcendingToolStripMenuItem_Click(object sender, EventArgs e)

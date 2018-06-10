@@ -40,6 +40,7 @@ using System.Diagnostics;
 using Heiflow.Core.Data;
 using Heiflow.Models.IO;
 using System.ComponentModel.Composition;
+using DotSpatial.Data;
 
 namespace Heiflow.Models.Subsurface
 {
@@ -70,17 +71,18 @@ namespace Heiflow.Models.Subsurface
             State = ModelObjectState.Ready;
             _Initialized = true;
         }
-        public override bool Load()
+        public override bool Load(ICancelProgressHandler progress)
         {
             if (File.Exists(FileName))
             {
+                _ProgressHandler = progress;
                 var grid = Owner.Grid as MFGrid;
                 CBCFile cbc = new CBCFile(FileName, grid);
                 //cbc.Source = Values;
                 cbc.Layer = this.Layer;
                 cbc.Loading += cbc_Loading;
-                cbc.Loaded += cbc_Loaded;
-                cbc.Load();
+                cbc.DataCubeLoaded += cbc_DataCubeLoaded;
+                cbc.LoadDataCube();
                 return true;
             }
             else
@@ -93,50 +95,41 @@ namespace Heiflow.Models.Subsurface
         {
             var grid = Owner.Grid as MFGrid;
             CBCFile cbc = new CBCFile(FileName, grid);
-            cbc.StepsToLoad = this.MaxTimeStep;
             cbc.Scan();
             this.NumTimeStep = cbc.NumTimeStep;
             this.Variables = cbc.Variables;
 
             _StartLoading = TimeService.Start;
             MaxTimeStep = NumTimeStep;
-            Start = TimeService.Start;
-            End = EndOfLoading;
             return true;
         }
 
-        public override bool Load(int var_index)
+        public override bool Load(int var_index, ICancelProgressHandler progress)
         {
+            _ProgressHandler = progress;
             var grid = Owner.Grid as MFGrid;
-
-            if (Values == null)
+            int nstep = StepsToLoad;
+            if (DataCube == null || DataCube.Size[1] != nstep)
             {
-                Values = new MyLazy3DMat<float>(Variables.Length, StepsToLoad, grid.ActiveCellCount)
+                DataCube = new DataCube<float>(Variables.Length, nstep, grid.ActiveCellCount)
                 {
                     Name = "CBC",
                     TimeBrowsable = true,
                     AllowTableEdit = false
                 };
             }
-            else
-            {
-                if (Values.Size[1] != StepsToLoad)
-                    Values = new MyLazy3DMat<float>(Variables.Length, StepsToLoad, grid.ActiveCellCount)
-                    {
-                        Name = "CBC",
-                        TimeBrowsable = true,
-                        AllowTableEdit = false
-                    };
-            }
-
+            DataCube.Topology = (this.Grid as RegularGrid).Topology;
+            DataCube.DateTimes = this.TimeService.IOTimeline.Take(StepsToLoad).ToArray();
             CBCFile cbc = new CBCFile(FileName, grid);
             cbc.Layer = this.Layer;
             cbc.Scale = (float)this.ScaleFactor;
-            cbc.StepsToLoad = this.StepsToLoad;
-            cbc.SetDataSource(Values);
+            cbc.MaxTimeStep = nstep;
+            cbc.NumTimeStep = this.NumTimeStep;
+            cbc.DataCube = this.DataCube;
             cbc.Loading += cbc_Loading;
-            cbc.Loaded += cbc_Loaded;
-            cbc.Load(var_index);
+            cbc.DataCubeLoaded += cbc_DataCubeLoaded;
+            cbc.LoadFailed += cbc_LoadFailed;
+            cbc.LoadDataCube(var_index);
             return true;
         }
 
@@ -158,19 +151,13 @@ namespace Heiflow.Models.Subsurface
         {
             OnLoading(e);
         }
-
-        private void cbc_Loaded(object sender, MyLazy3DMat<float> e)
+        private void cbc_LoadFailed(object sender, string e)
         {
-            Values.Topology = (this.Grid as RegularGrid).Topology;
-
-            Values.DateTimes = new DateTime[Values.Size[1]];
-            for (int i = 0; i < Values.Size[1]; i++)
-            {
-                Values.DateTimes[i] = TimeService.IOTimeline[i];
-            }
-
-            Values.Variables = this.Variables;
-            OnLoaded(e);
+            OnLoadFailed(e,_ProgressHandler);
+        }
+        private void cbc_DataCubeLoaded(object sender, DataCube<float> e)
+        {
+            OnLoaded(_ProgressHandler);
         }
     }
 }

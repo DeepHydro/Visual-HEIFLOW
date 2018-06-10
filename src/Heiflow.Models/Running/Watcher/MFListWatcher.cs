@@ -38,7 +38,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Heiflow.Models.IO
+namespace Heiflow.Models.Running
 {
     public class MFListWatcher : ArrayWatcher
     {
@@ -47,7 +47,7 @@ namespace Heiflow.Models.IO
         private FileStream _FileStream;
         private ArrayWatchObject<double> _WatchObject;
         private MFMonitor _MFMonitor;
-
+        private string _cache_file;
         public MFListWatcher(WatchDirectory directory)
         {
             _WatchObject = new ArrayWatchObject<double>();
@@ -111,6 +111,18 @@ namespace Heiflow.Models.IO
                 var fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 var sr = new StreamReader(fs, Encoding.Default);
                 string line = "";
+                // Find steady state budgets and skip it
+                while (!sr.EndOfStream)
+                {
+                    line = sr.ReadLine();
+                    if (!string.IsNullOrEmpty(line))
+                    {
+                        if (line.Contains("VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP"))
+                        {
+                            break;
+                        }
+                    }
+                }
                 while (!sr.EndOfStream)
                 {
                     line = sr.ReadLine();
@@ -215,12 +227,12 @@ namespace Heiflow.Models.IO
             if (this.State == RunningState.Busy)
                 return;
 
-            var back_file = filename + ".csv";
-            if (File.Exists(back_file) && File.Exists(filename))
+            _cache_file = filename + ".csv";
+            if (File.Exists(_cache_file) && File.Exists(filename))
             {
                 InitMonitor(filename);
                 _DataSource = new ListTimeSeries<double>(_MFMonitor.Root[0].Children.Count);
-                var fs = new FileStream(back_file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                var fs = new FileStream(_cache_file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 var sr = new StreamReader(fs, Encoding.Default);
 
                 string line = sr.ReadLine();
@@ -252,6 +264,17 @@ namespace Heiflow.Models.IO
                     string line = "";
                     int t = 0;
                     int nvar = (total_var - 4) / 2;
+                    while (!sr.EndOfStream)
+                    {
+                        line = sr.ReadLine();
+                        if (!string.IsNullOrEmpty(line))
+                        {
+                            if (line.Contains("VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP"))
+                            {
+                                break;
+                            }
+                        }
+                    }
                     while (!sr.EndOfStream)
                     {
                         line = sr.ReadLine();
@@ -337,6 +360,15 @@ namespace Heiflow.Models.IO
                     sw.Close();
                 }
             }
+        }
+
+        public override void Clear()
+        {
+            if(TypeConverterEx.IsNotNull(_cache_file) && File.Exists(_cache_file))
+            {
+                File.Delete(_cache_file);
+            }
+            base.Clear();
         }
     }
 }

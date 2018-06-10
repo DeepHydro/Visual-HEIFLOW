@@ -81,8 +81,8 @@ namespace Heiflow.Core
         int WindowSize { get; set; }
         int PredicationSize { get; set; }
         INormalizationModel NormalizationModel { get; set; }
-        IVectorTimeSeries<double> GetValues(ITimeSeriesQueryCriteria qc, ITimeSeriesTransform provider);
-        IVectorTimeSeries<double> GetTransformedValues(ITimeSeriesQueryCriteria qc, ITimeSeriesTransform provider, double multiplier);
+        DataCube<double> GetValues(ITimeSeriesQueryCriteria qc, ITimeSeriesTransform provider);
+        DataCube<double> GetTransformedValues(ITimeSeriesQueryCriteria qc, ITimeSeriesTransform provider, double multiplier);
     }
 
     public interface ITimeSpan
@@ -109,8 +109,8 @@ namespace Heiflow.Core
         string Country { get; set; }
         string State { get; set; }
         int MonitorType { get; set; }
-        ITimeSeries<double> TimeSeries { get; set; }
-        List<IVectorTimeSeries<double>> TimeSeriesCollection { get; set; }
+        DataCube<double> TimeSeries { get; set; }
+        List<DataCube<double>> TimeSeriesCollection { get; set; }
     }
 
     public interface INumericalSeriesPair

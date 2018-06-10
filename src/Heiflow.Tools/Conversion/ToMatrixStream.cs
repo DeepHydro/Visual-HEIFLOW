@@ -149,7 +149,7 @@ namespace Heiflow.Tools.Conversion
                 for (int t = 0; t < nsteps; t++)
                 {
                     bw.Write(times[t]);
-                    var vec = mat.Value[var_index][t];
+                    var vec = mat[var_index,t.ToString(),":"];
                     bw.Write(vec.Max());
                     bw.Write(vec.Min());
                     bw.Write(vec.Average());

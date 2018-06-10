@@ -36,7 +36,7 @@ using System.Threading.Tasks;
 namespace Heiflow.Models.Generic
 {
     /// <summary>
-    ///  Indicates a property (which is a My3DMat) needs to be shown
+    ///  Indicates a property (which is a DataCube) needs to be shown
     /// </summary>
     public class StaticVariableItem : DisplayablePropertyItem
     {

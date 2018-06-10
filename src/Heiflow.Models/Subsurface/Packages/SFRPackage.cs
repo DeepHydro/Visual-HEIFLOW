@@ -197,14 +197,14 @@ namespace Heiflow.Models.Subsurface
         }
 
         [StaticVariableItem]
-        public MyVarient3DMat<float> Segments
+        public DataCube<float> Segments
         {
             get;
             private set;
         }
 
         [StaticVariableItem]
-        public MyVarient3DMat<float> Reaches
+        public DataCube<float> Reaches
         {
             get;
             private set;
@@ -315,7 +315,7 @@ namespace Heiflow.Models.Subsurface
                 return null;
             }
         }
-        public override bool Load()
+        public override bool Load(ICancelProgressHandler progresshandler)
         {
             var mf = (Owner as Modflow);
             if (File.Exists(FileName))
@@ -335,18 +335,18 @@ namespace Heiflow.Models.Subsurface
                 }
                 NetworkToMat();
                 BuildTopology();
-                OnLoaded("Load successfully");
+                OnLoaded(progresshandler);
                 return true;
             }
             else
             {
                 this.ISTCB1 = mf.NameManager.GetFID(".cbc");
                 this.ISTCB2 = mf.NameManager.GetFID(".sft_out");
-                OnLoadFailed("Failed to load");
+                OnLoadFailed("Failed to load "+ this.Name, progresshandler);
                 return false;
             }
         }
-        public override bool SaveAs(string filename, IProgress prg)
+        public override bool SaveAs(string filename, ICancelProgressHandler prg)
         {
             var grid = Owner.Grid as MFGrid;
             int np = TimeService.StressPeriods.Count;
@@ -493,7 +493,7 @@ namespace Heiflow.Models.Subsurface
                     Parent=mfout
                 };
                 sfr_out.Initialize();
-                sfr_out.Scan();
+             //   sfr_out.Scan();
                 this.DataPackage = sfr_out;
             }
         }
@@ -646,13 +646,13 @@ namespace Heiflow.Models.Subsurface
 
         public void NetworkToMat()
         {
-            Reaches = new MyVarient3DMat<float>(13, 1, RiverNetwork.ReachCount)
+            Reaches = new DataCube<float>(13, 1, RiverNetwork.ReachCount)
             {
                 Name = "Reaches",
                 AllowTableEdit = true,
                 TimeBrowsable = false
             };
-            Segments = new MyVarient3DMat<float>(11, 1, RiverNetwork.RiverCount)
+            Segments = new DataCube<float>(11, 1, RiverNetwork.RiverCount)
             {
                 Name = "Segments",
                 AllowTableEdit = true,
@@ -666,34 +666,34 @@ namespace Heiflow.Models.Subsurface
             for (int i = 0; i < RiverNetwork.ReachCount; i++)
             {
                 var reach = RiverNetwork.Reaches[i];
-                Reaches.Value[0][0][i] = reach.KRCH;
-                Reaches.Value[1][0][i] = reach.IRCH;
-                Reaches.Value[2][0][i] = reach.JRCH;
-                Reaches.Value[3][0][i] = reach.ISEG;
-                Reaches.Value[4][0][i] = reach.IREACH;
-                Reaches.Value[5][0][i] = (float)reach.Length;
-                Reaches.Value[6][0][i] = (float)reach.TopElevation;
-                Reaches.Value[7][0][i] = (float)reach.Slope;
-                Reaches.Value[8][0][i] = (float)reach.BedThick;
-                Reaches.Value[9][0][i] = (float)reach.STRHC1;
-                Reaches.Value[10][0][i] = (float)reach.THTS;
-                Reaches.Value[11][0][i] = (float)reach.THTI;
-                Reaches.Value[12][0][i] = (float)reach.EPS;
+                Reaches[0,0,i] = reach.KRCH;
+                Reaches[1, 0, i] = reach.IRCH;
+                Reaches[2, 0, i] = reach.JRCH;
+                Reaches[3, 0, i] = reach.ISEG;
+                Reaches[4, 0, i] = reach.IREACH;
+                Reaches[5, 0, i] = (float)reach.Length;
+                Reaches[6, 0, i] = (float)reach.TopElevation;
+                Reaches[7, 0, i] = (float)reach.Slope;
+                Reaches[8, 0, i] = (float)reach.BedThick;
+                Reaches[9, 0, i] = (float)reach.STRHC1;
+                Reaches[10, 0, i] = (float)reach.THTS;
+                Reaches[11, 0, i] = (float)reach.THTI;
+                Reaches[12, 0, i] = (float)reach.EPS;
             }
             for (int i = 0; i < RiverNetwork.RiverCount; i++)
             {
                 var seg = RiverNetwork.Rivers[i];
-                Segments.Value[0][0][i] = seg.ID;
-                Segments.Value[1][0][i] = seg.ICALC;
-                Segments.Value[2][0][i] = seg.OutRiverID;
-                Segments.Value[3][0][i] = seg.UpRiverID;
-                Segments.Value[4][0][i] = (float)seg.Flow;
-                Segments.Value[5][0][i] = (float)seg.Runoff;
-                Segments.Value[6][0][i] = (float)seg.ETSW;
-                Segments.Value[7][0][i] = (float)seg.PPTSW;
-                Segments.Value[8][0][i] = (float)seg.ROUGHCH;
-                Segments.Value[9][0][i] = (float)seg.Width1;
-                Segments.Value[10][0][i] = (float)seg.Width2;
+                Segments[0, 0, i] = seg.ID;
+                Segments[1, 0, i] = seg.ICALC;
+                Segments[2, 0, i] = seg.OutRiverID;
+                Segments[3, 0, i] = seg.UpRiverID;
+                Segments[4, 0, i] = (float)seg.Flow;
+                Segments[5, 0, i] = (float)seg.Runoff;
+                Segments[6, 0, i] = (float)seg.ETSW;
+                Segments[7, 0, i] = (float)seg.PPTSW;
+                Segments[8, 0, i] = (float)seg.ROUGHCH;
+                Segments[9, 0, i] = (float)seg.Width1;
+                Segments[10, 0, i] = (float)seg.Width2;
             }
         }
 

@@ -145,19 +145,6 @@ namespace Heiflow.Plugins.ProjectExplorer
             //ProjectManager.ShellService.AnimationPlayer.TimeServices = ProjectManager.ProjectService.Project.Model.TimeServiceList.Values.ToList();
         }
 
-        private void ProjectManager_AnimationSourceChanged(object sender, MyArray<float> e)
-        {
-            var ds = e as My3DMat<float>;
-            if (ds != null)
-            {
-                //RepositoryItemComboBox combo = (App.HeaderControl as RibbonHeader).ComboBoxes["kTimeStepDropDown"];
-                //combo.Items.Clear();
-                //for (int i = 1; i <= ds.Size[1]; i++)
-                //{
-                //    combo.Items.Add(i.ToString());
-                //}
-            }
-        }
 
         private void _TimeStepDropDown_SelectedValueChanged(object sender, SelectedValueChangedEventArgs e)
         {

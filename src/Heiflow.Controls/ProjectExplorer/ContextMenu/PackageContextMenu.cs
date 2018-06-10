@@ -110,7 +110,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
         private void Package_Saving(object sender, int e)
         {
             string msg = string.Format("Saving {0}%", e);
-            _ShellService.ProgressWindow.Progress(e, msg);
+            _ShellService.ProgressWindow.Progress(_Package.Name, e, msg);
         }
 
         protected virtual void Package_Saved(object sender, EventArgs e)

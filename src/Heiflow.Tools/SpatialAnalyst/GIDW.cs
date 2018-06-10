@@ -103,7 +103,7 @@ namespace Heiflow.Tools.SpatialAnalyst
                 _FeatureFileName = value;
                 if (File.Exists(_FeatureFileName))
                 {
-                    var  _SourceFeatureSet = FeatureSet.Open(_FeatureFileName);
+                    var _SourceFeatureSet = FeatureSet.Open(_FeatureFileName);
                     var buf = from DataColumn dc in _SourceFeatureSet.DataTable.Columns select dc.ColumnName;
                     Fields = buf.ToArray();
                     _SourceFeatureSet.Close();
@@ -216,7 +216,7 @@ namespace Heiflow.Tools.SpatialAnalyst
                 if (Neighbors > nsource_sites)
                     Neighbors = nsource_sites;
                 var known_sites = new Site[nsource_sites];
-                My3DMat<float> mat = new My3DMat<float>(1, nstep, ntar_sites);
+                DataCube<float> mat = new DataCube<float>(1, nstep, ntar_sites);
                 mat.DateTimes = new DateTime[nstep];
                 mat.Name = OutputMatrix;
                 mat.TimeBrowsable = true;
@@ -240,77 +240,77 @@ namespace Heiflow.Tools.SpatialAnalyst
                     xvalues[i][1] = cor.Y;
                     xvalues[i][2] = ele;
                 }
-                  for (int i = 0; i < nsource_sites; i++)
-                  {
-                      var count = 0;
-                      double sum = 0;
-                      for (int t = 0; t < nstep; t++)
-                      {
-                          if (ts_data.GetValue(t, i) < MaximumValue)
-                          {
-                              sum += ts_data.GetValue(t, i);
-                              count++;
-                          }
-                      }
-                      yvalues[i] = sum / count;
-                  }
-                  MultipleLinearRegression mlineRegrsn = new MultipleLinearRegression(xvalues, yvalues, true);
-                  Matrix result = new Matrix();
-                  mlineRegrsn.ComputeFactorCoref(result);
-                  double[] coeffs = result[0, Matrix.mCol];
-                  var cx = coeffs[0];
-                  var cy = coeffs[1];
-                  var ce = coeffs[2];
-                  cancelProgressHandler.Progress("Package_Tool", 2, "Regression coefficients calculated");
+                for (int i = 0; i < nsource_sites; i++)
+                {
+                    var count = 0;
+                    double sum = 0;
+                    for (int t = 0; t < nstep; t++)
+                    {
+                        if (ts_data.GetValue(t, i) < MaximumValue)
+                        {
+                            sum += ts_data.GetValue(t, i);
+                            count++;
+                        }
+                    }
+                    yvalues[i] = sum / count;
+                }
+                MultipleLinearRegression mlineRegrsn = new MultipleLinearRegression(xvalues, yvalues, true);
+                Matrix result = new Matrix();
+                mlineRegrsn.ComputeFactorCoref(result);
+                double[] coeffs = result[0, Matrix.mCol];
+                var cx = coeffs[0];
+                var cy = coeffs[1];
+                var ce = coeffs[2];
+                cancelProgressHandler.Progress("Package_Tool", 2, "Regression coefficients calculated");
 
-                  for (int i = 0; i < ntar_sites; i++)
-                  {
-                
-                      var cor = fs_target.Features[i].Geometry.Coordinate;
-                      var site_intep = new Site()
-                      {
-                          LocalX = cor.X,
-                          LocalY = cor.Y,
-                          ID = i,
-                          Elevation = double.Parse(fs_target.Features[i].DataRow[_ValueField].ToString())
-                      };
-                      var neighborSites = FindNeareastSites(Neighbors, known_sites, site_intep);
-                      for (int j = 0; j < nstep; j++)
-                      {
-                          sumOfDis = 0;
-                          sumOfVa = 0;
-                          foreach (var nsite in neighborSites)
-                          {
-                              var vv = ts_data.GetValue(j, nsite.ID);
-                              if (vv < MaximumValue)
-                              {
-                                  double temp = 1 / System.Math.Pow(nsite.Distance, Power);
-                                  double gd = (site_intep.LocalX - nsite.LocalX) * cx + (site_intep.LocalY - nsite.LocalY) * cy + (site_intep.Elevation - nsite.Elevation) * ce;
-                                  sumOfVa += vv * temp;
-                                  sumOfDis += temp;
-                              }
-                          }
-                          if (sumOfDis != 0)
-                          {
-                              mat.Value[0][j][i] = (float)(sumOfVa / sumOfDis);
-                              if (!AllowNegative && mat.Value[0][j][i] <0)
-                              {
-                                  mat.Value[0][j][i] = MinmumValue;
-                              }
-                          }
-                          else
-                          {
-                              mat.Value[0][j][i] = MinmumValue;
-                          }
-                      }
-                      progress = (i + 1) * 100 / ntar_sites;
-                      cancelProgressHandler.Progress("Package_Tool", progress, "Caculating Cell: " + (i + 1));
-                  }
-                  for (int j = 0; j < nstep; j++)
-                  {
-                      mat.DateTimes[j] = Start.AddSeconds(j * TimeStep);
-                  }
-                cancelProgressHandler.Progress("Package_Tool",100,"");
+                for (int i = 0; i < ntar_sites; i++)
+                {
+
+                    var cor = fs_target.Features[i].Geometry.Coordinate;
+                    var site_intep = new Site()
+                    {
+                        LocalX = cor.X,
+                        LocalY = cor.Y,
+                        ID = i,
+                        Elevation = double.Parse(fs_target.Features[i].DataRow[_ValueField].ToString())
+                    };
+                    var neighborSites = FindNeareastSites(Neighbors, known_sites, site_intep);
+                    for (int j = 0; j < nstep; j++)
+                    {
+                        sumOfDis = 0;
+                        sumOfVa = 0;
+                        foreach (var nsite in neighborSites)
+                        {
+                            var vv = ts_data.GetValue(j, nsite.ID);
+                            if (vv < MaximumValue)
+                            {
+                                double temp = 1 / System.Math.Pow(nsite.Distance, Power);
+                                double gd = (site_intep.LocalX - nsite.LocalX) * cx + (site_intep.LocalY - nsite.LocalY) * cy + (site_intep.Elevation - nsite.Elevation) * ce;
+                                sumOfVa += vv * temp;
+                                sumOfDis += temp;
+                            }
+                        }
+                        if (sumOfDis != 0)
+                        {
+                            mat[0, j, i] = (float)(sumOfVa / sumOfDis);
+                            if (!AllowNegative && mat[0, j, i] < 0)
+                            {
+                                mat[0, j, i] = MinmumValue;
+                            }
+                        }
+                        else
+                        {
+                            mat[0, j, i] = MinmumValue;
+                        }
+                    }
+                    progress = (i + 1) * 100 / ntar_sites;
+                    cancelProgressHandler.Progress("Package_Tool", progress, "Caculating Cell: " + (i + 1));
+                }
+                for (int j = 0; j < nstep; j++)
+                {
+                    mat.DateTimes[j] = Start.AddSeconds(j * TimeStep);
+                }
+                cancelProgressHandler.Progress("Package_Tool", 100, "");
                 Workspace.Add(mat);
                 fs_source.Close();
                 fs_target.Close();

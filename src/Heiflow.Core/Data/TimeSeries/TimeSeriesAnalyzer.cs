@@ -40,10 +40,10 @@ namespace Heiflow.Core.Data
 {
     public static class TimeSeriesAnalyzer
     {
-        public static IVectorTimeSeries<float> Derieve(IVectorTimeSeries<float> source, NumericalDataType datatype, TimeUnits outseriesTimeUnit)
+        public static DataCube<float> Derieve(DataCube<float> source, NumericalDataType datatype, TimeUnits outseriesTimeUnit)
         {
             var sourcePairs = source.ToPairs();
-            IVectorTimeSeries<float> result = new FloatTimeSeries();
+            DataCube<float> result = null;
             if (datatype == NumericalDataType.Average || datatype == NumericalDataType.Cumulative)
             {
                 if (outseriesTimeUnit == TimeUnits.Week)
@@ -56,7 +56,7 @@ namespace Heiflow.Core.Data
                             Week = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(t.DateTime, CalendarWeekRule.FirstDay, DayOfWeek.Monday)
                         }).Select(group =>
                                   new TimeSeriesPair<float>(DateTimeHelper.GetBy(group.Key.Year, group.Key.Week), group.Sum(s => s.Value) / group.Count()));
-                        result.From(derivedValues);
+                        result = DataCube<float>.FromPairs(derivedValues);
                     }
                     else if (datatype == NumericalDataType.Cumulative)
                     {
@@ -66,7 +66,7 @@ namespace Heiflow.Core.Data
                             Week = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(t.DateTime, CalendarWeekRule.FirstDay, DayOfWeek.Monday)
                         }).Select(group =>
                             new TimeSeriesPair<float>(DateTimeHelper.GetBy(group.Key.Year, group.Key.Week), group.Sum(s => s.Value)));
-                        result.From(derivedValues);
+                        result = DataCube<float>.FromPairs(derivedValues);
                     }
                 }
                 else if (outseriesTimeUnit == TimeUnits.Month)
@@ -75,13 +75,13 @@ namespace Heiflow.Core.Data
                     {
                         var derivedValues = sourcePairs.GroupBy(t => new { t.DateTime.Year, t.DateTime.Month }).Select(group =>
                             new TimeSeriesPair<float>(new DateTime(group.Key.Year, group.Key.Month, 1), group.Sum(s => s.Value) / group.Count()));
-                        result.From(derivedValues);
+                        result = DataCube<float>.FromPairs(derivedValues);
                     }
                     else if (datatype == NumericalDataType.Cumulative)
                     {
                         var derivedValues = sourcePairs.GroupBy(t => new { t.DateTime.Year, t.DateTime.Month }).Select(group =>
                        new TimeSeriesPair<float>(new DateTime(group.Key.Year, group.Key.Month, 1), group.Sum(s => s.Value)));
-                        result.From(derivedValues);
+                        result = DataCube<float>.FromPairs(derivedValues);
                     }
                 }
                 else if (outseriesTimeUnit == TimeUnits.CommanYear)
@@ -90,13 +90,13 @@ namespace Heiflow.Core.Data
                     {
                         var derivedValues = sourcePairs.GroupBy(t => new { t.DateTime.Year }).Select(group =>
                             new TimeSeriesPair<float>(new DateTime(group.Key.Year, 1, 1), group.Sum(s => s.Value) / group.Count()));
-                        result.From(derivedValues);
+                        result = DataCube<float>.FromPairs(derivedValues);
                     }
                     else if (datatype == NumericalDataType.Cumulative)
                     {
                         var derivedValues = sourcePairs.GroupBy(t => new { t.DateTime.Year }).Select(group =>
                             new TimeSeriesPair<float>(new DateTime(group.Key.Year, 1, 1), group.Sum(s => s.Value)));
-                        result.From(derivedValues);
+                        result = DataCube<float>.FromPairs(derivedValues);
                     }
                 }
                 else if (outseriesTimeUnit == TimeUnits.Day)
@@ -107,10 +107,10 @@ namespace Heiflow.Core.Data
             return result;
         }
 
-        public static IVectorTimeSeries<double> Derieve(IVectorTimeSeries<double> source, NumericalDataType datatype, TimeUnits outseriesTimeUnit)
+        public static DataCube<double> Derieve(DataCube<double> source, NumericalDataType datatype, TimeUnits outseriesTimeUnit)
         {
             var sourcePairs = source.ToPairs();
-            IVectorTimeSeries<double> result = new DoubleTimeSeries();
+            DataCube<double> result = null;
             if (datatype == NumericalDataType.Average || datatype == NumericalDataType.Cumulative)
             {
                 if (outseriesTimeUnit == TimeUnits.Week)
@@ -123,7 +123,7 @@ namespace Heiflow.Core.Data
                             Week = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(t.DateTime, CalendarWeekRule.FirstDay, DayOfWeek.Monday)
                         }).Select(group =>
                                   new TimeSeriesPair<double>(DateTimeHelper.GetBy(group.Key.Year, group.Key.Week), group.Sum(s => s.Value) / group.Count()));
-                        result.From(derivedValues);
+                        result = DataCube<double>.FromPairs(derivedValues);
                     }
                     else if (datatype == NumericalDataType.Cumulative)
                     {
@@ -133,7 +133,7 @@ namespace Heiflow.Core.Data
                             Week = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(t.DateTime, CalendarWeekRule.FirstDay, DayOfWeek.Monday)
                         }).Select(group =>
                             new TimeSeriesPair<double>(DateTimeHelper.GetBy(group.Key.Year, group.Key.Week), group.Sum(s => s.Value)));
-                        result.From(derivedValues);
+                        result = DataCube<double>.FromPairs(derivedValues);
                     }
                 }
                 else if (outseriesTimeUnit == TimeUnits.Month)
@@ -142,13 +142,13 @@ namespace Heiflow.Core.Data
                     {
                         var derivedValues = sourcePairs.GroupBy(t => new { t.DateTime.Year, t.DateTime.Month }).Select(group =>
                             new TimeSeriesPair<double>(new DateTime(group.Key.Year, group.Key.Month, 1), group.Sum(s => s.Value) / group.Count()));
-                        result.From(derivedValues);
+                        result = DataCube<double>.FromPairs(derivedValues);
                     }
                     else if (datatype == NumericalDataType.Cumulative)
                     {
                         var derivedValues = sourcePairs.GroupBy(t => new { t.DateTime.Year, t.DateTime.Month }).Select(group =>
                        new TimeSeriesPair<double>(new DateTime(group.Key.Year, group.Key.Month, 1), group.Sum(s => s.Value)));
-                        result.From(derivedValues);
+                        result = DataCube<double>.FromPairs(derivedValues);
                     }
                 }
                 else if (outseriesTimeUnit == TimeUnits.CommanYear)
@@ -157,13 +157,13 @@ namespace Heiflow.Core.Data
                     {
                         var derivedValues = sourcePairs.GroupBy(t => new { t.DateTime.Year }).Select(group =>
                             new TimeSeriesPair<double>(new DateTime(group.Key.Year, 1, 1), group.Sum(s => s.Value) / group.Count()));
-                        result.From(derivedValues);
+                        result = DataCube<double>.FromPairs(derivedValues);
                     }
                     else if (datatype == NumericalDataType.Cumulative)
                     {
                         var derivedValues = sourcePairs.GroupBy(t => new { t.DateTime.Year }).Select(group =>
                             new TimeSeriesPair<double>(new DateTime(group.Key.Year, 1, 1), group.Sum(s => s.Value)));
-                        result.From(derivedValues);
+                        result = DataCube<double>.FromPairs(derivedValues);
                     }
                 }
                 else if (outseriesTimeUnit == TimeUnits.Day)
@@ -174,19 +174,19 @@ namespace Heiflow.Core.Data
             return result;
         }
 
-        public static void Compensate(IVectorTimeSeries<double> source, IVectorTimeSeries<double> target)
+        public static void Compensate(DataCube<double> source, DataCube<double> target)
         {
             if (source.DateTimes.Length == target.DateTimes.Length)
             {
-                double delta = target.Value[0] - source.Value[0];
-                for (int i = 0; i < source.Value.Length; i++)
+                double delta = target[0, 0, 0] - source[0, 0, 0];
+                for (int i = 0; i < source.Size[1]; i++)
                 {
-                    source.Value[i] += delta;
+                    source[0, i, 0] += delta;
                 }
             }
             else
             {
-                var len = Math.Min(source.Value.Length, target.Value.Length);
+                var len = Math.Min(source.Size[1], target.Size[1]);
                 var start_index = 0;
                 var inteval = Math.Abs((source.DateTimes[0] - target.DateTimes[0]).Days);
 
@@ -196,15 +196,15 @@ namespace Heiflow.Core.Data
                     if (inteval > ts)
                         start_index = j;
                 }
-                var delta = target.Value[start_index] - source.Value[0];
-                for (int i = 0; i < source.Value.Length; i++)
+                var delta = target[0,start_index,0] - source[0,0,0];
+                for (int i = 0; i < source.Size[1]; i++)
                 {
-                    source.Value[i] += delta;
+                    source[0,i,0] += delta;
                 }
             }
         }
 
-        public static float[] GetMonthlyMean(IVectorTimeSeries<float> source, NumericalDataType datatype)
+        public static float[] GetMonthlyMean(DataCube<float> source, NumericalDataType datatype)
         {
             var mean_mon = new float[12];
             var mon = Derieve(source, datatype, TimeUnits.Month);
@@ -215,7 +215,7 @@ namespace Heiflow.Core.Data
             {
                 for (int i = 0; i < nyear; i++)
                 {
-                    mean_mon[j] += mon.Value[12 * i + j];
+                    mean_mon[j] += mon[0, 12 * i + j, 0];
                 }
             }
             for (int j = 0; j < 12; j++)

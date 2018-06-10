@@ -163,11 +163,11 @@ namespace Heiflow.Core.Schema
                     SiteID = outputv.SiteID,
                     VariableID = outputv.VariableID
                 };
-                IVectorTimeSeries<double> ts = outputv.GetValues(qc, mOdmAdaptor);
+                var ts = outputv.GetValues(qc, mOdmAdaptor);
                 if (ts != null)
                 {
-                    ds = new CalibrationDatasets(ts.Value, ts.DateTimes);
-                    schema.InstancesCount = ts.Value.Length;
+                    ds = new CalibrationDatasets(ts[0,":","0"], ts.DateTimes);
+                    schema.InstancesCount = ts.Size[1];
 
                     double[][] input = new double[schema.Stimulus.Length][];
                     int i = 0;
@@ -180,7 +180,7 @@ namespace Heiflow.Core.Schema
                             SiteID = v.SiteID,
                             VariableID = v.VariableID
                         };
-                        input[i] = v.GetValues(qc, mOdmAdaptor).Value;
+                        input[i] = v.GetValues(qc, mOdmAdaptor)[0, ":", "0"];
                         i++;
                     }
                     ds.InputData = input;

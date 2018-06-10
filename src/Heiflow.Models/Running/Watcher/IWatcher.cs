@@ -27,22 +27,18 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using Heiflow.Models.Running;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Heiflow.Models.Running
 {
-    public  class ProgressChangedArgs:EventArgs
+    public interface IWatcher
     {
-        public ProgressChangedArgs()
-        {
-
-        }
-
-        public int Progress { get; set; }
-        public string Message { get; set; }
+        RunningState State { get; }
+        bool CanPauseAndContinue { get; set; }
+        void Continue();
+        void Pause();
+        void Start();
+        void Stop();
+        void Update();
     }
 }

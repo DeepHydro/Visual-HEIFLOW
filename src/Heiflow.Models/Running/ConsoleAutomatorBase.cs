@@ -34,7 +34,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Heiflow.Models.IO
+namespace Heiflow.Models.Running
 {
     public abstract class ConsoleAutomatorBase : IConsoleAutomator
     {

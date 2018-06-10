@@ -144,7 +144,7 @@ namespace Heiflow.Core.IO
             return array;
         }
 
-        public void Save<T>(IVectorTimeSeries<T> ts)
+        public void Save<T>(DataCube<T> ts)
         {
             if (ts != null)
             {
@@ -155,7 +155,7 @@ namespace Heiflow.Core.IO
 
                 for (int i = 0; i < ts.DateTimes.Length; i++)
                 {
-                    line = string.Join(Comma, ts.DateTimes[i].ToString("yyyy-MM-dd"), ts.Value[i]);
+                    line = string.Join(Comma, ts.DateTimes[i].ToString("yyyy-MM-dd"), ts[0,i,0]);
                     sw.WriteLine(line);
                 }
                 sw.Close();

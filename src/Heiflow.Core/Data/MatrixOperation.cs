@@ -212,7 +212,7 @@ namespace Heiflow.Core.Data
         /// <param name="subIndex">sub index starting from 0</param>
         /// <param name="dimesion">0, by row; 1 by column</param>
         /// <returns>a 2D matrix</returns>
-        public static T [][] SubMatrix<T>(T [][] source, int [] subIndex, int dimesion)
+        public static T[][] SubMatrix<T>(T[][] source, int[] subIndex, int dimesion)
         {
             T[][] subm = null;
             if (dimesion == 0) //by row
@@ -232,7 +232,7 @@ namespace Heiflow.Core.Data
             {
                 int nr = source.Length;
                 subm = new T[nr][];
-             
+
                 for (int r = 0; r < nr; r++)
                 {
                     subm[r] = new T[subIndex.Length];
@@ -244,6 +244,15 @@ namespace Heiflow.Core.Data
             }
 
             return subm;
+        }
+        public static double[] ToDouble<T>(T[] source)
+        {
+            double[] vec = new double[source.Length];
+            for (int i = 0; i < vec.Length; i++)
+            {
+                vec[i] = double.Parse(source[i].ToString());
+            }
+            return vec;
         }
     }
 }

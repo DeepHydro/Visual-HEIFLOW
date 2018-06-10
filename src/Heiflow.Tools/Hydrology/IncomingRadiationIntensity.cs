@@ -90,7 +90,8 @@ namespace Heiflow.Tools.Hydrology
         public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
         {
             DataCubeStreamReader ds = new DataCubeStreamReader(CloudCoverFileName);
-            var cloudcover = ds.Load();
+             ds.LoadDataCube();
+             var cloudcover = ds.DataCube;
             CSVFileStream locationcsv = new CSVFileStream(LocationFileName);
             var locations = locationcsv.Load<double>();
             StreamReader sr_dates = new StreamReader(DateTimeFileName);
@@ -99,7 +100,7 @@ namespace Heiflow.Tools.Hydrology
             var dates = new DateTime[ndays];
             int progress = 0;
             int np=1;
-            var swmat = new My3DMat<float>(cloudcover.Size[0], cloudcover.Size[1], cloudcover.Size[2]);
+            var swmat = new DataCube<float>(cloudcover.Size[0], cloudcover.Size[1], cloudcover.Size[2]);
             swmat.Name = OutputName;
             for (int i = 0; i < ndays; i++)
             {
@@ -111,7 +112,7 @@ namespace Heiflow.Tools.Hydrology
             {
                 for (int j = 0; j < nlocation; j++)
                 {
-                    swmat.Value[0][i][j] = (float)_ShortWaveRadiation.DailyIncomingRadiationIntensity(locations.GetValue(j, 1), locations.GetValue(j, 0), dates[i], cloudcover.Value[0][i][j]);
+                    swmat[0,i,j] = (float)_ShortWaveRadiation.DailyIncomingRadiationIntensity(locations.GetValue(j, 1), locations.GetValue(j, 0), dates[i], cloudcover[0,i,j]);
                 }
                 progress = i * 100 / ndays;
                 if (progress == 5 * np)

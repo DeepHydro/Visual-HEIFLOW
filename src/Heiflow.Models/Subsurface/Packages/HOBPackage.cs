@@ -133,7 +133,7 @@ namespace Heiflow.Models.Subsurface
         public List<IObservationsSite> Observations { get; private set; }
         [StaticVariableItem("Stress Period")]
         [Browsable(false)]
-        public MyVarient3DMat<float> HOBS { get; set; }
+        public DataCube<float> HOBS { get; set; }
         [Browsable(false)]
         [PackageOptionalViewItem("HOB")]
         public override IPackageOptionalView OptionalView
@@ -246,7 +246,7 @@ namespace Heiflow.Models.Subsurface
                 return null;
             }
         }
-        public override bool Load()
+        public override bool Load(ICancelProgressHandler progresshandler)
         {
             if (File.Exists(FileName))
             {
@@ -321,29 +321,29 @@ namespace Heiflow.Models.Subsurface
                     Topology.ColumnCount = grid.ColumnCount;
                     Topology.ActiveCellCount = NH;
                     var nsp1 = (Observations[0] as HeadObservation).IREFSP.Length;
-                    HOBS = new MyVarient3DMat<float>(1, nsp1, NH);
+                    HOBS = new DataCube<float>(1, nsp1, NH);
                     HOBS.Variables = new string[] { "Head Observation" };
                     for (int t = 0; t < nsp1; t++)
                         for (int k = 0; k < NH; k++)
                         {
                             var hob= Observations[k] as HeadObservation;
-                            HOBS.Value[0][t][k] = hob.HOBS[t];
+                            HOBS[0,t,k] = hob.HOBS[t];
                             Topology.ActiveCell[k] = new int[] { hob.Row - 1, hob.Column - 1 };
                             Topology.ActiveCellIDs[k] = grid.Topology.GetID(hob.Row - 1, hob.Column - 1);
                         }
                     HOBS.Topology = this.Topology;
                 }
                 sr.Close();
-                OnLoaded("Load successfully");
+                OnLoaded(progresshandler);
                 return true;
             }
             else
             {
-                OnLoadFailed("Failed to load");
+                OnLoadFailed("Failed to load "+this.Name, progresshandler);
                 return false;
             }
         }
-        public override bool SaveAs(string filename, IProgress prg)
+        public override bool SaveAs(string filename, ICancelProgressHandler prg)
         {
             //StreamWriter sw = new StreamWriter(filename);
             //WriteDefaultComment(sw, "HOB");

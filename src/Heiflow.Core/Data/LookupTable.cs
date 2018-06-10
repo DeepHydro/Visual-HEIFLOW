@@ -46,7 +46,7 @@ namespace Heiflow.Core.Data
         /// <summary>
         /// [uid][var]
         /// </summary>
-        private My2DMat<T> _MappingTable;
+        private DataCube<T> _MappingTable;
         private Dictionary<string, int> _RowIndex;
         private Dictionary<string, int> _ColIndex;
 
@@ -65,7 +65,7 @@ namespace Heiflow.Core.Data
 
             _RowNames = row_names;
             _DefaultValues = default_values;
-            _MappingTable = new My2DMat<T>(row_names.Length, _ColNames.Length - 1);
+            _MappingTable = new DataCube<T>(1,row_names.Length, _ColNames.Length - 1);
             _RowIndex = new Dictionary<string, int>();
             _ColIndex = new Dictionary<string, int>();
 
@@ -73,7 +73,7 @@ namespace Heiflow.Core.Data
             {
                 for (int r = 0; r < row_names.Length; r++)
                 {
-                    _MappingTable.Value[r][c] = default_values[c];
+                    _MappingTable[0,r,c] = default_values[c];
                 }
             }
 
@@ -117,7 +117,7 @@ namespace Heiflow.Core.Data
             }
         }
 
-        public My2DMat<T> MappingTable
+        public DataCube<T> MappingTable
         {
             get
             {
@@ -128,7 +128,7 @@ namespace Heiflow.Core.Data
         public T GetValue(string col_name, int row_index)
         {
             if (_ColIndex.Keys.Contains(col_name) && row_index < _RowNames.Length)
-                return _MappingTable.Value[row_index][_ColIndex[col_name]];
+                return _MappingTable[0,row_index,_ColIndex[col_name]];
             else
                 return NoValue;
         }
@@ -136,7 +136,7 @@ namespace Heiflow.Core.Data
         public T GetValue(string col_name, string row_name)
         {
             if (_RowIndex.Keys.Contains(row_name) && _ColIndex.Keys.Contains(col_name))
-                return _MappingTable.Value[_RowIndex[row_name]][_ColIndex[col_name]];
+                return _MappingTable[0,_RowIndex[row_name],_ColIndex[col_name]];
             else
                 return NoValue;
         }
@@ -148,7 +148,7 @@ namespace Heiflow.Core.Data
             {
                 for (int c = 1; c < dt.Columns.Count; c++)
                 {
-                    _MappingTable.Value[row][c - 1] = TypeConverterEx.ChangeType<T>(dr[c]);
+                    _MappingTable[0,row,c - 1] = TypeConverterEx.ChangeType<T>(dr[c]);
                 }
                 row++;
             }
@@ -176,7 +176,7 @@ namespace Heiflow.Core.Data
                 }
             }
             _RowNames = rownames.ToArray();
-            _MappingTable = new My2DMat<T>(_RowNames.Length, _ColNames.Length - 1);
+            _MappingTable = new DataCube<T>(1,_RowNames.Length, _ColNames.Length - 1);
             _RowIndex = new Dictionary<string, int>();
             _ColIndex = new Dictionary<string, int>();
 
@@ -196,7 +196,7 @@ namespace Heiflow.Core.Data
             {
                 line = sr.ReadLine().Trim();
                 var vv = TypeConverterEx.SkipSplit<T>(line, 1);
-                _MappingTable.Value[i] = vv;
+                _MappingTable[0,i.ToString(),":"] = vv;
             }
             sr.Close();
         }
@@ -209,7 +209,7 @@ namespace Heiflow.Core.Data
             sw.WriteLine(cols);
             for (int i = 0; i < _RowNames.Length; i++)
             {
-                line = _RowNames[i] + "," + string.Join(",", _MappingTable.Value[i]);
+                line = _RowNames[i] + "," + string.Join(",", _MappingTable[0,i.ToString(),":"]);
                 sw.WriteLine(line);
             }
             sw.Close();
@@ -235,7 +235,7 @@ namespace Heiflow.Core.Data
                 dr[0] = row;
                 for (int j = 1; j < _ColNames.Length; j++)
                 {
-                    dr[j] = _MappingTable.Value[ir][j - 1];
+                    dr[j] = _MappingTable[0,ir,j - 1];
                 }
                 dt.Rows.Add(dr);
                 ir++;

@@ -112,8 +112,6 @@ namespace Heiflow.Tools
 
         public bool Validate(string var_fullname)
         {
-            if (var_fullname.Contains(":"))
-               var_fullname = var_fullname.Replace(":", "-1");
             var var_name = GetName(var_fullname);
             bool has_var = false;
             bool dim_valid = false;
@@ -126,16 +124,12 @@ namespace Heiflow.Tools
 
         public bool ValidateVector(string var_fullname)
         {
-            if (var_fullname.Contains(":"))
-                var_fullname = var_fullname.Replace(":", "-1");
             var vec = GetVector(var_fullname);
             return vec != null;
         }
 
         public float[] GetVector(string var_fullname)
         {
-            if (var_fullname.Contains(":"))
-                var_fullname = var_fullname.Replace(":", "-1");
             float[] vector = null;
             var var_name = this.GetName(var_fullname);
             var mat = Workspace.Get(var_name);
@@ -143,15 +137,13 @@ namespace Heiflow.Tools
             {
                 var dims = GetDims(var_fullname);
                 if (dims != null)
-                    vector = mat.GetVector(dims[0], dims[1], dims[2]);
+                    vector = mat.GetVector(int.Parse(dims[0]), dims[1], dims[2]);
             }
             return vector;
         }
 
-        public My3DMat<float> Get3DMat(string var_fullname)
+        public DataCube<float> Get3DMat(string var_fullname)
         {
-            if (var_fullname.Contains(":"))
-                var_fullname = var_fullname.Replace(":", "-1");
             if (TypeConverterEx.IsNull(var_fullname))
                 return null;
             var true_name = GetName(var_fullname);
@@ -161,15 +153,13 @@ namespace Heiflow.Tools
                 return null;
         }
 
-        public My3DMat<float> Get3DMat(string var_fullname, ref int var_index)
+        public DataCube<float> Get3DMat(string var_fullname, ref int var_index)
         {
-            if (var_fullname.Contains(":"))
-                var_fullname = var_fullname.Replace(":", "-1");
             var dims = GetDims(var_fullname);
             var true_name = GetName(var_fullname);
             if(dims != null && true_name!= "")
             {
-                var_index = dims[0];
+                var_index = int.Parse(dims[0]);
                 return Workspace.Get(true_name);
             }
            else
@@ -180,8 +170,6 @@ namespace Heiflow.Tools
 
         protected string GetName(string var_fullname)
         {
-            if (var_fullname.Contains(":"))
-                var_fullname = var_fullname.Replace(":", "-1");
             var index = var_fullname.IndexOf("[");
             if (index < 0)
                 return "";
@@ -189,41 +177,33 @@ namespace Heiflow.Tools
             return name_ture;
         }
 
-        protected int[] GetDims(string var_fullname)
+        protected string[] GetDims(string var_fullname)
         {
-            if (var_fullname.Contains(":"))
-                var_fullname = var_fullname.Replace(":", "-1");
             var pattern = @"\[(.*?)\]";
-            var int_pattern = @"\d+";
+          //  var int_pattern = @"\d+";
             Regex regex = new Regex(pattern);
-            Regex int_regex = new Regex(int_pattern);
-            var matches= regex.Matches(var_fullname); 
-            if(matches.Count == 3)
+           // Regex int_regex = new Regex(int_pattern);
+            var matches = regex.Matches(var_fullname);
+            if (matches.Count == 3)
             {
-                int[] dims = new int[3];
-                for (int i = 0; i < 3;i++ )
+                string[] dims = new string[3];
+                for (int i = 0; i < 3; i++)
                 {
-                    int dim = 0;
-                    var str=matches[i].Value;
-                    if(int_regex.IsMatch(str))
-                    {
-                        var str1= str.Replace("[","");
+                    var str = matches[i].Value;
+                    //if (int_regex.IsMatch(str))
+                    //{
+                        var str1 = str.Replace("[", "");
                         str1 = str1.Replace("]", "");
-                        dim = int.Parse(str1);
-                        if (dim < 0)
-                            dim = MyMath.full;
-                        dims[i] = dim;
-                    }
+                        dims[i] = str1;
+                    //}
                 }
-                    return dims;
+                return dims;
             }
             else
             {
                 return null;
             }
         }
-
- 
         protected double[] ToDouble(int[] vec)
         {
             var dou_vec = Array.ConvertAll<int, double>(vec, s => s);

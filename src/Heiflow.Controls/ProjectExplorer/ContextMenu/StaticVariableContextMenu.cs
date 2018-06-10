@@ -69,6 +69,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
                 base.AddMenuItems();
                 Enable(_LD, false);
                 Enable(_AN, false);
+                Enable(_SETAS_ACTSource, false);
                 Enable(_EX, false);
                 Enable(_A2DC, true);
                 Enable(_RLEASE, false);
@@ -88,7 +89,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
         protected override void Add2Toolbox_Clicked(object sender, EventArgs e)
         {
             var buf = _Package.GetType().GetProperty(_Item.PropertyInfo.Name).GetValue(_Package);
-            var mat = buf as My3DMat<float>;
+            var mat = buf as DataCube<float>;
             if (mat != null)
             {
                 //mat.Name = _Package.Name + "_" + _Item.PropertyInfo.Name;

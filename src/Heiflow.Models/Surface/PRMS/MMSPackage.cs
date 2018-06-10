@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Core.Utility;
 using Heiflow.Models.Generic;
@@ -121,7 +122,7 @@ namespace Heiflow.Models.Surface.PRMS
             _Initialized = true;
         }
 
-        public override bool Load()
+        public override bool Load(ICancelProgressHandler progress)
         {
             if (File.Exists(FileName))
             {
@@ -257,18 +258,18 @@ namespace Heiflow.Models.Surface.PRMS
 
                     i += ValueCount + 1;
                 }
-                OnLoaded("");
+                OnLoaded(progress);
                 return true;
             }
             else
             {
                 Message = string.Format("\tFailed to load {0}. The package file does not exist: {1}", Name, FileName);
-                OnLoadFailed(Message);
+                OnLoadFailed(Message, progress);
                 return false;
             }
         }
 
-        public override bool Save(IProgress progress)
+        public override bool Save(ICancelProgressHandler progress)
         {
             if (IsDirty)
             {
@@ -277,17 +278,17 @@ namespace Heiflow.Models.Surface.PRMS
             else
             {
                 if(progress != null)
-                    progress.Progress("\tParameter file unchanged.");
+                    progress.Progress(this.Name, 1, "\tParameter file unchanged.");
                 return true;
             }
         }
 
-        public override bool SaveAs(string filename, IProgress progress)
+        public override bool SaveAs(string filename, ICancelProgressHandler progress)
         {
             return Save(filename,progress);
         }
 
-        private bool Save(string filename,IProgress prg)
+        private bool Save(string filename,ICancelProgressHandler prg)
         {
             string ext = Path.GetExtension(filename).ToLower();
             try
@@ -323,7 +324,7 @@ namespace Heiflow.Models.Surface.PRMS
             this.FeatureLayer = Owner.Grid.FeatureLayer;
         }
 
-        private void Save2Param(string filename,IProgress progress)
+        private void Save2Param(string filename,ICancelProgressHandler progress)
         {
             int percent = 0;
             int total = 0;
@@ -385,7 +386,7 @@ namespace Heiflow.Models.Surface.PRMS
             OnSaved(progress);
         }
 
-        private void Save2Csv(string filename,IProgress progress)
+        private void Save2Csv(string filename,ICancelProgressHandler progress)
         {
             OnSaving(0);
             int percent = 0;

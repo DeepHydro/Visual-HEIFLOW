@@ -98,11 +98,10 @@ namespace Heiflow.Tools.Conversion
             }
             sr.Close();
 
-            var mat_out = new MyLazy3DMat<float>(1, nstep, ncell);
+            var mat_out = new DataCube<float>(1, nstep, ncell);
             mat_out.Name = OutputMatrix;
             mat_out.Variables = new string[] { var_name };
             sr = new StreamReader(DataFileName);
-            mat_out.Allocate(0,nstep);
             mat_out.DateTimes = new DateTime[nstep];
             for (int i = 0; i < 3; i++)
             {
@@ -113,7 +112,7 @@ namespace Heiflow.Tools.Conversion
             {
                 line = sr.ReadLine();
                 var vec= TypeConverterEx.SkipSplit<float>(line, 6);
-                mat_out.Value[0][t] = vec;  
+                mat_out[0,t.ToString(),":"] = vec;  
                 var dd= TypeConverterEx.Split<int>(line, 3);
                 mat_out.DateTimes [t]= new DateTime(dd[0], dd[1], dd[2]);
                 progress = t * 100 / nstep;

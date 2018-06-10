@@ -55,12 +55,12 @@ namespace Heiflow.Core.Schema
          [CategoryAttribute("Forecasting"), DescriptionAttribute("The method used to sum time series from selected sites")]
          public SummationMethod SummationMethod { get; set; }
 
-         public override IVectorTimeSeries<double> GetValues(ITimeSeriesQueryCriteria qc, ITimeSeriesTransform provider)
+         public override DataCube<double> GetValues(ITimeSeriesQueryCriteria qc, ITimeSeriesTransform provider)
          {
              if (SitesMeasured.Count > 0)
              {
                  int count = SitesMeasured.Count;
-                 IVectorTimeSeries<double>[] tss = new IVectorTimeSeries<double>[count];
+                 DataCube<double>[] tss = new DataCube<double>[count];
                  int i = 0;
                  foreach (HydroPoint hp in SitesMeasured)
                  {
@@ -71,7 +71,7 @@ namespace Heiflow.Core.Schema
                      tss[i] = v.GetValues(qc, provider);
                      i++;
                  }
-                 int length = tss[0].Value.Length;
+                 int length = tss[0].Size[1];
                  double[] values = new double[length];
                  DateTime[] time = new DateTime[length];
                  Array.Copy(tss[0].DateTimes, time, length);
@@ -80,11 +80,11 @@ namespace Heiflow.Core.Schema
                      double sum=0;
                      for (i = 0; i < tss.Length; i++)
                      {
-                         sum+=tss[i].Value[j];
+                         sum+=tss[i][0,j,0];
                      }
                      values[i] = sum / tss.Length;
                  }
-                 IVectorTimeSeries<double> summedts = new NumericalTimeSeries(values, time);
+                 DataCube<double> summedts = new DataCube<double>(values, time);
                  return summedts;
              }
              else
@@ -92,7 +92,7 @@ namespace Heiflow.Core.Schema
                  TimeSpan span = qc.End - qc.Start;
                  double[] values = new double[span.Days];
                  DateTime[] time = new DateTime[span.Days];
-                 IVectorTimeSeries<double> summedts = new NumericalTimeSeries(values, time);
+                 DataCube<double> summedts = new DataCube<double>(values, time);
                  return summedts;
              }
          }

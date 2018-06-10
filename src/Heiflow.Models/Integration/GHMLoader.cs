@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Project;
 using Heiflow.Models.GHM;
@@ -63,14 +64,14 @@ namespace Heiflow.Models.Integration
             return true;
         }
 
-        public void Import(IProject project, IImportProperty property, IProgress progress)
+        public void Import(IProject project, IImportProperty property, ICancelProgressHandler progress)
         {
             GHModel model = new GHModel();
             model.Project = project;
             model.Load(progress);
         }
 
-        public bool Load(IProject project, IProgress progress)
+        public bool Load(IProject project, ICancelProgressHandler progress)
         {
             var succ = true;
             GHModel model = new GHModel();

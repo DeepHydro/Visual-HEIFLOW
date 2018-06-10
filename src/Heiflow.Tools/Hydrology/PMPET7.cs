@@ -187,7 +187,7 @@ namespace Heiflow.Tools.Math
 
             int nfile = files.Length;
             DataCubeStreamReader[] ass = new DataCubeStreamReader[nfile];
-            My3DMat<float>[] mats = new My3DMat<float>[nfile];
+            DataCube<float>[] mats = new DataCube<float>[nfile];
             for (int i = 0; i < nfile; i++)
             {
                 ass[i] = new DataCubeStreamReader(files[i]);
@@ -200,7 +200,7 @@ namespace Heiflow.Tools.Math
 
             DataCubeStreamWriter sw = new DataCubeStreamWriter(OutputFileName);
             sw.WriteHeader(new string[] { "pet"}, ncell);
-            My3DMat<float> mat_out = new My3DMat<float>(1, 1, ncell);
+            DataCube<float> mat_out = new DataCube<float>(1, 1, ncell);
 
             int count = 1;
             for (int t = 0; t < nstep; t++)
@@ -211,9 +211,9 @@ namespace Heiflow.Tools.Math
                 }
                 for (int n = 0; n < ncell; n++)
                 {
-                    var tav = mats[0].Value[0][0][n];
-                    var tmax = mats[1].Value[0][0][n];
-                    var tmin = mats[2].Value[0][0][n];
+                    var tav = mats[0][0, 0, n];
+                    var tmax = mats[1][0, 0, n];
+                    var tmin = mats[2][0, 0, n];
                     if (InputTemperatureUnit == TemperatureUnit.Fahrenheit)
                     {
                         tmax = (float)UnitConversion.Fahrenheit2Kelvin(tmax);
@@ -226,21 +226,21 @@ namespace Heiflow.Tools.Math
                         tmin = (float)UnitConversion.Celsius2Kelvin(tmin);
                         tav = (float)UnitConversion.Celsius2Kelvin(tav);
                     }
-                    double shortwave = mats[6].Value[0][0][n] * 0.0864;
-                    double ap = mats[4].Value[0][0][n] / 1000;
+                    double shortwave = mats[6][0, 0, n] * 0.0864;
+                    double ap = mats[4][0, 0, n] / 1000;
                     var et0 = pet.ET0(coors[n].Y, coors[n].X, tav, tmax, tmin,
-                         mats[3].Value[0][0][n], ap, mats[5].Value[0][0][n], shortwave, Start.AddDays(t));
+                         mats[3][0, 0, n], ap, mats[5][0, 0, n], shortwave, Start.AddDays(t));
 
                     if (OutputLengthUnit == LengthUnit.inch)
                     {
-                        mat_out.Value[0][0][n] = (float)System.Math.Round(et0 * UnitConversion.mm2Inch, 3);
+                        mat_out[0, 0, n] = (float)System.Math.Round(et0 * UnitConversion.mm2Inch, 3);
                     }
                     else
                     {
-                        mat_out.Value[0][0][n] = (float)System.Math.Round(et0, 3);
+                        mat_out[0, 0, n] = (float)System.Math.Round(et0, 3);
                     }
                 }
-                sw.WriteStep(1, ncell, mat_out.Value);
+                sw.WriteStep(1, ncell, mat_out);
                 progress = t * 100 / nstep;
                 if (progress > count)
                 {
@@ -267,18 +267,20 @@ namespace Heiflow.Tools.Math
 
             int nfile = files.Length;
             DataCubeStreamReader[] ass = new DataCubeStreamReader[nfile];
-            My3DMat<float>[] mats = new My3DMat<float>[nfile];
+            DataCube<float>[] mats = new DataCube<float>[nfile];
             for (int i = 0; i < nfile; i++)
             {
                 ass[i] = new DataCubeStreamReader(files[i]);
-                mats[i] = ass[i].Load();
+                 ass[i].LoadDataCube();
+                 mats[i] = ass[i].DataCube;
             }
             int progress = 0;
+            int count = 1;
             int nstep = mats[0].DateTimes.Length;
             int ncell = mats[0].Size[2];
             PenmanMonteithET pet = new PenmanMonteithET();
 
-            var mat_out = new My3DMat<float>(1, nstep, ncell);
+            var mat_out = new DataCube<float>(1, nstep, ncell);
             mat_out.Name = "mat";
             mat_out.Variables = new string[] { "pet" };
 
@@ -286,9 +288,9 @@ namespace Heiflow.Tools.Math
             {
                 for (int i = 0; i < ncell; i++)
                 {
-                    var tav = mats[0].Value[0][t][i];
-                    var tmax = mats[1].Value[0][t][i];
-                    var tmin = mats[2].Value[0][t][i];
+                    var tav = mats[0][0,t,i];
+                    var tmax = mats[1][0, t, i];
+                    var tmin = mats[2][0,t,i];
                     if (InputTemperatureUnit == TemperatureUnit.Fahrenheit)
                     {
                         tmax = (float)UnitConversion.Fahrenheit2Kelvin(tmax);
@@ -296,24 +298,27 @@ namespace Heiflow.Tools.Math
                         tav = (float)UnitConversion.Fahrenheit2Kelvin(tav);
                     }
                    var et0 =  pet.ET0(0,0,tav,tmax, tmin,
-                        mats[3].Value[0][t][i], mats[4].Value[0][t][i], mats[5].Value[0][t][i], mats[6].Value[0][t][i], mats[0].DateTimes[t]);
+                        mats[3][0,t,i], mats[4][0,t,i], mats[5][0,t,i], mats[6][0,t,i], mats[0].DateTimes[t]);
                   // var et1 = (float)pet.ET0(40, 100, tav, tmax, tmin,
                   //mats[3].Value[0][t][i], mats[4].Value[0][t][i], mats[5].Value[0][t][i], 7, mats[0].DateTimes[t], 0.1);
                    if (et0 <= 0)
                        et0 = 0.1;
                    if (OutputLengthUnit == LengthUnit.inch)
                    {
-                       mat_out.Value[0][t][i] = (float) System.Math.Round(et0 * UnitConversion.mm2Inch, 3);
+                       mat_out[0,t,i] = (float) System.Math.Round(et0 * UnitConversion.mm2Inch, 3);
                    }
                     else
                    {
-                       mat_out.Value[0][t][i] = (float)System.Math.Round(et0, 3);
+                       mat_out[0,t,i]  = (float)System.Math.Round(et0, 3);
                    }
                 }
 
                 progress = t * 100 / nstep;
-                if (progress % 5 == 0 && progress >0)
+                if (progress > count)
+                {
                     cancelProgressHandler.Progress("Package_Tool", progress, "Processing step:" + (t + 1));
+                    count++;
+                }
             }
             mat_out.DateTimes = mats[0].DateTimes;
             Workspace.Add(mat_out);

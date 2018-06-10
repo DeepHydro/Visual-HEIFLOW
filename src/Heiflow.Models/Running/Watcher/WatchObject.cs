@@ -27,22 +27,25 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
-using Heiflow.Core.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Heiflow.Models.IO
+namespace Heiflow.Models.Running
 {
-    public interface IArrayWatcher:IWatcher
+    public  class WatchObject
     {
-       event  EventHandler<ArrayWatchObject<double>> Updated;
-       string[] Variables { get; }
-       string FileName { get; set; }
-       ListTimeSeries<double> DataSource { get; }
-       void Load(string filename);
-       void Clear();
+        public WatchObject()
+        {
+
+        }
+
+        public DateTime Current
+        {
+            get;
+            set;
+        }
     }
 }

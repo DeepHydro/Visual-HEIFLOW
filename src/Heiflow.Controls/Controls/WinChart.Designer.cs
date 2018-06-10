@@ -135,8 +135,6 @@
             // 
             // btnStatPanel
             // 
-            this.btnStatPanel.Checked = true;
-            this.btnStatPanel.CheckState = System.Windows.Forms.CheckState.Checked;
             this.btnStatPanel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnStatPanel.Image = global::Heiflow.Controls.WinForm.Properties.Resources.if_business_work_12_2377635;
             this.btnStatPanel.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -217,7 +215,7 @@
             this.menu_line.CheckState = System.Windows.Forms.CheckState.Checked;
             this.menu_line.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GraphVerticalLine16;
             this.menu_line.Name = "menu_line";
-            this.menu_line.Size = new System.Drawing.Size(156, 26);
+            this.menu_line.Size = new System.Drawing.Size(116, 26);
             this.menu_line.Text = "Line";
             this.menu_line.Click += new System.EventHandler(this.menu_line_Click);
             // 
@@ -225,7 +223,7 @@
             // 
             this.menu_scatter.Image = global::Heiflow.Controls.WinForm.Properties.Resources.SpatialAnalystTrainingSampleScatterplots16;
             this.menu_scatter.Name = "menu_scatter";
-            this.menu_scatter.Size = new System.Drawing.Size(156, 26);
+            this.menu_scatter.Size = new System.Drawing.Size(116, 26);
             this.menu_scatter.Text = "Scatter";
             this.menu_scatter.Click += new System.EventHandler(this.menu_scatter_Click);
             // 
@@ -560,6 +558,7 @@
             // 
             this.propertyGrid1.CategoryForeColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGrid1.LineColor = System.Drawing.SystemColors.ControlDark;
             this.propertyGrid1.Location = new System.Drawing.Point(3, 3);
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.Size = new System.Drawing.Size(263, 639);

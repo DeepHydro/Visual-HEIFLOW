@@ -93,29 +93,29 @@ namespace Heiflow.Models.Generic.Parameters
                         {
                             if (ap.TypeName == typeof(float).FullName)
                             {
-                                var fl = vv as My3DMat<float>;
-                                if (fl.Value[GridLayer] != null)
+                                var fl = vv as DataCube<float>;
+                                if (fl[GridLayer] != null)
                                 {
                                     for (int i = 0; i < nfea_target; i++)
                                     {
                                         if (target_index[i] >= 0)
-                                            fl.Value[GridLayer][0][i] = float.Parse(GetValue(ap.AliasName, target_index[i]));
+                                            fl[GridLayer,0,i] = float.Parse(GetValue(ap.AliasName, target_index[i]));
                                         else
-                                            fl.Value[GridLayer][0][i] = (float)ap.DefaultValue;
+                                            fl[GridLayer,0,i] = (float)ap.DefaultValue;
                                     }
                                 }
                             }
                             else if (ap.TypeName == typeof(short).FullName)
                             {
-                                var fl = vv as My3DMat<short>;
-                                if (fl.Value[GridLayer] != null)
+                                var fl = vv as DataCube<short>;
+                                if (fl[GridLayer] != null)
                                 {
                                     for (int i = 0; i < nfea_target; i++)
                                     {
                                         if (target_index[i] >= 0)
-                                            fl.Value[GridLayer][0][i] = short.Parse(GetValue(ap.AliasName, target_index[i]));
+                                            fl[GridLayer,0,i] = short.Parse(GetValue(ap.AliasName, target_index[i]));
                                         else
-                                            fl.Value[GridLayer][0][i] = (short)ap.DefaultValue;
+                                            fl[GridLayer, 0, i] = (short)ap.DefaultValue;
                                     }
                                 }
                             }

@@ -37,7 +37,8 @@ namespace Heiflow.Models.UI
 {
     public interface IProgress
     {
-        void Progress(int percent, string message);
+        //void Progress(int percent, string message);
+        void  Progress(string key, int percent, string message);
         void Progress(string message);
     }
 }

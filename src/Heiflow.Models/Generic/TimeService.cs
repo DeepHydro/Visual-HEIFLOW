@@ -32,6 +32,7 @@ using Heiflow.Core.Data;
 using Heiflow.Models.Subsurface;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,7 +47,7 @@ namespace Heiflow.Models.Generic
         private int _CurrentTimeStep = 0;
         private int _CurrentGridLayer = 0;
         private int _CurrentStressPeriod = 0;
-        protected  int[] _timestep = new int[] { 1, 60, 3600, 86400, 31536000 };
+        protected int[] _timestep = new int[] { 1, 60, 3600, 86400, 31536000 };
         private DateTime _Start;
         private DateTime _End;
         private int _NumTimeStep;
@@ -73,7 +74,7 @@ namespace Heiflow.Models.Generic
 
         public DateTime Start
         {
-            get 
+            get
             {
                 return _Start;
             }
@@ -134,7 +135,7 @@ namespace Heiflow.Models.Generic
                 _NumTimeStep = Timeline.Count;
                 return _NumTimeStep;
             }
-            private  set
+            private set
             {
                 _NumTimeStep = value;
             }
@@ -150,16 +151,21 @@ namespace Heiflow.Models.Generic
             get;
             set;
         }
+        public string IOTimeFile
+        {
+            get;
+            set;
+        }
         public List<StressPeriod> StressPeriods
         {
             get;
-            protected  set;
+            protected set;
         }
 
-        public IBasicModel Model 
-        { 
-            get; 
-            set; 
+        public IBasicModel Model
+        {
+            get;
+            set;
         }
 
         public int CurrentTimeStep
@@ -228,7 +234,7 @@ namespace Heiflow.Models.Generic
             }
             else if (time == TimeUnits.CommanYear)
             {
-                var derivedValues = Timeline.GroupBy(t => new { t.Year}).Select(group =>
+                var derivedValues = Timeline.GroupBy(t => new { t.Year }).Select(group =>
                       group.Count());
                 var inteval = derivedValues.ToArray();
                 return inteval;
@@ -300,7 +306,7 @@ namespace Heiflow.Models.Generic
         {
             Timeline.Clear();
             var current = Start;
-            _NumTimeStep = ((End - Start).Days + 1) * NumTimeStepInDay;        
+            _NumTimeStep = ((End - Start).Days + 1) * NumTimeStepInDay;
             Timeline.Add(current);
             for (int i = 1; i < _NumTimeStep; i++)
             {
@@ -320,8 +326,8 @@ namespace Heiflow.Models.Generic
                 sp.Dates.Clear();
                 if (sp.State == ModelState.SS)
                 {
-                   IOTimeline.Add(Start);
-                   sp.Dates.Add(Start);
+                    IOTimeline.Add(Start);
+                    sp.Dates.Add(Start);
                 }
                 else
                 {
@@ -365,7 +371,7 @@ namespace Heiflow.Models.Generic
                     ID = 1,
                     Length = 1,
                     Multiplier = 1,
-                    State =  ModelState.SS
+                    State = ModelState.SS
                 };
                 sp.Dates.Add(this.Start);
                 var op = new StepOption(sp.ID, 1);
@@ -380,7 +386,7 @@ namespace Heiflow.Models.Generic
                 {
                     Length = steps[i],
                     Multiplier = 1,
-                    State =  ModelState.TR
+                    State = ModelState.TR
                 };
                 if (has_steady_state)
                     sp.ID = i + 2;
@@ -402,7 +408,7 @@ namespace Heiflow.Models.Generic
             int[] steps = new int[nsp];
             int nlen = NumTimeStep / nsp;
 
-            for (int i = 0; i < nsp-1; i++)
+            for (int i = 0; i < nsp - 1; i++)
             {
                 steps[i] = nlen;
             }
@@ -457,12 +463,12 @@ namespace Heiflow.Models.Generic
         {
             Timeline.Clear();
             var current = new DateTime(start.Year, start.Month, start.Day, start.Hour, start.Minute, start.Second);
-            foreach(var sp in StressPeriods)
+            foreach (var sp in StressPeriods)
             {
-                if(sp.State ==  ModelState.SS)
+                if (sp.State == ModelState.SS)
                 {
                     Timeline.Add(start);
-                    
+
                 }
                 else
                 {
@@ -481,12 +487,30 @@ namespace Heiflow.Models.Generic
             IOTimeline.Clear();
             foreach (var sp in StressPeriods)
             {
-                foreach(var op in sp.StepOptions)
+                foreach (var op in sp.StepOptions)
                 {
                     IOTimeline.Add(sp.Dates[op.Step - 1]);
                 }
             }
         }
-
+        public int GetIOTimeLength(string work_dic)
+        {
+            int len = 0;
+            var filename = Path.Combine(work_dic, IOTimeFile);
+            if (File.Exists(filename))
+            {
+                FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                StreamReader sr = new StreamReader(fs, System.Text.Encoding.Default);
+                string line = sr.ReadLine();
+                while (!sr.EndOfStream)
+                {
+                    line = sr.ReadLine();
+                    if (TypeConverterEx.IsNotNull(line))
+                        len++;
+                }
+                sr.Close();
+            }
+            return len;
+        }
     }
 }

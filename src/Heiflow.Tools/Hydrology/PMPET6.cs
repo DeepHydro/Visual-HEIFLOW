@@ -192,7 +192,7 @@ namespace Heiflow.Tools.Math
             }
             int nfile = files.Length;
             DataCubeStreamReader[] ass = new DataCubeStreamReader[nfile];
-            My3DMat<float>[] mats = new My3DMat<float>[nfile];
+            DataCube<float>[] mats = new DataCube<float>[nfile];
             for (int i = 0; i < nfile; i++)
             {
                 ass[i] = new DataCubeStreamReader(files[i]);
@@ -205,7 +205,7 @@ namespace Heiflow.Tools.Math
 
             DataCubeStreamWriter sw = new DataCubeStreamWriter(OutputFileName);
             sw.WriteHeader(new string[] { "pet" }, ncell);
-            My3DMat<float> mat_out = new My3DMat<float>(1, 1, ncell);
+            DataCube<float> mat_out = new DataCube<float>(1, 1, ncell);
             mat_out.DateTimes = new DateTime[nstep];
             int count = 1;
             for (int t = 0; t < nstep; t++)
@@ -216,9 +216,9 @@ namespace Heiflow.Tools.Math
                 }
                 for (int n = 0; n < ncell; n++)
                 {
-                    var tav = mats[0].Value[0][0][n];
-                    var tmax = mats[1].Value[0][0][n];
-                    var tmin = mats[2].Value[0][0][n];
+                    var tav = mats[0][0,0,n];
+                    var tmax = mats[1][0, 0, n];
+                    var tmin = mats[2][0,0,n];
                     if (InputTemperatureUnit == TemperatureUnit.Fahrenheit)
                     {
                         tmax = (float)UnitConversion.Fahrenheit2Kelvin(tmax);
@@ -231,21 +231,21 @@ namespace Heiflow.Tools.Math
                         tmin = (float)UnitConversion.Celsius2Kelvin(tmin);
                         tav = (float)UnitConversion.Celsius2Kelvin(tav);
                     }
-                    double ap = mats[4].Value[0][0][n] / 1000;
+                    double ap = mats[4][0,0,n]/ 1000;
                     var et0 = pet.ET0(coors[n].Y, coors[n].X, tav, tmax, tmin,
-                         mats[3].Value[0][0][n], ap, mats[5].Value[0][0][n], Start.AddDays(t), CloudCover);
+                         mats[3][0, 0, n], ap, mats[5][0, 0, n], Start.AddDays(t), CloudCover);
 
                     if (OutputLengthUnit == LengthUnit.inch)
                     {
-                        mat_out.Value[0][0][n] = (float)System.Math.Round(et0 * UnitConversion.mm2Inch, 3);
+                        mat_out[0, 0, n] = (float)System.Math.Round(et0 * UnitConversion.mm2Inch, 3);
                     }
                     else
                     {
-                        mat_out.Value[0][0][n] = (float)System.Math.Round(et0, 3);
+                        mat_out[0,0,n] = (float)System.Math.Round(et0, 3);
                     }
                 }
                 mat_out.DateTimes[t] = Start.AddDays(1);
-                sw.WriteStep(1, ncell, mat_out.Value);
+                sw.WriteStep(1, ncell, mat_out);
                 progress = t * 100 / nstep;
                 if (progress > count)
                 {

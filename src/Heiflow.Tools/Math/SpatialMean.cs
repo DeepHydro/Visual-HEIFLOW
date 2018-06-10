@@ -48,19 +48,19 @@ namespace Heiflow.Tools.Math
             Category = "Math";
             Description = "Calculate spatial mean value for each time step";
             Version = "1.0.0.0";
-            OutputMatrix = "Average";
+            OutputDataCube = "Average";
             this.Author = "Yong Tian";
         }
 
         [Category("Input")]
-        [Description("The input matrix which should be [0][-1][-1]")]
-        public string InputMatrix
+        [Description("The input DataCube which should be mat[0][:][:]")]
+        public string InputDataCube
         {
             get;
             set;
         }
         [Category("Input")]
-        [Description("The universal factor that will be multilied to every matrix element")]
+        [Description("The universal factor that will be multilied to every  element")]
         public float Multiplier
         {
             get;
@@ -68,8 +68,8 @@ namespace Heiflow.Tools.Math
         }
 
         [Category("Output")]
-        [Description("The matrix that stores mean values")]
-        public string OutputMatrix
+        [Description("The DataCube that stores mean values")]
+        public string OutputDataCube
         {
             get;
             set;
@@ -77,21 +77,53 @@ namespace Heiflow.Tools.Math
 
         public override void Initialize()
         {
-            var m1 = Validate(InputMatrix);
+            var m1 = Validate(InputDataCube);
             this.Initialized = m1;
         }
 
         public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
         {
-             var var_index=0;
-            var mat = Get3DMat(InputMatrix,ref var_index);
-
+            var mat = Get3DMat(InputDataCube);
+            var dims = GetDims(InputDataCube);
             if (mat != null)
             {
-                var av_mat = MyMath.SpatialMean(mat, var_index, Multiplier);
-                av_mat.Name = OutputMatrix;
-                av_mat.TimeBrowsable = true;
-                Workspace.Add(av_mat);
+                int nvar = mat.Size[0];
+                int ntime = mat.Size[1];
+                DataCube<float> mean_mat=null;
+                if (dims[0] == ":")
+                {
+                    mean_mat = new DataCube<float>(nvar, ntime, 1);
+                    for (int i = 0; i < nvar; i++)
+                    {
+                        if (mat.ILArrays[i] != null)
+                        {
+                            for (int j = 0; j < ntime; j++)
+                            {
+                                var vec = mat.GetVector(i, j.ToString(), ":");
+                                var av = vec.Average();
+                                mean_mat[i, j, 0] = av * Multiplier;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    mean_mat = new DataCube<float>(1, ntime, 1);
+                    int var_index = int.Parse(dims[0]);
+                    if (mat.ILArrays[var_index] != null)
+                    {
+                        for (int j = 0; j < ntime; j++)
+                        {
+                            var vec = mat.GetVector(var_index, j.ToString(), ":");
+                            var av = vec.Average();
+                            mean_mat[0, j, 0] = av * Multiplier;
+                        }
+                    }
+                }
+           
+                mean_mat.Name = OutputDataCube;
+                mean_mat.TimeBrowsable = true;
+                Workspace.Add(mean_mat);
                 return true;
             }
             else

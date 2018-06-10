@@ -161,7 +161,7 @@ namespace Heiflow.Models.Generic
         /// <summary>
         ///  2dmat[ LayerCount,ActiveCellCount]
         /// </summary>
-        public My3DMat<float> Elevations
+        public DataCube<float> Elevations
         {
             get;
             set;

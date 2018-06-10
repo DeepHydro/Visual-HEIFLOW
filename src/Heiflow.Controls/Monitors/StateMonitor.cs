@@ -254,7 +254,7 @@ namespace Heiflow.Controls.WinForm.Display
 
             sat_gw2sz.Text = e[FileMonitor.SURFACE_LEAKAGE_OUT].ToString("0.00");
             sat_s2g.Text = e[FileMonitor.STREAM_LEAKAGE_IN].ToString("0.00");
-            sat_et.Text = e[FileMonitor.GW_ET_OUT].ToString("0.00");
+            sat_et.Text = e[FileMonitor.SAT_ET].ToString("0.00");
             sat_g2s.Text = e[FileMonitor.STREAM_LEAKAGE_OUT].ToString("0.00");
             sat_ds.Text = e[FileMonitor.Saturated_Zone_DS].ToString("0.00");
 
@@ -262,6 +262,14 @@ namespace Heiflow.Controls.WinForm.Display
             soil_error.Text = soildisp.ToString("0.00") + "%";
             sat_error.Text = sat_discrepancy.ToString("0.00") + "%";
             uz_error.Text = uzf_discrepancy.ToString("0.00") + "%";
+        }
+
+        private void btnClearCache_Click(object sender, EventArgs e)
+        {
+            foreach (var monitor in viewModel.Value.Monitors)
+            {
+                monitor.Clear();
+            }
         }
     }
 }

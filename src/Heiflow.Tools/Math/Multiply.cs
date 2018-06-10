@@ -49,9 +49,9 @@ namespace Heiflow.Tools.Math
         {
             Name = "Multiply";
             Category = "Math";
-            Description = "Multiply the given matrix by a uniform factor";
+            Description = "Multiply the given Data Cube by a uniform factor";
             Version = "1.0.0.0";
-            OutputMatrix = "Scaled";
+            OutputDataCube = "Scaled";
             Scale = 1.0f;
             this.Author = "Yong Tian";
         }
@@ -59,7 +59,7 @@ namespace Heiflow.Tools.Math
 
 
         [Category("Input")]
-        [Description("The input matrix which should be [-1][-1][-1]")]
+        [Description("The input Data Cube which should be mat[:][:][:]")]
         public string Source
         {
             get;
@@ -78,7 +78,7 @@ namespace Heiflow.Tools.Math
 
         [Category("Output")]
         [Description("The multiplied matrix name")]
-        public string OutputMatrix
+        public string OutputDataCube
         {
             get;
             set;
@@ -96,8 +96,15 @@ namespace Heiflow.Tools.Math
             
             if (source != null)
             {
-                var tag = MyMath.Scale(source, Scale);
-                tag.Name = OutputMatrix;
+                var tag = new DataCube<float>(source.Size[0], source.Size[1], source.Size[2]);
+                for (int i = 0; i < source.Size[0];i++ )
+                {
+                    if(source[i] != null)
+                    {
+                        tag[i] = source[i] * Scale;
+                    }
+                }
+                tag.Name = OutputDataCube;
                 Workspace.Add(tag);
                 return true;
             }

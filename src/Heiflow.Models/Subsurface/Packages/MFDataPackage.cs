@@ -36,6 +36,7 @@ using Heiflow.Models.Generic;
 using System.ComponentModel;
 using Heiflow.Core.Data;
 using System.ComponentModel.Composition;
+using DotSpatial.Data;
 
 namespace Heiflow.Models.Subsurface
 {
@@ -52,12 +53,12 @@ namespace Heiflow.Models.Subsurface
 
         public override bool Scan()
         {
-            return false;
+            return true;
         }
 
-        public override bool Load(int var_index)
+        public override bool Load(int var_index, ICancelProgressHandler progress)
         {
-            return false;
+            return true;
         }
     }
 }

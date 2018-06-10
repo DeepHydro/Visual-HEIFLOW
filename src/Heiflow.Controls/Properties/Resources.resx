@@ -130,14 +130,14 @@
   <data name="GenericSave_B_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GenericSave_B_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ViewCompact16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ViewCompact16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="search_db" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\search_db.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MetadataProperties16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MetadataProperties16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="GenericBlueArrowDoubleLeftRewind32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GenericBlueArrowDoubleLeftRewind32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TmImportFeatures16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TmImportFeatures16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="MapProperties16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MapProperties16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -160,6 +160,9 @@
   <data name="refresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\refresh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="RasterImageAnalysisPanSharpen16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RasterImageAnalysisPanSharpen16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="LayoutDataDrivenPagesChangeToPage16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\LayoutDataDrivenPagesChangeToPage16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -169,8 +172,8 @@
   <data name="if_selected_delete_37293" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\if_selected-delete_37293.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="GeostatisticalGraphGeneralQQPlot16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GeostatisticalGraphGeneralQQPlot16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="HostedServicesFolderOpenState32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\HostedServicesFolderOpenState32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="GeoprocessingTool16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GeoprocessingTool16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -208,17 +211,17 @@
   <data name="calculator" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\calculator.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="AddContent16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\AddContent16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Load24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Load24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Go_24px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Go_24px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="GenericBluePause32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GenericBluePause32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="GeoprocessingScriptUnfilled16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GeoprocessingScriptUnfilled16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="add_db" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\add_db.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ContentsWindowListBySource32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ContentsWindowListBySource32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -253,9 +256,6 @@
   <data name="MapPackageTiledTPKFile16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MapPackageTiledTPKFile16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="DatabaseServerAdd16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\DatabaseServerAdd16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="if_Side_Panel" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\if_Side_Panel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -264,6 +264,9 @@
   </data>
   <data name="TableEditorControl_FileNameInMemory" xml:space="preserve">
     <value>In Memory</value>
+  </data>
+  <data name="AnimationCreateGroup16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AnimationCreateGroup16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="GenericDeleteRed32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GenericDeleteRed32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -283,8 +286,8 @@
   <data name="GenericBlueArrowDoubleRightFastForward32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GenericBlueArrowDoubleRightFastForward32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="LayerRaster_B_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\LayerRaster_B_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Folder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Folder.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="plus" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\plus.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -304,14 +307,11 @@
   <data name="SelectionStatistics_B_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SelectionStatistics_B_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="unknown" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\unknown.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ViewCompact16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ViewCompact16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="LayerBasemapNew16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\LayerBasemapNew16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="PointDisplay16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\PointDisplay16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="PkgInfo_File16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PkgInfo_File16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -319,11 +319,17 @@
   <data name="minus" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\minus.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="download32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\download32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="ToolboxesFolder16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ToolboxesFolder16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="setting32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\setting32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LayerRaster_B_16_gray" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LayerRaster_B_16_gray.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ViewList16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ViewList16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -331,8 +337,8 @@
   <data name="toolbox32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\toolbox32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="SelectionClearSelected16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SelectionClearSelected16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="GenericBluePause32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GenericBluePause32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="CacheGroupLayerSettings16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\3DCacheGroupLayerSettings16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -349,17 +355,20 @@
   <data name="table_edit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\table_edit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="MetadataProperties16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MetadataProperties16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="TmClearSelection16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TmClearSelection16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="hammer32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\hammer32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="cat_db" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cat_db.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Folder" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Folder.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SelectionClearSelected16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SelectionClearSelected16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="AnimationCreateGroup16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\AnimationCreateGroup16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="AddContent16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddContent16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="loading_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\loading_icon;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="datasheet16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\datasheet16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -372,9 +381,6 @@
   </data>
   <data name="GenericBlueRightArrowLongTail32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GenericBlueRightArrowLongTail32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="GeostatisticalGraphCrossvarianceCloud16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GeostatisticalGraphCrossvarianceCloud16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="star32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\star32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -391,6 +397,12 @@
   <data name="SelectionSelectAll16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SelectionSelectAll16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Surface16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Surface16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GeostatisticalGraphCrossvarianceCloud16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GeostatisticalGraphCrossvarianceCloud16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="GenericBlueLeftArrowShortTail32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\GenericBlueLeftArrowShortTail32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -403,8 +415,8 @@
   <data name="down" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="LayerRaster_B_16_gray" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\LayerRaster_B_16_gray.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="unknown" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\unknown.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="AnimationVideo16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AnimationVideo16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -412,23 +424,26 @@
   <data name="ZoomFixedZoomOut32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ZoomFixedZoomOut32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="loading_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\loading_icon;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="PointDisplay16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PointDisplay16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="TmClearSelection16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TmClearSelection16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="GeostatisticalGraphGeneralQQPlot16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GeostatisticalGraphGeneralQQPlot16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="download32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\download32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="remove_db" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\remove_db.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TmImportFeatures16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\TmImportFeatures16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ContentsWindowListBySource16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ContentsWindowListBySource16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Surface16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Surface16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="LayerRaster_B_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LayerRaster_B_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="HostedServicesFolderOpenState32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\HostedServicesFolderOpenState32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="DatabaseServerAdd16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DatabaseServerAdd16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Surface32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Surface32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -439,14 +454,11 @@
   <data name="heiflow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\heiflow.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="hammer32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\hammer32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="SpatialAnalystTrainingSampleHistograms16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SpatialAnalystTrainingSampleHistograms16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Load24" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Load24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="RasterImageAnalysisPanSharpen16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RasterImageAnalysisPanSharpen16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="color_scheme" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\color_scheme.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -457,16 +469,7 @@
   <data name="AttributesWindow16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AttributesWindow16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="search_db" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\search_db.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="cat_db" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\cat_db.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="add_db" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\add_db.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="remove_db" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\remove_db.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="if_history-clear_9334" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\if_history-clear_9334.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

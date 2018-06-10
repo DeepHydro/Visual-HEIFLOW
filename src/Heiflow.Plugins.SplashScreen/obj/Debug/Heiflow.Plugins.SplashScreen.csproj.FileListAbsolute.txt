@@ -41,3 +41,13 @@ F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.Plugins.SplashScreen\obj\Debug\Heiflow.Plu
 F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.Plugins.SplashScreen\obj\Debug\Heiflow.Plugins.SplashScreen.dll.licenses
 F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.Plugins.SplashScreen\obj\Debug\Heiflow.Plugins.SplashScreen.dll
 F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.Plugins.SplashScreen\obj\Debug\Heiflow.Plugins.SplashScreen.pdb
+F:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Application Extensions\SplashScreenManager\Heiflow.Plugins.SplashScreen.dll.config
+F:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Application Extensions\SplashScreenManager\Heiflow.Plugins.SplashScreen.dll
+F:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Application Extensions\SplashScreenManager\Heiflow.Plugins.SplashScreen.pdb
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Plugins.SplashScreen\obj\Debug\Heiflow.Plugins.SplashScreen.csprojResolveAssemblyReference.cache
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Plugins.SplashScreen\obj\Debug\DotSpatial.Plugins.SplashScreenManager.BrandedSplashScreen.resources
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Plugins.SplashScreen\obj\Debug\Heiflow.Plugins.SplashScreen.Properties.Resources.resources
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Plugins.SplashScreen\obj\Debug\Heiflow.Plugins.SplashScreen.csproj.GenerateResource.Cache
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Plugins.SplashScreen\obj\Debug\Heiflow.Plugins.SplashScreen.dll.licenses
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Plugins.SplashScreen\obj\Debug\Heiflow.Plugins.SplashScreen.dll
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Plugins.SplashScreen\obj\Debug\Heiflow.Plugins.SplashScreen.pdb

@@ -102,7 +102,7 @@ namespace Heiflow.Core.Hydrology
         }
 
 
-        public List<IVectorTimeSeries<double>> TimeSeriesCollection { get; set; }
+        public List<DataCube<double>> TimeSeriesCollection { get; set; }
 
         public int SpatialIndex { get; set; }
 
@@ -157,7 +157,7 @@ namespace Heiflow.Core.Hydrology
             set;
         }
 
-        public ITimeSeries<double> TimeSeries
+        public DataCube<double> TimeSeries
         {
             get;
             set;
@@ -170,7 +170,5 @@ namespace Heiflow.Core.Hydrology
 
         #endregion
 
-
-        
     }
 }

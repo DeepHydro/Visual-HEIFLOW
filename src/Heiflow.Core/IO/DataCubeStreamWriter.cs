@@ -74,7 +74,16 @@ namespace Heiflow.Core.IO
                 }
             }
         }
-
+        public void WriteStep(int varnum, int feaNum, DataCube<float> data)
+        {
+            for (int s = 0; s < feaNum; s++)
+            {
+                for (int v = 0; v < varnum; v++)
+                {
+                    _BinaryWriter.Write(data[v,0,s]);
+                }
+            }
+        }
         public void Close()
         {
             _BinaryWriter.Close();
@@ -124,12 +133,11 @@ namespace Heiflow.Core.IO
         /// <param name="data"></param>
         /// <param name="varNames"></param>
         /// <param name="feaNum"></param>
-        public void WriteAll(My3DMat<float> mat)
+        public void WriteAll(DataCube<float> mat)
         {
-            var data = mat.Value;
             var varNames = mat.Variables;
-            int steps = data[0].GetLength(0);
-            int feaNum = data[0][0].Length;
+            int steps = mat.Size[1];
+            int feaNum = mat.Size[2];
             int varnum = varNames.Length;
             _BinaryWriter.Write(varnum);
             for (int i = 0; i < varnum; i++)
@@ -147,7 +155,7 @@ namespace Heiflow.Core.IO
                 {
                     for (int v = 0; v < varnum; v++)
                     {
-                        _BinaryWriter.Write(data[v][i][s]);
+                        _BinaryWriter.Write(mat[v,i,s]);
                     }
                 }
             }
@@ -164,12 +172,11 @@ namespace Heiflow.Core.IO
             Close();
         }
 
-        public void WriteAll(My3DMat<float> mat, int[] var_index)
+        public void WriteAll(DataCube<float> mat, int[] var_index)
         {
-            var data = mat.Value;
             var varNames = mat.Variables;
-            int steps = data[var_index[0]].GetLength(0);
-            int feaNum = data[var_index[0]][0].Length;
+            int steps = mat.Size[1];
+            int feaNum = mat.Size[2];
             int varnum = var_index.Length;
 
             _BinaryWriter.Write(varnum);
@@ -187,7 +194,7 @@ namespace Heiflow.Core.IO
                 {
                     for (int v = 0; v < varnum; v++)
                     {
-                        _BinaryWriter.Write(data[var_index[v]][i][s]);
+                        _BinaryWriter.Write(mat[var_index[v], i, s]);
                     }
                 }
             }

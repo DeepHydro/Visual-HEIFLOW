@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Project;
@@ -69,7 +70,7 @@ namespace Heiflow.Models.Subsurface
             Modflow model = new Modflow();
             return model.Exsit(project.RelativeControlFileName);
         }
-        public void Import(IProject project, IImportProperty property, IProgress progress)
+        public void Import(IProject project, IImportProperty property, ICancelProgressHandler progress)
         {
             var succ = true;
             ModelService.WorkDirectory = project.FullModelWorkDirectory;
@@ -98,7 +99,7 @@ namespace Heiflow.Models.Subsurface
                 }
         }
 
-        public bool Load(IProject project, IProgress progress)
+        public bool Load(IProject project, ICancelProgressHandler progress)
         {
             ModelService.WorkDirectory = project.FullModelWorkDirectory;
             Modflow model = new Modflow();

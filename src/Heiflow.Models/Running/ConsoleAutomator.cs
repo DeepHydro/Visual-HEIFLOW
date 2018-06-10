@@ -27,18 +27,32 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
-using Heiflow.Models.Running;
 using System;
-namespace Heiflow.Models.IO
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Heiflow.Models.Running
 {
-    public interface IWatcher
+    public class ConsoleAutomator : ConsoleAutomatorBase
     {
-        RunningState State { get; }
-        bool CanPauseAndContinue { get; set; }
-        void Continue();
-        void Pause();
-        void Start();
-        void Stop();
-        void Update();
+        public ConsoleAutomator(StreamWriter standardInput, StreamReader standardOutput)
+        {
+            this.StandardInput = standardInput;
+            this.StandardOutput = standardOutput;
+        }
+
+        public void StartAutomate()
+        {
+            this.stopAutomation = false;
+            this.BeginReadAsync();
+        }
+
+        public void StopAutomation()
+        {
+            this.OnAutomationStopped();
+        }
     }
 }

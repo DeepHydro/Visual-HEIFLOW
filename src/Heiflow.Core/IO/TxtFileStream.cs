@@ -179,13 +179,5 @@ namespace Heiflow.Core.IO
             return list.ToArray();
         }
 
-        public My3DMat<float> LoadAsDC()
-        {
-            var mat = LoadAsFloatMatrix();
-            var buf = new float[1][][];
-            buf[1] = mat;
-            My3DMat<float> mat_3d = new My3DMat<float>(buf);
-            return mat_3d ;
-        }
     }
 }

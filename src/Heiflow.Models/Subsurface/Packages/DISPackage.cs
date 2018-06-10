@@ -75,18 +75,18 @@ namespace Heiflow.Models.Subsurface
             Version = "DIS";
             IsMandatory = true;
             _Layer3DToken = "RegularGrid";
-            
+
         }
-       /// <summary>
+        /// <summary>
         /// is a flag, with one value for each model layer, that indicates whether or not a layer has a Quasi-3D confining bed below it. 
         /// 0 indicates no confining bed, and not zero indicates a confining bed. LAYCBD for the bottom layer must be 0.
-       /// </summary>
+        /// </summary>
         public int[] LAYCBD { get; set; }
         /// <summary>
         /// 
         /// </summary>
         [StaticVariableItem("Layer")]
-        public My3DMat<float> Elevation
+        public DataCube<float> Elevation
         {
             get
             {
@@ -111,11 +111,11 @@ namespace Heiflow.Models.Subsurface
             base.Initialize();
         }
         public override bool New()
-        {        
+        {
             base.New();
             return true;
         }
-        public override bool Load()
+        public override bool Load(ICancelProgressHandler progress)
         {
             if (File.Exists(FileName))
             {
@@ -163,18 +163,18 @@ namespace Heiflow.Models.Subsurface
                 line = sr.ReadLine();
                 LAYCBD = TypeConverterEx.Split<int>(line, grid.ActualLayerCount);
 
-                grid.DELR = new MyVarient3DMat<float>(1, 1);
-                grid.DELC = new MyVarient3DMat<float>(1, 1);
-                ReadSerialArray(sr, grid.DELR, 0, 0,grid.ColumnCount);
+                grid.DELR = new DataCube<float>(1, 1, grid.ColumnCount);
+                grid.DELC = new DataCube<float>(1, 1, grid.RowCount);
+                ReadSerialArray(sr, grid.DELR, 0, 0, grid.ColumnCount);
                 ReadSerialArray(sr, grid.DELC, 0, 0, grid.RowCount);
 
                 if (upl == null || lowr == null)
                 {
-                    double height = grid.DELR.Sum();
-                    double width = grid.DELC.Sum();
+                    double height = grid.DELR[0, "0", ":"].Sum();
+                    double width = grid.DELC[0, "0", ":"].Sum();
                     if (grid.Origin != null)
                     {
-                        upl = new Coordinate(grid.Origin.X,grid.Origin.Y);
+                        upl = new Coordinate(grid.Origin.X, grid.Origin.Y);
                         lowr = new Coordinate(grid.Origin.X + width, grid.Origin.Y - height);
                     }
                     else
@@ -185,7 +185,7 @@ namespace Heiflow.Models.Subsurface
                 }
                 grid.Origin = upl;
                 grid.BBox = new Envelope(upl.X, lowr.X, lowr.Y, upl.Y);
-                grid.Elevations = new MyVarient3DMat<float>(grid.LayerCount, 1)
+                grid.Elevations = new DataCube<float>(grid.LayerCount, 1, grid.ActiveCellCount)
                 {
                     Name = "Elevations",
                     TimeBrowsable = false,
@@ -218,17 +218,18 @@ namespace Heiflow.Models.Subsurface
                     });
                 }
                 sr.Close();
-                OnLoaded("successfully loaded");
+                OnLoaded(progress);
                 return true;
             }
             else
             {
                 Message = string.Format("\r\n Failed to load {0}. The package file does not exist: {1}", Name, FileName);
-                OnLoadFailed(Message);
+                progress.Progress(this.Name, 100, Message);
+                OnLoadFailed(Message, progress);
                 return false;
             }
         }
-        public override bool SaveAs(string filename, IProgress progress)
+        public override bool SaveAs(string filename, ICancelProgressHandler progress)
         {
             var grid = (this.Grid as IRegularGrid);
             var mf = Owner as Modflow;
@@ -275,7 +276,7 @@ namespace Heiflow.Models.Subsurface
                 this.Grid.Updated -= this.OnGridUpdated;
             base.Clear();
         }
-        public override void Attach(DotSpatial.Controls.IMap map,  string directory)
+        public override void Attach(DotSpatial.Controls.IMap map, string directory)
         {
             this.Feature = Owner.Grid.FeatureSet;
             this.FeatureLayer = Owner.Grid.FeatureLayer;
@@ -313,7 +314,7 @@ namespace Heiflow.Models.Subsurface
 
             if (grid.Elevations == null)
             {
-                grid.Elevations = new MyVarient3DMat<float>(grid.LayerCount, 1, grid.ActiveCellCount);
+                grid.Elevations = new DataCube<float>(grid.LayerCount, 1, grid.ActiveCellCount);
             }
 
             for (int l = 0; l < grid.LayerCount; l++)
@@ -324,7 +325,7 @@ namespace Heiflow.Models.Subsurface
                     int col = int.Parse(dr["Column"].ToString()) - 1;
                     int id = grid.Topology.GetID(row, col);
                     int index = grid.Topology.CellID2CellIndex[id];
-                    grid.Elevations[l,index, 0] = float.Parse(dr[ele_fields[l]].ToString());
+                    grid.Elevations[l, index, 0] = float.Parse(dr[ele_fields[l]].ToString());
                 }
             }
         }
@@ -383,7 +384,7 @@ namespace Heiflow.Models.Subsurface
                 range_index[c] = -1;
                 for (int i = 0; i < nrange; i++)
                 {
-                    if (Elevation.Value[0][0][c] < range[i, 1] && Elevation.Value[0][0][c] >= range[i, 0])
+                    if (Elevation[0, 0, c] < range[i, 1] && Elevation[0, 0, c] >= range[i, 0])
                     {
                         range_index[c] = i;
                         break;
@@ -401,12 +402,12 @@ namespace Heiflow.Models.Subsurface
 
             for (int c = 0; c < ncell; c++)
             {
-                var total_height = Elevation.Value[0][0][c] - Elevation.Value[nlayer - 1][0][c];
+                var total_height = Elevation[0, 0, c] - Elevation[nlayer - 1, 0, c];
                 for (int l = 0; l < nlayer - 1; l++)
                 {
-                    Elevation.Value[l + 1][0][c] = Elevation.Value[l][0][c] - total_height * ratio[range_index[c], l];
-                    if (Elevation.Value[l + 1][0][c] < -200)
-                        Elevation.Value[l + 1][0][c] = -200;
+                    Elevation[l + 1, 0, c] = Elevation[l, 0, c] - total_height * ratio[range_index[c], l];
+                    if (Elevation[l + 1, 0, c] < -200)
+                        Elevation[l + 1, 0, c] = -200;
                 }
             }
             return successful;
@@ -423,6 +424,5 @@ namespace Heiflow.Models.Subsurface
             };
             return cor;
         }
-
     }
 }

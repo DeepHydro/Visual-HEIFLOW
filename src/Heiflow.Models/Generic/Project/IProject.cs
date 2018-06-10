@@ -28,6 +28,7 @@
 //
 
 using DotSpatial.Controls;
+using DotSpatial.Data;
 using Heiflow.Core.Data.ODM;
 using Heiflow.Models.Generic.Packages;
 using Heiflow.Models.Generic.Parameters;
@@ -104,7 +105,7 @@ namespace Heiflow.Models.Generic.Project
         ObservableCollection<RasterCoverage> RasterLayerCoverages {get; set; } 
         ODMSource ODMSource {get; set; }
         void Initialize();
-        bool New(IProgress progress, bool ImportFromExistingModel);
+        bool New(ICancelProgressHandler progress, bool ImportFromExistingModel);
         void Clear();
         /// <summary>
         /// Bind grid feature

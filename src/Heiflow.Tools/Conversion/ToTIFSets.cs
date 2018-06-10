@@ -146,7 +146,7 @@ namespace Heiflow.Tools.Conversion
             int var_index=0;
             int con_var_index = 0;
             var mat = Get3DMat(Matrix, ref var_index);
-            My3DMat<float> con_mat = null;
+            DataCube<float> con_mat = null;
             if (Filter != FilterMode.None)
                 con_mat = Get3DMat(ConMat, ref con_var_index);
             if (fs != null &&  mat != null)
@@ -185,17 +185,17 @@ namespace Heiflow.Tools.Conversion
                         foreach (var cor in coors)
                         {
                             var cell = raster.ProjToCell(cor);
-                            var temp = mat.Value[var_index][t][i] * Scale;
+                            var temp = mat[var_index,t,i] * Scale;
 
                             if (Filter == FilterMode.Maximum)
                             {
-                                if (temp > con_mat.Value[0][0][i])
-                                    temp = con_mat.Value[0][0][i];
+                                if (temp > con_mat[0,0,i])
+                                    temp = con_mat[0, 0, i];
                             }
                             else if (Filter == FilterMode.Minimum)
                             {
-                                if (temp < con_mat.Value[0][0][i])
-                                    temp = con_mat.Value[0][0][i];
+                                if (temp < con_mat[0, 0, i])
+                                    temp = con_mat[0, 0, i];
                             }
 
                             raster.Value[cell.Row, cell.Column] = temp;
@@ -216,7 +216,7 @@ namespace Heiflow.Tools.Conversion
                         foreach (var cor in coors)
                         {
                             var cell = raster.ProjToCell(cor.X - 500, cor.Y + 500);
-                            var temp = mat.Value[var_index][t][i] * Scale;
+                            var temp = mat[var_index,t,i] * Scale;
                             raster.Value[cell.Row, cell.Column] = temp;
                             i++;
                         }

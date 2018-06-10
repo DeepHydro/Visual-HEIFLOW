@@ -27,28 +27,29 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
-using Heiflow.Core.Data;
+using Heiflow.Models.Running;
 using System;
 using System.Collections.Generic;
-using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 namespace Heiflow.Models.Running
 {
-    public  interface IFileMonitor
+    public abstract class WatcherBase : IWatcher
     {
-        string MonitorName { get; }
-        string FileName { get; set; }        
-        List<IMonitorItem>  Root { get; set; }
-        Heiflow.Models.IO.IArrayWatcher Watcher { get; set; }
-        ListTimeSeries<double>  DataSource { get; }
-        int CurrentStep { get; set; }
+        public WatcherBase() 
+        {
+            CanPauseAndContinue = true;
+        }
 
-        List<IFileMonitor> Partners { get; }
-        bool IsStarted { get; }
-        void Start();
-        void Stop();
-        void Clear();
-        DataTable Balance( ref string budget);
-        Dictionary<string, double> ZonalBudgets();
- 
+        public bool CanPauseAndContinue { get; set; }
+
+       public  RunningState State { get; protected set; }
+        public abstract void Start();
+        public abstract void Pause();
+        public abstract void Continue();
+        public abstract void Stop();
+        public abstract void Update();
     }
 }

@@ -181,9 +181,8 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
                     var ts = ODMSource.GetTimeSeries(qc);
                     if (ts != null)
                     {
-                        var dt = ts.ToDataTable(dc.Name);
                         CSVFileStream csvf = new CSVFileStream(dlg.FileName);
-                        csvf.Save(dt);
+                        csvf.Save(ts);
                     }
                 }
 
@@ -205,7 +204,7 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
                 if (ts != null)
                 {
                     ShellService.ShowChildWindow(ChildWindowNames.WinChartView);
-                    ShellService.WinChart.Plot(ts.DateTimes,ts.Value, qc.VariableName ,
+                    ShellService.WinChart.Plot(ts.DateTimes, ts[0, ":", "0"], qc.VariableName,
                         System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine);
                 }
             }

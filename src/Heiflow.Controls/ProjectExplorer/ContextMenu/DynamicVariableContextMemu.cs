@@ -62,6 +62,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
             this.Enable(_LD, true);
             this.Enable(_RLEASE, true);
             this.Enable(_AN, true);
+            this.Enable(_SETAS_ACTSource, true);
             this.Enable(_SOM, false);
             this.Enable(_VI3, false);
         }
@@ -72,7 +73,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
             {
                 _ShellService.SelectPanel(DockPanelNames.DataGridPanel);
                 var dp = _Package as IDataPackage;
-                var dc = dp.Values as IDataCubeObject;
+                var dc = dp.DataCube;
                 dc.SelectedVariableIndex = VariableIndex;
                 dc.SelectedTimeIndex = 0;
                 _ShellService.SelectPanel(DockPanelNames.DataGridPanel);
@@ -86,10 +87,10 @@ namespace Heiflow.Controls.WinForm.MenuItems
             {
                 var dp = _Package as IDataPackage;
                 var item = _Item as DynamicVariableItem;
-                var convertor = dp.Values;
-                convertor.SelectedVariableIndex = VariableIndex;
-                convertor.SelectedTimeIndex = Package.TimeService.CurrentTimeStep;
-                var vector = convertor.GetByTime(VariableIndex, Package.TimeService.CurrentTimeStep);
+                var dc = dp.DataCube;
+                dc.SelectedVariableIndex = VariableIndex;
+                dc.SelectedTimeIndex = Package.TimeService.CurrentTimeStep;
+                var vector = dc.GetByTime(VariableIndex, Package.TimeService.CurrentTimeStep);
                 if (vector != null && _Package.Feature != null)
                 {                  
                     var dt = _Package.Feature.DataTable;
@@ -99,7 +100,6 @@ namespace Heiflow.Controls.WinForm.MenuItems
                         {
                             dt.Rows[i][RegularGrid.ParaValueField] = vector.GetValue(i);
                         }
-
                         ApplyScheme(_Package.FeatureLayer, RegularGrid.ParaValueField);
                     }
                 }
@@ -109,7 +109,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
         protected override void Add2Toolbox_Clicked(object sender, EventArgs e)
         {
             var dp = _Package as IDataPackage;
-            var mat = dp.Values;
+            var mat = dp.DataCube;
             if (mat != null)
             {
                 if (mat.Name == "Default")
@@ -124,7 +124,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
         protected override void Animate_Clicked(object sender, EventArgs e)
         {
             var dp = _Package as IDataPackage;
-            var mat = dp.Values;
+            var mat = dp.DataCube;
             if (mat != null)
             {
                 var buf = _Package.Name;
@@ -140,14 +140,23 @@ namespace Heiflow.Controls.WinForm.MenuItems
                 }
             }
         }
-
+        protected override void SetAsActiveSource_Clicked(object sender, EventArgs e)
+        {
+            var dp = _Package as IDataPackage;
+            if (dp.DataCube != null)
+            {
+                _ActiveDataService.Source = dp.DataCube;
+                _ActiveDataService.Source.SelectedVariableIndex = this.VariableIndex;
+               // _ActiveDataService.SourceStatistics = dp.DataCube.SpatialMean(this.VariableIndex);
+            }
+        }
         protected override void ReleaseData_Clicked(object sender, EventArgs e)
         {
             var dp = _Package as IDataPackage;
-            var mat = dp.Values;
+            var mat = dp.DataCube;
             if (mat != null)
             {
-                mat.Value[this.VariableIndex] = null;
+                mat.ILArrays[this.VariableIndex] = null;
                 foreach (var item in _sub_menus)
                 {
                     item.Enabled = false;
@@ -160,7 +169,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
         protected bool CheckDataSource()
         {
             var dp = _Package as IDataPackage;
-            if (dp != null && dp.Values != null)
+            if (dp != null && dp.DataCube != null)
             {
                 return true;
             }

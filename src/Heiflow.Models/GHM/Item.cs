@@ -93,18 +93,21 @@ namespace Heiflow.Models.GHM
             set;
         }
 
-        public MyArray<float> LoadArray()
+        public DataCube<float> LoadArray()
         {
-            MyArray<float> mat = null;
+            DataCube<float> mat = null;
             var provider = FileProviderFactory.GetProvider(FullPath);
-            if (provider is IMatFileProvider)
-                mat = (provider as IMatFileProvider).LoadSerial(FullPath, Grid);
+            if (provider is IDataCubeStream)
+            {
+                 (provider as IDataCubeStream).LoadDataCube();
+                 mat = (provider as IDataCubeStream).DataCube;
+            }
             return mat;
         }
 
-        public IVectorTimeSeries<double> LoadTimeSeries()
+        public DataCube<double> LoadTimeSeries()
         {
-            IVectorTimeSeries<double> ts = null;
+            DataCube<double> ts = null;
             var provider = FileProviderFactory.GetProvider(FullPath);
             if (provider is ITimeSeriesFileProvider)
                 ts = (provider as ITimeSeriesFileProvider).Load();

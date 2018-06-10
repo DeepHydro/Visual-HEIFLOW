@@ -44,6 +44,7 @@ using Heiflow.Models.Generic.Parameters;
 using System.Collections.ObjectModel;
 using Heiflow.Models.Properties;
 using Heiflow.Models.UI;
+using DotSpatial.Data;
 
 namespace Heiflow.Models.Generic.Project
 {
@@ -143,7 +144,7 @@ namespace Heiflow.Models.Generic.Project
         /// Deserializes the model from a file.
         /// </summary>
         /// <param name="fileName">Name of the file.</param>
-        public void Open(string fileName, IProgress progress)
+          public void Open(string fileName, ICancelProgressHandler progress)
         {
             var dic = Path.GetDirectoryName(fileName);
             var loaded = true;
@@ -197,7 +198,7 @@ namespace Heiflow.Models.Generic.Project
         /// <summary>
         /// Creates a new project.
         /// </summary>
-        public bool New(string prjName, string prjDir, IProject project, IProgress progress, bool ImportFromExistingModel)
+        public bool New(string prjName, string prjDir, IProject project, ICancelProgressHandler progress, bool ImportFromExistingModel)
         {
             bool succ = true;
             if (!Directory.Exists(prjDir))
@@ -217,7 +218,8 @@ namespace Heiflow.Models.Generic.Project
             else
             {
                 succ = false;
-                progress.Progress("Failed to create project.");
+                if(progress != null)
+                    progress.Progress("Project", 100, "Failed to create project.");
             }
             return succ;
         }

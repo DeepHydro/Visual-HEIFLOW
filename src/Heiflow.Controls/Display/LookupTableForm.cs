@@ -94,7 +94,7 @@ namespace Heiflow.Controls.WinForm.Display
         private void LayerParameter_Processing(object sender, int e)
         {
             string msg = string.Format("Processing {0}%", e);
-            viewModel.Value.ShellService.ProgressWindow.Progress(e, msg);
+            viewModel.Value.ShellService.ProgressWindow.Progress("Lookup",e, msg);
         }
 
         private void LayerParameter_Processed(object sender, object e)

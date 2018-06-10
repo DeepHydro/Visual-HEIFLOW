@@ -50,7 +50,7 @@ namespace Heiflow.Models.Generic.Parameters
         protected int _valueCount;
         protected int[] _Size;
         protected Array _array;   
-        protected My3DMat<float> _DataCube;
+        protected DataCube<float> _DataCube;
         public Parameter(string name)
         {
             Name = name;
@@ -244,7 +244,7 @@ namespace Heiflow.Models.Generic.Parameters
         }
         [XmlIgnore]
         [Browsable(false)]
-        public My3DMat<float> DataCubeObject
+        public DataCube<float> DataCubeObject
         {
             get
             {

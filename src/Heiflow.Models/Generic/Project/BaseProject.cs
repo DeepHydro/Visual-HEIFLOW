@@ -28,6 +28,7 @@
 //
 
 using DotSpatial.Controls;
+using DotSpatial.Data;
 using Heiflow.Core.Data.ODM;
 using Heiflow.Core.Utility;
 using Heiflow.Models.Generic.Packages;
@@ -393,7 +394,7 @@ namespace Heiflow.Models.Generic.Project
             _IsDirty = false;
         }
 
-        public abstract bool New(IProgress progress,bool ImportFromExistingModel);
+        public abstract bool New(ICancelProgressHandler progress,bool ImportFromExistingModel);
         public abstract void Clear();
         public abstract void AttachFeatures();
         public abstract void CreateGridFeature();

@@ -31,16 +31,20 @@ using Heiflow.Core.Data;
 using System;
 namespace Heiflow.Core.IO
 {
-    public interface IArrayStream
+    public interface IDataCubeStream
     {
-        event EventHandler<MyLazy3DMat<float>> Loaded;
+        event EventHandler<DataCube<float>> DataCubeLoaded;
         event EventHandler<int> Loading;
-        int StepsToLoad { get; set; }
-        int NumTimeStep { get;  }
-
+        event EventHandler<string> LoadFailed;
+        int StepsToLoad { get; }
+        int NumTimeStep { get; set; }
+        int MaxTimeStep { get; set; }
         string[] Variables { get; }
+        DataCube<float> DataCube { get; }
         void Scan();
-        Heiflow.Core.Data.My3DMat<float> Load();
-        Heiflow.Core.Data.My3DMat<float> Load(int var_index);
+        //Heiflow.Core.Data.My3DMat<float> Load();
+        //Heiflow.Core.Data.My3DMat<float> Load(int var_index);
+        void LoadDataCube();
+        void LoadDataCube(int var_index);
     }
 }

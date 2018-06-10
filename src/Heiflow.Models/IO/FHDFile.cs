@@ -42,7 +42,7 @@ using System.Threading.Tasks;
 
 namespace Heiflow.Models.IO
 {
-    public class FHDFile : BaseDataCube
+    public class FHDFile : BaseDataCubeStream
     {
         private string _FileName;
         private IRegularGrid _Grid;
@@ -83,54 +83,19 @@ namespace Heiflow.Models.IO
             }
         }
 
-        public override My3DMat<float> Load()
+        public void LoadVertDis(int var_index)
         {
-            return ReadBinWaterTable();
-        }
-
-        public override My3DMat<float> Load(int var_index)
-        {
-            try
-            {
-                My3DMat<float> mat = null;
-                if (var_index == 0)
-                {
-                    if (IsLoadDepth)
-                        mat = ReadBinWaterDepth();
-                    else
-                        mat = ReadBinWaterTable();
-                }
-                else
-                {
-                    if (IsLoadDepth)
-                        mat = ReadBinLayerDepth(var_index);
-                    else
-                        mat = ReadBinLayerHead(var_index);
-                }
-                return mat;
-            }
-            catch (Exception ex)
-            {
-                OnLoadFailed(ex.Message);
-                return null;
-            }
-        }
-
-        public My3DMat<float> LoadVertDis(int var_index)
-        {
-            My3DMat<float> mat = null;
             if (var_index == 0)
             {
-                mat = ReadBinTotalVertDis();
+                 ReadBinTotalVertDis();
             }
             else
             {
-                mat = ReadBinLayerHead(var_index);
+                 ReadBinLayerHead(var_index);
             }
-            return mat;
         }
 
-        public My3DMat<float> ReadTxtWaterTable()
+        public void ReadTxtWaterTable()
         {
             if (File.Exists(_FileName))
             {
@@ -146,6 +111,7 @@ namespace Heiflow.Models.IO
                 int nlayer = grid.ActualLayerCount;
                 string line = "";
                 int stepIndex = 0;
+                int nstep = StepsToLoad;
                 srFhd = new StreamReader(_FileName);
 
                 int colLine = (int)Math.Ceiling(col / 10.0);
@@ -197,27 +163,25 @@ namespace Heiflow.Models.IO
                     }
                     headLst.Add(wt);
                     stepIndex++;
-                    if (StepsToLoad > 0 && stepIndex >= StepsToLoad)
+                    if (stepIndex >= nstep)
                         break;
                 }
-             //   MyLazy3DMat<float> mat = new MyLazy3DMat<float>(Variables.Length, headLst.Count, grid.ActiveCellCount);
-                var mat = Source;
-                mat.Allocate(0, mat.Size[1], mat.Size[2]);
+                if (DataCube == null)
+                    DataCube = new DataCube<float>(Variables.Length, nstep, grid.ActualLayerCount, true);
+                DataCube.Allocate(0);
                 for (int i = 0; i < headLst.Count; i++)
                 {
-                    mat.SetBy(headLst[i], 0, i, MyMath.full);
+                    DataCube.ILArrays[0][i] = headLst[i];
                 }
 
                 srFhd.Close();
                 heads = null;
                 headLst.Clear();
-
-
-                return mat;
+                OnDataCubedLoaded(DataCube);
             }
             else
             {
-                return null;
+                OnLoadFailed("The FHD file dose not exist: " + _FileName);
             }
         }
         /// <summary>
@@ -225,29 +189,32 @@ namespace Heiflow.Models.IO
         /// </summary>
         /// <param name="layer">index starting from 1</param>
         /// <returns></returns>
-        public My3DMat<float>  ReadBinLayerHead(int layer)
+        public void ReadBinLayerHead(int layer)
         {
             if (File.Exists(_FileName))
             {
                 OnLoading(0);
-                Scan();
+                if (MaxTimeStep <= 0 || NumTimeStep == 0)
+                {
+                    Scan();
+                    MaxTimeStep = NumTimeStep;
+                }
                 var grid = _Grid as MFGrid;
                 FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 BinaryReader br = new BinaryReader(fs);
                 // KSTP,KPER,PERTIM,TOTIM,TEXT,NCOL,NROW,ILAY
                 long layerbyte = 32 + 4 * 3 + grid.RowCount * grid.ColumnCount * 4;
-                int nstep = NumTimeStep;
+                int nstep = StepsToLoad;
                 float head = 0;
                 int progress = 0;
-                if (StepsToLoad < NumTimeStep && StepsToLoad > 0)
-                    nstep = StepsToLoad;
 
                 layer = layer - 1;
                 if (layer < 0)
                     layer = 0;
                // MyLazy3DMat<float> mat = new MyLazy3DMat<float>(Variables.Length, nstep, grid.ActiveCellCount);
-                var mat = Source;
-                mat.Allocate(layer + 1, nstep, grid.ActiveCellCount);
+                if (DataCube == null)
+                    DataCube = new DataCube<float>(Variables.Length, nstep, grid.ActualLayerCount, true);
+                DataCube.Allocate(layer + 1);
                 for (int t = 0; t < nstep; t++)
                 {
                     for (int l = 0; l < layer; l++)
@@ -259,6 +226,7 @@ namespace Heiflow.Models.IO
                     vv = br.ReadInt32();
                     vv = br.ReadInt32();
                     int index = 0;
+                    var buf = new float[grid.ActiveCellCount];
                     for (int r = 0; r < grid.RowCount; r++)
                     {
                         for (int c = 0; c < grid.ColumnCount; c++)
@@ -266,11 +234,12 @@ namespace Heiflow.Models.IO
                             head = br.ReadSingle();
                             if (grid.IBound[0, r, c] != 0)
                             {
-                                mat.Value[layer+1][t][index] = head;
+                                buf[index] = head;
                                 index++;
                             }
                         }
                     }
+                    DataCube.ILArrays[layer + 1][t, ""] = buf;
                     for (int l = layer +1 ; l < grid.ActualLayerCount; l++)
                     {
                         fs.Seek(layerbyte, SeekOrigin.Current);
@@ -282,42 +251,42 @@ namespace Heiflow.Models.IO
                     OnLoading(100);
                 br.Close();
                 fs.Close();
-                OnLoaded(mat);
-                return mat;
+                OnDataCubedLoaded(DataCube);
             }
             else
             {
-                return null;
+                OnLoadFailed("The FHD file dose not exist: " + _FileName);
             }
         }
-
         /// <summary>
         /// read layer head 
         /// </summary>
         /// <param name="layer">index starting from 1</param>
         /// <returns></returns>
-        public My3DMat<float> ReadBinLayerDepth(int layer)
+        public void ReadBinLayerDepth(int layer)
         {
             if (File.Exists(_FileName))
             {
                 OnLoading(0);
-                Scan();
+                if (MaxTimeStep <= 0 || NumTimeStep == 0)
+                {
+                    Scan();
+                    MaxTimeStep = NumTimeStep;
+                }
                 var grid = _Grid as MFGrid;
                 FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 BinaryReader br = new BinaryReader(fs);
                 long layerbyte = 32 + 4 * 3 + grid.RowCount * grid.ColumnCount * 4;
-                int nstep = NumTimeStep;
+                int nstep = StepsToLoad;
                 float head = 0;
                 int progress = 0;
-                if (StepsToLoad < NumTimeStep && StepsToLoad > 0)
-                    nstep = StepsToLoad;
 
                 layer = layer - 1;
                 if (layer < 0)
                     layer = 0;
-                //MyLazy3DMat<float> mat = new MyLazy3DMat<float>(Variables.Length, nstep, grid.ActiveCellCount);
-                var mat = Source;
-                mat.Allocate(layer + 1, nstep, grid.ActiveCellCount);
+                if (DataCube == null)
+                    DataCube = new DataCube<float>(Variables.Length, nstep, grid.ActualLayerCount, true);
+                DataCube.Allocate(layer + 1);
                 for (int t = 0; t < nstep; t++)
                 {
                     for (int l = 0; l < layer; l++)
@@ -329,6 +298,7 @@ namespace Heiflow.Models.IO
                     vv = br.ReadInt32();
                     vv = br.ReadInt32();
                     int index = 0;
+                    var buf = new float[grid.ActiveCellCount];
                     for (int r = 0; r < grid.RowCount; r++)
                     {
                         for (int c = 0; c < grid.ColumnCount; c++)
@@ -336,11 +306,12 @@ namespace Heiflow.Models.IO
                             head = br.ReadSingle();
                             if (grid.IBound[0, r, c] != 0)
                             {
-                                mat.Value[layer+1][t][index] = grid.Elevations[0, index, 0] - head;
+                                buf[index] = grid.Elevations[0, index, 0] - head;
                                 index++;
                             }
                         }
                     }
+                    DataCube.ILArrays[layer + 1][t, ""] = buf;
                     for (int l = layer + 1; l < grid.ActualLayerCount; l++)
                     {
                         fs.Seek(layerbyte, SeekOrigin.Current);
@@ -352,40 +323,40 @@ namespace Heiflow.Models.IO
                     OnLoading(100);
                 br.Close();
                 fs.Close();
-                OnLoaded(mat);
-                return mat;
+                OnDataCubedLoaded(DataCube);
             }
             else
             {
-                return null;
+                OnLoadFailed("The FHD file dose not exist: " + _FileName);
             }
         }
-        public My3DMat<float> ReadBinTotalVertDis()
+        public void ReadBinTotalVertDis()
         {
             if (File.Exists(_FileName))
             {
                 OnLoading(0);
-                Scan();
+                if (MaxTimeStep <= 0 || NumTimeStep == 0)
+                {
+                    Scan();
+                    MaxTimeStep = NumTimeStep;
+                }
                 var grid = _Grid as MFGrid;
                 FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 BinaryReader br = new BinaryReader(fs);
                 long layerbyte = 32 + 4 * 3 + grid.RowCount * grid.ColumnCount * 4;
-                int nstep = NumTimeStep;
+                int nstep = StepsToLoad;
                 float head = 0;
                 int progress = 0;
                 float[][] vts = new float[grid.ActualLayerCount][];
-
-                if (StepsToLoad < NumTimeStep && StepsToLoad > 0)
-                    nstep = StepsToLoad;
 
                 for (int l = 0; l < grid.ActualLayerCount; l++)
                 {
                     vts[l] = new float[grid.ActiveCellCount];
                 }
 
-                // MyLazy3DMat<float> mat = new MyLazy3DMat<float>(Variables.Length, nstep, grid.ActiveCellCount);
-                var mat = new MyLazy3DMat<float>(Variables.Length, nstep, grid.ActiveCellCount);
-                mat.Allocate(0, nstep, grid.ActiveCellCount);
+                if (DataCube == null)
+                    DataCube = new DataCube<float>(Variables.Length, nstep, grid.ActualLayerCount, true);
+                DataCube.Allocate(0);
                 float total_vt = 0;
                 for (int t = 0; t < nstep; t++)
                 {
@@ -417,7 +388,7 @@ namespace Heiflow.Models.IO
                         {
                             total_vt += vts[ll][i];
                         }
-                        mat.Value[0][t][i] = total_vt / grid.ActualLayerCount;
+                        DataCube[0, t, i] = total_vt / grid.ActualLayerCount;
                     }
 
                     progress = Convert.ToInt32(t * 100 / nstep);
@@ -427,41 +398,40 @@ namespace Heiflow.Models.IO
                     OnLoading(100);
                 br.Close();
                 fs.Close();
-                Source = mat;
-                OnLoaded(mat);
-                return mat;
+                OnDataCubedLoaded(DataCube);
             }
             else
             {
-                return null;
+
             }
         }
-        public My3DMat<float> ReadBinWaterTable()
+        public void ReadBinWaterTable()
         {
             if (File.Exists(_FileName))
             {
                 OnLoading(0);
-                Scan();
+                if (MaxTimeStep <= 0 || NumTimeStep == 0)
+                {
+                    Scan();
+                    MaxTimeStep = NumTimeStep;
+                }
                 var grid = _Grid as MFGrid;
                 FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 BinaryReader br = new BinaryReader(fs);
                 long layerbyte = 32 + 4 * 3 + grid.RowCount * grid.ColumnCount * 4;
-                int nstep = NumTimeStep;
+                int nstep = StepsToLoad;
                 float head = 0;
                 int progress = 0;
                 float[][] heads = new float[grid.ActualLayerCount][];
-
-                if (StepsToLoad < NumTimeStep && StepsToLoad > 0)
-                    nstep = StepsToLoad;
 
                 for (int l = 0; l < grid.ActualLayerCount; l++)
                 {
                     heads[l] = new float[grid.ActiveCellCount];
                 }
 
-               // MyLazy3DMat<float> mat = new MyLazy3DMat<float>(Variables.Length, nstep, grid.ActiveCellCount);
-                var mat = new MyLazy3DMat<float>(Variables.Length, nstep, grid.ActiveCellCount);
-                mat.Allocate(0, nstep, grid.ActiveCellCount);
+                if (DataCube == null)
+                    DataCube = new DataCube<float>(Variables.Length, nstep, grid.ActualLayerCount, true);
+                DataCube.Allocate(0);
                 float[] lwt = new float[grid.ActualLayerCount];
                 for (int t = 0; t < nstep; t++)
                 {
@@ -484,14 +454,16 @@ namespace Heiflow.Models.IO
                                 }
                             }
                         }
+                        var buf = new float[grid.ActiveCellCount];
                         for (int i = 0; i < grid.ActiveCellCount; i++)
                         {
                             for (int ll = 0; ll < grid.ActualLayerCount; ll++)
                             {
                                 lwt[ll] = heads[ll][i];
                             }
-                            mat.Value[0][t][i] = lwt.Max();
+                            buf[i] = lwt.Max();
                         }
+                        DataCube.ILArrays[0][t, ":"] = buf;
                     }
                     progress = Convert.ToInt32(t * 100 / nstep);
                     OnLoading(progress);
@@ -500,42 +472,41 @@ namespace Heiflow.Models.IO
                     OnLoading(100);
                 br.Close();
                 fs.Close();
-                Source = mat;
-                OnLoaded(mat);
-                return mat;
+                OnDataCubedLoaded(DataCube);      
             }
             else
             {
-                return null;
+                OnLoadFailed("The FHD file dose not exist: " + _FileName);
             }
         }
 
-        public My3DMat<float> ReadBinWaterDepth()
+        public void ReadBinWaterDepth()
         {
             if (File.Exists(_FileName))
             {
                 OnLoading(0);
-                Scan();
+                if (MaxTimeStep <= 0 || NumTimeStep == 0)
+                {
+                    Scan();
+                    MaxTimeStep = NumTimeStep;
+                }
                 var grid = _Grid as MFGrid;
                 FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 BinaryReader br = new BinaryReader(fs);
                 long layerbyte = 32 + 4 * 3 + grid.RowCount * grid.ColumnCount * 4;
-                int nstep = NumTimeStep;
+                int nstep = StepsToLoad;
                 float head = 0;
                 int progress = 0;
                 float[][] heads = new float[grid.ActualLayerCount][];
-
-                if (StepsToLoad < NumTimeStep && StepsToLoad > 0)
-                    nstep = StepsToLoad;
 
                 for (int l = 0; l < grid.ActualLayerCount; l++)
                 {
                     heads[l] = new float[grid.ActiveCellCount];
                 }
 
-                // MyLazy3DMat<float> mat = new MyLazy3DMat<float>(Variables.Length, nstep, grid.ActiveCellCount);
-                var mat = Source;
-                mat.Allocate(0, nstep, grid.ActiveCellCount);
+                if (DataCube == null)
+                    DataCube = new DataCube<float>(Variables.Length, nstep, grid.ActualLayerCount,true);
+                DataCube.Allocate(0);
                 float[] lwt = new float[grid.ActualLayerCount];
                 for (int t = 0; t < nstep; t++)
                 {
@@ -559,16 +530,16 @@ namespace Heiflow.Models.IO
                             }
                         }
                     }
-                   
+                    var buf = new float[grid.ActiveCellCount];
                     for (int i = 0; i < grid.ActiveCellCount; i++)
                     {
                         for (int ll = 0; ll < grid.ActualLayerCount; ll++)
                         {
                             lwt[ll] = heads[ll][i];
                         }
-                        mat.Value[0][t][i] = grid.Elevations[0, 0, i] - lwt.Max();
+                       buf[i] = grid.Elevations[0, 0, i] - lwt.Max();
                     }
-
+                    DataCube.ILArrays[0][t, ":"] = buf;
                     progress = Convert.ToInt32(t * 100 / nstep);
                     OnLoading(progress);
                 }
@@ -576,12 +547,41 @@ namespace Heiflow.Models.IO
                     OnLoading(100);
                 br.Close();
                 fs.Close();
-                OnLoaded(mat);
-                return mat;
+                OnDataCubedLoaded(DataCube);
             }
             else
             {
-                return null;
+                OnLoadFailed("The FHD file dose not exist: " + _FileName);
+            }
+        }
+
+        public override void LoadDataCube()
+        {
+         
+        }
+
+        public override void LoadDataCube(int var_index)
+        {
+            try
+            {
+                if (var_index == 0)
+                {
+                    if (IsLoadDepth)
+                         ReadBinWaterDepth();
+                    else
+                         ReadBinWaterTable();
+                }
+                else
+                {
+                    if (IsLoadDepth)
+                         ReadBinLayerDepth(var_index);
+                    else
+                         ReadBinLayerHead(var_index);
+                }
+            }
+            catch (Exception ex)
+            {
+                OnLoadFailed(ex.Message);
             }
         }
     }

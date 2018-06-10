@@ -38,8 +38,8 @@ namespace Heiflow.Presentation.Services
 {
     public interface IActiveDataService
     {
-        My3DMat<float> Source { get; set; }
-        My3DMat<float> SourceStatistics { get; set; }
+        DataCube<float> Source { get; set; }
+        DataCube<float> SourceStatistics { get; set; }
 
     }
 }

@@ -128,7 +128,7 @@ namespace Heiflow.Tools.Math
             }
             sr.Close();
 
-             var ts = new FloatTimeSeries(tav.ToArray(), dates.ToArray());
+             var ts = new DataCube<float>(tav.ToArray(), dates.ToArray());
              var tav_mon = TimeSeriesAnalyzer.GetMonthlyMean(ts, NumericalDataType.Average);
              pet.MonthTemperature = Array.ConvertAll(tav_mon, x => (double)x);
             for (int i = 0; i < nrow; i++)
@@ -137,8 +137,8 @@ namespace Heiflow.Tools.Math
                 et0.Add((float)pet.ET0(Latitude, Longitude, vv[0], vv[1], vv[2], vv[3], vv[4], vv[5], dates[i], CloudCover));
 
             }
-            My3DMat<float> mat_out = new My3DMat<float>(1, 1, et0.Count);
-            mat_out.Value[0][0] = et0.ToArray();
+            DataCube<float> mat_out = new DataCube<float>(1, 1, et0.Count);
+            mat_out[0,"0",":"] = et0.ToArray();
             mat_out.Name = PET;
             cancelProgressHandler.Progress("Package_Tool", 100, "Calculated");
             Workspace.Add(mat_out);

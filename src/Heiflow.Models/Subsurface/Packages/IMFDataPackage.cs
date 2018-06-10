@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +40,6 @@ namespace Heiflow.Models.Subsurface
     {
         bool Scan();
 
-        bool Load(int var_index);
+        bool Load(int var_index, ICancelProgressHandler progresshandler);
     }
 }

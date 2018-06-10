@@ -102,7 +102,7 @@ namespace Heiflow.Models.Subsurface
             }
             return lastline;
         }
-        public My2DMat<T> ReadInternalMatrix<T>(StreamReader sr)
+        public DataCube<T> ReadInternalMatrix<T>(StreamReader sr)
         {
             string line = sr.ReadLine().ToUpper();
             var strs = TypeConverterEx.Split<string>(line);
@@ -113,16 +113,16 @@ namespace Heiflow.Models.Subsurface
             // Read constant matrix
             if (strs[0].ToUpper() == "CONSTANT")
             {
-                var matrix = new My2DMat<T>(row, col);
+                var matrix = new DataCube<T>(1,row, col);
                 var ar = TypeConverterEx.Split<string>(line);
                 T conv = TypeConverterEx.ChangeType<T>(ar[1]);
-                matrix.Constant(conv);
+                matrix.ILArrays[0][":,", ":"] = conv;
                 return matrix;
             }
             // Read internal matrix
             else
             {
-                var matrix = new My2DMat<T>(row, col);
+                var matrix = new DataCube<T>(1,row, col);
 
                 T multiplier = TypeConverterEx.ChangeType<T>(strs[1]);
                 line = sr.ReadLine();
@@ -130,12 +130,14 @@ namespace Heiflow.Models.Subsurface
 
                 if (values.Length == col)
                 {
-                    matrix.SetBy(values, 0, MyMath.full);
+                    //matrix.SetBy(values, 0, MyMath.full);
+                    matrix[0, "0", ":"] = values;
                     for (int r = 1; r < row; r++)
                     {
                         line = sr.ReadLine();
                         values = TypeConverterEx.Split<T>(line);
-                        matrix.SetBy(values, r, MyMath.full);
+                        //matrix.SetBy(values, r, MyMath.full);
+                        matrix[0, r.ToString(), ":"] = values;
                     }
 
                 }
@@ -161,13 +163,14 @@ namespace Heiflow.Models.Subsurface
 
                         values = TypeConverterEx.Split<T>(line);
                         //matrix[r, ILMath.full] = values;
-                        matrix.SetBy(values, r, MyMath.full);
+                        //matrix.SetBy(values, r, MyMath.full);
+                        matrix[0, r.ToString(), ":"] = values;
                     }
                 }
                 return matrix;
             }
         }
-        public void ReadSerialArray<T>(StreamReader sr, MyVarient3DMat<T> mat, int var_index, int time_index)
+        public void ReadSerialArray<T>(StreamReader sr, DataCube<T> mat, int var_index, int time_index)
         {
             string line = sr.ReadLine().ToUpper();
             var strs = TypeConverterEx.Split<string>(line);
@@ -180,6 +183,7 @@ namespace Heiflow.Models.Subsurface
                 T conv = TypeConverterEx.ChangeType<T>(ar[1]);
                 mat.Flags[var_index,time_index] = TimeVarientFlag.Constant;
                 mat.Constants[var_index,time_index] = TypeConverterEx.ChangeType<float>( conv);
+                mat.ILArrays[var_index][time_index,":"] = conv;
             }
             // Read internal matrix
             else
@@ -187,13 +191,14 @@ namespace Heiflow.Models.Subsurface
                 int row = grid.RowCount;
                 int col = grid.ColumnCount;
                 int activeCount = grid.ActiveCellCount;
-                mat.Value[var_index][time_index] = new T[activeCount];
+//                mat.Value[var_index][time_index] = new T[activeCount];
                 T multiplier = TypeConverterEx.ChangeType<T>(strs[1]);
                 int iprn = -1;
                 int.TryParse(strs[3], out iprn);
                 line = sr.ReadLine();
                 var values = TypeConverterEx.Split<T>(line);
                 int r = 1;
+                T[] vector = new T[activeCount];
                 if (values.Length == col)
                 {
                     int index = 0;
@@ -201,7 +206,8 @@ namespace Heiflow.Models.Subsurface
                     {
                         if (grid.IBound[0, 0, c] != 0)
                         {
-                            mat.Value[var_index][time_index][index] = values[c];
+                            //mat[var_index,time_index,index] = values[c];
+                            vector[index] = values[c];
                             index++;
                         }
                     }
@@ -215,11 +221,13 @@ namespace Heiflow.Models.Subsurface
                             {
                                 if (grid.IBound[0, r, c] != 0)
                                 {
-                                    mat.Value[var_index][time_index][index] = values[c];
+                                    //mat[var_index, time_index, index] = values[c];
+                                    vector[index] = values[c];
                                     index++;
                                 }
                             }
                         }
+                        mat[var_index, time_index.ToString(), ":"] = vector;
                     }
                     catch (Exception ex)
                     {
@@ -242,7 +250,8 @@ namespace Heiflow.Models.Subsurface
                         {
                             if (grid.IBound[0, 0, c] != 0)
                             {
-                                mat.Value[var_index][time_index][index] = values[c];
+                                //mat[var_index,time_index,index] = values[c];
+                                vector[index] = values[c];
                                 index++;
                             }
                         }
@@ -260,11 +269,13 @@ namespace Heiflow.Models.Subsurface
                             {
                                 if (grid.IBound[0, r, c] != 0)
                                 {
-                                    mat.Value[var_index][time_index][index] = values[c];
+                                    //mat[var_index,time_index,index] = values[c];
+                                    vector[index] = values[c];
                                     index++;
                                 }
                             }
                         }
+                        mat[var_index, time_index.ToString(), ":"] = vector;
                     }
                     catch (Exception ex)
                     {
@@ -276,7 +287,7 @@ namespace Heiflow.Models.Subsurface
                 mat.IPRN[var_index,time_index] = iprn;
             }
         }
-        public void ReadSerialArray<T>(StreamReader sr, MyVarient3DMat<T> mat, int var_index, int time_index, int ncell)
+        public void ReadSerialArray<T>(StreamReader sr, DataCube<T> mat, int var_index, int time_index, int ncell)
         {
             string line = sr.ReadLine().ToUpper();
             var strs = TypeConverterEx.Split<string>(line);
@@ -292,11 +303,12 @@ namespace Heiflow.Models.Subsurface
                 T conv = TypeConverterEx.ChangeType<T>(ar[1]);
                 mat.Flags[var_index, 0] = TimeVarientFlag.Constant;
                 mat.Constants[var_index, 0] = TypeConverterEx.ChangeType<float>(conv);
+                mat.ILArrays[var_index][time_index, ":"] = conv;
             }
             // Read internal matrix
             else
             {
-                mat.Value[var_index][time_index] = new T[ncell];
+               // mat.Value[var_index][time_index] = new T[ncell];
                 T multiplier = TypeConverterEx.ChangeType<T>(strs[1]);
                 int iprn = -1;
                 int.TryParse(strs[3], out iprn);
@@ -305,10 +317,11 @@ namespace Heiflow.Models.Subsurface
                 
                 if (values.Length == ncell)
                 {
-                    for(int i=0;i<ncell;i++)
-                    {
-                        mat.Value[var_index][time_index][i] = values[i];
-                    }
+                    //for(int i=0;i<ncell;i++)
+                    //{
+                    //    mat[var_index,time_index,i] = values[i];
+                    //}
+                    mat[var_index, time_index.ToString(), ":"] = values;
                 }
                 else
                 {
@@ -322,10 +335,11 @@ namespace Heiflow.Models.Subsurface
                         }
                         values = TypeConverterEx.Split<T>(line);
 
-                        for (int i = 0; i < ncell; i++)
-                        {
-                            mat.Value[var_index][time_index][i] = values[i];
-                        }
+                        //for (int i = 0; i < ncell; i++)
+                        //{
+                        //    mat[var_index,time_index,i] = values[i];
+                        //}
+                        mat[var_index, time_index.ToString(), ":"] = values;
                     }
                     catch (Exception ex)
                     {
@@ -337,7 +351,7 @@ namespace Heiflow.Models.Subsurface
                 mat.IPRN[var_index, time_index] = iprn;
             }
         } 
-        public void WriteSerialFloatArray(StreamWriter sw, MyVarient3DMat<float> mat, int var_index, int time_index, string format, string comment)
+        public void WriteSerialFloatArray(StreamWriter sw, DataCube<float> mat, int var_index, int time_index, string format, string comment)
         {
             if (mat.Flags[var_index,time_index] == TimeVarientFlag.Constant)
             {
@@ -365,7 +379,7 @@ namespace Heiflow.Models.Subsurface
                         float vv = NoDataValue;
                         if (grid.IBound[0, r, c] != 0)
                         {
-                            vv = mat.Value[var_index][time_index][index];
+                            vv = mat[var_index,time_index,index];
                             index++;
                         }
                         line += string.Format("{0}", vv.ToString(format)) + StreamReaderSequence.stab;
@@ -383,7 +397,7 @@ namespace Heiflow.Models.Subsurface
         /// <param name="var_index"></param>
         /// <param name="format"></param>
         /// <param name="comment"></param>
-        public void WriteRegularArray<T>(StreamWriter sw, MyVarient3DMat<T> mat, int var_index, string format, string comment)
+        public void WriteRegularArray<T>(StreamWriter sw, DataCube<T> mat, int var_index, string format, string comment)
         {
             if (mat.Flags[var_index,0] == TimeVarientFlag.Constant)
             {
@@ -404,7 +418,7 @@ namespace Heiflow.Models.Subsurface
                 sw.WriteLine(line);
                 for (int r = 0; r < row; r++)
                 {
-                    line = string.Join(StreamReaderSequence.stab, mat.Value[var_index][r]);
+                    line = string.Join(StreamReaderSequence.stab, mat[var_index, r.ToString(), ":"]);
                     sw.WriteLine(line);
                 }
             }

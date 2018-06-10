@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Models.IO;
 using System;
@@ -43,16 +44,14 @@ namespace Heiflow.Models.Generic
         string[] Variables { get; }
         int Layer { get; set; }
         int NumTimeStep { get; }
-        DateTime End { get; }
         DateTime EndOfLoading { get; set; }
-        DateTime Start { get; }
         DateTime StartOfLoading { get; set; }
-        MyLazy3DMat<float> Values { get; }
+        DataCube<float> DataCube { get; }
         Heiflow.Models.IO.DataViewMode DataViewMode { get; set; }
         Heiflow.Core.NumericalDataType NumericalDataType { get; set; }
         Heiflow.Core.TimeUnits TimeUnits { get; set; }
         int ODMVariableID { get; set; }
         bool Scan();
-        bool Load(int var_index);
+        bool Load(int var_index, ICancelProgressHandler progess);
     }
 }

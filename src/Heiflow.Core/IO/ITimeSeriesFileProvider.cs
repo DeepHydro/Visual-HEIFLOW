@@ -38,6 +38,6 @@ namespace Heiflow.Core.IO
 {
     public interface ITimeSeriesFileProvider
     {
-        IVectorTimeSeries<double> Load();
+        DataCube<double> Load();
     }
 }

@@ -118,7 +118,7 @@ namespace Heiflow.Models.Surface.MIKE
         {
             int steps = shpfiles.Length;
             int nfeature = grid.VertexCount;
-            var buf = new My3DMat<float>(1, steps, nfeature);
+            var buf = new DataCube<float>(1, steps, nfeature);
 
             for (int i = 0; i < steps; i++)
             {
@@ -137,15 +137,16 @@ namespace Heiflow.Models.Surface.MIKE
                 }
                 fs.Close();
             }
-            AcFile ac = new AcFile();
-            ac.Save(ac_filename, buf.Value, new string[] { field });
+            buf.Variables = new string[] { field };
+            DataCubeStreamWriter ac = new DataCubeStreamWriter(ac_filename);
+            ac.WriteAll(buf);
         }
 
         public void Export(ITriangularGrid grid, string ac_filename, string[] dbffiles, int[] index)
         {
             int steps = dbffiles.Length;
             int nfeature = grid.VertexCount;
-            var buf = new My3DMat<float>(index.Length, steps, nfeature);
+            var buf = new DataCube<float>(index.Length, steps, nfeature);
             string[] field = new string[index.Length];
             for (int i = 0; i < steps; i++)
             {
@@ -181,8 +182,9 @@ namespace Heiflow.Models.Surface.MIKE
                 }
                 dbf.Close();
             }
-            AcFile ac = new AcFile();
-            ac.Save(ac_filename, buf.Value, field);
+            buf.Variables = field;
+            DataCubeStreamWriter ac = new DataCubeStreamWriter(ac_filename);    
+            ac.WriteAll(buf);
         }
 
         public void Export(string ac_filename, string[] dbffiles, int[] index)
@@ -190,7 +192,7 @@ namespace Heiflow.Models.Surface.MIKE
             int steps = dbffiles.Length;
             DBFReader dbf = new DBFReader(dbffiles[0]);
             int nfeature = dbf.RecordCount;
-            var buf = new My3DMat<float>(index.Length, steps, nfeature);
+            var buf = new DataCube<float>(index.Length, steps, nfeature);
             string[] field = new string[index.Length];
             for (int i = 0; i < index.Length; i++)
             {
@@ -212,8 +214,9 @@ namespace Heiflow.Models.Surface.MIKE
                 }
                 dbf.Close();
             }
-            AcFile ac = new AcFile();
-            ac.Save(ac_filename, buf.Value, field);
+            buf.Variables = field;
+            DataCubeStreamWriter ac = new DataCubeStreamWriter(ac_filename);
+            ac.WriteAll(buf);
         }
     }
 }
