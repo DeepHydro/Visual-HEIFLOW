@@ -16,7 +16,7 @@
       <property name="XtraZIndex">0</property>
       <property name="TabText" />
       <property name="Hint" />
-      <property name="Text">ADE - Grid</property>
+      <property name="Text">Attribute Data Explorer</property>
       <property name="OriginalSize">@3,Width=200@3,Height=830</property>
       <property name="Options" isnull="true" iskey="true">
         <property name="AllowFloating">true</property>
@@ -137,7 +137,7 @@
     </property>
     <property name="Item4" isnull="true" iskey="true">
       <property name="Visibility">Hidden</property>
-      <property name="FloatLocation">@3,X=275@3,Y=175</property>
+      <property name="FloatLocation">@3,X=225@3,Y=125</property>
       <property name="Dock">Float</property>
       <property name="XtraActiveChildID">-1</property>
       <property name="Footer" />
@@ -315,12 +315,12 @@
       <property name="Visibility">Visible</property>
       <property name="FloatLocation">@1,X=0@1,Y=0</property>
       <property name="Dock">Left</property>
-      <property name="XtraActiveChildID">5</property>
+      <property name="XtraActiveChildID">6</property>
       <property name="Footer" />
       <property name="Tabbed">true</property>
       <property name="TabsPosition">Bottom</property>
       <property name="TabsScroll">false</property>
-      <property name="ImageIndex">5</property>
+      <property name="ImageIndex">6</property>
       <property name="XtraZIndex">1</property>
       <property name="TabText" />
       <property name="Hint" />
@@ -342,7 +342,7 @@
       <property name="XtraParentID">-1</property>
       <property name="XtraSavedParentID">-1</property>
       <property name="XtraAutoHideContainerDock">Float</property>
-      <property name="ID">7c1b5eb5-b5a4-4f6c-a858-dcafd8fd7210</property>
+      <property name="ID">3f006542-c40d-4b45-9b80-2ab2d9a17c3c</property>
       <property name="XtraID">7</property>
       <property name="DockVertical">Default</property>
       <property name="FloatVertical">false</property>
@@ -430,7 +430,7 @@
       <property name="XtraParentID">-1</property>
       <property name="XtraSavedParentID">-1</property>
       <property name="XtraAutoHideContainerDock">Float</property>
-      <property name="ID">f889d7f8-2532-47db-a71e-3d18a461cb87</property>
+      <property name="ID">fad254dd-2762-4f4b-b95c-202fe19244b5</property>
       <property name="XtraID">9</property>
       <property name="DockVertical">Default</property>
       <property name="FloatVertical">false</property>
@@ -577,7 +577,7 @@
     </property>
     <property name="Item14" isnull="true" iskey="true">
       <property name="Visibility">Visible</property>
-      <property name="FloatLocation">@4,X=-117@3,Y=-72</property>
+      <property name="FloatLocation">@4,X=-167@4,Y=-122</property>
       <property name="Dock">Float</property>
       <property name="XtraActiveChildID">-1</property>
       <property name="Footer" />
@@ -671,7 +671,7 @@
     <property name="Item4">DevExpress.XtraBars.Ribbon.RibbonStatusBar</property>
     <property name="Item5">DevExpress.XtraBars.Ribbon.RibbonControl</property>
   </property>
-  <property name="ActivePanelID">14</property>
+  <property name="ActivePanelID">6</property>
   <property name="DockingOptions" isnull="true" iskey="true">
     <property name="CursorFloatCanceled" isnull="true" />
     <property name="HideImmediatelyOnAutoHide">false</property>

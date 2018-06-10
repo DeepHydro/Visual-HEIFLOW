@@ -314,6 +314,8 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
 
         private void BindSites()
         {
+            var projectService = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
+            ODM = projectService.Project.ODMSource;
             if (ODM != null)
             {
                 var sites = ODM.GetSites(Settings.Default.GagingStationSQL);
