@@ -547,7 +547,7 @@ namespace Heiflow.Models.Generic
             this.FeatureLayer = MapHelper.Select(filename, map, ModelService.ProjectDirectory) as IMapFeatureLayer;
             if (this.FeatureLayer != null)
                 this.Feature = this.FeatureLayer.DataSet;
-            if (this.Feature == null)
+            if (this.FeatureLayer == null)
             {
                 NewFeatureLayer(map, directory);
             }

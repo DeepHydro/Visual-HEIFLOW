@@ -186,7 +186,7 @@ namespace Heiflow.Models.Subsurface
                     feature.DataRow["Name"] = "Flow " + (i+1);
                     for (int j = 0; j < NBDTIM; j++)
                     {
-                        feature.DataRow["Flux Rate" + (j + 1)] = mat[j + 4][0][i];
+                        feature.DataRow["Flux Rate" + (j + 1)] = mat[j + 4, 0, i];
                     }
                     feature.DataRow[RegularGrid.ParaValueField] = 0;
                     feature.DataRow.EndEdit();
