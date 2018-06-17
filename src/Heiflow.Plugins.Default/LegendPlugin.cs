@@ -47,12 +47,12 @@ namespace DotSpatial.Plugins.SplashScreenManager
         {
             ShowLegend();
 
-            var showLengend = new SimpleActionItem("kView", "Lengend",
+            var showLengend = new SimpleActionItem("kView", "Legend",
                 delegate(object sender, EventArgs e)
                 { App.DockManager.ShowPanel("kLegend"); })
             {
                 Key = "kShowLegend",
-                ToolTipText = "Show Lengend",
+                ToolTipText = "Show Legend",
                 GroupCaption = "Map",
                 LargeImage = Heiflow.Plugins.Default.Properties.Resources.Legend32
             };

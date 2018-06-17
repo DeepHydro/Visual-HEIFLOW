@@ -174,7 +174,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
                     if (e.NewValue.ToString() == TimeVarientFlag.Constant.ToString())
                     {
                         meta.Owner.Flags[meta.TimeIndex, 0] = TimeVarientFlag.Constant;
-                        meta.Owner.Constants.SetValue((float)meta.Constant, meta.TimeIndex, 0);
+                        meta.Owner.Constants.SetValue((float)meta.Constant, meta.TimeIndex, 0);       
                     }
                     else if (e.NewValue.ToString() == TimeVarientFlag.Individual.ToString())
                     {

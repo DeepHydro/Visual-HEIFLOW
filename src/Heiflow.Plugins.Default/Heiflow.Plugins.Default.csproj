@@ -137,7 +137,7 @@
     <Compile Include="MatEditorPlugin.cs" />
     <Compile Include="View3DPlugin.cs" />
     <Compile Include="DockingManager.cs" />
-    <Compile Include="LengendPlugin.cs" />
+    <Compile Include="LegendPlugin.cs" />
     <Compile Include="PersistDockingState.cs" />
     <Compile Include="ProgressPanelPlugin.cs" />
     <Compile Include="ProjectExplorerPlugin.cs" />
