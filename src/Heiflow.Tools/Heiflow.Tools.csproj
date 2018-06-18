@@ -117,6 +117,7 @@
     <Compile Include="IrrigationModel\WithdrawInputFile.cs" />
     <Compile Include="Math\Deviation.cs" />
     <Compile Include="Math\CopyVectorTo.cs" />
+    <Compile Include="Math\Subset.cs" />
     <Compile Include="SpatialAnalyst\FromNetCDF2TIF.cs" />
     <Compile Include="Conversion\ToTextFile.cs" />
     <Compile Include="DrivingForces\SaveAsClimateInput.cs" />

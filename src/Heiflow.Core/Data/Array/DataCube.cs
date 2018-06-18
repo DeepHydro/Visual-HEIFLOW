@@ -407,7 +407,10 @@ namespace Heiflow.Core.Data
                 return null;
             }
         }
-
+        public void SetSize(int [] size)
+        {
+            _size = size;
+        }
         public string SizeString()
         {
             if (Size != null)
