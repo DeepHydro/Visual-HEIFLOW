@@ -145,19 +145,17 @@ namespace Heiflow.Models.Surface.PRMS
             var full_file = Path.Combine(ModelService.WorkDirectory, _FileNames[var_index]);
             var grid = Owner.Grid as MFGrid;
             _SelectedIndex = var_index;
-            if (DataCube == null)
+            if (DataCube == null || DataCube.Size[1] != StepsToLoad)
             {
-                DataCube = new DataCube<float>(Variables.Length, StepsToLoad, grid.ActiveCellCount);
+                DataCube = new DataCube<float>(Variables.Length, StepsToLoad, grid.ActiveCellCount, true);
+                DataCube.Name = "clm_input";
+                DataCube.Variables = this.Variables;
+                DataCube.Topology = (Owner.Grid as RegularGrid).Topology;
+                DataCube.TimeBrowsable = true;
+                DataCube.AllowTableEdit = false;
             }
-            else
-            {
-                if (DataCube.Size[1] != StepsToLoad)
-                    DataCube = new DataCube<float>(Variables.Length, StepsToLoad, grid.ActiveCellCount);
-            }
-            DataCube.Variables = this.Variables;
-            DataCube.Topology = (Owner.Grid as RegularGrid).Topology;
-            DataCube.TimeBrowsable = true;
-            DataCube.AllowTableEdit = false;
+
+
             if (MasterPackage.ClimateInputFormat == FileFormat.Text)
             {
                 MMSDataFile data = new MMSDataFile(full_file);
@@ -271,6 +269,7 @@ namespace Heiflow.Models.Surface.PRMS
 
         private void data_DataCubeLoaded(object sender, DataCube<float> e)
         {
+            e.DateTimes = this.TimeService.IOTimeline.ToArray();
             OnLoaded(_ProgressHandler);
         }
         private void data_LoadFailed(object sender, string e)

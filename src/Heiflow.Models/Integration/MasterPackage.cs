@@ -953,8 +953,8 @@ namespace Heiflow.Models.Integration
                     _MFListFile = (Parameters["mflist_file"] as ArrayParam<string>).Values[0];
                 if ((Parameters.Keys.Contains("use_gridclimate")))
                     _UseGridClimate = (Parameters["use_gridclimate"] as ArrayParam<int>).Values[0] == 1 ? true : false;
-                if ((Parameters.Keys.Contains("gridclimate_file")))
-                    _GridClimateFile = (Parameters["gridclimate_file"] as ArrayParam<string>).Values[0];
+                if ((Parameters.Keys.Contains("sub_climate_file")))
+                    _GridClimateFile = (Parameters["sub_climate_file"] as ArrayParam<string>).Values[0];
                 if ((Parameters.Keys.Contains("var_init_file")))
                     _VarInitFile = (Parameters["var_init_file"] as ArrayParam<string>).Values[0];
                 if ((Parameters.Keys.Contains("save_vars_to_file")))
@@ -984,6 +984,11 @@ namespace Heiflow.Models.Integration
                     _dynamic_day = (Parameters["dynamic_day"] as ArrayParam<int>).Values;
                 if (Parameters.ContainsKey("dynamic_param_file"))
                     _dynamic_param_file = (Parameters["dynamic_param_file"] as ArrayParam<string>).Values;
+                if (Parameters.ContainsKey("sub_climate_flag"))
+                    UseGridClimate = (Parameters["sub_climate_flag"] as ArrayParam<int>).Values[0] == 1 ? true : false;
+                else
+                    UseGridClimate = false;
+
 
                 foreach (var pr in Parameters.Values)
                     pr.Owner = this;

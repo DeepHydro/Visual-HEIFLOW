@@ -334,6 +334,8 @@ namespace Heiflow.Controls.WinForm.Toolbox
         private void menu_Clear_Click(object sender, EventArgs e)
         {
             Workspace.Clear();
+            _MatMataList.Clear();
+            _VariableMataList.Clear();
             olvMatName.Items.Clear();
             olvVariableName.Items.Clear();
         }

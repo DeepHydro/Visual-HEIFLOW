@@ -166,152 +166,7 @@ namespace Heiflow.Core.IO
                 _ErrorMessage = string.Format("The {0} doesn't exist.", _FileName);
             }
         }
-        ///// <summary>
-        ///// return a 3d mat
-        ///// </summary>
-        ///// <returns></returns>
-        //public override My3DMat<float> Load()
-        //{
-        //    var xml = _FileName + ".xml";
-        //    if (File.Exists(xml))
-        //    {
-        //        _Descriptor = DataCubeDescriptor.Deserialize(xml);
-        //    }
-        //    if (!_Scaned)
-        //        Scan();
-        //    int feaNum = 0;
-        //    int varnum = 0;
-        //    int nstep = StepsToLoad;
-        //    FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-        //    BinaryReader br = new BinaryReader(fs);
-        //    // 4字节，integer, 变量个数
-        //    // 对变量个数循环
-        //    // 4字节，变量名字符长度var_len
-        //    //var_len长字节，为字符
-        //    //  4字节, 网格数
-        //    //结束循环
 
-        //    //时间步长循环
-        //    //网格数循环
-        //    //变量循环
-        //    //4字节, 浮点数
-        //    varnum = br.ReadInt32();
-        //    Variables = new string[varnum];
-        //    if (StepsToLoad < NumTimeStep && StepsToLoad > 0)
-        //        nstep = StepsToLoad;
-        //    for (int i = 0; i < varnum; i++)
-        //    {
-        //        int varname_len = br.ReadInt32();
-        //        Variables[i] = new string(br.ReadChars(varname_len)).Trim();
-        //        feaNum = br.ReadInt32();
-        //    }
-
-        //    if (Source == null)
-        //        Source = new MyLazy3DMat<float>(varnum, nstep, FeatureCount);
-
-        //    for (int v = 0; v < varnum; v++)
-        //    {
-        //        Source.Allocate(v, nstep, FeatureCount);
-        //    }
-        //    OnLoading(0);
-
-        //    for (int t = 0; t < nstep; t++)
-        //    {
-        //        for (int s = 0; s < feaNum; s++)
-        //        {
-        //            for (int v = 0; v < varnum; v++)
-        //            {
-        //                Source.Value[v][t][s] = br.ReadSingle() * Scale;
-        //            }
-        //        }
-        //        int progress = Convert.ToInt32(t * 100 / NumTimeStep);
-        //        OnLoading(progress);
-        //    }
-        //    if (_Descriptor.TimeStamps != null)
-        //    {
-        //        Source.DateTimes = new DateTime[nstep];
-        //        for (int t = 0; t < nstep; t++)
-        //        {
-        //            Source.DateTimes[t] = _Descriptor.TimeStamps[t];
-        //        }
-        //    }
-        //    OnLoading(100);
-        //    br.Close();
-        //    fs.Close();
-        //    OnLoaded(Source);
-        //    return Source;
-        //}
-        //public override My3DMat<float> Load(int var_index)
-        //{
-        //    var xml = _FileName + ".xml";
-        //    if (File.Exists(xml))
-        //    {
-        //        _Descriptor = DataCubeDescriptor.Deserialize(xml);
-        //    }
-        //    if (MaxTimeStep == 0)
-        //    {
-        //        Scan();
-        //        MaxTimeStep = NumTimeStep;
-        //    }
-        //    int feaNum = 0;
-        //    int varnum = 0;
-        //    int nstep = StepsToLoad;
-        //    int progress = 0;
-        //    FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-        //    BinaryReader br = new BinaryReader(fs);
-        //    // 4字节，integer, 变量个数
-        //    // 对变量个数循环
-        //    // 4字节，变量名字符长度var_len
-        //    //var_len长字节，为字符
-        //    //  4字节, 网格数
-        //    //结束循环
-
-        //    //时间步长循环
-        //    //网格数循环
-        //    //变量循环
-        //    //4字节, 浮点数
-        //    varnum = br.ReadInt32();
-        //    Variables = new string[varnum];
-
-        //    for (int i = 0; i < varnum; i++)
-        //    {
-        //        int varname_len = br.ReadInt32();
-        //        Variables[i] = new string(br.ReadChars(varname_len)).Trim();
-        //        feaNum = br.ReadInt32();
-        //    }
-        //    OnLoading(0);
-        //    if (Source == null)
-        //    {
-        //        Source = new MyLazy3DMat<float>(Variables.Length, nstep, feaNum);
-        //        Source.Variables = Variables;
-        //    }
-        //    if (!Source.IsAllocated(var_index) || Source.Size[1] != nstep)
-        //        Source.Allocate(var_index, nstep, FeatureCount);
-        //    for (int t = 0; t < nstep; t++)
-        //    {
-        //        for (int s = 0; s < feaNum; s++)
-        //        {
-        //            br.ReadBytes(4 * var_index);
-        //            Source.Value[var_index][t][s] = br.ReadSingle() * Scale;
-        //            br.ReadBytes(4 * (varnum - var_index - 1));
-        //        }
-        //        progress = Convert.ToInt32(t * 100 / nstep);
-        //        OnLoading(progress);
-        //    }
-        //    OnLoading(100);
-        //    br.Close();
-        //    fs.Close();
-        //    if (_Descriptor.TimeStamps != null)
-        //    {
-        //        Source.DateTimes = new DateTime[nstep];
-        //        for (int t = 0; t < nstep; t++)
-        //        {
-        //            Source.DateTimes[t] = _Descriptor.TimeStamps[t];
-        //        }
-        //    }
-        //    OnLoaded(Source);
-        //    return Source;
-        //}
         public override void LoadDataCube()
         {
             var xml = _FileName + ".xml";
@@ -326,7 +181,7 @@ namespace Heiflow.Core.IO
             }
             int feaNum = 0;
             int varnum = 0;
-            int nstep = NumTimeStep;
+            int nstep = StepsToLoad;
             FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             BinaryReader br = new BinaryReader(fs);
 
@@ -334,15 +189,12 @@ namespace Heiflow.Core.IO
             {
                 varnum = br.ReadInt32();
                 Variables = new string[varnum];
-                if (StepsToLoad < NumTimeStep && StepsToLoad > 0)
-                    nstep = StepsToLoad;
                 for (int i = 0; i < varnum; i++)
                 {
                     int varname_len = br.ReadInt32();
                     Variables[i] = new string(br.ReadChars(varname_len)).Trim();
                     feaNum = br.ReadInt32();
                 }
-
                 if (DataCube == null)
                     DataCube = new DataCube<float>(varnum, nstep, FeatureCount);
                 OnLoading(0);
@@ -366,7 +218,6 @@ namespace Heiflow.Core.IO
                         DataCube.DateTimes[t] = _Descriptor.TimeStamps[t];
                     }
                 }
-                OnLoading(100);
                 br.Close();
                 fs.Close();
                 OnDataCubedLoaded(DataCube);
@@ -397,17 +248,6 @@ namespace Heiflow.Core.IO
             int progress = 0;
             FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             BinaryReader br = new BinaryReader(fs);
-            // 4字节，integer, 变量个数
-            // 对变量个数循环
-            // 4字节，变量名字符长度var_len
-            //var_len长字节，为字符
-            //  4字节, 网格数
-            //结束循环
-
-            //时间步长循环
-            //网格数循环
-            //变量循环
-            //4字节, 浮点数
             varnum = br.ReadInt32();
             Variables = new string[varnum];
             try
@@ -440,7 +280,6 @@ namespace Heiflow.Core.IO
                     progress = Convert.ToInt32(t * 100 / nstep);
                     OnLoading(progress);
                 }
-                OnLoading(100);
                 br.Close();
                 fs.Close();
                 if (_Descriptor.TimeStamps != null)
@@ -474,21 +313,10 @@ namespace Heiflow.Core.IO
             }
             int feaNum = 0;
             int varnum = 0;
-            int nstep = NumTimeStep;
+            int nstep = StepsToLoad;
             int progress = 0;
             FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             BinaryReader br = new BinaryReader(fs);
-            // 4字节，integer, 变量个数
-            // 对变量个数循环
-            // 4字节，变量名字符长度var_len
-            //var_len长字节，为字符
-            //  4字节, 网格数
-            //结束循环
-
-            //时间步长循环
-            //网格数循环
-            //变量循环
-            //4字节, 浮点数
             try
             {
                 varnum = br.ReadInt32();
@@ -500,10 +328,6 @@ namespace Heiflow.Core.IO
                     Variables[i] = new string(br.ReadChars(varname_len)).Trim();
                     feaNum = br.ReadInt32();
                 }
-
-                if (StepsToLoad < NumTimeStep && StepsToLoad > 0)
-                    nstep = StepsToLoad;
-
                 OnLoading(0);
                 if (DataCube == null)
                 {
@@ -521,7 +345,6 @@ namespace Heiflow.Core.IO
                     progress = Convert.ToInt32(t * 100 / nstep);
                     OnLoading(progress);
                 }
-                OnLoading(100);
                 br.Close();
                 fs.Close();
                 if (_Descriptor.TimeStamps != null)
@@ -555,7 +378,7 @@ namespace Heiflow.Core.IO
             }
             int feaNum = 0;
             int varnum = 0;
-            int nstep = NumTimeStep;
+            int nstep = StepsToLoad;
             int nhru = mapping.Keys.Count;
             int progress = 0;
             FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
@@ -564,9 +387,6 @@ namespace Heiflow.Core.IO
             {
                 varnum = br.ReadInt32();
                 Variables = new string[varnum];
-
-                if (StepsToLoad < NumTimeStep && StepsToLoad > 0)
-                    nstep = StepsToLoad;
 
                 for (int i = 0; i < varnum; i++)
                 {
@@ -597,7 +417,6 @@ namespace Heiflow.Core.IO
                     progress = Convert.ToInt32(t * 100 / nstep);
                     OnLoading(progress);
                 }
-                OnLoading(100);
                 br.Close();
                 fs.Close();
                 if (_Descriptor.TimeStamps != null)

@@ -174,6 +174,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
         protected void dp_LoadFailed(object sender, string e)
         {
             var dp = _Package as IDataPackage;
+            
             _ShellService.ProgressWindow.Progress(_Package.Name,100, e);
             dp.LoadFailed -= dp_LoadFailed;
         }
@@ -206,7 +207,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
             {
                 _ActiveDataService.Source = dp.DataCube;
                 _ActiveDataService.Source.SelectedVariableIndex = this.VariableIndex;
-                _ActiveDataService.SourceStatistics = dp.DataCube.SpatialMean(this.VariableIndex);
+               // _ActiveDataService.SourceStatistics = dp.DataCube.SpatialMean(this.VariableIndex);
             }
             _ShellService.ProgressWindow.DoWork -= ProgressPanel_DoWork;
             dp.Loading -= dp_Loading;
