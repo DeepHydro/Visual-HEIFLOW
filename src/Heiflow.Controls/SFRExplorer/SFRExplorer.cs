@@ -296,7 +296,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                 colorSlider1.Maximum = SFROutput.DataCube.Size[1] - 1;
                 colorSlider1.Value = 0;
                 string series = string.Format("{0} from {1} to {2}", cmbSFRVars.SelectedItem.ToString(), river_start, river_end);
-                winChart_proflie.Plot(_ProfileMat[0, "0", ":"], _ProfileMat[0, "1", ":"], series);
+                winChart_proflie.Plot(_ProfileMat[0, "0", ":"], _ProfileMat[1, "0", ":"], series);
             }
         }
 
@@ -309,7 +309,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             _ProfileMat = SFROutput.ProfileTimeSeries(_ProfileRivers, cmbSFRVars.SelectedIndex, colorSlider1.Value,
                 chbReadComplData.Checked, chbUnifiedByLength.Checked);
             string series = string.Format("{0} from {1} to {2}", cmbSFRVars.SelectedItem.ToString(), cmbStartID.SelectedItem, cmbEndID.SelectedItem);
-            winChart_proflie.Plot(_ProfileMat[0, "0", ":"], _ProfileMat[0, "1", ":"], series);
+            winChart_proflie.Plot(_ProfileMat[0, "0", ":"], _ProfileMat[1, "0", ":"], series);
         }
 
         private void BindSites()

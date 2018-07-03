@@ -24,3 +24,4 @@
 *.cache
 src/Bin/Debug/Heiflow.AI.dll
 src/Heiflow.AI/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+*.dll

@@ -542,7 +542,7 @@ namespace Heiflow.Models.Subsurface
                 {
                     count += river.Reaches.Count;
                 }
-                mat = new DataCube<double>(1,2, count);
+                mat = new DataCube<double>(2, 1, count);
                 int i = 0;
                 double sumlen = 0;
                 if (unified)
@@ -553,8 +553,8 @@ namespace Heiflow.Models.Subsurface
                         {
                             int index = GetReachIndex(r.ID - 1, reach.SubID - 1);
                             sumlen += reach.Length;
-                            mat[0,0,i] = sumlen; 
-                            mat[0,1,i] = DataCube[varIndex, startday + current, index] * scaleFactor / reach.Length;
+                            mat[0, 0, i] = sumlen;
+                            mat[1, 0, i] = DataCube[varIndex, startday + current, index] * scaleFactor / reach.Length;
                             i++;
                         }
                     }
@@ -567,8 +567,8 @@ namespace Heiflow.Models.Subsurface
                         {
                             int index = GetReachIndex(r.ID - 1, reach.SubID - 1);
                             sumlen += reach.Length;
-                            mat[0, i, 0] = sumlen;
-                            mat[1, i, 0] = DataCube[varIndex, startday + current, index] * scaleFactor;
+                            mat[0, 0, i] = sumlen;
+                            mat[1, 0, i] = DataCube[varIndex, startday + current, index] * scaleFactor;
                             i++;
                         }
                     }
@@ -578,7 +578,7 @@ namespace Heiflow.Models.Subsurface
             {
                 if (DataCube != null)
                 {
-                    mat = new DataCube<double>(1,2, profile.Count);
+                    mat = new DataCube<double>(2, 1, profile.Count);
                     int i = 0;
                     double sumlen = 0;
                     if (unified)
@@ -587,8 +587,8 @@ namespace Heiflow.Models.Subsurface
                         {
                             int index = r.ID - 1;
                             sumlen += r.Length;
-                            mat[0, i, 0] = sumlen;
-                            mat[1, i, 0] = DataCube[varIndex, startday + current, index] * scaleFactor / r.LastReach.Length;
+                            mat[0, 0, i] = sumlen;
+                            mat[1, 0, i] = DataCube[varIndex, startday + current, index] * scaleFactor / r.LastReach.Length;
                             i++;
                         }
                     }
@@ -598,8 +598,8 @@ namespace Heiflow.Models.Subsurface
                         {
                             int index = r.ID - 1;
                             sumlen += r.Length;
-                            mat[0, i, 0] = sumlen;
-                            mat[1, i, 0] = DataCube[varIndex, startday + current, index] * scaleFactor;
+                            mat[0, 0, i] = sumlen;
+                            mat[1, 0, i] = DataCube[varIndex, startday + current, index] * scaleFactor;
                             i++;
                         }
                     }
