@@ -82,14 +82,14 @@ namespace Heiflow.Tools.Math
 
         public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
         {
-            var vec_minu = Get3DMat(MinuendDataCube);
-            var vec_subt = Get3DMat(SubtrahendDataCube);
-            if (vec_minu != null && vec_subt != null && vec_minu.SizeEquals(vec_subt))
+            var vec_minu = GetVector(MinuendDataCube);
+            var vec_subt = GetVector(SubtrahendDataCube);
+            if (vec_minu != null && vec_subt != null && vec_minu.Length == vec_subt.Length)
             {
-                var vec = new DataCube<float>(vec_minu.Size[0], vec_minu.Size[1], vec_minu.Size[2]);
-                for (int i = 0; i < vec_minu.Size[0]; i++)
+                var vec = new DataCube<float>(1, 1, vec_minu.Length);
+                for (int i = 0; i < vec_minu.Length; i++)
                 {
-                    vec.ILArrays[i] = vec_minu.ILArrays[i] - vec_subt.ILArrays[i];
+                    vec[0, 0, i] = vec_minu[i] - vec_subt[i];
                 }
                 vec.Name = OutputDataCube;
                 Workspace.Add(vec);

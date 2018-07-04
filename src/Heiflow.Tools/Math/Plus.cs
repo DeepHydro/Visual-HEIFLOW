@@ -53,7 +53,7 @@ namespace Heiflow.Tools.Math
 
         [Category("Input")]
         [Description("The DataCube style should be mat[0][0][:]")]
-        public string MatrixA
+        public string DataCubeA
         {
             get;
             set;
@@ -75,21 +75,21 @@ namespace Heiflow.Tools.Math
         }
         public override void Initialize()
         {
-            var m1 = Validate(MatrixA);
+            var m1 = Validate(DataCubeA);
             var m2 = Validate(DataCubeB);
             this.Initialized = m1 && m2;
         }
 
         public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
         {
-            var mata = Get3DMat(MatrixA);
-            var matb = Get3DMat(DataCubeB);
-            if (mata != null && matb != null && mata.SizeEquals(matb))
+            var da = GetVector(DataCubeA);
+            var db = GetVector(DataCubeB);
+            if (da != null && db != null && da.Length == db.Length)
             {
-                var vec = new DataCube<float>(mata.Size[0], mata.Size[1], mata.Size[2]);
-                for (int i = 0; i < mata.Size[0]; i++)
+                var vec = new DataCube<float>(1, 1, da.Length);
+                for (int i = 0; i < da.Length; i++)
                 {
-                    vec.ILArrays[i] = mata.ILArrays[i] + matb.ILArrays[i];
+                    vec[0, 0, i] = da[i] + db[i];
                 }
                 vec.Name = OutputDataCube;
                 Workspace.Add(vec);
