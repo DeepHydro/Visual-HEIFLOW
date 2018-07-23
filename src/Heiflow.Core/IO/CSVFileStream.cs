@@ -108,12 +108,53 @@ namespace Heiflow.Core.IO
             }
             sw.Close();
         }
+        public float[,] LoadFloatMatrix()
+        {
+            StreamReader sr = new StreamReader(_Filename);
+            string line = "";
+            int nrow = 0;
+            int ncol = 0;
+            if (HasHeader)
+                line = sr.ReadLine();
+            else
+            {
+                line = sr.ReadLine();
+                nrow++;
+            }
+            var strs = TypeConverterEx.Split<string>(line);
+            ncol = strs.Length;
+            while (!sr.EndOfStream)
+            {
+                line = sr.ReadLine();
+                if (TypeConverterEx.IsNull(line))
+                    break;
+                nrow++;
+            }
+            sr.Close();
 
+            sr = new StreamReader(_Filename);
+            if (HasHeader)
+                line = sr.ReadLine();
+            var array = new float[nrow, ncol];
+            for (int i = 0; i < nrow; i++)
+            {
+                line = sr.ReadLine();
+                var buf = TypeConverterEx.Split<float>(line);
+                for (int j = 0; j < ncol; j++)
+                {
+                    array[i, j] = buf[j];
+                }
+            }
+
+            sr.Close();
+            return array;
+        }
         public Array LoadArray()
         {
             StreamReader sr = new StreamReader(_Filename);
             string line = "";
-            line = sr.ReadLine();
+            if(HasHeader)
+                line = sr.ReadLine();
             int nrow = 0;
             int ncol = 0;
             var strs = TypeConverterEx.Split<string>(line);
@@ -128,7 +169,8 @@ namespace Heiflow.Core.IO
             sr.Close();
 
             sr = new StreamReader(_Filename);
-            line = sr.ReadLine();
+            if(HasHeader)
+                line = sr.ReadLine();
             var array = new float[nrow, ncol];
             for (int i = 0; i < nrow; i++)
             {

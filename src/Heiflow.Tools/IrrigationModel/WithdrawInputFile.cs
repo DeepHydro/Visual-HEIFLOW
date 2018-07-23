@@ -29,6 +29,7 @@
 
 using DotSpatial.Data;
 using Heiflow.Core.Data;
+using Heiflow.Core.IO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -57,6 +58,8 @@ namespace Heiflow.Tools.DataManagement
             this.Author = "Yong Tian";
             EndCycle = 7;
             StartCycle = 1; 
+            SW_Ratio_Factor=1;
+            EcoSolutionColIndex = 0;
         }
 
 
@@ -177,20 +180,47 @@ namespace Heiflow.Tools.DataManagement
                 list.Add(obj);
             }
         }
+
+        public float SW_Ratio_Factor
+        {
+            get;
+            set;
+        }
+
+        public string EcoDemandFile
+        {
+            get;
+            set;
+        }
+
+        public int EcoSolutionColIndex
+        {
+            get;
+            set;
+        }
+
         public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
         {
             //SaveObj();
             //return true;
-
+            bool has_ecodemand = false;
             int num_well_layer = 3;
             int[] well_layer = new int[] { 1, 2, 3 };
             double[] layer_ratio = new double[] { 0.6, 0.1, 0.3 };
              int num_irrg_obj, num_indust_obj;
+             float[,] eco_demand = null;
 
             StreamReader sr_quota = new StreamReader(QuotaFileName);
             StreamWriter sw_out = new StreamWriter(OutputFileName);
             string newline = "";
 
+            if (TypeConverterEx.IsNotNull(EcoDemandFile))
+            {
+                CSVFileStream csv = new CSVFileStream(EcoDemandFile);
+                csv.HasHeader = false;
+                eco_demand = csv.LoadFloatMatrix();
+                has_ecodemand = true;
+            }
 
             int nquota = 1;
             int ntime = 36;
@@ -291,6 +321,18 @@ namespace Heiflow.Tools.DataManagement
 
             sw_out.WriteLine( StartCycle + " # cycle index");
             sw_out.WriteLine("1	#	quota_flag");
+
+            if(has_ecodemand)
+            {
+                for (int i = 0; i < nquota; i++)
+                {
+                    for (int j = 0; j < 366; j++)
+                    {
+                        if (eco_demand[j, EcoSolutionColIndex] > 0)
+                            quota[j, i] = 0;
+                    }
+                }
+            }
             for (int i = 0; i < nquota; i++)
             {
                 newline = "";
@@ -306,14 +348,14 @@ namespace Heiflow.Tools.DataManagement
             sw_out.WriteLine(newline);
             newline = "1 1	1	1	1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag,plantarea_flag";
             sw_out.WriteLine(newline);
-
+            //地表水比例
             for (int i = 0; i < num_irrg_obj; i++)
             {
-                var ratio = irrg_obj_list[i].SW_Ratio;
+                var ratio = irrg_obj_list[i].SW_Ratio * SW_Ratio_Factor;
                 newline = "";
                 for (int j = 0; j < 366; j++)
                 {
-                    newline += ratio + "\t";
+                    newline += ratio.ToString("0.00") + "\t";
                 }
                 newline += "#SW ratio of object " + irrg_obj_list[i].ID;
                 sw_out.WriteLine(newline);
@@ -353,7 +395,7 @@ namespace Heiflow.Tools.DataManagement
             sw_out.WriteLine(newline);
             newline = "1 1	1	1	1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag";
             sw_out.WriteLine(newline);
-            //地表水比例
+          
             for (int i = 0; i < num_indust_obj; i++)
             {
                 newline = "";

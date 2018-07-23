@@ -406,11 +406,11 @@ namespace Heiflow.Models.Subsurface
                                         var temp = TypeConverterEx.SkipSplit<float>(line, 5);
                                         //Values.Value[var_index][t][rch_index] = temp[var_index];
                                         DataCube.ILArrays[var_index].SetValue(temp[var_index], t, rch_index);
-                                        goto finished;
                                     }
                                     else
                                     {
                                         Debug.WriteLine(String.Format("step:{0} seg:{1} reach:{2}", t, i + 1, j + 1));
+                                        goto finished;
                                     }
                                     rch_index++;
                                 }
