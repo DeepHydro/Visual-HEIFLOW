@@ -62,7 +62,16 @@ namespace Heiflow.Models.Subsurface
             _PackageInfo.FID = 9;
             IsMandatory = true;
             _Layer3DToken = "RegularGrid";
+            LoadingBehavior =  MFLoadingLayersBehavior.None;
         }
+
+        public MFLoadingLayersBehavior LoadingBehavior
+        {
+            get;
+            set;
+        }
+
+
         public override void Initialize()
         {
             this.Grid = Owner.Grid;
@@ -79,9 +88,11 @@ namespace Heiflow.Models.Subsurface
                 var grid = Owner.Grid as MFGrid;
                 CBCFile cbc = new CBCFile(FileName, grid);
                 //cbc.Source = Values;
+                cbc.Variables = this.Variables;
                 cbc.Layer = this.Layer;
                 cbc.Loading += cbc_Loading;
                 cbc.DataCubeLoaded += cbc_DataCubeLoaded;
+                cbc.LoadingBehavior = this.LoadingBehavior;
                 cbc.LoadDataCube();
                 return true;
             }
@@ -111,17 +122,20 @@ namespace Heiflow.Models.Subsurface
             int nstep = StepsToLoad;
             if (DataCube == null || DataCube.Size[1] != nstep)
             {
-                DataCube = new DataCube<float>(Variables.Length, nstep, grid.ActiveCellCount)
+                DataCube = new DataCube<float>(Variables.Length, nstep, grid.ActiveCellCount, true)
                 {
                     Name = "CBC",
                     TimeBrowsable = true,
-                    AllowTableEdit = false
+                    AllowTableEdit = false,
+                    Variables = this.Variables
                 };
             }
             DataCube.Topology = (this.Grid as RegularGrid).Topology;
             DataCube.DateTimes = this.TimeService.IOTimeline.Take(StepsToLoad).ToArray();
             CBCFile cbc = new CBCFile(FileName, grid);
             cbc.Layer = this.Layer;
+            cbc.LoadingBehavior = this.LoadingBehavior;
+            cbc.Variables = this.Variables;
             cbc.Scale = (float)this.ScaleFactor;
             cbc.MaxTimeStep = nstep;
             cbc.NumTimeStep = this.NumTimeStep;
