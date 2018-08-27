@@ -671,7 +671,23 @@ namespace Heiflow.Core.Data.ODM
             }
             OnFinished();
         }
-
+        public virtual void SaveDataValue(Site site, int varID, DateTime date, double datavalue)
+        {
+            string sql = string.Format("select * from DataValues where SiteID={0} and VariableID = {1} and DateTimeUTC= #{2}#", site.ID, varID, date.ToString("yyyy/MM/dd"));
+            if (ODMDB.Exists(sql))
+            {
+                //  sql = string.Format("delete * from DataValues  where SiteID={0} and VariableID = {1} and DateTimeUTC= #{2}#", s.ID, varID, s.TimeSeries.DateTimeVector[d].ToString("yyyy/MM/dd"));
+                sql = string.Format("update DataValues set datavalue={0} where SiteID={1} and variableid={2} and datetimeutc=#{3}#", datavalue,
+                     site.ID, varID, date.ToString("yyyy/MM/dd HH:mm:ss"));
+                ODMDB.CreateNonQueryCommand(sql);
+            }
+            else
+            {
+                sql = string.Format("insert into DataValues (SiteID,VariableID,DateTimeUTC,DataValue)  values ({0}, {1},  #{2}#,{3})",
+                       site.ID, varID, date.ToString("yyyy/MM/dd HH:mm:ss"), datavalue);
+                ODMDB.CreateNonQueryCommand(sql);
+            }
+        }
         public virtual void SaveDataValues(IObservationsSite[] site, int varID)
         {
             string sql = "";

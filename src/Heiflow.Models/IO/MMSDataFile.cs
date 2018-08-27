@@ -240,7 +240,7 @@ namespace Heiflow.Models.IO
             {
                 line = sr.ReadLine();
                 var vv = TypeConverterEx.SkipSplit<float>(line, 6);
-                DataCube.ILArrays[var_index][t] = vv;
+                DataCube[var_index, t.ToString(), ":"] = vv;
                 progress = Convert.ToInt32(t * 100 / nstep);
                 var temp = TypeConverterEx.Split<int>(line, 6);
                 DataCube.DateTimes[t] = new DateTime(temp[0], temp[1], temp[2], temp[3], temp[4], temp[5]);

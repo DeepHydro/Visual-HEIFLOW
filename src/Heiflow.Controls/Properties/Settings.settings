@@ -3,10 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="GagingStationSQL" Type="System.String" Scope="User">
-      <Value Profile="(Default)">select * from Sites where SiteType='水文站'</Value>
+      <Value Profile="(Default)">select * from Sites</Value>
     </Setting>
     <Setting Name="HOBSQL" Type="System.String" Scope="User">
-      <Value Profile="(Default)">select * from Sites where SiteType='地下水观测井'</Value>
+      <Value Profile="(Default)">select * from Sites</Value>
     </Setting>
   </Settings>
 </SettingsFile>

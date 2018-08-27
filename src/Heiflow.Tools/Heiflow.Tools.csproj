@@ -103,7 +103,9 @@
     <Compile Include="ConceptualModel\ReachFeatureCollection.cs" />
     <Compile Include="ConceptualModel\SFR2.cs" />
     <Compile Include="ConceptualModel\Well.cs" />
+    <Compile Include="Conversion\FromExcel.cs" />
     <Compile Include="Conversion\FromMultVariablesFile.cs" />
+    <Compile Include="Conversion\FromScat2dOfSMS.cs" />
     <Compile Include="Conversion\FromSingleVariableFile.cs" />
     <Compile Include="Conversion\FromClimateInput.cs" />
     <Compile Include="Conversion\ToMatrixStream.cs" />
@@ -118,6 +120,7 @@
     <Compile Include="Math\Deviation.cs" />
     <Compile Include="Math\CopyVectorTo.cs" />
     <Compile Include="Math\Subset.cs" />
+    <Compile Include="Mesh\From2dmToFeature.cs" />
     <Compile Include="SpatialAnalyst\FromNetCDF2TIF.cs" />
     <Compile Include="Conversion\ToTextFile.cs" />
     <Compile Include="DrivingForces\SaveAsClimateInput.cs" />
