@@ -31,11 +31,13 @@ using DotSpatial.Data;
 using Heiflow.Applications;
 using Heiflow.Controls.WinForm.Editors;
 using Heiflow.Core.Data;
+using Heiflow.Core.Data.ODM;
 using Heiflow.Models.Integration;
 using Heiflow.Models.Subsurface;
 using Heiflow.Models.Tools;
 using Heiflow.Presentation.Services;
 using Heiflow.Spatial.SpatialRelation;
+using Heiflow.Tools.SpatialAnalyst;
 // THIS FILE IS PART OF Visual HEIFLOW
 // THIS PROGRAM IS NOT FREE SOFTWARE. 
 // Copyright (c) 2015-2017 Yong Tian, SUSTech, Shenzhen, China. All rights reserved.
@@ -51,42 +53,42 @@ using System.Threading.Tasks;
 
 namespace Heiflow.Tools.ConceptualModel
 {
-    public class FHB : MapLayerRequiredTool
+    public class DIS : MapLayerRequiredTool
     {
-        private IFeatureSet _sourcefs;
+        private IFeatureSet _boreholefs;
         private IFeatureSet _grid_layer;
-        private string _ValueField;
+        private string _LayerHeightField;
         private string _LayerField;
-        private int _SelectedVarIndex = 0;
-        private int _SelectedLayerIndex = 0;
-        private IMapLayerDescriptor _FHBSourceLayer;
-        public FHB()
+        private IMapLayerDescriptor _BoreholeLayer;
+        public DIS()
         {
-            Name = "Flow and Head Boundary Package";
+            Name = "Discretization Package";
             Category = "Conceptual Model";
             Description = "Translate point shapefile into FHB package";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
+            Neighbors = 5;
+            Power = 2;
         }
 
 
         [Category("Input")]
-        [Description("FHB source layer")]
+        [Description("Layer representing borehole. The attribute table of the layer must contain two fields: Layer and DepthToGround")]
         [EditorAttribute(typeof(MapLayerDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        public IMapLayerDescriptor FHBSourceLayer
+        public IMapLayerDescriptor BoreholeLayer
         {
             get
             {
-                return _FHBSourceLayer;
+                return _BoreholeLayer;
             }
             set
             {
-                _FHBSourceLayer = value;
-                _sourcefs = _FHBSourceLayer.DataSet as IFeatureSet;
-                if (_sourcefs != null)
+                _BoreholeLayer = value;
+                _boreholefs = _BoreholeLayer.DataSet as IFeatureSet;
+                if (_boreholefs != null)
                 {
-                    var buf = from DataColumn dc in _sourcefs.DataTable.Columns select dc.ColumnName;
+                    var buf = from DataColumn dc in _boreholefs.DataTable.Columns select dc.ColumnName;
                     Fields = buf.ToArray();
                 }
             }
@@ -105,26 +107,16 @@ namespace Heiflow.Tools.ConceptualModel
         [Description("Field of the flux rate")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
-        public string FluxRateField
+        public string LayerHeightField
         {
             get
             {
-                return _ValueField;
+                return _LayerHeightField;
             }
             set
             {
-                _ValueField = value;
-                if (Fields != null)
-                {
-                    for (int i = 0; i < Fields.Length; i++)
-                    {
-                        if (_ValueField == Fields[i])
-                        {
-                            _SelectedVarIndex = i;
-                            break;
-                        }
-                    }
-                }
+                _LayerHeightField = value;
+
             }
         }
         [Category("Parameter")]
@@ -140,19 +132,17 @@ namespace Heiflow.Tools.ConceptualModel
             set
             {
                 _LayerField = value;
-                if (Fields != null)
-                {
-                    for (int i = 0; i < Fields.Length; i++)
-                    {
-                        if (_LayerField == Fields[i])
-                        {
-                            _SelectedLayerIndex = i;
-                            break;
-                        }
-                    }
-                }
             }
         }
+
+        [Category("Parameter")]
+        [Description("The number of neighbors. If Neighbors<=0, all source sites will be used")]
+        public int Neighbors { get; set; }
+
+        [Category("Parameter")]
+        [Description("The power used to calcuate weights")]
+        public int Power { get; set; }
+
         [Browsable(false)]
         public string[] Fields
         {
@@ -162,27 +152,16 @@ namespace Heiflow.Tools.ConceptualModel
         public override void Initialize()
         {    
             _grid_layer = GridFeatureLayer.DataSet as IFeatureSet;
-            if (_sourcefs == null  || _grid_layer == null)
+            if (_boreholefs == null  || _grid_layer == null)
             {
                 this.Initialized = false;
                 return;
             }
 
             this.Initialized = !(_grid_layer == null || _grid_layer.FeatureType != FeatureType.Polygon);
-            this.Initialized = !(_sourcefs == null || _sourcefs.FeatureType != FeatureType.Point);
+            this.Initialized = !(_boreholefs == null || _boreholefs.FeatureType != FeatureType.Point);
         }
 
-        public class FlowBound
-        {
-            public FlowBound()
-            {
-
-            }
-            public int Layer { get; set; }
-            public int Row { get; set; }
-            public int Col { get; set; }
-            public float FlowRate { get; set; }
-        }
         public override bool Execute(ICancelProgressHandler cancelProgressHandler)
         {
             var shell = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
@@ -190,105 +169,70 @@ namespace Heiflow.Tools.ConceptualModel
             var model = prj.Project.Model;
             int progress = 0;
             int count = 1;
+            double sumOfDis = 0;
+            double sumOfVa = 0;
             Modflow mf = null;
             if (model is HeiflowModel)
                 mf = (model as HeiflowModel).ModflowModel;
             else if (model is Modflow)
-                mf =  model as Modflow;
-            if(mf !=null)
-            {        
-
-                if(!mf.Packages.ContainsKey(FHBPackage.PackageName))
-                {
-                    var fhb = mf.Select(FHBPackage.PackageName); 
-                    mf.Add(fhb);
-                }
-                var pck = mf.GetPackage(FHBPackage.PackageName) as FHBPackage;
-                pck.NBDTIM = 2;
-                pck.NHED = 0;
-                pck.IFHBSS = 1;
-                pck.BDTIM = new int[] { 0, prj.Project.Model.TimeService.NumTimeStep };
-                List<FlowBound> list = new List<FlowBound>();
-                int npt = _sourcefs.Features.Count;
+                mf = model as Modflow;
+            if (mf != null)
+            {
+                var pck = mf.GetPackage(FHBPackage.PackageName) as DISPackage;
+                int npt = _boreholefs.Features.Count;
+                int nlayer = mf.Grid.ActualLayerCount;
+                var known_sites = new Site[npt];
+                var ncell = _grid_layer.DataTable.Rows.Count;
+                var height_dc = new DataCube<float>(pck.Grid.ActualLayerCount, 1, ncell);
+                InverseDistanceWeighting idw = new InverseDistanceWeighting();
                 for (int i = 0; i < npt; i++)
                 {
-                    var pt = _sourcefs.Features[i].Geometry.Coordinate;
-                    int layer = 1;
-                    float rate = 0;
-                    if (!string.IsNullOrEmpty(LayerField))
+                    var cor = _boreholefs.Features[i].Geometry.Coordinate;
+                    known_sites[i] = new Site()
                     {
-                        int.TryParse(_sourcefs.DataTable.Rows[i][LayerField].ToString(), out layer);
+                        LocalX = cor.X,
+                        LocalY = cor.Y,
+                        ID = i,                        
+                    };
+                }
+                if (Neighbors > npt || Neighbors < 0)
+                    Neighbors = npt;
+
+                for (int i = 0; i < ncell; i++)
+                {
+                    for (int j = 0; j < nlayer; j++)
+                    {
+                        var cor = _grid_layer.Features[i].Geometry.Coordinate;
+                        var site_intep = new Site()
+                        {
+                            LocalX = cor.X,
+                            LocalY = cor.Y,
+                            ID = i
+                        };
+                        var neighborSites =  idw.FindNeareastSites(Neighbors, known_sites, site_intep);
+                        sumOfDis = 0;
+                        sumOfVa = 0;
+                        foreach (var nsite in neighborSites)
+                        {
+                            var vv = ts_data.GetValue(j, nsite.ID);
+                            if (vv < MaximumValue)
+                            {
+                                double temp = 1 / System.Math.Pow(nsite.Distance, Power);
+                                sumOfVa += vv * temp;
+                                sumOfDis += temp;
+                            }
+                        }
+                        if (sumOfDis != 0)
+                        {
+                            mat[0, j, i] = (float)(sumOfVa / sumOfDis);
+                        }
 
                     }
-                    if (!string.IsNullOrEmpty(FluxRateField))
-                    {
-                        float.TryParse(_sourcefs.DataTable.Rows[i][FluxRateField].ToString(), out rate);
-                    }
-                    for (int j = 0; j < _grid_layer.Features.Count; j++)
-                    {
-                        var cell = _grid_layer.Features[j].Geometry.Coordinates;
-                        if(SpatialRelationship.PointInPolygon(cell,pt))
-                        {
-                            FlowBound bound = new FlowBound()
-                            {
-                                Layer = layer,
-                                FlowRate = rate,
-                                Row = int.Parse(_grid_layer.DataTable.Rows[j]["ROW"].ToString()),
-                                Col = int.Parse(_grid_layer.DataTable.Rows[j]["COLUMN"].ToString()),
-                            };
-                            list.Add(bound);
-                            break;
-                        }
-                    }
-                    progress =i * 100 / npt;
-                    if (progress > count)
-                    {
-                        cancelProgressHandler.Progress("Package_Tool", progress, "Processing point: " + i);
-                        count++;
-                    }
                 }
-                if (list.Count > 0)
-                {
-                    pck.NFLW = list.Count;
-                    var FlowRate = new DataCube<float>(4 + pck.NBDTIM, 1, pck.NFLW)
-                    {
-                        Name = "FHB_FlowRate",
-                        TimeBrowsable = false,
-                        AllowTableEdit = true
-                    };
-                    FlowRate.Variables[0] = "Layer";//Layer Row Column IAUX  FLWRAT(NBDTIM)
-                    FlowRate.Variables[1] = "Row";
-                    FlowRate.Variables[2] = "Column";
-                    FlowRate.Variables[3] = "IAUX";
-                    for (int i = 0; i < pck.NBDTIM; i++)
-                    {
-                        FlowRate.Variables[4 + i] = "FLWRAT " + (i + 1);
-                    }
-                    for (int i = 0; i < pck.NFLW; i++)
-                    {
-                        var bound = list[i];
-                        FlowRate[0,0,i] = bound.Layer;
-                        FlowRate[1, 0, i] = bound.Row;
-                        FlowRate[2, 0, i] = bound.Col;
-                        FlowRate[3, 0, i] = 0;
-                        for (int j = 0; j < pck.NBDTIM; j++)
-                        {
-                            FlowRate[4 + j,0,i] = bound.FlowRate;
-                        }
-                    }
-                    FlowRate.TimeBrowsable = false;
-                    pck.FlowRate = FlowRate;
-                    pck.CreateFeature(shell.MapAppManager.Map.Projection, prj.Project.GeoSpatialDirectory);
-                    pck.BuildTopology();
-                    pck.IsDirty = true;          
-                    pck.Save(null);
-                    pck.ChangeState(Models.Generic.ModelObjectState.Ready);
-                }
-                else
-                {
-                    pck.ChangeState(Models.Generic.ModelObjectState.Standby);
-                    cancelProgressHandler.Progress("Package_Tool", 100, "Warning: no points located in the modeling domain.");
-                }
+               
+                pck.IsDirty = true;
+                pck.Save(null);
+                pck.ChangeState(Models.Generic.ModelObjectState.Ready);
                 return true;
             }
             else
@@ -296,7 +240,7 @@ namespace Heiflow.Tools.ConceptualModel
                 cancelProgressHandler.Progress("Package_Tool", 100, "Error message: Modflow is used by this tool.");
                 return false;
             }
-         
+
         }
 
         public override void AfterExecution(object args)

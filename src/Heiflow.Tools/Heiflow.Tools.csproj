@@ -98,6 +98,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConceptualModel\DIS.cs" />
     <Compile Include="ConceptualModel\FHB.cs" />
     <Compile Include="ConceptualModel\Lake.cs" />
     <Compile Include="ConceptualModel\ReachFeatureCollection.cs" />

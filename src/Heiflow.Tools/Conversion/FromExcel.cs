@@ -65,8 +65,7 @@ namespace Heiflow.Tools.Conversion
 
         public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
         {
-            Save2DB();
-            return true;
+            //Save2DB();
             StreamReader sr = new StreamReader(Filename);
             StreamWriter sw_stat = new StreamWriter(Filename + "_stat.csv");
             StreamWriter sw_records = new StreamWriter(Filename + "_record.csv");

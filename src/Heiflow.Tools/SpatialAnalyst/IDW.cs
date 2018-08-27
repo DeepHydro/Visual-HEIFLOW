@@ -100,7 +100,6 @@ namespace Heiflow.Tools.SpatialAnalyst
 
         [Category("Parameter")]
         [Description("The number of neighbors. If Neighbors<=0, all source sites will be used")]
-        [EditorAttribute(typeof(FileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public int Neighbors { get; set; }
 
         [Category("Parameter")]
@@ -109,7 +108,6 @@ namespace Heiflow.Tools.SpatialAnalyst
 
         [Category("Parameter")]
         [Description("The power used to calcuate weights")]
-        [EditorAttribute(typeof(FileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public int Power { get; set; }
 
         [Category("Parameter")]
@@ -247,7 +245,7 @@ namespace Heiflow.Tools.SpatialAnalyst
                 return true;
             }
         }
-        private Site[] FindNeareastSites(int count, Site[] knownSites, Site intepolatedSite)
+        public Site[] FindNeareastSites(int count, Site[] knownSites, Site intepolatedSite)
         {
             foreach (var s in knownSites)
             {

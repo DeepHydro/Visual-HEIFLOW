@@ -52,7 +52,6 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
     public partial class SFRExplorerView : Form, IPackageOptionalView
     {
         private IPackage _Package;
-        private IProjectService _ProjectService;
 
         public SFRExplorerView()
         {
