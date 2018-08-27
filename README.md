@@ -16,7 +16,7 @@ time-series datasets over a large spatial domain.
 ## Citing VHF
 If you use VHF in a publication, please cite the following paper that describes VHF:
 
-* Tian Y., Zheng Y., Han F., Zheng C., Li X. A comprehensive graphical modeling platform designed for integrated hydrological simulation. Environmental Modelling & Software, 2018, under review.
+* Tian Y., Zheng Y., Han F., Zheng C., Li X. A comprehensive graphical modeling platform designed for integrated hydrological simulation. Environmental Modelling & Software, 2018, 108:154-173. [Paper Link](https://www.sciencedirect.com/science/article/pii/S1364815217312872)
 
 If you use HEIFLOW in a publication, please cite the these papers:
 
