@@ -142,7 +142,7 @@ namespace Heiflow.Models.Surface.PRMS
                     {
                         pck.AfterLoad();
                     }
-                    progress.Progress("PRMS",1,"\tParameters loaded.");
+                    progress.Progress("PRMS",1,"Parameters loaded.");
                 }
                 else
                 {

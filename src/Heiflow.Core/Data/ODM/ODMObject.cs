@@ -71,12 +71,11 @@ namespace Heiflow.Core.Data.ODM
         public double LocalX { get; set; }
         public double LocalY { get; set; }
         public double Distance { get; set; }
-
         public string SiteType { get; set; }
-
         public DataCube<double> TimeSeries { get; set; }
 
         public List<DataCube<double>> TimeSeriesCollection { get; set; }
+        public double[] Values { get; set; }
 
     }
 

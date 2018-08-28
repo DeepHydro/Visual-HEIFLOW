@@ -53,28 +53,28 @@ using System.Threading.Tasks;
 
 namespace Heiflow.Tools.ConceptualModel
 {
-    public class DIS : MapLayerRequiredTool
+    public class BoreholeToAquiferSturcutre : MapLayerRequiredTool
     {
         private IFeatureSet _boreholefs;
         private IFeatureSet _grid_layer;
-        private string _LayerHeightField;
-        private string _LayerField;
         private IMapLayerDescriptor _BoreholeLayer;
-        public DIS()
+        private float _default_layer_height = 10;
+        public BoreholeToAquiferSturcutre()
         {
-            Name = "Discretization Package";
+            Name = "Borehole To Aquifer Structure";
             Category = "Conceptual Model";
-            Description = "Translate point shapefile into FHB package";
+            Description = "Create aquifer structure using borehole data. The borehole data is represented by a shapefile";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
             Neighbors = 5;
             Power = 2;
+            LayerPrefix = "layer";
+            DefaultLayerHeight = 10;
         }
 
-
         [Category("Input")]
-        [Description("Layer representing borehole. The attribute table of the layer must contain two fields: Layer and DepthToGround")]
+        [Description("Layer representing borehole. The attribute table of the layer must contain a series of fields that represent layer heights")]
         [EditorAttribute(typeof(MapLayerDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         public IMapLayerDescriptor BoreholeLayer
         {
@@ -102,36 +102,24 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             set;
         }
+    
+        [Category("Optional")]
+        [Description("The prefix of layer field. Defualt value is Layer")]
+        public string LayerPrefix { get; set; }
 
-        [Category("Parameter")]
-        [Description("Field of the flux rate")]
-        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        [DropdownListSource("Fields")]
-        public string LayerHeightField
+        [Category("Optional")]
+        [Description("Default value of layer height")]
+        public float DefaultLayerHeight
         {
             get
             {
-                return _LayerHeightField;
+                return _default_layer_height;
             }
             set
             {
-                _LayerHeightField = value;
-
-            }
-        }
-        [Category("Parameter")]
-        [Description("Field of the layer")]
-        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        [DropdownListSource("Fields")]
-        public string LayerField
-        {
-            get
-            {
-                return _LayerField;
-            }
-            set
-            {
-                _LayerField = value;
+                _default_layer_height = value;
+                if (_default_layer_height <= 0)
+                    _default_layer_height = 10;
             }
         }
 
@@ -160,6 +148,7 @@ namespace Heiflow.Tools.ConceptualModel
 
             this.Initialized = !(_grid_layer == null || _grid_layer.FeatureType != FeatureType.Polygon);
             this.Initialized = !(_boreholefs == null || _boreholefs.FeatureType != FeatureType.Point);
+
         }
 
         public override bool Execute(ICancelProgressHandler cancelProgressHandler)
@@ -178,13 +167,14 @@ namespace Heiflow.Tools.ConceptualModel
                 mf = model as Modflow;
             if (mf != null)
             {
-                var pck = mf.GetPackage(FHBPackage.PackageName) as DISPackage;
+                var pck = mf.GetPackage(DISPackage.PackageName) as DISPackage;
                 int npt = _boreholefs.Features.Count;
                 int nlayer = mf.Grid.ActualLayerCount;
                 var known_sites = new Site[npt];
                 var ncell = _grid_layer.DataTable.Rows.Count;
                 var height_dc = new DataCube<float>(pck.Grid.ActualLayerCount, 1, ncell);
                 InverseDistanceWeighting idw = new InverseDistanceWeighting();
+                string msg = "";
                 for (int i = 0; i < npt; i++)
                 {
                     var cor = _boreholefs.Features[i].Geometry.Coordinate;
@@ -192,8 +182,26 @@ namespace Heiflow.Tools.ConceptualModel
                     {
                         LocalX = cor.X,
                         LocalY = cor.Y,
-                        ID = i,                        
+                        ID = i,
+                        Values=new double[nlayer]
                     };
+                    for (int j = 0; j < nlayer; j++)
+                    {
+                        var colname = LayerPrefix + (j+1).ToString();
+                        if(_boreholefs.DataTable.Columns.Contains(colname))
+                        {
+                            known_sites[i].Values[j] = float.Parse(_boreholefs.Features[i].DataRow[colname].ToString());
+                        }
+                        else
+                        {
+                            known_sites[i].Values[j] = DefaultLayerHeight;
+                        }
+                        if (known_sites[i].Values[j] < 0)
+                        {
+                            known_sites[i].Values[j] = DefaultLayerHeight;
+                            msg += string.Format( " Warning: layer height at Point {0} is negative.", i+1);
+                        }
+                    }
                 }
                 if (Neighbors > npt || Neighbors < 0)
                     Neighbors = npt;
@@ -209,30 +217,44 @@ namespace Heiflow.Tools.ConceptualModel
                             LocalY = cor.Y,
                             ID = i
                         };
-                        var neighborSites =  idw.FindNeareastSites(Neighbors, known_sites, site_intep);
+                        var neighborSites = idw.FindNeareastSites(Neighbors, known_sites, site_intep);
                         sumOfDis = 0;
                         sumOfVa = 0;
                         foreach (var nsite in neighborSites)
                         {
-                            var vv = ts_data.GetValue(j, nsite.ID);
-                            if (vv < MaximumValue)
-                            {
-                                double temp = 1 / System.Math.Pow(nsite.Distance, Power);
-                                sumOfVa += vv * temp;
-                                sumOfDis += temp;
-                            }
+                            var vv = nsite.Values[j];
+                            double temp = 1 / System.Math.Pow(nsite.Distance, Power);
+                            sumOfVa += vv * temp;
+                            sumOfDis += temp;
                         }
                         if (sumOfDis != 0)
                         {
-                            mat[0, j, i] = (float)(sumOfVa / sumOfDis);
+                            height_dc[j, 0, i] = (float)(sumOfVa / sumOfDis);
                         }
-
+                        else
+                        {
+                            height_dc[j, 0, i] = DefaultLayerHeight;
+                        }
+                    }
+                    progress = i * 100 / ncell;
+                    if (progress > count)
+                    {
+                        cancelProgressHandler.Progress("Package_Tool", progress, "Processing cell: " + (i+1));
+                        count++;
                     }
                 }
-               
+
+                for (int i = 0; i < ncell; i++)
+                {
+                    for (int j = 0; j < nlayer; j++)
+                    {
+                        pck.Elevation[j + 1, 0, i] = pck.Elevation[j, 0, i] - height_dc[j, 0, i];
+                    }
+                }
+
                 pck.IsDirty = true;
-                pck.Save(null);
-                pck.ChangeState(Models.Generic.ModelObjectState.Ready);
+                //pck.Save(null);
+               // pck.ChangeState(Models.Generic.ModelObjectState.Ready);
                 return true;
             }
             else
@@ -241,21 +263,6 @@ namespace Heiflow.Tools.ConceptualModel
                 return false;
             }
 
-        }
-
-        public override void AfterExecution(object args)
-        {
-            var shell = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
-            var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
-            var model = prj.Project.Model as Heiflow.Models.Integration.HeiflowModel;
-
-            if (model != null)
-            {
-                var fhb = prj.Project.Model.GetPackage(FHBPackage.PackageName) as FHBPackage;
-                fhb.Attach(shell.MapAppManager.Map, prj.Project.GeoSpatialDirectory);
-                shell.ProjectExplorer.ClearContent();
-                shell.ProjectExplorer.AddProject(prj.Project);
-            }
         }
     }
 }
