@@ -41,9 +41,9 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnCreateLookupTable = new System.Windows.Forms.ToolStripButton();
             this.btnSave = new System.Windows.Forms.ToolStripButton();
-            this.btnImport = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnMap = new System.Windows.Forms.ToolStripButton();
+            this.btnImport = new System.Windows.Forms.ToolStripButton();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.labelStatus = new System.Windows.Forms.ToolStripLabel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -81,28 +81,29 @@
             this.chbProp.FormattingEnabled = true;
             this.chbProp.Location = new System.Drawing.Point(8, 276);
             this.chbProp.Name = "chbProp";
-            this.chbProp.Size = new System.Drawing.Size(213, 144);
+            this.chbProp.Size = new System.Drawing.Size(213, 148);
             this.chbProp.TabIndex = 6;
             // 
             // contextMenuStripAreal
             // 
+            this.contextMenuStripAreal.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStripAreal.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.selectAllToolStripMenuItem,
             this.clearToolStripMenuItem});
             this.contextMenuStripAreal.Name = "contextMenuStripAreal";
-            this.contextMenuStripAreal.Size = new System.Drawing.Size(128, 48);
+            this.contextMenuStripAreal.Size = new System.Drawing.Size(144, 52);
             // 
             // selectAllToolStripMenuItem
             // 
             this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
-            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(143, 24);
             this.selectAllToolStripMenuItem.Text = "Select all";
             this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
             // 
             // clearToolStripMenuItem
             // 
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(143, 24);
             this.clearToolStripMenuItem.Text = "Clear";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
             // 
@@ -111,53 +112,54 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(8, 250);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(109, 17);
+            this.label2.Size = new System.Drawing.Size(140, 22);
             this.label2.TabIndex = 4;
             this.label2.Text = "* Areal Properties";
             // 
             // toolStrip1
             // 
             this.toolStrip1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel2,
             this.tbCoverageName,
             this.toolStripSeparator1,
             this.btnCreateLookupTable,
             this.btnSave,
-            this.btnImport,
             this.toolStripSeparator2,
             this.btnMap,
+            this.btnImport,
             this.toolStripProgressBar1,
             this.labelStatus});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(954, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(954, 27);
             this.toolStrip1.TabIndex = 14;
             this.toolStrip1.Text = "toolStrip1";
             // 
             // toolStripLabel2
             // 
             this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(103, 22);
+            this.toolStripLabel2.Size = new System.Drawing.Size(126, 24);
             this.toolStripLabel2.Text = "Coverage Name";
             // 
             // tbCoverageName
             // 
             this.tbCoverageName.Name = "tbCoverageName";
-            this.tbCoverageName.Size = new System.Drawing.Size(200, 25);
+            this.tbCoverageName.Size = new System.Drawing.Size(200, 27);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
             // 
             // btnCreateLookupTable
             // 
             this.btnCreateLookupTable.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnCreateLookupTable.Image = global::Heiflow.Controls.WinForm.Properties.Resources.datasheet16;
+            this.btnCreateLookupTable.Image = global::Heiflow.Controls.WinForm.Properties.Resources.begin;
             this.btnCreateLookupTable.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnCreateLookupTable.Name = "btnCreateLookupTable";
-            this.btnCreateLookupTable.Size = new System.Drawing.Size(23, 22);
+            this.btnCreateLookupTable.Size = new System.Drawing.Size(24, 24);
             this.btnCreateLookupTable.Text = "toolStripButton1";
             this.btnCreateLookupTable.ToolTipText = "Create lookup table";
             this.btnCreateLookupTable.Click += new System.EventHandler(this.btnCreateLookupTable_Click);
@@ -168,9 +170,25 @@
             this.btnSave.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GenericSave_B_16;
             this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(23, 22);
+            this.btnSave.Size = new System.Drawing.Size(24, 24);
             this.btnSave.ToolTipText = "Save lookup table";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 27);
+            // 
+            // btnMap
+            // 
+            this.btnMap.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnMap.Image = global::Heiflow.Controls.WinForm.Properties.Resources.ReportRun16;
+            this.btnMap.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnMap.Name = "btnMap";
+            this.btnMap.Size = new System.Drawing.Size(24, 24);
+            this.btnMap.Text = "toolStripButton1";
+            this.btnMap.ToolTipText = "Run parameterization";
+            this.btnMap.Click += new System.EventHandler(this.btnMap_Click);
             // 
             // btnImport
             // 
@@ -178,37 +196,21 @@
             this.btnImport.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GeodatabaseXMLRecordSetImport32;
             this.btnImport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnImport.Name = "btnImport";
-            this.btnImport.Size = new System.Drawing.Size(23, 22);
-            this.btnImport.ToolTipText = "Import lookuptable from a csv file";
+            this.btnImport.Size = new System.Drawing.Size(24, 24);
+            this.btnImport.ToolTipText = "Import a lookup table from a csv file";
             this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // btnMap
-            // 
-            this.btnMap.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnMap.Image = global::Heiflow.Controls.WinForm.Properties.Resources.EditingAdjustmentLinkTable16;
-            this.btnMap.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnMap.Name = "btnMap";
-            this.btnMap.Size = new System.Drawing.Size(23, 22);
-            this.btnMap.Text = "toolStripButton1";
-            this.btnMap.ToolTipText = "Run parameterization";
-            this.btnMap.Click += new System.EventHandler(this.btnMap_Click);
             // 
             // toolStripProgressBar1
             // 
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(200, 22);
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(200, 24);
             this.toolStripProgressBar1.Visible = false;
             // 
             // labelStatus
             // 
             this.labelStatus.Margin = new System.Windows.Forms.Padding(50, 1, 0, 2);
             this.labelStatus.Name = "labelStatus";
-            this.labelStatus.Size = new System.Drawing.Size(44, 22);
+            this.labelStatus.Size = new System.Drawing.Size(54, 24);
             this.labelStatus.Text = "Ready";
             // 
             // tabControl1
@@ -218,16 +220,16 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(711, 473);
+            this.tabControl1.Size = new System.Drawing.Size(711, 471);
             this.tabControl1.TabIndex = 15;
             // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.dataGridEx1);
-            this.tabPage2.Location = new System.Drawing.Point(4, 26);
+            this.tabPage2.Location = new System.Drawing.Point(4, 30);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(703, 443);
+            this.tabPage2.Size = new System.Drawing.Size(703, 437);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Lookup Table";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -244,13 +246,13 @@
             this.dataGridEx1.ShowImport = false;
             this.dataGridEx1.ShowSave2Excel = false;
             this.dataGridEx1.ShowSaveButton = false;
-            this.dataGridEx1.Size = new System.Drawing.Size(697, 437);
+            this.dataGridEx1.Size = new System.Drawing.Size(697, 431);
             this.dataGridEx1.TabIndex = 3;
             // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 25);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 27);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -261,7 +263,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
-            this.splitContainer1.Size = new System.Drawing.Size(954, 473);
+            this.splitContainer1.Size = new System.Drawing.Size(954, 471);
             this.splitContainer1.SplitterDistance = 239;
             this.splitContainer1.TabIndex = 16;
             // 
@@ -272,7 +274,7 @@
             this.tabControlLeft.Location = new System.Drawing.Point(0, 0);
             this.tabControlLeft.Name = "tabControlLeft";
             this.tabControlLeft.SelectedIndex = 0;
-            this.tabControlLeft.Size = new System.Drawing.Size(239, 473);
+            this.tabControlLeft.Size = new System.Drawing.Size(239, 471);
             this.tabControlLeft.TabIndex = 4;
             // 
             // tabPage1
@@ -287,10 +289,10 @@
             this.tabPage1.Controls.Add(this.cmbGridLayer);
             this.tabPage1.Controls.Add(this.cmbPackages);
             this.tabPage1.Controls.Add(this.label1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 26);
+            this.tabPage1.Location = new System.Drawing.Point(4, 30);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(231, 443);
+            this.tabPage1.Size = new System.Drawing.Size(231, 437);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Setting";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -302,7 +304,7 @@
             this.cmbFields.FormattingEnabled = true;
             this.cmbFields.Location = new System.Drawing.Point(8, 96);
             this.cmbFields.Name = "cmbFields";
-            this.cmbFields.Size = new System.Drawing.Size(213, 25);
+            this.cmbFields.Size = new System.Drawing.Size(213, 29);
             this.cmbFields.TabIndex = 1;
             // 
             // label5
@@ -310,7 +312,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(8, 190);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(73, 17);
+            this.label5.Size = new System.Drawing.Size(93, 22);
             this.label5.TabIndex = 4;
             this.label5.Text = "*Grid Layer";
             // 
@@ -319,7 +321,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(8, 70);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(75, 17);
+            this.label4.Size = new System.Drawing.Size(97, 22);
             this.label4.TabIndex = 0;
             this.label4.Text = "* Zone Field";
             // 
@@ -330,7 +332,7 @@
             this.cmbMapLayers.FormattingEnabled = true;
             this.cmbMapLayers.Location = new System.Drawing.Point(8, 36);
             this.cmbMapLayers.Name = "cmbMapLayers";
-            this.cmbMapLayers.Size = new System.Drawing.Size(213, 25);
+            this.cmbMapLayers.Size = new System.Drawing.Size(213, 29);
             this.cmbMapLayers.TabIndex = 1;
             this.cmbMapLayers.SelectedIndexChanged += new System.EventHandler(this.cmbMapLayers_SelectedIndexChanged);
             // 
@@ -339,7 +341,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(8, 10);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(78, 17);
+            this.label3.Size = new System.Drawing.Size(100, 22);
             this.label3.TabIndex = 0;
             this.label3.Text = "* Map Layer";
             // 
@@ -350,7 +352,7 @@
             this.cmbGridLayer.FormattingEnabled = true;
             this.cmbGridLayer.Location = new System.Drawing.Point(8, 216);
             this.cmbGridLayer.Name = "cmbGridLayer";
-            this.cmbGridLayer.Size = new System.Drawing.Size(213, 25);
+            this.cmbGridLayer.Size = new System.Drawing.Size(213, 29);
             this.cmbGridLayer.TabIndex = 1;
             this.cmbGridLayer.SelectedIndexChanged += new System.EventHandler(this.cmbGridLayer_SelectedIndexChanged);
             // 
@@ -361,7 +363,7 @@
             this.cmbPackages.FormattingEnabled = true;
             this.cmbPackages.Location = new System.Drawing.Point(8, 156);
             this.cmbPackages.Name = "cmbPackages";
-            this.cmbPackages.Size = new System.Drawing.Size(213, 25);
+            this.cmbPackages.Size = new System.Drawing.Size(213, 29);
             this.cmbPackages.TabIndex = 1;
             this.cmbPackages.SelectedIndexChanged += new System.EventHandler(this.cmbPackages_SelectedIndexChanged);
             // 
@@ -370,13 +372,13 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(8, 130);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 17);
+            this.label1.Size = new System.Drawing.Size(90, 22);
             this.label1.TabIndex = 0;
             this.label1.Text = "* Packages";
             // 
             // CoverageSetup
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(954, 498);

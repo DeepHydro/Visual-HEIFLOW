@@ -54,7 +54,6 @@
             this.rbtnMFTime = new System.Windows.Forms.RadioButton();
             this.rbtnMFNum = new System.Windows.Forms.RadioButton();
             this.cmbMFSPUnit = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.olvMF = new BrightIdeasSoftware.DataListView();
             this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -70,6 +69,8 @@
             this.tbTimeNums = new System.Windows.Forms.TextBox();
             this.dateTimePickerEnd = new System.Windows.Forms.DateTimePicker();
             this.label5 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.olvLanduse)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPageLanduse.SuspendLayout();
@@ -79,6 +80,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.olvMF)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMF)).BeginInit();
             this.groupBox1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label3
@@ -86,7 +88,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(281, 31);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(116, 17);
+            this.label3.Size = new System.Drawing.Size(152, 22);
             this.label3.TabIndex = 14;
             this.label3.Text = "Time Unit of Model";
             // 
@@ -97,9 +99,9 @@
             this.cmbTimeUnit.Items.AddRange(new object[] {
             "Hours",
             "Days"});
-            this.cmbTimeUnit.Location = new System.Drawing.Point(403, 27);
+            this.cmbTimeUnit.Location = new System.Drawing.Point(439, 27);
             this.cmbTimeUnit.Name = "cmbTimeUnit";
-            this.cmbTimeUnit.Size = new System.Drawing.Size(190, 25);
+            this.cmbTimeUnit.Size = new System.Drawing.Size(154, 29);
             this.cmbTimeUnit.TabIndex = 2;
             this.cmbTimeUnit.SelectedIndexChanged += new System.EventHandler(this.cmbTimeUnit_SelectedIndexChanged);
             // 
@@ -108,7 +110,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(332, 74);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(65, 17);
+            this.label2.Size = new System.Drawing.Size(83, 22);
             this.label2.TabIndex = 0;
             this.label2.Text = "Total time";
             // 
@@ -165,7 +167,7 @@
             this.olvLanduse.GroupWithItemCountFormat = "";
             this.olvLanduse.GroupWithItemCountSingularFormat = "";
             this.olvLanduse.HideSelection = false;
-            this.olvLanduse.Location = new System.Drawing.Point(7, 87);
+            this.olvLanduse.Location = new System.Drawing.Point(7, 92);
             this.olvLanduse.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.olvLanduse.Name = "olvLanduse";
             this.olvLanduse.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
@@ -175,7 +177,7 @@
             this.olvLanduse.ShowGroups = false;
             this.olvLanduse.ShowImagesOnSubItems = true;
             this.olvLanduse.ShowItemToolTips = true;
-            this.olvLanduse.Size = new System.Drawing.Size(813, 327);
+            this.olvLanduse.Size = new System.Drawing.Size(813, 322);
             this.olvLanduse.TabIndex = 22;
             this.olvLanduse.UseCellFormatEvents = true;
             this.olvLanduse.UseCompatibleStateImageBehavior = false;
@@ -236,10 +238,10 @@
             this.tabPageLanduse.Controls.Add(this.panelLU);
             this.tabPageLanduse.Controls.Add(this.chbLanduse);
             this.tabPageLanduse.Controls.Add(this.olvLanduse);
-            this.tabPageLanduse.Location = new System.Drawing.Point(4, 26);
+            this.tabPageLanduse.Location = new System.Drawing.Point(4, 30);
             this.tabPageLanduse.Name = "tabPageLanduse";
             this.tabPageLanduse.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLanduse.Size = new System.Drawing.Size(827, 418);
+            this.tabPageLanduse.Size = new System.Drawing.Size(827, 414);
             this.tabPageLanduse.TabIndex = 0;
             this.tabPageLanduse.Text = "Land Use Periods      ";
             this.tabPageLanduse.UseVisualStyleBackColor = true;
@@ -254,16 +256,16 @@
             this.panelLU.Controls.Add(this.rbtnLUNum);
             this.panelLU.Controls.Add(this.cmbLUTimeUnit);
             this.panelLU.Enabled = false;
-            this.panelLU.Location = new System.Drawing.Point(27, 38);
+            this.panelLU.Location = new System.Drawing.Point(9, 38);
             this.panelLU.Name = "panelLU";
-            this.panelLU.Size = new System.Drawing.Size(793, 40);
+            this.panelLU.Size = new System.Drawing.Size(811, 48);
             this.panelLU.TabIndex = 37;
             // 
             // btnRefreshLU
             // 
             this.btnRefreshLU.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRefreshLU.Font = new System.Drawing.Font("Calibri", 10.5F);
-            this.btnRefreshLU.Location = new System.Drawing.Point(663, 5);
+            this.btnRefreshLU.Location = new System.Drawing.Point(687, 9);
             this.btnRefreshLU.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnRefreshLU.Name = "btnRefreshLU";
             this.btnRefreshLU.Size = new System.Drawing.Size(103, 30);
@@ -274,7 +276,7 @@
             // 
             // numericUpDownLU
             // 
-            this.numericUpDownLU.Location = new System.Drawing.Point(241, 10);
+            this.numericUpDownLU.Location = new System.Drawing.Point(304, 10);
             this.numericUpDownLU.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.numericUpDownLU.Maximum = new decimal(new int[] {
             1000,
@@ -287,7 +289,7 @@
             0,
             0});
             this.numericUpDownLU.Name = "numericUpDownLU";
-            this.numericUpDownLU.Size = new System.Drawing.Size(79, 25);
+            this.numericUpDownLU.Size = new System.Drawing.Size(79, 29);
             this.numericUpDownLU.TabIndex = 32;
             this.numericUpDownLU.Value = new decimal(new int[] {
             2,
@@ -299,9 +301,9 @@
             // rbtnLUTime
             // 
             this.rbtnLUTime.AutoSize = true;
-            this.rbtnLUTime.Location = new System.Drawing.Point(346, 11);
+            this.rbtnLUTime.Location = new System.Drawing.Point(408, 11);
             this.rbtnLUTime.Name = "rbtnLUTime";
-            this.rbtnLUTime.Size = new System.Drawing.Size(98, 21);
+            this.rbtnLUTime.Size = new System.Drawing.Size(124, 26);
             this.rbtnLUTime.TabIndex = 36;
             this.rbtnLUTime.Text = "By Time Unit";
             this.rbtnLUTime.UseVisualStyleBackColor = true;
@@ -312,7 +314,7 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(6, 14);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(129, 17);
+            this.label7.Size = new System.Drawing.Size(168, 22);
             this.label7.TabIndex = 33;
             this.label7.Text = "Create stress periods:";
             // 
@@ -320,9 +322,9 @@
             // 
             this.rbtnLUNum.AutoSize = true;
             this.rbtnLUNum.Checked = true;
-            this.rbtnLUNum.Location = new System.Drawing.Point(141, 12);
+            this.rbtnLUNum.Location = new System.Drawing.Point(189, 10);
             this.rbtnLUNum.Name = "rbtnLUNum";
-            this.rbtnLUNum.Size = new System.Drawing.Size(94, 21);
+            this.rbtnLUNum.Size = new System.Drawing.Size(119, 26);
             this.rbtnLUNum.TabIndex = 35;
             this.rbtnLUNum.TabStop = true;
             this.rbtnLUNum.Text = "By Numbers";
@@ -339,9 +341,9 @@
             "Weeks",
             "Months",
             "Years"});
-            this.cmbLUTimeUnit.Location = new System.Drawing.Point(450, 9);
+            this.cmbLUTimeUnit.Location = new System.Drawing.Point(538, 10);
             this.cmbLUTimeUnit.Name = "cmbLUTimeUnit";
-            this.cmbLUTimeUnit.Size = new System.Drawing.Size(96, 25);
+            this.cmbLUTimeUnit.Size = new System.Drawing.Size(96, 29);
             this.cmbLUTimeUnit.TabIndex = 34;
             this.cmbLUTimeUnit.SelectedIndexChanged += new System.EventHandler(this.cmbLUTimeUnit_SelectedIndexChanged);
             // 
@@ -350,7 +352,7 @@
             this.chbLanduse.AutoSize = true;
             this.chbLanduse.Location = new System.Drawing.Point(9, 12);
             this.chbLanduse.Name = "chbLanduse";
-            this.chbLanduse.Size = new System.Drawing.Size(178, 21);
+            this.chbLanduse.Size = new System.Drawing.Size(229, 26);
             this.chbLanduse.TabIndex = 23;
             this.chbLanduse.Text = "Use Time-Variant Land Use";
             this.chbLanduse.UseVisualStyleBackColor = true;
@@ -358,17 +360,12 @@
             // 
             // tabPageMF
             // 
-            this.tabPageMF.Controls.Add(this.btnRefreshMF);
-            this.tabPageMF.Controls.Add(this.rbtnMFTime);
-            this.tabPageMF.Controls.Add(this.rbtnMFNum);
-            this.tabPageMF.Controls.Add(this.cmbMFSPUnit);
-            this.tabPageMF.Controls.Add(this.label6);
+            this.tabPageMF.Controls.Add(this.panel1);
             this.tabPageMF.Controls.Add(this.olvMF);
-            this.tabPageMF.Controls.Add(this.numericUpDownMF);
-            this.tabPageMF.Location = new System.Drawing.Point(4, 26);
+            this.tabPageMF.Location = new System.Drawing.Point(4, 30);
             this.tabPageMF.Name = "tabPageMF";
             this.tabPageMF.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMF.Size = new System.Drawing.Size(827, 418);
+            this.tabPageMF.Size = new System.Drawing.Size(827, 414);
             this.tabPageMF.TabIndex = 1;
             this.tabPageMF.Text = "Modflow Stress Periods   ";
             this.tabPageMF.UseVisualStyleBackColor = true;
@@ -377,7 +374,7 @@
             // 
             this.btnRefreshMF.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRefreshMF.Font = new System.Drawing.Font("Calibri", 10.5F);
-            this.btnRefreshMF.Location = new System.Drawing.Point(696, 11);
+            this.btnRefreshMF.Location = new System.Drawing.Point(694, 9);
             this.btnRefreshMF.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnRefreshMF.Name = "btnRefreshMF";
             this.btnRefreshMF.Size = new System.Drawing.Size(103, 30);
@@ -389,9 +386,9 @@
             // rbtnMFTime
             // 
             this.rbtnMFTime.AutoSize = true;
-            this.rbtnMFTime.Location = new System.Drawing.Point(346, 17);
+            this.rbtnMFTime.Location = new System.Drawing.Point(426, 9);
             this.rbtnMFTime.Name = "rbtnMFTime";
-            this.rbtnMFTime.Size = new System.Drawing.Size(98, 21);
+            this.rbtnMFTime.Size = new System.Drawing.Size(124, 26);
             this.rbtnMFTime.TabIndex = 30;
             this.rbtnMFTime.Text = "By Time Unit";
             this.rbtnMFTime.UseVisualStyleBackColor = true;
@@ -401,9 +398,9 @@
             // 
             this.rbtnMFNum.AutoSize = true;
             this.rbtnMFNum.Checked = true;
-            this.rbtnMFNum.Location = new System.Drawing.Point(141, 18);
+            this.rbtnMFNum.Location = new System.Drawing.Point(180, 9);
             this.rbtnMFNum.Name = "rbtnMFNum";
-            this.rbtnMFNum.Size = new System.Drawing.Size(94, 21);
+            this.rbtnMFNum.Size = new System.Drawing.Size(119, 26);
             this.rbtnMFNum.TabIndex = 29;
             this.rbtnMFNum.TabStop = true;
             this.rbtnMFNum.Text = "By Numbers";
@@ -420,20 +417,11 @@
             "Weeks",
             "Months",
             "Years"});
-            this.cmbMFSPUnit.Location = new System.Drawing.Point(450, 15);
+            this.cmbMFSPUnit.Location = new System.Drawing.Point(574, 9);
             this.cmbMFSPUnit.Name = "cmbMFSPUnit";
-            this.cmbMFSPUnit.Size = new System.Drawing.Size(96, 25);
+            this.cmbMFSPUnit.Size = new System.Drawing.Size(96, 29);
             this.cmbMFSPUnit.TabIndex = 27;
             this.cmbMFSPUnit.SelectedIndexChanged += new System.EventHandler(this.cmbMFSPUnit_SelectedIndexChanged);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 20);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(129, 17);
-            this.label6.TabIndex = 26;
-            this.label6.Text = "Create stress periods:";
             // 
             // olvMF
             // 
@@ -466,7 +454,7 @@
             this.olvMF.GroupWithItemCountFormat = "";
             this.olvMF.GroupWithItemCountSingularFormat = "";
             this.olvMF.HideSelection = false;
-            this.olvMF.Location = new System.Drawing.Point(7, 52);
+            this.olvMF.Location = new System.Drawing.Point(7, 60);
             this.olvMF.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.olvMF.Name = "olvMF";
             this.olvMF.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
@@ -476,7 +464,7 @@
             this.olvMF.ShowGroups = false;
             this.olvMF.ShowImagesOnSubItems = true;
             this.olvMF.ShowItemToolTips = true;
-            this.olvMF.Size = new System.Drawing.Size(813, 362);
+            this.olvMF.Size = new System.Drawing.Size(813, 354);
             this.olvMF.TabIndex = 25;
             this.olvMF.UseCellFormatEvents = true;
             this.olvMF.UseCompatibleStateImageBehavior = false;
@@ -535,7 +523,7 @@
             // 
             // numericUpDownMF
             // 
-            this.numericUpDownMF.Location = new System.Drawing.Point(241, 16);
+            this.numericUpDownMF.Location = new System.Drawing.Point(323, 9);
             this.numericUpDownMF.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.numericUpDownMF.Maximum = new decimal(new int[] {
             1000,
@@ -548,7 +536,7 @@
             0,
             0});
             this.numericUpDownMF.Name = "numericUpDownMF";
-            this.numericUpDownMF.Size = new System.Drawing.Size(79, 25);
+            this.numericUpDownMF.Size = new System.Drawing.Size(79, 29);
             this.numericUpDownMF.TabIndex = 24;
             this.numericUpDownMF.Value = new decimal(new int[] {
             2,
@@ -561,7 +549,7 @@
             // 
             this.dateTimePickerStart.Location = new System.Drawing.Point(61, 27);
             this.dateTimePickerStart.Name = "dateTimePickerStart";
-            this.dateTimePickerStart.Size = new System.Drawing.Size(190, 25);
+            this.dateTimePickerStart.Size = new System.Drawing.Size(190, 29);
             this.dateTimePickerStart.TabIndex = 15;
             this.dateTimePickerStart.ValueChanged += new System.EventHandler(this.dateTimePickerStart_ValueChanged);
             // 
@@ -570,7 +558,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(19, 31);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(36, 17);
+            this.label4.Size = new System.Drawing.Size(45, 22);
             this.label4.TabIndex = 0;
             this.label4.Text = "Start";
             // 
@@ -609,17 +597,17 @@
             // 
             // tbTimeNums
             // 
-            this.tbTimeNums.Location = new System.Drawing.Point(403, 69);
+            this.tbTimeNums.Location = new System.Drawing.Point(439, 69);
             this.tbTimeNums.Name = "tbTimeNums";
             this.tbTimeNums.ReadOnly = true;
-            this.tbTimeNums.Size = new System.Drawing.Size(190, 25);
+            this.tbTimeNums.Size = new System.Drawing.Size(154, 29);
             this.tbTimeNums.TabIndex = 16;
             // 
             // dateTimePickerEnd
             // 
             this.dateTimePickerEnd.Location = new System.Drawing.Point(61, 69);
             this.dateTimePickerEnd.Name = "dateTimePickerEnd";
-            this.dateTimePickerEnd.Size = new System.Drawing.Size(190, 25);
+            this.dateTimePickerEnd.Size = new System.Drawing.Size(190, 29);
             this.dateTimePickerEnd.TabIndex = 15;
             this.dateTimePickerEnd.ValueChanged += new System.EventHandler(this.dateTimePickerStart_ValueChanged);
             // 
@@ -628,13 +616,37 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(26, 74);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(29, 17);
+            this.label5.Size = new System.Drawing.Size(37, 22);
             this.label5.TabIndex = 0;
             this.label5.Text = "End";
             // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.btnRefreshMF);
+            this.panel1.Controls.Add(this.rbtnMFNum);
+            this.panel1.Controls.Add(this.rbtnMFTime);
+            this.panel1.Controls.Add(this.numericUpDownMF);
+            this.panel1.Controls.Add(this.cmbMFSPUnit);
+            this.panel1.Enabled = false;
+            this.panel1.Location = new System.Drawing.Point(7, 6);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(811, 48);
+            this.panel1.TabIndex = 38;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(168, 22);
+            this.label1.TabIndex = 33;
+            this.label1.Text = "Create stress periods:";
+            // 
             // HeiflowTimeControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(847, 618);
@@ -658,11 +670,12 @@
             this.panelLU.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLU)).EndInit();
             this.tabPageMF.ResumeLayout(false);
-            this.tabPageMF.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.olvMF)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMF)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -687,7 +700,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DateTimePicker dateTimePickerEnd;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
         private BrightIdeasSoftware.DataListView olvMF;
         private BrightIdeasSoftware.OLVColumn olvColumn1;
         private BrightIdeasSoftware.OLVColumn olvColumn2;
@@ -710,5 +722,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.NumericUpDown numericUpDownLU;
         private System.Windows.Forms.Panel panelLU;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label1;
     }
 }

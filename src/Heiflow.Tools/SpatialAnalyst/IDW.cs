@@ -57,9 +57,11 @@ namespace Heiflow.Tools.SpatialAnalyst
             Description = "Inverse Distance Weighting (IDW) is a quick deterministic interpolator that is exact. There are very few decisions to make regarding model parameters. It can be a good way to take a first look at an interpolated surface. However, there is no assessment of prediction errors, and IDW can produce bulls eyes around data locations. There are no assumptions required of the data.";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
-            OutputMatrix = "idw_out";
+            OutputDataCube = "idw_out";
             Neighbors = 5;
             Power = 2;
+            MaximumValue = 100;
+            MinmumValue = 0;
             Start = DateTime.Now;
             TimeStep = 86400;
         }
@@ -118,8 +120,8 @@ namespace Heiflow.Tools.SpatialAnalyst
             set;
         }
         [Category("Output")]
-        [Description("The name of the output matrix")]
-        public string OutputMatrix
+        [Description("The name of the output data cube")]
+        public string OutputDataCube
         {
             get;
             set;
@@ -135,7 +137,7 @@ namespace Heiflow.Tools.SpatialAnalyst
         {
             //this.Initialized = !TypeConverterEx.IsNull(SourceFeatureFile);
             //this.Initialized = !TypeConverterEx.IsNull(TargetFeatureFile);
-            this.Initialized = !TypeConverterEx.IsNull(OutputMatrix);
+            this.Initialized = !TypeConverterEx.IsNull(OutputDataCube);
             this.Initialized = File.Exists(DataFileName);
         }
         public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
@@ -166,6 +168,7 @@ namespace Heiflow.Tools.SpatialAnalyst
             int nstep = ts_data.Size[0];
             int nsite_data = ts_data.Size[1];
             int progress = 0;
+            int count = 1;
             double sumOfDis = 0;
             double sumOfVa = 0;
 
@@ -181,7 +184,7 @@ namespace Heiflow.Tools.SpatialAnalyst
                 var known_sites = new Site[nsource_sites];
                 DataCube<float> mat = new DataCube<float>(1, nstep, ntar_sites);
                 mat.DateTimes = new DateTime[nstep];
-                mat.Name = OutputMatrix;
+                mat.Name = OutputDataCube;
                 mat.TimeBrowsable = true;
                 mat.AllowTableEdit = false;
                 for (int i = 0; i < nsource_sites; i++)
@@ -232,7 +235,11 @@ namespace Heiflow.Tools.SpatialAnalyst
                         }
                     }
                     progress = (i + 1) * 100 / ntar_sites;
-                    cancelProgressHandler.Progress("Package_Tool", progress, "Caculating Cell: " + (i + 1));
+                    if (progress > count)
+                    {        
+                        cancelProgressHandler.Progress("Package_Tool", progress, "Caculating Cell: " + (i + 1));
+                        count++;
+                    }
                 }
                 for (int j = 0; j < nstep; j++)
                 {

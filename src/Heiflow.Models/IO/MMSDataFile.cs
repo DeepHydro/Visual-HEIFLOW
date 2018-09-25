@@ -143,8 +143,7 @@ namespace Heiflow.Models.IO
             if (!DataCube.IsAllocated(var_index) || DataCube.Size[1] != nstep)
                 DataCube.Allocate(var_index);
             DataCube.DateTimes = new DateTime[nstep];
-            DataCube.TimeBrowsable = true;
-            DataCube.AllowTableEdit = true;
+
             if (nhru == 0)
             {
                 nhru = nfeat;
@@ -181,8 +180,7 @@ namespace Heiflow.Models.IO
 
             OnLoading(100);
             fileStream.Close();
-            sr.Close();
-            //OnLoaded(Source);         
+            sr.Close();     
             OnDataCubedLoaded(DataCube);
         }
 

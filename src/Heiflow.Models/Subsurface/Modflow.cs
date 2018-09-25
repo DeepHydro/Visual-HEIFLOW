@@ -300,7 +300,8 @@ namespace Heiflow.Models.Subsurface
         private void Subscribe(string masterfile, string masterDic)
         {
             string line = "";
-            StreamReader sr = new StreamReader(masterfile);
+            FileStream fs = new FileStream(masterfile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            StreamReader sr = new StreamReader(fs);
             while (!sr.EndOfStream)
             {
                 line = sr.ReadLine();
@@ -351,6 +352,7 @@ namespace Heiflow.Models.Subsurface
                     }
                 }
             }
+            fs.Close();
             sr.Close();
         }
         private void LoadPackages(ICancelProgressHandler progress)

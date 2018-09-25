@@ -86,6 +86,8 @@ namespace Heiflow.Models.Surface.PRMS
 
         public override bool Scan()
         {
+            if (!FileName.Contains(".nhru"))
+                FileName += ".nhru";
             DataCubeStreamReader stream = new DataCubeStreamReader(FileName);
             Variables = stream.GetVariables();
             FeatureCount = stream.FeatureCount;
@@ -114,6 +116,8 @@ namespace Heiflow.Models.Surface.PRMS
 
         public override bool Load(int var_index, ICancelProgressHandler progress)
         {
+            if (!FileName.Contains(".nhru"))
+                FileName += ".nhru";
             _ProgressHandler = progress;
             NumTimeStep = TimeService.GetIOTimeLength(this.Owner.WorkDirectory);
             string filename = this.FileName;

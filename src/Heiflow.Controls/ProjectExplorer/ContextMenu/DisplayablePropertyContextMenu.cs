@@ -174,8 +174,19 @@ namespace Heiflow.Controls.WinForm.MenuItems
         protected void dp_LoadFailed(object sender, string e)
         {
             var dp = _Package as IDataPackage;
-            
+            foreach (var item in _sub_menus)
+            {
+                item.Enabled = true;
+            }
+            Enable(_SOM, false);
+            Enable(_EX, false);
+            Enable(_VI3, false);
+            Enable(_A2DC, false);
+
             _ShellService.ProgressWindow.Progress(_Package.Name,100, e);
+            _ShellService.ProgressWindow.DoWork -= ProgressPanel_DoWork;
+            dp.Loading -= dp_Loading;
+            dp.Loaded -= dp_Loaded;
             dp.LoadFailed -= dp_LoadFailed;
         }
 

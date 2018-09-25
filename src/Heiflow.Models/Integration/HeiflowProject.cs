@@ -59,7 +59,7 @@ namespace Heiflow.Models.Integration
             this.LargeIcon = Resources.RasterImageAnalysisPanSharpen32;
             Description = "HEIFLOW model version 1.0.0";
             Token = "HEIFLOW";
-            ModelExeFileName = Path.Combine(Application.StartupPath, "Models\\heiflow.exe");
+            ModelExeFileName = Path.Combine(Application.StartupPath, "Models\\" + Settings.Default.HeiflowExe);
         }
 
         public override bool New(ICancelProgressHandler progress, bool ImportFromExistingModel)
@@ -70,8 +70,9 @@ namespace Heiflow.Models.Integration
             System.IO.Directory.CreateDirectory(InputDirectory);
             System.IO.Directory.CreateDirectory(MFInputDirectory);
             System.IO.Directory.CreateDirectory(PRMSInputDirectory);
+            System.IO.Directory.CreateDirectory(ExtensionInputDirectory);
             System.IO.Directory.CreateDirectory(OutputDirectory);
-
+          
             RelativeMapFileName = Name + ".dspx";
             FullProjectFileName = Path.Combine(AbsolutePathToProjectFile, Name + ".vhfx");       
 

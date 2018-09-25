@@ -337,6 +337,14 @@ namespace Heiflow.Models.Generic.Project
             }
         }
         [XmlIgnore]
+        public string ExtensionInputDirectory
+        {
+            get
+            {
+                return Path.Combine(AbsolutePathToProjectFile, "Input\\Extension");
+            }
+        }
+        [XmlIgnore]
         public string OutputDirectory
         {
             get
@@ -398,5 +406,19 @@ namespace Heiflow.Models.Generic.Project
         public abstract void Clear();
         public abstract void AttachFeatures();
         public abstract void CreateGridFeature();
+
+        public bool ContainsCoverage(string legendtext)
+        {
+            var buf = from fea in FeatureCoverages where fea.LegendText == legendtext select fea;
+            if (buf.Any())
+            {
+                return   true;
+            }
+            else
+            {
+                var rasc = from ras in this.RasterLayerCoverages where ras.LegendText == legendtext select ras;
+                return rasc.Any();
+            }       
+        }
     }
 }

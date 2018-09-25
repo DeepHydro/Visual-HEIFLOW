@@ -112,5 +112,6 @@ namespace Heiflow.Models.Generic.Project
         /// </summary>
         void AttachFeatures();
         void CreateGridFeature();
+        bool ContainsCoverage(string legendtext);
     }
 }

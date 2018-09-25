@@ -30,6 +30,7 @@
 using DotSpatial.Data;
 using Heiflow.Applications.ViewModels;
 using Heiflow.Controls.WinForm.Toolbox;
+using Heiflow.Core.Data;
 using Heiflow.Core.Utility;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
@@ -171,12 +172,22 @@ namespace Heiflow.Controls.WinForm.Display
             if (_SelectedCoverage != null)
             {
                 cmbGridLayer.SelectedIndex = _SelectedCoverage.GridLayer;
+                tbCoverageName.ReadOnly = true;
+                btnCreateLookupTable.Enabled = false;
             }
             else
             {
                 tbCoverageName.Text = "new_coverage";
                 cmbGridLayer.SelectedIndex = 0;
                 dataGridEx1.ClearContent();
+
+                tbCoverageName.ReadOnly = false;
+                btnCreateLookupTable.Enabled = true;
+                //cmbGridLayer.Enabled = true;
+                //cmbFields.Enabled = true;
+                //cmbGridLayer.Enabled = true;
+                //cmbPackages.Enabled = true;
+                //chbProp.Enabled = true;
             }
 
             cmbMapLayers.SelectedIndexChanged += cmbMapLayers_SelectedIndexChanged;
@@ -288,20 +299,33 @@ namespace Heiflow.Controls.WinForm.Display
                     MessageBox.Show("A field must be selected", "Field Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                var fea = cmbMapLayers.SelectedItem as MapLayerDescriptor;
+                if( TypeConverterEx.IsNull( tbCoverageName.Text))
+                {
+                    MessageBox.Show("Coverage name can not be null ", "Coverage Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                else
+                {
+                    if(pc.Project.ContainsCoverage( tbCoverageName.Text))
+                    {
+                        MessageBox.Show("The coverage name you entered exists, please input anothr one", "Coverage Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+                var layer = cmbMapLayers.SelectedItem as MapLayerDescriptor;
 
                 if (_SelectedCoverage != null)
                 {
-                    if (MessageBox.Show("Lookup table existed. Do you really want to create new lookup table?",
+                    if (MessageBox.Show("Lookup table existed. Do you really want to create a new lookup table?",
                         "Layer Selection", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
                     {
                         _SelectedCoverage.ArealProperties = chbProp.CheckedItems.Cast<ArealPropertyInfo>().ToList();
                         _SelectedCoverage.LegendText = tbCoverageName.Text;
                         _SelectedCoverage.Package = _SelectedPackage;
-                        _SelectedCoverage.Source = fea.DataSet;
+                        _SelectedCoverage.Source = layer.DataSet;
                         _SelectedCoverage.GridLayer = cmbGridLayer.SelectedIndex;
                         _SelectedCoverage.FieldName = cmbFields.SelectedItem.ToString();
-                        _SelectedCoverage.CoverageFilePath = fea.DataSet.Filename;
+                        _SelectedCoverage.CoverageFilePath = layer.DataSet.Filename;
                         _SelectedCoverage.InitLookupTable();
                         _SelectedCoverage.SaveLookupTable();
                         dataGridEx1.Bind(_SelectedCoverage.LookupTable);
@@ -309,7 +333,7 @@ namespace Heiflow.Controls.WinForm.Display
                 }
                 else
                 {
-                    if (fea.DataSet is IFeatureSet)
+                    if (layer.DataSet is IFeatureSet)
                     {
                         _SelectedCoverage = new FeatureCoverage()
                        {
@@ -318,9 +342,9 @@ namespace Heiflow.Controls.WinForm.Display
                            ArealProperties = chbProp.CheckedItems.Cast<ArealPropertyInfo>().ToList(),
                            PackageName = _SelectedPackage.Name,
                            Package = _SelectedPackage,
-                           Source = fea.DataSet,
+                           Source = layer.DataSet,
                            GridLayer = cmbGridLayer.SelectedIndex,
-                           CoverageFilePath = fea.DataSet.Filename,
+                           CoverageFilePath = layer.DataSet.Filename,
                            FieldName = cmbFields.SelectedItem.ToString()
                        };
                         _SelectedCoverage.LookupTableFilePath = string.Format(".\\Processing\\fea_{0}_{1}.map", _SelectedCoverage.PackageName, _SelectedCoverage.ID);
@@ -338,9 +362,9 @@ namespace Heiflow.Controls.WinForm.Display
                            ArealProperties = chbProp.CheckedItems.Cast<ArealPropertyInfo>().ToList(),
                            PackageName = _SelectedPackage.Name,
                            Package = _SelectedPackage,
-                           Source = fea.DataSet as IRaster,
+                           Source = layer.DataSet as IRaster,
                            GridLayer = cmbGridLayer.SelectedIndex,
-                           CoverageFilePath = fea.DataSet.Filename,
+                           CoverageFilePath = layer.DataSet.Filename,
                            FieldName = cmbFields.SelectedItem.ToString()
                        };
                         _SelectedCoverage.LookupTableFilePath = string.Format(".\\Processing\\fea_{0}_{1}.map", _SelectedCoverage.PackageName, _SelectedCoverage.ID);
@@ -348,6 +372,7 @@ namespace Heiflow.Controls.WinForm.Display
                         _SelectedCoverage.SaveLookupTable();
                         dataGridEx1.Bind(_SelectedCoverage.LookupTable);
                         pc.Project.RasterLayerCoverages.Add(_SelectedCoverage as RasterCoverage);
+                        
                     }
                 }
             }

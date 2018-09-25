@@ -3,3 +3,4 @@ E:\PKU\Program\VHF\Heiflow.Studio\obj\Release\Heiflow.Models.Studio.csprojResolv
 E:\PKU\Program\VHF\Heiflow.Studio\obj\Release\DotSpatialApp.MainForm.resources
 E:\PKU\Program\VHF\Heiflow.Studio\obj\Release\Heiflow.Models.Studio.csproj.GenerateResource.Cache
 E:\PKU\Program\VHF\Heiflow.Studio\obj\Release\Visual Heiflow.exe.licenses
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\bin\Release\Visual Heiflow.exe.config

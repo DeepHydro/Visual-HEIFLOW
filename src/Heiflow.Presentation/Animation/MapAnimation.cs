@@ -59,7 +59,7 @@ namespace Heiflow.Presentation.Animation
             if (pck != null)
             {
                 var vector = _DataSource.GetByTime(_DataSource.SelectedVariableIndex, time_index);
-                if (pck.Feature != null)
+                if (pck.Feature != null && vector != null)
                 {
                     var dt = pck.Feature.DataTable;
                     if (vector.Length == dt.Rows.Count)

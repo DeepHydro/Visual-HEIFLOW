@@ -159,6 +159,7 @@
     <Compile Include="Generic\Grid\GridRenderFactory.cs" />
     <Compile Include="Generic\IGridService.cs" />
     <Compile Include="Generic\ITimeService.cs" />
+    <Compile Include="Integration\ExtensionManPackage.cs" />
     <Compile Include="IO\SecurityFile.cs" />
     <Compile Include="Subsurface\OpenModflowProjectFileProvider.cs" />
     <Compile Include="Generic\TimeService.cs" />

@@ -87,28 +87,24 @@ namespace Heiflow.Models.Surface.PRMS
             if (tempMax != null)
             {
                 list_vars.Add("Maximum Temperature");
-                //list_files.Add(Path.Combine(WorkDirectory, tempMax));
                 list_files.Add(tempMax);
             }
             var tempMin = MasterPackage.TempMinFile;
             if (tempMin != null)
             {
                 list_vars.Add("Minimum Temperature");
-                // list_files.Add(Path.Combine(WorkDirectory, tempMin));
                 list_files.Add(tempMin);
             }
             var ppt = MasterPackage.PrecipitationFile;
             if (ppt != null)
             {
                 list_vars.Add("Precipitaiton");
-                // list_files.Add(Path.Combine(WorkDirectory, ppt));
                 list_files.Add(ppt);
             }
             var pet = MasterPackage.PETFile;
             if (pet != null)
             {
                 list_vars.Add("PET");
-                // list_files.Add(Path.Combine(WorkDirectory, ppt));
                 list_files.Add(pet);
             }
 
@@ -145,17 +141,14 @@ namespace Heiflow.Models.Surface.PRMS
             var full_file = Path.Combine(ModelService.WorkDirectory, _FileNames[var_index]);
             var grid = Owner.Grid as MFGrid;
             _SelectedIndex = var_index;
-            if (DataCube == null || DataCube.Size[1] != StepsToLoad)
-            {
-                DataCube = new DataCube<float>(Variables.Length, StepsToLoad, grid.ActiveCellCount, true);
-                DataCube.Name = "clm_input";
-                DataCube.Variables = this.Variables;
-                DataCube.Topology = (Owner.Grid as RegularGrid).Topology;
-                DataCube.TimeBrowsable = true;
-                DataCube.AllowTableEdit = false;
-            }
 
-
+            DataCube = new DataCube<float>(Variables.Length, StepsToLoad, grid.ActiveCellCount, true);
+            DataCube.Name = "clm_input";
+            DataCube.Variables = this.Variables;
+            DataCube.Topology = (Owner.Grid as RegularGrid).Topology;
+            DataCube.TimeBrowsable = true;
+            DataCube.AllowTableEdit = false;
+           
             if (MasterPackage.ClimateInputFormat == FileFormat.Text)
             {
                 MMSDataFile data = new MMSDataFile(full_file);
@@ -180,10 +173,8 @@ namespace Heiflow.Models.Surface.PRMS
                 stream.Loading += stream_LoadingProgressChanged;
                 stream.DataCubeLoaded += data_DataCubeLoaded;
                 if (MasterPackage.UseGridClimate)
-                    //  stream.LoadSingle(_GridHruMapping, var_index);
                     stream.LoadDataCubeSingle(_GridHruMapping, var_index);
                 else
-                    // stream.LoadSingle(var_index);
                     stream.LoadDataCubeSingle(var_index);
             }
 

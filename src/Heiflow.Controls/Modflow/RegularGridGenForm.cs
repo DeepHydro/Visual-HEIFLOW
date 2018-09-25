@@ -117,6 +117,12 @@ namespace Heiflow.Controls.WinForm.Modflow
 
         private void btnOk_Click(object sender, EventArgs e)
         {
+            var _GlobalTimeService = _Controller.Project.Model.TimeServiceList["Base Timeline"] as TimeService;
+            if (_GlobalTimeService.Timeline.Count == 0)
+            {
+                MessageBox.Show("Need to generate stress periods at first", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             var mf = (_Controller.Project.Model as Heiflow.Models.Integration.HeiflowModel).ModflowModel;
             double originx=0;
             double originy=0;
@@ -227,9 +233,5 @@ namespace Heiflow.Controls.WinForm.Modflow
                 numericUpDown1.Value = mf.LayerGroupManager.LayerGroups.Count;
             }
         }
-
-
-
-
     }
 }

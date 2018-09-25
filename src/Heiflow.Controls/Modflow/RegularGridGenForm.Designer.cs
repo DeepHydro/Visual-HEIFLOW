@@ -77,7 +77,7 @@
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Font = new System.Drawing.Font("Calibri", 10.5F);
-            this.btnCancel.Location = new System.Drawing.Point(424, 623);
+            this.btnCancel.Location = new System.Drawing.Point(424, 651);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(95, 30);
@@ -89,7 +89,7 @@
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOk.Font = new System.Drawing.Font("Calibri", 10.5F);
-            this.btnOk.Location = new System.Drawing.Point(306, 623);
+            this.btnOk.Location = new System.Drawing.Point(306, 651);
             this.btnOk.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(95, 30);
@@ -104,7 +104,7 @@
             this.cmbLayers.FormattingEnabled = true;
             this.cmbLayers.Location = new System.Drawing.Point(7, 52);
             this.cmbLayers.Name = "cmbLayers";
-            this.cmbLayers.Size = new System.Drawing.Size(270, 25);
+            this.cmbLayers.Size = new System.Drawing.Size(270, 29);
             this.cmbLayers.TabIndex = 18;
             this.cmbLayers.SelectedIndexChanged += new System.EventHandler(this.cmbLayers_SelectedIndexChanged);
             // 
@@ -116,7 +116,7 @@
             this.groupBox1.Controls.Add(this.tbMaxY);
             this.groupBox1.Controls.Add(this.tbMinX);
             this.groupBox1.Font = new System.Drawing.Font("Calibri", 10.5F);
-            this.groupBox1.Location = new System.Drawing.Point(13, 242);
+            this.groupBox1.Location = new System.Drawing.Point(13, 250);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(524, 161);
             this.groupBox1.TabIndex = 19;
@@ -138,7 +138,7 @@
             this.tbMaxX.Font = new System.Drawing.Font("Calibri", 10.5F);
             this.tbMaxX.Location = new System.Drawing.Point(377, 71);
             this.tbMaxX.Name = "tbMaxX";
-            this.tbMaxX.Size = new System.Drawing.Size(130, 25);
+            this.tbMaxX.Size = new System.Drawing.Size(130, 29);
             this.tbMaxX.TabIndex = 14;
             this.tbMaxX.Text = "0";
             // 
@@ -147,7 +147,7 @@
             this.tbMinY.Font = new System.Drawing.Font("Calibri", 10.5F);
             this.tbMinY.Location = new System.Drawing.Point(192, 118);
             this.tbMinY.Name = "tbMinY";
-            this.tbMinY.Size = new System.Drawing.Size(130, 25);
+            this.tbMinY.Size = new System.Drawing.Size(130, 29);
             this.tbMinY.TabIndex = 14;
             this.tbMinY.Text = "0";
             // 
@@ -156,7 +156,7 @@
             this.tbMaxY.Font = new System.Drawing.Font("Calibri", 10.5F);
             this.tbMaxY.Location = new System.Drawing.Point(192, 24);
             this.tbMaxY.Name = "tbMaxY";
-            this.tbMaxY.Size = new System.Drawing.Size(130, 25);
+            this.tbMaxY.Size = new System.Drawing.Size(130, 29);
             this.tbMaxY.TabIndex = 14;
             this.tbMaxY.Text = "0";
             // 
@@ -165,7 +165,7 @@
             this.tbMinX.Font = new System.Drawing.Font("Calibri", 10.5F);
             this.tbMinX.Location = new System.Drawing.Point(7, 71);
             this.tbMinX.Name = "tbMinX";
-            this.tbMinX.Size = new System.Drawing.Size(130, 25);
+            this.tbMinX.Size = new System.Drawing.Size(130, 29);
             this.tbMinX.TabIndex = 14;
             this.tbMinX.Text = "0";
             // 
@@ -182,9 +182,9 @@
             this.groupBox2.Controls.Add(this.tbYNum);
             this.groupBox2.Controls.Add(this.tbXNum);
             this.groupBox2.Font = new System.Drawing.Font("Calibri", 10.5F);
-            this.groupBox2.Location = new System.Drawing.Point(13, 480);
+            this.groupBox2.Location = new System.Drawing.Point(13, 508);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(524, 128);
+            this.groupBox2.Size = new System.Drawing.Size(524, 135);
             this.groupBox2.TabIndex = 20;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Cell Size";
@@ -195,7 +195,7 @@
             this.label5.Font = new System.Drawing.Font("Calibri", 10.5F);
             this.label5.Location = new System.Drawing.Point(301, 95);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(69, 17);
+            this.label5.Size = new System.Drawing.Size(89, 22);
             this.label5.TabIndex = 21;
             this.label5.Text = "Y-Dim size:";
             // 
@@ -205,7 +205,7 @@
             this.label3.Font = new System.Drawing.Font("Calibri", 10.5F);
             this.label3.Location = new System.Drawing.Point(27, 98);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(114, 17);
+            this.label3.Size = new System.Drawing.Size(147, 22);
             this.label3.TabIndex = 21;
             this.label3.Text = "Y-Dim cell number:";
             // 
@@ -215,7 +215,7 @@
             this.label4.Font = new System.Drawing.Font("Calibri", 10.5F);
             this.label4.Location = new System.Drawing.Point(300, 59);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(69, 17);
+            this.label4.Size = new System.Drawing.Size(89, 22);
             this.label4.TabIndex = 21;
             this.label4.Text = "X-Dim size:";
             // 
@@ -225,7 +225,7 @@
             this.label2.Font = new System.Drawing.Font("Calibri", 10.5F);
             this.label2.Location = new System.Drawing.Point(27, 62);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(114, 17);
+            this.label2.Size = new System.Drawing.Size(147, 22);
             this.label2.TabIndex = 21;
             this.label2.Text = "X-Dim cell number:";
             // 
@@ -236,7 +236,7 @@
             this.rbtnByCellSize.Font = new System.Drawing.Font("Calibri", 10.5F);
             this.rbtnByCellSize.Location = new System.Drawing.Point(303, 24);
             this.rbtnByCellSize.Name = "rbtnByCellSize";
-            this.rbtnByCellSize.Size = new System.Drawing.Size(86, 21);
+            this.rbtnByCellSize.Size = new System.Drawing.Size(109, 26);
             this.rbtnByCellSize.TabIndex = 0;
             this.rbtnByCellSize.TabStop = true;
             this.rbtnByCellSize.Text = "By cell size";
@@ -249,7 +249,7 @@
             this.rbtnByCellNumber.Font = new System.Drawing.Font("Calibri", 10.5F);
             this.rbtnByCellNumber.Location = new System.Drawing.Point(26, 24);
             this.rbtnByCellNumber.Name = "rbtnByCellNumber";
-            this.rbtnByCellNumber.Size = new System.Drawing.Size(112, 21);
+            this.rbtnByCellNumber.Size = new System.Drawing.Size(142, 26);
             this.rbtnByCellNumber.TabIndex = 0;
             this.rbtnByCellNumber.Text = " By cell number";
             this.rbtnByCellNumber.UseVisualStyleBackColor = true;
@@ -258,9 +258,9 @@
             // tbYSize
             // 
             this.tbYSize.Font = new System.Drawing.Font("Calibri", 10.5F);
-            this.tbYSize.Location = new System.Drawing.Point(377, 92);
+            this.tbYSize.Location = new System.Drawing.Point(396, 93);
             this.tbYSize.Name = "tbYSize";
-            this.tbYSize.Size = new System.Drawing.Size(100, 25);
+            this.tbYSize.Size = new System.Drawing.Size(100, 29);
             this.tbYSize.TabIndex = 14;
             this.tbYSize.Text = "1000";
             this.tbYSize.TextChanged += new System.EventHandler(this.tbCellSize_TextChanged);
@@ -268,9 +268,9 @@
             // tbXSize
             // 
             this.tbXSize.Font = new System.Drawing.Font("Calibri", 10.5F);
-            this.tbXSize.Location = new System.Drawing.Point(377, 56);
+            this.tbXSize.Location = new System.Drawing.Point(395, 55);
             this.tbXSize.Name = "tbXSize";
-            this.tbXSize.Size = new System.Drawing.Size(100, 25);
+            this.tbXSize.Size = new System.Drawing.Size(100, 29);
             this.tbXSize.TabIndex = 14;
             this.tbXSize.Text = "1000";
             this.tbXSize.TextChanged += new System.EventHandler(this.tbCellSize_TextChanged);
@@ -279,9 +279,9 @@
             // 
             this.tbYNum.Enabled = false;
             this.tbYNum.Font = new System.Drawing.Font("Calibri", 10.5F);
-            this.tbYNum.Location = new System.Drawing.Point(161, 95);
+            this.tbYNum.Location = new System.Drawing.Point(177, 95);
             this.tbYNum.Name = "tbYNum";
-            this.tbYNum.Size = new System.Drawing.Size(100, 25);
+            this.tbYNum.Size = new System.Drawing.Size(100, 29);
             this.tbYNum.TabIndex = 14;
             this.tbYNum.Text = "50";
             this.tbYNum.TextChanged += new System.EventHandler(this.tbCellSize_TextChanged);
@@ -290,9 +290,9 @@
             // 
             this.tbXNum.Enabled = false;
             this.tbXNum.Font = new System.Drawing.Font("Calibri", 10.5F);
-            this.tbXNum.Location = new System.Drawing.Point(161, 59);
+            this.tbXNum.Location = new System.Drawing.Point(177, 60);
             this.tbXNum.Name = "tbXNum";
-            this.tbXNum.Size = new System.Drawing.Size(100, 25);
+            this.tbXNum.Size = new System.Drawing.Size(100, 29);
             this.tbXNum.TabIndex = 14;
             this.tbXNum.Text = "50";
             this.tbXNum.TextChanged += new System.EventHandler(this.tbCellSize_TextChanged);
@@ -303,7 +303,7 @@
             this.label1.Font = new System.Drawing.Font("Calibri", 10.5F);
             this.label1.Location = new System.Drawing.Point(6, 27);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(271, 17);
+            this.label1.Size = new System.Drawing.Size(352, 22);
             this.label1.TabIndex = 21;
             this.label1.Text = "Select the model boundary (must be a polygon)";
             // 
@@ -313,16 +313,16 @@
             this.label6.Font = new System.Drawing.Font("Calibri", 10.5F);
             this.label6.Location = new System.Drawing.Point(8, 29);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(149, 17);
+            this.label6.Size = new System.Drawing.Size(194, 22);
             this.label6.TabIndex = 22;
             this.label6.Text = "Number of vertical layers";
             // 
             // numericUpDown1
             // 
             this.numericUpDown1.Font = new System.Drawing.Font("Calibri", 10.5F);
-            this.numericUpDown1.Location = new System.Drawing.Point(165, 24);
+            this.numericUpDown1.Location = new System.Drawing.Point(208, 26);
             this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(178, 25);
+            this.numericUpDown1.Size = new System.Drawing.Size(135, 29);
             this.numericUpDown1.TabIndex = 23;
             this.numericUpDown1.Value = new decimal(new int[] {
             3,
@@ -337,7 +337,7 @@
             this.Origin.Controls.Add(this.tbOriginX);
             this.Origin.Controls.Add(this.label7);
             this.Origin.Font = new System.Drawing.Font("Calibri", 10.5F);
-            this.Origin.Location = new System.Drawing.Point(15, 404);
+            this.Origin.Location = new System.Drawing.Point(15, 424);
             this.Origin.Name = "Origin";
             this.Origin.Size = new System.Drawing.Size(524, 68);
             this.Origin.TabIndex = 24;
@@ -349,7 +349,7 @@
             this.tbOriginY.Font = new System.Drawing.Font("Calibri", 10.5F);
             this.tbOriginY.Location = new System.Drawing.Point(375, 32);
             this.tbOriginY.Name = "tbOriginY";
-            this.tbOriginY.Size = new System.Drawing.Size(100, 25);
+            this.tbOriginY.Size = new System.Drawing.Size(100, 29);
             this.tbOriginY.TabIndex = 14;
             this.tbOriginY.Text = "0";
             // 
@@ -357,18 +357,18 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Calibri", 10.5F);
-            this.label8.Location = new System.Drawing.Point(284, 32);
+            this.label8.Location = new System.Drawing.Point(261, 32);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(83, 17);
+            this.label8.Size = new System.Drawing.Size(108, 22);
             this.label8.TabIndex = 21;
             this.label8.Text = "Y coordinate:";
             // 
             // tbOriginX
             // 
             this.tbOriginX.Font = new System.Drawing.Font("Calibri", 10.5F);
-            this.tbOriginX.Location = new System.Drawing.Point(159, 29);
+            this.tbOriginX.Location = new System.Drawing.Point(141, 28);
             this.tbOriginX.Name = "tbOriginX";
-            this.tbOriginX.Size = new System.Drawing.Size(100, 25);
+            this.tbOriginX.Size = new System.Drawing.Size(84, 29);
             this.tbOriginX.TabIndex = 14;
             this.tbOriginX.Text = "0";
             // 
@@ -376,9 +376,9 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Calibri", 10.5F);
-            this.label7.Location = new System.Drawing.Point(61, 32);
+            this.label7.Location = new System.Drawing.Point(27, 32);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(83, 17);
+            this.label7.Size = new System.Drawing.Size(108, 22);
             this.label7.TabIndex = 21;
             this.label7.Text = "X coordinate:";
             // 
@@ -387,7 +387,7 @@
             this.groupBox3.Controls.Add(this.numericUpDown1);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.btnLayerGroup);
-            this.groupBox3.Location = new System.Drawing.Point(13, 166);
+            this.groupBox3.Location = new System.Drawing.Point(13, 172);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(524, 70);
             this.groupBox3.TabIndex = 25;
@@ -398,7 +398,7 @@
             // 
             this.btnLayerGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnLayerGroup.Font = new System.Drawing.Font("Calibri", 10.5F);
-            this.btnLayerGroup.Location = new System.Drawing.Point(363, 22);
+            this.btnLayerGroup.Location = new System.Drawing.Point(368, 25);
             this.btnLayerGroup.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.btnLayerGroup.Name = "btnLayerGroup";
             this.btnLayerGroup.Size = new System.Drawing.Size(143, 30);
@@ -417,7 +417,7 @@
             this.groupBox4.Controls.Add(this.cmbLayers);
             this.groupBox4.Location = new System.Drawing.Point(13, 3);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(524, 157);
+            this.groupBox4.Size = new System.Drawing.Size(524, 165);
             this.groupBox4.TabIndex = 26;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Spatial Data";
@@ -428,7 +428,7 @@
             this.label10.Font = new System.Drawing.Font("Calibri", 10.5F);
             this.label10.Location = new System.Drawing.Point(294, 89);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(148, 17);
+            this.label10.Size = new System.Drawing.Size(189, 22);
             this.label10.TabIndex = 21;
             this.label10.Text = "Select averaging method";
             // 
@@ -438,7 +438,7 @@
             this.label9.Font = new System.Drawing.Font("Calibri", 10.5F);
             this.label9.Location = new System.Drawing.Point(8, 89);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(95, 17);
+            this.label9.Size = new System.Drawing.Size(121, 22);
             this.label9.TabIndex = 21;
             this.label9.Text = "Select the DEM";
             // 
@@ -450,9 +450,9 @@
             this.cmbAvMethod.Items.AddRange(new object[] {
             "Mean",
             "Median"});
-            this.cmbAvMethod.Location = new System.Drawing.Point(293, 109);
+            this.cmbAvMethod.Location = new System.Drawing.Point(298, 118);
             this.cmbAvMethod.Name = "cmbAvMethod";
-            this.cmbAvMethod.Size = new System.Drawing.Size(213, 25);
+            this.cmbAvMethod.Size = new System.Drawing.Size(213, 29);
             this.cmbAvMethod.TabIndex = 18;
             this.cmbAvMethod.SelectedIndexChanged += new System.EventHandler(this.cmbRasterLayer_SelectedIndexChanged);
             // 
@@ -460,18 +460,18 @@
             // 
             this.cmbRasterLayer.Font = new System.Drawing.Font("Calibri", 10.5F);
             this.cmbRasterLayer.FormattingEnabled = true;
-            this.cmbRasterLayer.Location = new System.Drawing.Point(7, 109);
+            this.cmbRasterLayer.Location = new System.Drawing.Point(7, 118);
             this.cmbRasterLayer.Name = "cmbRasterLayer";
-            this.cmbRasterLayer.Size = new System.Drawing.Size(270, 25);
+            this.cmbRasterLayer.Size = new System.Drawing.Size(270, 29);
             this.cmbRasterLayer.TabIndex = 18;
             this.cmbRasterLayer.SelectedIndexChanged += new System.EventHandler(this.cmbRasterLayer_SelectedIndexChanged);
             // 
             // RegularGridGenForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(548, 663);
+            this.ClientSize = new System.Drawing.Size(548, 691);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.Origin);

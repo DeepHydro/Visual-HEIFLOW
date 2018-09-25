@@ -53,6 +53,8 @@ namespace Heiflow.Models.Integration
         private PRMS _PRMS;
         private Modflow _Modflow;
         private MasterPackage _MasterPackage;
+        private ExtensionManPackage _ExtensionManPackage;
+
 
         public HeiflowModel()
         {
@@ -64,7 +66,8 @@ namespace Heiflow.Models.Integration
 
             _MasterPackage = new MasterPackage(MasterPackageName);
             _MasterPackage.Owner = this;
-
+            _ExtensionManPackage = new ExtensionManPackage();
+            _ExtensionManPackage.Owner = this;
 
             _PRMS = new PRMS();
             _PRMS.Owner = this;
@@ -101,6 +104,15 @@ namespace Heiflow.Models.Integration
             get
             {
                 return _MasterPackage;
+            }
+        }
+        [XmlIgnore]
+        [Browsable(false)]
+        public ExtensionManPackage ExtensionManPackage
+        {
+            get
+            {
+                return _ExtensionManPackage;
             }
         }
         [Browsable(false)]
@@ -152,13 +164,16 @@ namespace Heiflow.Models.Integration
             bool succ = true;
             _MasterPackage.FileName = ControlFileName;
             _MasterPackage.Initialize();
-
             succ = _MasterPackage.Load(progress);
             if (succ)
             {
                 ModelService.Model = this;
                 ModelService.Start = _MasterPackage.TimeService.Start;
                 ModelService.End = _MasterPackage.TimeService.End;
+
+                _ExtensionManPackage.FileName = _MasterPackage.ExtensionManagerFile;
+                _ExtensionManPackage.Initialize();
+                _ExtensionManPackage.Load(progress);
 
                 _PRMS.MasterPackage = _MasterPackage;
                 _PRMS.ControlFileName = _MasterPackage.ParameterFilePath;
@@ -170,6 +185,7 @@ namespace Heiflow.Models.Integration
                 _Modflow.ControlFileName = _MasterPackage.ModflowFilePath;
                 _Modflow.Initialize();
 
+                this.TimeService = _MasterPackage.TimeService;
                 progress.Progress("Heiflow", 1, "Loading Modflow packages...");
                 succ = _Modflow.Load(progress);
                 if (!succ)
@@ -189,6 +205,7 @@ namespace Heiflow.Models.Integration
                 {
                     Packages.Clear();
                     AddInSilence(_MasterPackage);
+                    AddInSilence(_ExtensionManPackage);
                 }
                 else
                 {
@@ -218,7 +235,7 @@ namespace Heiflow.Models.Integration
         {
             bool succ = true;
             _MasterPackage.FileName = ControlFileName;
-            _MasterPackage.Initialize();
+            _MasterPackage.Initialize();       
             succ = _MasterPackage.New();
             if (!succ)
             {
@@ -227,6 +244,15 @@ namespace Heiflow.Models.Integration
             }
             AddInSilence(_MasterPackage);
 
+            _ExtensionManPackage.FileName = _MasterPackage.ExtensionManagerFile;
+            succ = _ExtensionManPackage.New();
+            if (!succ)
+            {
+                var msg = string.Format("Failed to create extension manager file. Error message: {0}", _ExtensionManPackage.Message);
+                progress.Progress(this.Name, 5, msg);
+            }
+            AddInSilence(_ExtensionManPackage);
+
             _PRMS.WorkDirectory = this.WorkDirectory;
             _PRMS.ControlFileName = _MasterPackage.ParameterFilePath;
             _PRMS.TimeService = _MasterPackage.TimeService;
@@ -234,7 +260,7 @@ namespace Heiflow.Models.Integration
             _PRMS.Initialize();
 
             _Modflow.WorkDirectory = this.WorkDirectory;
-            _Modflow.ControlFileName = string.Format("{0}{1}.nam", Modflow.InputDic, Name);
+            _Modflow.ControlFileName = string.Format("{0}{1}.nam", Modflow.InputDic, Project.Name);
             _Modflow.Initialize();
             _PRMS.Grid = _Modflow.Grid;
             this.Grid = _Modflow.Grid;
@@ -260,6 +286,7 @@ namespace Heiflow.Models.Integration
         public override void Save(ICancelProgressHandler progress)
         {
             _MasterPackage.Save(progress);
+            _ExtensionManPackage.Save(progress);
             progress.Progress(this.Name, 1, "Saving PRMS input files...");
             _PRMS.Save(progress);
             progress.Progress(this.Name, 1, "Saving MODFLOW input files...");

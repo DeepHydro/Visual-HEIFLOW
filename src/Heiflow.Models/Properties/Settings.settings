@@ -14,5 +14,8 @@
     <Setting Name="MaximumNumberOfRecentFiles" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">5</Value>
     </Setting>
+    <Setting Name="HeiflowExe" Type="System.String" Scope="User">
+      <Value Profile="(Default)">heiflow1.0.1.exe</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -64,7 +64,7 @@ namespace Heiflow.Models.Integration
         bool _OutputWaterComponent = true;
         string _WaterComponentFile="null";
         string _WaterBudgetFile = "null";
-        string _IrrigationComponentFile = "null";
+   //  string _IrrigationComponentFile = "null";
         string _MFListFile = "null";
         TemperatureModule _Temperature = TemperatureModule.climate_hru;
         PrecipitationModule _Precipitation = PrecipitationModule.climate_hru;
@@ -96,8 +96,15 @@ namespace Heiflow.Models.Integration
         int[] _StatVarElement;
         bool _UseGridClimate = false;
         string _GridClimateFile;
-        int _hftimeunit;
+        int _GlobalTimeUnit = 4;
         FileFormat _ClimateInputFormat = FileFormat.Text;
+        private bool _AnimationOutOC = false;
+        private string  _AnimationOutOCFile;
+        private string _wra_module = "none";
+        private string _wra_module_file;
+        private string _hydraulics_engine = "SFR";
+//        private bool _extension_act_flag = false;
+        private string _extension_man_file;
 
         public MasterPackage(string name)
             : base(name)
@@ -173,17 +180,17 @@ namespace Heiflow.Models.Integration
             }
         }
         [Category("Time")]
-        [Description("The time unit of the model. Daily and hourly time units should be specified as 4 and 5, respectively")]
+        [Description("The time unit of the model. Daily or hourly time units should be specified as 4 or 5, respectively")]
         public int GlobalTimeUnit
         {
             get
             {
-                return _hftimeunit;
+                return _GlobalTimeUnit;
             }
             set
             {
-                _hftimeunit = value;
-                (Parameters["hftimeunit"] as ArrayParam<int>).Values = new int[] { _hftimeunit };
+                _GlobalTimeUnit = value;
+                (Parameters["global_time_unit"] as ArrayParam<int>).Values = new int[] { _GlobalTimeUnit };
                 OnPropertyChanged("GlobalTimeUnit");
             }
         }
@@ -395,6 +402,8 @@ namespace Heiflow.Models.Integration
             set
             {
                 _UseGridClimate = value;
+                var infs = _UseGridClimate ? 1 : 0;
+                (Parameters["sub_climate_flag"] as ArrayParam<int>).Values = new int[] { infs };
                 OnPropertyChanged("UseGridClimate");
             }
         }
@@ -410,6 +419,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _GridClimateFile = value;
+                (Parameters["sub_climate_file"] as ArrayParam<string>).Values = new string[] { value };
                 OnPropertyChanged("GridClimateFile");
             }
         }
@@ -509,22 +519,22 @@ namespace Heiflow.Models.Integration
             }
         }
 
-        [Category("Summary")]
-        [Description("Path name for  irrigation budget  for each time step")]
-       // [FileMonitorItem("IrrigationMonitor")]
-        public string IrrigationComponentFile
-        {
-            get
-            {
-                return _IrrigationComponentFile;
-            }
-            set
-            {
-                _IrrigationComponentFile = value;
-                (Parameters["irrigation_output_file"] as ArrayParam<string>).Values = new string[] { value };
-                OnPropertyChanged("IrrigationComponentFile");
-            }
-        }
+       // [Category("Summary")]
+       // [Description("Path name for  irrigation budget  for each time step")]
+       //// [FileMonitorItem("IrrigationMonitor")]
+       // public string IrrigationComponentFile
+       // {
+       //     get
+       //     {
+       //         return _IrrigationComponentFile;
+       //     }
+       //     set
+       //     {
+       //         _IrrigationComponentFile = value;
+       //         (Parameters["irrigation_output_file"] as ArrayParam<string>).Values = new string[] { value };
+       //         OnPropertyChanged("IrrigationComponentFile");
+       //     }
+       // }
 
         [Category("Summary")]
         [Description("Path name for Modflow List file ")]
@@ -555,7 +565,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _WaterBudgetCsvFile = value;
-                (Parameters["csv_model_output_file"] as ArrayParam<string>).Values = new string[] { value };
+                (Parameters["accu_budget_file"] as ArrayParam<string>).Values = new string[] { value };
                 OnPropertyChanged("WaterBudgetCsvFile");
             }
         }
@@ -898,6 +908,116 @@ namespace Heiflow.Models.Integration
                 OnPropertyChanged("DynamicParamFiles");
             }
         }
+
+        [Category("Output Files")]
+        [Description("Enable animation output control")]
+        public bool AnimationOutOC
+        {
+            get
+            {
+                return _AnimationOutOC;
+            }
+            set
+            {
+                _AnimationOutOC = value;
+                var infs = _AnimationOutOC ? 1 : 0;
+                (Parameters["ani_output_oc"] as ArrayParam<int>).Values = new int[] { infs };
+                OnPropertyChanged("AnimationOutOC");
+            }
+        }
+        [Category("Output Files")]
+        [Description("Pathname for the animation output control file")]
+        public string AnimationOutOCFile
+        {
+            get
+            {
+                return _AnimationOutOCFile;
+            }
+            set
+            {
+                _AnimationOutOCFile = value;
+                (Parameters["ani_output_oc_file"] as ArrayParam<string>).Values = new string[] { value };
+                OnPropertyChanged("AnimationOutOCFile");
+            }
+        }
+
+        [Category("Modules")]
+        [Description("Water resources allocation module. Available module: auto_wra, man_wra, none")]
+        public string WRAModule
+        {
+            get
+            {
+                return _wra_module;
+            }
+            set
+            {
+                _wra_module = value;
+                (Parameters["wra_module"] as ArrayParam<string>).Values = new string[] { value };
+                OnPropertyChanged("WRAModule");
+            }
+        }
+        [Category("Modules")]
+        [Description("Input filename for the WRA module")]
+        public string WRAModuleFile
+        {
+            get
+            {
+                return _wra_module_file;
+            }
+            set
+            {
+                _wra_module_file = value;
+                (Parameters["wra_file"] as ArrayParam<string>).Values = new string[] { value };
+                OnPropertyChanged("WRAModuleFile");
+            }
+        }
+        [Category("Modules")]
+        [Description("Hydraulics Engine: SFR or SWMM")]
+        public string HydraulicsEngine
+        {
+            get
+            {
+                return _hydraulics_engine;
+            }
+            set
+            {
+                _hydraulics_engine = value;
+                (Parameters["hydraulics_engine"] as ArrayParam<string>).Values = new string[] { value };
+                OnPropertyChanged("HydraulicsEngine");
+            }
+        }
+        //[Category("Modules")]
+        //[Description("Enable extension manager")]
+        //public bool EnableExtension
+        //{
+        //    get
+        //    {
+        //        return _extension_act_flag;
+        //    }
+        //    set
+        //    {
+        //        _extension_act_flag = value;
+        //        var infs = _extension_act_flag ? 1 : 0;
+        //        (Parameters["extension_act_flag"] as ArrayParam<int>).Values = new int[] { infs };
+        //        OnPropertyChanged("EnableExtension");
+        //    }
+        //}
+
+        [Category("Modules")]
+        [Description("Input filename for extension manager")]
+        public string ExtensionManagerFile
+        {
+            get
+            {
+                return _extension_man_file;
+            }
+            set
+            {
+                _extension_man_file = value;
+                (Parameters["extension_man_file"] as ArrayParam<string>).Values = new string[] { value };
+                OnPropertyChanged("ExtensionManagerFile");
+            }
+        }
         #endregion
 
         public override void Initialize()
@@ -936,7 +1056,7 @@ namespace Heiflow.Models.Integration
                 _StatsON = (Parameters["statsON_OFF"] as ArrayParam<int>).Values[0] == 1 ? true : false;
                 _StatVarFile = (Parameters["stat_var_file"] as ArrayParam<string>).Values[0];
                 _NumStatVars = (Parameters["nstatVars"] as ArrayParam<int>).Values[0];
-                if (Parameters.ContainsKey("_StatVarElement"))
+                if (Parameters.ContainsKey("statVar_element"))
                     _StatVarElement = (Parameters["statVar_element"] as ArrayParam<int>).Values;
                 _StatVarNames = (Parameters["statVar_names"] as ArrayParam<string>).Values;
                 _AniOutFileFormat = (FileFormat)(Parameters["aniOutON_OFF"] as ArrayParam<int>).Values[0];
@@ -944,11 +1064,8 @@ namespace Heiflow.Models.Integration
                 _NumAniOutVar = (Parameters["naniOutVars"] as ArrayParam<int>).Values[0];
                 _AniOutVarNames = (Parameters["aniOutVar_names"] as ArrayParam<string>).Values;
                 _InitVarsFromFile = (Parameters["init_vars_from_file"] as ArrayParam<int>).Values[0] == 1 ? true : false;
-
-                if ((Parameters.Keys.Contains("csv_model_output_file")))
-                    _WaterBudgetCsvFile = (Parameters["csv_model_output_file"] as ArrayParam<string>).Values[0];
-                if ((Parameters.Keys.Contains("irrigation_output_file")))
-                    _IrrigationComponentFile = (Parameters["irrigation_output_file"] as ArrayParam<string>).Values[0];
+                if ((Parameters.Keys.Contains("accu_budget_file")))
+                    _WaterBudgetCsvFile = (Parameters["accu_budget_file"] as ArrayParam<string>).Values[0];
                 if (Parameters.ContainsKey("mflist_file"))
                     _MFListFile = (Parameters["mflist_file"] as ArrayParam<string>).Values[0];
                 if ((Parameters.Keys.Contains("use_gridclimate")))
@@ -972,8 +1089,10 @@ namespace Heiflow.Models.Integration
                     _PETFile = (Parameters["potet_day"] as ArrayParam<string>).Values[0];
                 if (Parameters.ContainsKey("subbasin_flag"))
                     _SubbasinFlag = (Parameters["subbasin_flag"] as ArrayParam<int>).Values[0] == 1 ? true : false;
-                if (Parameters.ContainsKey("hftimeunit"))
-                    _hftimeunit = (Parameters["hftimeunit"] as ArrayParam<int>).Values[0];
+                //if (Parameters.ContainsKey("hftimeunit"))
+                //    _GlobalTimeUnit = (Parameters["hftimeunit"] as ArrayParam<int>).Values[0];
+                if (Parameters.ContainsKey("global_time_unit"))
+                    _GlobalTimeUnit = (Parameters["global_time_unit"] as ArrayParam<int>).Values[0];
                 if (Parameters.ContainsKey("climate_file_format"))
                     _ClimateInputFormat = EnumHelper.FromString<FileFormat>((Parameters["climate_file_format"] as ArrayParam<int>).Values[0].ToString());
                 if (Parameters.ContainsKey("dynamic_para"))
@@ -985,10 +1104,27 @@ namespace Heiflow.Models.Integration
                 if (Parameters.ContainsKey("dynamic_param_file"))
                     _dynamic_param_file = (Parameters["dynamic_param_file"] as ArrayParam<string>).Values;
                 if (Parameters.ContainsKey("sub_climate_flag"))
-                    UseGridClimate = (Parameters["sub_climate_flag"] as ArrayParam<int>).Values[0] == 1 ? true : false;
+                    _UseGridClimate = (Parameters["sub_climate_flag"] as ArrayParam<int>).Values[0] == 1 ? true : false;
                 else
-                    UseGridClimate = false;
-
+                    _UseGridClimate = false;
+                if (Parameters.ContainsKey("ani_output_oc"))
+                    _AnimationOutOC = (Parameters["ani_output_oc"] as ArrayParam<int>).Values[0] == 1 ? true : false;
+                else
+                    _AnimationOutOC = false;
+                if ((Parameters.Keys.Contains("ani_output_oc_file")))
+                    _AnimationOutOCFile = (Parameters["ani_output_oc_file"] as ArrayParam<string>).Values[0];
+                if ((Parameters.Keys.Contains("wra_module")))
+                    _wra_module = (Parameters["wra_module"] as ArrayParam<string>).Values[0];
+                if ((Parameters.Keys.Contains("wra_file")))
+                    _wra_module_file = (Parameters["wra_file"] as ArrayParam<string>).Values[0];
+                if ((Parameters.Keys.Contains("hydraulics_engine")))
+                    _hydraulics_engine = (Parameters["hydraulics_engine"] as ArrayParam<string>).Values[0];
+                //if (Parameters.ContainsKey("extension_act_flag"))
+                //    _extension_act_flag = (Parameters["extension_act_flag"] as ArrayParam<int>).Values[0] == 1 ? true : false;
+                //else
+                //    _extension_act_flag = false;
+                if ((Parameters.Keys.Contains("extension_man_file")))
+                    _extension_man_file = (Parameters["extension_man_file"] as ArrayParam<string>).Values[0];
 
                 foreach (var pr in Parameters.Values)
                     pr.Owner = this;
@@ -1018,40 +1154,61 @@ namespace Heiflow.Models.Integration
         
             if (File.Exists(_Controlfile) )
             {
-                string xmlcopy = this.FileName.Replace(".control", ".xml");
+              //  string xmlcopy = this.FileName.Replace(".control", ".xml");
                 File.Copy(_Controlfile, this.FileName, true);
-           
+
                 LoadFrom(this.FileName);
+                ModelMode = Integration.ModelMode.GSFLOW;
                 StartTime = new DateTime(DateTime.Now.Year - 1, 1, 1);
                 EndTime = new DateTime(DateTime.Now.Year, 1, 1);
+                Temperature = TemperatureModule.climate_hru;
+                Precipitation = PrecipitationModule.climate_hru;
+                SolarRadiation = SolarRadiationModule.ddsolrad_hru_prms;
+                PotentialET = PETModule.climate_hru;
+                SurfaceRunoff = SurfaceRunoffModule.srunoff_carea_casc;
+                StatsON = false;
+                AniOutFileFormat = FileFormat.Binary;
+                InitVarsFromFile = false;
+                SaveVarsToFile = false;
+
+                //NumStatVars = 2;
+                //StatVarElement = new int[] { 1,2};
+                //StatVarNames = new string[] { "basin_cfs", "basin_reach_latflow" };
 
                 SubbasinFlag = false;
                 OutputWaterComponent = true;
                 UseGridClimate = false;
                 ReportDays = 1;
-                SaveVarsToFile = false;
                 PrintDebug = false;
                 ClimateInputFormat = FileFormat.Text;
+                WRAModule = "none";
+                HydraulicsEngine = "SFR";
+                //EnableExtension = false;
+                AnimationOutOC = false;
+                GlobalTimeUnit = 4;
 
-                DataFile = string.Format(".\\input\\prms\\{0}.data", Owner.Name);
-                ParameterFilePath = string.Format(".\\input\\prms\\{0}.param", Owner.Name);
-                ModflowFilePath = string.Format(".\\input\\modflow\\{0}.nam", Owner.Name);
-                GridClimateFile = string.Format(".\\input\\prms\\{0}.hru_clm", Owner.Name);
-                VarInitFile = string.Format(".\\input\\prms\\{0}_prms_ic.in", Owner.Name);
-                PrecipitationFile = string.Format(".\\input\\prms\\{0}_precip.txt", Owner.Name);
-                TempMaxFile = string.Format(".\\input\\prms\\{0}_tmax.txt", Owner.Name);
-                TempMinFile = string.Format(".\\input\\prms\\{0}_tmin.txt", Owner.Name);
-                PETFile = string.Format(".\\input\\prms\\{0}_pet.txt", Owner.Name);
+                DataFile = string.Format(".\\input\\prms\\{0}.data", Owner.Project.Name);
+                ParameterFilePath = string.Format(".\\input\\prms\\{0}.param", Owner.Project.Name);
+                ModflowFilePath = string.Format(".\\input\\modflow\\{0}.nam", Owner.Project.Name);
+                GridClimateFile = string.Format(".\\input\\prms\\{0}.hru_clm", Owner.Project.Name);
+                VarInitFile = string.Format(".\\input\\prms\\{0}_prms_ic.in", Owner.Project.Name);
+                PrecipitationFile = string.Format(".\\input\\prms\\{0}_precip.txt", Owner.Project.Name);
+                TempMaxFile = string.Format(".\\input\\prms\\{0}_tmax.txt", Owner.Project.Name);
+                TempMinFile = string.Format(".\\input\\prms\\{0}_tmin.txt", Owner.Project.Name);
+                PETFile = string.Format(".\\input\\prms\\{0}_pet.txt", Owner.Project.Name);
+                AnimationOutOCFile = string.Format(".\\input\\prms\\{0}_aniout.oc", Owner.Project.Name);
+                WRAModuleFile = string.Format(".\\input\\prms\\{0}.wra", Owner.Project.Name);
+                ExtensionManagerFile = string.Format(".\\input\\extension\\extensions.exm", Owner.Project.Name);
 
-                WaterBudgetFile = string.Format(".\\output\\{0}_total_budget.out", Owner.Name);
-                PRMSBudgetFile = string.Format(".\\output\\{0}_prms_budget.out", Owner.Name);
-                WaterBudgetCsvFile = string.Format(".\\output\\{0}_accu_budget.csv", Owner.Name);
-                WaterComponentFile = string.Format(".\\output\\{0}_budget_component.csv", Owner.Name);
-                StatVarFile = string.Format(".\\output\\{0}_statvar.txt", Owner.Name);
-                AniOutFileName = string.Format(".\\output\\{0}_animation.out", Owner.Name);
-                VarSaveFile = string.Format(".\\output\\{0}_prms_ic.out", Owner.Name);
-                IrrigationComponentFile = string.Format(".\\output\\{0}_irrigation.txt", Owner.Name);
-                MFListFile = string.Format(".\\output\\{0}.lst", Owner.Name);
+                WaterBudgetFile = string.Format(".\\output\\{0}_total_budget.out", Owner.Project.Name);
+                PRMSBudgetFile = string.Format(".\\output\\{0}_prms_budget.out", Owner.Project.Name);
+                WaterBudgetCsvFile = string.Format(".\\output\\{0}_accu_budget.csv", Owner.Project.Name);
+                WaterComponentFile = string.Format(".\\output\\{0}_budget_component.csv", Owner.Project.Name);
+                StatVarFile = string.Format(".\\output\\{0}_statvar.txt", Owner.Project.Name);
+                AniOutFileName = string.Format(".\\output\\{0}_animation.out", Owner.Project.Name);
+                VarSaveFile = string.Format(".\\output\\{0}_prms_ic.out", Owner.Project.Name);
+                //IrrigationComponentFile = string.Format(".\\output\\{0}_irrigation.txt", Owner.Project.Name);
+                MFListFile = string.Format(".\\output\\{0}.lst", Owner.Project.Name);
 
                 DynamicDays = new int[] { 2 };
                 DynamicPara = false;
@@ -1061,7 +1218,7 @@ namespace Heiflow.Models.Integration
                     pr.Owner = this;
                 UpdateTimeService();
                 base.New();
-                NewXml();
+                //NewXml();
                 State = ModelObjectState.Ready;
                 return true;
             }
@@ -1085,8 +1242,8 @@ namespace Heiflow.Models.Integration
             TimeService.Start = _StartTime;
             TimeService.End = _EndTime;
             TimeService.Timeline.Clear();
-            if (Parameters.ContainsKey("hftimeunit"))
-                TimeService.TimeUnit = (Parameters["hftimeunit"] as ArrayParam<int>).Values[0];
+            if (Parameters.ContainsKey("global_time_unit"))
+                TimeService.TimeUnit = (Parameters["global_time_unit"] as ArrayParam<int>).Values[0];
             else
                 TimeService.TimeUnit = 4;
             TimeService.UpdateTimeLine();
@@ -1119,7 +1276,8 @@ namespace Heiflow.Models.Integration
 
         private void LoadFrom(string filename)
         {
-            StreamReader sr = new StreamReader(filename);
+            FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            StreamReader sr = new StreamReader(fs);
             string newline = "";
             bool nextIsVar = false;
             while (!sr.EndOfStream)
@@ -1204,6 +1362,7 @@ namespace Heiflow.Models.Integration
                     }
                 }
             }
+            fs.Close();
             sr.Close();
         }
 

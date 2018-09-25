@@ -134,14 +134,17 @@ namespace Heiflow.Models.Generic
             }
             set
             {
-                 _MaxTimeStep = value;
-                 if (_MaxTimeStep > 0 && _MaxTimeStep <= TimeService.IOTimeline.Count)
-                     _EndLoading = TimeService.IOTimeline[_MaxTimeStep - 1];
-                 else
-                 {
-                     _EndLoading = TimeService.IOTimeline.Last();
-                     _MaxTimeStep = TimeService.IOTimeline.Count;
-                 }
+                if (value <= 0)
+                    _MaxTimeStep = NumTimeStep;
+                else
+                {
+                    if (value > NumTimeStep || _MaxTimeStep > TimeService.IOTimeline.Count)
+                        _MaxTimeStep = NumTimeStep;
+                    else
+                        _MaxTimeStep = value;
+                }
+
+                _EndLoading = TimeService.IOTimeline[_MaxTimeStep - 1];
             }
         }
 

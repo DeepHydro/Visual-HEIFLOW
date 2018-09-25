@@ -35,6 +35,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.ServiceModel;
 using System.Xml.Serialization;
 
 namespace Heiflow.Core.Data.ODM
@@ -197,7 +198,7 @@ namespace Heiflow.Core.Data.ODM
                 "VariableNameCV",
             };
         }
-
+        [OperationContract]
         public Site[] GetSites(QueryCriteria qc)
         {
             string sql = "";
@@ -288,7 +289,7 @@ namespace Heiflow.Core.Data.ODM
                 return null;
             }
         }
-
+        [OperationContract]
         public Site GetSite(int id)
         {
             string sql = "select * from Sites where SiteID=" + id;
@@ -314,7 +315,7 @@ namespace Heiflow.Core.Data.ODM
                 return null;
             }
         }
-
+        [OperationContract]
         public Site GetSite(string name)
         {
             string sql = "select * from Sites where SiteName='" + name + "'";
@@ -360,7 +361,7 @@ namespace Heiflow.Core.Data.ODM
                 return null;
             }
         }
-
+        [OperationContract]
         public Variable[] GetVariables()
         {
             string sql = "select * from Variables";
@@ -374,7 +375,7 @@ namespace Heiflow.Core.Data.ODM
             };
             return vars.ToArray();
         }
-
+        [OperationContract]
         public Variable GetVariable(int varID)
         {
             string sql = string.Format("select * from Variables where variableID={0}", varID);
@@ -395,7 +396,7 @@ namespace Heiflow.Core.Data.ODM
                 return null;
             }
         }
-
+        [OperationContract]
         public Variable GetVariable(string varName)
         {
             string sql = string.Format("select * from Variables where variableName='{0}'", varName);
