@@ -44,6 +44,7 @@ namespace Heiflow.Models.Subsurface
     public class Modflow : BaseModel
     {
         private LayerGroupManager _LayerGroupManager;
+        private string _IOLogFile;
         protected MFGrid _MFGrid;
         /// <summary>
         /// .\Input\MODFLOW\
@@ -93,7 +94,18 @@ namespace Heiflow.Models.Subsurface
                 return _LayerGroupManager;
             }
         }
-
+        [Browsable(false)]
+        public string IOLogFile
+        {
+            get
+            {
+                return _IOLogFile;
+            }
+            set
+            {
+                _IOLogFile = value;
+            }
+        }
         public override void Initialize()
         {
             TimeServiceList.Add(this.TimeService.Name, this.TimeService);

@@ -493,6 +493,28 @@ namespace Heiflow.Models.Generic
                 }
             }
         }
+        public List<DateTime> GetIOTimeFromFile(string filename)
+        {
+            List<DateTime> dates = new List<DateTime>();
+            if(File.Exists(filename))
+            {
+                FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                StreamReader sr = new StreamReader(fs, System.Text.Encoding.Default);
+                string line = sr.ReadLine();
+                while (!sr.EndOfStream)
+                {
+                    line = sr.ReadLine();
+                    if (TypeConverterEx.IsNotNull(line))
+                    {
+                        var strs = TypeConverterEx.Split<string>(line);
+                        var date=new DateTime(int.Parse(strs[1]),int.Parse(strs[2]),int.Parse(strs[3]),int.Parse(strs[4]),0,0);
+                        dates.Add(date);
+                    }
+                }
+                sr.Close();
+            }
+            return dates;
+        }
         public int GetIOTimeLength(string work_dic)
         {
             int len = 0;

@@ -105,7 +105,7 @@ namespace Heiflow.Models.Generic
         {
             get
             {
-                _StepsToLoad = Math.Min(MaxTimeStep, _NumTimeStep);
+                _StepsToLoad = Math.Min(MaxTimeStep, NumTimeStep);
                 return _StepsToLoad;
             }
         }
@@ -248,6 +248,22 @@ namespace Heiflow.Models.Generic
         {
             get;
             set;
+        }
+
+       [Category("File")]
+        public string  LocalFileName
+        {
+            get
+            {
+                if(UseSpecifiedFile)
+                {
+                    return SpecifiedFileName;
+                }
+                else
+                {
+                    return FileName;
+                }
+            }
         }
 
         public abstract  bool Scan();

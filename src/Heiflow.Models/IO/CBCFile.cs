@@ -102,6 +102,34 @@ namespace Heiflow.Models.IO
             fs.Close();
         }
 
+        public string [] GetVariables()
+        {
+            FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            BinaryReader br = new BinaryReader(fs);
+            List<string> vnLst = new List<string>();
+            long layerbyte = _Grid.RowCount * _Grid.ColumnCount * 4;
+
+            while (fs.Position != fs.Length)
+            {
+                fs.Seek(4 * 2, SeekOrigin.Current);
+                var vn = new string(br.ReadChars(16)).Trim();
+                fs.Seek(4 * 3, SeekOrigin.Current);
+                if (vnLst.Contains(vn))
+                {
+                    break;
+                }
+                else
+                {
+                    fs.Seek(layerbyte * _Grid.ActualLayerCount, SeekOrigin.Current);
+                    vnLst.Add(vn);
+                }
+            }
+
+            br.Close();
+            fs.Close();
+            return vnLst.ToArray();
+        }
+
         public override void LoadDataCube()
         {
             if (MaxTimeStep <= 0 || NumTimeStep == 0)

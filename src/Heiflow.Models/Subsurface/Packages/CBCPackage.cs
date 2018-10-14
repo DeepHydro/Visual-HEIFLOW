@@ -105,19 +105,32 @@ namespace Heiflow.Models.Subsurface
         public override bool Scan()
         {
             var grid = Owner.Grid as MFGrid;
-            CBCFile cbc = new CBCFile(FileName, grid);
-            cbc.Scan();
-            this.NumTimeStep = cbc.NumTimeStep;
-            this.Variables = cbc.Variables;
+            CBCFile cbc = new CBCFile(LocalFileName, grid);
+            this.Variables = cbc.GetVariables();
 
-            _StartLoading = TimeService.Start;
-            MaxTimeStep = NumTimeStep;
+            var list = TimeService.GetIOTimeFromFile((Owner as Modflow).IOLogFile);
+            if (list.Count > 0)
+            {
+                TimeService.IOTimeline = list;
+                NumTimeStep = list.Count;
+                _StartLoading = TimeService.Start;
+                MaxTimeStep = list.Count;
+            }
+
             return true;
         }
 
         public override bool Load(int var_index, ICancelProgressHandler progress)
         {
             _ProgressHandler = progress;
+         
+            var list = TimeService.GetIOTimeFromFile((Owner as Modflow).IOLogFile);
+            if (list.Count > 0)
+            {
+                TimeService.IOTimeline = list;
+                NumTimeStep = list.Count;
+            }
+
             var grid = Owner.Grid as MFGrid;
             int nstep = StepsToLoad;
             if (DataCube == null || DataCube.Size[1] != nstep)
@@ -132,18 +145,25 @@ namespace Heiflow.Models.Subsurface
             }
             DataCube.Topology = (this.Grid as RegularGrid).Topology;
             DataCube.DateTimes = this.TimeService.IOTimeline.Take(StepsToLoad).ToArray();
-            CBCFile cbc = new CBCFile(FileName, grid);
-            cbc.Layer = this.Layer;
-            cbc.LoadingBehavior = this.LoadingBehavior;
-            cbc.Variables = this.Variables;
-            cbc.Scale = (float)this.ScaleFactor;
-            cbc.MaxTimeStep = nstep;
-            cbc.NumTimeStep = this.NumTimeStep;
-            cbc.DataCube = this.DataCube;
-            cbc.Loading += cbc_Loading;
-            cbc.DataCubeLoaded += cbc_DataCubeLoaded;
-            cbc.LoadFailed += cbc_LoadFailed;
-            cbc.LoadDataCube(var_index);
+            if (File.Exists(LocalFileName))
+            {
+                CBCFile cbc = new CBCFile(LocalFileName, grid);
+                cbc.Layer = this.Layer;
+                cbc.LoadingBehavior = this.LoadingBehavior;
+                cbc.Variables = this.Variables;
+                cbc.Scale = (float)this.ScaleFactor;
+                cbc.MaxTimeStep = nstep;
+                cbc.NumTimeStep = this.NumTimeStep;
+                cbc.DataCube = this.DataCube;
+                cbc.Loading += cbc_Loading;
+                cbc.DataCubeLoaded += cbc_DataCubeLoaded;
+                cbc.LoadFailed += cbc_LoadFailed;
+                cbc.LoadDataCube(var_index);
+            }
+            else
+            {
+                OnLoadFailed("The file does not exist: " + LocalFileName, progress);
+            }
             return true;
         }
 

@@ -76,5 +76,6 @@ namespace Heiflow.Models.Generic
         void PopulateIOTimelineFromSP();
         int GetNumStepsBetween(List<DateTime> list, DateTime start, DateTime end);
         int GetIOTimeLength(string work_dic);
+        List<DateTime> GetIOTimeFromFile(string filename);
     }
 }

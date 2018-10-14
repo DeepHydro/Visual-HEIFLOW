@@ -117,6 +117,7 @@
     <Compile Include="Data\Array\MyVarient4DMat.cs" />
     <Compile Include="Data\GenericTable.cs" />
     <Compile Include="Data\IDynamicTableBindable.cs" />
+    <Compile Include="Data\ODM\DoubleTimeSeries.cs" />
     <Compile Include="Data\ODM\ODMExportSetting.cs" />
     <Compile Include="Data\TimeSeries\ListTimeSeries.cs" />
     <Compile Include="Data\Database\DatabaseSource.cs" />

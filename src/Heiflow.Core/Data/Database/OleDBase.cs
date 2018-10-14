@@ -56,7 +56,7 @@ namespace Heiflow.Core.Data
             if (dbkind == DBkind.Access2003 || dbkind == DBkind.Access2007 || dbkind == DBkind.Access2013)
             {
                 mConnectString = string.Format("Provider = Microsoft.ACE.OLEDB.12.0; Data Source = {0};Persist Security Info=False; ", info.DataSource);
-            
+            //    mConnectString = string.Format("Provider = Microsoft.ACE.OleDB.15.0; Data Source = {0};Persist Security Info=False; ", info.DataSource);
             }
             else if (dbkind == DBkind.Oracle)
             {

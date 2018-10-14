@@ -299,7 +299,7 @@ namespace DotSpatial.Plugins.DockManager
 
             mainForm.FormClosing += delegate( object sender, FormClosingEventArgs e )
             {
-                persistDockingState.SaveLayout();
+                //persistDockingState.SaveLayout();
             };
         }
 
@@ -402,7 +402,7 @@ namespace DotSpatial.Plugins.DockManager
         /// </summary>
         public void ResetLayout()
         {
-            persistDockingState.ResetLayout();
+            //persistDockingState.ResetLayout();
         }
 
         /// <summary>

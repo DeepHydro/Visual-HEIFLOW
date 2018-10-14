@@ -38,6 +38,7 @@ using Heiflow.Presentation.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -171,31 +172,15 @@ namespace Heiflow.Controls.WinForm.MenuItems
             }
         }
 
-        protected void dp_LoadFailed(object sender, string e)
-        {
-            var dp = _Package as IDataPackage;
-            foreach (var item in _sub_menus)
-            {
-                item.Enabled = true;
-            }
-            Enable(_SOM, false);
-            Enable(_EX, false);
-            Enable(_VI3, false);
-            Enable(_A2DC, false);
-
-            _ShellService.ProgressWindow.Progress(_Package.Name,100, e);
-            _ShellService.ProgressWindow.DoWork -= ProgressPanel_DoWork;
-            dp.Loading -= dp_Loading;
-            dp.Loaded -= dp_Loaded;
-            dp.LoadFailed -= dp_LoadFailed;
-        }
-
         protected virtual void ProgressPanel_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             var dp = e.Argument as IDataPackage;
             dp.Load(VariableIndex, _ShellService.ProgressWindow);
         }
-
+        protected virtual void ProgressWindow_WorkCompleted(object sender, EventArgs e)
+        {
+            _ShellService.ProgressWindow.WorkCompleted -= ProgressWindow_WorkCompleted;
+        }
         protected virtual void dp_Loading(object sender, int e)
         {
             string msg = string.Format("Loading {0}%", e);
@@ -224,10 +209,23 @@ namespace Heiflow.Controls.WinForm.MenuItems
             dp.Loading -= dp_Loading;
             dp.Loaded -= dp_Loaded;
         }
-
-        protected virtual void ProgressWindow_WorkCompleted(object sender, EventArgs e)
+        protected void dp_LoadFailed(object sender, string e)
         {
-            _ShellService.ProgressWindow.WorkCompleted -= ProgressWindow_WorkCompleted;
+            var dp = _Package as IDataPackage;
+            foreach (var item in _sub_menus)
+            {
+                item.Enabled = true;
+            }
+            Enable(_SOM, false);
+            Enable(_EX, false);
+            Enable(_VI3, false);
+            Enable(_A2DC, false);
+
+            _ShellService.ProgressWindow.Progress(_Package.Name, 100, e);
+            _ShellService.ProgressWindow.DoWork -= ProgressPanel_DoWork;
+            dp.Loading -= dp_Loading;
+            dp.Loaded -= dp_Loaded;
+            dp.LoadFailed -= dp_LoadFailed;
         }
 
         protected virtual void AttributeTable_Clicked(object sender, EventArgs e)

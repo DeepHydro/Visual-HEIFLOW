@@ -561,7 +561,7 @@ namespace Heiflow.Models.Surface.PRMS
         public void LoadDefaultPara(string filename)
         {
             XmlSerializer xs = new XmlSerializer(typeof(MMSPackage));
-            Stream stream = new FileStream(filename, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
+            Stream stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
             var mms = (MMSPackage)xs.Deserialize(stream);
             this._DefaultParameters = mms.DefaultParameters;
             stream.Close();

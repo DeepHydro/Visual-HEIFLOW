@@ -188,6 +188,7 @@ namespace Heiflow.Models.Integration
                 this.TimeService = _MasterPackage.TimeService;
                 progress.Progress("Heiflow", 1, "Loading Modflow packages...");
                 succ = _Modflow.Load(progress);
+                _Modflow.IOLogFile = _ExtensionManPackage.MF_IOLOG_File;
                 if (!succ)
                 {
                     var msg = string.Format("Failed to load Modflow.");
@@ -273,6 +274,7 @@ namespace Heiflow.Models.Integration
                     progress.Progress(this.Name, 1, msg);
             }
             succ = _Modflow.New(progress);
+            _Modflow.IOLogFile = _ExtensionManPackage.MF_IOLOG_File;
             if (!succ)
             {
                 var msg = string.Format("Failed to create MODFLOW.");

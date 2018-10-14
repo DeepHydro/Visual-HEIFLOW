@@ -130,7 +130,6 @@ namespace Heiflow.Core.Data.ODM
              set;
          }
 
-
          public override bool Open()
          {
              string dbpath = DatabaseFilePath;
@@ -341,7 +340,6 @@ namespace Heiflow.Core.Data.ODM
                 return null;
             }
         }
-
         public Variable[] GetVariables(int siteid)
         {
             string sql = string.Format("select * from SeriesCatalog where SiteID={0}", siteid);
@@ -374,6 +372,26 @@ namespace Heiflow.Core.Data.ODM
                 GeneralCategory = dr.Field<string>("GeneralCategory")
             };
             return vars.ToArray();
+        }
+        [OperationContract]
+        public Variable[]GetVariablesFromSeriesCatalog()
+        {
+            string sql = "SELECT distinct variableid FROM SeriesCatalog";
+            var dt = ODMDB.QueryDataTable(sql);
+            if (dt != null)
+            {
+                int nvar=dt.Rows.Count;
+                var vars = new Variable[nvar];
+                for (int i = 0; i < nvar;i++ )
+                {
+                    vars[i] = GetVariable(int.Parse(dt.Rows[i][0].ToString()));
+                }
+                    return vars;
+            }
+            else
+            {
+                return null;
+            }
         }
         [OperationContract]
         public Variable GetVariable(int varID)
@@ -453,7 +471,42 @@ namespace Heiflow.Core.Data.ODM
                 return null;
             }
         }
-
+            [OperationContract]
+        public DoubleTimeSeries GetDoubleTimeSeries(QueryCriteria qc)
+        {
+            if (qc.VariableID == 0)
+            {
+                var variable = GetVariable(qc.VariableName);
+                if (variable != null)
+                    qc.VariableID = variable.ID;
+            }
+            string sql = "";
+            if (qc.AllTime)
+            {
+                sql = string.Format("select DateTimeUTC, DataValue from DataValues where SiteID={0} and VariableID={1} order by DateTimeUTC",
+                    qc.SiteID, qc.VariableID);
+            }
+            else
+            {
+                sql = string.Format("select DateTimeUTC, DataValue from DataValues where SiteID={0} and VariableID={1} and DateTimeUTC >=#{2}# and DateTimeUTC <=#{3}# order by DateTimeUTC",
+                    qc.SiteID, qc.VariableID, qc.Start.ToString("yyyy/MM/dd"), qc.End.ToString("yyyy/MM/dd"));
+            }
+            DataTable dt = ODMDB.QueryDataTable(sql);
+            if (dt != null)
+            {
+                var dates = from dr in dt.AsEnumerable() select dr.Field<DateTime>("DateTimeUTC");
+                var values = from dr in dt.AsEnumerable() select dr.Field<double>("DataValue");
+                return new DoubleTimeSeries()
+                {
+                    Values = values.ToArray(),
+                    DateTimes = dates.ToArray()
+                };
+            }
+            else
+            {
+                return null;
+            }
+        }
         public DataTable GetValues(ObservationSeries series)
         {
             string sql = string.Format("select DateTimeUTC, DataValue from DataValues where SiteID={0} and VariableID={1} order by DateTimeUTC",
@@ -506,18 +559,19 @@ namespace Heiflow.Core.Data.ODM
             DataTable dt = ODMDB.QueryDataTable(sql);
             return dt;
         }
-
+         [OperationContract]
         public string[] GetKeyWords()
         {
-            string sql = " SELECT distinct( Variables.VariableName) FROM Variables INNER JOIN SeriesCatalog ON Variables.VariableID = SeriesCatalog.VariableID";
-            DataTable dt = ODMDB.QueryDataTable(sql);
-            if (dt != null)
+            var vars = GetVariablesFromSeriesCatalog();
+            if(vars != null)
             {
-                var words = from dr in dt.AsEnumerable() select dr.Field<string>(0);
-                return words.ToArray();
+                var buf = from vv in vars select vv.Name;
+                return buf.ToArray();
             }
             else
+            {
                 return null;
+            }
         }
 
         public IEnumerable<ObservationSeries> GetSeriesCatalog()

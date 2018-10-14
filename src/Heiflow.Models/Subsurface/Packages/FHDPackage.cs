@@ -133,24 +133,28 @@ namespace Heiflow.Models.Subsurface
                 else
                     vv[ll + 1] = string.Format("Layer {0} Head", ll + 1);
             }
-            FHDFile fhd = new FHDFile(FileName, Owner.Grid as IRegularGrid);
-            fhd.Scan();
-            this.NumTimeStep = fhd.NumTimeStep;
             Variables = vv;
-
-            _StartLoading = TimeService.Start;
-            MaxTimeStep = NumTimeStep;
+            var list = TimeService.GetIOTimeFromFile((Owner as Modflow).IOLogFile);
+            if (list.Count > 0)
+            {
+                TimeService.IOTimeline = list;
+                NumTimeStep = list.Count;
+                _StartLoading = TimeService.Start;
+                MaxTimeStep = list.Count;
+            }
             return true;
         }
 
         public override bool Load(int var_index, ICancelProgressHandler progress)
         {
             _ProgressHandler = progress;
-            string filename = this.FileName;
-            if (UseSpecifiedFile)
-                filename = SpecifiedFileName;
-
-            if (File.Exists(filename))
+              var list = TimeService.GetIOTimeFromFile((Owner as Modflow).IOLogFile);
+              if (list.Count > 0)
+              {
+                  TimeService.IOTimeline = list;
+                  NumTimeStep = list.Count;
+              }
+              if (File.Exists(LocalFileName))
             {
                 try
                 {
@@ -167,7 +171,7 @@ namespace Heiflow.Models.Subsurface
                     }
                     DataCube.Topology = (this.Grid as RegularGrid).Topology;
                     DataCube.DateTimes = this.TimeService.IOTimeline.Take(StepsToLoad).ToArray();
-                    FHDFile fhd = new FHDFile(filename, grid);
+                    FHDFile fhd = new FHDFile(LocalFileName, grid);
                     fhd.Variables = this.Variables;
                     fhd.MaxTimeStep = this.StepsToLoad;
                     fhd.NumTimeStep = this.NumTimeStep;
@@ -188,7 +192,7 @@ namespace Heiflow.Models.Subsurface
             }
             else
             {
-
+                OnLoadFailed("The file does not exist: " + LocalFileName, progress);
                 return false;
             }
         }

@@ -145,6 +145,7 @@ namespace Heiflow.Models.Running
 
         public static string CONSTANT_HEAD_IN = "CONSTANT HEAD IN";
         public static string WELLS_IN = "WELLS IN";
+        public static string WRA_WELLS_IN = "WRA WELLS IN";
         public static string SPECIFIED_FLOWS_IN = "SPECIFIED FLOWS IN";
         public static string UZF_RECHARGE_IN = "UZF RECHARGE IN";
         public static string GW_ET_IN = "GW ET IN";
@@ -155,6 +156,7 @@ namespace Heiflow.Models.Running
 
         public static string CONSTANT_HEAD_OUT = "CONSTANT HEAD OUT";
         public static string WELLS_OUT = "WELLS OUT";
+        public static string WRA_WELLS_OUT = "WRA WELLS OUT";
         public static string SPECIFIED_FLOWS_OUT = "SPECIFIED FLOWS OUT";
         public static string UZF_RECHARGE_OUT = "UZF RECHARGE OUT";
         public static string GW_ET_OUT = "GW ET OUT";

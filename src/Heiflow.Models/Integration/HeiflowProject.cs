@@ -152,7 +152,7 @@ namespace Heiflow.Models.Integration
         {
            var  filename = Path.Combine(AbsolutePathToProjectFile, "run.bat");
            StreamWriter sw = new StreamWriter(filename);
-           var line = string.Format("{0} {1} {2}", ModelExeFileName, Name + ".control", Name + ".xml");
+           var line = string.Format("{0} {1}", ModelExeFileName, Name + ".control");
            sw.WriteLine(line);
            sw.WriteLine("Pause");
            sw.Close();

@@ -176,7 +176,7 @@ namespace Heiflow.Models.Generic
                     return "";
                 else
                 {
-                    var full = Path.Combine(ModelService.WorkDirectory, _FileName);
+                    var full = Path.GetFullPath(Path.Combine(ModelService.WorkDirectory, _FileName));
                     return full;
                 }
             }
@@ -492,8 +492,6 @@ namespace Heiflow.Models.Generic
             {
                 Loaded(this,msg);
             }
-            if (progress != null)
-                progress.Progress(this.Name, 100, msg);
         }
 
         protected void OnLoadFailed(string msg, ICancelProgressHandler progress)
