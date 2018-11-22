@@ -250,5 +250,12 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
 
         }
 
+        private void btnUpdateSeriesCata_Click(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            _ODM.UpdateSeriesCatalog();
+            Cursor.Current = Cursors.Default;
+        }
+
     }
 }

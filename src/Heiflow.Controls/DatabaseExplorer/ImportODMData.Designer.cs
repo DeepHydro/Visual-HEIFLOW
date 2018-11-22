@@ -39,7 +39,11 @@
             this.cmbSheet = new System.Windows.Forms.ToolStripComboBox();
             this.btnImport = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.btn_ShowScript = new System.Windows.Forms.ToolStripButton();
             this.btn_script = new System.Windows.Forms.ToolStripButton();
+            this.btnExport = new System.Windows.Forms.ToolStripDropDownButton();
+            this.defaultExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.customExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bindingSourceODM = new System.Windows.Forms.BindingSource(this.components);
             this.nav_bottom = new System.Windows.Forms.BindingNavigator(this.components);
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
@@ -64,12 +68,9 @@
             this.tb_script = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.dg_external = new System.Windows.Forms.DataGridView();
-            this.btn_ShowScript = new System.Windows.Forms.ToolStripButton();
-            this.btnExport = new System.Windows.Forms.ToolStripDropDownButton();
-            this.defaultExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.customExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            this.btnUpdateSeriesCata = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.nav_top)).BeginInit();
             this.nav_top.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceODM)).BeginInit();
@@ -105,7 +106,8 @@
             this.toolStripSeparator1,
             this.btn_ShowScript,
             this.btn_script,
-            this.btnExport});
+            this.btnExport,
+            this.btnUpdateSeriesCata});
             this.nav_top.Location = new System.Drawing.Point(0, 0);
             this.nav_top.MoveFirstItem = null;
             this.nav_top.MoveLastItem = null;
@@ -162,6 +164,16 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 28);
             // 
+            // btn_ShowScript
+            // 
+            this.btn_ShowScript.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btn_ShowScript.Image = global::Heiflow.Controls.WinForm.Properties.Resources.script;
+            this.btn_ShowScript.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btn_ShowScript.Name = "btn_ShowScript";
+            this.btn_ShowScript.Size = new System.Drawing.Size(24, 25);
+            this.btn_ShowScript.Text = "Show Script Editor";
+            this.btn_ShowScript.Click += new System.EventHandler(this.btn_ShowScript_Click);
+            // 
             // btn_script
             // 
             this.btn_script.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -171,6 +183,33 @@
             this.btn_script.Size = new System.Drawing.Size(24, 25);
             this.btn_script.Text = "Run SQL Script";
             this.btn_script.Click += new System.EventHandler(this.btn_script_Click);
+            // 
+            // btnExport
+            // 
+            this.btnExport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnExport.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.defaultExportToolStripMenuItem,
+            this.customExportToolStripMenuItem});
+            this.btnExport.Image = global::Heiflow.Controls.WinForm.Properties.Resources.TableExport16;
+            this.btnExport.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(34, 25);
+            this.btnExport.Text = "Export Data";
+            this.btnExport.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // defaultExportToolStripMenuItem
+            // 
+            this.defaultExportToolStripMenuItem.Name = "defaultExportToolStripMenuItem";
+            this.defaultExportToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
+            this.defaultExportToolStripMenuItem.Text = "Default Export";
+            this.defaultExportToolStripMenuItem.Click += new System.EventHandler(this.defaultExportToolStripMenuItem_Click);
+            // 
+            // customExportToolStripMenuItem
+            // 
+            this.customExportToolStripMenuItem.Name = "customExportToolStripMenuItem";
+            this.customExportToolStripMenuItem.Size = new System.Drawing.Size(192, 26);
+            this.customExportToolStripMenuItem.Text = "Custom Export";
+            this.customExportToolStripMenuItem.Click += new System.EventHandler(this.customExportToolStripMenuItem_Click);
             // 
             // nav_bottom
             // 
@@ -391,10 +430,10 @@
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.dg_external);
-            this.tabPage2.Location = new System.Drawing.Point(4, 28);
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1111, 507);
+            this.tabPage2.Size = new System.Drawing.Size(944, 510);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "External Data";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -419,45 +458,8 @@
             this.dg_external.Margin = new System.Windows.Forms.Padding(4);
             this.dg_external.Name = "dg_external";
             this.dg_external.RowTemplate.Height = 23;
-            this.dg_external.Size = new System.Drawing.Size(1105, 501);
+            this.dg_external.Size = new System.Drawing.Size(938, 504);
             this.dg_external.TabIndex = 5;
-            // 
-            // btn_ShowScript
-            // 
-            this.btn_ShowScript.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btn_ShowScript.Image = global::Heiflow.Controls.WinForm.Properties.Resources.script;
-            this.btn_ShowScript.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btn_ShowScript.Name = "btn_ShowScript";
-            this.btn_ShowScript.Size = new System.Drawing.Size(24, 25);
-            this.btn_ShowScript.Text = "Show Script Editor";
-            this.btn_ShowScript.Click += new System.EventHandler(this.btn_ShowScript_Click);
-            // 
-            // btnExport
-            // 
-            this.btnExport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnExport.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.defaultExportToolStripMenuItem,
-            this.customExportToolStripMenuItem});
-            this.btnExport.Image = global::Heiflow.Controls.WinForm.Properties.Resources.TableExport16;
-            this.btnExport.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(34, 25);
-            this.btnExport.Text = "Export Data";
-            this.btnExport.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // defaultExportToolStripMenuItem
-            // 
-            this.defaultExportToolStripMenuItem.Name = "defaultExportToolStripMenuItem";
-            this.defaultExportToolStripMenuItem.Size = new System.Drawing.Size(186, 24);
-            this.defaultExportToolStripMenuItem.Text = "Default Export";
-            this.defaultExportToolStripMenuItem.Click += new System.EventHandler(this.defaultExportToolStripMenuItem_Click);
-            // 
-            // customExportToolStripMenuItem
-            // 
-            this.customExportToolStripMenuItem.Name = "customExportToolStripMenuItem";
-            this.customExportToolStripMenuItem.Size = new System.Drawing.Size(186, 24);
-            this.customExportToolStripMenuItem.Text = "Custom Export";
-            this.customExportToolStripMenuItem.Click += new System.EventHandler(this.customExportToolStripMenuItem_Click);
             // 
             // splitContainer2
             // 
@@ -479,10 +481,22 @@
             // propertyGrid1
             // 
             this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGrid1.LineColor = System.Drawing.SystemColors.ControlDark;
             this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.Size = new System.Drawing.Size(163, 539);
             this.propertyGrid1.TabIndex = 0;
+            // 
+            // btnUpdateSeriesCata
+            // 
+            this.btnUpdateSeriesCata.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnUpdateSeriesCata.Image = global::Heiflow.Controls.WinForm.Properties.Resources.refresh;
+            this.btnUpdateSeriesCata.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnUpdateSeriesCata.Name = "btnUpdateSeriesCata";
+            this.btnUpdateSeriesCata.Size = new System.Drawing.Size(24, 25);
+            this.btnUpdateSeriesCata.Text = "toolStripButton3";
+            this.btnUpdateSeriesCata.ToolTipText = "Update SeriesCatalog";
+            this.btnUpdateSeriesCata.Click += new System.EventHandler(this.btnUpdateSeriesCata_Click);
             // 
             // ImportODMData
             // 
@@ -562,6 +576,7 @@
         private System.Windows.Forms.ToolStripMenuItem customExportToolStripMenuItem;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.PropertyGrid propertyGrid1;
+        private System.Windows.Forms.ToolStripButton btnUpdateSeriesCata;
 
     }
 }

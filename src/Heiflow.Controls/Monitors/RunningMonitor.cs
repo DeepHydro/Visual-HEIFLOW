@@ -145,7 +145,7 @@ namespace Heiflow.Controls.WinForm.Display
 
         public void Reset()
         {
-            if (viewModel.ProjectService.Project != null)
+            if (viewModel.ProjectService.Project != null && viewModel.ProjectService.Project.Model != null)
             {
                 progressBar1.Visible = true;
                 progressBar1.Maximum = viewModel.ProjectService.Project.Model.TimeService.NumTimeStep;
