@@ -124,17 +124,18 @@ namespace Heiflow.Models.Subsurface
         {
             Variables = DefaultAttachedVariables;
             NumTimeStep = TimeService.GetIOTimeLength(this.Owner.WorkDirectory);
-            _StartLoading = TimeService.Start;
-            MaxTimeStep = NumTimeStep; 
+            if (NumTimeStep > 0)
+            {
+                _StartLoading = TimeService.Start;
+                MaxTimeStep = NumTimeStep;
+            }
             return true;
         }
         public override bool Load(ICancelProgressHandler progresshandler)
         {
             _ProgressHandler = progresshandler;
-               _NumTimeStep = TimeService.GetIOTimeLength(ModelService.WorkDirectory);
-            string filename = this.PackageInfo.FileName;
-            if (UseSpecifiedFile)
-                filename = SpecifiedFileName;
+            _NumTimeStep = TimeService.GetIOTimeLength(ModelService.WorkDirectory);
+            var filename = LocalFileName;
 
             if (File.Exists(filename))
             {
@@ -195,7 +196,7 @@ namespace Heiflow.Models.Subsurface
                                 TimeBrowsable = true
                             };
 
-                            DataCube.DateTimes = new DateTime[nstep]; 
+                            DataCube.DateTimes = new DateTime[nstep];
                         }
                         catch (Exception)
                         {
@@ -243,7 +244,7 @@ namespace Heiflow.Models.Subsurface
                                     var temp = TypeConverterEx.SkipSplit<float>(line, 5);
                                     for (int v = 0; v < varLen; v++)
                                     {
-                                       // Values.Value[v][t][i] = temp[v];
+                                        // Values.Value[v][t][i] = temp[v];
                                         DataCube.ILArrays[v].SetValue(temp[v], t, i);
                                     }
                                 }
@@ -290,6 +291,7 @@ namespace Heiflow.Models.Subsurface
             }
             else
             {
+                OnLoadFailed("The file does not exist: " + filename, progresshandler);
                 return false;
             }
         }
@@ -321,9 +323,7 @@ namespace Heiflow.Models.Subsurface
         {
             _ProgressHandler = progresshandler;
             _NumTimeStep = TimeService.GetIOTimeLength(ModelService.WorkDirectory);
-            string filename = this.PackageInfo.FileName;
-            if (UseSpecifiedFile)
-                filename = SpecifiedFileName;
+             var  filename =LocalFileName;
 
             if (File.Exists(filename))
             {
@@ -331,6 +331,7 @@ namespace Heiflow.Models.Subsurface
                 RiverNetwork = network;
                 if (network == null)
                 {
+                    OnLoadFailed("The river network does not exist: ", progresshandler);
                     return false;
                 }
                 else
@@ -453,6 +454,7 @@ namespace Heiflow.Models.Subsurface
             }
             else
             {
+                OnLoadFailed("The file does not exist: " + filename, progresshandler);
                 return false;
             }
         }

@@ -121,50 +121,58 @@ namespace Heiflow.Models.Subsurface
         }
         public override bool Load(ICancelProgressHandler progresshandler)
         {
-            if (Sites.Count == 0)
-                Scan();
-            NumTimeStep = TimeService.GetIOTimeLength(this.Owner.WorkDirectory);
-            int progress = 0;
-            int nstep = StepsToLoad;
-
-            DataCube = new DataCube<float>(2, nstep, Sites.Count);
-            OnLoading(0);
-
-            DataCube.Variables = new string[] { "Stage", "Volume" };
-            DataCube.Name = "Lake Output";
-
-            for (int i = 0; i < Sites.Count; i++)
+            if (File.Exists(OutputFilesInfo[0].FileName))
             {
-                if (File.Exists(OutputFilesInfo[i].FileName))
-                {        
-                    string line = "";
-                    FileStream fs = new FileStream(OutputFilesInfo[i].FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                    StreamReader sr = new StreamReader(fs);
-                    line = sr.ReadLine();
-                    line = sr.ReadLine();
-                    line = sr.ReadLine();
+                if (Sites.Count == 0)
+                    Scan();
+                NumTimeStep = TimeService.GetIOTimeLength(this.Owner.WorkDirectory);
+                int progress = 0;
+                int nstep = StepsToLoad;
 
-                    for (int t = 0; t < nstep; t++)
+                DataCube = new DataCube<float>(2, nstep, Sites.Count);
+                OnLoading(0);
+
+                DataCube.Variables = new string[] { "Stage", "Volume" };
+                DataCube.Name = "Lake Output";
+
+                for (int i = 0; i < Sites.Count; i++)
+                {
+                    if (File.Exists(OutputFilesInfo[i].FileName))
                     {
+                        string line = "";
+                        FileStream fs = new FileStream(OutputFilesInfo[i].FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                        StreamReader sr = new StreamReader(fs);
                         line = sr.ReadLine();
-                        if (!TypeConverterEx.IsNull(line))
-                        {
-                            var vv = TypeConverterEx.Split<float>(line);
-                            DataCube[0,t,i] = vv[1];
-                            DataCube[1,t,i] = vv[2];
-                        }
-                    }
-                    sr.Close();
-                    progress = Convert.ToInt32((i + 1) * 100 / Sites.Count);
-                    OnLoading(progress);
-                }
-            }
-            DataCube.TimeBrowsable = true;
-            DataCube.AllowTableEdit = false;
-            DataCube.DateTimes = TimeService.IOTimeline.Take(nstep).ToArray();
-            OnLoaded(progresshandler);
+                        line = sr.ReadLine();
+                        line = sr.ReadLine();
 
-            return true;
+                        for (int t = 0; t < nstep; t++)
+                        {
+                            line = sr.ReadLine();
+                            if (!TypeConverterEx.IsNull(line))
+                            {
+                                var vv = TypeConverterEx.Split<float>(line);
+                                DataCube[0, t, i] = vv[1];
+                                DataCube[1, t, i] = vv[2];
+                            }
+                        }
+                        sr.Close();
+                        progress = Convert.ToInt32((i + 1) * 100 / Sites.Count);
+                        OnLoading(progress);
+                    }
+                }
+                DataCube.TimeBrowsable = true;
+                DataCube.AllowTableEdit = false;
+                DataCube.DateTimes = TimeService.IOTimeline.Take(nstep).ToArray();
+                OnLoaded(progresshandler);
+
+                return true;
+            }
+            else
+            {
+                OnLoadFailed("The LAK output file does not exist", progresshandler);
+                return false;
+            }
         }
 
         public override bool Load(int site_index, ICancelProgressHandler progress)

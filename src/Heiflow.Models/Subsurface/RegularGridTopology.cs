@@ -152,7 +152,8 @@ namespace Heiflow.Models.Subsurface
                         VertexAtActiveCells[i, 4] = r;
                         VertexAtActiveCells[i, 5] = c;
                         var cid = GetID(r, c);
-                        ActiveVertexIndex.Add(cid, i);
+                        if (!ActiveVertexIndex.ContainsKey(cid))
+                            ActiveVertexIndex.Add(cid, i);
                         bool isside = false;
                         float[] isactive = null;
                         int [] cids = null;

@@ -112,7 +112,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
             var mat = dp.DataCube;
             if (mat != null)
             {
-                if (mat.Name == "Default")
+                if (mat.Name == "default")
                 {
                     var buf = _Package.Name;
                     mat.Name = buf.Replace(' ', '_');

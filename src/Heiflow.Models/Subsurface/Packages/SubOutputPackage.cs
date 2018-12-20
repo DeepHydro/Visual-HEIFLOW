@@ -119,7 +119,7 @@ namespace Heiflow.Models.Subsurface
         public override bool Load(int var_index, ICancelProgressHandler progress)
         {
             _ProgressHandler = progress;
-            if (File.Exists(FileName))
+            if (File.Exists(LocalFileName))
             {
                 var grid = Owner.Grid as MFGrid;
                 if (DataCube == null || DataCube.Size[1] != StepsToLoad)

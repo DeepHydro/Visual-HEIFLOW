@@ -92,14 +92,15 @@ namespace Heiflow.Controls.WinForm.MenuItems
                 _SelectedNode = (sender as ToolStripMenuItem).Tag as Node;
                 var dp = Package as IDataPackage;
                 dp.PropertyChanged += dp_PropertyChanged;
+                dp.ScanFailed += dp_ScanFailed;
                 dp.Layer = Package.TimeService.CurrentGridLayer;
                 Cursor.Current = Cursors.WaitCursor;
-                dp.Scan(); 
+                dp.Scan();
                 dp.PropertyChanged -= dp_PropertyChanged;
+                dp.ScanFailed -= dp_ScanFailed;
                 Cursor.Current = Cursors.Default;
             }
         }
-
         protected virtual void LoaddAllData_Clicked(object sender, EventArgs e)
         {
 
@@ -165,6 +166,11 @@ namespace Heiflow.Controls.WinForm.MenuItems
                     _SelectedNode.Nodes.Add(node);
                 }
             }
+        }
+
+        protected void dp_ScanFailed(object sender, string e)
+        {
+            MessageBox.Show("Failed to load. Error message: " + e, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
     }
 }

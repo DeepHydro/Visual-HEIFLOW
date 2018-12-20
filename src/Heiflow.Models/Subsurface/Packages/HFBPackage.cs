@@ -1,104 +1,41 @@
-﻿using GSMS.Core;
+﻿//
+// The Visual HEIFLOW License
+//
+// Copyright (c) 2015-2018 Yong Tian, SUSTech, Shenzhen, China. All rights reserved.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+// the Software, and to permit persons to whom the Software is furnished to do
+// so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+//
+// Note:  The software also contains contributed files, which may have their own 
+// copyright notices. If not, the GNU General Public License holds for them, too, 
+// but so that the author(s) of the file have the Copyright.
+//
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GSMS.External.Modflow
+namespace Heiflow.Models.Subsurface
 {
-
     public class HFBPackage:MFPackage
     {
-        public HFBPackage(string name, MFGrid grid):base(name,grid)
-        {
-            MFParameter para = MFParameter.Create("NPHFB", this, 1, 0, ParameterType.Parameter);
-            para.IntValue = 0;
-            AddParameter(para);
 
-            para = MFParameter.Create("MXFB", this, 1, 0, ParameterType.Parameter);
-            para.IntValue = 0;
-            AddParameter(para);
-
-            para = MFParameter.Create("NHFBNP", this, 1, 0, ParameterType.Parameter);
-            para.IntValue = 0;
-            AddParameter(para);
-
-            para = MFParameter.Create("NACTHFB", this, 1, 0, ParameterType.Parameter);
-            para.IntValue = 0;
-            AddParameter(para);
-        }
-
-        public int NPHFB { get; set; }
-        public int MXFB { get; set; }
-        public int NHFBNP { get; set; }
-        /// <summary>
-        ///  the number of active HFB parameters.
-        /// </summary>
-        public int NACTHFB { get; set; }
-        /// <summary>
-        /// Layer IROW1 ICOL1 IROW2  ICOL2 Hydchr
-        /// </summary>
-        public float[,] CellLocation { get; set; }
-
-        public override void Load(object[] para)
-        {
-            if (para != null)
-            {
-                string shpfile = para[0].ToString();
-                var fs = DotSpatial.Data.FeatureSet.Open(shpfile);
-                var grid = mfgrid;
-                var dt = fs.DataTable;
-
-                var rows = (from r in dt.AsEnumerable() where r.Field<float>("Hydchr") > 0 select r).ToArray();
-                int rnum = rows.Count(); ;
-                Parameters["NHFBNP"].IntValue = rnum;
-                CellLocation = new float[rnum, 6];
-
-                for (int i = 0; i < rnum; i++)
-                {
-                    DataRow dr = rows[i];
-                    var hydchr = float.Parse(dr["hydchr"].ToString());
-                    int row = int.Parse(dr["Row"].ToString());
-                    int col = int.Parse(dr["Column"].ToString());
-                    CellLocation[i, 0] = int.Parse(dr["Layer"].ToString());
-                    CellLocation[i, 1] = row;
-                    CellLocation[i, 2] = col;
-                    CellLocation[i, 3] = row;
-                    CellLocation[i, 4] = col + 1;
-                    CellLocation[i, 5] = hydchr;
-                }
-            }
-        }
-
-        public override void Read(string filename = "")
-        {
-
-        }
-
-        public override void Save()
-        {
-            string filename = GetInputFile(this.Name);
-            SaveAs(filename);
-        }
-
-        public override void SaveAs(string filename)
-        {
-          
-            StreamWriter sw = new StreamWriter(filename);
-            WriteDefaultComment(sw, "HFB");
-
-            string line = string.Format("{0}\t{1}\t{2}\t# Data set 1: NPHFB MXFB NHFBNP", Parameters["NPHFB"].IntValue, Parameters["MXFB"].IntValue, 
-                Parameters["NHFBNP"].IntValue);
-            sw.WriteLine(line);
-
-            MatrixExtension<float>.Save(CellLocation, sw);
-
-            line = string.Format("{0}\t# Data Set 5: NACTHFB", Parameters["NACTHFB"].IntValue);
-            sw.WriteLine(line);
-            sw.Close();
-        }
     }
 }

@@ -53,6 +53,7 @@ namespace Heiflow.Models.Generic
         public event EventHandler<int> Loading;
         public event EventHandler<object> Loaded;
         public event EventHandler<string> LoadFailed;
+        public event EventHandler<string> ScanFailed;
         public event EventHandler<int> Saving;
         public event EventHandler Saved;
         public event EventHandler<ModelObjectState> StateChanged;
@@ -505,7 +506,13 @@ namespace Heiflow.Models.Generic
             if (progress != null)
                 progress.Progress(this.Name, 100, msg);
         }
-
+        protected void OnScanFailed(string msg)
+        {
+            if (ScanFailed != null)
+            {
+                ScanFailed(this, msg);
+            }
+        }
         protected void OnSaving(int percent)
         {
             if (Saving != null)

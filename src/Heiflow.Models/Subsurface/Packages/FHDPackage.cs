@@ -148,13 +148,13 @@ namespace Heiflow.Models.Subsurface
         public override bool Load(int var_index, ICancelProgressHandler progress)
         {
             _ProgressHandler = progress;
-              var list = TimeService.GetIOTimeFromFile((Owner as Modflow).IOLogFile);
-              if (list.Count > 0)
-              {
-                  TimeService.IOTimeline = list;
-                  NumTimeStep = list.Count;
-              }
-              if (File.Exists(LocalFileName))
+            var list = TimeService.GetIOTimeFromFile((Owner as Modflow).IOLogFile);
+            if (list.Count > 0)
+            {
+                TimeService.IOTimeline = list;
+                NumTimeStep = list.Count;
+            }
+            if (File.Exists(LocalFileName))
             {
                 try
                 {
@@ -186,7 +186,7 @@ namespace Heiflow.Models.Subsurface
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
-                    OnLoadFailed(ex.Message,progress);
+                    OnLoadFailed(ex.Message, progress);
                     return false;
                 }
             }
