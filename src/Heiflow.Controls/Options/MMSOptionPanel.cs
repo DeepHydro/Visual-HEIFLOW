@@ -55,7 +55,7 @@ namespace Heiflow.Controls.Options
         public MMSOptionPanel()
         {
             InitializeComponent();
-            this.Load += MMSOptionPanel_Load;        
+            this.Load += MMSOptionPanel_Load;
         }
 
         public UserControl OptionControl
@@ -96,7 +96,6 @@ namespace Heiflow.Controls.Options
 
             }
         }
-
         public void Save()
         {
             if (File.Exists(_Configfile))
@@ -104,6 +103,17 @@ namespace Heiflow.Controls.Options
                 _MMSPackage.Serialize(_Configfile);
             }
         }
-
+        public void SaveAs(string filename)
+        {
+            StreamWriter sw = new StreamWriter(filename);
+            string line = "Parameter Name\tModule Name\tDefault Value\tMaximum\tMinimum\tDescription\tDimension Name\tDimension";
+            sw.WriteLine(line);
+            foreach (var para in _MMSPackage.Parameters.Values)
+            {
+                line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}", para.Name, para.ModuleName, para.DefaultValue, para.Maximum, para.Minimum, para.Description, para.DimensionNames[0], para.Dimension);
+                sw.WriteLine(line);
+            }
+            sw.Close();
+        }
     }
 }

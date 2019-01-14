@@ -467,7 +467,7 @@
       <Dimension>1</Dimension>
       <DimensionNames>nhru</DimensionNames>
       <DefaultValue>0.5</DefaultValue>
-      <ModuleName>soilzone</ModuleName>
+      <ModuleName>intcp</ModuleName>
       <Maximum>1</Maximum>
       <Minimum>0</Minimum>
       <Units>dimensionless</Units>

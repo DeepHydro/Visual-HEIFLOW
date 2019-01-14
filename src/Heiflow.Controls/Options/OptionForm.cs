@@ -40,6 +40,7 @@ using System.ComponentModel.Composition;
 using Heiflow.Presentation.Controls.Project;
 using Heiflow.Presentation.Controls;
 using Heiflow.Applications;
+using System.IO;
 
 namespace Heiflow.Controls.Options
 {
@@ -97,6 +98,14 @@ namespace Heiflow.Controls.Options
             {
                 _CurrentOption.Save();
             }
+        }
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.FileName = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), _CurrentOption.OptionName + ".csv");
+            if(dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                _CurrentOption.SaveAs(dlg.FileName);
         }
     }
 }

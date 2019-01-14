@@ -83,7 +83,7 @@ namespace Heiflow.Models.Studio
             appManager1.Catalog.Catalogs.Add(new AssemblyCatalog(toolDll));
 
             _VHFAppManager = new VHFAppManager();
-            _VHFAppManager.AppName = "Visual HEIFLOW";
+            _VHFAppManager.AppName = "VHF Ocean";
            // _VHFAppManager.Icon = ((System.Drawing.Icon)(resources.GetObject("heiflow")));
 
             //_VHFAppManager.AppName = "山洪模拟及水情预报系统";

@@ -184,7 +184,10 @@ namespace Heiflow.Models.Generic.Grid
                     //else
                     //    Source.Elevations.Value[0][0][i] = 0;
                     var pt=new Coordinate(centroids[i].X-0.5*XSize,centroids[i].Y-0.5*YSize);
-                    Source.Elevations[0,0,i] = ZonalStatastics.GetCellAverage(DEM, pt, XSize, AveragingMethod);
+                    var buf = ZonalStatastics.GetCellAverage(DEM, pt, XSize, AveragingMethod);
+                    if (buf == -9999)
+                        buf = 0;
+                    Source.Elevations[0, 0, i] = buf;
                 }
 
                 for (int l = 1; l < Source.LayerCount; l++)

@@ -33,6 +33,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
+            this.btnExport = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // treeView1
@@ -71,12 +72,24 @@
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
+            // btnExport
+            // 
+            this.btnExport.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnExport.Location = new System.Drawing.Point(12, 604);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(100, 30);
+            this.btnExport.TabIndex = 5;
+            this.btnExport.Text = "Export...";
+            this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            // 
             // OptionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(837, 645);
             this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.btnExport);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.treeView1);
@@ -98,5 +111,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOK;
+        private System.Windows.Forms.Button btnExport;
     }
 }

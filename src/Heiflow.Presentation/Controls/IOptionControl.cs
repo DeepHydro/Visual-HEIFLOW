@@ -39,6 +39,7 @@ namespace Heiflow.Presentation.Controls
     public interface IOptionControl
     {
         void Save();
+        void SaveAs(string filename);
         UserControl OptionControl { get; }
         string Category { get; }
         string OptionName { get; }
