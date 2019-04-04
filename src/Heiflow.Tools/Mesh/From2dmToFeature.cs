@@ -78,7 +78,6 @@ namespace Heiflow.Tools.Mesh
             StreamReader sr = new StreamReader(InputFileName);
             var line = sr.ReadLine();
             line = sr.ReadLine();
-            line = sr.ReadLine();
             while (!sr.EndOfStream)
             {
                 line = sr.ReadLine();

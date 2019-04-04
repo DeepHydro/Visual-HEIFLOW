@@ -329,7 +329,8 @@ namespace Heiflow.Tools.ConceptualModel
                     for (int j = 0; j < npt; j++)
                     {
                        cell = _ad_layer.ProjToCell(geo.Coordinates[j].X, geo.Coordinates[j].Y);
-                       ad += _ad_layer.Value[cell.Row, cell.Column];
+                        if(cell.Row > 0 && cell.Column > 0)
+                            ad += _ad_layer.Value[cell.Row, cell.Column];
                     }
                     ad = ad / npt;
                     for (int j = 1; j < npt; j++)
@@ -372,7 +373,7 @@ namespace Heiflow.Tools.ConceptualModel
                         Slope = slope
                     };
 
-                    if (fealist[segid].Reaches.ContainsKey(ad))
+                    if (fealist[segid].Reaches.Count > 0 && fealist[segid].Reaches.ContainsKey(ad))
                     {
                         ad += i * 0.001;
                     }
@@ -476,7 +477,12 @@ namespace Heiflow.Tools.ConceptualModel
                                reach_id++;
                            }
                        }
-                       net.AddRiver(river);
+                       if(river.Reaches.Count == 0)
+                       {
+                           Console.WriteLine("SFR warning: ");
+                       }
+                       else
+                            net.AddRiver(river);
                    }
                    sfr.ConnectRivers(net);
                    sfr.NetworkToMat();

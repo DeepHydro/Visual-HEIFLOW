@@ -88,7 +88,9 @@ namespace Heiflow.Applications.Controllers
                 {
                     if (ap.IsParameter)
                     {
-                        ap.Parameter = (from pp in paras where pp.Name == ap.ParameterName select pp).First();
+                        var buf = from pp in paras where pp.Name == ap.ParameterName select pp;
+                        if(buf.Any())
+                            ap.Parameter = buf.First();
                     }
                 }
             }

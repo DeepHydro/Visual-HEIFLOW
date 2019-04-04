@@ -723,10 +723,13 @@ namespace Heiflow.Models.Subsurface
             i = 0;
             foreach(var seg in RiverNetwork.Rivers)
             {
-                var newreach = seg.FirstReach;
-                _SegTopo.ActiveCell[i] = new int[] { newreach.IRCH - 1, newreach.JRCH - 1 };
-                _SegTopo.ActiveCellIDs[i] = grid.Topology.GetID(newreach.IRCH - 1, newreach.JRCH - 1);
-                i++;
+                if (seg.Reaches.Count > 0)
+                {
+                    var newreach = seg.FirstReach;
+                    _SegTopo.ActiveCell[i] = new int[] { newreach.IRCH - 1, newreach.JRCH - 1 };
+                    _SegTopo.ActiveCellIDs[i] = grid.Topology.GetID(newreach.IRCH - 1, newreach.JRCH - 1);
+                    i++;
+                }
             }
         }
 
