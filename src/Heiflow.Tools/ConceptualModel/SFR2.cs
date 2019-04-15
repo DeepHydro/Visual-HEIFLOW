@@ -403,6 +403,7 @@ namespace Heiflow.Tools.ConceptualModel
                     var nseg = fea_list.Keys.Count;
                     var nreach = (from fea in fea_list.Values select fea.NReach).Sum();
                    var reach_id = 1;
+                   var reach_count = 0;
 
                    net.ReachCount = nreach;
                    net.RiverCount = nseg;
@@ -428,7 +429,7 @@ namespace Heiflow.Tools.ConceptualModel
                        {
                            Name = seg_id.ToString(),
                            SubIndex = i,
-                           ICALC=1
+                           ICALC = 1
                        };
                        var dr_reaches = fea_list[seg_id].Reaches;
                        var out_segid = fea_list[seg_id].OutSegmentID;
@@ -477,13 +478,19 @@ namespace Heiflow.Tools.ConceptualModel
                                reach_id++;
                            }
                        }
-                       if(river.Reaches.Count == 0)
+                       if (river.Reaches.Count == 0)
                        {
                            Console.WriteLine("SFR warning: ");
                        }
                        else
-                            net.AddRiver(river);
+                       {
+                           net.AddRiver(river);
+                           reach_count += river.Reaches.Count;
+                       }
                    }
+                   sfr.NSTRM = reach_count;
+                   sfr.NSS = net.Rivers.Count;
+
                    sfr.ConnectRivers(net);
                    sfr.NetworkToMat();
                    sfr.BuildTopology();
