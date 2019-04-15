@@ -53,7 +53,7 @@ namespace Heiflow.Tools.ConceptualModel
         public int SegmentID
         {
             get;
-            private  set;
+            set;
         }
         public int OutSegmentID
         {
