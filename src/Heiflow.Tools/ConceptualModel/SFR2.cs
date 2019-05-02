@@ -49,12 +49,12 @@ namespace Heiflow.Tools.ConceptualModel
     {
         private IFeatureSet _stream_layer;
         private IFeatureSet _grid_layer;
-        private IFeatureSet  _out_sfr_layer;
+        private IFeatureSet _out_sfr_layer;
         private IRaster _dem_layer;
-          private IRaster _ad_layer;
+        private IRaster _ad_layer;
         private double _minum_slope = 0.001;
         private double _maximum_slope = 0.02;
-        
+
         public SFR2()
         {
             Name = "Streamflow Routing";
@@ -158,28 +158,28 @@ namespace Heiflow.Tools.ConceptualModel
 
         [Category("Reach Parameter")]
         [Description("The uniform hydraulic conductivity of the streambed")]
-        public double STRHC1 
+        public double STRHC1
         {
             get;
             set;
         }
         [Category("Reach Parameter")]
         [Description("The saturated volumetric water content in the unsaturated zone")]
-        public double THTS 
+        public double THTS
         {
             get;
             set;
         }
         [Category("Reach Parameter")]
         [Description("The initial volumetric water content. THTI must be less than or equal to THTS and greater than or equal to THTS minus the specific yield defined in either LPF or BCF. This variable is read when ISFROPT is 2 or 3.")]
-        public double THTI 
+        public double THTI
         {
             get;
             set;
         }
         [Category("Reach Parameter")]
         [Description("The Brooks-Corey exponent used in the relation between water content and hydraulic conductivity within the unsaturated zone (Brooks and Corey, 1966). This variable is read when ISFROPT is 2 or 3.")]
-        public double EPS 
+        public double EPS
         {
             get;
             set;
@@ -242,7 +242,7 @@ namespace Heiflow.Tools.ConceptualModel
 
         public override void Initialize()
         {
-            if (GridFeatureLayer == null || StreamFeatureLayer == null || DEMLayer== null)
+            if (GridFeatureLayer == null || StreamFeatureLayer == null || DEMLayer == null)
             {
                 this.Initialized = false;
                 return;
@@ -251,18 +251,16 @@ namespace Heiflow.Tools.ConceptualModel
             _stream_layer = StreamFeatureLayer.DataSet as IFeatureSet;
             _dem_layer = DEMLayer.DataSet as IRaster;
             _ad_layer = AccumulatedDrainageLayer.DataSet as IRaster;
-            if (  _grid_layer == null || _dem_layer == null)
+            if (_grid_layer == null || _dem_layer == null)
             {
                 this.Initialized = false;
                 return;
             }
-           
-            this.Initialized = !(_grid_layer == null || _grid_layer.FeatureType != FeatureType.Polygon);  
-         //   this.Initialized = !(_stream_layer == null || _stream_layer.FeatureType != FeatureType.Line);
+            this.Initialized = !(_grid_layer == null || _grid_layer.FeatureType != FeatureType.Polygon);
         }
 
         public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
-        {  
+        {
             var dic = Path.GetDirectoryName(_stream_layer.FilePath);
             var out_fn = Path.Combine(dic, "sfr_cpm.shp");
             string msg = "";
@@ -279,7 +277,7 @@ namespace Heiflow.Tools.ConceptualModel
 
             var dt_cmp = _out_sfr_layer.DataTable;
             var segid = new List<int>();
-            foreach(DataRow row in dt_cmp.Rows)
+            foreach (DataRow row in dt_cmp.Rows)
             {
                 var temp = int.Parse(row[SegmentField].ToString()) + 1;
                 segid.Add(temp);
@@ -307,7 +305,7 @@ namespace Heiflow.Tools.ConceptualModel
             var shell = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
             var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
             var model = prj.Project.Model as Heiflow.Models.Integration.HeiflowModel;
-          
+
             if (model != null)
             {
                 var sfr = prj.Project.Model.GetPackage(SFRPackage.PackageName) as SFRPackage;
@@ -317,9 +315,9 @@ namespace Heiflow.Tools.ConceptualModel
                 model.PRMSModel.MMSPackage.Save(null);
                 sfr.Attach(shell.MapAppManager.Map, prj.Project.GeoSpatialDirectory);
                 shell.ProjectExplorer.ClearContent();
-                shell.ProjectExplorer.AddProject(prj.Project); 
+                shell.ProjectExplorer.AddProject(prj.Project);
             }
-      
+
             shell.MapAppManager.Map.AddLayer(_out_sfr_layer.Filename);
         }
 
@@ -466,101 +464,112 @@ namespace Heiflow.Tools.ConceptualModel
                     var net = new RiverNetwork();
                     var nseg = fea_list.Keys.Count;
                     var nreach = (from fea in fea_list.Values select fea.NReach).Sum();
-                   var reach_id = 1;
-                   var reach_count = 0;
+                    var reach_id = 1;
+                    var reach_count = 0;
 
-                   net.ReachCount = nreach;
-                   net.RiverCount = nseg;
+                    net.ReachCount = nreach;
+                    net.RiverCount = nseg;
 
-                   sfr.NSTRM = net.ReachCount;
-                   sfr.NSS = net.RiverCount;
-                   sfr.CONST = 86400;
-                   sfr.DLEAK = 0.01f;
-                   sfr.RiverNetwork = net;
+                    sfr.NSTRM = net.ReachCount;
+                    sfr.NSS = net.RiverCount;
+                    sfr.CONST = 86400;
+                    sfr.DLEAK = 0.01f;
+                    sfr.RiverNetwork = net;
 
-                   var nsp = sfr.TimeService.StressPeriods.Count;
-                   sfr.SPInfo = new int[nsp, 3];
-                    sfr.SPInfo[0,0]=nseg;
-                   for (int i = 1; i < nsp; i++)
-                   {
-                       sfr.SPInfo[i, 0] = -1;
-                   }
-                   
-                   for (int i = 0; i < nseg; i++)
-                   {
+                    var nsp = sfr.TimeService.StressPeriods.Count;
+                    sfr.SPInfo = new int[nsp, 3];
+                    sfr.SPInfo[0, 0] = nseg;
+                    for (int i = 1; i < nsp; i++)
+                    {
+                        sfr.SPInfo[i, 0] = -1;
+                    }
+
+                    for (int i = 0; i < nseg; i++)
+                    {
                         var seg_id = i + 1;
-                       River river = new River(seg_id)
-                       {
-                           Name = seg_id.ToString(),
-                           SubIndex = i,
-                           ICALC = 1
-                       };
-                       var dr_reaches = fea_list[seg_id].Reaches;
-                       var out_segid = fea_list[seg_id].OutSegmentID;
-                       var reach_local_id = 1;
-                       out_segid = out_segid < 0 ? 0 : out_segid;
-                       river.OutRiverID = out_segid;
-                       river.UpRiverID = 0;
-                       river.Flow = this.Flow;
-                       river.Runoff = this.Runoff;
-                       river.ETSW = this.ETSW;
-                       river.PPTSW = this.PPTSW;
-                       river.ROUGHCH = this.ROUGHCH;
-                       river.Width1 = this.Width1;
-                       river.Width2 = this.Width2;
+                        River river = new River(seg_id)
+                        {
+                            Name = seg_id.ToString(),
+                            SubIndex = i,
+                            ICALC = 1
+                        };
+                        var dr_reaches = fea_list[seg_id].Reaches;
+                        var out_segid = fea_list[seg_id].OutSegmentID;
+                        var reach_local_id = 1;
+                        out_segid = out_segid < 0 ? 0 : out_segid;
+                        river.OutRiverID = out_segid;
+                        river.UpRiverID = 0;
+                        river.Flow = this.Flow;
+                        river.Runoff = this.Runoff;
+                        river.ETSW = this.ETSW;
+                        river.PPTSW = this.PPTSW;
+                        river.ROUGHCH = this.ROUGHCH;
+                        river.Width1 = this.Width1;
+                        river.Width2 = this.Width2;
 
-                       for (int c = 0; c < dr_reaches.Count; c++)
-                       {
-                           var fea=dr_reaches.ElementAt(c).Value;
-                           var dr = fea.Row;
-                           int row = int.Parse(dr["ROW"].ToString());
-                           int col = int.Parse(dr["COLUMN"].ToString());
-                           if (grid.IsActive(row - 1, col - 1, 0))
-                           {
-                               Reach rch = new Reach(reach_id)
-                               {
-                                   KRCH = 1,
-                                   IRCH = int.Parse(dr["ROW"].ToString()),
-                                   JRCH = int.Parse(dr["COLUMN"].ToString()),
-                                   ISEG = seg_id,
-                                   IREACH = reach_local_id,
-                                   Length = double.Parse(dr["Length"].ToString()),
-                                   TopElevation = fea.Elevation + Offset,
-                                   Slope = fea.Slope,
-                                   BedThick = BedThickness,
-                                   STRHC1 = STRHC1,
-                                   THTS = THTS,
-                                   THTI = THTI,
-                                   EPS = EPS,
-                                   Name = reach_id.ToString(),
-                                   SubID = reach_local_id,
-                                   SubIndex = reach_local_id - 1
-                               };
-                               river.Reaches.Add(rch);
-                               net.Reaches.Add(rch);
-                               reach_local_id++;
-                               reach_id++;
-                           }
-                       }
-                       if (river.Reaches.Count == 0)
-                       {
-                           Console.WriteLine("SFR warning: ");
-                       }
-                       else
-                       {
-                           net.AddRiver(river);
-                           reach_count += river.Reaches.Count;
-                       }
-                   }
+                        for (int c = 0; c < dr_reaches.Count; c++)
+                        {
+                            var fea = dr_reaches.ElementAt(c).Value;
+                            var dr = fea.Row;
+                            int row = int.Parse(dr["ROW"].ToString());
+                            int col = int.Parse(dr["COLUMN"].ToString());
+                            var index = grid.Topology.GetSerialIndex(row - 1, col - 1);
+                            if (grid.IsActive(row - 1, col - 1, 0))
+                            {
+                                Reach rch = new Reach(reach_id)
+                                {
+                                    KRCH = 1,
+                                    IRCH = row,
+                                    JRCH = col,
+                                    ISEG = seg_id,
+                                    IREACH = reach_local_id,
+                                    Length = double.Parse(dr["Length"].ToString()),
+                                    TopElevation = fea.Elevation + Offset,
+                                    Slope = fea.Slope,
+                                    BedThick = BedThickness,
+                                    STRHC1 = STRHC1,
+                                    THTS = THTS,
+                                    THTI = THTI,
+                                    EPS = EPS,
+                                    Name = reach_id.ToString(),
+                                    SubID = reach_local_id,
+                                    SubIndex = reach_local_id - 1
+                                };
+                                if (rch.TopElevation < grid.Elevations[1, 0, index])
+                                {
+                                    rch.TopElevation = grid.Elevations[0, 0, index] + Offset;
+                                }
+                                //check it again
+                                if (rch.TopElevation < grid.Elevations[1, 0, index])
+                                {
+                                    rch.TopElevation = grid.Elevations[1, 0, index] + System.Math.Abs(Offset);
+                                }
+                                river.Reaches.Add(rch);
+                                net.Reaches.Add(rch);
+                                reach_local_id++;
+                                reach_id++;
+
+                            }
+                        }
+                        if (river.Reaches.Count == 0)
+                        {
+                            Console.WriteLine("SFR warning: ");
+                        }
+                        else
+                        {
+                            net.AddRiver(river);
+                            reach_count += river.Reaches.Count;
+                        }
+                    }
 
                     sfr.ConnectRivers(net);
-                   sfr.NetworkToMat();
-                   sfr.BuildTopology();
-                   sfr.CompositeOutput(mfout);
-                   sfr.ChangeState(Models.Generic.ModelObjectState.Ready);
-                   sfr.IsDirty = true;
-                   sfr.Save(null);
-                   sfr.CreateFeature(shell.MapAppManager.Map.Projection, ps.Project.GeoSpatialDirectory);
+                    sfr.NetworkToMat();
+                    sfr.BuildTopology();
+                    sfr.CompositeOutput(mfout);
+                    sfr.ChangeState(Models.Generic.ModelObjectState.Ready);
+                    sfr.IsDirty = true;
+                    sfr.Save(null);
+                    sfr.CreateFeature(shell.MapAppManager.Map.Projection, ps.Project.GeoSpatialDirectory);
                 }
             }
         }

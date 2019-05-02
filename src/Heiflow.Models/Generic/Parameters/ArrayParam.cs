@@ -227,9 +227,9 @@ namespace Heiflow.Models.Generic.Parameters
             return Values.Length;
         }
 
-        public override void AllocateSpaceDim(int var_index, int time_index, int length)
+        public override void AllocateVariable(int var_index, int ntime, int ncell)
         {
-            Values = new T[length];
+            Values = new T[ncell];
         }
 
         public override void FromRegularArray(int p1, int p2, Array array)

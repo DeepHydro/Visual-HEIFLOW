@@ -688,9 +688,9 @@ namespace Heiflow.Core.Data
         }
 
 
-        public void AllocateSpaceDim(int var_index,int ntime, int ncell)
+        public void AllocateVariable(int var_index,int ntime, int ncell)
         {
-            _arrays[var_index] = ILMath.zeros<T>(1, ncell);
+            _arrays[var_index] = ILMath.zeros<T>(ntime, ncell);
         }
 
         public DataCube<float> SpatialMean(int var_index)

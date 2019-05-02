@@ -484,7 +484,7 @@ namespace Heiflow.Models.Generic.Parameters
            
         }
 
-        public virtual void AllocateSpaceDim(int var_index, int time_index, int length)
+        public virtual void AllocateVariable(int var_index, int ntime, int ncell)
         {
         
         }

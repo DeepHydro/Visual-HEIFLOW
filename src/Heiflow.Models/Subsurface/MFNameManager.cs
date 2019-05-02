@@ -115,7 +115,7 @@ namespace Heiflow.Models.Subsurface
             var buf = from info in MasterList select info.FID;
             if (buf.Any())
             {
-                fid = buf.Last() + 1;
+                fid = buf.Max() + 1;
             }
             return fid;
         }

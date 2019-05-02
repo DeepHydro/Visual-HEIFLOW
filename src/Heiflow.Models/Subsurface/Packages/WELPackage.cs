@@ -63,14 +63,34 @@ namespace Heiflow.Models.Subsurface
             Version = "WEL1";
             _Layer3DToken = "Well";
         }
-        public int MXACTW { get; set; }
-        public int IWELCB { get; set; }
+        /// <summary>
+        /// The maximum number of wells in use during any stress period
+        /// </summary>
+        /// 
+        public int MXACTW
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        ///  a flag and a unit number. If IWELCB > 0, it is the unit number to which cell-by-cell flow terms will be written when "SAVE BUDGET" or a non-zero value for ICBCFL is specified in Output Control.
+        ///  If IWELCB = 0, cell-by-cell flow terms will not be written.
+        ///  If IWELCB < 0, well recharge for each well will be written to the listing file when "SAVE BUDGET" or a non-zero value for ICBCFL is specified in Output Control.
+        /// </summary>
+        public int IWELCB
+        {
+            get;
+            set;
+        }
         /// <summary>
         /// Default value is: AUXILIARY IFACE NOPRINT
         /// </summary>
-        public string OptionString { get; set; }
-        [Description("Number of wells")]
-        public int NWell { get; set; }
+        public string OptionString
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// 3d mat [nsp][1][nwell]
         /// </summary>
@@ -81,13 +101,14 @@ namespace Heiflow.Models.Subsurface
             get;
             set;
         }
-        [StaticVariableItem("")]
-        [Browsable(false)]
-        public DataCube<int> Locations
-        {
-            get;
-            set;
-        }
+        //[StaticVariableItem("")]
+        //[Browsable(false)]
+        //public DataCube<int> Locations
+        //{
+        //    get;
+        //    set;
+        //}
+
         public RegularGridTopology Topology
         {
             get
@@ -105,10 +126,11 @@ namespace Heiflow.Models.Subsurface
 
         public override string CreateFeature(ProjectionInfo proj_info, string directory)
         {
-            if (Locations != null)
+            if (FluxRates != null)
             {
                 string filename = Path.Combine(directory, this.Name + ".shp");
                 var grid = (Owner as Modflow).Grid as MFGrid;
+                int fea_sp = 0;
                 FeatureSet fs = new FeatureSet(FeatureType.Point);
                 fs.Name = this.Name;
                 fs.Projection = proj_info;
@@ -125,12 +147,19 @@ namespace Heiflow.Models.Subsurface
                 {
                     fs.DataTable.Columns.Add(new DataColumn("Flux Rate" + (i + 1), typeof(float)));
                 }
-
-                for (int i = 0; i < NWell; i++)
+                for (int i = 0; i < np; i++)
                 {
-                    int layer = Locations[0, i, 0];
-                    int row = Locations[0, i, 1];
-                    int col = Locations[0, i, 2];
+                    if (FluxRates.Flags[i, 0] == TimeVarientFlag.Individual)
+                    {
+                        fea_sp = i;
+                        break;
+                    }
+                }
+                    for (int i = 0; i < MXACTW; i++)
+                {
+                    int layer = (int)FluxRates[0, fea_sp, i];
+                    int row = (int)FluxRates[1, fea_sp, i];
+                    int col = (int)FluxRates[2, fea_sp, i];
                     var coor = grid.LocateCentroid(col, row);
                     Point geom = new Point(coor);
                     IFeature feature = fs.AddFeature(geom);
@@ -147,7 +176,7 @@ namespace Heiflow.Models.Subsurface
                     {
                         if (FluxRates.Flags[j, 0] == TimeVarientFlag.Individual)
                         {
-                            feature.DataRow["Flux Rate" + (j + 1)] = FluxRates[j, 0, i];
+                            feature.DataRow["Flux Rate" + (j + 1)] = FluxRates[3, j, i];
                         }
                         else if (FluxRates.Flags[j, 0] == TimeVarientFlag.Constant)
                         {
@@ -155,7 +184,7 @@ namespace Heiflow.Models.Subsurface
                         }
                         else if (FluxRates.Flags[j, 0] == TimeVarientFlag.Repeat)
                         {
-                            feature.DataRow["Flux Rate" + (j + 1)] = FluxRates[j, 0, i];
+                            feature.DataRow["Flux Rate" + (j + 1)] = FluxRates[3, j, i];
                         }
                     }
                     feature.DataRow.EndEdit();
@@ -172,46 +201,12 @@ namespace Heiflow.Models.Subsurface
             }
         }
 
-
         public override bool Load(ICancelProgressHandler progresshandler)
         {
             if (File.Exists(FileName))
             {
                 var grid = this.Grid as MFGrid;
-                int np = TimeService.StressPeriods.Count;
-                StreamReader sr = new StreamReader(FileName);
-                var line = ReadComment(sr);
-                var ss = TypeConverterEx.Split<int>(line, 2);
-                MXACTW = ss[0];
-                IWELCB = ss[1];
-
-                for (int n = 0; n < np; n++)
-                {
-                    line = sr.ReadLine();
-                    ss = TypeConverterEx.Split<int>(line, 2);
-                    if (ss[0] > 0)
-                    {
-                        NWell = ss[0];
-                        Locations = new DataCube<int>(1, NWell, 3);
-                        //Locations.AllocateSpaceDim(0, 0, NWell, 3);
-                        Locations.Variables = new string[] { "Well Locations" };
-                        //  Locations.ColumnNames = new string[] { "Layer", "Row", "Column" };
-                        Locations.AllowTableEdit = true;
-                        Locations.TimeBrowsable = false;
-
-                        for (int i = 0; i < NWell; i++)
-                        {
-                            var vv = TypeConverterEx.Split<int>(sr.ReadLine(), 3);
-                            Locations[0, i, 0] = vv[0];
-                            Locations[0, i, 1] = vv[1];
-                            Locations[0, i, 2] = vv[2];
-                        }
-                        break;
-                    }
-                }
-                sr.Close();
-
-                Load2Mat4d();
+                LoadSP();
                 State = ModelObjectState.Ready;
                 OnLoaded(progresshandler);
                 return true;
@@ -226,8 +221,47 @@ namespace Heiflow.Models.Subsurface
 
         public override void CompositeOutput(MFOutputPackage mfout)
         {
+            if (mfout == null)
+                return;
             var cbc = mfout.SelectChild(CBCPackage.CBCName);
-            this.IWELCB = cbc.PackageInfo.FID;
+            if(cbc != null)
+                this.IWELCB = cbc.PackageInfo.FID;
+        }
+
+        public override bool SaveAs(string filename, ICancelProgressHandler progress)
+        {
+            StreamWriter sw = new StreamWriter(filename);
+            WriteDefaultComment(sw, "WEL");
+            string line = "";
+            line = string.Format("{0} {1} {2} # DataSet 2: MXACTW IWELCB Option", MXACTW, IWELCB, OptionString);
+            sw.WriteLine(line);
+            int np = TimeService.StressPeriods.Count;
+            for (int i = 0; i < np; i++)
+            {
+               if( FluxRates.Flags[i, 0] == TimeVarientFlag.Individual)
+                {
+                    var nwel= FluxRates.GetSpaceDimLength(i, 0);
+                    line = string.Format("{0} {1} # Data Set 5: ITMP NP Stress period {2} ", nwel, 0, i + 1);
+                    sw.WriteLine(line);
+                    for (int j = 0; j < nwel; j++)
+                    {
+                        line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}", (int)FluxRates[0, i, j], (int)FluxRates[1, i, j], (int)FluxRates[2, i, j], FluxRates[3, i, j], 0);
+                        sw.WriteLine(line);
+                    }
+                }
+                else if (FluxRates.Flags[i, 0] == TimeVarientFlag.Constant)
+                {
+                    line = string.Format("{0} {1} # Data Set 5: ITMP NP Stress period {2} ", 0, 0, i + 1);
+                    sw.WriteLine(line);
+                }
+                else if (FluxRates.Flags[i, 0] == TimeVarientFlag.Repeat)
+                {
+                    line = string.Format("{0} 0 0 # Data Set 5: ITMP NP Stress period {1} ", -1, i + 1);
+                    sw.WriteLine(line);
+                }
+            }
+            sw.Close();
+            return base.SaveAs(filename, progress);
         }
 
         public override void Clear()
@@ -240,7 +274,7 @@ namespace Heiflow.Models.Subsurface
             base.OnTimeServiceUpdated(time);
         }
 
-        private void Load2Mat4d()
+        private void LoadSP()
         {
             if (File.Exists(FileName))
             {
@@ -252,26 +286,31 @@ namespace Heiflow.Models.Subsurface
                 MXACTW = (int)ss[0];
                 IWELCB = (int)ss[1];
 
-                FluxRates = new DataCube<float>(np, 1, MXACTW, true);
-                FluxRates.DateTimes = new System.DateTime[np];
-                FluxRates.TimeBrowsable = true;
-                FluxRates.AllowTableEdit = false;
+                FluxRates = new DataCube<float>(4, np, MXACTW)
+                {
+                    DateTimes = new System.DateTime[np],
+                    TimeBrowsable = true,
+                    AllowTableEdit = false,
+                    Variables = new string[4] {"Layer","Row","Column","Q" }
+                };
 
                 for (int n = 0; n < np; n++)
                 {
-                    FluxRates.Variables[n] = "Flux Rate" + (n + 1);
                     ss = TypeConverterEx.Split<float>(sr.ReadLine(), 2);
                     int nwel = (int)ss[0];
                     if (nwel > 0)
                     {
-                        FluxRates.AllocateSpaceDim(n, 0, nwel);
                         FluxRates.Flags[n, 0] = TimeVarientFlag.Individual;
-                        FluxRates.Multipliers[n, 0] = ss[1];
+                        FluxRates.Multipliers[n, 0] = 1;
                         FluxRates.IPRN[n, 0] = -1;
+
                         for (int i = 0; i < nwel; i++)
                         {
                             var vv = TypeConverterEx.Split<float>(sr.ReadLine());
-                            FluxRates[n, 0, i] = vv[3];
+                            FluxRates[0, n, i] = vv[0];
+                            FluxRates[1, n, i] = vv[1];
+                            FluxRates[2, n, i] = vv[2];
+                            FluxRates[3, n, i] = vv[3];
                         }
                     }
                     else if (nwel == 0)
@@ -285,34 +324,35 @@ namespace Heiflow.Models.Subsurface
                         FluxRates.Flags[n, 0] = TimeVarientFlag.Repeat;
                         FluxRates.Multipliers[n, 0] = ss[1];
                         FluxRates.IPRN[n, 0] = -1;
-                        var size = FluxRates.GetVariableSize(n - 1);
-                        var buf = new float[size[1]];
-                        FluxRates[n - 1, "0", ":"].CopyTo(buf, 0);
-                        FluxRates[n, "0", ":"] = buf;
+                        //var size = FluxRates.GetVariableSize(n - 1);
+                        //var buf = new float[size[1]];
+                        //FluxRates[n - 1, "0", ":"].CopyTo(buf, 0);
+                        //FluxRates[n, "0", ":"] = buf;
                     }
+                    FluxRates.DateTimes[n] = TimeService.StressPeriods[n].End;
                 }
 
                 sr.Close();
-                BuilTopology();
+                BuildTopology();
             }
         }
 
         private void InitTVArrays()
         {
             int np = TimeService.StressPeriods.Count;
-            this.FluxRates = new DataCube<float>(np, 1, 1, true);
+            this.FluxRates = new DataCube<float>(4, np, 1);
             for (int n = 0; n < np; n++)
             {
                 FluxRates.Variables[n] = "Flux Rate" + (n + 1);
             }
         }
 
-        public void BuilTopology()
+        public void BuildTopology()
         {
             var grid = Grid as RegularGrid;
             _WellTopo = new RegularGridTopology();
             int sp = 0;
-            for (int i = 0; i < FluxRates.Size[0]; i++)
+            for (int i = 0; i < FluxRates.Size[1]; i++)
             {
                 if (FluxRates.Flags[i, 0] == TimeVarientFlag.Individual)
                 {
@@ -320,15 +360,15 @@ namespace Heiflow.Models.Subsurface
                     break;
                 }
             }
-            _WellTopo.ActiveCell = new int[NWell][];
-            _WellTopo.ActiveCellIDs = new int[NWell];
+            _WellTopo.ActiveCell = new int[MXACTW][];
+            _WellTopo.ActiveCellIDs = new int[MXACTW];
             _WellTopo.RowCount = grid.RowCount;
             _WellTopo.ColumnCount = grid.ColumnCount;
-            _WellTopo.ActiveCellCount = NWell;
-            for (int i = 0; i < NWell; i++)
+            _WellTopo.ActiveCellCount = MXACTW;
+            for (int i = 0; i < MXACTW; i++)
             {
-                int row = (int)Locations[0, i, 1];
-                int col = (int)Locations[0, i, 2];
+                int row = (int)FluxRates[1, sp, i];
+                int col = (int)FluxRates[2, sp, i];
                 _WellTopo.ActiveCell[i] = new int[] { row - 1, col - 1 };
                 _WellTopo.ActiveCellIDs[i] = grid.Topology.GetID(row - 1, col - 1);
             }

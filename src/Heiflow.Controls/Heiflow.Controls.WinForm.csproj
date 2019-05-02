@@ -232,6 +232,13 @@
       <DependentUpon>Win3DView.cs</DependentUpon>
     </Compile>
     <Compile Include="Editors\ModflowControlFileNameEditor.cs" />
+    <Compile Include="Editors\PropertyEditor.cs" />
+    <Compile Include="Editors\PropertyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Editors\PropertyForm.Designer.cs">
+      <DependentUpon>PropertyForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Project\ImportModflowProperty.cs" />
     <Compile Include="Toolbox\DataCubeEditor.cs">
       <SubType>UserControl</SubType>
@@ -667,6 +674,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Display\Win3DView.resx">
       <DependentUpon>Win3DView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editors\PropertyForm.resx">
+      <DependentUpon>PropertyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Toolbox\DataCubeEditor.resx">
       <DependentUpon>DataCubeEditor.cs</DependentUpon>

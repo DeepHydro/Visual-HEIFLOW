@@ -127,6 +127,7 @@ namespace Heiflow.Tools.ConceptualModel
                 }
             }
         }
+
         [Category("Parameter")]
         [Description("Field of the layer")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
@@ -153,12 +154,14 @@ namespace Heiflow.Tools.ConceptualModel
                 }
             }
         }
+
         [Browsable(false)]
         public string[] Fields
         {
             get;
             protected set;
         }
+
         public override void Initialize()
         {    
             _grid_layer = GridFeatureLayer.DataSet as IFeatureSet;

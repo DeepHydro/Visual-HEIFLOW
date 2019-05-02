@@ -58,6 +58,7 @@ namespace Heiflow.Tools.DataManagement
             this.Author = "Yong Tian";
             EndCycle = 4;
             StartCycle = 1;
+            PumpScale = 1.5;
             GWCompensate = true;
         }
 
@@ -97,6 +98,11 @@ namespace Heiflow.Tools.DataManagement
         }
 
         public bool GWCompensate
+        {
+            get;
+            set;
+        }
+        public double PumpScale
         {
             get;
             set;
@@ -192,19 +198,21 @@ namespace Heiflow.Tools.DataManagement
                 var obj = list[i];
                 obj.Max_Pump_Rate = new double[obj.HRU_Num];
                 obj.Max_Total_Pump = 0;
-                var buf = TypeConverterEx.Split<double>(obj.GW_Cntl_Factor, 366);
-                int pump_days = 0;
+                var buf = TypeConverterEx.Split<double>(obj.GW_Cntl_Factor, 366);  
                 for (int j = 0; j < obj.HRU_Num; j++)
                 {
+                    double temp = 0;
+                    int pump_days = 0;
                     for (int k = 0; k < 366; k++)
                     {
                         if (buf[k] > 0)
                         {
-                            obj.Max_Total_Pump += obj.HRU_Area[j] * quota[k, i] / 1000 * (1 - obj.SW_Ratio);
+                            temp += obj.HRU_Area[j] * quota[k, i] / 1000 * (1 - obj.SW_Ratio) * PumpScale;
                             pump_days++;
                         }
                     }
-                    obj.Max_Pump_Rate[j] = System.Math.Round(obj.Max_Total_Pump / pump_days, 0);
+                    obj.Max_Pump_Rate[j] = System.Math.Round(temp / pump_days, 0);
+                    obj.Max_Total_Pump += temp;
                 }
                 obj.Max_Total_Pump = System.Math.Round(obj.Max_Total_Pump, 0);
             }
@@ -394,7 +402,7 @@ namespace Heiflow.Tools.DataManagement
                     sw_out.WriteLine(newline);
                 }
                 //每个HRU的最大地下水抽水量
-                var objbuf = from ir in irrg_obj_list select ir.Max_Total_Pump;
+                var objbuf = from ir in irrg_obj_list select (ir.Max_Total_Pump);
                 newline = string.Join("\t", objbuf);
                 newline += "\t" + "# Total maximum pumping amonut";
                 sw_out.WriteLine(newline);

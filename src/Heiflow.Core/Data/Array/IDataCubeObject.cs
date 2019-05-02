@@ -69,7 +69,7 @@ namespace Heiflow.Core.Data
         Array GetRegularlArrayByTime(int p1, int p2);
         void FromRegularArray(int p1, int p2, Array array);
         void FromSerialArray(int p1, int p2, Array array);
-        void AllocateSpaceDim(int var_index, int time_index, int length);
+        void AllocateVariable(int var_index,int ntime, int ncell);
         bool IsAllocated(int var_index);
         ILBaseArray ToILBaseArray(int var_index, int time_index);
         string SizeString();

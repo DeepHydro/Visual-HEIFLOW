@@ -531,6 +531,11 @@ namespace Heiflow.Controls.WinForm.Toolbox
             }
         }
 
+        public void RefreshChart()
+        {
+            this.winChart_timeseries.Refresh();
+        }
+
         public void RefreshLayerBy(object layer, string fieldName)
         {
             var gridLayer = layer as IMapFeatureLayer;

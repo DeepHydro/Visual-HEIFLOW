@@ -190,11 +190,11 @@ namespace Heiflow.Models.Subsurface
         public override void Save(ICancelProgressHandler progress)
         {
             string msg = "";
-            if (_MFNameManager.IsDirty)
-            {
+            //if (_MFNameManager.IsDirty)
+            //{
                 _MFNameManager.Save(ControlFileName);
                 progress.Progress("Modflow", 1, "\tNam file saved");
-            }
+            //}
             foreach (var pck in Packages.Values)
             {
                 if (pck is IMFPackage)
