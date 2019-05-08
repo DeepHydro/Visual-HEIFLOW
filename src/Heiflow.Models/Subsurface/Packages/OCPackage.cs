@@ -352,7 +352,7 @@ namespace Heiflow.Models.Subsurface
                       PackageInfo = fhd_info,
                       FileName = fhd_info.FileName
                   };
-                mfout.Children.Add(FHD);
+                mfout.AddChild(FHD);
             }
         }
         private int LoadRecords()

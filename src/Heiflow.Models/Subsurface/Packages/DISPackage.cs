@@ -248,8 +248,8 @@ namespace Heiflow.Models.Subsurface
             sw.WriteLine(line);
             line = string.Join("\t", LAYCBD) + "\t#LAYCBD";
             sw.WriteLine(line);
-            WriteSerialFloatArray(sw, grid.DELR, 0, 0, "F2", "DELR");
-            WriteSerialFloatArray(sw, grid.DELC, 0, 0, "F2", "DELC");
+            WriteSerialFloatArray(sw, grid.DELR, 0, 0, "E6", "DELR");
+            WriteSerialFloatArray(sw, grid.DELC, 0, 0, "E6", "DELC");
 
             string cmt = " #TOP";
             for (int k = 0; k < grid.LayerCount; k++)
@@ -258,7 +258,7 @@ namespace Heiflow.Models.Subsurface
                 {
                     cmt = " #BOTTOM OF LAYER " + k;
                 }
-                WriteSerialFloatArray(sw, grid.Elevations, k, 0, "F2", cmt);
+                WriteSerialFloatArray(sw, grid.Elevations, k, 0, "E6", cmt);
                 //WriteSerialFloatInternalMatrix(sw, grid.Elevations.Value[k][0], 1.0f, "F2", -1, cmt);
             }
 

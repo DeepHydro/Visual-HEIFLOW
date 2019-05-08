@@ -47,7 +47,7 @@ using System.Threading.Tasks;
 
 namespace Heiflow.Tools.ConceptualModel
 {
-    public  class Well : MapLayerRequiredTool
+    public class Well : MapLayerRequiredTool
     {
         public Well()
         {
@@ -65,7 +65,7 @@ namespace Heiflow.Tools.ConceptualModel
         private string _LayerField;
         private int _SelectedLayerIndex = 0;
         private bool _issuccess = false;
-        private string errormsg = "";
+
 
         [Category("Input")]
         [Description("WEL source layer")]
@@ -161,9 +161,9 @@ namespace Heiflow.Tools.ConceptualModel
             try
             {
                 var rate_fileds_list = TypeConverterEx.Split<string>(PumpingRateFieldList);
-                foreach(var field in rate_fileds_list)
+                foreach (var field in rate_fileds_list)
                 {
-                    if(!Fields.Contains(field))
+                    if (!Fields.Contains(field))
                     {
                         Initialized = false;
                         break;
@@ -181,6 +181,7 @@ namespace Heiflow.Tools.ConceptualModel
         {
             var shell = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
             var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
+
             var model = prj.Project.Model;
             int progress = 0;
             Modflow mf = null;
@@ -205,6 +206,7 @@ namespace Heiflow.Tools.ConceptualModel
                         var wel = mf.Select(WELPackage.PackageName);
                         mf.Add(wel);
                     }
+                    var mfout = mf.GetPackage(MFOutputPackage.PackageName) as MFOutputPackage;
                     var pck = mf.GetPackage(WELPackage.PackageName) as WELPackage;
                     int nwel = _sourcefs.Features.Count;
                     pck.MXACTW = nwel;
@@ -246,7 +248,7 @@ namespace Heiflow.Tools.ConceptualModel
                                 }
                             }
                         }
-                        else if (welnum_list[n]  == 0)
+                        else if (welnum_list[n] == 0)
                         {
                             pck.FluxRates.Flags[n, 0] = TimeVarientFlag.Constant;
                             pck.FluxRates.Multipliers[n, 0] = 1;
@@ -264,9 +266,9 @@ namespace Heiflow.Tools.ConceptualModel
                         }
                         pck.FluxRates.DateTimes[n] = mf.TimeService.StressPeriods[n].End;
                         progress = n * 100 / np;
-                        cancelProgressHandler.Progress("Package_Tool", progress, "Process stress period: " + (n+1));
+                        cancelProgressHandler.Progress("Package_Tool", progress, "Process stress period: " + (n + 1));
                     }
-
+                    pck.CompositeOutput(mfout);
                     pck.CreateFeature(shell.MapAppManager.Map.Projection, prj.Project.GeoSpatialDirectory);
                     pck.BuildTopology();
                     pck.IsDirty = true;
@@ -289,7 +291,7 @@ namespace Heiflow.Tools.ConceptualModel
             var shell = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
             var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
 
-            if (prj.Project.Model is Heiflow.Models.Integration.HeiflowModel model)
+            if (prj.Project.Model is Heiflow.Models.Integration.HeiflowModel)
             {
                 var wel = prj.Project.Model.GetPackage(WELPackage.PackageName) as WELPackage;
                 if (wel != null && _issuccess)

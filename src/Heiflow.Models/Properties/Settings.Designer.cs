@@ -63,7 +63,7 @@ namespace Heiflow.Models.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("heiflow1.0.1.exe")]
+        [global::System.Configuration.DefaultSettingValueAttribute("heiflow.exe")]
         public string HeiflowExe {
             get {
                 return ((string)(this["HeiflowExe"]));

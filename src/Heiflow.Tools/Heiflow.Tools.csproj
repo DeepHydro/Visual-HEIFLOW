@@ -96,6 +96,7 @@
   <ItemGroup>
     <Compile Include="ConceptualModel\BoreholeToAquiferSturcutre.cs" />
     <Compile Include="ConceptualModel\FHB.cs" />
+    <Compile Include="ConceptualModel\HOB.cs" />
     <Compile Include="ConceptualModel\Lake.cs" />
     <Compile Include="ConceptualModel\ReachFeatureCollection.cs" />
     <Compile Include="ConceptualModel\SFR2.cs" />

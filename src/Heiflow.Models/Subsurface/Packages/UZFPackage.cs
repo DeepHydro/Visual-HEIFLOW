@@ -496,13 +496,13 @@ namespace Heiflow.Models.Subsurface
             }
             if (IUZFOPT == 1)
             {
-                WriteSerialFloatArray(sw, this.VKS, 0, 0, "F2", " # Data Set 4: VKS");
+                WriteSerialFloatArray(sw, this.VKS, 0, 0, "E6", " # Data Set 4: VKS");
             }
-            WriteSerialFloatArray(sw, this.EPS, 0,0, "F2", " # Data Set 5: EPS for Stress Period 0");
-            WriteSerialFloatArray(sw, this.THTS, 0, 0, "F2", " # Data Set 6: THTS for Stress Period 0");
+            WriteSerialFloatArray(sw, this.EPS, 0, 0, "E6", " # Data Set 5: EPS for Stress Period 0");
+            WriteSerialFloatArray(sw, this.THTS, 0, 0, "E6", " # Data Set 6: THTS for Stress Period 0");
 
             if (SPECIFYTHTI)
-                WriteSerialFloatArray(sw, this.THTI, 0, 0, "F2", " # Data Set 7: THTI for Stress Period 0");
+                WriteSerialFloatArray(sw, this.THTI, 0, 0, "E6", " # Data Set 7: THTI for Stress Period 0");
 
             //todo
             if (NUZGAG > 0)
@@ -521,26 +521,26 @@ namespace Heiflow.Models.Subsurface
                 newline = string.Format("{0}\t# Data Set 9: NUZF1", reuse);
                 sw.WriteLine(newline);
                 if (reuse >= 0)
-                    WriteSerialFloatArray(sw, this.FINF, p, 0, "F5", " # Data Set 10 FINF  for Stress Period " + (p + 1));
+                    WriteSerialFloatArray(sw, this.FINF, p, 0, "E6", " # Data Set 10 FINF  for Stress Period " + (p + 1));
                 if (IETFLG > 0)
                 {
                     reuse = this.PET.Flags[p, 0] == TimeVarientFlag.Repeat ? -1 : 0;
                     newline = string.Format("{0}\t# Data Set 11: NUZF2", reuse);
                     sw.WriteLine(newline);
                     if (reuse >= 0)
-                        WriteSerialFloatArray(sw, this.PET, p, 0, "F5", " # Data Set 12 PET  for Stress Period " + (p + 1));
+                        WriteSerialFloatArray(sw, this.PET, p, 0, "E6", " # Data Set 12 PET  for Stress Period " + (p + 1));
 
                     reuse = this.EXTDP.Flags[p, 0] == TimeVarientFlag.Repeat ? -1 : 0;
                     newline = string.Format("{0}\t# Data Set 13: NUZF3", reuse);
                     sw.WriteLine(newline);
                     if (reuse  >= 0)
-                        WriteSerialFloatArray(sw, this.EXTDP, p, 0, "F5", " # Data Set 14 EXTDP  for Stress Period " + (p + 1));
+                        WriteSerialFloatArray(sw, this.EXTDP, p, 0, "E6", " # Data Set 14 EXTDP  for Stress Period " + (p + 1));
 
                     reuse = this.EXTWC.Flags[p, 0] == TimeVarientFlag.Repeat ? -1 : 0;
                     newline = string.Format("{0}\t# Data Set 15: NUZF4", reuse);
                     sw.WriteLine(newline);
                     if (reuse >= 0)
-                        WriteSerialFloatArray(sw, this.EXTWC, p, 0, "F5", " # Data Set 16 EXTWC  for Stress Period " + (p + 1));
+                        WriteSerialFloatArray(sw, this.EXTWC, p, 0, "E6", " # Data Set 16 EXTWC  for Stress Period " + (p + 1));
                 }
             }
             sw.Close();

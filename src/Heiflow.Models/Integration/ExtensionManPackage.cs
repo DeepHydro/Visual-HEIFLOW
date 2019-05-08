@@ -48,6 +48,8 @@ namespace Heiflow.Models.Integration
          private string _LakeExFile;
          private string _AllocCurveExFile;
          private string _MF_IOLOG_File;
+         private string _PET_CONSTRAINT_File;
+         private string _ABM_MODEL_File;
 
         public ExtensionManPackage()
         {
@@ -199,6 +201,39 @@ namespace Heiflow.Models.Integration
                 _MF_IOLOG_File = value;
             }
         }
+        public bool EnablePET_CONSTRAINT
+        {
+            get;
+            set;
+        }
+
+        public string PET_CONSTRAINT_File
+        {
+            get
+            {
+                return Path.Combine(Owner.WorkDirectory, _PET_CONSTRAINT_File);
+            }
+            set
+            {
+                _PET_CONSTRAINT_File = value;
+            }
+        }
+        public bool EnableABM
+        {
+            get;
+            set;
+        }
+        public string ABM_MODEL_File
+        {
+            get
+            {
+                return Path.Combine(Owner.WorkDirectory, _ABM_MODEL_File);
+            }
+            set
+            {
+                _ABM_MODEL_File = value;
+            }
+        }
         public override void Initialize()
         {
             this.Grid = Owner.Grid;
@@ -245,6 +280,14 @@ namespace Heiflow.Models.Integration
                 AllocCurveExFile = sr.ReadLine().Trim();
                 newline = sr.ReadLine();
                 MF_IOLOG_File = sr.ReadLine().Trim();
+                newline = sr.ReadLine();
+                newline = sr.ReadLine();
+                EnablePET_CONSTRAINT = String2Bool(newline.Trim());
+                PET_CONSTRAINT_File = sr.ReadLine().Trim();
+                newline = sr.ReadLine();
+                newline = sr.ReadLine();
+                EnableABM = String2Bool(newline.Trim());
+                ABM_MODEL_File = sr.ReadLine().Trim();
 
                 fs.Close();
                 sr.Close();
@@ -294,6 +337,13 @@ namespace Heiflow.Models.Integration
             sw.WriteLine(_AllocCurveExFile);
             sw.WriteLine("## MF IO LOG FILE");
             sw.WriteLine(_MF_IOLOG_File);
+            sw.WriteLine("## PET Constraint");
+            sw.WriteLine(Bool2String(EnablePET_CONSTRAINT));
+            sw.WriteLine(_PET_CONSTRAINT_File);
+            sw.WriteLine("## ABM Model");
+            sw.WriteLine(Bool2String(EnableABM));
+            sw.WriteLine(ABM_MODEL_File);
+
             sw.Close();
             OnSaved(progress);
             return true;
@@ -321,6 +371,8 @@ namespace Heiflow.Models.Integration
             _LakeExFile = ".\\Input\\Extension\\lake.ex";
             _AllocCurveExFile = ".\\Input\\Extension\\allocation_curve.ex";
             _MF_IOLOG_File = ".\\Output\\mf_io_log.csv";
+            _PET_CONSTRAINT_File = ".\\Input\\Extension\\pet_constraint.ex";
+            _ABM_MODEL_File = ".\\Input\\Extension\\abm.ex";
         }
         private bool String2Bool(string str)
         {

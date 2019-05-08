@@ -292,7 +292,7 @@ namespace Heiflow.Models.Subsurface
                         Polygon geom = new Polygon(ring);
                         IFeature feature = fs.AddFeature(geom);
                         feature.DataRow.BeginEdit();
-                        feature.DataRow["CELL_ID"] = grid.Topology.GetID(reach.JRCH, reach.IRCH);
+                        feature.DataRow["CELL_ID"] = grid.Topology.GetID(reach.IRCH - 1, reach.JRCH - 1);
                         feature.DataRow["ISEG"] = reach.ISEG;
                         feature.DataRow["IRCH"] = reach.IRCH;
                         feature.DataRow["JRCH"] = reach.JRCH;

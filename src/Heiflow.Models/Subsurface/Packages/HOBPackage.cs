@@ -71,7 +71,7 @@ namespace Heiflow.Models.Subsurface
             NH = 0;
             MOBS = 0;
             MAXM = 2;
-            IUHOBSV = 42;
+            IUHOBSV = 0;
             HOBDRY = -999.0f;
             TOMULTH = 1.0f;
             Option = "NOPRINT";
@@ -118,8 +118,17 @@ namespace Heiflow.Models.Subsurface
 
             _Layer3DToken = "HOB";
         }
+        /// <summary>
+        /// the number of head (or change in head) observations.
+        /// </summary>
         public int NH { get; set; }
+        /// <summary>
+        /// the number of the NH observations that are multilayer
+        /// </summary>
         public int MOBS { get; set; }
+        /// <summary>
+        /// the maximum number of layers used for any of the MOBS observations.
+        /// </summary>
         public int MAXM { get; set; }
         /// <summary>
         /// File unit for saving observation data in a file. 
@@ -129,6 +138,9 @@ namespace Heiflow.Models.Subsurface
         public int IUHOBSV { get; set; }
         public float HOBDRY { get; set; }
         public string Option { get; set; }
+        /// <summary>
+        ///  the time-offset multiplier for head observations
+        /// </summary>
         public float TOMULTH { get; set; }
         public List<IObservationsSite> Observations { get; private set; }
         [StaticVariableItem("Stress Period")]
@@ -170,7 +182,7 @@ namespace Heiflow.Models.Subsurface
         public override bool New()
         {
             var mf = Owner as Modflow;
-            this.IUHOBSV = mf.NameManager.NextFID();
+            this.IUHOBSV = mf.NameManager.NextFID() + 1;
             var pckinfo = new PackageInfo();
             pckinfo.ModuleName = "DATA";
             pckinfo.FID = this.IUHOBSV;
@@ -262,7 +274,7 @@ namespace Heiflow.Models.Subsurface
                 HOBDRY = float.Parse(strs[4]);
                 Option = strs[5];
                 TOMULTH = TypeConverterEx.Split<float>(sr.ReadLine(), 1)[0];
-                Topology = new RegularGridTopology();
+              
                 int i = 0;
                 while (!sr.EndOfStream)
                 {
@@ -313,26 +325,7 @@ namespace Heiflow.Models.Subsurface
                     Observations.Add(obs);
                     i++;
                 }
-                if (Observations.Any())
-                {
-                    Topology.ActiveCell = new int[NH][];
-                    Topology.ActiveCellIDs = new int[NH];
-                    Topology.RowCount = grid.RowCount;
-                    Topology.ColumnCount = grid.ColumnCount;
-                    Topology.ActiveCellCount = NH;
-                    var nsp1 = (Observations[0] as HeadObservation).IREFSP.Length;
-                    HOBS = new DataCube<float>(1, nsp1, NH);
-                    HOBS.Variables = new string[] { "Head Observation" };
-                    for (int t = 0; t < nsp1; t++)
-                        for (int k = 0; k < NH; k++)
-                        {
-                            var hob= Observations[k] as HeadObservation;
-                            HOBS[0,t,k] = hob.HOBS[t];
-                            Topology.ActiveCell[k] = new int[] { hob.Row - 1, hob.Column - 1 };
-                            Topology.ActiveCellIDs[k] = grid.Topology.GetID(hob.Row - 1, hob.Column - 1);
-                        }
-                    HOBS.Topology = this.Topology;
-                }
+                BuildTopology();
                 sr.Close();
                 OnLoaded(progresshandler);
                 return true;
@@ -343,30 +336,54 @@ namespace Heiflow.Models.Subsurface
                 return false;
             }
         }
+        public void BuildTopology()
+        {
+            var grid = (Owner.Grid as MFGrid);
+            Topology = new RegularGridTopology();
+            if (Observations.Any())
+            {
+                Topology.ActiveCell = new int[NH][];
+                Topology.ActiveCellIDs = new int[NH];
+                Topology.RowCount = grid.RowCount;
+                Topology.ColumnCount = grid.ColumnCount;
+                Topology.ActiveCellCount = NH;
+                var nsp1 = (Observations[0] as HeadObservation).IREFSP.Length;
+                HOBS = new DataCube<float>(1, nsp1, NH);
+                HOBS.Variables = new string[] { "Head Observation" };
+                for (int t = 0; t < nsp1; t++)
+                    for (int k = 0; k < NH; k++)
+                    {
+                        var hob = Observations[k] as HeadObservation;
+                        HOBS[0, t, k] = hob.HOBS[t];
+                        Topology.ActiveCell[k] = new int[] { hob.Row - 1, hob.Column - 1 };
+                        Topology.ActiveCellIDs[k] = grid.Topology.GetID(hob.Row - 1, hob.Column - 1);
+                    }
+                HOBS.Topology = this.Topology;
+            }
+        }
         public override bool SaveAs(string filename, ICancelProgressHandler prg)
         {
-            //StreamWriter sw = new StreamWriter(filename);
-            //WriteDefaultComment(sw, "HOB");
-            //var hobs = Parameters["HOBS"].Value as List<HeadObservation>;
+            StreamWriter sw = new StreamWriter(filename);
+            WriteDefaultComment(sw, "HOB");
 
-            //string line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t# Data Set 1: NH MOBS MAXM IUHOBSV HOBDRY OPTION", Parameters["NH"].IntValue, Parameters["MOBS"].IntValue, 
-            //    Parameters["MAXM"].IntValue, Parameters["IUHOBSV"].IntValue, Parameters["HOBDRY"].FloatValue, Parameters["OPTION"].StringValue);
-            //sw.WriteLine(line);
-            //line = string.Format("{0}\t # Data Set 2: TOMULTH", 1);
-            //sw.WriteLine(line);
-            //foreach (var obs in hobs)
-            //{
-            //    line = "";
-            //    line += string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t# Data Set 3: OBSNAM LAYER ROW COLUMN IREFSP TOFFSET ROFF COFF HOBS\n",
-            //        obs.ID, obs.Layer, obs.Row, obs.Column, obs.IREFSP[0], obs.TOFFSET[0], obs.ROFF, obs.COFF, obs.HOBS[0]);
-            //    line += string.Format("{0}\t #Data Set 5: ITT\n", obs.ITT);
-            //    for (int t = 0; t < obs.ITT; t++)
-            //    {
-            //        line += string.Format("{0}\t{1}\t{2}\t{3}\t# Data Set 6: OBSNAM IREFSP TOFFSET HOBS\n", obs.ID, Math.Abs(obs.IREFSP[t]), obs.TOFFSET[t], obs.HOBS[t]);
-            //    }
-            //    sw.Write(line);
-            //}
-            //sw.Close();
+            string line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t# Data Set 1: NH MOBS MAXM IUHOBSV HOBDRY OPTION", NH, MOBS,
+                MAXM, IUHOBSV, HOBDRY,Option);
+            sw.WriteLine(line);
+            line = string.Format("{0}\t # Data Set 2: TOMULTH", 1);
+            sw.WriteLine(line);
+            foreach (HeadObservation obs in Observations)
+            {
+                line = "";
+                line += string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t# Data Set 3: OBSNAM LAYER ROW COLUMN IREFSP TOFFSET ROFF COFF HOBS\n",
+                    obs.ID, obs.Layer, obs.Row, obs.Column, obs.IREFSPFlag, obs.TOFFSET[0], obs.ROFF, obs.COFF, obs.HOBS[0]);
+                line += string.Format("{0}\t #Data Set 5: ITT\n", obs.ITT);
+                for (int t = 0; t < obs.ITT; t++)
+                {
+                    line += string.Format("{0}\t{1}\t{2}\t{3}\t# Data Set 6: OBSNAM IREFSP TOFFSET HOBS\n", obs.ID, Math.Abs(obs.IREFSP[t]), obs.TOFFSET[t], obs.HOBS[t]);
+                }
+                sw.Write(line);
+            }
+            sw.Close();
             return true;
         }
         public override void Clear()
@@ -378,18 +395,34 @@ namespace Heiflow.Models.Subsurface
             var mf = Owner as Modflow;
             if (this.IUHOBSV > 0)
             {
-                var pck_info = (from info in mf.NameManager.MasterList where info.FID == this.IUHOBSV select info).First();
-                pck_info.ModuleName = HOBOutputPackage.PackageName;
-
+                var pck_infos = from info in mf.NameManager.MasterList where info.FID == this.IUHOBSV select info;
+                Heiflow.Models.Generic.PackageInfo pck_info = null;
+                if (pck_infos.Any())
+                {
+                    pck_info = pck_infos.First();
+                }
+                else
+                {
+                    pck_info = new PackageInfo();
+                    pck_info.ModuleName = "DATA";
+                    pck_info.FID = mf.NameManager.NextFID();
+                    pck_info.Format = FileFormat.Text;
+                    pck_info.FileExtension = ".hob_out";
+                    pck_info.FileName = string.Format("{0}{1}{2}", Modflow.OutputDic, "hob", pck_info.FileExtension);
+                    pck_info.Name = Path.GetFileName(pck_info.FileName);
+                    pck_info.WorkDirectory = mf.WorkDirectory;
+                    pck_info.Format = FileFormat.Text;
+                    pck_info.IOState = IOState.REPLACE;
+                }
                 var hob_out = new HOBOutputPackage()
                 {
                     Owner = mf,
                     Parent = this,
                     PackageInfo = pck_info,
-                    FileName =pck_info.FileName
+                    FileName = pck_info.FileName
                 };
                 hob_out.Initialize();
-                mfout.Children.Add(hob_out);
+                mfout.AddChild(hob_out);
             }
         }
 

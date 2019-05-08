@@ -190,7 +190,7 @@ namespace Heiflow.Models.Subsurface
             for (int k = 0; k < grid.ActualLayerCount; k++)
             {
                 cmt = " # Start Head of Layer " + (k + 1);
-                WriteSerialFloatArray(sw, this.STRT, k, 0, "F2", cmt);
+                WriteSerialFloatArray(sw, this.STRT, k, 0, "E6", cmt);
             }
             sw.Close();
             OnSaved(progress);

@@ -75,6 +75,7 @@ namespace Heiflow.Tools.ConceptualModel
             SegmentField = "WSNO";
             OutSegmentField = "DSLINKNO";
             LengthField = "Length";
+            IgnoreMinorReach = true;
         }
 
         [Category("Input")]
@@ -115,6 +116,14 @@ namespace Heiflow.Tools.ConceptualModel
         [Description("Stream-Grid intersection layer")]
         [EditorAttribute(typeof(MapLayerDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         public IMapLayerDescriptor StreamGridInctLayer
+        {
+            get;
+            set;
+        }
+        [Category("Optional")]
+        [Description("Stream-Grid intersection layer")]
+        [EditorAttribute(typeof(MapLayerDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
+        public bool IgnoreMinorReach
         {
             get;
             set;
@@ -294,7 +303,7 @@ namespace Heiflow.Tools.ConceptualModel
             cancelProgressHandler.Progress("Package_Tool", 70, "Calculation of reach parameters finished");
             if (msg != "")
                 cancelProgressHandler.Progress("Package_Tool", 80, "Warnings: " + msg);
-            Save2SFRFile(fea_list);
+            Save2SFRFile(fea_list, cancelProgressHandler);
 
             cancelProgressHandler.Progress("Package_Tool", 90, "SFR file saved");
             return true;
@@ -334,7 +343,7 @@ namespace Heiflow.Tools.ConceptualModel
                 {
                     var dr = dt.Rows[i];
                     var geo = _out_sfr_layer.GetFeature(i).Geometry;
-                    if (geo.Length <= _dem_layer.CellHeight)
+                    if (geo.Length <= _dem_layer.CellHeight && IgnoreMinorReach)
                     {
                         continue;
                     }
@@ -450,7 +459,7 @@ namespace Heiflow.Tools.ConceptualModel
             }
         }
 
-        private void Save2SFRFile(Dictionary<int, ReachFeatureCollection> fea_list)
+        private void Save2SFRFile(Dictionary<int, ReachFeatureCollection> fea_list, ICancelProgressHandler cancelProgressHandler)
         {
             var ps = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
             var shell = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
@@ -535,20 +544,20 @@ namespace Heiflow.Tools.ConceptualModel
                                     SubID = reach_local_id,
                                     SubIndex = reach_local_id - 1
                                 };
-                                if (rch.TopElevation < grid.Elevations[1, 0, index])
+                                if (rch.Slope <= 0)
+                                    rch.Slope = 0.001;
+                               
+                                if ((rch.TopElevation - rch.BedThick) < grid.Elevations[1, 0, index])
                                 {
-                                    rch.TopElevation = grid.Elevations[0, 0, index] + Offset;
+                                    rch.TopElevation = grid.Elevations[1, 0, index] + rch.BedThick + System.Math.Abs(Offset);
+                                    string msg = string.Format("The top elevation of the reach {0} {1} is modified ", rch.ISEG,rch.IREACH);
+                                    cancelProgressHandler.Progress("Package_Tool", 80, "Warnings:  " + msg);
                                 }
-                                //check it again
-                                if (rch.TopElevation < grid.Elevations[1, 0, index])
-                                {
-                                    rch.TopElevation = grid.Elevations[1, 0, index] + System.Math.Abs(Offset);
-                                }
+                               
                                 river.Reaches.Add(rch);
                                 net.Reaches.Add(rch);
                                 reach_local_id++;
                                 reach_id++;
-
                             }
                         }
                         if (river.Reaches.Count == 0)

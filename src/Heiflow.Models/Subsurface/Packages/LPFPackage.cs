@@ -376,27 +376,27 @@ namespace Heiflow.Models.Subsurface
                 string cmt = string.Format("#HK Layer {0}", l + 1);
 
                // WriteSerialFloatInternalMatrix(sw, HK[l, 0], 1, "E5", -1, cmt);
-                WriteSerialFloatArray(sw, HK, l, 0, "E5", cmt);
+                WriteSerialFloatArray(sw, HK, l, 0, "E6", cmt);
                 cmt = string.Format("#HANI Layer {0}", l + 1);
                // WriteSerialFloatInternalMatrix(sw, HANI[l, 0], 1, "E5", -1, cmt);
-                WriteSerialFloatArray(sw, HANI, l, 0, "E5", cmt);
+                WriteSerialFloatArray(sw, HANI, l, 0, "E6", cmt);
                 cmt = string.Format("#VKA Layer {0}", l + 1);
                 //WriteSerialFloatInternalMatrix(sw, VKA[l, 0], 1, "E5", -1, cmt);
-                WriteSerialFloatArray(sw, VKA, l, 0, "E5", cmt);
+                WriteSerialFloatArray(sw, VKA, l, 0, "E6", cmt);
                 cmt = string.Format("#SS Layer {0}", l + 1);
                 //WriteSerialFloatInternalMatrix(sw, SS[l, 0], 1, "E5", -1, cmt);
-                WriteSerialFloatArray(sw, SS, l, 0, "E5", cmt);
+                WriteSerialFloatArray(sw, SS, l, 0, "E6", cmt);
                 if (LAYTYP[l] != 0)
                 {
                     cmt = string.Format("#SY Layer {0}", l + 1);
                     //WriteSerialFloatInternalMatrix(sw, SY[l, 0], 1, "E5", -1, cmt);
-                    WriteSerialFloatArray(sw, SY, l, 0, "E5", cmt);
+                    WriteSerialFloatArray(sw, SY, l, 0, "E6", cmt);
                 }
                 if (LAYTYP[l] != 0 && LAYWET[l] != 0)
                 {
                     cmt = string.Format("#WETDRY Layer {0}", l + 1);
                   //  WriteSerialFloatInternalMatrix(sw, WETDRY[l, 0], 1, "E5", -1, cmt);
-                    WriteSerialFloatArray(sw, WETDRY, l, 0, "E5", cmt);
+                    WriteSerialFloatArray(sw, WETDRY, l, 0, "E6", cmt);
                 }
             }
             sw.Close();

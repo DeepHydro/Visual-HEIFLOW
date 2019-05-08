@@ -113,7 +113,7 @@ namespace Heiflow.Models.Subsurface
                     var finfo = (from info in mf.NameManager.MasterList where info.FID == -uid select info).First();
                     lake_out.OutputFilesInfo.Add(finfo);
                 }
-                mfout.Children.Add(lake_out);
+                mfout.AddChild(lake_out);
             }
         }
 

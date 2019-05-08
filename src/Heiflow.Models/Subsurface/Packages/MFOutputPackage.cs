@@ -67,5 +67,19 @@ namespace Heiflow.Models.Subsurface
             Children.Clear();
             base.Clear();
         }
+
+        public new void AddChild(IPackage pck)
+        {
+            if(Children.Any(p=>p.Name == pck.Name))
+            {
+               var pck1 = Children.Single(p => p.Name == pck.Name);
+               Children.Remove(pck1);
+               Children.Add(pck);
+            }
+            else
+            {
+                Children.Add(pck);
+            }
+        }
     }
 }

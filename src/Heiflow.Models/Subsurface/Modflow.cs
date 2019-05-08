@@ -272,7 +272,7 @@ namespace Heiflow.Models.Subsurface
                 pck.New();
                 Packages.Add(pck.Name, pck);
                 NameManager.Add(pckinfo);
-                MFOutputPackage mfout = this.Select(MFOutputPackage.PackageName) as MFOutputPackage;
+                MFOutputPackage mfout = this.GetPackage(MFOutputPackage.PackageName) as MFOutputPackage;
                 (pck as IMFPackage).CompositeOutput(mfout);
                 if (this.Owner != null)
                     Owner.OnPackageAdded(pck);
