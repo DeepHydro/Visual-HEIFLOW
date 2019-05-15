@@ -114,6 +114,15 @@ namespace Heiflow.Plugins.Menubar
             //    ToolTipText = "Import a model"
             //});
 
+            //header.Add(new SimpleActionItem(FileMenuKey, "Open Dotspatial Map Project", OpenDspProject_Click)
+            //{
+            //    GroupCaption = HeaderControl.ApplicationMenuKey,
+            //    SortOrder = 2,
+            //    SmallImage = Resources.MapWindowNew16,
+            //    LargeImage = Resources.MapWindowNew32,
+            //    ToolTipText = "Open Dotspatial Map Project"
+            //});
+
             header.Add(new SimpleActionItem(FileMenuKey, "About", About_Click)
             {
                 GroupCaption = HeaderControl.ApplicationMenuKey,
@@ -152,7 +161,7 @@ namespace Heiflow.Plugins.Menubar
             if (ProjectManager.ProjectService.Project != null)
             {
                 var msg = string.Format("The project has  been opened. Do you want to save the project?", ProjectManager.ProjectService.Project.Name);
-                var result = MessageBox.Show(msg, "Warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning) ;
+                var result = MessageBox.Show(msg, "Warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
                 if (result == DialogResult.Yes)
                 {
                     ProjectManager.Save.Execute(null);
@@ -161,6 +170,7 @@ namespace Heiflow.Plugins.Menubar
                 else if (result == DialogResult.No)
                 {
                     ProjectManager.ShellService.ClearContents();
+                    //ProjectManager.MapAppManager.SerializationManager.OpenProject()
                 }
                 else
                 {
@@ -190,11 +200,11 @@ namespace Heiflow.Plugins.Menubar
             {
                 var msg = string.Format("The project has been opened. Do you want to save the project?", ProjectManager.ProjectService.Project.Name);
                 var result = MessageBox.Show(msg, "Warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
-                if (result== DialogResult.Yes)
+                if (result == DialogResult.Yes)
                 {
                     ProjectManager.Save.Execute(null);
                 }
-                else if (result== DialogResult.Cancel)
+                else if (result == DialogResult.Cancel)
                 {
                     return;
                 }
@@ -213,13 +223,22 @@ namespace Heiflow.Plugins.Menubar
             if (ProjectManager.Save.CanExecute(null))
             {
                 Cursor.Current = Cursors.WaitCursor;
-                    ProjectManager.Save.Execute(null);
+                ProjectManager.Save.Execute(null);
                 Cursor.Current = Cursors.Default;
             }
             else
             {
                 MessageBox.Show("You cann't save since no project has been created!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
+            }
+        }
+
+        private void OpenDspProject_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            if(dlg.ShowDialog() == DialogResult.OK)
+            {
+                ProjectManager.MapAppManager.SerializationManager.OpenProject(dlg.FileName);
             }
         }
 

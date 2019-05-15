@@ -39,21 +39,24 @@
             this.map1.BackColor = System.Drawing.Color.White;
             this.map1.CollectAfterDraw = false;
             this.map1.CollisionDetection = false;
+            this.map1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.map1.ExtendBuffer = false;
+            this.map1.Font = new System.Drawing.Font("Calibri", 9.5F);
             this.map1.FunctionMode = DotSpatial.Controls.FunctionMode.None;
             this.map1.IsBusy = false;
             this.map1.IsZoomedToMaxExtent = false;
             this.map1.Legend = null;
-            this.map1.Location = new System.Drawing.Point(14, 61);
+            this.map1.Location = new System.Drawing.Point(0, 0);
+            this.map1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.map1.Name = "map1";
             this.map1.ProgressHandler = null;
             this.map1.ProjectionModeDefine = DotSpatial.Controls.ActionMode.Prompt;
             this.map1.ProjectionModeReproject = DotSpatial.Controls.ActionMode.Prompt;
             this.map1.RedrawLayersWhileResizing = false;
             this.map1.SelectionEnabled = true;
-            this.map1.Size = new System.Drawing.Size(349, 313);
+            this.map1.Size = new System.Drawing.Size(1054, 690);
             this.map1.TabIndex = 3;
-            this.map1.ZoomOutFartherThanMaxExtent = false;
+            this.map1.ZoomOutFartherThanMaxExtent = true;
             // 
             // appManager1
             // 
@@ -66,12 +69,14 @@
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(922, 537);
+            this.ClientSize = new System.Drawing.Size(1054, 690);
             this.Controls.Add(this.map1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Visual HEIFLOW";
             this.ResumeLayout(false);
 

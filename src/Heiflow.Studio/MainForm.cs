@@ -108,7 +108,7 @@ namespace Heiflow.Models.Studio
             this.Load += MainForm_Load;
             this.FormClosing += MainForm_FormClosing;
             DevExpress.Data.CurrencyDataController.DisableThreadingProblemsDetection = true;
-
+            //appManager1.Map
             _VHFAppManager.ShellService.AddNativeChildren();
             _VHFAppManager.ShellService.InitChildViewService();
         }
