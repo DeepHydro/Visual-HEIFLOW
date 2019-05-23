@@ -163,7 +163,6 @@ namespace Heiflow.Tools.ConceptualModel
 
         public override bool Execute(ICancelProgressHandler cancelProgressHandler)
         {
-            var shell = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
             var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
             var model = prj.Project.Model;
             int progress = 0;
@@ -192,6 +191,7 @@ namespace Heiflow.Tools.ConceptualModel
                 Coordinate pt = null;
                 int layer = 1;
                 string name = "";
+                pck.Observations.Clear();
                 for (int i = 0; i < nwel; i++)
                 {
                     float.TryParse(_sourcefs.DataTable.Rows[i][ObservedHeadField].ToString(), out head);
@@ -210,7 +210,7 @@ namespace Heiflow.Tools.ConceptualModel
                             name =  _sourcefs.DataTable.Rows[i][OBSNAMField].ToString();
                             if (name.Length > 12)
                                 name = name.Substring(0, 12);
-                            int.TryParse(_sourcefs.DataTable.Rows[j][LayerField].ToString(), out layer);
+                            int.TryParse(_sourcefs.DataTable.Rows[i][LayerField].ToString(), out layer);
                             obs.ID = i + 1;
                             obs.Name = name;
                             obs.CellID = grid.Topology.GetID(obs.Row - 1, obs.Column - 1);

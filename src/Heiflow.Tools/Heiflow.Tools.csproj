@@ -95,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConceptualModel\BoreholeToAquiferSturcutre.cs" />
+    <Compile Include="ConceptualModel\UZF.cs" />
     <Compile Include="ConceptualModel\FHB.cs" />
     <Compile Include="ConceptualModel\HOB.cs" />
     <Compile Include="ConceptualModel\Lake.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="Hydrology\PMPET6Batch.cs" />
     <Compile Include="Hydrology\PMPETSingle.cs" />
     <Compile Include="Hydrology\TemperatureConversion.cs" />
+    <Compile Include="IrrigationModel\WRAInputFile.cs" />
     <Compile Include="IrrigationModel\WithdrawInputFile.cs" />
     <Compile Include="MachineLearning\enums.cs" />
     <Compile Include="MachineLearning\SVM4RS.cs" />

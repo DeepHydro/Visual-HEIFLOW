@@ -55,6 +55,7 @@ namespace Heiflow.Models.Subsurface
                 ch.Initialize();
             }
             base.Initialize();
+            State = ModelObjectState.Ready;
         }
         public override bool Load(ICancelProgressHandler progress)
         {

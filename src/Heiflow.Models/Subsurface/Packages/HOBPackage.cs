@@ -210,6 +210,7 @@ namespace Heiflow.Models.Subsurface
                 fs.DataTable.Columns.Add(new DataColumn("Row", typeof(int)));
                 fs.DataTable.Columns.Add(new DataColumn("Column", typeof(int)));
                 fs.DataTable.Columns.Add(new DataColumn("ID", typeof(int)));
+                fs.DataTable.Columns.Add(new DataColumn("LAYER", typeof(int)));
 
                 fs.DataTable.Columns.Add(new DataColumn("Elevation", typeof(float)));
                 fs.DataTable.Columns.Add(new DataColumn("HSIM", typeof(float)));
@@ -224,7 +225,7 @@ namespace Heiflow.Models.Subsurface
 
                 fs.DataTable.Columns.Add(new DataColumn("IsTR", typeof(int)));
                 int i = 1;
-                foreach (var vv in Observations)
+                foreach (HeadObservation vv in Observations)
                 {
                     var hob = vv as HeadObservation;
                     var coor = grid.LocateCentroid(hob.Column, hob.Row);
@@ -235,10 +236,22 @@ namespace Heiflow.Models.Subsurface
                     feature.DataRow["Row"] = hob.Row;
                     feature.DataRow["Column"] = hob.Column;
                     feature.DataRow["ID"] = hob.ID;
+                    feature.DataRow["LAYER"] = hob.Layer;
 
-                    feature.DataRow["Elevation"] = hob.Elevation;
+                   
                     feature.DataRow["HSIM"] = 0;
-                    feature.DataRow["HOBS"] = 0;
+                    feature.DataRow["HOBS"] = vv.HOBS[0];
+                    if (hob.Layer == 1)
+                    {
+                        feature.DataRow["Elevation"] = hob.Elevation;
+                        feature.DataRow["DepOBS"] = hob.Elevation - vv.HOBS[0];
+                    }
+                    else
+                    {
+                        var index = grid.Topology.GetIndex(hob.Row - 1, hob.Column - 1);
+                        feature.DataRow["Elevation"] = grid.Elevations[hob.Layer - 1, 0, index];
+                        feature.DataRow["DepOBS"] = grid.Elevations[hob.Layer - 1, 0, index] - vv.HOBS[0];
+                    }
 
                     feature.DataRow["Name"] = hob.Name;
                     feature.DataRow[RegularGrid.ParaValueField] = 0;

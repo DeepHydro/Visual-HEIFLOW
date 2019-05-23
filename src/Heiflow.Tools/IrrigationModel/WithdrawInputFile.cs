@@ -469,6 +469,10 @@ namespace Heiflow.Tools.DataManagement
 
     public class WithdrawObject
     {
+        public WithdrawObject()
+        {
+            IHRUList = new List<int>();
+        }
         public int ID { get; set; }
         public string Name { get; set; }
         public double SW_Ratio { get; set; }
@@ -490,6 +494,8 @@ namespace Heiflow.Tools.DataManagement
         public double Inlet_Flow_Ratio { get; set; }
         public string SW_Cntl_Factor { get; set; }
         public string GW_Cntl_Factor { get; set; }
+
+        public List<int> IHRUList { get; set; }
         public override string ToString()
         {
             var canal_eff = new double[HRU_Num];

@@ -581,6 +581,7 @@ namespace Heiflow.Core.Data
                     }
                 }
             }
+            OnDataCubeValueChanged();
         }
 
         public T[] GetVector(int var_index, string time_arg, string cell_arg)

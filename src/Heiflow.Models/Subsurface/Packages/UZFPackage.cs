@@ -44,9 +44,10 @@ namespace Heiflow.Models.Subsurface
     [Export(typeof(IMFPackage))]
     public class UZFPackage : MFPackage
     {
+        public static string PackageName = "UZF";
         public UZFPackage()
         {
-            Name = "UZF";
+            Name = PackageName;
             _FullName = "Unsaturated-Zone Flow Package";
             NUZTOP = 1;
             IUZFOPT = 2;
@@ -67,6 +68,7 @@ namespace Heiflow.Models.Subsurface
             IsMandatory = true;
             Version = "UZF1";
             _Layer3DToken = "RegularGrid";
+
         }
 
         #region Properties

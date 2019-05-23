@@ -111,7 +111,6 @@ namespace Heiflow.Tools.ConceptualModel
             set;
         }
 
-
         [Category("Optional")]
         [Description("Stream-Grid intersection layer")]
         [EditorAttribute(typeof(MapLayerDropdownList), typeof(System.Drawing.Design.UITypeEditor))]

@@ -409,7 +409,6 @@ namespace Heiflow.Controls.WinForm.Controls
                 {
                     Clear();
                 }
-
                 chart1.ChartAreas[0].AxisX.LabelStyle.IntervalType = DateTimeIntervalType.Auto;
 
                 var mat = source as DataCube<T>;
@@ -590,7 +589,7 @@ namespace Heiflow.Controls.WinForm.Controls
         private void viewDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var series = SelectSeries(_selectedMenuItem);
-            if (series != null)
+            if (series != null && series.Points.Count > 0)
             {
                 int numy = series.Points[0].YValues.Length;
                 if (_ShellService == null)

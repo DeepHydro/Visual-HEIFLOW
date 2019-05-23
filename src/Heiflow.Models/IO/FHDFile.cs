@@ -239,7 +239,7 @@ namespace Heiflow.Models.IO
                             }
                         }
                     }
-                    DataCube.ILArrays[layer + 1][t, ""] = buf;
+                    DataCube.ILArrays[layer + 1][t, ":"] = buf;
                     for (int l = layer +1 ; l < grid.ActualLayerCount; l++)
                     {
                         fs.Seek(layerbyte, SeekOrigin.Current);
@@ -306,12 +306,12 @@ namespace Heiflow.Models.IO
                             head = br.ReadSingle();
                             if (grid.IBound[0, r, c] != 0)
                             {
-                                buf[index] = grid.Elevations[0, index, 0] - head;
+                                buf[index] = grid.Elevations[0, 0, index] - head;
                                 index++;
                             }
                         }
                     }
-                    DataCube.ILArrays[layer + 1][t, ""] = buf;
+                    DataCube.ILArrays[layer + 1][t, ":"] = buf;
                     for (int l = layer + 1; l < grid.ActualLayerCount; l++)
                     {
                         fs.Seek(layerbyte, SeekOrigin.Current);
@@ -323,6 +323,7 @@ namespace Heiflow.Models.IO
                     OnLoading(100);
                 br.Close();
                 fs.Close();
+
                 OnDataCubedLoaded(DataCube);
             }
             else

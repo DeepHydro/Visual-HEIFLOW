@@ -345,6 +345,14 @@ namespace Heiflow.Models.Generic.Project
             }
         }
         [XmlIgnore]
+        public string DatabaseDirectory
+        {
+            get
+            {
+                return Path.Combine(AbsolutePathToProjectFile, "Database");
+            }
+        }
+        [XmlIgnore]
         public string OutputDirectory
         {
             get

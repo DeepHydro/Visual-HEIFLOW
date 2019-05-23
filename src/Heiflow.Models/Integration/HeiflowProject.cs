@@ -72,7 +72,8 @@ namespace Heiflow.Models.Integration
             System.IO.Directory.CreateDirectory(PRMSInputDirectory);
             System.IO.Directory.CreateDirectory(ExtensionInputDirectory);
             System.IO.Directory.CreateDirectory(OutputDirectory);
-          
+            System.IO.Directory.CreateDirectory(DatabaseDirectory);
+
             RelativeMapFileName = Name + ".dspx";
             FullProjectFileName = Path.Combine(AbsolutePathToProjectFile, Name + ".vhfx");       
 
@@ -87,7 +88,7 @@ namespace Heiflow.Models.Integration
                 };
                 model.Initialize();
                 succ = model.New(progress);
-                this.Model = model;          
+                this.Model = model;
             }
             SaveBatchRunFile();
             _IsDirty = true;

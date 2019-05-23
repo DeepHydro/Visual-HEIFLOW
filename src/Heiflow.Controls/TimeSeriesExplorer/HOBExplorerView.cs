@@ -271,15 +271,22 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
 
             int nsites = hob_out.Sites.Count;
             var var_index = timeSeriesExplorer1.SelectedVariableIndex;
-            string[] mandatory_fields = new string[] { "HOBS", "HSIM", "DepOBS", "DepSIM", "DepDIF", "HDIF" };
+            string[] mandatory_fields = new string[] { "HOBS", "HSIM", "DepOBS", "DepSIM", "DepDIF", "HDIF", "Elevation" };
+            bool found = false;
             foreach (string field in mandatory_fields)
             {
                 if (!dt.Columns.Contains(field))
                 {
-                    DataColumn dc = new DataColumn(field, Type.GetType("System.Double"));
-                    dt.Columns.Add(dc);
+                    //DataColumn dc = new DataColumn(field, typeof(float));
+                    //dt.Columns.Add(dc);
+                    MessageBox.Show("The selected layer does not contain the following filed: " + field);
+                    found = true;
+                    break;
                 }
             }
+            if (found)
+                return;
+
             var obs = new double[nsites];
             var sim = new double[nsites];
             for (int i = 0; i < nsites; i++)
@@ -291,13 +298,13 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
                 dt.Rows[i]["HDIF"] = Math.Round((hobs - hob_out.DataCube[var_index,0,i]), 2);
 
                 var dep_sim = cell_elev - hsim;
-                var dep_obs = float.Parse(dt.Rows[i]["DepOBS"].ToString());
-                dt.Rows[i]["DepSIM"] = Math.Round(dep_sim);
+                var dep_obs = cell_elev - hobs;
+                dt.Rows[i]["DepSIM"] = Math.Round(dep_sim,2);
+                dt.Rows[i]["DepOBS"] = Math.Round(dep_obs,2);
                 dt.Rows[i]["DepDIF"] = Math.Round((dep_obs - dep_sim), 2);
                 obs[i] = dep_obs;
                 sim[i] = dep_sim;
             }
-
 
             var min = Math.Min(obs.Min(), sim.Min());
             var max = Math.Max(obs.Max(), sim.Max());

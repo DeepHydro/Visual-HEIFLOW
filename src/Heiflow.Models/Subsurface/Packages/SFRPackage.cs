@@ -658,11 +658,13 @@ namespace Heiflow.Models.Subsurface
                 AllowTableEdit = true,
                 TimeBrowsable = false
             };
+            Reaches.DataCubeValueChanged += Reaches_DataCubeValueChanged;
             Reaches.Topology = this.ReachTopology;
             Reaches.Variables = new string[] { "KRCH", "IRCH", "JRCH", "ISEG", "IREACH", "RCHLEN", "STRTOP", 
                 "SLOPE", "STRTHICK", "STRHC1", "THTS","THTI","EPS" };
             Segments.Topology = this.SegTopology;
             Segments.Variables = new string[] { "NSEG", "ICALC", "OUTSEG", "IUPSEG", "FLOW", "RUNOFF", "ETSW", "PPTSW", "ROUGHCH", "WIDTH1", "WIDTH2" };
+            Segments.DataCubeValueChanged += Segments_DataCubeValueChanged;
             for (int i = 0; i < RiverNetwork.ReachCount; i++)
             {
                 var reach = RiverNetwork.Reaches[i];
@@ -990,6 +992,46 @@ namespace Heiflow.Models.Subsurface
                     RiverObject = reach.Parent,
                     Elevation = reach.TopElevation
                 };
+            }
+        }
+
+        private void Segments_DataCubeValueChanged(object sender, EventArgs e)
+        {
+            for (int i = 0; i < RiverNetwork.RiverCount; i++)
+            {
+                var seg = RiverNetwork.Rivers[i];
+                seg.ID = (int)Segments[0, 0, i];
+                seg.ICALC = (int)Segments[1, 0, i];
+                seg.OutRiverID = (int)Segments[2, 0, i];
+                seg.UpRiverID = (int)Segments[3, 0, i];
+                seg.Flow = Segments[4, 0, i];
+                seg.Runoff = Segments[5, 0, i];
+                seg.ETSW = Segments[6, 0, i];
+                seg.PPTSW = Segments[7, 0, i];
+                seg.ROUGHCH = Segments[8, 0, i];
+                seg.Width1 = Segments[9, 0, i];
+                seg.Width2 = Segments[10, 0, i];
+            }
+        }
+
+        private void Reaches_DataCubeValueChanged(object sender, EventArgs e)
+        {
+            for (int i = 0; i < RiverNetwork.ReachCount; i++)
+            {
+                var reach = RiverNetwork.Reaches[i];
+                reach.KRCH = (int)Reaches[0, 0, i];
+                reach.IRCH = (int)Reaches[1, 0, i];
+                reach.JRCH = (int)Reaches[2, 0, i];
+                reach.ISEG = (int)Reaches[3, 0, i];
+                reach.IREACH = (int)Reaches[4, 0, i];
+                reach.Length = Reaches[5, 0, i];
+                reach.TopElevation = Reaches[6, 0, i];
+                reach.Slope = Reaches[7, 0, i];
+                reach.BedThick = Reaches[8, 0, i];
+                reach.STRHC1 = Reaches[9, 0, i];
+                reach.THTS = Reaches[10, 0, i];
+                reach.THTI = Reaches[11, 0, i];
+                reach.EPS = Reaches[12, 0, i];
             }
         }
         #endregion
