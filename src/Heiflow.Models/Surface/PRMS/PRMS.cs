@@ -146,7 +146,7 @@ namespace Heiflow.Models.Surface.PRMS
                 }
                 else
                 {
-                    progress.Progress("PRMS", 1, string.Format("\r\n Failed to load parameter file. Error message: {1}", _mmsPackage.Message));
+                    progress.Progress("PRMS", 1, string.Format("\r\n Failed to load parameter file. Error message: {0}", _mmsPackage.Message));
                 }
             }
             else

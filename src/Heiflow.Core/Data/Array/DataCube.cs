@@ -37,6 +37,7 @@ using System.Data;
 
 namespace Heiflow.Core.Data
 {
+    public enum DataCubeLayout { OneD,TwoD,ThreeD,OneDTimeSeries};
     public class DataCube<T>:IDataCubeObject
     {
         public event EventHandler DataCubeValueChanged;
@@ -47,6 +48,7 @@ namespace Heiflow.Core.Data
         protected int[] _size;
         protected string[] _Variables;
         protected bool _isLazy;
+        protected DataCubeLayout _DataCubeLayout;
         public DataCube(int nvar, int ntime, int ncell, bool islazy = false)
         {
             _isLazy = islazy;
@@ -73,6 +75,7 @@ namespace Heiflow.Core.Data
          
             AllowTableEdit = false;
             TimeBrowsable = false;
+            _DataCubeLayout = DataCubeLayout.ThreeD;
         }
         public DataCube(T[] values, DateTime [] dates)
         {
@@ -91,7 +94,7 @@ namespace Heiflow.Core.Data
             DataCubeType = Data.DataCubeType.Vector;
             AllowTableEdit = true;
             TimeBrowsable = true;
-
+            _DataCubeLayout = DataCubeLayout.ThreeD;
         }
         public ILArray<T> [] ILArrays
         {
@@ -249,6 +252,18 @@ namespace Heiflow.Core.Data
         {
             get;
             set;
+        }
+        
+        public DataCubeLayout Layout
+        {
+            get
+            {
+                return _DataCubeLayout;
+            }
+            set
+            {
+                _DataCubeLayout = value;
+            }
         }
         public void InitFlags(int size0, int size1)
         {

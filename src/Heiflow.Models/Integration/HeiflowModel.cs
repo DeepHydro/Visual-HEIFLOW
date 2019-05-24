@@ -35,6 +35,7 @@ using Heiflow.Models.Properties;
 using Heiflow.Models.Subsurface;
 using Heiflow.Models.Surface.PRMS;
 using Heiflow.Models.UI;
+using Heiflow.Models.WRM;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -52,6 +53,7 @@ namespace Heiflow.Models.Integration
         public const string MasterPackageName = "MASTER";
         private PRMS _PRMS;
         private Modflow _Modflow;
+        private WaterManagementModel _WaterManagementModel;
         private MasterPackage _MasterPackage;
         private ExtensionManPackage _ExtensionManPackage;
 
@@ -76,6 +78,10 @@ namespace Heiflow.Models.Integration
             _Modflow = new Modflow();
             _Modflow.Owner = this;
             Children.Add(_Modflow.Name, _Modflow);
+
+            _WaterManagementModel = new WaterManagementModel();
+            _WaterManagementModel.Owner = this;
+            Children.Add(_WaterManagementModel.Name, _WaterManagementModel);
         }
 
         [XmlIgnore]
@@ -95,6 +101,16 @@ namespace Heiflow.Models.Integration
             get
             {
                 return _Modflow;
+            }
+        }
+
+        [XmlIgnore]
+        [Browsable(false)]
+        public WaterManagementModel WaterManagementModel
+        {
+            get
+            {
+                return _WaterManagementModel;
             }
         }
         [XmlIgnore]
@@ -130,6 +146,8 @@ namespace Heiflow.Models.Integration
                     ModflowModel.Project = _Project;
                 if (PRMSModel != null)
                     PRMSModel.Project = _Project;
+                if (WaterManagementModel != null)
+                    WaterManagementModel.Project = _Project;
                 _Project.Model = this;
             }
         }
@@ -148,8 +166,12 @@ namespace Heiflow.Models.Integration
             _Modflow.TimeService.Updated += _Modflow.OnTimeServiceUpdated;
             _Modflow.WorkDirectory = this.WorkDirectory;
 
-            _PRMS.Grid = _Modflow.Grid;
+            _WaterManagementModel.TimeService = _MasterPackage.TimeService;
+            _WaterManagementModel.WorkDirectory = this.WorkDirectory;
+
             this.Grid = _Modflow.Grid;
+            _PRMS.Grid = _Modflow.Grid;
+            _WaterManagementModel.Grid = _Modflow.Grid;
             _PRMS.Grid.Updated += _PRMS.OnGridUpdated;
             _Modflow.Grid.Updated += _Modflow.OnGridUpdated;
 
@@ -185,6 +207,9 @@ namespace Heiflow.Models.Integration
                 _Modflow.ControlFileName = _MasterPackage.ModflowFilePath;
                 _Modflow.Initialize();
 
+                _WaterManagementModel.MasterPackage = _MasterPackage;
+                _WaterManagementModel.Initialize();
+
                 this.TimeService = _MasterPackage.TimeService;
                 progress.Progress("Heiflow", 1, "Loading Modflow packages...");
                 succ = _Modflow.Load(progress);
@@ -199,6 +224,14 @@ namespace Heiflow.Models.Integration
                 if (!succ)
                 {
                     var msg = string.Format("Failed to load PRMS.");
+                    progress.Progress("Heiflow", 1, msg);
+                }
+
+                progress.Progress("Heiflow", 1, "Loading WMM packages...");
+                succ = _WaterManagementModel.Load(progress);
+                if (!succ)
+                {
+                    var msg = string.Format("Failed to load Water Managemen.");
                     progress.Progress("Heiflow", 1, msg);
                 }
 
@@ -263,7 +296,14 @@ namespace Heiflow.Models.Integration
             _Modflow.WorkDirectory = this.WorkDirectory;
             _Modflow.ControlFileName = string.Format("{0}{1}.nam", Modflow.InputDic, Project.Name);
             _Modflow.Initialize();
+
+            _WaterManagementModel.WorkDirectory = this.WorkDirectory;
+            _WaterManagementModel.TimeService = _MasterPackage.TimeService;
+            _WaterManagementModel.MasterPackage = _MasterPackage;
+            _WaterManagementModel.Initialize();
+
             _PRMS.Grid = _Modflow.Grid;
+            _WaterManagementModel.Grid = _Modflow.Grid;
             this.Grid = _Modflow.Grid;
 
             succ = _PRMS.New(progress);
@@ -281,6 +321,14 @@ namespace Heiflow.Models.Integration
                 if (progress != null)
                     progress.Progress(this.Name, 1, msg);
             }
+            succ = _WaterManagementModel.New(progress);
+            if (!succ)
+            {
+                var msg = string.Format("Failed to create WMM.");
+                if (progress != null)
+                    progress.Progress(this.Name, 1, msg);
+            }
+
             _IsDirty = true;
             return succ;
         }
@@ -293,13 +341,17 @@ namespace Heiflow.Models.Integration
             _PRMS.Save(progress);
             progress.Progress(this.Name, 1, "Saving MODFLOW input files...");
             _Modflow.Save(progress);
+            progress.Progress(this.Name, 1, "Saving WMM input files...");
+            _WaterManagementModel.Save(progress);
         }
 
         public override bool Exsit(string filename)
         {
             bool existed = false;
-            var master = new MasterPackage();
-            master.FileName = filename;
+            var master = new MasterPackage
+            {
+                FileName = filename
+            };
             if (master.Load(null))
             {
                 var mfn = Path.Combine(ModelService.WorkDirectory, master.ModflowFilePath);
@@ -322,6 +374,7 @@ namespace Heiflow.Models.Integration
             List<IPackage> list = new List<IPackage>();
             list.AddRange(PRMSModel.Packages.Values);
             list.AddRange(ModflowModel.Packages.Values);
+            list.AddRange(WaterManagementModel.Packages.Values); 
             return list;
         }
 
@@ -336,6 +389,7 @@ namespace Heiflow.Models.Integration
             TimeServiceList.Clear();
             _PRMS.Clear();
             _Modflow.Clear();
+            _WaterManagementModel.Clear();
         }
 
         private void MF2PRMS()

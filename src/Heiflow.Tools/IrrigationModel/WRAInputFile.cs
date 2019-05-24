@@ -237,7 +237,7 @@ namespace Heiflow.Tools.DataManagement
             get;
             protected set;
         }
-        [Category("Input")]
+        [Category("Input Files")]
         [Description("The quota filename")]
         [EditorAttribute(typeof(FileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public string QuotaFileName
@@ -280,7 +280,7 @@ namespace Heiflow.Tools.DataManagement
             get;
             set;
         }
-        [Category("Output")]
+        [Category("Output Files")]
         [Description("The output filename")]
         [EditorAttribute(typeof(FileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public string OutputFileName
@@ -395,6 +395,7 @@ namespace Heiflow.Tools.DataManagement
                     }
                 }
             }
+            List<WithdrawObject> removedlist = new List<WithdrawObject>();
             for (int i = 0; i < _farm_fs.Features.Count; i++)
             {
                 var farm = farms[i];
@@ -403,14 +404,18 @@ namespace Heiflow.Tools.DataManagement
                     farm.HRU_List = farm.IHRUList.ToArray();
                     farm.HRU_Num = farm.IHRUList.Count;
                     farm.HRU_Area = new double[farm.HRU_Num];
-
+                    for (int j = 0; j < farm.HRU_Num; j++)
+                    {
+                        farm.HRU_Area[j] = cellarea;
+                    }
                 }
                 else
                 {
-                    
+                    removedlist.Add(farm);
                 }
             }
-            //farms.Remove()
+            for (int i = 0; i < removedlist.Count; i++)
+                farms.Remove(removedlist[i]);
         }
 
         private void CalcObjPumpConstraint(List<WithdrawObject> list, double[,] quota)
@@ -483,12 +488,11 @@ namespace Heiflow.Tools.DataManagement
             }
             irrg_obj_list = GetFarmObj();
             indust_obj_list = GetFarmObj();
-            num_irrg_obj = irrg_obj_list.Count;
-            num_indust_obj = indust_obj_list.Count;
-
             GetIHRU(irrg_obj_list);
             CalcObjPumpConstraint(irrg_obj_list, quota);
 
+            num_irrg_obj = irrg_obj_list.Count;
+            num_indust_obj = indust_obj_list.Count;
             newline = "# Water resources allocation package " + DateTime.Now;
             sw_out.WriteLine(newline);
             newline = string.Format("{0}\t{1}\t0\t0\t # num_irrg_obj, num_indu_obj, num_doms_obj, num_ecos_obj ", num_irrg_obj, num_indust_obj);

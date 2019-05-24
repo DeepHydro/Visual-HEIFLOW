@@ -163,6 +163,7 @@ namespace Heiflow.Tools.ConceptualModel
 
         public override bool Execute(ICancelProgressHandler cancelProgressHandler)
         {
+            var shell = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
             var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
             var model = prj.Project.Model;
             int progress = 0;

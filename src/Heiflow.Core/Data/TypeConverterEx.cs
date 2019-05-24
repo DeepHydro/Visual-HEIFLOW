@@ -221,6 +221,13 @@ namespace Heiflow.Core.Data
             catch { } // just dismiss errors but return false
             return false;
         }
-
+        public static bool Num2Bool(int num)
+        {
+            return num != 0 ? true : false;
+        }
+        public static int Bool2Num(bool bv)
+        {
+            return bv ? 1 : 0;
+        }
     }
 }

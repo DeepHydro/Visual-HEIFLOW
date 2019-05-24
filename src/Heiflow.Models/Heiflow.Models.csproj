@@ -266,6 +266,8 @@
     <Compile Include="Surface\MIKE\MikeMeshProvider.cs" />
     <Compile Include="Integration\GHMLoader.cs" />
     <Compile Include="Subsurface\IExtractMFPackage.cs" />
+    <Compile Include="WRM\WaterManagementModel.cs" />
+    <Compile Include="WRM\WRAPackage.cs" />
     <Compile Include="Visualization\I3DLayer.cs" />
     <Compile Include="Visualization\I3DLayerRender.cs" />
     <Compile Include="Generic\Packages\IPackageFileNameProvider.cs" />

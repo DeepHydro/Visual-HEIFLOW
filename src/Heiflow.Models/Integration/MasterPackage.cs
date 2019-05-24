@@ -940,7 +940,9 @@ namespace Heiflow.Models.Integration
                 OnPropertyChanged("AnimationOutOCFile");
             }
         }
-
+        /// <summary>
+        /// Available module: auto_wra, man_wra, none
+        /// </summary>
         [Category("Modules")]
         [Description("Water resources allocation module. Available module: auto_wra, man_wra, none")]
         public string WRAModule

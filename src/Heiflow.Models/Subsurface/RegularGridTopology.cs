@@ -102,10 +102,9 @@ namespace Heiflow.Models.Subsurface
         ///// </summary>
         //public Dictionary<int, int> ActiveCellID { get; set; }
         /// <summary>
-        /// (Cell ID, Cell location) cell index starts from 0.  存储活动网格位置(行列索引，从0开始)
+        /// [Cell index][row,col] cell index starts from 0.  存储活动网格位置(行列索引，从0开始)
         /// </summary>
         //public Dictionary<int, int[]> ActiveCellLocation { get; private set; }
-
         public int[][] ActiveCell { get;  set; }
         public int[] ActiveCellIDs { get;  set; }
         /// <summary>
