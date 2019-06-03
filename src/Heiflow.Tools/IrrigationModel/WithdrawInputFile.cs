@@ -30,6 +30,7 @@
 using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Core.IO;
+using Heiflow.Models.WRM;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -47,8 +48,8 @@ namespace Heiflow.Tools.DataManagement
     {
         //   private string _DiversionFileName;
         private string _QuotaFileName;
-        private List<WithdrawObject> irrg_obj_list = new List<WithdrawObject>();
-        private List<WithdrawObject> indust_obj_list = new List<WithdrawObject>();
+        private List<ManagementObject> irrg_obj_list = new List<ManagementObject>();
+        private List<ManagementObject> indust_obj_list = new List<ManagementObject>();
         public WithdrawInputFile()
         {
             Name = "Water Withdraw Input File";
@@ -61,7 +62,6 @@ namespace Heiflow.Tools.DataManagement
             PumpScale = 1.5;
             GWCompensate = true;
         }
-
 
         [Category("Input")]
         [Description("The quota filename")]
@@ -157,19 +157,19 @@ namespace Heiflow.Tools.DataManagement
             sw_obj.Close();
         }
 
-        private void ReadObj(StreamReader sr, int numobj, List<WithdrawObject> list)
+        private void ReadObj(StreamReader sr, int numobj, List<ManagementObject> list)
         {
             char[] trims = new char[] { ' ', '"' };
             for (int i = 0; i < numobj; i++)
             {
                 var line = sr.ReadLine();
                 var buf = TypeConverterEx.Split<string>(line, TypeConverterEx.Comma);
-                WithdrawObject obj = new WithdrawObject()
+                ManagementObject obj = new ManagementObject()
                 {
                     ID = int.Parse(buf[0].Trim()),
                     Name = buf[1].Trim(),
                     SW_Ratio = double.Parse(buf[2].Trim()),
-                    ObjType = int.Parse(buf[3].Trim()),
+                    ObjType_Fram = int.Parse(buf[3].Trim()),
                     Drawdown = double.Parse(buf[4].Trim()),
                     SegID = int.Parse(buf[5].Trim()),
                     ReachID = int.Parse(buf[6].Trim()),
@@ -191,7 +191,7 @@ namespace Heiflow.Tools.DataManagement
             }
         }
 
-        private void CalcObjPumpConstraint(List<WithdrawObject> list, double[,] quota)
+        private void CalcObjPumpConstraint(List<ManagementObject> list, double[,] quota)
         {
             for (int i = 0; i < list.Count; i++)
             {
@@ -380,7 +380,7 @@ namespace Heiflow.Tools.DataManagement
                 newline = "";
                 for (int j = 0; j < irrg_obj_list[i].HRU_Num; j++)
                 {
-                    newline += irrg_obj_list[i].ObjType + "\t";
+                    newline += irrg_obj_list[i].ObjType_Fram + "\t";
                 }
                 newline += "# Plant type of object " + (i + 1);
                 sw_out.WriteLine(newline);
@@ -421,7 +421,7 @@ namespace Heiflow.Tools.DataManagement
                 {
                     newline += control + "\t";
                 }
-                newline += "# SW control factor of object " + (indust_obj_list[i].ID);
+                newline += "# SW ratio of object " + (indust_obj_list[i].ID);
                 sw_out.WriteLine(newline);
             }
 
@@ -443,7 +443,7 @@ namespace Heiflow.Tools.DataManagement
             for (int i = 0; i < num_indust_obj; i++)
             {
                 var obj = indust_obj_list[i];
-                newline = string.Format("{0} # Withdraw type of object {1}", obj.ObjType, obj.ID);
+                newline = string.Format("{0} # Withdraw type of object {1}", obj.ObjType_Fram, obj.ID);
                 sw_out.WriteLine(newline);
             }
 
@@ -455,9 +455,9 @@ namespace Heiflow.Tools.DataManagement
                 if(GWCompensate)
                     sw_out.WriteLine("-1 -1	-1 -1 -1 -1 -1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag,plantarea_flag,max_pump_rate_flag,max_total_pump_flag");
                 else
-                    sw_out.WriteLine("-1 -1	-1 -1 -1 -1 -1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag,plantarea_flag");
+                    sw_out.WriteLine("-1 -1	-1 -1 -1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag,plantarea_flag");
                 sw_out.WriteLine("# industrial objects");
-                sw_out.WriteLine("-1 -1	-1	-1	-1  #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag");
+                sw_out.WriteLine("-1 -1	-1	-1	 # 	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag");
             }
 
             sr_quota.Close();
@@ -467,47 +467,5 @@ namespace Heiflow.Tools.DataManagement
         }
     }
 
-    public class WithdrawObject
-    {
-        public WithdrawObject()
-        {
-            IHRUList = new List<int>();
-        }
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public double SW_Ratio { get; set; }
-        public int ObjType { get; set; }
-        public double Drawdown { get; set; }
-        public int SegID { get; set; }
-        public int ReachID { get; set; }
-        public int HRU_Num { get; set; }
-        public int[] HRU_List { get; set; }
-        public double[] HRU_Area { get; set; }
-        public double[] Max_Pump_Rate { get; set; }
-        public double Total_Area { get; set; }
-        public double Max_Total_Pump { get; set; }
-        public double Canal_Efficiency { get; set; }
-        public double Canal_Ratio { get; set; }
-        public int Inlet_Type { get; set; }
-        public double Inlet_MinFlow { get; set; }
-        public double Inlet_MaxFlow { get; set; }
-        public double Inlet_Flow_Ratio { get; set; }
-        public string SW_Cntl_Factor { get; set; }
-        public string GW_Cntl_Factor { get; set; }
-
-        public List<int> IHRUList { get; set; }
-        public override string ToString()
-        {
-            var canal_eff = new double[HRU_Num];
-            var canal_ratio = new double[HRU_Num];
-            for (int i = 0; i < HRU_Num; i++)
-            {
-                canal_eff[i] = Canal_Efficiency;
-                canal_ratio[i] = Canal_Ratio;
-            }
-            var str = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}", ID, Name, SW_Ratio, ObjType, Drawdown, SegID, ReachID, HRU_Num, string.Join("\t", HRU_List),
-                string.Join("\t", HRU_Area), string.Join("\t", canal_eff), string.Join("\t", canal_ratio));
-            return str;
-        }
-    }
+   
 }

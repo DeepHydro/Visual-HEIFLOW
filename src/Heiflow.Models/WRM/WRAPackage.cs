@@ -1,10 +1,16 @@
-﻿using DotSpatial.Data;
+﻿using DotSpatial.Controls;
+using DotSpatial.Data;
+using DotSpatial.Projections;
+using GeoAPI.Geometries;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Subsurface;
+using NetTopologySuite.Geometries;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -17,6 +23,7 @@ namespace Heiflow.Models.WRM
     {
         private int _num_cycle_len = 366;
         public static string PackageName = "WRA";
+        private int[] _ncycle_sp;
         public WRAPackage()
         {
             Name = "WRA";
@@ -32,6 +39,7 @@ namespace Heiflow.Models.WRM
             SourcePriority = 0;
 
             StressPeriodFiles = new List<string>();
+            ManagementSPs = new List<ManagemenSP>();
         }
         //num_wra_sp num_wra_cycle num_cycle_len num_obj_type drawdown_constaint gw_compensate enable_sw_storage water_source_priority
         [Category("Parameter")]
@@ -83,9 +91,12 @@ namespace Heiflow.Models.WRM
             get;
             set;
         }
+        /// <summary>
+        /// Array size: [1][ncycle][5]. Columns: [year, stress period, days in the year; start day; end day]
+        /// </summary>
         [Browsable(false)]
         [StaticVariableItem]
-        public DataCube<int> StressPeriod
+        public DataCube<int> CyclePeriod
         {
             get;
             set;
@@ -125,6 +136,13 @@ namespace Heiflow.Models.WRM
             get;
             set;
         }
+        [Browsable(false)]
+        public List<ManagemenSP> ManagementSPs
+        {
+            get;
+            protected set;
+        }
+
         public override void Initialize()
         {
             this.Grid = Owner.Grid;
@@ -136,6 +154,48 @@ namespace Heiflow.Models.WRM
             base.New();
             return true;
         }
+        public override string CreateFeature(ProjectionInfo proj_info, string directory)
+        {
+            string filename = Path.Combine(directory, this.Name + ".shp");
+            var grid = Owner.Grid as MFGrid;
+            FeatureSet fs = new FeatureSet(FeatureType.Polygon);
+            fs.Name = this.Name;
+            fs.Projection = proj_info;
+            fs.DataTable.Columns.Add(new DataColumn("HRU_ID", typeof(int)));
+            fs.DataTable.Columns.Add(new DataColumn("FARM_ID", typeof(int)));
+            fs.DataTable.Columns.Add(new DataColumn("Crop_Type", typeof(int)));
+            fs.DataTable.Columns.Add(new DataColumn(RegularGrid.ParaValueField, typeof(double)));
+
+            var farms = ManagementSPs[0].Farms;
+            for (int i = 0; i < farms.Length; i++)
+            {
+                var farm = farms[i];
+                for (int j = 0; j < farm.HRU_Num; j++)
+                {
+                    try
+                    {
+                        var vertices = grid.LocateNodes(farm.HRU_List[j] - 1);
+                        ILinearRing ring = new LinearRing(vertices);
+                        Polygon geom = new Polygon(ring);
+                        IFeature feature = fs.AddFeature(geom);
+                        feature.DataRow.BeginEdit();
+                        feature.DataRow["HRU_ID"] = farm.HRU_List[j];
+                        feature.DataRow["FARM_ID"] = farm.ID;
+                        feature.DataRow["Crop_Type"] = farm.ObjType_HRU[j];
+                        feature.DataRow[RegularGrid.ParaValueField] = 0;
+                        feature.DataRow.EndEdit();
+                    }
+                    catch
+                    {
+                        Debug.WriteLine(j);
+                    }
+                }
+            }
+            fs.SaveAs(filename, true);
+            fs.Close();
+            return filename;
+        }
+
         public override bool Load(ICancelProgressHandler progresshandler)
         {
             if (File.Exists(FileName))
@@ -154,7 +214,8 @@ namespace Heiflow.Models.WRM
                 EnableSWStorage = TypeConverterEx.Num2Bool(buf[6]);
                 SourcePriority = buf[7];
 
-                StressPeriod = new DataCube<int>(1, NumCycle, 5)
+                _ncycle_sp = new int[NumStressPeriod];
+                CyclePeriod = new DataCube<int>(1, NumCycle, 5)
                 {
                     Layout = DataCubeLayout.TwoD
                 };
@@ -164,8 +225,9 @@ namespace Heiflow.Models.WRM
                     buf = TypeConverterEx.Split<int>(line, 5);
                     for (int j = 0; j < 5; j++)
                     {
-                        StressPeriod[0, i, j] = buf[j];
+                        CyclePeriod[0, i, j] = buf[j];
                     }
+                    _ncycle_sp[buf[1] - 1]++;
                 }
 
                 line = sr.ReadLine();
@@ -193,6 +255,15 @@ namespace Heiflow.Models.WRM
                 line = sr.ReadLine();
                 PumpReportFile = line.Trim();
                 sr.Close();
+
+                ManagementSPs.Clear();
+                for (int i = 0; i < NumStressPeriod; i++)
+                {
+                    var fn = Path.Combine(Owner.WorkDirectory, StressPeriodFiles[i]);
+                    var sp = LoadManSP(fn, i + 1, _ncycle_sp[i]);
+                    
+                    ManagementSPs.Add(sp);
+                }
                 OnLoaded(progresshandler);
                 return true;
             }
@@ -215,10 +286,11 @@ namespace Heiflow.Models.WRM
             sw.WriteLine(line);
             for (int i = 0; i < NumCycle; i++)
             {
-                line = string.Format("{0} {1} {2} {3} {4}", StressPeriod[0, i, 0], StressPeriod[0, i, 1], StressPeriod[0, i, 2], StressPeriod[0, i, 3], StressPeriod[0, i, 4]);
+                line = string.Format("{0} {1} {2} {3} {4}", CyclePeriod[0, i, 0], CyclePeriod[0, i, 1], CyclePeriod[0, i, 2], CyclePeriod[0, i, 3], CyclePeriod[0, i, 4]);
                 sw.WriteLine(line);
             }
             line = "# WRA stress period file";
+            sw.WriteLine(line);
             for (int i = 0; i < NumStressPeriod; i++)
             {
                 line = StressPeriodFiles[i];
@@ -247,9 +319,274 @@ namespace Heiflow.Models.WRM
             return true;
         }
 
+        private ManagemenSP LoadManSP(string filename, int sp, int ncycle)
+        {
+            ManagemenSP msp = new ManagemenSP(sp);
+            StreamReader sr = new StreamReader(filename);
+            int nfarm = 0;
+            int nindustry = 0;
+            var line = sr.ReadLine();
+            line = sr.ReadLine();
+            var buf = TypeConverterEx.Split<int>(line, 4);
+            nfarm = buf[0];
+            nindustry = buf[1];
+            line = sr.ReadLine();
+            double[] bufdouble = null;
+            float[] buffloat = null;
+            var nobj = nfarm + nindustry;
+            msp.Quota = new DataCube<float>(ncycle, 366, nobj);
+            msp.QuotaFlag = new int[ncycle];
+            msp.Farms = new  ManagementObject[nfarm];
+            msp.Industries = new  ManagementObject[nindustry];
+            msp.FarmCycles = new ManagementCycle[ncycle];
+            msp.IndustryCycles = new ManagementCycle[ncycle];
+            for (int i = 0; i < nfarm; i++)
+            {
+                line = sr.ReadLine();
+                buf = TypeConverterEx.Split<int>(line, 6);
+                ManagementObject obj = new ManagementObject();
+                //1   739 41  1   3   1	#	oid, hrunum, iseg, ireach, num_well_layer, inlet_type 北大河灌区
+                obj.ID = buf[0];
+                obj.HRU_Num = buf[1];
+                obj.SegID = buf[2];
+                obj.ReachID = buf[3];
+                obj.Num_well_layer = buf[4];
+                obj.Inlet_Type = buf[5];
+                line = sr.ReadLine();
+                buf = TypeConverterEx.Split<int>(line);
+                obj.HRU_List = buf;
+                obj.IHRUList.AddRange(buf);
+                line = sr.ReadLine();
+                bufdouble = TypeConverterEx.Split<double>(line);
+                obj.Canal_Efficiency_list = bufdouble;
+                obj.Canal_Efficiency = bufdouble[0];
+                line = sr.ReadLine();
+                bufdouble = TypeConverterEx.Split<double>(line);
+                obj.Canal_Ratio_list = bufdouble;
+                obj.Canal_Ratio = bufdouble[0];
+                obj.Well_layers = new int[obj.Num_well_layer];
+                obj.Well_ratios = new double[obj.Num_well_layer];
+                for (int j = 0; j < obj.Num_well_layer; j++)
+                {
+                    line = sr.ReadLine();
+                    bufdouble = TypeConverterEx.Split<double>(line, 2);
+                    obj.Well_layers[j] = (int)bufdouble[0];
+                    obj.Well_ratios[j] = bufdouble[1];
+                }
+                line = sr.ReadLine();
+                bufdouble = TypeConverterEx.Split<double>(line, 1);
+                obj.Drawdown = bufdouble[0];
+                line = sr.ReadLine();
+                bufdouble = TypeConverterEx.Split<double>(line, 3);
+                obj.Inlet_MinFlow = bufdouble[0];
+                obj.Inlet_MaxFlow = bufdouble[1];
+                obj.Inlet_Flow_Ratio = bufdouble[2];
+                msp.Farms[i] = obj;
+            }
+            line = sr.ReadLine();
+            for (int i = 0; i < nindustry; i++)
+            {
+                line = sr.ReadLine();
+                buf = TypeConverterEx.Split<int>(line, 6);
+                ManagementObject obj = new ManagementObject();
+                //1   739 41  1   3   1	#	oid, hrunum, iseg, ireach, num_well_layer, inlet_type 北大河灌区
+                obj.ID = buf[0];
+                obj.HRU_Num = buf[1];
+                obj.SegID = buf[2];
+                obj.ReachID = buf[3];
+                obj.Num_well_layer = buf[4];
+                obj.Inlet_Type = buf[5];
+                line = sr.ReadLine();
+                buf = TypeConverterEx.Split<int>(line);
+                obj.HRU_List = buf;
+                obj.IHRUList.AddRange(buf);
+                obj.Well_layers = new int[obj.Num_well_layer];
+                obj.Well_ratios = new double[obj.Num_well_layer];
+                for (int j = 0; j < obj.Num_well_layer; j++)
+                {
+                    line = sr.ReadLine();
+                    bufdouble = TypeConverterEx.Split<double>(line, 2);
+                    obj.Well_layers[j] = (int)bufdouble[0];
+                    obj.Well_ratios[j] = bufdouble[1];
+                }
+                line = sr.ReadLine();
+                bufdouble = TypeConverterEx.Split<double>(line, 1);
+                obj.Drawdown = bufdouble[0];
+                line = sr.ReadLine();
+                bufdouble = TypeConverterEx.Split<double>(line, 3);
+                obj.Inlet_MinFlow = bufdouble[0];
+                obj.Inlet_MaxFlow = bufdouble[1];
+                obj.Inlet_Flow_Ratio = bufdouble[2];
+                line = sr.ReadLine();
+                bufdouble = TypeConverterEx.Split<double>(line, 1);
+                obj.Returnflow_ratio = bufdouble[0];
+                msp.Industries[i] = obj;
+            }
+
+            for (int i = 0; i < ncycle; i++)
+            {
+                line = sr.ReadLine();
+                buf = TypeConverterEx.Split<int>(line, 1);
+                ManagementCycle farm_cycle = new ManagementCycle(buf[0], msp);
+                line = sr.ReadLine();
+                buf = TypeConverterEx.Split<int>(line, 1);
+                msp.QuotaFlag[i] = buf[0];
+                if (msp.QuotaFlag[i] > 0)
+                {
+                    for (int j = 0; j < nobj; j++)
+                    {
+                        line = sr.ReadLine();
+                        buffloat = TypeConverterEx.Split<float>(line, 366);
+                        msp.Quota[i][":", j] = buffloat;
+                    }
+                }
+
+                //# irrigation objects
+                if (nfarm > 0)
+                {
+                    line = sr.ReadLine();
+                    line = sr.ReadLine();
+                    buf = TypeConverterEx.Split<int>(line, 7);
+                    farm_cycle.sw_ratio_flag = buf[0];
+                    farm_cycle.swctrl_factor_flag = buf[1];
+                    farm_cycle.gwctrl_factor_flag = buf[2];
+                    farm_cycle.Withdraw_type_flag = buf[3];
+                    farm_cycle.plantarea_flag = buf[4];
+                    farm_cycle.max_pump_rate_flag = buf[5];
+                    farm_cycle.max_total_pump_flag = buf[6];
+
+                    if (farm_cycle.sw_ratio_flag > 0)
+                    {
+                        farm_cycle.sw_ratio_day = new DataCube<float>(1, 366, nfarm);
+                        for (int j = 0; j < nfarm; j++)
+                        {
+                            line = sr.ReadLine();
+                            buffloat = TypeConverterEx.Split<float>(line, 366);
+                            farm_cycle.sw_ratio_day[0][":", j] = buffloat;
+                        }
+                    }
+                    if (farm_cycle.swctrl_factor_flag > 0)
+                    {
+                        farm_cycle.swctrl_factor_day = new DataCube<float>(1, 366, nfarm);
+                        for (int j = 0; j < nfarm; j++)
+                        {
+                            line = sr.ReadLine();
+                            buffloat = TypeConverterEx.Split<float>(line, 366);
+                            farm_cycle.swctrl_factor_day[0][":", j] = buffloat;
+                        }
+                    }
+                    if (farm_cycle.gwctrl_factor_flag > 0)
+                    {
+                        farm_cycle.gwctrl_factor_day = new DataCube<float>(1, 366, nfarm);
+                        for (int j = 0; j < nfarm; j++)
+                        {
+                            line = sr.ReadLine();
+                            buffloat = TypeConverterEx.Split<float>(line, 366);
+                            farm_cycle.gwctrl_factor_day[0][":", j] = buffloat;
+                        }
+                    }
+                    if (farm_cycle.Withdraw_type_flag > 0)
+                    {
+                        for (int j = 0; j < nfarm; j++)
+                        {
+                            line = sr.ReadLine();
+                            buf = TypeConverterEx.Split<int>(line, msp.Farms[j].HRU_Num);
+                            msp.Farms[j].ObjType_HRU = buf;
+                        }
+                    }
+
+                    if (farm_cycle.plantarea_flag > 0)
+                    {
+                        for (int j = 0; j < nfarm; j++)
+                        {
+                            line = sr.ReadLine();
+                            msp.Farms[j].HRU_Area = TypeConverterEx.Split<double>(line, msp.Farms[j].HRU_Num);
+                        }
+                    }
+
+                    if (farm_cycle.max_pump_rate_flag > 0)
+                    {
+                        for (int j = 0; j < nfarm; j++)
+                        {
+                            line = sr.ReadLine();
+                            msp.Farms[j].Max_Pump_Rate = TypeConverterEx.Split<double>(line, msp.Farms[j].HRU_Num);
+                        }
+                    }
+
+                    if (farm_cycle.max_total_pump_flag > 0)
+                    {
+                        line = sr.ReadLine();
+                        bufdouble = TypeConverterEx.Split<double>(line, nfarm);
+                        for (int j = 0; j < nfarm; j++)
+                        {
+                            msp.Farms[j].Max_Total_Pump = bufdouble[j];
+                        }
+                    }
+                }
+                msp.FarmCycles[i] = farm_cycle;
+
+
+                //# industry objects
+                ManagementCycle indust_cycle = new ManagementCycle(farm_cycle.Cycle, msp);
+                if (nindustry > 0)
+                {
+                    line = sr.ReadLine();
+                    line = sr.ReadLine();
+                    //-1 -1	-1	-1	 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag
+                    buf = TypeConverterEx.Split<int>(line, 4);
+                    indust_cycle.sw_ratio_flag = buf[0];
+                    indust_cycle.swctrl_factor_flag = buf[1];
+                    indust_cycle.gwctrl_factor_flag = buf[2];
+                    indust_cycle.Withdraw_type_flag = buf[3];
+                    if (indust_cycle.sw_ratio_flag > 0)
+                    {
+                        indust_cycle.sw_ratio_day = new DataCube<float>(1, 366, nindustry);
+                        for (int j = 0; j < nindustry; j++)
+                        {
+                            line = sr.ReadLine();
+                            buffloat = TypeConverterEx.Split<float>(line, 366);
+                            indust_cycle.sw_ratio_day[0][":", j] = buffloat;
+                        }
+                    }
+                    if (indust_cycle.swctrl_factor_flag > 0)
+                    {
+                        indust_cycle.swctrl_factor_day = new DataCube<float>(1, 366, nindustry);
+                        for (int j = 0; j < nindustry; j++)
+                        {
+                            line = sr.ReadLine();
+                            buffloat = TypeConverterEx.Split<float>(line, 366);
+                            indust_cycle.swctrl_factor_day[0][":", j] = buffloat;
+                        }
+                    }
+                    if (indust_cycle.gwctrl_factor_flag > 0)
+                    {
+                        indust_cycle.gwctrl_factor_day = new DataCube<float>(1, 366, nindustry);
+                        for (int j = 0; j < nindustry; j++)
+                        {
+                            line = sr.ReadLine();
+                            buffloat = TypeConverterEx.Split<float>(line, 366);
+                            indust_cycle.gwctrl_factor_day[0][":", j] = buffloat;
+                        }
+                    }
+                    if (indust_cycle.Withdraw_type_flag > 0)
+                    {
+                        for (int j = 0; j < nindustry; j++)
+                        {
+                            line = sr.ReadLine();
+                            buf = TypeConverterEx.Split<int>(line, msp.Industries[j].HRU_Num);
+                            msp.Industries[j].ObjType_HRU = buf;
+                        }
+                    }
+                }
+            }
+            sr.Close();
+            return msp;
+        }
+
         public override void Clear()
         {
             StressPeriodFiles.Clear();
+            ManagementSPs.Clear();
             base.Clear();
         }
     }

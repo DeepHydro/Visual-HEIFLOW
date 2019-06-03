@@ -210,6 +210,11 @@ namespace Heiflow.Controls.WinForm.Toolbox
             if (meta != null && meta.Mat != null)
             {
                 Workspace.Remove(meta.Name);
+                if (Workspace.DataSources.Count == 0)
+                {
+                    olvVariableName.ClearObjects();
+                    arrayGrid.DataSource = null;
+                }
                 UpdateMatView();
             }
         }
@@ -217,7 +222,10 @@ namespace Heiflow.Controls.WinForm.Toolbox
         private void btnClear_Click(object sender, EventArgs e)
         {
             Workspace.Clear();
+            _MatMataList.Clear();
             UpdateMatView();
+            olvVariableName.ClearObjects();
+            arrayGrid.DataSource = null;
         }
 
         private void tsSelectionMode_SelectedIndexChanged(object sender, EventArgs e)

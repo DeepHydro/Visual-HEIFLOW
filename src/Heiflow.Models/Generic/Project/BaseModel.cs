@@ -267,6 +267,11 @@ namespace Heiflow.Models.Generic
         /// <param name="pck"></param>
         public virtual void Add(IPackage pck)
         {
+            if (!Packages.ContainsKey(pck.Name))
+            {
+                Packages.Add(pck.Name, pck);
+                pck.Owner = this;
+            }
             OnPackageAdded( pck);
         }
         /// <summary>

@@ -57,12 +57,12 @@ namespace Heiflow.Models.Tools
                 mat.Name = GetName();
             }
             var buf = from mm in DataSources where mm.Name == mat.Name select mm;
-            if (buf.Any())
+            if (!buf.Any())
             {
-                Remove(mat.Name);
+                //Remove(mat.Name);
+                DataSources.Add(mat);
+                OnDataSourceCollectionChanged();
             }
-            DataSources.Add(mat);
-            OnDataSourceCollectionChanged();
         }
 
         public IDataCubeObject Get(string name)

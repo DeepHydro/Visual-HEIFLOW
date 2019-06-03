@@ -33,7 +33,17 @@ namespace Heiflow.Models.WRM
 
         public override void Attach(IMap map, string directory)
         {
-           
+            foreach (var pck in Packages.Values)
+            {
+                if (pck.State == ModelObjectState.Ready)
+                {
+                    pck.Attach(map, directory);
+                    foreach (var ch in pck.Children)
+                    {
+                        ch.Attach(map, directory);
+                    }
+                }
+            }
         }
 
         public override void Clear()

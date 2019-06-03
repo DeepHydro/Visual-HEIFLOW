@@ -143,6 +143,12 @@ namespace Heiflow.Core.Utility
             return RelativePathTo(toPath, dic);
         }
 
+        public static void Create(string dic)
+        {
+            if (!Directory.Exists(dic))
+                Directory.CreateDirectory(dic);
+        }
+
         /// <summary>
         /// Creates a relative path from one file or folder to another.
         /// </summary>

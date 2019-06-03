@@ -229,5 +229,21 @@ namespace Heiflow.Core.Data
         {
             return bv ? 1 : 0;
         }
+        public static bool String2Bool(string str)
+        {
+            var buf = int.Parse(str);
+            return buf > 0;
+        }
+        public static bool Int2Bool(int vv)
+        {
+            return vv > 0;
+        }
+        public static string Bool2String(bool vv)
+        {
+            if (vv)
+                return "1";
+            else
+                return "0";
+        }
     }
 }

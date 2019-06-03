@@ -429,7 +429,7 @@ namespace Heiflow.Models.Generic
             {
                 if (progress != null)
                 {
-                    string msg = string.Format("\t{0} unchanged", this.Name);
+                    string msg = string.Format("{0} unchanged", this.Name);
                     progress.Progress(this.Name, 1, msg);
                 }
                 return true;

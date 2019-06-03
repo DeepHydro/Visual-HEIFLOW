@@ -336,6 +336,7 @@ namespace Heiflow.Models.Integration
         public override void Save(ICancelProgressHandler progress)
         {
             _MasterPackage.Save(progress);
+            _ExtensionManPackage.IsDirty = true;
             _ExtensionManPackage.Save(progress);
             progress.Progress(this.Name, 1, "Saving PRMS input files...");
             _PRMS.Save(progress);

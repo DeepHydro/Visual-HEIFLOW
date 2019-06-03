@@ -275,11 +275,11 @@ namespace Heiflow.Models.Subsurface
                 fs.DataTable.Columns.Add(new DataColumn("JRCH", typeof(int)));
 
                 fs.DataTable.Columns.Add(new DataColumn("BedThick", typeof(double)));
-                fs.DataTable.Columns.Add(new DataColumn("TopElevation", typeof(int)));
-                fs.DataTable.Columns.Add(new DataColumn("Slope", typeof(int)));
-                fs.DataTable.Columns.Add(new DataColumn("Width", typeof(int)));
-                fs.DataTable.Columns.Add(new DataColumn("Length", typeof(int)));
-                fs.DataTable.Columns.Add(new DataColumn(RegularGrid.ParaValueField, typeof(int)));
+                fs.DataTable.Columns.Add(new DataColumn("TopElevation", typeof(double)));
+                fs.DataTable.Columns.Add(new DataColumn("Slope", typeof(double)));
+                fs.DataTable.Columns.Add(new DataColumn("Width", typeof(double)));
+                fs.DataTable.Columns.Add(new DataColumn("Length", typeof(double)));
+                fs.DataTable.Columns.Add(new DataColumn(RegularGrid.ParaValueField, typeof(double)));
 
                 for (int i = 0; i < RiverNetwork.RiverCount; i++)
                 {

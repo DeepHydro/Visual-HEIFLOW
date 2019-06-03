@@ -252,41 +252,41 @@ namespace Heiflow.Models.Integration
                 StartInJulian = int.Parse(newline.Trim());
                 newline = sr.ReadLine();
                 newline = sr.ReadLine();
-                EnableSolverEx = String2Bool(newline.Trim());
+                EnableSolverEx =TypeConverterEx.String2Bool(newline.Trim());
                 newline = sr.ReadLine();
                 var buf = TypeConverterEx.Split<int>(newline, 2);
                 Max_TS_ITER = buf[0];
                 HCLOSER = buf[1];
                 newline = sr.ReadLine();
                 newline = sr.ReadLine();
-                EnableMFOutputEx = String2Bool(newline.Trim());
+                EnableMFOutputEx = TypeConverterEx.String2Bool(newline.Trim());
                 MFOutputExFile = sr.ReadLine().Trim();
                 newline = sr.ReadLine();
                 newline = sr.ReadLine();
                 buf = TypeConverterEx.Split<int>(newline, 3);
-                EnableSFREx = Int2Bool(buf[0]);
-                EnableSFRReport = Int2Bool(buf[1]);
-                EnableSFROutEx = Int2Bool(buf[2]);
+                EnableSFREx = TypeConverterEx.Int2Bool(buf[0]);
+                EnableSFRReport = TypeConverterEx.Int2Bool(buf[1]);
+                EnableSFROutEx = TypeConverterEx.Int2Bool(buf[2]);
                 SFRExFile = sr.ReadLine().Trim();
                 SFRReportFile = sr.ReadLine().Trim();
                 SFROutExFile = sr.ReadLine().Trim();
                 newline = sr.ReadLine();
                 newline = sr.ReadLine();
-                EnableLakeEx = String2Bool(newline.Trim());
+                EnableLakeEx = TypeConverterEx.String2Bool(newline.Trim());
                 LakeExFile = sr.ReadLine().Trim();
                 newline = sr.ReadLine();
                 newline = sr.ReadLine();
-                EnableAllocCurveEx = String2Bool(newline.Trim());
+                EnableAllocCurveEx = TypeConverterEx.String2Bool(newline.Trim());
                 AllocCurveExFile = sr.ReadLine().Trim();
                 newline = sr.ReadLine();
                 MF_IOLOG_File = sr.ReadLine().Trim();
                 newline = sr.ReadLine();
                 newline = sr.ReadLine();
-                EnablePET_CONSTRAINT = String2Bool(newline.Trim());
+                EnablePET_CONSTRAINT = TypeConverterEx.String2Bool(newline.Trim());
                 PET_CONSTRAINT_File = sr.ReadLine().Trim();
                 newline = sr.ReadLine();
                 newline = sr.ReadLine();
-                EnableABM = String2Bool(newline.Trim());
+                EnableABM = TypeConverterEx.String2Bool(newline.Trim());
                 ABM_MODEL_File = sr.ReadLine().Trim();
 
                 fs.Close();
@@ -317,32 +317,32 @@ namespace Heiflow.Models.Integration
             sw.WriteLine("## Julian Start");
             sw.WriteLine(StartInJulian.ToString());
             sw.WriteLine("## SolverEx");
-            sw.WriteLine(Bool2String(EnableSolverEx));
+            sw.WriteLine(TypeConverterEx.Bool2String(EnableSolverEx));
             newline = string.Format("{0}  {1} #Max_TS_ITER, HCLOSER", Max_TS_ITER, HCLOSER);
             sw.WriteLine(newline);
             sw.WriteLine("## MFOutputEx");
-            sw.WriteLine(Bool2String(EnableMFOutputEx));
+            sw.WriteLine(TypeConverterEx.Bool2String(EnableMFOutputEx));
             sw.WriteLine(_MFOutputExFile);
             sw.WriteLine("## SFREx");
-            newline = string.Format("{0}  {1}   {2}  #SFREx  SFRReport SFROutEX", Bool2String(EnableSFREx), Bool2String(EnableSFRReport), Bool2String(EnableSFROutEx));
+            newline = string.Format("{0}  {1}   {2}  #SFREx  SFRReport SFROutEX", TypeConverterEx.Bool2String(EnableSFREx), TypeConverterEx.Bool2String(EnableSFRReport), TypeConverterEx.Bool2String(EnableSFROutEx));
             sw.WriteLine(newline);
             sw.WriteLine(_SFRExFile);
             sw.WriteLine(_SFRReportFile);
             sw.WriteLine(_SFROutEXFile);
             sw.WriteLine("## LakeEX");
-            sw.WriteLine(Bool2String(EnableLakeEx));
+            sw.WriteLine(TypeConverterEx.Bool2String(EnableLakeEx));
             sw.WriteLine(_LakeExFile);
             sw.WriteLine("## AllocationCurveEX");
-            sw.WriteLine(Bool2String(EnableAllocCurveEx));
+            sw.WriteLine(TypeConverterEx.Bool2String(EnableAllocCurveEx));
             sw.WriteLine(_AllocCurveExFile);
             sw.WriteLine("## MF IO LOG FILE");
             sw.WriteLine(_MF_IOLOG_File);
             sw.WriteLine("## PET Constraint");
-            sw.WriteLine(Bool2String(EnablePET_CONSTRAINT));
+            sw.WriteLine(TypeConverterEx.Bool2String(EnablePET_CONSTRAINT));
             sw.WriteLine(_PET_CONSTRAINT_File);
             sw.WriteLine("## ABM Model");
-            sw.WriteLine(Bool2String(EnableABM));
-            sw.WriteLine(ABM_MODEL_File);
+            sw.WriteLine(TypeConverterEx.Bool2String(EnableABM));
+            sw.WriteLine(_ABM_MODEL_File);
 
             sw.Close();
             OnSaved(progress);
@@ -373,22 +373,6 @@ namespace Heiflow.Models.Integration
             _MF_IOLOG_File = ".\\Output\\mf_io_log.csv";
             _PET_CONSTRAINT_File = ".\\Input\\Extension\\pet_constraint.ex";
             _ABM_MODEL_File = ".\\Input\\Extension\\abm.ex";
-        }
-        private bool String2Bool(string str)
-        {
-            var buf = int.Parse(str);
-            return buf > 0;
-        }
-        private bool Int2Bool(int vv)
-        {
-            return vv > 0;
-        }
-        private string Bool2String(bool vv)
-        {
-            if (vv)
-                return "1";
-            else
-                return "0";
         }
     }
 }

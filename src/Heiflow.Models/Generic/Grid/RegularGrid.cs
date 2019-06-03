@@ -616,7 +616,16 @@ namespace Heiflow.Models.Generic
             coods[4] = new Coordinate(coods[0].X, coods[0].Y);
             return coods;
         }
-
+        /// <summary>
+        /// hru_index starts from 0
+        /// </summary>
+        /// <param name="hru_index"></param>
+        /// <returns></returns>
+        public Coordinate[] LocateNodes(int hru_index)
+        {
+            var cell = Topology.ActiveCell[hru_index];
+            return LocateNodes(cell[1], cell[0]);
+        }
         public virtual void BuildTopology()
         {
 
