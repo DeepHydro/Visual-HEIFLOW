@@ -230,8 +230,13 @@ namespace Heiflow.Controls.WinForm.Controls
         {
             _need_refresh_pages = true;
             _DataCubeObject = dc;
-           
-
+           if(dc.Layout == DataCubeLayout.OneD)
+           {
+               cmbCell.Enabled = false;
+               cmbTime.Enabled = false;
+               cmbVar.Enabled = false;
+               dc.ToDataTable();
+           }
             if (dc.SelectedVariableIndex < 0)
             {
                 DataObjectName = dc.Name;
