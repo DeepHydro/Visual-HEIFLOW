@@ -60,6 +60,7 @@ namespace Heiflow.Core.Data
         float[,] Multipliers { get; set; }
         bool TimeBrowsable { get; set; }
         DataCubeType DataCubeType { get; }
+        DataCubeLayout Layout { get; set; }
         bool AllowTableEdit { get; }
         IGridTopology Topology { get; set; }
         Array GetByTime(int var_index, int time_index);

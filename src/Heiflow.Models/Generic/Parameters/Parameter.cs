@@ -321,6 +321,13 @@ namespace Heiflow.Models.Generic.Parameters
             get;
             set;
         }
+        [XmlIgnore]
+        [Browsable(false)]
+        public DataCubeLayout Layout
+        {
+            get;
+            set;
+        }
         protected virtual void Init()
         {
             VariableType = ParameterType.Parameter;
@@ -509,6 +516,5 @@ namespace Heiflow.Models.Generic.Parameters
                 DataCubeValueChanged(this, EventArgs.Empty);
             }
         }
-
     }
 }
