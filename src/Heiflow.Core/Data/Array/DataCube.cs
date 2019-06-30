@@ -534,19 +534,52 @@ namespace Heiflow.Core.Data
         public System.Data.DataTable ToDataTable()
         {
             DataTable dt = new DataTable();
-            foreach (var str in Variables)
+            switch (Layout)
             {
-                DataColumn dc = new DataColumn(str, typeof(T));
-                dt.Columns.Add(dc);
-            }
-            for (int i = 0; i < Size[2]; i++)
-            {
-                var dr = dt.NewRow();
-                for (int j = 0; j < Size[0]; j++)
-                {
-                    dr[j] = this[j,SelectedTimeIndex,i];
-                }
-                dt.Rows.Add(dr);
+                case DataCubeLayout.OneD:
+                    DataColumn dc = new DataColumn(Variables[0], typeof(T));
+                    dt.Columns.Add(dc);
+                    for (int i = 0; i < Size[2]; i++)
+                    {
+                        var dr = dt.NewRow();
+                        dr[0] = this[0, 0, i];
+                        dt.Rows.Add(dr);
+                    }
+                    break;
+                case DataCubeLayout.OneDTimeSeries:
+                    DataColumn dctime = new DataColumn(Variables[0], typeof(DateTime));
+                    dt.Columns.Add(dctime);
+                    dc = new DataColumn(Variables[0], typeof(T));
+                    dt.Columns.Add(dc);
+                    for (int i = 0; i < Size[2]; i++)
+                    {
+                        var dr = dt.NewRow();
+                        dr[0] = DateTimes[i];
+                        dr[1] = this[0, 0, i];
+                        dt.Rows.Add(dr);
+                    }
+                    break;
+                case DataCubeLayout.TwoD:
+                    for (int i = 0; i < Size[2]; i++)
+                    {
+                        dc = new DataColumn("C" + i, typeof(T));
+                        dt.Columns.Add(dc);
+                    }
+                    for (int i = 0; i < Size[1]; i++)
+                    {
+                        var dr = dt.NewRow();
+                        for (int j = 0; j < Size[2]; j++)
+                        {
+                            dr[j] = this[0, i, j];
+                        }
+                        dt.Rows.Add(dr);
+                    }
+                    break;
+                case DataCubeLayout.ThreeD:
+
+                    break;
+                default:
+                    break;
             }
             return dt;
         }

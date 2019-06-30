@@ -155,6 +155,12 @@
     <Compile Include="Climate\WeatherGeneratorForm.Designer.cs">
       <DependentUpon>WeatherGeneratorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\DataCubeGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\DataCubeGrid.Designer.cs">
+      <DependentUpon>DataCubeGrid.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ILSurfaceMeta.cs" />
     <Compile Include="DatabaseExplorer\ImportODMData.cs">
       <SubType>Form</SubType>
@@ -638,6 +644,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Climate\WeatherGeneratorForm.resx">
       <DependentUpon>WeatherGeneratorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\DataCubeGrid.resx">
+      <DependentUpon>DataCubeGrid.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DatabaseExplorer\ImportODMData.resx">
       <DependentUpon>ImportODMData.cs</DependentUpon>
