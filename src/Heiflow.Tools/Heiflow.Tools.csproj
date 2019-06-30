@@ -117,12 +117,16 @@
     <Compile Include="Hydrology\TemperatureConversion.cs" />
     <Compile Include="IrrigationModel\WRAInputFile.cs" />
     <Compile Include="IrrigationModel\WithdrawInputFile.cs" />
+    <Compile Include="MachineLearning\BPANN.cs" />
+    <Compile Include="MachineLearning\CreateTrainingSets.cs" />
     <Compile Include="MachineLearning\enums.cs" />
+    <Compile Include="MachineLearning\ANN.cs" />
     <Compile Include="MachineLearning\SVM4RS.cs" />
     <Compile Include="Math\Deviation.cs" />
     <Compile Include="Math\CopyVectorTo.cs" />
     <Compile Include="Math\Subset.cs" />
     <Compile Include="Mesh\From2dmToFeature.cs" />
+    <Compile Include="MLModelTool.cs" />
     <Compile Include="SpatialAnalyst\FromNetCDF2TIF.cs" />
     <Compile Include="Conversion\ToTextFile.cs" />
     <Compile Include="DrivingForces\SaveAsClimateInput.cs" />
