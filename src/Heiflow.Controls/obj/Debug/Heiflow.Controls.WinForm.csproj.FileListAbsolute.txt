@@ -313,3 +313,5 @@ F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.Wi
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csprojAssemblyReference.cache
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csproj.CoreCompileInputs.cache
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csproj.CopyComplete
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.Controls.DataCubeGrid.resources
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.DatabaseExplorer.BatchExportForm.resources

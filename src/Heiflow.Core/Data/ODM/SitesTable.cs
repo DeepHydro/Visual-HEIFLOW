@@ -117,7 +117,7 @@ namespace Heiflow.Core.Data.ODM
             return sites;
         }
 
-        public override void CustomExport( DataTable source)
+        public override void CustomExport( DataTable source, DateTime start, DateTime end)
         {
              if(source != null)
              {
@@ -128,7 +128,9 @@ namespace Heiflow.Core.Data.ODM
                      var series=new ObservationSeries()
                      {
                           SiteID=site.ID,
-                          VariableID= setting.VariableID
+                          VariableID= setting.VariableID,
+                           Start= start,
+                           End =end
                      };             
                      var ts = ODM.GetTimeSereis(series);
                      if (ts != null)

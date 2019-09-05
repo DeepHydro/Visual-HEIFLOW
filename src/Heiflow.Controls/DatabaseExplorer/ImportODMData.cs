@@ -229,19 +229,8 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
 
         private void customExportToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (cmbTables.SelectedItem != null && _ODM_Table != null)
-            {
-                odm = _ODM.ODMTables[cmbTables.SelectedItem.ToString()];
-                if (odm.ExportSetting == null)
-                    return;
-
-                SaveFileDialog dlg = new SaveFileDialog();
-                dlg.Filter = "csv file|*.csv";
-                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    odm.CustomExport(_ODM_Table);
-                }
-            }
+            BatchExportForm form = new BatchExportForm(_ODM);
+            form.ShowDialog();
         }
 
         private void btn_ShowScript_Click(object sender, EventArgs e)

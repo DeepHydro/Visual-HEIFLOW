@@ -56,6 +56,7 @@ namespace Heiflow.Tools.DataManagement
             Description = "Extract values from a Raster layer  to a data cube";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
+            NoDataValue = 0;
         }
 
         [Category("Input")]
@@ -75,8 +76,16 @@ namespace Heiflow.Tools.DataManagement
             set;
         }
 
+        [Category("Optional")]
+        [Description("Set NoDataValue")]
+        public float NoDataValue
+        {
+            get;
+            set;
+        }
+
         [Category("Input")]
-        [Description("Stream layer")]
+        [Description("A polygon or point feature layer")]
         [EditorAttribute(typeof(MapLayerDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         public IMapLayerDescriptor TargetFeature
         {
@@ -111,16 +120,20 @@ namespace Heiflow.Tools.DataManagement
                 var dx = System.Math.Sqrt(_target_layer.GetFeature(0).Geometry.Area);
                 int nsample = (int)System.Math.Floor(dx / _dem_layer.CellHeight);
                 var mat = new DataCube<float>(1, 1, nrow);
+                float buf = 0;
+                float sum_cellv = 0;
+                List<float> temp = new List<float>();
                 mat.Name = Matrix;
                 mat.Variables = new string[] { Matrix };
                 mat.TimeBrowsable = false;
                 mat.AllowTableEdit = true;
+
                 List<Coordinate> list = new List<Coordinate>();
                 if (_target_layer.FeatureType == FeatureType.Polygon)
                 {
                     for (int i = 0; i < nrow; i++)
                     {
-                        float sum_cellv = 0;
+                        sum_cellv = 0;
                         int npt = 0;
                         list.Clear();
                         var fea = _target_layer.GetFeature(i).Geometry;
@@ -141,7 +154,7 @@ namespace Heiflow.Tools.DataManagement
                              var cell = _dem_layer.ProjToCell(pt);
                              if (cell != null && cell.Row > 0)
                              {
-                                 var buf = (float)_dem_layer.Value[cell.Row, cell.Column]; 
+                                 buf = (float)_dem_layer.Value[cell.Row, cell.Column]; 
                                  if(buf != _dem_layer.NoDataValue)
                                  {
                                      sum_cellv += buf;
@@ -161,7 +174,7 @@ namespace Heiflow.Tools.DataManagement
                         }
                     }
                 }
-                else
+                else if (_target_layer.FeatureType == FeatureType.Point)
                 {
                     Coordinate[] coors = new Coordinate[nrow];
 
@@ -176,7 +189,43 @@ namespace Heiflow.Tools.DataManagement
                         var cell = _dem_layer.ProjToCell(coors[i]);
                         if (cell != null && cell.Row > 0)
                         {
-                            mat[0,0,i] = (float)_dem_layer.Value[cell.Row, cell.Column];
+                            buf = (float)_dem_layer.Value[cell.Row, cell.Column];
+                            if (buf != _dem_layer.NoDataValue)
+                            {
+                                mat[0, 0, i] =   buf;
+                            }
+                            else
+                            {
+                                temp.Clear();
+                                if ( (cell.Row - 1) > 0)
+                                {
+                                    temp.Add((float)_dem_layer.Value[cell.Row - 1, cell.Column]);
+                                    if ((cell.Column - 1) > 0)
+                                        temp.Add((float)_dem_layer.Value[cell.Row - 1, cell.Column - 1]);
+                                    if ((cell.Column + 1) > 0)
+                                        temp.Add((float)_dem_layer.Value[cell.Row - 1, cell.Column + 1]);
+                                }
+                                if((cell.Column - 1) > 0)
+                                {
+                                    temp.Add((float)_dem_layer.Value[cell.Row, cell.Column] - 1);
+                                }
+                                if ((cell.Column + 1) > 0)
+                                {
+                                    temp.Add((float)_dem_layer.Value[cell.Row, cell.Column] + 1);
+                                }
+                                if ((cell.Row + 1) > 0)
+                                {
+                                    temp.Add((float)_dem_layer.Value[cell.Row + 1, cell.Column]);
+                                    if ((cell.Column - 1) > 0)
+                                        temp.Add((float)_dem_layer.Value[cell.Row + 1, cell.Column - 1]);
+                                    if ((cell.Column + 1) > 0)
+                                        temp.Add((float)_dem_layer.Value[cell.Row + 1, cell.Column + 1]);
+                                }
+                                if (temp.Count > 0)
+                                    mat[0, 0, i] = temp.Average();
+                                else
+                                    mat[0, 0, i] = NoDataValue;
+                            }
                         }
                         progress = i * 100 / nrow;
                         if (progress > count)
@@ -195,5 +244,6 @@ namespace Heiflow.Tools.DataManagement
                 return false;
             }
         }
+
     }
 }

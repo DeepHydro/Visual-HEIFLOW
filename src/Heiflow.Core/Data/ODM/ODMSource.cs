@@ -244,8 +244,10 @@ namespace Heiflow.Core.Data.ODM
                         {
                             int id = int.Parse(dr["SiteID"].ToString());
                             var site = GetSite(id);
-                            if (site.Latitude <= qc.BBox.North && site.Latitude >= qc.BBox.South && site.Longitude <= qc.BBox.East
+                            if (qc.BBox != null && site.Latitude <= qc.BBox.North && site.Latitude >= qc.BBox.South && site.Longitude <= qc.BBox.East
                                  && site.Longitude >= qc.BBox.West)
+                                result.Add(site);
+                            else
                                 result.Add(site);
                         }
                         return result.ToArray();
@@ -517,8 +519,8 @@ namespace Heiflow.Core.Data.ODM
 
         public DataCube<double> GetTimeSereis(ObservationSeries series)
         {
-            string sql = string.Format("select DateTimeUTC, DataValue from DataValues where SiteID={0} and VariableID={1} order by DateTimeUTC",
-         series.SiteID, series.VariableID);
+            string sql = string.Format("select DateTimeUTC, DataValue from DataValues where SiteID={0} and VariableID={1} and  DateTimeUTC >=#{2}# and DateTimeUTC <=#{3}# order by DateTimeUTC",
+         series.SiteID, series.VariableID, series.Start.ToString("yyyy/MM/dd"), series.End.ToString("yyyy/MM/dd"));
             var dt = ODMDB.QueryDataTable(sql);
             if (dt != null)
             {

@@ -42,6 +42,6 @@ namespace Heiflow.Core.Data.ODM
         bool Check(System.Data.DataTable dt);
         bool Save(System.Data.DataTable dt);
         void Export(string filename, System.Data.DataTable source);
-        void CustomExport(System.Data.DataTable source);
+        void CustomExport(System.Data.DataTable source, DateTime start, DateTime end);
     }
 }

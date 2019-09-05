@@ -162,6 +162,12 @@
       <DependentUpon>DataCubeGrid.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\ILSurfaceMeta.cs" />
+    <Compile Include="DatabaseExplorer\BatchExportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DatabaseExplorer\BatchExportForm.Designer.cs">
+      <DependentUpon>BatchExportForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseExplorer\ImportODMData.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -647,6 +653,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\DataCubeGrid.resx">
       <DependentUpon>DataCubeGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DatabaseExplorer\BatchExportForm.resx">
+      <DependentUpon>BatchExportForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DatabaseExplorer\ImportODMData.resx">
       <DependentUpon>ImportODMData.cs</DependentUpon>

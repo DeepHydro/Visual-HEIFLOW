@@ -110,7 +110,7 @@ namespace Heiflow.Core.Data.ODM
                 csv.Save(source);
             }
         }
-        public virtual void CustomExport(DataTable source)
+        public virtual void CustomExport(DataTable source,DateTime start, DateTime end)
         {
 
         }
