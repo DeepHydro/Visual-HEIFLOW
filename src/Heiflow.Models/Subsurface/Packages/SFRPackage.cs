@@ -275,7 +275,7 @@ namespace Heiflow.Models.Subsurface
                 fs.DataTable.Columns.Add(new DataColumn("JRCH", typeof(int)));
 
                 fs.DataTable.Columns.Add(new DataColumn("BedThick", typeof(double)));
-                fs.DataTable.Columns.Add(new DataColumn("TopElevation", typeof(double)));
+                fs.DataTable.Columns.Add(new DataColumn("TopElev", typeof(double)));
                 fs.DataTable.Columns.Add(new DataColumn("Slope", typeof(double)));
                 fs.DataTable.Columns.Add(new DataColumn("Width", typeof(double)));
                 fs.DataTable.Columns.Add(new DataColumn("Length", typeof(double)));
@@ -297,7 +297,7 @@ namespace Heiflow.Models.Subsurface
                         feature.DataRow["IRCH"] = reach.IRCH;
                         feature.DataRow["JRCH"] = reach.JRCH;
                         feature.DataRow["BedThick"] = reach.BedThick;
-                        feature.DataRow["TopElevation"] = reach.TopElevation;
+                        feature.DataRow["TopElev"] = reach.TopElevation;
                         feature.DataRow["Slope"] = reach.Slope;
                         feature.DataRow["Width"] = reach.Width;
                         feature.DataRow["Length"] = reach.Length;

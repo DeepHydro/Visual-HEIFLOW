@@ -42,6 +42,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Heiflow.Models.Subsurface.Packages;
 
 namespace Heiflow.Models.Subsurface
 {
@@ -106,60 +107,178 @@ namespace Heiflow.Models.Subsurface
 
         //*****DataSet3
         /// <summary>
-        /// [NLAKES,5] (STAGES,SSMN,SSMX,IUNITTAB,CLAKE)
+        /// [1,NLAKES,5] (STAGES,SSMN,SSMX,IUNITTAB,CLAKE)
         /// </summary>
-        public float[,] STAGES { get; set; }
+        /// 
+       [StaticVariableItem]
+        public DataCube2DLayout<float> STAGES { get; set; }
 
         //*****DataSet4
         /// <summary>
-        /// [nperiod,3] (ITMP,ITMP1, LWRT )
+        /// [1,nperiod,3] (ITMP,ITMP1, LWRT )
         /// </summary>
-        public int[,] NPINFO { get; set; }
+        /// 
+       [StaticVariableItem]
+       public DataCube<int> ITMP { get; set; }
 
         //*****DataSet5
         /// <summary>
-        ///  0, the grid cell is not a lake volume cell. > 0, its value is the identification number of the lake occupying the grid cell. 
+        ///[nlayer,1,nactcell]   0, the grid cell is not a lake volume cell. > 0, its value is the identification number of the lake occupying the grid cell. 
         /// </summary>
-        public MatrixCube<float> LKARR { get; set; }
+       [StaticVariableItem]
+       public DataCube<int> LKARR { get; set; }
 
         //*****DataSet6
         /// <summary>
-        ///  the lakebed leakance that will be assigned to lake/aquifer interfaces that occur in the corresponding grid cell.
+       /// [nlake,1,nactcell]. the lakebed leakance that will be assigned to lake/aquifer interfaces that occur in the corresponding grid cell.
         /// </summary>
-        public MatrixCube<float> BDLKNC { get; set; }
+        /// 
+       [StaticVariableItem]
+       public DataCube<float> BDLKNC { get; set; }
 
-        //*****DataSet7
-        public int NSLMS { get; set; }
+        /// <summary>
+       /// [1,1, nsp] The number of sublake systems if coalescing/dividing lakes are to be simulated (only in transient runs). Enter 0 if no sublake systems are to be simulated.
+        /// </summary>
+        /// 
+        [StaticVariableItem]
+       public DataCube<int> NSLMS { get; set; }
 
-        //*****DataSet8a
         /// <summary>
-        /// [nlake, 2] (IC,ISUB)
+        /// [np,nlake,6]: PRCPLK EVAPLK RNF WTHDRW [SSMN] [SSMX]
         /// </summary>
-        public int[,] MultipleLakeInfo { get; set; }
-        //*****DataSet8b
-        /// <summary>
-        ///  Sill elevation that determines whether the center lake is connected with a given sublake
-        /// </summary>
-        public float[,] SILLVT { get; set; }
-        /// <summary>
-        /// [np][nlake,6]: PRCPLK EVAPLK RNF WTHDRW [SSMN] [SSMX]
-        /// </summary>
-        public float[][,] WSOUR { get; set; }
+        /// 
+       [StaticVariableItem]
+        public DataCube2DLayout<float> WSOUR { get; set; }
         #endregion
 
         public override void Initialize()
         {
+            Message = "";
+            this.Grid = Owner.Grid;
+            this.Grid.Updated += this.OnGridUpdated;
+            this.TimeService = Owner.TimeService;
+            this.TimeService.Updated += this.OnTimeServiceUpdated;
             base.Initialize();
         }
+        public override bool New()
+        {
 
+            return base.New();
+        }
         public override bool Load(ICancelProgressHandler progresshandler)
         {
+            var mf = (Owner as Modflow);
+             var grid = (Owner.Grid as MFGrid);
+            int nsp = TimeService.StressPeriods.Count;
+            int nlayer= grid.ActualLayerCount;
+            if (File.Exists(FileName))
+            {
+                StreamReader sr = new StreamReader(FileName);
+                string line = sr.ReadLine();
+                line = sr.ReadLine();
+                //7	0	 # DataSet 1b: NLAKES ILKCB
+                //-0.5 	100	 0.01 	0.5	 # DataSet 2: THETA NSSITR SSCNCR SURFDEPTH
+                int[] intbuf = TypeConverterEx.Split<int>(line, 2);
+                NLAKES = intbuf[0];
+                ILKCB = intbuf[1];
+                line = sr.ReadLine();
+                var floatbuf = TypeConverterEx.Split<float>(line, 4);
+                THETA = floatbuf[0];
+                NSSITR = (int)floatbuf[1];
+                SSCNCR = floatbuf[2];
+                SURFDEPTH = floatbuf[3];
+
+                STAGES = new DataCube2DLayout<float>(1, NLAKES,5);
+                for (int i = 0; i < NLAKES; i++)
+                {
+                    line = sr.ReadLine();
+                    floatbuf = TypeConverterEx.Split<float>(line, 3);
+                    STAGES[0][i, ":"] = floatbuf;
+                }
+
+                ITMP = new DataCube<int>(1, nsp, 3);
+                LKARR = new DataCube<int>(nlayer, 1, grid.ActiveCellCount)
+                {
+                    Name = "Lake ID",
+                    TimeBrowsable = false,
+                    AllowTableEdit = true,
+                    Variables = new string[nlayer]
+                };
+                for (int l = 0; l < nlayer; l++)
+                {
+                    LKARR.Variables[l] = "Lake ID of " + " Layer " + (l + 1);
+                }
+
+                BDLKNC = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
+                {
+                    Name = "Leakance",
+                    TimeBrowsable = false,
+                    AllowTableEdit = true,
+                    Variables = new string[nlayer]
+                };
+                for (int l = 0; l < nlayer; l++)
+                {
+                    BDLKNC.Variables[l] = " Layer " + (l + 1);
+                }
+                NSLMS = new DataCube<int>(nsp, 1, 1)
+                {
+                    Name = "Num of Sublakes",
+                    TimeBrowsable = false,
+                    AllowTableEdit = true,
+                    Variables = new string[nsp]
+                };
+                for (int l = 0; l < nsp; l++)
+                {
+                    NSLMS.Variables[l] = "Stress Period " + (l + 1);
+                }
+                WSOUR = new DataCube<float>(nsp, NLAKES, 6)
+                {
+                    Name = "Recharge Discharge",
+                    TimeBrowsable = false,
+                    AllowTableEdit = true,
+                    Variables = new string[nsp],
+                    Layout = DataCubeLayout.TwoD
+                };
+                for (int l = 0; l < nsp; l++)
+                {
+                    WSOUR.Variables[l] = "Stress Period " + (l + 1);
+                }
+
+
+                line = sr.ReadLine();
+                intbuf = TypeConverterEx.Split<int>(line, 3);
+
+
+
+            }
             return true;
         }
         public override bool SaveAs(string filename, ICancelProgressHandler progress)
         {
             return true;
         }
-
+        public override string CreateFeature(DotSpatial.Projections.ProjectionInfo proj_info, string directory)
+        {
+            return base.CreateFeature(proj_info, directory);
+        }
+        public override void Clear()
+        {
+            if (_Initialized)
+            {
+                this.TimeService.Updated -= this.OnTimeServiceUpdated;
+                this.Grid.Updated -= this.OnGridUpdated;
+            }
+            base.Clear();
+        }
+        public override void OnGridUpdated(IGrid sender)
+        {
+            this.FeatureLayer = this.Grid.FeatureLayer;
+            this.Feature = this.Grid.FeatureSet;
+            base.OnGridUpdated(sender);
+        }
+        public override void OnTimeServiceUpdated(ITimeService time)
+        {
+            var nsp = time.StressPeriods.Count;
+        }
     }
 }

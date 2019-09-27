@@ -77,8 +77,9 @@ namespace Heiflow.Tools.ConceptualModel
 
     public class ReachFeature
     {
-        public DataRow Row { get; set; }
+        public DataRow DataRow { get; set; }
         public double Elevation { get; set; }
         public double Slope { get; set; }
+        public double Length { get; set; }
     }
 }

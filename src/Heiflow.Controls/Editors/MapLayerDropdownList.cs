@@ -80,13 +80,16 @@ namespace Heiflow.Controls.WinForm.Editors
                         lb.SelectedIndex = index;
                     }
                 }
+
+                lb.Items.Add("none");
             }
 
             // show this model stuff
             _editorService.DropDownControl(lb);
             if (lb.SelectedItem == null) // no selection, return the passed-in value as is
                 return value;
-
+            if (lb.SelectedItem == "none")
+                return null;
             return lb.SelectedItem;
         }
 
