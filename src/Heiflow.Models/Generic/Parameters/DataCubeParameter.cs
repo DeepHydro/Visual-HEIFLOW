@@ -7,6 +7,7 @@ using Heiflow.Core.Data;
 using System.Xml.Serialization;
 using System.ComponentModel;
 using System.Data;
+using ILNumerics;
 
 namespace Heiflow.Models.Generic.Parameters
 {
@@ -18,8 +19,10 @@ namespace Heiflow.Models.Generic.Parameters
         protected int[] _Size;
         protected Array _array;
         protected DataCube<float> _DataCube;
-        public DataCubeParameter(int nvar, int ntime, int ncell, bool islazy = false)
-            : base(nvar, ntime, ncell, islazy)
+
+
+        public DataCubeParameter(int nrow, int ncol, bool islazy = false)
+            : base(1, nrow, ncol, islazy)
         {
             Layout = DataCubeLayout.TwoD;
             VariableType = ParameterType.Parameter;
@@ -335,11 +338,18 @@ namespace Heiflow.Models.Generic.Parameters
             return dt;
         }
 
-        public virtual void AlterDimLength(int new_length)
+        public virtual void AlterDimLength(string dim_name, int new_length)
         {
-
+            int dim_index = GetDimIndex(dim_name);
+            if (Size[dim_index + 1] == new_length)
+            {
+                return;
+            }
+            Size[dim_index + 1] = new_length;
+            _arrays[0] = ILMath.zeros<T>(Size[1], Size[2]);
+            DataCubeType = DataCubeType.General;
+            Constant(DefaultValue);
         }
-
 
         public virtual void SetValue(object vv, int index)
         {
@@ -351,7 +361,14 @@ namespace Heiflow.Models.Generic.Parameters
         }
         public virtual void Constant(object vv)
         {
-
+            var constant = (T)vv;
+            for (int i = 0; i < Size[1]; i++)
+            {
+                for (int j = 0; j < Size[2]; j++)
+                {
+                    _arrays[0][i, j] = constant;
+                }
+            }
         }
         public virtual void ResetToDefault()
         {
@@ -429,6 +446,20 @@ namespace Heiflow.Models.Generic.Parameters
             {
                 DataCubeValueChanged(this, EventArgs.Empty);
             }
+        }
+
+        public int GetDimIndex(string dim_name)
+        {
+            int dim_index = 0;
+            for (int i = 0; i < Dimension; i++)
+            {
+                if (DimensionNames[i] == dim_name)
+                {
+                    dim_index = i;
+                    break;
+                }
+            }
+            return dim_index;
         }
     }
 }
