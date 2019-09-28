@@ -531,7 +531,7 @@ namespace Heiflow.Core.Data
             return dt;
         }
 
-        public System.Data.DataTable ToDataTable()
+        public virtual System.Data.DataTable ToDataTable()
         {
             DataTable dt = new DataTable();
             switch (Layout)
@@ -584,7 +584,7 @@ namespace Heiflow.Core.Data
             return dt;
         }
 
-        public void FromDataTable(System.Data.DataTable dt)
+        public virtual void FromDataTable(System.Data.DataTable dt)
         {
             if (_arrays == null)
             {
