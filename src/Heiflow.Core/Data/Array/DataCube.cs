@@ -37,7 +37,7 @@ using System.Data;
 
 namespace Heiflow.Core.Data
 {
-    public enum DataCubeLayout { OneD,TwoD,ThreeD,OneDTimeSeries};
+    public enum DataCubeLayout { TwoD,ThreeD,OneDTimeSeries};
     public class DataCube<T>:IDataCubeObject
     {
         public event EventHandler DataCubeValueChanged;
@@ -536,20 +536,10 @@ namespace Heiflow.Core.Data
             DataTable dt = new DataTable();
             switch (Layout)
             {
-                case DataCubeLayout.OneD:
-                    DataColumn dc = new DataColumn(Variables[0], typeof(T));
-                    dt.Columns.Add(dc);
-                    for (int i = 0; i < Size[2]; i++)
-                    {
-                        var dr = dt.NewRow();
-                        dr[0] = this[0, 0, i];
-                        dt.Rows.Add(dr);
-                    }
-                    break;
                 case DataCubeLayout.OneDTimeSeries:
                     DataColumn dctime = new DataColumn(Variables[0], typeof(DateTime));
                     dt.Columns.Add(dctime);
-                    dc = new DataColumn(Variables[0], typeof(T));
+                    var dc = new DataColumn(Variables[0], typeof(T));
                     dt.Columns.Add(dc);
                     for (int i = 0; i < Size[2]; i++)
                     {

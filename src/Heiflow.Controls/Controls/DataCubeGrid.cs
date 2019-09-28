@@ -230,13 +230,19 @@ namespace Heiflow.Controls.WinForm.Controls
         {
             _need_refresh_pages = true;
             _DataCubeObject = dc;
-           if(dc.Layout == DataCubeLayout.OneD)
-           {
-               cmbCell.Enabled = false;
-               cmbTime.Enabled = false;
-               cmbVar.Enabled = false;
-               dc.ToDataTable();
-           }
+            cmbVar.ComboBox.Items.Clear();
+            cmbTime.ComboBox.Items.Clear();
+            cmbCell.ComboBox.Items.Clear();
+            
+            if (dc.Layout == DataCubeLayout.ThreeD)
+            {
+                cmbVar.ComboBox.DataSource = dc.Variables;
+
+            }
+            else
+            {
+
+            }
             if (dc.SelectedVariableIndex < 0)
             {
                 DataObjectName = dc.Name;
@@ -683,5 +689,54 @@ namespace Heiflow.Controls.WinForm.Controls
 
         }
         #endregion
+
+        private void cmbVar_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(_DataCubeObject != null)
+            {
+                if(_DataCubeObject.IsAllocated(cmbVar.SelectedIndex))
+                {
+                    string[] timestrs = new string[_DataCubeObject.Size[1] + 1];
+                    string[] cellstrs = new string[_DataCubeObject.Size[2] + 1];
+                    if(_DataCubeObject.DateTimes != null)
+                    {
+                        for(int i=0;i<_DataCubeObject.Size[1];i++)
+                        {
+                            timestrs[i] = _DataCubeObject.DateTimes[i].ToString();
+                        }
+                        timestrs[_DataCubeObject.Size[1]] = "All";
+                    }
+                    else
+                    {
+                        for (int i = 0; i < _DataCubeObject.Size[1]; i++)
+                        {
+                            timestrs[i] = (i + 1).ToString();
+                        }
+                        timestrs[_DataCubeObject.Size[1]] = "All";
+                    }
+                    for (int i = 0; i < _DataCubeObject.Size[2]; i++)
+                    {
+                        cellstrs[i] = (i + 1).ToString();
+                    }
+                    cellstrs[_DataCubeObject.Size[2]] = "All";
+
+                    cmbTime.ComboBox.DataSource = timestrs;
+                    cmbCell.ComboBox.DataSource = cellstrs;
+
+                    cmbTime.ComboBox.SelectedIndex = 0;
+                    cmbCell.ComboBox.SelectedIndex = cellstrs.Length - 1;
+                }
+            }
+        }
+
+        private void cmbTime_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cmbCell_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }
