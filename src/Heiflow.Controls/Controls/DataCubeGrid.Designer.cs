@@ -204,7 +204,7 @@
             this.cmbCell.Name = "cmbCell";
             this.cmbCell.Size = new System.Drawing.Size(140, 32);
             this.cmbCell.ToolTipText = "Select cell";
-            this.cmbCell.SelectedIndexChanged += new System.EventHandler(this.cmbCell_SelectedIndexChanged_1);
+            this.cmbCell.SelectedIndexChanged += new System.EventHandler(this.cmbCell_SelectedIndexChanged);
             // 
             // cmbTime
             // 
@@ -215,7 +215,7 @@
             this.cmbTime.Name = "cmbTime";
             this.cmbTime.Size = new System.Drawing.Size(140, 32);
             this.cmbTime.ToolTipText = "Select time";
-            this.cmbTime.SelectedIndexChanged += new System.EventHandler(this.cmbTime_SelectedIndexChanged_1);
+            this.cmbTime.SelectedIndexChanged += new System.EventHandler(this.cmbTime_SelectedIndexChanged);
             // 
             // bindingNavigatorSeparator2
             // 

@@ -530,6 +530,197 @@ namespace Heiflow.Core.Data
             dt.AcceptChanges();
             return dt;
         }
+        /// <summary>
+        /// Convert datacube to datable. If one variable is specified, time dimension will be used as row, and cell dimension will be used as column.
+        /// </summary>e
+        /// <param name="var_index">if var_index = -1, all variables are regarded as table columns. In such a case, time_index or  cell_index must be -1, and the rest must be 0</param>
+        /// <param name="time_index">if time_index = -1, all times will be used</param>
+        /// <param name="cell_index">if cell_index = -1, all cells will be used</param>
+        /// <returns></returns>
+        public DataTable ToDataTable(int var_index, int time_index, int cell_index)
+        {
+            DataTable dt = new DataTable();
+            int ncell = Size[2];
+            int ntime = Size[1];
+            int nvar = Size[0];
+            if(var_index > -1)
+            {
+                // all times
+                if(time_index == -1)
+                {
+                    //all cells
+                    if(cell_index == -1)
+                    {
+                        for (int i = 0; i < ncell; i++)
+                        {
+                           var dc = new DataColumn("C" + i, typeof(T));
+                            dt.Columns.Add(dc);
+                        }
+                        for (int i = 0; i < ntime; i++)
+                        {
+                            var dr = dt.NewRow();
+                            for (int j = 0; j < ncell; j++)
+                            {
+                                dr[j] = this[var_index, i, j];
+                            }
+                            dt.Rows.Add(dr);
+                        }
+                    }
+                    else
+                    {
+                        var dc = new DataColumn("C0", typeof(T));
+                        dt.Columns.Add(dc);
+                        for (int i = 0; i < ntime; i++)
+                        {
+                            var dr = dt.NewRow();
+                            dr[0] = this[var_index, i, cell_index];
+                            dt.Rows.Add(dr);
+                        }
+                    }
+                }
+                else
+                {
+                     //all cells
+                    if (cell_index == -1)
+                    {
+                        var dc = new DataColumn("C0", typeof(T));
+                        dt.Columns.Add(dc);
+                        for (int i = 0; i < ncell; i++)
+                        {
+                            var dr = dt.NewRow();
+                            dr[0] = this[var_index, time_index, i];
+                            dt.Rows.Add(dr);
+                        }
+                    }
+                    else
+                    {
+                        var dc = new DataColumn("C0", typeof(T));
+                        dt.Columns.Add(dc);
+                        var dr = dt.NewRow();
+                        dr[0] = this[var_index, time_index, cell_index];
+                        dt.Rows.Add(dr);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < nvar; i++)
+                {
+                    var dc = new DataColumn(Variables[i], typeof(T));
+                    dt.Columns.Add(dc);
+                }
+                if (time_index == -1 && cell_index == 0)
+                {
+                    for (int i = 0; i < ntime; i++)
+                    {
+                        var dr = dt.NewRow();
+                        for (int j = 0; j < nvar; j++)
+                        {
+                            dr[j] = this[j, i, 0];
+                        }
+                        dt.Rows.Add(dr);
+                    }
+                }
+                else if (time_index == 0 && cell_index == -1)
+                {
+                    for (int i = 0; i < ncell; i++)
+                    {
+                        var dr = dt.NewRow();
+                        for (int j = 0; j < nvar; j++)
+                        {
+                            dr[j] = this[j, 0, i];
+                        }
+                        dt.Rows.Add(dr);
+                    }
+                }
+                else
+                {
+                    throw new Exception("Wrong value for the argument time_index or cell_index");
+                }
+            }
+            return dt;
+        }
+
+        public void FromDataTable(DataTable dt, int var_index, int time_index, int cell_index)
+        {
+            int ncell = Size[2];
+            int ntime = Size[1];
+            int nvar = Size[0];
+            if (var_index > -1)
+            {
+                // all times
+                if (time_index == -1)
+                {
+                    //all cells
+                    if (cell_index == -1)
+                    {
+                        for (int i = 0; i < ntime; i++)
+                        {
+                            var dr = dt.Rows[i];
+                            for (int j = 0; j < ncell; j++)
+                            {
+                                this[var_index, i, j] = (T)dr[j];
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < ntime; i++)
+                        {
+                            var dr = dt.Rows[i];
+                            this[var_index, i, cell_index] = (T)dr[0];
+                        }
+                    }
+                }
+                else
+                {
+                    //all cells
+                    if (cell_index == -1)
+                    {
+                        var dc = new DataColumn("C0", typeof(T));
+                        dt.Columns.Add(dc);
+                        for (int i = 0; i < ncell; i++)
+                        {
+                            var dr = dt.Rows[i];
+                            this[var_index, time_index, i] = (T)dr[0];
+                        }
+                    }
+                    else
+                    {
+                        this[var_index, time_index, cell_index] = (T)dt.Rows[0][0];
+                    }
+                }
+            }
+            else
+            {
+                if (time_index == -1 && cell_index == 0)
+                {
+                    for (int i = 0; i < ntime; i++)
+                    {
+                        var dr = dt.Rows[i];
+                        for (int j = 0; j < nvar; j++)
+                        {
+                            this[j, i, 0] = (T)dr[j];
+                        }
+                    }
+                }
+                else if (time_index == 0 && cell_index == -1)
+                {
+                    for (int i = 0; i < ncell; i++)
+                    {
+                        var dr = dt.Rows[i];
+                        for (int j = 0; j < nvar; j++)
+                        {
+                            this[j, 0, i] = (T)dr[j];
+                        }
+                    }
+                }
+                else
+                {
+                    throw new Exception("Wrong value for the argument time_index or cell_index");
+                }
+            }
+        }
 
         public virtual System.Data.DataTable ToDataTable()
         {

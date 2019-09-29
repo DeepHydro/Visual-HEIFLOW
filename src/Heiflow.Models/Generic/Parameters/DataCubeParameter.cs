@@ -140,9 +140,6 @@ namespace Heiflow.Models.Generic.Parameters
             get;
             set;
         }
-        public ParameterDimension ParameterDimension { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        public DataCube<float> DataCubeObject => throw new NotImplementedException();
 
         public Type GetVariableType()
         {
@@ -295,6 +292,24 @@ namespace Heiflow.Models.Generic.Parameters
         public void SetValues<T1>(T1[] vv)
         {
             throw new NotImplementedException();
+        }
+
+
+        public ParameterDimension ParameterDimension
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public DataCube<float> DataCubeObject
+        {
+            get { throw new NotImplementedException(); }
         }
     }
 }

@@ -19,24 +19,22 @@ namespace Heiflow.Controls.WinForm.Controls
 {
     public partial class DataCubeGrid : UserControl, IDataGridView, IChildView
     {
-         private DataTable _DataTable;
+        private DataTable _DataTable;
         private IDataCubeObject _DataCubeObject;
         private int _CurrentColumnIndex;
         private IShellService _ShellService;
         private IWindowService _WindowService;
         private IParameter[] _Parameters;
-        private bool _need_refresh_pages = false;
         public static string SaveButtion = "btnSave";
         public static string ImportButtion = "btnImport";
         public static string Save2ExcelButtion = "btnSave2Excel";
         public static string CmbCellKey = "cmbCell";
         public static string CmbTimeKey = "cmbTime";
+        private const string AllString = "All";
 
         public DataCubeGrid()
         {
             InitializeComponent();
-            cmbTime.SelectedIndexChanged += cmbTime_SelectedIndexChanged;
-            cmbCell.SelectedIndexChanged += cmbCell_SelectedIndexChanged;
             EnableControls(false);
         }
 
@@ -129,7 +127,7 @@ namespace Heiflow.Controls.WinForm.Controls
 
         public void ShowView(IWin32Window pararent)
         {
-            
+
         }
         #region Binding
         /// <summary>
@@ -177,7 +175,7 @@ namespace Heiflow.Controls.WinForm.Controls
                 if (data.Size.NumberOfDimensions > 2)
                 {
                     var dims = data.Size.ToIntArray();
-                    cmbCell.Items.Clear(); 
+                    cmbCell.Items.Clear();
                     for (int p = 0; p < dims[2]; p++)
                     {
                         cmbCell.Items.Add((p + 1).ToString());
@@ -228,47 +226,32 @@ namespace Heiflow.Controls.WinForm.Controls
         }
         public void Bind(IDataCubeObject dc)
         {
-            _need_refresh_pages = true;
+            if (dc == null)
+                return;
             _DataCubeObject = dc;
+            DataObjectName = dc.Name;
             cmbVar.ComboBox.Items.Clear();
             cmbTime.ComboBox.Items.Clear();
             cmbCell.ComboBox.Items.Clear();
-            
-            if (dc.Layout == DataCubeLayout.ThreeD)
-            {
-                cmbVar.ComboBox.DataSource = dc.Variables;
-
-            }
-            else
-            {
-
-            }
             if (dc.SelectedVariableIndex < 0)
             {
-                DataObjectName = dc.Name;
-                EnableControls(true);
-                cmbTime.SelectedIndex = 0;
-                if (_need_refresh_pages)
-                    cmbCell_SelectedIndexChanged(cmbTime, EventArgs.Empty);
-                _Parameters = null;
+                EnableControls(false, false, false, true, true);
+                var dt = _DataCubeObject.ToDataTable(-1, 0, -1);
+                Bind(dt);
             }
             else
             {
-                if (dc.IsAllocated(dc.SelectedVariableIndex))
+                if (dc.Layout == DataCubeLayout.ThreeD)
                 {
-                    DataObjectName = string.Format("{0}[{1}]", dc.Name, dc.Variables[dc.SelectedVariableIndex]);
-                    EnableControls(true);
-                    cmbTime.SelectedIndex = 0;
-                    if (_need_refresh_pages)
-                        cmbCell_SelectedIndexChanged(cmbTime, EventArgs.Empty);
-                    _Parameters = null;              
+                    EnableControls(true, true, true, true, true);
+                    cmbVar.ComboBox.DataSource = dc.Variables;
+                    cmbVar.SelectedIndex = dc.SelectedVariableIndex;         
                 }
-                else
+                else if (dc.Layout == DataCubeLayout.TwoD || dc.Layout == DataCubeLayout.OneDTimeSeries)
                 {
-                    this.bindingSource1.DataSource = null;
-                    this.dataGridView1.DataSource = bindingSource1;
-                    EnableControls(false);
-                    _Parameters = null;
+                    EnableControls(true, false, false, true, true);
+                    cmbVar.ComboBox.DataSource = dc.Variables;
+                    cmbVar.SelectedIndex = dc.SelectedVariableIndex;
                 }
             }
         }
@@ -466,59 +449,78 @@ namespace Heiflow.Controls.WinForm.Controls
             btnSave.Enabled = enable;
             btnImport.Enabled = enable;
         }
-        #region Toolbar
-        private void cmbTime_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (_DataCubeObject == null)
-                return;
 
-            if (cmbTime.SelectedIndex == 0)
-            {
-                _DataCubeObject.SelectedTimeIndex = cmbCell.SelectedIndex;
-                _DataCubeObject.SelectedSpaceIndex = -1;
-                _DataTable = _DataCubeObject.ToDataTableByTime(_DataCubeObject.SelectedVariableIndex, _DataCubeObject.SelectedTimeIndex);
-            }
-            else if (cmbTime.SelectedIndex == 1)
-            {
-                _DataCubeObject.SelectedTimeIndex = -1;
-                _DataCubeObject.SelectedSpaceIndex = cmbCell.SelectedIndex;
-                _DataTable = _DataCubeObject.ToDataTableBySpace(_DataCubeObject.SelectedVariableIndex, _DataCubeObject.SelectedSpaceIndex);
-            }
-            this.bindingSource1.DataSource = _DataTable;
-            this.dataGridView1.DataSource = bindingSource1;
+        private void EnableControls(bool vars, bool time, bool cell, bool save, bool import)
+        {
+            cmbVar.Enabled = vars;
+            cmbTime.Enabled = time;
+            cmbCell.Enabled = cell;
+            btnSave.Enabled = save;
+            btnImport.Enabled = import;
         }
 
-        private void cmbCell_SelectedIndexChanged(object sender, EventArgs e)
+        #region Toolbar
+        private void cmbVar_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (_DataCubeObject == null)
-                return;
-            _need_refresh_pages = false;
-            if (cmbTime.SelectedIndex == 0)//time
+            int ntime = _DataCubeObject.Size[1];
+            int ncell = _DataCubeObject.Size[2];
+            if (_DataCubeObject.Layout == DataCubeLayout.ThreeD)
             {
-                if (_DataCubeObject.DateTimes != null)
-                    cmbCell.ComboBox.DataSource = _DataCubeObject.DateTimes;
+                if (_DataCubeObject.IsAllocated(cmbVar.SelectedIndex))
+                {
+                    List<string> timestrs = new List<string>();
+                    List<string> cellstrs = new List<string>();
+                    if (_DataCubeObject.DateTimes != null)
+                    {
+                        for (int i = 0; i < ntime; i++)
+                        {
+                            timestrs.Add(_DataCubeObject.DateTimes[i].ToString());
+                        }
+                        if (ntime > 1)
+                            timestrs.Add(AllString);
+                    }
+                    else
+                    {
+                        for (int i = 0; i < ntime; i++)
+                        {
+                            timestrs.Add((i + 1).ToString());
+                        }
+                        if (ntime > 1)
+                            timestrs.Add(AllString);
+                    }
+
+                    for (int i = 0; i < ncell; i++)
+                    {
+                        cellstrs.Add((i + 1).ToString());
+                    }
+                    if (ncell > 1)
+                        cellstrs.Add(AllString);
+
+                    cmbTime.ComboBox.DataSource = timestrs;
+                    cmbCell.ComboBox.DataSource = cellstrs;
+                    cmbTime.SelectedIndexChanged -= this.cmbTime_SelectedIndexChanged;
+                    cmbTime.ComboBox.SelectedIndex = 0;
+                    cmbTime.SelectedIndexChanged += this.cmbTime_SelectedIndexChanged;
+                    cmbCell.ComboBox.SelectedIndex = cellstrs.Count - 1;
+                }
                 else
                 {
-                    int[] pages = new int[_DataCubeObject.Size[1]];
-                    for (int i = 0; i < _DataCubeObject.Size[1]; i++)
-                    {
-                        pages[i] = i + 1;
-                    }
-                    cmbCell.ComboBox.DataSource = pages;
+                    this.Bind(new DataTable());
                 }
             }
-            else if (cmbTime.SelectedIndex == 1) // space
+            else if (_DataCubeObject.Layout == DataCubeLayout.TwoD || _DataCubeObject.Layout == DataCubeLayout.OneDTimeSeries)
             {
-                var len = _DataCubeObject.GetSpaceDimLength(_DataCubeObject.SelectedVariableIndex, _DataCubeObject.SelectedTimeIndex);
-                int[] pages = new int[len];
-                for (int i = 0; i < len; i++)
-                {
-                    pages[i] = i + 1;
-                }
-                cmbCell.ComboBox.DataSource = pages;
+                var dt = _DataCubeObject.ToDataTable();
+                Bind(dt);
             }
-            //cmbCell.SelectedIndex = 0;
-            cmbTime_SelectedIndexChanged(cmbCell, EventArgs.Empty);
+        }
+        private void cmbTime_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DC2DataTable();
+        }
+        private void cmbCell_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DC2DataTable();
         }
 
         private void sortingAcendingToolStripMenuItem_Click(object sender, EventArgs e)
@@ -556,7 +558,7 @@ namespace Heiflow.Controls.WinForm.Controls
                         }
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     string msg = string.Format("Failed to save. Erros are found in the data table:{0}. Please correct it before saving.", ex.Message);
                     _ShellService.MessageService.ShowError(null, msg);
@@ -577,7 +579,7 @@ namespace Heiflow.Controls.WinForm.Controls
                 int nrow = DataTable.Rows.Count;
                 float[] vv = new float[nrow];
                 for (int i = 0; i < nrow; i++)
-                {   
+                {
                     float.TryParse(DataTable.Rows[i][_CurrentColumnIndex].ToString(), out buf);
                     vv[i] = buf;
                 }
@@ -690,53 +692,21 @@ namespace Heiflow.Controls.WinForm.Controls
         }
         #endregion
 
-        private void cmbVar_SelectedIndexChanged(object sender, EventArgs e)
+
+        private void DC2DataTable()
         {
-            if(_DataCubeObject != null)
+            int time_index = cmbTime.SelectedIndex;
+            int cell_index = cmbCell.SelectedIndex;
+            if (cmbTime.SelectedItem.ToString() == AllString)
             {
-                if(_DataCubeObject.IsAllocated(cmbVar.SelectedIndex))
-                {
-                    string[] timestrs = new string[_DataCubeObject.Size[1] + 1];
-                    string[] cellstrs = new string[_DataCubeObject.Size[2] + 1];
-                    if(_DataCubeObject.DateTimes != null)
-                    {
-                        for(int i=0;i<_DataCubeObject.Size[1];i++)
-                        {
-                            timestrs[i] = _DataCubeObject.DateTimes[i].ToString();
-                        }
-                        timestrs[_DataCubeObject.Size[1]] = "All";
-                    }
-                    else
-                    {
-                        for (int i = 0; i < _DataCubeObject.Size[1]; i++)
-                        {
-                            timestrs[i] = (i + 1).ToString();
-                        }
-                        timestrs[_DataCubeObject.Size[1]] = "All";
-                    }
-                    for (int i = 0; i < _DataCubeObject.Size[2]; i++)
-                    {
-                        cellstrs[i] = (i + 1).ToString();
-                    }
-                    cellstrs[_DataCubeObject.Size[2]] = "All";
-
-                    cmbTime.ComboBox.DataSource = timestrs;
-                    cmbCell.ComboBox.DataSource = cellstrs;
-
-                    cmbTime.ComboBox.SelectedIndex = 0;
-                    cmbCell.ComboBox.SelectedIndex = cellstrs.Length - 1;
-                }
+                time_index = -1;
             }
-        }
-
-        private void cmbTime_SelectedIndexChanged_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cmbCell_SelectedIndexChanged_1(object sender, EventArgs e)
-        {
-
+            if (cmbCell.SelectedItem.ToString() == AllString)
+            {
+                cell_index = -1;
+            }
+            var dt = _DataCubeObject.ToDataTable(cmbVar.SelectedIndex, time_index, cell_index);
+            Bind(dt);
         }
     }
 }
