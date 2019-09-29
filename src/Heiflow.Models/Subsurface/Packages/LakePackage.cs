@@ -231,7 +231,7 @@ namespace Heiflow.Models.Subsurface
                 {
                     NSLMS.Variables[l] = "Stress Period " + (l + 1);
                 }
-                WSOUR = new DataCube<float>(nsp, NLAKES, 6)
+                WSOUR = new  DataCube2DLayout<float>(nsp, NLAKES, 6)
                 {
                     Name = "Recharge Discharge",
                     TimeBrowsable = false,
