@@ -222,7 +222,6 @@ namespace Heiflow.Controls.WinForm.Controls
         {
             this.bindingSource1.DataSource = table;
             this.dataGridView1.DataSource = bindingSource1;
-            EnableControls(false);
         }
         public void Bind(IDataCubeObject dc)
         {
@@ -255,7 +254,6 @@ namespace Heiflow.Controls.WinForm.Controls
                 }
             }
         }
-
         public void Bind(IParameter[] paras)
         {
             _Parameters = paras;
