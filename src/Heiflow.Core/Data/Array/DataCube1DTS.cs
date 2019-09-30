@@ -35,7 +35,7 @@ namespace Heiflow.Core.Data
             {
                 var dr = dt.NewRow();
                 dr[0] = DateTimes[i];
-                dr[1] = this[0, i, j];
+                dr[1] = this[0, i, 0];
                 dt.Rows.Add(dr);
             }
             return dt;

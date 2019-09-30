@@ -194,5 +194,11 @@ namespace Heiflow.Core.Data
         {
             throw new NotImplementedException();
         }
+
+
+        public DataTable ToDataTable(int var_index, int time_index, int cell_index)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

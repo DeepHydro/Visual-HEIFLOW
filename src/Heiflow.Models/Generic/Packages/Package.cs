@@ -69,7 +69,7 @@ namespace Heiflow.Models.Generic
         protected bool _IsUsed = false;
         protected string _Layer3DToken = "RegularGrid";
         protected Dictionary<string, IParameter> _Parameters;
-        protected Parameter[] _DefaultParameters;
+        protected SerializableParameter[] _DefaultParameters;
         protected List<IPackage> _Childs = new List<IPackage>();
         protected PackageInfo _PackageInfo;
         protected ModelObjectState _State;
@@ -205,7 +205,7 @@ namespace Heiflow.Models.Generic
 
         [XmlArrayItem]
         [Browsable(false)]
-        public Parameter[] DefaultParameters
+        public SerializableParameter[] DefaultParameters
         {
             get
             {

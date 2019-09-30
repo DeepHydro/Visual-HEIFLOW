@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DataCubeGrid));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripTextBox_constant = new System.Windows.Forms.ToolStripTextBox();
             this.deaultValueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -62,12 +62,12 @@
             this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.bindingNavigator1 = new System.Windows.Forms.BindingNavigator(this.components);
-            this.cmbVar = new System.Windows.Forms.ToolStripComboBox();
-            this.btnSave = new System.Windows.Forms.ToolStripButton();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+            this.cmbVar = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
+            this.btnSave = new System.Windows.Forms.ToolStripButton();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.contextMenuStrip_datagrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
@@ -78,13 +78,13 @@
             // importToolStripMenuItem
             // 
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(254, 28);
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
             this.importToolStripMenuItem.Text = "Import...";
             // 
             // toolStripTextBox_constant
             // 
             this.toolStripTextBox_constant.Name = "toolStripTextBox_constant";
-            this.toolStripTextBox_constant.Size = new System.Drawing.Size(100, 30);
+            this.toolStripTextBox_constant.Size = new System.Drawing.Size(100, 27);
             this.toolStripTextBox_constant.Text = "1";
             // 
             // deaultValueToolStripMenuItem
@@ -92,53 +92,53 @@
             this.deaultValueToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripTextBox_constant});
             this.deaultValueToolStripMenuItem.Name = "deaultValueToolStripMenuItem";
-            this.deaultValueToolStripMenuItem.Size = new System.Drawing.Size(254, 28);
+            this.deaultValueToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
             this.deaultValueToolStripMenuItem.Text = "Constant Value";
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(251, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(223, 6);
             // 
             // plotToolStripMenuItem
             // 
             this.plotToolStripMenuItem.Image = global::Heiflow.Controls.WinForm.Properties.Resources.Chart;
             this.plotToolStripMenuItem.Name = "plotToolStripMenuItem";
-            this.plotToolStripMenuItem.Size = new System.Drawing.Size(254, 28);
+            this.plotToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
             this.plotToolStripMenuItem.Text = "Plot";
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(251, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(223, 6);
             // 
             // pasteToolStripMenuItem
             // 
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(254, 28);
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
             this.pasteToolStripMenuItem.Text = "Paste";
             // 
             // copy_toolStripMenuItem
             // 
             this.copy_toolStripMenuItem.Name = "copy_toolStripMenuItem";
-            this.copy_toolStripMenuItem.Size = new System.Drawing.Size(254, 28);
+            this.copy_toolStripMenuItem.Size = new System.Drawing.Size(226, 26);
             this.copy_toolStripMenuItem.Text = "Copy";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(251, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(223, 6);
             // 
             // sortingDescendingToolStripMenuItem
             // 
             this.sortingDescendingToolStripMenuItem.Name = "sortingDescendingToolStripMenuItem";
-            this.sortingDescendingToolStripMenuItem.Size = new System.Drawing.Size(254, 28);
+            this.sortingDescendingToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
             this.sortingDescendingToolStripMenuItem.Text = "Sorting Descending";
             // 
             // sortingAcendingToolStripMenuItem
             // 
             this.sortingAcendingToolStripMenuItem.Name = "sortingAcendingToolStripMenuItem";
-            this.sortingAcendingToolStripMenuItem.Size = new System.Drawing.Size(254, 28);
+            this.sortingAcendingToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
             this.sortingAcendingToolStripMenuItem.Text = "Sorting Ascending";
             // 
             // contextMenuStrip_datagrid
@@ -157,23 +157,23 @@
             this.toolStripSeparator5,
             this.importToolStripMenuItem});
             this.contextMenuStrip_datagrid.Name = "contextMenuStrip_datagrid";
-            this.contextMenuStrip_datagrid.Size = new System.Drawing.Size(255, 224);
+            this.contextMenuStrip_datagrid.Size = new System.Drawing.Size(227, 210);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(251, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(223, 6);
             // 
             // toolStripLabel1
             // 
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(0, 29);
+            this.toolStripLabel1.Size = new System.Drawing.Size(0, 25);
             this.toolStripLabel1.Visible = false;
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 32);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 28);
             // 
             // btnImport
             // 
@@ -181,8 +181,9 @@
             this.btnImport.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GeodatabaseXMLRecordSetImport32;
             this.btnImport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnImport.Name = "btnImport";
-            this.btnImport.Size = new System.Drawing.Size(24, 29);
+            this.btnImport.Size = new System.Drawing.Size(24, 25);
             this.btnImport.Text = "Import from an exsiting file";
+            this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
             // 
             // btnSave2Excel
             // 
@@ -190,21 +191,21 @@
             this.btnSave2Excel.Image = ((System.Drawing.Image)(resources.GetObject("btnSave2Excel.Image")));
             this.btnSave2Excel.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSave2Excel.Name = "btnSave2Excel";
-            this.btnSave2Excel.Size = new System.Drawing.Size(24, 29);
+            this.btnSave2Excel.Size = new System.Drawing.Size(24, 25);
             this.btnSave2Excel.Text = "Export to a csv file";
+            this.btnSave2Excel.Click += new System.EventHandler(this.btnSave2Excel_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 32);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 28);
             // 
             // cmbCell
             // 
             this.cmbCell.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbCell.Name = "cmbCell";
-            this.cmbCell.Size = new System.Drawing.Size(140, 32);
+            this.cmbCell.Size = new System.Drawing.Size(125, 28);
             this.cmbCell.ToolTipText = "Select cell";
-            this.cmbCell.SelectedIndexChanged += new System.EventHandler(this.cmbCell_SelectedIndexChanged);
             // 
             // cmbTime
             // 
@@ -213,14 +214,13 @@
             "Time",
             "Space"});
             this.cmbTime.Name = "cmbTime";
-            this.cmbTime.Size = new System.Drawing.Size(140, 32);
+            this.cmbTime.Size = new System.Drawing.Size(125, 28);
             this.cmbTime.ToolTipText = "Select time";
-            this.cmbTime.SelectedIndexChanged += new System.EventHandler(this.cmbTime_SelectedIndexChanged);
             // 
             // bindingNavigatorSeparator2
             // 
             this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
-            this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 32);
+            this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 28);
             // 
             // bindingNavigatorMoveLastItem
             // 
@@ -228,7 +228,7 @@
             this.bindingNavigatorMoveLastItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveLastItem.Image")));
             this.bindingNavigatorMoveLastItem.Name = "bindingNavigatorMoveLastItem";
             this.bindingNavigatorMoveLastItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(24, 29);
+            this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(24, 25);
             this.bindingNavigatorMoveLastItem.Text = "移到最后一条记录";
             // 
             // bindingNavigatorMoveNextItem
@@ -237,27 +237,27 @@
             this.bindingNavigatorMoveNextItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveNextItem.Image")));
             this.bindingNavigatorMoveNextItem.Name = "bindingNavigatorMoveNextItem";
             this.bindingNavigatorMoveNextItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(24, 29);
+            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(24, 25);
             this.bindingNavigatorMoveNextItem.Text = "移到下一条记录";
             // 
             // bindingNavigatorSeparator1
             // 
             this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator1";
-            this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 32);
+            this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 28);
             // 
             // bindingNavigatorPositionItem
             // 
             this.bindingNavigatorPositionItem.AccessibleName = "位置";
             this.bindingNavigatorPositionItem.AutoSize = false;
             this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
-            this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(65, 30);
+            this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(58, 27);
             this.bindingNavigatorPositionItem.Text = "0";
             this.bindingNavigatorPositionItem.ToolTipText = "当前位置";
             // 
             // bindingNavigatorSeparator
             // 
             this.bindingNavigatorSeparator.Name = "bindingNavigatorSeparator";
-            this.bindingNavigatorSeparator.Size = new System.Drawing.Size(6, 32);
+            this.bindingNavigatorSeparator.Size = new System.Drawing.Size(6, 28);
             // 
             // bindingNavigatorMovePreviousItem
             // 
@@ -265,7 +265,7 @@
             this.bindingNavigatorMovePreviousItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMovePreviousItem.Image")));
             this.bindingNavigatorMovePreviousItem.Name = "bindingNavigatorMovePreviousItem";
             this.bindingNavigatorMovePreviousItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(24, 29);
+            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(24, 25);
             this.bindingNavigatorMovePreviousItem.Text = "移到上一条记录";
             // 
             // bindingNavigatorMoveFirstItem
@@ -274,13 +274,13 @@
             this.bindingNavigatorMoveFirstItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveFirstItem.Image")));
             this.bindingNavigatorMoveFirstItem.Name = "bindingNavigatorMoveFirstItem";
             this.bindingNavigatorMoveFirstItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(24, 29);
+            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(24, 25);
             this.bindingNavigatorMoveFirstItem.Text = "移到第一条记录";
             // 
             // bindingNavigatorCountItem
             // 
             this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
-            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(46, 29);
+            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(38, 25);
             this.bindingNavigatorCountItem.Text = "/ {0}";
             this.bindingNavigatorCountItem.ToolTipText = "总项数";
             // 
@@ -320,16 +320,34 @@
             this.bindingNavigator1.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.bindingNavigator1.Name = "bindingNavigator1";
             this.bindingNavigator1.PositionItem = this.bindingNavigatorPositionItem;
-            this.bindingNavigator1.Size = new System.Drawing.Size(1007, 32);
+            this.bindingNavigator1.Size = new System.Drawing.Size(895, 28);
             this.bindingNavigator1.TabIndex = 3;
             this.bindingNavigator1.Text = "bindingNavigator1";
             // 
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(68, 25);
+            this.toolStripLabel2.Text = "Variable";
+            // 
             // cmbVar
             // 
+            this.cmbVar.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbVar.Name = "cmbVar";
-            this.cmbVar.Size = new System.Drawing.Size(140, 32);
+            this.cmbVar.Size = new System.Drawing.Size(125, 28);
             this.cmbVar.ToolTipText = "Select variable";
-            this.cmbVar.SelectedIndexChanged += new System.EventHandler(this.cmbVar_SelectedIndexChanged);
+            // 
+            // toolStripLabel3
+            // 
+            this.toolStripLabel3.Name = "toolStripLabel3";
+            this.toolStripLabel3.Size = new System.Drawing.Size(45, 25);
+            this.toolStripLabel3.Text = "Time";
+            // 
+            // toolStripLabel4
+            // 
+            this.toolStripLabel4.Name = "toolStripLabel4";
+            this.toolStripLabel4.Size = new System.Drawing.Size(36, 25);
+            this.toolStripLabel4.Text = "Cell";
             // 
             // btnSave
             // 
@@ -337,8 +355,9 @@
             this.btnSave.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GenericSave_B_16;
             this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(24, 29);
+            this.btnSave.Size = new System.Drawing.Size(24, 25);
             this.btnSave.Text = "Save temporarily. This will not save to source file";
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // dataGridView1
             // 
@@ -347,49 +366,30 @@
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Calibri", 9.5F);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.LightGreen;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Calibri", 9.5F);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.LightGreen;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.dataGridView1.Location = new System.Drawing.Point(0, 28);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(1007, 563);
-            this.dataGridView1.TabIndex = 4;
-            // 
-            // toolStripLabel2
-            // 
-            this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(81, 29);
-            this.toolStripLabel2.Text = "Variable";
-            // 
-            // toolStripLabel3
-            // 
-            this.toolStripLabel3.Name = "toolStripLabel3";
-            this.toolStripLabel3.Size = new System.Drawing.Size(52, 29);
-            this.toolStripLabel3.Text = "Time";
-            // 
-            // toolStripLabel4
-            // 
-            this.toolStripLabel4.Name = "toolStripLabel4";
-            this.toolStripLabel4.Size = new System.Drawing.Size(42, 29);
-            this.toolStripLabel4.Text = "Cell";
+            this.dataGridView1.Size = new System.Drawing.Size(895, 441);
+            this.dataGridView1.TabIndex = 5;
             // 
             // DataCubeGrid
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.bindingNavigator1);
             this.Controls.Add(this.dataGridView1);
-            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Controls.Add(this.bindingNavigator1);
             this.Name = "DataCubeGrid";
-            this.Size = new System.Drawing.Size(1007, 563);
+            this.Size = new System.Drawing.Size(895, 469);
             this.contextMenuStrip_datagrid.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).EndInit();
@@ -435,10 +435,10 @@
         private System.Windows.Forms.BindingSource bindingSource1;
         private System.Windows.Forms.BindingNavigator bindingNavigator1;
         private System.Windows.Forms.ToolStripButton btnSave;
-        private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ToolStripComboBox cmbVar;
         private System.Windows.Forms.ToolStripLabel toolStripLabel2;
         private System.Windows.Forms.ToolStripLabel toolStripLabel3;
         private System.Windows.Forms.ToolStripLabel toolStripLabel4;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }

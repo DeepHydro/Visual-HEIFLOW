@@ -285,7 +285,7 @@ namespace Heiflow.Models.Surface.PRMS
             if (is_load)
             {
                 var par = from pa in _mmsPackage.Parameters where pa.Key.ToLower() == "nhru" select pa;
-                NHRU = (int)par.First().Value.ToDouble().First();
+                NHRU = (int)par.First().Value.GetValue(0,0,0);
                 ModelService.NHRU = NHRU;
 
                 var topo = (this.Grid as RegularGrid).Topology;
@@ -295,7 +295,7 @@ namespace Heiflow.Models.Surface.PRMS
                         (para.Value as IDataCubeObject).Topology = topo;
                 }
                 var basin_area = _mmsPackage.Select("basin_area");
-                var area = basin_area.ToDouble().Average() * ConstantNumber.Acre2SqM;
+                var area = double.Parse(basin_area.GetValue(0, 0, 0).ToString()) * ConstantNumber.Acre2SqM;
                 ModelService.BasinArea = area;
             }
         }

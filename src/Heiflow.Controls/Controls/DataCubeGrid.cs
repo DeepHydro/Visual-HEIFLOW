@@ -19,12 +19,14 @@ namespace Heiflow.Controls.WinForm.Controls
 {
     public partial class DataCubeGrid : UserControl, IDataGridView, IChildView
     {
+        private enum DataSourceType { DC, Parameters };
         private DataTable _DataTable;
         private IDataCubeObject _DataCubeObject;
         private int _CurrentColumnIndex;
         private IShellService _ShellService;
         private IWindowService _WindowService;
         private IParameter[] _Parameters;
+        private DataSourceType _CurrentType;
         public static string SaveButtion = "btnSave";
         public static string ImportButtion = "btnImport";
         public static string Save2ExcelButtion = "btnSave2Excel";
@@ -32,10 +34,11 @@ namespace Heiflow.Controls.WinForm.Controls
         public static string CmbTimeKey = "cmbTime";
         private const string AllString = "All";
 
+
         public DataCubeGrid()
         {
             InitializeComponent();
-            EnableControls(false);
+            EnableControls(false, false, false, false, false);
         }
 
         public BindingNavigator Navigator
@@ -148,12 +151,8 @@ namespace Heiflow.Controls.WinForm.Controls
                 }
                 dt.Rows.Add(dr);
             }
-
-
-            this.bindingSource1.DataSource = dt;
-            this.dataGridView1.DataSource = bindingSource1;
-
-            EnableControls(false);
+            this.DataTable = dt;
+            EnableControls(false, false, false, true, true);
         }
         public void Bind<T>(ILArray<T> data)
         {
@@ -183,7 +182,7 @@ namespace Heiflow.Controls.WinForm.Controls
                 }
             }
 
-            EnableControls(false);
+            EnableControls(false, false, false, true, true);
         }
         public void Bind<T>(T[] array)
         {
@@ -194,9 +193,8 @@ namespace Heiflow.Controls.WinForm.Controls
                 dr[0] = array[r];
                 dt.Rows.Add(dr);
             }
-            this.bindingSource1.DataSource = dt;
-            this.dataGridView1.DataSource = bindingSource1;
-            EnableControls(false);
+            this.DataTable = dt;
+            EnableControls(false, false, false, true, true);
         }
         public void Bind<T>(T[][] matrix)
         {
@@ -213,10 +211,8 @@ namespace Heiflow.Controls.WinForm.Controls
                 }
                 dt.Rows.Add(dr);
             }
-
-            this.bindingSource1.DataSource = dt;
-            this.dataGridView1.DataSource = bindingSource1;
-            EnableControls(false);
+            this.DataTable = dt;
+            EnableControls(false, false, false, true, true);
         }
         public void Bind(DataTable table)
         {
@@ -227,58 +223,66 @@ namespace Heiflow.Controls.WinForm.Controls
         {
             if (dc == null)
                 return;
+            _CurrentType = DataSourceType.DC;
             _DataCubeObject = dc;
             DataObjectName = dc.Name;
             cmbVar.ComboBox.Items.Clear();
             cmbTime.ComboBox.Items.Clear();
             cmbCell.ComboBox.Items.Clear();
-            if (dc.SelectedVariableIndex < 0)
+
+            if (dc is IParameter)
             {
+                DataTable = dc.ToDataTable();
                 EnableControls(false, false, false, true, true);
-                var dt = _DataCubeObject.ToDataTable(-1, 0, -1);
-                Bind(dt);
             }
             else
             {
-                if (dc.Layout == DataCubeLayout.ThreeD)
+                if (dc.SelectedVariableIndex < 0)
                 {
-                    EnableControls(true, true, true, true, true);
-                    cmbVar.ComboBox.DataSource = dc.Variables;
-                    cmbVar.SelectedIndex = dc.SelectedVariableIndex;         
+                    EnableControls(false, false, false, true, true);
+                    var dt = _DataCubeObject.ToDataTable(-1, 0, -1);
+                    Bind(dt);
                 }
-                else if (dc.Layout == DataCubeLayout.TwoD || dc.Layout == DataCubeLayout.OneDTimeSeries)
+                else
                 {
-                    EnableControls(true, false, false, true, true);
-                    cmbVar.ComboBox.DataSource = dc.Variables;
-                    cmbVar.SelectedIndex = dc.SelectedVariableIndex;
+                    if (dc.Layout == DataCubeLayout.ThreeD)
+                    {
+                        EnableControls(true, true, true, true, true);
+                        cmbVar.ComboBox.DataSource = dc.Variables;
+                        cmbVar.SelectedIndex = dc.SelectedVariableIndex;
+                    }
+                    else if (dc.Layout == DataCubeLayout.TwoD || dc.Layout == DataCubeLayout.OneDTimeSeries)
+                    {
+                        EnableControls(true, false, false, true, true);
+                        cmbVar.ComboBox.DataSource = dc.Variables;
+                        cmbVar.SelectedIndex = dc.SelectedVariableIndex;
+                    }
                 }
             }
         }
         public void Bind(IParameter[] paras)
         {
+            if (paras == null)
+                return;
+            _CurrentType = DataSourceType.Parameters;
             _Parameters = paras;
-            _DataTable = new DataTable();
+           var dt = new DataTable();
             foreach (var pa in paras)
             {
                 DataColumn dc = new DataColumn(pa.Name, pa.GetVariableType());
-                _DataTable.Columns.Add(dc);
+                dt.Columns.Add(dc);
             }
             int nrow = paras[0].ValueCount;
             for (int i = 0; i < nrow; i++)
             {
-                DataRow dr = _DataTable.NewRow();
+                DataRow dr = dt.NewRow();
                 for (int j = 0; j < paras.Length; j++)
                 {
-                    dr[j] = paras[j].ArrayObject.GetValue(i);
+                    dr[j] = paras[j].GetValue(0, i, 0);
                 }
-                _DataTable.Rows.Add(dr);
+                dt.Rows.Add(dr);
             }
-            this.bindingSource1.DataSource = _DataTable;
-            this.dataGridView1.DataSource = bindingSource1;
-            EnableControls(false);
-            btnSave.Enabled = true;
-            btnImport.Enabled = true;
-            _DataCubeObject = null;
+            this.DataTable = dt;
         }
         #endregion
 
@@ -438,14 +442,7 @@ namespace Heiflow.Controls.WinForm.Controls
         {
             bindingSource1.DataSource = null;
             dataGridView1.DataSource = bindingSource1;
-            EnableControls(false);
-        }
-        private void EnableControls(bool enable)
-        {
-            cmbTime.Enabled = enable;
-            cmbCell.Enabled = enable;
-            btnSave.Enabled = enable;
-            btnImport.Enabled = enable;
+            EnableControls(false, false, false, false, false);
         }
 
         private void EnableControls(bool vars, bool time, bool cell, bool save, bool import)
@@ -532,15 +529,15 @@ namespace Heiflow.Controls.WinForm.Controls
         }
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if (_DataTable != null)
+            if (DataTable != null)
             {
-                if (_DataCubeObject != null)
+                if (_CurrentType == DataSourceType.DC)
                 {
-                    _DataCubeObject.FromDataTable(_DataTable);
+                    _DataCubeObject.FromDataTable(DataTable);
                 }
-                try
+                else if (_CurrentType == DataSourceType.Parameters)
                 {
-                    if (_Parameters != null)
+                    try
                     {
                         int nrow = _Parameters[0].ValueCount;
                         if (_DataTable.Rows.Count == nrow && _DataTable.Columns.Count == _Parameters.Length)
@@ -550,16 +547,16 @@ namespace Heiflow.Controls.WinForm.Controls
                                 var dr = _DataTable.Rows[i];
                                 for (int j = 0; j < _Parameters.Length; j++)
                                 {
-                                    _Parameters[j].ArrayObject.SetValue(dr[j], i);
+                                    _Parameters[j].SetValue(0, 0, i, dr[j]);
                                 }
                             }
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    string msg = string.Format("Failed to save. Erros are found in the data table:{0}. Please correct it before saving.", ex.Message);
-                    _ShellService.MessageService.ShowError(null, msg);
+                    catch (Exception ex)
+                    {
+                        string msg = string.Format("Failed to save. Erros are found in the data table:{0}. Please correct it before saving.", ex.Message);
+                        _ShellService.MessageService.ShowError(null, msg);
+                    }
                 }
             }
         }
@@ -703,8 +700,7 @@ namespace Heiflow.Controls.WinForm.Controls
             {
                 cell_index = -1;
             }
-            var dt = _DataCubeObject.ToDataTable(cmbVar.SelectedIndex, time_index, cell_index);
-            Bind(dt);
+            this.DataTable = _DataCubeObject.ToDataTable(cmbVar.SelectedIndex, time_index, cell_index); 
         }
     }
 }

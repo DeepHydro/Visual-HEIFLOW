@@ -103,14 +103,14 @@
             this.bindingNavigator1.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.bindingNavigator1.Name = "bindingNavigator1";
             this.bindingNavigator1.PositionItem = this.bindingNavigatorPositionItem;
-            this.bindingNavigator1.Size = new System.Drawing.Size(1022, 27);
+            this.bindingNavigator1.Size = new System.Drawing.Size(1022, 28);
             this.bindingNavigator1.TabIndex = 1;
             this.bindingNavigator1.Text = "bindingNavigator1";
             // 
             // bindingNavigatorCountItem
             // 
             this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
-            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(32, 24);
+            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(38, 25);
             this.bindingNavigatorCountItem.Text = "/ {0}";
             this.bindingNavigatorCountItem.ToolTipText = "总项数";
             // 
@@ -120,7 +120,7 @@
             this.bindingNavigatorMoveFirstItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveFirstItem.Image")));
             this.bindingNavigatorMoveFirstItem.Name = "bindingNavigatorMoveFirstItem";
             this.bindingNavigatorMoveFirstItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(24, 24);
+            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(24, 25);
             this.bindingNavigatorMoveFirstItem.Text = "移到第一条记录";
             // 
             // bindingNavigatorMovePreviousItem
@@ -129,13 +129,13 @@
             this.bindingNavigatorMovePreviousItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMovePreviousItem.Image")));
             this.bindingNavigatorMovePreviousItem.Name = "bindingNavigatorMovePreviousItem";
             this.bindingNavigatorMovePreviousItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(24, 24);
+            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(24, 25);
             this.bindingNavigatorMovePreviousItem.Text = "移到上一条记录";
             // 
             // bindingNavigatorSeparator
             // 
             this.bindingNavigatorSeparator.Name = "bindingNavigatorSeparator";
-            this.bindingNavigatorSeparator.Size = new System.Drawing.Size(6, 27);
+            this.bindingNavigatorSeparator.Size = new System.Drawing.Size(6, 28);
             // 
             // bindingNavigatorPositionItem
             // 
@@ -149,7 +149,7 @@
             // bindingNavigatorSeparator1
             // 
             this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator1";
-            this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 27);
+            this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 28);
             // 
             // bindingNavigatorMoveNextItem
             // 
@@ -157,7 +157,7 @@
             this.bindingNavigatorMoveNextItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveNextItem.Image")));
             this.bindingNavigatorMoveNextItem.Name = "bindingNavigatorMoveNextItem";
             this.bindingNavigatorMoveNextItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(24, 24);
+            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(24, 25);
             this.bindingNavigatorMoveNextItem.Text = "移到下一条记录";
             // 
             // bindingNavigatorMoveLastItem
@@ -166,13 +166,13 @@
             this.bindingNavigatorMoveLastItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveLastItem.Image")));
             this.bindingNavigatorMoveLastItem.Name = "bindingNavigatorMoveLastItem";
             this.bindingNavigatorMoveLastItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(24, 24);
+            this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(24, 25);
             this.bindingNavigatorMoveLastItem.Text = "移到最后一条记录";
             // 
             // bindingNavigatorSeparator2
             // 
             this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
-            this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 27);
+            this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 28);
             // 
             // cmb_PrimaryKey
             // 
@@ -181,19 +181,19 @@
             "Time",
             "Space"});
             this.cmb_PrimaryKey.Name = "cmb_PrimaryKey";
-            this.cmb_PrimaryKey.Size = new System.Drawing.Size(107, 27);
+            this.cmb_PrimaryKey.Size = new System.Drawing.Size(107, 28);
             this.cmb_PrimaryKey.ToolTipText = "Primary Dimension";
             // 
             // cmbPage
             // 
             this.cmbPage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbPage.Name = "cmbPage";
-            this.cmbPage.Size = new System.Drawing.Size(140, 27);
+            this.cmbPage.Size = new System.Drawing.Size(140, 28);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 28);
             // 
             // btnSave
             // 
@@ -201,7 +201,7 @@
             this.btnSave.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GenericSave_B_16;
             this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(24, 24);
+            this.btnSave.Size = new System.Drawing.Size(24, 25);
             this.btnSave.Text = "Save temporarily. This will not save to source file";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
@@ -211,7 +211,7 @@
             this.btnSave2Excel.Image = ((System.Drawing.Image)(resources.GetObject("btnSave2Excel.Image")));
             this.btnSave2Excel.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSave2Excel.Name = "btnSave2Excel";
-            this.btnSave2Excel.Size = new System.Drawing.Size(24, 24);
+            this.btnSave2Excel.Size = new System.Drawing.Size(24, 25);
             this.btnSave2Excel.Text = "Export to a csv file";
             this.btnSave2Excel.Click += new System.EventHandler(this.btnSave2Excel_Click);
             // 
@@ -221,19 +221,19 @@
             this.btnImport.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GeodatabaseXMLRecordSetImport32;
             this.btnImport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnImport.Name = "btnImport";
-            this.btnImport.Size = new System.Drawing.Size(24, 24);
+            this.btnImport.Size = new System.Drawing.Size(24, 25);
             this.btnImport.Text = "Import from an exsiting file";
             this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 28);
             // 
             // toolStripLabel1
             // 
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(0, 24);
+            this.toolStripLabel1.Size = new System.Drawing.Size(0, 25);
             this.toolStripLabel1.Visible = false;
             // 
             // dataGridView1
@@ -252,11 +252,11 @@
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 27);
+            this.dataGridView1.Location = new System.Drawing.Point(0, 28);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(1022, 477);
+            this.dataGridView1.Size = new System.Drawing.Size(1022, 476);
             this.dataGridView1.TabIndex = 2;
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
             this.dataGridView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView1_KeyDown);
@@ -278,89 +278,89 @@
             this.toolStripSeparator5,
             this.importToolStripMenuItem});
             this.contextMenuStrip_datagrid.Name = "contextMenuStrip_datagrid";
-            this.contextMenuStrip_datagrid.Size = new System.Drawing.Size(195, 210);
+            this.contextMenuStrip_datagrid.Size = new System.Drawing.Size(227, 210);
             // 
             // sortingAcendingToolStripMenuItem
             // 
             this.sortingAcendingToolStripMenuItem.Name = "sortingAcendingToolStripMenuItem";
-            this.sortingAcendingToolStripMenuItem.Size = new System.Drawing.Size(194, 26);
+            this.sortingAcendingToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
             this.sortingAcendingToolStripMenuItem.Text = "Sorting Ascending";
             this.sortingAcendingToolStripMenuItem.Click += new System.EventHandler(this.sortingAcendingToolStripMenuItem_Click);
             // 
             // sortingDescendingToolStripMenuItem
             // 
             this.sortingDescendingToolStripMenuItem.Name = "sortingDescendingToolStripMenuItem";
-            this.sortingDescendingToolStripMenuItem.Size = new System.Drawing.Size(194, 26);
+            this.sortingDescendingToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
             this.sortingDescendingToolStripMenuItem.Text = "Sorting Descending";
             this.sortingDescendingToolStripMenuItem.Click += new System.EventHandler(this.sortingDescendingToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(191, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(223, 6);
             // 
             // copy_toolStripMenuItem
             // 
             this.copy_toolStripMenuItem.Name = "copy_toolStripMenuItem";
-            this.copy_toolStripMenuItem.Size = new System.Drawing.Size(194, 26);
+            this.copy_toolStripMenuItem.Size = new System.Drawing.Size(226, 26);
             this.copy_toolStripMenuItem.Text = "Copy";
             this.copy_toolStripMenuItem.Click += new System.EventHandler(this.copy_toolStripMenuItem_Click);
             // 
             // pasteToolStripMenuItem
             // 
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
-            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(194, 26);
+            this.pasteToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
             this.pasteToolStripMenuItem.Text = "Paste";
             this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(191, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(223, 6);
             // 
             // plotToolStripMenuItem
             // 
             this.plotToolStripMenuItem.Image = global::Heiflow.Controls.WinForm.Properties.Resources.Chart;
             this.plotToolStripMenuItem.Name = "plotToolStripMenuItem";
-            this.plotToolStripMenuItem.Size = new System.Drawing.Size(194, 26);
+            this.plotToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
             this.plotToolStripMenuItem.Text = "Plot";
             this.plotToolStripMenuItem.Click += new System.EventHandler(this.plotToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(191, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(223, 6);
             // 
             // deaultValueToolStripMenuItem
             // 
             this.deaultValueToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripTextBox_constant});
             this.deaultValueToolStripMenuItem.Name = "deaultValueToolStripMenuItem";
-            this.deaultValueToolStripMenuItem.Size = new System.Drawing.Size(194, 26);
+            this.deaultValueToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
             this.deaultValueToolStripMenuItem.Text = "Constant Value";
             // 
             // toolStripTextBox_constant
             // 
             this.toolStripTextBox_constant.Name = "toolStripTextBox_constant";
-            this.toolStripTextBox_constant.Size = new System.Drawing.Size(100, 23);
+            this.toolStripTextBox_constant.Size = new System.Drawing.Size(100, 27);
             this.toolStripTextBox_constant.Text = "1";
             this.toolStripTextBox_constant.KeyUp += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBox_constant_KeyUp);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(191, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(223, 6);
             // 
             // importToolStripMenuItem
             // 
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(194, 26);
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
             this.importToolStripMenuItem.Text = "Import...";
             this.importToolStripMenuItem.Click += new System.EventHandler(this.importToolStripMenuItem_Click);
             // 
             // DataGridEx
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.bindingNavigator1);

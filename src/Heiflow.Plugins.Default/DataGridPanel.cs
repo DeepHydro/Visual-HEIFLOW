@@ -41,12 +41,14 @@ namespace Heiflow.Plugins.DataGridPanel
 {
     public class DataGridPanel : Extension
     {
-        DataGridEx _DataGridEx;
+       //DataGridEx _DataGridEx;
+        DataCubeGrid _DataGridEx;
         public DataGridPanel()
         {
             DeactivationAllowed = false;
 
-            _DataGridEx = new DataGridEx();
+          //  _DataGridEx = new DataGridEx();
+           
         }
     
 
@@ -59,6 +61,7 @@ namespace Heiflow.Plugins.DataGridPanel
 
         public override void Activate()
         {
+            _DataGridEx = new DataCubeGrid();
             App.DockManager.Add(new DockablePanel("kDataGridPanel", "Table View",
                 _DataGridEx, DockStyle.None) { SmallImage = Resources.table_green_48 });
 

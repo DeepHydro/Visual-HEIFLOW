@@ -33,12 +33,17 @@ using Heiflow.Core.Utility;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
 using Heiflow.Models.Generic.Parameters;
+using Heiflow.Models.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace Heiflow.Models.Surface.PRMS
@@ -491,7 +496,7 @@ namespace Heiflow.Models.Surface.PRMS
             foreach (var dd in dim)
             {
                 var gv = dd.Value;
-                line = string.Format("####\n{0}\n{1}\n", gv.Name, gv.GetValue(0,0,0));
+                line = string.Format("####\n{0}\n{1}\n", gv.Name, (gv as SingleParam<int>).Value);
                 buf += line;
             }
             sw.Write(buf);
@@ -506,22 +511,22 @@ namespace Heiflow.Models.Surface.PRMS
                 if (gv.ValueType == 1)
                 {
                     line = string.Format("####\n{0}     15\n{1}\n{2}\n{3}\n{4}\n{5}\n", gv.Name, gv.Dimension, string.Join("\n",
-                        gv.DimensionNames), gv.ValueCount, gv.ValueType, string.Join("\n", (gv as DataCubeParameter<int>).ToVector()));
+                        gv.DimensionNames), gv.ValueCount, gv.ValueType, string.Join("\n", (gv as ArrayParam<int>).Values));
                 }
                 else if (gv.ValueType == 2)
                 {
                     line = string.Format("####\n{0}     15\n{1}\n{2}\n{3}\n{4}\n{5}\n", gv.Name, gv.Dimension, string.Join("\n",
-                    gv.DimensionNames), gv.ValueCount, gv.ValueType, string.Join("\n", (gv as DataCubeParameter<float>).ToVector()));
+                    gv.DimensionNames), gv.ValueCount, gv.ValueType, string.Join("\n", (gv as ArrayParam<float>).Values));
                 }
                 else if (gv.ValueType == 3)
                 {
                     line = string.Format("####\n{0}     15\n{1}\n{2}\n{3}\n{4}\n{5}\n", gv.Name, gv.Dimension, string.Join("\n",
-                     gv.DimensionNames), gv.ValueCount, gv.ValueType, string.Join("\n", (gv as DataCubeParameter<double>).ToVector()));
+                     gv.DimensionNames), gv.ValueCount, gv.ValueType, string.Join("\n", (gv as ArrayParam<double>).Values));
                 }
                 else if (gv.ValueType == 4)
                 {
                     line = string.Format("####\n{0}     15\n{1}\n{2}\n{3}\n{4}\n{5}\n", gv.Name, gv.Dimension, string.Join("\n",
-                     gv.DimensionNames), gv.ValueCount, gv.ValueType, string.Join("\n", (gv as DataCubeParameter<int>).ToVector()));
+                     gv.DimensionNames), gv.ValueCount, gv.ValueType, string.Join("\n", (gv as ArrayParam<string>).Values));
                 }
                 buf += line;
                 percent = index_dim * 100 / total;
@@ -547,7 +552,7 @@ namespace Heiflow.Models.Surface.PRMS
             var mms = (this.Owner as PRMS).MMSPackage;
             int nhru = (this.Owner as PRMS).NHRU;
             var para = (from p in mms.Parameters
-                        where p.Value.ValueCount == nhru
+                        where p.Value.ParameterDimension == ParameterDimension.Array && p.Value.ValueCount == nhru
                         select p).ToArray();
             var keys = (from p in para select p.Key);
             int nvar = keys.Count();
@@ -578,10 +583,10 @@ namespace Heiflow.Models.Surface.PRMS
             XmlSerializer xs = new XmlSerializer(typeof(MMSPackage));
             Stream stream = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.Read);
 
-            List<SerializableParameter> list = new List<SerializableParameter>();
+            List<Parameter> list = new List<Parameter>();
             foreach (var pr in Parameters.Values)
             {
-                var p = new SerializableParameter()
+                var p = new Parameter(pr.Name)
                 {
                     Description = pr.Description,
                     Name = pr.Name,
@@ -603,120 +608,6 @@ namespace Heiflow.Models.Surface.PRMS
         }
 
         public override void Deserialize(string filename)
-        {
-            XmlSerializer xs = new XmlSerializer(typeof(MMSPackage));
-            Stream stream = new FileStream(filename, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
-            var mms = (MMSPackage)xs.Deserialize(stream);
-            this._DefaultParameters = mms.DefaultParameters;
-            this.Name = mms.Name;
-            this.Description = mms.Description;
-            Parameters.Clear();
-
-            foreach (var pr in DefaultParameters)
-            {
-                if (pr.VariableType == ParameterType.Dimension)
-                {
-                    var newpr= new DataCubeParameter<int>()
-                    {
-                        DefaultValue = pr.DefaultValue,
-                        Description = pr.Description,
-                        ValueType = pr.ValueType,
-                        Name = pr.Name,
-                        Dimension = pr.Dimension,
-                        Owner = this,
-                        VariableType = pr.VariableType,
-                        ModuleName = pr.ModuleName,
-                        DimensionNames = dim_name,
-                        Minimum = pr.Minimum,
-                        Maximum = pr.Maximum,
-                        Units = pr.Units
-                    };
-                    newpr.SetValue(0, 0, 0, pr.DefaultValue);
-                    Parameters.Add(pr.Name, newpr);
-                }
-                else if (pr.VariableType == ParameterType.Parameter)
-                {
-                    if (pr.ValueType == 1)
-                    {
-                        var newpr = new DataCubeParameter<int>()
-                        {
-                            DefaultValue = pr.DefaultValue,
-                            Description = pr.Description,
-                            ValueType = pr.ValueType,
-                            Name = pr.Name,
-                            Dimension = pr.Dimension,
-                            Owner = this,
-                            VariableType = pr.VariableType,
-                            ModuleName = pr.ModuleName,
-                            DimensionNames = dim_name,
-                            Minimum = pr.Minimum,
-                            Maximum = pr.Maximum,
-                            Units = pr.Units
-                        };
-                        Parameters.Add(pr.Name, newpr);
-                    }
-                    else if (pr.ValueType == 2)
-                    {
-                        var newpr = new DataCubeParameter<float>()
-                        {
-                            DefaultValue = pr.DefaultValue,
-                            Description = pr.Description,
-                            ValueType = pr.ValueType,
-                            Name = pr.Name,
-                            Dimension = pr.Dimension,
-                            Owner = this,
-                            VariableType = pr.VariableType,
-                            ModuleName = pr.ModuleName,
-                            DimensionNames = dim_name,
-                            Minimum = pr.Minimum,
-                            Maximum = pr.Maximum,
-                            Units = pr.Units
-                        };
-                        Parameters.Add(pr.Name, newpr);
-                    }
-                    else if (pr.ValueType == 3)
-                    {
-                        var newpr = new DataCubeParameter<double>()
-                        {
-                            DefaultValue = pr.DefaultValue,
-                            Description = pr.Description,
-                            ValueType = pr.ValueType,
-                            Name = pr.Name,
-                            Dimension = pr.Dimension,
-                            Owner = this,
-                            VariableType = pr.VariableType,
-                            ModuleName = pr.ModuleName,
-                            DimensionNames = dim_name,
-                            Minimum = pr.Minimum,
-                            Maximum = pr.Maximum,
-                            Units = pr.Units
-                        };
-                        Parameters.Add(pr.Name, newpr);
-                    }
-                    else if (pr.ValueType == 4)
-                    {
-                        var newpr = new DataCubeParameter<double>()
-                        {
-                            DefaultValue = pr.DefaultValue,
-                            Description = pr.Description,
-                            ValueType = pr.ValueType,
-                            Name = pr.Name,
-                            Dimension = pr.Dimension,
-                            Owner = this,
-                            VariableType = pr.VariableType,
-                            ModuleName = pr.ModuleName,
-                            DimensionNames = dim_name,
-                            Minimum = pr.Minimum,
-                            Maximum = pr.Maximum,
-                            Units = pr.Units
-                        };
-                        Parameters.Add(pr.Name, newpr);
-                    }
-                }
-            }
-            stream.Close();
-        }
-        public  void Deserialize1(string filename)
         {
             XmlSerializer xs = new XmlSerializer(typeof(MMSPackage));
             Stream stream = new FileStream(filename, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);

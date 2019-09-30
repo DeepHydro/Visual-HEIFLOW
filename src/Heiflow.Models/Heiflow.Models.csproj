@@ -160,6 +160,7 @@
     <Compile Include="Generic\IGridService.cs" />
     <Compile Include="Generic\ITimeService.cs" />
     <Compile Include="Generic\Parameters\DataCubeParameter.cs" />
+    <Compile Include="Generic\Parameters\SerializableParameter.cs" />
     <Compile Include="Integration\ExtensionManPackage.cs" />
     <Compile Include="IO\SecurityFile.cs" />
     <Compile Include="Subsurface\OpenModflowProjectFileProvider.cs" />

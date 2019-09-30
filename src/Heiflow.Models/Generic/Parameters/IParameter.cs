@@ -146,15 +146,13 @@ namespace Heiflow.Models.Generic
         IEnumerable<float> ToFloat();
 
         IEnumerable<int> ToInt32();
-
         string[] ToStrings();
-
         Type GetVariableType();
-
+        object GetValue(int var_index, int time_index, int cell_index);
+        void SetValue(int var_index, int time_index, int cell_index, object new_value);
         void AlterDimLength( int new_length);
-    
-        void SetValue(object vv, int index);
 
+        void SetValue(object vv, int index);
         void SetValues<T>(T[] vv);
         void Constant(object vv);
         void ResetToDefault();

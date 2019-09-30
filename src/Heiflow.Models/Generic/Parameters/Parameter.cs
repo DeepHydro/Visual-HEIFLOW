@@ -516,5 +516,22 @@ namespace Heiflow.Models.Generic.Parameters
                 DataCubeValueChanged(this, EventArgs.Empty);
             }
         }
+
+
+        public object GetValue(int var_index, int time_index, int cell_index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetValue(int var_index, int time_index, int cell_index, object new_value)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public DataTable ToDataTable(int var_index, int time_index, int cell_index)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -34,11 +34,13 @@ using System.Threading.Tasks;
 using ILNumerics;
 using Heiflow.Core.Data.ODM;
 using System.Data;
+using System.Xml.Serialization;
 
 namespace Heiflow.Core.Data
 {
-    public enum DataCubeLayout { TwoD,ThreeD,OneDTimeSeries};
-    public class DataCube<T>:IDataCubeObject
+    public enum DataCubeLayout { TwoD, ThreeD, OneDTimeSeries };
+    [Serializable]
+    public class DataCube<T> : IDataCubeObject
     {
         public event EventHandler DataCubeValueChanged;
         protected ILArray<T>[] _arrays;
@@ -49,6 +51,10 @@ namespace Heiflow.Core.Data
         protected string[] _Variables;
         protected bool _isLazy;
         protected DataCubeLayout _DataCubeLayout;
+        public DataCube()
+        {
+
+        }
         public DataCube(int nvar, int ntime, int ncell, bool islazy = false)
         {
             _isLazy = islazy;
@@ -72,12 +78,12 @@ namespace Heiflow.Core.Data
             Name = "default";
             PopulateVariables();
             InitFlags(Size[0], Size[1]);
-         
+
             AllowTableEdit = false;
             TimeBrowsable = false;
             _DataCubeLayout = DataCubeLayout.ThreeD;
         }
-        public DataCube(T[] values, DateTime [] dates)
+        public DataCube(T[] values, DateTime[] dates)
         {
             _isLazy = false;
             _nvar = 1;
@@ -96,13 +102,15 @@ namespace Heiflow.Core.Data
             TimeBrowsable = true;
             _DataCubeLayout = DataCubeLayout.ThreeD;
         }
-        public ILArray<T> [] ILArrays
+        [XmlIgnore]
+        public ILArray<T>[] ILArrays
         {
             get
             {
                 return _arrays;
             }
         }
+        [XmlIgnore]
         public bool IsLazy
         {
             get
@@ -110,6 +118,7 @@ namespace Heiflow.Core.Data
                 return _isLazy;
             }
         }
+        [XmlIgnore]
         public T this[int var_index, int time_index, int cell_index]
         {
             get
@@ -118,10 +127,10 @@ namespace Heiflow.Core.Data
             }
             set
             {
-                _arrays[var_index].SetValue(value,time_index, cell_index);
+                _arrays[var_index].SetValue(value, time_index, cell_index);
             }
         }
-
+        [XmlIgnore]
         public T[] this[int var_index, string time_index, string cell_index]
         {
             get
@@ -133,6 +142,7 @@ namespace Heiflow.Core.Data
                 _arrays[var_index][time_index, cell_index] = value;
             }
         }
+        [XmlIgnore]
         public ILArray<T> this[int var_index]
         {
             get
@@ -144,67 +154,68 @@ namespace Heiflow.Core.Data
                 _arrays[var_index] = value;
             }
         }
+        [XmlIgnore]
         public Array ArrayObject
         {
             get { return null; }
         }
-
+        [XmlIgnore]
         public string Name
         {
             get;
             set;
         }
-
+        [XmlIgnore]
         public object DataOwner
         {
             get;
             set;
         }
-
+        [XmlIgnore]
         public string OwnerName
         {
             get;
             set;
         }
-
+        [XmlIgnore]
         public int SelectedVariableIndex
         {
             get;
             set;
         }
-
+        [XmlIgnore]
         public int SelectedTimeIndex
         {
             get;
             set;
         }
-
+        [XmlIgnore]
         public int SelectedSpaceIndex
         {
             get;
             set;
         }
-
+        [XmlIgnore]
         public DateTime[] DateTimes
         {
             get;
             set;
         }
-
+        [XmlIgnore]
         public int[] Size
         {
-            get 
+            get
             {
                 return _size;
             }
         }
-
+        [XmlIgnore]
         public TimeVarientFlag[,] Flags
         {
             get;
             set;
         }
-
+        [XmlIgnore]
         public string[] Variables
         {
             get
@@ -216,18 +227,19 @@ namespace Heiflow.Core.Data
                 _Variables = value;
             }
         }
-
+        [XmlIgnore]
         public float[,] Constants
         {
             get;
             set;
         }
-
+        [XmlIgnore]
         public float[,] Multipliers
         {
             get;
             set;
         }
+        [XmlIgnore]
         /// <summary>
         /// a flag that indicates if the array being read should be printed (written to the listing file) after it has been read. If IPRN is less than zero, the array will not be printed.
         /// </summary>
@@ -236,24 +248,25 @@ namespace Heiflow.Core.Data
             get;
             set;
         }
+        [XmlIgnore]
         public bool TimeBrowsable
         {
             get;
             set;
         }
-
+        [XmlIgnore]
         public DataCubeType DataCubeType
         {
             get;
             set;
         }
-
+        [XmlIgnore]
         public bool AllowTableEdit
         {
             get;
             set;
         }
-        
+        [XmlIgnore]
         public DataCubeLayout Layout
         {
             get
@@ -264,6 +277,12 @@ namespace Heiflow.Core.Data
             {
                 _DataCubeLayout = value;
             }
+        }
+        [XmlIgnore]
+        public IGridTopology Topology
+        {
+            get;
+            set;
         }
         public void InitFlags(int size0, int size1)
         {
@@ -311,17 +330,13 @@ namespace Heiflow.Core.Data
         public int[] GetVariableSize(int var_index)
         {
             int[] size = null;
-            if(_arrays[var_index] != null)
+            if (_arrays[var_index] != null)
             {
                 size = _arrays[var_index].Size.ToIntArray();
             }
             return size;
         }
-        public IGridTopology Topology
-        {
-            get;
-            set;
-        }
+
         public void Allocate(int var_index)
         {
             _arrays[var_index] = ILMath.zeros<T>(_ntime, _ncell);
@@ -379,7 +394,7 @@ namespace Heiflow.Core.Data
         {
             var len = array.GetLength(0);
             for (int i = 0; i < len; i++)
-                this[var_index,time_index,i] = TypeConverterEx.ChangeType<T>(array.GetValue(i, 0));
+                this[var_index, time_index, i] = TypeConverterEx.ChangeType<T>(array.GetValue(i, 0));
         }
         public virtual void FromRegularArray(int var_index, int time_index, Array array)
         {
@@ -391,7 +406,7 @@ namespace Heiflow.Core.Data
                 for (int i = 0; i < vec.Length; i++)
                 {
                     var lc = Topology.ActiveCell[i];
-                    this[var_index,time_index,i] = TypeConverterEx.ChangeType<T>(array.GetValue(lc[0], lc[1]));
+                    this[var_index, time_index, i] = TypeConverterEx.ChangeType<T>(array.GetValue(lc[0], lc[1]));
                 }
             }
         }
@@ -422,7 +437,7 @@ namespace Heiflow.Core.Data
                 return null;
             }
         }
-        public void SetSize(int [] size)
+        public void SetSize(int[] size)
         {
             _size = size;
         }
@@ -452,7 +467,7 @@ namespace Heiflow.Core.Data
                     DataRow dr = dt.NewRow();
                     for (int i = 0; i < nvar; i++)
                     {
-                        dr[i] = this[i,time_index,r];
+                        dr[i] = this[i, time_index, r];
                     }
                     dt.Rows.Add(dr);
                 }
@@ -462,12 +477,12 @@ namespace Heiflow.Core.Data
                 DataColumn dc = new DataColumn(Variables[var_index], typeof(T));
                 dt.Columns.Add(dc);
 
-                if (_arrays[var_index]!= null)
+                if (_arrays[var_index] != null)
                 {
                     for (int r = 0; r < Size[2]; r++)
                     {
                         DataRow dr = dt.NewRow();
-                        dr[0] = this[var_index,time_index,r];
+                        dr[0] = this[var_index, time_index, r];
                         dt.Rows.Add(dr);
                     }
                 }
@@ -495,7 +510,7 @@ namespace Heiflow.Core.Data
                     var dr = dt.NewRow();
                     for (int i = 0; i < nvar; i++)
                     {
-                        dr[i + 1] = this[i,t,space_index];
+                        dr[i + 1] = this[i, t, space_index];
                     }
                     dt.Rows.Add(dr);
                 }
@@ -508,7 +523,7 @@ namespace Heiflow.Core.Data
                 for (int t = 0; t < nstep; t++)
                 {
                     var dr = dt.NewRow();
-                    dr[1] = this[var_index,t,space_index];
+                    dr[1] = this[var_index, t, space_index];
                     dt.Rows.Add(dr);
                 }
             }
@@ -543,17 +558,17 @@ namespace Heiflow.Core.Data
             int ncell = Size[2];
             int ntime = Size[1];
             int nvar = Size[0];
-            if(var_index > -1)
+            if (var_index > -1)
             {
                 // all times
-                if(time_index == -1)
+                if (time_index == -1)
                 {
                     //all cells
-                    if(cell_index == -1)
+                    if (cell_index == -1)
                     {
                         for (int i = 0; i < ncell; i++)
                         {
-                           var dc = new DataColumn("C" + i, typeof(T));
+                            var dc = new DataColumn("C" + i, typeof(T));
                             dt.Columns.Add(dc);
                         }
                         for (int i = 0; i < ntime; i++)
@@ -580,7 +595,7 @@ namespace Heiflow.Core.Data
                 }
                 else
                 {
-                     //all cells
+                    //all cells
                     if (cell_index == -1)
                     {
                         var dc = new DataColumn("C0", typeof(T));
@@ -772,7 +787,7 @@ namespace Heiflow.Core.Data
                 int nrow = dt.Rows.Count;
                 int ncol = dt.Columns.Count;
                 _size = new int[] { nrow, ncol };
-                 
+
             }
             //TODO
             if (SelectedVariableIndex >= 0)
@@ -780,7 +795,7 @@ namespace Heiflow.Core.Data
                 for (int r = 0; r < Size[2]; r++)
                 {
                     DataRow dr = dt.Rows[r];
-                    this[SelectedVariableIndex,SelectedTimeIndex,r] = (T)dr[0];
+                    this[SelectedVariableIndex, SelectedTimeIndex, r] = (T)dr[0];
                 }
             }
             else
@@ -805,7 +820,7 @@ namespace Heiflow.Core.Data
                         DataRow dr = dt.Rows[r];
                         for (int i = 0; i < nvar; i++)
                         {
-                            this[var_index[i],SelectedTimeIndex,r] = (T)dr[col_index[i]];
+                            this[var_index[i], SelectedTimeIndex, r] = (T)dr[col_index[i]];
                         }
                     }
                 }
@@ -907,7 +922,7 @@ namespace Heiflow.Core.Data
             for (int i = 0; i < Size[0]; i++)
             {
                 _arrays[i].Dispose();
-                _arrays[i]= null;
+                _arrays[i] = null;
             }
         }
 
@@ -918,14 +933,14 @@ namespace Heiflow.Core.Data
         }
 
 
-        public void AllocateVariable(int var_index,int ntime, int ncell)
+        public void AllocateVariable(int var_index, int ntime, int ncell)
         {
             _arrays[var_index] = ILMath.zeros<T>(ntime, ncell);
         }
 
         public DataCube<float> SpatialMean(int var_index)
         {
-           var mean_mat = new DataCube<float>(1, _ntime, 1);
+            var mean_mat = new DataCube<float>(1, _ntime, 1);
             if (ILArrays[var_index] != null)
             {
                 for (int j = 0; j < _ntime; j++)
