@@ -307,15 +307,18 @@ namespace Heiflow.Models.Generic.Parameters
             var buf = TypeConverterEx.ChangeType<T>(strs, start, end);
             if (Dimension == 1)
             {
-                this[0][0, ":"] = buf;
+                this[0][":", 0] = buf;
             }
             else if (Dimension == 2)
             {
-                var dim1 = this.Owner.Parameters[DimensionNames[0]].GetValue(0, 0, 0);
-                var dim2 = this.Owner.Parameters[DimensionNames[1]].GetValue(0, 0, 0);
-                for (int i = 0; i < Dimension; i++)
+                int k = 0;
+                for (int i = 0; i < Size[2]; i++)
                 {
-
+                    for (int j = 0; j < Size[1]; j++)
+                    {
+                        this[0][j, i] = buf[k];
+                        k++;
+                    }
                 }
             }
         }

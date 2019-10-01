@@ -1311,7 +1311,7 @@ namespace Heiflow.Models.Integration
 
                     if (ValueType == 1)
                     {
-                        ArrayParam<int> gv = new ArrayParam<int>(name)
+                        DataCubeParameter<int> gv = new DataCubeParameter<int>(name)
                         {
                             ValueType = ValueType,
                             VariableType = ParameterType.Control,

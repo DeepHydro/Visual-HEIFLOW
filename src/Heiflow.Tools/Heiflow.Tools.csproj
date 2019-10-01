@@ -67,6 +67,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Symbology.dll</HintPath>
     </Reference>
+    <Reference Include="Heiflow.Spatial, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Debug\Heiflow.Spatial.dll</HintPath>
+    </Reference>
     <Reference Include="HUST.WREIS.MathLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Bin\Debug\HUST.WREIS.MathLibrary.dll</HintPath>
@@ -189,10 +193,6 @@
     <ProjectReference Include="..\Heiflow.Presentation\Heiflow.Presentation.csproj">
       <Project>{55d24eb1-96bb-4902-8240-e9019032db93}</Project>
       <Name>Heiflow.Presentation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Heiflow.Spatial\Heiflow.Spatial.csproj">
-      <Project>{2a3c4415-b678-4826-97d8-e25e6e63b088}</Project>
-      <Name>Heiflow.Spatial</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
