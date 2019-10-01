@@ -372,8 +372,8 @@ namespace Heiflow.Tools.ConceptualModel
             if (model != null)
             {
                 var sfr = prj.Project.Model.GetPackage(SFRPackage.PackageName) as SFRPackage;
-                model.PRMSModel.MMSPackage.Parameters["nreach"].SetValue(sfr.NSTRM, 0);
-                model.PRMSModel.MMSPackage.Parameters["nsegment"].SetValue(sfr.NSS, 0);
+                model.PRMSModel.MMSPackage.Parameters["nreach"].SetValue(0, 0, 0, sfr.NSTRM);
+                model.PRMSModel.MMSPackage.Parameters["nsegment"].SetValue(0, 0, 0, sfr.NSS);
                 model.PRMSModel.MMSPackage.IsDirty = true;
                 model.PRMSModel.MMSPackage.Save(null);
                 sfr.Attach(shell.MapAppManager.Map, prj.Project.GeoSpatialDirectory);

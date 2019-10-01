@@ -406,7 +406,7 @@ namespace Heiflow.Models.Surface.PRMS
             var keys = (from p in para select p.Key);
             int nvar = keys.Count();
             var title = string.Join(",", keys);
-            var list = (from p in para select p.Value.ToStrings()).ToArray();
+            var list = (from p in para select p.Value.ToStringVector()).ToArray();
             buf = title + "\n";
 
             for (int i = 0; i < nhru; i++)
@@ -570,111 +570,6 @@ namespace Heiflow.Models.Surface.PRMS
             }
             stream.Close();
         }
-        public  void Deserialize1(string filename)
-        {
-            XmlSerializer xs = new XmlSerializer(typeof(MMSPackage));
-            Stream stream = new FileStream(filename, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
-            var mms = (MMSPackage)xs.Deserialize(stream);
-            this._DefaultParameters = mms.DefaultParameters;
-            this.Name = mms.Name;
-            this.Description = mms.Description;
-            Parameters.Clear();
-
-            foreach (var pr in DefaultParameters)
-            {
-                if (pr.VariableType == ParameterType.Dimension)
-                {
-                    Parameters.Add(pr.Name, new SingleParam<int>(pr.Name)
-                    {
-                        DefaultValue = pr.DefaultValue,
-                        Description = pr.Description,
-                        ValueType = pr.ValueType,
-                        Value = (int)pr.DefaultValue,
-                        Dimension = pr.Dimension,
-                        Owner = this,
-                        VariableType = pr.VariableType,
-                        ModuleName = pr.ModuleName,
-                        DimensionNames = dim_name,
-                        Minimum=pr.Minimum,
-                        Maximum=pr.Maximum,
-                        Units=pr.Units
-                    });
-                }
-                else if (pr.VariableType == ParameterType.Parameter)
-                {
-                    if (pr.ValueType == 1)
-                    {
-                        Parameters.Add(pr.Name, new ArrayParam<int>(pr.Name)
-                        {
-                            DefaultValue = pr.DefaultValue,
-                            Description = pr.Description,
-                            ValueType = pr.ValueType,
-                            Dimension = pr.Dimension,
-                            Owner = this,
-                            DimensionNames = pr.DimensionNames,
-                            VariableType = pr.VariableType,
-                            ModuleName = pr.ModuleName,
-                            Minimum = pr.Minimum,
-                            Maximum = pr.Maximum,
-                            Units = pr.Units
-                        });
-                    }
-                    else if (pr.ValueType == 2)
-                    {
-                        Parameters.Add(pr.Name, new ArrayParam<float>(pr.Name)
-                        {
-                            DefaultValue = pr.DefaultValue,
-                            Description = pr.Description,
-                            ValueType = pr.ValueType,
-                            Dimension = pr.Dimension,
-                            Owner = this,
-                            DimensionNames = pr.DimensionNames,
-                            VariableType = pr.VariableType,
-                            ModuleName = pr.ModuleName,
-                            Minimum = pr.Minimum,
-                            Maximum = pr.Maximum,
-                            Units = pr.Units
-                        });
-                    }
-                    else if (pr.ValueType == 3)
-                    {
-                        Parameters.Add(pr.Name, new ArrayParam<double>(pr.Name)
-                        {
-                            DefaultValue = pr.DefaultValue,
-                            Description = pr.Description,
-                            ValueType = pr.ValueType,
-                            Dimension = pr.Dimension,
-                            Owner = this,
-                            DimensionNames = pr.DimensionNames,
-                            VariableType = pr.VariableType,
-                            ModuleName = pr.ModuleName,
-                            Minimum = pr.Minimum,
-                            Maximum = pr.Maximum,
-                            Units = pr.Units
-                        });
-                    }
-                    else if (pr.ValueType == 4)
-                    {
-                        Parameters.Add(pr.Name, new ArrayParam<string>(pr.Name)
-                        {
-                            DefaultValue = pr.DefaultValue,
-                            Description = pr.Description,
-                            ValueType = pr.ValueType,
-                            Dimension = pr.Dimension,
-                            Owner = this,
-                            DimensionNames = pr.DimensionNames,
-                            VariableType = pr.VariableType,
-                            ModuleName = pr.ModuleName,
-                            Minimum = pr.Minimum,
-                            Maximum = pr.Maximum,
-                            Units = pr.Units
-                        });
-                    }
-                }
-            }
-            stream.Close();
-        }
-
         public void LoadDefaultPara(string filename)
         {
             XmlSerializer xs = new XmlSerializer(typeof(MMSPackage));
@@ -688,9 +583,9 @@ namespace Heiflow.Models.Surface.PRMS
         {
             foreach (var pr in this.Parameters.Values)
             {
-                if (pr.ParameterDimension == ParameterDimension.Array && pr.DimensionNames[0] == dim_name)
+                if (pr.DimensionNames.Contains( dim_name))
                 {
-                    pr.AlterDimLength(new_length);
+                    pr.AlterDimLength(dim_name, new_length);
                 }
             }
             IsDirty = true;
@@ -715,7 +610,7 @@ namespace Heiflow.Models.Surface.PRMS
                 var para = Select(dim);
                 if (para != null)
                 {
-                    para.SetValue(numhru, 0);
+                    para.SetValue(0, 0, 0, numhru);
                     (para as IDataCubeObject).Topology = (this.Grid as RegularGrid).Topology;
                     AlterLength(dim, numhru);
                 }
@@ -735,7 +630,7 @@ namespace Heiflow.Models.Surface.PRMS
             if (ngwcell_para != null)
             {
                 var ngwcell = grid.RowCount * grid.ColumnCount;
-                ngwcell_para.SetValue(ngwcell, 0);
+                ngwcell_para.SetValue(0, 0, 0, ngwcell);
                 AlterLength("ngwcell", ngwcell);
             }
 
@@ -744,7 +639,7 @@ namespace Heiflow.Models.Surface.PRMS
 
             var area = grid.GetTotalArea() * ConstantNumber.SqM2Acre;
             var basin_area = Select("basin_area");
-            basin_area.SetValue(area, 0);
+            basin_area.SetValue(0, 0, 0, area);
             ModelService.BasinArea = area;
             base.OnGridUpdated(sender);
             IsDirty = true;

@@ -34,7 +34,6 @@ namespace Heiflow.Controls.WinForm.Controls
         public static string CmbTimeKey = "cmbTime";
         private const string AllString = "All";
 
-
         public DataCubeGrid()
         {
             InitializeComponent();
@@ -226,10 +225,6 @@ namespace Heiflow.Controls.WinForm.Controls
             _CurrentType = DataSourceType.DC;
             _DataCubeObject = dc;
             DataObjectName = dc.Name;
-            cmbVar.ComboBox.Items.Clear();
-            cmbTime.ComboBox.Items.Clear();
-            cmbCell.ComboBox.Items.Clear();
-
             if (dc is IParameter)
             {
                 DataTable = dc.ToDataTable();
@@ -250,12 +245,16 @@ namespace Heiflow.Controls.WinForm.Controls
                         EnableControls(true, true, true, true, true);
                         cmbVar.ComboBox.DataSource = dc.Variables;
                         cmbVar.SelectedIndex = dc.SelectedVariableIndex;
+                        //var dt = _DataCubeObject.ToDataTable(dc.SelectedVariableIndex, 0, -1);
+                        //Bind(dt);
                     }
                     else if (dc.Layout == DataCubeLayout.TwoD || dc.Layout == DataCubeLayout.OneDTimeSeries)
                     {
                         EnableControls(true, false, false, true, true);
                         cmbVar.ComboBox.DataSource = dc.Variables;
                         cmbVar.SelectedIndex = dc.SelectedVariableIndex;
+                        //var dt = _DataCubeObject.ToDataTable(dc.SelectedVariableIndex, -1, -1);
+                        //Bind(dt);
                     }
                 }
             }
@@ -490,12 +489,13 @@ namespace Heiflow.Controls.WinForm.Controls
                     }
                     if (ncell > 1)
                         cellstrs.Add(AllString);
-
+                    cmbTime.SelectedIndexChanged -= this.cmbTime_SelectedIndexChanged;
+                    cmbCell.SelectedIndexChanged -= this.cmbCell_SelectedIndexChanged;
                     cmbTime.ComboBox.DataSource = timestrs;
                     cmbCell.ComboBox.DataSource = cellstrs;
-                    cmbTime.SelectedIndexChanged -= this.cmbTime_SelectedIndexChanged;
                     cmbTime.ComboBox.SelectedIndex = 0;
                     cmbTime.SelectedIndexChanged += this.cmbTime_SelectedIndexChanged;
+                    cmbCell.SelectedIndexChanged += this.cmbCell_SelectedIndexChanged;
                     cmbCell.ComboBox.SelectedIndex = cellstrs.Count - 1;
                 }
                 else
@@ -547,7 +547,7 @@ namespace Heiflow.Controls.WinForm.Controls
                                 var dr = _DataTable.Rows[i];
                                 for (int j = 0; j < _Parameters.Length; j++)
                                 {
-                                    _Parameters[j].SetValue(0, 0, i, dr[j]);
+                                    _Parameters[j].SetValue(0, i, 0, dr[j]);
                                 }
                             }
                         }

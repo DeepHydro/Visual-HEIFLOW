@@ -36,10 +36,9 @@ using System.Xml.Serialization;
 namespace Heiflow.Models.Generic
 {
     public enum ParameterType { Dimension, Parameter, Control }
-    public enum ParameterDimension { Single, Array}
     public enum Modules
     {
-        basin,climateflow, check_nhru_params, cascade, obs, prms_time, soltab,
+        basin, climateflow, check_nhru_params, cascade, obs, prms_time, soltab,
         climate_hru, ddsolrad, ccsolrad, potet_jh, potet_hamon, potet_pan, potet_hs, potet_pt, potet_pm, transp_frost,
         frost_date, transp_tindex, intcp, snowcomp, srunoff_smidx, srunoff_carea, soilzone, gwflow, subbasin,
         routing, strmflow, muskingum, strmflow_lake, lake_route, strmflow_in_out, water_balance, nhru_summar,
@@ -48,7 +47,6 @@ namespace Heiflow.Models.Generic
     }
     public interface IParameter
     {
-
         string Name
         {
             get;
@@ -93,11 +91,11 @@ namespace Heiflow.Models.Generic
             set;
         }
 
-         string[] DimensionNames
-         {
-             get;
-             set;
-         }
+        string[] DimensionNames
+        {
+            get;
+            set;
+        }
 
         object Tag
         {
@@ -117,7 +115,7 @@ namespace Heiflow.Models.Generic
             set;
         }
 
-         float Maximum
+        float Maximum
         {
             get;
             set;
@@ -134,28 +132,19 @@ namespace Heiflow.Models.Generic
             get;
             set;
         }
-        ParameterDimension ParameterDimension
+        DataCube<float> FloatDataCube
         {
             get;
-            set;
         }
-        Array ArrayObject { get; }
-        DataCube<float> DataCubeObject { get; }
-        IEnumerable<double> ToDouble();
-
-        IEnumerable<float> ToFloat();
-
-        IEnumerable<int> ToInt32();
-        string[] ToStrings();
+        string[] ToStringVector();
+        float[] GetColumnVector(int col_index);
         Type GetVariableType();
         object GetValue(int var_index, int time_index, int cell_index);
         void SetValue(int var_index, int time_index, int cell_index, object new_value);
-        void AlterDimLength( int new_length);
-
-        void SetValue(object vv, int index);
-        void SetValues<T>(T[] vv);
+        void AlterDimLength(string dim_name, int new_length);
         void Constant(object vv);
         void ResetToDefault();
         void UpdateFrom(IParameter new_para);
+        void UpdateFromFloatDataCube();
     }
 }

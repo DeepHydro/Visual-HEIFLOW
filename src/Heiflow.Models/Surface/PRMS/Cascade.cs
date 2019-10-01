@@ -182,7 +182,7 @@ namespace Heiflow.Models.Surface.PRMS
             MmsParameterFile mms = new MmsParameterFile(cascade);
             var list = mms.Read(null);
             int ncascade=list["hru_up_id"].ValueCount;
-            _Prms.MMSPackage.Parameters["ncascade"].SetValue(ncascade, 0);
+            _Prms.MMSPackage.Parameters["ncascade"].SetValue(0, 0, 0, ncascade);
             _Prms.MMSPackage.AlterLength("ncascade", ncascade);
 
             MapHruID(list["hru_up_id"]);
@@ -197,7 +197,7 @@ namespace Heiflow.Models.Surface.PRMS
 
         public void UpdateParameter()
         {
-            int nhru = _Prms.MMSPackage.Parameters["nhru"].ToInt32().ElementAt(0);
+            int nhru = (int)_Prms.MMSPackage.Parameters["nhru"].GetValue(0,0,0);
            // float area = (float)Math.Round(1000 * 1000 / 4047.0, 2);
             var gvr_cell_id = new int[nhru];
             var gvr_hru_id = new int[nhru];
@@ -217,22 +217,22 @@ namespace Heiflow.Models.Surface.PRMS
             }
             index = 0;
 
-            var gvr_cell_id_para = _Prms.MMSPackage.Parameters["gvr_cell_id"] as ArrayParam<int>;
-            var gvr_hru_id_para = _Prms.MMSPackage.Parameters["gvr_hru_id"] as ArrayParam<int>;
-            gvr_cell_id_para.Values = gvr_cell_id;
-            gvr_hru_id_para.Values = gvr_hru_id;
+            var gvr_cell_id_para = _Prms.MMSPackage.Parameters["gvr_cell_id"] as DataCubeParameter<int>;
+            var gvr_hru_id_para = _Prms.MMSPackage.Parameters["gvr_hru_id"] as DataCubeParameter<int>;
+            gvr_cell_id_para[0][":",0] = gvr_cell_id;
+            gvr_hru_id_para[0][":", 0] = gvr_hru_id;
         }
 
         public void MapHruID(IParameter para)
         {
             var ac = mGrid.Topology.CellID2CellIndex;
-            var gv = para as ArrayParam<int>;
+            var gv = para as DataCubeParameter<int>;
             for (int i = 0; i < gv.ValueCount; i++)
             {
-                if (ac.Keys.Contains(gv.Values[i]))
-                    gv.Values[i] = ac[gv.Values[i]] + 1;
+                if (ac.Keys.Contains(gv[0,i,0]))
+                    gv[0, i, 0] = ac[gv[0, i, 0]] + 1;
                 else
-                    gv.Values[i] = 0;
+                    gv[0, i, 0] = 0;
             }
         }
 
@@ -242,7 +242,7 @@ namespace Heiflow.Models.Surface.PRMS
             int[] item1 = new int[] { Property.HRUFLG, Property.STRMFLG, Property.FLOWFLG, Property.VISFLG, Property.IPRN, Property.IFILL };
             string line = string.Format("{0}\t{1}\t{2}\t#HRUFLG STRMFLG FLOWFLG VISFLG IPRN IFILL DPIT OUTITMAX", string.Join("\t", item1), Property.DPIT, Property.OUTITMAX);
             sw.WriteLine(line);
-            var hru_type = _Prms.MMSPackage.Parameters["hru_type"].ToInt32().ToArray();
+            var hru_type = (_Prms.MMSPackage.Parameters["hru_type"] as DataCubeParameter<int>).ToVector();
             int aci = 0;
             short[] ht = new short[mGrid.ColumnCount];
 

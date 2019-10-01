@@ -33,3 +33,10 @@ F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Presentation\obj\Debug\Heiflow.Present
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.dll
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.pdb
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.csprojResolveAssemblyReference.cache
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\bin\Debug\Heiflow.Presentation.dll
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\bin\Debug\Heiflow.Presentation.pdb
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.csprojResolveAssemblyReference.cache
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.Properties.Resources.resources
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.csproj.GenerateResource.Cache
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.dll
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.pdb

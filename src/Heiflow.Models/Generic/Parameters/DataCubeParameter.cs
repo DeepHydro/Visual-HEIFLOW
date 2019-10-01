@@ -16,9 +16,10 @@ namespace Heiflow.Models.Generic.Parameters
     /// </summary>
     /// <typeparam name="T"></typeparam>
     [Serializable]
-    public class DataCubeParameter<T>:DataCube<T>,IParameter
+    public class DataCubeParameter<T> : DataCube<T>, IParameter
     {
         protected int _valueCount;
+        private DataCube<float> _FloatDataCube;
 
         public DataCubeParameter()
         {
@@ -141,7 +142,7 @@ namespace Heiflow.Models.Generic.Parameters
             get;
             set;
         }
- 
+
         [XmlIgnore]
         [Browsable(false)]
         public bool CanEdit
@@ -149,7 +150,23 @@ namespace Heiflow.Models.Generic.Parameters
             get;
             set;
         }
-
+        [XmlIgnore]
+        [Browsable(false)]
+        public DataCube<float> FloatDataCube
+        {
+            get
+            {
+                _FloatDataCube = new DataCube<float>(1, Size[1], Size[2]);
+                for (int i = 0; i < Size[1]; i++)
+                {
+                    for (int j = 0; j < Size[2]; j++)
+                    {
+                        _FloatDataCube[0, i, j] = float.Parse(this[0, i, j].ToString());
+                    }
+                }
+                return _FloatDataCube;
+            }
+        }
         public Type GetVariableType()
         {
             Type type = null;
@@ -190,11 +207,9 @@ namespace Heiflow.Models.Generic.Parameters
             }
             else if (Dimension == 2)
             {
-                var nrow = (int)this.Owner.Parameters[DimensionNames[0]].GetValue(0, 0, 0);
-                var ncol = (int)this.Owner.Parameters[DimensionNames[1]].GetValue(0, 0, 0);
-                for (int i = 0; i < nrow; i++)
+                for (int i = 0; i < Size[1]; i++)
                 {
-                    for (int j = 0; j < ncol; j++)
+                    for (int j = 0; j < Size[2]; j++)
                     {
                         this[0, i, j] = (T)dt.Rows[i][j];
                     }
@@ -217,17 +232,15 @@ namespace Heiflow.Models.Generic.Parameters
             }
             else if (Dimension == 2)
             {
-                var nrow = (int) this.Owner.Parameters[DimensionNames[0]].GetValue(0, 0, 0);
-                var ncol = (int)this.Owner.Parameters[DimensionNames[1]].GetValue(0, 0, 0);
-                for (int i = 0; i < ncol; i++)
+                for (int i = 0; i < Size[2]; i++)
                 {
                     DataColumn dc = new DataColumn(DimensionNames[1] + (i + 1), typeof(T));
                     dt.Columns.Add(dc);
                 }
-                for (int i = 0; i < nrow; i++)
+                for (int i = 0; i < Size[1]; i++)
                 {
                     var dr = dt.NewRow();
-                    for (int j = 0; j < ncol; j++)
+                    for (int j = 0; j < Size[2]; j++)
                     {
                         dr[j] = this[0, i, j];
                     }
@@ -316,7 +329,7 @@ namespace Heiflow.Models.Generic.Parameters
                 {
                     for (int j = 0; j < Size[1]; j++)
                     {
-                        this[0][j, i] = buf[k];
+                        this[0, j, i] = buf[k];
                         k++;
                     }
                 }
@@ -351,59 +364,38 @@ namespace Heiflow.Models.Generic.Parameters
                 return null;
             }
         }
-        public IEnumerable<double> ToDouble()
+        /// <summary>
+        /// get column vector
+        /// </summary>
+        /// <returns></returns>
+        public float[] GetColumnVector(int col_index)
         {
-            throw new NotImplementedException();
+            float[] vec = new float[Size[1]];
+            for (int i = 0; i < vec.Length; i++)
+            {
+                vec[i] = float.Parse(this[0, i, col_index].ToString());
+            }
+            return vec;
         }
-
-        public IEnumerable<float> ToFloat()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<int> ToInt32()
-        {
-            throw new NotImplementedException();
-        }
-
-        public string[] ToStrings()
+        public string[] ToStringVector()
         {
             var vec = ToVector();
             var vv = (from v in vec select v.ToString()).ToArray();
             return vv;
         }
 
-        public void AlterDimLength(int new_length)
+        public void UpdateFromFloatDataCube()
         {
-            throw new NotImplementedException();
-        }
-
-        public void SetValue(object vv, int index)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetValues<T1>(T1[] vv)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public ParameterDimension ParameterDimension
-        {
-            get
+            if (_FloatDataCube != null)
             {
-                throw new NotImplementedException();
+                for (int i = 0; i < Size[1]; i++)
+                {
+                    for (int j = 0; j < Size[2]; j++)
+                    {
+                        this[0][i, j] = TypeConverterEx.ChangeType<T>(_FloatDataCube[0][i, j]);
+                    }
+                }
             }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public DataCube<float> DataCubeObject
-        {
-            get { throw new NotImplementedException(); }
         }
     }
 }

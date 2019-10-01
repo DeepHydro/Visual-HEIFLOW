@@ -229,8 +229,8 @@ namespace Heiflow.Models.Surface.PRMS
         public override void OnTimeServiceUpdated(ITimeService sender)
         {
             var ndays = _mmsPackage.Select("ndays");
-            if(ndays != null)
-                ndays.SetValue(sender.NumTimeStep, 0);
+            if (ndays != null)
+                ndays.SetValue(0, 0, 0, sender.NumTimeStep);
         }
 
         public override void OnGridUpdated(IGrid sender)

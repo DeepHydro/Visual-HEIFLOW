@@ -411,7 +411,7 @@ namespace Heiflow.Models.Integration
                  var nseg_para =  _PRMS.MMSPackage.Select("nsegment");
                  if(nseg_para != null)
                  {
-                     nseg_para.SetValue(net.RiverCount, 0);
+                     nseg_para.SetValue(0, 0, 0, net.RiverCount);
                  }
              }
              else if (e.PropertyName == "ReachCount")
@@ -419,7 +419,7 @@ namespace Heiflow.Models.Integration
                  var nseg_para = _PRMS.MMSPackage.Select("nreach");
                  if (nseg_para != null)
                  {
-                     nseg_para.SetValue(net.ReachCount, 0);
+                     nseg_para.SetValue(0, 0, 0, net.ReachCount);
                  }
              }
         }

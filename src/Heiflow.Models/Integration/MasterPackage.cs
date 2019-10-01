@@ -139,7 +139,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _ModelMode = value;
-                (Parameters["model_mode"] as ArrayParam<string>).Values = new string[] { value.ToString() };
+                (Parameters["model_mode"] as DataCubeParameter<string>)[0, 0, 0] = _ModelMode.ToString();
                 OnPropertyChanged("ModelMode");
             }
         }
@@ -155,7 +155,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _StartTime = value;
-                (Parameters["start_time"] as ArrayParam<int>).Values = new int[] { value.Year, value.Month, value.Day, 0, 0, 0 };
+                (Parameters["start_time"] as DataCubeParameter<int>)[0][":",0] = new int[] { value.Year, value.Month, value.Day, 0, 0, 0 };
                 OnPropertyChanged("StartTime");
             }
         }
@@ -175,7 +175,7 @@ namespace Heiflow.Models.Integration
                     value = StartTime.AddYears(1);
                 }
                 _EndTime = value;
-                (Parameters["end_time"] as ArrayParam<int>).Values = new int[] { value.Year, value.Month, value.Day, 0, 0, 0 };
+                (Parameters["end_time"] as DataCubeParameter<int>)[0][":", 0] = new int[] { value.Year, value.Month, value.Day, 0, 0, 0 };
                 OnPropertyChanged("EndTime");
             }
         }
@@ -190,7 +190,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _GlobalTimeUnit = value;
-                (Parameters["global_time_unit"] as ArrayParam<int>).Values = new int[] { _GlobalTimeUnit };
+                (Parameters["global_time_unit"] as DataCubeParameter<int>)[0, 0, 0] = _GlobalTimeUnit;
                 OnPropertyChanged("GlobalTimeUnit");
             }
         }
@@ -208,7 +208,7 @@ namespace Heiflow.Models.Integration
             {
                 _SubbasinFlag = value;
                 var sf = _SubbasinFlag ? 1 : 0;
-                (Parameters["subbasin_flag"] as ArrayParam<int>).Values = new int[] { sf };
+                (Parameters["subbasin_flag"] as DataCubeParameter<int>)[0, 0, 0] = sf;
                 OnPropertyChanged("SubbasinFlag");
             }
         }
@@ -228,7 +228,7 @@ namespace Heiflow.Models.Integration
                 if (value < 0)
                     value = 10;
                 _MaxSoilZoneIter = 10;
-                (Parameters["mxsziter"] as ArrayParam<int>).Values = new int[] { value };
+                (Parameters["mxsziter"] as DataCubeParameter<int>)[0, 0, 0] = value;
                 OnPropertyChanged("MaxSoilZoneIter");
             }
         }
@@ -244,7 +244,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _DataFile = value;
-                (Parameters["data_file"] as ArrayParam<string>).Values = new string[] { value };
+                (Parameters["data_file"] as DataCubeParameter<string>)[0, 0, 0] = value;
                 OnPropertyChanged("DataFile");
             }
         }
@@ -260,7 +260,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _ParameterFile = value;
-                (Parameters["param_file"] as ArrayParam<string>).Values = new string[] { value };
+                (Parameters["param_file"] as DataCubeParameter<string>)[0, 0, 0] = value;
                 OnPropertyChanged("ParameterFilePath");
             }
         }
@@ -276,7 +276,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _ModflowFile = value;
-                (Parameters["modflow_name"] as ArrayParam<string>).Values = new string[] { value };
+                (Parameters["modflow_name"] as DataCubeParameter<string>)[0, 0, 0] = value;
                 OnPropertyChanged("ModflowFilePath");
             }
         }
@@ -293,7 +293,7 @@ namespace Heiflow.Models.Integration
             {
                 _InitVarsFromFile = value;
                 var infs = _InitVarsFromFile ? 1 : 0;
-                (Parameters["init_vars_from_file"] as ArrayParam<int>).Values = new int[] { infs };
+                (Parameters["init_vars_from_file"] as DataCubeParameter<int>)[0, 0, 0] = infs;
                 OnPropertyChanged("InitVarsFromFile");
             }
         }
@@ -308,7 +308,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _VarInitFile = value;
-                (Parameters["var_init_file"] as ArrayParam<string>).Values = new string[] { value };
+                (Parameters["var_init_file"] as DataCubeParameter<string>)[0, 0, 0] = value;
                 OnPropertyChanged("VarInitFile");
             }
         }
@@ -324,7 +324,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _PrecipitationFile = value;
-                (Parameters["precip_day"] as ArrayParam<string>).Values = new string[] { value };
+                (Parameters["precip_day"] as DataCubeParameter<string>)[0, 0, 0] = value;
                 OnPropertyChanged("PrecipitationFile");
             }
         }
@@ -340,7 +340,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _TempMaxFile = value;
-                (Parameters["tmax_day"] as ArrayParam<string>).Values = new string[] { value };
+                (Parameters["tmax_day"] as DataCubeParameter<string>)[0, 0, 0] = value;
                 OnPropertyChanged("TempMaxFile");
             }
         }
@@ -356,7 +356,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _TempMinFile = value;
-                (Parameters["tmin_day"] as ArrayParam<string>).Values = new string[] { value };
+                (Parameters["tmin_day"] as DataCubeParameter<string>)[0, 0, 0] = value;
                 OnPropertyChanged("TempMinFile");
             }
         }
@@ -371,7 +371,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _PETFile = value;
-                (Parameters["potet_day"] as ArrayParam<string>).Values = new string[] { value };
+                (Parameters["potet_day"] as DataCubeParameter<string>)[0, 0, 0] = value;
                 OnPropertyChanged("PETFile");
             }
         }
@@ -386,7 +386,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _ClimateInputFormat = value;
-                (Parameters["climate_file_format"] as ArrayParam<int>).Values = new int[] { (int)_ClimateInputFormat };
+                (Parameters["climate_file_format"] as DataCubeParameter<int>)[0, 0, 0] = (int)_ClimateInputFormat;
                 OnPropertyChanged("ClimateInputFormat");
             }
         }
@@ -403,7 +403,7 @@ namespace Heiflow.Models.Integration
             {
                 _UseGridClimate = value;
                 var infs = _UseGridClimate ? 1 : 0;
-                (Parameters["sub_climate_flag"] as ArrayParam<int>).Values = new int[] { infs };
+                (Parameters["sub_climate_flag"] as DataCubeParameter<int>)[0, 0, 0] = infs;
                 OnPropertyChanged("UseGridClimate");
             }
         }
@@ -419,7 +419,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _GridClimateFile = value;
-                (Parameters["sub_climate_file"] as ArrayParam<string>).Values = new string[] { value };
+                (Parameters["sub_climate_file"] as DataCubeParameter<string>)[0, 0, 0] = value;
                 OnPropertyChanged("GridClimateFile");
             }
         }
@@ -438,7 +438,7 @@ namespace Heiflow.Models.Integration
                 if (value < 0)
                     value = 0;
                 _ReportDays = value;
-                (Parameters["rpt_days"] as ArrayParam<int>).Values = new int[] { value };
+                (Parameters["rpt_days"] as DataCubeParameter<int>)[0, 0, 0] = value;
                 OnPropertyChanged("ReportDays");
             }
         }
@@ -457,7 +457,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _WaterBudgetFile = value;
-                (Parameters["gsflow_output_file"] as ArrayParam<string>).Values = new string[] { value };
+                (Parameters["gsflow_output_file"] as DataCubeParameter<string>)[0, 0, 0] = value;
                 OnPropertyChanged("WaterBudgetFile");
             }
         }
@@ -477,7 +477,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _PRMSBudgetFile = value;
-                (Parameters["model_output_file"] as ArrayParam<string>).Values = new string[] { value };
+                (Parameters["model_output_file"] as DataCubeParameter<string>)[0, 0, 0] = value;
                 OnPropertyChanged("PRMSBudgetFile");
             }
         }
@@ -497,7 +497,7 @@ namespace Heiflow.Models.Integration
             {
                 _OutputWaterComponent = value;
                 int gsf_rpt = _OutputWaterComponent ? 1 : 0;
-                (Parameters["gsf_rpt"] as ArrayParam<int>).Values = new int[] { gsf_rpt };
+                (Parameters["gsf_rpt"] as DataCubeParameter<int>)[0, 0, 0] = gsf_rpt;
                 OnPropertyChanged("OutputWaterComponent");
             }
         }
@@ -514,27 +514,10 @@ namespace Heiflow.Models.Integration
             set
             {
                 _WaterComponentFile = value;
-                (Parameters["csv_output_file"] as ArrayParam<string>).Values = new string[] { value };
+                (Parameters["csv_output_file"] as DataCubeParameter<string>)[0, 0, 0] = value;
                 OnPropertyChanged("WaterComponentFile");
             }
         }
-
-       // [Category("Summary")]
-       // [Description("Path name for  irrigation budget  for each time step")]
-       //// [FileMonitorItem("IrrigationMonitor")]
-       // public string IrrigationComponentFile
-       // {
-       //     get
-       //     {
-       //         return _IrrigationComponentFile;
-       //     }
-       //     set
-       //     {
-       //         _IrrigationComponentFile = value;
-       //         (Parameters["irrigation_output_file"] as ArrayParam<string>).Values = new string[] { value };
-       //         OnPropertyChanged("IrrigationComponentFile");
-       //     }
-       // }
 
         [Category("Summary")]
         [Description("Path name for Modflow List file ")]
@@ -548,7 +531,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _MFListFile = value;
-                (Parameters["mflist_file"] as ArrayParam<string>).Values = new string[] { value };
+                (Parameters["mflist_file"] as DataCubeParameter<string>)[0, 0, 0] = value;
                 OnPropertyChanged("MFListFile");
             }
         }
@@ -565,7 +548,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _WaterBudgetCsvFile = value;
-                (Parameters["accu_budget_file"] as ArrayParam<string>).Values = new string[] { value };
+                (Parameters["accu_budget_file"] as DataCubeParameter<string>)[0, 0, 0] = value;
                 OnPropertyChanged("WaterBudgetCsvFile");
             }
         }
@@ -584,7 +567,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _Temperature = value;
-                (Parameters["temp_module"] as ArrayParam<string>).Values = new string[] { value.ToString() };
+                (Parameters["temp_module"] as DataCubeParameter<string>)[0, 0, 0] = value.ToString();
                 OnPropertyChanged("Temperature");
             }
         }
@@ -603,7 +586,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _Precipitation = value;
-                (Parameters["precip_module"] as ArrayParam<string>).Values = new string[] { value.ToString() };
+                (Parameters["precip_module"] as DataCubeParameter<string>)[0, 0, 0] = value.ToString();
                 OnPropertyChanged("Precipitation");
             }
         }
@@ -621,7 +604,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _SolarRadiation = value;
-                (Parameters["solrad_module"] as ArrayParam<string>).Values = new string[] { value.ToString() };
+                (Parameters["solrad_module"] as DataCubeParameter<string>)[0, 0, 0] = value.ToString();
                 OnPropertyChanged("SolarRadiation");
             }
         }
@@ -640,7 +623,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _PotentialET = value;
-                (Parameters["et_module"] as ArrayParam<string>).Values = new string[] { value.ToString() };
+                (Parameters["et_module"] as DataCubeParameter<string>)[0, 0, 0] = value.ToString();
                 OnPropertyChanged("PotentialET");
             }
         }
@@ -658,7 +641,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _SurfaceRunoff = value;
-                (Parameters["srunoff_module"] as ArrayParam<string>).Values = new string[] { value.ToString() };
+                (Parameters["srunoff_module"] as DataCubeParameter<string>)[0, 0, 0] = value.ToString();
                 OnPropertyChanged("SurfaceRunoff");
             }
         }
@@ -675,7 +658,7 @@ namespace Heiflow.Models.Integration
             {
                 _StatsON = value;
                 var stat = _StatsON ? 1 : 0;
-                (Parameters["statsON_OFF"] as ArrayParam<int>).Values = new int[] { stat };
+                (Parameters["statsON_OFF"] as DataCubeParameter<int>)[0, 0, 0] = stat;
                 OnPropertyChanged("StatsON");
             }
         }
@@ -692,7 +675,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _StatVarFile = value;
-                (Parameters["stat_var_file"] as ArrayParam<string>).Values = new string[] { value };
+                (Parameters["stat_var_file"] as DataCubeParameter<string>)[0, 0, 0] = value;
                 OnPropertyChanged("StatVarFile");
             }
         }
@@ -708,7 +691,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _NumStatVars = value;
-                (Parameters["nstatVars"] as ArrayParam<int>).Values = new int[] { value };
+                (Parameters["nstatVars"] as DataCubeParameter<int>)[0, 0, 0] = value;
                 OnPropertyChanged("NumStatVars");
             }
         }
@@ -725,7 +708,7 @@ namespace Heiflow.Models.Integration
                 _StatVarNames = value;
                 if (value != null)
                     NumStatVars = _StatVarNames.Length;
-                (Parameters["statVar_names"] as ArrayParam<string>).Values = value;
+                (Parameters["statVar_names"] as DataCubeParameter<string>)[0][":", 0] = value;
                 OnPropertyChanged("StatVarNames");
             }
         }
@@ -741,7 +724,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _StatVarElement = value;
-                (Parameters["statVar_element"] as ArrayParam<int>).Values = value;
+                (Parameters["statVar_element"] as DataCubeParameter<int>)[0][":", 0] = value;
                 OnPropertyChanged("StatVarElement");
             }
         }
@@ -758,7 +741,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _AniOutFileFormat = value;
-                (Parameters["aniOutON_OFF"] as ArrayParam<int>).Values = new int[] { (int)value };
+                (Parameters["aniOutON_OFF"] as DataCubeParameter<int>)[0, 0, 0] = (int)value;
                 OnPropertyChanged("AniOutFileFormat");
             }
         }
@@ -773,7 +756,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _AniOutFileName = value;
-                (Parameters["ani_output_file"] as ArrayParam<string>).Values = new string[] { value };
+                (Parameters["ani_output_file"] as DataCubeParameter<string>)[0, 0, 0] = value;
                 OnPropertyChanged("AniOutFileName");
             }
         }
@@ -790,7 +773,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _NumAniOutVar = value;
-                (Parameters["naniOutVars"] as ArrayParam<int>).Values = new int[] { value };
+                (Parameters["naniOutVars"] as DataCubeParameter<int>)[0, 0, 0] = value;
                 OnPropertyChanged("NumAniOutVar");
             }
         }
@@ -808,7 +791,7 @@ namespace Heiflow.Models.Integration
                 _AniOutVarNames = value;
                 if (value != null)
                     NumAniOutVar = AniOutVarNames.Length;
-                (Parameters["aniOutVar_names"] as ArrayParam<string>).Values = value;
+                (Parameters["aniOutVar_names"] as DataCubeParameter<string>)[0][":", 0] = value;
                 OnPropertyChanged("AniOutVarNames");
             }
         }
@@ -824,7 +807,7 @@ namespace Heiflow.Models.Integration
             {
                 _SaveVarsToFile = value;
                 var infs = _SaveVarsToFile ? 1 : 0;
-                (Parameters["save_vars_to_file"] as ArrayParam<int>).Values = new int[] { infs };
+                (Parameters["save_vars_to_file"] as DataCubeParameter<int>)[0, 0, 0] = infs;
                 OnPropertyChanged("SaveVarsToFile");
             }
         }
@@ -839,7 +822,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _VarSaveFile = value;
-                (Parameters["var_save_file"] as ArrayParam<string>).Values = new string[] { value };
+                (Parameters["var_save_file"] as DataCubeParameter<string>)[0, 0, 0] = value;
                 OnPropertyChanged("VarSaveFile");
             }
         }
@@ -856,7 +839,7 @@ namespace Heiflow.Models.Integration
             {
                 _PrintDebug = value;
                 var infs = _PrintDebug ? 1 : 0;
-                (Parameters["print_debug"] as ArrayParam<int>).Values = new int[] { infs };
+                (Parameters["print_debug"] as DataCubeParameter<int>)[0, 0, 0] = infs;
                 OnPropertyChanged("PrintDebug");
             }
         }
@@ -872,7 +855,7 @@ namespace Heiflow.Models.Integration
             {
                 _dynamic_para = value;
                 var infs = _dynamic_para ? 1 : 0;
-                (Parameters["dynamic_para"] as ArrayParam<int>).Values = new int[] { infs };
+                (Parameters["dynamic_para"] as DataCubeParameter<int>)[0, 0, 0] = infs;
                 OnPropertyChanged("DynamicPara");
             }
         }
@@ -888,7 +871,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _dynamic_day = value;
-                (Parameters["dynamic_day"] as ArrayParam<int>).Values = value;
+                (Parameters["dynamic_day"] as DataCubeParameter<int>)[0][":", 0] = value;
                 OnPropertyChanged("DynamicDays");
             }
         }
@@ -904,7 +887,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _dynamic_param_file = value;
-                (Parameters["dynamic_param_file"] as ArrayParam<string>).Values = _dynamic_param_file;
+                (Parameters["dynamic_param_file"] as DataCubeParameter<string>)[0][":",0] = _dynamic_param_file;
                 OnPropertyChanged("DynamicParamFiles");
             }
         }
@@ -921,7 +904,7 @@ namespace Heiflow.Models.Integration
             {
                 _AnimationOutOC = value;
                 var infs = _AnimationOutOC ? 1 : 0;
-                (Parameters["ani_output_oc"] as ArrayParam<int>).Values = new int[] { infs };
+                (Parameters["ani_output_oc"] as DataCubeParameter<int>)[0, 0, 0] = infs;
                 OnPropertyChanged("AnimationOutOC");
             }
         }
@@ -936,7 +919,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _AnimationOutOCFile = value;
-                (Parameters["ani_output_oc_file"] as ArrayParam<string>).Values = new string[] { value };
+                (Parameters["ani_output_oc_file"] as DataCubeParameter<string>)[0, 0, 0] = value;
                 OnPropertyChanged("AnimationOutOCFile");
             }
         }
@@ -954,7 +937,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _wra_module = value;
-                (Parameters["wra_module"] as ArrayParam<string>).Values = new string[] { value };
+                (Parameters["wra_module"] as DataCubeParameter<string>)[0, 0, 0] = value;
                 OnPropertyChanged("WRAModule");
             }
         }
@@ -969,7 +952,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _wra_module_file = value;
-                (Parameters["wra_file"] as ArrayParam<string>).Values = new string[] { value };
+                (Parameters["wra_file"] as DataCubeParameter<string>)[0, 0, 0] = value;
                 OnPropertyChanged("WRAModuleFile");
             }
         }
@@ -984,7 +967,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _hydraulics_engine = value;
-                (Parameters["hydraulics_engine"] as ArrayParam<string>).Values = new string[] { value };
+                (Parameters["hydraulics_engine"] as DataCubeParameter<string>)[0, 0, 0] = value;
                 OnPropertyChanged("HydraulicsEngine");
             }
         }
@@ -1016,7 +999,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _extension_man_file = value;
-                (Parameters["extension_man_file"] as ArrayParam<string>).Values = new string[] { value };
+                (Parameters["extension_man_file"] as DataCubeParameter<string>)[0, 0, 0] = value;
                 OnPropertyChanged("ExtensionManagerFile");
             }
         }
@@ -1037,96 +1020,90 @@ namespace Heiflow.Models.Integration
             if (File.Exists(FileName))
             {
                 LoadFrom(FileName);
-                var start = (Parameters["start_time"] as ArrayParam<int>).Values;
+                var start = (Parameters["start_time"] as DataCubeParameter<int>).ToVector();
                 _StartTime = new DateTime(start[0], start[1], start[2], start[3], start[4], start[5]);
-                var end = (Parameters["end_time"] as ArrayParam<int>).Values;
+                var end = (Parameters["end_time"] as DataCubeParameter<int>).ToVector();
                 _EndTime = new DateTime(end[0], end[1], end[2], end[3], end[4], end[5]);
-                _DataFile = (Parameters["data_file"] as ArrayParam<string>).Values[0];
-                _ParameterFile = (Parameters["param_file"] as ArrayParam<string>).Values[0];
-                _ModflowFile = (Parameters["modflow_name"] as ArrayParam<string>).Values[0];
-                _ReportDays = (Parameters["rpt_days"] as ArrayParam<int>).Values[0];
-                _WaterBudgetFile = (Parameters["gsflow_output_file"] as ArrayParam<string>).Values[0];
-                _PRMSBudgetFile = (Parameters["model_output_file"] as ArrayParam<string>).Values[0];
-                _OutputWaterComponent = (Parameters["gsf_rpt"] as ArrayParam<int>).Values[0] == 1 ? true : false;
-                _WaterComponentFile = (Parameters["csv_output_file"] as ArrayParam<string>).Values[0];
-                _Temperature = EnumHelper.FromString<TemperatureModule>((Parameters["temp_module"] as ArrayParam<string>).Values[0]);
-                _Precipitation = EnumHelper.FromString<PrecipitationModule>((Parameters["precip_module"] as ArrayParam<string>).Values[0]);
-                _SolarRadiation = EnumHelper.FromString<SolarRadiationModule>((Parameters["solrad_module"] as ArrayParam<string>).Values[0]);
+                _DataFile = Parameters["data_file"].GetValue(0, 0, 0).ToString();
+                _ParameterFile = Parameters["param_file"].GetValue(0, 0, 0).ToString();
+                _ModflowFile = Parameters["modflow_name"].GetValue(0, 0, 0).ToString();
+                _ReportDays = (int)Parameters["rpt_days"].GetValue(0, 0, 0);
+                _WaterBudgetFile = Parameters["gsflow_output_file"].GetValue(0, 0, 0).ToString();
+                _PRMSBudgetFile = Parameters["model_output_file"].GetValue(0, 0, 0).ToString();
+                _OutputWaterComponent = (Parameters["gsf_rpt"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
+                _WaterComponentFile = (Parameters["csv_output_file"] as DataCubeParameter<string>)[0, 0, 0];
+                _Temperature = EnumHelper.FromString<TemperatureModule>((Parameters["temp_module"] as DataCubeParameter<string>)[0, 0, 0]);
+                _Precipitation = EnumHelper.FromString<PrecipitationModule>((Parameters["precip_module"] as DataCubeParameter<string>)[0, 0, 0]);
+                _SolarRadiation = EnumHelper.FromString<SolarRadiationModule>((Parameters["solrad_module"] as DataCubeParameter<string>)[0, 0, 0]);
                 if (Parameters.ContainsKey("et_module"))
-                    _PotentialET = EnumHelper.FromString<PETModule>((Parameters["et_module"] as ArrayParam<string>).Values[0]);
-                _SurfaceRunoff = EnumHelper.FromString<SurfaceRunoffModule>((Parameters["srunoff_module"] as ArrayParam<string>).Values[0]);
-                _StatsON = (Parameters["statsON_OFF"] as ArrayParam<int>).Values[0] == 1 ? true : false;
-                _StatVarFile = (Parameters["stat_var_file"] as ArrayParam<string>).Values[0];
-                _NumStatVars = (Parameters["nstatVars"] as ArrayParam<int>).Values[0];
+                    _PotentialET = EnumHelper.FromString<PETModule>((Parameters["et_module"] as DataCubeParameter<string>)[0, 0, 0]);
+                _SurfaceRunoff = EnumHelper.FromString<SurfaceRunoffModule>((Parameters["srunoff_module"] as DataCubeParameter<string>)[0, 0, 0]);
+                _StatsON = (Parameters["statsON_OFF"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
+                _StatVarFile = (Parameters["stat_var_file"] as DataCubeParameter<string>)[0, 0, 0];
+                _NumStatVars = (Parameters["nstatVars"] as DataCubeParameter<int>)[0, 0, 0];
                 if (Parameters.ContainsKey("statVar_element"))
-                    _StatVarElement = (Parameters["statVar_element"] as ArrayParam<int>).Values;
-                _StatVarNames = (Parameters["statVar_names"] as ArrayParam<string>).Values;
-                _AniOutFileFormat = (FileFormat)(Parameters["aniOutON_OFF"] as ArrayParam<int>).Values[0];
-                _AniOutFileName = (Parameters["ani_output_file"] as ArrayParam<string>).Values[0] + ".nhru";
-                _NumAniOutVar = (Parameters["naniOutVars"] as ArrayParam<int>).Values[0];
-                _AniOutVarNames = (Parameters["aniOutVar_names"] as ArrayParam<string>).Values;
-                _InitVarsFromFile = (Parameters["init_vars_from_file"] as ArrayParam<int>).Values[0] == 1 ? true : false;
+                    _StatVarElement = (Parameters["statVar_element"] as DataCubeParameter<int>).ToVector();
+                _StatVarNames = (Parameters["statVar_names"] as DataCubeParameter<string>).ToVector();
+                _AniOutFileFormat = (FileFormat)(Parameters["aniOutON_OFF"] as DataCubeParameter<int>)[0, 0, 0];
+                _AniOutFileName = (Parameters["ani_output_file"] as DataCubeParameter<string>)[0, 0, 0] + ".nhru";
+                _NumAniOutVar = (Parameters["naniOutVars"] as DataCubeParameter<int>)[0, 0, 0];
+                _AniOutVarNames = (Parameters["aniOutVar_names"] as DataCubeParameter<string>).ToVector();
+                _InitVarsFromFile = (Parameters["init_vars_from_file"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
                 if ((Parameters.Keys.Contains("accu_budget_file")))
-                    _WaterBudgetCsvFile = (Parameters["accu_budget_file"] as ArrayParam<string>).Values[0];
+                    _WaterBudgetCsvFile = (Parameters["accu_budget_file"] as DataCubeParameter<string>)[0, 0, 0];
                 if (Parameters.ContainsKey("mflist_file"))
-                    _MFListFile = (Parameters["mflist_file"] as ArrayParam<string>).Values[0];
+                    _MFListFile = (Parameters["mflist_file"] as DataCubeParameter<string>)[0, 0, 0];
                 if ((Parameters.Keys.Contains("use_gridclimate")))
-                    _UseGridClimate = (Parameters["use_gridclimate"] as ArrayParam<int>).Values[0] == 1 ? true : false;
+                    _UseGridClimate = (Parameters["use_gridclimate"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
                 if ((Parameters.Keys.Contains("sub_climate_file")))
-                    _GridClimateFile = (Parameters["sub_climate_file"] as ArrayParam<string>).Values[0];
+                    _GridClimateFile = (Parameters["sub_climate_file"] as DataCubeParameter<string>)[0, 0, 0];
                 if ((Parameters.Keys.Contains("var_init_file")))
-                    _VarInitFile = (Parameters["var_init_file"] as ArrayParam<string>).Values[0];
+                    _VarInitFile = (Parameters["var_init_file"] as DataCubeParameter<string>)[0, 0, 0];
                 if ((Parameters.Keys.Contains("save_vars_to_file")))
-                    _SaveVarsToFile = (Parameters["save_vars_to_file"] as ArrayParam<int>).Values[0] == 1 ? true : false;
+                    _SaveVarsToFile = (Parameters["save_vars_to_file"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
                 if ((Parameters.Keys.Contains("var_save_file")))
-                    _VarSaveFile = (Parameters["var_save_file"] as ArrayParam<string>).Values[0];
-                _PrintDebug = (Parameters["print_debug"] as ArrayParam<int>).Values[0] == 1 ? true : false;
+                    _VarSaveFile = (Parameters["var_save_file"] as DataCubeParameter<string>)[0, 0, 0];
+                _PrintDebug = (Parameters["print_debug"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
                 if ((Parameters.Keys.Contains("precip_day")))
-                    _PrecipitationFile = (Parameters["precip_day"] as ArrayParam<string>).Values[0];
+                    _PrecipitationFile = (Parameters["precip_day"] as DataCubeParameter<string>)[0, 0, 0];
                 if ((Parameters.Keys.Contains("tmax_day")))
-                    _TempMaxFile = (Parameters["tmax_day"] as ArrayParam<string>).Values[0];
+                    _TempMaxFile = (Parameters["tmax_day"] as DataCubeParameter<string>)[0, 0, 0];
                 if ((Parameters.Keys.Contains("tmin_day")))
-                    _TempMinFile = (Parameters["tmin_day"] as ArrayParam<string>).Values[0];
+                    _TempMinFile = (Parameters["tmin_day"] as DataCubeParameter<string>)[0, 0, 0];
                 if ((Parameters.Keys.Contains("potet_day")))
-                    _PETFile = (Parameters["potet_day"] as ArrayParam<string>).Values[0];
+                    _PETFile = (Parameters["potet_day"] as DataCubeParameter<string>)[0, 0, 0];
                 if (Parameters.ContainsKey("subbasin_flag"))
-                    _SubbasinFlag = (Parameters["subbasin_flag"] as ArrayParam<int>).Values[0] == 1 ? true : false;
-                //if (Parameters.ContainsKey("hftimeunit"))
-                //    _GlobalTimeUnit = (Parameters["hftimeunit"] as ArrayParam<int>).Values[0];
+                    _SubbasinFlag = (Parameters["subbasin_flag"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
                 if (Parameters.ContainsKey("global_time_unit"))
-                    _GlobalTimeUnit = (Parameters["global_time_unit"] as ArrayParam<int>).Values[0];
+                    _GlobalTimeUnit = (Parameters["global_time_unit"] as DataCubeParameter<int>)[0, 0, 0];
                 if (Parameters.ContainsKey("climate_file_format"))
-                    _ClimateInputFormat = EnumHelper.FromString<FileFormat>((Parameters["climate_file_format"] as ArrayParam<int>).Values[0].ToString());
+                    _ClimateInputFormat = EnumHelper.FromString<FileFormat>((Parameters["climate_file_format"] as DataCubeParameter<int>)[0, 0, 0].ToString());
                 if (Parameters.ContainsKey("dynamic_para"))
-                    _dynamic_para = (Parameters["dynamic_para"] as ArrayParam<int>).Values[0] == 1 ? true : false;
+                    _dynamic_para = (Parameters["dynamic_para"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
                 else
                     _dynamic_para = false;
                 if (Parameters.ContainsKey("dynamic_day"))
-                    _dynamic_day = (Parameters["dynamic_day"] as ArrayParam<int>).Values;
+                    _dynamic_day = (Parameters["dynamic_day"] as DataCubeParameter<int>).ToVector();
                 if (Parameters.ContainsKey("dynamic_param_file"))
-                    _dynamic_param_file = (Parameters["dynamic_param_file"] as ArrayParam<string>).Values;
+                    _dynamic_param_file = (Parameters["dynamic_param_file"] as DataCubeParameter<string>).ToVector();
                 if (Parameters.ContainsKey("sub_climate_flag"))
-                    _UseGridClimate = (Parameters["sub_climate_flag"] as ArrayParam<int>).Values[0] == 1 ? true : false;
+                    _UseGridClimate = (Parameters["sub_climate_flag"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
                 else
                     _UseGridClimate = false;
                 if (Parameters.ContainsKey("ani_output_oc"))
-                    _AnimationOutOC = (Parameters["ani_output_oc"] as ArrayParam<int>).Values[0] == 1 ? true : false;
+                    _AnimationOutOC = (Parameters["ani_output_oc"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
                 else
                     _AnimationOutOC = false;
                 if ((Parameters.Keys.Contains("ani_output_oc_file")))
-                    _AnimationOutOCFile = (Parameters["ani_output_oc_file"] as ArrayParam<string>).Values[0];
+                    _AnimationOutOCFile = (Parameters["ani_output_oc_file"] as DataCubeParameter<string>)[0, 0, 0];
                 if ((Parameters.Keys.Contains("wra_module")))
-                    _wra_module = (Parameters["wra_module"] as ArrayParam<string>).Values[0];
+                    _wra_module = (Parameters["wra_module"] as DataCubeParameter<string>)[0, 0, 0];
                 if ((Parameters.Keys.Contains("wra_file")))
-                    _wra_module_file = (Parameters["wra_file"] as ArrayParam<string>).Values[0];
+                    _wra_module_file = (Parameters["wra_file"] as DataCubeParameter<string>)[0, 0, 0];
                 if ((Parameters.Keys.Contains("hydraulics_engine")))
-                    _hydraulics_engine = (Parameters["hydraulics_engine"] as ArrayParam<string>).Values[0];
-                //if (Parameters.ContainsKey("extension_act_flag"))
-                //    _extension_act_flag = (Parameters["extension_act_flag"] as ArrayParam<int>).Values[0] == 1 ? true : false;
-                //else
-                //    _extension_act_flag = false;
+                    _hydraulics_engine = (Parameters["hydraulics_engine"] as DataCubeParameter<string>)[0, 0, 0];
                 if ((Parameters.Keys.Contains("extension_man_file")))
-                    _extension_man_file = (Parameters["extension_man_file"] as ArrayParam<string>).Values[0];
+                    _extension_man_file = (Parameters["extension_man_file"] as DataCubeParameter<string>)[0, 0, 0];
 
                 foreach (var pr in Parameters.Values)
                     pr.Owner = this;
@@ -1245,7 +1222,7 @@ namespace Heiflow.Models.Integration
             TimeService.End = _EndTime;
             TimeService.Timeline.Clear();
             if (Parameters.ContainsKey("global_time_unit"))
-                TimeService.TimeUnit = (Parameters["global_time_unit"] as ArrayParam<int>).Values[0];
+                TimeService.TimeUnit = (Parameters["global_time_unit"] as DataCubeParameter<int>)[0, 0, 0];
             else
                 TimeService.TimeUnit = 4;
             TimeService.UpdateTimeLine();
@@ -1311,54 +1288,61 @@ namespace Heiflow.Models.Integration
 
                     if (ValueType == 1)
                     {
-                        DataCubeParameter<int> gv = new DataCubeParameter<int>(name)
+                        var intbuf = TypeConverterEx.Split<int>(value_str);
+                        DataCubeParameter<int> gv = new DataCubeParameter<int>(1, intbuf.Count(), 1)
                         {
                             ValueType = ValueType,
                             VariableType = ParameterType.Control,
                             Dimension = Dimension,
+                            Name = name,
                             Owner = this
                         };
-                        gv.Values = TypeConverterEx.Split<int>(value_str);
+                        gv[0][":", 0] = intbuf;
                         if (!Parameters.Keys.Contains(gv.Name))
                             Parameters.Add(gv.Name, gv);
                     }
                     else if (ValueType == 2)
                     {
-                        ArrayParam<float> gv = new ArrayParam<float>(name)
+                        var floatbuf = TypeConverterEx.Split<float>(value_str);
+                        DataCubeParameter<float> gv = new DataCubeParameter<float>(1, floatbuf.Count(), 1)
                         {
                             ValueType = ValueType,
                             VariableType = ParameterType.Control,
                             Dimension = Dimension,
+                            Name = name,
                             Owner = this
                         };
-                        gv.Values = TypeConverterEx.Split<float>(value_str);
+                        gv[0][":", 0] = floatbuf;
                         if (!Parameters.Keys.Contains(gv.Name))
                             Parameters.Add(gv.Name, gv);
                     }
                     else if (ValueType == 3)
                     {
-                        ArrayParam<double> gv = new ArrayParam<double>(name)
+                        var doublebuf = TypeConverterEx.Split<double>(value_str);
+                        DataCubeParameter<double> gv = new DataCubeParameter<double>(1, doublebuf.Count(), 1)
                         {
                             ValueType = ValueType,
                             VariableType = ParameterType.Control,
                             Dimension = Dimension,
+                            Name = name,
                             Owner = this
                         };
-                        gv.Values = TypeConverterEx.Split<double>(value_str);
+                        gv[0][":", 0] = doublebuf;
                         if (!Parameters.Keys.Contains(gv.Name))
                             Parameters.Add(gv.Name, gv);
                     }
                     else if (ValueType == 4)
                     {
-                        ArrayParam<string> gv = new ArrayParam<string>(name)
+                        var strbuf = TypeConverterEx.Split<string>(value_str);
+                        DataCubeParameter<string> gv = new DataCubeParameter<string>(1, strbuf.Count(), 1)
                         {
                             ValueType = ValueType,
-
                             VariableType = ParameterType.Control,
                             Dimension = Dimension,
+                            Name = name,
                             Owner = this
                         };
-                        gv.Values = TypeConverterEx.Split<string>(value_str);
+                        gv[0][":", 0] = strbuf;
                         if (!Parameters.Keys.Contains(gv.Name))
                             Parameters.Add(gv.Name, gv);
                     }
@@ -1379,28 +1363,28 @@ namespace Heiflow.Models.Integration
                 var pp = para.Value;
                 if (pp.ValueType == 1)
                 {
-                    var vv = (pp as ArrayParam<int>).Values;
+                    var vv = (pp as DataCubeParameter<int>).ToVector();
                     sw.WriteLine(vv.Length);
                     sw.WriteLine(pp.ValueType);
                     sw.WriteLine(string.Join("\n", vv));
                 }
                 else if (pp.ValueType == 2)
                 {
-                    var vv = (pp as ArrayParam<float>).Values;
+                    var vv = (pp as DataCubeParameter<float>).ToVector();
                     sw.WriteLine(vv.Length);
                     sw.WriteLine(pp.ValueType);
                     sw.WriteLine(string.Join("\n", vv));
                 }
                 else if (pp.ValueType == 3)
                 {
-                    var vv = (pp as ArrayParam<double>).Values;
+                    var vv = (pp as DataCubeParameter<double>).ToVector();
                     sw.WriteLine(vv.Length);
                     sw.WriteLine(pp.ValueType);
                     sw.WriteLine(string.Join("\n", vv));
                 }
                 else if (pp.ValueType == 4)
                 {
-                    var vv = (pp as ArrayParam<string>).Values;
+                    var vv = (pp as DataCubeParameter<string>).ToVector();
                     sw.WriteLine(vv.Length);
                     sw.WriteLine(pp.ValueType);
                     sw.WriteLine(string.Join("\n", vv));

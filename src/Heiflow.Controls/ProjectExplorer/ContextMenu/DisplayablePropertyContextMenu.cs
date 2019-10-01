@@ -49,16 +49,49 @@ namespace Heiflow.Controls.WinForm.MenuItems
     [Export(typeof(IPEContextMenu))]
     public class DisplayablePropertyContextMenu : PEContextMenu, IVariableContextMenu
     {
+        /// <summary>
+        /// Load Data
+        /// </summary>
         public const string _LD = "Load Data";
+        /// <summary>
+        /// Table View
+        /// </summary>
         public const string _AT = "Table View...";
+        /// <summary>
+        /// Map View
+        /// </summary>
         public const string _SOM = "Map View...";
+        /// <summary>
+        /// 3D View
+        /// </summary>
         public const string _VI3 = "3D View...";
+        /// <summary>
+        /// Animate
+        /// </summary>
         public const string _AN = "Animate...";
+        /// <summary>
+        /// Export
+        /// </summary>
         public const string _EX = "Export...";
-        public const string _A2T = "Add to toolbox...";
+        /// <summary>
+        /// Add to toolbox
+        /// </summary>
+        public const string _A2T = "Add to toolbox";
+        /// <summary>
+        /// Edit
+        /// </summary>
         public const string _A2DC = "Edit...";
+        /// <summary>
+        /// Release Data
+        /// </summary>
         public const string _RLEASE = "Release Data";
+        /// <summary>
+        /// Set As Active Data Source
+        /// </summary>
         public const string _SETAS_ACTSource = "Set As Active Data Source";
+        /// <summary>
+        /// Set To Default Values
+        /// </summary>
         protected const string _S2DF = "Set To Default Values";
         
         protected Node _SelectedNode;

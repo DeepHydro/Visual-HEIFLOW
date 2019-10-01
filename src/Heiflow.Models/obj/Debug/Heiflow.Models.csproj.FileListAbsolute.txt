@@ -54,3 +54,11 @@ F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Models\obj\Debug\Heiflow.Models.csproj
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Models\obj\Debug\Heiflow.Models.dll
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Models\obj\Debug\Heiflow.Models.pdb
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Models\obj\Debug\Heiflow.Models.csprojResolveAssemblyReference.cache
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Models\obj\Debug\Heiflow.Models.csprojResolveAssemblyReference.cache
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Models\obj\Debug\Heiflow.Models.Properties.Resources.resources
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Models\obj\Debug\Heiflow.Models.csproj.GenerateResource.Cache
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Models\obj\Debug\Heiflow.Models.dll
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\bin\Debug\Heiflow.Models.dll.config
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\bin\Debug\Heiflow.Models.dll
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\bin\Debug\Heiflow.Models.pdb
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Models\obj\Debug\Heiflow.Models.pdb

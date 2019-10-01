@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DataCubeGrid));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripTextBox_constant = new System.Windows.Forms.ToolStripTextBox();
             this.deaultValueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,12 +80,14 @@
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
             this.importToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
             this.importToolStripMenuItem.Text = "Import...";
+            this.importToolStripMenuItem.Click += new System.EventHandler(this.btnImport_Click);
             // 
             // toolStripTextBox_constant
             // 
             this.toolStripTextBox_constant.Name = "toolStripTextBox_constant";
             this.toolStripTextBox_constant.Size = new System.Drawing.Size(100, 27);
             this.toolStripTextBox_constant.Text = "1";
+            this.toolStripTextBox_constant.KeyUp += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBox_constant_KeyUp);
             // 
             // deaultValueToolStripMenuItem
             // 
@@ -106,6 +108,7 @@
             this.plotToolStripMenuItem.Name = "plotToolStripMenuItem";
             this.plotToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
             this.plotToolStripMenuItem.Text = "Plot";
+            this.plotToolStripMenuItem.Click += new System.EventHandler(this.plotToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
@@ -117,12 +120,14 @@
             this.pasteToolStripMenuItem.Name = "pasteToolStripMenuItem";
             this.pasteToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
             this.pasteToolStripMenuItem.Text = "Paste";
+            this.pasteToolStripMenuItem.Click += new System.EventHandler(this.pasteToolStripMenuItem_Click);
             // 
             // copy_toolStripMenuItem
             // 
             this.copy_toolStripMenuItem.Name = "copy_toolStripMenuItem";
             this.copy_toolStripMenuItem.Size = new System.Drawing.Size(226, 26);
             this.copy_toolStripMenuItem.Text = "Copy";
+            this.copy_toolStripMenuItem.Click += new System.EventHandler(this.copy_toolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
@@ -134,12 +139,14 @@
             this.sortingDescendingToolStripMenuItem.Name = "sortingDescendingToolStripMenuItem";
             this.sortingDescendingToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
             this.sortingDescendingToolStripMenuItem.Text = "Sorting Descending";
+            this.sortingDescendingToolStripMenuItem.Click += new System.EventHandler(this.sortingDescendingToolStripMenuItem_Click);
             // 
             // sortingAcendingToolStripMenuItem
             // 
             this.sortingAcendingToolStripMenuItem.Name = "sortingAcendingToolStripMenuItem";
             this.sortingAcendingToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
             this.sortingAcendingToolStripMenuItem.Text = "Sorting Ascending";
+            this.sortingAcendingToolStripMenuItem.Click += new System.EventHandler(this.sortingAcendingToolStripMenuItem_Click);
             // 
             // contextMenuStrip_datagrid
             // 
@@ -204,18 +211,17 @@
             // 
             this.cmbCell.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbCell.Name = "cmbCell";
-            this.cmbCell.Size = new System.Drawing.Size(125, 28);
+            this.cmbCell.Size = new System.Drawing.Size(100, 28);
             this.cmbCell.ToolTipText = "Select cell";
+            this.cmbCell.SelectedIndexChanged += new System.EventHandler(this.cmbCell_SelectedIndexChanged);
             // 
             // cmbTime
             // 
             this.cmbTime.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbTime.Items.AddRange(new object[] {
-            "Time",
-            "Space"});
             this.cmbTime.Name = "cmbTime";
-            this.cmbTime.Size = new System.Drawing.Size(125, 28);
+            this.cmbTime.Size = new System.Drawing.Size(100, 28);
             this.cmbTime.ToolTipText = "Select time";
+            this.cmbTime.SelectedIndexChanged += new System.EventHandler(this.cmbTime_SelectedIndexChanged);
             // 
             // bindingNavigatorSeparator2
             // 
@@ -292,6 +298,17 @@
             this.bindingNavigator1.DeleteItem = null;
             this.bindingNavigator1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.bindingNavigator1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel2,
+            this.cmbVar,
+            this.toolStripLabel3,
+            this.cmbTime,
+            this.toolStripLabel4,
+            this.cmbCell,
+            this.toolStripSeparator6,
+            this.btnSave,
+            this.btnSave2Excel,
+            this.btnImport,
+            this.toolStripSeparator1,
             this.bindingNavigatorMoveFirstItem,
             this.bindingNavigatorMovePreviousItem,
             this.bindingNavigatorSeparator,
@@ -301,17 +318,6 @@
             this.bindingNavigatorMoveNextItem,
             this.bindingNavigatorMoveLastItem,
             this.bindingNavigatorSeparator2,
-            this.toolStripLabel2,
-            this.cmbVar,
-            this.toolStripLabel3,
-            this.cmbTime,
-            this.toolStripLabel4,
-            this.cmbCell,
-            this.toolStripSeparator1,
-            this.btnSave,
-            this.btnSave2Excel,
-            this.btnImport,
-            this.toolStripSeparator6,
             this.toolStripLabel1});
             this.bindingNavigator1.Location = new System.Drawing.Point(0, 0);
             this.bindingNavigator1.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
@@ -334,8 +340,9 @@
             // 
             this.cmbVar.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbVar.Name = "cmbVar";
-            this.cmbVar.Size = new System.Drawing.Size(125, 28);
+            this.cmbVar.Size = new System.Drawing.Size(100, 28);
             this.cmbVar.ToolTipText = "Select variable";
+            this.cmbVar.SelectedIndexChanged += new System.EventHandler(this.cmbVar_SelectedIndexChanged);
             // 
             // toolStripLabel3
             // 
@@ -366,14 +373,14 @@
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Calibri", 9.5F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.LightGreen;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Calibri", 9.5F);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.LightGreen;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 28);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -381,6 +388,9 @@
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.Size = new System.Drawing.Size(895, 441);
             this.dataGridView1.TabIndex = 5;
+            this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
+            this.dataGridView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView1_KeyDown);
+            this.dataGridView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseDown);
             // 
             // DataCubeGrid
             // 

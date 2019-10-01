@@ -80,9 +80,9 @@ namespace Heiflow.Models.Generic.Parameters
                             {
                                 var vv = GetValue(ap.ParameterName, vec[i].ToString());
                                 if (vv != ZonalStatastics.NoDataValueString)
-                                    ap.Parameter.SetValue(float.Parse(vv), i);
+                                    ap.Parameter.SetValue(0, i, 0, float.Parse(vv));
                                 else
-                                    ap.Parameter.SetValue(ap.DefaultValue, i);
+                                    ap.Parameter.SetValue(0, i, 0, ap.DefaultValue);
                             }
                         }
                         else

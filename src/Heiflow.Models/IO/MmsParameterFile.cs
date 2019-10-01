@@ -81,7 +81,7 @@ namespace Heiflow.Models.IO
                 {
                     i++;
                     newline = lines[i].Trim();
-                    SingleParam<int> gv = new SingleParam<int>(newline)
+                    DataCubeParameter<int> gv = new DataCubeParameter<int>(1,1,1)
                     {
                         Dimension = 1,
                         VariableType = ParameterType.Dimension,
@@ -89,7 +89,7 @@ namespace Heiflow.Models.IO
                     };
                     i++;
                     newline = lines[i].Trim();
-                    gv.Value = int.Parse(newline);
+                    gv[0, 0, 0] = int.Parse(newline);
                     if (!parameters.Keys.Contains(gv.Name))
                         parameters.Add(gv.Name, gv);
                     i++;
@@ -117,74 +117,83 @@ namespace Heiflow.Models.IO
                     i++;
                     newline = lines[i];
                     int ValueType = int.Parse(newline.Trim());
+                    int nrow = int.Parse(parameters[dimensionNames[0]].GetValue(0, 0, 0).ToString());
+                    int ncol = 1;
+                    if (Dimension > 1)
+                        ncol = int.Parse(parameters[dimensionNames[1]].GetValue(0, 0, 0).ToString());
                     if (ValueType == 0)
                     {
-                        ArrayParam<short> gv = new ArrayParam<short>(name)
+                        DataCubeParameter<short> gv = new DataCubeParameter<short>(1,nrow,ncol)
                         {
                             ValueType = ValueType,
                             VariableType = ParameterType.Parameter,
                             Dimension = Dimension,
                             DimensionNames = dimensionNames,
+                            Name=name,
                             Owner = owner,
                         };
-                        gv.Values = TypeConverterEx.ChangeType<short>(lines, i + 1, i + ValueCount);
+                        gv.FromStringArrays(lines, i + 1, i + ValueCount);
                         if (!parameters.Keys.Contains(gv.Name))
                             parameters.Add(gv.Name, gv);
                     }
                     else if (ValueType == 1)
                     {
-                        ArrayParam<int> gv = new ArrayParam<int>(name)
+                        DataCubeParameter<int> gv = new DataCubeParameter<int>(1, nrow, ncol)
                         {
                             ValueType = ValueType,
                             VariableType = ParameterType.Parameter,
                             Dimension = Dimension,
                             DimensionNames = dimensionNames,
+                            Name=name,
                             Owner = owner,
 
                         };
-                        gv.Values = TypeConverterEx.ChangeType<int>(lines, i + 1, i + ValueCount);
+                        gv.FromStringArrays(lines, i + 1, i + ValueCount);
                         if (!parameters.Keys.Contains(gv.Name))
                             parameters.Add(gv.Name, gv);
                     }
                     else if (ValueType == 2)
                     {
-                        ArrayParam<float> gv = new ArrayParam<float>(name)
+                        DataCubeParameter<float> gv = new DataCubeParameter<float>(1,nrow,ncol)
                         {
                             ValueType = ValueType,
                             VariableType = ParameterType.Parameter,
                             Dimension = Dimension,
                             DimensionNames = dimensionNames,
+                            Name=name,
                             Owner = owner
                         };
-                        gv.Values = TypeConverterEx.ChangeType<float>(lines, i + 1, i + ValueCount);
+                        gv.FromStringArrays(lines, i + 1, i + ValueCount);
                         if (!parameters.Keys.Contains(gv.Name))
                             parameters.Add(gv.Name, gv);
                     }
                     else if (ValueType == 3)
                     {
-                        ArrayParam<double> gv = new ArrayParam<double>(name)
+                        DataCubeParameter<double> gv = new DataCubeParameter<double>(1,nrow,ncol)
                         {
                             ValueType = ValueType,
                             VariableType = ParameterType.Parameter,
                             Dimension = Dimension,
                             DimensionNames = dimensionNames,
+                            Name = name,
                             Owner = owner
                         };
-                        gv.Values = TypeConverterEx.ChangeType<double>(lines, i + 1, i + ValueCount);
+                        gv.FromStringArrays(lines, i + 1, i + ValueCount);
                         if (!parameters.Keys.Contains(gv.Name))
                             parameters.Add(gv.Name, gv);
                     }
                     else if (ValueType == 4)
                     {
-                        ArrayParam<string> gv = new ArrayParam<string>(name)
+                        DataCubeParameter<string> gv = new DataCubeParameter<string>(1,nrow,ncol)
                         {
                             ValueType = ValueType,
                             VariableType = ParameterType.Parameter,
                             Dimension = Dimension,
                             DimensionNames = dimensionNames,
+                            Name=name,
                             Owner = owner
                         };
-                        gv.Values = TypeConverterEx.ChangeType<string>(lines, i + 1, i + ValueCount);
+                        gv.FromStringArrays(lines, i + 1, i + ValueCount);
                         if (!parameters.Keys.Contains(gv.Name))
                             parameters.Add(gv.Name, gv);
                     }

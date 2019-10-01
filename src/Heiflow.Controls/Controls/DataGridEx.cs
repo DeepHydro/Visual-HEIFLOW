@@ -309,7 +309,7 @@ namespace Heiflow.Controls.WinForm.Controls
                 DataRow dr = _DataTable.NewRow();
                 for (int j = 0; j < paras.Length; j++)
                 {
-                    dr[j] = paras[j].ArrayObject.GetValue(i);
+                    dr[j] = paras[j].GetValue(0,i,0);
                 }
                 _DataTable.Rows.Add(dr);
             }
@@ -571,7 +571,7 @@ namespace Heiflow.Controls.WinForm.Controls
                                 var dr = _DataTable.Rows[i];
                                 for (int j = 0; j < _Parameters.Length; j++)
                                 {
-                                    _Parameters[j].ArrayObject.SetValue(dr[j], i);
+                                    _Parameters[j].SetValue(0, i, 0, dr[j]);
                                 }
                             }
                         }

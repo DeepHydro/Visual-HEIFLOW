@@ -115,7 +115,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
 
         protected override void Add2Toolbox_Clicked(object sender, EventArgs e)
         {
-            var mat = _Parameter.DataCubeObject;
+            var mat = _Parameter.FloatDataCube;
             if (mat != null)
             {
                 mat.Name = _Parameter.Name;
@@ -126,7 +126,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
 
         protected override void ShowOnMap_Clicked(object sender, EventArgs e)
         {
-            var vector = _Parameter.ToFloat().ToArray();
+            var vector = _Parameter.GetColumnVector(0);
 
             if (vector != null && _Package.Feature != null)
             {
@@ -145,7 +145,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
         protected override void ShowOn3D_Clicked(object sender, EventArgs e)
         {
             var grid = _ProjectService.Project.Model.Grid as MFGrid;
-            var vector = _Parameter.ToFloat().ToArray();
+            var vector = _Parameter.GetColumnVector(0);
             if (vector != null)
             {
                 if (MyAppManager.Instance.AppMode == AppMode.VHF)

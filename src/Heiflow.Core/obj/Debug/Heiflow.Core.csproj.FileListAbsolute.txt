@@ -38,3 +38,10 @@ F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Core\obj\Debug\Heiflow.Core.csproj.Gen
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Core\obj\Debug\Heiflow.Core.dll
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Core\obj\Debug\Heiflow.Core.pdb
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Core\obj\Debug\Heiflow.Core.csprojResolveAssemblyReference.cache
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Bin\debug\Heiflow.Core.dll
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Bin\debug\Heiflow.Core.pdb
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Core\obj\Debug\Heiflow.Core.csprojResolveAssemblyReference.cache
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Core\obj\Debug\Heiflow.Core.Resource.resources
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Core\obj\Debug\Heiflow.Core.csproj.GenerateResource.Cache
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Core\obj\Debug\Heiflow.Core.dll
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Core\obj\Debug\Heiflow.Core.pdb
