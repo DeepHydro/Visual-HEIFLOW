@@ -66,11 +66,11 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Font = new System.Drawing.Font("Calibri", 9.5F);
-            this.btnCancel.Location = new System.Drawing.Point(847, 314);
+            this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnCancel.Location = new System.Drawing.Point(769, 299);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(95, 30);
+            this.btnCancel.Size = new System.Drawing.Size(90, 30);
             this.btnCancel.TabIndex = 16;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -79,11 +79,11 @@
             // btnOk
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOk.Font = new System.Drawing.Font("Calibri", 9.5F);
-            this.btnOk.Location = new System.Drawing.Point(737, 314);
+            this.btnOk.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnOk.Location = new System.Drawing.Point(667, 299);
             this.btnOk.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
             this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(95, 30);
+            this.btnOk.Size = new System.Drawing.Size(90, 30);
             this.btnOk.TabIndex = 17;
             this.btnOk.Text = "OK";
             this.btnOk.UseVisualStyleBackColor = true;
@@ -128,7 +128,7 @@
             this.olvLayerGroup.ShowGroups = false;
             this.olvLayerGroup.ShowImagesOnSubItems = true;
             this.olvLayerGroup.ShowItemToolTips = true;
-            this.olvLayerGroup.Size = new System.Drawing.Size(916, 257);
+            this.olvLayerGroup.Size = new System.Drawing.Size(841, 244);
             this.olvLayerGroup.TabIndex = 21;
             this.olvLayerGroup.UseCellFormatEvents = true;
             this.olvLayerGroup.UseCompatibleStateImageBehavior = false;
@@ -194,15 +194,15 @@
             // numericUpDown1
             // 
             this.numericUpDown1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.numericUpDown1.Font = new System.Drawing.Font("Calibri", 10.5F);
-            this.numericUpDown1.Location = new System.Drawing.Point(209, 314);
+            this.numericUpDown1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.numericUpDown1.Location = new System.Drawing.Point(186, 299);
             this.numericUpDown1.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(77, 29);
+            this.numericUpDown1.Size = new System.Drawing.Size(68, 27);
             this.numericUpDown1.TabIndex = 25;
             this.numericUpDown1.Value = new decimal(new int[] {
             3,
@@ -214,21 +214,21 @@
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Calibri", 10.5F);
-            this.label6.Location = new System.Drawing.Point(9, 314);
+            this.label6.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.label6.Location = new System.Drawing.Point(8, 302);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(194, 22);
+            this.label6.Size = new System.Drawing.Size(175, 20);
             this.label6.TabIndex = 24;
             this.label6.Text = "Number of vertical layers";
             // 
             // btnAdd
             // 
             this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAdd.Font = new System.Drawing.Font("Calibri", 9.5F);
-            this.btnAdd.Location = new System.Drawing.Point(292, 314);
+            this.btnAdd.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnAdd.Location = new System.Drawing.Point(261, 299);
             this.btnAdd.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(95, 30);
+            this.btnAdd.Size = new System.Drawing.Size(90, 30);
             this.btnAdd.TabIndex = 17;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
@@ -237,11 +237,11 @@
             // btnRemove
             // 
             this.btnRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnRemove.Font = new System.Drawing.Font("Calibri", 9.5F);
-            this.btnRemove.Location = new System.Drawing.Point(403, 314);
+            this.btnRemove.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnRemove.Location = new System.Drawing.Point(357, 299);
             this.btnRemove.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
             this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(95, 30);
+            this.btnRemove.Size = new System.Drawing.Size(90, 30);
             this.btnRemove.TabIndex = 17;
             this.btnRemove.Text = "Remove";
             this.btnRemove.UseVisualStyleBackColor = true;
@@ -251,19 +251,19 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPageInitial);
-            this.tabControl1.Location = new System.Drawing.Point(12, 7);
+            this.tabControl1.Location = new System.Drawing.Point(11, 7);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(930, 297);
+            this.tabControl1.Size = new System.Drawing.Size(855, 283);
             this.tabControl1.TabIndex = 26;
             // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.olvLayerGroup);
-            this.tabPage1.Location = new System.Drawing.Point(4, 30);
+            this.tabPage1.Location = new System.Drawing.Point(4, 29);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(922, 263);
+            this.tabPage1.Size = new System.Drawing.Size(847, 250);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "General Properties";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -271,10 +271,10 @@
             // tabPageInitial
             // 
             this.tabPageInitial.Controls.Add(this.olvLayersUniformProp);
-            this.tabPageInitial.Location = new System.Drawing.Point(4, 30);
+            this.tabPageInitial.Location = new System.Drawing.Point(4, 29);
             this.tabPageInitial.Name = "tabPageInitial";
             this.tabPageInitial.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageInitial.Size = new System.Drawing.Size(883, 263);
+            this.tabPageInitial.Size = new System.Drawing.Size(847, 250);
             this.tabPageInitial.TabIndex = 1;
             this.tabPageInitial.Text = "Uniform Properties";
             this.tabPageInitial.UseVisualStyleBackColor = true;
@@ -320,7 +320,7 @@
             this.olvLayersUniformProp.ShowGroups = false;
             this.olvLayersUniformProp.ShowImagesOnSubItems = true;
             this.olvLayersUniformProp.ShowItemToolTips = true;
-            this.olvLayersUniformProp.Size = new System.Drawing.Size(877, 257);
+            this.olvLayersUniformProp.Size = new System.Drawing.Size(841, 244);
             this.olvLayersUniformProp.TabIndex = 22;
             this.olvLayersUniformProp.UseCellFormatEvents = true;
             this.olvLayersUniformProp.UseCompatibleStateImageBehavior = false;
@@ -385,19 +385,20 @@
             // chbUniformProp
             // 
             this.chbUniformProp.AutoSize = true;
-            this.chbUniformProp.Location = new System.Drawing.Point(522, 314);
+            this.chbUniformProp.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.chbUniformProp.Location = new System.Drawing.Point(478, 302);
             this.chbUniformProp.Name = "chbUniformProp";
-            this.chbUniformProp.Size = new System.Drawing.Size(201, 26);
+            this.chbUniformProp.Size = new System.Drawing.Size(183, 24);
             this.chbUniformProp.TabIndex = 27;
             this.chbUniformProp.Text = "Use uniform properties";
             this.chbUniformProp.UseVisualStyleBackColor = true;
             // 
             // LayerGroupForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(947, 353);
+            this.ClientSize = new System.Drawing.Size(865, 336);
             this.Controls.Add(this.chbUniformProp);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.numericUpDown1);
@@ -406,7 +407,7 @@
             this.Controls.Add(this.btnRemove);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.btnOk);
-            this.Font = new System.Drawing.Font("Calibri", 10.5F);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);

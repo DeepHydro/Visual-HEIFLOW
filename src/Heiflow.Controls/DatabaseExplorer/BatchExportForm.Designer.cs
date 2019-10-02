@@ -39,6 +39,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.dateTimePickerEnd = new System.Windows.Forms.DateTimePicker();
             this.nav_bottom = new System.Windows.Forms.BindingNavigator(this.components);
+            this.bindingSourceODM = new System.Windows.Forms.BindingSource(this.components);
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
@@ -56,21 +57,20 @@
             this.btnGetSites = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.dg_site = new System.Windows.Forms.DataGridView();
-            this.bindingSourceODM = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.nav_bottom)).BeginInit();
             this.nav_bottom.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceODM)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg_site)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceODM)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 25);
+            this.label1.Location = new System.Drawing.Point(3, 26);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(115, 19);
+            this.label1.Size = new System.Drawing.Size(118, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "Output directory";
             // 
@@ -78,7 +78,7 @@
             // 
             this.tbPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbPath.Location = new System.Drawing.Point(124, 21);
+            this.tbPath.Location = new System.Drawing.Point(124, 22);
             this.tbPath.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tbPath.Name = "tbPath";
             this.tbPath.Size = new System.Drawing.Size(576, 27);
@@ -87,10 +87,10 @@
             // btnOpenDic
             // 
             this.btnOpenDic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOpenDic.Location = new System.Drawing.Point(720, 19);
+            this.btnOpenDic.Location = new System.Drawing.Point(720, 20);
             this.btnOpenDic.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnOpenDic.Name = "btnOpenDic";
-            this.btnOpenDic.Size = new System.Drawing.Size(94, 30);
+            this.btnOpenDic.Size = new System.Drawing.Size(94, 32);
             this.btnOpenDic.TabIndex = 2;
             this.btnOpenDic.Text = "Browse...";
             this.btnOpenDic.UseVisualStyleBackColor = true;
@@ -99,15 +99,15 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(291, 14);
+            this.label2.Location = new System.Drawing.Point(291, 15);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(39, 19);
+            this.label2.Size = new System.Drawing.Size(40, 20);
             this.label2.TabIndex = 0;
             this.label2.Text = "Start";
             // 
             // dateTimePickerStart
             // 
-            this.dateTimePickerStart.Location = new System.Drawing.Point(342, 10);
+            this.dateTimePickerStart.Location = new System.Drawing.Point(342, 11);
             this.dateTimePickerStart.Name = "dateTimePickerStart";
             this.dateTimePickerStart.Size = new System.Drawing.Size(200, 27);
             this.dateTimePickerStart.TabIndex = 3;
@@ -115,15 +115,15 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(554, 14);
+            this.label3.Location = new System.Drawing.Point(554, 15);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(33, 19);
+            this.label3.Size = new System.Drawing.Size(34, 20);
             this.label3.TabIndex = 0;
             this.label3.Text = "End";
             // 
             // dateTimePickerEnd
             // 
-            this.dateTimePickerEnd.Location = new System.Drawing.Point(599, 10);
+            this.dateTimePickerEnd.Location = new System.Drawing.Point(599, 11);
             this.dateTimePickerEnd.Name = "dateTimePickerEnd";
             this.dateTimePickerEnd.Size = new System.Drawing.Size(200, 27);
             this.dateTimePickerEnd.TabIndex = 3;
@@ -228,7 +228,7 @@
             // 
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
             this.toolStripProgressBar1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(200, 24);
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(200, 25);
             this.toolStripProgressBar1.Visible = false;
             // 
             // panel1
@@ -238,18 +238,18 @@
             this.panel1.Controls.Add(this.btnExport);
             this.panel1.Controls.Add(this.btnOpenDic);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 532);
+            this.panel1.Location = new System.Drawing.Point(0, 560);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(937, 64);
+            this.panel1.Size = new System.Drawing.Size(937, 67);
             this.panel1.TabIndex = 6;
             // 
             // btnExport
             // 
             this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExport.Location = new System.Drawing.Point(833, 18);
+            this.btnExport.Location = new System.Drawing.Point(833, 19);
             this.btnExport.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(94, 30);
+            this.btnExport.Size = new System.Drawing.Size(94, 32);
             this.btnExport.TabIndex = 2;
             this.btnExport.Text = "Export";
             this.btnExport.UseVisualStyleBackColor = true;
@@ -267,24 +267,24 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 27);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(937, 51);
+            this.panel2.Size = new System.Drawing.Size(937, 54);
             this.panel2.TabIndex = 7;
             // 
             // cmbVariables
             // 
             this.cmbVariables.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbVariables.FormattingEnabled = true;
-            this.cmbVariables.Location = new System.Drawing.Point(77, 10);
+            this.cmbVariables.Location = new System.Drawing.Point(77, 11);
             this.cmbVariables.Name = "cmbVariables";
-            this.cmbVariables.Size = new System.Drawing.Size(202, 27);
+            this.cmbVariables.Size = new System.Drawing.Size(202, 28);
             this.cmbVariables.TabIndex = 4;
             // 
             // btnGetSites
             // 
-            this.btnGetSites.Location = new System.Drawing.Point(833, 8);
+            this.btnGetSites.Location = new System.Drawing.Point(819, 8);
             this.btnGetSites.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnGetSites.Name = "btnGetSites";
-            this.btnGetSites.Size = new System.Drawing.Size(94, 30);
+            this.btnGetSites.Size = new System.Drawing.Size(100, 30);
             this.btnGetSites.TabIndex = 2;
             this.btnGetSites.Text = "Get Sites";
             this.btnGetSites.UseVisualStyleBackColor = true;
@@ -293,9 +293,9 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 14);
+            this.label4.Location = new System.Drawing.Point(3, 15);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(62, 19);
+            this.label4.Size = new System.Drawing.Size(63, 20);
             this.label4.TabIndex = 0;
             this.label4.Text = "Variable";
             // 
@@ -308,30 +308,30 @@
             this.dg_site.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Calibri", 9.5F);
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F);
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.LightGreen;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dg_site.DefaultCellStyle = dataGridViewCellStyle1;
             this.dg_site.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dg_site.Location = new System.Drawing.Point(0, 78);
+            this.dg_site.Location = new System.Drawing.Point(0, 81);
             this.dg_site.Margin = new System.Windows.Forms.Padding(4);
             this.dg_site.Name = "dg_site";
             this.dg_site.RowTemplate.Height = 23;
-            this.dg_site.Size = new System.Drawing.Size(937, 454);
+            this.dg_site.Size = new System.Drawing.Size(937, 479);
             this.dg_site.TabIndex = 8;
             // 
             // BatchExportForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(937, 596);
+            this.ClientSize = new System.Drawing.Size(937, 627);
             this.Controls.Add(this.dg_site);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.nav_bottom);
-            this.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "BatchExportForm";
@@ -340,12 +340,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.nav_bottom)).EndInit();
             this.nav_bottom.ResumeLayout(false);
             this.nav_bottom.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceODM)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg_site)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceODM)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -114,7 +114,7 @@
             // 
             // toolStrip1
             // 
-            this.toolStrip1.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.toolStrip1.Font = new System.Drawing.Font("Calibri", 9F);
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -129,7 +129,7 @@
             this.btnStat});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1029, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(1024, 27);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -206,7 +206,7 @@
             this.toolStripDropDownButton1.Image = global::Heiflow.Controls.WinForm.Properties.Resources.Chart;
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(33, 24);
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(34, 24);
             this.toolStripDropDownButton1.Text = "Select Figure Type";
             // 
             // menu_line
@@ -215,7 +215,7 @@
             this.menu_line.CheckState = System.Windows.Forms.CheckState.Checked;
             this.menu_line.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GraphVerticalLine16;
             this.menu_line.Name = "menu_line";
-            this.menu_line.Size = new System.Drawing.Size(116, 26);
+            this.menu_line.Size = new System.Drawing.Size(125, 26);
             this.menu_line.Text = "Line";
             this.menu_line.Click += new System.EventHandler(this.menu_line_Click);
             // 
@@ -223,7 +223,7 @@
             // 
             this.menu_scatter.Image = global::Heiflow.Controls.WinForm.Properties.Resources.SpatialAnalystTrainingSampleScatterplots16;
             this.menu_scatter.Name = "menu_scatter";
-            this.menu_scatter.Size = new System.Drawing.Size(116, 26);
+            this.menu_scatter.Size = new System.Drawing.Size(125, 26);
             this.menu_scatter.Text = "Scatter";
             this.menu_scatter.Click += new System.EventHandler(this.menu_scatter_Click);
             // 
@@ -253,8 +253,8 @@
             // splitContainerMain.Panel2
             // 
             this.splitContainerMain.Panel2.Controls.Add(this.tabControlRight);
-            this.splitContainerMain.Size = new System.Drawing.Size(1029, 671);
-            this.splitContainerMain.SplitterDistance = 748;
+            this.splitContainerMain.Size = new System.Drawing.Size(1024, 574);
+            this.splitContainerMain.SplitterDistance = 744;
             this.splitContainerMain.TabIndex = 0;
             // 
             // splitContainerChart
@@ -271,8 +271,8 @@
             // splitContainerChart.Panel2
             // 
             this.splitContainerChart.Panel2.Controls.Add(this.lvStatistics);
-            this.splitContainerChart.Size = new System.Drawing.Size(748, 671);
-            this.splitContainerChart.SplitterDistance = 506;
+            this.splitContainerChart.Size = new System.Drawing.Size(744, 574);
+            this.splitContainerChart.SplitterDistance = 432;
             this.splitContainerChart.TabIndex = 2;
             // 
             // chart1
@@ -338,7 +338,7 @@
             legend1.Position.Y = 5F;
             this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(0, 0);
-            this.chart1.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
+            this.chart1.Margin = new System.Windows.Forms.Padding(3, 3, 3, 7);
             this.chart1.Name = "chart1";
             this.chart1.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Bright;
             series1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(26)))), ((int)(((byte)(59)))), ((int)(((byte)(105)))));
@@ -350,7 +350,7 @@
             series1.ShadowColor = System.Drawing.Color.Black;
             series1.ShadowOffset = 1;
             this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(748, 506);
+            this.chart1.Size = new System.Drawing.Size(744, 432);
             this.chart1.TabIndex = 1;
             // 
             // contextMenuStripChart
@@ -362,33 +362,33 @@
             this.toolStripSeparator3,
             this.chartPropertyToolStripMenuItem});
             this.contextMenuStripChart.Name = "contextMenuStripChart";
-            this.contextMenuStripChart.Size = new System.Drawing.Size(138, 88);
+            this.contextMenuStripChart.Size = new System.Drawing.Size(155, 88);
             this.contextMenuStripChart.Click += new System.EventHandler(this.btnZoomFull_Click);
             // 
             // zoomFullToolStripMenuItem
             // 
             this.zoomFullToolStripMenuItem.Image = global::Heiflow.Controls.WinForm.Properties.Resources.ZoomFixedZoomOut32;
             this.zoomFullToolStripMenuItem.Name = "zoomFullToolStripMenuItem";
-            this.zoomFullToolStripMenuItem.Size = new System.Drawing.Size(137, 26);
+            this.zoomFullToolStripMenuItem.Size = new System.Drawing.Size(154, 26);
             this.zoomFullToolStripMenuItem.Text = "Zoom Full";
             // 
             // clearToolStripMenuItem
             // 
             this.clearToolStripMenuItem.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GenericDeleteRed32;
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(137, 26);
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(154, 26);
             this.clearToolStripMenuItem.Text = "Clear";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(134, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(151, 6);
             // 
             // chartPropertyToolStripMenuItem
             // 
             this.chartPropertyToolStripMenuItem.Name = "chartPropertyToolStripMenuItem";
-            this.chartPropertyToolStripMenuItem.Size = new System.Drawing.Size(137, 26);
+            this.chartPropertyToolStripMenuItem.Size = new System.Drawing.Size(154, 26);
             this.chartPropertyToolStripMenuItem.Text = "Property";
             this.chartPropertyToolStripMenuItem.Click += new System.EventHandler(this.chartPropertyToolStripMenuItem_Click);
             // 
@@ -401,6 +401,7 @@
             this.columnHeader7,
             this.columnHeader8});
             this.lvStatistics.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvStatistics.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.lvStatistics.GridLines = true;
             listViewItem1.StateImageIndex = 0;
             listViewItem2.Checked = true;
@@ -418,7 +419,7 @@
             this.lvStatistics.LabelEdit = true;
             this.lvStatistics.Location = new System.Drawing.Point(0, 0);
             this.lvStatistics.Name = "lvStatistics";
-            this.lvStatistics.Size = new System.Drawing.Size(748, 161);
+            this.lvStatistics.Size = new System.Drawing.Size(744, 138);
             this.lvStatistics.TabIndex = 4;
             this.lvStatistics.UseCompatibleStateImageBehavior = false;
             this.lvStatistics.View = System.Windows.Forms.View.Details;
@@ -452,16 +453,16 @@
             this.tabControlRight.Multiline = true;
             this.tabControlRight.Name = "tabControlRight";
             this.tabControlRight.SelectedIndex = 0;
-            this.tabControlRight.Size = new System.Drawing.Size(277, 671);
+            this.tabControlRight.Size = new System.Drawing.Size(276, 574);
             this.tabControlRight.TabIndex = 1;
             // 
             // tabPageSeries
             // 
             this.tabPageSeries.Controls.Add(this.checkedListBox1);
-            this.tabPageSeries.Location = new System.Drawing.Point(4, 24);
+            this.tabPageSeries.Location = new System.Drawing.Point(4, 29);
             this.tabPageSeries.Name = "tabPageSeries";
             this.tabPageSeries.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSeries.Size = new System.Drawing.Size(269, 643);
+            this.tabPageSeries.Size = new System.Drawing.Size(268, 541);
             this.tabPageSeries.TabIndex = 0;
             this.tabPageSeries.Text = "Series";
             this.tabPageSeries.UseVisualStyleBackColor = true;
@@ -478,7 +479,7 @@
             this.checkedListBox1.Location = new System.Drawing.Point(3, 3);
             this.checkedListBox1.MultiColumn = true;
             this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(263, 637);
+            this.checkedListBox1.Size = new System.Drawing.Size(262, 535);
             this.checkedListBox1.TabIndex = 0;
             this.checkedListBox1.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBox1_ItemCheck);
             this.checkedListBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.checkedListBox1_MouseUp);
@@ -495,12 +496,12 @@
             this.toolStripSeparator4,
             this.styleToolStripMenuItem});
             this.contextMenuStripItems.Name = "contextMenuStripItems";
-            this.contextMenuStripItems.Size = new System.Drawing.Size(148, 146);
+            this.contextMenuStripItems.Size = new System.Drawing.Size(167, 146);
             // 
             // zoomToToolStripMenuItem
             // 
             this.zoomToToolStripMenuItem.Name = "zoomToToolStripMenuItem";
-            this.zoomToToolStripMenuItem.Size = new System.Drawing.Size(147, 26);
+            this.zoomToToolStripMenuItem.Size = new System.Drawing.Size(166, 26);
             this.zoomToToolStripMenuItem.Text = "Zoom to";
             this.zoomToToolStripMenuItem.Click += new System.EventHandler(this.zoomToToolStripMenuItem_Click);
             // 
@@ -508,48 +509,48 @@
             // 
             this.menu_trend.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GeostatisticalGraphGeneralQQPlot16;
             this.menu_trend.Name = "menu_trend";
-            this.menu_trend.Size = new System.Drawing.Size(147, 26);
+            this.menu_trend.Size = new System.Drawing.Size(166, 26);
             this.menu_trend.Text = "Trend";
             this.menu_trend.Click += new System.EventHandler(this.menu_trend_Click);
             // 
             // viewDataToolStripMenuItem
             // 
             this.viewDataToolStripMenuItem.Name = "viewDataToolStripMenuItem";
-            this.viewDataToolStripMenuItem.Size = new System.Drawing.Size(147, 26);
+            this.viewDataToolStripMenuItem.Size = new System.Drawing.Size(166, 26);
             this.viewDataToolStripMenuItem.Text = "View Data...";
             this.viewDataToolStripMenuItem.Click += new System.EventHandler(this.viewDataToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(144, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(163, 6);
             // 
             // removeToolStripMenuItem
             // 
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(147, 26);
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(166, 26);
             this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(144, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(163, 6);
             // 
             // styleToolStripMenuItem
             // 
             this.styleToolStripMenuItem.Name = "styleToolStripMenuItem";
-            this.styleToolStripMenuItem.Size = new System.Drawing.Size(147, 26);
+            this.styleToolStripMenuItem.Size = new System.Drawing.Size(166, 26);
             this.styleToolStripMenuItem.Text = "Property";
             this.styleToolStripMenuItem.Click += new System.EventHandler(this.styleToolStripMenuItem_Click);
             // 
             // tabPageProperty
             // 
             this.tabPageProperty.Controls.Add(this.propertyGrid1);
-            this.tabPageProperty.Location = new System.Drawing.Point(4, 22);
+            this.tabPageProperty.Location = new System.Drawing.Point(4, 30);
             this.tabPageProperty.Name = "tabPageProperty";
             this.tabPageProperty.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageProperty.Size = new System.Drawing.Size(269, 645);
+            this.tabPageProperty.Size = new System.Drawing.Size(268, 541);
             this.tabPageProperty.TabIndex = 1;
             this.tabPageProperty.Text = "Property";
             this.tabPageProperty.UseVisualStyleBackColor = true;
@@ -561,20 +562,20 @@
             this.propertyGrid1.LineColor = System.Drawing.SystemColors.ControlDark;
             this.propertyGrid1.Location = new System.Drawing.Point(3, 3);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(263, 639);
+            this.propertyGrid1.Size = new System.Drawing.Size(262, 535);
             this.propertyGrid1.TabIndex = 0;
             // 
             // WinChart
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.Controls.Add(this.splitContainerMain);
             this.Controls.Add(this.toolStrip1);
-            this.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "WinChart";
-            this.Size = new System.Drawing.Size(1029, 698);
+            this.Size = new System.Drawing.Size(1024, 601);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.splitContainerMain.Panel1.ResumeLayout(false);

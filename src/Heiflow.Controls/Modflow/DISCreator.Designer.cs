@@ -43,37 +43,42 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(789, 512);
+            this.tabControl1.Size = new System.Drawing.Size(789, 539);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPageCorrectElev
             // 
             this.tabPageCorrectElev.Controls.Add(this.dataGridEx1);
-            this.tabPageCorrectElev.Location = new System.Drawing.Point(4, 24);
+            this.tabPageCorrectElev.Location = new System.Drawing.Point(4, 29);
             this.tabPageCorrectElev.Name = "tabPageCorrectElev";
             this.tabPageCorrectElev.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCorrectElev.Size = new System.Drawing.Size(781, 484);
+            this.tabPageCorrectElev.Size = new System.Drawing.Size(781, 506);
             this.tabPageCorrectElev.TabIndex = 0;
             this.tabPageCorrectElev.Text = "Correct Elevation";
             this.tabPageCorrectElev.UseVisualStyleBackColor = true;
             // 
             // dataGridEx1
             // 
+            this.dataGridEx1.DataObjectName = "";
             this.dataGridEx1.DataTable = null;
             this.dataGridEx1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridEx1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.dataGridEx1.Location = new System.Drawing.Point(3, 3);
             this.dataGridEx1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dataGridEx1.Name = "dataGridEx1";
-            this.dataGridEx1.Size = new System.Drawing.Size(775, 478);
+            this.dataGridEx1.ShowImport = true;
+            this.dataGridEx1.ShowSave2Excel = true;
+            this.dataGridEx1.ShowSaveButton = true;
+            this.dataGridEx1.Size = new System.Drawing.Size(775, 500);
             this.dataGridEx1.TabIndex = 0;
             // 
             // DISCreator
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(789, 512);
+            this.ClientSize = new System.Drawing.Size(789, 539);
             this.Controls.Add(this.tabControl1);
-            this.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "DISCreator";

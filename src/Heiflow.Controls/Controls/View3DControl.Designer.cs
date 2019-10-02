@@ -38,12 +38,12 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnShowSeries = new System.Windows.Forms.ToolStripButton();
             this.cmbColorMap = new System.Windows.Forms.ToolStripComboBox();
+            this.cmbZScale = new System.Windows.Forms.ToolStripComboBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControlRight = new System.Windows.Forms.TabControl();
             this.tabPageSeries = new System.Windows.Forms.TabPage();
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.cmbZScale = new System.Windows.Forms.ToolStripComboBox();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -60,15 +60,16 @@
             this.ilPanel1.Editor = null;
             this.ilPanel1.Font = new System.Drawing.Font("Calibri", 9.5F);
             this.ilPanel1.Location = new System.Drawing.Point(0, 0);
-            this.ilPanel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ilPanel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ilPanel1.Name = "ilPanel1";
             this.ilPanel1.Rectangle = ((System.Drawing.RectangleF)(resources.GetObject("ilPanel1.Rectangle")));
             this.ilPanel1.ShowUIControls = false;
-            this.ilPanel1.Size = new System.Drawing.Size(656, 525);
+            this.ilPanel1.Size = new System.Drawing.Size(829, 525);
             this.ilPanel1.TabIndex = 0;
             // 
             // toolStrip1
             // 
+            this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnLengend,
@@ -80,7 +81,7 @@
             this.cmbZScale});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(834, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(1054, 28);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -90,7 +91,7 @@
             this.btnLengend.Image = global::Heiflow.Controls.WinForm.Properties.Resources.if_stock_chart_toggle_legend_93841;
             this.btnLengend.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLengend.Name = "btnLengend";
-            this.btnLengend.Size = new System.Drawing.Size(24, 24);
+            this.btnLengend.Size = new System.Drawing.Size(24, 25);
             this.btnLengend.Text = "Show legend";
             // 
             // btnRemoveExisted
@@ -102,7 +103,7 @@
             this.btnRemoveExisted.Image = global::Heiflow.Controls.WinForm.Properties.Resources.if_selected_delete_37293;
             this.btnRemoveExisted.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRemoveExisted.Name = "btnRemoveExisted";
-            this.btnRemoveExisted.Size = new System.Drawing.Size(24, 24);
+            this.btnRemoveExisted.Size = new System.Drawing.Size(24, 25);
             this.btnRemoveExisted.Text = "Remove existed graphy";
             // 
             // btnClear
@@ -111,14 +112,14 @@
             this.btnClear.Image = global::Heiflow.Controls.WinForm.Properties.Resources.if_edit_clear_15273;
             this.btnClear.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(24, 24);
+            this.btnClear.Size = new System.Drawing.Size(24, 25);
             this.btnClear.Text = "Clear";
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 28);
             // 
             // btnShowSeries
             // 
@@ -128,7 +129,7 @@
             this.btnShowSeries.Image = global::Heiflow.Controls.WinForm.Properties.Resources.if_Side_Panel;
             this.btnShowSeries.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnShowSeries.Name = "btnShowSeries";
-            this.btnShowSeries.Size = new System.Drawing.Size(24, 24);
+            this.btnShowSeries.Size = new System.Drawing.Size(24, 25);
             this.btnShowSeries.Text = "Series Panel";
             this.btnShowSeries.Click += new System.EventHandler(this.btnShowSeries_Click);
             // 
@@ -155,67 +156,7 @@
             "White",
             "Winter"});
             this.cmbColorMap.Name = "cmbColorMap";
-            this.cmbColorMap.Size = new System.Drawing.Size(121, 27);
-            // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 27);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.ilPanel1);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.tabControlRight);
-            this.splitContainer1.Size = new System.Drawing.Size(834, 525);
-            this.splitContainer1.SplitterDistance = 656;
-            this.splitContainer1.TabIndex = 2;
-            // 
-            // tabControlRight
-            // 
-            this.tabControlRight.Controls.Add(this.tabPageSeries);
-            this.tabControlRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlRight.Location = new System.Drawing.Point(0, 0);
-            this.tabControlRight.Multiline = true;
-            this.tabControlRight.Name = "tabControlRight";
-            this.tabControlRight.SelectedIndex = 0;
-            this.tabControlRight.Size = new System.Drawing.Size(174, 525);
-            this.tabControlRight.TabIndex = 2;
-            // 
-            // tabPageSeries
-            // 
-            this.tabPageSeries.Controls.Add(this.checkedListBox1);
-            this.tabPageSeries.Location = new System.Drawing.Point(4, 22);
-            this.tabPageSeries.Name = "tabPageSeries";
-            this.tabPageSeries.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageSeries.Size = new System.Drawing.Size(166, 499);
-            this.tabPageSeries.TabIndex = 0;
-            this.tabPageSeries.Text = "Series";
-            this.tabPageSeries.UseVisualStyleBackColor = true;
-            // 
-            // checkedListBox1
-            // 
-            this.checkedListBox1.ColumnWidth = 400;
-            this.checkedListBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.HorizontalScrollbar = true;
-            this.checkedListBox1.Items.AddRange(new object[] {
-            "series1"});
-            this.checkedListBox1.Location = new System.Drawing.Point(3, 3);
-            this.checkedListBox1.MultiColumn = true;
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(160, 493);
-            this.checkedListBox1.TabIndex = 0;
-            this.checkedListBox1.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBox1_ItemCheck);
-            // 
-            // imageList1
-            // 
-            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.cmbColorMap.Size = new System.Drawing.Size(160, 28);
             // 
             // cmbZScale
             // 
@@ -229,17 +170,84 @@
             "5.0",
             "10.0"});
             this.cmbZScale.Name = "cmbZScale";
-            this.cmbZScale.Size = new System.Drawing.Size(121, 27);
+            this.cmbZScale.Size = new System.Drawing.Size(160, 28);
             this.cmbZScale.Text = "1.0";
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 28);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.ilPanel1);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.tabControlRight);
+            this.splitContainer1.Size = new System.Drawing.Size(1054, 525);
+            this.splitContainer1.SplitterDistance = 829;
+            this.splitContainer1.SplitterWidth = 5;
+            this.splitContainer1.TabIndex = 2;
+            // 
+            // tabControlRight
+            // 
+            this.tabControlRight.Controls.Add(this.tabPageSeries);
+            this.tabControlRight.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControlRight.Location = new System.Drawing.Point(0, 0);
+            this.tabControlRight.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.tabControlRight.Multiline = true;
+            this.tabControlRight.Name = "tabControlRight";
+            this.tabControlRight.SelectedIndex = 0;
+            this.tabControlRight.Size = new System.Drawing.Size(220, 525);
+            this.tabControlRight.TabIndex = 2;
+            // 
+            // tabPageSeries
+            // 
+            this.tabPageSeries.Controls.Add(this.checkedListBox1);
+            this.tabPageSeries.Location = new System.Drawing.Point(4, 29);
+            this.tabPageSeries.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.tabPageSeries.Name = "tabPageSeries";
+            this.tabPageSeries.Padding = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.tabPageSeries.Size = new System.Drawing.Size(212, 492);
+            this.tabPageSeries.TabIndex = 0;
+            this.tabPageSeries.Text = "Series";
+            this.tabPageSeries.UseVisualStyleBackColor = true;
+            // 
+            // checkedListBox1
+            // 
+            this.checkedListBox1.ColumnWidth = 400;
+            this.checkedListBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.checkedListBox1.FormattingEnabled = true;
+            this.checkedListBox1.HorizontalScrollbar = true;
+            this.checkedListBox1.Items.AddRange(new object[] {
+            "series1"});
+            this.checkedListBox1.Location = new System.Drawing.Point(4, 6);
+            this.checkedListBox1.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.checkedListBox1.MultiColumn = true;
+            this.checkedListBox1.Name = "checkedListBox1";
+            this.checkedListBox1.Size = new System.Drawing.Size(204, 480);
+            this.checkedListBox1.TabIndex = 0;
+            this.checkedListBox1.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBox1_ItemCheck);
+            // 
+            // imageList1
+            // 
+            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // View3DControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip1);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.Name = "View3DControl";
-            this.Size = new System.Drawing.Size(834, 552);
+            this.Size = new System.Drawing.Size(1054, 553);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);

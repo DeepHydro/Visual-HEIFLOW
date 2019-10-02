@@ -38,10 +38,10 @@
             // progressBar1
             // 
             this.progressBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.progressBar1.Location = new System.Drawing.Point(0, 551);
+            this.progressBar1.Location = new System.Drawing.Point(0, 560);
             this.progressBar1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(474, 30);
+            this.progressBar1.Size = new System.Drawing.Size(474, 17);
             this.progressBar1.TabIndex = 1;
             // 
             // propertyGrid1
@@ -52,7 +52,7 @@
             this.propertyGrid1.Location = new System.Drawing.Point(0, 2);
             this.propertyGrid1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(474, 483);
+            this.propertyGrid1.Size = new System.Drawing.Size(474, 502);
             this.propertyGrid1.TabIndex = 3;
             // 
             // btnCancel
@@ -60,10 +60,10 @@
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Font = new System.Drawing.Font("Calibri", 9.5F);
-            this.btnCancel.Location = new System.Drawing.Point(367, 502);
+            this.btnCancel.Location = new System.Drawing.Point(362, 517);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(95, 30);
+            this.btnCancel.Size = new System.Drawing.Size(100, 30);
             this.btnCancel.TabIndex = 8;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -72,10 +72,10 @@
             // 
             this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExport.Font = new System.Drawing.Font("Calibri", 9.5F);
-            this.btnExport.Location = new System.Drawing.Point(246, 502);
+            this.btnExport.Location = new System.Drawing.Point(232, 517);
             this.btnExport.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(95, 30);
+            this.btnExport.Size = new System.Drawing.Size(100, 30);
             this.btnExport.TabIndex = 9;
             this.btnExport.Text = "Export";
             this.btnExport.UseVisualStyleBackColor = true;
@@ -83,14 +83,14 @@
             // 
             // ExportDataForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(474, 581);
+            this.ClientSize = new System.Drawing.Size(474, 577);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnExport);
             this.Controls.Add(this.propertyGrid1);
             this.Controls.Add(this.progressBar1);
-            this.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);

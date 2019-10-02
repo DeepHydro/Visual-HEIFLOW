@@ -54,7 +54,7 @@ namespace Heiflow.Controls.WinForm.Display
             // cmbStressPeriod
             // 
             this.cmbStressPeriod.Name = "cmbStressPeriod";
-            this.cmbStressPeriod.Size = new System.Drawing.Size(121, 25);
+            this.cmbStressPeriod.Size = new System.Drawing.Size(121, 28);
             // 
             // toolStripSeparator1
             // 
@@ -150,16 +150,19 @@ namespace Heiflow.Controls.WinForm.Display
             this.dataGridEx1.DataObjectName = "matrix";
             this.dataGridEx1.DataTable = null;
             this.dataGridEx1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridEx1.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.dataGridEx1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.dataGridEx1.Location = new System.Drawing.Point(0, 0);
             this.dataGridEx1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dataGridEx1.Name = "dataGridEx1";
+            this.dataGridEx1.ShowImport = true;
+            this.dataGridEx1.ShowSave2Excel = true;
+            this.dataGridEx1.ShowSaveButton = true;
             this.dataGridEx1.Size = new System.Drawing.Size(734, 356);
             this.dataGridEx1.TabIndex = 2;
             // 
             // LookupTableForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(734, 415);
             this.Controls.Add(this.dataGridEx1);

@@ -44,17 +44,20 @@
             // 
             this.view3DControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.view3DControl1.Location = new System.Drawing.Point(0, 0);
+            this.view3DControl1.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
             this.view3DControl1.Name = "view3DControl1";
-            this.view3DControl1.Size = new System.Drawing.Size(1085, 526);
+            this.view3DControl1.Size = new System.Drawing.Size(862, 548);
             this.view3DControl1.TabIndex = 0;
             // 
             // Win3DView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1085, 526);
+            this.ClientSize = new System.Drawing.Size(862, 548);
             this.Controls.Add(this.view3DControl1);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Win3DView";
             this.Text = "3D View";
             this.ResumeLayout(false);

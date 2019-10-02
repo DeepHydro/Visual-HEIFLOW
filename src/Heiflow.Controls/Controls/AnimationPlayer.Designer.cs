@@ -58,14 +58,14 @@
             this.btnPlay});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(432, 28);
+            this.toolStrip1.Size = new System.Drawing.Size(384, 28);
             this.toolStrip1.TabIndex = 10;
             this.toolStrip1.Text = "toolStrip1";
             // 
             // cmbAnimators
             // 
             this.cmbAnimators.Name = "cmbAnimators";
-            this.cmbAnimators.Size = new System.Drawing.Size(146, 28);
+            this.cmbAnimators.Size = new System.Drawing.Size(130, 28);
             this.cmbAnimators.SelectedIndexChanged += new System.EventHandler(this.cmbAnimators_SelectedIndexChanged);
             // 
             // btnPlay
@@ -86,7 +86,7 @@
             this.listBox_timeline.ItemHeight = 21;
             this.listBox_timeline.Location = new System.Drawing.Point(0, 0);
             this.listBox_timeline.Name = "listBox_timeline";
-            this.listBox_timeline.Size = new System.Drawing.Size(432, 294);
+            this.listBox_timeline.Size = new System.Drawing.Size(384, 279);
             this.listBox_timeline.TabIndex = 12;
             this.listBox_timeline.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.listBoxTimeLine_DrawItem);
             this.listBox_timeline.SelectedIndexChanged += new System.EventHandler(this.listBoxTimeLine_SelectedIndexChanged);
@@ -121,7 +121,7 @@
             this.olvDataCubeTree.SelectedForeColor = System.Drawing.Color.White;
             this.olvDataCubeTree.ShowGroups = false;
             this.olvDataCubeTree.ShowKeyColumns = false;
-            this.olvDataCubeTree.Size = new System.Drawing.Size(432, 298);
+            this.olvDataCubeTree.Size = new System.Drawing.Size(384, 283);
             this.olvDataCubeTree.TabIndex = 13;
             this.olvDataCubeTree.UnfocusedSelectedBackColor = System.Drawing.Color.LimeGreen;
             this.olvDataCubeTree.UnfocusedSelectedForeColor = System.Drawing.Color.White;
@@ -172,8 +172,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.listBox_timeline);
-            this.splitContainer1.Size = new System.Drawing.Size(432, 596);
-            this.splitContainer1.SplitterDistance = 298;
+            this.splitContainer1.Size = new System.Drawing.Size(384, 566);
+            this.splitContainer1.SplitterDistance = 283;
             this.splitContainer1.TabIndex = 14;
             // 
             // imageList1
@@ -185,14 +185,14 @@
             // 
             // AnimationPlayer
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip1);
-            this.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "AnimationPlayer";
-            this.Size = new System.Drawing.Size(432, 624);
+            this.Size = new System.Drawing.Size(384, 594);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.olvDataCubeTree)).EndInit();

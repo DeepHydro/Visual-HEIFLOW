@@ -60,7 +60,7 @@
             this.btnRemoveDB});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(280, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(373, 27);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -99,20 +99,20 @@
             this.toolStripDropDownButton1.Image = global::Heiflow.Controls.WinForm.Properties.Resources.search_db;
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(33, 24);
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(34, 24);
             this.toolStripDropDownButton1.Text = "View";
             // 
             // btnGroupBySiteState
             // 
             this.btnGroupBySiteState.Name = "btnGroupBySiteState";
-            this.btnGroupBySiteState.Size = new System.Drawing.Size(213, 22);
+            this.btnGroupBySiteState.Size = new System.Drawing.Size(254, 26);
             this.btnGroupBySiteState.Text = "Group By Site State";
             this.btnGroupBySiteState.Click += new System.EventHandler(this.btnGroupBySiteState_Click);
             // 
             // btnGroupBySiteCategory
             // 
             this.btnGroupBySiteCategory.Name = "btnGroupBySiteCategory";
-            this.btnGroupBySiteCategory.Size = new System.Drawing.Size(213, 22);
+            this.btnGroupBySiteCategory.Size = new System.Drawing.Size(254, 26);
             this.btnGroupBySiteCategory.Text = "Group By Site Category";
             this.btnGroupBySiteCategory.Click += new System.EventHandler(this.btnGroupBySiteState_Click);
             // 
@@ -121,7 +121,7 @@
             this.btnGroupByVariable.Checked = true;
             this.btnGroupByVariable.CheckState = System.Windows.Forms.CheckState.Checked;
             this.btnGroupByVariable.Name = "btnGroupByVariable";
-            this.btnGroupByVariable.Size = new System.Drawing.Size(213, 22);
+            this.btnGroupByVariable.Size = new System.Drawing.Size(254, 26);
             this.btnGroupByVariable.Text = "Group By Variable";
             this.btnGroupByVariable.Click += new System.EventHandler(this.btnGroupBySiteState_Click);
             // 
@@ -161,19 +161,18 @@
             this.treeView1.DefaultToolTipProvider = null;
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.DragDropMarkColor = System.Drawing.Color.Black;
-            this.treeView1.Font = new System.Drawing.Font("Calibri", 10.5F);
+            this.treeView1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.treeView1.HighlightColorActive = System.Drawing.SystemColors.Highlight;
             this.treeView1.HighlightColorInactive = System.Drawing.SystemColors.InactiveBorder;
             this.treeView1.LineColor = System.Drawing.SystemColors.ControlDark;
             this.treeView1.Location = new System.Drawing.Point(0, 27);
-            this.treeView1.Margin = new System.Windows.Forms.Padding(2);
             this.treeView1.Model = null;
             this.treeView1.Name = "treeView1";
             this.treeView1.NodeControls.Add(this.nodeStateIcon1);
             this.treeView1.NodeControls.Add(this.nodeTextBox1);
             this.treeView1.OnVisibleOverride = null;
             this.treeView1.SelectedNode = null;
-            this.treeView1.Size = new System.Drawing.Size(280, 459);
+            this.treeView1.Size = new System.Drawing.Size(373, 784);
             this.treeView1.TabIndex = 2;
             this.treeView1.Text = "treeViewAdv1";
             this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
@@ -194,13 +193,13 @@
             // 
             // DatabaseExplorer
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.toolStrip1);
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Name = "DatabaseExplorer";
-            this.Size = new System.Drawing.Size(280, 486);
+            this.Size = new System.Drawing.Size(373, 811);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);

@@ -34,9 +34,9 @@ namespace Heiflow.Controls.WinForm.Display
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.label1 = new System.Windows.Forms.Label();
             this.treeView1 = new System.Windows.Forms.TreeView();
+            this.operatorControl1 = new Heiflow.Controls.WinForm.Controls.OperatorControl();
             this.label3 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.operatorControl1 = new Heiflow.Controls.WinForm.Controls.OperatorControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -47,10 +47,10 @@ namespace Heiflow.Controls.WinForm.Display
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button3.Font = new System.Drawing.Font("Calibri", 9.5F);
-            this.button3.Location = new System.Drawing.Point(829, 619);
-            this.button3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.button3.Location = new System.Drawing.Point(822, 668);
+            this.button3.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(90, 35);
+            this.button3.Size = new System.Drawing.Size(100, 35);
             this.button3.TabIndex = 9;
             this.button3.Text = "Cancel";
             this.button3.UseVisualStyleBackColor = true;
@@ -59,10 +59,10 @@ namespace Heiflow.Controls.WinForm.Display
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button2.Font = new System.Drawing.Font("Calibri", 9.5F);
-            this.button2.Location = new System.Drawing.Point(713, 619);
-            this.button2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.button2.Location = new System.Drawing.Point(693, 670);
+            this.button2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(90, 35);
+            this.button2.Size = new System.Drawing.Size(100, 35);
             this.button2.TabIndex = 10;
             this.button2.Text = "OK";
             this.button2.UseVisualStyleBackColor = true;
@@ -72,7 +72,8 @@ namespace Heiflow.Controls.WinForm.Display
             this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer1.Location = new System.Drawing.Point(12, 10);
+            this.splitContainer1.Location = new System.Drawing.Point(12, 13);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -85,16 +86,16 @@ namespace Heiflow.Controls.WinForm.Display
             this.splitContainer1.Panel2.Controls.Add(this.operatorControl1);
             this.splitContainer1.Panel2.Controls.Add(this.label3);
             this.splitContainer1.Panel2.Controls.Add(this.richTextBox1);
-            this.splitContainer1.Size = new System.Drawing.Size(910, 593);
+            this.splitContainer1.Size = new System.Drawing.Size(910, 621);
             this.splitContainer1.SplitterDistance = 252;
             this.splitContainer1.TabIndex = 11;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 7);
+            this.label1.Location = new System.Drawing.Point(3, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(55, 15);
+            this.label1.Size = new System.Drawing.Size(47, 20);
             this.label1.TabIndex = 12;
             this.label1.Text = "Fields";
             // 
@@ -103,18 +104,26 @@ namespace Heiflow.Controls.WinForm.Display
             this.treeView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.treeView1.Location = new System.Drawing.Point(3, 25);
-            this.treeView1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.treeView1.Location = new System.Drawing.Point(3, 33);
+            this.treeView1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(246, 564);
+            this.treeView1.Size = new System.Drawing.Size(246, 581);
             this.treeView1.TabIndex = 2;
+            // 
+            // operatorControl1
+            // 
+            this.operatorControl1.Location = new System.Drawing.Point(6, 260);
+            this.operatorControl1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.operatorControl1.Name = "operatorControl1";
+            this.operatorControl1.Size = new System.Drawing.Size(648, 341);
+            this.operatorControl1.TabIndex = 13;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(15, 7);
+            this.label3.Location = new System.Drawing.Point(15, 9);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(71, 15);
+            this.label3.Size = new System.Drawing.Size(68, 20);
             this.label3.TabIndex = 12;
             this.label3.Text = "Formular";
             // 
@@ -123,28 +132,24 @@ namespace Heiflow.Controls.WinForm.Display
             this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBox1.Location = new System.Drawing.Point(3, 25);
+            this.richTextBox1.Location = new System.Drawing.Point(3, 33);
+            this.richTextBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(648, 293);
+            this.richTextBox1.Size = new System.Drawing.Size(648, 219);
             this.richTextBox1.TabIndex = 11;
             this.richTextBox1.Text = "";
             // 
-            // operatorControl1
+            // FieldsCalculator
             // 
-            this.operatorControl1.Location = new System.Drawing.Point(3, 333);
-            this.operatorControl1.Name = "operatorControl1";
-            this.operatorControl1.Size = new System.Drawing.Size(648, 256);
-            this.operatorControl1.TabIndex = 13;
-            // 
-            // FormularEditor
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(931, 667);
+            this.ClientSize = new System.Drawing.Size(931, 719);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
-            this.Name = "FormularEditor";
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Name = "FieldsCalculator";
             this.Text = "Fields Calculator";
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();

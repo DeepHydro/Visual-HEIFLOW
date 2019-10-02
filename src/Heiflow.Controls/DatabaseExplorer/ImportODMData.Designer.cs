@@ -96,6 +96,7 @@
             this.nav_top.AddNewItem = null;
             this.nav_top.CountItem = null;
             this.nav_top.DeleteItem = null;
+            this.nav_top.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.nav_top.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.nav_top.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel2,
@@ -115,14 +116,14 @@
             this.nav_top.MovePreviousItem = null;
             this.nav_top.Name = "nav_top";
             this.nav_top.PositionItem = null;
-            this.nav_top.Size = new System.Drawing.Size(1119, 28);
+            this.nav_top.Size = new System.Drawing.Size(1039, 28);
             this.nav_top.TabIndex = 1;
             this.nav_top.Text = "bindingNavigator1";
             // 
             // toolStripLabel2
             // 
             this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(83, 25);
+            this.toolStripLabel2.Size = new System.Drawing.Size(75, 25);
             this.toolStripLabel2.Text = "Import to:";
             // 
             // cmbTables
@@ -200,14 +201,14 @@
             // defaultExportToolStripMenuItem
             // 
             this.defaultExportToolStripMenuItem.Name = "defaultExportToolStripMenuItem";
-            this.defaultExportToolStripMenuItem.Size = new System.Drawing.Size(188, 26);
+            this.defaultExportToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
             this.defaultExportToolStripMenuItem.Text = "Default Export";
             this.defaultExportToolStripMenuItem.Click += new System.EventHandler(this.defaultExportToolStripMenuItem_Click);
             // 
             // customExportToolStripMenuItem
             // 
             this.customExportToolStripMenuItem.Name = "customExportToolStripMenuItem";
-            this.customExportToolStripMenuItem.Size = new System.Drawing.Size(188, 26);
+            this.customExportToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
             this.customExportToolStripMenuItem.Text = "Batch Export...";
             this.customExportToolStripMenuItem.Click += new System.EventHandler(this.customExportToolStripMenuItem_Click);
             // 
@@ -229,6 +230,7 @@
             this.nav_bottom.CountItem = this.toolStripLabel3;
             this.nav_bottom.DeleteItem = this.toolStripButton2;
             this.nav_bottom.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.nav_bottom.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.nav_bottom.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.nav_bottom.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton5,
@@ -246,14 +248,14 @@
             this.labelStatus,
             this.toolStripSeparator2,
             this.lb_File});
-            this.nav_bottom.Location = new System.Drawing.Point(0, 567);
+            this.nav_bottom.Location = new System.Drawing.Point(0, 548);
             this.nav_bottom.MoveFirstItem = this.toolStripButton5;
             this.nav_bottom.MoveLastItem = this.toolStripButton8;
             this.nav_bottom.MoveNextItem = this.toolStripButton7;
             this.nav_bottom.MovePreviousItem = this.toolStripButton6;
             this.nav_bottom.Name = "nav_bottom";
             this.nav_bottom.PositionItem = this.toolStripTextBox1;
-            this.nav_bottom.Size = new System.Drawing.Size(1119, 27);
+            this.nav_bottom.Size = new System.Drawing.Size(1039, 28);
             this.nav_bottom.TabIndex = 2;
             this.nav_bottom.Text = "bindingNavigator2";
             // 
@@ -263,13 +265,13 @@
             this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.RightToLeftAutoMirrorImage = true;
-            this.toolStripButton1.Size = new System.Drawing.Size(24, 24);
+            this.toolStripButton1.Size = new System.Drawing.Size(24, 25);
             this.toolStripButton1.Text = "新添";
             // 
             // toolStripLabel3
             // 
             this.toolStripLabel3.Name = "toolStripLabel3";
-            this.toolStripLabel3.Size = new System.Drawing.Size(38, 24);
+            this.toolStripLabel3.Size = new System.Drawing.Size(37, 25);
             this.toolStripLabel3.Text = "/ {0}";
             this.toolStripLabel3.ToolTipText = "总项数";
             // 
@@ -279,7 +281,7 @@
             this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
             this.toolStripButton2.Name = "toolStripButton2";
             this.toolStripButton2.RightToLeftAutoMirrorImage = true;
-            this.toolStripButton2.Size = new System.Drawing.Size(24, 24);
+            this.toolStripButton2.Size = new System.Drawing.Size(24, 25);
             this.toolStripButton2.Text = "删除";
             // 
             // toolStripButton5
@@ -288,7 +290,7 @@
             this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
             this.toolStripButton5.Name = "toolStripButton5";
             this.toolStripButton5.RightToLeftAutoMirrorImage = true;
-            this.toolStripButton5.Size = new System.Drawing.Size(24, 24);
+            this.toolStripButton5.Size = new System.Drawing.Size(24, 25);
             this.toolStripButton5.Text = "移到第一条记录";
             // 
             // toolStripButton6
@@ -297,13 +299,13 @@
             this.toolStripButton6.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton6.Image")));
             this.toolStripButton6.Name = "toolStripButton6";
             this.toolStripButton6.RightToLeftAutoMirrorImage = true;
-            this.toolStripButton6.Size = new System.Drawing.Size(24, 24);
+            this.toolStripButton6.Size = new System.Drawing.Size(24, 25);
             this.toolStripButton6.Text = "移到上一条记录";
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 28);
             // 
             // toolStripTextBox1
             // 
@@ -317,7 +319,7 @@
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 28);
             // 
             // toolStripButton7
             // 
@@ -325,7 +327,7 @@
             this.toolStripButton7.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton7.Image")));
             this.toolStripButton7.Name = "toolStripButton7";
             this.toolStripButton7.RightToLeftAutoMirrorImage = true;
-            this.toolStripButton7.Size = new System.Drawing.Size(24, 24);
+            this.toolStripButton7.Size = new System.Drawing.Size(24, 25);
             this.toolStripButton7.Text = "移到下一条记录";
             // 
             // toolStripButton8
@@ -334,35 +336,35 @@
             this.toolStripButton8.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton8.Image")));
             this.toolStripButton8.Name = "toolStripButton8";
             this.toolStripButton8.RightToLeftAutoMirrorImage = true;
-            this.toolStripButton8.Size = new System.Drawing.Size(24, 24);
+            this.toolStripButton8.Size = new System.Drawing.Size(24, 25);
             this.toolStripButton8.Text = "移到最后一条记录";
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(6, 28);
             // 
             // toolStripProgressBar1
             // 
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
             this.toolStripProgressBar1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(200, 24);
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(200, 25);
             // 
             // labelStatus
             // 
             this.labelStatus.Name = "labelStatus";
-            this.labelStatus.Size = new System.Drawing.Size(54, 24);
+            this.labelStatus.Size = new System.Drawing.Size(50, 25);
             this.labelStatus.Text = "Ready";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 27);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 28);
             // 
             // lb_File
             // 
             this.lb_File.Name = "lb_File";
-            this.lb_File.Size = new System.Drawing.Size(34, 24);
+            this.lb_File.Size = new System.Drawing.Size(32, 25);
             this.lb_File.Text = "File";
             // 
             // tabControl1
@@ -373,17 +375,17 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(952, 539);
+            this.tabControl1.Size = new System.Drawing.Size(884, 520);
             this.tabControl1.TabIndex = 3;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.splitContainer1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 28);
+            this.tabPage1.Location = new System.Drawing.Point(4, 29);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(944, 507);
+            this.tabPage1.Size = new System.Drawing.Size(876, 487);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Database";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -402,8 +404,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tb_script);
-            this.splitContainer1.Size = new System.Drawing.Size(938, 501);
-            this.splitContainer1.SplitterDistance = 417;
+            this.splitContainer1.Size = new System.Drawing.Size(870, 481);
+            this.splitContainer1.SplitterDistance = 400;
             this.splitContainer1.TabIndex = 5;
             // 
             // dg_odm
@@ -415,7 +417,7 @@
             this.dg_odm.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Calibri", 9.5F);
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F);
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.LightGreen;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
@@ -426,7 +428,7 @@
             this.dg_odm.Margin = new System.Windows.Forms.Padding(4);
             this.dg_odm.Name = "dg_odm";
             this.dg_odm.RowTemplate.Height = 23;
-            this.dg_odm.Size = new System.Drawing.Size(938, 417);
+            this.dg_odm.Size = new System.Drawing.Size(870, 400);
             this.dg_odm.TabIndex = 4;
             // 
             // tb_script
@@ -435,7 +437,7 @@
             this.tb_script.Location = new System.Drawing.Point(0, 0);
             this.tb_script.Multiline = true;
             this.tb_script.Name = "tb_script";
-            this.tb_script.Size = new System.Drawing.Size(938, 80);
+            this.tb_script.Size = new System.Drawing.Size(870, 77);
             this.tb_script.TabIndex = 0;
             // 
             // tabPage2
@@ -444,7 +446,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 28);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(944, 507);
+            this.tabPage2.Size = new System.Drawing.Size(944, 535);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "External Data";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -458,7 +460,7 @@
             this.dg_external.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Calibri", 9.5F);
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F);
             dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.LightGreen;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
@@ -469,7 +471,7 @@
             this.dg_external.Margin = new System.Windows.Forms.Padding(4);
             this.dg_external.Name = "dg_external";
             this.dg_external.RowTemplate.Height = 23;
-            this.dg_external.Size = new System.Drawing.Size(938, 501);
+            this.dg_external.Size = new System.Drawing.Size(938, 529);
             this.dg_external.TabIndex = 5;
             // 
             // splitContainer2
@@ -485,8 +487,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.tabControl1);
-            this.splitContainer2.Size = new System.Drawing.Size(1119, 539);
-            this.splitContainer2.SplitterDistance = 163;
+            this.splitContainer2.Size = new System.Drawing.Size(1039, 520);
+            this.splitContainer2.SplitterDistance = 151;
             this.splitContainer2.TabIndex = 4;
             // 
             // propertyGrid1
@@ -495,18 +497,18 @@
             this.propertyGrid1.LineColor = System.Drawing.SystemColors.ControlDark;
             this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(163, 539);
+            this.propertyGrid1.Size = new System.Drawing.Size(151, 520);
             this.propertyGrid1.TabIndex = 0;
             // 
             // ImportODMData
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1119, 594);
+            this.ClientSize = new System.Drawing.Size(1039, 576);
             this.Controls.Add(this.splitContainer2);
             this.Controls.Add(this.nav_bottom);
             this.Controls.Add(this.nav_top);
-            this.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ImportODMData";
             this.Text = "ODM Database Manager";

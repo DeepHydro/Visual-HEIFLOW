@@ -39,18 +39,21 @@ namespace Heiflow.Controls.WinForm.Display
             this.winChart1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.winChart1.Font = new System.Drawing.Font("Calibri", 9.5F);
             this.winChart1.Location = new System.Drawing.Point(0, 0);
-            this.winChart1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.winChart1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.winChart1.Name = "winChart1";
-            this.winChart1.Size = new System.Drawing.Size(868, 629);
+            this.winChart1.ShowStatPanel = false;
+            this.winChart1.Size = new System.Drawing.Size(868, 570);
             this.winChart1.TabIndex = 0;
             // 
             // WinChartView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(868, 629);
+            this.ClientSize = new System.Drawing.Size(868, 570);
             this.Controls.Add(this.winChart1);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "WinChartView";
             this.Text = "Figure";
             this.ResumeLayout(false);

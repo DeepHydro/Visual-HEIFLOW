@@ -56,10 +56,10 @@
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Font = new System.Drawing.Font("Calibri", 9.5F);
-            this.btnCancel.Location = new System.Drawing.Point(492, 471);
+            this.btnCancel.Location = new System.Drawing.Point(490, 477);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(95, 30);
+            this.btnCancel.Size = new System.Drawing.Size(95, 32);
             this.btnCancel.TabIndex = 11;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -67,10 +67,10 @@
             // btnOk
             // 
             this.btnOk.Font = new System.Drawing.Font("Calibri", 9.5F);
-            this.btnOk.Location = new System.Drawing.Point(376, 471);
+            this.btnOk.Location = new System.Drawing.Point(374, 477);
             this.btnOk.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(95, 30);
+            this.btnOk.Size = new System.Drawing.Size(95, 32);
             this.btnOk.TabIndex = 12;
             this.btnOk.Text = "OK";
             this.btnOk.UseVisualStyleBackColor = true;
@@ -79,18 +79,18 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 23);
+            this.label1.Location = new System.Drawing.Point(6, 24);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(77, 19);
+            this.label1.Size = new System.Drawing.Size(78, 20);
             this.label1.TabIndex = 14;
             this.label1.Text = "Map Layer";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 23);
+            this.label2.Location = new System.Drawing.Point(6, 24);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(63, 19);
+            this.label2.Size = new System.Drawing.Size(63, 20);
             this.label2.TabIndex = 15;
             this.label2.Text = "Package";
             // 
@@ -100,10 +100,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbLayers.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbLayers.FormattingEnabled = true;
-            this.cmbLayers.Location = new System.Drawing.Point(93, 20);
+            this.cmbLayers.Location = new System.Drawing.Point(93, 21);
             this.cmbLayers.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.cmbLayers.Name = "cmbLayers";
-            this.cmbLayers.Size = new System.Drawing.Size(181, 27);
+            this.cmbLayers.Size = new System.Drawing.Size(181, 28);
             this.cmbLayers.TabIndex = 17;
             this.cmbLayers.SelectedIndexChanged += new System.EventHandler(this.cmbLayers_SelectedIndexChanged);
             // 
@@ -115,13 +115,13 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Location = new System.Drawing.Point(12, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(280, 443);
+            this.groupBox1.Size = new System.Drawing.Size(280, 466);
             this.groupBox1.TabIndex = 18;
             this.groupBox1.TabStop = false;
             // 
             // tb_pck
             // 
-            this.tb_pck.Location = new System.Drawing.Point(79, 20);
+            this.tb_pck.Location = new System.Drawing.Point(79, 21);
             this.tb_pck.Name = "tb_pck";
             this.tb_pck.ReadOnly = true;
             this.tb_pck.Size = new System.Drawing.Size(195, 27);
@@ -135,9 +135,9 @@
             this.lvPackage.GridLines = true;
             this.lvPackage.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem1});
-            this.lvPackage.Location = new System.Drawing.Point(10, 97);
+            this.lvPackage.Location = new System.Drawing.Point(10, 102);
             this.lvPackage.Name = "lvPackage";
-            this.lvPackage.Size = new System.Drawing.Size(264, 340);
+            this.lvPackage.Size = new System.Drawing.Size(264, 358);
             this.lvPackage.TabIndex = 18;
             this.lvPackage.UseCompatibleStateImageBehavior = false;
             this.lvPackage.View = System.Windows.Forms.View.Details;
@@ -155,9 +155,9 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 66);
+            this.label3.Location = new System.Drawing.Point(6, 69);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(109, 19);
+            this.label3.Size = new System.Drawing.Size(111, 20);
             this.label3.TabIndex = 17;
             this.label3.Text = "Required Fields";
             // 
@@ -169,16 +169,16 @@
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Location = new System.Drawing.Point(311, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(280, 443);
+            this.groupBox2.Size = new System.Drawing.Size(280, 466);
             this.groupBox2.TabIndex = 19;
             this.groupBox2.TabStop = false;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 66);
+            this.label4.Location = new System.Drawing.Point(6, 69);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(86, 19);
+            this.label4.Size = new System.Drawing.Size(86, 20);
             this.label4.TabIndex = 21;
             this.label4.Text = "Layer Fields";
             // 
@@ -190,9 +190,9 @@
             this.lvLayer.GridLines = true;
             this.lvLayer.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem2});
-            this.lvLayer.Location = new System.Drawing.Point(10, 97);
+            this.lvLayer.Location = new System.Drawing.Point(10, 102);
             this.lvLayer.Name = "lvLayer";
-            this.lvLayer.Size = new System.Drawing.Size(264, 340);
+            this.lvLayer.Size = new System.Drawing.Size(264, 358);
             this.lvLayer.TabIndex = 20;
             this.lvLayer.UseCompatibleStateImageBehavior = false;
             this.lvLayer.View = System.Windows.Forms.View.Details;
@@ -210,10 +210,10 @@
             // btnNewFeature
             // 
             this.btnNewFeature.Font = new System.Drawing.Font("Calibri", 9.5F);
-            this.btnNewFeature.Location = new System.Drawing.Point(22, 471);
+            this.btnNewFeature.Location = new System.Drawing.Point(20, 477);
             this.btnNewFeature.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.btnNewFeature.Name = "btnNewFeature";
-            this.btnNewFeature.Size = new System.Drawing.Size(173, 30);
+            this.btnNewFeature.Size = new System.Drawing.Size(173, 32);
             this.btnNewFeature.TabIndex = 20;
             this.btnNewFeature.Text = "New FeatureSet ...";
             this.btnNewFeature.UseVisualStyleBackColor = true;
@@ -221,16 +221,16 @@
             // 
             // PackageFeatureSet
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(600, 511);
+            this.ClientSize = new System.Drawing.Size(600, 525);
             this.Controls.Add(this.btnNewFeature);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
-            this.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
