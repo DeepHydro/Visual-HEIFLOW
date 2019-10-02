@@ -211,7 +211,7 @@ namespace Heiflow.Tools.ConceptualModel
                     int nwel = _sourcefs.Features.Count;
                     pck.MXACTW = nwel;
                     pck.IWELCB = 0;
-                    pck.FluxRates = new DataCube<float>(4, np, nwel)
+                    pck.FluxRates = new DataCube<float>(4, np, nwel, false)
                     {
                         DateTimes = new System.DateTime[np],
                         TimeBrowsable = true,

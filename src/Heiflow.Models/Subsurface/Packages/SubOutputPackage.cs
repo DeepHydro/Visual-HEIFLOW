@@ -124,7 +124,7 @@ namespace Heiflow.Models.Subsurface
                 var grid = Owner.Grid as MFGrid;
                 if (DataCube == null || DataCube.Size[1] != StepsToLoad)
                 {
-                    DataCube = new DataCube<float>(Variables.Length, StepsToLoad, grid.ActiveCellCount)
+                    DataCube = new DataCube<float>(Variables.Length, StepsToLoad, grid.ActiveCellCount, false)
                     {
                         Name = "vert_dis",
                         TimeBrowsable = true,

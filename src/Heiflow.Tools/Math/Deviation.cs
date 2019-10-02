@@ -120,7 +120,7 @@ namespace Heiflow.Tools.Math
                 int nstep = mat.Size[1];
                 int ncell = mat.Size[2];
 
-                var mat_out = new DataCube<float>(1, nstep, ncell);
+                var mat_out = new DataCube<float>(1, nstep, ncell, false);
                 mat_out.Name = Output;
                 mat_out.Variables = mat.Variables;
                 mat_out.DateTimes = mat.DateTimes;

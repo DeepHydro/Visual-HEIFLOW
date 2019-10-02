@@ -82,8 +82,8 @@ namespace Heiflow.Tools.Math
             {
                var dims =  GetDims(TargetDataCube);
                mat_tar.ILArrays[int.Parse(dims[0])][dims[1], dims[2]]= vec_src;
-               if (mat_tar is IParameter)
-                   (mat_tar as IParameter).UpdateFromFloatDataCube();
+               if (mat_tar.DataOwner is IParameter)
+                   (mat_tar.DataOwner as IParameter).UpdateFromFloatDataCube();
                cancelProgressHandler.Progress("Package_Tool", 100, "Successful");
                 return true;
             }

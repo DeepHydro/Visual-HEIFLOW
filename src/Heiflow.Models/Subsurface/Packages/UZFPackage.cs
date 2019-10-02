@@ -255,37 +255,37 @@ namespace Heiflow.Models.Subsurface
                 this.NUZGAG = (int)fv[8];
                 this.SURFDEP = fv[9];
 
-                this.IUZFBND = new DataCube<float>(1, 1,grid.ActiveCellCount)
+                this.IUZFBND = new DataCube<float>(1, 1,grid.ActiveCellCount,true)
                 {
                     Name = "IUZFBND",
                     AllowTableEdit = true,
                     TimeBrowsable = false
                 };
-                this.IRUNBND = new DataCube<float>(1, 1, grid.ActiveCellCount)
+                this.IRUNBND = new DataCube<float>(1, 1, grid.ActiveCellCount, true)
                 {
                     Name = "IRUNBND",
                     AllowTableEdit = true,
                     TimeBrowsable = false
                 };
-                this.VKS = new DataCube<float>(1, 1, grid.ActiveCellCount)
+                this.VKS = new DataCube<float>(1, 1, grid.ActiveCellCount, true)
                 {
                     Name = "VKS",
                     AllowTableEdit = true,
                     TimeBrowsable = false
                 };
-                this.EPS = new DataCube<float>(1, 1, grid.ActiveCellCount)
+                this.EPS = new DataCube<float>(1, 1, grid.ActiveCellCount, true)
                 {
                     Name = "EPS",
                     AllowTableEdit = true,
                     TimeBrowsable = false
                 };
-                this.THTS = new DataCube<float>(1, 1, grid.ActiveCellCount)
+                this.THTS = new DataCube<float>(1, 1, grid.ActiveCellCount, true)
                 {
                     Name = "THTS",
                     AllowTableEdit = true,
                     TimeBrowsable = false
                 };
-                this.THTI = new DataCube<float>(1, 1, grid.ActiveCellCount)
+                this.THTI = new DataCube<float>(1, 1, grid.ActiveCellCount, true)
                 {
                     Name = "THTI",
                     AllowTableEdit = true,
@@ -329,7 +329,7 @@ namespace Heiflow.Models.Subsurface
                     var iv = TypeConverterEx.Split<int>(newline);
                     if (iv.Length == 4)
                     {
-                        UZGAG = new DataCube<int>(NUZGAG, 1, 4);
+                        UZGAG = new DataCube<int>(NUZGAG, 1, 4, true);
                         UZGAG[0,0,0] = iv[0];
                         UZGAG[0, 0, 1] = iv[1];
                         UZGAG[0, 0, 2] = iv[2];
@@ -351,25 +351,25 @@ namespace Heiflow.Models.Subsurface
                 }
 
                 var np = TimeService.StressPeriods.Count;
-                this.FINF = new DataCube<float>(np, 1, grid.ActiveCellCount)
+                this.FINF = new DataCube<float>(np, 1, grid.ActiveCellCount, true)
                 {
                     Name = "FINF",
                     AllowTableEdit = true,
                     TimeBrowsable = false
                 };
-                this.PET = new DataCube<float>(np, 1, grid.ActiveCellCount)
+                this.PET = new DataCube<float>(np, 1, grid.ActiveCellCount, true)
                 {
                     Name = "PET",
                     AllowTableEdit = true,
                     TimeBrowsable = false
                 };
-                this.EXTDP = new DataCube<float>(np, 1, grid.ActiveCellCount)
+                this.EXTDP = new DataCube<float>(np, 1, grid.ActiveCellCount, true)
                 {
                     Name = "EXTDP",
                     AllowTableEdit = true,
                     TimeBrowsable = false
                 };
-                this.EXTWC = new DataCube<float>(np, 1, grid.ActiveCellCount)
+                this.EXTWC = new DataCube<float>(np, 1, grid.ActiveCellCount, true)
                 {
                     Name = "EXTWC",
                     AllowTableEdit = true,
@@ -568,37 +568,37 @@ namespace Heiflow.Models.Subsurface
             this.FeatureLayer = this.Grid.FeatureLayer;
             this.Feature = this.Grid.FeatureSet;
 
-            this.IUZFBND = new DataCube<float>(1, 1, grid.ActiveCellCount)
+            this.IUZFBND = new DataCube<float>(1, 1, grid.ActiveCellCount, true)
             {
                 Name = "IUZFBND",
                 AllowTableEdit = true,
                 TimeBrowsable = false
             };
-            this.IRUNBND = new DataCube<float>(1, 1, grid.ActiveCellCount)
+            this.IRUNBND = new DataCube<float>(1, 1, grid.ActiveCellCount, true)
             {
                 Name = "IRUNBND",
                 AllowTableEdit = true,
                 TimeBrowsable = false
             };
-            this.VKS = new DataCube<float>(1, 1, grid.ActiveCellCount)
+            this.VKS = new DataCube<float>(1, 1, grid.ActiveCellCount, true)
             {
                 Name = "VKS",
                 AllowTableEdit = true,
                 TimeBrowsable = false
             };
-            this.EPS = new DataCube<float>(1, 1, grid.ActiveCellCount)
+            this.EPS = new DataCube<float>(1, 1, grid.ActiveCellCount, true)
             {
                 Name = "EPS",
                 AllowTableEdit = true,
                 TimeBrowsable = false
             };
-            this.THTS = new DataCube<float>(1, 1, grid.ActiveCellCount)
+            this.THTS = new DataCube<float>(1, 1, grid.ActiveCellCount, true)
             {
                 Name = "THTS",
                 AllowTableEdit = true,
                 TimeBrowsable = false
             };
-            this.THTI = new DataCube<float>(1, 1, grid.ActiveCellCount)
+            this.THTI = new DataCube<float>(1, 1, grid.ActiveCellCount, true)
             {
                 Name = "THTI",
                 AllowTableEdit = true,
@@ -645,25 +645,25 @@ namespace Heiflow.Models.Subsurface
             var grid = mf.Grid as MFGrid;
             int ncell=grid.ActiveCellCount;
             int np = TimeService.StressPeriods.Count;
-            this.FINF = new DataCube<float>(np, 1,grid.ActiveCellCount)
+            this.FINF = new DataCube<float>(np, 1, grid.ActiveCellCount, true)
             {
                 Name = "FINF",
                 AllowTableEdit = true,
                 TimeBrowsable = false
             };
-            this.PET = new DataCube<float>(np, 1, grid.ActiveCellCount)
+            this.PET = new DataCube<float>(np, 1, grid.ActiveCellCount, true)
             {
                 Name = "PET",
                 AllowTableEdit = true,
                 TimeBrowsable = false
             };
-            this.EXTDP = new DataCube<float>(np, 1, grid.ActiveCellCount)
+            this.EXTDP = new DataCube<float>(np, 1, grid.ActiveCellCount, true)
             {
                 Name = "EXTDP",
                 AllowTableEdit = true,
                 TimeBrowsable = false
             };
-            this.EXTWC = new DataCube<float>(np, 1, grid.ActiveCellCount)
+            this.EXTWC = new DataCube<float>(np, 1, grid.ActiveCellCount, true)
             {
                 Name = "EXTWC",
                 AllowTableEdit = true,

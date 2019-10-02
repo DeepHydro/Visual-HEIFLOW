@@ -115,7 +115,7 @@ namespace Heiflow.Tools.Conversion
                 if (files != null)
                 {
                     int nstep = files.Count();
-                    var mat_out = new DataCube<float>(1, nstep, npt)
+                    var mat_out = new DataCube<float>(1, nstep, npt, false)
                     {
                         Name = OutputDataCube,
                         Variables = new string[] { VariableName },

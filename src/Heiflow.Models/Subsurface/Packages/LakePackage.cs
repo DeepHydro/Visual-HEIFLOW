@@ -188,7 +188,7 @@ namespace Heiflow.Models.Subsurface
                 SSCNCR = floatbuf[2];
                 SURFDEPTH = floatbuf[3];
 
-                STAGES = new DataCube2DLayout<float>(1, NLAKES,5);
+                STAGES = new DataCube2DLayout<float>(1, NLAKES, 5, true);
                 for (int i = 0; i < NLAKES; i++)
                 {
                     line = sr.ReadLine();
@@ -196,8 +196,8 @@ namespace Heiflow.Models.Subsurface
                     STAGES[0][i, ":"] = floatbuf;
                 }
 
-                ITMP = new DataCube<int>(1, nsp, 3);
-                LKARR = new DataCube<int>(nlayer, 1, grid.ActiveCellCount)
+                ITMP = new DataCube<int>(1, nsp, 3,true);
+                LKARR = new DataCube<int>(nlayer, 1, grid.ActiveCellCount,true)
                 {
                     Name = "Lake ID",
                     TimeBrowsable = false,
@@ -209,7 +209,7 @@ namespace Heiflow.Models.Subsurface
                     LKARR.Variables[l] = "Lake ID of " + " Layer " + (l + 1);
                 }
 
-                BDLKNC = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
+                BDLKNC = new DataCube<float>(nlayer, 1, grid.ActiveCellCount, false)
                 {
                     Name = "Leakance",
                     TimeBrowsable = false,
@@ -220,7 +220,7 @@ namespace Heiflow.Models.Subsurface
                 {
                     BDLKNC.Variables[l] = " Layer " + (l + 1);
                 }
-                NSLMS = new DataCube<int>(nsp, 1, 1)
+                NSLMS = new DataCube<int>(nsp, 1, 1,true)
                 {
                     Name = "Num of Sublakes",
                     TimeBrowsable = false,
@@ -231,7 +231,7 @@ namespace Heiflow.Models.Subsurface
                 {
                     NSLMS.Variables[l] = "Stress Period " + (l + 1);
                 }
-                WSOUR = new  DataCube2DLayout<float>(nsp, NLAKES, 6)
+                WSOUR = new  DataCube2DLayout<float>(nsp, NLAKES, 6,true)
                 {
                     Name = "Recharge Discharge",
                     TimeBrowsable = false,

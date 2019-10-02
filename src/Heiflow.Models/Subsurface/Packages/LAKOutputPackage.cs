@@ -129,7 +129,7 @@ namespace Heiflow.Models.Subsurface
                 int progress = 0;
                 int nstep = StepsToLoad;
 
-                DataCube = new DataCube<float>(2, nstep, Sites.Count);
+                DataCube = new DataCube<float>(2, nstep, Sites.Count, false);
                 OnLoading(0);
 
                 DataCube.Variables = new string[] { "Stage", "Volume" };

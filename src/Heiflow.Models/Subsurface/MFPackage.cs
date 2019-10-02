@@ -113,7 +113,7 @@ namespace Heiflow.Models.Subsurface
             // Read constant matrix
             if (strs[0].ToUpper() == "CONSTANT")
             {
-                var matrix = new DataCube<T>(1,row, col);
+                var matrix = new DataCube<T>(1, row, col, false);
                 var ar = TypeConverterEx.Split<string>(line);
                 T conv = TypeConverterEx.ChangeType<T>(ar[1]);
                 matrix.ILArrays[0][":,", ":"] = conv;
@@ -122,7 +122,7 @@ namespace Heiflow.Models.Subsurface
             // Read internal matrix
             else
             {
-                var matrix = new DataCube<T>(1,row, col);
+                var matrix = new DataCube<T>(1, row, col, false);
 
                 T multiplier = TypeConverterEx.ChangeType<T>(strs[1]);
                 line = sr.ReadLine();

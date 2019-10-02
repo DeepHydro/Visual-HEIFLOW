@@ -81,11 +81,11 @@ namespace Heiflow.Controls.WinForm.Controls
         {
             get
             {
-                return toolStripLabel1.Text;
+                return lbDCName.Text;
             }
             set
             {
-                toolStripLabel1.Text = value;
+                this.lbDCName.Text = value;
             }
         }
         public string ChildName
@@ -263,6 +263,7 @@ namespace Heiflow.Controls.WinForm.Controls
         {
             if (paras == null)
                 return;
+            this.lbDCName.Text = "Parameters";
             _CurrentType = DataSourceType.Parameters;
             _Parameters = paras;
            var dt = new DataTable();
@@ -493,10 +494,20 @@ namespace Heiflow.Controls.WinForm.Controls
                     cmbCell.SelectedIndexChanged -= this.cmbCell_SelectedIndexChanged;
                     cmbTime.ComboBox.DataSource = timestrs;
                     cmbCell.ComboBox.DataSource = cellstrs;
-                    cmbTime.ComboBox.SelectedIndex = 0;
+
+                    if (timestrs.Count == 1)
+                    {
+                        cmbTime.ComboBox.SelectedIndex = 0;
+                        cmbCell.ComboBox.SelectedIndex = cellstrs.Count - 1;
+                    }
+                    else if (cellstrs.Count == 1)
+                    {
+                        cmbTime.ComboBox.SelectedIndex = timestrs.Count - 1;
+                        cmbCell.ComboBox.SelectedIndex = 0;
+                    }
+                    DC2DataTable();
                     cmbTime.SelectedIndexChanged += this.cmbTime_SelectedIndexChanged;
                     cmbCell.SelectedIndexChanged += this.cmbCell_SelectedIndexChanged;
-                    cmbCell.ComboBox.SelectedIndex = cellstrs.Count - 1;
                 }
                 else
                 {
@@ -562,11 +573,6 @@ namespace Heiflow.Controls.WinForm.Controls
         }
         private void plotToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (_ShellService == null)
-            {
-                _ShellService = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
-                _WindowService = MyAppManager.Instance.CompositionContainer.GetExportedValue<IWindowService>();
-            }
             _ShellService.WinChart.ShowView(_ShellService.MainForm);
             if (DataTable != null && _CurrentColumnIndex > -1)
             {
@@ -635,7 +641,7 @@ namespace Heiflow.Controls.WinForm.Controls
             if (_DataCubeObject != null && _DataCubeObject is IParameter)
             {
                 var para = _DataCubeObject as IParameter;
-
+                
                 //e.RowIndex
                 if (para.VariableType == ParameterType.Dimension)
                 {
@@ -643,7 +649,13 @@ namespace Heiflow.Controls.WinForm.Controls
                     var mms = para.Owner as IMMSPackage;
                     if (mms != null)
                     {
-                        mms.AlterLength(para.Name, new_len);
+                        var buf = from p in (mms as IPackage).Parameters where p.Value.DimensionNames.Contains(para.Name) select p.Value.Name;
+                        if (buf.Any())
+                        {
+                            var msg = string.Format("The following parameters, {0}, will be changed. Do you really want to change the value of the dimension: {1}? ", string.Join(",", buf), para.Name);
+                            if (_ShellService.MessageService.ShowQuestion(_ShellService.MainForm, msg).Value)
+                                mms.AlterLength(para.Name, new_len);
+                        }
                     }
                 }
             }
@@ -683,7 +695,11 @@ namespace Heiflow.Controls.WinForm.Controls
         }
         public void InitService()
         {
-
+            if (_ShellService == null)
+            {
+                _ShellService = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
+                _WindowService = MyAppManager.Instance.CompositionContainer.GetExportedValue<IWindowService>();
+            }
         }
         #endregion
 

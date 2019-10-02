@@ -223,12 +223,12 @@ namespace Heiflow.Tools.MachineLearning
 
             if (sites.Count > 0)
             {
-                var indc = new DataCube<float>(ninputvar,1 , sites.Count)
+                var indc = new DataCube<float>(ninputvar, 1, sites.Count, false)
                 {
                     Name = InputTraningDC,
                     Layout= DataCubeLayout.ThreeD
                 };
-                var outdc = new DataCube<float>(1, 1, sites.Count)
+                var outdc = new DataCube<float>(1, 1, sites.Count, false)
                 {
                     Name = OutputTraningDC,
                     Layout = DataCubeLayout.ThreeD

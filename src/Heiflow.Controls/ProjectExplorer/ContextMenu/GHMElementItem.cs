@@ -155,7 +155,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
             AcFile ac = new AcFile();
             var vec = asc.LoadSerial(ascfile, _ProjectService.Project.Model.Grid as IRegularGrid);
             int nfeat = vec.Length;
-            DataCube<float> mat = new DataCube<float>(1, 156, nfeat);
+            DataCube<float> mat = new DataCube<float>(1, 156, nfeat,false);
 
             int i = 0;
             for (int y = 2000; y < 2013; y++)

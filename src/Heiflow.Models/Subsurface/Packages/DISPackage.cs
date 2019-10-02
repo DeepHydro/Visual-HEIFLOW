@@ -163,8 +163,8 @@ namespace Heiflow.Models.Subsurface
                 line = sr.ReadLine();
                 LAYCBD = TypeConverterEx.Split<int>(line, grid.ActualLayerCount);
 
-                grid.DELR = new DataCube<float>(1, 1, grid.ColumnCount);
-                grid.DELC = new DataCube<float>(1, 1, grid.RowCount);
+                grid.DELR = new DataCube<float>(1, 1, grid.ColumnCount, true);
+                grid.DELC = new DataCube<float>(1, 1, grid.RowCount, true);
                 ReadSerialArray(sr, grid.DELR, 0, 0, grid.ColumnCount);
                 ReadSerialArray(sr, grid.DELC, 0, 0, grid.RowCount);
 
@@ -185,7 +185,7 @@ namespace Heiflow.Models.Subsurface
                 }
                 grid.Origin = upl;
                 grid.BBox = new Envelope(upl.X, lowr.X, lowr.Y, upl.Y);
-                grid.Elevations = new DataCube<float>(grid.LayerCount, 1, grid.ActiveCellCount)
+                grid.Elevations = new DataCube<float>(grid.LayerCount, 1, grid.ActiveCellCount,true)
                 {
                     Name = "Elevations",
                     TimeBrowsable = false,
@@ -314,7 +314,7 @@ namespace Heiflow.Models.Subsurface
 
             if (grid.Elevations == null)
             {
-                grid.Elevations = new DataCube<float>(grid.LayerCount, 1, grid.ActiveCellCount);
+                grid.Elevations = new DataCube<float>(grid.LayerCount, 1, grid.ActiveCellCount, true);
             }
 
             for (int l = 0; l < grid.LayerCount; l++)

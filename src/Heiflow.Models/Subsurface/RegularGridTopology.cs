@@ -261,7 +261,7 @@ namespace Heiflow.Models.Subsurface
         }
 
         /// <summary>
-        /// get serial index which starts from 0
+        /// get serial index which starts from 0. return -1 when no series index found
         /// </summary>
         /// <param name="row">row index starting from 0</param>
         /// <param name="col">col index starting from 0</param>

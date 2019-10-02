@@ -253,7 +253,7 @@ namespace Heiflow.Tools.ConceptualModel
                 if (list.Count > 0)
                 {
                     pck.NFLW = list.Count;
-                    var FlowRate = new DataCube<float>(4 + pck.NBDTIM, 1, pck.NFLW)
+                    var FlowRate = new DataCube<float>(4 + pck.NBDTIM, 1, pck.NFLW, false)
                     {
                         Name = "FHB_FlowRate",
                         TimeBrowsable = false,

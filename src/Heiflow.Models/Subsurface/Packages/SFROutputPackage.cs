@@ -189,7 +189,7 @@ namespace Heiflow.Models.Subsurface
                         OnLoading(progress);
                         try
                         {
-                            DataCube = new DataCube<float>(varLen, nstep, reachNum)
+                            DataCube = new DataCube<float>(varLen, nstep, reachNum,false)
                             {
                                 Name = "SFR_Output",
                                 AllowTableEdit = false,
@@ -375,7 +375,7 @@ namespace Heiflow.Models.Subsurface
                     OnLoading(progress);
                     try
                     {
-                        DataCube = new DataCube<float>(varLen, nstep, reachNum,true)
+                        DataCube = new DataCube<float>(varLen, nstep, reachNum,false, true)
                         {
                             Name = "SFR_Output",
                             AllowTableEdit = false,
@@ -544,7 +544,7 @@ namespace Heiflow.Models.Subsurface
                 {
                     count += river.Reaches.Count;
                 }
-                mat = new DataCube<double>(2, 1, count);
+                mat = new DataCube<double>(2, 1, count, false);
                 int i = 0;
                 double sumlen = 0;
                 if (unified)
@@ -580,7 +580,7 @@ namespace Heiflow.Models.Subsurface
             {
                 if (DataCube != null)
                 {
-                    mat = new DataCube<double>(2, 1, profile.Count);
+                    mat = new DataCube<double>(2, 1, profile.Count, false);
                     int i = 0;
                     double sumlen = 0;
                     if (unified)
@@ -622,7 +622,7 @@ namespace Heiflow.Models.Subsurface
                 {
                     count += river.Reaches.Count;
                 }
-                mat = new DataCube<float>(1, total_time, count);
+                mat = new DataCube<float>(1, total_time, count,false);
                 if (unified)
                 {
                     for (int t = 0; t < total_time; t++)
@@ -660,7 +660,7 @@ namespace Heiflow.Models.Subsurface
             {
                 if (DataCube != null)
                 {
-                    mat = new DataCube<float>(1, total_time, profile.Count);
+                    mat = new DataCube<float>(1, total_time, profile.Count,false);
 
                     if (unified)
                     {

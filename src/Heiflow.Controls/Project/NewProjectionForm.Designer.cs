@@ -71,7 +71,7 @@ namespace Heiflow.Presentation.Controls.Project
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(18, 350);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 17);
+            this.label1.Size = new System.Drawing.Size(55, 21);
             this.label1.TabIndex = 2;
             this.label1.Text = "Name:";
             // 
@@ -91,7 +91,7 @@ namespace Heiflow.Presentation.Controls.Project
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(18, 384);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(60, 17);
+            this.label2.Size = new System.Drawing.Size(72, 21);
             this.label2.TabIndex = 2;
             this.label2.Text = "Location:";
             // 
@@ -107,9 +107,9 @@ namespace Heiflow.Presentation.Controls.Project
             // 
             // btnBrowse
             // 
-            this.btnBrowse.Location = new System.Drawing.Point(630, 379);
+            this.btnBrowse.Location = new System.Drawing.Point(625, 379);
             this.btnBrowse.Name = "btnBrowse";
-            this.btnBrowse.Size = new System.Drawing.Size(95, 30);
+            this.btnBrowse.Size = new System.Drawing.Size(100, 30);
             this.btnBrowse.TabIndex = 3;
             this.btnBrowse.Text = "Browse...";
             this.btnBrowse.UseVisualStyleBackColor = true;
@@ -118,9 +118,9 @@ namespace Heiflow.Presentation.Controls.Project
             // btnOK
             // 
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(510, 421);
+            this.btnOK.Location = new System.Drawing.Point(505, 421);
             this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(95, 30);
+            this.btnOK.Size = new System.Drawing.Size(100, 30);
             this.btnOK.TabIndex = 3;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
@@ -129,9 +129,9 @@ namespace Heiflow.Presentation.Controls.Project
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(630, 421);
+            this.btnCancel.Location = new System.Drawing.Point(625, 421);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(95, 30);
+            this.btnCancel.Size = new System.Drawing.Size(100, 30);
             this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -149,9 +149,9 @@ namespace Heiflow.Presentation.Controls.Project
             // chbImprot
             // 
             this.chbImprot.AutoSize = true;
-            this.chbImprot.Location = new System.Drawing.Point(116, 427);
+            this.chbImprot.Location = new System.Drawing.Point(116, 421);
             this.chbImprot.Name = "chbImprot";
-            this.chbImprot.Size = new System.Drawing.Size(197, 21);
+            this.chbImprot.Size = new System.Drawing.Size(243, 25);
             this.chbImprot.TabIndex = 5;
             this.chbImprot.Text = "Import from an exsiting model";
             this.chbImprot.UseVisualStyleBackColor = true;
@@ -159,7 +159,7 @@ namespace Heiflow.Presentation.Controls.Project
             // NewProjectionForm
             // 
             this.AcceptButton = this.btnOK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.CancelButton = this.btnCancel;
@@ -173,7 +173,7 @@ namespace Heiflow.Presentation.Controls.Project
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtPrjDir);
             this.Controls.Add(this.txtPrjName);
-            this.Font = new System.Drawing.Font("Calibri", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);

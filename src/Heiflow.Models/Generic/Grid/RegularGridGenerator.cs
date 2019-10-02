@@ -54,6 +54,7 @@ namespace Heiflow.Models.Generic.Grid
             YSize = 100;
             Method = GenMethod.ByCellNumber;
             AveragingMethod = Core.MyMath.AveragingMethod.Median;
+            CalcSlopeAspect = false;
         }
 
         public IFeatureSet Domain
@@ -68,6 +69,11 @@ namespace Heiflow.Models.Generic.Grid
             set;
         }
 
+        public bool CalcSlopeAspect
+        {
+            get;
+            set;
+        }
         public int RowCount
         {
             get;
@@ -142,13 +148,13 @@ namespace Heiflow.Models.Generic.Grid
                 Source.ActualLayerCount = this.LayerCount;
                 Source.RowCount = RowCount;
                 Source.ColumnCount = ColumnCount;
-                Source.IBound = new DataCube<float>(this.LayerCount, RowCount, ColumnCount);
-                Source.DELC = new DataCube<float>(1, 1,RowCount);
-                Source.DELR = new DataCube<float>(1, 1,ColumnCount);
-                Source.DELC.Flags[0,0] = TimeVarientFlag.Constant;
-                Source.DELR.Flags[0,0] = TimeVarientFlag.Constant;
-                Source.DELC.Constants[0,0] = this.XSize;
-                Source.DELR.Constants[0,0] = this.YSize;
+                Source.IBound = new DataCube<float>(this.LayerCount, RowCount, ColumnCount, false);
+                Source.DELC = new DataCube<float>(1, 1, RowCount, false);
+                Source.DELR = new DataCube<float>(1, 1, ColumnCount, false);
+                Source.DELC.Flags[0, 0] = TimeVarientFlag.Constant;
+                Source.DELR.Flags[0, 0] = TimeVarientFlag.Constant;
+                Source.DELC.Constants[0, 0] = this.XSize;
+                Source.DELR.Constants[0, 0] = this.YSize;
                 Source.DELC.ILArrays[0]["0", ":"] = this.XSize;
                 Source.DELR.ILArrays[0]["0", ":"] = this.YSize;
                 Source.Projection = Domain.Projection;
@@ -157,49 +163,66 @@ namespace Heiflow.Models.Generic.Grid
                 int active = 0;
                 var geo = Domain.Features[0].Geometry.Coordinates;
                 List<Coordinate> centroids = new List<Coordinate>();
+                IRaster[] slope_asp = null;
                 for (int r = 0; r < RowCount; r++)
                 {
                     for (int c = 0; c < ColumnCount; c++)
                     {
                         var cor = Source.LocateCentroid(c + 1, r + 1);
-                        
+
                         if (SpatialRelationship.PointInPolygon(geo, cor))
                         {
                             for (int l = 0; l < Source.ActualLayerCount; l++)
-                                Source.IBound[l,r,c] = 1;
+                                Source.IBound[l, r, c] = 1;
                             active++;
                             centroids.Add(cor);
                         }
                     }
                 }
                 Source.ActiveCellCount = active;
-                Source.Elevations = new DataCube<float>(Source.LayerCount, 1, active);
+                Source.Elevations = new DataCube<float>(Source.LayerCount, 1, active, true);
                 Source.Elevations.Variables[0] = "Top Elevation";
-
                 for (int i = 0; i < active; i++)
                 {
-                    //var cell = DEM.ProjToCell(centroids[i]);
-                    //if (cell != null && cell.Row > 0)
-                    //    Source.Elevations.Value[0][0][i] = (float)DEM.Value[cell.Row, cell.Column];
-                    //else
-                    //    Source.Elevations.Value[0][0][i] = 0;
-                    var pt=new Coordinate(centroids[i].X-0.5*XSize,centroids[i].Y-0.5*YSize);
+                    var pt = new Coordinate(centroids[i].X - 0.5 * XSize, centroids[i].Y - 0.5 * YSize);
                     var buf = ZonalStatastics.GetCellAverage(DEM, pt, XSize, AveragingMethod);
                     if (buf == -9999)
                         buf = 0;
                     Source.Elevations[0, 0, i] = buf;
                 }
-
+               
                 for (int l = 1; l < Source.LayerCount; l++)
                 {
                     Source.Elevations.Variables[l] = string.Format("Layer {0} Bottom Elevation", l);
                     for (int i = 0; i < active; i++)
                     {
-                        Source.Elevations[l,0,i] = (float)(Source.Elevations[l - 1,0,i] - LayerGroups[l - 1].LayerHeight);
+                        Source.Elevations[l, 0, i] = (float)(Source.Elevations[l - 1, 0, i] - LayerGroups[l - 1].LayerHeight);
                     }
                 }
                 Source.BuildTopology();
                 Source.Elevations.Topology = Source.Topology;
+ 
+                if (CalcSlopeAspect)
+                {
+                    slope_asp = Heiflow.Models.GeoSpatial.RasterEx.GetSlopeAspect(DEM, 1, true, null);
+                    if (slope_asp != null)
+                    {
+                        Source.Slope = new DataCube<float>(1, 1, active, false);
+                        Source.Aspect = new DataCube<float>(1, 1, active, false);
+                        for (int i = 0; i < active; i++)
+                        {
+                            var pt = new Coordinate(centroids[i].X - 0.5 * XSize, centroids[i].Y - 0.5 * YSize);
+                            var buf = ZonalStatastics.GetCellAverage(slope_asp[0], pt, XSize, AveragingMethod);
+                            if (buf == -9999)
+                                buf = 0;
+                            Source.Aspect[0, 0, i] = buf;
+                            buf = ZonalStatastics.GetCellAverage(slope_asp[1], pt, XSize, AveragingMethod);
+                            if (buf == -9999)
+                                buf = 0;
+                            Source.Slope[0, 0, i] = buf;
+                        }
+                    }
+                }
             }
             else
             {
@@ -207,5 +230,7 @@ namespace Heiflow.Models.Generic.Grid
             }
             return Source;
         }
+
+
     }
 }

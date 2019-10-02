@@ -237,7 +237,7 @@ namespace Heiflow.Tools.Conversion
                 var yy = _YVariable.GetData() as float[];
                 var nc_array= _SelectedVariable.GetData() as float[,,];
                 int nstep = time.Count();
-                var mat_out = new DataCube<float>(1, time.Length, npt);
+                var mat_out = new DataCube<float>(1, time.Length, npt, false);
                 mat_out.Name = OutputMatrix;
                 mat_out.Variables = new string[] { _SelectedVariableName };
                 mat_out.DateTimes = new DateTime[nstep];

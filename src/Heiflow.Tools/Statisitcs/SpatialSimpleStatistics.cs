@@ -74,7 +74,7 @@ namespace Heiflow.Tools.Statisitcs
             {
                 int nstep = mat.Size[1];
                 int ncell = mat.Size[2];
-                var mat_out = new DataCube<float>(4, 1, ncell);
+                var mat_out = new DataCube<float>(4, 1, ncell, false);
                 mat_out.Name = OutputDataCube;
                 mat_out.Variables = new string[] { "Mean", "Variance", "Skewness", "kurtosis" };
                 for (int c = 0; c < ncell; c++)

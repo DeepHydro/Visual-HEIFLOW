@@ -139,7 +139,7 @@ namespace Heiflow.Tools.Math
                 var ts = new DataCube<float>(vec, date_source);
                 var derieved_ts = TimeSeriesAnalyzer.Derieve(ts, NumericalDataType, TimeUnits);
                 var derieved_steps = derieved_ts.DateTimes.Length;
-                var mat_out = new DataCube<float>(1, derieved_steps, ncell);
+                var mat_out = new DataCube<float>(1, derieved_steps, ncell, false);
 
                 mat_out.Name = Derived;
                 mat_out.Variables = new string[] { "Derived" };

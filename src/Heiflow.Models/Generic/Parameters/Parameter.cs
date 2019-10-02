@@ -50,7 +50,7 @@ namespace Heiflow.Models.Generic.Parameters
         protected int _valueCount;
         protected int[] _Size;
         protected Array _array;
-        protected DataCube<float> _DataCube;
+        protected DataCube2DLayout<float> _DataCube;
         public Parameter(string name)
         {
             Name = name;
@@ -237,7 +237,7 @@ namespace Heiflow.Models.Generic.Parameters
         }
         [XmlIgnore]
         [Browsable(false)]
-        public DataCube<float> FloatDataCube
+        public DataCube2DLayout<float> FloatDataCube
         {
             get
             {
@@ -541,6 +541,17 @@ namespace Heiflow.Models.Generic.Parameters
         public void UpdateFromFloatDataCube()
         {
             throw new NotImplementedException();
+        }
+
+
+        public string DimensionCat
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public int[] DimensionLengh
+        {
+            get { throw new NotImplementedException(); }
         }
     }
 }

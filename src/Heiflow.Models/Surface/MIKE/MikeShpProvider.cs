@@ -118,7 +118,7 @@ namespace Heiflow.Models.Surface.MIKE
         {
             int steps = shpfiles.Length;
             int nfeature = grid.VertexCount;
-            var buf = new DataCube<float>(1, steps, nfeature);
+            var buf = new DataCube<float>(1, steps, nfeature, false);
 
             for (int i = 0; i < steps; i++)
             {
@@ -146,7 +146,7 @@ namespace Heiflow.Models.Surface.MIKE
         {
             int steps = dbffiles.Length;
             int nfeature = grid.VertexCount;
-            var buf = new DataCube<float>(index.Length, steps, nfeature);
+            var buf = new DataCube<float>(index.Length, steps, nfeature,false);
             string[] field = new string[index.Length];
             for (int i = 0; i < steps; i++)
             {
@@ -192,7 +192,7 @@ namespace Heiflow.Models.Surface.MIKE
             int steps = dbffiles.Length;
             DBFReader dbf = new DBFReader(dbffiles[0]);
             int nfeature = dbf.RecordCount;
-            var buf = new DataCube<float>(index.Length, steps, nfeature);
+            var buf = new DataCube<float>(index.Length, steps, nfeature, false);
             string[] field = new string[index.Length];
             for (int i = 0; i < index.Length; i++)
             {

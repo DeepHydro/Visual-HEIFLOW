@@ -137,7 +137,7 @@ namespace Heiflow.Tools.Math
                 et0.Add((float)pet.ET0(Latitude, Longitude, vv[0], vv[1], vv[2], vv[3], vv[4], vv[5], dates[i], CloudCover));
 
             }
-            DataCube<float> mat_out = new DataCube<float>(1, 1, et0.Count);
+            DataCube<float> mat_out = new DataCube<float>(1, 1, et0.Count, false);
             mat_out[0,"0",":"] = et0.ToArray();
             mat_out.Name = PET;
             cancelProgressHandler.Progress("Package_Tool", 100, "Calculated");

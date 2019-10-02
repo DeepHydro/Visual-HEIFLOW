@@ -129,7 +129,7 @@ namespace Heiflow.Models.Surface.MIKE
                 }
 
                 var elev = (from vert in grid.Vertex select (float)vert.Z).ToArray();
-                grid.Elevations = new DataCube<float>(1,1, grid.VertexCount);
+                grid.Elevations = new DataCube<float>(1, 1, grid.VertexCount, false);
                 grid.Elevations[0, "0",":"] = elev;
                 topology.Grid = grid;
                 grid.Topology = topology;

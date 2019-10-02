@@ -75,8 +75,8 @@ namespace Heiflow.Tools.Statisitcs
             {
                 int nstep = matA.Size[1];
                 int ncell = matA.Size[2];
-             
-                var mat_out = new DataCube<float>(1, 1, ncell);
+
+                var mat_out = new DataCube<float>(1, 1, ncell, false);
                 mat_out.Name = OutputDataCube;
                 mat_out.Variables = new string[] { "Slope" };
 

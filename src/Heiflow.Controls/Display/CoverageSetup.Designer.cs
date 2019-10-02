@@ -48,7 +48,6 @@
             this.labelStatus = new System.Windows.Forms.ToolStripLabel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.dataGridEx1 = new Heiflow.Controls.WinForm.Controls.DataGridEx();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControlLeft = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -60,6 +59,7 @@
             this.cmbGridLayer = new System.Windows.Forms.ComboBox();
             this.cmbPackages = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.dataGridEx1 = new Heiflow.Controls.WinForm.Controls.DataCubeGrid();
             this.contextMenuStripAreal.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -81,7 +81,7 @@
             this.chbProp.FormattingEnabled = true;
             this.chbProp.Location = new System.Drawing.Point(8, 276);
             this.chbProp.Name = "chbProp";
-            this.chbProp.Size = new System.Drawing.Size(213, 148);
+            this.chbProp.Size = new System.Drawing.Size(225, 76);
             this.chbProp.TabIndex = 6;
             // 
             // contextMenuStripAreal
@@ -133,7 +133,7 @@
             this.labelStatus});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(954, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(1004, 27);
             this.toolStrip1.TabIndex = 14;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -208,7 +208,7 @@
             // 
             // labelStatus
             // 
-            this.labelStatus.Margin = new System.Windows.Forms.Padding(50, 1, 0, 2);
+            this.labelStatus.Margin = new System.Windows.Forms.Padding(2, 1, 0, 2);
             this.labelStatus.Name = "labelStatus";
             this.labelStatus.Size = new System.Drawing.Size(54, 24);
             this.labelStatus.Text = "Ready";
@@ -220,7 +220,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(711, 471);
+            this.tabControl1.Size = new System.Drawing.Size(749, 471);
             this.tabControl1.TabIndex = 15;
             // 
             // tabPage2
@@ -229,25 +229,10 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 30);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(703, 437);
+            this.tabPage2.Size = new System.Drawing.Size(741, 437);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Lookup Table";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // dataGridEx1
-            // 
-            this.dataGridEx1.DataObjectName = "";
-            this.dataGridEx1.DataTable = null;
-            this.dataGridEx1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridEx1.Font = new System.Drawing.Font("Calibri", 9.5F);
-            this.dataGridEx1.Location = new System.Drawing.Point(3, 3);
-            this.dataGridEx1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.dataGridEx1.Name = "dataGridEx1";
-            this.dataGridEx1.ShowImport = false;
-            this.dataGridEx1.ShowSave2Excel = false;
-            this.dataGridEx1.ShowSaveButton = false;
-            this.dataGridEx1.Size = new System.Drawing.Size(697, 431);
-            this.dataGridEx1.TabIndex = 3;
             // 
             // splitContainer1
             // 
@@ -263,8 +248,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
-            this.splitContainer1.Size = new System.Drawing.Size(954, 471);
-            this.splitContainer1.SplitterDistance = 239;
+            this.splitContainer1.Size = new System.Drawing.Size(1004, 471);
+            this.splitContainer1.SplitterDistance = 251;
             this.splitContainer1.TabIndex = 16;
             // 
             // tabControlLeft
@@ -274,7 +259,7 @@
             this.tabControlLeft.Location = new System.Drawing.Point(0, 0);
             this.tabControlLeft.Name = "tabControlLeft";
             this.tabControlLeft.SelectedIndex = 0;
-            this.tabControlLeft.Size = new System.Drawing.Size(239, 471);
+            this.tabControlLeft.Size = new System.Drawing.Size(251, 471);
             this.tabControlLeft.TabIndex = 4;
             // 
             // tabPage1
@@ -292,7 +277,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 30);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(231, 437);
+            this.tabPage1.Size = new System.Drawing.Size(243, 437);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Setting";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -304,7 +289,7 @@
             this.cmbFields.FormattingEnabled = true;
             this.cmbFields.Location = new System.Drawing.Point(8, 96);
             this.cmbFields.Name = "cmbFields";
-            this.cmbFields.Size = new System.Drawing.Size(213, 29);
+            this.cmbFields.Size = new System.Drawing.Size(225, 29);
             this.cmbFields.TabIndex = 1;
             // 
             // label5
@@ -332,7 +317,7 @@
             this.cmbMapLayers.FormattingEnabled = true;
             this.cmbMapLayers.Location = new System.Drawing.Point(8, 36);
             this.cmbMapLayers.Name = "cmbMapLayers";
-            this.cmbMapLayers.Size = new System.Drawing.Size(213, 29);
+            this.cmbMapLayers.Size = new System.Drawing.Size(225, 29);
             this.cmbMapLayers.TabIndex = 1;
             this.cmbMapLayers.SelectedIndexChanged += new System.EventHandler(this.cmbMapLayers_SelectedIndexChanged);
             // 
@@ -352,7 +337,7 @@
             this.cmbGridLayer.FormattingEnabled = true;
             this.cmbGridLayer.Location = new System.Drawing.Point(8, 216);
             this.cmbGridLayer.Name = "cmbGridLayer";
-            this.cmbGridLayer.Size = new System.Drawing.Size(213, 29);
+            this.cmbGridLayer.Size = new System.Drawing.Size(225, 29);
             this.cmbGridLayer.TabIndex = 1;
             this.cmbGridLayer.SelectedIndexChanged += new System.EventHandler(this.cmbGridLayer_SelectedIndexChanged);
             // 
@@ -363,7 +348,7 @@
             this.cmbPackages.FormattingEnabled = true;
             this.cmbPackages.Location = new System.Drawing.Point(8, 156);
             this.cmbPackages.Name = "cmbPackages";
-            this.cmbPackages.Size = new System.Drawing.Size(213, 29);
+            this.cmbPackages.Size = new System.Drawing.Size(225, 29);
             this.cmbPackages.TabIndex = 1;
             this.cmbPackages.SelectedIndexChanged += new System.EventHandler(this.cmbPackages_SelectedIndexChanged);
             // 
@@ -376,12 +361,27 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "* Packages";
             // 
+            // dataGridEx1
+            // 
+            this.dataGridEx1.DataObjectName = "";
+            this.dataGridEx1.DataTable = null;
+            this.dataGridEx1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridEx1.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.dataGridEx1.Location = new System.Drawing.Point(3, 3);
+            this.dataGridEx1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.dataGridEx1.Name = "dataGridEx1";
+            this.dataGridEx1.ShowImport = false;
+            this.dataGridEx1.ShowSave2Excel = false;
+            this.dataGridEx1.ShowSaveButton = false;
+            this.dataGridEx1.Size = new System.Drawing.Size(735, 431);
+            this.dataGridEx1.TabIndex = 3;
+            // 
             // CoverageSetup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(954, 498);
+            this.ClientSize = new System.Drawing.Size(1004, 498);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip1);
             this.Font = new System.Drawing.Font("Calibri", 10.5F);
@@ -420,7 +420,7 @@
         private System.Windows.Forms.ComboBox cmbPackages;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripTextBox tbCoverageName;
-        private Controls.DataGridEx dataGridEx1;
+        private Controls.DataCubeGrid dataGridEx1;
         private System.Windows.Forms.TabControl tabControlLeft;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.ComboBox cmbFields;

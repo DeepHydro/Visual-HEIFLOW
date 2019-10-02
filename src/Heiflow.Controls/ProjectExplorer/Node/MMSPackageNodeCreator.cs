@@ -73,7 +73,7 @@ namespace Heiflow.Controls.WinForm.Project
             };
 
             var categories = from optc in pck.Parameters.Values
-                             group optc by optc.DimensionNames[0] into cat
+                             group optc by optc.DimensionCat into cat
                              select new { Category = cat.Key, Items = cat.ToArray() };
             foreach (var cat in categories)
             {
@@ -127,7 +127,7 @@ namespace Heiflow.Controls.WinForm.Project
                         };
                         node_cat.Nodes.Add(ndpara);
                     }
-                    mmsi.Enable(DisplayablePropertyContextMenu._A2DC, true);
+                    mmsi.Enable(DisplayablePropertyContextMenu._A2DC, false);
                 }
                 node.Nodes.Add(node_cat);
             }

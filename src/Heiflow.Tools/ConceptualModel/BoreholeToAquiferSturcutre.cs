@@ -172,7 +172,7 @@ namespace Heiflow.Tools.ConceptualModel
                 int nlayer = mf.Grid.ActualLayerCount;
                 var known_sites = new Site[npt];
                 var ncell = _grid_layer.DataTable.Rows.Count;
-                var height_dc = new DataCube<float>(pck.Grid.ActualLayerCount, 1, ncell);
+                var height_dc = new DataCube<float>(pck.Grid.ActualLayerCount, 1, ncell, false);
                 InverseDistanceWeighting idw = new InverseDistanceWeighting();
                 string msg = "";
                 for (int i = 0; i < npt; i++)

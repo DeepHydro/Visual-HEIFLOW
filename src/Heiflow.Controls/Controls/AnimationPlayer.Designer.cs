@@ -51,19 +51,21 @@
             // 
             // toolStrip1
             // 
+            this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cmbAnimators,
             this.btnPlay});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(384, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(432, 28);
             this.toolStrip1.TabIndex = 10;
             this.toolStrip1.Text = "toolStrip1";
             // 
             // cmbAnimators
             // 
             this.cmbAnimators.Name = "cmbAnimators";
-            this.cmbAnimators.Size = new System.Drawing.Size(130, 25);
+            this.cmbAnimators.Size = new System.Drawing.Size(146, 28);
             this.cmbAnimators.SelectedIndexChanged += new System.EventHandler(this.cmbAnimators_SelectedIndexChanged);
             // 
             // btnPlay
@@ -72,7 +74,7 @@
             this.btnPlay.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GenericBlueRightArrowNoTail32;
             this.btnPlay.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnPlay.Name = "btnPlay";
-            this.btnPlay.Size = new System.Drawing.Size(23, 22);
+            this.btnPlay.Size = new System.Drawing.Size(24, 25);
             this.btnPlay.Text = "Play";
             this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
             // 
@@ -84,7 +86,7 @@
             this.listBox_timeline.ItemHeight = 21;
             this.listBox_timeline.Location = new System.Drawing.Point(0, 0);
             this.listBox_timeline.Name = "listBox_timeline";
-            this.listBox_timeline.Size = new System.Drawing.Size(384, 266);
+            this.listBox_timeline.Size = new System.Drawing.Size(432, 294);
             this.listBox_timeline.TabIndex = 12;
             this.listBox_timeline.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.listBoxTimeLine_DrawItem);
             this.listBox_timeline.SelectedIndexChanged += new System.EventHandler(this.listBoxTimeLine_SelectedIndexChanged);
@@ -119,7 +121,7 @@
             this.olvDataCubeTree.SelectedForeColor = System.Drawing.Color.White;
             this.olvDataCubeTree.ShowGroups = false;
             this.olvDataCubeTree.ShowKeyColumns = false;
-            this.olvDataCubeTree.Size = new System.Drawing.Size(384, 270);
+            this.olvDataCubeTree.Size = new System.Drawing.Size(432, 298);
             this.olvDataCubeTree.TabIndex = 13;
             this.olvDataCubeTree.UnfocusedSelectedBackColor = System.Drawing.Color.LimeGreen;
             this.olvDataCubeTree.UnfocusedSelectedForeColor = System.Drawing.Color.White;
@@ -159,7 +161,7 @@
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 25);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 28);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -170,8 +172,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.listBox_timeline);
-            this.splitContainer1.Size = new System.Drawing.Size(384, 540);
-            this.splitContainer1.SplitterDistance = 270;
+            this.splitContainer1.Size = new System.Drawing.Size(432, 596);
+            this.splitContainer1.SplitterDistance = 298;
             this.splitContainer1.TabIndex = 14;
             // 
             // imageList1
@@ -183,14 +185,14 @@
             // 
             // AnimationPlayer
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip1);
-            this.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "AnimationPlayer";
-            this.Size = new System.Drawing.Size(384, 565);
+            this.Size = new System.Drawing.Size(432, 624);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.olvDataCubeTree)).EndInit();

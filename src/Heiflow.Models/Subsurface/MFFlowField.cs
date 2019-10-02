@@ -55,8 +55,8 @@ namespace Heiflow.Models.Subsurface
             //cbc.Value
             int steps = cbc.Size[1];
             int nfea = cbc.Size[2];
-            Direction = new DataCube<float>(1, steps, nfea);
-            Metric = new DataCube<float>(1, steps, nfea);
+            Direction = new DataCube<float>(1, steps, nfea,false);
+            Metric = new DataCube<float>(1, steps, nfea, false);
 
             for (int s = 0; s < steps; s++)
             {

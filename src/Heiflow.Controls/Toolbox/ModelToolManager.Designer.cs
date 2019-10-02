@@ -42,7 +42,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.tabPageFigure = new System.Windows.Forms.TabPage();
             this.winChart_timeseries = new Heiflow.Controls.WinForm.Controls.WinChart();
             this.tabPageTable = new System.Windows.Forms.TabPage();
-            this.dataGridEx1 = new Heiflow.Controls.WinForm.Controls.DataGridEx();
+            this.dataGridEx1 = new Heiflow.Controls.WinForm.Controls.DataCubeGrid();
             this.tabPageOutput = new System.Windows.Forms.TabPage();
             this.txt_msg = new System.Windows.Forms.RichTextBox();
             this.tabControlLeft = new System.Windows.Forms.TabControl();
@@ -139,7 +139,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.tabPageCommand.Location = new System.Drawing.Point(4, 4);
             this.tabPageCommand.Name = "tabPageCommand";
             this.tabPageCommand.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCommand.Size = new System.Drawing.Size(699, 608);
+            this.tabPageCommand.Size = new System.Drawing.Size(699, 604);
             this.tabPageCommand.TabIndex = 2;
             this.tabPageCommand.Text = "Command";
             this.tabPageCommand.UseVisualStyleBackColor = true;
@@ -158,8 +158,8 @@ namespace Heiflow.Controls.WinForm.Toolbox
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.richTextBox1);
-            this.splitContainer2.Size = new System.Drawing.Size(693, 575);
-            this.splitContainer2.SplitterDistance = 428;
+            this.splitContainer2.Size = new System.Drawing.Size(693, 571);
+            this.splitContainer2.SplitterDistance = 425;
             this.splitContainer2.TabIndex = 2;
             // 
             // propertyGrid1
@@ -169,7 +169,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.propertyGrid1.LineColor = System.Drawing.SystemColors.ControlDark;
             this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(693, 428);
+            this.propertyGrid1.Size = new System.Drawing.Size(693, 425);
             this.propertyGrid1.TabIndex = 0;
             // 
             // richTextBox1
@@ -177,7 +177,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox1.Location = new System.Drawing.Point(0, 0);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(693, 143);
+            this.richTextBox1.Size = new System.Drawing.Size(693, 142);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
@@ -208,7 +208,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.tabPageFigure.Location = new System.Drawing.Point(4, 4);
             this.tabPageFigure.Name = "tabPageFigure";
             this.tabPageFigure.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFigure.Size = new System.Drawing.Size(699, 608);
+            this.tabPageFigure.Size = new System.Drawing.Size(699, 607);
             this.tabPageFigure.TabIndex = 0;
             this.tabPageFigure.Text = "Figure";
             this.tabPageFigure.UseVisualStyleBackColor = true;
@@ -222,7 +222,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.winChart_timeseries.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.winChart_timeseries.Name = "winChart_timeseries";
             this.winChart_timeseries.ShowStatPanel = false;
-            this.winChart_timeseries.Size = new System.Drawing.Size(693, 602);
+            this.winChart_timeseries.Size = new System.Drawing.Size(693, 601);
             this.winChart_timeseries.TabIndex = 8;
             // 
             // tabPageTable
@@ -231,7 +231,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.tabPageTable.Location = new System.Drawing.Point(4, 4);
             this.tabPageTable.Name = "tabPageTable";
             this.tabPageTable.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageTable.Size = new System.Drawing.Size(699, 608);
+            this.tabPageTable.Size = new System.Drawing.Size(699, 604);
             this.tabPageTable.TabIndex = 1;
             this.tabPageTable.Text = "Table";
             this.tabPageTable.UseVisualStyleBackColor = true;
@@ -248,7 +248,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.dataGridEx1.ShowImport = false;
             this.dataGridEx1.ShowSave2Excel = false;
             this.dataGridEx1.ShowSaveButton = false;
-            this.dataGridEx1.Size = new System.Drawing.Size(693, 602);
+            this.dataGridEx1.Size = new System.Drawing.Size(693, 598);
             this.dataGridEx1.TabIndex = 0;
             // 
             // tabPageOutput
@@ -257,7 +257,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.tabPageOutput.Location = new System.Drawing.Point(4, 4);
             this.tabPageOutput.Name = "tabPageOutput";
             this.tabPageOutput.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageOutput.Size = new System.Drawing.Size(699, 608);
+            this.tabPageOutput.Size = new System.Drawing.Size(699, 607);
             this.tabPageOutput.TabIndex = 3;
             this.tabPageOutput.Text = "Output";
             this.tabPageOutput.UseVisualStyleBackColor = true;
@@ -268,7 +268,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.txt_msg.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt_msg.Location = new System.Drawing.Point(3, 3);
             this.txt_msg.Name = "txt_msg";
-            this.txt_msg.Size = new System.Drawing.Size(693, 602);
+            this.txt_msg.Size = new System.Drawing.Size(693, 601);
             this.txt_msg.TabIndex = 1;
             this.txt_msg.Text = "";
             // 
@@ -287,10 +287,10 @@ namespace Heiflow.Controls.WinForm.Toolbox
             // tabPage5
             // 
             this.tabPage5.Controls.Add(this.splitContainer3);
-            this.tabPage5.Location = new System.Drawing.Point(4, 24);
+            this.tabPage5.Location = new System.Drawing.Point(4, 28);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(346, 608);
+            this.tabPage5.Size = new System.Drawing.Size(346, 604);
             this.tabPage5.TabIndex = 2;
             this.tabPage5.Text = "Workspace";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -310,8 +310,8 @@ namespace Heiflow.Controls.WinForm.Toolbox
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.olvVariableName);
-            this.splitContainer3.Size = new System.Drawing.Size(340, 602);
-            this.splitContainer3.SplitterDistance = 393;
+            this.splitContainer3.Size = new System.Drawing.Size(340, 598);
+            this.splitContainer3.SplitterDistance = 390;
             this.splitContainer3.TabIndex = 1;
             // 
             // olvMatName
@@ -346,7 +346,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.olvMatName.ShowGroups = false;
             this.olvMatName.ShowImagesOnSubItems = true;
             this.olvMatName.ShowItemToolTips = true;
-            this.olvMatName.Size = new System.Drawing.Size(340, 366);
+            this.olvMatName.Size = new System.Drawing.Size(340, 363);
             this.olvMatName.TabIndex = 3;
             this.olvMatName.UnfocusedSelectedBackColor = System.Drawing.Color.LimeGreen;
             this.olvMatName.UnfocusedSelectedForeColor = System.Drawing.Color.White;
@@ -390,19 +390,19 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.toolStripSeparator1,
             this.menu_Clear});
             this.contextMenuStrip_matname.Name = "contextMenuStrip_matname";
-            this.contextMenuStrip_matname.Size = new System.Drawing.Size(181, 114);
+            this.contextMenuStrip_matname.Size = new System.Drawing.Size(205, 114);
             // 
             // menu_Open
             // 
             this.menu_Open.Name = "menu_Open";
-            this.menu_Open.Size = new System.Drawing.Size(180, 26);
+            this.menu_Open.Size = new System.Drawing.Size(204, 26);
             this.menu_Open.Text = "View Values...";
             this.menu_Open.Click += new System.EventHandler(this.menu_Open_Click);
             // 
             // menu_remove
             // 
             this.menu_remove.Name = "menu_remove";
-            this.menu_remove.Size = new System.Drawing.Size(180, 26);
+            this.menu_remove.Size = new System.Drawing.Size(204, 26);
             this.menu_remove.Text = "Remove";
             this.menu_remove.Click += new System.EventHandler(this.menu_Remove_Click);
             // 
@@ -410,20 +410,20 @@ namespace Heiflow.Controls.WinForm.Toolbox
             // 
             this.menu_SaveAs.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GenericSave_B_16;
             this.menu_SaveAs.Name = "menu_SaveAs";
-            this.menu_SaveAs.Size = new System.Drawing.Size(180, 26);
+            this.menu_SaveAs.Size = new System.Drawing.Size(204, 26);
             this.menu_SaveAs.Text = "Save As...";
             this.menu_SaveAs.Click += new System.EventHandler(this.menu_SaveAs_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(201, 6);
             // 
             // menu_Clear
             // 
             this.menu_Clear.Image = global::Heiflow.Controls.WinForm.Properties.Resources.if_edit_clear_15273;
             this.menu_Clear.Name = "menu_Clear";
-            this.menu_Clear.Size = new System.Drawing.Size(180, 26);
+            this.menu_Clear.Size = new System.Drawing.Size(204, 26);
             this.menu_Clear.Text = "Clear Workspace";
             this.menu_Clear.Click += new System.EventHandler(this.menu_Clear_Click);
             // 
@@ -495,7 +495,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.olvVariableName.ShowGroups = false;
             this.olvVariableName.ShowImagesOnSubItems = true;
             this.olvVariableName.ShowItemToolTips = true;
-            this.olvVariableName.Size = new System.Drawing.Size(340, 205);
+            this.olvVariableName.Size = new System.Drawing.Size(340, 204);
             this.olvVariableName.TabIndex = 2;
             this.olvVariableName.UseCellFormatEvents = true;
             this.olvVariableName.UseCompatibleStateImageBehavior = false;
@@ -546,11 +546,11 @@ namespace Heiflow.Controls.WinForm.Toolbox
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.treeView1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage1.Size = new System.Drawing.Size(346, 610);
+            this.tabPage1.Size = new System.Drawing.Size(346, 607);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Tools";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -575,7 +575,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.treeView1.NodeControls.Add(this._nodeTextBox);
             this.treeView1.OnVisibleOverride = null;
             this.treeView1.SelectedNode = null;
-            this.treeView1.Size = new System.Drawing.Size(340, 602);
+            this.treeView1.Size = new System.Drawing.Size(340, 599);
             this.treeView1.TabIndex = 1;
             this.treeView1.Text = "treeViewAdv1";
             // 
@@ -600,7 +600,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             // 
             // ModelToolManager
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer1);
             this.Font = new System.Drawing.Font("Calibri", 9.5F);
@@ -683,7 +683,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
         private BrightIdeasSoftware.OLVColumn olvColumn2;
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripButton btn_open_dcx;
-        private DataGridEx dataGridEx1;
+        private DataCubeGrid dataGridEx1;
         private System.Windows.Forms.ToolStripButton btnClear;
     }
 }

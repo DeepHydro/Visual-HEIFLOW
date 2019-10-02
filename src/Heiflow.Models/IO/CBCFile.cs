@@ -146,7 +146,7 @@ namespace Heiflow.Models.IO
             br = new BinaryReader(fs);
 
 
-            DataCube = new DataCube<float>(Variables.Length, nstep, _Grid.ActiveCellCount);
+            DataCube = new DataCube<float>(Variables.Length, nstep, _Grid.ActiveCellCount, false);
 
             for (int s = 0; s < NumTimeStep; s++)
             {

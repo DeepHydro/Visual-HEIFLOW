@@ -19,14 +19,14 @@ namespace Heiflow.Models.Generic.Parameters
     public class DataCubeParameter<T> : DataCube<T>, IParameter
     {
         protected int _valueCount;
-        private DataCube<float> _FloatDataCube;
+        private DataCube2DLayout<float> _FloatDataCube;
 
         public DataCubeParameter()
         {
 
         }
         public DataCubeParameter(int nvar, int nrow, int ncol, bool islazy = false)
-            : base(nvar, nrow, ncol, islazy)
+            : base(nvar, nrow, ncol, false, islazy)
         {
             Layout = DataCubeLayout.TwoD;
             VariableType = ParameterType.Parameter;
@@ -39,12 +39,6 @@ namespace Heiflow.Models.Generic.Parameters
             Maximum = 1;
             Minimum = 0;
             Units = "";
-        }
-        [XmlElement]
-        public new string Name
-        {
-            get;
-            set;
         }
         [XmlElement]
         public string Description
@@ -108,6 +102,29 @@ namespace Heiflow.Models.Generic.Parameters
             get;
             set;
         }
+        [XmlIgnore]
+        [Browsable(false)]
+        public string DimensionCat
+        {
+            get
+            {
+                return string.Join("_", DimensionNames);
+            }
+        }
+        [XmlIgnore]
+        [Browsable(false)]
+        public int[] DimensionLengh
+        {
+            get
+            {
+                int[] lens = new int[Dimension];
+                for (int i = 0; i < Dimension;i++ )
+                {
+                    int.Parse(Owner.Parameters[DimensionNames[i]].GetValue(0, 0, 0).ToString());
+                }
+                return lens;
+            }
+        }
         [XmlElement]
         public double DefaultValue
         {
@@ -152,11 +169,12 @@ namespace Heiflow.Models.Generic.Parameters
         }
         [XmlIgnore]
         [Browsable(false)]
-        public DataCube<float> FloatDataCube
+        public DataCube2DLayout<float> FloatDataCube
         {
             get
             {
-                _FloatDataCube = new DataCube<float>(1, Size[1], Size[2]);
+                _FloatDataCube = new DataCube2DLayout<float>(1, Size[1], Size[2], false);
+                _FloatDataCube.DataOwner = this;
                 for (int i = 0; i < Size[1]; i++)
                 {
                     for (int j = 0; j < Size[2]; j++)
@@ -164,6 +182,7 @@ namespace Heiflow.Models.Generic.Parameters
                         _FloatDataCube[0, i, j] = float.Parse(this[0, i, j].ToString());
                     }
                 }
+
                 return _FloatDataCube;
             }
         }
@@ -265,7 +284,7 @@ namespace Heiflow.Models.Generic.Parameters
 
         public virtual void Constant(object vv)
         {
-            var constant = (T)vv;
+            var constant = TypeConverterEx.ChangeType<T>(vv);
             for (int i = 0; i < Size[1]; i++)
             {
                 for (int j = 0; j < Size[2]; j++)
@@ -312,7 +331,7 @@ namespace Heiflow.Models.Generic.Parameters
 
         public void SetValue(int var_index, int time_index, int cell_index, object new_value)
         {
-            this[var_index, time_index, cell_index] = (T)new_value;
+            this[var_index, time_index, cell_index] = TypeConverterEx.ChangeType<T>(new_value);
         }
 
         public void FromStringArrays(string[] strs, int start, int end)
@@ -392,7 +411,7 @@ namespace Heiflow.Models.Generic.Parameters
                 {
                     for (int j = 0; j < Size[2]; j++)
                     {
-                        this[0][i, j] = TypeConverterEx.ChangeType<T>(_FloatDataCube[0][i, j]);
+                        this[0, i, j] = TypeConverterEx.ChangeType<T>(_FloatDataCube[0, i, j]);
                     }
                 }
             }

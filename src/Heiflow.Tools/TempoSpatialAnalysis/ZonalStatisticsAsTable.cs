@@ -218,9 +218,9 @@ namespace Heiflow.Tools.Statisitcs
                 //FeatureLayer.DataSet
                 int nstep = mat.Size[1];
                 int ncell = mat.Size[2];
-               
 
-                var mat_out = new DataCube<float>(1, nstep, nzone);
+
+                var mat_out = new DataCube<float>(1, nstep, nzone, false);
                 mat_out.Name = Output;
                 mat_out.Variables = new string[] { "Mean"};
                 for (int t = 0; t < nstep; t++)

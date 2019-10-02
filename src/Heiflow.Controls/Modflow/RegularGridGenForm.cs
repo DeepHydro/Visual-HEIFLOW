@@ -161,7 +161,8 @@ namespace Heiflow.Controls.WinForm.Modflow
             _GridGenerator.Source = _Controller.Project.Model.Grid as RegularGrid;
             _GridGenerator.Origin = origin;
             _GridGenerator.LayerGroups = mf.LayerGroupManager.LayerGroups;
-          
+            _GridGenerator.CalcSlopeAspect = chkSlopeAspect.Checked;
+
             Cursor.Current = Cursors.WaitCursor;
             _GridGenerator.Generate();
             _Controller.Project.CreateGridFeature();

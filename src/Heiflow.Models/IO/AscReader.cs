@@ -99,7 +99,7 @@ namespace Heiflow.Models.IO
             line = sr.ReadLine();
             temp = TypeConverterEx.Split<string>(line);
             NoDataValue = float.Parse(temp[1]);
-            mat = new DataCube<float>(1,nrow, ncol);
+            mat = new DataCube<float>(1, nrow, ncol, false);
 
             for (int i = 0; i < nrow; i++)
             {
@@ -190,7 +190,7 @@ namespace Heiflow.Models.IO
                         list.Add(buf[j]);
                 }
             }
-           var array = new DataCube<float>(1,1,list.Count);
+            var array = new DataCube<float>(1, 1, list.Count, false);
            array[0, "0", ":"] = list.ToArray();
             list.Clear();
             sr.Close();
@@ -216,7 +216,7 @@ namespace Heiflow.Models.IO
                         list.Add(buf[j]);
                 }
             }
-            var array = new DataCube<float>(1, 1, list.Count);
+            var array = new DataCube<float>(1, 1, list.Count, false);
             array[0, "0", ":"] = list.ToArray();
             list.Clear();
             sr.Close();

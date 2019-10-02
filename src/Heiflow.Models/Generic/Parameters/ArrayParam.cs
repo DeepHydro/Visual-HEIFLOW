@@ -69,7 +69,7 @@ namespace Heiflow.Models.Generic.Parameters
                 _array = _Values;
                 if (ValueType < 4)
                 {
-                    _DataCube = new DataCube<float>(1, 1, _valueCount);
+                    _DataCube = new DataCube2DLayout<float>(1, 1, _valueCount, false);
                     _DataCube[0, "0", ":"] = (from v in _Values select float.Parse(v.ToString())).ToArray();
                     _DataCube.Variables = new string[] { this.Name };
                 }

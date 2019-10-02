@@ -96,12 +96,12 @@ namespace Heiflow.Tools.Math
             
             if (source != null)
             {
-                var tag = new DataCube<float>(source.Size[0], source.Size[1], source.Size[2]);
+                var tag = new DataCube<float>(source.Size[0], source.Size[1], source.Size[2], false);
                 for (int i = 0; i < source.Size[0];i++ )
                 {
                     if(source[i] != null)
                     {
-                        tag[i] = source[i] * Scale;
+                        tag[i][":", ":"] = source[i][":", ":"] * Scale;
                     }
                 }
                 tag.Name = OutputDataCube;

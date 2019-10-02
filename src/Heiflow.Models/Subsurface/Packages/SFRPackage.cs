@@ -646,13 +646,13 @@ namespace Heiflow.Models.Subsurface
 
         public void NetworkToMat()
         {
-            Reaches = new DataCube<float>(13, 1, RiverNetwork.ReachCount)
+            Reaches = new DataCube<float>(13, 1, RiverNetwork.ReachCount,true)
             {
                 Name = "Reaches",
                 AllowTableEdit = true,
                 TimeBrowsable = false
             };
-            Segments = new DataCube<float>(11, 1, RiverNetwork.RiverCount)
+            Segments = new DataCube<float>(11, 1, RiverNetwork.RiverCount, true)
             {
                 Name = "Segments",
                 AllowTableEdit = true,

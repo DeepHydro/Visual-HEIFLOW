@@ -216,7 +216,7 @@ namespace Heiflow.Tools.SpatialAnalyst
                 if (Neighbors > nsource_sites)
                     Neighbors = nsource_sites;
                 var known_sites = new Site[nsource_sites];
-                DataCube<float> mat = new DataCube<float>(1, nstep, ntar_sites);
+                DataCube<float> mat = new DataCube<float>(1, nstep, ntar_sites, false);
                 mat.DateTimes = new DateTime[nstep];
                 mat.Name = OutputMatrix;
                 mat.TimeBrowsable = true;

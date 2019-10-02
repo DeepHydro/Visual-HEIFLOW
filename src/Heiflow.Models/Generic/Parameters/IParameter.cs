@@ -97,6 +97,14 @@ namespace Heiflow.Models.Generic
             set;
         }
 
+        string DimensionCat
+        {
+            get;
+        }
+        int[] DimensionLengh
+        {
+            get;
+        }
         object Tag
         {
             get;
@@ -132,7 +140,7 @@ namespace Heiflow.Models.Generic
             get;
             set;
         }
-        DataCube<float> FloatDataCube
+        DataCube2DLayout<float> FloatDataCube
         {
             get;
         }

@@ -55,7 +55,7 @@ namespace Heiflow.Core.Data
         {
 
         }
-        public DataCube(int nvar, int ntime, int ncell, bool islazy = false)
+        public DataCube(int nvar, int ntime, int ncell, bool initflag, bool islazy = false)
         {
             _isLazy = islazy;
             _nvar = nvar;
@@ -75,12 +75,11 @@ namespace Heiflow.Core.Data
             {
                 DataCubeType = Data.DataCubeType.Varient;
             }
-            Name = "default";
+            Name = "Default";
             PopulateVariables();
-            InitFlags(Size[0], Size[1]);
-
-            AllowTableEdit = false;
-            TimeBrowsable = false;
+            InitFlags(initflag, Size[0], Size[1]);
+            AllowTableEdit = true;
+            TimeBrowsable = true;
             _DataCubeLayout = DataCubeLayout.ThreeD;
         }
         public DataCube(T[] values, DateTime[] dates)
@@ -96,7 +95,7 @@ namespace Heiflow.Core.Data
             DateTimes = dates;
             Name = "Time Series";
             PopulateVariables();
-            InitFlags(Size[0], Size[1]);
+            InitFlags(false,Size[0], Size[1]);
             DataCubeType = Data.DataCubeType.Vector;
             AllowTableEdit = true;
             TimeBrowsable = true;
@@ -159,7 +158,7 @@ namespace Heiflow.Core.Data
         {
             get { return null; }
         }
-        [XmlIgnore]
+        [XmlElement]
         public string Name
         {
             get;
@@ -284,21 +283,36 @@ namespace Heiflow.Core.Data
             get;
             set;
         }
-        public void InitFlags(int size0, int size1)
+        public virtual void InitFlags(bool init, int size0, int size1)
         {
-            Flags = new TimeVarientFlag[size0, size1];
-            Constants = new float[size0, size1];
-            Multipliers = new float[size0, size1];
-            IPRN = new int[size0, size1];
-            for (int i = 0; i < size0; i++)
+            if (init)
             {
-                for (int j = 0; j < size1; j++)
+                Flags = new TimeVarientFlag[size0, size1];
+                Constants = new float[size0, size1];
+                Multipliers = new float[size0, size1];
+                IPRN = new int[size0, size1];
+                for (int i = 0; i < size0; i++)
                 {
-                    Flags[i, j] = TimeVarientFlag.Individual;
-                    Multipliers.SetValue(1, i, j);
-                    Constants.SetValue(0, i, j);
-                    IPRN[i, j] = -1;
+                    for (int j = 0; j < size1; j++)
+                    {
+                        Flags[i, j] = TimeVarientFlag.Individual;
+                        Multipliers.SetValue(1, i, j);
+                        Constants.SetValue(0, i, j);
+                        IPRN[i, j] = -1;
+                    }
                 }
+            }
+            else
+            {
+                Flags = new TimeVarientFlag[1, 1];
+                Constants = new float[1, 1];
+                Multipliers = new float[1, 1];
+                IPRN = new int[1, 1];
+
+                Flags[0, 0] = TimeVarientFlag.Individual;
+                Multipliers.SetValue(1, 0, 0);
+                Constants.SetValue(0, 0, 0);
+                IPRN[0, 0] = -1;
             }
         }
         public virtual void PopulateVariables()
@@ -940,7 +954,7 @@ namespace Heiflow.Core.Data
 
         public DataCube<float> SpatialMean(int var_index)
         {
-            var mean_mat = new DataCube<float>(1, _ntime, 1);
+            var mean_mat = new DataCube<float>(1, _ntime, 1, false);
             if (ILArrays[var_index] != null)
             {
                 for (int j = 0; j < _ntime; j++)

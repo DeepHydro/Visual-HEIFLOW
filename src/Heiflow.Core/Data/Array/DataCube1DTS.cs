@@ -11,7 +11,7 @@ namespace Heiflow.Core.Data
     public class DataCube1DTS<T> : DataCube<T>
     {
         public DataCube1DTS(T[] values, DateTime[] dates)
-            : base(1, 1, values.Length)
+            : base(1, 1, values.Length,false)
         {
             _arrays[0]["0", ":"] = values;
             DateTimes = dates;

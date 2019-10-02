@@ -169,6 +169,22 @@ namespace Heiflow.Models.Generic
             set;
         }
         /// <summary>
+        /// dc[1,1,ActiveCellCount]. The values represent percent slope.
+        /// </summary>
+        public DataCube<float> Slope
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        ///   dc[1,1,ActiveCellCount]. The aspect value is in compass direction values (0-360 degrees). 
+        /// </summary>
+        public DataCube<float> Aspect
+        {
+            get;
+            set;
+        }
+        /// <summary>
         /// mat[ActualLayerCount, Row, Col]
         /// </summary>
         public DataCube<float> IBound

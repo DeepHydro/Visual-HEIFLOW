@@ -119,7 +119,7 @@ namespace Heiflow.Tools.DataManagement
                 var nrow = _target_layer.NumRows();
                 var dx = System.Math.Sqrt(_target_layer.GetFeature(0).Geometry.Area);
                 int nsample = (int)System.Math.Floor(dx / _dem_layer.CellHeight);
-                var mat = new DataCube<float>(1, 1, nrow);
+                var mat = new DataCube<float>(1, 1, nrow, false);
                 float buf = 0;
                 float sum_cellv = 0;
                 List<float> temp = new List<float>();

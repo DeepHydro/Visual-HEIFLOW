@@ -361,7 +361,7 @@ namespace Heiflow.Models.Subsurface
                 Topology.ColumnCount = grid.ColumnCount;
                 Topology.ActiveCellCount = NH;
                 var nsp1 = (Observations[0] as HeadObservation).IREFSP.Length;
-                HOBS = new DataCube<float>(1, nsp1, NH);
+                HOBS = new DataCube<float>(1, nsp1, NH, true);
                 HOBS.Variables = new string[] { "Head Observation" };
                 for (int t = 0; t < nsp1; t++)
                     for (int k = 0; k < NH; k++)

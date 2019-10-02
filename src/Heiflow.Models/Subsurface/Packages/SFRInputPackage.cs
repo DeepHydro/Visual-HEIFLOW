@@ -146,7 +146,7 @@ namespace Heiflow.Models.Subsurface
                 if (File.Exists(_SFRPackage.InputFilesInfo[i].FileName))
                 {
                     var dates = new DateTime[nstep];
-                    var mat = new DataCube<double>(1, nstep, nsite);
+                    var mat = new DataCube<double>(1, nstep, nsite, true);
                     var site = (from ss in Sites where ss.Name == _SFRPackage.InputFilesInfo[i].Name select ss).First();
                     StreamReader sr = new StreamReader(_SFRPackage.InputFilesInfo[i].FileName);
                     string line = sr.ReadLine();
@@ -191,7 +191,7 @@ namespace Heiflow.Models.Subsurface
                 StreamReader sr = new StreamReader(_SFRPackage.InputFilesInfo[site_index].FileName);
                 string line = sr.ReadLine();
 
-                var mat = new DataCube<double>(1, nstep, 1);
+                var mat = new DataCube<double>(1, nstep, 1, false);
                 var dates = new DateTime[nstep];
                 for (int t = 0; t < nstep; t++)
                 {

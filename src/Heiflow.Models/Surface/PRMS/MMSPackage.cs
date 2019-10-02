@@ -148,7 +148,8 @@ namespace Heiflow.Models.Surface.PRMS
                         Dimension = 1,
                         VariableType = ParameterType.Dimension,
                         DimensionNames = dim_name,
-                        Name = newline
+                        Name = newline,
+                        Owner = this
                     };
                     i++;
                     newline = lines[i].Trim();
@@ -177,17 +178,17 @@ namespace Heiflow.Models.Surface.PRMS
                     int valueCount = int.Parse(newline.Trim());
                     i++;
                     newline = lines[i];
-                    int ValueType = int.Parse(newline.Trim());
+                    int valueType = int.Parse(newline.Trim());
 
                     int nrow = int.Parse( Parameters[dimensionNames[0]].GetValue(0,0,0).ToString());
                     int ncol = 1;
                     if(dimension > 1)
                         ncol = int.Parse(Parameters[dimensionNames[1]].GetValue(0, 0, 0).ToString());
-                    if (ValueType == 0)
+                    if (valueType == 0)
                     {
                         DataCubeParameter<short> gv = new DataCubeParameter<short>(1, nrow, ncol, false)
                         {
-                            ValueType = ValueType,
+                            ValueType = valueType,
                             VariableType = ParameterType.Parameter,
                             Dimension = dimension,
                             DimensionNames = dimensionNames,
@@ -198,11 +199,11 @@ namespace Heiflow.Models.Surface.PRMS
                         if (!Parameters.Keys.Contains(gv.Name))
                             Parameters.Add(gv.Name, gv);
                     }
-                    else if (ValueType == 1)
+                    else if (valueType == 1)
                     {
                         DataCubeParameter<int> gv = new DataCubeParameter<int>(1, nrow, ncol, false)
                         {
-                            ValueType = ValueType,
+                            ValueType = valueType,
                             VariableType = ParameterType.Parameter,
                             Dimension = dimension,
                             DimensionNames = dimensionNames,
@@ -213,11 +214,11 @@ namespace Heiflow.Models.Surface.PRMS
                         if (!Parameters.Keys.Contains(gv.Name))
                             Parameters.Add(gv.Name, gv);
                     }
-                    else if (ValueType == 2)
+                    else if (valueType == 2)
                     {
                         DataCubeParameter<float> gv = new DataCubeParameter<float>(1, nrow, ncol, false)
                         {
-                            ValueType = ValueType,
+                            ValueType = valueType,
                             VariableType = ParameterType.Parameter,
                             Dimension = dimension,
                             DimensionNames = dimensionNames,
@@ -228,11 +229,11 @@ namespace Heiflow.Models.Surface.PRMS
                         if (!Parameters.Keys.Contains(gv.Name))
                             Parameters.Add(gv.Name, gv);
                     }
-                    else if (ValueType == 3)
+                    else if (valueType == 3)
                     {
                         DataCubeParameter<double> gv = new DataCubeParameter<double>(1, nrow, ncol, false)
                         {
-                            ValueType = ValueType,
+                            ValueType = valueType,
                             VariableType = ParameterType.Parameter,
                             Dimension = dimension,
                             DimensionNames = dimensionNames,
@@ -243,11 +244,11 @@ namespace Heiflow.Models.Surface.PRMS
                         if (!Parameters.Keys.Contains(gv.Name))
                             Parameters.Add(gv.Name, gv);
                     }
-                    else if (ValueType == 4)
+                    else if (valueType == 4)
                     {
                         DataCubeParameter<string> gv = new DataCubeParameter<string>(1, nrow, ncol, false)
                         {
-                            ValueType = ValueType,
+                            ValueType = valueType,
                             VariableType = ParameterType.Parameter,
                             Dimension = dimension,
                             DimensionNames = dimensionNames,
@@ -578,19 +579,17 @@ namespace Heiflow.Models.Surface.PRMS
             this._DefaultParameters = mms.DefaultParameters;
             stream.Close();
         }
-
         public void AlterLength(string dim_name, int new_length)
         {
             foreach (var pr in this.Parameters.Values)
             {
-                if (pr.DimensionNames.Contains( dim_name))
+                if (pr.DimensionNames.Contains(dim_name))
                 {
                     pr.AlterDimLength(dim_name, new_length);
                 }
             }
             IsDirty = true;
         }
-
         public void UpdatePamameter(IParameter new_para)
         {
             var para = Select(new_para.Name);
