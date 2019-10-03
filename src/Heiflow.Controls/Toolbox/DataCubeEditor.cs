@@ -27,18 +27,18 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using Heiflow.Core.Data;
+using Heiflow.Core.IO;
+using Heiflow.Models.Tools;
+using Heiflow.Models.UI;
+using Heiflow.Presentation;
+using Heiflow.Presentation.Controls;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Forms;
-using Heiflow.Models.Tools;
-using System.Collections.ObjectModel;
-using Heiflow.Core.Data;
-using Heiflow.Presentation.Controls;
-using System.ComponentModel.Composition;
-using Heiflow.Presentation;
-using Heiflow.Core.IO;
-using Heiflow.Models.UI;
 
 namespace Heiflow.Controls.WinForm.Toolbox
 {
@@ -100,18 +100,8 @@ namespace Heiflow.Controls.WinForm.Toolbox
                 {
                     tsDataViewMode.Enabled = false;
                 }
-
-                //if (_SelectedDataCubeMeta.Mat.TimeBrowsable)
-                //{
-                    UpdateVariableView(_SelectedDataCubeMeta.Mat);
-                    olvVariableName.SelectedIndex = 0;
-                //}
-                //else
-                //{
-                //    olvVariableName.ClearObjects();
-                //    _SelectedDCVarientMeta = null;
-                //    ShowDataGrid();
-                //}
+                UpdateVariableView(_SelectedDataCubeMeta.Mat);
+                olvVariableName.SelectedIndex = 0;
                 btnRemove.Enabled = true;
             }
             else
@@ -120,7 +110,6 @@ namespace Heiflow.Controls.WinForm.Toolbox
                 olvVariableName.ClearObjects();
                 btnRemove.Enabled = false;
                 toolStripArray.Enabled = false;
-                
             }
         }
         private void olvMatName_MouseUp(object sender, MouseEventArgs e)
@@ -180,7 +169,6 @@ namespace Heiflow.Controls.WinForm.Toolbox
                     {
                         meta.Owner.Flags[meta.TimeIndex, 0] = TimeVarientFlag.Individual;
                         meta.Owner.Multipliers[meta.TimeIndex, 0] = (float)meta.Multiplier;
-                        //meta.Owner.AllocateSpaceDim(meta.TimeIndex, 0, meta.Owner.Topology.ActiveCellCount);
                     }
                     else if (e.NewValue.ToString() == TimeVarientFlag.Repeat.ToString())
                     {

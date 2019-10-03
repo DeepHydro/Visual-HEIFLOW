@@ -130,14 +130,12 @@ namespace Heiflow.Models.Subsurface
 
                 if (values.Length == col)
                 {
-                    //matrix.SetBy(values, 0, MyMath.full);
-                    matrix[0, "0", ":"] = values;
+                    matrix[0][0, ":"] = values;
                     for (int r = 1; r < row; r++)
                     {
                         line = sr.ReadLine();
                         values = TypeConverterEx.Split<T>(line);
-                        //matrix.SetBy(values, r, MyMath.full);
-                        matrix[0, r.ToString(), ":"] = values;
+                        matrix[0][r, ":"] = values;
                     }
 
                 }
@@ -162,9 +160,7 @@ namespace Heiflow.Models.Subsurface
                         }
 
                         values = TypeConverterEx.Split<T>(line);
-                        //matrix[r, ILMath.full] = values;
-                        //matrix.SetBy(values, r, MyMath.full);
-                        matrix[0, r.ToString(), ":"] = values;
+                        matrix[0][r, ":"] = values;
                     }
                 }
                 return matrix;

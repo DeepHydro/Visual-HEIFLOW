@@ -148,7 +148,7 @@ namespace Heiflow.Models.Generic.Grid
                 Source.ActualLayerCount = this.LayerCount;
                 Source.RowCount = RowCount;
                 Source.ColumnCount = ColumnCount;
-                Source.IBound = new DataCube<float>(this.LayerCount, RowCount, ColumnCount, false);
+                Source.IBound = new DataCube<float>(this.LayerCount, RowCount, ColumnCount, true);
                 Source.DELC = new DataCube<float>(1, 1, RowCount, false);
                 Source.DELR = new DataCube<float>(1, 1, ColumnCount, false);
                 Source.DELC.Flags[0, 0] = TimeVarientFlag.Constant;

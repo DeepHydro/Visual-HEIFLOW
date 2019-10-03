@@ -69,7 +69,7 @@ namespace Heiflow.Tools.DataManagement
         }
 
         [Category("Output")]
-        [Description("The data cube to which the raster values will be extracted. The data cube style should be [0][0][:]")]
+        [Description("The data cube to which the raster values will be extracted. The data cube style should be mat")]
         public string Matrix
         {
             get;

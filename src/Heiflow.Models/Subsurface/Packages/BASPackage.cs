@@ -121,7 +121,7 @@ namespace Heiflow.Models.Subsurface
 
                 var grid = (Owner.Grid as MFGrid);
 
-                grid.IBound = new DataCube<float>(grid.ActualLayerCount, grid.RowCount, grid.ColumnCount, false);
+                grid.IBound = new DataCube<float>(grid.ActualLayerCount, grid.RowCount, grid.ColumnCount, true);
                 grid.ActiveCellCount = 0;
                 for (int l = 0; l < grid.ActualLayerCount; l++)
                 {

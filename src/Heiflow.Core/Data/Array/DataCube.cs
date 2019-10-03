@@ -283,6 +283,12 @@ namespace Heiflow.Core.Data
             get;
             set;
         }
+        /// <summary>
+        /// init flags, constants, multipliers and IPRN
+        /// </summary>
+        /// <param name="init">wthether perform initing</param>
+        /// <param name="size0">number of variables</param>
+        /// <param name="size1">number of time</param>
         public virtual void InitFlags(bool init, int size0, int size1)
         {
             if (init)
