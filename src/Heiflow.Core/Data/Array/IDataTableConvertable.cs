@@ -38,8 +38,6 @@ namespace Heiflow.Core.Data
 {
     public interface IDataTableConvertable
     {
-        DataTable ToDataTableByTime(int var_index, int time_index);
-        DataTable ToDataTableBySpace(int var_index, int space_index);
         DataTable ToDataTable();
         DataTable ToDataTable(int var_index, int time_index, int cell_index);
         void FromDataTable(System.Data.DataTable dt);

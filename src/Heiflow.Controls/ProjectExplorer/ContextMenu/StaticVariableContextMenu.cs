@@ -116,7 +116,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
             var grid = _ProjectService.Project.Model.Grid as MFGrid;
             var convertor = _Package.GetType().GetProperty(_Item.PropertyInfo.Name).GetValue(_Package) as IDataCubeObject;
             convertor.SelectedVariableIndex = item.VariableIndex;
-            var vector = convertor.GetByTime(convertor.SelectedVariableIndex, 0);
+            var vector = convertor.GetVectorAsArray(convertor.SelectedVariableIndex, "0", ":");
             if (vector != null && _Package.Feature != null)
             {
                 var dt = _Package.Feature.DataTable;
@@ -136,7 +136,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
             var item = ExplorerItem as StaticVariableItem;
             var dc = _Package.GetType().GetProperty(_Item.PropertyInfo.Name).GetValue(_Package) as IDataCubeObject;
             dc.SelectedVariableIndex = item.VariableIndex;
-            if (dc.Flags[dc.SelectedVariableIndex, 0] == TimeVarientFlag.Constant || dc.Flags[dc.SelectedVariableIndex, 0] == TimeVarientFlag.Constant)
+            if (dc.Flags[dc.SelectedVariableIndex] == TimeVarientFlag.Constant || dc.Flags[dc.SelectedVariableIndex] == TimeVarientFlag.Constant)
             {
                 return;
             }
@@ -145,14 +145,14 @@ namespace Heiflow.Controls.WinForm.MenuItems
                 if (_ShellService.SurfacePlot != null && dc.Topology != null)
                 {
                     _ShellService.ShowChildWindow(ChildWindowNames.Win3DView);
-                    var mat = dc.ToILBaseArray(dc.SelectedVariableIndex, 0) as ILArray<float>;
+                    var mat = dc.ToSpatialILBaseArray(dc.SelectedVariableIndex, 0) as ILArray<float>;
                     mat.Name = string.Format("{0}[{1}]", dc.Name, dc.Variables[VariableIndex]);
                     _ShellService.SurfacePlot.PlotSurface(mat);
                 }
             }
             else
             {
-                var vector = dc.GetByTime(dc.SelectedVariableIndex, 0);
+                var vector = dc.GetVectorAsArray(dc.SelectedVariableIndex, "0", ":");
                 if (vector != null && _Package.Layer3D.RenderObject != null)
                 {
                     _Package.Layer3D.RenderObject.Render(vector.Cast<float>().ToArray());

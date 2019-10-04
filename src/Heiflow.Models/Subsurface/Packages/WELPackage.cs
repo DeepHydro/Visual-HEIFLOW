@@ -149,7 +149,7 @@ namespace Heiflow.Models.Subsurface
                 }
                 for (int i = 0; i < np; i++)
                 {
-                    if (FluxRates.Flags[i, 0] == TimeVarientFlag.Individual)
+                    if (FluxRates.Flags[i] == TimeVarientFlag.Individual)
                     {
                         fea_sp = i;
                         break;
@@ -174,15 +174,15 @@ namespace Heiflow.Models.Subsurface
                     feature.DataRow[RegularGrid.ParaValueField] = 0;
                     for (int j = 0; j < np; j++)
                     {
-                        if (FluxRates.Flags[j, 0] == TimeVarientFlag.Individual)
+                        if (FluxRates.Flags[j] == TimeVarientFlag.Individual)
                         {
                             feature.DataRow["Flux Rate" + (j + 1)] = FluxRates[3, j, i];
                         }
-                        else if (FluxRates.Flags[j, 0] == TimeVarientFlag.Constant)
+                        else if (FluxRates.Flags[j] == TimeVarientFlag.Constant)
                         {
-                            feature.DataRow["Flux Rate" + (j + 1)] = FluxRates.Constants[j, 0];
+                            feature.DataRow["Flux Rate" + (j + 1)] = FluxRates.Constants[j];
                         }
-                        else if (FluxRates.Flags[j, 0] == TimeVarientFlag.Repeat)
+                        else if (FluxRates.Flags[j] == TimeVarientFlag.Repeat)
                         {
                             feature.DataRow["Flux Rate" + (j + 1)] = FluxRates[3, j, i];
                         }
@@ -238,7 +238,7 @@ namespace Heiflow.Models.Subsurface
             int np = TimeService.StressPeriods.Count;
             for (int i = 0; i < np; i++)
             {
-               if( FluxRates.Flags[i, 0] == TimeVarientFlag.Individual)
+               if( FluxRates.Flags[i] == TimeVarientFlag.Individual)
                 {
                     var nwel= FluxRates.GetSpaceDimLength(i, 0);
                     line = string.Format("{0} {1} # Data Set 5: ITMP NP Stress period {2} ", nwel, 0, i + 1);
@@ -249,12 +249,12 @@ namespace Heiflow.Models.Subsurface
                         sw.WriteLine(line);
                     }
                 }
-                else if (FluxRates.Flags[i, 0] == TimeVarientFlag.Constant)
+                else if (FluxRates.Flags[i] == TimeVarientFlag.Constant)
                 {
                     line = string.Format("{0} {1} # Data Set 5: ITMP NP Stress period {2} ", 0, 0, i + 1);
                     sw.WriteLine(line);
                 }
-                else if (FluxRates.Flags[i, 0] == TimeVarientFlag.Repeat)
+                else if (FluxRates.Flags[i] == TimeVarientFlag.Repeat)
                 {
                     line = string.Format("{0} 0 0 # Data Set 5: ITMP NP Stress period {1} ", -1, i + 1);
                     sw.WriteLine(line);
@@ -286,11 +286,9 @@ namespace Heiflow.Models.Subsurface
                 MXACTW = (int)ss[0];
                 IWELCB = (int)ss[1];
 
-                FluxRates = new DataCube<float>(4, np, MXACTW, true)
+                FluxRates = new DataCube<float>(4, np, MXACTW)
                 {
                     DateTimes = new System.DateTime[np],
-                    TimeBrowsable = true,
-                    AllowTableEdit = false,
                     Variables = new string[4] {"Layer","Row","Column","Q" }
                 };
 
@@ -300,9 +298,9 @@ namespace Heiflow.Models.Subsurface
                     int nwel = (int)ss[0];
                     if (nwel > 0)
                     {
-                        FluxRates.Flags[n, 0] = TimeVarientFlag.Individual;
-                        FluxRates.Multipliers[n, 0] = 1;
-                        FluxRates.IPRN[n, 0] = -1;
+                        FluxRates.Flags[n] = TimeVarientFlag.Individual;
+                        FluxRates.Multipliers[n] = 1;
+                        FluxRates.IPRN[n] = -1;
 
                         for (int i = 0; i < nwel; i++)
                         {
@@ -315,15 +313,15 @@ namespace Heiflow.Models.Subsurface
                     }
                     else if (nwel == 0)
                     {
-                        FluxRates.Flags[n, 0] = TimeVarientFlag.Constant;
-                        FluxRates.Multipliers[n, 0] = 1;
-                        FluxRates.IPRN[n, 0] = -1;
+                        FluxRates.Flags[n] = TimeVarientFlag.Constant;
+                        FluxRates.Multipliers[n] = 1;
+                        FluxRates.IPRN[n] = -1;
                     }
                     else
                     {
-                        FluxRates.Flags[n, 0] = TimeVarientFlag.Repeat;
-                        FluxRates.Multipliers[n, 0] = ss[1];
-                        FluxRates.IPRN[n, 0] = -1;
+                        FluxRates.Flags[n] = TimeVarientFlag.Repeat;
+                        FluxRates.Multipliers[n] = ss[1];
+                        FluxRates.IPRN[n] = -1;
                         //var size = FluxRates.GetVariableSize(n - 1);
                         //var buf = new float[size[1]];
                         //FluxRates[n - 1, "0", ":"].CopyTo(buf, 0);
@@ -340,7 +338,7 @@ namespace Heiflow.Models.Subsurface
         private void InitTVArrays()
         {
             int np = TimeService.StressPeriods.Count;
-            this.FluxRates = new DataCube<float>(4, np, 1, true);
+            this.FluxRates = new DataCube<float>(4, np, 1);
             for (int n = 0; n < np; n++)
             {
                 FluxRates.Variables[n] = "Flux Rate" + (n + 1);
@@ -354,7 +352,7 @@ namespace Heiflow.Models.Subsurface
             int sp = 0;
             for (int i = 0; i < FluxRates.Size[1]; i++)
             {
-                if (FluxRates.Flags[i, 0] == TimeVarientFlag.Individual)
+                if (FluxRates.Flags[i] == TimeVarientFlag.Individual)
                 {
                     sp = i;
                     break;

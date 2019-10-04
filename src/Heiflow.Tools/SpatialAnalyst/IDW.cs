@@ -185,8 +185,6 @@ namespace Heiflow.Tools.SpatialAnalyst
                 DataCube<float> mat = new DataCube<float>(1, nstep, ntar_sites, false);
                 mat.DateTimes = new DateTime[nstep];
                 mat.Name = OutputDataCube;
-                mat.TimeBrowsable = true;
-                mat.AllowTableEdit = false;
                 for (int i = 0; i < nsource_sites; i++)
                 {
                     var cor = fs_source.Features[i].Geometry.Coordinate;

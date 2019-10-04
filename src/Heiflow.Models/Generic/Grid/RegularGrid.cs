@@ -699,7 +699,7 @@ namespace Heiflow.Models.Generic
         /// <returns></returns>
         public double GetTotalArea()
         {
-            var cellarea = DELR.Constants[0, 0] * DELC.Constants[0, 0];
+            var cellarea = DELR.Constants[0] * DELC.Constants[0];
             return cellarea * ActiveCellCount;
         }
 
@@ -709,7 +709,7 @@ namespace Heiflow.Models.Generic
         /// <returns></returns>
         public double GetCellArea()
         {
-            var cellarea = DELR.Constants[0, 0] * DELC.Constants[0, 0];
+            var cellarea = DELR.Constants[0] * DELC.Constants[0];
             return cellarea;
         }
     }

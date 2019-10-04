@@ -215,7 +215,7 @@ namespace Heiflow.Models.WRM
                 SourcePriority = buf[7];
 
                 _ncycle_sp = new int[NumStressPeriod];
-                CyclePeriod = new DataCube<int>(1, NumCycle, 5, true)
+                CyclePeriod = new DataCube<int>(1, NumCycle, 5)
                 {
                     Layout = DataCubeLayout.TwoD
                 };
@@ -334,7 +334,7 @@ namespace Heiflow.Models.WRM
             double[] bufdouble = null;
             float[] buffloat = null;
             var nobj = nfarm + nindustry;
-            msp.Quota = new DataCube<float>(ncycle, 366, nobj, false);
+            msp.Quota = new DataCube<float>(ncycle, 366, nobj);
             msp.QuotaFlag = new int[ncycle];
             msp.Farms = new  ManagementObject[nfarm];
             msp.Industries = new  ManagementObject[nindustry];
@@ -457,7 +457,7 @@ namespace Heiflow.Models.WRM
 
                     if (farm_cycle.sw_ratio_flag > 0)
                     {
-                        farm_cycle.sw_ratio_day = new DataCube<float>(1, 366, nfarm, false);
+                        farm_cycle.sw_ratio_day = new DataCube<float>(1, 366, nfarm);
                         for (int j = 0; j < nfarm; j++)
                         {
                             line = sr.ReadLine();
@@ -467,7 +467,7 @@ namespace Heiflow.Models.WRM
                     }
                     if (farm_cycle.swctrl_factor_flag > 0)
                     {
-                        farm_cycle.swctrl_factor_day = new DataCube<float>(1, 366, nfarm, false);
+                        farm_cycle.swctrl_factor_day = new DataCube<float>(1, 366, nfarm);
                         for (int j = 0; j < nfarm; j++)
                         {
                             line = sr.ReadLine();
@@ -477,7 +477,7 @@ namespace Heiflow.Models.WRM
                     }
                     if (farm_cycle.gwctrl_factor_flag > 0)
                     {
-                        farm_cycle.gwctrl_factor_day = new DataCube<float>(1, 366, nfarm, false);
+                        farm_cycle.gwctrl_factor_day = new DataCube<float>(1, 366, nfarm);
                         for (int j = 0; j < nfarm; j++)
                         {
                             line = sr.ReadLine();
@@ -540,7 +540,7 @@ namespace Heiflow.Models.WRM
                     indust_cycle.Withdraw_type_flag = buf[3];
                     if (indust_cycle.sw_ratio_flag > 0)
                     {
-                        indust_cycle.sw_ratio_day = new DataCube<float>(1, 366, nindustry, false);
+                        indust_cycle.sw_ratio_day = new DataCube<float>(1, 366, nindustry);
                         for (int j = 0; j < nindustry; j++)
                         {
                             line = sr.ReadLine();
@@ -550,7 +550,7 @@ namespace Heiflow.Models.WRM
                     }
                     if (indust_cycle.swctrl_factor_flag > 0)
                     {
-                        indust_cycle.swctrl_factor_day = new DataCube<float>(1, 366, nindustry, false);
+                        indust_cycle.swctrl_factor_day = new DataCube<float>(1, 366, nindustry);
                         for (int j = 0; j < nindustry; j++)
                         {
                             line = sr.ReadLine();
@@ -560,7 +560,7 @@ namespace Heiflow.Models.WRM
                     }
                     if (indust_cycle.gwctrl_factor_flag > 0)
                     {
-                        indust_cycle.gwctrl_factor_day = new DataCube<float>(1, 366, nindustry, false);
+                        indust_cycle.gwctrl_factor_day = new DataCube<float>(1, 366, nindustry);
                         for (int j = 0; j < nindustry; j++)
                         {
                             line = sr.ReadLine();

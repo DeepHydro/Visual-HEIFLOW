@@ -52,7 +52,7 @@ namespace Heiflow.Models.Tools
             //Constant = 0;
         }
         public TimeVarientFlag Behavior { get; set; }
-        public int TimeIndex { get; set; }
+        public int VariableIndex { get; set; }
         public double Multiplier { get; set; }
         public double Constant { get; set; }
         public IDataCubeObject Owner { get; set; }

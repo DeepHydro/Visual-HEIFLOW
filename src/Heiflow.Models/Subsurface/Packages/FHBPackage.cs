@@ -238,11 +238,9 @@ namespace Heiflow.Models.Subsurface
 
                 //# Data Set 5b Layer Row Column IAUX  FLWRAT(NBDTIM)
                 //   MFWell[] wells = new MFWell[NFLW];
-                FlowRate = new DataCube<float>(4 + NBDTIM, 1, NFLW,true)
+                FlowRate = new DataCube<float>(4 + NBDTIM, 1, NFLW,false)
                 {
-                    Name = "FHB_FlowRate",
-                    TimeBrowsable = false,
-                    AllowTableEdit = true
+                    Name = "FHB_FlowRate"
                 };
                 FlowRate.Variables[0] = "Layer";//Layer Row Column IAUX  FLWRAT(NBDTIM)
                 FlowRate.Variables[1] = "Row";
@@ -265,7 +263,6 @@ namespace Heiflow.Models.Subsurface
                         FlowRate[4+j,0,i] = buf[4+j];
                     }
                 }
-                FlowRate.TimeBrowsable = false;
                 BuildTopology();
                 sr.Close();
                 OnLoaded(progress);

@@ -84,7 +84,6 @@ namespace Heiflow.Tools.Math
                 var size = array.Size.ToIntArray();
                 DataCube<float> dc = new DataCube<float>(1, 1, 1, true);
                 dc[0] = array;
-                dc.SetSize(new int[] { 1, size[0], size[1] });
                 dc.Name = Output;
                 Workspace.Add(dc);
                 return true;

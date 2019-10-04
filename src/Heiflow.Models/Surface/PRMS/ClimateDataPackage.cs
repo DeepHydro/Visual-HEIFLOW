@@ -146,8 +146,6 @@ namespace Heiflow.Models.Surface.PRMS
             DataCube.Name = "clm_input";
             DataCube.Variables = this.Variables;
             DataCube.Topology = (Owner.Grid as RegularGrid).Topology;
-            DataCube.TimeBrowsable = true;
-            DataCube.AllowTableEdit = false;
            
             if (MasterPackage.ClimateInputFormat == FileFormat.Text)
             {
@@ -189,7 +187,7 @@ namespace Heiflow.Models.Surface.PRMS
         public void Constant(float ppt = 0.15f, float tmax = 15, float tmin = 5, float pet = 0.1f)
         {
             var grid = this.Grid as MFGrid;
-            DataCube<float> mat = new DataCube<float>(1, this.TimeService.NumTimeStep, grid.ActiveCellCount, false);
+            DataCube<float> mat = new DataCube<float>(1, this.TimeService.NumTimeStep, grid.ActiveCellCount);
             mat.Variables = new string[] { "hru_ppt" };
             mat.DateTimes = this.TimeService.Timeline.ToArray();
             mat.ILArrays[0][":", ":"] = 0.1f;

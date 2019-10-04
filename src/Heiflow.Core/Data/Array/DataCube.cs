@@ -55,7 +55,7 @@ namespace Heiflow.Core.Data
         {
 
         }
-        public DataCube(int nvar, int ntime, int ncell, bool initflag, bool islazy = false)
+        public DataCube(int nvar, int ntime, int ncell, bool islazy = false)
         {
             _isLazy = islazy;
             _nvar = nvar;
@@ -69,17 +69,10 @@ namespace Heiflow.Core.Data
                 {
                     _arrays[i] = ILMath.zeros<T>(ntime, ncell);
                 }
-                DataCubeType = Data.DataCubeType.General;
             }
-            else
-            {
-                DataCubeType = Data.DataCubeType.Varient;
-            }
-            Name = "Default";
+            Name = "Default";        
             PopulateVariables();
-            InitFlags(initflag, Size[0], Size[1]);
-            AllowTableEdit = true;
-            TimeBrowsable = true;
+            InitFlags(Size[0]);
             _DataCubeLayout = DataCubeLayout.ThreeD;
         }
         public DataCube(T[] values, DateTime[] dates)
@@ -95,11 +88,9 @@ namespace Heiflow.Core.Data
             DateTimes = dates;
             Name = "Time Series";
             PopulateVariables();
-            InitFlags(false,Size[0], Size[1]);
-            DataCubeType = Data.DataCubeType.Vector;
-            AllowTableEdit = true;
-            TimeBrowsable = true;
+            InitFlags(Size[0]);
             _DataCubeLayout = DataCubeLayout.ThreeD;
+            ZeroDimension = DimensionFlag.Variable;
         }
         [XmlIgnore]
         public ILArray<T>[] ILArrays
@@ -153,11 +144,6 @@ namespace Heiflow.Core.Data
                 _arrays[var_index] = value;
             }
         }
-        [XmlIgnore]
-        public Array ArrayObject
-        {
-            get { return null; }
-        }
         [XmlElement]
         public string Name
         {
@@ -172,6 +158,12 @@ namespace Heiflow.Core.Data
         }
         [XmlIgnore]
         public string OwnerName
+        {
+            get;
+            set;
+        }
+        [XmlIgnore]
+        public DimensionFlag ZeroDimension
         {
             get;
             set;
@@ -209,7 +201,7 @@ namespace Heiflow.Core.Data
             }
         }
         [XmlIgnore]
-        public TimeVarientFlag[,] Flags
+        public TimeVarientFlag[] Flags
         {
             get;
             set;
@@ -226,41 +218,29 @@ namespace Heiflow.Core.Data
                 _Variables = value;
             }
         }
+        /// <summary>
+        /// 2d array [nvar,ntime]
+        /// </summary>
         [XmlIgnore]
-        public float[,] Constants
+        public float[] Constants
         {
             get;
             set;
         }
+        /// <summary>
+        /// 2d array [nvar,ntime]
+        /// </summary>
         [XmlIgnore]
-        public float[,] Multipliers
+        public float[] Multipliers
         {
             get;
             set;
         }
         [XmlIgnore]
         /// <summary>
-        /// a flag that indicates if the array being read should be printed (written to the listing file) after it has been read. If IPRN is less than zero, the array will not be printed.
+        /// 2d array [nvar,ntime]. A flag that indicates if the array being read should be printed (written to the listing file) after it has been read. If IPRN is less than zero, the array will not be printed.
         /// </summary>
-        public int[,] IPRN
-        {
-            get;
-            set;
-        }
-        [XmlIgnore]
-        public bool TimeBrowsable
-        {
-            get;
-            set;
-        }
-        [XmlIgnore]
-        public DataCubeType DataCubeType
-        {
-            get;
-            set;
-        }
-        [XmlIgnore]
-        public bool AllowTableEdit
+        public int[] IPRN
         {
             get;
             set;
@@ -289,36 +269,18 @@ namespace Heiflow.Core.Data
         /// <param name="init">wthether perform initing</param>
         /// <param name="size0">number of variables</param>
         /// <param name="size1">number of time</param>
-        public virtual void InitFlags(bool init, int size0, int size1)
+        public virtual void InitFlags(int size0)
         {
-            if (init)
+            Flags = new TimeVarientFlag[size0];
+            Constants = new float[size0];
+            Multipliers = new float[size0];
+            IPRN = new int[size0];
+            for (int i = 0; i < size0; i++)
             {
-                Flags = new TimeVarientFlag[size0, size1];
-                Constants = new float[size0, size1];
-                Multipliers = new float[size0, size1];
-                IPRN = new int[size0, size1];
-                for (int i = 0; i < size0; i++)
-                {
-                    for (int j = 0; j < size1; j++)
-                    {
-                        Flags[i, j] = TimeVarientFlag.Individual;
-                        Multipliers.SetValue(1, i, j);
-                        Constants.SetValue(0, i, j);
-                        IPRN[i, j] = -1;
-                    }
-                }
-            }
-            else
-            {
-                Flags = new TimeVarientFlag[1, 1];
-                Constants = new float[1, 1];
-                Multipliers = new float[1, 1];
-                IPRN = new int[1, 1];
-
-                Flags[0, 0] = TimeVarientFlag.Individual;
-                Multipliers.SetValue(1, 0, 0);
-                Constants.SetValue(0, 0, 0);
-                IPRN[0, 0] = -1;
+                Flags[i] = TimeVarientFlag.Individual;
+                Multipliers[i] = 1;
+                Constants[i] = 0;
+                IPRN[i] = -1;
             }
         }
         public virtual void PopulateVariables()
@@ -346,41 +308,70 @@ namespace Heiflow.Core.Data
                 return false;
             }
         }
-
-        public int[] GetVariableSize(int var_index)
+        public string SizeString()
         {
-            int[] size = null;
-            if (_arrays[var_index] != null)
-            {
-                size = _arrays[var_index].Size.ToIntArray();
-            }
-            return size;
+            if (Size != null)
+                return string.Format("{0}×{1}×{2}", Size[0], Size[1], Size[2]);
+            else
+                return "empty";
         }
-
         public void Allocate(int var_index)
         {
             _arrays[var_index] = ILMath.zeros<T>(_ntime, _ncell);
+        }
+        public bool IsAllocated(int var_index)
+        {
+            return _arrays[var_index] != null;
         }
         public void Allocate(int var_index, int ntime, int ncell)
         {
             _arrays[var_index] = ILMath.zeros<T>(ntime, ncell);
         }
-        public Array GetByTime(int var_index, int time_index)
+        public void AllocateVariable(int var_index, int ntime, int ncell)
         {
-            return GetVector(var_index, time_index.ToString(), ":");
+            _arrays[var_index] = ILMath.zeros<T>(ntime, ncell);
         }
 
-        public Array GetBySpace(int var_index, int space_index)
-        {
-            return GetVector(var_index, ":", space_index.ToString());
-        }
-
+        //public Array GetByTime(int var_index, int time_index)
+        //{
+        //    return GetVector(var_index, time_index.ToString(), ":");
+        //}
         public int GetSpaceDimLength(int var_index, int time_index)
         {
             return _arrays[var_index].Size.ToIntArray()[1];
         }
-
-        public Array GetSerialArrayByTime(int var_index, int time_index)
+        /// <summary>
+        /// get a vector for the specified variable, time and spatial dimensions
+        /// </summary>
+        /// <param name="var_index"></param>
+        /// <param name="time_arg"></param>
+        /// <param name="cell_arg"></param>
+        /// <returns></returns>
+        public T[] GetVector(int var_index, string time_arg, string cell_arg)
+        {
+            if (_arrays != null && _arrays[var_index] != null)
+                return _arrays[var_index].Subarray(time_arg, cell_arg).ToArray();
+            else
+                return null;
+        }
+        /// <summary>
+        /// get a 1D vector in the type of Array. The array size is [len,1]
+        /// </summary>
+        /// <param name="var_index"></param>
+        /// <param name="time_arg"></param>
+        /// <param name="cell_arg"></param>
+        /// <returns></returns>
+        public Array GetVectorAsArray(int var_index, string time_arg, string cell_arg)
+        {
+            return GetVector(var_index, time_arg, cell_arg);
+        }
+        /// <summary>
+        /// get a 2D array for the specified variable and time dimensions. The array size is [ncell, 1]
+        /// </summary>
+        /// <param name="var_index"></param>
+        /// <param name="time_index"></param>
+        /// <returns></returns>
+        public Array GetSpatialSerialArray(int var_index, int time_index)
         {
             T[,] array = null;
             var vec = GetVector(var_index, time_index.ToString(), ":");
@@ -391,8 +382,13 @@ namespace Heiflow.Core.Data
             }
             return array;
         }
-
-        public Array GetRegularlArrayByTime(int var_index, int time_index)
+        /// <summary>
+        /// get a 2D array for the specified variable and time dimensions. The array size is [Topology.RowCount, Topology.ColumnCount]
+        /// </summary>
+        /// <param name="var_index"></param>
+        /// <param name="time_index"></param>
+        /// <returns></returns>
+        public Array GetSpatialRegularArray(int var_index, int time_index)
         {
             T[,] array = null;
 
@@ -409,14 +405,25 @@ namespace Heiflow.Core.Data
 
             return array;
         }
-
-        public virtual void FromSerialArray(int var_index, int time_index, Array array)
+        /// <summary>
+        /// retrieve value a given array. The array size must be [Topology.RowCount, Topology.ColumnCount]
+        /// </summary>
+        /// <param name="var_index"></param>
+        /// <param name="time_index"></param>
+        /// <param name="array"></param>
+        public virtual void FromSpatialSerialArray(int var_index, int time_index, Array array)
         {
             var len = array.GetLength(0);
             for (int i = 0; i < len; i++)
                 this[var_index, time_index, i] = TypeConverterEx.ChangeType<T>(array.GetValue(i, 0));
         }
-        public virtual void FromRegularArray(int var_index, int time_index, Array array)
+        /// <summary>
+        /// retrieve value a given array. The array size must be [ncell, 1]
+        /// </summary>
+        /// <param name="var_index"></param>
+        /// <param name="time_index"></param>
+        /// <param name="array"></param>
+        public virtual void FromSpatialRegularArray(int var_index, int time_index, Array array)
         {
             var nrow = array.GetLength(0);
             var ncol = array.GetLength(1);
@@ -430,13 +437,13 @@ namespace Heiflow.Core.Data
                 }
             }
         }
-
-        public bool IsAllocated(int var_index)
-        {
-            return _arrays[var_index] != null;
-        }
-
-        public ILNumerics.ILBaseArray ToILBaseArray(int var_index, int time_index)
+        /// <summary>
+        /// convert the spatial dimention to 2D array
+        /// </summary>
+        /// <param name="var_index"></param>
+        /// <param name="time_index"></param>
+        /// <returns></returns>
+        public ILNumerics.ILBaseArray ToSpatialILBaseArray(int var_index, int time_index)
         {
             if (Topology != null)
             {
@@ -457,112 +464,46 @@ namespace Heiflow.Core.Data
                 return null;
             }
         }
-        public void SetSize(int[] size)
-        {
-            _size = size;
-        }
-        public string SizeString()
-        {
-            if (Size != null)
-                return string.Format("{0}×{1}×{2}", Size[0], Size[1], Size[2]);
-            else
-                return "empty";
-        }
-
-        public virtual DataTable ToDataTableByTime(int var_index, int time_index)
+        public virtual System.Data.DataTable ToDataTable()
         {
             DataTable dt = new DataTable();
-            int nvar = Size[0];
-
-            if (var_index < 0)
+            switch (Layout)
             {
-                for (int i = 0; i < nvar; i++)
-                {
-                    DataColumn dc = new DataColumn(Variables[i], typeof(T));
+                case DataCubeLayout.OneDTimeSeries:
+                    DataColumn dctime = new DataColumn(Variables[0], typeof(DateTime));
+                    dt.Columns.Add(dctime);
+                    var dc = new DataColumn(Variables[0], typeof(T));
                     dt.Columns.Add(dc);
-                }
-
-                for (int r = 0; r < Size[2]; r++)
-                {
-                    DataRow dr = dt.NewRow();
-                    for (int i = 0; i < nvar; i++)
+                    for (int i = 0; i < Size[2]; i++)
                     {
-                        dr[i] = this[i, time_index, r];
-                    }
-                    dt.Rows.Add(dr);
-                }
-            }
-            else
-            {
-                DataColumn dc = new DataColumn(Variables[var_index], typeof(T));
-                dt.Columns.Add(dc);
-
-                if (_arrays[var_index] != null)
-                {
-                    for (int r = 0; r < Size[2]; r++)
-                    {
-                        DataRow dr = dt.NewRow();
-                        dr[0] = this[var_index, time_index, r];
+                        var dr = dt.NewRow();
+                        dr[0] = DateTimes[i];
+                        dr[1] = this[0, 0, i];
                         dt.Rows.Add(dr);
                     }
-                }
-            }
-
-            return dt;
-        }
-        public virtual DataTable ToDataTableBySpace(int var_index, int space_index)
-        {
-            DataTable dt = new DataTable();
-            int nvar = Size[0];
-            int nstep = Size[1];
-            DataColumn dc_time = new DataColumn("DateTime", Type.GetType("System.DateTime"));
-            dt.Columns.Add(dc_time);
-            if (var_index < 0)
-            {
-                for (int i = 0; i < nvar; i++)
-                {
-                    DataColumn dc = new DataColumn(Variables[i], typeof(T));
-                    dt.Columns.Add(dc);
-                }
-
-                for (int t = 0; t < nstep; t++)
-                {
-                    var dr = dt.NewRow();
-                    for (int i = 0; i < nvar; i++)
+                    break;
+                case DataCubeLayout.TwoD:
+                    for (int i = 0; i < Size[2]; i++)
                     {
-                        dr[i + 1] = this[i, t, space_index];
+                        dc = new DataColumn("C" + i, typeof(T));
+                        dt.Columns.Add(dc);
                     }
-                    dt.Rows.Add(dr);
-                }
-            }
-            else
-            {
-                DataColumn dc = new DataColumn(Variables[var_index], typeof(T));
-                dt.Columns.Add(dc);
+                    for (int i = 0; i < Size[1]; i++)
+                    {
+                        var dr = dt.NewRow();
+                        for (int j = 0; j < Size[2]; j++)
+                        {
+                            dr[j] = this[0, i, j];
+                        }
+                        dt.Rows.Add(dr);
+                    }
+                    break;
+                case DataCubeLayout.ThreeD:
 
-                for (int t = 0; t < nstep; t++)
-                {
-                    var dr = dt.NewRow();
-                    dr[1] = this[var_index, t, space_index];
-                    dt.Rows.Add(dr);
-                }
+                    break;
+                default:
+                    break;
             }
-
-            if (DateTimes != null && DateTimes.Length == dt.Rows.Count)
-            {
-                for (int t = 0; t < nstep; t++)
-                {
-                    dt.Rows[t][0] = DateTimes[t];
-                }
-            }
-            else
-            {
-                for (int t = 0; t < nstep; t++)
-                {
-                    dt.Rows[t][0] = DateTime.Now.AddDays(t);
-                }
-            }
-            dt.AcceptChanges();
             return dt;
         }
         /// <summary>
@@ -572,7 +513,7 @@ namespace Heiflow.Core.Data
         /// <param name="time_index">if time_index = -1, all times will be used</param>
         /// <param name="cell_index">if cell_index = -1, all cells will be used</param>
         /// <returns></returns>
-        public DataTable ToDataTable(int var_index, int time_index, int cell_index)
+        public virtual DataTable ToDataTable(int var_index, int time_index, int cell_index)
         {
             DataTable dt = new DataTable();
             int ncell = Size[2];
@@ -675,131 +616,6 @@ namespace Heiflow.Core.Data
             }
             return dt;
         }
-
-        public void FromDataTable(DataTable dt, int var_index, int time_index, int cell_index)
-        {
-            int ncell = Size[2];
-            int ntime = Size[1];
-            int nvar = Size[0];
-            if (var_index > -1)
-            {
-                // all times
-                if (time_index == -1)
-                {
-                    //all cells
-                    if (cell_index == -1)
-                    {
-                        for (int i = 0; i < ntime; i++)
-                        {
-                            var dr = dt.Rows[i];
-                            for (int j = 0; j < ncell; j++)
-                            {
-                                this[var_index, i, j] = (T)dr[j];
-                            }
-                        }
-                    }
-                    else
-                    {
-                        for (int i = 0; i < ntime; i++)
-                        {
-                            var dr = dt.Rows[i];
-                            this[var_index, i, cell_index] = (T)dr[0];
-                        }
-                    }
-                }
-                else
-                {
-                    //all cells
-                    if (cell_index == -1)
-                    {
-                        var dc = new DataColumn("C0", typeof(T));
-                        dt.Columns.Add(dc);
-                        for (int i = 0; i < ncell; i++)
-                        {
-                            var dr = dt.Rows[i];
-                            this[var_index, time_index, i] = (T)dr[0];
-                        }
-                    }
-                    else
-                    {
-                        this[var_index, time_index, cell_index] = (T)dt.Rows[0][0];
-                    }
-                }
-            }
-            else
-            {
-                if (time_index == -1 && cell_index == 0)
-                {
-                    for (int i = 0; i < ntime; i++)
-                    {
-                        var dr = dt.Rows[i];
-                        for (int j = 0; j < nvar; j++)
-                        {
-                            this[j, i, 0] = (T)dr[j];
-                        }
-                    }
-                }
-                else if (time_index == 0 && cell_index == -1)
-                {
-                    for (int i = 0; i < ncell; i++)
-                    {
-                        var dr = dt.Rows[i];
-                        for (int j = 0; j < nvar; j++)
-                        {
-                            this[j, 0, i] = (T)dr[j];
-                        }
-                    }
-                }
-                else
-                {
-                    throw new Exception("Wrong value for the argument time_index or cell_index");
-                }
-            }
-        }
-
-        public virtual System.Data.DataTable ToDataTable()
-        {
-            DataTable dt = new DataTable();
-            switch (Layout)
-            {
-                case DataCubeLayout.OneDTimeSeries:
-                    DataColumn dctime = new DataColumn(Variables[0], typeof(DateTime));
-                    dt.Columns.Add(dctime);
-                    var dc = new DataColumn(Variables[0], typeof(T));
-                    dt.Columns.Add(dc);
-                    for (int i = 0; i < Size[2]; i++)
-                    {
-                        var dr = dt.NewRow();
-                        dr[0] = DateTimes[i];
-                        dr[1] = this[0, 0, i];
-                        dt.Rows.Add(dr);
-                    }
-                    break;
-                case DataCubeLayout.TwoD:
-                    for (int i = 0; i < Size[2]; i++)
-                    {
-                        dc = new DataColumn("C" + i, typeof(T));
-                        dt.Columns.Add(dc);
-                    }
-                    for (int i = 0; i < Size[1]; i++)
-                    {
-                        var dr = dt.NewRow();
-                        for (int j = 0; j < Size[2]; j++)
-                        {
-                            dr[j] = this[0, i, j];
-                        }
-                        dt.Rows.Add(dr);
-                    }
-                    break;
-                case DataCubeLayout.ThreeD:
-
-                    break;
-                default:
-                    break;
-            }
-            return dt;
-        }
-
         public virtual void FromDataTable(System.Data.DataTable dt)
         {
             if (_arrays == null)
@@ -846,14 +662,6 @@ namespace Heiflow.Core.Data
                 }
             }
             OnDataCubeValueChanged();
-        }
-
-        public T[] GetVector(int var_index, string time_arg, string cell_arg)
-        {
-            if (_arrays != null && _arrays[var_index] != null)
-                return _arrays[var_index].Subarray(time_arg, cell_arg).ToArray();
-            else
-                return null;
         }
         public DataCube<float> GetSeriesBetween(int var_index, int spatial_index, DateTime start, DateTime end)
         {
@@ -936,7 +744,6 @@ namespace Heiflow.Core.Data
             DataCube<double> ts = new DataCube<double>(values, dates);
             return ts;
         }
-
         public void Clear()
         {
             for (int i = 0; i < Size[0]; i++)
@@ -945,19 +752,11 @@ namespace Heiflow.Core.Data
                 _arrays[i] = null;
             }
         }
-
         public void OnDataCubeValueChanged()
         {
             if (DataCubeValueChanged != null)
                 DataCubeValueChanged(this, EventArgs.Empty);
         }
-
-
-        public void AllocateVariable(int var_index, int ntime, int ncell)
-        {
-            _arrays[var_index] = ILMath.zeros<T>(ntime, ncell);
-        }
-
         public DataCube<float> SpatialMean(int var_index)
         {
             var mean_mat = new DataCube<float>(1, _ntime, 1, false);
@@ -972,7 +771,6 @@ namespace Heiflow.Core.Data
             }
             return mean_mat;
         }
-
         public IEnumerable<TimeSeriesPair<T>> ToPairs()
         {
             var pairs = new TimeSeriesPair<T>[Size[1]];
@@ -982,7 +780,6 @@ namespace Heiflow.Core.Data
             }
             return pairs;
         }
-
         public static DataCube<T> FromPairs(IEnumerable<TimeSeriesPair<T>> pairs)
         {
             var values = from pair in pairs select pair.Value;
@@ -990,5 +787,182 @@ namespace Heiflow.Core.Data
             DataCube<T> dc = new DataCube<T>(values.ToArray(), dates.ToArray());
             return dc;
         }
+
+        //public virtual DataTable ToDataTableByTime(int var_index, int time_index)
+        //{
+        //    DataTable dt = new DataTable();
+        //    int nvar = Size[0];
+
+        //    if (var_index < 0)
+        //    {
+        //        for (int i = 0; i < nvar; i++)
+        //        {
+        //            DataColumn dc = new DataColumn(Variables[i], typeof(T));
+        //            dt.Columns.Add(dc);
+        //        }
+
+        //        for (int r = 0; r < Size[2]; r++)
+        //        {
+        //            DataRow dr = dt.NewRow();
+        //            for (int i = 0; i < nvar; i++)
+        //            {
+        //                dr[i] = this[i, time_index, r];
+        //            }
+        //            dt.Rows.Add(dr);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        DataColumn dc = new DataColumn(Variables[var_index], typeof(T));
+        //        dt.Columns.Add(dc);
+
+        //        if (_arrays[var_index] != null)
+        //        {
+        //            for (int r = 0; r < Size[2]; r++)
+        //            {
+        //                DataRow dr = dt.NewRow();
+        //                dr[0] = this[var_index, time_index, r];
+        //                dt.Rows.Add(dr);
+        //            }
+        //        }
+        //    }
+
+        //    return dt;
+        //}
+        //public virtual DataTable ToDataTableBySpace(int var_index, int space_index)
+        //{
+        //    DataTable dt = new DataTable();
+        //    int nvar = Size[0];
+        //    int nstep = Size[1];
+        //    DataColumn dc_time = new DataColumn("DateTime", Type.GetType("System.DateTime"));
+        //    dt.Columns.Add(dc_time);
+        //    if (var_index < 0)
+        //    {
+        //        for (int i = 0; i < nvar; i++)
+        //        {
+        //            DataColumn dc = new DataColumn(Variables[i], typeof(T));
+        //            dt.Columns.Add(dc);
+        //        }
+
+        //        for (int t = 0; t < nstep; t++)
+        //        {
+        //            var dr = dt.NewRow();
+        //            for (int i = 0; i < nvar; i++)
+        //            {
+        //                dr[i + 1] = this[i, t, space_index];
+        //            }
+        //            dt.Rows.Add(dr);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        DataColumn dc = new DataColumn(Variables[var_index], typeof(T));
+        //        dt.Columns.Add(dc);
+
+        //        for (int t = 0; t < nstep; t++)
+        //        {
+        //            var dr = dt.NewRow();
+        //            dr[1] = this[var_index, t, space_index];
+        //            dt.Rows.Add(dr);
+        //        }
+        //    }
+
+        //    if (DateTimes != null && DateTimes.Length == dt.Rows.Count)
+        //    {
+        //        for (int t = 0; t < nstep; t++)
+        //        {
+        //            dt.Rows[t][0] = DateTimes[t];
+        //        }
+        //    }
+        //    else
+        //    {
+        //        for (int t = 0; t < nstep; t++)
+        //        {
+        //            dt.Rows[t][0] = DateTime.Now.AddDays(t);
+        //        }
+        //    }
+        //    dt.AcceptChanges();
+        //    return dt;
+        //}
+        //public void FromDataTable(DataTable dt, int var_index, int time_index, int cell_index)
+        //{
+        //    int ncell = Size[2];
+        //    int ntime = Size[1];
+        //    int nvar = Size[0];
+        //    if (var_index > -1)
+        //    {
+        //        // all times
+        //        if (time_index == -1)
+        //        {
+        //            //all cells
+        //            if (cell_index == -1)
+        //            {
+        //                for (int i = 0; i < ntime; i++)
+        //                {
+        //                    var dr = dt.Rows[i];
+        //                    for (int j = 0; j < ncell; j++)
+        //                    {
+        //                        this[var_index, i, j] = (T)dr[j];
+        //                    }
+        //                }
+        //            }
+        //            else
+        //            {
+        //                for (int i = 0; i < ntime; i++)
+        //                {
+        //                    var dr = dt.Rows[i];
+        //                    this[var_index, i, cell_index] = (T)dr[0];
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            //all cells
+        //            if (cell_index == -1)
+        //            {
+        //                var dc = new DataColumn("C0", typeof(T));
+        //                dt.Columns.Add(dc);
+        //                for (int i = 0; i < ncell; i++)
+        //                {
+        //                    var dr = dt.Rows[i];
+        //                    this[var_index, time_index, i] = (T)dr[0];
+        //                }
+        //            }
+        //            else
+        //            {
+        //                this[var_index, time_index, cell_index] = (T)dt.Rows[0][0];
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (time_index == -1 && cell_index == 0)
+        //        {
+        //            for (int i = 0; i < ntime; i++)
+        //            {
+        //                var dr = dt.Rows[i];
+        //                for (int j = 0; j < nvar; j++)
+        //                {
+        //                    this[j, i, 0] = (T)dr[j];
+        //                }
+        //            }
+        //        }
+        //        else if (time_index == 0 && cell_index == -1)
+        //        {
+        //            for (int i = 0; i < ncell; i++)
+        //            {
+        //                var dr = dt.Rows[i];
+        //                for (int j = 0; j < nvar; j++)
+        //                {
+        //                    this[j, 0, i] = (T)dr[j];
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            throw new Exception("Wrong value for the argument time_index or cell_index");
+        //        }
+        //    }
+        //}
     }
 }

@@ -148,13 +148,13 @@ namespace Heiflow.Models.Generic.Grid
                 Source.ActualLayerCount = this.LayerCount;
                 Source.RowCount = RowCount;
                 Source.ColumnCount = ColumnCount;
-                Source.IBound = new DataCube<float>(this.LayerCount, RowCount, ColumnCount, true);
+                Source.IBound = new DataCube<float>(this.LayerCount, RowCount, ColumnCount, false);
                 Source.DELC = new DataCube<float>(1, 1, RowCount, false);
                 Source.DELR = new DataCube<float>(1, 1, ColumnCount, false);
-                Source.DELC.Flags[0, 0] = TimeVarientFlag.Constant;
-                Source.DELR.Flags[0, 0] = TimeVarientFlag.Constant;
-                Source.DELC.Constants[0, 0] = this.XSize;
-                Source.DELR.Constants[0, 0] = this.YSize;
+                Source.DELC.Flags[0] = TimeVarientFlag.Constant;
+                Source.DELR.Flags[0] = TimeVarientFlag.Constant;
+                Source.DELC.Constants[0] = this.XSize;
+                Source.DELR.Constants[0] = this.YSize;
                 Source.DELC.ILArrays[0]["0", ":"] = this.XSize;
                 Source.DELR.ILArrays[0]["0", ":"] = this.YSize;
                 Source.Projection = Domain.Projection;
@@ -180,7 +180,7 @@ namespace Heiflow.Models.Generic.Grid
                     }
                 }
                 Source.ActiveCellCount = active;
-                Source.Elevations = new DataCube<float>(Source.LayerCount, 1, active, true);
+                Source.Elevations = new DataCube<float>(Source.LayerCount, 1, active, false);
                 Source.Elevations.Variables[0] = "Top Elevation";
                 for (int i = 0; i < active; i++)
                 {

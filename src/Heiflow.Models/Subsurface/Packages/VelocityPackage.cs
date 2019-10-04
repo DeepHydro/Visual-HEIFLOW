@@ -101,7 +101,7 @@ namespace Heiflow.Models.Subsurface
                int progress = 0;
                if (DataCube == null || DataCube.Size[1] != steps)
                 {
-                    DataCube = new DataCube<float>(2, steps, nfea, false);
+                    DataCube = new DataCube<float>(2, steps, nfea);
                     DataCube.DateTimes = new DateTime[steps];
                 }
 
@@ -130,7 +130,6 @@ namespace Heiflow.Models.Subsurface
                 }
                 DataCube.Variables = this.Variables;
                 DataCube.Topology = (Grid as RegularGrid).Topology;
-                DataCube.TimeBrowsable = true;
                 OnLoaded(progresshandler);
                 return true;
             }

@@ -177,8 +177,8 @@ namespace Heiflow.Models.Subsurface
             {
                 var ar = TypeConverterEx.Split<string>(line);
                 T conv = TypeConverterEx.ChangeType<T>(ar[1]);
-                mat.Flags[var_index,time_index] = TimeVarientFlag.Constant;
-                mat.Constants[var_index,time_index] = TypeConverterEx.ChangeType<float>( conv);
+                mat.Flags[var_index] = TimeVarientFlag.Constant;
+                mat.Constants[var_index] = TypeConverterEx.ChangeType<float>( conv);
                 mat.ILArrays[var_index][time_index,":"] = conv;
             }
             // Read internal matrix
@@ -278,9 +278,9 @@ namespace Heiflow.Models.Subsurface
                         Message = string.Format("Failed to read Array when reading Line {0}. Error: {1}", r, ex.Message);
                     }
                 }
-                mat.Flags[var_index,time_index] = TimeVarientFlag.Individual;
-                mat.Multipliers[var_index,time_index] = TypeConverterEx.ChangeType<float>( multiplier);
-                mat.IPRN[var_index,time_index] = iprn;
+                mat.Flags[var_index] = TimeVarientFlag.Individual;
+                mat.Multipliers[var_index] = TypeConverterEx.ChangeType<float>( multiplier);
+                mat.IPRN[var_index] = iprn;
             }
         }
         public void ReadSerialArray<T>(StreamReader sr, DataCube<T> mat, int var_index, int time_index, int ncell)
@@ -297,8 +297,8 @@ namespace Heiflow.Models.Subsurface
             {
                 var ar = TypeConverterEx.Split<string>(line);
                 T conv = TypeConverterEx.ChangeType<T>(ar[1]);
-                mat.Flags[var_index, 0] = TimeVarientFlag.Constant;
-                mat.Constants[var_index, 0] = TypeConverterEx.ChangeType<float>(conv);
+                mat.Flags[var_index] = TimeVarientFlag.Constant;
+                mat.Constants[var_index] = TypeConverterEx.ChangeType<float>(conv);
                 mat.ILArrays[var_index][time_index, ":"] = conv;
             }
             // Read internal matrix
@@ -342,25 +342,25 @@ namespace Heiflow.Models.Subsurface
                         Message = string.Format("Failed to read Array when reading Line. Error: {0}",  ex.Message);
                     }
                 }
-                mat.Flags[var_index, time_index] = TimeVarientFlag.Individual;
-                mat.Multipliers[var_index, time_index] = TypeConverterEx.ChangeType<float>(multiplier);
-                mat.IPRN[var_index, time_index] = iprn;
+                mat.Flags[var_index] = TimeVarientFlag.Individual;
+                mat.Multipliers[var_index] = TypeConverterEx.ChangeType<float>(multiplier);
+                mat.IPRN[var_index] = iprn;
             }
         } 
         public void WriteSerialFloatArray(StreamWriter sw, DataCube<float> mat, int var_index, int time_index, string format, string comment)
         {
-            if (mat.Flags[var_index,time_index] == TimeVarientFlag.Constant)
+            if (mat.Flags[var_index] == TimeVarientFlag.Constant)
             {
-                string line = string.Format("CONSTANT\t{0}\t{1}", mat.Constants[var_index,time_index], comment);
+                string line = string.Format("CONSTANT\t{0}\t{1}", mat.Constants[var_index], comment);
                 sw.WriteLine(line);
             }
-            else if (mat.Flags[var_index,time_index] == TimeVarientFlag.Repeat)
+            else if (mat.Flags[var_index] == TimeVarientFlag.Repeat)
             {
 
             }
-            else if (mat.Flags[var_index,time_index] == TimeVarientFlag.Individual)
+            else if (mat.Flags[var_index] == TimeVarientFlag.Individual)
             {
-                string line = string.Format("INTERNAL\t{0}\t(FREE)\t{1}\t{2}", mat.Multipliers[var_index,time_index], mat.IPRN[var_index,time_index], comment);
+                string line = string.Format("INTERNAL\t{0}\t(FREE)\t{1}\t{2}", mat.Multipliers[var_index], mat.IPRN[var_index], comment);
                 var grid = Owner.Grid as MFGrid;
                 int row = grid.RowCount;
                 int col = grid.ColumnCount;
@@ -395,18 +395,18 @@ namespace Heiflow.Models.Subsurface
         /// <param name="comment"></param>
         public void WriteRegularArray<T>(StreamWriter sw, DataCube<T> mat, int var_index, string format, string comment)
         {
-            if (mat.Flags[var_index,0] == TimeVarientFlag.Constant)
+            if (mat.Flags[var_index] == TimeVarientFlag.Constant)
             {
-                string line = string.Format("CONSTANT\t{0}\t{1}", mat.Constants[var_index,0], comment);
+                string line = string.Format("CONSTANT\t{0}\t{1}", mat.Constants[var_index], comment);
                 sw.WriteLine(line);
             }
-            else if (mat.Flags[var_index,0] == TimeVarientFlag.Repeat)
+            else if (mat.Flags[var_index] == TimeVarientFlag.Repeat)
             {
 
             }
-            else if (mat.Flags[var_index,0] == TimeVarientFlag.Individual)
+            else if (mat.Flags[var_index] == TimeVarientFlag.Individual)
             {
-                string line = string.Format("INTERNAL\t{0}\t(FREE)\t{1}\t{2}", mat.Multipliers[var_index,0], mat.IPRN[var_index,0], comment);
+                string line = string.Format("INTERNAL\t{0}\t(FREE)\t{1}\t{2}", mat.Multipliers[var_index], mat.IPRN[var_index], comment);
                 var grid = Owner.Grid as MFGrid;
                 int row = grid.RowCount;
                 int col = grid.ColumnCount;

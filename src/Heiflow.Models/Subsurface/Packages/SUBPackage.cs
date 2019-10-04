@@ -257,29 +257,21 @@ namespace Heiflow.Models.Subsurface
 
                 if (NNDB > 0)
                 {
-                    this.HC = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount, true)
+                    this.HC = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount, false)
                     {
                         Name = "HC",
-                        TimeBrowsable = false,
-                        AllowTableEdit = true
                     };
-                    this.Sfe = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount, true)
+                    this.Sfe = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount, false)
                     {
                         Name = "Sfe",
-                        TimeBrowsable = false,
-                        AllowTableEdit = true
                     };
-                    this.Sfv = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount, true)
+                    this.Sfv = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount, false)
                     {
                         Name = "Sfv",
-                        TimeBrowsable = false,
-                        AllowTableEdit = true
                     };
-                    this.Com = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount, true)
+                    this.Com = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount, false)
                     {
                         Name = "Com",
-                        TimeBrowsable = false,
-                        AllowTableEdit = true
                     };
                     for (int l = 0; l < grid.ActualLayerCount; l++)
                     {

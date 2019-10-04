@@ -163,9 +163,7 @@ namespace Heiflow.Models.Subsurface
                     {
                         DataCube = new DataCube<float>(Variables.Length, StepsToLoad, grid.ActiveCellCount, true)
                         {
-                            Name = "FHD",
-                            TimeBrowsable = true,
-                            AllowTableEdit = false
+                            Name = "FHD"
                         };
                         DataCube.Variables = this.Variables;
                     }
@@ -257,9 +255,7 @@ namespace Heiflow.Models.Subsurface
             int step = DataCube.Size[1];
             DataCube<float> mat = new DataCube<float>(1, step, wells.Count(),false)
             {
-                Name = "HOB_Output",
-                TimeBrowsable = true,
-                AllowTableEdit = false
+                Name = "HOB_Output"
             };
             mat.DateTimes = new DateTime[step];
 

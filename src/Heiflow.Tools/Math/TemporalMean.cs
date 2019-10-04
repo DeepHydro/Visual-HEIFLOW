@@ -121,7 +121,6 @@ namespace Heiflow.Tools.Math
                     }
                 }
                 mean_mat.Name = OutputDataCube;
-                mean_mat.TimeBrowsable = true;
                 Workspace.Add(mean_mat);
                 return true;
             }

@@ -464,22 +464,22 @@ namespace Heiflow.Models.Generic.Parameters
             return new DataTable();
         }
 
-        public virtual Array GetSerialArrayByTime(int p1, int p2)
+        public virtual Array GetSpatialSerialArray(int p1, int p2)
         {
             return null;
         }
 
-        public virtual Array GetRegularlArrayByTime(int p1, int p2)
+        public virtual Array GetSpatialRegularArray(int p1, int p2)
         {
             return null;
         }
 
-        public virtual void FromRegularArray(int p1, int p2, Array array)
+        public virtual void FromSpatialRegularArray(int p1, int p2, Array array)
         {
 
         }
 
-        public virtual void FromSerialArray(int p1, int p2, Array array)
+        public virtual void FromSpatialSerialArray(int p1, int p2, Array array)
         {
 
         }
@@ -489,7 +489,7 @@ namespace Heiflow.Models.Generic.Parameters
 
         }
 
-        public ILNumerics.ILBaseArray ToILBaseArray(int var_index, int time_index)
+        public ILNumerics.ILBaseArray ToSpatialILBaseArray(int var_index, int time_index)
         {
             return null;
         }
@@ -552,6 +552,61 @@ namespace Heiflow.Models.Generic.Parameters
         public int[] DimensionLengh
         {
             get { throw new NotImplementedException(); }
+        }
+
+
+        public Array GetVectorAsArray(int var_index, string time_arg, string cell_arg)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public DimensionFlag ZeroDimension
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        TimeVarientFlag[] IDataCubeObject.Flags
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        float[] IDataCubeObject.Constants
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        float[] IDataCubeObject.Multipliers
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

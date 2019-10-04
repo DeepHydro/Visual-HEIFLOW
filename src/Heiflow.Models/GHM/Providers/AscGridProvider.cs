@@ -79,7 +79,7 @@ namespace Heiflow.Models.GHM
             //mfgrid.RowInteval = new MyScalar<float>(asc.CellSize);
             //mfgrid.ColInteval = new MyScalar<float>(asc.CellSize);
 
-            mfgrid.IBound = new DataCube<float>(1, mfgrid.RowCount, mfgrid.ColumnCount, true);
+            mfgrid.IBound = new DataCube<float>(1, mfgrid.RowCount, mfgrid.ColumnCount, false);
 
             mfgrid.ActiveCellCount = 0;
 

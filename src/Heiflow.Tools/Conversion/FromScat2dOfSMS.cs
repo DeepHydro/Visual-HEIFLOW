@@ -83,7 +83,7 @@ namespace Heiflow.Tools.Conversion
             {
                 variables[i + 2] = buf[4 + i];
             }
-            var mat_out = new DataCube<float>(nvar + 2, 1, ncell, false);
+            var mat_out = new DataCube<float>(nvar + 2, 1, ncell);
             mat_out.Name = OutputDataCube;
             mat_out.Variables = variables;
             for (int i = 0; i < ncell; i++)

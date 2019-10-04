@@ -255,9 +255,7 @@ namespace Heiflow.Tools.ConceptualModel
                     pck.NFLW = list.Count;
                     var FlowRate = new DataCube<float>(4 + pck.NBDTIM, 1, pck.NFLW, false)
                     {
-                        Name = "FHB_FlowRate",
-                        TimeBrowsable = false,
-                        AllowTableEdit = true
+                        Name = "FHB_FlowRate"
                     };
                     FlowRate.Variables[0] = "Layer";//Layer Row Column IAUX  FLWRAT(NBDTIM)
                     FlowRate.Variables[1] = "Row";
@@ -279,7 +277,6 @@ namespace Heiflow.Tools.ConceptualModel
                             FlowRate[4 + j,0,i] = bound.FlowRate;
                         }
                     }
-                    FlowRate.TimeBrowsable = false;
                     pck.FlowRate = FlowRate;
                     pck.CreateFeature(shell.MapAppManager.Map.Projection, prj.Project.GeoSpatialDirectory);
                     pck.BuildTopology();

@@ -297,7 +297,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
             var convertor = _Package.GetType().GetProperty(_Item.PropertyInfo.Name).GetValue(_Package) as IDataCubeObject;
             convertor.SelectedVariableIndex = VariableIndex;
             convertor.SelectedTimeIndex = 0;
-            var vector = convertor.GetByTime(VariableIndex, 0);
+            var vector = convertor.GetVectorAsArray(VariableIndex, "0", ":");
             if (vector != null && _Package.Feature != null)
             {
                 var dt = _Package.Feature.DataTable;
@@ -320,7 +320,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
             var dc = _Package.GetType().GetProperty(_Item.PropertyInfo.Name).GetValue(_Package) as IDataCubeObject;
             dc.SelectedVariableIndex = VariableIndex;
             dc.SelectedTimeIndex = 0;
-            var vector = dc.GetByTime(VariableIndex, 0);
+            var vector = dc.GetVectorAsArray(VariableIndex, "0", ":");
             if (vector != null)
             {
                 if (MyAppManager.Instance.AppMode == AppMode.VHF)

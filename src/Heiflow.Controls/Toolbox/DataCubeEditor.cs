@@ -142,7 +142,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             {
                 if (e.Column.AspectName == "Behavior")
                 {
-                    if (meta.TimeIndex == 0)
+                    if (meta.VariableIndex == 0)
                     {
                         if (e.NewValue.ToString() == TimeVarientFlag.Repeat.ToString())
                         {
@@ -162,24 +162,24 @@ namespace Heiflow.Controls.WinForm.Toolbox
                 {
                     if (e.NewValue.ToString() == TimeVarientFlag.Constant.ToString())
                     {
-                        meta.Owner.Flags[meta.TimeIndex, 0] = TimeVarientFlag.Constant;
-                        meta.Owner.Constants.SetValue((float)meta.Constant, meta.TimeIndex, 0);       
+                        meta.Owner.Flags[meta.VariableIndex] = TimeVarientFlag.Constant;
+                        meta.Owner.Constants.SetValue((float)meta.Constant, meta.VariableIndex, 0);       
                     }
                     else if (e.NewValue.ToString() == TimeVarientFlag.Individual.ToString())
                     {
-                        meta.Owner.Flags[meta.TimeIndex, 0] = TimeVarientFlag.Individual;
-                        meta.Owner.Multipliers[meta.TimeIndex, 0] = (float)meta.Multiplier;
+                        meta.Owner.Flags[meta.VariableIndex] = TimeVarientFlag.Individual;
+                        meta.Owner.Multipliers[meta.VariableIndex] = (float)meta.Multiplier;
                     }
                     else if (e.NewValue.ToString() == TimeVarientFlag.Repeat.ToString())
                     {
-                        meta.Owner.Flags[meta.TimeIndex, 0] = TimeVarientFlag.Repeat;
+                        meta.Owner.Flags[meta.VariableIndex] = TimeVarientFlag.Repeat;
                     }
                 }
                 else if (e.Column.AspectName == "Constant")
                 {
                     if (meta.Behavior == TimeVarientFlag.Constant)
                     {
-                        meta.Owner.Constants[meta.TimeIndex, 0] = (float) meta.Constant;
+                        meta.Owner.Constants[meta.VariableIndex] = (float) meta.Constant;
                     }
                 }
                 else if (e.Column.AspectName == "Multiplier")
@@ -187,7 +187,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
                     if (meta.Behavior == TimeVarientFlag.Individual)
                     {
                         meta.Multiplier = float.Parse(e.NewValue.ToString());
-                        meta.Owner.Multipliers[meta.TimeIndex, 0] = (float)meta.Multiplier;
+                        meta.Owner.Multipliers[meta.VariableIndex] = (float)meta.Multiplier;
                     }
                 }
             }
@@ -237,31 +237,31 @@ namespace Heiflow.Controls.WinForm.Toolbox
             if (_SelectedDataCubeMeta == null)
                 return;
 
-            if (_SelectedDataCubeMeta.Mat.DataCubeType == DataCubeType.Varient)
-            {
+            //if (_SelectedDataCubeMeta.Mat.DataCubeType == DataCubeType.Varient)
+            //{
                 if (_SelectedDCVarientMeta != null && _SelectedDCVarientMeta.Behavior == TimeVarientFlag.Individual)
                 {
                     if (tsDataViewMode.SelectedIndex == 0)
                     {
-                        _SelectedDCVarientMeta.Owner.FromSerialArray(_SelectedDCVarientMeta.TimeIndex, 0, arrayGrid.DataSource);
+                        _SelectedDCVarientMeta.Owner.FromSpatialSerialArray(_SelectedDCVarientMeta.VariableIndex, 0, arrayGrid.DataSource);
                     }
                     else
                     {
-                        _SelectedDCVarientMeta.Owner.FromRegularArray(_SelectedDCVarientMeta.TimeIndex, 0, arrayGrid.DataSource);
+                        _SelectedDCVarientMeta.Owner.FromSpatialRegularArray(_SelectedDCVarientMeta.VariableIndex, 0, arrayGrid.DataSource);
                     }
                 }
-            }
-            else if (_SelectedDataCubeMeta.Mat.DataCubeType == DataCubeType.Vector)
-            {
+            //}
+            //else if (_SelectedDataCubeMeta.Mat.DataCubeType == DataCubeType.Vector)
+            //{
                 if (tsDataViewMode.SelectedIndex == 0)
                 {
-                    _SelectedDataCubeMeta.Mat.FromSerialArray(0, 0, arrayGrid.DataSource);
+                    _SelectedDataCubeMeta.Mat.FromSpatialSerialArray(0, 0, arrayGrid.DataSource);
                 }
                 else
                 {
-                    _SelectedDataCubeMeta.Mat.FromRegularArray(0, 0, arrayGrid.DataSource);
+                    _SelectedDataCubeMeta.Mat.FromSpatialRegularArray(0, 0, arrayGrid.DataSource);
                 }
-            }
+            //}
         }
 
         private void DataSources_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -302,15 +302,16 @@ namespace Heiflow.Controls.WinForm.Toolbox
             {
                 _TVMataList.Clear();
 
-                int ntime = mat.Size[0];
-                for (int i = 0; i < ntime; i++)
+                int nvar = mat.Size[0];
+                for (int i = 0; i < nvar; i++)
                 {
                     _TVMataList.Add(new DCVarientMeta()
                     {
-                        TimeIndex = i,
-                        Behavior = mat.Flags[i, 0],
-                        Multiplier = mat.Multipliers[i, 0],
-                        Constant = mat.Constants[i, 0],
+                        // stress period or layer is used as variable
+                        VariableIndex = i, 
+                        Behavior = mat.Flags[i],
+                        Multiplier = mat.Multipliers[i],
+                        Constant = mat.Constants[i],
                         Owner = mat
                     });
                 }
@@ -327,11 +328,11 @@ namespace Heiflow.Controls.WinForm.Toolbox
                 dc = _SelectedDCVarientMeta.Owner;
                 if (tsDataViewMode.SelectedIndex == 0)
                 {
-                    array = dc.GetSerialArrayByTime(_SelectedDCVarientMeta.TimeIndex, 0);
+                    array = dc.GetSpatialSerialArray(_SelectedDCVarientMeta.VariableIndex, 0);
                 }
                 else
                 {
-                    array = dc.GetRegularlArrayByTime(_SelectedDCVarientMeta.TimeIndex, 0);
+                    array = dc.GetSpatialRegularArray(_SelectedDCVarientMeta.VariableIndex, 0);
                 }
             }
             else
@@ -341,16 +342,16 @@ namespace Heiflow.Controls.WinForm.Toolbox
                 {
                     if (tsDataViewMode.SelectedIndex == 0)
                     {
-                        array = dc.GetSerialArrayByTime(0, 0);
+                        array = dc.GetSpatialSerialArray(0, 0);
                     }
                     else
                     {
-                        array = dc.GetRegularlArrayByTime(0, 0);
+                        array = dc.GetSpatialRegularArray(0, 0);
                     }
                 }
                 else
                 {
-                    array = dc.GetSerialArrayByTime(0, 0);
+                    array = dc.GetSpatialSerialArray(0, 0);
                 }
             }
 

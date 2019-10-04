@@ -161,8 +161,6 @@ namespace Heiflow.Models.Subsurface
                         OnLoading(progress);
                     }
                 }
-                DataCube.TimeBrowsable = true;
-                DataCube.AllowTableEdit = false;
                 DataCube.DateTimes = TimeService.IOTimeline.Take(nstep).ToArray();
                 OnLoaded(progresshandler);
 

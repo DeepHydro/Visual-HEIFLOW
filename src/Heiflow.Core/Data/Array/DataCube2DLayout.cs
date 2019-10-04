@@ -9,8 +9,8 @@ namespace Heiflow.Core.Data
 {
     public class DataCube2DLayout<T> : DataCube<T>
     {
-        public DataCube2DLayout(int nvar, int nrow, int ncol, bool init, bool islazy = false)
-            : base(nvar, nrow, ncol, init, islazy)
+        public DataCube2DLayout(int nvar, int nrow, int ncol, bool islazy = false)
+            : base(nvar, nrow, ncol, islazy)
         {
             Layout = DataCubeLayout.TwoD;
             ColumnNames = new string[ncol];
@@ -65,7 +65,6 @@ namespace Heiflow.Core.Data
             }
             return dt;
         }
-
         public override void FromDataTable(DataTable dt)
         {
             if (DateTimes != null)

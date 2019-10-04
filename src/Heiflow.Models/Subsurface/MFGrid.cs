@@ -67,7 +67,7 @@ namespace Heiflow.Models.Subsurface
             int nrow = rlrow - lurow + 1;
             int ncol = rlcol - lucol + 1;
             newgrid.ActualLayerCount = this.ActualLayerCount;
-            newgrid.IBound = new DataCube<float>(this.ActualLayerCount, nrow, ncol, true);
+            newgrid.IBound = new DataCube<float>(this.ActualLayerCount, nrow, ncol, false);
             newgrid.RowCount = nrow;
             newgrid.ColumnCount = ncol;
             newgrid.BBox = this.BBox;

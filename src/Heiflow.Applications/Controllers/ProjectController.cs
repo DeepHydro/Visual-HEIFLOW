@@ -256,7 +256,6 @@ namespace Heiflow.Applications.Controllers
                 _ProjectService.Project.ODMSource.WorkDirectory = _ProjectService.Project.FullModelWorkDirectory;
                 _ProjectService.Project.ODMSource.Open();
             }
-          //  ShellService.ProgressWindow.Progress("Finished.");
             _ProjectService.RaiseProjectOpenedOrCreated(MapAppManager.Map, this.Project);
             _ShellService.ProgressWindow.DoWork -= ProgressPanel_DoOpenProject;
             _ShellService.ProgressWindow.WorkCompleted -= ProgressWindow_DoOpenProjectCompleted;

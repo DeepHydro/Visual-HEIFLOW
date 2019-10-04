@@ -144,7 +144,6 @@ namespace Heiflow.Tools.Math
                 mat_out.Name = Derived;
                 mat_out.Variables = new string[] { "Derived" };
                 mat_out.DateTimes = derieved_ts.DateTimes.ToArray();
-                mat_out.TimeBrowsable = true;
                 for (int c = 0; c < ncell; c++)
                 {
                     vec = mat[var_index, ":", c.ToString()];

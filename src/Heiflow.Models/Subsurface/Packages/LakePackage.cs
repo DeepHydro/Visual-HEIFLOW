@@ -137,7 +137,7 @@ namespace Heiflow.Models.Subsurface
        public DataCube<float> BDLKNC { get; set; }
 
         /// <summary>
-       /// [1,1, nsp] The number of sublake systems if coalescing/dividing lakes are to be simulated (only in transient runs). Enter 0 if no sublake systems are to be simulated.
+       /// [nsp,1,1] The number of sublake systems if coalescing/dividing lakes are to be simulated (only in transient runs). Enter 0 if no sublake systems are to be simulated.
         /// </summary>
         /// 
         [StaticVariableItem]
@@ -148,7 +148,7 @@ namespace Heiflow.Models.Subsurface
         /// </summary>
         /// 
        [StaticVariableItem]
-        public DataCube2DLayout<float> WSOUR { get; set; }
+        public DataCube<float> WSOUR { get; set; }
         #endregion
 
         public override void Initialize()
@@ -196,12 +196,10 @@ namespace Heiflow.Models.Subsurface
                     STAGES[0][i, ":"] = floatbuf;
                 }
 
-                ITMP = new DataCube<int>(1, nsp, 3,true);
-                LKARR = new DataCube<int>(nlayer, 1, grid.ActiveCellCount,true)
+                ITMP = new DataCube2DLayout<int>(1, nsp, 3, true);
+                LKARR = new DataCube<int>(nlayer, 1, grid.ActiveCellCount,false)
                 {
                     Name = "Lake ID",
-                    TimeBrowsable = false,
-                    AllowTableEdit = true,
                     Variables = new string[nlayer]
                 };
                 for (int l = 0; l < nlayer; l++)
@@ -212,54 +210,145 @@ namespace Heiflow.Models.Subsurface
                 BDLKNC = new DataCube<float>(nlayer, 1, grid.ActiveCellCount, false)
                 {
                     Name = "Leakance",
-                    TimeBrowsable = false,
-                    AllowTableEdit = true,
                     Variables = new string[nlayer]
                 };
                 for (int l = 0; l < nlayer; l++)
                 {
                     BDLKNC.Variables[l] = " Layer " + (l + 1);
                 }
-                NSLMS = new DataCube<int>(nsp, 1, 1,true)
+                NSLMS = new DataCube2DLayout<int>(1, nsp, 1, true)
                 {
                     Name = "Num of Sublakes",
-                    TimeBrowsable = false,
-                    AllowTableEdit = true,
                     Variables = new string[nsp]
                 };
                 for (int l = 0; l < nsp; l++)
                 {
                     NSLMS.Variables[l] = "Stress Period " + (l + 1);
                 }
-                WSOUR = new  DataCube2DLayout<float>(nsp, NLAKES, 6,true)
+                WSOUR = new  DataCube<float>(nsp, NLAKES, 6,false)
                 {
                     Name = "Recharge Discharge",
-                    TimeBrowsable = false,
-                    AllowTableEdit = true,
                     Variables = new string[nsp],
-                    Layout = DataCubeLayout.TwoD
                 };
                 for (int l = 0; l < nsp; l++)
                 {
                     WSOUR.Variables[l] = "Stress Period " + (l + 1);
                 }
-
-
-                line = sr.ReadLine();
-                intbuf = TypeConverterEx.Split<int>(line, 3);
-
-
-
+                for (int i = 0; i < nsp; i++)
+                {
+                    line = sr.ReadLine();
+                    intbuf = TypeConverterEx.Split<int>(line, 3);
+                    ITMP[0][i, ":"] = intbuf;
+                    if (ITMP[0, i, 0] > 0)
+                    {
+                        for (int j = 0; j < grid.ActualLayerCount; j++)
+                        {
+                            ReadSerialArray<int>(sr, LKARR, j, 0);
+                        }
+                        for (int j = 0; j < grid.ActualLayerCount; j++)
+                        {
+                            ReadSerialArray<float>(sr, BDLKNC, j, 0);
+                        }
+                        line = sr.ReadLine();
+                        intbuf = TypeConverterEx.Split<int>(line, 1);
+                        NSLMS[i, 0, 0] = intbuf[0];
+                    }
+                    if (ITMP[0, i, 1] > 0)
+                    {
+                        for (int j = 0; j < NLAKES; j++)
+                        {
+                            line = sr.ReadLine();
+                            floatbuf = TypeConverterEx.Split<float>(line, 6);
+                            WSOUR[i][j, ":"] = floatbuf;
+                        }
+                    }
+                }
+                sr.Close();
+                OnLoaded(progresshandler);
+                return true;
             }
-            return true;
+            else
+            {
+                Message = string.Format("\r\n Failed to load {0}. The package file does not exist: {1}", Name, FileName);
+                progresshandler.Progress(this.Name, 100, Message);
+                OnLoadFailed(Message, progresshandler);
+                return false;
+            }   
         }
         public override bool SaveAs(string filename, ICancelProgressHandler progress)
         {
+            var grid = (this.Grid as IRegularGrid);
+            var mf = Owner as Modflow;
+            int nsp = TimeService.StressPeriods.Count;
+
+            StreamWriter sw = new StreamWriter(filename);
+            WriteDefaultComment(sw, "LAK");
+            string line = string.Format("{0}\t{1}\t#NLAKES ILKCB", NLAKES, ILKCB);
+            sw.WriteLine(line);
+            line = string.Format("{0}\t{1}\t{2}\t{3}\t# THETA NSSITR SSCNCR SURFDEPTH", THETA, NSSITR, SSCNCR, SURFDEPTH);
+            sw.WriteLine(line);
+            for (int i = 0; i < NLAKES; i++)
+            {
+                line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t#STAGES,SSMN,SSMX,IUNITTAB,CLAKE", STAGES[0, i, 0], STAGES[0, i, 1], STAGES[0, i, 2], STAGES[0, i, 3], STAGES[0, i, 4]);
+                sw.WriteLine(line);
+            }
+            for (int i = 0; i < nsp; i++)
+            {
+                line = string.Format("{0}\t{1}\t{2}\t#ITMP,ITMP1, LWRT", ITMP[0, i, 0], ITMP[0, i, 1], ITMP[0, i, 2]);
+                sw.WriteLine(line);
+                if (ITMP[0, i, 0] > 0)
+                {
+                    string cmt = "";
+                    for (int j = 0; j < grid.ActualLayerCount; i++)
+                    {
+                        cmt = " # LKARR  of Layer " + (j + 1);
+                        WriteRegularArray<int>(sw, LKARR, j, "F0", cmt);
+                    }
+                    for (int j = 0; j < grid.ActualLayerCount; i++)
+                    {
+                        cmt = " # BDLKNC  of Layer " + (j + 1);
+                        WriteRegularArray<int>(sw, LKARR, j, "F0", cmt);
+                    }
+                    line = string.Format("{0}\t#NSLMS ", NSLMS[i, 0, 0]);
+                    sw.WriteLine(line);
+                }
+                if (ITMP[0, i, 1] > 0)
+                {
+                    for (int j = 0; j < NLAKES; i++)
+                    {
+                        line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t#PRCPLK EVAPLK RNF WTHDRW [SSMN] [SSMX]",
+                            WSOUR[i][j, 0], WSOUR[i][j, 1], WSOUR[i][j, 2], WSOUR[i][j, 3], WSOUR[i][j, 4], WSOUR[i][j, 5]);
+                        sw.WriteLine(line);
+                    }
+                }
+            }
+            sw.Close();
+            OnSaved(progress);
             return true;
         }
         public override string CreateFeature(DotSpatial.Projections.ProjectionInfo proj_info, string directory)
         {
-            return base.CreateFeature(proj_info, directory);
+            string filename = Path.Combine(directory, this.Name + ".shp");
+            var grid = (Owner as Modflow).Grid as MFGrid;
+            FeatureSet fs = new FeatureSet(FeatureType.Polygon);
+            fs.Name = this.Name;
+            fs.Projection = proj_info;
+            fs.DataTable.Columns.Add(new DataColumn("CELL_ID", typeof(int)));
+            fs.DataTable.Columns.Add(new DataColumn("ISEG", typeof(int)));
+            fs.DataTable.Columns.Add(new DataColumn("IRCH", typeof(int)));
+            fs.DataTable.Columns.Add(new DataColumn("JRCH", typeof(int)));
+
+            fs.DataTable.Columns.Add(new DataColumn("BedThick", typeof(double)));
+            fs.DataTable.Columns.Add(new DataColumn("TopElev", typeof(double)));
+            fs.DataTable.Columns.Add(new DataColumn("Slope", typeof(double)));
+            fs.DataTable.Columns.Add(new DataColumn("Width", typeof(double)));
+            fs.DataTable.Columns.Add(new DataColumn("Length", typeof(double)));
+            fs.DataTable.Columns.Add(new DataColumn(RegularGrid.ParaValueField, typeof(double)));
+
+            fs.SaveAs(filename, true);
+            fs.Close();
+            return filename;
+
         }
         public override void Clear()
         {

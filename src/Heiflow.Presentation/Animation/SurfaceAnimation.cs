@@ -66,7 +66,7 @@ namespace Heiflow.Presentation.Animation
 
         protected override void Plot(int time_index)
         {
-            var mat = _DataSource.ToILBaseArray(_DataSource.SelectedVariableIndex, time_index) as ILArray<float>;
+            var mat = _DataSource.ToSpatialILBaseArray(_DataSource.SelectedVariableIndex, time_index) as ILArray<float>;
             if (mat != null)
             {
                 mat.Name = string.Format("{0}[{1}]", _DataSource.Name, _DataSource.Variables[_DataSource.SelectedVariableIndex]);

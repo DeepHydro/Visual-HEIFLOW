@@ -58,7 +58,7 @@ namespace Heiflow.Presentation.Animation
             var pck = _DataSource.DataOwner as IPackage;
             if (pck != null)
             {
-                var vector = _DataSource.GetByTime(_DataSource.SelectedVariableIndex, time_index);
+                var vector = _DataSource.GetVectorAsArray(_DataSource.SelectedVariableIndex, time_index.ToString(), ":");
                 if (pck.Feature != null && vector != null)
                 {
                     var dt = pck.Feature.DataTable;

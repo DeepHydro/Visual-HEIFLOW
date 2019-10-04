@@ -43,6 +43,7 @@ using System.Threading.Tasks;
 namespace Heiflow.Core.Data
 {
     public enum TimeVarientFlag { Repeat = -1, Constant = 0, Individual = 2 };
+    public enum DimensionFlag { Variable = 0, Time = 1, Spatial = 2 };
     /// <summary>
     /// Represents 3d matrix with varient structure. It is mainly used to represent time-varient parameters rather than to represent input/output
     /// data. The zero dimension stores parameter in each time period, the second dimension is regarded as 1 .

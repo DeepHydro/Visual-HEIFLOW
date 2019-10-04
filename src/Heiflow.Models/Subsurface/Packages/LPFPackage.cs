@@ -261,41 +261,29 @@ namespace Heiflow.Models.Subsurface
                 mf.LayerGroupManager.ConvertFrom(LAYWET, "LAYWET");
                 mf.LayerGroupManager.LayerGroups.CollectionChanged += this.LayerGroups_CollectionChanged;
 
-                HK = new DataCube<float>(nlayer, 1,grid.ActiveCellCount,true)
+                HK = new DataCube<float>(nlayer, 1,grid.ActiveCellCount,false)
                 {
-                    AllowTableEdit = true,
-                    TimeBrowsable = false,
                     Name = "HK"
                 };
 
-                HANI = new DataCube<float>(nlayer, 1, grid.ActiveCellCount, true)
+                HANI = new DataCube<float>(nlayer, 1, grid.ActiveCellCount, false)
                 {
-                    AllowTableEdit = true,
-                    TimeBrowsable = false,
                     Name = "HANI"
                 };
-                VKA = new DataCube<float>(nlayer, 1, grid.ActiveCellCount, true)
+                VKA = new DataCube<float>(nlayer, 1, grid.ActiveCellCount, false)
                 {
-                    AllowTableEdit = true,
-                    TimeBrowsable = false,
                     Name = "VKA"
                 };
-                SS = new DataCube<float>(nlayer, 1, grid.ActiveCellCount, true)
+                SS = new DataCube<float>(nlayer, 1, grid.ActiveCellCount, false)
                 {
-                    AllowTableEdit = true,
-                    TimeBrowsable = false,
                     Name = "SS"
                 };
-                SY = new DataCube<float>(nlayer, 1, grid.ActiveCellCount, true)
+                SY = new DataCube<float>(nlayer, 1, grid.ActiveCellCount, false)
                 {
-                    AllowTableEdit = true,
-                    TimeBrowsable = false,
                     Name = "SY"
                 };
-                WETDRY = new DataCube<float>(nlayer, 1, grid.ActiveCellCount, true)
+                WETDRY = new DataCube<float>(nlayer, 1, grid.ActiveCellCount, false)
                 {
-                    AllowTableEdit = true,
-                    TimeBrowsable = false,
                     Name = "WETDRY"
                 };
 
@@ -456,41 +444,29 @@ namespace Heiflow.Models.Subsurface
             //this.LAYWET = mf.LayerGroupManager.ConvertToInt("LAYWET");
             //mf.LayerGroupManager.LayerGroups.CollectionChanged += this.LayerGroups_CollectionChanged;
 
-            HK = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount, true)
+            HK = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount, false)
             {
-                Name="HK",
-                AllowTableEdit = true,
-                TimeBrowsable = false
+                Name="HK"
             };
-            HANI = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount, true)
+            HANI = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount, false)
             {
-                Name = "HANI",
-                AllowTableEdit = true,
-                TimeBrowsable = false
+                Name = "HANI"
             };
-            VKA = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount, true)
+            VKA = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount, false)
             {
-                Name = "VKA",
-                AllowTableEdit = true,
-                TimeBrowsable = false
+                Name = "VKA"
             };
-            SS = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount, true)
+            SS = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount, false)
             {
-                Name = "SS",
-                AllowTableEdit = true,
-                TimeBrowsable = false
+                Name = "SS"
             };
-            SY = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount, true)
+            SY = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount, false)
             {
-                Name = "SY",
-                AllowTableEdit = true,
-                TimeBrowsable = false
+                Name = "SY"
             };
-            WETDRY = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount, true)
+            WETDRY = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount, false)
             {
-                Name = "WETDRY",
-                AllowTableEdit = true,
-                TimeBrowsable = false
+                Name = "WETDRY"
             };
 
             HK.Topology = grid.Topology;
@@ -583,12 +559,12 @@ namespace Heiflow.Models.Subsurface
             MFGrid newgrid = newmf.Grid as MFGrid;
             MFGrid rawgrid = Owner.Grid as MFGrid;
 
-            lpf.HK = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount, true);
-            lpf.HANI = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount, true);
-            lpf.VKA = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount, true);
-            lpf.SS = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount, true);
-            lpf.SY = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount, true);
-            lpf.WETDRY = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount, true);
+            lpf.HK = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount, false);
+            lpf.HANI = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount, false);
+            lpf.VKA = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount, false);
+            lpf.SS = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount, false);
+            lpf.SY = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount, false);
+            lpf.WETDRY = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount, false);
             for (int l = 0; l < newgrid.ActualLayerCount; l++)
             {
                 //lpf.HK[l, 0] = rawgrid.GetSubSerialArray<float>(this.HK, newgrid, l).Value;

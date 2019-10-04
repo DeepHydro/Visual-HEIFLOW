@@ -171,12 +171,12 @@ namespace Heiflow.Models.Generic.Parameters
         {
             return 1;
         }
-        public override void FromSerialArray(int p1, int p2, Array array)
+        public override void FromSpatialSerialArray(int p1, int p2, Array array)
         {
             this.Value = (T)array.GetValue(0, 0);
         }
 
-        public override Array GetSerialArrayByTime(int p1, int p2)
+        public override Array GetSpatialSerialArray(int p1, int p2)
         {
             T[,] array = new T[1, 1];
             array[0, 0] = Value;

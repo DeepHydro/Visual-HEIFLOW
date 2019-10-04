@@ -357,7 +357,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
                 {
                     if (mat[i] != null)
                     {
-                        if (mat.Flags[i, 0] == TimeVarientFlag.Individual)
+                        if (mat.Flags[i] == TimeVarientFlag.Individual)
                             size = string.Format("{0}×{1}", mat.Size[1], mat.GetSpaceDimLength(i, 0));
                         else
                             size = string.Format("{0}×1", mat.Size[1]);

@@ -255,41 +255,29 @@ namespace Heiflow.Models.Subsurface
                 this.NUZGAG = (int)fv[8];
                 this.SURFDEP = fv[9];
 
-                this.IUZFBND = new DataCube<float>(1, 1,grid.ActiveCellCount,true)
+                this.IUZFBND = new DataCube<float>(1, 1,grid.ActiveCellCount,false)
                 {
-                    Name = "IUZFBND",
-                    AllowTableEdit = true,
-                    TimeBrowsable = false
+                    Name = "IUZFBND"
                 };
-                this.IRUNBND = new DataCube<float>(1, 1, grid.ActiveCellCount, true)
+                this.IRUNBND = new DataCube<float>(1, 1, grid.ActiveCellCount, false)
                 {
-                    Name = "IRUNBND",
-                    AllowTableEdit = true,
-                    TimeBrowsable = false
+                    Name = "IRUNBND"
                 };
-                this.VKS = new DataCube<float>(1, 1, grid.ActiveCellCount, true)
+                this.VKS = new DataCube<float>(1, 1, grid.ActiveCellCount, false)
                 {
-                    Name = "VKS",
-                    AllowTableEdit = true,
-                    TimeBrowsable = false
+                    Name = "VKS"
                 };
-                this.EPS = new DataCube<float>(1, 1, grid.ActiveCellCount, true)
+                this.EPS = new DataCube<float>(1, 1, grid.ActiveCellCount, false   )
                 {
-                    Name = "EPS",
-                    AllowTableEdit = true,
-                    TimeBrowsable = false
+                    Name = "EPS"
                 };
-                this.THTS = new DataCube<float>(1, 1, grid.ActiveCellCount, true)
+                this.THTS = new DataCube<float>(1, 1, grid.ActiveCellCount, false)
                 {
-                    Name = "THTS",
-                    AllowTableEdit = true,
-                    TimeBrowsable = false
+                    Name = "THTS"
                 };
-                this.THTI = new DataCube<float>(1, 1, grid.ActiveCellCount, true)
+                this.THTI = new DataCube<float>(1, 1, grid.ActiveCellCount, false)
                 {
-                    Name = "THTI",
-                    AllowTableEdit = true,
-                    TimeBrowsable = false
+                    Name = "THTI"
                 };
 
                 this.IUZFBND.Topology = grid.Topology;
@@ -329,7 +317,7 @@ namespace Heiflow.Models.Subsurface
                     var iv = TypeConverterEx.Split<int>(newline);
                     if (iv.Length == 4)
                     {
-                        UZGAG = new DataCube<int>(NUZGAG, 1, 4, true);
+                        UZGAG = new DataCube<int>(NUZGAG, 1, 4, false);
                         UZGAG[0,0,0] = iv[0];
                         UZGAG[0, 0, 1] = iv[1];
                         UZGAG[0, 0, 2] = iv[2];
@@ -351,29 +339,21 @@ namespace Heiflow.Models.Subsurface
                 }
 
                 var np = TimeService.StressPeriods.Count;
-                this.FINF = new DataCube<float>(np, 1, grid.ActiveCellCount, true)
+                this.FINF = new DataCube<float>(np, 1, grid.ActiveCellCount, false)
                 {
-                    Name = "FINF",
-                    AllowTableEdit = true,
-                    TimeBrowsable = false
+                    Name = "FINF"
                 };
-                this.PET = new DataCube<float>(np, 1, grid.ActiveCellCount, true)
+                this.PET = new DataCube<float>(np, 1, grid.ActiveCellCount, false)
                 {
-                    Name = "PET",
-                    AllowTableEdit = true,
-                    TimeBrowsable = false
+                    Name = "PET"
                 };
-                this.EXTDP = new DataCube<float>(np, 1, grid.ActiveCellCount, true)
+                this.EXTDP = new DataCube<float>(np, 1, grid.ActiveCellCount, false)
                 {
-                    Name = "EXTDP",
-                    AllowTableEdit = true,
-                    TimeBrowsable = false
+                    Name = "EXTDP"
                 };
-                this.EXTWC = new DataCube<float>(np, 1, grid.ActiveCellCount, true)
+                this.EXTWC = new DataCube<float>(np, 1, grid.ActiveCellCount, false)
                 {
-                    Name = "EXTWC",
-                    AllowTableEdit = true,
-                    TimeBrowsable = false
+                    Name = "EXTWC"
                 };
 
                 this.FINF.Topology = grid.Topology;
@@ -392,7 +372,7 @@ namespace Heiflow.Models.Subsurface
                     }
                     else
                     {
-                        FINF.Flags[p,0] = TimeVarientFlag.Repeat;
+                        FINF.Flags[p] = TimeVarientFlag.Repeat;
                         var buf= new float[grid.ActiveCellCount];
                         FINF[p - 1, "0", ":"].CopyTo(buf, 0);
                         FINF[p, "0", ":"] = buf;
@@ -407,7 +387,7 @@ namespace Heiflow.Models.Subsurface
                         }
                         else
                         {
-                            PET.Flags[p,0] = TimeVarientFlag.Repeat;
+                            PET.Flags[p] = TimeVarientFlag.Repeat;
                             var buf = new float[grid.ActiveCellCount];
                             PET[p - 1, "0", ":"].CopyTo(buf, 0);
                             PET[p, "0", ":"] = buf;
@@ -421,7 +401,7 @@ namespace Heiflow.Models.Subsurface
                         }
                         else
                         {
-                            EXTDP.Flags[p,0] = TimeVarientFlag.Repeat;
+                            EXTDP.Flags[p] = TimeVarientFlag.Repeat;
                             var buf = new float[grid.ActiveCellCount];
                             EXTDP[p - 1, "0", ":"].CopyTo(buf, 0);
                             EXTDP[p, "0", ":"] = buf;
@@ -435,7 +415,7 @@ namespace Heiflow.Models.Subsurface
                         }
                         else
                         {
-                            EXTWC.Flags[p,0] = TimeVarientFlag.Repeat;
+                            EXTWC.Flags[p] = TimeVarientFlag.Repeat;
                             var buf = new float[grid.ActiveCellCount];
                             EXTWC[p - 1, "0", ":"].CopyTo(buf, 0);
                             EXTWC[p, "0", ":"] = buf;
@@ -519,26 +499,26 @@ namespace Heiflow.Models.Subsurface
 
             for (int p = 0; p < np; p++)
             {
-                int reuse = this.FINF.Flags[p, 0] == TimeVarientFlag.Repeat ? -1 : 0;
+                int reuse = this.FINF.Flags[p] == TimeVarientFlag.Repeat ? -1 : 0;
                 newline = string.Format("{0}\t# Data Set 9: NUZF1", reuse);
                 sw.WriteLine(newline);
                 if (reuse >= 0)
                     WriteSerialFloatArray(sw, this.FINF, p, 0, "E6", " # Data Set 10 FINF  for Stress Period " + (p + 1));
                 if (IETFLG > 0)
                 {
-                    reuse = this.PET.Flags[p, 0] == TimeVarientFlag.Repeat ? -1 : 0;
+                    reuse = this.PET.Flags[p] == TimeVarientFlag.Repeat ? -1 : 0;
                     newline = string.Format("{0}\t# Data Set 11: NUZF2", reuse);
                     sw.WriteLine(newline);
                     if (reuse >= 0)
                         WriteSerialFloatArray(sw, this.PET, p, 0, "E6", " # Data Set 12 PET  for Stress Period " + (p + 1));
 
-                    reuse = this.EXTDP.Flags[p, 0] == TimeVarientFlag.Repeat ? -1 : 0;
+                    reuse = this.EXTDP.Flags[p] == TimeVarientFlag.Repeat ? -1 : 0;
                     newline = string.Format("{0}\t# Data Set 13: NUZF3", reuse);
                     sw.WriteLine(newline);
                     if (reuse  >= 0)
                         WriteSerialFloatArray(sw, this.EXTDP, p, 0, "E6", " # Data Set 14 EXTDP  for Stress Period " + (p + 1));
 
-                    reuse = this.EXTWC.Flags[p, 0] == TimeVarientFlag.Repeat ? -1 : 0;
+                    reuse = this.EXTWC.Flags[p] == TimeVarientFlag.Repeat ? -1 : 0;
                     newline = string.Format("{0}\t# Data Set 15: NUZF4", reuse);
                     sw.WriteLine(newline);
                     if (reuse >= 0)
@@ -568,41 +548,29 @@ namespace Heiflow.Models.Subsurface
             this.FeatureLayer = this.Grid.FeatureLayer;
             this.Feature = this.Grid.FeatureSet;
 
-            this.IUZFBND = new DataCube<float>(1, 1, grid.ActiveCellCount, true)
+            this.IUZFBND = new DataCube<float>(1, 1, grid.ActiveCellCount, false)
             {
                 Name = "IUZFBND",
-                AllowTableEdit = true,
-                TimeBrowsable = false
             };
-            this.IRUNBND = new DataCube<float>(1, 1, grid.ActiveCellCount, true)
+            this.IRUNBND = new DataCube<float>(1, 1, grid.ActiveCellCount, false)
             {
                 Name = "IRUNBND",
-                AllowTableEdit = true,
-                TimeBrowsable = false
             };
-            this.VKS = new DataCube<float>(1, 1, grid.ActiveCellCount, true)
+            this.VKS = new DataCube<float>(1, 1, grid.ActiveCellCount, false)
             {
                 Name = "VKS",
-                AllowTableEdit = true,
-                TimeBrowsable = false
             };
-            this.EPS = new DataCube<float>(1, 1, grid.ActiveCellCount, true)
+            this.EPS = new DataCube<float>(1, 1, grid.ActiveCellCount, false)
             {
-                Name = "EPS",
-                AllowTableEdit = true,
-                TimeBrowsable = false
+                Name = "EPS"
             };
-            this.THTS = new DataCube<float>(1, 1, grid.ActiveCellCount, true)
+            this.THTS = new DataCube<float>(1, 1, grid.ActiveCellCount, false)
             {
-                Name = "THTS",
-                AllowTableEdit = true,
-                TimeBrowsable = false
+                Name = "THTS"
             };
-            this.THTI = new DataCube<float>(1, 1, grid.ActiveCellCount, true)
+            this.THTI = new DataCube<float>(1, 1, grid.ActiveCellCount, false)
             {
-                Name = "THTI",
-                AllowTableEdit = true,
-                TimeBrowsable = false
+                Name = "THTI"
             };
 
             this.IUZFBND.Variables[0] = "IUZFBND Layer 1";
@@ -645,29 +613,21 @@ namespace Heiflow.Models.Subsurface
             var grid = mf.Grid as MFGrid;
             int ncell=grid.ActiveCellCount;
             int np = TimeService.StressPeriods.Count;
-            this.FINF = new DataCube<float>(np, 1, grid.ActiveCellCount, true)
+            this.FINF = new DataCube<float>(np, 1, grid.ActiveCellCount)
             {
-                Name = "FINF",
-                AllowTableEdit = true,
-                TimeBrowsable = false
+                Name = "FINF"
             };
-            this.PET = new DataCube<float>(np, 1, grid.ActiveCellCount, true)
+            this.PET = new DataCube<float>(np, 1, grid.ActiveCellCount)
             {
-                Name = "PET",
-                AllowTableEdit = true,
-                TimeBrowsable = false
+                Name = "PET"
             };
-            this.EXTDP = new DataCube<float>(np, 1, grid.ActiveCellCount, true)
+            this.EXTDP = new DataCube<float>(np, 1, grid.ActiveCellCount)
             {
-                Name = "EXTDP",
-                AllowTableEdit = true,
-                TimeBrowsable = false
+                Name = "EXTDP"
             };
-            this.EXTWC = new DataCube<float>(np, 1, grid.ActiveCellCount, true)
+            this.EXTWC = new DataCube<float>(np, 1, grid.ActiveCellCount)
             {
-                Name = "EXTWC",
-                AllowTableEdit = true,
-                TimeBrowsable = false
+                Name = "EXTWC"
             };
 
             this.FINF.Topology = grid.Topology;
@@ -680,10 +640,10 @@ namespace Heiflow.Models.Subsurface
             this.EXTDP.Variables[0] = "EXTDP Stress Period 1";
             this.EXTWC.Variables[0] = "EXTWC Stress Period 1";
 
-            this.FINF.Flags[0,0] = TimeVarientFlag.Individual;
-            this.PET.Flags[0,0] = TimeVarientFlag.Individual;
-            this.EXTDP.Flags[0,0] = TimeVarientFlag.Individual;
-            this.EXTWC.Flags[0,0] = TimeVarientFlag.Individual;
+            this.FINF.Flags[0] = TimeVarientFlag.Individual;
+            this.PET.Flags[0] = TimeVarientFlag.Individual;
+            this.EXTDP.Flags[0] = TimeVarientFlag.Individual;
+            this.EXTWC.Flags[0] = TimeVarientFlag.Individual;
             //for (int i = 0; i < ncell; i++)
             //{
                 this.FINF.ILArrays[0]["0",":"] = 0.0001f;
@@ -694,15 +654,15 @@ namespace Heiflow.Models.Subsurface
 
             for (int p = 1; p < np; p++)
             {
-                this.FINF.Flags[p,0] = TimeVarientFlag.Constant;
-                this.PET.Flags[p,0] = TimeVarientFlag.Constant;
-                this.EXTDP.Flags[p,0] = TimeVarientFlag.Constant;
-                this.EXTWC.Flags[p,0] = TimeVarientFlag.Constant;
+                this.FINF.Flags[p] = TimeVarientFlag.Constant;
+                this.PET.Flags[p] = TimeVarientFlag.Constant;
+                this.EXTDP.Flags[p] = TimeVarientFlag.Constant;
+                this.EXTWC.Flags[p] = TimeVarientFlag.Constant;
 
-                this.FINF.Constants[p,0] = 0;
-                this.PET.Constants[p,0] = 0;
-                this.EXTDP.Constants[p,0] = 3f;
-                this.EXTWC.Constants[p,0] = 0.15f;
+                this.FINF.Constants[p] = 0;
+                this.PET.Constants[p] = 0;
+                this.EXTDP.Constants[p] = 3f;
+                this.EXTWC.Constants[p] = 0.15f;
 
                 this.FINF.Variables[p] = "FIN Stress Period " + (p+1);
                 this.PET.Variables[p] = "PET Stress Period " + (p + 1);

@@ -100,7 +100,7 @@ namespace Heiflow.Tools.Hydrology
             var dates = new DateTime[ndays];
             int progress = 0;
             int np=1;
-            var swmat = new DataCube<float>(cloudcover.Size[0], cloudcover.Size[1], cloudcover.Size[2], false);
+            var swmat = new DataCube<float>(cloudcover.Size[0], cloudcover.Size[1], cloudcover.Size[2]);
             swmat.Name = OutputName;
             for (int i = 0; i < ndays; i++)
             {

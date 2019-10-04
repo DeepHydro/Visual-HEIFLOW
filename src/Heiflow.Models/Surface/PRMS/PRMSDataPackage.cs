@@ -144,7 +144,6 @@ namespace Heiflow.Models.IO
             }
             OnLoading(100);
             mat.Variables = Variables;
-            mat.TimeBrowsable = true;
             sr.Close();
             fileStream.Close();
             DataCube = mat;

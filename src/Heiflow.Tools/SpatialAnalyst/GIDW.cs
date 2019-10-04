@@ -219,8 +219,6 @@ namespace Heiflow.Tools.SpatialAnalyst
                 DataCube<float> mat = new DataCube<float>(1, nstep, ntar_sites, false);
                 mat.DateTimes = new DateTime[nstep];
                 mat.Name = OutputMatrix;
-                mat.TimeBrowsable = true;
-                mat.AllowTableEdit = false;
 
                 double[][] xvalues = new double[nsource_sites][];
                 double[] yvalues = new double[nsource_sites];

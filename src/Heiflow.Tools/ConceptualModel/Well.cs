@@ -211,11 +211,9 @@ namespace Heiflow.Tools.ConceptualModel
                     int nwel = _sourcefs.Features.Count;
                     pck.MXACTW = nwel;
                     pck.IWELCB = 0;
-                    pck.FluxRates = new DataCube<float>(4, np, nwel, false)
+                    pck.FluxRates = new DataCube<float>(4, np, nwel)
                     {
                         DateTimes = new System.DateTime[np],
-                        TimeBrowsable = true,
-                        AllowTableEdit = true,
                         Variables = new string[4] { "Layer", "Row", "Column", "Q" }
                     };
                     int layer = 1;
@@ -225,9 +223,9 @@ namespace Heiflow.Tools.ConceptualModel
                     {
                         if (welnum_list[n] > 0)
                         {
-                            pck.FluxRates.Flags[n, 0] = TimeVarientFlag.Individual;
-                            pck.FluxRates.Multipliers[n, 0] = 1;
-                            pck.FluxRates.IPRN[n, 0] = -1;
+                            pck.FluxRates.Flags[n] = TimeVarientFlag.Individual;
+                            pck.FluxRates.Multipliers[n] = 1;
+                            pck.FluxRates.IPRN[n] = -1;
 
                             for (int i = 0; i < nwel; i++)
                             {
@@ -250,15 +248,15 @@ namespace Heiflow.Tools.ConceptualModel
                         }
                         else if (welnum_list[n] == 0)
                         {
-                            pck.FluxRates.Flags[n, 0] = TimeVarientFlag.Constant;
-                            pck.FluxRates.Multipliers[n, 0] = 1;
-                            pck.FluxRates.IPRN[n, 0] = -1;
+                            pck.FluxRates.Flags[n] = TimeVarientFlag.Constant;
+                            pck.FluxRates.Multipliers[n] = 1;
+                            pck.FluxRates.IPRN[n] = -1;
                         }
                         else if (welnum_list[n] < 0)
                         {
-                            pck.FluxRates.Flags[n, 0] = TimeVarientFlag.Repeat;
-                            pck.FluxRates.Multipliers[n, 0] = 1;
-                            pck.FluxRates.IPRN[n, 0] = -1;
+                            pck.FluxRates.Flags[n] = TimeVarientFlag.Repeat;
+                            pck.FluxRates.Multipliers[n] = 1;
+                            pck.FluxRates.IPRN[n] = -1;
                             //var size = pck.FluxRates.GetVariableSize(n - 1);
                             //var buf = new float[size[1]];
                             //pck.FluxRates[n - 1, "0", ":"].CopyTo(buf, 0);

@@ -497,13 +497,13 @@ namespace Heiflow.Controls.WinForm.Controls
             {
                 _DataCubeObject.SelectedTimeIndex = cmbPage.SelectedIndex;
                 _DataCubeObject.SelectedSpaceIndex = -1;
-                _DataTable = _DataCubeObject.ToDataTableByTime(_DataCubeObject.SelectedVariableIndex, _DataCubeObject.SelectedTimeIndex);
+                _DataTable = _DataCubeObject.ToDataTable();
             }
             else if (cmb_PrimaryKey.SelectedIndex == 1)
             {
                 _DataCubeObject.SelectedTimeIndex = -1;
                 _DataCubeObject.SelectedSpaceIndex = cmbPage.SelectedIndex;
-                _DataTable = _DataCubeObject.ToDataTableBySpace(_DataCubeObject.SelectedVariableIndex, _DataCubeObject.SelectedSpaceIndex);
+                _DataTable = _DataCubeObject.ToDataTable();
             }
             this.bindingSource1.DataSource = _DataTable;
             this.dataGridView1.DataSource = bindingSource1;

@@ -26,16 +26,13 @@ namespace Heiflow.Models.Generic.Parameters
 
         }
         public DataCubeParameter(int nvar, int nrow, int ncol, bool islazy = false)
-            : base(nvar, nrow, ncol, false, islazy)
+            : base(nvar, nrow, ncol, islazy)
         {
             Layout = DataCubeLayout.TwoD;
             VariableType = ParameterType.Parameter;
             Description = "";
             ModuleName = Modules.basin;
             CanEdit = true;
-            TimeBrowsable = false;
-            DataCubeType = Core.Data.DataCubeType.Vector;
-            AllowTableEdit = true;
             Maximum = 1;
             Minimum = 0;
             Units = "";
@@ -278,7 +275,6 @@ namespace Heiflow.Models.Generic.Parameters
             }
             Size[dim_index + 1] = new_length;
             _arrays[0] = ILMath.zeros<T>(Size[1], Size[2]);
-            DataCubeType = DataCubeType.General;
             Constant(DefaultValue);
         }
 

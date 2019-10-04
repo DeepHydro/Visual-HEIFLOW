@@ -192,8 +192,6 @@ namespace Heiflow.Models.Subsurface
                             DataCube = new DataCube<float>(varLen, nstep, reachNum,false)
                             {
                                 Name = "SFR_Output",
-                                AllowTableEdit = false,
-                                TimeBrowsable = true
                             };
 
                             DataCube.DateTimes = new DateTime[nstep];
@@ -269,7 +267,6 @@ namespace Heiflow.Models.Subsurface
                             DataCube.Topology = _SFRPackage.SegTopology;
 
                         DataCube.Variables = DefaultAttachedVariables;
-                        DataCube.TimeBrowsable = true;
                         Variables = DefaultAttachedVariables;
                         OnLoaded(progresshandler);
                         return true;
@@ -375,11 +372,9 @@ namespace Heiflow.Models.Subsurface
                     OnLoading(progress);
                     try
                     {
-                        DataCube = new DataCube<float>(varLen, nstep, reachNum,false, true)
+                        DataCube = new DataCube<float>(varLen, nstep, reachNum, true)
                         {
                             Name = "SFR_Output",
-                            AllowTableEdit = false,
-                            TimeBrowsable = true
                         };
                         DataCube.Allocate(var_index);
                         DataCube.DateTimes = new DateTime[nstep]; 

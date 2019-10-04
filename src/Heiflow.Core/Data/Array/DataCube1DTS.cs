@@ -16,8 +16,6 @@ namespace Heiflow.Core.Data
             _arrays[0]["0", ":"] = values;
             DateTimes = dates;
             Name = "Time Series";
-            AllowTableEdit = true;
-            TimeBrowsable = true;
             ColumnNames = new string[] { Variables[0] };
         }
         /// <summary>

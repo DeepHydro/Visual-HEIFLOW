@@ -134,10 +134,8 @@ namespace Heiflow.Tools.Conversion
 
             sr = new StreamReader(DataFileName);
             string var_name = Path.GetFileNameWithoutExtension(DataFileName);
-            var mat_out = new DataCube<float>(1, nstep, ncell, false);
+            var mat_out = new DataCube<float>(1, nstep, ncell);
             mat_out.Name = OutputMatrix;
-            mat_out.AllowTableEdit = false;
-            mat_out.TimeBrowsable = true;
             mat_out.Variables = new string[] { var_name };
             mat_out.DateTimes = new DateTime[nstep];
             if (ContainsHeader)

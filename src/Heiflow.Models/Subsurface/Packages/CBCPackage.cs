@@ -145,11 +145,9 @@ namespace Heiflow.Models.Subsurface
                     int nstep = StepsToLoad;
                     if (DataCube == null || DataCube.Size[1] != nstep)
                     {
-                        DataCube = new DataCube<float>(Variables.Length, nstep, grid.ActiveCellCount, false, true)
+                        DataCube = new DataCube<float>(Variables.Length, nstep, grid.ActiveCellCount, false)
                         {
                             Name = "CBC",
-                            TimeBrowsable = true,
-                            AllowTableEdit = false,
                             Variables = this.Variables
                         };
                     }

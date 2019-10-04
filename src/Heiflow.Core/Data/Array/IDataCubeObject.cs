@@ -36,10 +36,10 @@ namespace Heiflow.Core.Data
     public interface IDataCubeObject: IDataTableConvertable
     {
         event EventHandler DataCubeValueChanged;
-        Array ArrayObject { get; }
         string Name { get; set; }
         object DataOwner { get; set; }
         string OwnerName { get; set; }
+        DimensionFlag ZeroDimension { get; set; }
         /// <summary>
         /// index for the zero dimension. Selecting all variables by setting to -1
         /// </summary>
@@ -54,25 +54,30 @@ namespace Heiflow.Core.Data
         int SelectedSpaceIndex { get; set; }
         DateTime[] DateTimes { get; set; }
         int[] Size { get; }
-        TimeVarientFlag[,] Flags { get; set; }
         string[] Variables { get; set; }
-        float[,] Constants{ get; set; }
-        float[,] Multipliers { get; set; }
-        bool TimeBrowsable { get; set; }
-        DataCubeType DataCubeType { get; }
+        /// <summary>
+        /// 1d array [nvar]
+        /// </summary>
+        TimeVarientFlag[] Flags { get; set; }
+        /// <summary>
+        /// 1d array [nvar]
+        /// </summary>
+        float[] Constants{ get; set; }
+        /// <summary>
+        /// 1d array [nvar]
+        /// </summary>
+        float[] Multipliers { get; set; }
         DataCubeLayout Layout { get; set; }
-        bool AllowTableEdit { get; }
         IGridTopology Topology { get; set; }
-        Array GetByTime(int var_index, int time_index);
-        Array GetBySpace(int var_index, int space_index);
         int GetSpaceDimLength(int var_index, int time_index);
-        Array GetSerialArrayByTime(int p1, int p2);
-        Array GetRegularlArrayByTime(int p1, int p2);
-        void FromRegularArray(int p1, int p2, Array array);
-        void FromSerialArray(int p1, int p2, Array array);
+        Array GetVectorAsArray(int var_index, string time_arg, string cell_arg);
+        Array GetSpatialSerialArray(int p1, int p2);
+        Array GetSpatialRegularArray(int p1, int p2);
+        void FromSpatialRegularArray(int p1, int p2, Array array);
+        void FromSpatialSerialArray(int p1, int p2, Array array);
         void AllocateVariable(int var_index,int ntime, int ncell);
         bool IsAllocated(int var_index);
-        ILBaseArray ToILBaseArray(int var_index, int time_index);
+        ILBaseArray ToSpatialILBaseArray(int var_index, int time_index);
         string SizeString();
     }
 

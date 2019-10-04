@@ -98,7 +98,7 @@ namespace Heiflow.Tools.Conversion
             }
             sr.Close();
 
-            var mat_out = new DataCube<float>(1, nstep, ncell, false);
+            var mat_out = new DataCube<float>(1, nstep, ncell);
             mat_out.Name = OutputMatrix;
             mat_out.Variables = new string[] { var_name };
             sr = new StreamReader(DataFileName);

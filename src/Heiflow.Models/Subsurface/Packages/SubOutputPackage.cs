@@ -127,8 +127,6 @@ namespace Heiflow.Models.Subsurface
                     DataCube = new DataCube<float>(Variables.Length, StepsToLoad, grid.ActiveCellCount, false)
                     {
                         Name = "vert_dis",
-                        TimeBrowsable = true,
-                        AllowTableEdit = false
                     };
                 }
                 DataCube.Topology = (this.Grid as RegularGrid).Topology;

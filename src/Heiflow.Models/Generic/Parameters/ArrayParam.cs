@@ -231,7 +231,7 @@ namespace Heiflow.Models.Generic.Parameters
             Values = new T[ncell];
         }
 
-        public override void FromRegularArray(int p1, int p2, Array array)
+        public override void FromSpatialRegularArray(int p1, int p2, Array array)
         {
             var nrow = array.GetLength(0);
             var ncol = array.GetLength(1);
@@ -245,7 +245,7 @@ namespace Heiflow.Models.Generic.Parameters
             }
         }
 
-        public override void FromSerialArray(int p1, int p2, Array array)
+        public override void FromSpatialSerialArray(int p1, int p2, Array array)
         {
             if (array.GetLength(0) == ValueCount)
             {
@@ -256,7 +256,7 @@ namespace Heiflow.Models.Generic.Parameters
             }
         }
 
-        public override Array GetSerialArrayByTime(int p1, int p2)
+        public override Array GetSpatialSerialArray(int p1, int p2)
         {
             T[,] array = null;
 
@@ -268,7 +268,7 @@ namespace Heiflow.Models.Generic.Parameters
             return array;
         }
 
-        public override Array GetRegularlArrayByTime(int p1, int p2)
+        public override Array GetSpatialRegularArray(int p1, int p2)
         {
             T[,] array = null;
 

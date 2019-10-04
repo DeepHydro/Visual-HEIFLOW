@@ -90,7 +90,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
                 var dc = dp.DataCube;
                 dc.SelectedVariableIndex = VariableIndex;
                 dc.SelectedTimeIndex = Package.TimeService.CurrentTimeStep;
-                var vector = dc.GetByTime(VariableIndex, Package.TimeService.CurrentTimeStep);
+                var vector = dc.GetVectorAsArray(VariableIndex, Package.TimeService.CurrentTimeStep.ToString(), ":");
                 if (vector != null && _Package.Feature != null)
                 {                  
                     var dt = _Package.Feature.DataTable;
