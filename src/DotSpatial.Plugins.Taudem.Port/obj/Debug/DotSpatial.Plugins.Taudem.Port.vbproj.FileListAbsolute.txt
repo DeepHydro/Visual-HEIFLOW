@@ -55,3 +55,16 @@ F:\System\HEIFLOW\VHF_GIT\VHF\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSp
 F:\System\HEIFLOW\VHF_GIT\VHF\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.vbproj.CoreCompileInputs.cache
 F:\System\HEIFLOW\VHF_GIT\VHF\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.dll
 F:\System\HEIFLOW\VHF_GIT\VHF\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.pdb
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\bin\debug\Application Extensions\DotSpatial.Plugins.Taudem.Port\Readme.txt
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\bin\debug\Application Extensions\DotSpatial.Plugins.Taudem.Port\DotSpatial.Plugins.Taudem.Port.dll.config
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\bin\debug\Application Extensions\DotSpatial.Plugins.Taudem.Port\DotSpatial.Plugins.Taudem.Port.dll
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\bin\debug\Application Extensions\DotSpatial.Plugins.Taudem.Port\DotSpatial.Plugins.Taudem.Port.pdb
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.vbprojResolveAssemblyReference.cache
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.frmAdvancedOptions_v3.resources
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.frmAutomatic_v3.resources
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.frmLoadDelinOutputs.resources
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.frmLoadOutputs.resources
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.Resources.resources
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.vbproj.GenerateResource.Cache
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.dll
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.pdb

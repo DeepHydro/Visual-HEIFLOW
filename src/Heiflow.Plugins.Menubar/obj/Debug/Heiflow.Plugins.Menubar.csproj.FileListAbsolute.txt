@@ -55,3 +55,8 @@ F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Plugins.Menubar\obj\Debug\Heiflow.Plug
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Plugins.Menubar\obj\Debug\Heiflow.Plugins.Menubar.pdb
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Plugins.Menubar\obj\Debug\Heiflow.Plugins.Menubar.csprojAssemblyReference.cache
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Plugins.Menubar\obj\Debug\Heiflow.Plugins.Menubar.csproj.CoreCompileInputs.cache
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Plugins.Menubar\obj\Debug\Heiflow.Plugins.Menubar.csprojResolveAssemblyReference.cache
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Plugins.Menubar\obj\Debug\Heiflow.Plugins.Menubar.AboutForm.resources
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Plugins.Menubar\obj\Debug\Heiflow.Plugins.Menubar.Properties.Resources.resources
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Plugins.Menubar\obj\Debug\Heiflow.Plugins.Menubar.csproj.GenerateResource.Cache
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Plugins.Menubar\obj\Debug\Heiflow.Plugins.Menubar.dll

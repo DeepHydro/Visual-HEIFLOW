@@ -419,7 +419,7 @@ namespace Heiflow.Tools.DataManagement
             var cellarea = mfgrid.GetCellArea(); 
             for (int i = 0; i < mfgrid.ActiveCellCount; i++)
             {
-                centroid = mfgrid.LocateCentroid(mfgrid.Topology.ActiveCell[i][1] + 1, mfgrid.Topology.ActiveCell[i][0] + 1);
+                centroid = mfgrid.LocateCentroid(mfgrid.Topology.ActiveCellLocation[i][1] + 1, mfgrid.Topology.ActiveCellLocation[i][0] + 1);
                 for (int j = 0; j < _farm_fs.Features.Count; j++)
                 {
                     if (SpatialRelationship.PointInPolygon(_farm_fs.Features[j].Geometry.Coordinates, centroid))

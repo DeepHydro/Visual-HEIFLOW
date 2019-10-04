@@ -114,7 +114,7 @@ namespace Heiflow.Tools.ConceptualModel
                 Coordinate centroid = null;
                 for (int i = 0; i < mfgrid.ActiveCellCount; i++)
                 {
-                    centroid = mfgrid.LocateCentroid(mfgrid.Topology.ActiveCell[i][1] + 1, mfgrid.Topology.ActiveCell[i][0] + 1);
+                    centroid = mfgrid.LocateCentroid(mfgrid.Topology.ActiveCellLocation[i][1] + 1, mfgrid.Topology.ActiveCellLocation[i][0] + 1);
                     for (int j = 0; j < _watershedfs.Features.Count; j++)
                     {
                         var cell = _watershedfs.Features[j].Geometry.Coordinates;

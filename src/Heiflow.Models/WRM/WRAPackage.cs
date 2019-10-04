@@ -312,7 +312,7 @@ namespace Heiflow.Models.WRM
             sw.WriteLine("# hru_row_id matrix");
             for (int i = 0; i < grid.ActiveCellCount; i++)
             {
-                line = (i + 1) + " " + (grid.Topology.ActiveCell[i][0] + 1) + " " + (grid.Topology.ActiveCell[i][1] + 1);
+                line = (i + 1) + " " + (grid.Topology.ActiveCellLocation[i][0] + 1) + " " + (grid.Topology.ActiveCellLocation[i][1] + 1);
                 sw.WriteLine(line);
             }
             sw.Close();

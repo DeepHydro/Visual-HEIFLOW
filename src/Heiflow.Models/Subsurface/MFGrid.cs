@@ -106,7 +106,7 @@ namespace Heiflow.Models.Subsurface
                 {
                     if(newgrid.IBound[0, r, c ] != 0)
                     {
-                        _ExtractedCellIndex[index] = this.Topology.GetIndex(r + lurow, c + lucol);
+                        _ExtractedCellIndex[index] = this.Topology.GetSerialIndex(r + lurow, c + lucol);
                         index++;
                     }
                 }

@@ -287,7 +287,7 @@ namespace Heiflow.Models.Subsurface
                     }
                     else
                     {
-                        var index = grid.Topology.GetIndex(hob.Row - 1, hob.Column - 1);
+                        var index = grid.Topology.GetSerialIndex(hob.Row - 1, hob.Column - 1);
                         feature.DataRow["Elevation"] = grid.Elevations[hob.Layer - 1, 0, index];
                         feature.DataRow["DepOBS"] = grid.Elevations[hob.Layer - 1, 0, index] - vv.HOBS[0];
                     }
@@ -394,8 +394,8 @@ namespace Heiflow.Models.Subsurface
             Topology = new RegularGridTopology();
             if (Observations.Any())
             {
-                Topology.ActiveCell = new int[NH][];
-                Topology.ActiveCellIDs = new int[NH];
+                Topology.ActiveCellLocation = new int[NH][];
+                Topology.ActiveCellID = new int[NH];
                 Topology.RowCount = grid.RowCount;
                 Topology.ColumnCount = grid.ColumnCount;
                 Topology.ActiveCellCount = NH;
@@ -407,8 +407,8 @@ namespace Heiflow.Models.Subsurface
                     {
                         var hob = Observations[k] as HeadObservation;
                         HOBS[t, 0, k] = hob.HOBS[t];
-                        Topology.ActiveCell[k] = new int[] { hob.Row - 1, hob.Column - 1 };
-                        Topology.ActiveCellIDs[k] = grid.Topology.GetID(hob.Row - 1, hob.Column - 1);
+                        Topology.ActiveCellLocation[k] = new int[] { hob.Row - 1, hob.Column - 1 };
+                        Topology.ActiveCellID[k] = grid.Topology.GetID(hob.Row - 1, hob.Column - 1);
                     }
                 HOBS.Topology = this.Topology;
             }

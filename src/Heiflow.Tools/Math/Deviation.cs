@@ -185,7 +185,7 @@ namespace Heiflow.Tools.Math
                     if (modify)
                     {
                         //var cell_id = grid.Topology.ActiveCellIDs[c];
-                        int[] loc = grid.Topology.ActiveCell[c];
+                        int[] loc = grid.Topology.ActiveCellLocation[c];
                         neibor.Clear();
                         for (int ii = loc[0] - NeighborCount; ii <= loc[0] + NeighborCount; ii++)
                         {

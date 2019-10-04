@@ -358,7 +358,7 @@ namespace Heiflow.Models.Surface.PRMS
                 foreach (var k in keys)
                 {
                     var index = mGrid.Topology.CellID2CellIndex[k];
-                    var loc = mGrid.Topology.ActiveCell[index];
+                    var loc = mGrid.Topology.ActiveCellLocation[index];
                     var cc = mGrid.LocateNode(loc[1] + 1, loc[0] + 1);
                     line = string.Format("{0}\t{1}\t{2}", i, cc.X, cc.Y);
                     sw.WriteLine(line);

@@ -239,7 +239,7 @@ namespace Heiflow.Models.Generic.Parameters
             {
                 for (int i = 0; i < ValueCount; i++)
                 {
-                    var lc = Topology.ActiveCell[i];
+                    var lc = Topology.ActiveCellLocation[i];
                     this.Values[i] = (T)(array.GetValue(lc[0], lc[1]));
                 }
             }
@@ -277,7 +277,7 @@ namespace Heiflow.Models.Generic.Parameters
                 array = new T[Topology.RowCount, Topology.ColumnCount];
                 for (int i = 0; i < ValueCount; i++)
                 {
-                    var lc = Topology.ActiveCell[i];
+                    var lc = Topology.ActiveCellLocation[i];
                     array[lc[0], lc[1]] = Values[i];
                 }
             }
