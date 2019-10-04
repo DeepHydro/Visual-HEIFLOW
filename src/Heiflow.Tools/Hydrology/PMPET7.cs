@@ -200,7 +200,7 @@ namespace Heiflow.Tools.Math
 
             DataCubeStreamWriter sw = new DataCubeStreamWriter(OutputFileName);
             sw.WriteHeader(new string[] { "pet"}, ncell);
-            DataCube<float> mat_out = new DataCube<float>(1, 1, ncell, false);
+            DataCube<float> mat_out = new DataCube<float>(1, 1, ncell);
 
             int count = 1;
             for (int t = 0; t < nstep; t++)
@@ -280,7 +280,7 @@ namespace Heiflow.Tools.Math
             int ncell = mats[0].Size[2];
             PenmanMonteithET pet = new PenmanMonteithET();
 
-            var mat_out = new DataCube<float>(1, nstep, ncell, false);
+            var mat_out = new DataCube<float>(1, nstep, ncell);
             mat_out.Name = "mat";
             mat_out.Variables = new string[] { "pet" };
 

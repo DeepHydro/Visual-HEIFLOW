@@ -81,7 +81,7 @@ namespace Heiflow.Tools.Statisitcs
             {
                 int nstep = System.Math.Min(matA.Size[1], matB.Size[1]);
                 int ncell = matA.Size[2];
-                var mat_out = new DataCube<float>(1, 1, ncell, false);
+                var mat_out = new DataCube<float>(1, 1, ncell);
                 mat_out.Name = OutputMatrix;
                 mat_out.Variables = new string[] { "CorrelationCoefficients"};
                 for (int c = 0; c < ncell; c++)

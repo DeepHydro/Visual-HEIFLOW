@@ -255,29 +255,29 @@ namespace Heiflow.Models.Subsurface
                 this.NUZGAG = (int)fv[8];
                 this.SURFDEP = fv[9];
 
-                this.IUZFBND = new DataCube<float>(1, 1,grid.ActiveCellCount,false)
+                this.IUZFBND = new DataCube<float>(1, 1,grid.ActiveCellCount)
                 {
-                    Name = "IUZFBND"
+                    Name = "IUZFBND",                    ZeroDimension = DimensionFlag.Spatial
                 };
-                this.IRUNBND = new DataCube<float>(1, 1, grid.ActiveCellCount, false)
+                this.IRUNBND = new DataCube<float>(1, 1, grid.ActiveCellCount)
                 {
-                    Name = "IRUNBND"
+                    Name = "IRUNBND",ZeroDimension = DimensionFlag.Spatial
                 };
-                this.VKS = new DataCube<float>(1, 1, grid.ActiveCellCount, false)
+                this.VKS = new DataCube<float>(1, 1, grid.ActiveCellCount)
                 {
-                    Name = "VKS"
+                    Name = "VKS", ZeroDimension = DimensionFlag.Spatial
                 };
-                this.EPS = new DataCube<float>(1, 1, grid.ActiveCellCount, false   )
+                this.EPS = new DataCube<float>(1, 1, grid.ActiveCellCount   )
                 {
-                    Name = "EPS"
+                    Name = "EPS",                    ZeroDimension = DimensionFlag.Spatial
                 };
-                this.THTS = new DataCube<float>(1, 1, grid.ActiveCellCount, false)
+                this.THTS = new DataCube<float>(1, 1, grid.ActiveCellCount)
                 {
-                    Name = "THTS"
+                    Name = "THTS",ZeroDimension = DimensionFlag.Spatial
                 };
-                this.THTI = new DataCube<float>(1, 1, grid.ActiveCellCount, false)
+                this.THTI = new DataCube<float>(1, 1, grid.ActiveCellCount)
                 {
-                    Name = "THTI"
+                    Name = "THTI",                   ZeroDimension = DimensionFlag.Spatial
                 };
 
                 this.IUZFBND.Topology = grid.Topology;
@@ -317,7 +317,7 @@ namespace Heiflow.Models.Subsurface
                     var iv = TypeConverterEx.Split<int>(newline);
                     if (iv.Length == 4)
                     {
-                        UZGAG = new DataCube<int>(NUZGAG, 1, 4, false);
+                        UZGAG = new DataCube<int>(NUZGAG, 1, 4) { ZeroDimension = DimensionFlag.Spatial };
                         UZGAG[0,0,0] = iv[0];
                         UZGAG[0, 0, 1] = iv[1];
                         UZGAG[0, 0, 2] = iv[2];
@@ -339,21 +339,21 @@ namespace Heiflow.Models.Subsurface
                 }
 
                 var np = TimeService.StressPeriods.Count;
-                this.FINF = new DataCube<float>(np, 1, grid.ActiveCellCount, false)
+                this.FINF = new DataCube<float>(np, 1, grid.ActiveCellCount)
                 {
-                    Name = "FINF"
+                    Name = "FINF", ZeroDimension= DimensionFlag.Time
                 };
-                this.PET = new DataCube<float>(np, 1, grid.ActiveCellCount, false)
+                this.PET = new DataCube<float>(np, 1, grid.ActiveCellCount)
                 {
-                    Name = "PET"
+                    Name = "PET",ZeroDimension = DimensionFlag.Time
                 };
-                this.EXTDP = new DataCube<float>(np, 1, grid.ActiveCellCount, false)
+                this.EXTDP = new DataCube<float>(np, 1, grid.ActiveCellCount)
                 {
-                    Name = "EXTDP"
+                    Name = "EXTDP",ZeroDimension = DimensionFlag.Time
                 };
-                this.EXTWC = new DataCube<float>(np, 1, grid.ActiveCellCount, false)
+                this.EXTWC = new DataCube<float>(np, 1, grid.ActiveCellCount)
                 {
-                    Name = "EXTWC"
+                    Name = "EXTWC",ZeroDimension = DimensionFlag.Time
                 };
 
                 this.FINF.Topology = grid.Topology;
@@ -548,29 +548,29 @@ namespace Heiflow.Models.Subsurface
             this.FeatureLayer = this.Grid.FeatureLayer;
             this.Feature = this.Grid.FeatureSet;
 
-            this.IUZFBND = new DataCube<float>(1, 1, grid.ActiveCellCount, false)
+            this.IUZFBND = new DataCube<float>(1, 1, grid.ActiveCellCount)
             {
-                Name = "IUZFBND",
+                Name = "IUZFBND", ZeroDimension= DimensionFlag.Spatial
             };
-            this.IRUNBND = new DataCube<float>(1, 1, grid.ActiveCellCount, false)
+            this.IRUNBND = new DataCube<float>(1, 1, grid.ActiveCellCount)
             {
-                Name = "IRUNBND",
+                Name = "IRUNBND",                ZeroDimension = DimensionFlag.Spatial
             };
-            this.VKS = new DataCube<float>(1, 1, grid.ActiveCellCount, false)
+            this.VKS = new DataCube<float>(1, 1, grid.ActiveCellCount)
             {
-                Name = "VKS",
+                Name = "VKS",                ZeroDimension = DimensionFlag.Spatial
             };
-            this.EPS = new DataCube<float>(1, 1, grid.ActiveCellCount, false)
+            this.EPS = new DataCube<float>(1, 1, grid.ActiveCellCount)
             {
-                Name = "EPS"
+                Name = "EPS",ZeroDimension = DimensionFlag.Spatial
             };
-            this.THTS = new DataCube<float>(1, 1, grid.ActiveCellCount, false)
+            this.THTS = new DataCube<float>(1, 1, grid.ActiveCellCount)
             {
-                Name = "THTS"
+                Name = "THTS",ZeroDimension = DimensionFlag.Spatial
             };
-            this.THTI = new DataCube<float>(1, 1, grid.ActiveCellCount, false)
+            this.THTI = new DataCube<float>(1, 1, grid.ActiveCellCount)
             {
-                Name = "THTI"
+                Name = "THTI",ZeroDimension = DimensionFlag.Spatial
             };
 
             this.IUZFBND.Variables[0] = "IUZFBND Layer 1";
@@ -615,19 +615,19 @@ namespace Heiflow.Models.Subsurface
             int np = TimeService.StressPeriods.Count;
             this.FINF = new DataCube<float>(np, 1, grid.ActiveCellCount)
             {
-                Name = "FINF"
+                Name = "FINF",ZeroDimension = DimensionFlag.Spatial
             };
             this.PET = new DataCube<float>(np, 1, grid.ActiveCellCount)
             {
-                Name = "PET"
+                Name = "PET",ZeroDimension = DimensionFlag.Spatial
             };
             this.EXTDP = new DataCube<float>(np, 1, grid.ActiveCellCount)
             {
-                Name = "EXTDP"
+                Name = "EXTDP",ZeroDimension = DimensionFlag.Spatial
             };
             this.EXTWC = new DataCube<float>(np, 1, grid.ActiveCellCount)
             {
-                Name = "EXTWC"
+                Name = "EXTWC",ZeroDimension = DimensionFlag.Spatial
             };
 
             this.FINF.Topology = grid.Topology;

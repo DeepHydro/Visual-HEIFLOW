@@ -141,14 +141,14 @@ namespace Heiflow.Models.Subsurface
         /// </summary>
         /// 
         [StaticVariableItem]
-       public DataCube<int> NSLMS { get; set; }
+       public DataCube2DLayout<int> NSLMS { get; set; }
 
         /// <summary>
         /// [np,nlake,6]: PRCPLK EVAPLK RNF WTHDRW [SSMN] [SSMX]
         /// </summary>
         /// 
        [StaticVariableItem]
-        public DataCube<float> WSOUR { get; set; }
+        public DataCube2DLayout<float> WSOUR { get; set; }
         #endregion
 
         public override void Initialize()
@@ -188,7 +188,7 @@ namespace Heiflow.Models.Subsurface
                 SSCNCR = floatbuf[2];
                 SURFDEPTH = floatbuf[3];
 
-                STAGES = new DataCube2DLayout<float>(1, NLAKES, 5, true);
+                STAGES = new DataCube2DLayout<float>(1, NLAKES, 3);
                 for (int i = 0; i < NLAKES; i++)
                 {
                     line = sr.ReadLine();
@@ -196,27 +196,29 @@ namespace Heiflow.Models.Subsurface
                     STAGES[0][i, ":"] = floatbuf;
                 }
 
-                ITMP = new DataCube2DLayout<int>(1, nsp, 3, true);
-                LKARR = new DataCube<int>(nlayer, 1, grid.ActiveCellCount,false)
+                ITMP = new DataCube2DLayout<int>(1, nsp, 3);
+                LKARR = new DataCube<int>(nlayer, 1, grid.ActiveCellCount)
                 {
                     Name = "Lake ID",
-                    Variables = new string[nlayer]
+                    Variables = new string[nlayer],
+                    ZeroDimension = DimensionFlag.Spatial
                 };
                 for (int l = 0; l < nlayer; l++)
                 {
                     LKARR.Variables[l] = "Lake ID of " + " Layer " + (l + 1);
                 }
 
-                BDLKNC = new DataCube<float>(nlayer, 1, grid.ActiveCellCount, false)
+                BDLKNC = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
                 {
                     Name = "Leakance",
-                    Variables = new string[nlayer]
+                    Variables = new string[nlayer],
+                    ZeroDimension = DimensionFlag.Spatial
                 };
                 for (int l = 0; l < nlayer; l++)
                 {
                     BDLKNC.Variables[l] = " Layer " + (l + 1);
                 }
-                NSLMS = new DataCube2DLayout<int>(1, nsp, 1, true)
+                NSLMS = new DataCube2DLayout<int>(1, nsp, 1)
                 {
                     Name = "Num of Sublakes",
                     Variables = new string[nsp]
@@ -225,10 +227,10 @@ namespace Heiflow.Models.Subsurface
                 {
                     NSLMS.Variables[l] = "Stress Period " + (l + 1);
                 }
-                WSOUR = new  DataCube<float>(nsp, NLAKES, 6,false)
+                WSOUR = new DataCube2DLayout<float>(nsp, NLAKES, 6)
                 {
                     Name = "Recharge Discharge",
-                    Variables = new string[nsp],
+                    Variables = new string[nsp], ZeroDimension= DimensionFlag.Time
                 };
                 for (int l = 0; l < nsp; l++)
                 {
@@ -258,8 +260,16 @@ namespace Heiflow.Models.Subsurface
                         for (int j = 0; j < NLAKES; j++)
                         {
                             line = sr.ReadLine();
-                            floatbuf = TypeConverterEx.Split<float>(line, 6);
-                            WSOUR[i][j, ":"] = floatbuf;
+                            if (i == 0)
+                            {
+                                floatbuf = TypeConverterEx.Split<float>(line, 6);
+                                WSOUR[i][j, ":"] = floatbuf;
+                            }
+                            else
+                            {
+                                floatbuf = TypeConverterEx.Split<float>(line, 4);
+                                WSOUR[i][j, "0:3"] = floatbuf;
+                            }
                         }
                     }
                 }
@@ -289,7 +299,7 @@ namespace Heiflow.Models.Subsurface
             sw.WriteLine(line);
             for (int i = 0; i < NLAKES; i++)
             {
-                line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t#STAGES,SSMN,SSMX,IUNITTAB,CLAKE", STAGES[0, i, 0], STAGES[0, i, 1], STAGES[0, i, 2], STAGES[0, i, 3], STAGES[0, i, 4]);
+                line = string.Format("{0}\t{1}\t{2}\t#STAGES,SSMN,SSMX", STAGES[0, i, 0], STAGES[0, i, 1], STAGES[0, i, 2]);
                 sw.WriteLine(line);
             }
             for (int i = 0; i < nsp; i++)
@@ -299,25 +309,25 @@ namespace Heiflow.Models.Subsurface
                 if (ITMP[0, i, 0] > 0)
                 {
                     string cmt = "";
-                    for (int j = 0; j < grid.ActualLayerCount; i++)
+                    for (int j = 0; j < grid.ActualLayerCount; j++)
                     {
                         cmt = " # LKARR  of Layer " + (j + 1);
-                        WriteRegularArray<int>(sw, LKARR, j, "F0", cmt);
+                        WriteSerialArray<int>(sw, LKARR, j,0, "F0", cmt);
                     }
-                    for (int j = 0; j < grid.ActualLayerCount; i++)
+                    for (int j = 0; j < grid.ActualLayerCount; j++)
                     {
                         cmt = " # BDLKNC  of Layer " + (j + 1);
-                        WriteRegularArray<int>(sw, LKARR, j, "F0", cmt);
+                        WriteSerialFloatArray(sw, this.BDLKNC, j, 0, "E6", cmt);
                     }
                     line = string.Format("{0}\t#NSLMS ", NSLMS[i, 0, 0]);
                     sw.WriteLine(line);
                 }
                 if (ITMP[0, i, 1] > 0)
                 {
-                    for (int j = 0; j < NLAKES; i++)
+                    for (int j = 0; j < NLAKES; j++)
                     {
                         line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t#PRCPLK EVAPLK RNF WTHDRW [SSMN] [SSMX]",
-                            WSOUR[i][j, 0], WSOUR[i][j, 1], WSOUR[i][j, 2], WSOUR[i][j, 3], WSOUR[i][j, 4], WSOUR[i][j, 5]);
+                            WSOUR[i, j, 0], WSOUR[i, j, 1], WSOUR[i, j, 2], WSOUR[i, j, 3], WSOUR[i, j, 4], WSOUR[i, j, 5]);
                         sw.WriteLine(line);
                     }
                 }

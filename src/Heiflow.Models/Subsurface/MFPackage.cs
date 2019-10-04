@@ -113,7 +113,7 @@ namespace Heiflow.Models.Subsurface
             // Read constant matrix
             if (strs[0].ToUpper() == "CONSTANT")
             {
-                var matrix = new DataCube<T>(1, row, col, false);
+                var matrix = new DataCube<T>(1, row, col);
                 var ar = TypeConverterEx.Split<string>(line);
                 T conv = TypeConverterEx.ChangeType<T>(ar[1]);
                 matrix.ILArrays[0][":,", ":"] = conv;
@@ -122,7 +122,7 @@ namespace Heiflow.Models.Subsurface
             // Read internal matrix
             else
             {
-                var matrix = new DataCube<T>(1, row, col, false);
+                var matrix = new DataCube<T>(1, row, col);
 
                 T multiplier = TypeConverterEx.ChangeType<T>(strs[1]);
                 line = sr.ReadLine();
@@ -346,7 +346,47 @@ namespace Heiflow.Models.Subsurface
                 mat.Multipliers[var_index] = TypeConverterEx.ChangeType<float>(multiplier);
                 mat.IPRN[var_index] = iprn;
             }
-        } 
+        }
+        public void WriteSerialArray<T>(StreamWriter sw, DataCube<T> mat, int var_index, int time_index, string format, string comment)
+        {
+            if (mat.Flags[var_index] == TimeVarientFlag.Constant)
+            {
+                string line = string.Format("CONSTANT\t{0}\t{1}", mat.Constants[var_index], comment);
+                sw.WriteLine(line);
+            }
+            else if (mat.Flags[var_index] == TimeVarientFlag.Repeat)
+            {
+
+            }
+            else if (mat.Flags[var_index] == TimeVarientFlag.Individual)
+            {
+                string line = string.Format("INTERNAL\t{0}\t(FREE)\t{1}\t{2}", mat.Multipliers[var_index], mat.IPRN[var_index], comment);
+                var grid = Owner.Grid as MFGrid;
+                int row = grid.RowCount;
+                int col = grid.ColumnCount;
+                int index = 0;
+
+                sw.WriteLine(line);
+                for (int r = 0; r < row; r++)
+                {
+                    line = "";
+                    for (int c = 0; c < col; c++)
+                    {
+                        if (grid.IBound[0, r, c] != 0)
+                        {
+                            line += string.Format("{0}", mat[var_index, time_index, index]) + StreamReaderSequence.stab;
+                            index++;
+                        }
+                        else
+                        {
+                            line += string.Format("{0}", NoDataValue.ToString(format)) + StreamReaderSequence.stab;
+                        }
+                    }
+                    line = line.Trim(StreamReaderSequence.ctab);
+                    sw.WriteLine(line);
+                }
+            }
+        }
         public void WriteSerialFloatArray(StreamWriter sw, DataCube<float> mat, int var_index, int time_index, string format, string comment)
         {
             if (mat.Flags[var_index] == TimeVarientFlag.Constant)

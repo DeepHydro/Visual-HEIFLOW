@@ -312,7 +312,6 @@ F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.Wi
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.Editors.PropertyForm.resources
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.Controls.DataCubeGrid.resources
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.DatabaseExplorer.BatchExportForm.resources
-F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csprojResolveAssemblyReference.cache
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\bin\Debug\Heiflow.Controls.WinForm.dll.config
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\bin\Debug\Heiflow.Controls.WinForm.dll
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\bin\Debug\Heiflow.Controls.WinForm.pdb
@@ -381,3 +380,6 @@ E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Controls\obj\Debug\zh-CN\Heifl
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Controls\obj\Debug\cs\Heiflow.Controls.WinForm.resources.dll
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.dll
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.pdb
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csprojAssemblyReference.cache
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csproj.CoreCompileInputs.cache
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csproj.CopyComplete

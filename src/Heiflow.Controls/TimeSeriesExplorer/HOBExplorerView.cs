@@ -236,7 +236,7 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
                     }
                 }
 
-                hob_out.ComparingValues = new DataCube<float>(2, 1, obs_list.Count, false);
+                hob_out.ComparingValues = new DataCube<float>(2, 1, obs_list.Count);
                 hob_out.ComparingValues[0,"0",":"] = obs_list.ToArray();
                 hob_out.ComparingValues[1, "0", ":"] = sim_list.ToArray();
             }

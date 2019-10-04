@@ -152,7 +152,7 @@ namespace Heiflow.Tools.Math
 
             DataCubeStreamWriter sw = new DataCubeStreamWriter(OutputFileName);
             sw.WriteHeader(new string[] { "pet" }, ncell);
-            DataCube<float> mat_out = new DataCube<float>(1, 1, ncell, false);
+            DataCube<float> mat_out = new DataCube<float>(1, 1, ncell);
 
             int count = 1;
             for (int t = 0; t < nstep; t++)

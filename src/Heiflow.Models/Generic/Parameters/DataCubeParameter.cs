@@ -170,7 +170,7 @@ namespace Heiflow.Models.Generic.Parameters
         {
             get
             {
-                _FloatDataCube = new DataCube2DLayout<float>(1, Size[1], Size[2], false);
+                _FloatDataCube = new DataCube2DLayout<float>(1, Size[1], Size[2]);
                 _FloatDataCube.DataOwner = this;
                 for (int i = 0; i < Size[1]; i++)
                 {

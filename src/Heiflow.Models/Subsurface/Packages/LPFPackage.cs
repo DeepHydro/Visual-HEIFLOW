@@ -261,30 +261,30 @@ namespace Heiflow.Models.Subsurface
                 mf.LayerGroupManager.ConvertFrom(LAYWET, "LAYWET");
                 mf.LayerGroupManager.LayerGroups.CollectionChanged += this.LayerGroups_CollectionChanged;
 
-                HK = new DataCube<float>(nlayer, 1,grid.ActiveCellCount,false)
+                HK = new DataCube<float>(nlayer, 1,grid.ActiveCellCount)
                 {
-                    Name = "HK"
+                    Name = "HK", ZeroDimension= DimensionFlag.Spatial
                 };
 
-                HANI = new DataCube<float>(nlayer, 1, grid.ActiveCellCount, false)
+                HANI = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
                 {
-                    Name = "HANI"
+                    Name = "HANI", ZeroDimension= DimensionFlag.Spatial
                 };
-                VKA = new DataCube<float>(nlayer, 1, grid.ActiveCellCount, false)
+                VKA = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
                 {
-                    Name = "VKA"
+                    Name = "VKA",ZeroDimension= DimensionFlag.Spatial
                 };
-                SS = new DataCube<float>(nlayer, 1, grid.ActiveCellCount, false)
+                SS = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
                 {
-                    Name = "SS"
+                    Name = "SS", ZeroDimension= DimensionFlag.Spatial
                 };
-                SY = new DataCube<float>(nlayer, 1, grid.ActiveCellCount, false)
+                SY = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
                 {
-                    Name = "SY"
+                    Name = "SY", ZeroDimension= DimensionFlag.Spatial
                 };
-                WETDRY = new DataCube<float>(nlayer, 1, grid.ActiveCellCount, false)
+                WETDRY = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
                 {
-                    Name = "WETDRY"
+                    Name = "WETDRY", ZeroDimension= DimensionFlag.Spatial
                 };
 
                 HK.Topology = grid.Topology;
@@ -444,29 +444,29 @@ namespace Heiflow.Models.Subsurface
             //this.LAYWET = mf.LayerGroupManager.ConvertToInt("LAYWET");
             //mf.LayerGroupManager.LayerGroups.CollectionChanged += this.LayerGroups_CollectionChanged;
 
-            HK = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount, false)
+            HK = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
             {
-                Name="HK"
+                Name="HK", ZeroDimension= DimensionFlag.Spatial
             };
-            HANI = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount, false)
+            HANI = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
             {
-                Name = "HANI"
+                Name = "HANI", ZeroDimension= DimensionFlag.Spatial
             };
-            VKA = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount, false)
+            VKA = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
             {
-                Name = "VKA"
+                Name = "VKA", ZeroDimension= DimensionFlag.Spatial
             };
-            SS = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount, false)
+            SS = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
             {
-                Name = "SS"
+                Name = "SS",                ZeroDimension = DimensionFlag.Spatial
             };
-            SY = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount, false)
+            SY = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
             {
-                Name = "SY"
+                Name = "SY",                ZeroDimension = DimensionFlag.Spatial
             };
-            WETDRY = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount, false)
+            WETDRY = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
             {
-                Name = "WETDRY"
+                Name = "WETDRY",                ZeroDimension = DimensionFlag.Spatial
             };
 
             HK.Topology = grid.Topology;
@@ -559,12 +559,12 @@ namespace Heiflow.Models.Subsurface
             MFGrid newgrid = newmf.Grid as MFGrid;
             MFGrid rawgrid = Owner.Grid as MFGrid;
 
-            lpf.HK = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount, false);
-            lpf.HANI = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount, false);
-            lpf.VKA = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount, false);
-            lpf.SS = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount, false);
-            lpf.SY = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount, false);
-            lpf.WETDRY = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount, false);
+            lpf.HK = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount) { ZeroDimension = DimensionFlag.Spatial };
+            lpf.HANI = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount) { ZeroDimension = DimensionFlag.Spatial };
+            lpf.VKA = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount) { ZeroDimension = DimensionFlag.Spatial };
+            lpf.SS = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount) { ZeroDimension = DimensionFlag.Spatial };
+            lpf.SY = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount) { ZeroDimension = DimensionFlag.Spatial };
+            lpf.WETDRY = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount) { ZeroDimension = DimensionFlag.Spatial };
             for (int l = 0; l < newgrid.ActualLayerCount; l++)
             {
                 //lpf.HK[l, 0] = rawgrid.GetSubSerialArray<float>(this.HK, newgrid, l).Value;

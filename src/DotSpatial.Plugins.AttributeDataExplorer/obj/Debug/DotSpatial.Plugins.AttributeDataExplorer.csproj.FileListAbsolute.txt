@@ -66,3 +66,14 @@ F:\System\HEIFLOW\VHF_GIT\VHF\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug
 F:\System\HEIFLOW\VHF_GIT\VHF\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.dll.licenses
 F:\System\HEIFLOW\VHF_GIT\VHF\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.dll
 F:\System\HEIFLOW\VHF_GIT\VHF\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.pdb
+F:\System\HEIFLOW\VHF_GIT\VHF\src\bin\debug\Application Extensions\AttributeDataExplorer\DotSpatial.Plugins.AttributeDataExplorer.dll
+F:\System\HEIFLOW\VHF_GIT\VHF\src\bin\debug\Application Extensions\AttributeDataExplorer\DotSpatial.Plugins.AttributeDataExplorer.pdb
+F:\System\HEIFLOW\VHF_GIT\VHF\src\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.csprojAssemblyReference.cache
+F:\System\HEIFLOW\VHF_GIT\VHF\src\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.MainForm.resources
+F:\System\HEIFLOW\VHF_GIT\VHF\src\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.Properties.Resources.resources
+F:\System\HEIFLOW\VHF_GIT\VHF\src\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.csproj.GenerateResource.cache
+F:\System\HEIFLOW\VHF_GIT\VHF\src\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.dll.licenses
+F:\System\HEIFLOW\VHF_GIT\VHF\src\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.csproj.CoreCompileInputs.cache
+F:\System\HEIFLOW\VHF_GIT\VHF\src\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.csproj.CopyComplete
+F:\System\HEIFLOW\VHF_GIT\VHF\src\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.dll
+F:\System\HEIFLOW\VHF_GIT\VHF\src\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.pdb

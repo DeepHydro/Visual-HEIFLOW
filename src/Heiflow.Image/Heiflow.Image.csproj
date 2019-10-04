@@ -70,6 +70,10 @@
     <Reference Include="GMap.NET.WindowsForms">
       <HintPath>..\..\..\GIS\greatmaps_68b2effa78c1\Demo.WindowsForms\bin\Debug\GMap.NET.WindowsForms.dll</HintPath>
     </Reference>
+    <Reference Include="ILNumerics, Version=3.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Debug\ILNumerics.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SQLite">

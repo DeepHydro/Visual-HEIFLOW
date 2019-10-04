@@ -12,21 +12,62 @@ namespace Heiflow.Core.Data
         public DataCube2DLayout(int nvar, int nrow, int ncol, bool islazy = false)
             : base(nvar, nrow, ncol, islazy)
         {
-            Layout = DataCubeLayout.TwoD;
-            ColumnNames = new string[ncol];
-            for (int i = 0; i < ncol; i++)
+            ColumnNames = new string[Size[2]];
+            for (int i = 0; i < Size[2]; i++)
             {
                 ColumnNames[i] = "C" + i;
             }
+            Layout = DataCubeLayout.TwoD;
+        }
+
+        /// <summary>
+        /// get a 2D array for the specified variable. The array size is [nrow, ncol]
+        /// </summary>
+        /// <param name="var_index"></param>
+        /// <param name="time_index">not required. set 0 as default</param>
+        /// <returns></returns>
+        public override Array GetSpatialSerialArray(int var_index, int time_index = 0)
+        {
+            T[,] array = new T[Size[1], Size[2]];
+
+            for (int i = 0; i < Size[1]; i++)
+            {
+                for (int j = 0; j < Size[2]; j++)
+                {
+                    array[i,j] = this[SelectedVariableIndex, i, j];
+                }
+            }
+            return array;
         }
         /// <summary>
-        /// Default values are provided.
+        /// get a 2D array for the specified variable.
         /// </summary>
-        public string[] ColumnNames { get; set; }
-
+        /// <param name="var_index"></param>
+        /// <param name="time_index"></param>
+        /// <returns></returns>
+        public override Array GetSpatialRegularArray(int var_index, int time_index)
+        {
+            return GetSpatialSerialArray(var_index, time_index);
+        }
+        public override void FromSpatialSerialArray(int var_index, int time_index, Array array)
+        {
+            for (int i = 0; i < Size[1]; i++)
+            {
+                for (int j = 0; j < Size[2]; j++)
+                {
+                    this[var_index, i, j] = TypeConverterEx.ChangeType<T>(array.GetValue(i, j));
+                }
+            }
+        }
+        public override void FromSpatialRegularArray(int var_index, int time_index, Array array)
+        {
+            FromSpatialSerialArray(var_index, time_index, array);
+        }
         public override System.Data.DataTable ToDataTable()
         {
             DataTable dt = new DataTable();
+            if (SelectedVariableIndex < 0)
+                SelectedVariableIndex = 0;
             if (DateTimes != null)
             {
                 DataColumn dc = new DataColumn("Date", typeof(DateTime));
@@ -64,6 +105,10 @@ namespace Heiflow.Core.Data
                 }
             }
             return dt;
+        }
+        public override DataTable ToDataTable(int var_index, int time_index, int cell_index)
+        {
+            return ToDataTable();
         }
         public override void FromDataTable(DataTable dt)
         {

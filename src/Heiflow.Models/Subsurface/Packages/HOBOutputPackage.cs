@@ -205,7 +205,7 @@ namespace Heiflow.Models.Subsurface
             if (File.Exists(FileName))
             {
                 StreamReader sr = new StreamReader(FileName);
-                ComparingValues = new DataCube<float>(2, 1, _nsite, false);
+                ComparingValues = new DataCube<float>(2, 1, _nsite);
                 ComparingValues.Allocate(0, 1, _nsite);
                 ComparingValues.Allocate(1, 1, _nsite);
                 string line = sr.ReadLine();

@@ -41,6 +41,7 @@ namespace Heiflow.Models.Tools
         public string Name { get; set; }
         public string Size { get; set; }
         public string Owner { get; set; }
+        public bool RepeatAllowed { get; set; }
         public IDataCubeObject Mat { get; set; }
     }
 

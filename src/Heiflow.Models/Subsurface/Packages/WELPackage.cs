@@ -288,7 +288,7 @@ namespace Heiflow.Models.Subsurface
 
                 FluxRates = new DataCube<float>(4, np, MXACTW)
                 {
-                    DateTimes = new System.DateTime[np],
+                    DateTimes = new System.DateTime[np],                    ZeroDimension = DimensionFlag.Time,
                     Variables = new string[4] {"Layer","Row","Column","Q" }
                 };
 
@@ -338,7 +338,7 @@ namespace Heiflow.Models.Subsurface
         private void InitTVArrays()
         {
             int np = TimeService.StressPeriods.Count;
-            this.FluxRates = new DataCube<float>(4, np, 1);
+            this.FluxRates = new DataCube<float>(4, np, 1) { ZeroDimension = DimensionFlag.Time };
             for (int n = 0; n < np; n++)
             {
                 FluxRates.Variables[n] = "Flux Rate" + (n + 1);

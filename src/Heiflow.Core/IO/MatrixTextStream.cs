@@ -79,7 +79,7 @@ namespace Heiflow.Core.IO
                  sr.Close();
 
                  sr = new StreamReader(filename);
-                 matrix = new DataCube<T>(1, nline, ncol, false);
+                 matrix = new DataCube<T>(1, nline, ncol);
                  int i = 0;
                  while (!sr.EndOfStream)
                  {

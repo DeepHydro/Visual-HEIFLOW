@@ -55,6 +55,7 @@ namespace Heiflow.Core.Data
         DateTime[] DateTimes { get; set; }
         int[] Size { get; }
         string[] Variables { get; set; }
+        string[] ColumnNames { get; set; }
         /// <summary>
         /// 1d array [nvar]
         /// </summary>

@@ -230,15 +230,15 @@ namespace Heiflow.Image.ColorSpace
         /// </summary>
         /// <param name="sources"></param>
         /// <returns>return a 3d mat [3][nrow][ncol]</returns>
-        public  My3DMat<double>[] To3DMatrix(Bitmap [] sources)
+        public  DataCube<double>[] To3DMatrix(Bitmap [] sources)
         {
             int nvar = sources.Length;
             var nrow = sources[0].Height;
             var ncol = sources[0].Width;
-            My3DMat<double>[] mats = new My3DMat<double>[3];
+            DataCube<double>[] mats = new DataCube<double>[3];
             for (int i = 0; i < 3; i++)
             {
-                mats[i] = new My3DMat<double>(nvar, nrow, ncol);
+                mats[i] = new DataCube<double>(nvar, nrow, ncol);
             }
 
             for (int i = 0; i < nvar; i++)
@@ -249,9 +249,9 @@ namespace Heiflow.Image.ColorSpace
                     {
                         var color = sources[i].GetPixel(c, r);
                         var hsl = ToFloat(r,c);
-                        mats[0].Value[i][r][c] = hsl[0];
-                        mats[1].Value[i][r][c] = hsl[1];
-                        mats[2].Value[i][r][c] = hsl[2];
+                        mats[0][i,r,c] = hsl[0];
+                        mats[1][i, r, c] = hsl[1];
+                        mats[2][i, r, c] = hsl[2];
                     }
                 }
             }

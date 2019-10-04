@@ -72,7 +72,6 @@ F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.MainForm.resources
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.csproj.GenerateResource.Cache
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Visual Heiflow.exe.licenses
-F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.csprojResolveAssemblyReference.cache
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\bin\Debug\Visual Heiflow.exe.config
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Studio\obj\Debug\Visual Heiflow.exe
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Studio\obj\Debug\Visual Heiflow.pdb
@@ -83,3 +82,6 @@ E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Studio\obj\Debug\Heiflow.Model
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.MainForm.resources
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.csproj.GenerateResource.Cache
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Studio\obj\Debug\Visual Heiflow.exe.licenses
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.csprojAssemblyReference.cache
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.csproj.CoreCompileInputs.cache
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.csproj.CopyComplete

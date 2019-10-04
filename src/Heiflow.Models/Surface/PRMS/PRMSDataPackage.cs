@@ -115,7 +115,7 @@ namespace Heiflow.Models.IO
             OnLoading(0);
             Scan();
             int nvar = Variables.Length;
-            var mat = new DataCube<float>(nvar, StepsToLoad, 1, false);
+            var mat = new DataCube<float>(nvar, StepsToLoad, 1);
             var fileStream = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             StreamReader sr = new StreamReader(fileStream, Encoding.Default);
             string line = "";

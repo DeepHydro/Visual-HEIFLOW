@@ -99,7 +99,7 @@ namespace Heiflow.Core.IO
         public DataCube<float> LoadStep()
         {
             var varnum = Variables.Length;
-            DataCube<float> mat = new DataCube<float>(varnum, 1, FeatureCount, false);
+            DataCube<float> mat = new DataCube<float>(varnum, 1, FeatureCount);
             for (int s = 0; s < FeatureCount; s++)
             {
                 for (int v = 0; v < varnum; v++)
@@ -196,7 +196,7 @@ namespace Heiflow.Core.IO
                     feaNum = br.ReadInt32();
                 }
                 if (DataCube == null)
-                    DataCube = new DataCube<float>(varnum, nstep, FeatureCount, false);
+                    DataCube = new DataCube<float>(varnum, nstep, FeatureCount);
                 OnLoading(0);
                 for (int t = 0; t < nstep; t++)
                 {

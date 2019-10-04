@@ -253,7 +253,7 @@ namespace Heiflow.Models.Subsurface
             int nwell = wells.Count();
             var mfgrid = Owner.Grid as MFGrid;
             int step = DataCube.Size[1];
-            DataCube<float> mat = new DataCube<float>(1, step, wells.Count(),false)
+            DataCube<float> mat = new DataCube<float>(1, step, wells.Count())
             {
                 Name = "HOB_Output"
             };

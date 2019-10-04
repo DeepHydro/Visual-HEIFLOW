@@ -96,7 +96,7 @@ namespace Heiflow.Tools.Math
             
             if (source != null)
             {
-                var tag = new DataCube<float>(source.Size[0], source.Size[1], source.Size[2], false);
+                var tag = new DataCube<float>(source.Size[0], source.Size[1], source.Size[2]);
                 for (int i = 0; i < source.Size[0];i++ )
                 {
                     if(source[i] != null)

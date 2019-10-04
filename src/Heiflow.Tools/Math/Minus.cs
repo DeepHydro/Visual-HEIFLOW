@@ -86,7 +86,7 @@ namespace Heiflow.Tools.Math
             var vec_subt = GetVector(SubtrahendDataCube);
             if (vec_minu != null && vec_subt != null && vec_minu.Length == vec_subt.Length)
             {
-                var vec = new DataCube<float>(1, 1, vec_minu.Length, false);
+                var vec = new DataCube<float>(1, 1, vec_minu.Length);
                 for (int i = 0; i < vec_minu.Length; i++)
                 {
                     vec[0, 0, i] = vec_minu[i] - vec_subt[i];

@@ -163,6 +163,15 @@ namespace Heiflow.Core.Data
             set;
         }
         [XmlIgnore]
+        /// <summary>
+        /// Default values are provided.
+        /// </summary>
+        public string[] ColumnNames
+        {
+            get;
+            set;
+        }
+        [XmlIgnore]
         public DimensionFlag ZeroDimension
         {
             get;
@@ -291,6 +300,11 @@ namespace Heiflow.Core.Data
             {
                 _Variables[i] = "V" + (i + 1);
             }
+            ColumnNames = new string[Size[1]];
+            for (int i = 0; i < Size[1]; i++)
+            {
+                ColumnNames[i] = "C" + i;
+            }
         }
         public bool SizeEquals(DataCube<T> target)
         {
@@ -371,7 +385,7 @@ namespace Heiflow.Core.Data
         /// <param name="var_index"></param>
         /// <param name="time_index"></param>
         /// <returns></returns>
-        public Array GetSpatialSerialArray(int var_index, int time_index)
+        public virtual Array GetSpatialSerialArray(int var_index, int time_index)
         {
             T[,] array = null;
             var vec = GetVector(var_index, time_index.ToString(), ":");
@@ -388,7 +402,7 @@ namespace Heiflow.Core.Data
         /// <param name="var_index"></param>
         /// <param name="time_index"></param>
         /// <returns></returns>
-        public Array GetSpatialRegularArray(int var_index, int time_index)
+        public virtual Array GetSpatialRegularArray(int var_index, int time_index)
         {
             T[,] array = null;
 
@@ -443,7 +457,7 @@ namespace Heiflow.Core.Data
         /// <param name="var_index"></param>
         /// <param name="time_index"></param>
         /// <returns></returns>
-        public ILNumerics.ILBaseArray ToSpatialILBaseArray(int var_index, int time_index)
+        public virtual ILBaseArray ToSpatialILBaseArray(int var_index, int time_index)
         {
             if (Topology != null)
             {
@@ -759,7 +773,7 @@ namespace Heiflow.Core.Data
         }
         public DataCube<float> SpatialMean(int var_index)
         {
-            var mean_mat = new DataCube<float>(1, _ntime, 1, false);
+            var mean_mat = new DataCube<float>(1, _ntime, 1);
             if (ILArrays[var_index] != null)
             {
                 for (int j = 0; j < _ntime; j++)

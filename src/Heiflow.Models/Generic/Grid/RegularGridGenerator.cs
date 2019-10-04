@@ -148,9 +148,12 @@ namespace Heiflow.Models.Generic.Grid
                 Source.ActualLayerCount = this.LayerCount;
                 Source.RowCount = RowCount;
                 Source.ColumnCount = ColumnCount;
-                Source.IBound = new DataCube<float>(this.LayerCount, RowCount, ColumnCount, false);
-                Source.DELC = new DataCube<float>(1, 1, RowCount, false);
-                Source.DELR = new DataCube<float>(1, 1, ColumnCount, false);
+                Source.IBound = new DataCube<float>(this.LayerCount, RowCount, ColumnCount)
+                {
+                    ZeroDimension = DimensionFlag.Spatial
+                };
+                Source.DELC = new DataCube<float>(1, 1, RowCount);
+                Source.DELR = new DataCube<float>(1, 1, ColumnCount);
                 Source.DELC.Flags[0] = TimeVarientFlag.Constant;
                 Source.DELR.Flags[0] = TimeVarientFlag.Constant;
                 Source.DELC.Constants[0] = this.XSize;
@@ -180,7 +183,7 @@ namespace Heiflow.Models.Generic.Grid
                     }
                 }
                 Source.ActiveCellCount = active;
-                Source.Elevations = new DataCube<float>(Source.LayerCount, 1, active, false);
+                Source.Elevations = new DataCube<float>(Source.LayerCount, 1, active) { ZeroDimension = DimensionFlag.Spatial };
                 Source.Elevations.Variables[0] = "Top Elevation";
                 for (int i = 0; i < active; i++)
                 {
@@ -207,8 +210,8 @@ namespace Heiflow.Models.Generic.Grid
                     slope_asp = Heiflow.Models.GeoSpatial.RasterEx.GetSlopeAspect(DEM, 1, true, null);
                     if (slope_asp != null)
                     {
-                        Source.Slope = new DataCube<float>(1, 1, active, false);
-                        Source.Aspect = new DataCube<float>(1, 1, active, false);
+                        Source.Slope = new DataCube<float>(1, 1, active);
+                        Source.Aspect = new DataCube<float>(1, 1, active);
                         for (int i = 0; i < active; i++)
                         {
                             var pt = new Coordinate(centroids[i].X - 0.5 * XSize, centroids[i].Y - 0.5 * YSize);

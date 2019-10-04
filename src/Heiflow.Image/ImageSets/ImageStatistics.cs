@@ -44,54 +44,53 @@ namespace Heiflow.Image.ImageSets
 
         }
 
-        public My3DMat<double> Average(My3DMat<double> source)
+        public DataCube<double> Average(DataCube<double> source)
         {
             int nvar = source.Size[0];
             int nrow = source.Size[1];
             int ncol = source.Size[2];
-            var mat = new My3DMat<double>(nvar, nrow, ncol);
-      
+            var mat = new DataCube<double>(nvar, nrow, ncol);
+
             int ncol_1 = ncol - 1;
             int nrow_1 = nrow - 1;
 
             for (int v = 0; v < nvar; v++)
             {
-                var mat_source = source.Value[v];
                 var vec5 = new double[5];
                 // the first and the last columns
                 for (int r = 1; r < nrow - 1; r++)
                 {
-                    vec5[0] = mat_source[r - 1][0];
-                    vec5[1] = mat_source[r - 1][1];
-                    vec5[2] = mat_source[r][1];
-                    vec5[3] = mat_source[r + 1][1];
-                    vec5[4] = mat_source[r + 1][0];
-                    mat.Value[v][r][0] = vec5.Average();
+                    vec5[0] = source[v, r - 1, 0];
+                    vec5[1] = source[v, r - 1, 1];
+                    vec5[2] = source[v, r, 1];
+                    vec5[3] = source[v, r + 1, 1];
+                    vec5[4] = source[v, r + 1, 0];
+                    mat[v, r, 0] = vec5.Average();
 
-                    vec5[0] = mat_source[r - 1][ncol_1];
-                    vec5[1] = mat_source[r - 1][ncol_1 - 1];
-                    vec5[2] = mat_source[r][ncol_1 - 1];
-                    vec5[3] = mat_source[r + 1][ncol_1 - 1];
-                    vec5[4] = mat_source[r + 1][ncol_1];
-                    mat.Value[v][r][ncol_1] = vec5.Average();
+                    vec5[0] = source[v, r - 1, ncol_1];
+                    vec5[1] = source[v, r - 1, ncol_1 - 1];
+                    vec5[2] = source[v, r, ncol_1 - 1];
+                    vec5[3] = source[v, r + 1, ncol_1 - 1];
+                    vec5[4] = source[v, r + 1, ncol_1];
+                    mat[v][r, ncol_1] = vec5.Average();
                 }
                 // the first and the last rows
                 for (int c = 1; c < ncol - 1; c++)
                 {
-                    vec5[0] = mat_source[0][c - 1];
-                    vec5[1] = mat_source[1][c - 1];
-                    vec5[2] = mat_source[1][c];
-                    vec5[3] = mat_source[1][c + 1];
-                    vec5[4] = mat_source[0][c + 1];
-                    mat.Value[v][0][c] = vec5.Average();
+                    vec5[0] = source[v, 0, c - 1];
+                    vec5[1] = source[v, 1, c - 1];
+                    vec5[2] = source[v, 1, c];
+                    vec5[3] = source[v, 1, c + 1];
+                    vec5[4] = source[v, 0, c + 1];
+                    mat[v, 0, c] = vec5.Average();
 
-                    vec5[0] = mat_source[nrow_1][c - 1];
-                    vec5[1] = mat_source[nrow_1 - 1][c - 1];
-                    vec5[2] = mat_source[nrow_1 - 1][c];
-                    vec5[3] = mat_source[nrow_1 - 1][c + 1];
-                    vec5[4] = mat_source[nrow_1][c + 1];
+                    vec5[0] = source[v, nrow_1, c - 1];
+                    vec5[1] = source[v, nrow_1 - 1, c - 1];
+                    vec5[2] = source[v, nrow_1 - 1, c];
+                    vec5[3] = source[v, nrow_1 - 1, c + 1];
+                    vec5[4] = source[v, nrow_1, c + 1];
 
-                    mat.Value[v][nrow_1][c] = vec5.Average();
+                    mat[v, nrow_1, c] = vec5.Average();
                 }
 
                 double[] vec8 = new double[8];
@@ -99,68 +98,69 @@ namespace Heiflow.Image.ImageSets
                 {
                     for (int c = 1; c < ncol - 1; c++)
                     {
-                        vec8[0] = mat_source[r - 1][c - 1];
-                        vec8[1] = mat_source[r - 1][c];
-                        vec8[2] = mat_source[r - 1][c + 1];
-                        vec8[3] = mat_source[r][c - 1];
-                        vec8[4] = mat_source[r][c + 1];
-                        vec8[5] = mat_source[r + 1][c - 1];
-                        vec8[6] = mat_source[r + 1][c];
-                        vec8[7] = mat_source[r + 1][c + 1];
+                        vec8[0] = source[v, r - 1, c - 1];
+                        vec8[1] = source[v, r - 1, c];
+                        vec8[2] = source[v, r - 1, c + 1];
+                        vec8[3] = source[v, r, c - 1];
+                        vec8[4] = source[v, r, c + 1];
+                        vec8[5] = source[v, r + 1, c - 1];
+                        vec8[6] = source[v, r + 1, c];
+                        vec8[7] = source[v, r + 1, c + 1];
 
-                        mat.Value[v][r][c] = vec8.Average();
+                        mat[v, r, c] = vec8.Average();
                     }
                 }
             }
             return mat;
         }
-        public My3DMat<double> StandardDeviation(My3DMat<double> source)
+
+        public DataCube<double> StandardDeviation(DataCube<double> source)
         {
             int nvar = source.Size[0];
             int nrow = source.Size[1];
             int ncol = source.Size[2];
-            var mat = new My3DMat<double>(nvar, nrow, ncol);
+            var mat = new DataCube<double>(nvar, nrow, ncol);
+
             int ncol_1 = ncol - 1;
             int nrow_1 = nrow - 1;
 
             for (int v = 0; v < nvar; v++)
             {
-                var mat_source = source.Value[v];
                 var vec5 = new double[5];
                 // the first and the last columns
                 for (int r = 1; r < nrow - 1; r++)
                 {
-                    vec5[0] = mat_source[r - 1][0];
-                    vec5[1] = mat_source[r - 1][1];
-                    vec5[2] = mat_source[r][1];
-                    vec5[3] = mat_source[r + 1][1];
-                    vec5[4] = mat_source[r + 1][0];
-                    mat.Value[v][r][0] = MyStatisticsMath.StandardDeviation(vec5);
+                    vec5[0] = source[v, r - 1, 0];
+                    vec5[1] = source[v, r - 1, 1];
+                    vec5[2] = source[v, r, 1];
+                    vec5[3] = source[v, r + 1, 1];
+                    vec5[4] = source[v, r + 1, 0];
+                    mat[v, r, 0] = MyStatisticsMath.StandardDeviation(vec5);
 
-                    vec5[0] = mat_source[r - 1][ncol_1];
-                    vec5[1] = mat_source[r - 1][ncol_1 - 1];
-                    vec5[2] = mat_source[r][ncol_1 - 1];
-                    vec5[3] = mat_source[r + 1][ncol_1 - 1];
-                    vec5[4] = mat_source[r + 1][ncol_1];
-                    mat.Value[v][r][ncol_1] = MyStatisticsMath.StandardDeviation(vec5);
+                    vec5[0] = source[v, r - 1, ncol_1];
+                    vec5[1] = source[v, r - 1, ncol_1 - 1];
+                    vec5[2] = source[v, r, ncol_1 - 1];
+                    vec5[3] = source[v, r + 1, ncol_1 - 1];
+                    vec5[4] = source[v, r + 1, ncol_1];
+                    mat[v][r, ncol_1] = MyStatisticsMath.StandardDeviation(vec5);
                 }
                 // the first and the last rows
                 for (int c = 1; c < ncol - 1; c++)
                 {
-                    vec5[0] = mat_source[0][c - 1];
-                    vec5[1] = mat_source[1][c - 1];
-                    vec5[2] = mat_source[1][c];
-                    vec5[3] = mat_source[1][c + 1];
-                    vec5[4] = mat_source[0][c + 1];
-                    mat.Value[v][0][c] = MyStatisticsMath.StandardDeviation(vec5);
+                    vec5[0] = source[v, 0, c - 1];
+                    vec5[1] = source[v, 1, c - 1];
+                    vec5[2] = source[v, 1, c];
+                    vec5[3] = source[v, 1, c + 1];
+                    vec5[4] = source[v, 0, c + 1];
+                    mat[v, 0, c] = vec5.Average();
 
-                    vec5[0] = mat_source[nrow_1][c - 1];
-                    vec5[1] = mat_source[nrow_1 - 1][c - 1];
-                    vec5[2] = mat_source[nrow_1 - 1][c];
-                    vec5[3] = mat_source[nrow_1 - 1][c + 1];
-                    vec5[4] = mat_source[nrow_1][c + 1];
+                    vec5[0] = source[v, nrow_1, c - 1];
+                    vec5[1] = source[v, nrow_1 - 1, c - 1];
+                    vec5[2] = source[v, nrow_1 - 1, c];
+                    vec5[3] = source[v, nrow_1 - 1, c + 1];
+                    vec5[4] = source[v, nrow_1, c + 1];
 
-                    mat.Value[v][nrow_1][c] = MyStatisticsMath.StandardDeviation(vec5);
+                    mat[v, nrow_1, c] = MyStatisticsMath.StandardDeviation(vec5);
                 }
 
                 double[] vec8 = new double[8];
@@ -168,152 +168,159 @@ namespace Heiflow.Image.ImageSets
                 {
                     for (int c = 1; c < ncol - 1; c++)
                     {
-                        vec8[0] = mat_source[r - 1][c - 1];
-                        vec8[1] = mat_source[r - 1][c];
-                        vec8[2] = mat_source[r - 1][c + 1];
-                        vec8[3] = mat_source[r][c - 1];
-                        vec8[4] = mat_source[r][c + 1];
-                        vec8[5] = mat_source[r + 1][c - 1];
-                        vec8[6] = mat_source[r + 1][c];
-                        vec8[7] = mat_source[r + 1][c + 1];
+                        vec8[0] = source[v, r - 1, c - 1];
+                        vec8[1] = source[v, r - 1, c];
+                        vec8[2] = source[v, r - 1, c + 1];
+                        vec8[3] = source[v, r, c - 1];
+                        vec8[4] = source[v, r, c + 1];
+                        vec8[5] = source[v, r + 1, c - 1];
+                        vec8[6] = source[v, r + 1, c];
+                        vec8[7] = source[v, r + 1, c + 1];
 
-                        mat.Value[v][r][c] = MyStatisticsMath.StandardDeviation(vec8);
+                        mat[v, r, c] = MyStatisticsMath.StandardDeviation(vec8);
                     }
                 }
             }
             return mat;
         }
 
-        public My3DMat<float> Average(My3DMat<float> source)
+        public DataCube<float> Average(DataCube<float> source)
         {
-            var mat = new My3DMat<float>(source.Size[0], source.Size[1], source.Size[2]);
+            int nvar = source.Size[0];
             int nrow = source.Size[1];
             int ncol = source.Size[2];
+            var mat = new DataCube<float>(nvar, nrow, ncol);
+
             int ncol_1 = ncol - 1;
             int nrow_1 = nrow - 1;
 
-            var mat_source = source.Value[0];
-            var vec5 = new float[5];
-            // the first and the last columns
-            for (int r = 1; r < nrow - 1; r++)
+            for (int v = 0; v < nvar; v++)
             {
-                vec5[0] = mat_source[r - 1][0];
-                vec5[1] = mat_source[r - 1][1];
-                vec5[2] = mat_source[r][1];
-                vec5[3] = mat_source[r + 1][1];
-                vec5[4] = mat_source[r + 1][0];
-                mat.Value[0][r][0] = vec5.Average();
+                var vec5 = new float[5];
+                // the first and the last columns
+                for (int r = 1; r < nrow - 1; r++)
+                {
+                    vec5[0] = source[v, r - 1, 0];
+                    vec5[1] = source[v, r - 1, 1];
+                    vec5[2] = source[v, r, 1];
+                    vec5[3] = source[v, r + 1, 1];
+                    vec5[4] = source[v, r + 1, 0];
+                    mat[v, r, 0] = vec5.Average();
 
-                vec5[0] = mat_source[r - 1][ncol_1];
-                vec5[1] = mat_source[r - 1][ncol_1 - 1];
-                vec5[2] = mat_source[r][ncol_1 - 1];
-                vec5[3] = mat_source[r + 1][ncol_1 - 1];
-                vec5[4] = mat_source[r + 1][ncol_1];
-                mat.Value[0][r][ncol_1] = vec5.Average();
-            }
-            // the first and the last rows
-            for (int c = 1; c < ncol - 1; c++)
-            {
-                vec5[0] = mat_source[0][c - 1];
-                vec5[1] = mat_source[1][c - 1];
-                vec5[2] = mat_source[1][c];
-                vec5[3] = mat_source[1][c + 1];
-                vec5[4] = mat_source[0][c + 1];
-                mat.Value[0][0][c] = vec5.Average();
-
-                vec5[0] = mat_source[nrow_1][c - 1];
-                vec5[1] = mat_source[nrow_1 - 1][c - 1];
-                vec5[2] = mat_source[nrow_1 - 1][c];
-                vec5[3] = mat_source[nrow_1 - 1][c + 1];
-                vec5[4] = mat_source[nrow_1][c + 1];
-
-                mat.Value[0][nrow_1][c] = vec5.Average();
-            }
-
-            float[] vec8 = new float[8];
-            for (int r = 1; r < nrow - 1; r++)
-            {
+                    vec5[0] = source[v, r - 1, ncol_1];
+                    vec5[1] = source[v, r - 1, ncol_1 - 1];
+                    vec5[2] = source[v, r, ncol_1 - 1];
+                    vec5[3] = source[v, r + 1, ncol_1 - 1];
+                    vec5[4] = source[v, r + 1, ncol_1];
+                    mat[v][r, ncol_1] = vec5.Average();
+                }
+                // the first and the last rows
                 for (int c = 1; c < ncol - 1; c++)
                 {
-                    vec8[0] = mat_source[r - 1][c - 1];
-                    vec8[1] = mat_source[r - 1][c];
-                    vec8[2] = mat_source[r - 1][c + 1];
-                    vec8[3] = mat_source[r][c - 1];
-                    vec8[4] = mat_source[r][c + 1];
-                    vec8[5] = mat_source[r + 1][c - 1];
-                    vec8[6] = mat_source[r + 1][c];
-                    vec8[7] = mat_source[r + 1][c + 1];
+                    vec5[0] = source[v, 0, c - 1];
+                    vec5[1] = source[v, 1, c - 1];
+                    vec5[2] = source[v, 1, c];
+                    vec5[3] = source[v, 1, c + 1];
+                    vec5[4] = source[v, 0, c + 1];
+                    mat[v, 0, c] = vec5.Average();
 
-                    mat.Value[0][r][c] = vec8.Average();
+                    vec5[0] = source[v, nrow_1, c - 1];
+                    vec5[1] = source[v, nrow_1 - 1, c - 1];
+                    vec5[2] = source[v, nrow_1 - 1, c];
+                    vec5[3] = source[v, nrow_1 - 1, c + 1];
+                    vec5[4] = source[v, nrow_1, c + 1];
+
+                    mat[v, nrow_1, c] = vec5.Average();
+                }
+
+                float[] vec8 = new float[8];
+                for (int r = 1; r < nrow - 1; r++)
+                {
+                    for (int c = 1; c < ncol - 1; c++)
+                    {
+                        vec8[0] = source[v, r - 1, c - 1];
+                        vec8[1] = source[v, r - 1, c];
+                        vec8[2] = source[v, r - 1, c + 1];
+                        vec8[3] = source[v, r, c - 1];
+                        vec8[4] = source[v, r, c + 1];
+                        vec8[5] = source[v, r + 1, c - 1];
+                        vec8[6] = source[v, r + 1, c];
+                        vec8[7] = source[v, r + 1, c + 1];
+
+                        mat[v, r, c] = vec8.Average();
+                    }
                 }
             }
-
             return mat;
         }
-        public My3DMat<float> StandardDeviation(My3DMat<float> source)
+
+        public DataCube<float> StandardDeviation(DataCube<float> source)
         {
-            var mat = new My3DMat<float>(source.Size[0], source.Size[1], source.Size[2]);
+            int nvar = source.Size[0];
             int nrow = source.Size[1];
             int ncol = source.Size[2];
+            var mat = new DataCube<float>(nvar, nrow, ncol);
+
             int ncol_1 = ncol - 1;
             int nrow_1 = nrow - 1;
 
-            var mat_source = source.Value[0];
-            var vec5 = new float[5];
-            // the first and the last columns
-            for (int r = 1; r < nrow - 1; r++)
+            for (int v = 0; v < nvar; v++)
             {
-                vec5[0] = mat_source[r - 1][0];
-                vec5[1] = mat_source[r - 1][1];
-                vec5[2] = mat_source[r][1];
-                vec5[3] = mat_source[r + 1][1];
-                vec5[4] = mat_source[r + 1][0];
-                mat.Value[0][r][0] = MyStatisticsMath.StandardDeviation(vec5);
+                var vec5 = new float[5];
+                // the first and the last columns
+                for (int r = 1; r < nrow - 1; r++)
+                {
+                    vec5[0] = source[v, r - 1, 0];
+                    vec5[1] = source[v, r - 1, 1];
+                    vec5[2] = source[v, r, 1];
+                    vec5[3] = source[v, r + 1, 1];
+                    vec5[4] = source[v, r + 1, 0];
+                    mat[v, r, 0] = MyStatisticsMath.StandardDeviation(vec5);
 
-                vec5[0] = mat_source[r - 1][ncol_1];
-                vec5[1] = mat_source[r - 1][ncol_1 - 1];
-                vec5[2] = mat_source[r][ncol_1 - 1];
-                vec5[3] = mat_source[r + 1][ncol_1 - 1];
-                vec5[4] = mat_source[r + 1][ncol_1];
-                mat.Value[0][r][ncol_1] = MyStatisticsMath.StandardDeviation(vec5);
-            }
-            // the first and the last rows
-            for (int c = 1; c < ncol - 1; c++)
-            {
-                vec5[0] = mat_source[0][c - 1];
-                vec5[1] = mat_source[1][c - 1];
-                vec5[2] = mat_source[1][c];
-                vec5[3] = mat_source[1][c + 1];
-                vec5[4] = mat_source[0][c + 1];
-                mat.Value[0][0][c] = MyStatisticsMath.StandardDeviation(vec5);
-
-                vec5[0] = mat_source[nrow_1][c - 1];
-                vec5[1] = mat_source[nrow_1 - 1][c - 1];
-                vec5[2] = mat_source[nrow_1 - 1][c];
-                vec5[3] = mat_source[nrow_1 - 1][c + 1];
-                vec5[4] = mat_source[nrow_1][c + 1];
-
-                mat.Value[0][nrow_1][c] = MyStatisticsMath.StandardDeviation(vec5);
-            }
-
-            float[] vec8 = new float[8];
-            for (int r = 1; r < nrow - 1; r++)
-            {
+                    vec5[0] = source[v, r - 1, ncol_1];
+                    vec5[1] = source[v, r - 1, ncol_1 - 1];
+                    vec5[2] = source[v, r, ncol_1 - 1];
+                    vec5[3] = source[v, r + 1, ncol_1 - 1];
+                    vec5[4] = source[v, r + 1, ncol_1];
+                    mat[v][r, ncol_1] = MyStatisticsMath.StandardDeviation(vec5);
+                }
+                // the first and the last rows
                 for (int c = 1; c < ncol - 1; c++)
                 {
-                    vec8[0] = mat_source[r - 1][c - 1];
-                    vec8[1] = mat_source[r - 1][c];
-                    vec8[2] = mat_source[r - 1][c + 1];
-                    vec8[3] = mat_source[r][c - 1];
-                    vec8[4] = mat_source[r][c + 1];
-                    vec8[5] = mat_source[r + 1][c - 1];
-                    vec8[6] = mat_source[r + 1][c];
-                    vec8[7] = mat_source[r + 1][c + 1];
+                    vec5[0] = source[v, 0, c - 1];
+                    vec5[1] = source[v, 1, c - 1];
+                    vec5[2] = source[v, 1, c];
+                    vec5[3] = source[v, 1, c + 1];
+                    vec5[4] = source[v, 0, c + 1];
+                    mat[v, 0, c] = vec5.Average();
 
-                    mat.Value[0][r][c] = MyStatisticsMath.StandardDeviation(vec8);
+                    vec5[0] = source[v, nrow_1, c - 1];
+                    vec5[1] = source[v, nrow_1 - 1, c - 1];
+                    vec5[2] = source[v, nrow_1 - 1, c];
+                    vec5[3] = source[v, nrow_1 - 1, c + 1];
+                    vec5[4] = source[v, nrow_1, c + 1];
+
+                    mat[v, nrow_1, c] = MyStatisticsMath.StandardDeviation(vec5);
+                }
+
+                float[] vec8 = new float[8];
+                for (int r = 1; r < nrow - 1; r++)
+                {
+                    for (int c = 1; c < ncol - 1; c++)
+                    {
+                        vec8[0] = source[v, r - 1, c - 1];
+                        vec8[1] = source[v, r - 1, c];
+                        vec8[2] = source[v, r - 1, c + 1];
+                        vec8[3] = source[v, r, c - 1];
+                        vec8[4] = source[v, r, c + 1];
+                        vec8[5] = source[v, r + 1, c - 1];
+                        vec8[6] = source[v, r + 1, c];
+                        vec8[7] = source[v, r + 1, c + 1];
+
+                        mat[v, r, c] = MyStatisticsMath.StandardDeviation(vec8);
+                    }
                 }
             }
-
             return mat;
         }
     }

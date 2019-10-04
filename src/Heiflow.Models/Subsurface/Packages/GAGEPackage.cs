@@ -74,7 +74,7 @@ namespace Heiflow.Models.Subsurface
                 string line = sr.ReadLine();
                 var strs = TypeConverterEx.Split<string>(line);
                 num = int.Parse(strs[0]);
-                var mat = new DataCube<int>(1, 3, num, true);
+                var mat = new DataCube<int>(1, 3, num);
                 for (int i = 0; i < num; i++)
                 {
                     line = sr.ReadLine();

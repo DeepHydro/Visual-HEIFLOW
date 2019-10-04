@@ -82,7 +82,7 @@ namespace Heiflow.Tools.Math
                 var buf = mat.ILArrays[var_index];
                 var array = buf[dims[1],dims[2]];
                 var size = array.Size.ToIntArray();
-                DataCube<float> dc = new DataCube<float>(1, 1, 1, true);
+                DataCube<float> dc = new DataCube<float>(1, 1, 1);
                 dc[0] = array;
                 dc.Name = Output;
                 Workspace.Add(dc);

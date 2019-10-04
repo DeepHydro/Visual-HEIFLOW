@@ -121,7 +121,7 @@ namespace Heiflow.Models.Subsurface
 
                 var grid = (Owner.Grid as MFGrid);
 
-                grid.IBound = new DataCube<float>(grid.ActualLayerCount, grid.RowCount, grid.ColumnCount, false);
+                grid.IBound = new DataCube<float>(grid.ActualLayerCount, grid.RowCount, grid.ColumnCount) { ZeroDimension = DimensionFlag.Spatial };
                 grid.ActiveCellCount = 0;
                 for (int l = 0; l < grid.ActualLayerCount; l++)
                 {
@@ -150,9 +150,9 @@ namespace Heiflow.Models.Subsurface
                 //Data Set 3: # HNOFLO the value of head to be assigned to all inactive 
                 this.HNOFLO = TypeConverterEx.Split<float>(newline, 1)[0];
                 //Data Set 4: STRT—is initial (starting) head
-                this.STRT = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount, false)
+                this.STRT = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
                 {
-                    Name = "STRT",
+                    Name = "STRT", ZeroDimension = DimensionFlag.Spatial
                 };
 
                 for (int l = 0; l < grid.ActualLayerCount; l++)
@@ -213,9 +213,9 @@ namespace Heiflow.Models.Subsurface
             this.FeatureLayer = this.Grid.FeatureLayer;
             this.Feature = this.Grid.FeatureSet;
             var grid = (sender as IRegularGrid);
-            this.STRT = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount, false)
+            this.STRT = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
             {
-                Name = "STRT",
+                Name = "STRT", ZeroDimension= DimensionFlag.Spatial
             };
           
             for (int l = 0; l < grid.ActualLayerCount; l++)
@@ -249,7 +249,7 @@ namespace Heiflow.Models.Subsurface
             //    mfgrid.IBound = ILMath.zeros<int>(mfgrid.RowCount, mfgrid.ColumnCount, mfgrid.ActualLayerCount);
 
             if (mfgrid.IBound == null)
-                mfgrid.IBound = new DataCube<float>(mfgrid.ActualLayerCount, mfgrid.RowCount, mfgrid.ColumnCount, false);
+                mfgrid.IBound = new DataCube<float>(mfgrid.ActualLayerCount, mfgrid.RowCount, mfgrid.ColumnCount) { ZeroDimension = DimensionFlag.Spatial };
 
             mfgrid.ActiveCellCount = 0;
             for (int l = 0; l < mfgrid.ActualLayerCount; l++)
@@ -265,7 +265,7 @@ namespace Heiflow.Models.Subsurface
             }
 
             if (this.STRT == null)
-                this.STRT = new DataCube<float>(mfgrid.ActualLayerCount, 1, mfgrid.ActiveCellCount, false);
+                this.STRT = new DataCube<float>(mfgrid.ActualLayerCount, 1, mfgrid.ActiveCellCount) { ZeroDimension = DimensionFlag.Spatial };
 
             for (int l = 0; l < mfgrid.ActualLayerCount; l++)
             {
@@ -285,7 +285,7 @@ namespace Heiflow.Models.Subsurface
             bas.Owner = newmf;
             MFGrid newgrid = newmf.Grid as MFGrid;
             MFGrid rawgrid = Owner.Grid as MFGrid;
-            bas.STRT = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount, false);
+            bas.STRT = new DataCube<float>(newgrid.ActualLayerCount, 1, newgrid.ActiveCellCount) { ZeroDimension = DimensionFlag.Spatial };
             for (int l = 0; l < newgrid.ActualLayerCount; l++)
             {
                // bas.STRT[l, MyMath.full] = rawgrid.GetSubSerialArray(this.STRT, newgrid, l).Value;

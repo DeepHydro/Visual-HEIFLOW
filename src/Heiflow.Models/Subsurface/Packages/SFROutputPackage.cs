@@ -189,7 +189,7 @@ namespace Heiflow.Models.Subsurface
                         OnLoading(progress);
                         try
                         {
-                            DataCube = new DataCube<float>(varLen, nstep, reachNum,false)
+                            DataCube = new DataCube<float>(varLen, nstep, reachNum)
                             {
                                 Name = "SFR_Output",
                             };
@@ -539,7 +539,7 @@ namespace Heiflow.Models.Subsurface
                 {
                     count += river.Reaches.Count;
                 }
-                mat = new DataCube<double>(2, 1, count, false);
+                mat = new DataCube<double>(2, 1, count);
                 int i = 0;
                 double sumlen = 0;
                 if (unified)
@@ -575,7 +575,7 @@ namespace Heiflow.Models.Subsurface
             {
                 if (DataCube != null)
                 {
-                    mat = new DataCube<double>(2, 1, profile.Count, false);
+                    mat = new DataCube<double>(2, 1, profile.Count);
                     int i = 0;
                     double sumlen = 0;
                     if (unified)
@@ -617,7 +617,7 @@ namespace Heiflow.Models.Subsurface
                 {
                     count += river.Reaches.Count;
                 }
-                mat = new DataCube<float>(1, total_time, count,false);
+                mat = new DataCube<float>(1, total_time, count);
                 if (unified)
                 {
                     for (int t = 0; t < total_time; t++)
@@ -655,7 +655,7 @@ namespace Heiflow.Models.Subsurface
             {
                 if (DataCube != null)
                 {
-                    mat = new DataCube<float>(1, total_time, profile.Count,false);
+                    mat = new DataCube<float>(1, total_time, profile.Count);
 
                     if (unified)
                     {

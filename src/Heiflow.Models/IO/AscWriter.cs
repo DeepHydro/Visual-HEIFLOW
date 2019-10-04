@@ -73,7 +73,7 @@ namespace Heiflow.Models.IO
             int row_index = dbf.GetFiledNameIndex("row");
             int col_index = dbf.GetFiledNameIndex("col");
             int elev_index = dbf.GetFiledNameIndex("elev");
-            DataCube<float> mat = new DataCube<float>(1, nrow, ncol, false);
+            DataCube<float> mat = new DataCube<float>(1, nrow, ncol);
             int nact = 0;
             for (int n = 0; n < dbf.RecordCount; n++)
             {

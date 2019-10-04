@@ -528,7 +528,7 @@ namespace Heiflow.Tools.DataManagement
                 wra_pck.NumCycle = model.TimeService.End.Year - model.TimeService.Start.Year + 1;
                 wra_pck.NumStressPeriod = 1;
                 this.EndCycle = wra_pck.NumCycle;
-                wra_pck.CyclePeriod = new DataCube<int>(1, wra_pck.NumCycle, 5, false);
+                wra_pck.CyclePeriod = new DataCube<int>(1, wra_pck.NumCycle, 5);
                 wra_pck.CyclePeriod[0, 0, 0] = model.TimeService.Start.Year;
                 wra_pck.CyclePeriod[0, 0, 1] = 1;
                 wra_pck.CyclePeriod[0, 0, 2] = DateTime.IsLeapYear(model.TimeService.Start.Year) ? 366 : 355;

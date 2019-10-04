@@ -65,7 +65,7 @@ namespace Heiflow.Core.Data
 
             _RowNames = row_names;
             _DefaultValues = default_values;
-            _MappingTable = new DataCube<T>(1, row_names.Length, _ColNames.Length - 1, false);
+            _MappingTable = new DataCube<T>(1, row_names.Length, _ColNames.Length - 1);
             _RowIndex = new Dictionary<string, int>();
             _ColIndex = new Dictionary<string, int>();
 
@@ -176,7 +176,7 @@ namespace Heiflow.Core.Data
                 }
             }
             _RowNames = rownames.ToArray();
-            _MappingTable = new DataCube<T>(1,_RowNames.Length, _ColNames.Length - 1,false);
+            _MappingTable = new DataCube<T>(1,_RowNames.Length, _ColNames.Length - 1);
             _RowIndex = new Dictionary<string, int>();
             _ColIndex = new Dictionary<string, int>();
 

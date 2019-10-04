@@ -67,7 +67,10 @@ namespace Heiflow.Models.Subsurface
             int nrow = rlrow - lurow + 1;
             int ncol = rlcol - lucol + 1;
             newgrid.ActualLayerCount = this.ActualLayerCount;
-            newgrid.IBound = new DataCube<float>(this.ActualLayerCount, nrow, ncol, false);
+            newgrid.IBound = new DataCube<float>(this.ActualLayerCount, nrow, ncol)
+            {
+                ZeroDimension = DimensionFlag.Spatial
+            };
             newgrid.RowCount = nrow;
             newgrid.ColumnCount = ncol;
             newgrid.BBox = this.BBox;
@@ -109,8 +112,11 @@ namespace Heiflow.Models.Subsurface
                 }
             }
 
-          // newgrid.Elevations = MyMath.zeros<float>(this.LayerCount, newgrid.ActiveCellCount);
-            newgrid.Elevations = new DataCube<float>(this.LayerCount, 1, newgrid.ActiveCellCount, false);
+            // newgrid.Elevations = MyMath.zeros<float>(this.LayerCount, newgrid.ActiveCellCount);
+            newgrid.Elevations = new DataCube<float>(this.LayerCount, 1, newgrid.ActiveCellCount)
+            {
+                ZeroDimension = DimensionFlag.Spatial
+            };
    
             for (int l = 0; l < this.LayerCount; l++)
             {

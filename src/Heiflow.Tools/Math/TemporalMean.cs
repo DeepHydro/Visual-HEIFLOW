@@ -92,7 +92,7 @@ namespace Heiflow.Tools.Math
                 DataCube<float> mean_mat = null;
                 if (dims[0] == ":")
                 {
-                    mean_mat = new DataCube<float>(nvar, 1, ncell, false);
+                    mean_mat = new DataCube<float>(nvar, 1, ncell);
                     for (int i = 0; i < nvar; i++)
                     {
                         if (mat.ILArrays[i] != null)
@@ -108,7 +108,7 @@ namespace Heiflow.Tools.Math
                 }
                 else
                 {
-                    mean_mat = new DataCube<float>(1, 1, ncell, false);
+                    mean_mat = new DataCube<float>(1, 1, ncell);
                     int var_index = int.Parse(dims[0]);
                     if (mat.ILArrays[var_index] != null)
                     {

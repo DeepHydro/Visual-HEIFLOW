@@ -60,6 +60,7 @@
             this.btnSave = new System.Windows.Forms.ToolStripButton();
             this.btnExport = new System.Windows.Forms.ToolStripButton();
             this.btnImport = new System.Windows.Forms.ToolStripButton();
+            this.olvColumn5 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -146,6 +147,7 @@
             this.olvMatName.AllColumns.Add(this.olvColumn1);
             this.olvMatName.AllColumns.Add(this.olvColumn2);
             this.olvMatName.AllColumns.Add(this.olvColumn3);
+            this.olvMatName.AllColumns.Add(this.olvColumn5);
             this.olvMatName.AllowColumnReorder = true;
             this.olvMatName.AllowDrop = true;
             this.olvMatName.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
@@ -153,7 +155,8 @@
             this.olvMatName.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvColumn1,
             this.olvColumn2,
-            this.olvColumn3});
+            this.olvColumn3,
+            this.olvColumn5});
             this.olvMatName.ContextMenuStrip = this.contextMenuStrip_matname;
             this.olvMatName.Cursor = System.Windows.Forms.Cursors.Default;
             this.olvMatName.DataSource = null;
@@ -167,7 +170,7 @@
             this.olvMatName.GroupWithItemCountSingularFormat = "";
             this.olvMatName.HideSelection = false;
             this.olvMatName.Location = new System.Drawing.Point(0, 27);
-            this.olvMatName.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.olvMatName.Margin = new System.Windows.Forms.Padding(5);
             this.olvMatName.Name = "olvMatName";
             this.olvMatName.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
             this.olvMatName.SelectedBackColor = System.Drawing.Color.LimeGreen;
@@ -229,7 +232,7 @@
             // menu_remove
             // 
             this.menu_remove.Name = "menu_remove";
-            this.menu_remove.Size = new System.Drawing.Size(204, 26);
+            this.menu_remove.Size = new System.Drawing.Size(192, 26);
             this.menu_remove.Text = "Remove";
             this.menu_remove.Click += new System.EventHandler(this.menu_remove_Click);
             // 
@@ -237,14 +240,14 @@
             // 
             this.menu_Clear.Image = global::Heiflow.Controls.WinForm.Properties.Resources.if_edit_clear_15273;
             this.menu_Clear.Name = "menu_Clear";
-            this.menu_Clear.Size = new System.Drawing.Size(204, 26);
+            this.menu_Clear.Size = new System.Drawing.Size(192, 26);
             this.menu_Clear.Text = "Clear Workspace";
             this.menu_Clear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(201, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(189, 6);
             // 
             // toolStrip2
             // 
@@ -307,7 +310,7 @@
             this.olvVariableName.GroupWithItemCountSingularFormat = "";
             this.olvVariableName.HideSelection = false;
             this.olvVariableName.Location = new System.Drawing.Point(0, 0);
-            this.olvVariableName.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.olvVariableName.Margin = new System.Windows.Forms.Padding(5);
             this.olvVariableName.Name = "olvVariableName";
             this.olvVariableName.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
             this.olvVariableName.SelectedBackColor = System.Drawing.Color.LimeGreen;
@@ -333,7 +336,7 @@
             // 
             // olvColumn4
             // 
-            this.olvColumn4.AspectName = "TimeIndex";
+            this.olvColumn4.AspectName = "VariableIndex";
             this.olvColumn4.IsEditable = false;
             this.olvColumn4.Text = "Index";
             this.olvColumn4.Width = 78;
@@ -405,13 +408,13 @@
             // tsLabel
             // 
             this.tsLabel.Name = "tsLabel";
-            this.tsLabel.Size = new System.Drawing.Size(55, 25);
+            this.tsLabel.Size = new System.Drawing.Size(51, 25);
             this.tsLabel.Text = "Empty";
             // 
             // toolStripLabel2
             // 
             this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(77, 25);
+            this.toolStripLabel2.Size = new System.Drawing.Size(70, 25);
             this.toolStripLabel2.Text = "Selection";
             // 
             // tsSelectionMode
@@ -428,7 +431,7 @@
             // toolStripLabel1
             // 
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(58, 25);
+            this.toolStripLabel1.Size = new System.Drawing.Size(53, 25);
             this.toolStripLabel1.Text = "Layout";
             // 
             // tsDataViewMode
@@ -475,6 +478,11 @@
             this.btnImport.Size = new System.Drawing.Size(24, 25);
             this.btnImport.Text = "Import from an exsiting file";
             this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
+            // 
+            // olvColumn5
+            // 
+            this.olvColumn5.AspectName = "RepeatAllowed";
+            this.olvColumn5.Text = "Repeat Allowed";
             // 
             // DataCubeEditor
             // 
@@ -541,5 +549,6 @@
         private System.Windows.Forms.ToolStripMenuItem menu_Clear;
         private System.Windows.Forms.ToolStripButton btnExport;
         private System.Windows.Forms.ToolStripButton btnImport;
+        private BrightIdeasSoftware.OLVColumn olvColumn5;
     }
 }

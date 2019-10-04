@@ -79,7 +79,7 @@ namespace Heiflow.Models.GHM
             //mfgrid.RowInteval = new MyScalar<float>(asc.CellSize);
             //mfgrid.ColInteval = new MyScalar<float>(asc.CellSize);
 
-            mfgrid.IBound = new DataCube<float>(1, mfgrid.RowCount, mfgrid.ColumnCount, false);
+            mfgrid.IBound = new DataCube<float>(1, mfgrid.RowCount, mfgrid.ColumnCount);
 
             mfgrid.ActiveCellCount = 0;
 
@@ -96,7 +96,7 @@ namespace Heiflow.Models.GHM
                     }
                 }
             }
-            mfgrid.Elevations = new DataCube<float>(1, 1, mfgrid.ActiveCellCount, false);
+            mfgrid.Elevations = new DataCube<float>(1, 1, mfgrid.ActiveCellCount);
 
             var vector = asc.LoadSerial(filename, mfgrid);
             mfgrid.Elevations[0]["0",":"] = vector;

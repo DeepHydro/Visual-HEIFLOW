@@ -121,31 +121,70 @@ namespace Heiflow.Models.Subsurface
         /// <summary>
         /// the number of head (or change in head) observations.
         /// </summary>
-        public int NH { get; set; }
+        public int NH
+        {
+            get;
+            set;
+        }
         /// <summary>
         /// the number of the NH observations that are multilayer
         /// </summary>
-        public int MOBS { get; set; }
+        public int MOBS
+        {
+            get;
+            set;
+        }
         /// <summary>
         /// the maximum number of layers used for any of the MOBS observations.
         /// </summary>
-        public int MAXM { get; set; }
+        public int MAXM
+        {
+            get;
+            set;
+        }
         /// <summary>
         /// File unit for saving observation data in a file. 
         /// Specify 0 for no observation output file. 
         /// The file for this unit must be included as type “DATA” in the Name File
         /// </summary>
-        public int IUHOBSV { get; set; }
-        public float HOBDRY { get; set; }
-        public string Option { get; set; }
+        public int IUHOBSV
+        {
+            get;
+            set;
+        }
+        public float HOBDRY
+        {
+            get;
+            set;
+        }
+        public string Option
+        {
+            get;
+            set;
+        }
         /// <summary>
         ///  the time-offset multiplier for head observations
         /// </summary>
-        public float TOMULTH { get; set; }
-        public List<IObservationsSite> Observations { get; private set; }
+        public float TOMULTH
+        {
+            get;
+            set;
+        }
+        public List<IObservationsSite> Observations
+        {
+            get;
+            private set;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
         [StaticVariableItem("Stress Period")]
         [Browsable(false)]
-        public DataCube<float> HOBS { get; set; }
+        public DataCube<float> HOBS
+        {
+            get;
+            set;
+        }
         [Browsable(false)]
         [PackageOptionalViewItem("HOB")]
         public override IPackageOptionalView OptionalView
@@ -361,13 +400,13 @@ namespace Heiflow.Models.Subsurface
                 Topology.ColumnCount = grid.ColumnCount;
                 Topology.ActiveCellCount = NH;
                 var nsp1 = (Observations[0] as HeadObservation).IREFSP.Length;
-                HOBS = new DataCube<float>(1, nsp1, NH, true);
+                HOBS = new DataCube<float>(nsp1, 1, NH);
                 HOBS.Variables = new string[] { "Head Observation" };
                 for (int t = 0; t < nsp1; t++)
                     for (int k = 0; k < NH; k++)
                     {
                         var hob = Observations[k] as HeadObservation;
-                        HOBS[0, t, k] = hob.HOBS[t];
+                        HOBS[t, 0, k] = hob.HOBS[t];
                         Topology.ActiveCell[k] = new int[] { hob.Row - 1, hob.Column - 1 };
                         Topology.ActiveCellIDs[k] = grid.Topology.GetID(hob.Row - 1, hob.Column - 1);
                     }

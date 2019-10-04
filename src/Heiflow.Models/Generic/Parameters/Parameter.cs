@@ -608,5 +608,7 @@ namespace Heiflow.Models.Generic.Parameters
                 throw new NotImplementedException();
             }
         }
+
+        public string[] ColumnNames { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

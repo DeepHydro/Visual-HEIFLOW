@@ -18,10 +18,6 @@ namespace Heiflow.Core.Data
             Name = "Time Series";
             ColumnNames = new string[] { Variables[0] };
         }
-        /// <summary>
-        /// Default values are provided.
-        /// </summary>
-        public string[] ColumnNames { get; set; }
         public override System.Data.DataTable ToDataTable()
         {
             DataTable dt = new DataTable();

@@ -86,7 +86,7 @@ namespace Heiflow.Tools.Math
             var db = GetVector(DataCubeB);
             if (da != null && db != null && da.Length == db.Length)
             {
-                var vec = new DataCube<float>(1, 1, da.Length, false);
+                var vec = new DataCube<float>(1, 1, da.Length);
                 for (int i = 0; i < da.Length; i++)
                 {
                     vec[0, 0, i] = da[i] + db[i];
