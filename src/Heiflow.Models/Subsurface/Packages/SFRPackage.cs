@@ -27,7 +27,6 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
-using DotSpatial.Controls;
 using DotSpatial.Data;
 using DotSpatial.Projections;
 using GeoAPI.Geometries;
@@ -35,21 +34,16 @@ using Heiflow.Core.Data;
 using Heiflow.Core.Hydrology;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
-using Heiflow.Models.Generic.Packages;
 using Heiflow.Models.UI;
-using ILNumerics;
 using NetTopologySuite.Geometries;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Heiflow.Models.Subsurface
 {

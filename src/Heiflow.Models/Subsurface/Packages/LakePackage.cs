@@ -43,6 +43,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Heiflow.Models.Subsurface.Packages;
+using GeoAPI.Geometries;
+using NetTopologySuite.Geometries;
 
 namespace Heiflow.Models.Subsurface
 {
@@ -200,7 +202,10 @@ namespace Heiflow.Models.Subsurface
                 SSCNCR = floatbuf[2];
                 SURFDEPTH = floatbuf[3];
 
-                STAGES = new DataCube2DLayout<float>(1, NLAKES, 3);
+                STAGES = new DataCube2DLayout<float>(1, NLAKES, 3)
+                {
+                    ColumnNames = new string[] { "STAGES", "SSMN", "SSMX", "IUNITTAB", "CLAKE" }
+                };
                 for (int i = 0; i < NLAKES; i++)
                 {
                     line = sr.ReadLine();
@@ -208,7 +213,10 @@ namespace Heiflow.Models.Subsurface
                     STAGES[0][i, ":"] = floatbuf;
                 }
 
-                ITMP = new DataCube2DLayout<int>(1, nsp, 3);
+                ITMP = new DataCube2DLayout<int>(1, nsp, 3)
+                {
+                    ColumnNames = new string[] { "ITMP", "ITMP1", "LWRT" }
+                };
                 LKARR = new DataCube<int>(nlayer, 1, grid.ActiveCellCount)
                 {
                     Name = "Lake ID",
@@ -233,7 +241,8 @@ namespace Heiflow.Models.Subsurface
                 NSLMS = new DataCube2DLayout<int>(1, nsp, 1)
                 {
                     Name = "Num of Sublakes",
-                    Variables = new string[nsp]
+                    Variables = new string[nsp],
+                    ColumnNames = new string[] { "Num of Sublakes" }
                 };
                 for (int l = 0; l < nsp; l++)
                 {
@@ -243,7 +252,8 @@ namespace Heiflow.Models.Subsurface
                 {
                     Name = "Recharge Discharge",
                     Variables = new string[nsp],
-                    ZeroDimension = DimensionFlag.Time
+                    ZeroDimension = DimensionFlag.Time,
+                    ColumnNames = new string[] { "PRCPLK", "EVAPLK", "RNF", "WTHDRW", "SSMN", "SSMX" }
                 };
                 for (int l = 0; l < nsp; l++)
                 {
@@ -372,10 +382,28 @@ namespace Heiflow.Models.Subsurface
             fs.DataTable.Columns.Add(new DataColumn("HRU_ID", typeof(int)));
             fs.DataTable.Columns.Add(new DataColumn("ROW", typeof(int)));
             fs.DataTable.Columns.Add(new DataColumn("COL", typeof(int)));
-
             fs.DataTable.Columns.Add(new DataColumn("BDLKNC", typeof(double)));
             fs.DataTable.Columns.Add(new DataColumn(RegularGrid.ParaValueField, typeof(double)));
 
+            foreach(var id in LakeSerialIndex.Keys)
+            {
+                foreach(var hru_index in LakeSerialIndex[id])
+                {
+                    var loc = grid.Topology.ActiveCellLocation[hru_index];
+                    var vertices = grid.LocateNodes(loc[1],loc[0]);
+                    ILinearRing ring = new LinearRing(vertices);
+                    Polygon geom = new Polygon(ring);
+                    IFeature feature = fs.AddFeature(geom);
+                    feature.DataRow.BeginEdit();
+                    feature.DataRow["CELL_ID"] = grid.Topology.GetID(loc[1], loc[0]);
+                    feature.DataRow["HRU_ID"] = hru_index+1;
+                    feature.DataRow["ROW"] = loc[0]+1;
+                    feature.DataRow["COL"] = loc[1] + 1;
+                    feature.DataRow["BDLKNC"] = this.BDLKNC[id - 1, 0, hru_index];
+                    feature.DataRow[RegularGrid.ParaValueField] = 0;
+                    feature.DataRow.EndEdit();
+                }
+            }
             fs.SaveAs(filename, true);
             fs.Close();
             return filename;
@@ -399,6 +427,11 @@ namespace Heiflow.Models.Subsurface
         public override void OnTimeServiceUpdated(ITimeService time)
         {
             var nsp = time.StressPeriods.Count;
+        }
+
+        public void BuildTopology()
+        {
+            throw new NotImplementedException();
         }
     }
 }

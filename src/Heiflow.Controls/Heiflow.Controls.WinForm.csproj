@@ -251,6 +251,12 @@
     <Compile Include="Editors\PropertyForm.Designer.cs">
       <DependentUpon>PropertyForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Project\GlobalOptionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Project\GlobalOptionForm.Designer.cs">
+      <DependentUpon>GlobalOptionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Project\ImportModflowProperty.cs" />
     <Compile Include="Toolbox\DataCubeEditor.cs">
       <SubType>UserControl</SubType>
@@ -695,6 +701,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Editors\PropertyForm.resx">
       <DependentUpon>PropertyForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Project\GlobalOptionForm.resx">
+      <DependentUpon>GlobalOptionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Toolbox\DataCubeEditor.resx">
       <DependentUpon>DataCubeEditor.cs</DependentUpon>

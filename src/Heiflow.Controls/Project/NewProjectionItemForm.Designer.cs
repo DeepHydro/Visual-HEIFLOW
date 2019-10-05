@@ -34,13 +34,13 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.olvSimple = new BrightIdeasSoftware.ObjectListView();
             this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumn3 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.Mandatory = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumn4 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.treeView1 = new Heiflow.Controls.Tree.TreeViewAdv();
             this.nodeStateIcon1 = new Heiflow.Controls.Tree.NodeControls.NodeStateIcon();
             this._nodeTextBox = new Heiflow.Controls.Tree.NodeControls.NodeTextBox();
-            this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             ((System.ComponentModel.ISupportInitialize)(this.olvSimple)).BeginInit();
             this.SuspendLayout();
             // 
@@ -48,20 +48,20 @@
             // 
             this.tbModelDes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbModelDes.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbModelDes.Location = new System.Drawing.Point(226, 275);
+            this.tbModelDes.Location = new System.Drawing.Point(226, 289);
             this.tbModelDes.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tbModelDes.Multiline = true;
             this.tbModelDes.Name = "tbModelDes";
             this.tbModelDes.ReadOnly = true;
-            this.tbModelDes.Size = new System.Drawing.Size(628, 158);
+            this.tbModelDes.Size = new System.Drawing.Size(628, 166);
             this.tbModelDes.TabIndex = 1;
             // 
             // btnOK
             // 
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(641, 445);
+            this.btnOK.Location = new System.Drawing.Point(631, 471);
             this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(95, 30);
+            this.btnOK.Size = new System.Drawing.Size(100, 30);
             this.btnOK.TabIndex = 3;
             this.btnOK.Text = "OK";
             this.btnOK.UseVisualStyleBackColor = true;
@@ -70,9 +70,9 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(759, 445);
+            this.btnCancel.Location = new System.Drawing.Point(750, 471);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(95, 30);
+            this.btnCancel.Size = new System.Drawing.Size(100, 30);
             this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -90,6 +90,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.olvSimple.CellEditUseWholeCell = false;
+            this.olvSimple.CheckBoxes = true;
             this.olvSimple.CheckedAspectName = "IsUsed";
             this.olvSimple.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvColumn2,
@@ -102,7 +103,7 @@
             this.olvSimple.HeaderWordWrap = true;
             this.olvSimple.HideSelection = false;
             this.olvSimple.IncludeColumnHeadersInCopy = true;
-            this.olvSimple.Location = new System.Drawing.Point(226, 10);
+            this.olvSimple.Location = new System.Drawing.Point(226, 11);
             this.olvSimple.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.olvSimple.Name = "olvSimple";
             this.olvSimple.OverlayText.Alignment = System.Drawing.ContentAlignment.BottomLeft;
@@ -115,7 +116,7 @@
             this.olvSimple.ShowGroups = false;
             this.olvSimple.ShowHeaderInAllViews = false;
             this.olvSimple.ShowItemToolTips = true;
-            this.olvSimple.Size = new System.Drawing.Size(628, 258);
+            this.olvSimple.Size = new System.Drawing.Size(628, 271);
             this.olvSimple.SortGroupItemsByPrimaryColumn = false;
             this.olvSimple.TabIndex = 31;
             this.olvSimple.TriStateCheckBoxes = true;
@@ -134,6 +135,12 @@
             this.olvColumn2.AspectName = "Name";
             this.olvColumn2.Text = "Name";
             this.olvColumn2.Width = 132;
+            // 
+            // olvColumn1
+            // 
+            this.olvColumn1.AspectName = "FullName";
+            this.olvColumn1.Text = "Full Name";
+            this.olvColumn1.Width = 169;
             // 
             // olvColumn3
             // 
@@ -166,14 +173,14 @@
             this.treeView1.HighlightColorActive = System.Drawing.SystemColors.Highlight;
             this.treeView1.HighlightColorInactive = System.Drawing.SystemColors.InactiveBorder;
             this.treeView1.LineColor = System.Drawing.SystemColors.ControlDark;
-            this.treeView1.Location = new System.Drawing.Point(12, 10);
+            this.treeView1.Location = new System.Drawing.Point(12, 11);
             this.treeView1.Model = null;
             this.treeView1.Name = "treeView1";
             this.treeView1.NodeControls.Add(this.nodeStateIcon1);
             this.treeView1.NodeControls.Add(this._nodeTextBox);
             this.treeView1.OnVisibleOverride = null;
             this.treeView1.SelectedNode = null;
-            this.treeView1.Size = new System.Drawing.Size(207, 423);
+            this.treeView1.Size = new System.Drawing.Size(207, 445);
             this.treeView1.TabIndex = 4;
             this.treeView1.Text = "treeViewAdv1";
             // 
@@ -189,26 +196,20 @@
             this._nodeTextBox.LeftMargin = 3;
             this._nodeTextBox.ParentColumn = null;
             // 
-            // olvColumn1
-            // 
-            this.olvColumn1.AspectName = "FullName";
-            this.olvColumn1.Text = "Full Name";
-            this.olvColumn1.Width = 169;
-            // 
             // NewProjectionItemForm
             // 
             this.AcceptButton = this.btnOK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(862, 487);
+            this.ClientSize = new System.Drawing.Size(862, 513);
             this.Controls.Add(this.olvSimple);
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.tbModelDes);
-            this.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);

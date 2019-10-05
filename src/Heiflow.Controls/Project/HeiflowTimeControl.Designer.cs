@@ -50,9 +50,12 @@
             this.cmbLUTimeUnit = new System.Windows.Forms.ComboBox();
             this.chbLanduse = new System.Windows.Forms.CheckBox();
             this.tabPageMF = new System.Windows.Forms.TabPage();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.btnRefreshMF = new System.Windows.Forms.Button();
-            this.rbtnMFTime = new System.Windows.Forms.RadioButton();
             this.rbtnMFNum = new System.Windows.Forms.RadioButton();
+            this.rbtnMFTime = new System.Windows.Forms.RadioButton();
+            this.numericUpDownMF = new System.Windows.Forms.NumericUpDown();
             this.cmbMFSPUnit = new System.Windows.Forms.ComboBox();
             this.olvMF = new BrightIdeasSoftware.DataListView();
             this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -61,7 +64,6 @@
             this.olvColumn3 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumn5 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumn6 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.numericUpDownMF = new System.Windows.Forms.NumericUpDown();
             this.dateTimePickerStart = new System.Windows.Forms.DateTimePicker();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -69,26 +71,24 @@
             this.tbTimeNums = new System.Windows.Forms.TextBox();
             this.dateTimePickerEnd = new System.Windows.Forms.DateTimePicker();
             this.label5 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.olvLanduse)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPageLanduse.SuspendLayout();
             this.panelLU.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLU)).BeginInit();
             this.tabPageMF.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.olvMF)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMF)).BeginInit();
-            this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMF)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.olvMF)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(281, 31);
+            this.label3.Location = new System.Drawing.Point(250, 30);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(152, 22);
+            this.label3.Size = new System.Drawing.Size(138, 20);
             this.label3.TabIndex = 14;
             this.label3.Text = "Time Unit of Model";
             // 
@@ -99,18 +99,18 @@
             this.cmbTimeUnit.Items.AddRange(new object[] {
             "Hours",
             "Days"});
-            this.cmbTimeUnit.Location = new System.Drawing.Point(439, 27);
+            this.cmbTimeUnit.Location = new System.Drawing.Point(390, 26);
             this.cmbTimeUnit.Name = "cmbTimeUnit";
-            this.cmbTimeUnit.Size = new System.Drawing.Size(154, 29);
+            this.cmbTimeUnit.Size = new System.Drawing.Size(137, 28);
             this.cmbTimeUnit.TabIndex = 2;
             this.cmbTimeUnit.SelectedIndexChanged += new System.EventHandler(this.cmbTimeUnit_SelectedIndexChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(332, 74);
+            this.label2.Location = new System.Drawing.Point(295, 70);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(83, 22);
+            this.label2.Size = new System.Drawing.Size(76, 20);
             this.label2.TabIndex = 0;
             this.label2.Text = "Total time";
             // 
@@ -118,11 +118,11 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Font = new System.Drawing.Font("Calibri", 10.5F);
-            this.btnCancel.Location = new System.Drawing.Point(741, 580);
+            this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnCancel.Location = new System.Drawing.Point(644, 551);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(95, 30);
+            this.btnCancel.Size = new System.Drawing.Size(100, 30);
             this.btnCancel.TabIndex = 11;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -130,11 +130,11 @@
             // btnOk
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOk.Font = new System.Drawing.Font("Calibri", 10.5F);
-            this.btnOk.Location = new System.Drawing.Point(628, 580);
+            this.btnOk.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnOk.Location = new System.Drawing.Point(528, 551);
             this.btnOk.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(95, 30);
+            this.btnOk.Size = new System.Drawing.Size(100, 30);
             this.btnOk.TabIndex = 12;
             this.btnOk.Text = "OK";
             this.btnOk.UseVisualStyleBackColor = true;
@@ -161,13 +161,13 @@
             this.olvLanduse.Cursor = System.Windows.Forms.Cursors.Default;
             this.olvLanduse.DataSource = null;
             this.olvLanduse.EmptyListMsg = "";
-            this.olvLanduse.EmptyListMsgFont = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.olvLanduse.EmptyListMsgFont = new System.Drawing.Font("Segoe UI", 9F);
             this.olvLanduse.FullRowSelect = true;
             this.olvLanduse.GridLines = true;
             this.olvLanduse.GroupWithItemCountFormat = "";
             this.olvLanduse.GroupWithItemCountSingularFormat = "";
             this.olvLanduse.HideSelection = false;
-            this.olvLanduse.Location = new System.Drawing.Point(7, 92);
+            this.olvLanduse.Location = new System.Drawing.Point(6, 88);
             this.olvLanduse.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.olvLanduse.Name = "olvLanduse";
             this.olvLanduse.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
@@ -177,7 +177,7 @@
             this.olvLanduse.ShowGroups = false;
             this.olvLanduse.ShowImagesOnSubItems = true;
             this.olvLanduse.ShowItemToolTips = true;
-            this.olvLanduse.Size = new System.Drawing.Size(813, 322);
+            this.olvLanduse.Size = new System.Drawing.Size(723, 308);
             this.olvLanduse.TabIndex = 22;
             this.olvLanduse.UseCellFormatEvents = true;
             this.olvLanduse.UseCompatibleStateImageBehavior = false;
@@ -227,10 +227,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPageLanduse);
             this.tabControl1.Controls.Add(this.tabPageMF);
-            this.tabControl1.Location = new System.Drawing.Point(5, 123);
+            this.tabControl1.Location = new System.Drawing.Point(4, 117);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(835, 448);
+            this.tabControl1.Size = new System.Drawing.Size(742, 427);
             this.tabControl1.TabIndex = 23;
             // 
             // tabPageLanduse
@@ -238,10 +238,10 @@
             this.tabPageLanduse.Controls.Add(this.panelLU);
             this.tabPageLanduse.Controls.Add(this.chbLanduse);
             this.tabPageLanduse.Controls.Add(this.olvLanduse);
-            this.tabPageLanduse.Location = new System.Drawing.Point(4, 30);
+            this.tabPageLanduse.Location = new System.Drawing.Point(4, 29);
             this.tabPageLanduse.Name = "tabPageLanduse";
             this.tabPageLanduse.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLanduse.Size = new System.Drawing.Size(827, 414);
+            this.tabPageLanduse.Size = new System.Drawing.Size(734, 394);
             this.tabPageLanduse.TabIndex = 0;
             this.tabPageLanduse.Text = "Land Use Periods      ";
             this.tabPageLanduse.UseVisualStyleBackColor = true;
@@ -256,19 +256,19 @@
             this.panelLU.Controls.Add(this.rbtnLUNum);
             this.panelLU.Controls.Add(this.cmbLUTimeUnit);
             this.panelLU.Enabled = false;
-            this.panelLU.Location = new System.Drawing.Point(9, 38);
+            this.panelLU.Location = new System.Drawing.Point(8, 36);
             this.panelLU.Name = "panelLU";
-            this.panelLU.Size = new System.Drawing.Size(811, 48);
+            this.panelLU.Size = new System.Drawing.Size(721, 46);
             this.panelLU.TabIndex = 37;
             // 
             // btnRefreshLU
             // 
             this.btnRefreshLU.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRefreshLU.Font = new System.Drawing.Font("Calibri", 10.5F);
-            this.btnRefreshLU.Location = new System.Drawing.Point(687, 9);
+            this.btnRefreshLU.Location = new System.Drawing.Point(611, 9);
             this.btnRefreshLU.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnRefreshLU.Name = "btnRefreshLU";
-            this.btnRefreshLU.Size = new System.Drawing.Size(103, 30);
+            this.btnRefreshLU.Size = new System.Drawing.Size(92, 29);
             this.btnRefreshLU.TabIndex = 31;
             this.btnRefreshLU.Text = "Refresh";
             this.btnRefreshLU.UseVisualStyleBackColor = true;
@@ -276,7 +276,7 @@
             // 
             // numericUpDownLU
             // 
-            this.numericUpDownLU.Location = new System.Drawing.Point(304, 10);
+            this.numericUpDownLU.Location = new System.Drawing.Point(270, 10);
             this.numericUpDownLU.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.numericUpDownLU.Maximum = new decimal(new int[] {
             1000,
@@ -289,7 +289,7 @@
             0,
             0});
             this.numericUpDownLU.Name = "numericUpDownLU";
-            this.numericUpDownLU.Size = new System.Drawing.Size(79, 29);
+            this.numericUpDownLU.Size = new System.Drawing.Size(70, 27);
             this.numericUpDownLU.TabIndex = 32;
             this.numericUpDownLU.Value = new decimal(new int[] {
             2,
@@ -301,9 +301,9 @@
             // rbtnLUTime
             // 
             this.rbtnLUTime.AutoSize = true;
-            this.rbtnLUTime.Location = new System.Drawing.Point(408, 11);
+            this.rbtnLUTime.Location = new System.Drawing.Point(363, 10);
             this.rbtnLUTime.Name = "rbtnLUTime";
-            this.rbtnLUTime.Size = new System.Drawing.Size(124, 26);
+            this.rbtnLUTime.Size = new System.Drawing.Size(114, 24);
             this.rbtnLUTime.TabIndex = 36;
             this.rbtnLUTime.Text = "By Time Unit";
             this.rbtnLUTime.UseVisualStyleBackColor = true;
@@ -312,9 +312,9 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 14);
+            this.label7.Location = new System.Drawing.Point(5, 13);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(168, 22);
+            this.label7.Size = new System.Drawing.Size(149, 20);
             this.label7.TabIndex = 33;
             this.label7.Text = "Create stress periods:";
             // 
@@ -322,9 +322,9 @@
             // 
             this.rbtnLUNum.AutoSize = true;
             this.rbtnLUNum.Checked = true;
-            this.rbtnLUNum.Location = new System.Drawing.Point(189, 10);
+            this.rbtnLUNum.Location = new System.Drawing.Point(168, 10);
             this.rbtnLUNum.Name = "rbtnLUNum";
-            this.rbtnLUNum.Size = new System.Drawing.Size(119, 26);
+            this.rbtnLUNum.Size = new System.Drawing.Size(110, 24);
             this.rbtnLUNum.TabIndex = 35;
             this.rbtnLUNum.TabStop = true;
             this.rbtnLUNum.Text = "By Numbers";
@@ -341,18 +341,18 @@
             "Weeks",
             "Months",
             "Years"});
-            this.cmbLUTimeUnit.Location = new System.Drawing.Point(538, 10);
+            this.cmbLUTimeUnit.Location = new System.Drawing.Point(478, 10);
             this.cmbLUTimeUnit.Name = "cmbLUTimeUnit";
-            this.cmbLUTimeUnit.Size = new System.Drawing.Size(96, 29);
+            this.cmbLUTimeUnit.Size = new System.Drawing.Size(86, 28);
             this.cmbLUTimeUnit.TabIndex = 34;
             this.cmbLUTimeUnit.SelectedIndexChanged += new System.EventHandler(this.cmbLUTimeUnit_SelectedIndexChanged);
             // 
             // chbLanduse
             // 
             this.chbLanduse.AutoSize = true;
-            this.chbLanduse.Location = new System.Drawing.Point(9, 12);
+            this.chbLanduse.Location = new System.Drawing.Point(8, 11);
             this.chbLanduse.Name = "chbLanduse";
-            this.chbLanduse.Size = new System.Drawing.Size(229, 26);
+            this.chbLanduse.Size = new System.Drawing.Size(208, 24);
             this.chbLanduse.TabIndex = 23;
             this.chbLanduse.Text = "Use Time-Variant Land Use";
             this.chbLanduse.UseVisualStyleBackColor = true;
@@ -362,50 +362,98 @@
             // 
             this.tabPageMF.Controls.Add(this.panel1);
             this.tabPageMF.Controls.Add(this.olvMF);
-            this.tabPageMF.Location = new System.Drawing.Point(4, 30);
+            this.tabPageMF.Location = new System.Drawing.Point(4, 29);
             this.tabPageMF.Name = "tabPageMF";
             this.tabPageMF.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMF.Size = new System.Drawing.Size(827, 414);
+            this.tabPageMF.Size = new System.Drawing.Size(734, 394);
             this.tabPageMF.TabIndex = 1;
             this.tabPageMF.Text = "Modflow Stress Periods   ";
             this.tabPageMF.UseVisualStyleBackColor = true;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.btnRefreshMF);
+            this.panel1.Controls.Add(this.rbtnMFNum);
+            this.panel1.Controls.Add(this.rbtnMFTime);
+            this.panel1.Controls.Add(this.numericUpDownMF);
+            this.panel1.Controls.Add(this.cmbMFSPUnit);
+            this.panel1.Enabled = false;
+            this.panel1.Location = new System.Drawing.Point(6, 6);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(721, 46);
+            this.panel1.TabIndex = 38;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(149, 20);
+            this.label1.TabIndex = 33;
+            this.label1.Text = "Create stress periods:";
             // 
             // btnRefreshMF
             // 
             this.btnRefreshMF.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRefreshMF.Font = new System.Drawing.Font("Calibri", 10.5F);
-            this.btnRefreshMF.Location = new System.Drawing.Point(694, 9);
+            this.btnRefreshMF.Location = new System.Drawing.Point(617, 9);
             this.btnRefreshMF.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnRefreshMF.Name = "btnRefreshMF";
-            this.btnRefreshMF.Size = new System.Drawing.Size(103, 30);
+            this.btnRefreshMF.Size = new System.Drawing.Size(92, 29);
             this.btnRefreshMF.TabIndex = 17;
             this.btnRefreshMF.Text = "Refresh";
             this.btnRefreshMF.UseVisualStyleBackColor = true;
             this.btnRefreshMF.Click += new System.EventHandler(this.btnRefreshMF_Click);
             // 
-            // rbtnMFTime
-            // 
-            this.rbtnMFTime.AutoSize = true;
-            this.rbtnMFTime.Location = new System.Drawing.Point(426, 9);
-            this.rbtnMFTime.Name = "rbtnMFTime";
-            this.rbtnMFTime.Size = new System.Drawing.Size(124, 26);
-            this.rbtnMFTime.TabIndex = 30;
-            this.rbtnMFTime.Text = "By Time Unit";
-            this.rbtnMFTime.UseVisualStyleBackColor = true;
-            this.rbtnMFTime.CheckedChanged += new System.EventHandler(this.rbtnMFTime_CheckedChanged);
-            // 
             // rbtnMFNum
             // 
             this.rbtnMFNum.AutoSize = true;
             this.rbtnMFNum.Checked = true;
-            this.rbtnMFNum.Location = new System.Drawing.Point(180, 9);
+            this.rbtnMFNum.Location = new System.Drawing.Point(160, 9);
             this.rbtnMFNum.Name = "rbtnMFNum";
-            this.rbtnMFNum.Size = new System.Drawing.Size(119, 26);
+            this.rbtnMFNum.Size = new System.Drawing.Size(110, 24);
             this.rbtnMFNum.TabIndex = 29;
             this.rbtnMFNum.TabStop = true;
             this.rbtnMFNum.Text = "By Numbers";
             this.rbtnMFNum.UseVisualStyleBackColor = true;
             this.rbtnMFNum.CheckedChanged += new System.EventHandler(this.rbtnMFNum_CheckedChanged);
+            // 
+            // rbtnMFTime
+            // 
+            this.rbtnMFTime.AutoSize = true;
+            this.rbtnMFTime.Location = new System.Drawing.Point(379, 9);
+            this.rbtnMFTime.Name = "rbtnMFTime";
+            this.rbtnMFTime.Size = new System.Drawing.Size(114, 24);
+            this.rbtnMFTime.TabIndex = 30;
+            this.rbtnMFTime.Text = "By Time Unit";
+            this.rbtnMFTime.UseVisualStyleBackColor = true;
+            this.rbtnMFTime.CheckedChanged += new System.EventHandler(this.rbtnMFTime_CheckedChanged);
+            // 
+            // numericUpDownMF
+            // 
+            this.numericUpDownMF.Location = new System.Drawing.Point(287, 9);
+            this.numericUpDownMF.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.numericUpDownMF.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDownMF.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.numericUpDownMF.Name = "numericUpDownMF";
+            this.numericUpDownMF.Size = new System.Drawing.Size(70, 27);
+            this.numericUpDownMF.TabIndex = 24;
+            this.numericUpDownMF.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.numericUpDownMF.ValueChanged += new System.EventHandler(this.numericUpDownMF_ValueChanged);
             // 
             // cmbMFSPUnit
             // 
@@ -417,9 +465,9 @@
             "Weeks",
             "Months",
             "Years"});
-            this.cmbMFSPUnit.Location = new System.Drawing.Point(574, 9);
+            this.cmbMFSPUnit.Location = new System.Drawing.Point(510, 9);
             this.cmbMFSPUnit.Name = "cmbMFSPUnit";
-            this.cmbMFSPUnit.Size = new System.Drawing.Size(96, 29);
+            this.cmbMFSPUnit.Size = new System.Drawing.Size(86, 28);
             this.cmbMFSPUnit.TabIndex = 27;
             this.cmbMFSPUnit.SelectedIndexChanged += new System.EventHandler(this.cmbMFSPUnit_SelectedIndexChanged);
             // 
@@ -454,7 +502,7 @@
             this.olvMF.GroupWithItemCountFormat = "";
             this.olvMF.GroupWithItemCountSingularFormat = "";
             this.olvMF.HideSelection = false;
-            this.olvMF.Location = new System.Drawing.Point(7, 60);
+            this.olvMF.Location = new System.Drawing.Point(6, 57);
             this.olvMF.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.olvMF.Name = "olvMF";
             this.olvMF.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
@@ -464,7 +512,7 @@
             this.olvMF.ShowGroups = false;
             this.olvMF.ShowImagesOnSubItems = true;
             this.olvMF.ShowItemToolTips = true;
-            this.olvMF.Size = new System.Drawing.Size(813, 354);
+            this.olvMF.Size = new System.Drawing.Size(723, 338);
             this.olvMF.TabIndex = 25;
             this.olvMF.UseCellFormatEvents = true;
             this.olvMF.UseCompatibleStateImageBehavior = false;
@@ -521,44 +569,20 @@
             this.olvColumn6.Text = "Steady State";
             this.olvColumn6.Width = 107;
             // 
-            // numericUpDownMF
-            // 
-            this.numericUpDownMF.Location = new System.Drawing.Point(323, 9);
-            this.numericUpDownMF.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.numericUpDownMF.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.numericUpDownMF.Minimum = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.numericUpDownMF.Name = "numericUpDownMF";
-            this.numericUpDownMF.Size = new System.Drawing.Size(79, 29);
-            this.numericUpDownMF.TabIndex = 24;
-            this.numericUpDownMF.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.numericUpDownMF.ValueChanged += new System.EventHandler(this.numericUpDownMF_ValueChanged);
-            // 
             // dateTimePickerStart
             // 
-            this.dateTimePickerStart.Location = new System.Drawing.Point(61, 27);
+            this.dateTimePickerStart.Location = new System.Drawing.Point(54, 26);
             this.dateTimePickerStart.Name = "dateTimePickerStart";
-            this.dateTimePickerStart.Size = new System.Drawing.Size(190, 29);
+            this.dateTimePickerStart.Size = new System.Drawing.Size(169, 27);
             this.dateTimePickerStart.TabIndex = 15;
             this.dateTimePickerStart.ValueChanged += new System.EventHandler(this.dateTimePickerStart_ValueChanged);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(19, 31);
+            this.label4.Location = new System.Drawing.Point(17, 30);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(45, 22);
+            this.label4.Size = new System.Drawing.Size(40, 20);
             this.label4.TabIndex = 0;
             this.label4.Text = "Start";
             // 
@@ -575,9 +599,9 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.dateTimePickerStart);
             this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Location = new System.Drawing.Point(5, 6);
+            this.groupBox1.Location = new System.Drawing.Point(4, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(833, 111);
+            this.groupBox1.Size = new System.Drawing.Size(740, 106);
             this.groupBox1.TabIndex = 24;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Global Time";
@@ -586,10 +610,10 @@
             // 
             this.btnRefreshGlobalTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRefreshGlobalTime.Font = new System.Drawing.Font("Calibri", 10.5F);
-            this.btnRefreshGlobalTime.Location = new System.Drawing.Point(700, 26);
+            this.btnRefreshGlobalTime.Location = new System.Drawing.Point(622, 25);
             this.btnRefreshGlobalTime.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnRefreshGlobalTime.Name = "btnRefreshGlobalTime";
-            this.btnRefreshGlobalTime.Size = new System.Drawing.Size(103, 30);
+            this.btnRefreshGlobalTime.Size = new System.Drawing.Size(92, 29);
             this.btnRefreshGlobalTime.TabIndex = 17;
             this.btnRefreshGlobalTime.Text = "Generate";
             this.btnRefreshGlobalTime.UseVisualStyleBackColor = true;
@@ -597,64 +621,40 @@
             // 
             // tbTimeNums
             // 
-            this.tbTimeNums.Location = new System.Drawing.Point(439, 69);
+            this.tbTimeNums.Location = new System.Drawing.Point(390, 66);
             this.tbTimeNums.Name = "tbTimeNums";
             this.tbTimeNums.ReadOnly = true;
-            this.tbTimeNums.Size = new System.Drawing.Size(154, 29);
+            this.tbTimeNums.Size = new System.Drawing.Size(137, 27);
             this.tbTimeNums.TabIndex = 16;
             // 
             // dateTimePickerEnd
             // 
-            this.dateTimePickerEnd.Location = new System.Drawing.Point(61, 69);
+            this.dateTimePickerEnd.Location = new System.Drawing.Point(54, 66);
             this.dateTimePickerEnd.Name = "dateTimePickerEnd";
-            this.dateTimePickerEnd.Size = new System.Drawing.Size(190, 29);
+            this.dateTimePickerEnd.Size = new System.Drawing.Size(169, 27);
             this.dateTimePickerEnd.TabIndex = 15;
             this.dateTimePickerEnd.ValueChanged += new System.EventHandler(this.dateTimePickerStart_ValueChanged);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(26, 74);
+            this.label5.Location = new System.Drawing.Point(23, 70);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(37, 22);
+            this.label5.Size = new System.Drawing.Size(34, 20);
             this.label5.TabIndex = 0;
             this.label5.Text = "End";
             // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.btnRefreshMF);
-            this.panel1.Controls.Add(this.rbtnMFNum);
-            this.panel1.Controls.Add(this.rbtnMFTime);
-            this.panel1.Controls.Add(this.numericUpDownMF);
-            this.panel1.Controls.Add(this.cmbMFSPUnit);
-            this.panel1.Enabled = false;
-            this.panel1.Location = new System.Drawing.Point(7, 6);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(811, 48);
-            this.panel1.TabIndex = 38;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(168, 22);
-            this.label1.TabIndex = 33;
-            this.label1.Text = "Create stress periods:";
-            // 
             // HeiflowTimeControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(847, 618);
+            this.ClientSize = new System.Drawing.Size(753, 589);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
-            this.Font = new System.Drawing.Font("Calibri", 10.5F);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
@@ -670,12 +670,12 @@
             this.panelLU.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLU)).EndInit();
             this.tabPageMF.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.olvMF)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMF)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMF)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.olvMF)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }

@@ -48,10 +48,10 @@ namespace Heiflow.Presentation.Controls.Project
             // lstPrjTemplate
             // 
             this.lstPrjTemplate.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lstPrjTemplate.Location = new System.Drawing.Point(14, 8);
+            this.lstPrjTemplate.Location = new System.Drawing.Point(12, 8);
             this.lstPrjTemplate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.lstPrjTemplate.Name = "lstPrjTemplate";
-            this.lstPrjTemplate.Size = new System.Drawing.Size(481, 326);
+            this.lstPrjTemplate.Size = new System.Drawing.Size(428, 310);
             this.lstPrjTemplate.TabIndex = 0;
             this.lstPrjTemplate.UseCompatibleStateImageBehavior = false;
             this.lstPrjTemplate.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lstPrjTemplate_ItemSelectionChanged);
@@ -59,55 +59,55 @@ namespace Heiflow.Presentation.Controls.Project
             // tbModelDes
             // 
             this.tbModelDes.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.tbModelDes.Location = new System.Drawing.Point(503, 8);
+            this.tbModelDes.Location = new System.Drawing.Point(447, 8);
             this.tbModelDes.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tbModelDes.Multiline = true;
             this.tbModelDes.Name = "tbModelDes";
-            this.tbModelDes.Size = new System.Drawing.Size(228, 326);
+            this.tbModelDes.Size = new System.Drawing.Size(203, 310);
             this.tbModelDes.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(18, 350);
+            this.label1.Location = new System.Drawing.Point(16, 333);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(55, 21);
+            this.label1.Size = new System.Drawing.Size(52, 20);
             this.label1.TabIndex = 2;
             this.label1.Text = "Name:";
             // 
             // txtPrjName
             // 
             this.txtPrjName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtPrjName.Location = new System.Drawing.Point(116, 350);
+            this.txtPrjName.Location = new System.Drawing.Point(103, 333);
             this.txtPrjName.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtPrjName.Multiline = true;
             this.txtPrjName.Name = "txtPrjName";
-            this.txtPrjName.Size = new System.Drawing.Size(489, 25);
+            this.txtPrjName.Size = new System.Drawing.Size(435, 24);
             this.txtPrjName.TabIndex = 1;
             this.txtPrjName.TextChanged += new System.EventHandler(this.txtPrjName_TextChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(18, 384);
+            this.label2.Location = new System.Drawing.Point(16, 366);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(72, 21);
+            this.label2.Size = new System.Drawing.Size(69, 20);
             this.label2.TabIndex = 2;
             this.label2.Text = "Location:";
             // 
             // txtPrjDir
             // 
             this.txtPrjDir.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtPrjDir.Location = new System.Drawing.Point(116, 384);
+            this.txtPrjDir.Location = new System.Drawing.Point(103, 366);
             this.txtPrjDir.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtPrjDir.Multiline = true;
             this.txtPrjDir.Name = "txtPrjDir";
-            this.txtPrjDir.Size = new System.Drawing.Size(489, 25);
+            this.txtPrjDir.Size = new System.Drawing.Size(435, 24);
             this.txtPrjDir.TabIndex = 1;
             // 
             // btnBrowse
             // 
-            this.btnBrowse.Location = new System.Drawing.Point(625, 379);
+            this.btnBrowse.Location = new System.Drawing.Point(548, 361);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(100, 30);
             this.btnBrowse.TabIndex = 3;
@@ -118,7 +118,7 @@ namespace Heiflow.Presentation.Controls.Project
             // btnOK
             // 
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(505, 421);
+            this.btnOK.Location = new System.Drawing.Point(438, 401);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(100, 30);
             this.btnOK.TabIndex = 3;
@@ -129,7 +129,7 @@ namespace Heiflow.Presentation.Controls.Project
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(625, 421);
+            this.btnCancel.Location = new System.Drawing.Point(548, 401);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(100, 30);
             this.btnCancel.TabIndex = 3;
@@ -143,15 +143,15 @@ namespace Heiflow.Presentation.Controls.Project
             this.panel1.Controls.Add(this.tbModelDes);
             this.panel1.Location = new System.Drawing.Point(-2, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(741, 343);
+            this.panel1.Size = new System.Drawing.Size(659, 327);
             this.panel1.TabIndex = 4;
             // 
             // chbImprot
             // 
             this.chbImprot.AutoSize = true;
-            this.chbImprot.Location = new System.Drawing.Point(116, 421);
+            this.chbImprot.Location = new System.Drawing.Point(103, 401);
             this.chbImprot.Name = "chbImprot";
-            this.chbImprot.Size = new System.Drawing.Size(243, 25);
+            this.chbImprot.Size = new System.Drawing.Size(234, 24);
             this.chbImprot.TabIndex = 5;
             this.chbImprot.Text = "Import from an exsiting model";
             this.chbImprot.UseVisualStyleBackColor = true;
@@ -159,11 +159,11 @@ namespace Heiflow.Presentation.Controls.Project
             // NewProjectionForm
             // 
             this.AcceptButton = this.btnOK;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(740, 460);
+            this.ClientSize = new System.Drawing.Size(658, 438);
             this.Controls.Add(this.chbImprot);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btnCancel);
@@ -173,7 +173,7 @@ namespace Heiflow.Presentation.Controls.Project
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtPrjDir);
             this.Controls.Add(this.txtPrjName);
-            this.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);

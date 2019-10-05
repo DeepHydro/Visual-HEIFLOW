@@ -31,6 +31,7 @@ using DotSpatial.Data;
 using GeoAPI.Geometries;
 using Heiflow.Applications;
 using Heiflow.Controls.WinForm.Editors;
+using Heiflow.Controls.WinForm.Toolbox;
 using Heiflow.Core.Hydrology;
 using Heiflow.Core.MyMath;
 using Heiflow.Models.Subsurface;
@@ -55,6 +56,7 @@ namespace Heiflow.Tools.ConceptualModel
         private IRaster _ad_layer;
         private double _minum_slope = 0.001;
         private double _maximum_slope = 0.02;
+        private IMapLayerDescriptor _StreamGridInctLayerDescriptor;
 
         public SFR2()
         {
@@ -119,12 +121,23 @@ namespace Heiflow.Tools.ConceptualModel
         [EditorAttribute(typeof(MapLayerDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         public IMapLayerDescriptor StreamGridInctLayer
         {
-            get;
-            set;
+            get
+            {
+                return _StreamGridInctLayerDescriptor;
+            }
+            set
+            {
+                _StreamGridInctLayerDescriptor = value;
+                var sourcefs = _StreamGridInctLayerDescriptor.DataSet as IFeatureSet;
+                if (sourcefs != null)
+                {
+                    var buf = from DataColumn dc in sourcefs.DataTable.Columns select dc.ColumnName;
+                    Fields = buf.ToArray();
+                }
+            }
         }
         [Category("Optional")]
         [Description("Ignore reach whose length is very small")]
-        [EditorAttribute(typeof(MapLayerDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         public bool IgnoreMinorReach
         {
             get;
@@ -132,7 +145,6 @@ namespace Heiflow.Tools.ConceptualModel
         }
         [Category("Optional")]
         [Description("Stream-Grid intersection layer")]
-        [EditorAttribute(typeof(MapLayerDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         public bool UseAccumulativeRaster
         {
             get;
@@ -140,6 +152,8 @@ namespace Heiflow.Tools.ConceptualModel
         }
         [Category("Field")]
         [Description("Field name of segment")]
+        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
+        [DropdownListSource("Fields")]
         public string SegmentField
         {
             get;
@@ -154,13 +168,23 @@ namespace Heiflow.Tools.ConceptualModel
         }
         [Category("Field")]
         [Description("Field name of out or down segment")]
+        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
+        [DropdownListSource("Fields")]
         public string OutSegmentField
         {
             get;
             set;
         }
+        [Browsable(false)]
+        public string[] Fields
+        {
+            get;
+            protected set;
+        }
         [Category("Field")]
         [Description("0 indicates that the segment is manually edited. Otherwise the segment is automatically generated")]
+        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
+        [DropdownListSource("Fields")]
         public string IsManualSegmentField
         {
             get;
@@ -333,6 +357,11 @@ namespace Heiflow.Tools.ConceptualModel
                 _sfr_insct_layer = _stream_layer.Intersection1(_grid_layer, FieldJoinType.All, null);
                 _sfr_insct_layer.Projection = _stream_layer.Projection;
                 _sfr_insct_layer.SaveAs(out_fn, true);
+                StreamGridInctLayer = new MapLayerDescriptor()
+                {
+                    DataSet = _sfr_insct_layer,
+                    LegendText = "sfr_cpm"
+                };
             }
 
             var dt_cmp = _sfr_insct_layer.DataTable;

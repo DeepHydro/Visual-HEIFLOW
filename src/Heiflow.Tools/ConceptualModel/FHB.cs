@@ -175,17 +175,6 @@ namespace Heiflow.Tools.ConceptualModel
             this.Initialized = !(_sourcefs == null || _sourcefs.FeatureType != FeatureType.Point);
         }
 
-        public class FlowBound
-        {
-            public FlowBound()
-            {
-
-            }
-            public int Layer { get; set; }
-            public int Row { get; set; }
-            public int Col { get; set; }
-            public float FlowRate { get; set; }
-        }
         public override bool Execute(ICancelProgressHandler cancelProgressHandler)
         {
             var shell = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
@@ -313,5 +302,17 @@ namespace Heiflow.Tools.ConceptualModel
                 shell.ProjectExplorer.AddProject(prj.Project);
             }
         }
+    }
+
+    public class FlowBound
+    {
+        public FlowBound()
+        {
+
+        }
+        public int Layer { get; set; }
+        public int Row { get; set; }
+        public int Col { get; set; }
+        public float FlowRate { get; set; }
     }
 }

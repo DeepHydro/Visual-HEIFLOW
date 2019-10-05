@@ -62,14 +62,14 @@ namespace Heiflow.Tools.ConceptualModel
         {
             Name = "Unsaturated-Zone Flow Package";
             Category = "Conceptual Model";
-            Description = "Translate point shapefile into FHB package";
+            Description = "Translate point shapefile into UZF package";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
         }
 
         [Category("Input")]
-        [Description("FHB source layer")]
+        [Description("UZF source layer")]
         [EditorAttribute(typeof(MapLayerDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         public IMapLayerDescriptor WatershedLayer
         {
