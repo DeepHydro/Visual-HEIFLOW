@@ -53,10 +53,17 @@ namespace Heiflow.Controls.WinForm.Climate
         {
             dateTimePickerStart.Value = _ClimateDataPackage.TimeService.Start;
             dateTimePickerEnd.Value = _ClimateDataPackage.TimeService.End;
-            tbPet.Text = _ClimateDataPackage.MasterPackage.PETFile;
             tbPpt.Text = _ClimateDataPackage.MasterPackage.PrecipitationFile;
             tbTMax.Text = _ClimateDataPackage.MasterPackage.TempMaxFile;
             tbTMin.Text = _ClimateDataPackage.MasterPackage.TempMinFile;
+            tbWind.Text = _ClimateDataPackage.MasterPackage.WindFile;
+            tbHumidity.Text = _ClimateDataPackage.MasterPackage.HumidityFile;
+            tbPressure.Text = _ClimateDataPackage.MasterPackage.PressureFile;
+
+            if (_ClimateDataPackage.MasterPackage.PotentialET == Models.Integration.PETModule.climate_hru)
+                tbPet.Text = _ClimateDataPackage.MasterPackage.PETFile;
+            else
+                tbPet.Text = "none";
         }
 
         private void btnGenerate_Click(object sender, EventArgs e)
@@ -65,12 +72,18 @@ namespace Heiflow.Controls.WinForm.Climate
             float tmax=15;
             float tmin = 5;
             float pet = 0.1f;
+            float wind = 4;
+            float hum = 0.7f;
+            float press = 101;
             float.TryParse(tbPptvalue.Text, out ppt);
             float.TryParse(tbMaxTval.Text, out tmax);
             float.TryParse(tbMinTval.Text, out tmin);
             float.TryParse(tbPetval.Text, out pet);
+            float.TryParse(tbWind.Text, out wind);
+            float.TryParse(tbHumidity.Text, out hum);
+            float.TryParse(tbPressure.Text, out press);
             Cursor.Current = Cursors.WaitCursor;
-            _ClimateDataPackage.Constant(ppt, tmax, tmin, pet);
+            _ClimateDataPackage.Constant(ppt, tmax, tmin, pet, wind, hum, press);
             Cursor.Current = Cursors.Default;
         }
 

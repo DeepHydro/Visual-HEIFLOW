@@ -132,7 +132,13 @@ namespace Heiflow.Models.Generic
             get;
             set;
         }
-
+        [XmlIgnore]
+        [Category("General")]
+        public string Version
+        {
+            get;
+            protected set;
+        }
         [XmlIgnore]
         [Browsable(false)]
         public Image Icon

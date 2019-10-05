@@ -571,7 +571,7 @@ namespace Heiflow.Models.Surface.PRMS
             }
             stream.Close();
         }
-        public void LoadDefaultPara(string filename)
+        public void LoadParameterMetaFile(string filename)
         {
             XmlSerializer xs = new XmlSerializer(typeof(MMSPackage));
             Stream stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);

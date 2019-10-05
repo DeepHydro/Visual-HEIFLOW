@@ -267,7 +267,7 @@ namespace Heiflow.Models.Surface.PRMS
             string _Configfile = Path.Combine(ConfigPath, "mms.config.xml");
             if (File.Exists(_Configfile))
             {
-                _mmsPackage.LoadDefaultPara(_Configfile);
+                _mmsPackage.LoadParameterMetaFile(_Configfile);
                 foreach (var para in _mmsPackage.Parameters)
                 {
                     var pp = (from pr in _mmsPackage.DefaultParameters where pr.Name == para.Key select pr).FirstOrDefault();

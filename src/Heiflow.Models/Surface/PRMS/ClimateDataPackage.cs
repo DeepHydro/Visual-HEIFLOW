@@ -81,31 +81,55 @@ namespace Heiflow.Models.Surface.PRMS
         }
         public override bool Scan()
         {
-            var tempMax = MasterPackage.TempMaxFile;
             list_vars.Clear();
             var list_files = new List<string>();
-            if (tempMax != null)
+            var tempMax = MasterPackage.TempMaxFile;
+            if (TypeConverterEx.IsNotNull( tempMax ))
             {
                 list_vars.Add("Maximum Temperature");
                 list_files.Add(tempMax);
             }
             var tempMin = MasterPackage.TempMinFile;
-            if (tempMin != null)
+            if (TypeConverterEx.IsNotNull(tempMin ))
             {
                 list_vars.Add("Minimum Temperature");
                 list_files.Add(tempMin);
             }
             var ppt = MasterPackage.PrecipitationFile;
-            if (ppt != null)
+            if (TypeConverterEx.IsNotNull(ppt))
             {
                 list_vars.Add("Precipitaiton");
                 list_files.Add(ppt);
             }
-            var pet = MasterPackage.PETFile;
-            if (pet != null)
+            if (MasterPackage.PotentialET == PETModule.climate_hru)
             {
-                list_vars.Add("PET");
-                list_files.Add(pet);
+                var pet = MasterPackage.PETFile;
+                if (TypeConverterEx.IsNotNull(pet))
+                {
+                    list_vars.Add("PET");
+                    list_files.Add(pet);
+                }
+            }
+            else if (MasterPackage.PotentialET == PETModule.potet_pm)
+            {
+                var wnd = MasterPackage.WindFile;
+                if (TypeConverterEx.IsNotNull(wnd))
+                {
+                    list_vars.Add("Wind Speed");
+                    list_files.Add(wnd);
+                }
+                var hum = MasterPackage.HumidityFile;
+                if (TypeConverterEx.IsNotNull(hum))
+                {
+                    list_vars.Add("Humidity");
+                    list_files.Add(hum);
+                }
+                var press = MasterPackage.PressureFile;
+                if (TypeConverterEx.IsNotNull(press))
+                {
+                    list_vars.Add("Atmoshpere Pressure");
+                    list_files.Add(press);
+                }
             }
 
             Variables = list_vars.ToArray();
@@ -184,31 +208,58 @@ namespace Heiflow.Models.Surface.PRMS
             this.Feature = Owner.Grid.FeatureSet;
             this.FeatureLayer = Owner.Grid.FeatureLayer;
         }
-        public void Constant(float ppt = 0.15f, float tmax = 15, float tmin = 5, float pet = 0.1f)
+        public void Constant(float ppt = 0.15f, float tmax = 15, float tmin = 5, float pet = 0.1f, float wind = 4.0f, float hum = 0.7f, float press = 101.0f)
         {
             var grid = this.Grid as MFGrid;
             DataCube<float> mat = new DataCube<float>(1, this.TimeService.NumTimeStep, grid.ActiveCellCount);
             mat.Variables = new string[] { "hru_ppt" };
             mat.DateTimes = this.TimeService.Timeline.ToArray();
-            mat.ILArrays[0][":", ":"] = 0.1f;
+            mat.ILArrays[0][":", ":"] = ppt;
 
             MMSDataFile data = new MMSDataFile(MasterPackage.PrecipitationFile);
             data.Save(mat);
 
             mat.Variables[0] = "hru_tmax";
-            mat.ILArrays[0][":", ":"] = UnitConversion.Celsius2Fahrenheit(15);
+            mat.ILArrays[0][":", ":"] = UnitConversion.Celsius2Fahrenheit(tmax);
             data = new MMSDataFile(MasterPackage.TempMaxFile);
             data.Save(mat);
 
             mat.Variables[0] = "hru_tmin";
-            mat.ILArrays[0][":", ":"] = UnitConversion.Celsius2Fahrenheit(5);
+            mat.ILArrays[0][":", ":"] = UnitConversion.Celsius2Fahrenheit(tmin);
             data = new MMSDataFile(MasterPackage.TempMinFile);
             data.Save(mat);
 
-            mat.Variables[0] = "hru_pet";
-            mat.ILArrays[0][":", ":"] = 0.15f;
-            data = new MMSDataFile(MasterPackage.PETFile);
-            data.Save(mat);
+            if (MasterPackage.PotentialET == PETModule.climate_hru)
+            {
+                mat.Variables[0] = "hru_pet";
+                mat.ILArrays[0][":", ":"] = pet;
+                data = new MMSDataFile(MasterPackage.PETFile);
+                data.Save(mat);
+            }
+            else if (MasterPackage.PotentialET == PETModule.potet_pm)
+            {
+                if (TypeConverterEx.IsNotNull(MasterPackage.WindFile))
+                {
+                    mat.Variables[0] = "hru_wind";
+                    mat.ILArrays[0][":", ":"] = wind;
+                    data = new MMSDataFile(MasterPackage.WindFile);
+                    data.Save(mat);
+                }
+                if (TypeConverterEx.IsNotNull(MasterPackage.HumidityFile))
+                {
+                    mat.Variables[0] = "hru_humudity";
+                    mat.ILArrays[0][":", ":"] = hum;
+                    data = new MMSDataFile(MasterPackage.HumidityFile);
+                    data.Save(mat);
+                }
+                if (TypeConverterEx.IsNotNull(MasterPackage.PressureFile))
+                {
+                    mat.Variables[0] = "hru_pressure";
+                    mat.ILArrays[0][":", ":"] = press;
+                    data = new MMSDataFile(MasterPackage.PressureFile);
+                    data.Save(mat);
+                }
+            }
         }
 
         public override void Clear()

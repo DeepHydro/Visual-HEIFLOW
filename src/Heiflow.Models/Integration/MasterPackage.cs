@@ -44,6 +44,9 @@ namespace Heiflow.Models.Integration
 {
     public enum TemperatureModule { climate_hru = 0, temp_1sta_prms = 1, temp_2sta_prms = 2, xyz_dist = 3 }
     public enum PrecipitationModule { climate_hru = 0, precip_prms, precip_laps_prms, xyz_dist }
+    public enum WindModule { climate_hru = 0}
+    public enum HumidityModule { climate_hru = 0 }
+    public enum PressureModule { climate_hru = 0 }
     public enum SolarRadiationModule { ccsolrad_hru_prms = 0, ddsolrad_hru_prms }
     public enum PETModule { potet_hamon_prms = 0, potet_jh_prms, potet_pm, climate_hru }
     public enum SurfaceRunoffModule { srunoff_carea_casc = 0, srunoff_smidx_casc }
@@ -64,7 +67,6 @@ namespace Heiflow.Models.Integration
         bool _OutputWaterComponent = true;
         string _WaterComponentFile="null";
         string _WaterBudgetFile = "null";
-   //  string _IrrigationComponentFile = "null";
         string _MFListFile = "null";
         TemperatureModule _Temperature = TemperatureModule.climate_hru;
         PrecipitationModule _Precipitation = PrecipitationModule.climate_hru;
@@ -103,8 +105,16 @@ namespace Heiflow.Models.Integration
         private string _wra_module = "none";
         private string _wra_module_file;
         private string _hydraulics_engine = "SFR";
-//        private bool _extension_act_flag = false;
         private string _extension_man_file;
+        private WindModule _WindModule;
+        private HumidityModule _HumidityModule;
+        private PressureModule _PressureModule;
+        private string _WindFile;
+        private string _HumidityFile;
+        private string _PressureFile;
+        private bool _SaveSoilwaterFile;
+        private string _SoilWaterFile;
+        private string _SoilWaterBudgetFile;
 
         public MasterPackage(string name)
             : base(name)
@@ -376,6 +386,51 @@ namespace Heiflow.Models.Integration
             }
         }
         [Category("Input Files")]
+        [Description("Spatially-distributed wind file")]
+        public string WindFile
+        {
+            get
+            {
+                return _WindFile;
+            }
+            set
+            {
+                _WindFile = value;
+                (Parameters["wnd_day"] as DataCubeParameter<string>)[0, 0, 0] = value;
+                OnPropertyChanged("WindFile");
+            }
+        }
+        [Category("Input Files")]
+        [Description("Spatially-distributed humidity file")]
+        public string HumidityFile
+        {
+            get
+            {
+                return _HumidityFile;
+            }
+            set
+            {
+                _HumidityFile = value;
+                (Parameters["hum_day"] as DataCubeParameter<string>)[0, 0, 0] = value;
+                OnPropertyChanged("HumidityFile");
+            }
+        }
+        [Category("Input Files")]
+        [Description("Spatially-distributed pressure file")]
+        public string PressureFile
+        {
+            get
+            {
+                return _PressureFile;
+            }
+            set
+            {
+                _PressureFile = value;
+                (Parameters["press_day"] as DataCubeParameter<string>)[0, 0, 0] = value;
+                OnPropertyChanged("PressureFile");
+            }
+        }
+        [Category("Input Files")]
         [Description("Set climate input file format as follows: Text = 1, Binary = 2")]
         public FileFormat ClimateInputFormat
         {
@@ -628,6 +683,60 @@ namespace Heiflow.Models.Integration
             }
         }
         /// <summary>
+        /// wind module
+        /// </summary>
+        [Category("Modules")]
+        [Description("Module name for wind speed computation method ")]
+        public WindModule Wind
+        {
+            get
+            {
+                return _WindModule;
+            }
+            set
+            {
+                _WindModule = value;
+                (Parameters["wnd_module"] as DataCubeParameter<string>)[0, 0, 0] = value.ToString();
+                OnPropertyChanged("Wind");
+            }
+        }
+        /// <summary>
+        /// wind module
+        /// </summary>
+        [Category("Modules")]
+        [Description("Module name for humidity computation method ")]
+        public HumidityModule Humidity
+        {
+            get
+            {
+                return _HumidityModule;
+            }
+            set
+            {
+                _HumidityModule = value;
+                (Parameters["hum_module"] as DataCubeParameter<string>)[0, 0, 0] = value.ToString();
+                OnPropertyChanged("Humidity");
+            }
+        }
+        /// <summary>
+        /// wind module
+        /// </summary>
+        [Category("Modules")]
+        [Description("Module name for pressure computation method ")]
+        public PressureModule Pressure
+        {
+            get
+            {
+                return _PressureModule;
+            }
+            set
+            {
+                _PressureModule = value;
+                (Parameters["press_module"] as DataCubeParameter<string>)[0, 0, 0] = value.ToString();
+                OnPropertyChanged("Pressure");
+            }
+        }
+        /// <summary>
         /// srunoff_module
         /// </summary>
         [Category("Modules")]
@@ -827,6 +936,52 @@ namespace Heiflow.Models.Integration
             }
         }
 
+        [Category("Output Files")]
+        [Description("Flag to determine soil water file saved")]
+        public bool SaveSoilWaterFile
+        {
+            get
+            {
+                return _SaveSoilwaterFile;
+            }
+            set
+            {
+                _SaveSoilwaterFile = value;
+                var infs = _SaveSoilwaterFile ? 1 : 0;
+                (Parameters["save_soilwater_hru"] as DataCubeParameter<int>)[0, 0, 0] = infs;
+                OnPropertyChanged("SaveSoilwaterFile");
+            }
+        }
+        [Category("Output Files")]
+        [Description("file name used to save soil water")]
+        public string SoilWaterFile
+        {
+            get
+            {
+                return _SoilWaterFile;
+            }
+            set
+            {
+                _SoilWaterFile = value;
+                (Parameters["file_soilwater_hru"] as DataCubeParameter<string>)[0, 0, 0] = _SoilWaterFile;
+                OnPropertyChanged("SoilWaterFile");
+            }
+        }
+        [Category("Output Files")]
+        [Description("file name used to save soil water budget")]
+        public string SoilWaterBudgetFile
+        {
+            get 
+            {
+                return _SoilWaterBudgetFile;
+            }
+            set
+            {
+                _SoilWaterBudgetFile = value;
+                (Parameters["file_soilwater_budget"] as DataCubeParameter<string>)[0, 0, 0] = _SoilWaterBudgetFile;
+                OnPropertyChanged("SoilWaterBudgetFile");
+            }
+        }
         [Category("Debug")]
         [Description("Print Debug file")]
         public bool PrintDebug
@@ -1035,8 +1190,13 @@ namespace Heiflow.Models.Integration
                 _Temperature = EnumHelper.FromString<TemperatureModule>((Parameters["temp_module"] as DataCubeParameter<string>)[0, 0, 0]);
                 _Precipitation = EnumHelper.FromString<PrecipitationModule>((Parameters["precip_module"] as DataCubeParameter<string>)[0, 0, 0]);
                 _SolarRadiation = EnumHelper.FromString<SolarRadiationModule>((Parameters["solrad_module"] as DataCubeParameter<string>)[0, 0, 0]);
-                if (Parameters.ContainsKey("et_module"))
-                    _PotentialET = EnumHelper.FromString<PETModule>((Parameters["et_module"] as DataCubeParameter<string>)[0, 0, 0]);
+                _PotentialET = EnumHelper.FromString<PETModule>((Parameters["et_module"] as DataCubeParameter<string>)[0, 0, 0]);
+                if (Parameters.ContainsKey("wnd_module"))
+                    _WindModule = EnumHelper.FromString<WindModule>((Parameters["wnd_module"] as DataCubeParameter<string>)[0, 0, 0]);
+                if (Parameters.ContainsKey("hum_module"))
+                    _HumidityModule = EnumHelper.FromString<HumidityModule>((Parameters["hum_module"] as DataCubeParameter<string>)[0, 0, 0]);
+                if (Parameters.ContainsKey("press_module"))
+                    _PressureModule = EnumHelper.FromString<PressureModule>((Parameters["press_module"] as DataCubeParameter<string>)[0, 0, 0]);
                 _SurfaceRunoff = EnumHelper.FromString<SurfaceRunoffModule>((Parameters["srunoff_module"] as DataCubeParameter<string>)[0, 0, 0]);
                 _StatsON = (Parameters["statsON_OFF"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
                 _StatVarFile = (Parameters["stat_var_file"] as DataCubeParameter<string>)[0, 0, 0];
@@ -1072,6 +1232,12 @@ namespace Heiflow.Models.Integration
                     _TempMinFile = (Parameters["tmin_day"] as DataCubeParameter<string>)[0, 0, 0];
                 if ((Parameters.Keys.Contains("potet_day")))
                     _PETFile = (Parameters["potet_day"] as DataCubeParameter<string>)[0, 0, 0];
+                if ((Parameters.Keys.Contains("wnd_day")))
+                    _WindFile = (Parameters["wnd_day"] as DataCubeParameter<string>)[0, 0, 0];
+                if ((Parameters.Keys.Contains("hum_day")))
+                    _HumidityFile = (Parameters["hum_day"] as DataCubeParameter<string>)[0, 0, 0];
+                if ((Parameters.Keys.Contains("press_day")))
+                    _PressureFile = (Parameters["press_day"] as DataCubeParameter<string>)[0, 0, 0];
                 if (Parameters.ContainsKey("subbasin_flag"))
                     _SubbasinFlag = (Parameters["subbasin_flag"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
                 if (Parameters.ContainsKey("global_time_unit"))
@@ -1104,6 +1270,14 @@ namespace Heiflow.Models.Integration
                     _hydraulics_engine = (Parameters["hydraulics_engine"] as DataCubeParameter<string>)[0, 0, 0];
                 if ((Parameters.Keys.Contains("extension_man_file")))
                     _extension_man_file = (Parameters["extension_man_file"] as DataCubeParameter<string>)[0, 0, 0];
+                if (Parameters.ContainsKey("save_soilwater_hru"))
+                    _SaveSoilwaterFile = (Parameters["save_soilwater_hru"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
+                else
+                    _SaveSoilwaterFile = false;
+                if ((Parameters.Keys.Contains("file_soilwater_hru")))
+                    _SoilWaterFile = (Parameters["file_soilwater_hru"] as DataCubeParameter<string>)[0, 0, 0];
+                if ((Parameters.Keys.Contains("file_soilwater_budget")))
+                    _SoilWaterBudgetFile = (Parameters["file_soilwater_budget"] as DataCubeParameter<string>)[0, 0, 0];
 
                 foreach (var pr in Parameters.Values)
                     pr.Owner = this;
@@ -1143,7 +1317,10 @@ namespace Heiflow.Models.Integration
                 Temperature = TemperatureModule.climate_hru;
                 Precipitation = PrecipitationModule.climate_hru;
                 SolarRadiation = SolarRadiationModule.ddsolrad_hru_prms;
-                PotentialET = PETModule.climate_hru;
+                PotentialET = PETModule.potet_pm;
+                Wind = WindModule.climate_hru;
+                Humidity = HumidityModule.climate_hru;
+                Pressure = PressureModule.climate_hru;
                 SurfaceRunoff = SurfaceRunoffModule.srunoff_carea_casc;
                 StatsON = false;
                 AniOutFileFormat = FileFormat.Binary;
@@ -1162,9 +1339,9 @@ namespace Heiflow.Models.Integration
                 ClimateInputFormat = FileFormat.Text;
                 WRAModule = "none";
                 HydraulicsEngine = "SFR";
-                //EnableExtension = false;
                 AnimationOutOC = false;
                 GlobalTimeUnit = 4;
+                SaveSoilWaterFile = true;
 
                 DataFile = string.Format(".\\input\\prms\\{0}.data", Owner.Project.Name);
                 ParameterFilePath = string.Format(".\\input\\prms\\{0}.param", Owner.Project.Name);
@@ -1175,6 +1352,9 @@ namespace Heiflow.Models.Integration
                 TempMaxFile = string.Format(".\\input\\prms\\{0}_tmax.txt", Owner.Project.Name);
                 TempMinFile = string.Format(".\\input\\prms\\{0}_tmin.txt", Owner.Project.Name);
                 PETFile = string.Format(".\\input\\prms\\{0}_pet.txt", Owner.Project.Name);
+                WindFile = string.Format(".\\input\\prms\\{0}_wnd.txt", Owner.Project.Name);
+                HumidityFile = string.Format(".\\input\\prms\\{0}_hum.txt", Owner.Project.Name);
+                PressureFile = string.Format(".\\input\\prms\\{0}_pres.txt", Owner.Project.Name);
                 AnimationOutOCFile = string.Format(".\\input\\prms\\{0}_aniout.oc", Owner.Project.Name);
                 WRAModuleFile = string.Format(".\\input\\prms\\{0}.wra", Owner.Project.Name);
                 ExtensionManagerFile = string.Format(".\\input\\extension\\extensions.exm", Owner.Project.Name);
@@ -1186,8 +1366,9 @@ namespace Heiflow.Models.Integration
                 StatVarFile = string.Format(".\\output\\{0}_statvar.txt", Owner.Project.Name);
                 AniOutFileName = string.Format(".\\output\\{0}_animation.out", Owner.Project.Name);
                 VarSaveFile = string.Format(".\\output\\{0}_prms_ic.out", Owner.Project.Name);
-                //IrrigationComponentFile = string.Format(".\\output\\{0}_irrigation.txt", Owner.Project.Name);
                 MFListFile = string.Format(".\\output\\{0}.lst", Owner.Project.Name);
+                SoilWaterFile = string.Format(".\\output\\{0}_sm.dcx", Owner.Project.Name);
+                SoilWaterBudgetFile = string.Format(".\\output\\{0}_sm_budget.csv", Owner.Project.Name);
 
                 DynamicDays = new int[] { 2 };
                 DynamicPara = false;

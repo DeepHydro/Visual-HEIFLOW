@@ -50,6 +50,7 @@ namespace Heiflow.Models.Generic
         Dictionary<string, IPackage> Packages { get; }
         string Name { get; }
         string Description { get;}
+        string Version { get; }
         //string WorkDirectory { get; set; }
         IGrid Grid { get; set; }
         Image Icon { get; set; }
@@ -80,6 +81,6 @@ namespace Heiflow.Models.Generic
         void OnGridUpdated(IGrid sender);
         void OnPackageAdded(IPackage pck);
         void OnPackageRemoved(IPackage pck);
-         void OnPackageStateChanged(IPackage pck);
+        void OnPackageStateChanged(IPackage pck);
     }
 }

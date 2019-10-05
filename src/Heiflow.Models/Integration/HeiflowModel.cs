@@ -57,15 +57,15 @@ namespace Heiflow.Models.Integration
         private MasterPackage _MasterPackage;
         private ExtensionManPackage _ExtensionManPackage;
 
-
         public HeiflowModel()
         {
             Name = "HEIFLOW";
             Description = "HEIFLOW model version 1.0.0";
+            Version = "1.0.0";
             this.Icon = Resources.RasterImageAnalysisPanSharpen16;
             this.LargeIcon = Resources.RasterImageAnalysisPanSharpen32;
             _IsDirty = false;
-
+            
             _MasterPackage = new MasterPackage(MasterPackageName);
             _MasterPackage.Owner = this;
             _ExtensionManPackage = new ExtensionManPackage();
