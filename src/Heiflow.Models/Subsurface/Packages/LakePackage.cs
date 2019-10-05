@@ -70,6 +70,8 @@ namespace Heiflow.Models.Subsurface
             SSCNCR = 0.01f;
             SURFDEPTH = 0.1f;
             Version = "Lak3";
+
+            LakeSerialIndex = new Dictionary<int, List<int>>();
         }
 
         #region Properties
@@ -80,12 +82,10 @@ namespace Heiflow.Models.Subsurface
         /// Number of separate lakes
         /// </summary>
         public int NLAKES { get; set; }
-
         /// <summary>
         /// Number of separate lakes
         /// </summary>
         public int ILKCB { get; set; }
-
         //*****DataSet2
         /// <summary>
         /// Explicit (THETA = 0.0), semi-implicit (0.0 .GT. THETA .LT. 1.0), or implicit (THETA = 1.0) solution for lake stages.
@@ -111,6 +111,7 @@ namespace Heiflow.Models.Subsurface
         /// </summary>
         /// 
        [StaticVariableItem]
+       [Browsable(false)]
         public DataCube2DLayout<float> STAGES { get; set; }
 
         //*****DataSet4
@@ -119,6 +120,7 @@ namespace Heiflow.Models.Subsurface
         /// </summary>
         /// 
        [StaticVariableItem]
+       [Browsable(false)]
        public DataCube<int> ITMP { get; set; }
 
         //*****DataSet5
@@ -126,6 +128,7 @@ namespace Heiflow.Models.Subsurface
         ///[nlayer,1,nactcell]   0, the grid cell is not a lake volume cell. > 0, its value is the identification number of the lake occupying the grid cell. 
         /// </summary>
        [StaticVariableItem]
+       [Browsable(false)]
        public DataCube<int> LKARR { get; set; }
 
         //*****DataSet6
@@ -134,6 +137,7 @@ namespace Heiflow.Models.Subsurface
         /// </summary>
         /// 
        [StaticVariableItem]
+       [Browsable(false)]
        public DataCube<float> BDLKNC { get; set; }
 
         /// <summary>
@@ -141,6 +145,7 @@ namespace Heiflow.Models.Subsurface
         /// </summary>
         /// 
         [StaticVariableItem]
+        [Browsable(false)]
        public DataCube2DLayout<int> NSLMS { get; set; }
 
         /// <summary>
@@ -148,7 +153,13 @@ namespace Heiflow.Models.Subsurface
         /// </summary>
         /// 
        [StaticVariableItem]
+       [Browsable(false)]
         public DataCube2DLayout<float> WSOUR { get; set; }
+        [Browsable(false)]
+        /// <summary>
+        /// [nlake][num_lake_cell]. 
+        /// </summary>
+       public Dictionary<int,List<int>> LakeSerialIndex { get; set; }
         #endregion
 
         public override void Initialize()
@@ -173,6 +184,7 @@ namespace Heiflow.Models.Subsurface
             int nlayer= grid.ActualLayerCount;
             if (File.Exists(FileName))
             {
+                LakeSerialIndex.Clear();
                 StreamReader sr = new StreamReader(FileName);
                 string line = sr.ReadLine();
                 line = sr.ReadLine();
@@ -230,7 +242,8 @@ namespace Heiflow.Models.Subsurface
                 WSOUR = new DataCube2DLayout<float>(nsp, NLAKES, 6)
                 {
                     Name = "Recharge Discharge",
-                    Variables = new string[nsp], ZeroDimension= DimensionFlag.Time
+                    Variables = new string[nsp],
+                    ZeroDimension = DimensionFlag.Time
                 };
                 for (int l = 0; l < nsp; l++)
                 {
@@ -271,6 +284,18 @@ namespace Heiflow.Models.Subsurface
                                 WSOUR[i][j, "0:3"] = floatbuf;
                             }
                         }
+                    }
+                }
+                var vec = LKARR.GetVector(0, "0", ":");
+                foreach(var id in vec.Distinct())
+                {
+                    LakeSerialIndex.Add(id, new List<int>());
+                }
+                for (int i = 0; i < vec.Count(); i++ )
+                {
+                    if (vec[i] != 0)
+                    {
+                        LakeSerialIndex[vec[i]].Add(i);
                     }
                 }
                 sr.Close();
@@ -344,15 +369,11 @@ namespace Heiflow.Models.Subsurface
             fs.Name = this.Name;
             fs.Projection = proj_info;
             fs.DataTable.Columns.Add(new DataColumn("CELL_ID", typeof(int)));
-            fs.DataTable.Columns.Add(new DataColumn("ISEG", typeof(int)));
-            fs.DataTable.Columns.Add(new DataColumn("IRCH", typeof(int)));
-            fs.DataTable.Columns.Add(new DataColumn("JRCH", typeof(int)));
+            fs.DataTable.Columns.Add(new DataColumn("HRU_ID", typeof(int)));
+            fs.DataTable.Columns.Add(new DataColumn("ROW", typeof(int)));
+            fs.DataTable.Columns.Add(new DataColumn("COL", typeof(int)));
 
-            fs.DataTable.Columns.Add(new DataColumn("BedThick", typeof(double)));
-            fs.DataTable.Columns.Add(new DataColumn("TopElev", typeof(double)));
-            fs.DataTable.Columns.Add(new DataColumn("Slope", typeof(double)));
-            fs.DataTable.Columns.Add(new DataColumn("Width", typeof(double)));
-            fs.DataTable.Columns.Add(new DataColumn("Length", typeof(double)));
+            fs.DataTable.Columns.Add(new DataColumn("BDLKNC", typeof(double)));
             fs.DataTable.Columns.Add(new DataColumn(RegularGrid.ParaValueField, typeof(double)));
 
             fs.SaveAs(filename, true);

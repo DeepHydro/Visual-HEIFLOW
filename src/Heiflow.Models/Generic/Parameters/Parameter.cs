@@ -609,6 +609,16 @@ namespace Heiflow.Models.Generic.Parameters
             }
         }
 
-        public string[] ColumnNames { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string[] ColumnNames
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

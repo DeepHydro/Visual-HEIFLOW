@@ -43,11 +43,11 @@ namespace Heiflow.Core.Data
         /// <summary>
         /// a 2d mat[num_act_cell][2]. the second dimension stores row and column indexes that start from 0
         /// </summary>
-        int[][] ActiveCell { get;  }
+        int[][] ActiveCellLocation { get;  }
         /// <summary>
         /// hold active cell id starting from 1
         /// </summary>
-        int[] ActiveCellIDs { get; }
+        int[] ActiveCellID { get; }
         /// <summary>
         /// mapping between Cell ID  (starts from 1) and Cell Serial Index (starts from 0)
         /// </summary>

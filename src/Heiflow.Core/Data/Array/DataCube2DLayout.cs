@@ -34,7 +34,7 @@ namespace Heiflow.Core.Data
             {
                 for (int j = 0; j < Size[2]; j++)
                 {
-                    array[i,j] = this[SelectedVariableIndex, i, j];
+                    array[i, j] = this[SelectedVariableIndex, i, j];
                 }
             }
             return array;
@@ -68,35 +68,32 @@ namespace Heiflow.Core.Data
             DataTable dt = new DataTable();
             if (SelectedVariableIndex < 0)
                 SelectedVariableIndex = 0;
-            if (DateTimes != null)
+            if (Flags[SelectedVariableIndex] == TimeVarientFlag.Constant)
             {
-                DataColumn dc = new DataColumn("Date", typeof(DateTime));
-                dt.Columns.Add(dc);
+                var dc = new DataColumn("C0", typeof(T));
+                dt.Rows.Add(dc);
+                var dr = dt.NewRow();
+                dr[0] = Constants[SelectedVariableIndex];
+                dt.Rows.Add(dr);
             }
-            for (int i = 0; i < Size[2]; i++)
+            else if (Flags[SelectedVariableIndex] == TimeVarientFlag.Repeat)
             {
-                DataColumn dc = new DataColumn(ColumnNames[i], typeof(T));
-                dt.Columns.Add(dc);
-            }
-            if (DateTimes != null)
-            {
-                for (int i = 0; i < Size[1]; i++)
-                {
-                    var dr = dt.NewRow();
-                    dr[0] = DateTimes[i];
-                    for (int j = 0; j < Size[2]; j++)
-                    {
-                        dr[j + 1] = this[SelectedVariableIndex, i, j];
-                    }
-                    dt.Rows.Add(dr);
-                }
+                var dc = new DataColumn("C0", typeof(T));
+                dt.Rows.Add(dc);
+                var dr = dt.NewRow();
+                dr[0] = -1;
+                dt.Rows.Add(dr);
             }
             else
             {
+                for (int i = 0; i < Size[2]; i++)
+                {
+                    DataColumn dc = new DataColumn(ColumnNames[i], typeof(T));
+                    dt.Columns.Add(dc);
+                }
                 for (int i = 0; i < Size[1]; i++)
                 {
                     var dr = dt.NewRow();
-
                     for (int j = 0; j < Size[2]; j++)
                     {
                         dr[j] = this[SelectedVariableIndex, i, j];
@@ -112,17 +109,14 @@ namespace Heiflow.Core.Data
         }
         public override void FromDataTable(DataTable dt)
         {
-            if (DateTimes != null)
+            if (SelectedVariableIndex < 0)
+                SelectedVariableIndex = 0;
+            if (Flags[SelectedVariableIndex] == TimeVarientFlag.Constant)
             {
-                for (int r = 0; r < Size[1]; r++)
-                {
-                    DataRow dr = dt.Rows[r];
-                    DateTimes[r] = DateTime.Parse(dr[0].ToString());
-                    for (int c = 1; c <= Size[2]; c++)
-                    {
-                        this[SelectedVariableIndex, r, c - 1] = (T)dr[c];
-                    }
-                }
+                Constants[SelectedVariableIndex] = float.Parse(dt.Rows[0][0].ToString());
+            }
+            else if (Flags[SelectedVariableIndex] == TimeVarientFlag.Repeat)
+            {
             }
             else
             {

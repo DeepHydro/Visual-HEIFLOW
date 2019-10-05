@@ -358,8 +358,8 @@ namespace Heiflow.Models.Subsurface
                     break;
                 }
             }
-            _WellTopo.ActiveCell = new int[MXACTW][];
-            _WellTopo.ActiveCellIDs = new int[MXACTW];
+            _WellTopo.ActiveCellLocation = new int[MXACTW][];
+            _WellTopo.ActiveCellID = new int[MXACTW];
             _WellTopo.RowCount = grid.RowCount;
             _WellTopo.ColumnCount = grid.ColumnCount;
             _WellTopo.ActiveCellCount = MXACTW;
@@ -367,8 +367,8 @@ namespace Heiflow.Models.Subsurface
             {
                 int row = (int)FluxRates[1, sp, i];
                 int col = (int)FluxRates[2, sp, i];
-                _WellTopo.ActiveCell[i] = new int[] { row - 1, col - 1 };
-                _WellTopo.ActiveCellIDs[i] = grid.Topology.GetID(row - 1, col - 1);
+                _WellTopo.ActiveCellLocation[i] = new int[] { row - 1, col - 1 };
+                _WellTopo.ActiveCellID[i] = grid.Topology.GetID(row - 1, col - 1);
             }
             FluxRates.Topology = _WellTopo;
         }

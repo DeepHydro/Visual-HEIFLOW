@@ -316,8 +316,8 @@ namespace Heiflow.Models.Subsurface
         {
             var grid = Grid as RegularGrid;
             Topology = new RegularGridTopology();
-            Topology.ActiveCell = new int[NFLW][];
-            Topology.ActiveCellIDs = new int[NFLW];
+            Topology.ActiveCellLocation = new int[NFLW][];
+            Topology.ActiveCellID = new int[NFLW];
             Topology.RowCount = grid.RowCount;
             Topology.ColumnCount = grid.ColumnCount;
             Topology.ActiveCellCount = NFLW;
@@ -327,8 +327,8 @@ namespace Heiflow.Models.Subsurface
                 int layer = (int)mat[0,0,i];
                 int row = (int)mat[1,0,i];
                 int col = (int)mat[2,0,i];
-                Topology.ActiveCell[i] = new int[] { row - 1, col - 1 };
-                Topology.ActiveCellIDs[i] = grid.Topology.GetID(row - 1, col - 1);
+                Topology.ActiveCellLocation[i] = new int[] { row - 1, col - 1 };
+                Topology.ActiveCellID[i] = grid.Topology.GetID(row - 1, col - 1);
             }
             FlowRate.Topology = this.Topology;
         }

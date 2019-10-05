@@ -699,13 +699,13 @@ namespace Heiflow.Models.Subsurface
         {
             var grid = Grid as RegularGrid;
 
-            _ReachTopo.ActiveCell = new int[NSTRM][];
-            _ReachTopo.ActiveCellIDs = new int[NSTRM];
+            _ReachTopo.ActiveCellLocation = new int[NSTRM][];
+            _ReachTopo.ActiveCellID = new int[NSTRM];
             _ReachTopo.RowCount = grid.RowCount;
             _ReachTopo.ColumnCount = grid.ColumnCount;
             _ReachTopo.ActiveCellCount = NSTRM;
-            _SegTopo.ActiveCell = new int[NSS][];
-            _SegTopo.ActiveCellIDs = new int[NSS];
+            _SegTopo.ActiveCellLocation = new int[NSS][];
+            _SegTopo.ActiveCellID = new int[NSS];
             _SegTopo.RowCount = grid.RowCount;
             _SegTopo.ColumnCount = grid.ColumnCount;
             _SegTopo.ActiveCellCount = NSS;
@@ -713,8 +713,8 @@ namespace Heiflow.Models.Subsurface
             int i = 0;
             foreach(var newreach in RiverNetwork.Reaches)
             {
-                _ReachTopo.ActiveCell[i] = new int[] { newreach.IRCH - 1, newreach.JRCH - 1 };
-                _ReachTopo.ActiveCellIDs[i] = grid.Topology.GetID(newreach.IRCH - 1, newreach.JRCH - 1);
+                _ReachTopo.ActiveCellLocation[i] = new int[] { newreach.IRCH - 1, newreach.JRCH - 1 };
+                _ReachTopo.ActiveCellID[i] = grid.Topology.GetID(newreach.IRCH - 1, newreach.JRCH - 1);
                 i++;
             }
 
@@ -724,8 +724,8 @@ namespace Heiflow.Models.Subsurface
                 if (seg.Reaches.Count > 0)
                 {
                     var newreach = seg.FirstReach;
-                    _SegTopo.ActiveCell[i] = new int[] { newreach.IRCH - 1, newreach.JRCH - 1 };
-                    _SegTopo.ActiveCellIDs[i] = grid.Topology.GetID(newreach.IRCH - 1, newreach.JRCH - 1);
+                    _SegTopo.ActiveCellLocation[i] = new int[] { newreach.IRCH - 1, newreach.JRCH - 1 };
+                    _SegTopo.ActiveCellID[i] = grid.Topology.GetID(newreach.IRCH - 1, newreach.JRCH - 1);
                     i++;
                 }
             }

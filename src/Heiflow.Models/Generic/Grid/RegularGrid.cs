@@ -131,7 +131,7 @@ namespace Heiflow.Models.Generic
             get;
             set;
         }
-         [Browsable(false)]
+        [Browsable(false)]
         public RegularGridTopology Topology
         {
             get
@@ -270,7 +270,7 @@ namespace Heiflow.Models.Generic
                         {
                             dt.Rows[i][ParaValueField] = 0;
                         }
-                        FeatureSet.Save(); 
+                        FeatureSet.Save();
                     }
                     return true;
                 }
@@ -369,7 +369,7 @@ namespace Heiflow.Models.Generic
             fs.DataTable.Columns.Add(new DataColumn(ParaValueField, typeof(double)));
             if (Origin == null)
                 Origin = new Coordinate(0, 0);
-            int active =1;
+            int active = 1;
             for (int r = 0; r < RowCount; r++)
             {
                 for (int c = 0; c < ColumnCount; c++)
@@ -442,9 +442,9 @@ namespace Heiflow.Models.Generic
             }
             fs.SaveAs(filename, true);
             fs.Close();
-            
+
         }
-        
+
         /// <summary>
         ///  Convert vector to grid matrix [nrow][ncol]
         /// </summary>
@@ -466,19 +466,19 @@ namespace Heiflow.Models.Generic
 
             for (int i = 0; i < ActiveCellCount; i++)
             {
-                var lc = Topology.ActiveCell[i];
+                var lc = Topology.ActiveCellLocation[i];
                 matrix[lc[0]][lc[1]] = vector[i];
             }
             return matrix;
         }
 
-        public T[, ,]       To3DMatrix<T>(T[] vector, T novalue)
+        public T[, ,] To3DMatrix<T>(T[] vector, T novalue)
         {
             T[, ,] matrix = new T[1, RowCount, ColumnCount];
-            
+
             for (int i = 0; i < ActiveCellCount; i++)
             {
-                int[] loc = Topology.ActiveCell[i];
+                int[] loc = Topology.ActiveCellLocation[i];
                 matrix[0, loc[0], loc[1]] = vector[i];
             }
             return matrix;
@@ -496,7 +496,7 @@ namespace Heiflow.Models.Generic
             //matrix = novalue;
             for (int i = 0; i < ActiveCellCount; i++)
             {
-                int[] loc = Topology.ActiveCell[i];
+                int[] loc = Topology.ActiveCellLocation[i];
                 matrix[RowCount - loc[0] - 1, loc[1]] = vector.GetValue(i);
             }
 
@@ -509,7 +509,7 @@ namespace Heiflow.Models.Generic
             //matrix = novalue;
             for (int i = 0; i < ActiveCellCount; i++)
             {
-                int[] loc = Topology.ActiveCell[i];
+                int[] loc = Topology.ActiveCellLocation[i];
                 matrix[RowCount - loc[0] - 1, loc[1]] = (T)vector[i];
             }
 
@@ -594,7 +594,7 @@ namespace Heiflow.Models.Generic
             double dy = 0;
             dx = DELR[0, 0, col - 1];
             dy = DELC[0, 0, row - 1];
-            c.X = Origin.X + (col -1) * dx ;
+            c.X = Origin.X + (col - 1) * dx;
             c.Y = Origin.Y - row * dy;
             return c;
         }
@@ -610,13 +610,13 @@ namespace Heiflow.Models.Generic
             double dx = 0;
             double dy = 0;
             dx = DELR[0, 0, col];
-            dy = DELC[0, 0,row];
+            dy = DELC[0, 0, row];
             for (int i = 0; i < 4; i++)
             {
                 coods[i] = new Coordinate();
             }
 
-            coods[0].X = Origin.X + (col+1) * dx;
+            coods[0].X = Origin.X + (col + 1) * dx;
             coods[0].Y = Origin.Y - (row + 1) * dy;
 
 
@@ -639,7 +639,7 @@ namespace Heiflow.Models.Generic
         /// <returns></returns>
         public Coordinate[] LocateNodes(int hru_index)
         {
-            var cell = Topology.ActiveCell[hru_index];
+            var cell = Topology.ActiveCellLocation[hru_index];
             return LocateNodes(cell[1], cell[0]);
         }
         public virtual void BuildTopology()
@@ -659,8 +659,8 @@ namespace Heiflow.Models.Generic
             float ele = 0;
             if (Elevations != null)
             {
-                var index = Topology.GetIndex(row, col);
-                if(index >=0)
+                var index = Topology.GetSerialIndex(row, col);
+                if (index >= 0)
                     ele = Elevations[layer, 0, index];
             }
             return ele;
@@ -674,10 +674,10 @@ namespace Heiflow.Models.Generic
         /// <returns></returns>
         public bool IsActive(int row, int col, int layer)
         {
-            if (row >= IBound.Size[1] || col >= IBound.Size[2] || layer>= IBound.Size[0])
+            if (row >= IBound.Size[1] || col >= IBound.Size[2] || layer >= IBound.Size[0])
                 return false;
             else
-                return (IBound[layer, row, col] != 0);    
+                return (IBound[layer, row, col] != 0);
         }
 
         public void Extent(SpatialReference srf)
