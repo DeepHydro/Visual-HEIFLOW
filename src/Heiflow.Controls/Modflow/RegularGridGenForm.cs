@@ -68,6 +68,11 @@ namespace Heiflow.Controls.WinForm.Modflow
             if (raster_layers != null)
                 cmbRasterLayer.DataSource = raster_layers.ToArray();
             cmbAvMethod.SelectedIndex = 1;
+
+            var mm = _Controller.Project.Model as Heiflow.Models.Integration.HeiflowModel;
+            var mf = mm.ModflowModel;
+            numericUpDown1.Value = mf.LayerGroupManager.LayerGroups.Count;
+            numericUpDown2.Value = 4;
         }
 
         private void cmbLayers_SelectedIndexChanged(object sender, EventArgs e)
@@ -233,6 +238,14 @@ namespace Heiflow.Controls.WinForm.Modflow
             {
                 numericUpDown1.Value = mf.LayerGroupManager.LayerGroups.Count;
             }
+        }
+
+        private void numericUpDown2_ValueChanged(object sender, EventArgs e)
+        {
+            var mm = _Controller.Project.Model as Heiflow.Models.Integration.HeiflowModel;
+            var prms = mm.PRMSModel;
+            prms.SoilLayerManager.Generate((int)numericUpDown2.Value);
+            olvSoilLayers.SetObjects(prms.SoilLayerManager.Layers);
         }
     }
 }

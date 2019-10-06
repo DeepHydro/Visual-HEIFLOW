@@ -268,6 +268,8 @@
     <Compile Include="Surface\MIKE\MikeMeshProvider.cs" />
     <Compile Include="Integration\GHMLoader.cs" />
     <Compile Include="Subsurface\IExtractMFPackage.cs" />
+    <Compile Include="Surface\PRMS\SoilLayer.cs" />
+    <Compile Include="Surface\PRMS\SoilLayerManager.cs" />
     <Compile Include="WRM\ManagemenSP.cs" />
     <Compile Include="WRM\ManagementCycle.cs" />
     <Compile Include="WRM\WaterManagementModel.cs" />

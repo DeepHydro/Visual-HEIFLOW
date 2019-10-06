@@ -59,6 +59,7 @@ namespace Heiflow.Models.Surface.PRMS
         private PRMSInputDataPackage _inputPackage;
         private PRMSDrivingDataPackage _drivingPackage;
         private MasterPackage _master;
+        private SoilLayerManager _SoilLayerManager;
 
         public PRMS()
         {
@@ -86,6 +87,8 @@ namespace Heiflow.Models.Surface.PRMS
             AddInSilence(_outputPackage);
             AddInSilence(_drivingPackage);
             Description = "A deterministic, distributed-parameter, physical process based surface water model";
+
+            _SoilLayerManager = new SoilLayerManager();
         }
         [Browsable(false)]
         public int NHRU
@@ -116,7 +119,14 @@ namespace Heiflow.Models.Surface.PRMS
                 _drivingPackage.MasterPackage = _master;
             }
         }
-
+        [Browsable(false)]
+        public SoilLayerManager SoilLayerManager
+        {
+            get
+            {
+                return _SoilLayerManager;
+            }
+        }
         public override void Initialize()
         {
             _mmsPackage.FileName = ControlFileName;
@@ -169,7 +179,7 @@ namespace Heiflow.Models.Surface.PRMS
 
         public override bool New(ICancelProgressHandler progress)
         {
-            string parafile = Path.Combine(BaseModel.ConfigPath, "heiflow.param");
+            string parafile = Path.Combine(BaseModel.ConfigPath, "heiflow_" + Owner.Project.SelectedVersion + ".param");
             var succ = true;
             if (File.Exists(parafile))
             {
@@ -264,7 +274,7 @@ namespace Heiflow.Models.Surface.PRMS
 
         public void ResolveLoadedParameters(bool is_load)
         {
-            string _Configfile = Path.Combine(ConfigPath, "mms.config.xml");
+            string _Configfile = Path.Combine(ConfigPath, "mms_config_" + this.Project.SelectedVersion + ".xml");
             if (File.Exists(_Configfile))
             {
                 _mmsPackage.LoadParameterMetaFile(_Configfile);

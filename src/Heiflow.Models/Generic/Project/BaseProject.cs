@@ -398,13 +398,25 @@ namespace Heiflow.Models.Generic.Project
                 _IsDirty = value;
             }
         }
+        [XmlIgnore]
+        public string[] SupportedVersions
+        {
+            get;
+            protected set;
+        }
+        [XmlElement]
+        public string SelectedVersion
+        {
+            get;
+            set;
+        }
+
         protected void OnModelChanged()
         {
             if (ModelChanged != null)
                 ModelChanged(this, EventArgs.Empty);
         }
-
-     
+ 
         public virtual void Initialize()
         {
             _IsDirty = false;

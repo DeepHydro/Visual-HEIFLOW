@@ -41,6 +41,7 @@ namespace Heiflow.Presentation.Controls
         UserControl OptionControl { get; }
         string Category { get; }
         string OptionName { get; }
+        string SelectedVersion { get; set; }
         void LoadDefault(string filename);
         void ImportFromXml(string filename);
         void ImportFromParameter(string filename);

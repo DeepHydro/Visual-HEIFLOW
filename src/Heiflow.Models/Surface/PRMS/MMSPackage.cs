@@ -49,6 +49,7 @@ namespace Heiflow.Models.Surface.PRMS
     {
         private string[] dim_name = new string[] { "Dimension" };
         protected string[] _nhru_dim_names = new string[] { "nhru", "nssr", "ngw", "nhrucell", "ngwcell" };
+        protected string[] _nlayer_dim_names = new string[] { "nlayer"};
 
         public MMSPackage(string name)
             : base(name)
@@ -652,6 +653,7 @@ namespace Heiflow.Models.Surface.PRMS
         {
             var grid = sender as RegularGrid;
             var numhru = (sender as IRegularGrid).ActiveCellCount;
+            var prms = Owner as PRMS;
             foreach (var dim in _nhru_dim_names)
             {
                 var para = Select(dim);
@@ -662,8 +664,54 @@ namespace Heiflow.Models.Surface.PRMS
                     AlterLength(dim, numhru);
                 }
             }
+            foreach (var dim in _nlayer_dim_names)
+            {
+                var para = Select(dim);
+                if (para != null)
+                {
+                    para.SetValue(0, 0, 0, prms.SoilLayerManager.LayerCount);
+                    AlterLength(dim, prms.SoilLayerManager.Layers.Count);
+                }
+            }
 
             ResetToDefault();
+
+            var soil_depth = Select("soil_depth");
+            if (soil_depth != null)
+            {
+                var para = soil_depth as DataCubeParameter<float>;
+                for (int i = 0; i < prms.SoilLayerManager.LayerCount; i++)
+                {
+                    para[0][":", i] = prms.SoilLayerManager.Layers[i].SoilDepth;
+                }
+            }
+            var cpr_init = Select("cpr_init");
+            if (cpr_init != null)
+            {
+                var para = soil_depth as DataCubeParameter<float>;
+                for (int i = 0; i < prms.SoilLayerManager.LayerCount; i++)
+                {
+                    para[0][":", i] = prms.SoilLayerManager.Layers[i].InitCPR;
+                }
+            }
+            var gvr_init = Select("gvr_init");
+            if (gvr_init != null)
+            {
+                var para = soil_depth as DataCubeParameter<float>;
+                for (int i = 0; i < prms.SoilLayerManager.LayerCount; i++)
+                {
+                    para[0][":", i] = prms.SoilLayerManager.Layers[i].InitGVR;
+                }
+            }
+            var pfr_init = Select("pfr_init");
+            if (pfr_init != null)
+            {
+                var para = soil_depth as DataCubeParameter<float>;
+                for (int i = 0; i < prms.SoilLayerManager.LayerCount; i++)
+                {
+                    para[0][":", i] = prms.SoilLayerManager.Layers[i].InitPFR;
+                }
+            }
 
             ModelService.NHRU = numhru;
             var topo = grid.Topology;

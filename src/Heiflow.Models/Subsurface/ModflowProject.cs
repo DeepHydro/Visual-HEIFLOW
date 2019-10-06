@@ -57,6 +57,8 @@ namespace Heiflow.Models.Subsurface
             this.LargeIcon = Resources.mf32;
             Description = "Modflow model version 2005";
             Token = "Modflow2005";
+            SupportedVersions = new string[] { "v2005" };
+            SelectedVersion = "v2005";
         }
 
         public override bool New(ICancelProgressHandler progress, bool ImportFromExistingModel)

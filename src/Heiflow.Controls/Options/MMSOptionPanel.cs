@@ -43,6 +43,7 @@ using System.IO;
 using Heiflow.Models.Surface.PRMS;
 using Heiflow.Presentation.Controls;
 using Heiflow.Applications;
+using Heiflow.Presentation.Services;
 
 namespace Heiflow.Controls.Options
 {
@@ -81,10 +82,16 @@ namespace Heiflow.Controls.Options
                 return "PRMS";
             }
         }
+        public string SelectedVersion
+        {
+            get;
+            set;
+        }
 
         private void MMSOptionPanel_Load(object sender, EventArgs e)
         {
-            _Configfile = Path.Combine(VHFAppManager.Instance.ConfigManager.ConfigPath, "mms.config.xml");
+            var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
+            _Configfile = Path.Combine(VHFAppManager.Instance.ConfigManager.ConfigPath, "mms_config_" + SelectedVersion + ".xml");
             LoadDefault(_Configfile);
         }
         public void LoadDefault(string filename)
@@ -128,7 +135,7 @@ namespace Heiflow.Controls.Options
             sw.WriteLine(line);
             foreach (var para in _MMSPackage.Parameters.Values)
             {
-                line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7}", para.Name, para.ModuleName, para.DefaultValue, para.Maximum, para.Minimum, para.Description, para.DimensionNames[0], para.Dimension);
+                line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7}", para.Name, para.ModuleName, para.DefaultValue, para.Maximum, para.Minimum, para.Description, string.Join(" ", para.DimensionNames), para.Dimension);
                 sw.WriteLine(line);
             }
             sw.Close();
@@ -141,6 +148,15 @@ namespace Heiflow.Controls.Options
 
         public void SaveAsParameter(string filename)
         {
+            string[] dims = new string[] { "nhru", "nhrucell", "ngwcell", "nlayer", "ncascade", "nreach" , "nsegment", "nlake" };
+            foreach(var dim in dims)
+            {
+                var para = _MMSPackage.Select(dim);
+                if(para != null)
+                {
+                    para.AlterDimLength(dim, 1);
+                }
+            }
             _MMSPackage.SaveAs(filename, null);
         }
     }

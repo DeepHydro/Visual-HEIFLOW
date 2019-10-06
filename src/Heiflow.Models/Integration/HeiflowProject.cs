@@ -57,9 +57,11 @@ namespace Heiflow.Models.Integration
             this.NameToShown = "HEIFLOW";
             this.Icon = Resources.RasterImageAnalysisPanSharpen16;
             this.LargeIcon = Resources.RasterImageAnalysisPanSharpen32;
-            Description = "HEIFLOW model version 1.0.0";
+            Description = "HEIFLOW model version 1.0.0 or version 1.1.0";
             Token = "HEIFLOW";
             ModelExeFileName = Path.Combine(Application.StartupPath, "Models\\" + Settings.Default.HeiflowExe);
+            SupportedVersions = new string[] { "v1.0.0", "v1.1.0" };
+            SelectedVersion = SupportedVersions[0];
         }
 
         public override bool New(ICancelProgressHandler progress, bool ImportFromExistingModel)

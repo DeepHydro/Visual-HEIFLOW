@@ -141,7 +141,10 @@ namespace Heiflow.Presentation.Controls.Project
 
         private void lstPrjTemplate_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
-            tbModelDes.Text = (e.Item.Tag as IProject).Description;
+            var prj = (e.Item.Tag as IProject);
+            tbModelDes.Text = prj.Description;
+            cmbVersion.DataSource = prj.SupportedVersions;
+            cmbVersion.SelectedIndex = prj.SupportedVersions.Length - 1;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -159,8 +162,10 @@ namespace Heiflow.Presentation.Controls.Project
 
             try
             {
+                var prj = lstPrjTemplate.SelectedItems[0].Tag as IProject;
+                prj.SelectedVersion = cmbVersion.SelectedItem.ToString();
                 ModelService.WorkDirectory = Path.GetFullPath(_ProjectPath);
-                project_service.Serializer.New(_ProjectName, _ProjectPath, lstPrjTemplate.SelectedItems[0].Tag as IProject, null, chbImprot.Checked);               
+                project_service.Serializer.New(_ProjectName, _ProjectPath, prj, null, chbImprot.Checked);               
                 project_service.Project = project_service.Serializer.CurrentProject;
              if(chbImprot.Checked)
              {

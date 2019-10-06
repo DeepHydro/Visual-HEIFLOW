@@ -107,6 +107,11 @@ namespace Heiflow.Models.Subsurface
                 LAYVKA = LAYVKA.Ratio_of_horizontal_to_vertical_hydraulic_conductivity,
                 LAYWET = LAYWET.Active
             };
+            if (index >= 1)
+            {
+                layer.LAYTYP = LAYTYP.Confined;
+                layer.LAYWET = LAYWET.Inactive;
+            }
             _Layers.Insert(index, layer);
             Refresh();
         }

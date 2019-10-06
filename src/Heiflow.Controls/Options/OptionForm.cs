@@ -41,6 +41,7 @@ using Heiflow.Presentation.Controls.Project;
 using Heiflow.Presentation.Controls;
 using Heiflow.Applications;
 using System.IO;
+using Heiflow.Presentation.Services;
 
 namespace Heiflow.Controls.Options
 {
@@ -56,6 +57,7 @@ namespace Heiflow.Controls.Options
 
         private void OptionForm_Load(object sender, EventArgs e)
         {
+            var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
             treeView1.Nodes.Clear();
             var config = MyAppManager.Instance.ConfigManager;
             var categories = from optc in config.OptionControls
@@ -73,6 +75,8 @@ namespace Heiflow.Controls.Options
                 }
                 treeView1.Nodes.Add(tn);
             }
+            cmbVersion.ComboBox.DataSource = prj.Project.SupportedVersions;
+            cmbVersion.SelectedIndex = 0;
         }
 
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -81,6 +85,7 @@ namespace Heiflow.Controls.Options
             {
                 panel1.Controls.Clear();
                 _CurrentOption = (e.Node.Tag as IOptionControl);
+                _CurrentOption.SelectedVersion = cmbVersion.SelectedItem.ToString();
                 var cont = _CurrentOption.OptionControl;
                 cont.Dock = DockStyle.Fill;
                 panel1.Controls.Add(cont);
@@ -156,6 +161,13 @@ namespace Heiflow.Controls.Options
             dlg.FileName = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), _CurrentOption.OptionName + ".param");
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 _CurrentOption.SaveAsParameter(dlg.FileName);
+        }
+
+        private void cmbVersion_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_CurrentOption == null)
+                return;
+            _CurrentOption.SelectedVersion = cmbVersion.SelectedItem.ToString();
         }
     }
 }

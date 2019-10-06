@@ -86,6 +86,9 @@ namespace Heiflow.Models.Generic.Project
         /// <summary>
         /// the directory for running a model
         /// </summary>
+        /// 
+        string [] SupportedVersions { get; }
+        string SelectedVersion { get; set; }
         string FullModelWorkDirectory { get; }
         string RelativeModelWorkDirectory { get; set; }
         string ModelExeFileName { get; set; }

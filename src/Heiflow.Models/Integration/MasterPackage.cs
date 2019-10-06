@@ -1303,7 +1303,7 @@ namespace Heiflow.Models.Integration
         }
         public override bool New()
         {
-            string _Controlfile = Path.Combine(BaseModel.ConfigPath, "heiflow.control");
+            string _Controlfile = Path.Combine(BaseModel.ConfigPath, "heiflow_" + Owner.Project.SelectedVersion + "control");
         
             if (File.Exists(_Controlfile) )
             {

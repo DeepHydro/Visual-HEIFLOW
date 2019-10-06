@@ -3,6 +3,7 @@ using GeoAPI.Geometries;
 using Heiflow.Applications;
 using Heiflow.Controls.WinForm.Editors;
 using Heiflow.Core.Data;
+using Heiflow.Models.Generic.Parameters;
 using Heiflow.Models.Integration;
 using Heiflow.Models.Subsurface;
 using Heiflow.Models.Tools;
@@ -260,15 +261,30 @@ namespace Heiflow.Tools.ConceptualModel
             if (model != null)
             {
                 var pck = model.GetPackage(LakePackage.PackageName) as LakePackage;
-                var parameter = model.PRMSModel.MMSPackage.Parameters["hru_type"];
+                var hru_type = model.PRMSModel.MMSPackage.Parameters["hru_type"];
+                var lake_hru_id = model.PRMSModel.MMSPackage.Parameters["lake_hru_id"];
                 for (int i = 0; i < pck.LakeSerialIndex.Keys.Count; i++)
                 {
                     var id = pck.LakeSerialIndex.Keys.ElementAt(i);
                     foreach (var hru_index in pck.LakeSerialIndex[id])
                     {
-                        parameter.SetValue(0, 0, hru_index, id);
+                        lake_hru_id.SetValue(0, 0, hru_index, id);
+                        hru_type.SetValue(0, 0, hru_index, 2);
                     }
                 }
+                var nlake = model.PRMSModel.MMSPackage.Parameters["nlake"];
+                var lake_evap_adj = model.PRMSModel.MMSPackage.Parameters["lake_evap_adj"];
+                nlake.SetValue(0, 0, 0, pck.NLAKES);
+                nlake.AlterDimLength("nlake", pck.NLAKES);
+                if (lake_evap_adj != null)
+                {
+                    var para = lake_evap_adj as DataCubeParameter<float>;
+                    for (int i = 0; i < pck.NLAKES; i++)
+                    {
+                        para[0][":", i] = new float[] { 1, 1, 1.1f, 1.2f, 1.3f, 1.4f, 1.5f, 1.5f, 1.4f, 1.3f, 1.2f, 1.1f };
+                    }
+                }
+
                 model.PRMSModel.MMSPackage.IsDirty = true;
                 model.PRMSModel.MMSPackage.Save(null);
 
