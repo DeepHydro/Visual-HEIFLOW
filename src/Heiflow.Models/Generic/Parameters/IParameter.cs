@@ -101,10 +101,10 @@ namespace Heiflow.Models.Generic
         {
             get;
         }
-        int[] DimensionLengh
-        {
-            get;
-        }
+        //int[] DimensionLengh
+        //{
+        //    get;
+        //}
         object Tag
         {
             get;

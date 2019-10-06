@@ -93,14 +93,12 @@ namespace Heiflow.Models.Generic.Parameters
             set;
         }
         [XmlElement]
-        [Browsable(false)]
         public string[] DimensionNames
         {
             get;
             set;
         }
         [XmlIgnore]
-        [Browsable(false)]
         public string DimensionCat
         {
             get
@@ -108,20 +106,26 @@ namespace Heiflow.Models.Generic.Parameters
                 return string.Join("_", DimensionNames);
             }
         }
-        [XmlIgnore]
-        [Browsable(false)]
-        public int[] DimensionLengh
-        {
-            get
-            {
-                int[] lens = new int[Dimension];
-                for (int i = 0; i < Dimension;i++ )
-                {
-                    int.Parse(Owner.Parameters[DimensionNames[i]].GetValue(0, 0, 0).ToString());
-                }
-                return lens;
-            }
-        }
+        //[XmlIgnore]
+        //public int[] DimensionLengh
+        //{
+        //    get
+        //    {
+        //        if (VariableType == ParameterType.Dimension || VariableType == ParameterType.Control)
+        //        {
+        //            return new int[] { 1 };
+        //        }
+        //        else
+        //        {
+        //            int[] lens = new int[Dimension];
+        //            for (int i = 0; i < Dimension; i++)
+        //            {
+        //                int.Parse(Owner.Parameters[DimensionNames[i]].GetValue(0, 0, 0).ToString());
+        //            }
+        //            return lens;
+        //        }
+        //    }
+        //}
         [XmlElement]
         public double DefaultValue
         {

@@ -92,20 +92,70 @@ namespace Heiflow.Controls.Options
             }
         }
 
-        private void btnOK_Click(object sender, EventArgs e)
+         private void btnLoadDefaultParaMeta_Click(object sender, EventArgs e)
+        {
+            if (_CurrentOption == null)
+                return;
+            _CurrentOption.LoadDefault("");
+        }
+
+        private void importFromXML_Click(object sender, EventArgs e)
+        {
+            if (_CurrentOption == null)
+                return;
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "XML Files (.xml)|*.xml|All Files (*.*)|*.*";
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                _CurrentOption.ImportFromXml(dlg.FileName);
+            }
+        }
+
+        private void importFromParameterFile_Click(object sender, EventArgs e)
+        {
+            if (_CurrentOption == null)
+                return;
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "Parameter Files (.param)|*.param|All Files (*.*)|*.*";
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                _CurrentOption.ImportFromParameter(dlg.FileName);
+            }
+        }
+        private void btnSave_Click(object sender, EventArgs e)
         {
             if (_CurrentOption != null)
             {
                 _CurrentOption.Save();
             }
         }
-
-        private void btnExport_Click(object sender, EventArgs e)
+        private void export2Csv_Click(object sender, EventArgs e)
         {
+            if (_CurrentOption == null)
+                return;
             SaveFileDialog dlg = new SaveFileDialog();
             dlg.FileName = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), _CurrentOption.OptionName + ".csv");
-            if(dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                _CurrentOption.SaveAs(dlg.FileName);
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                _CurrentOption.SaveAsCsv(dlg.FileName);
+        }
+
+        private void exportAsXml_Click(object sender, EventArgs e)
+        {
+            if (_CurrentOption == null)
+                return;
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.FileName = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), _CurrentOption.OptionName + ".xml");
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                _CurrentOption.SaveAsXml(dlg.FileName);
+        }
+        private void exportAsParameterFile_Click(object sender, EventArgs e)
+        {
+            if (_CurrentOption == null)
+                return;
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.FileName = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), _CurrentOption.OptionName + ".param");
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                _CurrentOption.SaveAsParameter(dlg.FileName);
         }
     }
 }

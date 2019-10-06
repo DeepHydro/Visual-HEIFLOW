@@ -35,6 +35,7 @@ using ILNumerics;
 using Heiflow.Core.Data.ODM;
 using System.Data;
 using System.Xml.Serialization;
+using System.ComponentModel;
 
 namespace Heiflow.Core.Data
 {
@@ -93,6 +94,7 @@ namespace Heiflow.Core.Data
             ZeroDimension = DimensionFlag.Variable;
         }
         [XmlIgnore]
+        [Browsable(false)]
         public ILArray<T>[] ILArrays
         {
             get
@@ -101,6 +103,7 @@ namespace Heiflow.Core.Data
             }
         }
         [XmlIgnore]
+        [Browsable(false)]
         public bool IsLazy
         {
             get
@@ -109,6 +112,7 @@ namespace Heiflow.Core.Data
             }
         }
         [XmlIgnore]
+        [Browsable(false)]
         public T this[int var_index, int time_index, int cell_index]
         {
             get
@@ -121,6 +125,7 @@ namespace Heiflow.Core.Data
             }
         }
         [XmlIgnore]
+        [Browsable(false)]
         public T[] this[int var_index, string time_index, string cell_index]
         {
             get
@@ -133,6 +138,7 @@ namespace Heiflow.Core.Data
             }
         }
         [XmlIgnore]
+        [Browsable(false)]
         public ILArray<T> this[int var_index]
         {
             get
@@ -151,6 +157,7 @@ namespace Heiflow.Core.Data
             set;
         }
         [XmlIgnore]
+        [Browsable(false)]
         public object DataOwner
         {
             get;
@@ -163,6 +170,7 @@ namespace Heiflow.Core.Data
             set;
         }
         [XmlIgnore]
+        [Browsable(false)]
         /// <summary>
         /// Default values are provided.
         /// </summary>
@@ -172,36 +180,42 @@ namespace Heiflow.Core.Data
             set;
         }
         [XmlIgnore]
+        [Browsable(false)]
         public DimensionFlag ZeroDimension
         {
             get;
             set;
         }
         [XmlIgnore]
+        [Browsable(false)]
         public int SelectedVariableIndex
         {
             get;
             set;
         }
         [XmlIgnore]
+        [Browsable(false)]
         public int SelectedTimeIndex
         {
             get;
             set;
         }
         [XmlIgnore]
+        [Browsable(false)]
         public int SelectedSpaceIndex
         {
             get;
             set;
         }
         [XmlIgnore]
+        [Browsable(false)]
         public DateTime[] DateTimes
         {
             get;
             set;
         }
         [XmlIgnore]
+        [Browsable(false)]
         public int[] Size
         {
             get
@@ -210,12 +224,14 @@ namespace Heiflow.Core.Data
             }
         }
         [XmlIgnore]
+        [Browsable(false)]
         public TimeVarientFlag[] Flags
         {
             get;
             set;
         }
         [XmlIgnore]
+        [Browsable(false)]
         public string[] Variables
         {
             get
@@ -231,6 +247,7 @@ namespace Heiflow.Core.Data
         /// 1d array [nvar]
         /// </summary>
         [XmlIgnore]
+        [Browsable(false)]
         public float[] Constants
         {
             get;
@@ -240,12 +257,14 @@ namespace Heiflow.Core.Data
         /// 1d array [nvar]
         /// </summary>
         [XmlIgnore]
+        [Browsable(false)]
         public float[] Multipliers
         {
             get;
             set;
         }
         [XmlIgnore]
+        [Browsable(false)]
         /// <summary>
         /// 1d array [nvar]. A flag that indicates if the array being read should be printed (written to the listing file) after it has been read. If IPRN is less than zero, the array will not be printed.
         /// </summary>
@@ -255,6 +274,7 @@ namespace Heiflow.Core.Data
             set;
         }
         [XmlIgnore]
+        [Browsable(false)]
         public DataCubeLayout Layout
         {
             get
@@ -267,6 +287,7 @@ namespace Heiflow.Core.Data
             }
         }
         [XmlIgnore]
+        [Browsable(false)]
         public IGridTopology Topology
         {
             get;

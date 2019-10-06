@@ -116,11 +116,11 @@ namespace Heiflow.Models.Surface.PRMS
             this.TimeService = Owner.TimeService;
             _Initialized = true;
         }
-        public override bool Load(ICancelProgressHandler progress)
+        public bool Load(string filename, ICancelProgressHandler progress)
         {
-            if (File.Exists(FileName))
+            if (File.Exists(filename))
             {
-                StreamReader sr = new StreamReader(FileName);
+                StreamReader sr = new StreamReader(filename);
                 var txt = sr.ReadToEnd().Trim();
                 var lines = txt.Split(new char[] { '\n' });
                 string newline = "";
@@ -139,11 +139,13 @@ namespace Heiflow.Models.Surface.PRMS
                     }
                 }
                 //read dimensions
-                for (int i = dimRow + 1; i < paraRow; )
+                for (int i = dimRow + 1; i < paraRow;)
                 {
                     i++;
                     newline = lines[i].Trim();
-                    DataCubeParameter<int> gv = new DataCubeParameter<int>(1,1, 1, false)
+                    if(newline == "one")
+                        newline = lines[i].Trim();
+                    DataCubeParameter<int> gv = new DataCubeParameter<int>(1, 1, 1, false)
                     {
                         Dimension = 1,
                         VariableType = ParameterType.Dimension,
@@ -158,8 +160,10 @@ namespace Heiflow.Models.Surface.PRMS
                         Parameters.Add(gv.Name, gv);
                     i++;
                 }
+                // add fixed dimension
+                AddFixDimension();
                 //read parameters
-                for (int i = paraRow + 1; i < lines.Length; )
+                for (int i = paraRow + 1; i < lines.Length;)
                 {
                     i++;
                     newline = TypeConverterEx.Split<string>(lines[i], 1)[0];
@@ -180,9 +184,9 @@ namespace Heiflow.Models.Surface.PRMS
                     newline = lines[i];
                     int valueType = int.Parse(newline.Trim());
 
-                    int nrow = int.Parse( Parameters[dimensionNames[0]].GetValue(0,0,0).ToString());
+                    int nrow = int.Parse(Parameters[dimensionNames[0]].GetValue(0, 0, 0).ToString());
                     int ncol = 1;
-                    if(dimension > 1)
+                    if (dimension > 1)
                         ncol = int.Parse(Parameters[dimensionNames[1]].GetValue(0, 0, 0).ToString());
                     if (valueType == 0)
                     {
@@ -272,7 +276,48 @@ namespace Heiflow.Models.Surface.PRMS
                 return false;
             }
         }
+        public override bool Load(ICancelProgressHandler progress)
+        {
+            return Load(FileName, progress);
+        }
+        public void AddFixDimension()
+        {
+            DataCubeParameter<int> gv = new DataCubeParameter<int>(1, 1, 1, false)
+            {
+                Dimension = 1,
+                VariableType = ParameterType.Dimension,
+                DimensionNames = dim_name,
+                Name = "ndays",
+                Owner = this
+            };
+            gv.SetValue(0, 0, 0, 366);
+            if (!Parameters.Keys.Contains(gv.Name))
+                Parameters.Add(gv.Name, gv);
 
+            gv = new DataCubeParameter<int>(1, 1, 1, false)
+            {
+                Dimension = 1,
+                VariableType = ParameterType.Dimension,
+                DimensionNames = dim_name,
+                Name = "nmonths",
+                Owner = this
+            };
+            gv.SetValue(0, 0, 0, 12);
+            if (!Parameters.Keys.Contains(gv.Name))
+                Parameters.Add(gv.Name, gv);
+
+            gv = new DataCubeParameter<int>(1, 1, 1, false)
+            {
+                Dimension = 1,
+                VariableType = ParameterType.Dimension,
+                DimensionNames = dim_name,
+                Name = "nhours24",
+                Owner = this
+            };
+            gv.SetValue(0, 0, 0, 24);
+            if (!Parameters.Keys.Contains(gv.Name))
+                Parameters.Add(gv.Name, gv);
+        }
         public override bool Save(ICancelProgressHandler progress)
         {
             if (IsDirty)
@@ -486,7 +531,6 @@ namespace Heiflow.Models.Surface.PRMS
                         Maximum = pr.Maximum,
                         Units = pr.Units
                     };
-                    newpr.SetValue(0, 0, 0, pr.DefaultValue);
                     Parameters.Add(pr.Name, newpr);
                 }
                 else if (pr.VariableType == ParameterType.Parameter)
@@ -503,7 +547,7 @@ namespace Heiflow.Models.Surface.PRMS
                             Owner = this,
                             VariableType = pr.VariableType,
                             ModuleName = pr.ModuleName,
-                            DimensionNames = dim_name,
+                            DimensionNames = pr.DimensionNames,
                             Minimum = pr.Minimum,
                             Maximum = pr.Maximum,
                             Units = pr.Units
@@ -522,7 +566,7 @@ namespace Heiflow.Models.Surface.PRMS
                             Owner = this,
                             VariableType = pr.VariableType,
                             ModuleName = pr.ModuleName,
-                            DimensionNames = dim_name,
+                            DimensionNames = pr.DimensionNames,
                             Minimum = pr.Minimum,
                             Maximum = pr.Maximum,
                             Units = pr.Units
@@ -541,7 +585,7 @@ namespace Heiflow.Models.Surface.PRMS
                             Owner = this,
                             VariableType = pr.VariableType,
                             ModuleName = pr.ModuleName,
-                            DimensionNames = dim_name,
+                            DimensionNames = pr.DimensionNames,
                             Minimum = pr.Minimum,
                             Maximum = pr.Maximum,
                             Units = pr.Units
@@ -560,7 +604,7 @@ namespace Heiflow.Models.Surface.PRMS
                             Owner = this,
                             VariableType = pr.VariableType,
                             ModuleName = pr.ModuleName,
-                            DimensionNames = dim_name,
+                            DimensionNames = pr.DimensionNames,
                             Minimum = pr.Minimum,
                             Maximum = pr.Maximum,
                             Units = pr.Units
@@ -577,6 +621,10 @@ namespace Heiflow.Models.Surface.PRMS
             Stream stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
             var mms = (MMSPackage)xs.Deserialize(stream);
             this._DefaultParameters = mms.DefaultParameters;
+            foreach(var para in _DefaultParameters)
+            {
+                para.Dimension = para.DimensionNames.Length;
+            }
             stream.Close();
         }
         public void AlterLength(string dim_name, int new_length)

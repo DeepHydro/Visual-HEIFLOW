@@ -82,19 +82,37 @@ namespace Heiflow.Controls.Options
             }
         }
 
-        void MMSOptionPanel_Load(object sender, EventArgs e)
+        private void MMSOptionPanel_Load(object sender, EventArgs e)
         {
             _Configfile = Path.Combine(VHFAppManager.Instance.ConfigManager.ConfigPath, "mms.config.xml");
-            if (File.Exists(_Configfile))
+            LoadDefault(_Configfile);
+        }
+        public void LoadDefault(string filename)
+        {
+            if (File.Exists(filename))
             {
                 _MMSPackage = new MMSPackage("PRMS");
-                _MMSPackage.Deserialize(_Configfile);
+                _MMSPackage.Deserialize(filename);
+                foreach (var para in _MMSPackage.Parameters.Values)
+                {
+                    para.Dimension = para.DimensionNames.Length;
+                }
                 propertyGrid1.SelectedObject = _MMSPackage.Parameters;
             }
-            else
-            {
+        }
 
-            }
+        public void ImportFromXml(string filename)
+        {
+            _MMSPackage.Parameters.Clear();
+            LoadDefault(filename);
+        }
+
+        public void ImportFromParameter(string filename)
+        {
+            _MMSPackage.FileName = filename;
+            _MMSPackage.Parameters.Clear();
+            _MMSPackage.Load(filename, null);
+            propertyGrid1.SelectedObject = _MMSPackage.Parameters;
         }
         public void Save()
         {
@@ -103,17 +121,27 @@ namespace Heiflow.Controls.Options
                 _MMSPackage.Serialize(_Configfile);
             }
         }
-        public void SaveAs(string filename)
+        public void SaveAsCsv(string filename)
         {
             StreamWriter sw = new StreamWriter(filename);
-            string line = "Parameter Name\tModule Name\tDefault Value\tMaximum\tMinimum\tDescription\tDimension Name\tDimension";
+            string line = "Parameter Name,Module Name,Default Value,Maximum,Minimum,Description,Dimension Name,Dimension";
             sw.WriteLine(line);
             foreach (var para in _MMSPackage.Parameters.Values)
             {
-                line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}", para.Name, para.ModuleName, para.DefaultValue, para.Maximum, para.Minimum, para.Description, para.DimensionNames[0], para.Dimension);
+                line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7}", para.Name, para.ModuleName, para.DefaultValue, para.Maximum, para.Minimum, para.Description, para.DimensionNames[0], para.Dimension);
                 sw.WriteLine(line);
             }
             sw.Close();
+        }
+
+        public void SaveAsXml(string filename)
+        {
+            _MMSPackage.Serialize(filename);
+        }
+
+        public void SaveAsParameter(string filename)
+        {
+            _MMSPackage.SaveAs(filename, null);
         }
     }
 }

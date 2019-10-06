@@ -38,10 +38,15 @@ namespace Heiflow.Presentation.Controls
 {
     public interface IOptionControl
     {
-        void Save();
-        void SaveAs(string filename);
         UserControl OptionControl { get; }
         string Category { get; }
         string OptionName { get; }
+        void LoadDefault(string filename);
+        void ImportFromXml(string filename);
+        void ImportFromParameter(string filename);
+        void Save();
+        void SaveAsCsv(string filename);
+        void SaveAsXml(string filename);
+        void SaveAsParameter(string filename);
     }
 }
