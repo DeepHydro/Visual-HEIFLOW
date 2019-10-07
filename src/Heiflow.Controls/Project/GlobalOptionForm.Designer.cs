@@ -463,8 +463,8 @@
             this.cmbClimateFormat.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.cmbClimateFormat.FormattingEnabled = true;
             this.cmbClimateFormat.Items.AddRange(new object[] {
-            "DCX",
-            "TXT"});
+            "Binary",
+            "Text"});
             this.cmbClimateFormat.Location = new System.Drawing.Point(193, 27);
             this.cmbClimateFormat.Name = "cmbClimateFormat";
             this.cmbClimateFormat.Size = new System.Drawing.Size(183, 28);

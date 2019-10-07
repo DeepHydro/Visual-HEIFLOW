@@ -35,6 +35,16 @@ namespace Heiflow.Controls.WinForm.Project
             radioPETClimate.Checked = _Model.MasterPackage.PotentialET == PETModule.climate_hru;
             radioPETPM.Checked = _Model.MasterPackage.PotentialET == PETModule.potet_pm;
 
+            cmbmxsziter.Text = _Model.MasterPackage.MaxSoilZoneIter.ToString();
+
+            cmbClimateFormat.SelectedIndex = _Model.MasterPackage.ClimateInputFormat == Models.Generic.FileFormat.Binary ? 0 : 1;
+            checkMappedClimate.Checked = _Model.MasterPackage.UseGridClimate;
+            tbMapFilename.Text = _Model.MasterPackage.GridClimateFile;
+            checkSM.Checked = _Model.MasterPackage.SaveSoilWaterFile;
+            tbSM.Text = _Model.MasterPackage.SoilWaterFile;
+            checkPringDebug.Checked = _Model.MasterPackage.PrintDebug;
+            //checkSaveSMBudget.Checked= _Model.MasterPackage.SoilWaterBudgetFile
+
             var outvar_file = Path.Combine(VHFAppManager.Instance.ConfigManager.ConfigPath, "outvar_" + prj.Project.SelectedVersion + ".csv");
             if(File.Exists(outvar_file))
             {
