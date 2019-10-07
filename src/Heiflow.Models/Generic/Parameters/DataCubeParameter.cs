@@ -36,6 +36,7 @@ namespace Heiflow.Models.Generic.Parameters
             Maximum = 1;
             Minimum = 0;
             Units = "";
+            IsFixed = false;
         }
         [XmlElement]
         public string Description
@@ -186,6 +187,13 @@ namespace Heiflow.Models.Generic.Parameters
 
                 return _FloatDataCube;
             }
+        }
+        [XmlIgnore]
+        [Browsable(true)]
+        public bool IsFixed
+        {
+            get;
+            set;
         }
         public Type GetVariableType()
         {

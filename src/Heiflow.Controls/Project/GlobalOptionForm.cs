@@ -79,7 +79,6 @@ namespace Heiflow.Controls.WinForm.Project
             int mxsziter = 15;
             int.TryParse(cmbmxsziter.Text, out mxsziter);
             _Model.MasterPackage.MaxSoilZoneIter = mxsziter;
-            _Model.MasterPackage.AnimationOutOC = checkAniout.Checked;
             if (_Model.MasterPackage.AnimationOutOC)
             {
                 _Model.MasterPackage.NumAniOutVar = listVars.CheckedItems.Count;
@@ -114,12 +113,6 @@ namespace Heiflow.Controls.WinForm.Project
             btnMapFilename.Enabled = checkMappedClimate.Checked;
         }
 
-        private void checkAniout_CheckedChanged(object sender, EventArgs e)
-        {
-            tbAniout.Enabled = checkAniout.Checked;
-            btnAniout.Enabled = checkAniout.Checked;
-        }
-
         private void checkSM_CheckedChanged(object sender, EventArgs e)
         {
             tbSM.Enabled = checkSM.Checked;
@@ -134,13 +127,6 @@ namespace Heiflow.Controls.WinForm.Project
                 tbMapFilename.Text = dlg.FileName;
         }
 
-        private void btnAniout_Click(object sender, EventArgs e)
-        {
-            SaveFileDialog dlg = new SaveFileDialog();
-            dlg.Filter = "Animation Output Files (.dcx)|*.dcx|All Files (*.*)|*.*";
-            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                tbAniout.Text = dlg.FileName; 
-        }
 
         private void btnSM_Click(object sender, EventArgs e)
         {

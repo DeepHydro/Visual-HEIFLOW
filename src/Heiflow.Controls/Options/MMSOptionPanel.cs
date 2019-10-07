@@ -177,14 +177,10 @@ namespace Heiflow.Controls.Options
                 pck = _ImportedMMSPackage;
             if (pck != null)
             {
-                string[] dims = new string[] { "nhru", "nhrucell", "ngwcell", "nlayer", "ncascade", "nreach", "nsegment", "nlake" };
+                string[] dims = new string[] { "nhru", "nhrucell", "ngwcell", "ncascade", "nreach", "nsegment", "nlake" };
                 foreach (var dim in dims)
                 {
-                    var para = _ImportedMMSPackage.Select(dim);
-                    if (para != null)
-                    {
-                        para.AlterDimLength(dim, 1);
-                    }
+                    _ImportedMMSPackage.AlterLength(dim, 1);
                 }
                 pck.SaveAs(filename, null);
             }

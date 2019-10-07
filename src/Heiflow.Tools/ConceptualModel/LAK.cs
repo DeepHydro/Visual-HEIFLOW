@@ -275,7 +275,7 @@ namespace Heiflow.Tools.ConceptualModel
                 var nlake = model.PRMSModel.MMSPackage.Parameters["nlake"];
                 var lake_evap_adj = model.PRMSModel.MMSPackage.Parameters["lake_evap_adj"];
                 nlake.SetValue(0, 0, 0, pck.NLAKES);
-                nlake.AlterDimLength("nlake", pck.NLAKES);
+                model.PRMSModel.MMSPackage.AlterLength("nlake", pck.NLAKES);
                 if (lake_evap_adj != null)
                 {
                     var para = lake_evap_adj as DataCubeParameter<float>;

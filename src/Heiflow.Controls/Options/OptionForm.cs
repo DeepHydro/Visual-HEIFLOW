@@ -78,7 +78,7 @@ namespace Heiflow.Controls.Options
             cmbVersion.ComboBox.DataSource = prj.Project.SupportedVersions;
             cmbVersion.SelectedIndex = 0;
 
-            cmbExportSource.SelectedIndex = 1;
+            cmbExportSource.ComboBox.DataSource = new string[] { "Default"};
         }
 
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -115,6 +115,7 @@ namespace Heiflow.Controls.Options
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 _CurrentOption.ImportFromXml(dlg.FileName);
+                cmbExportSource.ComboBox.DataSource = new string[] { "Default", "Imported" };
             }
         }
 
@@ -127,6 +128,7 @@ namespace Heiflow.Controls.Options
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 _CurrentOption.ImportFromParameter(dlg.FileName);
+                cmbExportSource.ComboBox.DataSource = new string[] { "Default", "Imported" };
             }
         }
         private void btnSave_Click(object sender, EventArgs e)
@@ -142,7 +144,8 @@ namespace Heiflow.Controls.Options
                 return;
             _CurrentOption.SelectedExportSource = cmbExportSource.SelectedItem.ToString();
             SaveFileDialog dlg = new SaveFileDialog();
-            dlg.FileName = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), _CurrentOption.OptionName + ".csv");
+            dlg.Filter = "csv Files (.csv)|*.csv|All Files (*.*)|*.*";
+            dlg.FileName = _CurrentOption.OptionName + ".csv";
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 _CurrentOption.SaveAsCsv(dlg.FileName);
         }
@@ -153,7 +156,8 @@ namespace Heiflow.Controls.Options
                 return;
             _CurrentOption.SelectedExportSource = cmbExportSource.SelectedItem.ToString();
             SaveFileDialog dlg = new SaveFileDialog();
-            dlg.FileName = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), _CurrentOption.OptionName + ".xml");
+            dlg.Filter = "XML Files (.xml)|*.xml|All Files (*.*)|*.*";
+            dlg.FileName = _CurrentOption.OptionName + ".xml";
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 _CurrentOption.SaveAsXml(dlg.FileName);
         }
@@ -163,7 +167,8 @@ namespace Heiflow.Controls.Options
                 return;
             _CurrentOption.SelectedExportSource = cmbExportSource.SelectedItem.ToString();
             SaveFileDialog dlg = new SaveFileDialog();
-            dlg.FileName = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), _CurrentOption.OptionName + ".param");
+            dlg.Filter = "Parameter Files (.param)|*.param|All Files (*.*)|*.*";
+            dlg.FileName = _CurrentOption.OptionName + ".param";
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 _CurrentOption.SaveAsParameter(dlg.FileName);
         }

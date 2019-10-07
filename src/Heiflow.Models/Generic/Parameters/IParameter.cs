@@ -140,6 +140,10 @@ namespace Heiflow.Models.Generic
             get;
             set;
         }
+        bool IsFixed
+        {
+            get;set;
+        }
         DataCube2DLayout<float> FloatDataCube
         {
             get;

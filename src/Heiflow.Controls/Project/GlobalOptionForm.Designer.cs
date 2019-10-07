@@ -33,6 +33,8 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.cmbmxsziter = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
@@ -46,12 +48,13 @@
             this.radioRunoffLinear = new System.Windows.Forms.RadioButton();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.checkSaveSMBudget = new System.Windows.Forms.CheckBox();
+            this.checkPringDebug = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.checkSM = new System.Windows.Forms.CheckBox();
-            this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.tbAniout = new System.Windows.Forms.TextBox();
-            this.btnAniout = new System.Windows.Forms.Button();
             this.tbSM = new System.Windows.Forms.TextBox();
             this.btnSM = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -66,12 +69,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.listVarDescriptions = new System.Windows.Forms.ListBox();
             this.listVars = new System.Windows.Forms.CheckedListBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.checkPringDebug = new System.Windows.Forms.CheckBox();
-            this.checkSaveSMBudget = new System.Windows.Forms.CheckBox();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -79,10 +76,10 @@
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            this.groupBox7.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.groupBox7.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -150,6 +147,37 @@
             this.groupBox6.TabIndex = 24;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Solver";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.checkBox1.Location = new System.Drawing.Point(13, 63);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(523, 24);
+            this.checkBox1.TabIndex = 11;
+            this.checkBox1.Text = "Use maximum iteration number for MODFLOW during transit stress period:";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "10",
+            "15",
+            "20",
+            "30",
+            "40",
+            "50",
+            "100"});
+            this.comboBox1.Location = new System.Drawing.Point(543, 62);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(93, 28);
+            this.comboBox1.TabIndex = 10;
+            this.comboBox1.Text = "10";
             // 
             // cmbmxsziter
             // 
@@ -294,7 +322,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 29);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(714, 524);
+            this.tabPage5.Size = new System.Drawing.Size(723, 524);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Extensions";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -312,29 +340,70 @@
             this.tabPage4.Text = "Input/Output Files";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.checkSaveSMBudget);
+            this.groupBox7.Controls.Add(this.checkPringDebug);
+            this.groupBox7.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox7.Location = new System.Drawing.Point(8, 315);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(706, 92);
+            this.groupBox7.TabIndex = 2;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Debug/Report File";
+            // 
+            // checkSaveSMBudget
+            // 
+            this.checkSaveSMBudget.AutoSize = true;
+            this.checkSaveSMBudget.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.checkSaveSMBudget.Location = new System.Drawing.Point(247, 44);
+            this.checkSaveSMBudget.Name = "checkSaveSMBudget";
+            this.checkSaveSMBudget.Size = new System.Drawing.Size(177, 24);
+            this.checkSaveSMBudget.TabIndex = 1;
+            this.checkSaveSMBudget.Text = "Save soil zone budget";
+            this.checkSaveSMBudget.UseVisualStyleBackColor = true;
+            // 
+            // checkPringDebug
+            // 
+            this.checkPringDebug.AutoSize = true;
+            this.checkPringDebug.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.checkPringDebug.Location = new System.Drawing.Point(18, 44);
+            this.checkPringDebug.Name = "checkPringDebug";
+            this.checkPringDebug.Size = new System.Drawing.Size(192, 24);
+            this.checkPringDebug.TabIndex = 1;
+            this.checkPringDebug.Text = "Print surface flow debug";
+            this.checkPringDebug.UseVisualStyleBackColor = true;
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.linkLabel1);
             this.groupBox2.Controls.Add(this.checkSM);
-            this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Controls.Add(this.tbAniout);
-            this.groupBox2.Controls.Add(this.btnAniout);
             this.groupBox2.Controls.Add(this.tbSM);
             this.groupBox2.Controls.Add(this.btnSM);
             this.groupBox2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(8, 155);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(706, 190);
+            this.groupBox2.Size = new System.Drawing.Size(706, 145);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Output File";
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(14, 34);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(243, 20);
+            this.linkLabel1.TabIndex = 7;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "Select animation output variables";
             // 
             // checkSM
             // 
             this.checkSM.AutoSize = true;
             this.checkSM.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.checkSM.Location = new System.Drawing.Point(18, 111);
+            this.checkSM.Location = new System.Drawing.Point(18, 67);
             this.checkSM.Name = "checkSM";
             this.checkSM.Size = new System.Drawing.Size(191, 24);
             this.checkSM.TabIndex = 0;
@@ -342,50 +411,20 @@
             this.checkSM.UseVisualStyleBackColor = true;
             this.checkSM.CheckedChanged += new System.EventHandler(this.checkSM_CheckedChanged);
             // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.label9.Location = new System.Drawing.Point(42, 69);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(106, 20);
-            this.label9.TabIndex = 6;
-            this.label9.Text = "Animation file:";
-            // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.label8.Location = new System.Drawing.Point(42, 148);
+            this.label8.Location = new System.Drawing.Point(42, 104);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(124, 20);
             this.label8.TabIndex = 6;
             this.label8.Text = "Soil moisture file:";
             // 
-            // tbAniout
-            // 
-            this.tbAniout.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.tbAniout.Location = new System.Drawing.Point(193, 66);
-            this.tbAniout.Name = "tbAniout";
-            this.tbAniout.Size = new System.Drawing.Size(388, 27);
-            this.tbAniout.TabIndex = 1;
-            // 
-            // btnAniout
-            // 
-            this.btnAniout.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnAniout.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnAniout.Location = new System.Drawing.Point(599, 63);
-            this.btnAniout.Name = "btnAniout";
-            this.btnAniout.Size = new System.Drawing.Size(100, 30);
-            this.btnAniout.TabIndex = 5;
-            this.btnAniout.Text = "Browse...";
-            this.btnAniout.UseVisualStyleBackColor = true;
-            this.btnAniout.Click += new System.EventHandler(this.btnAniout_Click);
-            // 
             // tbSM
             // 
             this.tbSM.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.tbSM.Location = new System.Drawing.Point(193, 144);
+            this.tbSM.Location = new System.Drawing.Point(193, 100);
             this.tbSM.Name = "tbSM";
             this.tbSM.Size = new System.Drawing.Size(388, 27);
             this.tbSM.TabIndex = 1;
@@ -394,7 +433,7 @@
             // 
             this.btnSM.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnSM.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnSM.Location = new System.Drawing.Point(599, 142);
+            this.btnSM.Location = new System.Drawing.Point(599, 98);
             this.btnSM.Name = "btnSM";
             this.btnSM.Size = new System.Drawing.Size(100, 30);
             this.btnSM.TabIndex = 5;
@@ -551,85 +590,10 @@
             this.listVars.Size = new System.Drawing.Size(242, 466);
             this.listVars.TabIndex = 0;
             // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Checked = true;
-            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.checkBox1.Location = new System.Drawing.Point(13, 63);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(523, 24);
-            this.checkBox1.TabIndex = 11;
-            this.checkBox1.Text = "Use maximum iteration number for MODFLOW during transit stress period:";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "10",
-            "15",
-            "20",
-            "30",
-            "40",
-            "50",
-            "100"});
-            this.comboBox1.Location = new System.Drawing.Point(543, 62);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(93, 28);
-            this.comboBox1.TabIndex = 10;
-            this.comboBox1.Text = "10";
-            // 
-            // groupBox7
-            // 
-            this.groupBox7.Controls.Add(this.checkSaveSMBudget);
-            this.groupBox7.Controls.Add(this.checkPringDebug);
-            this.groupBox7.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox7.Location = new System.Drawing.Point(8, 351);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(706, 92);
-            this.groupBox7.TabIndex = 2;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "Debug/Report File";
-            // 
-            // checkPringDebug
-            // 
-            this.checkPringDebug.AutoSize = true;
-            this.checkPringDebug.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.checkPringDebug.Location = new System.Drawing.Point(18, 44);
-            this.checkPringDebug.Name = "checkPringDebug";
-            this.checkPringDebug.Size = new System.Drawing.Size(192, 24);
-            this.checkPringDebug.TabIndex = 1;
-            this.checkPringDebug.Text = "Print surface flow debug";
-            this.checkPringDebug.UseVisualStyleBackColor = true;
-            // 
-            // checkSaveSMBudget
-            // 
-            this.checkSaveSMBudget.AutoSize = true;
-            this.checkSaveSMBudget.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.checkSaveSMBudget.Location = new System.Drawing.Point(247, 44);
-            this.checkSaveSMBudget.Name = "checkSaveSMBudget";
-            this.checkSaveSMBudget.Size = new System.Drawing.Size(177, 24);
-            this.checkSaveSMBudget.TabIndex = 1;
-            this.checkSaveSMBudget.Text = "Save soil zone budget";
-            this.checkSaveSMBudget.UseVisualStyleBackColor = true;
-            // 
-            // linkLabel1
-            // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(14, 34);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(243, 20);
-            this.linkLabel1.TabIndex = 7;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Select animation output variables";
-            // 
             // GlobalOptionForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(734, 606);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btnCancel);
@@ -651,14 +615,14 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.tabPage4.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
-            this.groupBox7.ResumeLayout(false);
-            this.groupBox7.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -690,10 +654,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.CheckBox checkSM;
-        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox tbAniout;
-        private System.Windows.Forms.Button btnAniout;
         private System.Windows.Forms.TextBox tbSM;
         private System.Windows.Forms.Button btnSM;
         private System.Windows.Forms.TabPage tabPage5;

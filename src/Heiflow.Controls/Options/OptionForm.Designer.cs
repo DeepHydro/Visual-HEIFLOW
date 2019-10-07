@@ -40,14 +40,14 @@
             this.btnImport = new System.Windows.Forms.ToolStripDropDownButton();
             this.importFromXML = new System.Windows.Forms.ToolStripMenuItem();
             this.importFromParameterFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnCompare = new System.Windows.Forms.ToolStripButton();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+            this.cmbExportSource = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.export2Csv = new System.Windows.Forms.ToolStripMenuItem();
             this.exportAsXml = new System.Windows.Forms.ToolStripMenuItem();
             this.exportAsParameterFile = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
-            this.cmbExportSource = new System.Windows.Forms.ToolStripComboBox();
-            this.btnCompare = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -158,6 +158,30 @@
             this.importFromParameterFile.Text = "Import from parameter file";
             this.importFromParameterFile.Click += new System.EventHandler(this.importFromParameterFile_Click);
             // 
+            // btnCompare
+            // 
+            this.btnCompare.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnCompare.Image = global::Heiflow.Controls.WinForm.Properties.Resources.compare_24p;
+            this.btnCompare.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnCompare.Name = "btnCompare";
+            this.btnCompare.Size = new System.Drawing.Size(24, 25);
+            this.btnCompare.Text = "Compare imported parameter with default one";
+            this.btnCompare.Click += new System.EventHandler(this.btnCompare_Click);
+            // 
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(101, 25);
+            this.toolStripLabel2.Text = "Export Source";
+            // 
+            // cmbExportSource
+            // 
+            this.cmbExportSource.Items.AddRange(new object[] {
+            "Default",
+            "Imported"});
+            this.cmbExportSource.Name = "cmbExportSource";
+            this.cmbExportSource.Size = new System.Drawing.Size(121, 28);
+            // 
             // toolStripDropDownButton1
             // 
             this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -209,34 +233,10 @@
             this.splitContainer1.SplitterDistance = 248;
             this.splitContainer1.TabIndex = 7;
             // 
-            // toolStripLabel2
-            // 
-            this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(101, 25);
-            this.toolStripLabel2.Text = "Export Source";
-            // 
-            // cmbExportSource
-            // 
-            this.cmbExportSource.Items.AddRange(new object[] {
-            "Default",
-            "Imported"});
-            this.cmbExportSource.Name = "cmbExportSource";
-            this.cmbExportSource.Size = new System.Drawing.Size(121, 28);
-            // 
-            // btnCompare
-            // 
-            this.btnCompare.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnCompare.Image = global::Heiflow.Controls.WinForm.Properties.Resources.compare_24p;
-            this.btnCompare.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnCompare.Name = "btnCompare";
-            this.btnCompare.Size = new System.Drawing.Size(24, 25);
-            this.btnCompare.Text = "Compare imported parameter with default one";
-            this.btnCompare.Click += new System.EventHandler(this.btnCompare_Click);
-            // 
             // OptionForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(744, 614);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip1);

@@ -117,10 +117,11 @@ namespace Heiflow.Models.IO
                     i++;
                     newline = lines[i];
                     int ValueType = int.Parse(newline.Trim());
-                    int nrow = int.Parse(parameters[dimensionNames[0]].GetValue(0, 0, 0).ToString());
+                    int nrow = ValueCount;
+                    //int nrow = int.Parse(parameters[dimensionNames[0]].GetValue(0, 0, 0).ToString());
                     int ncol = 1;
-                    if (Dimension > 1)
-                        ncol = int.Parse(parameters[dimensionNames[1]].GetValue(0, 0, 0).ToString());
+                    //if (Dimension > 1)
+                    //    ncol = int.Parse(parameters[dimensionNames[1]].GetValue(0, 0, 0).ToString());
                     if (ValueType == 0)
                     {
                         DataCubeParameter<short> gv = new DataCubeParameter<short>(1,nrow,ncol)

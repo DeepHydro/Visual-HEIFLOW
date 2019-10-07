@@ -89,6 +89,12 @@ namespace Heiflow.Models.Subsurface
                     SY = sy,
                     WETDRY = wetdry
                 };
+                if (i >= 1)
+                {
+                    layer.LAYTYP = LAYTYP.Confined;
+                    layer.LAYWET = LAYWET.Inactive;
+                }
+
                 _Layers.Add(layer);
             }
             Initialized = true;

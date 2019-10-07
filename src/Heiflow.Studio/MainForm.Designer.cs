@@ -36,12 +36,14 @@
             // map1
             // 
             this.map1.AllowDrop = true;
+            this.map1.AutoSize = true;
+            this.map1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.map1.BackColor = System.Drawing.Color.White;
             this.map1.CollectAfterDraw = false;
             this.map1.CollisionDetection = false;
             this.map1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.map1.ExtendBuffer = false;
-            this.map1.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.map1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.map1.FunctionMode = DotSpatial.Controls.FunctionMode.None;
             this.map1.IsBusy = false;
             this.map1.IsZoomedToMaxExtent = false;
@@ -69,8 +71,10 @@
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Appearance.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.Appearance.Options.UseFont = true;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(1054, 690);
             this.Controls.Add(this.map1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -79,6 +83,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Visual HEIFLOW";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

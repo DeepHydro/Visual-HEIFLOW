@@ -620,5 +620,7 @@ namespace Heiflow.Models.Generic.Parameters
                 throw new NotImplementedException();
             }
         }
+
+        public bool IsFixed { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

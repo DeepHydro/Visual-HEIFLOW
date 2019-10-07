@@ -1303,7 +1303,7 @@ namespace Heiflow.Models.Integration
         }
         public override bool New()
         {
-            string _Controlfile = Path.Combine(BaseModel.ConfigPath, "heiflow_" + Owner.Project.SelectedVersion + "control");
+            string _Controlfile = Path.Combine(BaseModel.ConfigPath, "heiflow_" + Owner.Project.SelectedVersion + ".control");
         
             if (File.Exists(_Controlfile) )
             {
@@ -1351,10 +1351,14 @@ namespace Heiflow.Models.Integration
                 PrecipitationFile = string.Format(".\\input\\prms\\{0}_precip.txt", Owner.Project.Name);
                 TempMaxFile = string.Format(".\\input\\prms\\{0}_tmax.txt", Owner.Project.Name);
                 TempMinFile = string.Format(".\\input\\prms\\{0}_tmin.txt", Owner.Project.Name);
-                PETFile = string.Format(".\\input\\prms\\{0}_pet.txt", Owner.Project.Name);
-                WindFile = string.Format(".\\input\\prms\\{0}_wnd.txt", Owner.Project.Name);
-                HumidityFile = string.Format(".\\input\\prms\\{0}_hum.txt", Owner.Project.Name);
-                PressureFile = string.Format(".\\input\\prms\\{0}_pres.txt", Owner.Project.Name);
+                if (Owner.Project.SelectedVersion == "v1.0.0")
+                    PETFile = string.Format(".\\input\\prms\\{0}_pet.txt", Owner.Project.Name);
+                else
+                {
+                    WindFile = string.Format(".\\input\\prms\\{0}_wnd.txt", Owner.Project.Name);
+                    HumidityFile = string.Format(".\\input\\prms\\{0}_hum.txt", Owner.Project.Name);
+                    PressureFile = string.Format(".\\input\\prms\\{0}_pres.txt", Owner.Project.Name);
+                }
                 AnimationOutOCFile = string.Format(".\\input\\prms\\{0}_aniout.oc", Owner.Project.Name);
                 WRAModuleFile = string.Format(".\\input\\prms\\{0}.wra", Owner.Project.Name);
                 ExtensionManagerFile = string.Format(".\\input\\extension\\extensions.exm", Owner.Project.Name);
