@@ -50,7 +50,8 @@ namespace Heiflow.Controls.Options
     [Export(typeof(IOptionControl))]
     public partial class MMSOptionPanel : UserControl, IOptionControl
     {
-        private MMSPackage _MMSPackage;
+        private MMSPackage _DefaultMMSPackage;
+        private MMSPackage _ImportedMMSPackage;
         private string _Configfile;
 
         public MMSOptionPanel()
@@ -87,7 +88,11 @@ namespace Heiflow.Controls.Options
             get;
             set;
         }
-
+        public string SelectedExportSource
+        {
+            get;
+            set;
+        }
         private void MMSOptionPanel_Load(object sender, EventArgs e)
         {
             var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
@@ -98,66 +103,116 @@ namespace Heiflow.Controls.Options
         {
             if (File.Exists(filename))
             {
-                _MMSPackage = new MMSPackage("PRMS");
-                _MMSPackage.Deserialize(filename);
-                foreach (var para in _MMSPackage.Parameters.Values)
+                _DefaultMMSPackage = new MMSPackage("PRMS");
+                _DefaultMMSPackage.Deserialize(filename);
+                foreach (var para in _DefaultMMSPackage.Parameters.Values)
                 {
                     para.Dimension = para.DimensionNames.Length;
                 }
-                propertyGrid1.SelectedObject = _MMSPackage.Parameters;
+                propertyGrid1.SelectedObject = _DefaultMMSPackage.Parameters;
             }
         }
 
         public void ImportFromXml(string filename)
         {
-            _MMSPackage.Parameters.Clear();
-            LoadDefault(filename);
+            _ImportedMMSPackage = new MMSPackage();
+            _ImportedMMSPackage.Deserialize(filename);
+            foreach (var para in _ImportedMMSPackage.Parameters.Values)
+            {
+                para.Dimension = para.DimensionNames.Length;
+            }
+            propertyGrid1.SelectedObject = _ImportedMMSPackage.Parameters;
         }
 
         public void ImportFromParameter(string filename)
         {
-            _MMSPackage.FileName = filename;
-            _MMSPackage.Parameters.Clear();
-            _MMSPackage.Load(filename, null);
-            propertyGrid1.SelectedObject = _MMSPackage.Parameters;
+            _ImportedMMSPackage = new MMSPackage();
+            _ImportedMMSPackage.FileName = filename;
+            _ImportedMMSPackage.Parameters.Clear();
+            _ImportedMMSPackage.Load(filename, null);
+            propertyGrid1.SelectedObject = _ImportedMMSPackage.Parameters;
         }
         public void Save()
         {
             if (File.Exists(_Configfile))
             {
-                _MMSPackage.Serialize(_Configfile);
+                _DefaultMMSPackage.Serialize(_Configfile);
             }
         }
         public void SaveAsCsv(string filename)
         {
-            StreamWriter sw = new StreamWriter(filename);
-            string line = "Parameter Name,Module Name,Default Value,Maximum,Minimum,Description,Dimension Name,Dimension";
-            sw.WriteLine(line);
-            foreach (var para in _MMSPackage.Parameters.Values)
+            var pck = _DefaultMMSPackage;
+            if (SelectedExportSource != "Default")
+                pck = _ImportedMMSPackage;
+
+            if (pck != null)
             {
-                line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7}", para.Name, para.ModuleName, para.DefaultValue, para.Maximum, para.Minimum, para.Description, string.Join(" ", para.DimensionNames), para.Dimension);
+                StreamWriter sw = new StreamWriter(filename);
+                string line = "Parameter Name,Module Name,Default Value,Maximum,Minimum,Description,Dimension Name,Dimension";
                 sw.WriteLine(line);
+                foreach (var para in pck.Parameters.Values)
+                {
+                    line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7}", para.Name, para.ModuleName, para.DefaultValue, para.Maximum, para.Minimum, para.Description, string.Join(" ", para.DimensionNames), para.Dimension);
+                    sw.WriteLine(line);
+                }
+                sw.Close();
             }
-            sw.Close();
         }
 
         public void SaveAsXml(string filename)
         {
-            _MMSPackage.Serialize(filename);
+            var pck = _DefaultMMSPackage;
+            if (SelectedExportSource != "Default")
+                pck = _ImportedMMSPackage;
+            if (pck != null)
+            {
+                pck.Serialize(filename);
+            }
         }
 
         public void SaveAsParameter(string filename)
         {
-            string[] dims = new string[] { "nhru", "nhrucell", "ngwcell", "nlayer", "ncascade", "nreach" , "nsegment", "nlake" };
-            foreach(var dim in dims)
+            var pck = _DefaultMMSPackage;
+            if (SelectedExportSource != "Default")
+                pck = _ImportedMMSPackage;
+            if (pck != null)
             {
-                var para = _MMSPackage.Select(dim);
-                if(para != null)
+                string[] dims = new string[] { "nhru", "nhrucell", "ngwcell", "nlayer", "ncascade", "nreach", "nsegment", "nlake" };
+                foreach (var dim in dims)
                 {
-                    para.AlterDimLength(dim, 1);
+                    var para = _ImportedMMSPackage.Select(dim);
+                    if (para != null)
+                    {
+                        para.AlterDimLength(dim, 1);
+                    }
+                }
+                pck.SaveAs(filename, null);
+            }
+        }
+
+
+        public void Compare()
+        {
+            if(_ImportedMMSPackage != null)
+            {
+                foreach(var impara in _ImportedMMSPackage.Parameters.Values)
+                {
+                    var para = _DefaultMMSPackage.Select(impara.Name);
+                     if(para != null)
+                     {
+                         impara.DefaultValue = para.DefaultValue;
+                         impara.Description = para.Description;
+                         impara.Maximum = para.Maximum;
+                         impara.Minimum = para.Minimum;
+                         impara.ModuleName = para.ModuleName;
+                         impara.Units = para.Units;
+                     }
+                    else
+                     {
+                         impara.ModuleName = Models.Generic.Modules.ecology_general;
+                     }
                 }
             }
-            _MMSPackage.SaveAs(filename, null);
         }
     }
 }

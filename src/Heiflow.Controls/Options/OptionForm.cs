@@ -77,6 +77,8 @@ namespace Heiflow.Controls.Options
             }
             cmbVersion.ComboBox.DataSource = prj.Project.SupportedVersions;
             cmbVersion.SelectedIndex = 0;
+
+            cmbExportSource.SelectedIndex = 1;
         }
 
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -138,6 +140,7 @@ namespace Heiflow.Controls.Options
         {
             if (_CurrentOption == null)
                 return;
+            _CurrentOption.SelectedExportSource = cmbExportSource.SelectedItem.ToString();
             SaveFileDialog dlg = new SaveFileDialog();
             dlg.FileName = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), _CurrentOption.OptionName + ".csv");
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -148,6 +151,7 @@ namespace Heiflow.Controls.Options
         {
             if (_CurrentOption == null)
                 return;
+            _CurrentOption.SelectedExportSource = cmbExportSource.SelectedItem.ToString();
             SaveFileDialog dlg = new SaveFileDialog();
             dlg.FileName = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), _CurrentOption.OptionName + ".xml");
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -157,6 +161,7 @@ namespace Heiflow.Controls.Options
         {
             if (_CurrentOption == null)
                 return;
+            _CurrentOption.SelectedExportSource = cmbExportSource.SelectedItem.ToString();
             SaveFileDialog dlg = new SaveFileDialog();
             dlg.FileName = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), _CurrentOption.OptionName + ".param");
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -168,6 +173,11 @@ namespace Heiflow.Controls.Options
             if (_CurrentOption == null)
                 return;
             _CurrentOption.SelectedVersion = cmbVersion.SelectedItem.ToString();
+        }
+
+        private void btnCompare_Click(object sender, EventArgs e)
+        {
+            _CurrentOption.Compare();
         }
     }
 }

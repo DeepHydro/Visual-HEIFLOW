@@ -58,40 +58,96 @@ namespace Heiflow.Controls.WinForm.Project
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-           if( listVars.CheckedItems.Count == 0)
-           {
-               MessageBox.Show("At least one output variable must be selected", "Output variables selection", MessageBoxButtons.OK, MessageBoxIcon.Error);
-           }
-          else if (listVars.CheckedItems.Count > 10)
-           {
-               if(MessageBox.Show("More than 10 variables are selected. The output file may be very large. Do you really want to output the selected variables?", "Output variables selection", 
-                   MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.Yes)
-               {
-                   if (radioRunoffLinear.Checked)
-                       _Model.MasterPackage.SurfaceRunoff = SurfaceRunoffModule.srunoff_carea_casc;
-                   else if (radioRunoffNonLinear.Checked)
-                       _Model.MasterPackage.SurfaceRunoff = SurfaceRunoffModule.srunoff_smidx_casc;
+            if (listVars.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("At least one output variable must be selected", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (checkMappedClimate.Checked && TypeConverterEx.IsNull(tbMapFilename.Text))
+            {
+                MessageBox.Show("The spatial mapping file can not be null since you have checked the Use mapped climate driving force", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (listVars.CheckedItems.Count > 10)
+            {
+                if (MessageBox.Show("More than 10 variables are selected. The output file may be very large. Do you really want to output the selected variables?", "Output variables selection",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == System.Windows.Forms.DialogResult.No)
+                {
+                    return;
+                }
+            }
+            int mxsziter = 15;
+            int.TryParse(cmbmxsziter.Text, out mxsziter);
+            _Model.MasterPackage.MaxSoilZoneIter = mxsziter;
+            _Model.MasterPackage.AnimationOutOC = checkAniout.Checked;
+            if (_Model.MasterPackage.AnimationOutOC)
+            {
+                _Model.MasterPackage.NumAniOutVar = listVars.CheckedItems.Count;
+                _Model.MasterPackage.AniOutVarNames = new string[_Model.MasterPackage.NumAniOutVar];
+                for (int i = 0; i < _Model.MasterPackage.NumAniOutVar; i++)
+                {
+                    _Model.MasterPackage.AniOutVarNames[i] = listVars.CheckedItems[i].ToString();
+                }
+            }
+            if (radioRunoffLinear.Checked)
+                _Model.MasterPackage.SurfaceRunoff = SurfaceRunoffModule.srunoff_carea_casc;
+            else if (radioRunoffNonLinear.Checked)
+                _Model.MasterPackage.SurfaceRunoff = SurfaceRunoffModule.srunoff_smidx_casc;
 
-                   if (radioSRTemp.Checked)
-                       _Model.MasterPackage.SolarRadiation = SolarRadiationModule.ddsolrad_hru_prms;
-                   else if (radioSRCloud.Checked)
-                       _Model.MasterPackage.SolarRadiation = SolarRadiationModule.ccsolrad_hru_prms;
+            if (radioSRTemp.Checked)
+                _Model.MasterPackage.SolarRadiation = SolarRadiationModule.ddsolrad_hru_prms;
+            else if (radioSRCloud.Checked)
+                _Model.MasterPackage.SolarRadiation = SolarRadiationModule.ccsolrad_hru_prms;
 
-                   if (radioPETClimate.Checked)
-                       _Model.MasterPackage.PotentialET = PETModule.climate_hru;
-                   else if (radioPETPM.Checked)
-                       _Model.MasterPackage.PotentialET = PETModule.potet_pm;
+            if (radioPETClimate.Checked)
+                _Model.MasterPackage.PotentialET = PETModule.climate_hru;
+            else if (radioPETPM.Checked)
+                _Model.MasterPackage.PotentialET = PETModule.potet_pm;
 
-                   _Model.MasterPackage.NumAniOutVar = listVars.CheckedItems.Count;
-                   _Model.MasterPackage.AniOutVarNames = new string[_Model.MasterPackage.NumAniOutVar];
-                   for (int i = 0; i < _Model.MasterPackage.NumAniOutVar;i++ )
-                   {
-                       _Model.MasterPackage.AniOutVarNames[i] = listVars.CheckedItems[i].ToString();
-                   }
-                       _Model.MasterPackage.IsDirty = true;
-                   _Model.MasterPackage.Save(null);
-               }
-           }
+            _Model.MasterPackage.IsDirty = true;
+            _Model.MasterPackage.Save(null);
+
+        }
+        private void checkMappedClimate_CheckedChanged(object sender, EventArgs e)
+        {
+            tbMapFilename.Enabled = checkMappedClimate.Checked;
+            btnMapFilename.Enabled = checkMappedClimate.Checked;
+        }
+
+        private void checkAniout_CheckedChanged(object sender, EventArgs e)
+        {
+            tbAniout.Enabled = checkAniout.Checked;
+            btnAniout.Enabled = checkAniout.Checked;
+        }
+
+        private void checkSM_CheckedChanged(object sender, EventArgs e)
+        {
+            tbSM.Enabled = checkSM.Checked;
+            btnSM.Enabled = checkSM.Checked;
+        }
+
+        private void btnMapFilename_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "Mapping Files (.map)|*.map|All Files (*.*)|*.*";
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                tbMapFilename.Text = dlg.FileName;
+        }
+
+        private void btnAniout_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.Filter = "Animation Output Files (.dcx)|*.dcx|All Files (*.*)|*.*";
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                tbAniout.Text = dlg.FileName; 
+        }
+
+        private void btnSM_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.Filter = "Animation Output Files (.dcx)|*.dcx|All Files (*.*)|*.*";
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                tbSM.Text = dlg.FileName; 
         }
     }
 }

@@ -42,9 +42,11 @@ namespace Heiflow.Presentation.Controls
         string Category { get; }
         string OptionName { get; }
         string SelectedVersion { get; set; }
+        string SelectedExportSource { get; set; }
         void LoadDefault(string filename);
         void ImportFromXml(string filename);
         void ImportFromParameter(string filename);
+        void Compare();
         void Save();
         void SaveAsCsv(string filename);
         void SaveAsXml(string filename);

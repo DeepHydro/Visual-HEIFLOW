@@ -195,7 +195,7 @@ namespace Heiflow.Models.Surface.PRMS
                 }
                 else
                 {
-                    var msg =string.Format("\r\n Failed to load {0}. Error: {1}", Name, _mmsPackage.Message);
+                    var msg =string.Format("Failed to load {0}. Error: {1}", Name, _mmsPackage.Message);
                     progress.Progress(this.Name, 1, msg);
                 }
             }

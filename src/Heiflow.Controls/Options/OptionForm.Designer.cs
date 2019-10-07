@@ -32,6 +32,8 @@
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.panel1 = new System.Windows.Forms.Panel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.cmbVersion = new System.Windows.Forms.ToolStripComboBox();
             this.btnLoadDefaultParaMeta = new System.Windows.Forms.ToolStripButton();
             this.btnSave = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -43,8 +45,9 @@
             this.exportAsXml = new System.Windows.Forms.ToolStripMenuItem();
             this.exportAsParameterFile = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.cmbVersion = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+            this.cmbExportSource = new System.Windows.Forms.ToolStripComboBox();
+            this.btnCompare = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -80,12 +83,27 @@
             this.btnSave,
             this.toolStripSeparator1,
             this.btnImport,
+            this.btnCompare,
+            this.toolStripLabel2,
+            this.cmbExportSource,
             this.toolStripDropDownButton1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(744, 28);
             this.toolStrip1.TabIndex = 6;
             this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(57, 25);
+            this.toolStripLabel1.Text = "Version";
+            // 
+            // cmbVersion
+            // 
+            this.cmbVersion.Name = "cmbVersion";
+            this.cmbVersion.Size = new System.Drawing.Size(121, 28);
+            this.cmbVersion.SelectedIndexChanged += new System.EventHandler(this.cmbVersion_SelectedIndexChanged);
             // 
             // btnLoadDefaultParaMeta
             // 
@@ -94,7 +112,7 @@
             this.btnLoadDefaultParaMeta.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLoadDefaultParaMeta.Name = "btnLoadDefaultParaMeta";
             this.btnLoadDefaultParaMeta.Size = new System.Drawing.Size(24, 25);
-            this.btnLoadDefaultParaMeta.ToolTipText = "Import parameter meta file";
+            this.btnLoadDefaultParaMeta.ToolTipText = "load defualt parameter meta file";
             this.btnLoadDefaultParaMeta.Click += new System.EventHandler(this.btnLoadDefaultParaMeta_Click);
             // 
             // btnSave
@@ -105,6 +123,7 @@
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(24, 25);
             this.btnSave.Text = "toolStripButton1";
+            this.btnSave.ToolTipText = "Save defualt parameter meta file";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // toolStripSeparator1
@@ -190,17 +209,29 @@
             this.splitContainer1.SplitterDistance = 248;
             this.splitContainer1.TabIndex = 7;
             // 
-            // cmbVersion
+            // toolStripLabel2
             // 
-            this.cmbVersion.Name = "cmbVersion";
-            this.cmbVersion.Size = new System.Drawing.Size(121, 28);
-            this.cmbVersion.SelectedIndexChanged += new System.EventHandler(this.cmbVersion_SelectedIndexChanged);
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(101, 25);
+            this.toolStripLabel2.Text = "Export Source";
             // 
-            // toolStripLabel1
+            // cmbExportSource
             // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(57, 25);
-            this.toolStripLabel1.Text = "Version";
+            this.cmbExportSource.Items.AddRange(new object[] {
+            "Default",
+            "Imported"});
+            this.cmbExportSource.Name = "cmbExportSource";
+            this.cmbExportSource.Size = new System.Drawing.Size(121, 28);
+            // 
+            // btnCompare
+            // 
+            this.btnCompare.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnCompare.Image = global::Heiflow.Controls.WinForm.Properties.Resources.compare_24p;
+            this.btnCompare.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnCompare.Name = "btnCompare";
+            this.btnCompare.Size = new System.Drawing.Size(24, 25);
+            this.btnCompare.Text = "Compare imported parameter with default one";
+            this.btnCompare.Click += new System.EventHandler(this.btnCompare_Click);
             // 
             // OptionForm
             // 
@@ -246,5 +277,8 @@
         private System.Windows.Forms.ToolStripMenuItem exportAsParameterFile;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripComboBox cmbVersion;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel2;
+        private System.Windows.Forms.ToolStripComboBox cmbExportSource;
+        private System.Windows.Forms.ToolStripButton btnCompare;
     }
 }
