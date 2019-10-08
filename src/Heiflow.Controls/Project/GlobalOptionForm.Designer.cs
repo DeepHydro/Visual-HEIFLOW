@@ -31,7 +31,7 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabModule = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
@@ -46,17 +46,14 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.radioRunoffNonLinear = new System.Windows.Forms.RadioButton();
             this.radioRunoffLinear = new System.Windows.Forms.RadioButton();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.tabExtension = new System.Windows.Forms.TabPage();
+            this.tabFile = new System.Windows.Forms.TabPage();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.checkSaveSMBudget = new System.Windows.Forms.CheckBox();
             this.checkPringDebug = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.checkSaveSMBudget = new System.Windows.Forms.CheckBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.checkSM = new System.Windows.Forms.CheckBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.tbSM = new System.Windows.Forms.TextBox();
-            this.btnSM = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cmbClimateFormat = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -64,22 +61,22 @@
             this.tbMapFilename = new System.Windows.Forms.TextBox();
             this.checkMappedClimate = new System.Windows.Forms.CheckBox();
             this.btnMapFilename = new System.Windows.Forms.Button();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabOutVars = new System.Windows.Forms.TabPage();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.listVarDescriptions = new System.Windows.Forms.ListBox();
             this.listVars = new System.Windows.Forms.CheckedListBox();
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.tabModule.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.tabPage4.SuspendLayout();
+            this.tabFile.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.tabOutVars.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -110,29 +107,29 @@
             this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage5);
-            this.tabControl1.Controls.Add(this.tabPage4);
-            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabModule);
+            this.tabControl1.Controls.Add(this.tabExtension);
+            this.tabControl1.Controls.Add(this.tabFile);
+            this.tabControl1.Controls.Add(this.tabOutVars);
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(731, 557);
             this.tabControl1.TabIndex = 6;
             // 
-            // tabPage1
+            // tabModule
             // 
-            this.tabPage1.Controls.Add(this.groupBox6);
-            this.tabPage1.Controls.Add(this.groupBox5);
-            this.tabPage1.Controls.Add(this.groupBox4);
-            this.tabPage1.Controls.Add(this.groupBox3);
-            this.tabPage1.Location = new System.Drawing.Point(4, 29);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(723, 524);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Modules";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tabModule.Controls.Add(this.groupBox6);
+            this.tabModule.Controls.Add(this.groupBox5);
+            this.tabModule.Controls.Add(this.groupBox4);
+            this.tabModule.Controls.Add(this.groupBox3);
+            this.tabModule.Location = new System.Drawing.Point(4, 29);
+            this.tabModule.Name = "tabModule";
+            this.tabModule.Padding = new System.Windows.Forms.Padding(3);
+            this.tabModule.Size = new System.Drawing.Size(723, 524);
+            this.tabModule.TabIndex = 0;
+            this.tabModule.Text = "Modules";
+            this.tabModule.UseVisualStyleBackColor = true;
             // 
             // groupBox6
             // 
@@ -317,51 +314,39 @@
     "area_casc)";
             this.radioRunoffLinear.UseVisualStyleBackColor = true;
             // 
-            // tabPage5
+            // tabExtension
             // 
-            this.tabPage5.Location = new System.Drawing.Point(4, 29);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(723, 524);
-            this.tabPage5.TabIndex = 4;
-            this.tabPage5.Text = "Extensions";
-            this.tabPage5.UseVisualStyleBackColor = true;
+            this.tabExtension.Location = new System.Drawing.Point(4, 29);
+            this.tabExtension.Name = "tabExtension";
+            this.tabExtension.Padding = new System.Windows.Forms.Padding(3);
+            this.tabExtension.Size = new System.Drawing.Size(723, 524);
+            this.tabExtension.TabIndex = 4;
+            this.tabExtension.Text = "Extensions";
+            this.tabExtension.UseVisualStyleBackColor = true;
             // 
-            // tabPage4
+            // tabFile
             // 
-            this.tabPage4.Controls.Add(this.groupBox7);
-            this.tabPage4.Controls.Add(this.groupBox2);
-            this.tabPage4.Controls.Add(this.groupBox1);
-            this.tabPage4.Location = new System.Drawing.Point(4, 29);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(723, 524);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Input/Output Files";
-            this.tabPage4.UseVisualStyleBackColor = true;
+            this.tabFile.Controls.Add(this.groupBox7);
+            this.tabFile.Controls.Add(this.groupBox2);
+            this.tabFile.Controls.Add(this.groupBox1);
+            this.tabFile.Location = new System.Drawing.Point(4, 29);
+            this.tabFile.Name = "tabFile";
+            this.tabFile.Padding = new System.Windows.Forms.Padding(3);
+            this.tabFile.Size = new System.Drawing.Size(723, 524);
+            this.tabFile.TabIndex = 3;
+            this.tabFile.Text = "Input/Output Files";
+            this.tabFile.UseVisualStyleBackColor = true;
             // 
             // groupBox7
             // 
-            this.groupBox7.Controls.Add(this.checkSaveSMBudget);
             this.groupBox7.Controls.Add(this.checkPringDebug);
             this.groupBox7.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox7.Location = new System.Drawing.Point(8, 315);
+            this.groupBox7.Location = new System.Drawing.Point(8, 288);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(706, 92);
             this.groupBox7.TabIndex = 2;
             this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "Debug/Report File";
-            // 
-            // checkSaveSMBudget
-            // 
-            this.checkSaveSMBudget.AutoSize = true;
-            this.checkSaveSMBudget.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.checkSaveSMBudget.Location = new System.Drawing.Point(247, 44);
-            this.checkSaveSMBudget.Name = "checkSaveSMBudget";
-            this.checkSaveSMBudget.Size = new System.Drawing.Size(177, 24);
-            this.checkSaveSMBudget.TabIndex = 1;
-            this.checkSaveSMBudget.Text = "Save soil zone budget";
-            this.checkSaveSMBudget.UseVisualStyleBackColor = true;
+            this.groupBox7.Text = "Debug File";
             // 
             // checkPringDebug
             // 
@@ -376,18 +361,27 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.checkSaveSMBudget);
             this.groupBox2.Controls.Add(this.linkLabel1);
             this.groupBox2.Controls.Add(this.checkSM);
-            this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Controls.Add(this.tbSM);
-            this.groupBox2.Controls.Add(this.btnSM);
             this.groupBox2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(8, 155);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(706, 145);
+            this.groupBox2.Size = new System.Drawing.Size(706, 127);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Output File";
+            // 
+            // checkSaveSMBudget
+            // 
+            this.checkSaveSMBudget.AutoSize = true;
+            this.checkSaveSMBudget.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.checkSaveSMBudget.Location = new System.Drawing.Point(255, 78);
+            this.checkSaveSMBudget.Name = "checkSaveSMBudget";
+            this.checkSaveSMBudget.Size = new System.Drawing.Size(177, 24);
+            this.checkSaveSMBudget.TabIndex = 1;
+            this.checkSaveSMBudget.Text = "Save soil zone budget";
+            this.checkSaveSMBudget.UseVisualStyleBackColor = true;
             // 
             // linkLabel1
             // 
@@ -398,48 +392,18 @@
             this.linkLabel1.TabIndex = 7;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "Select animation output variables";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // checkSM
             // 
             this.checkSM.AutoSize = true;
             this.checkSM.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.checkSM.Location = new System.Drawing.Point(18, 67);
+            this.checkSM.Location = new System.Drawing.Point(18, 78);
             this.checkSM.Name = "checkSM";
-            this.checkSM.Size = new System.Drawing.Size(191, 24);
+            this.checkSM.Size = new System.Drawing.Size(176, 24);
             this.checkSM.TabIndex = 0;
-            this.checkSM.Text = "Output soil moisture file";
+            this.checkSM.Text = "Save soil moisture file";
             this.checkSM.UseVisualStyleBackColor = true;
-            this.checkSM.CheckedChanged += new System.EventHandler(this.checkSM_CheckedChanged);
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.label8.Location = new System.Drawing.Point(42, 104);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(124, 20);
-            this.label8.TabIndex = 6;
-            this.label8.Text = "Soil moisture file:";
-            // 
-            // tbSM
-            // 
-            this.tbSM.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.tbSM.Location = new System.Drawing.Point(193, 100);
-            this.tbSM.Name = "tbSM";
-            this.tbSM.Size = new System.Drawing.Size(388, 27);
-            this.tbSM.TabIndex = 1;
-            // 
-            // btnSM
-            // 
-            this.btnSM.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnSM.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnSM.Location = new System.Drawing.Point(599, 98);
-            this.btnSM.Name = "btnSM";
-            this.btnSM.Size = new System.Drawing.Size(100, 30);
-            this.btnSM.TabIndex = 5;
-            this.btnSM.Text = "Browse...";
-            this.btnSM.UseVisualStyleBackColor = true;
-            this.btnSM.Click += new System.EventHandler(this.btnSM_Click);
             // 
             // groupBox1
             // 
@@ -524,19 +488,19 @@
             this.btnMapFilename.UseVisualStyleBackColor = true;
             this.btnMapFilename.Click += new System.EventHandler(this.btnMapFilename_Click);
             // 
-            // tabPage2
+            // tabOutVars
             // 
-            this.tabPage2.Controls.Add(this.label4);
-            this.tabPage2.Controls.Add(this.label2);
-            this.tabPage2.Controls.Add(this.listVarDescriptions);
-            this.tabPage2.Controls.Add(this.listVars);
-            this.tabPage2.Location = new System.Drawing.Point(4, 29);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(723, 524);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Output Variables";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabOutVars.Controls.Add(this.label4);
+            this.tabOutVars.Controls.Add(this.label2);
+            this.tabOutVars.Controls.Add(this.listVarDescriptions);
+            this.tabOutVars.Controls.Add(this.listVars);
+            this.tabOutVars.Location = new System.Drawing.Point(4, 29);
+            this.tabOutVars.Name = "tabOutVars";
+            this.tabOutVars.Padding = new System.Windows.Forms.Padding(3);
+            this.tabOutVars.Size = new System.Drawing.Size(723, 524);
+            this.tabOutVars.TabIndex = 1;
+            this.tabOutVars.Text = "Output Variables";
+            this.tabOutVars.UseVisualStyleBackColor = true;
             // 
             // label4
             // 
@@ -605,7 +569,7 @@
             this.Text = "Global Option";
             this.Load += new System.EventHandler(this.GlobalOptionForm_Load);
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
+            this.tabModule.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             this.groupBox5.ResumeLayout(false);
@@ -614,15 +578,15 @@
             this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.tabPage4.ResumeLayout(false);
+            this.tabFile.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
+            this.tabOutVars.ResumeLayout(false);
+            this.tabOutVars.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -632,8 +596,8 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabModule;
+        private System.Windows.Forms.TabPage tabOutVars;
         private System.Windows.Forms.RadioButton radioRunoffNonLinear;
         private System.Windows.Forms.RadioButton radioRunoffLinear;
         private System.Windows.Forms.RadioButton radioSRCloud;
@@ -644,7 +608,7 @@
         private System.Windows.Forms.ListBox listVarDescriptions;
         private System.Windows.Forms.RadioButton radioPETPM;
         private System.Windows.Forms.RadioButton radioPETClimate;
-        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.TabPage tabFile;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox tbMapFilename;
@@ -654,10 +618,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.CheckBox checkSM;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox tbSM;
-        private System.Windows.Forms.Button btnSM;
-        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.TabPage tabExtension;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.GroupBox groupBox3;

@@ -39,13 +39,12 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
             // timeSeriesExplorer1
             // 
             this.timeSeriesExplorer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.timeSeriesExplorer1.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.timeSeriesExplorer1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.timeSeriesExplorer1.Location = new System.Drawing.Point(0, 0);
-            this.timeSeriesExplorer1.Margin = new System.Windows.Forms.Padding(2);
             this.timeSeriesExplorer1.Name = "timeSeriesExplorer1";
             this.timeSeriesExplorer1.ODM = null;
             this.timeSeriesExplorer1.Package = null;
-            this.timeSeriesExplorer1.Size = new System.Drawing.Size(1044, 580);
+            this.timeSeriesExplorer1.Size = new System.Drawing.Size(1074, 522);
             this.timeSeriesExplorer1.SQLSelection = null;
             this.timeSeriesExplorer1.TabIndex = 0;
             // 
@@ -73,17 +72,18 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
             // 
             this.cmbMapLayers.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbMapLayers.Name = "cmbMapLayers";
-            this.cmbMapLayers.Size = new System.Drawing.Size(121, 25);
+            this.cmbMapLayers.Size = new System.Drawing.Size(121, 28);
             this.cmbMapLayers.ToolTipText = "Select a point feature layer";
             // 
             // HOBExplorerView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1044, 580);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(1074, 522);
             this.Controls.Add(this.timeSeriesExplorer1);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "HOBExplorerView";
             this.Text = "Head Observation Explorer";
             this.ResumeLayout(false);

@@ -233,7 +233,6 @@ namespace Heiflow.Applications.Controllers
 
         private void ProgressPanel_DoOpenProject(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-           // _ShellService.ProgressWindow.Reset();
             _ShellService.ProgressWindow.ProgressBarStyle = ProgressBarStyle.Marquee;
             _ProjectService.Serializer.Open(e.Argument.ToString(), _ShellService.ProgressWindow);          
         }

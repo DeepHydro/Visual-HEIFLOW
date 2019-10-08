@@ -41,7 +41,6 @@ namespace Heiflow.Controls.WinForm.Project
             checkMappedClimate.Checked = _Model.MasterPackage.UseGridClimate;
             tbMapFilename.Text = _Model.MasterPackage.GridClimateFile;
             checkSM.Checked = _Model.MasterPackage.SaveSoilWaterFile;
-            tbSM.Text = _Model.MasterPackage.SoilWaterFile;
             checkPringDebug.Checked = _Model.MasterPackage.PrintDebug;
             //checkSaveSMBudget.Checked= _Model.MasterPackage.SoilWaterBudgetFile
 
@@ -113,6 +112,8 @@ namespace Heiflow.Controls.WinForm.Project
             else if (radioPETPM.Checked)
                 _Model.MasterPackage.PotentialET = PETModule.potet_pm;
 
+            _Model.MasterPackage.SaveSoilWaterFile = checkSM.Checked;
+            _Model.MasterPackage.PrintDebug = checkPringDebug.Checked;
             _Model.MasterPackage.IsDirty = true;
             _Model.MasterPackage.Save(null);
 
@@ -123,11 +124,6 @@ namespace Heiflow.Controls.WinForm.Project
             btnMapFilename.Enabled = checkMappedClimate.Checked;
         }
 
-        private void checkSM_CheckedChanged(object sender, EventArgs e)
-        {
-            tbSM.Enabled = checkSM.Checked;
-            btnSM.Enabled = checkSM.Checked;
-        }
 
         private void btnMapFilename_Click(object sender, EventArgs e)
         {
@@ -137,13 +133,9 @@ namespace Heiflow.Controls.WinForm.Project
                 tbMapFilename.Text = dlg.FileName;
         }
 
-
-        private void btnSM_Click(object sender, EventArgs e)
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            SaveFileDialog dlg = new SaveFileDialog();
-            dlg.Filter = "Animation Output Files (.dcx)|*.dcx|All Files (*.*)|*.*";
-            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                tbSM.Text = dlg.FileName; 
+            tabControl1.SelectedTab = tabOutVars;
         }
     }
 }
