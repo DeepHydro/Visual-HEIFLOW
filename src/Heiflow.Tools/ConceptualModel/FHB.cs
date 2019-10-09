@@ -282,7 +282,7 @@ namespace Heiflow.Tools.ConceptualModel
             }
             else
             {
-                cancelProgressHandler.Progress("Package_Tool", 100, "Error message: Modflow is used by this tool.");
+                cancelProgressHandler.Progress("Package_Tool", 100, "Error message: Modflow must be used by this tool.");
                 return false;
             }
          

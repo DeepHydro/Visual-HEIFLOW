@@ -51,11 +51,12 @@ namespace Heiflow.Tools.Conversion
     {
         public ToTextFile()
         {
-            Name = "Save As Text File";
+            Name = "To Text";
             Category = "Conversion";
             Description = "Save data cube as txt file";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
+            OutputFileName = "dc.txt";
         }
 
         [Category("Input")]

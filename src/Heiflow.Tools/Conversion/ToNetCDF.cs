@@ -54,7 +54,7 @@ namespace Heiflow.Tools.Conversion
         private NetCDFDataSet nc_out;
         public ToNetCDF()
         {
-            Name = "Save As NetCDF File";
+            Name = "To NetCDF";
             Category = "Conversion";
             Description = "Save data cube as NetCDF file";
             Version = "1.0.0.0";

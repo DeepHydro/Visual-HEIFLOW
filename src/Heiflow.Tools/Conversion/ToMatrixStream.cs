@@ -55,7 +55,7 @@ namespace Heiflow.Tools.Conversion
         public enum CS { PCS, GCS };
         public ToMatrixStream()
         {
-            Name = "Save As Matrix Cube File";
+            Name = "To Matrix Cube";
             Category = "Conversion";
             Description = "Save data cube as Matrix Cube file";
             Version = "1.0.0.0";

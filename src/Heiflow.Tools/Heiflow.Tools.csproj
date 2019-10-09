@@ -114,6 +114,8 @@
     <Compile Include="Conversion\ToMatrixStream.cs" />
     <Compile Include="Conversion\ToNetCDF.cs" />
     <Compile Include="Conversion\ToBilFile.cs" />
+    <Compile Include="Conversion\ToRaster.cs" />
+    <Compile Include="Conversion\ToRasterList.cs" />
     <Compile Include="Extraction\ExtractFromRaster.cs" />
     <Compile Include="Hydrology\IncomingRadiationIntensity.cs" />
     <Compile Include="Hydrology\PMPET6Batch.cs" />
@@ -131,7 +133,7 @@
     <Compile Include="Math\Subset.cs" />
     <Compile Include="Mesh\From2dmToFeature.cs" />
     <Compile Include="MLModelTool.cs" />
-    <Compile Include="SpatialAnalyst\FromNetCDF2TIF.cs" />
+    <Compile Include="Conversion\FromNetCDF2TIF.cs" />
     <Compile Include="Conversion\ToTextFile.cs" />
     <Compile Include="DrivingForces\SaveAsClimateInput.cs" />
     <Compile Include="Conversion\ToTIFSets.cs" />

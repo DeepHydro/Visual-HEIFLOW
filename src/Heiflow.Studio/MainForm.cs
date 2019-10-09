@@ -79,7 +79,7 @@ namespace Heiflow.Models.Studio
             appManager1.Catalog.Catalogs.Add(new AssemblyCatalog(presentDll));
             Assembly appDll = typeof(VHFAppManager).Assembly;
             appManager1.Catalog.Catalogs.Add(new AssemblyCatalog(appDll));
-            Assembly toolDll = typeof(ToTIFSets).Assembly;
+            Assembly toolDll = typeof(ToRasterList).Assembly;
             appManager1.Catalog.Catalogs.Add(new AssemblyCatalog(toolDll));
 
             _VHFAppManager = new VHFAppManager();

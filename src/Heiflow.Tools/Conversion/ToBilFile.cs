@@ -51,7 +51,7 @@ namespace Heiflow.Tools.Conversion
     {
         public ToBilFile()
         {
-            Name = "Save As Bil File";
+            Name = "To Bil File";
             Category = "Conversion";
             Description = "Save data cube as bil file";
             Version = "1.0.0.0";

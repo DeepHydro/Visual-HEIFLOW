@@ -135,7 +135,7 @@ namespace Heiflow.Models.Subsurface
 
         //*****DataSet6
         /// <summary>
-       /// [nlake,1,nactcell]. the lakebed leakance that will be assigned to lake/aquifer interfaces that occur in the corresponding grid cell.
+       /// [nlayer,1,nactcell]. the lakebed leakance that will be assigned to lake/aquifer interfaces that occur in the corresponding grid cell.
         /// </summary>
         /// 
        [StaticVariableItem]
@@ -236,7 +236,7 @@ namespace Heiflow.Models.Subsurface
                 };
                 for (int l = 0; l < nlayer; l++)
                 {
-                    BDLKNC.Variables[l] = " Layer " + (l + 1);
+                    BDLKNC.Variables[l] = "Leakance of " + (l + 1);
                 }
                 NSLMS = new DataCube2DLayout<int>(1, nsp, 1)
                 {
@@ -382,7 +382,6 @@ namespace Heiflow.Models.Subsurface
             fs.DataTable.Columns.Add(new DataColumn("HRU_ID", typeof(int)));
             fs.DataTable.Columns.Add(new DataColumn("ROW", typeof(int)));
             fs.DataTable.Columns.Add(new DataColumn("COL", typeof(int)));
-            fs.DataTable.Columns.Add(new DataColumn("BDLKNC", typeof(double)));
             fs.DataTable.Columns.Add(new DataColumn(RegularGrid.ParaValueField, typeof(double)));
 
             foreach(var id in LakeSerialIndex.Keys)
@@ -399,7 +398,6 @@ namespace Heiflow.Models.Subsurface
                     feature.DataRow["HRU_ID"] = hru_index+1;
                     feature.DataRow["ROW"] = loc[0]+1;
                     feature.DataRow["COL"] = loc[1] + 1;
-                    feature.DataRow["BDLKNC"] = this.BDLKNC[id - 1, 0, hru_index];
                     feature.DataRow[RegularGrid.ParaValueField] = 0;
                     feature.DataRow.EndEdit();
                 }

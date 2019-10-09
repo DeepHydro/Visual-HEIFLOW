@@ -48,7 +48,7 @@ namespace Heiflow.Tools.Conversion
         public enum FilterMode { Maximum, Minimum, None}
         public ToTIFSets()
         {
-            Name = "Save As TIF Data Sets";
+            Name = "To Raster Sets";
             Category = "Conversion";
             Description = "Convert data cube  to tif data sets";
             Version = "1.0.0.0";
