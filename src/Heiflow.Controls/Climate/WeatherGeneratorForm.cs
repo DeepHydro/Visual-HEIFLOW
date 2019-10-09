@@ -51,6 +51,11 @@ namespace Heiflow.Controls.WinForm.Climate
 
         private void WeatherGeneratorForm_Load(object sender, EventArgs e)
         {
+            if (_ClimateDataPackage.MasterPackage.ClimateInputFormat == Models.Generic.FileFormat.Binary)
+                cmbClimateFormat.SelectedIndex = 0;
+            else
+                cmbClimateFormat.SelectedIndex = 1;
+
             dateTimePickerStart.Value = _ClimateDataPackage.TimeService.Start;
             dateTimePickerEnd.Value = _ClimateDataPackage.TimeService.End;
             tbPpt.Text = _ClimateDataPackage.MasterPackage.PrecipitationFile;
@@ -63,7 +68,7 @@ namespace Heiflow.Controls.WinForm.Climate
             if (_ClimateDataPackage.MasterPackage.PotentialET == Models.Integration.PETModule.climate_hru)
                 tbPet.Text = _ClimateDataPackage.MasterPackage.PETFile;
             else
-                tbPet.Text = "none";
+                tbPet.Text = "Disable";
         }
 
         private void btnGenerate_Click(object sender, EventArgs e)
@@ -80,10 +85,10 @@ namespace Heiflow.Controls.WinForm.Climate
             float.TryParse(tbMinTval.Text, out tmin);
             float.TryParse(tbPetval.Text, out pet);
             float.TryParse(tbWind.Text, out wind);
-            float.TryParse(tbHumidity.Text, out hum);
-            float.TryParse(tbPressure.Text, out press);
+            float.TryParse(labelhum.Text, out hum);
+            float.TryParse(labelPressure.Text, out press);
             Cursor.Current = Cursors.WaitCursor;
-            _ClimateDataPackage.Constant(ppt, tmax, tmin, pet, wind, hum, press);
+            _ClimateDataPackage.SaveAsTxtByConstant(ppt, tmax, tmin, pet, wind, hum, press);
             Cursor.Current = Cursors.Default;
         }
 

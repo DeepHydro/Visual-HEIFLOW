@@ -208,7 +208,7 @@ namespace Heiflow.Models.Surface.PRMS
             this.Feature = Owner.Grid.FeatureSet;
             this.FeatureLayer = Owner.Grid.FeatureLayer;
         }
-        public void Constant(float ppt = 0.15f, float tmax = 15, float tmin = 5, float pet = 0.1f, float wind = 4.0f, float hum = 0.7f, float press = 101.0f)
+        public void SaveAsTxtByConstant(float ppt = 0.15f, float tmax = 15, float tmin = 5, float pet = 0.1f, float wind = 4.0f, float hum = 0.7f, float press = 101.0f)
         {
             var grid = this.Grid as MFGrid;
             DataCube<float> mat = new DataCube<float>(1, this.TimeService.NumTimeStep, grid.ActiveCellCount);
@@ -216,6 +216,7 @@ namespace Heiflow.Models.Surface.PRMS
             mat.DateTimes = this.TimeService.Timeline.ToArray();
             mat.ILArrays[0][":", ":"] = ppt;
 
+           
             MMSDataFile data = new MMSDataFile(MasterPackage.PrecipitationFile);
             data.Save(mat);
 
@@ -258,6 +259,60 @@ namespace Heiflow.Models.Surface.PRMS
                     mat.ILArrays[0][":", ":"] = press;
                     data = new MMSDataFile(MasterPackage.PressureFile);
                     data.Save(mat);
+                }
+            }
+        }
+
+        public void SaveAsDcxByConstant(float ppt = 0.15f, float tmax = 15, float tmin = 5, float pet = 0.1f, float wind = 4.0f, float hum = 0.7f, float press = 101.0f)
+        {
+            var grid = this.Grid as MFGrid;
+            DataCube<float> mat = new DataCube<float>(1, this.TimeService.NumTimeStep, grid.ActiveCellCount);
+            mat.Variables = new string[] { "hru_ppt" };
+            mat.DateTimes = this.TimeService.Timeline.ToArray();
+            mat.ILArrays[0][":", ":"] = ppt;
+
+            DataCubeStreamWriter sw = new DataCubeStreamWriter(MasterPackage.PrecipitationFile);
+            sw.WriteAll(mat);
+
+            mat.Variables[0] = "hru_tmax";
+            mat.ILArrays[0][":", ":"] = UnitConversion.Celsius2Fahrenheit(tmax);
+            sw = new DataCubeStreamWriter(MasterPackage.TempMaxFile);
+            sw.WriteAll(mat);
+
+            mat.Variables[0] = "hru_tmin";
+            mat.ILArrays[0][":", ":"] = UnitConversion.Celsius2Fahrenheit(tmin);
+            sw = new DataCubeStreamWriter(MasterPackage.TempMinFile);
+            sw.WriteAll(mat);
+
+            if (MasterPackage.PotentialET == PETModule.climate_hru)
+            {
+                mat.Variables[0] = "hru_pet";
+                mat.ILArrays[0][":", ":"] = pet;
+                sw = new DataCubeStreamWriter(MasterPackage.PETFile);
+                sw.WriteAll(mat);
+            }
+            else if (MasterPackage.PotentialET == PETModule.potet_pm)
+            {
+                if (TypeConverterEx.IsNotNull(MasterPackage.WindFile))
+                {
+                    mat.Variables[0] = "hru_wind";
+                    mat.ILArrays[0][":", ":"] = wind;
+                    sw = new DataCubeStreamWriter(MasterPackage.WindFile);
+                    sw.WriteAll(mat);
+                }
+                if (TypeConverterEx.IsNotNull(MasterPackage.HumidityFile))
+                {
+                    mat.Variables[0] = "hru_humudity";
+                    mat.ILArrays[0][":", ":"] = hum;
+                    sw = new DataCubeStreamWriter(MasterPackage.HumidityFile);
+                    sw.WriteAll(mat);
+                }
+                if (TypeConverterEx.IsNotNull(MasterPackage.PressureFile))
+                {
+                    mat.Variables[0] = "hru_pressure";
+                    mat.ILArrays[0][":", ":"] = press;
+                    sw = new DataCubeStreamWriter(MasterPackage.PressureFile);
+                    sw.WriteAll(mat);
                 }
             }
         }

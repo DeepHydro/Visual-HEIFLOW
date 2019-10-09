@@ -35,20 +35,23 @@
             // timeSeriesExplorer1
             // 
             this.timeSeriesExplorer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.timeSeriesExplorer1.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.timeSeriesExplorer1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.timeSeriesExplorer1.Location = new System.Drawing.Point(0, 0);
             this.timeSeriesExplorer1.Name = "timeSeriesExplorer1";
             this.timeSeriesExplorer1.ODM = null;
             this.timeSeriesExplorer1.Package = null;
             this.timeSeriesExplorer1.Size = new System.Drawing.Size(981, 580);
+            this.timeSeriesExplorer1.SQLSelection = null;
             this.timeSeriesExplorer1.TabIndex = 0;
             // 
             // LakeExplorerView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(981, 580);
             this.Controls.Add(this.timeSeriesExplorer1);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "LakeExplorerView";
             this.Text = "Lake Explorer";
