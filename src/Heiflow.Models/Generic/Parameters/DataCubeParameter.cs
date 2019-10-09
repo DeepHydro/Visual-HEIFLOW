@@ -224,7 +224,7 @@ namespace Heiflow.Models.Generic.Parameters
             }
             return type;
         }
-        public override void FromDataTable(System.Data.DataTable dt)
+        public override void FromDataTable(DataTable dt, int var_index, int time_index, int cell_index)
         {
             if (Dimension == 1)
             {
@@ -301,7 +301,7 @@ namespace Heiflow.Models.Generic.Parameters
                 }
             }
         }
-        public virtual void ResetToDefault()
+        public virtual void SetToDefault()
         {
             Constant(DefaultValue);
         }

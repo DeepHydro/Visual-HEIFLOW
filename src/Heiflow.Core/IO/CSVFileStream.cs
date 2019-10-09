@@ -236,7 +236,7 @@ namespace Heiflow.Core.IO
         {
             StreamReader sr = new StreamReader(_Filename);
             string line = sr.ReadLine().Trim();
-            var varlist = (TypeConverterEx.Split<string>(line)).ToList();
+            var varlist = (TypeConverterEx.Split<string>(line, TypeConverterEx.Comma)).ToList();
             var colnames = (from DataColumn dc in source.Columns select dc.ColumnName).ToList();
             int nrow = source.Rows.Count;
             var buf = varlist.Intersect(colnames);

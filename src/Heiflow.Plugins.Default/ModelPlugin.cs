@@ -34,6 +34,7 @@ using Heiflow.Applications;
 using Heiflow.Controls.WinForm.Climate;
 using Heiflow.Controls.WinForm.Modflow;
 using Heiflow.Controls.WinForm.Processing;
+using Heiflow.Controls.WinForm.Project;
 using Heiflow.Models.Surface.PRMS;
 using Heiflow.Presentation;
 using System;
@@ -157,8 +158,12 @@ namespace Heiflow.Plugins.Default
         }
         private void GlobalSet_Clicked(object sender, EventArgs e)
         {
-            if(ProjectManager.Project != null && ProjectManager.Project.Model != null)
+            if (ProjectManager.Project != null && ProjectManager.Project.Model != null)
+            {
                 ProjectManager.ShellService.PropertyView.SelectedObject = ProjectManager.Project.Model.GetType().GetProperty("MasterPackage").GetValue(ProjectManager.Project.Model);
+                GlobalOptionForm form = new GlobalOptionForm();
+                form.ShowDialog();
+            }
         }
     }
 }

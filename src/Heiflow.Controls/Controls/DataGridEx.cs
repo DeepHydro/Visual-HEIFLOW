@@ -557,7 +557,7 @@ namespace Heiflow.Controls.WinForm.Controls
             {
                 if (_DataCubeObject != null)
                 {
-                    _DataCubeObject.FromDataTable(_DataTable);
+                    _DataCubeObject.FromDataTable(_DataTable,0,0,0);
                 }
                 try
                 {

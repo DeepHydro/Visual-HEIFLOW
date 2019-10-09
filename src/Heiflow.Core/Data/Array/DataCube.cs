@@ -409,11 +409,24 @@ namespace Heiflow.Core.Data
         public virtual Array GetSpatialSerialArray(int var_index, int time_index)
         {
             T[,] array = null;
-            var vec = GetVector(var_index, time_index.ToString(), ":");
-            array = new T[vec.Length, 1];
-            for (int i = 0; i < vec.Length; i++)
+            if (Flags[var_index] == TimeVarientFlag.Constant)
             {
-                array[i, 0] = vec[i];
+                array = new T[1, 1];
+                array[0, 0] = TypeConverterEx.ChangeType<T>(Constants[var_index]);
+            }
+            else if (Flags[var_index] == TimeVarientFlag.Repeat)
+            {
+                array = new T[1, 1];
+                array[0, 0] = TypeConverterEx.ChangeType<T>(-1);
+            }
+            else
+            {  
+                var vec = GetVector(var_index, time_index.ToString(), ":");
+                array = new T[vec.Length, 1];
+                for (int i = 0; i < vec.Length; i++)
+                {
+                    array[i, 0] = vec[i];
+                }
             }
             return array;
         }
@@ -426,18 +439,29 @@ namespace Heiflow.Core.Data
         public virtual Array GetSpatialRegularArray(int var_index, int time_index)
         {
             T[,] array = null;
-
-            if (Topology != null)
+            if (Flags[var_index] == TimeVarientFlag.Constant)
             {
-                array = new T[Topology.RowCount, Topology.ColumnCount];
-                var vec = GetVector(var_index, time_index.ToString(), ":");
-                for (int i = 0; i < vec.Length; i++)
+                array = new T[1, 1];
+                array[0, 0] = TypeConverterEx.ChangeType<T>(Constants[var_index]);
+            }
+            else if (Flags[var_index] == TimeVarientFlag.Repeat)
+            {
+                array = new T[1, 1];
+                array[0, 0] = TypeConverterEx.ChangeType<T>(-1);
+            }
+            else
+            {
+                if (Topology != null)
                 {
-                    var lc = Topology.ActiveCellLocation[i];
-                    array[lc[0], lc[1]] = vec[i];
+                    array = new T[Topology.RowCount, Topology.ColumnCount];
+                    var vec = GetVector(var_index, time_index.ToString(), ":");
+                    for (int i = 0; i < vec.Length; i++)
+                    {
+                        var lc = Topology.ActiveCellLocation[i];
+                        array[lc[0], lc[1]] = vec[i];
+                    }
                 }
             }
-
             return array;
         }
         /// <summary>
@@ -448,9 +472,12 @@ namespace Heiflow.Core.Data
         /// <param name="array"></param>
         public virtual void FromSpatialSerialArray(int var_index, int time_index, Array array)
         {
-            var len = array.GetLength(0);
-            for (int i = 0; i < len; i++)
-                this[var_index, time_index, i] = TypeConverterEx.ChangeType<T>(array.GetValue(i, 0));
+            if (Flags[var_index] == TimeVarientFlag.Individual)
+            {
+                var len = array.GetLength(0);
+                for (int i = 0; i < len; i++)
+                    this[var_index, time_index, i] = TypeConverterEx.ChangeType<T>(array.GetValue(i, 0));
+            }
         }
         /// <summary>
         /// retrieve value a given array. The array size must be [ncell, 1]
@@ -460,15 +487,18 @@ namespace Heiflow.Core.Data
         /// <param name="array"></param>
         public virtual void FromSpatialRegularArray(int var_index, int time_index, Array array)
         {
-            var nrow = array.GetLength(0);
-            var ncol = array.GetLength(1);
-            if (Topology != null)
+            if (Flags[var_index] == TimeVarientFlag.Individual)
             {
-                var vec = GetVector(var_index, time_index.ToString(), ":");
-                for (int i = 0; i < vec.Length; i++)
+                var nrow = array.GetLength(0);
+                var ncol = array.GetLength(1);
+                if (Topology != null)
                 {
-                    var lc = Topology.ActiveCellLocation[i];
-                    this[var_index, time_index, i] = TypeConverterEx.ChangeType<T>(array.GetValue(lc[0], lc[1]));
+                    var vec = GetVector(var_index, time_index.ToString(), ":");
+                    for (int i = 0; i < vec.Length; i++)
+                    {
+                        var lc = Topology.ActiveCellLocation[i];
+                        this[var_index, time_index, i] = TypeConverterEx.ChangeType<T>(array.GetValue(lc[0], lc[1]));
+                    }
                 }
             }
         }
@@ -517,25 +547,26 @@ namespace Heiflow.Core.Data
             int ncell = Size[2];
             int ntime = Size[1];
             int nvar = Size[0];
-            if(Flags[var_index] == TimeVarientFlag.Constant)
+
+            if (var_index > -1)
             {
-                var dc = new DataColumn("C0", typeof(T));
-                dt.Rows.Add(dc);
-                var dr = dt.NewRow();
-                dr[0] = Constants[var_index];
-                dt.Rows.Add(dr);
-            }
-            else if (Flags[var_index] == TimeVarientFlag.Repeat)
-            {
-                var dc = new DataColumn("C0", typeof(T));
-                dt.Rows.Add(dc);
-                var dr = dt.NewRow();
-                dr[0] = -1;
-                dt.Rows.Add(dr);
-            }
-            else
-            {
-                if (var_index > -1)
+                if (Flags[var_index] == TimeVarientFlag.Constant)
+                {
+                    var dc = new DataColumn("C0", typeof(T));
+                    dt.Columns.Add(dc);
+                    var dr = dt.NewRow();
+                    dr[0] = Constants[var_index];
+                    dt.Rows.Add(dr);
+                }
+                else if (Flags[var_index] == TimeVarientFlag.Repeat)
+                {
+                    var dc = new DataColumn("C0", typeof(T));
+                    dt.Columns.Add(dc);
+                    var dr = dt.NewRow();
+                    dr[0] = -1;
+                    dt.Rows.Add(dr);
+                }
+                else
                 {
                     // all times
                     if (time_index == -1)
@@ -594,75 +625,76 @@ namespace Heiflow.Core.Data
                         }
                     }
                 }
-                else
+            }
+            else
+            {
+                for (int i = 0; i < nvar; i++)
                 {
-                    for (int i = 0; i < nvar; i++)
+                    var dc = new DataColumn(Variables[i], typeof(T));
+                    dt.Columns.Add(dc);
+                }
+                if (time_index == -1 && cell_index == 0)
+                {
+                    for (int i = 0; i < ntime; i++)
                     {
-                        var dc = new DataColumn(Variables[i], typeof(T));
-                        dt.Columns.Add(dc);
-                    }
-                    if (time_index == -1 && cell_index == 0)
-                    {
-                        for (int i = 0; i < ntime; i++)
+                        var dr = dt.NewRow();
+                        for (int j = 0; j < nvar; j++)
                         {
-                            var dr = dt.NewRow();
-                            for (int j = 0; j < nvar; j++)
-                            {
-                                dr[j] = this[j, i, 0];
-                            }
-                            dt.Rows.Add(dr);
+                            dr[j] = this[j, i, 0];
                         }
-                    }
-                    else if (time_index == 0 && cell_index == -1)
-                    {
-                        for (int i = 0; i < ncell; i++)
-                        {
-                            var dr = dt.NewRow();
-                            for (int j = 0; j < nvar; j++)
-                            {
-                                dr[j] = this[j, 0, i];
-                            }
-                            dt.Rows.Add(dr);
-                        }
-                    }
-                    else
-                    {
-                        throw new Exception("Wrong value for the argument time_index or cell_index");
+                        dt.Rows.Add(dr);
                     }
                 }
+                else if (time_index == 0 && cell_index == -1)
+                {
+                    for (int i = 0; i < ncell; i++)
+                    {
+                        var dr = dt.NewRow();
+                        for (int j = 0; j < nvar; j++)
+                        {
+                            dr[j] = this[j, 0, i];
+                        }
+                        dt.Rows.Add(dr);
+                    }
+                }
+                else
+                {
+                    throw new Exception("Wrong value for the argument time_index or cell_index");
+                }
+
             }
             return dt;
         }
-        public virtual void FromDataTable(System.Data.DataTable dt)
+        public virtual void FromDataTable(System.Data.DataTable dt, int var_index, int time_index, int cell_index)
         {
             int ncell = Size[2];
             int ntime = Size[1];
             int nvar = Size[0];
 
-            if (SelectedVariableIndex > -1)
+            if (var_index > -1)
             {
-                if (Flags[SelectedVariableIndex] == TimeVarientFlag.Constant)
+                if (Flags[var_index] == TimeVarientFlag.Constant)
                 {
-                    Constants[SelectedVariableIndex] = float.Parse(dt.Rows[0][0].ToString());
+                    Constants[var_index] = float.Parse(dt.Rows[0][0].ToString());
                 }
-                else if (Flags[SelectedVariableIndex] == TimeVarientFlag.Repeat)
+                else if (Flags[var_index] == TimeVarientFlag.Repeat)
                 {
                     
                 }
                 else
                 {
                     // all times
-                    if (SelectedTimeIndex == -1)
+                    if (time_index == -1)
                     {
                         //all cells
-                        if (SelectedSpaceIndex == -1)
+                        if (cell_index == -1)
                         {
                             for (int i = 0; i < ntime; i++)
                             {
                                 var dr = dt.Rows[i];
                                 for (int j = 0; j < ncell; j++)
                                 {
-                                    this[SelectedVariableIndex, i, j] = TypeConverterEx.ChangeType<T>(dr[j]);
+                                    this[var_index, i, j] = TypeConverterEx.ChangeType<T>(dr[j]);
                                 }
                             }
                         }
@@ -671,32 +703,32 @@ namespace Heiflow.Core.Data
                             for (int i = 0; i < ntime; i++)
                             {
                                 var dr = dt.Rows[i];
-                                this[SelectedVariableIndex, i, SelectedSpaceIndex] = TypeConverterEx.ChangeType<T>(dr[0]);
+                                this[var_index, i, cell_index] = TypeConverterEx.ChangeType<T>(dr[0]);
                             }
                         }
                     }
                     else
                     {
                         //all cells
-                        if (SelectedSpaceIndex == -1)
+                        if (cell_index == -1)
                         {
                             for (int i = 0; i < ncell; i++)
                             {
-                                var dr = dt.NewRow();
-                                 this[SelectedVariableIndex, SelectedTimeIndex, i] = TypeConverterEx.ChangeType<T>(dr[0]);
+                                var dr = dt.Rows[i];
+                                this[var_index, time_index, i] = TypeConverterEx.ChangeType<T>(dr[0]);
                             }
                         }
                         else
                         {
-                            var dr = dt.NewRow();
-                            this[SelectedVariableIndex, SelectedTimeIndex, SelectedSpaceIndex] = TypeConverterEx.ChangeType<T>(dr[0]);
+                            var dr = dt.Rows[0];
+                            this[var_index, time_index, cell_index] = TypeConverterEx.ChangeType<T>(dr[0]);
                         }
                     }
                 }
             }
             else
             {
-               if (SelectedTimeIndex == -1 && SelectedSpaceIndex == 0)
+               if (time_index == -1 && cell_index == 0)
                 {
                     for (int i = 0; i < ntime; i++)
                     {
@@ -707,7 +739,7 @@ namespace Heiflow.Core.Data
                         }
                     }
                 }
-               else if (SelectedTimeIndex == 0 && SelectedSpaceIndex == -1)
+               else if (time_index == 0 && cell_index == -1)
                 {
                     for (int i = 0; i < ncell; i++)
                     {

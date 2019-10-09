@@ -144,8 +144,6 @@ namespace Heiflow.Models.Surface.PRMS
                 {
                     i++;
                     newline = lines[i].Trim();
-                    if(newline == "one")
-                        newline = lines[i].Trim();
                     DataCubeParameter<int> gv = new DataCubeParameter<int>(1, 1, 1, false)
                     {
                         Dimension = 1,
@@ -190,7 +188,7 @@ namespace Heiflow.Models.Surface.PRMS
                     if (dimension > 1)
                         ncol = int.Parse(Parameters[dimensionNames[1]].GetValue(0, 0, 0).ToString());
 
-                    if (nrow == 0)
+                    if (nrow == 0 || ncol == 0)
                     {
                         nrow = valueCount;
                         ncol = 1;
@@ -389,6 +387,7 @@ namespace Heiflow.Models.Surface.PRMS
             int percent = 0;
             int total = 0;
             int index_dim = 0;
+            bool skip = false;
             string line = "";
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
@@ -400,13 +399,19 @@ namespace Heiflow.Models.Surface.PRMS
             if (this.Owner != null)
                 mms = (this.Owner as PRMS).MMSPackage;
             var dim = from p in mms.Parameters where p.Value.VariableType == ParameterType.Dimension select p;
+            var zero_value_dim = new List<string>();
             foreach (var dd in dim)
             {
                 var gv = dd.Value;
+                var dim_value = int.Parse(gv.GetValue(0, 0, 0).ToString());
                 if (!gv.IsFixed)
                 {
-                    line = string.Format("####\n{0}\n{1}\n", gv.Name, gv.GetValue(0, 0, 0));
+                    line = string.Format("####\n{0}\n{1}\n", gv.Name, dim_value);
                     buf += line;
+                }
+                if(dim_value == 0)
+                {
+                    zero_value_dim.Add(gv.Name);
                 }
             }
             sw.Write(buf);
@@ -418,30 +423,43 @@ namespace Heiflow.Models.Surface.PRMS
             foreach (var pp in para)
             {
                 var gv = pp.Value;
-                if (gv.ValueType == 1)
+                skip = false;
+                foreach(var dimn in gv.DimensionNames)
                 {
-                    line = string.Format("####\n{0}     15\n{1}\n{2}\n{3}\n{4}\n{5}\n", gv.Name, gv.Dimension, string.Join("\n",
-                        gv.DimensionNames), gv.ValueCount, gv.ValueType, string.Join("\n", (gv as DataCubeParameter<int>).ToVector()));
+                    if(zero_value_dim.Contains(dimn))
+                    {
+                        skip = true;
+                        break;
+                    }
                 }
-                else if (gv.ValueType == 2)
+                if (!skip)
                 {
-                    line = string.Format("####\n{0}     15\n{1}\n{2}\n{3}\n{4}\n{5}\n", gv.Name, gv.Dimension, string.Join("\n",
-                    gv.DimensionNames), gv.ValueCount, gv.ValueType, string.Join("\n", (gv as DataCubeParameter<float>).ToVector()));
+                    //gv.DimensionNames
+                    if (gv.ValueType == 1)
+                    {
+                        line = string.Format("####\n{0}     15\n{1}\n{2}\n{3}\n{4}\n{5}\n", gv.Name, gv.Dimension, string.Join("\n",
+                            gv.DimensionNames), gv.ValueCount, gv.ValueType, string.Join("\n", (gv as DataCubeParameter<int>).ToVector()));
+                    }
+                    else if (gv.ValueType == 2)
+                    {
+                        line = string.Format("####\n{0}     15\n{1}\n{2}\n{3}\n{4}\n{5}\n", gv.Name, gv.Dimension, string.Join("\n",
+                        gv.DimensionNames), gv.ValueCount, gv.ValueType, string.Join("\n", (gv as DataCubeParameter<float>).ToVector()));
+                    }
+                    else if (gv.ValueType == 3)
+                    {
+                        line = string.Format("####\n{0}     15\n{1}\n{2}\n{3}\n{4}\n{5}\n", gv.Name, gv.Dimension, string.Join("\n",
+                         gv.DimensionNames), gv.ValueCount, gv.ValueType, string.Join("\n", (gv as DataCubeParameter<double>).ToVector()));
+                    }
+                    else if (gv.ValueType == 4)
+                    {
+                        line = string.Format("####\n{0}     15\n{1}\n{2}\n{3}\n{4}\n{5}\n", gv.Name, gv.Dimension, string.Join("\n",
+                         gv.DimensionNames), gv.ValueCount, gv.ValueType, string.Join("\n", (gv as DataCubeParameter<int>).ToVector()));
+                    }
+                    buf += line;
+                    percent = index_dim * 100 / total;
+                    OnSaving(percent);
+                    index_dim++;
                 }
-                else if (gv.ValueType == 3)
-                {
-                    line = string.Format("####\n{0}     15\n{1}\n{2}\n{3}\n{4}\n{5}\n", gv.Name, gv.Dimension, string.Join("\n",
-                     gv.DimensionNames), gv.ValueCount, gv.ValueType, string.Join("\n", (gv as DataCubeParameter<double>).ToVector()));
-                }
-                else if (gv.ValueType == 4)
-                {
-                    line = string.Format("####\n{0}     15\n{1}\n{2}\n{3}\n{4}\n{5}\n", gv.Name, gv.Dimension, string.Join("\n",
-                     gv.DimensionNames), gv.ValueCount, gv.ValueType, string.Join("\n", (gv as DataCubeParameter<int>).ToVector()));
-                }
-                buf += line;
-                percent = index_dim * 100 / total;
-                OnSaving(percent);
-                index_dim++;
             }
             sw.Write(buf);
             sw.Close();
@@ -693,7 +711,36 @@ namespace Heiflow.Models.Surface.PRMS
                 }
             }
 
-            //ResetToDefault();
+            ResetToDefault();
+
+            var hru_elev = Select("soil_depth");
+            if(hru_elev != null)
+            {
+                var para = hru_elev as DataCubeParameter<float>;
+                for (int i = 0; i < numhru; i++)
+                {
+                    para[0, i, 0] = grid.Elevations[0, 0, i];
+                }
+            }
+
+            var hru_slope = Select("hru_slope");
+            if(hru_elev != null && grid.Slope != null)
+            {
+                var para = hru_slope as DataCubeParameter<float>;
+                for (int i = 0; i < numhru; i++)
+                {
+                    para[0, i, 0] = grid.Slope[0, 0, i];
+                }
+            }
+            var hru_aspect = Select("hru_aspect");
+            if (hru_aspect != null && grid.Aspect != null)
+            {
+                var para = hru_aspect as DataCubeParameter<float>;
+                for (int i = 0; i < numhru; i++)
+                {
+                    para[0, i, 0] = grid.Aspect[0, 0, i];
+                }
+            }
 
             var soil_depth = Select("soil_depth");
             if (soil_depth != null)
@@ -761,10 +808,15 @@ namespace Heiflow.Models.Surface.PRMS
 
         public override void ResetToDefault()
         {
+            var buf = 0.0f;
              foreach(var pr in Parameters.Values)
              {
-                 if(!_nhru_dim_names.Contains(pr.Name))
-                    pr.ResetToDefault();
+                if (pr.ValueType < 4)
+                {
+                    buf = float.Parse(pr.GetValue(0, 0, 0).ToString());
+                    if(buf == 0)
+                        pr.SetToDefault();
+                }   
              }
         }
  

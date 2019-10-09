@@ -128,11 +128,14 @@ namespace Heiflow.Tools.ConceptualModel
             set
             {
                 _StreamGridInctLayerDescriptor = value;
-                var sourcefs = _StreamGridInctLayerDescriptor.DataSet as IFeatureSet;
-                if (sourcefs != null)
+                if (_StreamGridInctLayerDescriptor != null)
                 {
-                    var buf = from DataColumn dc in sourcefs.DataTable.Columns select dc.ColumnName;
-                    Fields = buf.ToArray();
+                    var sourcefs = _StreamGridInctLayerDescriptor.DataSet as IFeatureSet;
+                    if (sourcefs != null)
+                    {
+                        var buf = from DataColumn dc in sourcefs.DataTable.Columns select dc.ColumnName;
+                        Fields = buf.ToArray();
+                    }
                 }
             }
         }

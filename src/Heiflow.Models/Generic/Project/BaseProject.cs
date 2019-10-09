@@ -42,6 +42,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 
 namespace Heiflow.Models.Generic.Project
@@ -58,6 +59,7 @@ namespace Heiflow.Models.Generic.Project
         protected MapPointLayer _CentroidLayer;
         protected List<ITimeService> _TimeServices = new List<ITimeService>();
         protected bool _IsDirty;
+        protected string _SelectedVersion;
         public BaseProject()
         {
             this.Name = "Project";
@@ -242,8 +244,11 @@ namespace Heiflow.Models.Generic.Project
         [XmlIgnore]
         public string ModelExeFileName
         {
-            get;
-            set;
+            get
+            {
+                string model = string.Format("Models\\{0}_{1}.exe", Token, SelectedVersion);
+                return Path.Combine(Application.StartupPath, model);
+            }
         }
 
         /// <summary>
@@ -407,8 +412,14 @@ namespace Heiflow.Models.Generic.Project
         [XmlElement]
         public string SelectedVersion
         {
-            get;
-            set;
+            get
+            {
+                return _SelectedVersion;
+            }
+            set
+            {
+                _SelectedVersion = value;
+            }
         }
 
         protected void OnModelChanged()

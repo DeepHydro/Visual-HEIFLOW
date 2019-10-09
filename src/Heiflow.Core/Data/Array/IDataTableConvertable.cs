@@ -40,6 +40,6 @@ namespace Heiflow.Core.Data
     {
         DataTable ToDataTable();
         DataTable ToDataTable(int var_index, int time_index, int cell_index);
-        void FromDataTable(System.Data.DataTable dt);
+        void FromDataTable(System.Data.DataTable dt, int var_index, int time_index, int cell_index);
     }
 }

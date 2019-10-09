@@ -145,7 +145,7 @@ namespace Heiflow.Models.Generic.Parameters
             }
         }
 
-        public override void ResetToDefault()
+        public override void SetToDefault()
         {
             if (Values != null)
             {
@@ -181,7 +181,7 @@ namespace Heiflow.Models.Generic.Parameters
             return dt;
         }
 
-        public override void FromDataTable(System.Data.DataTable dt)
+        public override void FromDataTable(DataTable dt, int var_index, int time_index, int cell_index)
         {
             if (dt.Rows.Count == Values.Length)
             {

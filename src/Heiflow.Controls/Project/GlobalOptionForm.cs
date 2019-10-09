@@ -25,44 +25,47 @@ namespace Heiflow.Controls.WinForm.Project
         private void GlobalOptionForm_Load(object sender, EventArgs e)
         {
             var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
-            _Model = prj.Project.Model as HeiflowModel;
-            radioRunoffLinear.Checked = _Model.MasterPackage.SurfaceRunoff == SurfaceRunoffModule.srunoff_carea_casc;
-            radioRunoffNonLinear.Checked = _Model.MasterPackage.SurfaceRunoff == SurfaceRunoffModule.srunoff_smidx_casc;
-
-            radioSRTemp.Checked = _Model.MasterPackage.SolarRadiation == SolarRadiationModule.ddsolrad_hru_prms;
-            radioSRCloud.Checked = _Model.MasterPackage.SolarRadiation == SolarRadiationModule.ccsolrad_hru_prms;
-
-            radioPETClimate.Checked = _Model.MasterPackage.PotentialET == PETModule.climate_hru;
-            radioPETPM.Checked = _Model.MasterPackage.PotentialET == PETModule.potet_pm;
-
-            cmbmxsziter.Text = _Model.MasterPackage.MaxSoilZoneIter.ToString();
-
-            cmbClimateFormat.SelectedIndex = _Model.MasterPackage.ClimateInputFormat == Models.Generic.FileFormat.Binary ? 0 : 1;
-            checkMappedClimate.Checked = _Model.MasterPackage.UseGridClimate;
-            tbMapFilename.Text = _Model.MasterPackage.GridClimateFile;
-            checkSM.Checked = _Model.MasterPackage.SaveSoilWaterFile;
-            tbSM.Text = _Model.MasterPackage.SoilWaterFile;
-            checkPringDebug.Checked = _Model.MasterPackage.PrintDebug;
-            //checkSaveSMBudget.Checked= _Model.MasterPackage.SoilWaterBudgetFile
-
-            var outvar_file = Path.Combine(VHFAppManager.Instance.ConfigManager.ConfigPath, "outvar_" + prj.Project.SelectedVersion + ".csv");
-            if(File.Exists(outvar_file))
+            if (prj != null)
             {
-                listVarDescriptions.Items.Clear();
-                listVars.Items.Clear();
-                StreamReader sr = new StreamReader(outvar_file);
-                var line = sr.ReadLine();
-                while(!sr.EndOfStream)
+                _Model = prj.Project.Model as HeiflowModel;
+                radioRunoffLinear.Checked = _Model.MasterPackage.SurfaceRunoff == SurfaceRunoffModule.srunoff_carea_casc;
+                radioRunoffNonLinear.Checked = _Model.MasterPackage.SurfaceRunoff == SurfaceRunoffModule.srunoff_smidx_casc;
+
+                radioSRTemp.Checked = _Model.MasterPackage.SolarRadiation == SolarRadiationModule.ddsolrad_hru_prms;
+                radioSRCloud.Checked = _Model.MasterPackage.SolarRadiation == SolarRadiationModule.ccsolrad_hru_prms;
+
+                radioPETClimate.Checked = _Model.MasterPackage.PotentialET == PETModule.climate_hru;
+                radioPETPM.Checked = _Model.MasterPackage.PotentialET == PETModule.potet_pm;
+
+                cmbmxsziter.Text = _Model.MasterPackage.MaxSoilZoneIter.ToString();
+
+                cmbClimateFormat.SelectedIndex = _Model.MasterPackage.ClimateInputFormat == Models.Generic.FileFormat.Binary ? 0 : 1;
+                checkMappedClimate.Checked = _Model.MasterPackage.UseGridClimate;
+                tbMapFilename.Text = _Model.MasterPackage.GridClimateFile;
+                checkSM.Checked = _Model.MasterPackage.SaveSoilWaterFile;
+                tbSM.Text = _Model.MasterPackage.SoilWaterFile;
+                checkPringDebug.Checked = _Model.MasterPackage.PrintDebug;
+                //checkSaveSMBudget.Checked= _Model.MasterPackage.SoilWaterBudgetFile
+
+                var outvar_file = Path.Combine(VHFAppManager.Instance.ConfigManager.ConfigPath, "outvar_" + prj.Project.SelectedVersion + ".csv");
+                if (File.Exists(outvar_file))
                 {
-                    line = sr.ReadLine();
-                    var buf = TypeConverterEx.Split<string>(line.Trim());
-                    if(_Model.MasterPackage.AniOutVarNames.Contains(buf[0]))
-                        listVars.Items.Add(buf[0],true);
-                    else
-                        listVars.Items.Add(buf[0], false);
-                    listVarDescriptions.Items.Add(buf[1]);
+                    listVarDescriptions.Items.Clear();
+                    listVars.Items.Clear();
+                    StreamReader sr = new StreamReader(outvar_file);
+                    var line = sr.ReadLine();
+                    while (!sr.EndOfStream)
+                    {
+                        line = sr.ReadLine();
+                        var buf = TypeConverterEx.Split<string>(line.Trim());
+                        if (_Model.MasterPackage.AniOutVarNames.Contains(buf[0]))
+                            listVars.Items.Add(buf[0], true);
+                        else
+                            listVars.Items.Add(buf[0], false);
+                        listVarDescriptions.Items.Add(buf[1]);
+                    }
+                    sr.Close();
                 }
-                sr.Close();
             }
         }
 

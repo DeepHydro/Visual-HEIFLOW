@@ -215,6 +215,7 @@ namespace Heiflow.Controls.WinForm.Controls
         }
         public void Bind(DataTable table)
         {
+            _DataTable = table;
             this.bindingSource1.DataSource = table;
             this.dataGridView1.DataSource = bindingSource1;
         }
@@ -245,16 +246,12 @@ namespace Heiflow.Controls.WinForm.Controls
                         EnableControls(true, true, true, true, true);
                         cmbVar.ComboBox.DataSource = dc.Variables;
                         cmbVar.SelectedIndex = dc.SelectedVariableIndex;
-                        //var dt = _DataCubeObject.ToDataTable(dc.SelectedVariableIndex, 0, -1);
-                        //Bind(dt);
                     }
                     else if (dc.Layout == DataCubeLayout.TwoD || dc.Layout == DataCubeLayout.OneDTimeSeries)
                     {
                         EnableControls(true, false, false, true, true);
                         cmbVar.ComboBox.DataSource = dc.Variables;
                         cmbVar.SelectedIndex = dc.SelectedVariableIndex;
-                        //var dt = _DataCubeObject.ToDataTable(dc.SelectedVariableIndex, -1, -1);
-                        //Bind(dt);
                     }
                 }
             }
@@ -544,7 +541,25 @@ namespace Heiflow.Controls.WinForm.Controls
             {
                 if (_CurrentType == DataSourceType.DC)
                 {
-                    _DataCubeObject.FromDataTable(DataTable);
+                    if (_DataCubeObject.SelectedVariableIndex == -1)
+                    {
+                        _DataCubeObject.FromDataTable(DataTable, -1, 0, -1);
+                    }
+                    else
+                    {
+                        int time_index = cmbTime.SelectedIndex;
+                        int cell_index = cmbCell.SelectedIndex;
+                        int var_index = _DataCubeObject.SelectedVariableIndex;
+                        if (cmbTime.SelectedItem.ToString() == AllString)
+                        {
+                            time_index = -1;
+                        }
+                        if (cmbCell.SelectedItem.ToString() == AllString)
+                        {
+                            cell_index = -1;
+                        }
+                        _DataCubeObject.FromDataTable(DataTable, var_index, time_index, cell_index);
+                    }
                 }
                 else if (_CurrentType == DataSourceType.Parameters)
                 {
@@ -614,6 +629,7 @@ namespace Heiflow.Controls.WinForm.Controls
         {
             if (e.KeyCode == Keys.Enter)
             {
+                //Has a bug
                 var data_type = _DataTable.Columns[_CurrentColumnIndex].DataType;
                 object constant = null;
                 try
@@ -688,8 +704,7 @@ namespace Heiflow.Controls.WinForm.Controls
                 {
                     CSVFileStream csv = new CSVFileStream(sd.FileName);
                     csv.LoadTo(dt);
-                    this.bindingSource1.DataSource = dt;
-                    this.dataGridView1.DataSource = bindingSource1;
+                    DataTable = dt;
                 }
             }
         }

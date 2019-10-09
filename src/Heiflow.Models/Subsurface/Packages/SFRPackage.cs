@@ -69,7 +69,7 @@ namespace Heiflow.Models.Subsurface
             IsMandatory = true;
             Version = "SFR2";
 
-            EnableREACHINPUT = true;
+            EnableREACHINPUT = false;
             EnableTRANSROUTE = true;
             NSFRPAR = 0;
             NPARSEG = 0;
@@ -461,6 +461,9 @@ namespace Heiflow.Models.Subsurface
         {
             if (_Initialized)
                 this.TimeService.Updated -= this.OnTimeServiceUpdated;
+            EnableREACHINPUT = false;
+            NUMTAB = 0;
+            MAXVAL = 0;
             base.Clear();
         }
 

@@ -395,11 +395,6 @@ namespace Heiflow.Models.Generic.Parameters
             return string.Format("[{0}][{1}][{2}]", _Size[0], _Size[1], _Size[2]);
         }
 
-        public virtual void FromDataTable(System.Data.DataTable dt)
-        {
-
-        }
-
         public DataTable ToDataTable(int time_index)
         {
             return new DataTable();
@@ -429,7 +424,7 @@ namespace Heiflow.Models.Generic.Parameters
         {
 
         }
-        public virtual void ResetToDefault()
+        public virtual void SetToDefault()
         {
 
         }
@@ -560,6 +555,10 @@ namespace Heiflow.Models.Generic.Parameters
             throw new NotImplementedException();
         }
 
+        public virtual void FromDataTable(DataTable dt, int var_index, int time_index, int cell_index)
+        {
+            throw new NotImplementedException();
+        }
 
         public DimensionFlag ZeroDimension
         {
@@ -621,6 +620,16 @@ namespace Heiflow.Models.Generic.Parameters
             }
         }
 
-        public bool IsFixed { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool IsFixed
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

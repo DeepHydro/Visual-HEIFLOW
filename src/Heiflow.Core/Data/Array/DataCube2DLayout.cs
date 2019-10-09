@@ -107,15 +107,15 @@ namespace Heiflow.Core.Data
         {
             return ToDataTable();
         }
-        public override void FromDataTable(DataTable dt)
+        public override void FromDataTable(DataTable dt,int var_index, int time_index, int cell_index)
         {
-            if (SelectedVariableIndex < 0)
-                SelectedVariableIndex = 0;
-            if (Flags[SelectedVariableIndex] == TimeVarientFlag.Constant)
+            if (var_index < 0)
+                var_index = 0;
+            if (Flags[var_index] == TimeVarientFlag.Constant)
             {
-                Constants[SelectedVariableIndex] = float.Parse(dt.Rows[0][0].ToString());
+                Constants[var_index] = float.Parse(dt.Rows[0][0].ToString());
             }
-            else if (Flags[SelectedVariableIndex] == TimeVarientFlag.Repeat)
+            else if (Flags[var_index] == TimeVarientFlag.Repeat)
             {
             }
             else
@@ -125,7 +125,7 @@ namespace Heiflow.Core.Data
                     DataRow dr = dt.Rows[r];
                     for (int c = 0; c < Size[2]; c++)
                     {
-                        this[SelectedVariableIndex, r, c] = (T)dr[c];
+                        this[var_index, r, c] = (T)dr[c];
                     }
                 }
             }

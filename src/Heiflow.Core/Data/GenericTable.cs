@@ -179,24 +179,12 @@ namespace Heiflow.Core.Data
             }
         }
 
-        public DataTable ToDataTableByTime(int var_index, int time_index)
-        {
-            throw new NotImplementedException();
-        }
-
-        public DataTable ToDataTableBySpace(int var_index, int space_index)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public void FromDataTable(DataTable dt)
-        {
-            throw new NotImplementedException();
-        }
-
-
         public DataTable ToDataTable(int var_index, int time_index, int cell_index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void FromDataTable(DataTable dt, int var_index, int time_index, int cell_index)
         {
             throw new NotImplementedException();
         }

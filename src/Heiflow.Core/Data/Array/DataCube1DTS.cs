@@ -34,7 +34,7 @@ namespace Heiflow.Core.Data
             }
             return dt;
         }
-        public override void FromDataTable(DataTable dt)
+        public override void FromDataTable(DataTable dt, int var_index, int time_index, int cell_index)
         {
             for (int r = 0; r < Size[1]; r++)
             {

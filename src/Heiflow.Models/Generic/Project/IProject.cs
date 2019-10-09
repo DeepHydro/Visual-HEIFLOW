@@ -91,7 +91,7 @@ namespace Heiflow.Models.Generic.Project
         string SelectedVersion { get; set; }
         string FullModelWorkDirectory { get; }
         string RelativeModelWorkDirectory { get; set; }
-        string ModelExeFileName { get; set; }
+        string ModelExeFileName { get; }
         string Token { get; set; }
         string GeoSpatialDirectory { get; }
         string ProcessingDirectory { get; }

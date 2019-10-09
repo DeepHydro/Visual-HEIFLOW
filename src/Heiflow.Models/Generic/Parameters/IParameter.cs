@@ -155,7 +155,7 @@ namespace Heiflow.Models.Generic
         void SetValue(int var_index, int time_index, int cell_index, object new_value);
         void AlterDimLength(string dim_name, int new_length);
         void Constant(object vv);
-        void ResetToDefault();
+        void SetToDefault();
         void UpdateFrom(IParameter new_para);
         void UpdateFromFloatDataCube();
     }

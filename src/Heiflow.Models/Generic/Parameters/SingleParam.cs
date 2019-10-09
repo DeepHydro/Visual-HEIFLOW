@@ -85,7 +85,7 @@ namespace Heiflow.Models.Generic.Parameters
             Value = value;
         }
 
-        public override void ResetToDefault()
+        public override void SetToDefault()
         {
             Value = (T)Convert.ChangeType(DefaultValue, typeof(T)); ;
         }
@@ -129,7 +129,7 @@ namespace Heiflow.Models.Generic.Parameters
             if (vv != null)
                 this.Value = vv.Value;
         }
-        public override void FromDataTable(System.Data.DataTable dt)
+        public override void FromDataTable(DataTable dt, int var_index, int time_index, int cell_index)
         {
             Value = (T)dt.Rows[0][0];
         }

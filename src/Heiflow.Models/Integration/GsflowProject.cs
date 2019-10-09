@@ -53,7 +53,8 @@ namespace Heiflow.Models.Integration
             this.LargeIcon = Resources.RasterImageAnalysisDifference32;
             Description = "GSFLOW model version 1.1.6";
             Token = "GSFLOW";
-            ModelExeFileName = Path.Combine(Application.StartupPath, "Models\\gsflow.exe");
+            SupportedVersions = new string[] { "1.0.0", "1.0.1" };
+            SelectedVersion = SupportedVersions[1];
         }
     }
 }

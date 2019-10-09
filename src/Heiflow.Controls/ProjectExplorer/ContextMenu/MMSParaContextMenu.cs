@@ -80,7 +80,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
             if(_Parameter.VariableType == ParameterType.Parameter)
             {
                 if (_ShellService.MessageService.ShowYesNoQuestion(_ShellService.MainForm, "Do you really want to set to default values?"))
-                    _Parameter.ResetToDefault();
+                    _Parameter.SetToDefault();
             }
             else
             {
