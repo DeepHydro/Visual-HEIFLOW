@@ -181,7 +181,20 @@ namespace Heiflow.Models.Generic.Project
                     {
                         if (mod.Extension.ToLower() == ext.ToLower())
                         {
-                            loaded = mod.Load(CurrentProject, progress);
+                            mod.LoadFailed += mod_LoadFailed;
+                            try
+                            {
+                                loaded = mod.Load(CurrentProject, progress);                              
+                            }
+                            catch(Exception ex)
+                            {
+                                loaded = false;
+                                RaiseOpenFailed(ex.Message);
+                            }
+                            finally
+                            {                                
+                                mod.LoadFailed -= mod_LoadFailed;
+                            }
                             break;
                         }
                     }
@@ -194,6 +207,11 @@ namespace Heiflow.Models.Generic.Project
             }
             RaiseProjectOpened(loaded);
         }
+
+         private  void mod_LoadFailed(object sender, string e)
+          {
+              RaiseOpenFailed(e);
+          }
 
         /// <summary>
         /// Creates a new project.

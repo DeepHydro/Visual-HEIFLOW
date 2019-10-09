@@ -48,7 +48,7 @@ namespace Heiflow.Models.Integration
         {
 
         }
-
+        public event EventHandler<string> LoadFailed;
         public string FileTypeDescription
         {
             get
@@ -104,8 +104,20 @@ namespace Heiflow.Models.Integration
             model.ControlFileName = project.RelativeControlFileName;
             model.WorkDirectory = project.FullModelWorkDirectory;
             model.Project = project;
+            model.LoadFailed += model_LoadFailed;
             model.Initialize();
             return model.Load( progress);
+        }
+
+        private  void model_LoadFailed(object sender, string e)
+        {
+            OnLoadFailed(e);
+        }
+
+        private void OnLoadFailed(string msg)
+        {
+            if (LoadFailed != null)
+                LoadFailed(this, msg);
         }
     }
 }

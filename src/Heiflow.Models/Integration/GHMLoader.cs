@@ -43,6 +43,7 @@ namespace Heiflow.Models.Integration
 {
     public class GHMLoader : IModelLoader
     {
+        public event EventHandler<string> LoadFailed;
         public string FileTypeDescription
         {
             get
@@ -79,6 +80,12 @@ namespace Heiflow.Models.Integration
             succ = model.LoadGrid(progress);
             return succ;
         }
-        
+
+        private void OnLoadFailed(string msg)
+        {
+            if (LoadFailed != null)
+                LoadFailed(this, msg);
+        }
+
     }
 }

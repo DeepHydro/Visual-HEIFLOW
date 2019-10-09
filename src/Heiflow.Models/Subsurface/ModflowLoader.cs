@@ -45,6 +45,8 @@ namespace Heiflow.Models.Subsurface
 {
     public class ModflowLoader : IModelLoader
     {
+
+        public event EventHandler<string> LoadFailed;
         public ModflowLoader()
         {
 
@@ -141,6 +143,11 @@ namespace Heiflow.Models.Subsurface
                 sr.Close();
             }
             return dic;
+        }
+        protected virtual void OnLoadFailed(string msg)
+        {
+            if (LoadFailed != null)
+                LoadFailed(this, msg);
         }
     }
 }

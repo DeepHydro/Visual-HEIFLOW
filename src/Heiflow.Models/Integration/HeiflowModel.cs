@@ -181,83 +181,89 @@ namespace Heiflow.Models.Integration
 
         public override bool Load(ICancelProgressHandler progress)
         {
-            //try
-            //{           
-            bool succ = true;
-            _MasterPackage.FileName = ControlFileName;
-            _MasterPackage.Initialize();
-            succ = _MasterPackage.Load(progress);
-            if (succ)
+            try
             {
-                ModelService.Model = this;
-                ModelService.Start = _MasterPackage.TimeService.Start;
-                ModelService.End = _MasterPackage.TimeService.End;
-
-                _ExtensionManPackage.FileName = _MasterPackage.ExtensionManagerFile;
-                _ExtensionManPackage.Initialize();
-                _ExtensionManPackage.Load(progress);
-
-                _PRMS.MasterPackage = _MasterPackage;
-                _PRMS.ControlFileName = _MasterPackage.ParameterFilePath;
-                _PRMS.Initialize();
-
-                _Modflow.TimeService.Start = _MasterPackage.TimeService.Start;
-                _Modflow.TimeService.End = _MasterPackage.TimeService.End;
-                _Modflow.TimeService.Timeline = _MasterPackage.TimeService.Timeline;
-                _Modflow.ControlFileName = _MasterPackage.ModflowFilePath;
-                _Modflow.Initialize();
-
-                _WaterManagementModel.MasterPackage = _MasterPackage;
-                _WaterManagementModel.Initialize();
-
-                this.TimeService = _MasterPackage.TimeService;
-                progress.Progress("Heiflow", 1, "Loading Modflow packages...");
-                succ = _Modflow.Load(progress);
-                _Modflow.IOLogFile = _ExtensionManPackage.MF_IOLOG_File;
-                if (!succ)
-                {
-                    var msg = string.Format("Failed to load Modflow.");
-                    progress.Progress("Heiflow", 1, msg);
-                }
-                progress.Progress("Heiflow", 1, "Loading PRMS packages...");
-                succ = _PRMS.Load(progress);
-                if (!succ)
-                {
-                    var msg = string.Format("Failed to load PRMS.");
-                    progress.Progress("Heiflow", 1, msg);
-                }
-
-                progress.Progress("Heiflow", 1, "Loading WMM packages...");
-                succ = _WaterManagementModel.Load(progress);
-                if (!succ)
-                {
-                    var msg = string.Format("Failed to load Water Managemen.");
-                    progress.Progress("Heiflow", 1, msg);
-                }
-
+                bool succ = true;
+                _MasterPackage.FileName = ControlFileName;
+                _MasterPackage.Initialize();
+                succ = _MasterPackage.Load(progress);
                 if (succ)
                 {
-                    Packages.Clear();
-                    AddInSilence(_MasterPackage);
-                    AddInSilence(_ExtensionManPackage);
+                    ModelService.Model = this;
+                    ModelService.Start = _MasterPackage.TimeService.Start;
+                    ModelService.End = _MasterPackage.TimeService.End;
+
+                    _ExtensionManPackage.FileName = _MasterPackage.ExtensionManagerFile;
+                    _ExtensionManPackage.Initialize();
+                    _ExtensionManPackage.Load(progress);
+
+                    _PRMS.MasterPackage = _MasterPackage;
+                    _PRMS.ControlFileName = _MasterPackage.ParameterFilePath;
+                    _PRMS.Initialize();
+
+                    _Modflow.TimeService.Start = _MasterPackage.TimeService.Start;
+                    _Modflow.TimeService.End = _MasterPackage.TimeService.End;
+                    _Modflow.TimeService.Timeline = _MasterPackage.TimeService.Timeline;
+                    _Modflow.ControlFileName = _MasterPackage.ModflowFilePath;
+                    _Modflow.Initialize();
+
+                    _WaterManagementModel.MasterPackage = _MasterPackage;
+                    _WaterManagementModel.Initialize();
+
+                    this.TimeService = _MasterPackage.TimeService;
+                    progress.Progress("Heiflow", 1, "Loading Modflow packages...");
+                    succ = _Modflow.Load(progress);
+                    _Modflow.IOLogFile = _ExtensionManPackage.MF_IOLOG_File;
+                    if (!succ)
+                    {
+                        var msg = string.Format("Failed to load Modflow.");
+                        OnLoadFailed(msg);
+                        return false;
+                    }
+                    progress.Progress("Heiflow", 1, "Loading PRMS packages...");
+                    succ = _PRMS.Load(progress);
+                    if (!succ)
+                    {
+                        var msg = string.Format("Failed to load PRMS.");
+                        OnLoadFailed(msg);
+                        return false;
+                    }
+
+                    progress.Progress("Heiflow", 1, "Loading WMM packages...");
+                    succ = _WaterManagementModel.Load(progress);
+                    if (!succ)
+                    {
+                        var msg = string.Format("Failed to load Water Management.");
+                        OnLoadFailed(msg);
+                        return false;
+                    }
+
+                    if (succ)
+                    {
+                        Packages.Clear();
+                        AddInSilence(_MasterPackage);
+                        AddInSilence(_ExtensionManPackage);
+                    }
+                    else
+                    {
+                        var msg = string.Format("Failed to load HEIFLOW.");
+                        OnLoadFailed(msg);
+                        return false;
+                    }
                 }
                 else
                 {
-                    var msg = string.Format("Failed to load HEIFLOW.");
-                    progress.Progress("Heiflow", 1, msg);
+                    var msg = string.Format("Failed to load Control file from " + _MasterPackage.FileName);
+                    OnLoadFailed(msg);
+                    return false;
                 }
+                return succ;
             }
-            else
+            catch(Exception ex)
             {
-                var msg = string.Format("Failed to load Control file from " + _MasterPackage.FileName);
-                progress.Progress("Heiflow", 1, msg);
+                OnLoadFailed(ex.Message);
+                return false;
             }
-            return succ;
-            //}
-            //catch
-            //{
-            //    return false;
-            //}
         }
 
         public override bool Validate()

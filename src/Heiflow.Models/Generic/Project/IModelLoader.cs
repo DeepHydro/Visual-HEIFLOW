@@ -42,6 +42,7 @@ namespace Heiflow.Models.Generic.Project
     [InheritedExport]
     public interface IModelLoader
     {
+        event EventHandler<string> LoadFailed;
         string Extension { get; }
         string FileTypeDescription { get; }
 

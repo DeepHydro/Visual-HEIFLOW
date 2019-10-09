@@ -55,7 +55,7 @@ namespace Heiflow.Models.Generic
         public event EventHandler<IPackage> PackageAdded;
         public event EventHandler<IPackage> PackageRemoved;
         public event EventHandler<IPackage> PackageStatechanged;
-
+        public event EventHandler<string> LoadFailed;
         public BaseModel()
         {
             Packages = new Dictionary<string, IPackage>();
@@ -331,6 +331,13 @@ namespace Heiflow.Models.Generic
             if (PackageStatechanged != null)
                 PackageStatechanged(this, pck);
         }
+
+        protected virtual void OnLoadFailed(string msg)
+        {
+            if (LoadFailed != null)
+                LoadFailed(this, msg);
+        }
+        
     }
 }
 

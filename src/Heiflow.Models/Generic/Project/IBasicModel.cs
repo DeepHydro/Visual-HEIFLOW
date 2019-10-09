@@ -46,6 +46,7 @@ namespace Heiflow.Models.Generic
         event EventHandler<IPackage> PackageAdded;
         event EventHandler<IPackage> PackageRemoved;
         event EventHandler<IPackage> PackageStatechanged;
+        event EventHandler<string> LoadFailed;
 
         Dictionary<string, IPackage> Packages { get; }
         string Name { get; }

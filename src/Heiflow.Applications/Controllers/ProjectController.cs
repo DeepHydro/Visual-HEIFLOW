@@ -203,8 +203,6 @@ namespace Heiflow.Applications.Controllers
         #region New
         private void AddNewProject()
         {
-            //if (!_Initialized)
-            //    Initialize();
             _ShellService.NewProjectWindow.ShowDialog();
         }
 
@@ -297,7 +295,6 @@ namespace Heiflow.Applications.Controllers
         {
             var _ImportProperty = e.Argument as IImportProperty;
             var _Project = _ProjectService.Serializer.CurrentProject;
-            //_ShellService.ProgressWindow.Reset();
             _ShellService.ProgressWindow.ProgressBarStyle = ProgressBarStyle.Marquee;
             var extent = Path.GetExtension(_ImportProperty.FileName);
             foreach (var mod in _ProjectService.Serializer.SurpportedModelLoaders)
