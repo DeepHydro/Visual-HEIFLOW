@@ -32,6 +32,7 @@ using GeoAPI.Geometries;
 using Heiflow.Applications;
 using Heiflow.Controls.WinForm.Editors;
 using Heiflow.Controls.WinForm.Toolbox;
+using Heiflow.Core.Data;
 using Heiflow.Core.Hydrology;
 using Heiflow.Core.MyMath;
 using Heiflow.Models.Subsurface;
@@ -57,6 +58,7 @@ namespace Heiflow.Tools.ConceptualModel
         private double _minum_slope = 0.001;
         private double _maximum_slope = 0.02;
         private IMapLayerDescriptor _StreamGridInctLayerDescriptor;
+        private IMapLayerDescriptor _StreamFeatureLayerDescriptor;
 
         public SFR2()
         {
@@ -81,6 +83,7 @@ namespace Heiflow.Tools.ConceptualModel
             IsManualSegmentField = "Order";
             IgnoreMinorReach = true;
             UseAccumulativeRaster = false;
+            ReverseOrder = true;
         }
 
         [Category("Input")]
@@ -112,8 +115,23 @@ namespace Heiflow.Tools.ConceptualModel
         [EditorAttribute(typeof(MapLayerDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         public IMapLayerDescriptor StreamFeatureLayer
         {
-            get;
-            set;
+            get
+            {
+                return _StreamFeatureLayerDescriptor;
+            }
+            set
+            {
+                _StreamFeatureLayerDescriptor = value;
+                if (_StreamFeatureLayerDescriptor != null)
+                {
+                    var sourcefs = _StreamFeatureLayerDescriptor.DataSet as IFeatureSet;
+                    if (sourcefs != null)
+                    {
+                        var buf = from DataColumn dc in sourcefs.DataTable.Columns select dc.ColumnName;
+                        Fields = buf.ToArray();
+                    }
+                }
+            }
         }
 
         [Category("Optional")]
@@ -178,6 +196,13 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             set;
         }
+        [Category("Field")]
+        [Description("Reverse orders of points in a reach")]
+        public bool ReverseOrder
+        {
+            get;
+            set;
+        }
         [Browsable(false)]
         public string[] Fields
         {
@@ -189,6 +214,15 @@ namespace Heiflow.Tools.ConceptualModel
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
         public string IsManualSegmentField
+        {
+            get;
+            set;
+        }
+        [Category("Field")]
+        [Description("0 indicates that the segment is manually edited. Otherwise the segment is automatically generated")]
+        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
+        [DropdownListSource("Fields")]
+        public string WidthField
         {
             get;
             set;
@@ -329,8 +363,8 @@ namespace Heiflow.Tools.ConceptualModel
                 return;
             }
             _grid_layer = GridFeatureLayer.DataSet as IFeatureSet;
-            _stream_layer = StreamFeatureLayer.DataSet as IFeatureSet;
             _dem_layer = DEMLayer.DataSet as IRaster;
+            _stream_layer = StreamFeatureLayer.DataSet as IFeatureSet;
             if (UseAccumulativeRaster)
             {
                 if (AccumulatedDrainageLayer != null)
@@ -423,6 +457,7 @@ namespace Heiflow.Tools.ConceptualModel
             var dt_stream = _stream_layer.DataTable;
             var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
             var grid = prj.Project.Model.Grid as MFGrid;
+            var has_width_field = TypeConverterEx.IsNotNull(WidthField);
 
             for (int i = 0; i < _stream_layer.Features.Count; i++)
             {
@@ -433,6 +468,7 @@ namespace Heiflow.Tools.ConceptualModel
                 var reaches = from fs in _sfr_insct_layer.Features where (int.Parse(fs.DataRow[SegmentField].ToString()) + SegIDOffset) == segid select fs;
                 int k = 0;
                 var isman_seg = int.Parse(dr_stream[IsManualSegmentField].ToString()) == 0;
+                var order_list = new List<double>();
                 foreach (var rch in reaches)
                 {
                     var geo = rch.Geometry;
@@ -450,14 +486,18 @@ namespace Heiflow.Tools.ConceptualModel
                     }
                     else
                     {
-                        for (int j = 0; j < npt_stream; j++)
+                        foreach (var pt_reach in geo.Coordinates)
                         {
-                            foreach (var pt_reach in geo.Coordinates)
+                            for (int j = 0; j < npt_stream; j++)
                             {
                                 if (geo_stream.Coordinates[j].Equals(pt_reach))
                                 {
-                                    order = npt_stream - j + 1;
+                                    if (ReverseOrder)
+                                        order = npt_stream - j + 1;
+                                    else
+                                        order = j + 1;
                                     found = true;
+                                    order_list.Add(order);
                                     break;
                                 }
                             }
@@ -466,6 +506,22 @@ namespace Heiflow.Tools.ConceptualModel
                         }
                     }
 
+                    if (order == 0)
+                    {
+                        if (order_list.Count == 0)
+                        {
+                            order = fealist[segid].Reaches.Keys.Max();
+                            order_list.Add(order);
+                        }
+                        else
+                        {
+                            if (ReverseOrder)
+                                order = order_list.Min() - 1;
+                            else
+                                order = order_list.Max() + 1;
+                            order_list.Add(order);
+                        }
+                    }
                     double rs = 0, slope = 0, yint = 0;
                     var dr = rch.DataRow;
                     double[] dis = new double[npt];
@@ -522,10 +578,8 @@ namespace Heiflow.Tools.ConceptualModel
                             Slope = slope,
                             Length = geo.Length
                         };
-                        if (fealist[segid].Reaches.ContainsKey(order))
-                        {
-                            order += i * 0.001;
-                        }
+                        if (has_width_field)
+                            reach.Width = double.Parse(dr[WidthField].ToString());
                         fealist[segid].Reaches.Add(order, reach);
                         fealist[segid].OutSegmentID = int.Parse(dr[OutSegmentField].ToString());
                         k++;
@@ -706,6 +760,7 @@ namespace Heiflow.Tools.ConceptualModel
                 var sfr = ps.Project.Model.GetPackage(SFRPackage.PackageName) as SFRPackage;
                 var grid = ps.Project.Model.Grid as MFGrid;
                 var mfout = ps.Project.Model.GetPackage(MFOutputPackage.PackageName) as MFOutputPackage;
+                var has_width_field = TypeConverterEx.IsNotNull(WidthField);
                 if (sfr != null)
                 {
                     var net = new RiverNetwork();
@@ -751,8 +806,17 @@ namespace Heiflow.Tools.ConceptualModel
                         river.ETSW = this.ETSW;
                         river.PPTSW = this.PPTSW;
                         river.ROUGHCH = this.ROUGHCH;
-                        river.Width1 = this.Width1;
-                        river.Width2 = this.Width2;
+
+                        if (has_width_field)
+                        {
+                            river.Width1 = dr_reaches[0].Width;
+                            river.Width2 = dr_reaches[0].Width;
+                        }
+                        else
+                        {
+                            river.Width1 = this.Width1;
+                            river.Width2 = this.Width2;
+                        }
 
                         for (int c = 0; c < dr_reaches.Count; c++)
                         {
@@ -798,6 +862,7 @@ namespace Heiflow.Tools.ConceptualModel
                                 reach_id++;
                             }
                         }
+
                         if (river.Reaches.Count == 0)
                         {
                             Console.WriteLine("SFR warning: ");
