@@ -3,6 +3,7 @@ using GeoAPI.Geometries;
 using Heiflow.Applications;
 using Heiflow.Controls.WinForm.Editors;
 using Heiflow.Core.Data;
+using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Parameters;
 using Heiflow.Models.Integration;
 using Heiflow.Models.Subsurface;
@@ -100,6 +101,7 @@ namespace Heiflow.Tools.ConceptualModel
         }
         public override void Initialize()
         {
+            Initialized = true;
             if (GridFeatureLayer == null || LakeFeatureLayer == null)
             {
                 this.Initialized = false;
@@ -268,20 +270,68 @@ namespace Heiflow.Tools.ConceptualModel
                     var id = pck.LakeSerialIndex.Keys.ElementAt(i);
                     foreach (var hru_index in pck.LakeSerialIndex[id])
                     {
-                        lake_hru_id.SetValue(0, 0, hru_index, id);
-                        hru_type.SetValue(0, 0, hru_index, 2);
+                        lake_hru_id.SetValue(0, hru_index, 0, id);
+                        hru_type.SetValue(0, hru_index, 0, 2);
                     }
                 }
-                var nlake = model.PRMSModel.MMSPackage.Parameters["nlake"];
-                var lake_evap_adj = model.PRMSModel.MMSPackage.Parameters["lake_evap_adj"];
-                nlake.SetValue(0, 0, 0, pck.NLAKES);
+                var nlake = model.PRMSModel.MMSPackage.Select("nlake");
+                if(nlake == null)
+                {
+                    var para = (from p in model.PRMSModel.MMSPackage.DefaultParameters where p.Name == "nlake" select p).First();
+                    DataCubeParameter<int> gv = new DataCubeParameter<int>(1, 1, 1, false)
+                    {
+                        ValueType = para.ValueType,
+                        VariableType = ParameterType.Dimension,
+                        Dimension = 1,
+                        DimensionNames = para.DimensionNames,
+                        Owner = model.PRMSModel.MMSPackage,
+                        Name = "nlake",
+                        ModuleName = para.ModuleName,
+                        DefaultValue = para.DefaultValue,
+                        Description = para.Description,
+                        Maximum = para.Maximum,
+                        Minimum = para.Minimum,
+                        Units = para.Units
+                    };
+                    gv[0, 0, 0] = pck.NLAKES;
+                    model.PRMSModel.MMSPackage.Parameters.Add(gv.Name, gv);
+                }
                 model.PRMSModel.MMSPackage.AlterLength("nlake", pck.NLAKES);
+                var lake_evap_adj = model.PRMSModel.MMSPackage.Select("lake_evap_adj");
                 if (lake_evap_adj != null)
                 {
                     var para = lake_evap_adj as DataCubeParameter<float>;
                     for (int i = 0; i < pck.NLAKES; i++)
                     {
                         para[0][":", i] = new float[] { 1, 1, 1.1f, 1.2f, 1.3f, 1.4f, 1.5f, 1.5f, 1.4f, 1.3f, 1.2f, 1.1f };
+                    }
+                }
+                else
+                {
+                    var buf = from p in model.PRMSModel.MMSPackage.DefaultParameters where p.Name == "lake_evap_adj" select p;
+                    if (buf.Any())
+                    {
+                        var para = buf.First();
+                        DataCubeParameter<float> gv = new DataCubeParameter<float>(1, 12, pck.NLAKES, false)
+                        {
+                            ValueType = para.ValueType,
+                            VariableType = ParameterType.Parameter,
+                            Dimension = 2,
+                            DimensionNames = para.DimensionNames,
+                            Owner = model.PRMSModel.MMSPackage,
+                            Name = "lake_evap_adj",
+                            ModuleName = para.ModuleName,
+                            DefaultValue = para.DefaultValue,
+                            Description = para.Description,
+                            Maximum = para.Maximum,
+                            Minimum = para.Minimum,
+                            Units = para.Units
+                        };
+                        for (int i = 0; i < pck.NLAKES; i++)
+                        {
+                            gv[0][":", i] = new float[] { 1, 1, 1.1f, 1.2f, 1.3f, 1.4f, 1.5f, 1.5f, 1.4f, 1.3f, 1.2f, 1.1f };
+                        }
+                        model.PRMSModel.MMSPackage.Parameters.Add(gv.Name, gv);
                     }
                 }
 

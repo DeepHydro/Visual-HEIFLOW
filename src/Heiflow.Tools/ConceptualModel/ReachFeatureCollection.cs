@@ -82,5 +82,6 @@ namespace Heiflow.Tools.ConceptualModel
         public double Slope { get; set; }
         public double Length { get; set; }
         public double Width { get; set; }
+        public double OrderKey { get; set; }
     }
 }

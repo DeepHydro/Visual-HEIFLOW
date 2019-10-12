@@ -55,7 +55,7 @@ namespace Heiflow.Models.Subsurface
     public class LakePackage : MFPackage
     {
         public static string PackageName = "LAK";
-
+        private RegularGridTopology _LakeTopo;
         public LakePackage()
         {
             Name = "LAK";
@@ -429,7 +429,23 @@ namespace Heiflow.Models.Subsurface
 
         public void BuildTopology()
         {
-            throw new NotImplementedException();
+            var grid = Grid as RegularGrid;
+            _LakeTopo = new RegularGridTopology();
+            _LakeTopo.ActiveCellLocation = new int[NLAKES][];
+            _LakeTopo.ActiveCellID = new int[NLAKES];
+            _LakeTopo.RowCount = grid.RowCount;
+            _LakeTopo.ColumnCount = grid.ColumnCount;
+            _LakeTopo.ActiveCellCount = NLAKES;
+
+            int i = 0;
+            foreach (var newreach in LakeSerialIndex.Values)
+            {
+                var loc = grid.Topology.ActiveCellLocation[newreach[0]];
+                _LakeTopo.ActiveCellLocation[i] = loc;
+                _LakeTopo.ActiveCellID[i] = grid.Topology.GetID(loc[0], loc[1]);
+                i++;
+            }
+
         }
     }
 }

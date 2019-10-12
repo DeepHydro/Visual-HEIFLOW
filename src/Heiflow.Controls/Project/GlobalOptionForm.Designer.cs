@@ -60,7 +60,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.tbMapFilename = new System.Windows.Forms.TextBox();
             this.checkMappedClimate = new System.Windows.Forms.CheckBox();
-            this.btnMapFilename = new System.Windows.Forms.Button();
+            this.btnCreateMapFile = new System.Windows.Forms.Button();
             this.tabOutVars = new System.Windows.Forms.TabPage();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -412,7 +412,7 @@
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.tbMapFilename);
             this.groupBox1.Controls.Add(this.checkMappedClimate);
-            this.groupBox1.Controls.Add(this.btnMapFilename);
+            this.groupBox1.Controls.Add(this.btnCreateMapFile);
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(8, 6);
             this.groupBox1.Name = "groupBox1";
@@ -476,17 +476,17 @@
             this.checkMappedClimate.UseVisualStyleBackColor = true;
             this.checkMappedClimate.CheckedChanged += new System.EventHandler(this.checkMappedClimate_CheckedChanged);
             // 
-            // btnMapFilename
+            // btnCreateMapFile
             // 
-            this.btnMapFilename.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnMapFilename.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnMapFilename.Location = new System.Drawing.Point(599, 97);
-            this.btnMapFilename.Name = "btnMapFilename";
-            this.btnMapFilename.Size = new System.Drawing.Size(100, 30);
-            this.btnMapFilename.TabIndex = 5;
-            this.btnMapFilename.Text = "Browse...";
-            this.btnMapFilename.UseVisualStyleBackColor = true;
-            this.btnMapFilename.Click += new System.EventHandler(this.btnMapFilename_Click);
+            this.btnCreateMapFile.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnCreateMapFile.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnCreateMapFile.Location = new System.Drawing.Point(599, 97);
+            this.btnCreateMapFile.Name = "btnCreateMapFile";
+            this.btnCreateMapFile.Size = new System.Drawing.Size(100, 30);
+            this.btnCreateMapFile.TabIndex = 5;
+            this.btnCreateMapFile.Text = "Create";
+            this.btnCreateMapFile.UseVisualStyleBackColor = true;
+            this.btnCreateMapFile.Click += new System.EventHandler(this.btnCreateMapFilename_Click);
             // 
             // tabOutVars
             // 
@@ -613,7 +613,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox tbMapFilename;
         private System.Windows.Forms.CheckBox checkMappedClimate;
-        private System.Windows.Forms.Button btnMapFilename;
+        private System.Windows.Forms.Button btnCreateMapFile;
         private System.Windows.Forms.ComboBox cmbClimateFormat;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.GroupBox groupBox2;

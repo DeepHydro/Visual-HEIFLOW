@@ -421,19 +421,19 @@ namespace Heiflow.Models.Generic
         /// <returns></returns>
         public virtual bool Save(ICancelProgressHandler progress)
         {
-            if (IsDirty && State == ModelObjectState.Ready)
-            {
+            //if (IsDirty && State == ModelObjectState.Ready)
+            //{
                 return SaveAs(FileName,progress);
-            }
-            else
-            {
-                if (progress != null)
-                {
-                    string msg = string.Format("{0} unchanged", this.Name);
-                    progress.Progress(this.Name, 1, msg);
-                }
-                return true;
-            }
+            //}
+            //else
+            //{
+            //    if (progress != null)
+            //    {
+            //        string msg = string.Format("{0} unchanged", this.Name);
+            //        progress.Progress(this.Name, 1, msg);
+            //    }
+            //    return true;
+            //}
         }
 
         /// <summary>

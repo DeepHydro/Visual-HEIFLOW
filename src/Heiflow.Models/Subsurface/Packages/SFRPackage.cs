@@ -351,11 +351,11 @@ namespace Heiflow.Models.Subsurface
             NSS = rvnet.Rivers.Count;
             NSTRM = rvnet.GetReachCount();
 
-            string newline = "";
-            if (EnableREACHINPUT)
-            {
-                newline += "REACHINPUT\t";
-            }
+            string newline = "REACHINPUT\t";
+            //if (EnableREACHINPUT)
+            //{
+            //    newline += "";
+            //}
             if (EnableTRANSROUTE)
             {
                 newline += "TRANSROUTE\t";

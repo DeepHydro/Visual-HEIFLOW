@@ -88,7 +88,14 @@ namespace Heiflow.Controls.WinForm.Climate
             float.TryParse(labelhum.Text, out hum);
             float.TryParse(labelPressure.Text, out press);
             Cursor.Current = Cursors.WaitCursor;
-            _ClimateDataPackage.SaveAsTxtByConstant(ppt, tmax, tmin, pet, wind, hum, press);
+            if (cmbClimateFormat.SelectedIndex == 0)
+            {
+                _ClimateDataPackage.SaveAsDcxByConstant(ppt, tmax, tmin, pet, wind, hum, press);
+            }
+            else
+            {
+                _ClimateDataPackage.SaveAsTxtByConstant(ppt, tmax, tmin, pet, wind, hum, press);
+            }
             Cursor.Current = Cursors.Default;
         }
 

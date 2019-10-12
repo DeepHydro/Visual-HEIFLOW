@@ -86,10 +86,13 @@ namespace Heiflow.Models.Integration
         bool _SaveVarsToFile = false;
         string _VarSaveFile;
         bool _SubbasinFlag = false;
-        string _PrecipitationFile;
-        string _TempMaxFile;
-        string _TempMinFile;
-        string _PETFile;
+        private string _PrecipitationFile="ppt.txt";
+        private string _TempMaxFile="tmax.txt";
+        private string _TempMinFile = "tmin.txt";
+        private string _PETFile="pet.txt";
+        private string _WindFile="wind.txt";
+        private string _HumidityFile = "hum.txt";
+        private string _PressureFile ="pressure.txt";
         bool _PrintDebug = false;
         bool _dynamic_para = false;
         int[] _dynamic_day;
@@ -109,9 +112,6 @@ namespace Heiflow.Models.Integration
         private WindModule _WindModule;
         private HumidityModule _HumidityModule;
         private PressureModule _PressureModule;
-        private string _WindFile;
-        private string _HumidityFile;
-        private string _PressureFile;
         private bool _SaveSoilwaterFile;
         private string _SoilWaterFile;
         private string _SoilWaterBudgetFile;
@@ -381,8 +381,11 @@ namespace Heiflow.Models.Integration
             set
             {
                 _PETFile = value;
-                (Parameters["potet_day"] as DataCubeParameter<string>)[0, 0, 0] = value;
-                OnPropertyChanged("PETFile");
+                if (Parameters.Keys.Contains("potet_day"))
+                {
+                    (Parameters["potet_day"] as DataCubeParameter<string>)[0, 0, 0] = value;
+                    OnPropertyChanged("PETFile");
+                }
             }
         }
         [Category("Input Files")]
@@ -396,8 +399,11 @@ namespace Heiflow.Models.Integration
             set
             {
                 _WindFile = value;
-                (Parameters["wnd_day"] as DataCubeParameter<string>)[0, 0, 0] = value;
-                OnPropertyChanged("WindFile");
+                if (Parameters.Keys.Contains("wnd_day"))
+                {
+                    (Parameters["wnd_day"] as DataCubeParameter<string>)[0, 0, 0] = value;
+                    OnPropertyChanged("WindFile");
+                }
             }
         }
         [Category("Input Files")]
@@ -411,8 +417,11 @@ namespace Heiflow.Models.Integration
             set
             {
                 _HumidityFile = value;
-                (Parameters["hum_day"] as DataCubeParameter<string>)[0, 0, 0] = value;
-                OnPropertyChanged("HumidityFile");
+                if (Parameters.Keys.Contains("hum_day"))
+                {
+                    (Parameters["hum_day"] as DataCubeParameter<string>)[0, 0, 0] = value;
+                    OnPropertyChanged("HumidityFile");
+                }
             }
         }
         [Category("Input Files")]
@@ -426,8 +435,11 @@ namespace Heiflow.Models.Integration
             set
             {
                 _PressureFile = value;
-                (Parameters["press_day"] as DataCubeParameter<string>)[0, 0, 0] = value;
-                OnPropertyChanged("PressureFile");
+                if (Parameters.Keys.Contains("press_day"))
+                {
+                    (Parameters["press_day"] as DataCubeParameter<string>)[0, 0, 0] = value;
+                    OnPropertyChanged("PressureFile");
+                }
             }
         }
         [Category("Input Files")]
@@ -899,8 +911,18 @@ namespace Heiflow.Models.Integration
             {
                 _AniOutVarNames = value;
                 if (value != null)
-                    NumAniOutVar = AniOutVarNames.Length;
-                (Parameters["aniOutVar_names"] as DataCubeParameter<string>)[0][":", 0] = value;
+                    NumAniOutVar = _AniOutVarNames.Length;
+                Parameters.Remove("aniOutVar_names");
+                var para = new DataCubeParameter<string>(1, NumAniOutVar, 1)
+                {
+                    ValueType = 4,
+                    VariableType = ParameterType.Control,
+                    Dimension = 1,
+                    Name = "aniOutVar_names",
+                    Owner = this
+                };
+                para[0][":", 0] = value;
+                Parameters.Add(para.Name, para);
                 OnPropertyChanged("AniOutVarNames");
             }
         }
@@ -948,8 +970,11 @@ namespace Heiflow.Models.Integration
             {
                 _SaveSoilwaterFile = value;
                 var infs = _SaveSoilwaterFile ? 1 : 0;
-                (Parameters["save_soilwater_hru"] as DataCubeParameter<int>)[0, 0, 0] = infs;
-                OnPropertyChanged("SaveSoilwaterFile");
+                if(Parameters.Keys.Contains("save_soilwater_hru"))
+             {
+                    (Parameters["save_soilwater_hru"] as DataCubeParameter<int>)[0, 0, 0] = infs;
+                    OnPropertyChanged("SaveSoilwaterFile");
+                }
             }
         }
         [Category("Output Files")]
@@ -1304,10 +1329,10 @@ namespace Heiflow.Models.Integration
         public override bool New()
         {
             string _Controlfile = Path.Combine(BaseModel.ConfigPath, "heiflow_" + Owner.Project.SelectedVersion + ".control");
-        
-            if (File.Exists(_Controlfile) )
+
+            if (File.Exists(_Controlfile))
             {
-              //  string xmlcopy = this.FileName.Replace(".control", ".xml");
+                //  string xmlcopy = this.FileName.Replace(".control", ".xml");
                 File.Copy(_Controlfile, this.FileName, true);
 
                 LoadFrom(this.FileName);
@@ -1317,23 +1342,31 @@ namespace Heiflow.Models.Integration
                 Temperature = TemperatureModule.climate_hru;
                 Precipitation = PrecipitationModule.climate_hru;
                 SolarRadiation = SolarRadiationModule.ddsolrad_hru_prms;
-                PotentialET = PETModule.potet_pm;
-                Wind = WindModule.climate_hru;
-                Humidity = HumidityModule.climate_hru;
-                Pressure = PressureModule.climate_hru;
+                if (Owner.Project.SelectedVersion == "v1.0.0")
+                {
+                    PotentialET = PETModule.climate_hru;
+                }
+                else
+                {
+                    PotentialET = PETModule.potet_pm;
+                    Wind = WindModule.climate_hru;
+                    Humidity = HumidityModule.climate_hru;
+                    Pressure = PressureModule.climate_hru;
+                }
                 SurfaceRunoff = SurfaceRunoffModule.srunoff_carea_casc;
                 StatsON = false;
                 AniOutFileFormat = FileFormat.Binary;
                 InitVarsFromFile = false;
                 SaveVarsToFile = false;
-
+                AniOutVarNames = new string[] { "hru_actet", "soil_moist_frac" };
                 //NumStatVars = 2;
                 //StatVarElement = new int[] { 1,2};
                 //StatVarNames = new string[] { "basin_cfs", "basin_reach_latflow" };
 
+
                 SubbasinFlag = false;
                 OutputWaterComponent = true;
-                UseGridClimate = false;
+                UseGridClimate = true;
                 ReportDays = 1;
                 PrintDebug = false;
                 ClimateInputFormat = FileFormat.Text;
@@ -1341,8 +1374,10 @@ namespace Heiflow.Models.Integration
                 HydraulicsEngine = "SFR";
                 AnimationOutOC = false;
                 GlobalTimeUnit = 4;
-                SaveSoilWaterFile = true;
+                if (Owner.Project.SelectedVersion != "v1.0.0")
+                    SaveSoilWaterFile = true;
 
+                GridClimateFile = string.Format(".\\input\\prms\\{0}_climate.map", Owner.Project.Name);
                 DataFile = string.Format(".\\input\\prms\\{0}.data", Owner.Project.Name);
                 ParameterFilePath = string.Format(".\\input\\prms\\{0}.param", Owner.Project.Name);
                 ModflowFilePath = string.Format(".\\input\\modflow\\{0}.nam", Owner.Project.Name);
@@ -1371,9 +1406,11 @@ namespace Heiflow.Models.Integration
                 AniOutFileName = string.Format(".\\output\\{0}_animation.out", Owner.Project.Name);
                 VarSaveFile = string.Format(".\\output\\{0}_prms_ic.out", Owner.Project.Name);
                 MFListFile = string.Format(".\\output\\{0}.lst", Owner.Project.Name);
-                SoilWaterFile = string.Format(".\\output\\{0}_sm.dcx", Owner.Project.Name);
-                SoilWaterBudgetFile = string.Format(".\\output\\{0}_sm_budget.csv", Owner.Project.Name);
-
+                if (Owner.Project.SelectedVersion != "v1.0.0")
+                {
+                    SoilWaterFile = string.Format(".\\output\\{0}_sm.dcx", Owner.Project.Name);
+                    SoilWaterBudgetFile = string.Format(".\\output\\{0}_sm_budget.csv", Owner.Project.Name);
+                }
                 DynamicDays = new int[] { 2 };
                 DynamicPara = false;
                 DynamicParamFiles = new string[] { _ParameterFile };
@@ -1600,6 +1637,89 @@ namespace Heiflow.Models.Integration
         {
             StartTime=TimeService.Start ;
             EndTime = TimeService.End;
+        }
+
+        public void CheckClimateFilename()
+        {
+            var files = new string[] { PrecipitationFile, TempMaxFile, TempMinFile, PETFile, WindFile, PressureFile, HumidityFile };
+            if (ClimateInputFormat == FileFormat.Binary)
+            {
+                if (PrecipitationFile.Contains(".txt"))
+                {
+                    PrecipitationFile = PrecipitationFile.Replace(".txt", ".dcx");
+                }
+                if (TempMaxFile.Contains(".txt"))
+                {
+                    TempMaxFile = TempMaxFile.Replace(".txt", ".dcx");
+                }
+                if (TempMinFile.Contains(".txt"))
+                {
+                    TempMinFile = TempMinFile.Replace(".txt", ".dcx");
+                }
+                if (PETFile.Contains(".txt"))
+                {
+                    PETFile = PETFile.Replace(".txt", ".dcx");
+                }
+                if (WindFile.Contains(".txt"))
+                {
+                    WindFile = WindFile.Replace(".txt", ".dcx");
+                }
+                if (PressureFile.Contains(".txt"))
+                {
+                    PressureFile = PressureFile.Replace(".txt", ".dcx");
+                }
+                if (HumidityFile.Contains(".txt"))
+                {
+                    HumidityFile = HumidityFile.Replace(".txt", ".dcx");
+                }
+            }
+            else
+            {
+                if (PrecipitationFile.Contains(".dcx"))
+                {
+                    PrecipitationFile = PrecipitationFile.Replace(".dcx", ".txt");
+                }
+                if (TempMaxFile.Contains(".dcx"))
+                {
+                    TempMaxFile = TempMaxFile.Replace(".dcx", ".txt");
+                }
+                if (TempMinFile.Contains(".dcx"))
+                {
+                    TempMinFile = TempMinFile.Replace(".dcx", ".txt");
+                }
+                if (PETFile.Contains(".dcx"))
+                {
+                    PETFile = PETFile.Replace(".dcx", ".txt");
+                }
+                if (WindFile.Contains(".dcx"))
+                {
+                    WindFile = WindFile.Replace(".dcx", ".txt");
+                }
+                if (PressureFile.Contains(".dcx"))
+                {
+                    PressureFile = PressureFile.Replace(".dcx", ".txt");
+                }
+                if (HumidityFile.Contains(".dcx"))
+                {
+                    HumidityFile = HumidityFile.Replace(".dcx", ".txt");
+                }
+            }
+        }
+
+        public void WriteDefaultClimateMapFile(int nhru)
+        {
+            string filename = Path.Combine(ModelService.WorkDirectory, _GridClimateFile);
+            StreamWriter sw = new StreamWriter(filename);
+            string line = string.Format("# Clmate Grid ID, HRU ID");
+            sw.WriteLine(line);
+            line = string.Format("{0} {1} # subbasin_count hru_count", nhru, nhru);
+            sw.WriteLine(line);
+            for (int i = 1; i <= nhru; i++)
+            {
+                line = string.Format("{0}\t{1}", i, i);
+                sw.WriteLine(line);
+            }
+            sw.Close();
         }
     }
 }

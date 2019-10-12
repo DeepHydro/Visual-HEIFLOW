@@ -802,6 +802,13 @@ namespace Heiflow.Models.Surface.PRMS
             var basin_area = Select("basin_area");
             basin_area.SetValue(0, 0, 0, area);
             ModelService.BasinArea = area;
+
+            var master = (this.Owner as PRMS).MasterPackage;
+            if (master.UseGridClimate)
+            {
+                master.WriteDefaultClimateMapFile(numhru);
+            }
+
             base.OnGridUpdated(sender);
             IsDirty = true;
         }
@@ -819,6 +826,5 @@ namespace Heiflow.Models.Surface.PRMS
                 }   
              }
         }
- 
     }
 }

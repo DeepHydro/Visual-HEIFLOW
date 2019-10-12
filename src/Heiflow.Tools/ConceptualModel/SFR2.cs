@@ -48,6 +48,7 @@ using System.Linq;
 
 namespace Heiflow.Tools.ConceptualModel
 {
+    public enum StreamGenerator { VHF,SWAT, Other};
     public class SFR2 : MapLayerRequiredTool
     {
         private IFeatureSet _stream_layer;
@@ -59,6 +60,7 @@ namespace Heiflow.Tools.ConceptualModel
         private double _maximum_slope = 0.02;
         private IMapLayerDescriptor _StreamGridInctLayerDescriptor;
         private IMapLayerDescriptor _StreamFeatureLayerDescriptor;
+        private StreamGenerator _StreamGenerator;
 
         public SFR2()
         {
@@ -77,13 +79,8 @@ namespace Heiflow.Tools.ConceptualModel
             ROUGHCH = 0.05;
             Width1 = 50;
             Width2 = 50;
-            SegIDOffset = 1;
-            SegmentField = "WSNO";
-            OutSegmentField = "DSLINKNO";
-            IsManualSegmentField = "Order";
             IgnoreMinorReach = true;
             UseAccumulativeRaster = false;
-            ReverseOrder = true;
         }
 
         [Category("Input")]
@@ -102,6 +99,42 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             set;
         }
+        [Category("Input")]
+        [Description("DEM")]
+        public StreamGenerator StreamGenerator
+        {
+            get
+            {
+                return _StreamGenerator;
+            }
+            set
+            {
+                _StreamGenerator = value;
+                if(_StreamGenerator ==  StreamGenerator.VHF)
+                {
+                    SegIDOffset = 1;
+                    SegmentField = "WSNO";
+                    OutSegmentField = "DSLINKNO";
+                    IsManualSegmentField = "Order";
+                    IgnoreMinorReach = true;
+                    UseAccumulativeRaster = false;
+                    ReverseOrder = true;
+                }
+               else if (_StreamGenerator == StreamGenerator.SWAT)
+                {
+                    SegIDOffset = 0;
+                    SegmentField = "FROM_NODE";
+                    OutSegmentField = "TO_NODE";
+                    IsManualSegmentField = "ARCID";
+                    WidthField = "Wid2";
+                    IgnoreMinorReach = true;
+                    UseAccumulativeRaster = false;
+                    ReverseOrder = false;
+                }
+               
+            }
+        }
+
         [Category("Optional")]
         [Description("Accumulated drainage map layer")]
         [EditorAttribute(typeof(MapLayerDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
@@ -465,18 +498,20 @@ namespace Heiflow.Tools.ConceptualModel
                 var dr_stream = fea_stream.DataRow;
                 var geo_stream = fea_stream.Geometry;
                 int segid = int.Parse(dr_stream[SegmentField].ToString()) + SegIDOffset;
-                var reaches = from fs in _sfr_insct_layer.Features where (int.Parse(fs.DataRow[SegmentField].ToString()) + SegIDOffset) == segid select fs;
                 int k = 0;
+                var npt_stream = geo_stream.Coordinates.Count();
+                var reaches = from fs in _sfr_insct_layer.Features where (int.Parse(fs.DataRow[SegmentField].ToString()) + SegIDOffset) == segid select fs;
                 var isman_seg = int.Parse(dr_stream[IsManualSegmentField].ToString()) == 0;
-                var order_list = new List<double>();
+                var order_count = new int[npt_stream];
+
                 foreach (var rch in reaches)
                 {
-                    var geo = rch.Geometry;
-                    double order = 0;
-                    var npt = geo.Coordinates.Count();
-                    var npt_stream = geo_stream.Coordinates.Count();
-                    bool found = false;
-                    if (geo.Length <= _dem_layer.CellHeight && IgnoreMinorReach)
+                    var rch_geo = rch.Geometry;
+                    int order = 0;
+                    var npt = rch_geo.Coordinates.Count();
+                 
+                    //bool found = false;
+                    if (rch_geo.Length <= _dem_layer.CellHeight && IgnoreMinorReach)
                     {
                         continue;
                     }
@@ -486,49 +521,60 @@ namespace Heiflow.Tools.ConceptualModel
                     }
                     else
                     {
-                        foreach (var pt_reach in geo.Coordinates)
+                        //foreach (var pt_reach in rch_geo.Coordinates)
+                        //{
+                        //    for (int j = 0; j < npt_stream; j++)
+                        //    {
+                        //        if (geo_stream.Coordinates[j].Equals(pt_reach))
+                        //        {
+                        //            if (ReverseOrder)
+                        //                order = npt_stream - j + 1;
+                        //            else
+                        //                order = j + 1;
+                        //            found = true;
+                        //            order_list.Add(order);
+                        //            break;
+                        //        }
+                        //    }
+                        //    if (found)
+                        //        break;
+                        //}
+                        var distance = rch_geo.Coordinates[0].Distance(geo_stream.Coordinates[0]);
+                        for (int j = 1; j < npt_stream; j++)
                         {
-                            for (int j = 0; j < npt_stream; j++)
+                            var dist = rch_geo.Coordinates[0].Distance(geo_stream.Coordinates[j]);
+                            if (dist < distance)
                             {
-                                if (geo_stream.Coordinates[j].Equals(pt_reach))
-                                {
-                                    if (ReverseOrder)
-                                        order = npt_stream - j + 1;
-                                    else
-                                        order = j + 1;
-                                    found = true;
-                                    order_list.Add(order);
-                                    break;
-                                }
+                                distance = dist;
+                                order = j;
                             }
-                            if (found)
-                                break;
                         }
+                        order_count[order]++;
                     }
 
-                    if (order == 0)
-                    {
-                        if (order_list.Count == 0)
-                        {
-                            order = fealist[segid].Reaches.Keys.Max();
-                            order_list.Add(order);
-                        }
-                        else
-                        {
-                            if (ReverseOrder)
-                                order = order_list.Min() - 1;
-                            else
-                                order = order_list.Max() + 1;
-                            order_list.Add(order);
-                        }
-                    }
+                    //if (order == 0)
+                    //{
+                    //    if (order_list.Count == 0)
+                    //    {
+                    //        order = fealist[segid].Reaches.Keys.Max();
+                    //        order_list.Add(order);
+                    //    }
+                    //    else
+                    //    {
+                    //        if (ReverseOrder)
+                    //            order = order_list.Min() - 1;
+                    //        else
+                    //            order = order_list.Max() + 1;
+                    //        order_list.Add(order);
+                    //    }
+                    //}
                     double rs = 0, slope = 0, yint = 0;
                     var dr = rch.DataRow;
                     double[] dis = new double[npt];
                     double[] ac_dis = new double[npt];
                     double[] elvs = new double[npt];
                     double elev_av = 0;
-                    var pt0 = geo.Coordinates[0];
+                    var pt0 = rch_geo.Coordinates[0];
                     var cell = _dem_layer.ProjToCell(pt0.X, pt0.Y);
 
                     int row = int.Parse(dr["ROW"].ToString());
@@ -540,9 +586,9 @@ namespace Heiflow.Tools.ConceptualModel
 
                         for (int j = 1; j < npt; j++)
                         {
-                            cell = _dem_layer.ProjToCell(geo.Coordinates[j].X, geo.Coordinates[j].Y);
+                            cell = _dem_layer.ProjToCell(rch_geo.Coordinates[j].X, rch_geo.Coordinates[j].Y);
                             elvs[j] = _dem_layer.Value[cell.Row, cell.Column];
-                            dis[j] = SpatialDistance.DistanceBetween(geo.Coordinates[j - 1], geo.Coordinates[j]);
+                            dis[j] = SpatialDistance.DistanceBetween(rch_geo.Coordinates[j - 1], rch_geo.Coordinates[j]);
                         }
                         for (int j = 0; j < npt; j++)
                         {
@@ -576,11 +622,15 @@ namespace Heiflow.Tools.ConceptualModel
                             DataRow = dr,
                             Elevation = elev_av,
                             Slope = slope,
-                            Length = geo.Length
+                            Length = rch_geo.Length
                         };
+                        double key = order; 
+                        if (fealist[segid].Reaches.Keys.Contains(key))
+                            key = order + order_count[order] * 0.01;
                         if (has_width_field)
                             reach.Width = double.Parse(dr[WidthField].ToString());
-                        fealist[segid].Reaches.Add(order, reach);
+                        reach.OrderKey = key;
+                        fealist[segid].Reaches.Add(key, reach);
                         fealist[segid].OutSegmentID = int.Parse(dr[OutSegmentField].ToString());
                         k++;
                     }
@@ -809,13 +859,15 @@ namespace Heiflow.Tools.ConceptualModel
 
                         if (has_width_field)
                         {
-                            river.Width1 = dr_reaches[0].Width;
-                            river.Width2 = dr_reaches[0].Width;
+                            //river.Width1 = dr_reaches[0].Width;
+                            //river.Width2 = dr_reaches[0].Width;
+                            river.Width1 = this.Width1;
+                            river.Width2 = this.Width2;
                         }
                         else
                         {
-                            river.Width1 = this.Width1;
-                            river.Width2 = this.Width2;
+                            //river.Width1 = this.Width1;
+                            //river.Width2 = this.Width2;
                         }
 
                         for (int c = 0; c < dr_reaches.Count; c++)
