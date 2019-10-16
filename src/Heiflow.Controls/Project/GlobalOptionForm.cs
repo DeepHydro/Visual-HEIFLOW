@@ -116,14 +116,12 @@ namespace Heiflow.Controls.WinForm.Project
             int mxsziter = 15;
             int.TryParse(cmbmxsziter.Text, out mxsziter);
             _Model.MasterPackage.MaxSoilZoneIter = mxsziter;
-            if (_Model.MasterPackage.AnimationOutOC)
+
+            _Model.MasterPackage.NumAniOutVar = listVars.CheckedItems.Count;
+            _Model.MasterPackage.AniOutVarNames = new string[_Model.MasterPackage.NumAniOutVar];
+            for (int i = 0; i < _Model.MasterPackage.NumAniOutVar; i++)
             {
-                _Model.MasterPackage.NumAniOutVar = listVars.CheckedItems.Count;
-                _Model.MasterPackage.AniOutVarNames = new string[_Model.MasterPackage.NumAniOutVar];
-                for (int i = 0; i < _Model.MasterPackage.NumAniOutVar; i++)
-                {
-                    _Model.MasterPackage.AniOutVarNames[i] = listVars.CheckedItems[i].ToString();
-                }
+                _Model.MasterPackage.AniOutVarNames[i] = listVars.CheckedItems[i].ToString();
             }
 
             if (radioRunoffLinear.Checked)
@@ -139,9 +137,9 @@ namespace Heiflow.Controls.WinForm.Project
             else if (radioPETPM.Checked)
                 _Model.MasterPackage.PotentialET = PETModule.potet_pm;
 
-            if(cmbClimateFormat.SelectedIndex == 0)
+            if (cmbClimateFormat.SelectedIndex == 0)
             {
-                _Model.MasterPackage.ClimateInputFormat = Models.Generic.FileFormat.Binary;               
+                _Model.MasterPackage.ClimateInputFormat = Models.Generic.FileFormat.Binary;
             }
             else
             {
