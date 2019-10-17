@@ -48,6 +48,7 @@ namespace Heiflow.Controls.WinForm.Project
 
             var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
             _Model = prj.Project.Model as HeiflowModel;
+            propertyGrid1.SelectedObject = _Model.ExtensionManPackage;
             radioRunoffLinear.Checked = _Model.MasterPackage.SurfaceRunoff == SurfaceRunoffModule.srunoff_carea_casc;
             radioRunoffNonLinear.Checked = _Model.MasterPackage.SurfaceRunoff == SurfaceRunoffModule.srunoff_smidx_casc;
             radioSRTemp.Checked = _Model.MasterPackage.SolarRadiation == SolarRadiationModule.ddsolrad_hru_prms;
@@ -66,15 +67,10 @@ namespace Heiflow.Controls.WinForm.Project
 
             if (File.Exists(outvar_file))
             {
-
                 listVarDescriptions.Items.Clear();
-
                 listVars.Items.Clear();
-
                 StreamReader sr = new StreamReader(outvar_file);
-
                 var line = sr.ReadLine();
-
                 while (!sr.EndOfStream)
                 {
                     line = sr.ReadLine();
@@ -117,12 +113,12 @@ namespace Heiflow.Controls.WinForm.Project
             int.TryParse(cmbmxsziter.Text, out mxsziter);
             _Model.MasterPackage.MaxSoilZoneIter = mxsziter;
 
-            _Model.MasterPackage.NumAniOutVar = listVars.CheckedItems.Count;
-            _Model.MasterPackage.AniOutVarNames = new string[_Model.MasterPackage.NumAniOutVar];
-            for (int i = 0; i < _Model.MasterPackage.NumAniOutVar; i++)
+            var anivars = new string[listVars.CheckedItems.Count];
+            for (int i = 0; i < listVars.CheckedItems.Count; i++)
             {
-                _Model.MasterPackage.AniOutVarNames[i] = listVars.CheckedItems[i].ToString();
+                anivars[i]=listVars.CheckedItems[i].ToString();
             }
+            _Model.MasterPackage.AniOutVarNames = anivars;
 
             if (radioRunoffLinear.Checked)
                 _Model.MasterPackage.SurfaceRunoff = SurfaceRunoffModule.srunoff_carea_casc;
@@ -151,6 +147,8 @@ namespace Heiflow.Controls.WinForm.Project
             _Model.MasterPackage.PrintDebug = checkPringDebug.Checked;
             _Model.MasterPackage.IsDirty = true;
             _Model.MasterPackage.Save(null);
+            _Model.ExtensionManPackage.IsDirty = true;
+            _Model.ExtensionManPackage.Save(null);
         }
 
         private void checkMappedClimate_CheckedChanged(object sender, EventArgs e)

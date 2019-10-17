@@ -631,5 +631,11 @@ namespace Heiflow.Models.Generic.Parameters
                 throw new NotImplementedException();
             }
         }
+
+
+        public void ReSize(int nvar, int ntime, int ncell, bool islazy)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

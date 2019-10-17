@@ -67,6 +67,7 @@
             this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
             this.btnSave = new System.Windows.Forms.ToolStripButton();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.btnRetrieve = new System.Windows.Forms.ToolStripButton();
             this.contextMenuStrip_datagrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
@@ -202,7 +203,6 @@
             // 
             // cmbCell
             // 
-            this.cmbCell.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbCell.Name = "cmbCell";
             this.cmbCell.Size = new System.Drawing.Size(112, 28);
             this.cmbCell.ToolTipText = "Select cell";
@@ -210,7 +210,6 @@
             // 
             // cmbTime
             // 
-            this.cmbTime.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbTime.Name = "cmbTime";
             this.cmbTime.Size = new System.Drawing.Size(112, 28);
             this.cmbTime.ToolTipText = "Select time";
@@ -295,6 +294,7 @@
             this.toolStripLabel4,
             this.cmbCell,
             this.toolStripSeparator6,
+            this.btnRetrieve,
             this.btnSave,
             this.btnSave2Excel,
             this.btnImport,
@@ -388,6 +388,16 @@
             this.dataGridView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView1_KeyDown);
             this.dataGridView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseDown);
             // 
+            // btnRetrieve
+            // 
+            this.btnRetrieve.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnRetrieve.Image = global::Heiflow.Controls.WinForm.Properties.Resources.Go_24px;
+            this.btnRetrieve.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnRetrieve.Name = "btnRetrieve";
+            this.btnRetrieve.Size = new System.Drawing.Size(24, 25);
+            this.btnRetrieve.Text = "Retrieve";
+            this.btnRetrieve.Click += new System.EventHandler(this.btnRetrieve_Click);
+            // 
             // DataCubeGrid
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
@@ -447,5 +457,6 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel4;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ToolStripLabel lbDCName;
+        private System.Windows.Forms.ToolStripButton btnRetrieve;
     }
 }

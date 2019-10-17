@@ -254,12 +254,11 @@ namespace Heiflow.Controls.WinForm.MenuItems
             Enable(_VI3, false);
             Enable(_A2DC, false);
 
-            MessageBox.Show("Failed to load. Error message: " + e, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-           // _ShellService.ProgressWindow.Progress(_Package.Name, 100, e);
             _ShellService.ProgressWindow.DoWork -= ProgressPanel_DoWork;
             dp.Loading -= dp_Loading;
             dp.Loaded -= dp_Loaded;
             dp.LoadFailed -= dp_LoadFailed;
+            MessageBox.Show("Failed to load. Error message: " + e, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         protected virtual void AttributeTable_Clicked(object sender, EventArgs e)

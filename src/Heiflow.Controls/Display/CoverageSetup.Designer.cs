@@ -81,7 +81,7 @@
             this.chbProp.FormattingEnabled = true;
             this.chbProp.Location = new System.Drawing.Point(7, 263);
             this.chbProp.Name = "chbProp";
-            this.chbProp.Size = new System.Drawing.Size(219, 70);
+            this.chbProp.Size = new System.Drawing.Size(243, 290);
             this.chbProp.TabIndex = 6;
             // 
             // contextMenuStripAreal
@@ -134,7 +134,7 @@
             this.labelStatus});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(969, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(1066, 27);
             this.toolStrip1.TabIndex = 14;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -221,7 +221,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(723, 497);
+            this.tabControl1.Size = new System.Drawing.Size(796, 591);
             this.tabControl1.TabIndex = 15;
             // 
             // tabPage2
@@ -230,7 +230,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 29);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(715, 464);
+            this.tabPage2.Size = new System.Drawing.Size(788, 558);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Lookup Table";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -247,7 +247,7 @@
             this.dataGridEx1.ShowImport = false;
             this.dataGridEx1.ShowSave2Excel = false;
             this.dataGridEx1.ShowSaveButton = false;
-            this.dataGridEx1.Size = new System.Drawing.Size(709, 458);
+            this.dataGridEx1.Size = new System.Drawing.Size(782, 552);
             this.dataGridEx1.TabIndex = 3;
             // 
             // splitContainer1
@@ -264,8 +264,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
-            this.splitContainer1.Size = new System.Drawing.Size(969, 497);
-            this.splitContainer1.SplitterDistance = 242;
+            this.splitContainer1.Size = new System.Drawing.Size(1066, 591);
+            this.splitContainer1.SplitterDistance = 266;
             this.splitContainer1.TabIndex = 16;
             // 
             // tabControlLeft
@@ -276,7 +276,7 @@
             this.tabControlLeft.Location = new System.Drawing.Point(0, 0);
             this.tabControlLeft.Name = "tabControlLeft";
             this.tabControlLeft.SelectedIndex = 0;
-            this.tabControlLeft.Size = new System.Drawing.Size(242, 497);
+            this.tabControlLeft.Size = new System.Drawing.Size(266, 591);
             this.tabControlLeft.TabIndex = 4;
             // 
             // tabPage1
@@ -295,7 +295,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 30);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(234, 463);
+            this.tabPage1.Size = new System.Drawing.Size(258, 557);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Setting";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -307,7 +307,7 @@
             this.cmbFields.FormattingEnabled = true;
             this.cmbFields.Location = new System.Drawing.Point(7, 91);
             this.cmbFields.Name = "cmbFields";
-            this.cmbFields.Size = new System.Drawing.Size(219, 28);
+            this.cmbFields.Size = new System.Drawing.Size(243, 28);
             this.cmbFields.TabIndex = 1;
             // 
             // label5
@@ -335,7 +335,7 @@
             this.cmbMapLayers.FormattingEnabled = true;
             this.cmbMapLayers.Location = new System.Drawing.Point(7, 34);
             this.cmbMapLayers.Name = "cmbMapLayers";
-            this.cmbMapLayers.Size = new System.Drawing.Size(219, 28);
+            this.cmbMapLayers.Size = new System.Drawing.Size(243, 28);
             this.cmbMapLayers.TabIndex = 1;
             this.cmbMapLayers.SelectedIndexChanged += new System.EventHandler(this.cmbMapLayers_SelectedIndexChanged);
             // 
@@ -355,7 +355,7 @@
             this.cmbGridLayer.FormattingEnabled = true;
             this.cmbGridLayer.Location = new System.Drawing.Point(7, 206);
             this.cmbGridLayer.Name = "cmbGridLayer";
-            this.cmbGridLayer.Size = new System.Drawing.Size(219, 28);
+            this.cmbGridLayer.Size = new System.Drawing.Size(243, 28);
             this.cmbGridLayer.TabIndex = 1;
             this.cmbGridLayer.SelectedIndexChanged += new System.EventHandler(this.cmbGridLayer_SelectedIndexChanged);
             // 
@@ -366,7 +366,7 @@
             this.cmbPackages.FormattingEnabled = true;
             this.cmbPackages.Location = new System.Drawing.Point(7, 149);
             this.cmbPackages.Name = "cmbPackages";
-            this.cmbPackages.Size = new System.Drawing.Size(219, 28);
+            this.cmbPackages.Size = new System.Drawing.Size(243, 28);
             this.cmbPackages.TabIndex = 1;
             this.cmbPackages.SelectedIndexChanged += new System.EventHandler(this.cmbPackages_SelectedIndexChanged);
             // 
@@ -384,7 +384,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(969, 524);
+            this.ClientSize = new System.Drawing.Size(1066, 618);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip1);
             this.Font = new System.Drawing.Font("Segoe UI", 9F);

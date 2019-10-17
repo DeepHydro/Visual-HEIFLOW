@@ -713,7 +713,7 @@ namespace Heiflow.Models.Surface.PRMS
 
             ResetToDefault();
 
-            var hru_elev = Select("soil_depth");
+            var hru_elev = Select("hru_elev");
             if(hru_elev != null)
             {
                 var para = hru_elev as DataCubeParameter<float>;
@@ -754,7 +754,7 @@ namespace Heiflow.Models.Surface.PRMS
             var cpr_init = Select("cpr_init");
             if (cpr_init != null)
             {
-                var para = soil_depth as DataCubeParameter<float>;
+                var para = cpr_init as DataCubeParameter<float>;
                 for (int i = 0; i < prms.SoilLayerManager.LayerCount; i++)
                 {
                     para[0][":", i] = prms.SoilLayerManager.Layers[i].InitCPR;
@@ -763,7 +763,7 @@ namespace Heiflow.Models.Surface.PRMS
             var gvr_init = Select("gvr_init");
             if (gvr_init != null)
             {
-                var para = soil_depth as DataCubeParameter<float>;
+                var para = gvr_init as DataCubeParameter<float>;
                 for (int i = 0; i < prms.SoilLayerManager.LayerCount; i++)
                 {
                     para[0][":", i] = prms.SoilLayerManager.Layers[i].InitGVR;
@@ -772,7 +772,7 @@ namespace Heiflow.Models.Surface.PRMS
             var pfr_init = Select("pfr_init");
             if (pfr_init != null)
             {
-                var para = soil_depth as DataCubeParameter<float>;
+                var para = pfr_init as DataCubeParameter<float>;
                 for (int i = 0; i < prms.SoilLayerManager.LayerCount; i++)
                 {
                     para[0][":", i] = prms.SoilLayerManager.Layers[i].InitPFR;

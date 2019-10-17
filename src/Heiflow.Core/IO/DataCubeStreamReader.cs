@@ -402,7 +402,7 @@ namespace Heiflow.Core.IO
                     DataCube.Variables = Variables;
                 }
                 if (!DataCube.IsAllocated(var_index) || DataCube.Size[1] != nstep)
-                    DataCube.Allocate(var_index);
+                    DataCube.Allocate(var_index, nstep, feaNum);
                 var vv = new float[feaNum];
                 for (int t = 0; t < nstep; t++)
                 {
@@ -412,7 +412,7 @@ namespace Heiflow.Core.IO
                     }
                     for (int i = 0; i < nhru; i++)
                     {
-                        DataCube[var_index, t, i] = vv[mapping[i + 1]];
+                        DataCube[var_index, t, i] = vv[mapping[i + 1] - 1];
                     }
                     progress = Convert.ToInt32(t * 100 / nstep);
                     OnLoading(progress);

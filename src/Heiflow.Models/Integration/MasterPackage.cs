@@ -912,17 +912,15 @@ namespace Heiflow.Models.Integration
                 _AniOutVarNames = value;
                 if (value != null)
                     NumAniOutVar = _AniOutVarNames.Length;
-                Parameters.Remove("aniOutVar_names");
-                var para = new DataCubeParameter<string>(1, NumAniOutVar, 1)
+                var para = Parameters["aniOutVar_names"] as DataCubeParameter<string>;
+                if (para.Size[2] != NumAniOutVar)
                 {
-                    ValueType = 4,
-                    VariableType = ParameterType.Control,
-                    Dimension = 1,
-                    Name = "aniOutVar_names",
-                    Owner = this
-                };
-                para[0][":", 0] = value;
-                Parameters.Add(para.Name, para);
+                    para.ReSize(1, NumAniOutVar, 1);
+                }
+                for (int i = 0; i < para.Size[1]; i++)
+                {
+                    para[0, i, 0] = _AniOutVarNames[i];
+                }
                 OnPropertyChanged("AniOutVarNames");
             }
         }
@@ -1151,23 +1149,6 @@ namespace Heiflow.Models.Integration
                 OnPropertyChanged("HydraulicsEngine");
             }
         }
-        //[Category("Modules")]
-        //[Description("Enable extension manager")]
-        //public bool EnableExtension
-        //{
-        //    get
-        //    {
-        //        return _extension_act_flag;
-        //    }
-        //    set
-        //    {
-        //        _extension_act_flag = value;
-        //        var infs = _extension_act_flag ? 1 : 0;
-        //        (Parameters["extension_act_flag"] as ArrayParam<int>).Values = new int[] { infs };
-        //        OnPropertyChanged("EnableExtension");
-        //    }
-        //}
-
         [Category("Modules")]
         [Description("Input filename for extension manager")]
         public string ExtensionManagerFile
@@ -1500,7 +1481,7 @@ namespace Heiflow.Models.Integration
                     int ValueCount = int.Parse(newline);
                     newline = sr.ReadLine().Trim();
                     int ValueType = int.Parse(newline);
-                    var Dimension = 1;
+                    var nDimension = 1;
 
                     var value_str = "";
                     for (int i = 0; i < ValueCount; i++)
@@ -1515,8 +1496,9 @@ namespace Heiflow.Models.Integration
                         {
                             ValueType = ValueType,
                             VariableType = ParameterType.Control,
-                            Dimension = Dimension,
+                            Dimension = nDimension,
                             Name = name,
+                            DimensionNames = new string[] {"control"},
                             Owner = this
                         };
                         gv[0][":", 0] = intbuf;
@@ -1530,7 +1512,8 @@ namespace Heiflow.Models.Integration
                         {
                             ValueType = ValueType,
                             VariableType = ParameterType.Control,
-                            Dimension = Dimension,
+                            Dimension = nDimension,
+                            DimensionNames = new string[] { "control" },
                             Name = name,
                             Owner = this
                         };
@@ -1545,7 +1528,8 @@ namespace Heiflow.Models.Integration
                         {
                             ValueType = ValueType,
                             VariableType = ParameterType.Control,
-                            Dimension = Dimension,
+                            Dimension = nDimension,
+                            DimensionNames = new string[] { "control" },
                             Name = name,
                             Owner = this
                         };
@@ -1560,7 +1544,8 @@ namespace Heiflow.Models.Integration
                         {
                             ValueType = ValueType,
                             VariableType = ParameterType.Control,
-                            Dimension = Dimension,
+                            Dimension = nDimension,
+                            DimensionNames = new string[] { "control" },
                             Name = name,
                             Owner = this
                         };

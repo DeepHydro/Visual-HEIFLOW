@@ -350,6 +350,24 @@ namespace Heiflow.Core.Data
             else
                 return "empty";
         }
+        public void ReSize(int nvar, int ntime, int ncell, bool islazy=false)
+        {
+            _isLazy = islazy;
+            _nvar = nvar;
+            _ntime = ntime;
+            _ncell = ncell;
+            _size = new int[] { nvar, ntime, ncell };
+            _arrays = new ILArray<T>[nvar];
+            if (!islazy)
+            {
+                for (int i = 0; i < nvar; i++)
+                {
+                    _arrays[i] = ILMath.zeros<T>(ntime, ncell);
+                }
+            }
+            PopulateVariables();
+            InitFlags(Size[0]);
+        }
         public void Allocate(int var_index)
         {
             _arrays[var_index] = ILMath.zeros<T>(_ntime, _ncell);
@@ -360,10 +378,8 @@ namespace Heiflow.Core.Data
         }
         public void Allocate(int var_index, int ntime, int ncell)
         {
-            _arrays[var_index] = ILMath.zeros<T>(ntime, ncell);
-        }
-        public void AllocateVariable(int var_index, int ntime, int ncell)
-        {
+            _ntime = ntime;
+            _ncell = ncell;
             _arrays[var_index] = ILMath.zeros<T>(ntime, ncell);
         }
 

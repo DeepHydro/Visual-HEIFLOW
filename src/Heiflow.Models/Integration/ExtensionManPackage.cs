@@ -30,6 +30,7 @@ using Heiflow.Models.Generic;
 //
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -59,37 +60,43 @@ namespace Heiflow.Models.Integration
             FullName = "Extension Manager";
             InitValues();
         }
-
+        [Category("Time")]
+        [Description("Start date time represented by Julian")]
         public int StartInJulian
         {
             get;
             set;
         }
-
+        [Category("Solver Extension")]
+        [Description("Enable solver extension")]
         public bool EnableSolverEx
         {
             get;
             set;
         }
-
+        [Category("Solver Extension")]
+        [Description("Maximum MODFLOW iteration in transit peroid")]
         public int Max_TS_ITER
         {
             get;
             set;
         }
-
+        [Category("Solver Extension")]
+        [Description("HCLOSER in transit peroid")]
         public float HCLOSER
         {
             get;
             set;
         }
-
+        [Category("Modflow Output Extension")]
+        [Description("Enable Modflow Output Extension")]
         public bool EnableMFOutputEx
         {
             get;
             set;
         }
-
+        [Category("Modflow Output Extension")]
+        [Description("Control file for the Modflow output extension")]
         public string MFOutputExFile
         {
             get
@@ -101,25 +108,42 @@ namespace Heiflow.Models.Integration
                 _MFOutputExFile = value;
             }
         }
-
+        [Category("Modflow Output Extension")]
+        [Description("Log file for Modflow")]
+        public string MF_IOLOG_File
+        {
+            get
+            {
+                return Path.Combine(Owner.WorkDirectory, _MF_IOLOG_File);
+            }
+            set
+            {
+                _MF_IOLOG_File = value;
+            }
+        }
+        [Category("Modflow SFR Package Extension")]
+        [Description("")]
         public bool EnableSFREx
         {
             get;
             set;
         }
-
+        [Category("Modflow SFR Package Extension")]
+        [Description("")]
         public bool EnableSFRReport
         {
             get;
             set;
         }
-
+        [Category("Modflow SFR Package Extension")]
+        [Description("")]
         public bool EnableSFROutEx
         {
             get;
             set;
         }
-
+        [Category("Modflow SFR Package Extension")]
+        [Description("")]
         public string SFRExFile
         {
             get
@@ -131,7 +155,8 @@ namespace Heiflow.Models.Integration
                 _SFRExFile = value;
             }
         }
-
+        [Category("Modflow SFR Package Extension")]
+        [Description("")]
         public string  SFRReportFile
         {
             get
@@ -143,7 +168,8 @@ namespace Heiflow.Models.Integration
                 _SFRReportFile = value;
             }
         }
-
+        [Category("Modflow SFR Package Extension")]
+        [Description("")]
         public string SFROutExFile
         {
             get
@@ -155,13 +181,15 @@ namespace Heiflow.Models.Integration
                 _SFROutEXFile = value;
             }
         }
-
+        [Category("Modflow LAK Package Extension")]
+        [Description("")]
         public bool EnableLakeEx
         {
             get;
             set;
         }
-
+        [Category("Modflow LAK Package Extension")]
+        [Description("")]
         public string LakeExFile
         {
             get
@@ -173,12 +201,15 @@ namespace Heiflow.Models.Integration
                 _LakeExFile = value;
             }
         }
-
+        [Category("Allocation Curve Module Extension")]
+        [Description("")]
         public bool EnableAllocCurveEx
         {
             get;
             set;
         }
+        [Category("Allocation Curve Module Extension")]
+        [Description("")]
         public string AllocCurveExFile
         {
             get
@@ -190,23 +221,15 @@ namespace Heiflow.Models.Integration
                 _AllocCurveExFile = value;
             }
         }
-        public string MF_IOLOG_File
-        {
-             get
-            {
-                return Path.Combine(Owner.WorkDirectory, _MF_IOLOG_File);
-            }
-            set
-            {
-                _MF_IOLOG_File = value;
-            }
-        }
+        [Category("PET Extension")]
+        [Description("")]
         public bool EnablePET_CONSTRAINT
         {
             get;
             set;
         }
-
+        [Category("PET Extension")]
+        [Description("")]
         public string PET_CONSTRAINT_File
         {
             get
@@ -218,11 +241,15 @@ namespace Heiflow.Models.Integration
                 _PET_CONSTRAINT_File = value;
             }
         }
+        [Category("Agent Based Model Extension")]
+        [Description("")]
         public bool EnableABM
         {
             get;
             set;
         }
+        [Category("Agent Based Model Extension")]
+        [Description("")]
         public string ABM_MODEL_File
         {
             get

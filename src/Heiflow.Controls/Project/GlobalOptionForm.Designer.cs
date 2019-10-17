@@ -66,12 +66,14 @@
             this.label2 = new System.Windows.Forms.Label();
             this.listVarDescriptions = new System.Windows.Forms.ListBox();
             this.listVars = new System.Windows.Forms.CheckedListBox();
+            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.tabControl1.SuspendLayout();
             this.tabModule.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.tabExtension.SuspendLayout();
             this.tabFile.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -108,9 +110,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabModule);
-            this.tabControl1.Controls.Add(this.tabExtension);
             this.tabControl1.Controls.Add(this.tabFile);
             this.tabControl1.Controls.Add(this.tabOutVars);
+            this.tabControl1.Controls.Add(this.tabExtension);
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -316,6 +318,7 @@
             // 
             // tabExtension
             // 
+            this.tabExtension.Controls.Add(this.propertyGrid1);
             this.tabExtension.Location = new System.Drawing.Point(4, 29);
             this.tabExtension.Name = "tabExtension";
             this.tabExtension.Padding = new System.Windows.Forms.Padding(3);
@@ -554,6 +557,14 @@
             this.listVars.Size = new System.Drawing.Size(242, 466);
             this.listVars.TabIndex = 0;
             // 
+            // propertyGrid1
+            // 
+            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGrid1.Location = new System.Drawing.Point(3, 3);
+            this.propertyGrid1.Name = "propertyGrid1";
+            this.propertyGrid1.Size = new System.Drawing.Size(717, 518);
+            this.propertyGrid1.TabIndex = 0;
+            // 
             // GlobalOptionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -566,6 +577,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "GlobalOptionForm";
+            this.ShowInTaskbar = false;
             this.Text = "Global Option";
             this.Load += new System.EventHandler(this.GlobalOptionForm_Load);
             this.tabControl1.ResumeLayout(false);
@@ -578,6 +590,7 @@
             this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.tabExtension.ResumeLayout(false);
             this.tabFile.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
@@ -631,5 +644,6 @@
         private System.Windows.Forms.CheckBox checkSaveSMBudget;
         private System.Windows.Forms.CheckBox checkPringDebug;
         private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.PropertyGrid propertyGrid1;
     }
 }

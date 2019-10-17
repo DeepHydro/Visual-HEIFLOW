@@ -166,10 +166,13 @@ namespace Heiflow.Models.Surface.PRMS
             var grid = Owner.Grid as MFGrid;
             _SelectedIndex = var_index;
 
-            DataCube = new DataCube<float>(Variables.Length, StepsToLoad, grid.ActiveCellCount, true);
-            DataCube.Name = "clm_input";
-            DataCube.Variables = this.Variables;
-            DataCube.Topology = (Owner.Grid as RegularGrid).Topology;
+            if (DataCube == null)
+            {
+                DataCube = new DataCube<float>(Variables.Length, StepsToLoad, grid.ActiveCellCount, true);
+                DataCube.Name = "clm_input";
+                DataCube.Variables = this.Variables;
+                DataCube.Topology = (Owner.Grid as RegularGrid).Topology;
+            }
            
             if (MasterPackage.ClimateInputFormat == FileFormat.Text)
             {
@@ -194,6 +197,7 @@ namespace Heiflow.Models.Surface.PRMS
                 stream.Scale = (float)this.ScaleFactor;
                 stream.Loading += stream_LoadingProgressChanged;
                 stream.DataCubeLoaded += data_DataCubeLoaded;
+                stream.LoadFailed += stream_LoadFailed;
                 if (MasterPackage.UseGridClimate)
                     stream.LoadDataCubeSingle(_GridHruMapping, var_index);
                 else
@@ -369,6 +373,11 @@ namespace Heiflow.Models.Surface.PRMS
             OnLoaded(_ProgressHandler);
         }
         private void data_LoadFailed(object sender, string e)
+        {
+            OnLoadFailed(e, _ProgressHandler);
+        }
+
+        private void stream_LoadFailed(object sender, string e)
         {
             OnLoadFailed(e, _ProgressHandler);
         }

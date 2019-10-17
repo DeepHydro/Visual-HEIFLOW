@@ -37,7 +37,7 @@ namespace Heiflow.Controls.WinForm.Controls
         public DataCubeGrid()
         {
             InitializeComponent();
-            EnableControls(false, false, false, false, false);
+            EnableControls(false, false, false, false, false,false);
         }
 
         public BindingNavigator Navigator
@@ -151,7 +151,7 @@ namespace Heiflow.Controls.WinForm.Controls
                 dt.Rows.Add(dr);
             }
             this.DataTable = dt;
-            EnableControls(false, false, false, true, true);
+            EnableControls(false, false, false, true, true, false);
         }
         public void Bind<T>(ILArray<T> data)
         {
@@ -181,7 +181,7 @@ namespace Heiflow.Controls.WinForm.Controls
                 }
             }
 
-            EnableControls(false, false, false, true, true);
+            EnableControls(false, false, false, true, true, false);
         }
         public void Bind<T>(T[] array)
         {
@@ -193,7 +193,7 @@ namespace Heiflow.Controls.WinForm.Controls
                 dt.Rows.Add(dr);
             }
             this.DataTable = dt;
-            EnableControls(false, false, false, true, true);
+            EnableControls(false, false, false, true, true, false);
         }
         public void Bind<T>(T[][] matrix)
         {
@@ -211,7 +211,7 @@ namespace Heiflow.Controls.WinForm.Controls
                 dt.Rows.Add(dr);
             }
             this.DataTable = dt;
-            EnableControls(false, false, false, true, true);
+            EnableControls(false, false, false, true, true, false);
         }
         public void Bind(DataTable table)
         {
@@ -223,19 +223,19 @@ namespace Heiflow.Controls.WinForm.Controls
         {
             if (dc == null)
                 return;
-            _CurrentType = DataSourceType.DC;
+           _CurrentType = DataSourceType.DC;
             _DataCubeObject = dc;
             DataObjectName = dc.Name;
             if (dc is IParameter)
             {
                 DataTable = dc.ToDataTable();
-                EnableControls(false, false, false, true, true);
+                EnableControls(false, false, false, true, true, false);
             }
             else
             {
                 if (dc.SelectedVariableIndex < 0)
                 {
-                    EnableControls(false, false, false, true, true);
+                    EnableControls(false, false, false, true, true, false);
                     var dt = _DataCubeObject.ToDataTable(-1, 0, -1);
                     Bind(dt);
                 }
@@ -243,15 +243,17 @@ namespace Heiflow.Controls.WinForm.Controls
                 {
                     if (dc.Layout == DataCubeLayout.ThreeD)
                     {
-                        EnableControls(true, true, true, true, true);
+                        EnableControls(true, true, true, true, true, true);
                         cmbVar.ComboBox.DataSource = dc.Variables;
                         cmbVar.SelectedIndex = dc.SelectedVariableIndex;
                     }
                     else if (dc.Layout == DataCubeLayout.TwoD || dc.Layout == DataCubeLayout.OneDTimeSeries)
                     {
-                        EnableControls(true, false, false, true, true);
-                        cmbVar.ComboBox.DataSource = dc.Variables;
-                        cmbVar.SelectedIndex = dc.SelectedVariableIndex;
+                        EnableControls(false, false, false, true, true, false);
+                        //cmbVar.ComboBox.DataSource = dc.Variables;
+                        //cmbVar.SelectedIndex = dc.SelectedVariableIndex;
+                        var dt = _DataCubeObject.ToDataTable();
+                        Bind(dt);
                     }
                 }
             }
@@ -431,6 +433,7 @@ namespace Heiflow.Controls.WinForm.Controls
             CopyToClipboard();
         }
         #endregion
+
         public void ShowView()
         {
 
@@ -439,16 +442,17 @@ namespace Heiflow.Controls.WinForm.Controls
         {
             bindingSource1.DataSource = null;
             dataGridView1.DataSource = bindingSource1;
-            EnableControls(false, false, false, false, false);
+            EnableControls(false, false, false, false, false, false);
         }
 
-        private void EnableControls(bool vars, bool time, bool cell, bool save, bool import)
+        private void EnableControls(bool vars, bool time, bool cell, bool save, bool import,bool retrieve)
         {
             cmbVar.Enabled = vars;
             cmbTime.Enabled = time;
             cmbCell.Enabled = cell;
             btnSave.Enabled = save;
             btnImport.Enabled = import;
+            btnRetrieve.Enabled = retrieve;
         }
 
         #region Toolbar
@@ -462,9 +466,11 @@ namespace Heiflow.Controls.WinForm.Controls
                 {
                     List<string> timestrs = new List<string>();
                     List<string> cellstrs = new List<string>();
+                    int maxtim = Math.Min(ntime, 1000);
+                    int maxcell = Math.Min(ncell, 1000);
                     if (_DataCubeObject.DateTimes != null)
-                    {
-                        for (int i = 0; i < ntime; i++)
+                    {                  
+                        for (int i = 0; i < maxtim; i++)
                         {
                             timestrs.Add(_DataCubeObject.DateTimes[i].ToString());
                         }
@@ -473,15 +479,14 @@ namespace Heiflow.Controls.WinForm.Controls
                     }
                     else
                     {
-                        for (int i = 0; i < ntime; i++)
+                        for (int i = 0; i < maxtim; i++)
                         {
                             timestrs.Add((i + 1).ToString());
                         }
                         if (ntime > 1)
                             timestrs.Add(AllString);
                     }
-
-                    for (int i = 0; i < ncell; i++)
+                    for (int i = 0; i < maxcell; i++)
                     {
                         cellstrs.Add((i + 1).ToString());
                     }
@@ -511,11 +516,6 @@ namespace Heiflow.Controls.WinForm.Controls
                     this.Bind(new DataTable());
                 }
             }
-            else if (_DataCubeObject.Layout == DataCubeLayout.TwoD || _DataCubeObject.Layout == DataCubeLayout.OneDTimeSeries)
-            {
-                var dt = _DataCubeObject.ToDataTable();
-                Bind(dt);
-            }
         }
         private void cmbTime_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -525,7 +525,29 @@ namespace Heiflow.Controls.WinForm.Controls
         {
             DC2DataTable();
         }
-
+        private void btnRetrieve_Click(object sender, EventArgs e)
+        {
+            int time_index = 0;     
+            int cell_index = 0;
+          
+            if (cmbTime.Text == AllString)
+            {
+                time_index = -1;
+            }
+            else
+            {
+                int.TryParse(cmbTime.Text, out time_index);
+            }
+            if (cmbCell.Text == AllString)
+            {
+                cell_index = -1;
+            }
+            else
+            {
+                int.TryParse(cmbCell.Text, out cell_index);
+            }
+            this.DataTable = _DataCubeObject.ToDataTable(cmbVar.SelectedIndex, time_index, cell_index);
+        }
         private void sortingAcendingToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.dataGridView1.Sort(dataGridView1.Columns[_CurrentColumnIndex], ListSortDirection.Ascending);
@@ -547,18 +569,25 @@ namespace Heiflow.Controls.WinForm.Controls
                     }
                     else
                     {
-                        int time_index = cmbTime.SelectedIndex;
-                        int cell_index = cmbCell.SelectedIndex;
-                        int var_index = _DataCubeObject.SelectedVariableIndex;
-                        if (cmbTime.SelectedItem.ToString() == AllString)
+                        if (_DataCubeObject.Layout == DataCubeLayout.ThreeD)
                         {
-                            time_index = -1;
+                            int time_index = cmbTime.SelectedIndex;
+                            int cell_index = cmbCell.SelectedIndex;
+                            int var_index = _DataCubeObject.SelectedVariableIndex;
+                            if (cmbTime.SelectedItem.ToString() == AllString)
+                            {
+                                time_index = -1;
+                            }
+                            if (cmbCell.SelectedItem.ToString() == AllString)
+                            {
+                                cell_index = -1;
+                            }
+                            _DataCubeObject.FromDataTable(DataTable, var_index, time_index, cell_index);
                         }
-                        if (cmbCell.SelectedItem.ToString() == AllString)
+                        else
                         {
-                            cell_index = -1;
+                            _DataCubeObject.FromDataTable(DataTable, 0, 0, 0);
                         }
-                        _DataCubeObject.FromDataTable(DataTable, var_index, time_index, cell_index);
                     }
                 }
                 else if (_CurrentType == DataSourceType.Parameters)
@@ -733,5 +762,7 @@ namespace Heiflow.Controls.WinForm.Controls
             }
             this.DataTable = _DataCubeObject.ToDataTable(cmbVar.SelectedIndex, time_index, cell_index); 
         }
+
+
     }
 }

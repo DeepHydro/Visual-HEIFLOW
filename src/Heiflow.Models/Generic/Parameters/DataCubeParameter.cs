@@ -224,6 +224,7 @@ namespace Heiflow.Models.Generic.Parameters
             }
             return type;
         }
+
         public override void FromDataTable(DataTable dt, int var_index, int time_index, int cell_index)
         {
             if (Dimension == 1)

@@ -76,7 +76,7 @@ namespace Heiflow.Core.Data
         Array GetSpatialRegularArray(int p1, int p2);
         void FromSpatialRegularArray(int p1, int p2, Array array);
         void FromSpatialSerialArray(int p1, int p2, Array array);
-        void AllocateVariable(int var_index,int ntime, int ncell);
+        void ReSize(int nvar, int ntime, int ncell, bool islazy);
         bool IsAllocated(int var_index);
         ILBaseArray ToSpatialILBaseArray(int var_index, int time_index);
         string SizeString();
