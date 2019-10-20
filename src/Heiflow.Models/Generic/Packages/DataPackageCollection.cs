@@ -54,5 +54,14 @@ namespace Heiflow.Models.Generic
         {
             return true;
         }
+
+        public override bool Load(ICancelProgressHandler progess)
+        {
+            return true;
+        }
+
+        public override void SaveAs(string filename, ICancelProgressHandler progress)
+        {
+        }
     }
 }

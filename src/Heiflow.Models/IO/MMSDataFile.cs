@@ -169,7 +169,7 @@ namespace Heiflow.Models.IO
                     var vv = TypeConverterEx.SkipSplit<float>(line, 6);
                     for (int i = 0; i < nhru; i++)
                     {
-                        DataCube[var_index,t,i] = vv[mapping[i + 1]];
+                        DataCube[var_index, t, i] = vv[mapping[i + 1] - 1];
                     }
                     var temp = TypeConverterEx.Split<int>(line, 6);
                     DataCube.DateTimes[t] = new DateTime(temp[0], temp[1], temp[2], temp[3], temp[4], temp[5]);

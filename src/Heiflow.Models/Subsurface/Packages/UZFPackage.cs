@@ -218,10 +218,9 @@ namespace Heiflow.Models.Subsurface
             this.TimeService.Updated += this.OnTimeServiceUpdated;
             base.Initialize();
         }
-        public override bool New()
+        public override void New()
         {
             base.New();
-            return true;
         }
         public override bool Load(ICancelProgressHandler progresshandler)
         {
@@ -449,7 +448,7 @@ namespace Heiflow.Models.Subsurface
             this.Feature = Owner.Grid.FeatureSet;
             this.FeatureLayer = Owner.Grid.FeatureLayer;
         }
-        public override bool SaveAs(string filename, ICancelProgressHandler prg)
+        public override void SaveAs(string filename, ICancelProgressHandler prg)
         {
             int np = TimeService.StressPeriods.Count;
             var grid = this.Grid as IRegularGrid;
@@ -527,7 +526,6 @@ namespace Heiflow.Models.Subsurface
             }
             sw.Close();
             this.OnSaved(prg);
-            return true;
         }
 
         public override void Clear()

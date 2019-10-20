@@ -332,12 +332,25 @@ namespace Heiflow.Models.Generic
                 PackageStatechanged(this, pck);
         }
 
-        protected virtual void OnLoadFailed(string msg)
+        public virtual void OnLoadFailed(object sender, string msg)
         {
             if (LoadFailed != null)
                 LoadFailed(this, msg);
         }
-        
+        public bool IsLoadFailedRegistered(Delegate prospectiveHandler)
+        {
+            if (LoadFailed != null)
+            {
+                foreach (Delegate existingHandler in this.LoadFailed.GetInvocationList())
+                {
+                    if (existingHandler == prospectiveHandler)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 }
 

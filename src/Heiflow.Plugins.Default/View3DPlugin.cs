@@ -36,6 +36,8 @@ using Heiflow.Plugins.Default.Properties;
 using Heiflow.Presentation;
 using System;
 using System.ComponentModel.Composition;
+using System.Diagnostics;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Heiflow.Plugins.View3DPanel
@@ -68,7 +70,16 @@ namespace Heiflow.Plugins.View3DPanel
                 LargeImage = Resources._3d_plot_printing_printer
             };
             App.HeaderControl.Add(showView3D);
-        
+
+            var terrainViewer = new SimpleActionItem("kView", "Terrain Viewer", ShowTerrainViewer)
+            {
+                Key = "kTerrainViewer",
+                ToolTipText = "Show 3D Terrain Viewe",
+                GroupCaption = "Data",
+                LargeImage = Resources._3d_plot_printing_printer
+            };
+            App.HeaderControl.Add(terrainViewer);
+
             base.Activate();
             ProjectManager.ShellService.SurfacePlot = _Win3DView;
             ProjectManager.ShellService.AddChild(_Win3DView);
@@ -78,7 +89,38 @@ namespace Heiflow.Plugins.View3DPanel
         public override void Deactivate()
         {
             App.HeaderControl.Remove("kShowView3D");
+            App.HeaderControl.Remove("kTerrainViewer");
             base.Deactivate();
+        }
+
+        public void ShowTerrainViewer(object sender, EventArgs e)
+        {
+            var workdic = Path.Combine(Application.StartupPath, "External\\TerrainViewer");
+            var exefile= Path.Combine(Application.StartupPath, "External\\TerrainViewer\\TerrainViewer.exe");
+            if (File.Exists(exefile))
+            {
+                ProcessStartInfo startInfo = new ProcessStartInfo();
+                startInfo.CreateNoWindow = false;
+                startInfo.UseShellExecute = false;
+                startInfo.FileName = exefile;
+                startInfo.WindowStyle = ProcessWindowStyle.Normal;
+                startInfo.WorkingDirectory = workdic;
+                try
+                {
+                    // Start the process with the info we specified.
+                    // Call WaitForExit and then the using statement will close.
+                    Process exeProcess = Process.Start(startInfo);
+                    
+                }
+                catch
+                {
+                    // Log error.
+                }
+            }
+            else
+            {
+                MessageBox.Show(exefile + " not found.");
+            }
         }
     }
 }

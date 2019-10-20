@@ -149,10 +149,9 @@ namespace Heiflow.Models.WRM
             this.TimeService = Owner.TimeService;
             base.Initialize();
         }
-        public override bool New()
+        public override void New()
         {
             base.New();
-            return true;
         }
         public override string CreateFeature(ProjectionInfo proj_info, string directory)
         {
@@ -274,7 +273,7 @@ namespace Heiflow.Models.WRM
             }
         }
 
-        public override bool SaveAs(string filename, ICancelProgressHandler progress)
+        public override void SaveAs(string filename, ICancelProgressHandler progress)
         {
             var grid = Owner.Grid as MFGrid;
             StreamWriter sw = new StreamWriter(filename);
@@ -316,7 +315,6 @@ namespace Heiflow.Models.WRM
                 sw.WriteLine(line);
             }
             sw.Close();
-            return true;
         }
 
         private ManagemenSP LoadManSP(string filename, int sp, int ncycle)

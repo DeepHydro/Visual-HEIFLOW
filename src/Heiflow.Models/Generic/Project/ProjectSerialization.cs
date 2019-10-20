@@ -54,6 +54,7 @@ namespace Heiflow.Models.Generic.Project
         private IProject _CurrentProject;
         public event EventHandler<bool> ProjectOpened;
         public event EventHandler<string> OpenFailed;
+        private IModelLoader _CurrentModelLoader;
 
         public ProjectSerialization()
         {
@@ -131,7 +132,6 @@ namespace Heiflow.Models.Generic.Project
             if (!isProviderPresent)
             {
             }
-
             AddFileToRecentFiles(fileName);
         }
 
@@ -149,6 +149,7 @@ namespace Heiflow.Models.Generic.Project
             var dic = Path.GetDirectoryName(fileName);
             var loaded = true;
             string pname = GetProviderName(fileName);
+            string errormsg = "";
             SetCurrentProjectDirectory(dic);
 
             foreach (var provider in OpenProjectFileProviders)
@@ -167,13 +168,13 @@ namespace Heiflow.Models.Generic.Project
                     }
 
                     CurrentProject.FullProjectFileName = fileName;
-
                     string controlfile = Path.Combine(CurrentProject.FullModelWorkDirectory, CurrentProject.RelativeControlFileName);
                     string ext = Path.GetExtension(controlfile);
 
                     if (!File.Exists(controlfile))
                     {
-                        RaiseOpenFailed("Control file dosen't exsit!");
+                        errormsg = string.Format("Control file dosen't exsit: {0}", controlfile);
+                        OnOpenFailed(this, errormsg);
                         return;
                     }
                     CurrentProject.Initialize();
@@ -181,7 +182,8 @@ namespace Heiflow.Models.Generic.Project
                     {
                         if (mod.Extension.ToLower() == ext.ToLower())
                         {
-                            mod.LoadFailed += mod_LoadFailed;
+                            _CurrentModelLoader = mod;
+                            mod.LoadFailed += OnOpenFailed;
                             try
                             {
                                 loaded = mod.Load(CurrentProject, progress);                              
@@ -189,11 +191,12 @@ namespace Heiflow.Models.Generic.Project
                             catch(Exception ex)
                             {
                                 loaded = false;
-                                RaiseOpenFailed(ex.Message);
+                                errormsg = string.Format("Failed to load project file. Error message: {0}", controlfile);
+                                OnOpenFailed(this, ex.Message);
                             }
                             finally
                             {                                
-                                mod.LoadFailed -= mod_LoadFailed;
+                                mod.LoadFailed -= OnOpenFailed;
                             }
                             break;
                         }
@@ -203,15 +206,10 @@ namespace Heiflow.Models.Generic.Project
             }
             if (loaded)
             {
-                AddFileToRecentFiles(fileName);  
+                AddFileToRecentFiles(fileName);
+                OnProjectOpened(loaded);
             }
-            RaiseProjectOpened(loaded);
         }
-
-         private  void mod_LoadFailed(object sender, string e)
-          {
-              RaiseOpenFailed(e);
-          }
 
         /// <summary>
         /// Creates a new project.
@@ -242,13 +240,14 @@ namespace Heiflow.Models.Generic.Project
             return succ;
         }
 
-        protected virtual void RaiseProjectOpened(bool succ)
+        protected virtual void OnProjectOpened(bool succ)
         {
             if (ProjectOpened != null)
                 ProjectOpened(this, succ);
         }
-        protected virtual void RaiseOpenFailed(string msg)
+        protected virtual void OnOpenFailed(object sender, string msg)
         {
+            CurrentProject = null;
             if (OpenFailed != null)
                 OpenFailed(this, msg);
             HasError = true;
@@ -275,10 +274,8 @@ namespace Heiflow.Models.Generic.Project
 
             if (Settings.Default.RecentFiles.Count >= Settings.Default.MaximumNumberOfRecentFiles)
                 Settings.Default.RecentFiles.RemoveAt(Settings.Default.RecentFiles.Count - 1);
-
             // insert value at the top of the list
             Settings.Default.RecentFiles.Insert(0, fileName);
-
             Settings.Default.Save();
         }
          private string GetProviderName(string project_filename)
@@ -287,5 +284,12 @@ namespace Heiflow.Models.Generic.Project
              string rootLocalName = doc.Root.Name.LocalName;
              return rootLocalName;       
          }
+
+        public void Clear()
+        {
+            if (_CurrentModelLoader != null)
+                _CurrentModelLoader.Clear();
+            HasError = false;
+        }
     }
 }

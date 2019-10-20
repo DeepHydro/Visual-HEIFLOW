@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Core.IO;
 using Heiflow.Models.Generic;
@@ -85,7 +86,11 @@ namespace Heiflow.Models.Subsurface
                 return Owner.Grid as MFGrid;
             }
         }
-
+        public override void Initialize()
+        {
+            this.LoadFailed += ModflowInstance.OnLoadFailed;
+            base.Initialize();
+        }
         /// <summary>
         /// return the first occurrence of a line that is not comment
         /// </summary>
@@ -477,6 +482,22 @@ namespace Heiflow.Models.Subsurface
         public virtual void CompositeOutput(MFOutputPackage mfout)
         {
              
+        }
+        public override void Clear()
+        {
+            var mf = Owner as Modflow;
+            this.LoadFailed -= mf.OnLoadFailed;
+            base.Clear();
+        }
+
+        public override void SaveAs(string filename, ICancelProgressHandler progress)
+        {
+           
+        }
+
+        public override bool Load(ICancelProgressHandler progess)
+        {
+            return true;
         }
     }
 }

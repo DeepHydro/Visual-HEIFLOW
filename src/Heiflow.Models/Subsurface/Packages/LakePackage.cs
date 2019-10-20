@@ -173,10 +173,9 @@ namespace Heiflow.Models.Subsurface
             this.TimeService.Updated += this.OnTimeServiceUpdated;
             base.Initialize();
         }
-        public override bool New()
+        public override void New()
         {
-
-            return base.New();
+            base.New();
         }
         public override bool Load(ICancelProgressHandler progresshandler)
         {
@@ -320,7 +319,7 @@ namespace Heiflow.Models.Subsurface
                 return false;
             }   
         }
-        public override bool SaveAs(string filename, ICancelProgressHandler progress)
+        public override void SaveAs(string filename, ICancelProgressHandler progress)
         {
             var grid = (this.Grid as IRegularGrid);
             var mf = Owner as Modflow;
@@ -369,7 +368,6 @@ namespace Heiflow.Models.Subsurface
             }
             sw.Close();
             OnSaved(progress);
-            return true;
         }
         public override string CreateFeature(DotSpatial.Projections.ProjectionInfo proj_info, string directory)
         {

@@ -103,10 +103,9 @@ namespace Heiflow.Models.Surface.PRMS
                 return null;
         }
 
-        public override bool New()
+        public override void New()
         {
             IsDirty = true;
-            return true;
         }
 
         public override void Initialize()
@@ -327,26 +326,25 @@ namespace Heiflow.Models.Surface.PRMS
             if (!Parameters.Keys.Contains(gv.Name))
                 Parameters.Add(gv.Name, gv);
         }
-        public override bool Save(ICancelProgressHandler progress)
+        public override void Save(ICancelProgressHandler progress)
         {
             if (IsDirty)
             {
-                return Save(FileName,progress);
+                Save(FileName,progress);
             }
             else
             {
                 if(progress != null)
-                    progress.Progress(this.Name, 1, "\tParameter file unchanged.");
-                return true;
+                    progress.Progress(this.Name, 1, "Parameter file unchanged.");
             }
         }
 
-        public override bool SaveAs(string filename, ICancelProgressHandler progress)
+        public override void SaveAs(string filename, ICancelProgressHandler progress)
         {
-            return Save(filename,progress);
+            Save(filename,progress);
         }
 
-        private bool Save(string filename,ICancelProgressHandler prg)
+        private void Save(string filename,ICancelProgressHandler prg)
         {
             string ext = Path.GetExtension(filename).ToLower();
             try
@@ -360,13 +358,11 @@ namespace Heiflow.Models.Surface.PRMS
                     Save2Csv(filename,prg);
                 }
                 IsDirty = false;
-                return true;
             }
             catch (Exception ex)
             {
                 IsDirty = false;
                 Message = ex.Message;
-                return false;
             }
         }
 

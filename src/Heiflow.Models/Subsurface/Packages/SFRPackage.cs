@@ -221,7 +221,7 @@ namespace Heiflow.Models.Subsurface
         }
         #endregion
 
-        public override bool New()
+        public override void New()
         {
             var mf = Owner as Modflow;
             this.ISTCB1 = mf.NameManager.GetFID(".cbc");
@@ -237,7 +237,6 @@ namespace Heiflow.Models.Subsurface
             pckinfo.WorkDirectory = mf.WorkDirectory;
             mf.NameManager.AddInSilence(pckinfo);
             base.New();
-            return true;
         }
 
         public override void Initialize()
@@ -336,11 +335,11 @@ namespace Heiflow.Models.Subsurface
             {
                 this.ISTCB1 = mf.NameManager.GetFID(".cbc");
                 this.ISTCB2 = mf.NameManager.GetFID(".sft_out");
-                OnLoadFailed("Failed to load "+ this.Name, progresshandler);
+                ShowWarning("Failed to load "+ this.Name, progresshandler);
                 return false;
             }
         }
-        public override bool SaveAs(string filename, ICancelProgressHandler prg)
+        public override void SaveAs(string filename, ICancelProgressHandler prg)
         {
             var grid = Owner.Grid as MFGrid;
             int np = TimeService.StressPeriods.Count;
@@ -455,7 +454,6 @@ namespace Heiflow.Models.Subsurface
             }
             sw.Close();
             OnSaved(prg);
-            return true;
         }
         public override void Clear()
         {

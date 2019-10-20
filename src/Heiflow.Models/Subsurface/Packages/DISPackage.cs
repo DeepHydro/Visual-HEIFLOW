@@ -45,6 +45,9 @@ using DotSpatial.Data;
 using GeoAPI.Geometries;
 using System.ComponentModel;
 using Heiflow.Models.UI;
+using DotSpatial.Projections;
+using Heiflow.Models.IO;
+using Heiflow.Models.Visualization;
 
 namespace Heiflow.Models.Subsurface
 {
@@ -110,10 +113,9 @@ namespace Heiflow.Models.Subsurface
             this.TimeService = Owner.TimeService;
             base.Initialize();
         }
-        public override bool New()
+        public override void New()
         {
             base.New();
-            return true;
         }
         public override bool Load(ICancelProgressHandler progress)
         {
@@ -227,7 +229,7 @@ namespace Heiflow.Models.Subsurface
                 return false;
             }
         }
-        public override bool SaveAs(string filename, ICancelProgressHandler progress)
+        public override void SaveAs(string filename, ICancelProgressHandler progress)
         {
             var grid = (this.Grid as IRegularGrid);
             var mf = Owner as Modflow;
@@ -266,7 +268,6 @@ namespace Heiflow.Models.Subsurface
             }
             sw.Close();
             OnSaved(progress);
-            return true;
         }
         public override void Clear()
         {
@@ -278,6 +279,17 @@ namespace Heiflow.Models.Subsurface
         {
             this.Feature = Owner.Grid.FeatureSet;
             this.FeatureLayer = Owner.Grid.FeatureLayer;
+
+            var bilfile = Path.Combine(Owner.WorkDirectory, "Geospatial\\elevation.bil");
+            if (!File.Exists(bilfile))
+            {
+                BilFile.Write(bilfile, MFGridInstance, Elevation, 0);
+            }
+            //if(!File.Exists(TerrainViewerMapFile.Mapfile))
+            //{
+                TerrainViewerMapFile.Save(bilfile);
+           // }
+             
         }
         public override void OnGridUpdated(IGrid sender)
         {

@@ -149,5 +149,10 @@ namespace Heiflow.Models.Subsurface
             if (LoadFailed != null)
                 LoadFailed(this, msg);
         }
+
+        public void Clear()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

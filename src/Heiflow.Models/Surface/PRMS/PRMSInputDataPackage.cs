@@ -96,9 +96,9 @@ namespace Heiflow.Models.Surface.PRMS
             return true;
         }
 
-        public override bool New()
+        public override void New()
         {
-            return _climate.New();
+             _climate.New();
         }
 
         public override void Attach(DotSpatial.Controls.IMap map, string directory)
@@ -114,14 +114,15 @@ namespace Heiflow.Models.Surface.PRMS
             this.Feature = this.Grid.FeatureSet;
         }
 
-        public override bool Save(ICancelProgressHandler progress)
+        public override void Save(ICancelProgressHandler progress)
         {
-            return _climate.Save(progress);
+             _climate.Save(progress);
         }
 
         public override void Clear()
         {
-            _climate.Clear();
+            if(_climate != null)
+                _climate.Clear();
             if(_Initialized)
                 this.TimeService.Updated -= this.OnTimeServiceUpdated;
             State = ModelObjectState.Standby;

@@ -145,11 +145,10 @@ namespace Heiflow.Models.Surface.PRMS
             MaxTimeStep = NumTimeStep;
             return true;
         }
-        public override bool New()
+        public override void New()
         {
             Scan();
             base.New();
-            return true;
         }
         public override bool Load(ICancelProgressHandler progress)
         {
@@ -380,6 +379,11 @@ namespace Heiflow.Models.Surface.PRMS
         private void stream_LoadFailed(object sender, string e)
         {
             OnLoadFailed(e, _ProgressHandler);
+        }
+
+        public override void SaveAs(string filename, ICancelProgressHandler progress)
+        {
+           
         }
     }
 }

@@ -162,6 +162,7 @@
     <Compile Include="Generic\Parameters\DataCubeParameter.cs" />
     <Compile Include="Generic\Parameters\SerializableParameter.cs" />
     <Compile Include="Integration\ExtensionManPackage.cs" />
+    <Compile Include="IO\BilFile.cs" />
     <Compile Include="IO\SecurityFile.cs" />
     <Compile Include="Subsurface\OpenModflowProjectFileProvider.cs" />
     <Compile Include="Generic\TimeService.cs" />
@@ -270,6 +271,7 @@
     <Compile Include="Subsurface\IExtractMFPackage.cs" />
     <Compile Include="Surface\PRMS\SoilLayer.cs" />
     <Compile Include="Surface\PRMS\SoilLayerManager.cs" />
+    <Compile Include="Visualization\TerrainViewerMapFile.cs" />
     <Compile Include="WRM\ManagemenSP.cs" />
     <Compile Include="WRM\ManagementCycle.cs" />
     <Compile Include="WRM\WaterManagementModel.cs" />

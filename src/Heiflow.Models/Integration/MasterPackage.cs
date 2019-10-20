@@ -132,6 +132,7 @@ namespace Heiflow.Models.Integration
             _WaterComponentFile = "null";
             _WaterBudgetCsvFile = "null";
             TimeService = new TimeService("Base Timeline");
+            TimeService.Updated += OnTimeServiceUpdated;
             IsMandatory = true;
             FullName = "Master Package";
         }
@@ -1180,117 +1181,126 @@ namespace Heiflow.Models.Integration
         {
             if (File.Exists(FileName))
             {
-                LoadFrom(FileName);
-                var start = (Parameters["start_time"] as DataCubeParameter<int>).ToVector();
-                _StartTime = new DateTime(start[0], start[1], start[2], start[3], start[4], start[5]);
-                var end = (Parameters["end_time"] as DataCubeParameter<int>).ToVector();
-                _EndTime = new DateTime(end[0], end[1], end[2], end[3], end[4], end[5]);
-                _DataFile = Parameters["data_file"].GetValue(0, 0, 0).ToString();
-                _ParameterFile = Parameters["param_file"].GetValue(0, 0, 0).ToString();
-                _ModflowFile = Parameters["modflow_name"].GetValue(0, 0, 0).ToString();
-                _ReportDays = (int)Parameters["rpt_days"].GetValue(0, 0, 0);
-                _WaterBudgetFile = Parameters["gsflow_output_file"].GetValue(0, 0, 0).ToString();
-                _PRMSBudgetFile = Parameters["model_output_file"].GetValue(0, 0, 0).ToString();
-                _OutputWaterComponent = (Parameters["gsf_rpt"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
-                _WaterComponentFile = (Parameters["csv_output_file"] as DataCubeParameter<string>)[0, 0, 0];
-                _Temperature = EnumHelper.FromString<TemperatureModule>((Parameters["temp_module"] as DataCubeParameter<string>)[0, 0, 0]);
-                _Precipitation = EnumHelper.FromString<PrecipitationModule>((Parameters["precip_module"] as DataCubeParameter<string>)[0, 0, 0]);
-                _SolarRadiation = EnumHelper.FromString<SolarRadiationModule>((Parameters["solrad_module"] as DataCubeParameter<string>)[0, 0, 0]);
-                _PotentialET = EnumHelper.FromString<PETModule>((Parameters["et_module"] as DataCubeParameter<string>)[0, 0, 0]);
-                if (Parameters.ContainsKey("wnd_module"))
-                    _WindModule = EnumHelper.FromString<WindModule>((Parameters["wnd_module"] as DataCubeParameter<string>)[0, 0, 0]);
-                if (Parameters.ContainsKey("hum_module"))
-                    _HumidityModule = EnumHelper.FromString<HumidityModule>((Parameters["hum_module"] as DataCubeParameter<string>)[0, 0, 0]);
-                if (Parameters.ContainsKey("press_module"))
-                    _PressureModule = EnumHelper.FromString<PressureModule>((Parameters["press_module"] as DataCubeParameter<string>)[0, 0, 0]);
-                _SurfaceRunoff = EnumHelper.FromString<SurfaceRunoffModule>((Parameters["srunoff_module"] as DataCubeParameter<string>)[0, 0, 0]);
-                _StatsON = (Parameters["statsON_OFF"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
-                _StatVarFile = (Parameters["stat_var_file"] as DataCubeParameter<string>)[0, 0, 0];
-                _NumStatVars = (Parameters["nstatVars"] as DataCubeParameter<int>)[0, 0, 0];
-                if (Parameters.ContainsKey("statVar_element"))
-                    _StatVarElement = (Parameters["statVar_element"] as DataCubeParameter<int>).ToVector();
-                _StatVarNames = (Parameters["statVar_names"] as DataCubeParameter<string>).ToVector();
-                _AniOutFileFormat = (FileFormat)(Parameters["aniOutON_OFF"] as DataCubeParameter<int>)[0, 0, 0];
-                _AniOutFileName = (Parameters["ani_output_file"] as DataCubeParameter<string>)[0, 0, 0] + ".nhru";
-                _NumAniOutVar = (Parameters["naniOutVars"] as DataCubeParameter<int>)[0, 0, 0];
-                _AniOutVarNames = (Parameters["aniOutVar_names"] as DataCubeParameter<string>).ToVector();
-                _InitVarsFromFile = (Parameters["init_vars_from_file"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
-                if ((Parameters.Keys.Contains("accu_budget_file")))
-                    _WaterBudgetCsvFile = (Parameters["accu_budget_file"] as DataCubeParameter<string>)[0, 0, 0];
-                if (Parameters.ContainsKey("mflist_file"))
-                    _MFListFile = (Parameters["mflist_file"] as DataCubeParameter<string>)[0, 0, 0];
-                if ((Parameters.Keys.Contains("use_gridclimate")))
-                    _UseGridClimate = (Parameters["use_gridclimate"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
-                if ((Parameters.Keys.Contains("sub_climate_file")))
-                    _GridClimateFile = (Parameters["sub_climate_file"] as DataCubeParameter<string>)[0, 0, 0];
-                if ((Parameters.Keys.Contains("var_init_file")))
-                    _VarInitFile = (Parameters["var_init_file"] as DataCubeParameter<string>)[0, 0, 0];
-                if ((Parameters.Keys.Contains("save_vars_to_file")))
-                    _SaveVarsToFile = (Parameters["save_vars_to_file"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
-                if ((Parameters.Keys.Contains("var_save_file")))
-                    _VarSaveFile = (Parameters["var_save_file"] as DataCubeParameter<string>)[0, 0, 0];
-                _PrintDebug = (Parameters["print_debug"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
-                if ((Parameters.Keys.Contains("precip_day")))
-                    _PrecipitationFile = (Parameters["precip_day"] as DataCubeParameter<string>)[0, 0, 0];
-                if ((Parameters.Keys.Contains("tmax_day")))
-                    _TempMaxFile = (Parameters["tmax_day"] as DataCubeParameter<string>)[0, 0, 0];
-                if ((Parameters.Keys.Contains("tmin_day")))
-                    _TempMinFile = (Parameters["tmin_day"] as DataCubeParameter<string>)[0, 0, 0];
-                if ((Parameters.Keys.Contains("potet_day")))
-                    _PETFile = (Parameters["potet_day"] as DataCubeParameter<string>)[0, 0, 0];
-                if ((Parameters.Keys.Contains("wnd_day")))
-                    _WindFile = (Parameters["wnd_day"] as DataCubeParameter<string>)[0, 0, 0];
-                if ((Parameters.Keys.Contains("hum_day")))
-                    _HumidityFile = (Parameters["hum_day"] as DataCubeParameter<string>)[0, 0, 0];
-                if ((Parameters.Keys.Contains("press_day")))
-                    _PressureFile = (Parameters["press_day"] as DataCubeParameter<string>)[0, 0, 0];
-                if (Parameters.ContainsKey("subbasin_flag"))
-                    _SubbasinFlag = (Parameters["subbasin_flag"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
-                if (Parameters.ContainsKey("global_time_unit"))
-                    _GlobalTimeUnit = (Parameters["global_time_unit"] as DataCubeParameter<int>)[0, 0, 0];
-                if (Parameters.ContainsKey("climate_file_format"))
-                    _ClimateInputFormat = EnumHelper.FromString<FileFormat>((Parameters["climate_file_format"] as DataCubeParameter<int>)[0, 0, 0].ToString());
-                if (Parameters.ContainsKey("dynamic_para"))
-                    _dynamic_para = (Parameters["dynamic_para"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
-                else
-                    _dynamic_para = false;
-                if (Parameters.ContainsKey("dynamic_day"))
-                    _dynamic_day = (Parameters["dynamic_day"] as DataCubeParameter<int>).ToVector();
-                if (Parameters.ContainsKey("dynamic_param_file"))
-                    _dynamic_param_file = (Parameters["dynamic_param_file"] as DataCubeParameter<string>).ToVector();
-                if (Parameters.ContainsKey("sub_climate_flag"))
-                    _UseGridClimate = (Parameters["sub_climate_flag"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
-                else
-                    _UseGridClimate = false;
-                if (Parameters.ContainsKey("ani_output_oc"))
-                    _AnimationOutOC = (Parameters["ani_output_oc"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
-                else
-                    _AnimationOutOC = false;
-                if ((Parameters.Keys.Contains("ani_output_oc_file")))
-                    _AnimationOutOCFile = (Parameters["ani_output_oc_file"] as DataCubeParameter<string>)[0, 0, 0];
-                if ((Parameters.Keys.Contains("wra_module")))
-                    _wra_module = (Parameters["wra_module"] as DataCubeParameter<string>)[0, 0, 0];
-                if ((Parameters.Keys.Contains("wra_file")))
-                    _wra_module_file = (Parameters["wra_file"] as DataCubeParameter<string>)[0, 0, 0];
-                if ((Parameters.Keys.Contains("hydraulics_engine")))
-                    _hydraulics_engine = (Parameters["hydraulics_engine"] as DataCubeParameter<string>)[0, 0, 0];
-                if ((Parameters.Keys.Contains("extension_man_file")))
-                    _extension_man_file = (Parameters["extension_man_file"] as DataCubeParameter<string>)[0, 0, 0];
-                if (Parameters.ContainsKey("save_soilwater_hru"))
-                    _SaveSoilwaterFile = (Parameters["save_soilwater_hru"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
-                else
-                    _SaveSoilwaterFile = false;
-                if ((Parameters.Keys.Contains("file_soilwater_hru")))
-                    _SoilWaterFile = (Parameters["file_soilwater_hru"] as DataCubeParameter<string>)[0, 0, 0];
-                if ((Parameters.Keys.Contains("file_soilwater_budget")))
-                    _SoilWaterBudgetFile = (Parameters["file_soilwater_budget"] as DataCubeParameter<string>)[0, 0, 0];
+                try
+                {
+                    LoadFrom(FileName);
+                    var start = (Parameters["start_time"] as DataCubeParameter<int>).ToVector();
+                    _StartTime = new DateTime(start[0], start[1], start[2], start[3], start[4], start[5]);
+                    var end = (Parameters["end_time"] as DataCubeParameter<int>).ToVector();
+                    _EndTime = new DateTime(end[0], end[1], end[2], end[3], end[4], end[5]);
+                    _DataFile = Parameters["data_file"].GetValue(0, 0, 0).ToString();
+                    _ParameterFile = Parameters["param_file"].GetValue(0, 0, 0).ToString();
+                    _ModflowFile = Parameters["modflow_name"].GetValue(0, 0, 0).ToString();
+                    _ReportDays = (int)Parameters["rpt_days"].GetValue(0, 0, 0);
+                    _WaterBudgetFile = Parameters["gsflow_output_file"].GetValue(0, 0, 0).ToString();
+                    _PRMSBudgetFile = Parameters["model_output_file"].GetValue(0, 0, 0).ToString();
+                    _OutputWaterComponent = (Parameters["gsf_rpt"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
+                    _WaterComponentFile = (Parameters["csv_output_file"] as DataCubeParameter<string>)[0, 0, 0];
+                    _Temperature = EnumHelper.FromString<TemperatureModule>((Parameters["temp_module"] as DataCubeParameter<string>)[0, 0, 0]);
+                    _Precipitation = EnumHelper.FromString<PrecipitationModule>((Parameters["precip_module"] as DataCubeParameter<string>)[0, 0, 0]);
+                    _SolarRadiation = EnumHelper.FromString<SolarRadiationModule>((Parameters["solrad_module"] as DataCubeParameter<string>)[0, 0, 0]);
+                    _PotentialET = EnumHelper.FromString<PETModule>((Parameters["et_module"] as DataCubeParameter<string>)[0, 0, 0]);
+                    if (Parameters.ContainsKey("wnd_module"))
+                        _WindModule = EnumHelper.FromString<WindModule>((Parameters["wnd_module"] as DataCubeParameter<string>)[0, 0, 0]);
+                    if (Parameters.ContainsKey("hum_module"))
+                        _HumidityModule = EnumHelper.FromString<HumidityModule>((Parameters["hum_module"] as DataCubeParameter<string>)[0, 0, 0]);
+                    if (Parameters.ContainsKey("press_module"))
+                        _PressureModule = EnumHelper.FromString<PressureModule>((Parameters["press_module"] as DataCubeParameter<string>)[0, 0, 0]);
+                    _SurfaceRunoff = EnumHelper.FromString<SurfaceRunoffModule>((Parameters["srunoff_module"] as DataCubeParameter<string>)[0, 0, 0]);
+                    _StatsON = (Parameters["statsON_OFF"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
+                    _StatVarFile = (Parameters["stat_var_file"] as DataCubeParameter<string>)[0, 0, 0];
+                    _NumStatVars = (Parameters["nstatVars"] as DataCubeParameter<int>)[0, 0, 0];
+                    if (Parameters.ContainsKey("statVar_element"))
+                        _StatVarElement = (Parameters["statVar_element"] as DataCubeParameter<int>).ToVector();
+                    _StatVarNames = (Parameters["statVar_names"] as DataCubeParameter<string>).ToVector();
+                    _AniOutFileFormat = (FileFormat)(Parameters["aniOutON_OFF"] as DataCubeParameter<int>)[0, 0, 0];
+                    _AniOutFileName = (Parameters["ani_output_file"] as DataCubeParameter<string>)[0, 0, 0] + ".nhru";
+                    _NumAniOutVar = (Parameters["naniOutVars"] as DataCubeParameter<int>)[0, 0, 0];
+                    _AniOutVarNames = (Parameters["aniOutVar_names"] as DataCubeParameter<string>).ToVector();
+                    _InitVarsFromFile = (Parameters["init_vars_from_file"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
+                    if ((Parameters.Keys.Contains("accu_budget_file")))
+                        _WaterBudgetCsvFile = (Parameters["accu_budget_file"] as DataCubeParameter<string>)[0, 0, 0];
+                    if (Parameters.ContainsKey("mflist_file"))
+                        _MFListFile = (Parameters["mflist_file"] as DataCubeParameter<string>)[0, 0, 0];
+                    if ((Parameters.Keys.Contains("use_gridclimate")))
+                        _UseGridClimate = (Parameters["use_gridclimate"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
+                    if ((Parameters.Keys.Contains("sub_climate_file")))
+                        _GridClimateFile = (Parameters["sub_climate_file"] as DataCubeParameter<string>)[0, 0, 0];
+                    if ((Parameters.Keys.Contains("var_init_file")))
+                        _VarInitFile = (Parameters["var_init_file"] as DataCubeParameter<string>)[0, 0, 0];
+                    if ((Parameters.Keys.Contains("save_vars_to_file")))
+                        _SaveVarsToFile = (Parameters["save_vars_to_file"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
+                    if ((Parameters.Keys.Contains("var_save_file")))
+                        _VarSaveFile = (Parameters["var_save_file"] as DataCubeParameter<string>)[0, 0, 0];
+                    _PrintDebug = (Parameters["print_debug"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
+                    if ((Parameters.Keys.Contains("precip_day")))
+                        _PrecipitationFile = (Parameters["precip_day"] as DataCubeParameter<string>)[0, 0, 0];
+                    if ((Parameters.Keys.Contains("tmax_day")))
+                        _TempMaxFile = (Parameters["tmax_day"] as DataCubeParameter<string>)[0, 0, 0];
+                    if ((Parameters.Keys.Contains("tmin_day")))
+                        _TempMinFile = (Parameters["tmin_day"] as DataCubeParameter<string>)[0, 0, 0];
+                    if ((Parameters.Keys.Contains("potet_day")))
+                        _PETFile = (Parameters["potet_day"] as DataCubeParameter<string>)[0, 0, 0];
+                    if ((Parameters.Keys.Contains("wnd_day")))
+                        _WindFile = (Parameters["wnd_day"] as DataCubeParameter<string>)[0, 0, 0];
+                    if ((Parameters.Keys.Contains("hum_day")))
+                        _HumidityFile = (Parameters["hum_day"] as DataCubeParameter<string>)[0, 0, 0];
+                    if ((Parameters.Keys.Contains("press_day")))
+                        _PressureFile = (Parameters["press_day"] as DataCubeParameter<string>)[0, 0, 0];
+                    if (Parameters.ContainsKey("subbasin_flag"))
+                        _SubbasinFlag = (Parameters["subbasin_flag"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
+                    if (Parameters.ContainsKey("global_time_unit"))
+                        _GlobalTimeUnit = (Parameters["global_time_unit"] as DataCubeParameter<int>)[0, 0, 0];
+                    if (Parameters.ContainsKey("climate_file_format"))
+                        _ClimateInputFormat = EnumHelper.FromString<FileFormat>((Parameters["climate_file_format"] as DataCubeParameter<int>)[0, 0, 0].ToString());
+                    if (Parameters.ContainsKey("dynamic_para"))
+                        _dynamic_para = (Parameters["dynamic_para"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
+                    else
+                        _dynamic_para = false;
+                    if (Parameters.ContainsKey("dynamic_day"))
+                        _dynamic_day = (Parameters["dynamic_day"] as DataCubeParameter<int>).ToVector();
+                    if (Parameters.ContainsKey("dynamic_param_file"))
+                        _dynamic_param_file = (Parameters["dynamic_param_file"] as DataCubeParameter<string>).ToVector();
+                    if (Parameters.ContainsKey("sub_climate_flag"))
+                        _UseGridClimate = (Parameters["sub_climate_flag"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
+                    else
+                        _UseGridClimate = false;
+                    if (Parameters.ContainsKey("ani_output_oc"))
+                        _AnimationOutOC = (Parameters["ani_output_oc"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
+                    else
+                        _AnimationOutOC = false;
+                    if ((Parameters.Keys.Contains("ani_output_oc_file")))
+                        _AnimationOutOCFile = (Parameters["ani_output_oc_file"] as DataCubeParameter<string>)[0, 0, 0];
+                    if ((Parameters.Keys.Contains("wra_module")))
+                        _wra_module = (Parameters["wra_module"] as DataCubeParameter<string>)[0, 0, 0];
+                    if ((Parameters.Keys.Contains("wra_file")))
+                        _wra_module_file = (Parameters["wra_file"] as DataCubeParameter<string>)[0, 0, 0];
+                    if ((Parameters.Keys.Contains("hydraulics_engine")))
+                        _hydraulics_engine = (Parameters["hydraulics_engine"] as DataCubeParameter<string>)[0, 0, 0];
+                    if ((Parameters.Keys.Contains("extension_man_file")))
+                        _extension_man_file = (Parameters["extension_man_file"] as DataCubeParameter<string>)[0, 0, 0];
+                    if (Parameters.ContainsKey("save_soilwater_hru"))
+                        _SaveSoilwaterFile = (Parameters["save_soilwater_hru"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
+                    else
+                        _SaveSoilwaterFile = false;
+                    if ((Parameters.Keys.Contains("file_soilwater_hru")))
+                        _SoilWaterFile = (Parameters["file_soilwater_hru"] as DataCubeParameter<string>)[0, 0, 0];
+                    if ((Parameters.Keys.Contains("file_soilwater_budget")))
+                        _SoilWaterBudgetFile = (Parameters["file_soilwater_budget"] as DataCubeParameter<string>)[0, 0, 0];
 
-                foreach (var pr in Parameters.Values)
-                    pr.Owner = this;
-                this.TimeService.IOTimeFile = WaterBudgetCsvFile;
-                UpdateTimeService();
-                OnLoaded(cancelprogess);
-                return true;
+                    foreach (var pr in Parameters.Values)
+                        pr.Owner = this;
+                    this.TimeService.IOTimeFile = WaterBudgetCsvFile;
+                    UpdateTimeService();
+                    OnLoaded(cancelprogess);
+                    return true;
+                }
+                catch(Exception ex)
+                {
+                    Message = string.Format("Failed to load control file {0}. Error message: {1}", FileName, ex.Message);
+                    OnLoadFailed(Message, cancelprogess);
+                    return false;
+                }       
             }
             else
             {
@@ -1298,16 +1308,17 @@ namespace Heiflow.Models.Integration
                 OnLoadFailed(Message, cancelprogess);
                 return false;
             }
+            
         }
-        public override bool SaveAs(string filename, ICancelProgressHandler prg)
+
+        public override void SaveAs(string filename, ICancelProgressHandler prg)
         {
             StreamWriter sw = new StreamWriter(filename);
             Save(sw);
             sw.Close();
             OnSaved(prg);
-            return true;
         }
-        public override bool New()
+        public override void New()
         {
             string _Controlfile = Path.Combine(BaseModel.ConfigPath, "heiflow_" + Owner.Project.SelectedVersion + ".control");
 
@@ -1402,13 +1413,11 @@ namespace Heiflow.Models.Integration
                 base.New();
                 //NewXml();
                 State = ModelObjectState.Ready;
-                return true;
             }
             else
             {
                 Message = string.Format("{0} does not exist. Please repair the software.", _Controlfile);
                 IsDirty = false;
-                return false;
             }
         }
       

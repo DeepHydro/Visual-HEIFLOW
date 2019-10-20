@@ -88,7 +88,7 @@ namespace Heiflow.Controls.WinForm.Editors
             _editorService.DropDownControl(lb);
             if (lb.SelectedItem == null) // no selection, return the passed-in value as is
                 return value;
-            if (lb.SelectedItem == "none")
+            if (lb.SelectedItem.ToString() == "none")
                 return null;
             return lb.SelectedItem;
         }

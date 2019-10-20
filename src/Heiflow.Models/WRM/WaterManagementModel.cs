@@ -17,13 +17,18 @@ namespace Heiflow.Models.WRM
     [ModelItem]
     public class WaterManagementModel : BaseModel
     {
+        private WRAPackage _WRAPackage;
+
         public WaterManagementModel()
         {
             Name = "Water Management";
             Icon = Resources.mf16;
             LargeIcon = Resources.mf32;
             Description = "Water resources management model";
+            _WRAPackage = new WRAPackage();
+            _WRAPackage.LoadFailed += this.OnLoadFailed;
         }
+
         [Browsable(false)]
         public MasterPackage MasterPackage
         {
@@ -46,12 +51,6 @@ namespace Heiflow.Models.WRM
             }
         }
 
-        public override void Clear()
-        {
-            foreach (var pck in Packages.Values)
-                pck.Clear();
-        }
-
         public override void Initialize()
         {
             Packages.Clear();
@@ -61,12 +60,13 @@ namespace Heiflow.Models.WRM
         {
             if (MasterPackage.WRAModule == "auto_wra")
             {
-                WRAPackage wra = new WRAPackage();
-                wra.FileName = MasterPackage.WRAModuleFile;
-                wra.Owner = this;
-                wra.Initialize();
-                Packages.Add(wra.Name, wra);
-                return wra.Load(progress);
+                string msg = "Loading Water Resources Management File...";
+                progress.Progress(this.Name, 1, msg);
+                _WRAPackage.FileName = MasterPackage.WRAModuleFile;
+                _WRAPackage.Owner = this;
+                _WRAPackage.Initialize();
+                AddInSilence(_WRAPackage);
+                return _WRAPackage.Load(progress);
             }
             else
             {
@@ -83,7 +83,12 @@ namespace Heiflow.Models.WRM
         {
             return true;
         }
-
+        public override void Clear()
+        {
+            _WRAPackage.LoadFailed -= this.OnLoadFailed;
+            foreach (var pck in Packages.Values)
+                pck.Clear();
+        }
         public override void Save(ICancelProgressHandler progress)
         {
             foreach (var pck in Packages.Values)

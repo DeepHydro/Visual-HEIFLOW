@@ -244,23 +244,34 @@ namespace Heiflow.Applications.Controllers
 
         private void ProgressWindow_DoOpenProjectCompleted(object sender, EventArgs e)
         {
-            MapAppManager.SerializationManager.OpenProject(_ProjectService.Project.FullMapFileName);
-            _ProjectService.Project.Map = MapAppManager.Map;
-            _ProjectService.Project.AttachFeatures();
-            BatchBindUI();
-            if (_ProjectService.Project.ODMSource != null)
+            if (!_ProjectService.Serializer.HasError && _ProjectService.Project != null)
             {
-                _ProjectService.Project.ODMSource.WorkDirectory = _ProjectService.Project.FullModelWorkDirectory;
-                _ProjectService.Project.ODMSource.Open();
+                MapAppManager.SerializationManager.OpenProject(_ProjectService.Project.FullMapFileName);
+                _ProjectService.Project.Map = MapAppManager.Map;
+                _ProjectService.Project.AttachFeatures();
+                BatchBindUI();
+                if (_ProjectService.Project.ODMSource != null)
+                {
+                    _ProjectService.Project.ODMSource.WorkDirectory = _ProjectService.Project.FullModelWorkDirectory;
+                    _ProjectService.Project.ODMSource.Open();
+                }
+                _ProjectService.RaiseProjectOpenedOrCreated(MapAppManager.Map, this.Project);
             }
-            _ProjectService.RaiseProjectOpenedOrCreated(MapAppManager.Map, this.Project);
+            else
+            {
+               // _ShellService.ProgressWindow.PrograssbarVisible = false;
+                _ProjectService.Serializer.Clear();
+            }
             _ShellService.ProgressWindow.DoWork -= ProgressPanel_DoOpenProject;
             _ShellService.ProgressWindow.WorkCompleted -= ProgressWindow_DoOpenProjectCompleted;
             _ShellService.ProgressWindow.ProgressBarStyle = ProgressBarStyle.Continuous;
+
         }
         private void Serializer_OpenFailed(object sender, string e)
         {
-            _ShellService.ProgressWindow.Progress("Failed to open project. Error message: " + e);
+            _ProjectService.Project = null;
+            _ShellService.ProgressWindow.AutoCloseWindow = false;
+            _ShellService.ProgressWindow.Progress("project", 100, "Please note the error and warning informaiton during the loading");
         }
         #endregion
 

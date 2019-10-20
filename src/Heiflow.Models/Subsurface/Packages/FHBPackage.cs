@@ -135,11 +135,10 @@ namespace Heiflow.Models.Subsurface
             this.TimeService = Owner.TimeService;
             base.Initialize();
         }
-        public override bool New()
+        public override void New()
         {
             this.IFHBUN = this.PackageInfo.FID;
             base.New(); 
-            return true;
         }
         public override string CreateFeature(ProjectionInfo proj_info, string directory)
         {
@@ -275,7 +274,7 @@ namespace Heiflow.Models.Subsurface
                 return false;
             }
         }
-        public override bool SaveAs(string filename,ICancelProgressHandler prg)
+        public override void SaveAs(string filename,ICancelProgressHandler prg)
         {
             StreamWriter sw = new StreamWriter(filename);
             NBDTIM = BDTIM.Length;
@@ -306,7 +305,6 @@ namespace Heiflow.Models.Subsurface
             }
             sw.Close();
             OnSaved(prg);
-            return true;
         }
         public override void Clear()
         {

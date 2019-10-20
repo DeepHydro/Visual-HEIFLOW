@@ -96,9 +96,9 @@ namespace Heiflow.Models.Surface.PRMS
             return true;
         }
 
-        public override bool New()
+        public override void New()
         {
-            return _data.New();
+             _data.New();
         }
 
         public override void Attach(DotSpatial.Controls.IMap map, string directory)
@@ -107,14 +107,15 @@ namespace Heiflow.Models.Surface.PRMS
             this.FeatureLayer = Owner.Grid.FeatureLayer;
         }
 
-        public override bool Save(ICancelProgressHandler progress)
+        public override void Save(ICancelProgressHandler progress)
         {
-            return _data.Save(progress);
+             _data.Save(progress);
         }
 
         public override void Clear()
         {
-            _data.Clear();
+            if(_data != null)
+                _data.Clear();
             if(_Initialized)
                 this.TimeService.Updated -= this.OnTimeServiceUpdated;
             State = ModelObjectState.Standby;

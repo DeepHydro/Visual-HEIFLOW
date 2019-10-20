@@ -44,11 +44,13 @@ namespace Heiflow.Models.Integration
 {
     public class HeiflowLoader : IModelLoader
     {
+        public event EventHandler<string> LoadFailed;
+        private HeiflowModel _model;
         public HeiflowLoader()
         {
 
         }
-        public event EventHandler<string> LoadFailed;
+
         public string FileTypeDescription
         {
             get
@@ -73,7 +75,6 @@ namespace Heiflow.Models.Integration
 
         public void Import(IProject project, IImportProperty property, ICancelProgressHandler progress)
         {
-            var succ = true;
             ModelService.WorkDirectory = project.FullModelWorkDirectory;
             if (project.Model == null)
             {
@@ -84,40 +85,41 @@ namespace Heiflow.Models.Integration
             {
                 project.Model.Clear();
             }
-            var  model = project.Model as HeiflowModel;
-            model.Project = project;
-            model.WorkDirectory = project.FullModelWorkDirectory;
-            model.ControlFileName = project.RelativeControlFileName;
-            model.Initialize();
-            model.Grid.Origin = new GeoAPI.Geometries.Coordinate(property.OriginX, property.OriginY);
-           succ = model.Load(progress);
-            if (succ)
+            _model = project.Model as HeiflowModel;
+            _model.Project = project;
+            _model.WorkDirectory = project.FullModelWorkDirectory;
+            _model.ControlFileName = project.RelativeControlFileName;
+            _model.Initialize();
+            _model.Grid.Origin = new GeoAPI.Geometries.Coordinate(property.OriginX, property.OriginY);
+            if (_model.Load(progress))
             {
-                model.ModflowModel.Grid.Projection = property.Projection;
+                _model.ModflowModel.Grid.Projection = property.Projection;
             }
         }
 
-        public bool Load( IProject project, ICancelProgressHandler progress)
+        public bool Load(IProject project, ICancelProgressHandler progress)
         {
             ModelService.WorkDirectory = project.FullModelWorkDirectory;
             HeiflowModel model = new HeiflowModel();
             model.ControlFileName = project.RelativeControlFileName;
             model.WorkDirectory = project.FullModelWorkDirectory;
             model.Project = project;
-            model.LoadFailed += model_LoadFailed;
+            model.LoadFailed += delegate (object sender, string e) { OnLoadFailed(e); };
             model.Initialize();
-            return model.Load( progress);
-        }
-
-        private  void model_LoadFailed(object sender, string e)
-        {
-            OnLoadFailed(e);
+            _model = model;
+            return model.Load(progress);
         }
 
         private void OnLoadFailed(string msg)
         {
             if (LoadFailed != null)
                 LoadFailed(this, msg);
+        }
+
+        public void Clear()
+        {
+            if (_model != null)
+                _model.Clear();
         }
     }
 }

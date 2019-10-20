@@ -104,74 +104,88 @@ namespace Heiflow.Models.Subsurface
             this.TimeService = Owner.TimeService;
             base.Initialize();
         }
-        public override bool New()
+        public override void New()
         {
             base.New();
-            return true;
         }
         public override bool Load(ICancelProgressHandler progress)
         {
+            var result = false;
             if (File.Exists(FileName))
             {
                 StreamReader sr = new StreamReader(FileName);
-                //Data Set 1: # OPTIONS
-                string newline = ReadComment(sr);
-                Options = newline;
-                //Data Set 2: # IBOUND
-
-                var grid = (Owner.Grid as MFGrid);
-
-                grid.IBound = new DataCube<float>(grid.ActualLayerCount, grid.RowCount, grid.ColumnCount) { ZeroDimension = DimensionFlag.Spatial };
-                grid.ActiveCellCount = 0;
-                for (int l = 0; l < grid.ActualLayerCount; l++)
+                try
                 {
-                    var array = ReadInternalMatrix<int>(sr);
-                    for (int r = 0; r < array.Size[1]; r++)
+                    //Data Set 1: # OPTIONS
+                    string newline = ReadComment(sr);
+                    Options = newline;
+                    //Data Set 2: # IBOUND
+
+                    var grid = (Owner.Grid as MFGrid);
+                    grid.IBound = new DataCube<float>(grid.ActualLayerCount, grid.RowCount, grid.ColumnCount) { ZeroDimension = DimensionFlag.Spatial };
+                    grid.ActiveCellCount = 0;
+                    for (int l = 0; l < grid.ActualLayerCount; l++)
                     {
-                        for (int c = 0; c < array.Size[2]; c++)
+                        var array = ReadInternalMatrix<int>(sr);
+                        for (int r = 0; r < array.Size[1]; r++)
                         {
-                            grid.IBound[l,r,c] = array[0,r, c];
-                            if (grid.IBound[l, r, c] != 0)
+                            for (int c = 0; c < array.Size[2]; c++)
+                            {
+                                grid.IBound[l, r, c] = array[0, r, c];
+                                if (grid.IBound[l, r, c] != 0)
+                                    grid.ActiveCellCount++;
+                            }
+                        }
+                    }
+
+                    grid.ActiveCellCount = 0;
+                    for (int r = 0; r < grid.RowCount; r++)
+                    {
+                        for (int c = 0; c < grid.ColumnCount; c++)
+                        {
+                            if (grid.IBound[0, r, c] != 0)
                                 grid.ActiveCellCount++;
                         }
                     }
-                }
-
-                grid.ActiveCellCount = 0;
-                for (int r = 0; r < grid.RowCount; r++)
-                {
-                    for (int c = 0; c < grid.ColumnCount; c++)
+                    newline = sr.ReadLine();
+                    //Data Set 3: # HNOFLO the value of head to be assigned to all inactive 
+                    this.HNOFLO = TypeConverterEx.Split<float>(newline, 1)[0];
+                    //Data Set 4: STRT—is initial (starting) head
+                    this.STRT = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
                     {
-                        if (grid.IBound[0, r, c] != 0)
-                            grid.ActiveCellCount++;
-                    }
-                }
-                newline = sr.ReadLine();
-                //Data Set 3: # HNOFLO the value of head to be assigned to all inactive 
-                this.HNOFLO = TypeConverterEx.Split<float>(newline, 1)[0];
-                //Data Set 4: STRT—is initial (starting) head
-                this.STRT = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
-                {
-                    Name = "STRT", ZeroDimension = DimensionFlag.Spatial
-                };
+                        Name = "STRT",
+                        ZeroDimension = DimensionFlag.Spatial
+                    };
 
-                for (int l = 0; l < grid.ActualLayerCount; l++)
-                {
-                    this.STRT.Variables[l] = "Starting Head " + (l + 1);
-                    ReadSerialArray(sr, this.STRT, l, 0);
+                    for (int l = 0; l < grid.ActualLayerCount; l++)
+                    {
+                        this.STRT.Variables[l] = "Starting Head " + (l + 1);
+                        ReadSerialArray(sr, this.STRT, l, 0);
+                    }
+                    sr.Close();
+                    OnLoaded(progress);
+                    result = true;
                 }
-                sr.Close();
-                OnLoaded(progress);
-                return true;
+                catch(Exception ex)
+                {
+                    Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
+                    OnLoadFailed(Message, progress);
+                    result = false;
+                }
+                finally
+                {
+                    sr.Close();
+                }
             }
             else
             {
-                Message = string.Format("\r\n Failed to load {0}. The package file does not exist: {1}", Name, FileName);
+                Message = string.Format("Failed to load {0}. The package file does not exist: {1}", Name, FileName);
                 OnLoadFailed(Message,progress);
-                return false;
+                result = false;
             }
+            return result;
         }
-        public override bool SaveAs(string filename,ICancelProgressHandler progress)
+        public override void SaveAs(string filename,ICancelProgressHandler progress)
         {
             var grid = (Owner.Grid as IRegularGrid);
             StreamWriter sw = new StreamWriter(filename);
@@ -192,7 +206,6 @@ namespace Heiflow.Models.Subsurface
             }
             sw.Close();
             OnSaved(progress);
-            return true;
         }
         public override void Clear()
         {

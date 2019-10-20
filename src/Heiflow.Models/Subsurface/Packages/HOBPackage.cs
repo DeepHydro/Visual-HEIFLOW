@@ -218,7 +218,7 @@ namespace Heiflow.Models.Subsurface
             this.TimeService = Owner.TimeService;
             base.Initialize();
         }
-        public override bool New()
+        public override void New()
         {
             var mf = Owner as Modflow;
             this.IUHOBSV = mf.NameManager.NextFID() + 1;
@@ -232,7 +232,7 @@ namespace Heiflow.Models.Subsurface
             pckinfo.Name = Path.GetFileName(pckinfo.FileName);
             pckinfo.WorkDirectory = mf.WorkDirectory;
             mf.NameManager.AddInSilence(pckinfo);
-            return base.New();
+            base.New();
         }
         public override string CreateFeature(ProjectionInfo proj_info, string directory)
         {
@@ -413,7 +413,7 @@ namespace Heiflow.Models.Subsurface
                 HOBS.Topology = this.Topology;
             }
         }
-        public override bool SaveAs(string filename, ICancelProgressHandler prg)
+        public override void SaveAs(string filename, ICancelProgressHandler prg)
         {
             StreamWriter sw = new StreamWriter(filename);
             WriteDefaultComment(sw, "HOB");
@@ -436,7 +436,6 @@ namespace Heiflow.Models.Subsurface
                 sw.Write(line);
             }
             sw.Close();
-            return true;
         }
         public override void Clear()
         {

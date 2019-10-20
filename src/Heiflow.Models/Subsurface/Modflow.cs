@@ -64,6 +64,7 @@ namespace Heiflow.Models.Subsurface
             {
                 UseStressPeriods = true
             };
+            this.TimeService.Updated += this.OnTimeServiceUpdated;
             _MFGrid = new MFGrid();
             Grid = _MFGrid;
             _LayerGroupManager = new LayerGroupManager();
@@ -152,24 +153,29 @@ namespace Heiflow.Models.Subsurface
         public override bool Load(ICancelProgressHandler progress)
         {
             string masterfile = ControlFileName;
-            var succ = true;
             if (File.Exists(masterfile))
             {
-                Subscribe(masterfile, ModelService.WorkDirectory);
-                succ = LoadGrid(progress);
-                if (succ)
+                if(Subscribe(masterfile, ModelService.WorkDirectory))
                 {
-                    LoadPackages(progress);
+                    if(LoadGrid(progress))
+                    {
+                        LoadPackages(progress);
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 else
                 {
-                    progress.Progress("Modflow", 100, "\tFailed to load model grid.");
+                    return false;
                 }
-                return succ;
             }
             else
             {
-                progress.Progress("Modflow", 100, "\tThe modflow name file dose not exist: " + ControlFileName);
+                var msg = "The modflow name file dose not exist: " + ControlFileName;
+                OnLoadFailed(this, msg);
                 return false;
             }
         }
@@ -183,6 +189,7 @@ namespace Heiflow.Models.Subsurface
             Packages.Clear();
             TimeServiceList.Clear();
         }
+
         public override bool Validate()
         {
             return true;
@@ -224,19 +231,33 @@ namespace Heiflow.Models.Subsurface
             var dis = (Packages["DIS"] as DISPackage);
             var bas = (Packages["BAS6"] as BASPackage);
             var oc = (Packages[OCPackage.PackageName] as OCPackage);
-            var succ = true;
             dis.GetGridInfo(_MFGrid);
-            succ = bas.Load(progress);
-            succ = dis.Load(progress);
-            succ = oc.Load(progress);
-            if (succ)
+            if(bas.Load(progress))
             {
-                _MFGrid.Topology = new RegularGridTopology();
-                _MFGrid.Topology.Build();
-                bas.STRT.Topology = _MFGrid.Topology;
-                dis.Elevation.Topology = _MFGrid.Topology;
+                if(dis.Load(progress))
+                {
+                    if(oc.Load(progress))
+                    {
+                        _MFGrid.Topology = new RegularGridTopology();
+                        _MFGrid.Topology.Build();
+                        bas.STRT.Topology = _MFGrid.Topology;
+                        dis.Elevation.Topology = _MFGrid.Topology;
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
             }
-            return succ;
+            else
+            {
+                return false;
+            }
         }
         public override void Attach(DotSpatial.Controls.IMap map, string directory)
         {
@@ -309,63 +330,78 @@ namespace Heiflow.Models.Subsurface
             return pck;
         }
 
-        private void Subscribe(string masterfile, string masterDic)
+        private bool Subscribe(string masterfile, string masterDic)
         {
+            bool result = false;
             string line = "";
             FileStream fs = new FileStream(masterfile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             StreamReader sr = new StreamReader(fs);
-            while (!sr.EndOfStream)
+            try
             {
-                line = sr.ReadLine();
-                if (!line.StartsWith("#"))
+                while (!sr.EndOfStream)
                 {
-                    var strs = TypeConverterEx.Split<string>(line);
-                    if (strs != null && strs.Length >= 3)
+                    line = sr.ReadLine();
+                    if (!line.StartsWith("#"))
                     {
-                        var pckinfo = new PackageInfo();
-                        pckinfo.ModuleName = strs[0].ToUpper();
-                        pckinfo.FID = int.Parse(strs[1]);
-                        pckinfo.Format = FileFormat.Text;
-                        pckinfo.FileName = strs[2].ToLower();
-                        pckinfo.FileExtension = Path.GetExtension(pckinfo.FileName);
-                        pckinfo.Name = Path.GetFileName(pckinfo.FileName);
-                        pckinfo.WorkDirectory = masterDic;
-                        if (strs.Length == 4)
+                        var strs = TypeConverterEx.Split<string>(line);
+                        if (strs != null && strs.Length >= 3)
                         {
-                            pckinfo.IOState = EnumHelper.FromString<IOState>(strs[3].ToUpper());
-                        }
-                        else
-                        {
-                            pckinfo.IOState = IOState.OLD;
-                        }
-
-                        var module_name = pckinfo.ModuleName.ToUpper();
-                        if (module_name.Contains("DATA"))
-                        {
+                            var pckinfo = new PackageInfo();
+                            pckinfo.ModuleName = strs[0].ToUpper();
+                            pckinfo.FID = int.Parse(strs[1]);
                             pckinfo.Format = FileFormat.Text;
-                            if (module_name.Contains("BINARY"))
-                                pckinfo.Format = FileFormat.Binary;
-                            pckinfo.ModuleName = "DATA";
-                        }
-                        _MFNameManager.AddInSilence(pckinfo);
-                        var pck = Select(pckinfo.ModuleName);
-                        if (pck != null)
-                        {
-                            pck.PackageInfo = pckinfo;
-                            pck.FileName = pckinfo.FileName;
-                            pck.Clear();
-                            pck.Initialize();
-                            if (!Packages.Keys.Contains(pck.Name))
+                            pckinfo.FileName = strs[2].ToLower();
+                            pckinfo.FileExtension = Path.GetExtension(pckinfo.FileName);
+                            pckinfo.Name = Path.GetFileName(pckinfo.FileName);
+                            pckinfo.WorkDirectory = masterDic;
+                            if (strs.Length == 4)
                             {
-                                Packages.Add(pck.Name, pck);
-                                pck.Owner = this;
+                                pckinfo.IOState = EnumHelper.FromString<IOState>(strs[3].ToUpper());
+                            }
+                            else
+                            {
+                                pckinfo.IOState = IOState.OLD;
+                            }
+
+                            var module_name = pckinfo.ModuleName.ToUpper();
+                            if (module_name.Contains("DATA"))
+                            {
+                                pckinfo.Format = FileFormat.Text;
+                                if (module_name.Contains("BINARY"))
+                                    pckinfo.Format = FileFormat.Binary;
+                                pckinfo.ModuleName = "DATA";
+                            }
+                            _MFNameManager.AddInSilence(pckinfo);
+                            var pck = Select(pckinfo.ModuleName);
+                            if (pck != null)
+                            {
+                                pck.PackageInfo = pckinfo;
+                                pck.FileName = pckinfo.FileName;
+                                pck.Clear();
+                                pck.Initialize();
+                                if (!Packages.Keys.Contains(pck.Name))
+                                {
+                                    Packages.Add(pck.Name, pck);
+                                    pck.Owner = this;
+                                }
                             }
                         }
                     }
                 }
+                result = true;
             }
-            fs.Close();
-            sr.Close();
+            catch (Exception ex)
+            {
+                result = false;
+                string msg = string.Format("Failed to load name file of MODFLOW. Error message: {0}", ex.Message);
+                OnLoadFailed(this, msg);
+            }
+            finally
+            {
+                fs.Close();
+                sr.Close();
+            }
+            return result;
         }
         private void LoadPackages(ICancelProgressHandler progress)
         {
@@ -385,24 +421,19 @@ namespace Heiflow.Models.Subsurface
                         {
                             pck.Clear();
                             pck.Initialize();
-                            var loaded = pck.Load(progress);
-                            if (loaded)
-                            {
-                                (pck as IMFPackage).CompositeOutput(mfout);
-                                pck.AfterLoad();
-                                // progress.Progress("Modflow", 1, "\t" + pck.Name + " loaded");
-                            }
-                            else
-                            {
-                                //var msg = string.Format("\tFailed to load {0}. Error message: {1}", pck.Name, pck.Message);
-                                //progress.Progress("Modflow", 1, msg);
-                            }
+                            pck.Load(progress);
+                        }
+                        if (pck.State == ModelObjectState.Ready)
+                        {
+                            (pck as IMFPackage).CompositeOutput(mfout);
+                            pck.AfterLoad();
+                            progress.Progress("Modflow", 1, pck.Name + " loaded");
                         }
                     }
                     catch (Exception ex)
                     {
-                        var msg = string.Format("\tFailed to load {0}. Error message: {1}", pck.Name, ex.Message);
-                        progress.Progress("Modflow", 1, msg);
+                        var msg = string.Format("Failed to load {0}. Error message: {1}", pck.Name, ex.Message);
+                        OnLoadFailed(this, msg);
                     }
                 }
             }

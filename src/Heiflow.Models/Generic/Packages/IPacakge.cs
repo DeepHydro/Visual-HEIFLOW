@@ -90,7 +90,7 @@ namespace Heiflow.Models.Generic
         ITimeService TimeService { get; set; }
         IGrid Grid { get; set; }
         void Initialize();
-        bool New();
+        void New();
         /// <summary>
         /// Load package from an exsiting file
         /// </summary>
@@ -100,8 +100,8 @@ namespace Heiflow.Models.Generic
         /// do something after loaded
         /// </summary>
         void AfterLoad();
-        bool Save(ICancelProgressHandler progress);
-        bool SaveAs(string filename, ICancelProgressHandler progress);
+        void Save(ICancelProgressHandler progress);
+        void SaveAs(string filename, ICancelProgressHandler progress);
         void Clear();
         bool Check(out string msg);
         void Remove();
@@ -115,5 +115,6 @@ namespace Heiflow.Models.Generic
         void OnTimeServiceUpdated(ITimeService time);
         void ChangeState(ModelObjectState state);
         void ResetToDefault();
+        bool IsLoadFailedRegistered(Delegate prospectiveHandler);
     }
 }

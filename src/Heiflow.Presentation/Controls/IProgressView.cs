@@ -45,6 +45,8 @@ namespace Heiflow.Presentation.Controls
         event DoWorkEventHandler DoWork;
         event EventHandler WorkCompleted;
         bool EnableCancel { get; set; }
+        bool AutoCloseWindow { get; set; }
+        bool PrograssbarVisible { get; set; }
         ProgressBarStyle ProgressBarStyle { get; set; }
         IWin32Window MainForm { get; set; }
         string DefaultStatusText { get; set; }

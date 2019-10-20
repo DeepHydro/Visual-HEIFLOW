@@ -186,7 +186,7 @@ namespace Heiflow.Models.Subsurface
         }
 
 
-        public override bool New()
+        public override void New()
         {
             this.ILPFCB = ModflowInstance.NameManager.NextFID();
             var cbc_info = new PackageInfo()
@@ -202,7 +202,6 @@ namespace Heiflow.Models.Subsurface
             };
             ModflowInstance.NameManager.Add(cbc_info);
             base.New();
-            return true;
         }
         public override bool Load(ICancelProgressHandler progresshandler)
         {
@@ -333,7 +332,7 @@ namespace Heiflow.Models.Subsurface
             this.Feature = Owner.Grid.FeatureSet;
             this.FeatureLayer = Owner.Grid.FeatureLayer;
         }
-        public override bool SaveAs(string filename, ICancelProgressHandler prg)
+        public override void SaveAs(string filename, ICancelProgressHandler prg)
         {
             var grid = (Owner.Grid as IRegularGrid);
             StreamWriter sw = new StreamWriter(filename);
@@ -389,7 +388,6 @@ namespace Heiflow.Models.Subsurface
             }
             sw.Close();
             this.OnSaved(prg);
-            return true;
         }
         public override void Clear()
         {

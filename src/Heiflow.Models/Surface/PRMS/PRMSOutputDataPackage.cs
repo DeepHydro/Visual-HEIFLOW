@@ -81,10 +81,9 @@ namespace Heiflow.Models.Surface.PRMS
             _Initialized = true;
         }
 
-        public override bool New()
+        public override void New()
         {
-
-            return true;
+            base.New();
         }
 
         public override void Attach(DotSpatial.Controls.IMap map, string directory)

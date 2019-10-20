@@ -215,7 +215,7 @@ namespace Heiflow.Models.Subsurface
         {
              
         }
-        public override bool New()
+        public override void New()
         {
             IsSaveHead = true;
             IsSaveDrawdwon = false;
@@ -236,7 +236,6 @@ namespace Heiflow.Models.Subsurface
             ModflowInstance.NameManager.Add(oc_info);
             base.New();
             State = ModelObjectState.Ready;
-            return true;
         }
         public override bool Load(ICancelProgressHandler progresshandler)
         {
@@ -290,7 +289,7 @@ namespace Heiflow.Models.Subsurface
             OnLoaded(progresshandler);
             return true;
         }
-        public override bool SaveAs(string filename, ICancelProgressHandler prg)
+        public override void SaveAs(string filename, ICancelProgressHandler prg)
         {
             var mf = Owner as Modflow;
             var sp = mf.TimeService.StressPeriods;
@@ -330,7 +329,6 @@ namespace Heiflow.Models.Subsurface
             }
             sw.Close();
             OnSaved(prg);
-            return true;
         }
         public override void Clear()
         {

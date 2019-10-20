@@ -60,5 +60,15 @@ namespace Heiflow.Models.Subsurface
         {
             return true;
         }
+
+        public override bool Load(ICancelProgressHandler progess)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void SaveAs(string filename, ICancelProgressHandler progress)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

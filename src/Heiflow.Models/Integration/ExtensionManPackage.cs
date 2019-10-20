@@ -273,53 +273,66 @@ namespace Heiflow.Models.Integration
             {
                 FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 StreamReader sr = new StreamReader(fs);
-                string newline = sr.ReadLine();
-                newline = sr.ReadLine();
-                newline = sr.ReadLine();
-                StartInJulian = int.Parse(newline.Trim());
-                newline = sr.ReadLine();
-                newline = sr.ReadLine();
-                EnableSolverEx =TypeConverterEx.String2Bool(newline.Trim());
-                newline = sr.ReadLine();
-                var buf = TypeConverterEx.Split<int>(newline, 2);
-                Max_TS_ITER = buf[0];
-                HCLOSER = buf[1];
-                newline = sr.ReadLine();
-                newline = sr.ReadLine();
-                EnableMFOutputEx = TypeConverterEx.String2Bool(newline.Trim());
-                MFOutputExFile = sr.ReadLine().Trim();
-                newline = sr.ReadLine();
-                newline = sr.ReadLine();
-                buf = TypeConverterEx.Split<int>(newline, 3);
-                EnableSFREx = TypeConverterEx.Int2Bool(buf[0]);
-                EnableSFRReport = TypeConverterEx.Int2Bool(buf[1]);
-                EnableSFROutEx = TypeConverterEx.Int2Bool(buf[2]);
-                SFRExFile = sr.ReadLine().Trim();
-                SFRReportFile = sr.ReadLine().Trim();
-                SFROutExFile = sr.ReadLine().Trim();
-                newline = sr.ReadLine();
-                newline = sr.ReadLine();
-                EnableLakeEx = TypeConverterEx.String2Bool(newline.Trim());
-                LakeExFile = sr.ReadLine().Trim();
-                newline = sr.ReadLine();
-                newline = sr.ReadLine();
-                EnableAllocCurveEx = TypeConverterEx.String2Bool(newline.Trim());
-                AllocCurveExFile = sr.ReadLine().Trim();
-                newline = sr.ReadLine();
-                MF_IOLOG_File = sr.ReadLine().Trim();
-                newline = sr.ReadLine();
-                newline = sr.ReadLine();
-                EnablePET_CONSTRAINT = TypeConverterEx.String2Bool(newline.Trim());
-                PET_CONSTRAINT_File = sr.ReadLine().Trim();
-                newline = sr.ReadLine();
-                newline = sr.ReadLine();
-                EnableABM = TypeConverterEx.String2Bool(newline.Trim());
-                ABM_MODEL_File = sr.ReadLine().Trim();
-
-                fs.Close();
-                sr.Close();
-                OnLoaded(progess);
-                return true;
+                try
+                {
+                    string newline = sr.ReadLine();
+                    newline = sr.ReadLine();
+                    newline = sr.ReadLine();
+                    StartInJulian = int.Parse(newline.Trim());
+                    newline = sr.ReadLine();
+                    newline = sr.ReadLine();
+                    EnableSolverEx = TypeConverterEx.String2Bool(newline.Trim());
+                    newline = sr.ReadLine();
+                    var buf = TypeConverterEx.Split<int>(newline, 2);
+                    Max_TS_ITER = buf[0];
+                    HCLOSER = buf[1];
+                    newline = sr.ReadLine();
+                    newline = sr.ReadLine();
+                    EnableMFOutputEx = TypeConverterEx.String2Bool(newline.Trim());
+                    MFOutputExFile = sr.ReadLine().Trim();
+                    newline = sr.ReadLine();
+                    newline = sr.ReadLine();
+                    buf = TypeConverterEx.Split<int>(newline, 3);
+                    EnableSFREx = TypeConverterEx.Int2Bool(buf[0]);
+                    EnableSFRReport = TypeConverterEx.Int2Bool(buf[1]);
+                    EnableSFROutEx = TypeConverterEx.Int2Bool(buf[2]);
+                    SFRExFile = sr.ReadLine().Trim();
+                    SFRReportFile = sr.ReadLine().Trim();
+                    SFROutExFile = sr.ReadLine().Trim();
+                    newline = sr.ReadLine();
+                    newline = sr.ReadLine();
+                    EnableLakeEx = TypeConverterEx.String2Bool(newline.Trim());
+                    LakeExFile = sr.ReadLine().Trim();
+                    newline = sr.ReadLine();
+                    newline = sr.ReadLine();
+                    EnableAllocCurveEx = TypeConverterEx.String2Bool(newline.Trim());
+                    AllocCurveExFile = sr.ReadLine().Trim();
+                    newline = sr.ReadLine();
+                    MF_IOLOG_File = sr.ReadLine().Trim();
+                    newline = sr.ReadLine();
+                    newline = sr.ReadLine();
+                    EnablePET_CONSTRAINT = TypeConverterEx.String2Bool(newline.Trim());
+                    PET_CONSTRAINT_File = sr.ReadLine().Trim();
+                    newline = sr.ReadLine();
+                    newline = sr.ReadLine();
+                    EnableABM = TypeConverterEx.String2Bool(newline.Trim());
+                    ABM_MODEL_File = sr.ReadLine().Trim();
+                    State = ModelObjectState.Ready;
+                    OnLoaded(progess);
+                    return true;
+                }
+                catch(Exception ex)
+                {
+                    State = ModelObjectState.Standby;
+                    Message = string.Format("Failed to load extension control file: {0}. Error message: {1}", FileName, ex.Message);
+                    ShowWarning(Message, progess);
+                    return false;
+                }
+                finally
+                {
+                    fs.Close();
+                    sr.Close();
+                }
             }
             else
             {
@@ -328,15 +341,14 @@ namespace Heiflow.Models.Integration
                 return false;
             }
         }
-        public override bool New()
+        public override void New()
         {
             InitValues();
             base.New();
             State = ModelObjectState.Ready;
-            return true;
         }
 
-        public override bool SaveAs(string filename, DotSpatial.Data.ICancelProgressHandler progress)
+        public override void SaveAs(string filename, DotSpatial.Data.ICancelProgressHandler progress)
         {
             StreamWriter sw = new StreamWriter(FileName);
             string newline = "# extension modules";
@@ -373,7 +385,6 @@ namespace Heiflow.Models.Integration
 
             sw.Close();
             OnSaved(progress);
-            return true;
         }
         public override void OnTimeServiceUpdated(ITimeService time)
         {

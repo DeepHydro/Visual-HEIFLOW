@@ -69,19 +69,19 @@ namespace Heiflow.Models.GHM
         }
 
 
-        public override bool Save(ICancelProgressHandler progress)
+        public override void Save(ICancelProgressHandler progress)
         {
             throw new NotImplementedException();
         }
 
-        public override bool SaveAs(string filename, ICancelProgressHandler progress)
+        public override void SaveAs(string filename, ICancelProgressHandler progress)
         {
             throw new NotImplementedException();
         }
 
-        public override bool New()
+        public override void New()
         {
-            return true;
+            base.New();
         }
 
         public override void Serialize(string filename)

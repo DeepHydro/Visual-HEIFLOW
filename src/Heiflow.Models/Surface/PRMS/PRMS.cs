@@ -134,37 +134,36 @@ namespace Heiflow.Models.Surface.PRMS
             foreach (var pck in pcks)
             {
                 pck.Initialize();
+                pck.LoadFailed += this.OnLoadFailed;
             }
-           
         }
 
         public override bool Load(ICancelProgressHandler progress)
         {
-            bool succ = true;
             if (File.Exists(ControlFileName))
             {
-                succ=_mmsPackage.Load(progress);
-                if (succ)
+                if (_mmsPackage.Load(progress))
                 {
                     ResolveLoadedParameters(true);
                     ResolveModules();
-                    foreach(var pck in Packages.Values)
+                    foreach (var pck in Packages.Values)
                     {
                         pck.AfterLoad();
                     }
-                    progress.Progress("PRMS",1,"Parameters loaded.");
+                    progress.Progress("PRMS", 1, "Parameter file loaded.");
+                    return true;
                 }
                 else
                 {
-                    progress.Progress("PRMS", 1, string.Format("\r\n Failed to load parameter file. Error message: {0}", _mmsPackage.Message));
+                    return false;
                 }
             }
             else
             {
-                succ = false;
-                progress.Progress("PRMS", 1, string.Format("\r\n Failed to load {0}. The parameter file does not exist: {1}", Name, ControlFileName));
+                string msg = string.Format("Failed to load {0}. The parameter file does not exist: {1}", Name, ControlFileName);
+                OnLoadFailed(this, msg);
+                return false;
             }
-            return succ;
         }
 
         public override bool LoadGrid(ICancelProgressHandler progress)
@@ -190,8 +189,8 @@ namespace Heiflow.Models.Surface.PRMS
                     ResolveLoadedParameters(false);
                     ResolveModules();
                     _mmsPackage.FileName = this.ControlFileName;
-                    succ = _inputPackage.New();
-                    succ = _outputPackage.New();
+                     _inputPackage.New();
+                     _outputPackage.New();
                 }
                 else
                 {
@@ -213,6 +212,7 @@ namespace Heiflow.Models.Surface.PRMS
             foreach (var pck in Packages.Values)
             {
                 pck.Clear();
+                pck.LoadFailed -= this.OnLoadFailed;
             }
             Packages.Clear();
         }

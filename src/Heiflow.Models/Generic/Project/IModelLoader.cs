@@ -49,5 +49,6 @@ namespace Heiflow.Models.Generic.Project
         bool Load( IProject project, ICancelProgressHandler progress);
         bool CanImport(IProject project);
         void Import(IProject project, IImportProperty property, ICancelProgressHandler progress);
+        void Clear();
     }
 }

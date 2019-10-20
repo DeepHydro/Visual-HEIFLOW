@@ -81,6 +81,7 @@ namespace Heiflow.Models.Generic.Project
             XmlSerializer xs = new XmlSerializer(typeof(HeiflowProject));
             Stream stream = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
             var project = (HeiflowProject)xs.Deserialize(stream);
+            stream.Close();
             return project;
         }
     }

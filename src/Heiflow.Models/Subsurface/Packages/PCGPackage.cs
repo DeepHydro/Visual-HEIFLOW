@@ -197,7 +197,7 @@ namespace Heiflow.Models.Subsurface
             set;
         }
 
-        public override bool New()
+        public override void New()
         {
             var pcg_info = new PackageInfo()
             {
@@ -213,7 +213,6 @@ namespace Heiflow.Models.Subsurface
             ModflowInstance.NameManager.Add(pcg_info);
             base.New();
             State = ModelObjectState.Ready;
-            return true;
         }
         public override bool Load(ICancelProgressHandler progresshandler)
         {
@@ -263,7 +262,7 @@ namespace Heiflow.Models.Subsurface
                 return false;
             }
         }
-        public override bool SaveAs(string filename, ICancelProgressHandler prg)
+        public override void SaveAs(string filename, ICancelProgressHandler prg)
         {
             StreamWriter sw = new StreamWriter(filename);
             WriteDefaultComment(sw, this.Name);
@@ -275,7 +274,6 @@ namespace Heiflow.Models.Subsurface
             sw.WriteLine(line);
             sw.Close();
             OnSaved(prg);
-            return true;
         }
         public override void Attach(DotSpatial.Controls.IMap map, string directory)
         {

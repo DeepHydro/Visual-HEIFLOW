@@ -73,14 +73,17 @@ namespace Heiflow.Models.Integration
 
             _PRMS = new PRMS();
             _PRMS.Owner = this;
+            _PRMS.LoadFailed += this.OnLoadFailed;
             Children.Add(_PRMS.Name, _PRMS);
 
             _Modflow = new Modflow();
             _Modflow.Owner = this;
+            _Modflow.LoadFailed += this.OnLoadFailed;
             Children.Add(_Modflow.Name, _Modflow);
 
             _WaterManagementModel = new WaterManagementModel();
             _WaterManagementModel.Owner = this;
+            _WaterManagementModel.LoadFailed += this.OnLoadFailed;
             Children.Add(_WaterManagementModel.Name, _WaterManagementModel);
         }
 
@@ -155,15 +158,16 @@ namespace Heiflow.Models.Integration
         public override void Initialize()
         {
             TimeServiceList.Clear();
-            _MasterPackage.TimeService.Updated += _MasterPackage.OnTimeServiceUpdated;
+            _MasterPackage.LoadFailed += this.OnLoadFailed;
+            _ExtensionManPackage.LoadFailed += this.OnLoadFailed;
+
             this.TimeService = _MasterPackage.TimeService;
             this.TimeService.Updated += this.OnTimeServiceUpdated;
 
             _PRMS.TimeService = _MasterPackage.TimeService;
-            _PRMS.TimeService.Updated += _PRMS.OnTimeServiceUpdated;
+            _MasterPackage.TimeService.Updated += _PRMS.OnTimeServiceUpdated;
             _PRMS.WorkDirectory = this.WorkDirectory;
 
-            _Modflow.TimeService.Updated += _Modflow.OnTimeServiceUpdated;
             _Modflow.WorkDirectory = this.WorkDirectory;
 
             _WaterManagementModel.TimeService = _MasterPackage.TimeService;
@@ -172,8 +176,9 @@ namespace Heiflow.Models.Integration
             this.Grid = _Modflow.Grid;
             _PRMS.Grid = _Modflow.Grid;
             _WaterManagementModel.Grid = _Modflow.Grid;
-            _PRMS.Grid.Updated += _PRMS.OnGridUpdated;
-            _Modflow.Grid.Updated += _Modflow.OnGridUpdated;
+            this.Grid.Updated += _PRMS.OnGridUpdated;
+            this.Grid.Updated += _Modflow.OnGridUpdated;
+            this.Grid.Updated += _WaterManagementModel.OnGridUpdated;
 
             this.TimeServiceList.Add(_MasterPackage.TimeService.Name, _MasterPackage.TimeService);
             this.TimeServiceList.Add(_Modflow.TimeService.Name, _Modflow.TimeService);
@@ -183,11 +188,9 @@ namespace Heiflow.Models.Integration
         {
             try
             {
-                bool succ = true;
                 _MasterPackage.FileName = ControlFileName;
                 _MasterPackage.Initialize();
-                succ = _MasterPackage.Load(progress);
-                if (succ)
+                if (_MasterPackage.Load(progress))
                 {
                     ModelService.Model = this;
                     ModelService.Start = _MasterPackage.TimeService.Start;
@@ -210,58 +213,44 @@ namespace Heiflow.Models.Integration
                     _WaterManagementModel.MasterPackage = _MasterPackage;
                     _WaterManagementModel.Initialize();
 
-                    this.TimeService = _MasterPackage.TimeService;
                     progress.Progress("Heiflow", 1, "Loading Modflow packages...");
-                    succ = _Modflow.Load(progress);
-                    _Modflow.IOLogFile = _ExtensionManPackage.MF_IOLOG_File;
-                    if (!succ)
+                    if (_Modflow.Load(progress))
                     {
-                        var msg = string.Format("Failed to load Modflow.");
-                        OnLoadFailed(msg);
-                        return false;
-                    }
-                    progress.Progress("Heiflow", 1, "Loading PRMS packages...");
-                    succ = _PRMS.Load(progress);
-                    if (!succ)
-                    {
-                        var msg = string.Format("Failed to load PRMS.");
-                        OnLoadFailed(msg);
-                        return false;
-                    }
-
-                    progress.Progress("Heiflow", 1, "Loading WMM packages...");
-                    succ = _WaterManagementModel.Load(progress);
-                    if (!succ)
-                    {
-                        var msg = string.Format("Failed to load Water Management.");
-                        OnLoadFailed(msg);
-                        return false;
-                    }
-
-                    if (succ)
-                    {
-                        Packages.Clear();
-                        AddInSilence(_MasterPackage);
-                        AddInSilence(_ExtensionManPackage);
+                        _Modflow.IOLogFile = _ExtensionManPackage.MF_IOLOG_File;
+                        progress.Progress("Heiflow", 1, "Loading PRMS packages...");
+                        if (_PRMS.Load(progress))
+                        {
+                            progress.Progress("Heiflow", 1, "Loading WMM packages...");
+                            if (_WaterManagementModel.Load(progress))
+                            {
+                                Packages.Clear();
+                                AddInSilence(_MasterPackage);
+                                AddInSilence(_ExtensionManPackage);
+                                return true;
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            return false;
+                        }
                     }
                     else
                     {
-                        var msg = string.Format("Failed to load HEIFLOW.");
-                        OnLoadFailed(msg);
                         return false;
                     }
                 }
                 else
                 {
-                    var msg = string.Format("Failed to load Control file from " + _MasterPackage.FileName);
-                    OnLoadFailed(msg);
                     return false;
                 }
-                return succ;
             }
             catch(Exception ex)
             {
-                OnLoadFailed(ex.Message);
+                OnLoadFailed(this, ex.Message);
                 return false;
             }
         }
@@ -276,7 +265,7 @@ namespace Heiflow.Models.Integration
             bool succ = true;
             _MasterPackage.FileName = ControlFileName;
             _MasterPackage.Initialize();       
-            succ = _MasterPackage.New();
+             _MasterPackage.New();
             if (!succ)
             {
                 var msg = string.Format("Failed to create Control file. Error message: {0}", _MasterPackage.Message);
@@ -285,7 +274,7 @@ namespace Heiflow.Models.Integration
             AddInSilence(_MasterPackage);
 
             _ExtensionManPackage.FileName = _MasterPackage.ExtensionManagerFile;
-            succ = _ExtensionManPackage.New();
+            _ExtensionManPackage.New();
             if (!succ)
             {
                 var msg = string.Format("Failed to create extension manager file. Error message: {0}", _ExtensionManPackage.Message);

@@ -87,5 +87,9 @@ namespace Heiflow.Models.Integration
                 LoadFailed(this, msg);
         }
 
+        public void Clear()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -80,8 +80,7 @@ namespace Heiflow.Controls
             worker.ProgressChanged += new ProgressChangedEventHandler(worker_ProgressChanged);
             worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(worker_RunWorkerCompleted);
             DialogMod = DialogMode.ShowDialog;
-
-            checkBox1.Checked = true;
+            checkAutoClose.Checked = true;
         }
 
         /// <summary>
@@ -152,6 +151,29 @@ namespace Heiflow.Controls
                 this.Invoke((MethodInvoker)delegate { progressBar1.Style = value; });     
             }
         }
+        public bool PrograssbarVisible
+        {
+            get
+            {
+                return progressBar1.Visible;
+            }
+            set
+            {
+                this.Invoke((MethodInvoker)delegate { progressBar1.Visible = value; });
+            }
+        }
+
+        public bool AutoCloseWindow
+        {
+            get
+            {
+                return checkAutoClose.Checked;
+            }
+            set
+            {
+                this.Invoke((MethodInvoker)delegate { checkAutoClose.Checked = value; });
+            }
+        }
 
         public IWin32Window MainForm
         {
@@ -171,8 +193,11 @@ namespace Heiflow.Controls
 
         public void ShowView(IWin32Window pararent)
         {
-            this.Show(MainForm);
-            SetForegroundWindow(this.Handle);
+            if (!this.Visible)
+            {
+                this.Show(MainForm);
+                SetForegroundWindow(this.Handle);
+            }
         }
         private  void ProgressForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -189,12 +214,13 @@ namespace Heiflow.Controls
 
         public void Run(object arg)
         {
-            if (!this.Visible)
-            {
-                EnableCancel = true;
-                this.ShowView(this.MainForm);
-                worker.RunWorkerAsync(arg);          
-            }
+            //if (!this.Visible)
+            //{
+            Reset();
+            EnableCancel = true;
+            this.ShowView(this.MainForm);
+            worker.RunWorkerAsync(arg);
+            //}
         }
 
         public void Reset()
@@ -347,26 +373,27 @@ namespace Heiflow.Controls
             }
             else
             {
-                Reset();
                 DialogResult = DialogResult.OK;
             }
             if (WorkCompleted != null)
                 WorkCompleted(this, EventArgs.Empty);
           
-            if (checkBox1.Checked)
+            if (AutoCloseWindow)
                 CloseView();
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-        
         }
         public void InitService()
         {
 
         }
 
+        private void ProgressForm_Load(object sender, EventArgs e)
+        {
 
+        }
 
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            CloseView();
+        }
     }
 }

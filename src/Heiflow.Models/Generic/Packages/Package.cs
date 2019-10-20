@@ -400,14 +400,12 @@ namespace Heiflow.Models.Generic
             _Initialized = true;
             _IsDirty = false;
         }
+
         /// <summary>
         /// Load from  an  exsiting file
         /// </summary>
-        /// <returns></returns>
-        public virtual bool Load(ICancelProgressHandler progess)
-        {
-            return true;
-        }
+        /// <param name="progess"></param>
+        public abstract bool Load(ICancelProgressHandler progess);
         /// <summary>
         /// do something after loaded
         /// </summary>
@@ -419,11 +417,11 @@ namespace Heiflow.Models.Generic
         /// save to the default file
         /// </summary>
         /// <returns></returns>
-        public virtual bool Save(ICancelProgressHandler progress)
+        public virtual void Save(ICancelProgressHandler progress)
         {
             //if (IsDirty && State == ModelObjectState.Ready)
             //{
-                return SaveAs(FileName,progress);
+                SaveAs(FileName,progress);
             //}
             //else
             //{
@@ -435,26 +433,22 @@ namespace Heiflow.Models.Generic
             //    return true;
             //}
         }
-
         /// <summary>
         /// save to the specified file
         /// </summary>
         /// <param name="filename"></param>
+        /// <param name="progress"></param>
         /// <returns></returns>
-        public virtual bool SaveAs(string filename, ICancelProgressHandler progress)
-        {
-            return true;
-        }
+        public abstract void SaveAs(string filename, ICancelProgressHandler progress);
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public virtual bool New()
+        public virtual void New()
         {
             State = ModelObjectState.Standby;
             _IsDirty = true;
             _IsUsed = true;
-            return true;
         }
 
 
@@ -497,14 +491,20 @@ namespace Heiflow.Models.Generic
 
         protected void OnLoadFailed(string msg, ICancelProgressHandler progress)
         {
-            _IsUsed = false;
+            //_IsUsed = false;
             State = ModelObjectState.Error;
             if (LoadFailed != null)
             {
                 LoadFailed(this, msg);
             }
             if (progress != null)
-                progress.Progress(this.Name, 100, msg);
+                progress.Progress("progress", 1, msg);
+        }
+        protected void ShowWarning(string warning, ICancelProgressHandler progress)
+        {
+            string msg = string.Format("Warning: {0} is not successfully loaded. Warning message: {1}", this.Name, warning);
+            if (progress != null)
+                progress.Progress("progress", 1, msg);
         }
         protected void OnScanFailed(string msg)
         {
@@ -672,6 +672,20 @@ namespace Heiflow.Models.Generic
         public virtual void ResetToDefault()
         {
 
+        }
+        public bool IsLoadFailedRegistered(Delegate prospectiveHandler)
+        {
+            if (LoadFailed != null)
+            {
+                foreach (Delegate existingHandler in this.LoadFailed.GetInvocationList())
+                {
+                    if (existingHandler == prospectiveHandler)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 }

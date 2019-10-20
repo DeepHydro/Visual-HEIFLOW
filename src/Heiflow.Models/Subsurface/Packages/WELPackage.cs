@@ -228,7 +228,7 @@ namespace Heiflow.Models.Subsurface
                 this.IWELCB = cbc.PackageInfo.FID;
         }
 
-        public override bool SaveAs(string filename, ICancelProgressHandler progress)
+        public override void SaveAs(string filename, ICancelProgressHandler progress)
         {
             StreamWriter sw = new StreamWriter(filename);
             WriteDefaultComment(sw, "WEL");
@@ -261,7 +261,6 @@ namespace Heiflow.Models.Subsurface
                 }
             }
             sw.Close();
-            return base.SaveAs(filename, progress);
         }
 
         public override void Clear()

@@ -51,5 +51,6 @@ namespace Heiflow.Models.Generic.Project
         void Save(string fileName, Heiflow.Models.Generic.Project.IProject project);
         void Save(Heiflow.Models.Generic.Project.IProject project);
         bool New(string prjName, string prjDic, Heiflow.Models.Generic.Project.IProject project, ICancelProgressHandler progress, bool from_exit_model);
+        void Clear();
     }
 }

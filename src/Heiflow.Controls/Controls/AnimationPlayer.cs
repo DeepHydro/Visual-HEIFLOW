@@ -222,7 +222,7 @@ namespace Heiflow.Controls.WinForm.Controls
         {
             _WorkSpace.DataSources.Clear();
             olvDataCubeTree.Clear();
-            listBox_timeline.Items.Clear();
+            listBox_timeline.DataSource = null;
             _selectedDc = null;
         }
         public void InitService()
