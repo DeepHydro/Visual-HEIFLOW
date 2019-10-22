@@ -170,13 +170,13 @@ namespace Heiflow.Models.Subsurface
                 }
                 catch(Exception ex)
                 {
-                    OnLoadFailed(ex.Message, progress);
+                    ShowWarning(ex.Message, progress);
                     return false;
                 }
             }
             else
             {
-                OnLoadFailed("The file does not exist: " + LocalFileName, progress);
+                ShowWarning("The file does not exist: " + LocalFileName, progress);
                 return false;
             }
         }

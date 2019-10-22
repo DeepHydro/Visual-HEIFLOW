@@ -121,111 +121,126 @@ namespace Heiflow.Models.Subsurface
         {
             if (File.Exists(FileName))
             {
+                var result = false;
                 var grid = (Owner.Grid as MFGrid);
                 var mf = Owner as Modflow;
 
                 grid.BBox = new Envelope();
                 StreamReader sr = new StreamReader(FileName);
-                string line = "";
-                Coordinate upl = null;
-                Coordinate lowr = null;
-
-                while (!sr.EndOfStream)
+                try
                 {
-                    line = sr.ReadLine().ToLower().Trim();
-                    if (line.StartsWith("#"))
+                    string line = "";
+                    Coordinate upl = null;
+                    Coordinate lowr = null;
+
+                    while (!sr.EndOfStream)
                     {
-                        if (line.Contains("upper left corner"))
+                        line = sr.ReadLine().ToLower().Trim();
+                        if (line.StartsWith("#"))
                         {
-                            upl = ParseCoord(line);
+                            if (line.Contains("upper left corner"))
+                            {
+                                upl = ParseCoord(line);
+                            }
+                            else if (line.Contains("lower right corner"))
+                            {
+                                lowr = ParseCoord(line);
+                            }
                         }
-                        else if (line.Contains("lower right corner"))
+                        else
                         {
-                            lowr = ParseCoord(line);
+                            break;
                         }
                     }
-                    else
-                    {
-                        break;
-                    }
-                }
 
-                // 5 150 172 10 4 2 # NLAY, NROW, NCOL, NPER, ITMUNI, LENUNI
-                int[] strs = TypeConverterEx.Split<int>(line, 6);
-                grid.ActualLayerCount = strs[0];
-                //grid.LayerCount = grid.ActualLayerCount + 1;
-                grid.RowCount = strs[1];
-                grid.ColumnCount = strs[2];
-                int np = strs[3];
-                mf.TimeUnit = strs[4];
-                mf.LengthUnit = strs[5];
-                mf.TimeService.TimeUnit = mf.TimeUnit;
+                    // 5 150 172 10 4 2 # NLAY, NROW, NCOL, NPER, ITMUNI, LENUNI
+                    int[] strs = TypeConverterEx.Split<int>(line, 6);
+                    grid.ActualLayerCount = strs[0];
+                    //grid.LayerCount = grid.ActualLayerCount + 1;
+                    grid.RowCount = strs[1];
+                    grid.ColumnCount = strs[2];
+                    int np = strs[3];
+                    mf.TimeUnit = strs[4];
+                    mf.LengthUnit = strs[5];
+                    mf.TimeService.TimeUnit = mf.TimeUnit;
 
-                //# LAYCB
-                line = sr.ReadLine();
-                LAYCBD = TypeConverterEx.Split<int>(line, grid.ActualLayerCount);
-
-                grid.DELR = new DataCube<float>(1, 1, grid.ColumnCount);
-                grid.DELC = new DataCube<float>(1, 1, grid.RowCount);
-                ReadSerialArray(sr, grid.DELR, 0, 0, grid.ColumnCount);
-                ReadSerialArray(sr, grid.DELC, 0, 0, grid.RowCount);
-
-                if (upl == null || lowr == null)
-                {
-                    double height = grid.DELR[0, "0", ":"].Sum();
-                    double width = grid.DELC[0, "0", ":"].Sum();
-                    if (grid.Origin != null)
-                    {
-                        upl = new Coordinate(grid.Origin.X, grid.Origin.Y);
-                        lowr = new Coordinate(grid.Origin.X + width, grid.Origin.Y - height);
-                    }
-                    else
-                    {
-                        upl = new Coordinate(0, height);
-                        lowr = new Coordinate(width, 0);
-                    }
-                }
-                grid.Origin = upl;
-                grid.BBox = new Envelope(upl.X, lowr.X, lowr.Y, upl.Y);
-                grid.Elevations = new DataCube<float>(grid.LayerCount, 1, grid.ActiveCellCount)
-                {
-                    Name = "Elevations", ZeroDimension= DimensionFlag.Spatial
-                };
-                grid.Elevations.Variables[0] = "Top Elevation";
-                grid.Elevations.Topology = grid.Topology;
-
-                for (int l = 1; l < grid.LayerCount; l++)
-                {
-                    grid.Elevations.Variables[l] = "Layer " + l + " Bottom Elevation";
-                }
-
-                for (int l = 0; l < grid.LayerCount; l++)
-                {
-                    ReadSerialArray<float>(sr, grid.Elevations, l, 0);
-                }
-                mf.TimeService.StressPeriods.Clear();
-                for (int i = 0; i < np; i++)
-                {
+                    //# LAYCB
                     line = sr.ReadLine();
-                    var ss = TypeConverterEx.Split<string>(line);
-                    mf.TimeService.StressPeriods.Add(new StressPeriod()
+                    LAYCBD = TypeConverterEx.Split<int>(line, grid.ActualLayerCount);
+
+                    grid.DELR = new DataCube<float>(1, 1, grid.ColumnCount);
+                    grid.DELC = new DataCube<float>(1, 1, grid.RowCount);
+                    ReadSerialArray(sr, grid.DELR, 0, 0, grid.ColumnCount);
+                    ReadSerialArray(sr, grid.DELC, 0, 0, grid.RowCount);
+
+                    if (upl == null || lowr == null)
                     {
-                        Length = (int)double.Parse(ss[0]),
-                        NSTP = (int)double.Parse(ss[1]),
-                        Multiplier = (int)double.Parse(ss[2]),
-                        State = ConvertFrom(ss[3]),
-                        ID = i + 1
-                    });
+                        double height = grid.DELR[0, "0", ":"].Sum();
+                        double width = grid.DELC[0, "0", ":"].Sum();
+                        if (grid.Origin != null)
+                        {
+                            upl = new Coordinate(grid.Origin.X, grid.Origin.Y);
+                            lowr = new Coordinate(grid.Origin.X + width, grid.Origin.Y - height);
+                        }
+                        else
+                        {
+                            upl = new Coordinate(0, height);
+                            lowr = new Coordinate(width, 0);
+                        }
+                    }
+                    grid.Origin = upl;
+                    grid.BBox = new Envelope(upl.X, lowr.X, lowr.Y, upl.Y);
+                    grid.Elevations = new DataCube<float>(grid.LayerCount, 1, grid.ActiveCellCount)
+                    {
+                        Name = "Elevations",
+                        ZeroDimension = DimensionFlag.Spatial
+                    };
+                    grid.Elevations.Variables[0] = "Top Elevation";
+                    grid.Elevations.Topology = grid.Topology;
+
+                    for (int l = 1; l < grid.LayerCount; l++)
+                    {
+                        grid.Elevations.Variables[l] = "Layer " + l + " Bottom Elevation";
+                    }
+
+                    for (int l = 0; l < grid.LayerCount; l++)
+                    {
+                        ReadSerialArray<float>(sr, grid.Elevations, l, 0);
+                    }
+                    mf.TimeService.StressPeriods.Clear();
+                    for (int i = 0; i < np; i++)
+                    {
+                        line = sr.ReadLine();
+                        var ss = TypeConverterEx.Split<string>(line);
+                        mf.TimeService.StressPeriods.Add(new StressPeriod()
+                        {
+                            Length = (int)double.Parse(ss[0]),
+                            NSTP = (int)double.Parse(ss[1]),
+                            Multiplier = (int)double.Parse(ss[2]),
+                            State = ConvertFrom(ss[3]),
+                            ID = i + 1
+                        });
+                    }
+                    result = true;
+                    OnLoaded(progress);
                 }
-                sr.Close();
-                OnLoaded(progress);
-                return true;
+                catch (Exception ex)
+                {
+                    result = false;
+                    Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
+                    ShowWarning(Message, progress);
+                }
+                finally
+                {
+                    sr.Close();
+                }
+                return result;
             }
             else
             {
                 Message = string.Format("\r\n Failed to load {0}. The package file does not exist: {1}", Name, FileName);
                 progress.Progress(this.Name, 100, Message);
-                OnLoadFailed(Message, progress);
+                ShowWarning(Message, progress);
                 return false;
             }
         }

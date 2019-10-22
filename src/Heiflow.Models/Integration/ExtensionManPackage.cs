@@ -337,7 +337,7 @@ namespace Heiflow.Models.Integration
             else
             {
                 Message = "The extension manager file dose not exist: " + FileName;
-                OnLoadFailed(Message, progess);
+                ShowWarning(Message, progess);
                 return false;
             }
         }

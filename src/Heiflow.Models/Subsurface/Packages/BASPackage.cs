@@ -169,7 +169,7 @@ namespace Heiflow.Models.Subsurface
                 catch(Exception ex)
                 {
                     Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
-                    OnLoadFailed(Message, progress);
+                    ShowWarning(Message, progress);
                     result = false;
                 }
                 finally
@@ -180,7 +180,7 @@ namespace Heiflow.Models.Subsurface
             else
             {
                 Message = string.Format("Failed to load {0}. The package file does not exist: {1}", Name, FileName);
-                OnLoadFailed(Message,progress);
+                ShowWarning(Message, progress);
                 result = false;
             }
             return result;
