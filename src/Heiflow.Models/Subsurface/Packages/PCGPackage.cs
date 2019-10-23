@@ -218,47 +218,60 @@ namespace Heiflow.Models.Subsurface
         {
             if (File.Exists(FileName))
             {
+                var result = false;
                 StreamReader sr = new StreamReader(FileName);
-                var line = ReadComment(sr);
-                var strs = TypeConverterEx.Split<string>(line);
-                int buf = 300;
-                float ff = 0.1f;
+                try
+                {
+                    var line = ReadComment(sr);
+                    var strs = TypeConverterEx.Split<string>(line);
+                    int buf = 300;
+                    float ff = 0.1f;
 
-                int.TryParse(strs[0], out buf);
-                MXITER = buf;
-                int.TryParse(strs[1], out buf);
-                ITER1 = buf;
-                int.TryParse(strs[2], out buf);
-                NPCOND = buf;
-                int.TryParse(strs[3], out buf);
-                IHCOFADD = buf;
+                    int.TryParse(strs[0], out buf);
+                    MXITER = buf;
+                    int.TryParse(strs[1], out buf);
+                    ITER1 = buf;
+                    int.TryParse(strs[2], out buf);
+                    NPCOND = buf;
+                    int.TryParse(strs[3], out buf);
+                    IHCOFADD = buf;
 
-                line = sr.ReadLine();
-                strs = TypeConverterEx.Split<string>(line);
-                float.TryParse(strs[0], out ff);
-                HCLOSE = ff;
-                float.TryParse(strs[1], out ff);
-                RCLOSE = ff;
-                float.TryParse(strs[2], out ff);
-                RELAX = ff;
-                float.TryParse(strs[3], out ff);
-                NBPOL = ff;
-                int.TryParse(strs[4], out buf);
-                IPRPCG = buf;
-                int.TryParse(strs[5], out buf);
-                MUTPCG = buf;
-                int.TryParse(strs[6], out buf);
-                DAMPPCG = buf;
-                float.TryParse(strs[7], out ff);
-                DAMPPCGT = ff;
-
-                sr.Close();
-                OnLoaded(progresshandler);
-                return true;
+                    line = sr.ReadLine();
+                    strs = TypeConverterEx.Split<string>(line);
+                    float.TryParse(strs[0], out ff);
+                    HCLOSE = ff;
+                    float.TryParse(strs[1], out ff);
+                    RCLOSE = ff;
+                    float.TryParse(strs[2], out ff);
+                    RELAX = ff;
+                    float.TryParse(strs[3], out ff);
+                    NBPOL = ff;
+                    int.TryParse(strs[4], out buf);
+                    IPRPCG = buf;
+                    int.TryParse(strs[5], out buf);
+                    MUTPCG = buf;
+                    int.TryParse(strs[6], out buf);
+                    DAMPPCG = buf;
+                    float.TryParse(strs[7], out ff);
+                    DAMPPCGT = ff;
+                    OnLoaded(progresshandler);
+                    result = true;
+                }
+                catch (Exception ex)
+                {
+                    result = false;
+                    Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
+                    ShowWarning(Message, progresshandler);
+                }
+                finally
+                {
+                    sr.Close();
+                }
+                return result;
             }
             else
             {
-                OnLoadFailed("Failed to load " + this.Name, progresshandler);
+                ShowWarning("Failed to load " + this.Name, progresshandler);
                 return false;
             }
         }

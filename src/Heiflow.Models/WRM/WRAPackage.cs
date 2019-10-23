@@ -199,76 +199,90 @@ namespace Heiflow.Models.WRM
         {
             if (File.Exists(FileName))
             {
+                var result = false;
                 StreamReader sr = new StreamReader(FileName);
-                var line = sr.ReadLine();
-                line = sr.ReadLine();
-                var buf = TypeConverterEx.Split<int>(line, 8);
-                //3 17 366 59 0 1 0 0 # num_wra_sp num_wra_cycle num_cycle_len num_obj_type drawdown_constaint gw_compensate enable_sw_storage water_source_priority
-                NumStressPeriod = buf[0];
-                NumCycle = buf[1];
-                _num_cycle_len = buf[2];
-                NumObj = buf[3];
-                EnableDrawdownConstaint = TypeConverterEx.Num2Bool(buf[4]);
-                EnableGWCompensated = TypeConverterEx.Num2Bool(buf[5]);
-                EnableSWStorage = TypeConverterEx.Num2Bool(buf[6]);
-                SourcePriority = buf[7];
-
-                _ncycle_sp = new int[NumStressPeriod];
-                CyclePeriod = new DataCube<int>(1, NumCycle, 5)
+                try
                 {
-                    Layout = DataCubeLayout.TwoD
-                };
-                for (int i = 0; i < NumCycle; i++)
-                {
+                    var line = sr.ReadLine();
                     line = sr.ReadLine();
-                    buf = TypeConverterEx.Split<int>(line, 5);
-                    for (int j = 0; j < 5; j++)
+                    var buf = TypeConverterEx.Split<int>(line, 8);
+                    //3 17 366 59 0 1 0 0 # num_wra_sp num_wra_cycle num_cycle_len num_obj_type drawdown_constaint gw_compensate enable_sw_storage water_source_priority
+                    NumStressPeriod = buf[0];
+                    NumCycle = buf[1];
+                    _num_cycle_len = buf[2];
+                    NumObj = buf[3];
+                    EnableDrawdownConstaint = TypeConverterEx.Num2Bool(buf[4]);
+                    EnableGWCompensated = TypeConverterEx.Num2Bool(buf[5]);
+                    EnableSWStorage = TypeConverterEx.Num2Bool(buf[6]);
+                    SourcePriority = buf[7];
+
+                    _ncycle_sp = new int[NumStressPeriod];
+                    CyclePeriod = new DataCube<int>(1, NumCycle, 5)
                     {
-                        CyclePeriod[0, i, j] = buf[j];
+                        Layout = DataCubeLayout.TwoD
+                    };
+                    for (int i = 0; i < NumCycle; i++)
+                    {
+                        line = sr.ReadLine();
+                        buf = TypeConverterEx.Split<int>(line, 5);
+                        for (int j = 0; j < 5; j++)
+                        {
+                            CyclePeriod[0, i, j] = buf[j];
+                        }
+                        _ncycle_sp[buf[1] - 1]++;
                     }
-                    _ncycle_sp[buf[1] - 1]++;
-                }
 
-                line = sr.ReadLine();
-                StressPeriodFiles.Clear();
-                for (int i = 0; i < NumStressPeriod; i++)
-                {
                     line = sr.ReadLine();
-                    StressPeriodFiles.Add(line.Trim());
+                    StressPeriodFiles.Clear();
+                    for (int i = 0; i < NumStressPeriod; i++)
+                    {
+                        line = sr.ReadLine();
+                        StressPeriodFiles.Add(line.Trim());
+                    }
+
+                    line = sr.ReadLine();
+                    line = sr.ReadLine();
+                    line = sr.ReadLine();
+                    SummaryReportFile = line.Trim();
+                    line = sr.ReadLine();
+                    line = sr.ReadLine();
+                    line = sr.ReadLine();
+                    MangamentUnitReportFile = line.Trim();
+                    line = sr.ReadLine();
+                    line = sr.ReadLine();
+                    line = sr.ReadLine();
+                    BudgetsReportFile = line.Trim();
+                    line = sr.ReadLine();
+                    line = sr.ReadLine();
+                    line = sr.ReadLine();
+                    PumpReportFile = line.Trim();
+
+                    ManagementSPs.Clear();
+                    for (int i = 0; i < NumStressPeriod; i++)
+                    {
+                        var fn = Path.Combine(Owner.WorkDirectory, StressPeriodFiles[i]);
+                        var sp = LoadManSP(fn, i + 1, _ncycle_sp[i]);
+
+                        ManagementSPs.Add(sp);
+                    }
+                    OnLoaded(progresshandler);
+                    result = true;
                 }
-
-                line = sr.ReadLine();
-                line = sr.ReadLine();
-                line = sr.ReadLine();
-                SummaryReportFile = line.Trim();
-                line = sr.ReadLine();
-                line = sr.ReadLine();
-                line = sr.ReadLine();
-                MangamentUnitReportFile = line.Trim();
-                line = sr.ReadLine();
-                line = sr.ReadLine();
-                line = sr.ReadLine();
-                BudgetsReportFile = line.Trim();
-                line = sr.ReadLine();
-                line = sr.ReadLine();
-                line = sr.ReadLine();
-                PumpReportFile = line.Trim();
-                sr.Close();
-
-                ManagementSPs.Clear();
-                for (int i = 0; i < NumStressPeriod; i++)
+                catch (Exception ex)
                 {
-                    var fn = Path.Combine(Owner.WorkDirectory, StressPeriodFiles[i]);
-                    var sp = LoadManSP(fn, i + 1, _ncycle_sp[i]);
-                    
-                    ManagementSPs.Add(sp);
+                    result = false;
+                    Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
+                    ShowWarning(Message, progresshandler);
                 }
-                OnLoaded(progresshandler);
-                return true;
+                finally
+                {
+                    sr.Close();
+                }
+                return result;
             }
             else
             {
-                OnLoadFailed("Failed to load " + this.Name, progresshandler);
+                ShowWarning("Failed to load " + this.Name, progresshandler);
                 return false;
             }
         }

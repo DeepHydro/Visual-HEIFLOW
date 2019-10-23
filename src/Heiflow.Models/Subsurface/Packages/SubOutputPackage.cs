@@ -173,7 +173,7 @@ namespace Heiflow.Models.Subsurface
         }
         void fhd_LoadFailed(object sender, string e)
         {
-            OnLoadFailed(e,_ProgressHandler);
+            ShowWarning(e, _ProgressHandler);
         }
     }
 }

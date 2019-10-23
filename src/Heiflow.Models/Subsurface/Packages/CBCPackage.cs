@@ -201,7 +201,7 @@ namespace Heiflow.Models.Subsurface
         }
         private void cbc_LoadFailed(object sender, string e)
         {
-            OnLoadFailed(e,_ProgressHandler);
+            ShowWarning(e, _ProgressHandler);
         }
         private void cbc_DataCubeLoaded(object sender, DataCube<float> e)
         {

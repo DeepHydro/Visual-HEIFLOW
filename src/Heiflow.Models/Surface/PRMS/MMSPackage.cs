@@ -120,164 +120,179 @@ namespace Heiflow.Models.Surface.PRMS
         {
             if (File.Exists(filename))
             {
+                var result = false;
                 StreamReader sr = new StreamReader(filename);
-                var txt = sr.ReadToEnd().Trim();
-                var lines = txt.Split(new char[] { '\n' });
-                string newline = "";
-                int dimRow = 0;
-                int paraRow = 0;
-                for (int i = 0; i < lines.Length; i++)
+                try
                 {
-                    if (lines[i].ToLower().Contains("dimensions"))
+                    var txt = sr.ReadToEnd().Trim();
+                    var lines = txt.Split(new char[] { '\n' });
+                    string newline = "";
+                    int dimRow = 0;
+                    int paraRow = 0;
+                    for (int i = 0; i < lines.Length; i++)
                     {
-                        dimRow = i;
+                        if (lines[i].ToLower().Contains("dimensions"))
+                        {
+                            dimRow = i;
+                        }
+                        if (lines[i].ToLower().Contains("parameters"))
+                        {
+                            paraRow = i;
+                            break;
+                        }
                     }
-                    if (lines[i].ToLower().Contains("parameters"))
-                    {
-                        paraRow = i;
-                        break;
-                    }
-                }
-                //read dimensions
-                for (int i = dimRow + 1; i < paraRow;)
-                {
-                    i++;
-                    newline = lines[i].Trim();
-                    DataCubeParameter<int> gv = new DataCubeParameter<int>(1, 1, 1, false)
-                    {
-                        Dimension = 1,
-                        VariableType = ParameterType.Dimension,
-                        DimensionNames = dim_name,
-                        Name = newline,
-                        Owner = this
-                    };
-                    i++;
-                    newline = lines[i].Trim();
-                    gv.SetValue(0, 0, 0, int.Parse(newline));
-                    if (!Parameters.Keys.Contains(gv.Name))
-                        Parameters.Add(gv.Name, gv);
-                    i++;
-                }
-                // add fixed dimension
-                AddFixDimension();
-                //read parameters
-                for (int i = paraRow + 1; i < lines.Length;)
-                {
-                    i++;
-                    newline = TypeConverterEx.Split<string>(lines[i], 1)[0];
-                    string name = newline.Trim();
-                    i++;
-                    newline = lines[i];
-                    int dimension = int.Parse(newline.Trim());
-                    string[] dimensionNames = new string[dimension];
-                    for (int d = 0; d < dimension; d++)
+                    //read dimensions
+                    for (int i = dimRow + 1; i < paraRow; )
                     {
                         i++;
-                        dimensionNames[d] = lines[i].Trim();
+                        newline = lines[i].Trim();
+                        DataCubeParameter<int> gv = new DataCubeParameter<int>(1, 1, 1, false)
+                        {
+                            Dimension = 1,
+                            VariableType = ParameterType.Dimension,
+                            DimensionNames = dim_name,
+                            Name = newline,
+                            Owner = this
+                        };
+                        i++;
+                        newline = lines[i].Trim();
+                        gv.SetValue(0, 0, 0, int.Parse(newline));
+                        if (!Parameters.Keys.Contains(gv.Name))
+                            Parameters.Add(gv.Name, gv);
+                        i++;
                     }
-                    i++;
-                    newline = lines[i];
-                    int valueCount = int.Parse(newline.Trim());
-                    i++;
-                    newline = lines[i];
-                    int valueType = int.Parse(newline.Trim());
+                    // add fixed dimension
+                    AddFixDimension();
+                    //read parameters
+                    for (int i = paraRow + 1; i < lines.Length; )
+                    {
+                        i++;
+                        newline = TypeConverterEx.Split<string>(lines[i], 1)[0];
+                        string name = newline.Trim();
+                        i++;
+                        newline = lines[i];
+                        int dimension = int.Parse(newline.Trim());
+                        string[] dimensionNames = new string[dimension];
+                        for (int d = 0; d < dimension; d++)
+                        {
+                            i++;
+                            dimensionNames[d] = lines[i].Trim();
+                        }
+                        i++;
+                        newline = lines[i];
+                        int valueCount = int.Parse(newline.Trim());
+                        i++;
+                        newline = lines[i];
+                        int valueType = int.Parse(newline.Trim());
 
-                    int nrow = int.Parse(Parameters[dimensionNames[0]].GetValue(0, 0, 0).ToString());
-                    int ncol = 1;
-                    if (dimension > 1)
-                        ncol = int.Parse(Parameters[dimensionNames[1]].GetValue(0, 0, 0).ToString());
+                        int nrow = int.Parse(Parameters[dimensionNames[0]].GetValue(0, 0, 0).ToString());
+                        int ncol = 1;
+                        if (dimension > 1)
+                            ncol = int.Parse(Parameters[dimensionNames[1]].GetValue(0, 0, 0).ToString());
 
-                    if (nrow == 0 || ncol == 0)
-                    {
-                        nrow = valueCount;
-                        ncol = 1;
-                    }
+                        if (nrow == 0 || ncol == 0)
+                        {
+                            nrow = valueCount;
+                            ncol = 1;
+                        }
 
-                    if (valueType == 0)
-                    {
-                        DataCubeParameter<short> gv = new DataCubeParameter<short>(1, nrow, ncol, false)
+                        if (valueType == 0)
                         {
-                            ValueType = valueType,
-                            VariableType = ParameterType.Parameter,
-                            Dimension = dimension,
-                            DimensionNames = dimensionNames,
-                            Owner = this,
-                            Name = name
-                        };
-                        gv.FromStringArrays(lines, i + 1, i + valueCount);
-                        if (!Parameters.Keys.Contains(gv.Name))
-                            Parameters.Add(gv.Name, gv);
-                    }
-                    else if (valueType == 1)
-                    {
-                        DataCubeParameter<int> gv = new DataCubeParameter<int>(1, nrow, ncol, false)
+                            DataCubeParameter<short> gv = new DataCubeParameter<short>(1, nrow, ncol, false)
+                            {
+                                ValueType = valueType,
+                                VariableType = ParameterType.Parameter,
+                                Dimension = dimension,
+                                DimensionNames = dimensionNames,
+                                Owner = this,
+                                Name = name
+                            };
+                            gv.FromStringArrays(lines, i + 1, i + valueCount);
+                            if (!Parameters.Keys.Contains(gv.Name))
+                                Parameters.Add(gv.Name, gv);
+                        }
+                        else if (valueType == 1)
                         {
-                            ValueType = valueType,
-                            VariableType = ParameterType.Parameter,
-                            Dimension = dimension,
-                            DimensionNames = dimensionNames,
-                            Owner = this,
-                            Name = name
-                        };
-                        gv.FromStringArrays(lines, i + 1, i + valueCount);
-                        if (!Parameters.Keys.Contains(gv.Name))
-                            Parameters.Add(gv.Name, gv);
-                    }
-                    else if (valueType == 2)
-                    {
-                        DataCubeParameter<float> gv = new DataCubeParameter<float>(1, nrow, ncol, false)
+                            DataCubeParameter<int> gv = new DataCubeParameter<int>(1, nrow, ncol, false)
+                            {
+                                ValueType = valueType,
+                                VariableType = ParameterType.Parameter,
+                                Dimension = dimension,
+                                DimensionNames = dimensionNames,
+                                Owner = this,
+                                Name = name
+                            };
+                            gv.FromStringArrays(lines, i + 1, i + valueCount);
+                            if (!Parameters.Keys.Contains(gv.Name))
+                                Parameters.Add(gv.Name, gv);
+                        }
+                        else if (valueType == 2)
                         {
-                            ValueType = valueType,
-                            VariableType = ParameterType.Parameter,
-                            Dimension = dimension,
-                            DimensionNames = dimensionNames,
-                            Owner = this,
-                            Name = name
-                        };
-                        gv.FromStringArrays(lines, i + 1, i + valueCount);
-                        if (!Parameters.Keys.Contains(gv.Name))
-                            Parameters.Add(gv.Name, gv);
-                    }
-                    else if (valueType == 3)
-                    {
-                        DataCubeParameter<double> gv = new DataCubeParameter<double>(1, nrow, ncol, false)
+                            DataCubeParameter<float> gv = new DataCubeParameter<float>(1, nrow, ncol, false)
+                            {
+                                ValueType = valueType,
+                                VariableType = ParameterType.Parameter,
+                                Dimension = dimension,
+                                DimensionNames = dimensionNames,
+                                Owner = this,
+                                Name = name
+                            };
+                            gv.FromStringArrays(lines, i + 1, i + valueCount);
+                            if (!Parameters.Keys.Contains(gv.Name))
+                                Parameters.Add(gv.Name, gv);
+                        }
+                        else if (valueType == 3)
                         {
-                            ValueType = valueType,
-                            VariableType = ParameterType.Parameter,
-                            Dimension = dimension,
-                            DimensionNames = dimensionNames,
-                            Owner = this,
-                            Name = name
-                        };
-                        gv.FromStringArrays(lines, i + 1, i + valueCount);
-                        if (!Parameters.Keys.Contains(gv.Name))
-                            Parameters.Add(gv.Name, gv);
-                    }
-                    else if (valueType == 4)
-                    {
-                        DataCubeParameter<string> gv = new DataCubeParameter<string>(1, nrow, ncol, false)
+                            DataCubeParameter<double> gv = new DataCubeParameter<double>(1, nrow, ncol, false)
+                            {
+                                ValueType = valueType,
+                                VariableType = ParameterType.Parameter,
+                                Dimension = dimension,
+                                DimensionNames = dimensionNames,
+                                Owner = this,
+                                Name = name
+                            };
+                            gv.FromStringArrays(lines, i + 1, i + valueCount);
+                            if (!Parameters.Keys.Contains(gv.Name))
+                                Parameters.Add(gv.Name, gv);
+                        }
+                        else if (valueType == 4)
                         {
-                            ValueType = valueType,
-                            VariableType = ParameterType.Parameter,
-                            Dimension = dimension,
-                            DimensionNames = dimensionNames,
-                            Owner = this,
-                            Name = name
-                        };
-                        gv.FromStringArrays(lines, i + 1, i + valueCount);
-                        if (!Parameters.Keys.Contains(gv.Name))
-                            Parameters.Add(gv.Name, gv);
-                    }
+                            DataCubeParameter<string> gv = new DataCubeParameter<string>(1, nrow, ncol, false)
+                            {
+                                ValueType = valueType,
+                                VariableType = ParameterType.Parameter,
+                                Dimension = dimension,
+                                DimensionNames = dimensionNames,
+                                Owner = this,
+                                Name = name
+                            };
+                            gv.FromStringArrays(lines, i + 1, i + valueCount);
+                            if (!Parameters.Keys.Contains(gv.Name))
+                                Parameters.Add(gv.Name, gv);
+                        }
 
-                    i += valueCount + 1;
+                        i += valueCount + 1;
+                    }
+                    OnLoaded(progress);
+                    result = true;
                 }
-                OnLoaded(progress);
-                return true;
+                catch (Exception ex)
+                {
+                    result = false;
+                    Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
+                    ShowWarning(Message, progress);
+                }
+                finally
+                {
+                    sr.Close();
+                }
+                return result;
             }
             else
             {
                 Message = string.Format("\tFailed to load {0}. The package file does not exist: {1}", Name, FileName);
-                OnLoadFailed(Message, progress);
+                ShowWarning(Message, progress);
                 return false;
             }
         }

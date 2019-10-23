@@ -502,6 +502,7 @@ namespace Heiflow.Models.Generic
         }
         protected void ShowWarning(string warning, ICancelProgressHandler progress)
         {
+            State = ModelObjectState.Error;
             string msg = string.Format("Warning: {0} is not successfully loaded. Warning message: {1}", this.Name, warning);
             if (progress != null)
                 progress.Progress("progress", 1, msg);

@@ -32,6 +32,7 @@ using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
 using Heiflow.Models.UI;
+using System;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.IO;
@@ -226,214 +227,237 @@ namespace Heiflow.Models.Subsurface
         {
             if (File.Exists(FileName))
             {
+                var result = false;
                 var grid = (Owner.Grid as MFGrid);
                 int layer = grid.ActualLayerCount;
                 int ncell = grid.ActiveCellCount;
                 StreamReader sr = new StreamReader(FileName);
-                //# Data Set 1b: NUZTOP IUZFOPT IRUNFLG IETFLG IUZFCB1 IUZFCB2 NTRAIL2 NSETS2 NUZGAG SURFDEP
-                string newline = ReadComment(sr);
-                if (newline.ToUpper() == "SPECIFYTHTI")
+                try
                 {
-                    SPECIFYTHTI = true;
-                    newline = sr.ReadLine();
-                }
-                else
-                {
-                    SPECIFYTHTI = false;
-                }
-               
-                float[] fv = TypeConverterEx.Split<float>(newline, 10);
-                this.NUZTOP = (int)fv[0];
-                this.IUZFOPT = (int)fv[1];
-                this.IRUNFLG = (int)fv[2];
-                this.IETFLG = (int)fv[3];
-                this.IUZFCB1 = (int)fv[4];
-                this.IUZFCB2 = (int)fv[5];
-                this.NTRAIL2 = (int)fv[6];
-                this.NSETS2 = (int)fv[7];
-                this.NUZGAG = (int)fv[8];
-                this.SURFDEP = fv[9];
-
-                this.IUZFBND = new DataCube<float>(1, 1,grid.ActiveCellCount)
-                {
-                    Name = "IUZFBND",                    ZeroDimension = DimensionFlag.Spatial
-                };
-                this.IRUNBND = new DataCube<float>(1, 1, grid.ActiveCellCount)
-                {
-                    Name = "IRUNBND",ZeroDimension = DimensionFlag.Spatial
-                };
-                this.VKS = new DataCube<float>(1, 1, grid.ActiveCellCount)
-                {
-                    Name = "VKS", ZeroDimension = DimensionFlag.Spatial
-                };
-                this.EPS = new DataCube<float>(1, 1, grid.ActiveCellCount   )
-                {
-                    Name = "EPS",                    ZeroDimension = DimensionFlag.Spatial
-                };
-                this.THTS = new DataCube<float>(1, 1, grid.ActiveCellCount)
-                {
-                    Name = "THTS",ZeroDimension = DimensionFlag.Spatial
-                };
-                this.THTI = new DataCube<float>(1, 1, grid.ActiveCellCount)
-                {
-                    Name = "THTI",                   ZeroDimension = DimensionFlag.Spatial
-                };
-
-                this.IUZFBND.Topology = grid.Topology;
-                this.IRUNBND.Topology = grid.Topology;
-                this.VKS.Topology = grid.Topology;
-                this.EPS.Topology = grid.Topology;
-                this.THTS.Topology = grid.Topology;
-                this.THTI.Topology = grid.Topology;
-
-                this.IUZFBND.Variables[0] = "IUZFBND Layer 1";
-                this.IRUNBND.Variables[0] = "IRUNBND Layer 1";
-                this.VKS.Variables[0] = "VKS Layer 1";
-                this.EPS.Variables[0] = "EPS Layer 1";
-                this.THTS.Variables[0] = "THTS Layer 1";
-                this.THTI.Variables[0] = "THTI Layer 1";
-
-                //# Data Set 2: IUZFBND
-                ReadSerialArray(sr, IUZFBND, 0, 0);
-                //Data Set 3
-                if (IRUNFLG > 0)
-                    ReadSerialArray(sr, IRUNBND, 0, 0);
-                // Data Set 4
-                if (IUZFOPT == 1 || IUZFOPT == 0)       
-                    ReadSerialArray(sr, VKS, 0, 0);
-                //Data sets 5-7 are only read if IUZFOPT is greater than or equal to 1.
-                if (IUZFOPT >= 1)
-                {
-                    ReadSerialArray(sr, EPS, 0, 0);
-                    ReadSerialArray(sr, THTS, 0, 0);
-                }
-                if (SPECIFYTHTI)
-                    ReadSerialArray(sr, THTI, 0, 0);
-                //If NUZGAG>0: Item 8 is repeated NUZGAG times
-                if (NUZGAG > 0)
-                {
-                    newline = sr.ReadLine();
-                    var iv = TypeConverterEx.Split<int>(newline);
-                    if (iv.Length == 4)
+                    //# Data Set 1b: NUZTOP IUZFOPT IRUNFLG IETFLG IUZFCB1 IUZFCB2 NTRAIL2 NSETS2 NUZGAG SURFDEP
+                    string newline = ReadComment(sr);
+                    if (newline.ToUpper() == "SPECIFYTHTI")
                     {
-                        UZGAG = new DataCube<int>(NUZGAG, 1, 4) { ZeroDimension = DimensionFlag.Spatial };
-                        UZGAG[0,0,0] = iv[0];
-                        UZGAG[0, 0, 1] = iv[1];
-                        UZGAG[0, 0, 2] = iv[2];
-                        UZGAG[0, 0, 3] = iv[3];
-                        for (int i = 1; i < NUZGAG; i++)
+                        SPECIFYTHTI = true;
+                        newline = sr.ReadLine();
+                    }
+                    else
+                    {
+                        SPECIFYTHTI = false;
+                    }
+
+                    float[] fv = TypeConverterEx.Split<float>(newline, 10);
+                    this.NUZTOP = (int)fv[0];
+                    this.IUZFOPT = (int)fv[1];
+                    this.IRUNFLG = (int)fv[2];
+                    this.IETFLG = (int)fv[3];
+                    this.IUZFCB1 = (int)fv[4];
+                    this.IUZFCB2 = (int)fv[5];
+                    this.NTRAIL2 = (int)fv[6];
+                    this.NSETS2 = (int)fv[7];
+                    this.NUZGAG = (int)fv[8];
+                    this.SURFDEP = fv[9];
+
+                    this.IUZFBND = new DataCube<float>(1, 1, grid.ActiveCellCount)
+                    {
+                        Name = "IUZFBND",
+                        ZeroDimension = DimensionFlag.Spatial
+                    };
+                    this.IRUNBND = new DataCube<float>(1, 1, grid.ActiveCellCount)
+                    {
+                        Name = "IRUNBND",
+                        ZeroDimension = DimensionFlag.Spatial
+                    };
+                    this.VKS = new DataCube<float>(1, 1, grid.ActiveCellCount)
+                    {
+                        Name = "VKS",
+                        ZeroDimension = DimensionFlag.Spatial
+                    };
+                    this.EPS = new DataCube<float>(1, 1, grid.ActiveCellCount)
+                    {
+                        Name = "EPS",
+                        ZeroDimension = DimensionFlag.Spatial
+                    };
+                    this.THTS = new DataCube<float>(1, 1, grid.ActiveCellCount)
+                    {
+                        Name = "THTS",
+                        ZeroDimension = DimensionFlag.Spatial
+                    };
+                    this.THTI = new DataCube<float>(1, 1, grid.ActiveCellCount)
+                    {
+                        Name = "THTI",
+                        ZeroDimension = DimensionFlag.Spatial
+                    };
+
+                    this.IUZFBND.Topology = grid.Topology;
+                    this.IRUNBND.Topology = grid.Topology;
+                    this.VKS.Topology = grid.Topology;
+                    this.EPS.Topology = grid.Topology;
+                    this.THTS.Topology = grid.Topology;
+                    this.THTI.Topology = grid.Topology;
+
+                    this.IUZFBND.Variables[0] = "IUZFBND Layer 1";
+                    this.IRUNBND.Variables[0] = "IRUNBND Layer 1";
+                    this.VKS.Variables[0] = "VKS Layer 1";
+                    this.EPS.Variables[0] = "EPS Layer 1";
+                    this.THTS.Variables[0] = "THTS Layer 1";
+                    this.THTI.Variables[0] = "THTI Layer 1";
+
+                    //# Data Set 2: IUZFBND
+                    ReadSerialArray(sr, IUZFBND, 0, 0);
+                    //Data Set 3
+                    if (IRUNFLG > 0)
+                        ReadSerialArray(sr, IRUNBND, 0, 0);
+                    // Data Set 4
+                    if (IUZFOPT == 1 || IUZFOPT == 0)
+                        ReadSerialArray(sr, VKS, 0, 0);
+                    //Data sets 5-7 are only read if IUZFOPT is greater than or equal to 1.
+                    if (IUZFOPT >= 1)
+                    {
+                        ReadSerialArray(sr, EPS, 0, 0);
+                        ReadSerialArray(sr, THTS, 0, 0);
+                    }
+                    if (SPECIFYTHTI)
+                        ReadSerialArray(sr, THTI, 0, 0);
+                    //If NUZGAG>0: Item 8 is repeated NUZGAG times
+                    if (NUZGAG > 0)
+                    {
+                        newline = sr.ReadLine();
+                        var iv = TypeConverterEx.Split<int>(newline);
+                        if (iv.Length == 4)
+                        {
+                            UZGAG = new DataCube<int>(NUZGAG, 1, 4) { ZeroDimension = DimensionFlag.Spatial };
+                            UZGAG[0, 0, 0] = iv[0];
+                            UZGAG[0, 0, 1] = iv[1];
+                            UZGAG[0, 0, 2] = iv[2];
+                            UZGAG[0, 0, 3] = iv[3];
+                            for (int i = 1; i < NUZGAG; i++)
+                            {
+                                newline = sr.ReadLine();
+                                iv = TypeConverterEx.Split<int>(newline);
+                                UZGAG[0, "0", ":"] = iv;
+                                //UZGAG.Value[i][0][1] = iv[1];
+                                //UZGAG.Value[i][0][2] = iv[2];
+                                //UZGAG.Value[i][0][3] = iv[3];
+                            }
+                        }
+                        else
+                        {
+                            this.IFTUNIT = iv[0];
+                        }
+                    }
+
+                    var np = TimeService.StressPeriods.Count;
+                    this.FINF = new DataCube<float>(np, 1, grid.ActiveCellCount)
+                    {
+                        Name = "FINF",
+                        ZeroDimension = DimensionFlag.Time
+                    };
+                    this.PET = new DataCube<float>(np, 1, grid.ActiveCellCount)
+                    {
+                        Name = "PET",
+                        ZeroDimension = DimensionFlag.Time
+                    };
+                    this.EXTDP = new DataCube<float>(np, 1, grid.ActiveCellCount)
+                    {
+                        Name = "EXTDP",
+                        ZeroDimension = DimensionFlag.Time
+                    };
+                    this.EXTWC = new DataCube<float>(np, 1, grid.ActiveCellCount)
+                    {
+                        Name = "EXTWC",
+                        ZeroDimension = DimensionFlag.Time
+                    };
+
+                    this.FINF.Topology = grid.Topology;
+                    this.PET.Topology = grid.Topology;
+                    this.EXTDP.Topology = grid.Topology;
+                    this.EXTWC.Topology = grid.Topology;
+
+                    for (int p = 0; p < np; p++)
+                    {
+                        newline = sr.ReadLine();
+                        var iv = TypeConverterEx.Split<int>(newline, 1);
+                        if (iv[0] >= 0)
+                        {
+                            //FINF[0, p] = ReadSerialArray<float>(sr).Value;
+                            ReadSerialArray<float>(sr, FINF, p, 0);
+                        }
+                        else
+                        {
+                            FINF.Flags[p] = TimeVarientFlag.Repeat;
+                            var buf = new float[grid.ActiveCellCount];
+                            FINF[p - 1, "0", ":"].CopyTo(buf, 0);
+                            FINF[p, "0", ":"] = buf;
+                        }
+                        if (IETFLG > 0)
                         {
                             newline = sr.ReadLine();
-                            iv = TypeConverterEx.Split<int>(newline);
-                            UZGAG[0, "0", ":"] = iv;
-                            //UZGAG.Value[i][0][1] = iv[1];
-                            //UZGAG.Value[i][0][2] = iv[2];
-                            //UZGAG.Value[i][0][3] = iv[3];
+                            iv = TypeConverterEx.Split<int>(newline, 1);
+                            if (iv[0] >= 0)
+                            {
+                                ReadSerialArray<float>(sr, PET, p, 0);
+                            }
+                            else
+                            {
+                                PET.Flags[p] = TimeVarientFlag.Repeat;
+                                var buf = new float[grid.ActiveCellCount];
+                                PET[p - 1, "0", ":"].CopyTo(buf, 0);
+                                PET[p, "0", ":"] = buf;
+                            }
+
+                            newline = sr.ReadLine();
+                            iv = TypeConverterEx.Split<int>(newline, 1);
+                            if (iv[0] >= 0)
+                            {
+                                ReadSerialArray<float>(sr, EXTDP, p, 0);
+                            }
+                            else
+                            {
+                                EXTDP.Flags[p] = TimeVarientFlag.Repeat;
+                                var buf = new float[grid.ActiveCellCount];
+                                EXTDP[p - 1, "0", ":"].CopyTo(buf, 0);
+                                EXTDP[p, "0", ":"] = buf;
+                            }
+
+                            newline = sr.ReadLine();
+                            iv = TypeConverterEx.Split<int>(newline, 1);
+                            if (iv[0] >= 0)
+                            {
+                                ReadSerialArray<float>(sr, EXTWC, p, 0);
+                            }
+                            else
+                            {
+                                EXTWC.Flags[p] = TimeVarientFlag.Repeat;
+                                var buf = new float[grid.ActiveCellCount];
+                                EXTWC[p - 1, "0", ":"].CopyTo(buf, 0);
+                                EXTWC[p, "0", ":"] = buf;
+                            }
                         }
+
+                        this.FINF.Variables[p] = "FIN Stress Period " + (p + 1);
+                        this.PET.Variables[p] = "PET Stress Period " + (p + 1);
+                        this.EXTDP.Variables[p] = "EXTDP Stress Period " + (p + 1);
+                        this.EXTWC.Variables[p] = "EXTWC Stress Period " + (p + 1);
                     }
-                    else
-                    {
-                        this.IFTUNIT = iv[0];
-                    }
+                    OnLoaded(progresshandler);
+                    result = true;
                 }
-
-                var np = TimeService.StressPeriods.Count;
-                this.FINF = new DataCube<float>(np, 1, grid.ActiveCellCount)
+                catch (Exception ex)
                 {
-                    Name = "FINF", ZeroDimension= DimensionFlag.Time
-                };
-                this.PET = new DataCube<float>(np, 1, grid.ActiveCellCount)
-                {
-                    Name = "PET",ZeroDimension = DimensionFlag.Time
-                };
-                this.EXTDP = new DataCube<float>(np, 1, grid.ActiveCellCount)
-                {
-                    Name = "EXTDP",ZeroDimension = DimensionFlag.Time
-                };
-                this.EXTWC = new DataCube<float>(np, 1, grid.ActiveCellCount)
-                {
-                    Name = "EXTWC",ZeroDimension = DimensionFlag.Time
-                };
-
-                this.FINF.Topology = grid.Topology;
-                this.PET.Topology = grid.Topology;
-                this.EXTDP.Topology = grid.Topology;
-                this.EXTWC.Topology = grid.Topology;
-
-                for (int p = 0; p < np; p++)
-                {
-                    newline = sr.ReadLine();
-                    var iv = TypeConverterEx.Split<int>(newline, 1);
-                    if (iv[0] >= 0)
-                    {
-                        //FINF[0, p] = ReadSerialArray<float>(sr).Value;
-                        ReadSerialArray<float>(sr, FINF, p, 0);
-                    }
-                    else
-                    {
-                        FINF.Flags[p] = TimeVarientFlag.Repeat;
-                        var buf= new float[grid.ActiveCellCount];
-                        FINF[p - 1, "0", ":"].CopyTo(buf, 0);
-                        FINF[p, "0", ":"] = buf;
-                    }
-                    if (IETFLG > 0)
-                    {
-                        newline = sr.ReadLine();
-                        iv = TypeConverterEx.Split<int>(newline, 1);
-                        if (iv[0] >= 0)
-                        {
-                            ReadSerialArray<float>(sr, PET, p, 0);
-                        }
-                        else
-                        {
-                            PET.Flags[p] = TimeVarientFlag.Repeat;
-                            var buf = new float[grid.ActiveCellCount];
-                            PET[p - 1, "0", ":"].CopyTo(buf, 0);
-                            PET[p, "0", ":"] = buf;
-                        }
-
-                        newline = sr.ReadLine();
-                        iv = TypeConverterEx.Split<int>(newline, 1);
-                        if (iv[0] >= 0)
-                        {
-                            ReadSerialArray<float>(sr, EXTDP, p, 0);
-                        }
-                        else
-                        {
-                            EXTDP.Flags[p] = TimeVarientFlag.Repeat;
-                            var buf = new float[grid.ActiveCellCount];
-                            EXTDP[p - 1, "0", ":"].CopyTo(buf, 0);
-                            EXTDP[p, "0", ":"] = buf;
-                        }
-
-                        newline = sr.ReadLine();
-                        iv = TypeConverterEx.Split<int>(newline, 1);
-                        if (iv[0] >= 0)
-                        {
-                            ReadSerialArray<float>(sr, EXTWC, p, 0);
-                        }
-                        else
-                        {
-                            EXTWC.Flags[p] = TimeVarientFlag.Repeat;
-                            var buf = new float[grid.ActiveCellCount];
-                            EXTWC[p - 1, "0", ":"].CopyTo(buf, 0);
-                            EXTWC[p, "0", ":"] = buf;
-                        }
-                    }
-
-                    this.FINF.Variables[p] = "FIN Stress Period " + (p + 1);
-                    this.PET.Variables[p] = "PET Stress Period " + (p + 1);
-                    this.EXTDP.Variables[p] = "EXTDP Stress Period " + (p + 1);
-                    this.EXTWC.Variables[p] = "EXTWC Stress Period " + (p + 1);
+                    result = false;
+                    Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
+                    ShowWarning(Message, progresshandler);
                 }
-                State = ModelObjectState.Ready;
-                OnLoaded(progresshandler);
-                return true;
+                finally
+                {
+                    sr.Close();
+                }
+                return result;
             }
             else
             {
-                State = ModelObjectState.Error;
-                OnLoadFailed("Failed to load" + this.Name, progresshandler);
+                ShowWarning("Failed to load" + this.Name, progresshandler);
                 return false;
             }
         }

@@ -136,7 +136,7 @@ namespace Heiflow.Models.Subsurface
             _ProgressHandler = progresshandler;
             _NumTimeStep = TimeService.GetIOTimeLength(ModelService.WorkDirectory);
             var filename = LocalFileName;
-
+            var result = false;
             if (File.Exists(filename))
             {
                 var network = this._SFRPackage.RiverNetwork;
@@ -157,119 +157,132 @@ namespace Heiflow.Models.Subsurface
                         OnLoading(0);
                         FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                         StreamReader sr = new StreamReader(fs, System.Text.Encoding.Default);
-
-                        string line = "";
-                        int varLen = DefaultAttachedVariables.Length;
-                        int index = 0;
-
-                        int progress = 0;
-                        if (!IsLoadCompleteData)
-                        {
-                            reachNum = network.RiverCount;
-                        }
-
-                        if (IsReadSSData)
-                        {
-                            SkippedSteps = SkippedSteps - 1;
-                        }
-                        for (int t = 0; t < SkippedSteps * network.ReachCount + SkippedSteps * 8; t++)
-                        {
-                            if (!sr.EndOfStream)
-                                line = sr.ReadLine();
-                        }
-
-                        for (int i = 0; i < network.RiverCount; i++)
-                        {
-                            for (int j = 0; j < network.Rivers[i].Reaches.Count; j++)
-                            {
-                                ReachIndex.Add(Tuple.Create(i, j, index));
-                                index++;
-                            }
-                        }
-                        OnLoading(progress);
                         try
                         {
-                            DataCube = new DataCube<float>(varLen, nstep, reachNum)
-                            {
-                                Name = "SFR_Output",
-                            };
+                            string line = "";
+                            int varLen = DefaultAttachedVariables.Length;
+                            int index = 0;
 
-                            DataCube.DateTimes = new DateTime[nstep];
-                        }
-                        catch (Exception)
-                        {
-                            Message = "Out of memory.";
-                            return false;
-                        }
-                        for (int t = 0; t < nstep; t++)
-                        {
-                            for (int c = 0; c < 8; c++)
-                                sr.ReadLine();
-                            int rch_index = 0;
+                            int progress = 0;
+                            if (!IsLoadCompleteData)
+                            {
+                                reachNum = network.RiverCount;
+                            }
+
+                            if (IsReadSSData)
+                            {
+                                SkippedSteps = SkippedSteps - 1;
+                            }
+                            for (int t = 0; t < SkippedSteps * network.ReachCount + SkippedSteps * 8; t++)
+                            {
+                                if (!sr.EndOfStream)
+                                    line = sr.ReadLine();
+                            }
+
                             for (int i = 0; i < network.RiverCount; i++)
                             {
-                                if (IsLoadCompleteData)
+                                for (int j = 0; j < network.Rivers[i].Reaches.Count; j++)
                                 {
-                                    for (int j = 0; j < network.Rivers[i].Reaches.Count; j++)
-                                    {
-                                        line = sr.ReadLine();
-                                        if (TypeConverterEx.IsNotNull(line))
-                                        {
-                                            var temp = TypeConverterEx.SkipSplit<float>(line, 5);
-                                            for (int v = 0; v < varLen; v++)
-                                            {
-                                                DataCube.ILArrays[v].SetValue(temp[v], t, rch_index);
-                                                //Values.Value[v][t][rch_index] = temp[v];
-                                            }
-                                        }
-                                        else
-                                        {
-                                            //Debug.WriteLine(String.Format("step:{0} seg:{1} reach:{2}", t, i + 1, j + 1));
-                                            goto finished;
-                                        }
-                                        rch_index++;
-                                    }
-                                }
-                                else
-                                {
-                                    for (int j = 0; j < network.Rivers[i].Reaches.Count - 1; j++)
-                                    {
-                                        line = sr.ReadLine();
-                                        if (TypeConverterEx.IsNull(line))
-                                            goto finished;
-                                    }
-                                    line = sr.ReadLine();
-                                    var temp = TypeConverterEx.SkipSplit<float>(line, 5);
-                                    for (int v = 0; v < varLen; v++)
-                                    {
-                                        // Values.Value[v][t][i] = temp[v];
-                                        DataCube.ILArrays[v].SetValue(temp[v], t, i);
-                                    }
+                                    ReachIndex.Add(Tuple.Create(i, j, index));
+                                    index++;
                                 }
                             }
-                            DataCube.DateTimes[t] = TimeService.Timeline[t];
-                            progress = t * 100 / nstep;
-                            if (progress > count)
+                            OnLoading(progress);
+                            try
                             {
-                                OnLoading(progress);
-                                count++;
-                            }
-                        }
-                    finished:
-                        {
-                            OnLoading(100);
-                        }
-                        sr.Close();
-                        fs.Close();
-                        if (IsLoadCompleteData)
-                            DataCube.Topology = _SFRPackage.ReachTopology;
-                        else
-                            DataCube.Topology = _SFRPackage.SegTopology;
+                                DataCube = new DataCube<float>(varLen, nstep, reachNum)
+                                {
+                                    Name = "SFR_Output",
+                                };
 
-                        DataCube.Variables = DefaultAttachedVariables;
-                        Variables = DefaultAttachedVariables;
-                        OnLoaded(progresshandler);
-                        return true;
+                                DataCube.DateTimes = new DateTime[nstep];
+                            }
+                            catch (Exception)
+                            {
+                                Message = "Out of memory.";
+                                return false;
+                            }
+                            for (int t = 0; t < nstep; t++)
+                            {
+                                for (int c = 0; c < 8; c++)
+                                    sr.ReadLine();
+                                int rch_index = 0;
+                                for (int i = 0; i < network.RiverCount; i++)
+                                {
+                                    if (IsLoadCompleteData)
+                                    {
+                                        for (int j = 0; j < network.Rivers[i].Reaches.Count; j++)
+                                        {
+                                            line = sr.ReadLine();
+                                            if (TypeConverterEx.IsNotNull(line))
+                                            {
+                                                var temp = TypeConverterEx.SkipSplit<float>(line, 5);
+                                                for (int v = 0; v < varLen; v++)
+                                                {
+                                                    DataCube.ILArrays[v].SetValue(temp[v], t, rch_index);
+                                                    //Values.Value[v][t][rch_index] = temp[v];
+                                                }
+                                            }
+                                            else
+                                            {
+                                                //Debug.WriteLine(String.Format("step:{0} seg:{1} reach:{2}", t, i + 1, j + 1));
+                                                goto finished;
+                                            }
+                                            rch_index++;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        for (int j = 0; j < network.Rivers[i].Reaches.Count - 1; j++)
+                                        {
+                                            line = sr.ReadLine();
+                                            if (TypeConverterEx.IsNull(line))
+                                                goto finished;
+                                        }
+                                        line = sr.ReadLine();
+                                        var temp = TypeConverterEx.SkipSplit<float>(line, 5);
+                                        for (int v = 0; v < varLen; v++)
+                                        {
+                                            // Values.Value[v][t][i] = temp[v];
+                                            DataCube.ILArrays[v].SetValue(temp[v], t, i);
+                                        }
+                                    }
+                                }
+                                DataCube.DateTimes[t] = TimeService.Timeline[t];
+                                progress = t * 100 / nstep;
+                                if (progress > count)
+                                {
+                                    OnLoading(progress);
+                                    count++;
+                                }
+                            }
+                        finished:
+                            {
+                                OnLoading(100);
+                            }
+
+                            if (IsLoadCompleteData)
+                                DataCube.Topology = _SFRPackage.ReachTopology;
+                            else
+                                DataCube.Topology = _SFRPackage.SegTopology;
+
+                            DataCube.Variables = DefaultAttachedVariables;
+                            Variables = DefaultAttachedVariables;
+                            OnLoaded(progresshandler);
+                            result = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            result = false;
+                            Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
+                            ShowWarning(Message, progresshandler);
+                        }
+                        finally
+                        {
+                            sr.Close();
+                            fs.Close();
+                        }
+                        return result;
                     }
                     else
                     {
@@ -288,7 +301,7 @@ namespace Heiflow.Models.Subsurface
             }
             else
             {
-                OnLoadFailed("The file does not exist: " + filename, progresshandler);
+                ShowWarning("The file does not exist: " + filename, progresshandler);
                 return false;
             }
         }
@@ -328,7 +341,7 @@ namespace Heiflow.Models.Subsurface
                 RiverNetwork = network;
                 if (network == null)
                 {
-                    OnLoadFailed("The river network does not exist: ", progresshandler);
+                    ShowWarning("The river network does not exist: ", progresshandler);
                     return false;
                 }
                 else
@@ -379,10 +392,10 @@ namespace Heiflow.Models.Subsurface
                         DataCube.Allocate(var_index);
                         DataCube.DateTimes = new DateTime[nstep]; 
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
-                        Message = "Out of memory.";
-                        OnLoadFailed(Message,progresshandler);
+                        Message = "Out of memory. Error message: " + ex.Message;
+                        ShowWarning(Message, progresshandler);
                         return false;
                     }
                     for (int t = 0; t < nstep; t++)
@@ -449,7 +462,7 @@ namespace Heiflow.Models.Subsurface
             }
             else
             {
-                OnLoadFailed("The file does not exist: " + filename, progresshandler);
+                ShowWarning("The file does not exist: " + filename, progresshandler);
                 return false;
             }
         }

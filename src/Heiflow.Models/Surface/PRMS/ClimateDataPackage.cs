@@ -373,12 +373,12 @@ namespace Heiflow.Models.Surface.PRMS
         }
         private void data_LoadFailed(object sender, string e)
         {
-            OnLoadFailed(e, _ProgressHandler);
+            ShowWarning(e, _ProgressHandler);
         }
 
         private void stream_LoadFailed(object sender, string e)
         {
-            OnLoadFailed(e, _ProgressHandler);
+            ShowWarning(e, _ProgressHandler);
         }
 
         public override void SaveAs(string filename, ICancelProgressHandler progress)

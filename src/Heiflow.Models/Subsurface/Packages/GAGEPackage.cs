@@ -71,26 +71,40 @@ namespace Heiflow.Models.Subsurface
             {
                 int num = 0;
                 StreamReader sr = new StreamReader(FileName);
-                string line = sr.ReadLine();
-                var strs = TypeConverterEx.Split<string>(line);
-                num = int.Parse(strs[0]);
-                var mat = new DataCube<int>(1, 3, num);
-                for (int i = 0; i < num; i++)
+                var result = false;
+                try
                 {
-                    line = sr.ReadLine();
-                    var buf = TypeConverterEx.Split<int>(line, 3);
-                    mat[0,0,i] = buf[0];
-                    mat[0,1,i] = buf[1];
-                    mat[0, 2, i] = buf[2];
+                    string line = sr.ReadLine();
+                    var strs = TypeConverterEx.Split<string>(line);
+                    num = int.Parse(strs[0]);
+                    var mat = new DataCube<int>(1, 3, num);
+                    for (int i = 0; i < num; i++)
+                    {
+                        line = sr.ReadLine();
+                        var buf = TypeConverterEx.Split<int>(line, 3);
+                        mat[0, 0, i] = buf[0];
+                        mat[0, 1, i] = buf[1];
+                        mat[0, 2, i] = buf[2];
+                    }
+                    GagingInfo = mat;
+                    OnLoaded(progress);
+                    result = true;
                 }
-                sr.Close();
-                GagingInfo = mat;
-                OnLoaded(progress);
-                return true;
+                catch (Exception ex)
+                {
+                    result = false;
+                    Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
+                    ShowWarning(Message, progress);
+                }
+                finally
+                {
+                    sr.Close();
+                }
+                return result;
             }
             else
-            {             
-                OnLoadFailed("Failed to load " + this.Name, progress);
+            {
+                ShowWarning("Failed to load " + this.Name, progress);
                 return false;
             }
         }

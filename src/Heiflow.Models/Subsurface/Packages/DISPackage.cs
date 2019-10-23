@@ -239,7 +239,6 @@ namespace Heiflow.Models.Subsurface
             else
             {
                 Message = string.Format("\r\n Failed to load {0}. The package file does not exist: {1}", Name, FileName);
-                progress.Progress(this.Name, 100, Message);
                 ShowWarning(Message, progress);
                 return false;
             }
@@ -295,16 +294,18 @@ namespace Heiflow.Models.Subsurface
             this.Feature = Owner.Grid.FeatureSet;
             this.FeatureLayer = Owner.Grid.FeatureLayer;
 
-            var bilfile = Path.Combine(Owner.WorkDirectory, "Geospatial\\elevation.bil");
-            if (!File.Exists(bilfile))
+            int nlayer = Elevation.Size[0];
+            string[] bilfiles = new string[nlayer];
+            for (int i = 0; i < nlayer; i++)
             {
-                BilFile.Write(bilfile, MFGridInstance, Elevation, 0);
+                var bilfile = Path.Combine(Owner.WorkDirectory, "Geospatial\\" + Elevation.Variables[i] + ".bil");
+                bilfiles[i] = bilfile;
+                if (!File.Exists(bilfile))
+                {
+                    BilFile.Write(bilfile, MFGridInstance, Elevation, i);
+                }
             }
-            //if(!File.Exists(TerrainViewerMapFile.Mapfile))
-            //{
-                TerrainViewerMapFile.Save(bilfile);
-           // }
-             
+            TerrainViewerMapFile.Save(Elevation.Variables, bilfiles);
         }
         public override void OnGridUpdated(IGrid sender)
         {

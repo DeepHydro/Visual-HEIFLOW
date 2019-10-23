@@ -183,139 +183,152 @@ namespace Heiflow.Models.Subsurface
              var grid = (Owner.Grid as MFGrid);
             int nsp = TimeService.StressPeriods.Count;
             int nlayer= grid.ActualLayerCount;
+            var result = false;
             if (File.Exists(FileName))
             {
                 LakeSerialIndex.Clear();
                 StreamReader sr = new StreamReader(FileName);
-                string line = sr.ReadLine();
-                line = sr.ReadLine();
-                //7	0	 # DataSet 1b: NLAKES ILKCB
-                //-0.5 	100	 0.01 	0.5	 # DataSet 2: THETA NSSITR SSCNCR SURFDEPTH
-                int[] intbuf = TypeConverterEx.Split<int>(line, 2);
-                NLAKES = intbuf[0];
-                ILKCB = intbuf[1];
-                line = sr.ReadLine();
-                var floatbuf = TypeConverterEx.Split<float>(line, 4);
-                THETA = floatbuf[0];
-                NSSITR = (int)floatbuf[1];
-                SSCNCR = floatbuf[2];
-                SURFDEPTH = floatbuf[3];
-
-                STAGES = new DataCube2DLayout<float>(1, NLAKES, 3)
+                try
                 {
-                    ColumnNames = new string[] { "STAGES", "SSMN", "SSMX", "IUNITTAB", "CLAKE" }
-                };
-                for (int i = 0; i < NLAKES; i++)
-                {
+                    string line = sr.ReadLine();
                     line = sr.ReadLine();
-                    floatbuf = TypeConverterEx.Split<float>(line, 3);
-                    STAGES[0][i, ":"] = floatbuf;
-                }
-
-                ITMP = new DataCube2DLayout<int>(1, nsp, 3)
-                {
-                    ColumnNames = new string[] { "ITMP", "ITMP1", "LWRT" }
-                };
-                LKARR = new DataCube<int>(nlayer, 1, grid.ActiveCellCount)
-                {
-                    Name = "Lake ID",
-                    Variables = new string[nlayer],
-                    ZeroDimension = DimensionFlag.Spatial
-                };
-                for (int l = 0; l < nlayer; l++)
-                {
-                    LKARR.Variables[l] = "Lake ID of " + " Layer " + (l + 1);
-                }
-
-                BDLKNC = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
-                {
-                    Name = "Leakance",
-                    Variables = new string[nlayer],
-                    ZeroDimension = DimensionFlag.Spatial
-                };
-                for (int l = 0; l < nlayer; l++)
-                {
-                    BDLKNC.Variables[l] = "Leakance of " + (l + 1);
-                }
-                NSLMS = new DataCube2DLayout<int>(1, nsp, 1)
-                {
-                    Name = "Num of Sublakes",
-                    Variables = new string[nsp],
-                    ColumnNames = new string[] { "Num of Sublakes" }
-                };
-                for (int l = 0; l < nsp; l++)
-                {
-                    NSLMS.Variables[l] = "Stress Period " + (l + 1);
-                }
-                WSOUR = new DataCube2DLayout<float>(nsp, NLAKES, 6)
-                {
-                    Name = "Recharge Discharge",
-                    Variables = new string[nsp],
-                    ZeroDimension = DimensionFlag.Time,
-                    ColumnNames = new string[] { "PRCPLK", "EVAPLK", "RNF", "WTHDRW", "SSMN", "SSMX" }
-                };
-                for (int l = 0; l < nsp; l++)
-                {
-                    WSOUR.Variables[l] = "Stress Period " + (l + 1);
-                }
-                for (int i = 0; i < nsp; i++)
-                {
+                    //7	0	 # DataSet 1b: NLAKES ILKCB
+                    //-0.5 	100	 0.01 	0.5	 # DataSet 2: THETA NSSITR SSCNCR SURFDEPTH
+                    int[] intbuf = TypeConverterEx.Split<int>(line, 2);
+                    NLAKES = intbuf[0];
+                    ILKCB = intbuf[1];
                     line = sr.ReadLine();
-                    intbuf = TypeConverterEx.Split<int>(line, 3);
-                    ITMP[0][i, ":"] = intbuf;
-                    if (ITMP[0, i, 0] > 0)
+                    var floatbuf = TypeConverterEx.Split<float>(line, 4);
+                    THETA = floatbuf[0];
+                    NSSITR = (int)floatbuf[1];
+                    SSCNCR = floatbuf[2];
+                    SURFDEPTH = floatbuf[3];
+
+                    STAGES = new DataCube2DLayout<float>(1, NLAKES, 3)
                     {
-                        for (int j = 0; j < grid.ActualLayerCount; j++)
-                        {
-                            ReadSerialArray<int>(sr, LKARR, j, 0);
-                        }
-                        for (int j = 0; j < grid.ActualLayerCount; j++)
-                        {
-                            ReadSerialArray<float>(sr, BDLKNC, j, 0);
-                        }
+                        ColumnNames = new string[] { "STAGES", "SSMN", "SSMX", "IUNITTAB", "CLAKE" }
+                    };
+                    for (int i = 0; i < NLAKES; i++)
+                    {
                         line = sr.ReadLine();
-                        intbuf = TypeConverterEx.Split<int>(line, 1);
-                        NSLMS[i, 0, 0] = intbuf[0];
+                        floatbuf = TypeConverterEx.Split<float>(line, 3);
+                        STAGES[0][i, ":"] = floatbuf;
                     }
-                    if (ITMP[0, i, 1] > 0)
+
+                    ITMP = new DataCube2DLayout<int>(1, nsp, 3)
                     {
-                        for (int j = 0; j < NLAKES; j++)
+                        ColumnNames = new string[] { "ITMP", "ITMP1", "LWRT" }
+                    };
+                    LKARR = new DataCube<int>(nlayer, 1, grid.ActiveCellCount)
+                    {
+                        Name = "Lake ID",
+                        Variables = new string[nlayer],
+                        ZeroDimension = DimensionFlag.Spatial
+                    };
+                    for (int l = 0; l < nlayer; l++)
+                    {
+                        LKARR.Variables[l] = "Lake ID of " + " Layer " + (l + 1);
+                    }
+
+                    BDLKNC = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
+                    {
+                        Name = "Leakance",
+                        Variables = new string[nlayer],
+                        ZeroDimension = DimensionFlag.Spatial
+                    };
+                    for (int l = 0; l < nlayer; l++)
+                    {
+                        BDLKNC.Variables[l] = "Leakance of " + (l + 1);
+                    }
+                    NSLMS = new DataCube2DLayout<int>(1, nsp, 1)
+                    {
+                        Name = "Num of Sublakes",
+                        Variables = new string[nsp],
+                        ColumnNames = new string[] { "Num of Sublakes" }
+                    };
+                    for (int l = 0; l < nsp; l++)
+                    {
+                        NSLMS.Variables[l] = "Stress Period " + (l + 1);
+                    }
+                    WSOUR = new DataCube2DLayout<float>(nsp, NLAKES, 6)
+                    {
+                        Name = "Recharge Discharge",
+                        Variables = new string[nsp],
+                        ZeroDimension = DimensionFlag.Time,
+                        ColumnNames = new string[] { "PRCPLK", "EVAPLK", "RNF", "WTHDRW", "SSMN", "SSMX" }
+                    };
+                    for (int l = 0; l < nsp; l++)
+                    {
+                        WSOUR.Variables[l] = "Stress Period " + (l + 1);
+                    }
+                    for (int i = 0; i < nsp; i++)
+                    {
+                        line = sr.ReadLine();
+                        intbuf = TypeConverterEx.Split<int>(line, 3);
+                        ITMP[0][i, ":"] = intbuf;
+                        if (ITMP[0, i, 0] > 0)
                         {
-                            line = sr.ReadLine();
-                            if (i == 0)
+                            for (int j = 0; j < grid.ActualLayerCount; j++)
                             {
-                                floatbuf = TypeConverterEx.Split<float>(line, 6);
-                                WSOUR[i][j, ":"] = floatbuf;
+                                ReadSerialArray<int>(sr, LKARR, j, 0);
                             }
-                            else
+                            for (int j = 0; j < grid.ActualLayerCount; j++)
                             {
-                                floatbuf = TypeConverterEx.Split<float>(line, 4);
-                                WSOUR[i][j, "0:3"] = floatbuf;
+                                ReadSerialArray<float>(sr, BDLKNC, j, 0);
+                            }
+                            line = sr.ReadLine();
+                            intbuf = TypeConverterEx.Split<int>(line, 1);
+                            NSLMS[i, 0, 0] = intbuf[0];
+                        }
+                        if (ITMP[0, i, 1] > 0)
+                        {
+                            for (int j = 0; j < NLAKES; j++)
+                            {
+                                line = sr.ReadLine();
+                                if (i == 0)
+                                {
+                                    floatbuf = TypeConverterEx.Split<float>(line, 6);
+                                    WSOUR[i][j, ":"] = floatbuf;
+                                }
+                                else
+                                {
+                                    floatbuf = TypeConverterEx.Split<float>(line, 4);
+                                    WSOUR[i][j, "0:3"] = floatbuf;
+                                }
                             }
                         }
                     }
-                }
-                var vec = LKARR.GetVector(0, "0", ":");
-                foreach(var id in vec.Distinct())
-                {
-                    LakeSerialIndex.Add(id, new List<int>());
-                }
-                for (int i = 0; i < vec.Count(); i++ )
-                {
-                    if (vec[i] != 0)
+                    var vec = LKARR.GetVector(0, "0", ":");
+                    foreach (var id in vec.Distinct())
                     {
-                        LakeSerialIndex[vec[i]].Add(i);
+                        LakeSerialIndex.Add(id, new List<int>());
                     }
+                    for (int i = 0; i < vec.Count(); i++)
+                    {
+                        if (vec[i] != 0)
+                        {
+                            LakeSerialIndex[vec[i]].Add(i);
+                        }
+                    }
+                    OnLoaded(progresshandler);
+                    result = true;
                 }
-                sr.Close();
-                OnLoaded(progresshandler);
-                return true;
+                catch (Exception ex)
+                {
+                    result = false;
+                    Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
+                    ShowWarning(Message, progresshandler);
+                }
+                finally
+                {
+                    sr.Close();
+                }
+                return result;
             }
             else
             {
-                Message = string.Format("\r\n Failed to load {0}. The package file does not exist: {1}", Name, FileName);
-                progresshandler.Progress(this.Name, 100, Message);
-                OnLoadFailed(Message, progresshandler);
+                Message = string.Format("Failed to load {0}. The package file does not exist: {1}", Name, FileName);
+                ShowWarning(Message, progresshandler);
                 return false;
             }   
         }

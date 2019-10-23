@@ -23,7 +23,7 @@ namespace Heiflow.Models.Visualization
             }
         }
 
-        public static void Save(string bilfile)
+        public static void Save(string [] mapnames, string [] bilfile)
         {
             StreamWriter sw = new StreamWriter(Mapfile);
             string line = "<?xml version='1.0' encoding=\"ISO-8859-1\" ?>";
@@ -32,14 +32,17 @@ namespace Heiflow.Models.Visualization
             sw.WriteLine(line);
             line = "<maps>";
             sw.WriteLine(line);
-            line = "<map name=\"Elevation\">";
-            sw.WriteLine(line);
-            line = string.Format("<terrain demfile=\"{0}\" texturefile=\"colors\\Geo_1.png\" altscale=\"0.015\"/>", bilfile);
-            sw.WriteLine(line);
-            line = " <sky skyfile=\"skys\\Sky_Gradian_Day1.jpg\" visible=\"1\"/>";
-            sw.WriteLine(line);
-            line = "</map>";
-            sw.WriteLine(line);
+            for (int i = 0; i < mapnames.Length; i++)
+            {
+                line = string.Format( "<map name=\"{0}\">", mapnames[i]);
+                sw.WriteLine(line);
+                line = string.Format("<terrain demfile=\"{0}\" texturefile=\"colors\\Geo_1.png\" altscale=\"0.015\"/>", bilfile[i]);
+                sw.WriteLine(line);
+                line = " <sky skyfile=\"skys\\Sky_Gradian_Day1.jpg\" visible=\"1\"/>";
+                sw.WriteLine(line);
+                line = "</map>";
+                sw.WriteLine(line);
+            }
             line = "</maps>";
             sw.WriteLine(line);
             sw.Close();

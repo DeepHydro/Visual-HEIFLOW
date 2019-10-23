@@ -207,123 +207,143 @@ namespace Heiflow.Models.Subsurface
         {
             if (File.Exists(FileName))
             {
+                var result = false;
                 var mf = Owner as Modflow;
                 var grid = (Owner.Grid as MFGrid);
                 int nlayer = grid.ActualLayerCount;
 
                 mf.LayerGroupManager.Clear();
                 StreamReader sr = new StreamReader(FileName);
-                //Data Set 1: # ILPFCB, HDRY, NPLPF
-                string newline = ReadComment(sr);
-                float[] fv = TypeConverterEx.Split<float>(newline, 3);
-                 int ncell= grid.ActiveCellCount;
-                ILPFCB = (int)fv[0];
-                HDRY = fv[1];
-                NPLPF = (int)fv[2];
-
-                //Data Set 2: # 
-                newline = sr.ReadLine();
-                LAYTYP = TypeConverterEx.Split<int>(newline, nlayer);
-
-                //Data Set 3: # 
-                newline = sr.ReadLine();
-                LAYAVG = TypeConverterEx.Split<int>(newline, nlayer);
-
-                //Data Set 4: # 
-                newline = sr.ReadLine();
-                CHANI = TypeConverterEx.Split<float>(newline, nlayer);
-
-                //Data Set 5: # 
-                newline = sr.ReadLine();
-                LAYVKA = TypeConverterEx.Split<int>(newline, nlayer);
-
-                //Data Set 6: # 
-                newline = sr.ReadLine();
-                LAYWET = TypeConverterEx.Split<int>(newline, nlayer);
-
-                if (LAYWET.Sum() != 0)
+                try
                 {
-                    //Data Set 7: # 
+                    //Data Set 1: # ILPFCB, HDRY, NPLPF
+                    string newline = ReadComment(sr);
+                    float[] fv = TypeConverterEx.Split<float>(newline, 3);
+                    int ncell = grid.ActiveCellCount;
+                    ILPFCB = (int)fv[0];
+                    HDRY = fv[1];
+                    NPLPF = (int)fv[2];
+
+                    //Data Set 2: # 
                     newline = sr.ReadLine();
-                    fv = TypeConverterEx.Split<float>(newline, 3);
-                    WETFCT = fv[0];
-                    IWETIT = (int)fv[1];
-                    IHDWET = (int)fv[2];
-                }
+                    LAYTYP = TypeConverterEx.Split<int>(newline, nlayer);
 
-                mf.LayerGroupManager.LayerGroups.CollectionChanged -= this.LayerGroups_CollectionChanged;
-                mf.LayerGroupManager.Initialize(grid.ActualLayerCount);              
-                mf.LayerGroupManager.ConvertFrom(LAYTYP, "LAYTYP");
-                mf.LayerGroupManager.ConvertFrom(LAYAVG, "LAYAVG");
-                mf.LayerGroupManager.ConvertFrom(CHANI, "CHANI");
-                mf.LayerGroupManager.ConvertFrom(LAYVKA, "LAYVKA");
-                mf.LayerGroupManager.ConvertFrom(LAYWET, "LAYWET");
-                mf.LayerGroupManager.LayerGroups.CollectionChanged += this.LayerGroups_CollectionChanged;
+                    //Data Set 3: # 
+                    newline = sr.ReadLine();
+                    LAYAVG = TypeConverterEx.Split<int>(newline, nlayer);
 
-                HK = new DataCube<float>(nlayer, 1,grid.ActiveCellCount)
-                {
-                    Name = "HK", ZeroDimension= DimensionFlag.Spatial
-                };
+                    //Data Set 4: # 
+                    newline = sr.ReadLine();
+                    CHANI = TypeConverterEx.Split<float>(newline, nlayer);
 
-                HANI = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
-                {
-                    Name = "HANI", ZeroDimension= DimensionFlag.Spatial
-                };
-                VKA = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
-                {
-                    Name = "VKA",ZeroDimension= DimensionFlag.Spatial
-                };
-                SS = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
-                {
-                    Name = "SS", ZeroDimension= DimensionFlag.Spatial
-                };
-                SY = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
-                {
-                    Name = "SY", ZeroDimension= DimensionFlag.Spatial
-                };
-                WETDRY = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
-                {
-                    Name = "WETDRY", ZeroDimension= DimensionFlag.Spatial
-                };
+                    //Data Set 5: # 
+                    newline = sr.ReadLine();
+                    LAYVKA = TypeConverterEx.Split<int>(newline, nlayer);
 
-                HK.Topology = grid.Topology;
-                HANI.Topology = grid.Topology;
-                VKA.Topology = grid.Topology;
-                SS.Topology = grid.Topology;
-                SY.Topology = grid.Topology;
-                WETDRY.Topology = grid.Topology;
+                    //Data Set 6: # 
+                    newline = sr.ReadLine();
+                    LAYWET = TypeConverterEx.Split<int>(newline, nlayer);
 
-                for (int l = 0; l < grid.ActualLayerCount; l++)
-                {
-                    ReadSerialArray(sr, HK, l, 0);
-                    ReadSerialArray(sr, HANI, l, 0);
-                    ReadSerialArray(sr, VKA, l, 0);
-                    ReadSerialArray(sr, SS, l, 0);
-
-                    if (LAYTYP[l] != 0)
+                    if (LAYWET.Sum() != 0)
                     {
-                        ReadSerialArray(sr, SY, l, 0);
+                        //Data Set 7: # 
+                        newline = sr.ReadLine();
+                        fv = TypeConverterEx.Split<float>(newline, 3);
+                        WETFCT = fv[0];
+                        IWETIT = (int)fv[1];
+                        IHDWET = (int)fv[2];
                     }
 
-                    if (LAYTYP[l] != 0 && LAYWET[l] != 0)
-                    {
-                        ReadSerialArray(sr, WETDRY, l, 0);
-                    }
+                    mf.LayerGroupManager.LayerGroups.CollectionChanged -= this.LayerGroups_CollectionChanged;
+                    mf.LayerGroupManager.Initialize(grid.ActualLayerCount);
+                    mf.LayerGroupManager.ConvertFrom(LAYTYP, "LAYTYP");
+                    mf.LayerGroupManager.ConvertFrom(LAYAVG, "LAYAVG");
+                    mf.LayerGroupManager.ConvertFrom(CHANI, "CHANI");
+                    mf.LayerGroupManager.ConvertFrom(LAYVKA, "LAYVKA");
+                    mf.LayerGroupManager.ConvertFrom(LAYWET, "LAYWET");
+                    mf.LayerGroupManager.LayerGroups.CollectionChanged += this.LayerGroups_CollectionChanged;
 
-                    HK.Variables[l] = "HK Layer" + (l + 1);
-                    HANI.Variables[l] = "HANI Layer" + (l + 1);
-                    VKA.Variables[l] = "VKA Layer" + (l + 1);
-                    SS.Variables[l] = "SS Layer" + (l + 1);
-                    SY.Variables[l] = "SY Layer" + (l + 1);
-                    WETDRY.Variables[l] = "WETDRY Layer" + (l + 1);
+                    HK = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
+                    {
+                        Name = "HK",
+                        ZeroDimension = DimensionFlag.Spatial
+                    };
+
+                    HANI = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
+                    {
+                        Name = "HANI",
+                        ZeroDimension = DimensionFlag.Spatial
+                    };
+                    VKA = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
+                    {
+                        Name = "VKA",
+                        ZeroDimension = DimensionFlag.Spatial
+                    };
+                    SS = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
+                    {
+                        Name = "SS",
+                        ZeroDimension = DimensionFlag.Spatial
+                    };
+                    SY = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
+                    {
+                        Name = "SY",
+                        ZeroDimension = DimensionFlag.Spatial
+                    };
+                    WETDRY = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
+                    {
+                        Name = "WETDRY",
+                        ZeroDimension = DimensionFlag.Spatial
+                    };
+
+                    HK.Topology = grid.Topology;
+                    HANI.Topology = grid.Topology;
+                    VKA.Topology = grid.Topology;
+                    SS.Topology = grid.Topology;
+                    SY.Topology = grid.Topology;
+                    WETDRY.Topology = grid.Topology;
+
+                    for (int l = 0; l < grid.ActualLayerCount; l++)
+                    {
+                        ReadSerialArray(sr, HK, l, 0);
+                        ReadSerialArray(sr, HANI, l, 0);
+                        ReadSerialArray(sr, VKA, l, 0);
+                        ReadSerialArray(sr, SS, l, 0);
+
+                        if (LAYTYP[l] != 0)
+                        {
+                            ReadSerialArray(sr, SY, l, 0);
+                        }
+
+                        if (LAYTYP[l] != 0 && LAYWET[l] != 0)
+                        {
+                            ReadSerialArray(sr, WETDRY, l, 0);
+                        }
+
+                        HK.Variables[l] = "HK Layer" + (l + 1);
+                        HANI.Variables[l] = "HANI Layer" + (l + 1);
+                        VKA.Variables[l] = "VKA Layer" + (l + 1);
+                        SS.Variables[l] = "SS Layer" + (l + 1);
+                        SY.Variables[l] = "SY Layer" + (l + 1);
+                        WETDRY.Variables[l] = "WETDRY Layer" + (l + 1);
+                    }
+                    OnLoaded(progresshandler);
+                    result = true;
                 }
-                sr.Close();    
-                OnLoaded(progresshandler);
-                return true;
+                catch (Exception ex)
+                {
+                    result = false;
+                    Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
+                    ShowWarning(Message, progresshandler);
+                }
+                finally
+                {
+                    sr.Close();
+                }
+                return result;
             }
             else
             {
-                OnLoadFailed("Failed to load " + this.Name, progresshandler);
+                ShowWarning("Failed to load " + this.Name, progresshandler);
                 return false;
             }
         }

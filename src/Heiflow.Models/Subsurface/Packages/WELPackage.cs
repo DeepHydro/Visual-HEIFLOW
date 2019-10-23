@@ -33,6 +33,7 @@ using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
 using NetTopologySuite.Geometries;
+using System;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Data;
@@ -206,15 +207,79 @@ namespace Heiflow.Models.Subsurface
             if (File.Exists(FileName))
             {
                 var grid = this.Grid as MFGrid;
-                LoadSP();
-                State = ModelObjectState.Ready;
-                OnLoaded(progresshandler);
-                return true;
+                int np = TimeService.StressPeriods.Count;
+                var result = false;
+                StreamReader sr = new StreamReader(FileName);
+                try
+                {
+                    var line = ReadComment(sr);
+                    var ss = TypeConverterEx.Split<float>(line, 2);
+                    MXACTW = (int)ss[0];
+                    IWELCB = (int)ss[1];
+
+                    FluxRates = new DataCube<float>(4, np, MXACTW)
+                    {
+                        DateTimes = new System.DateTime[np],
+                        ZeroDimension = DimensionFlag.Time,
+                        Variables = new string[4] { "Layer", "Row", "Column", "Q" }
+                    };
+
+                    for (int n = 0; n < np; n++)
+                    {
+                        ss = TypeConverterEx.Split<float>(sr.ReadLine(), 2);
+                        int nwel = (int)ss[0];
+                        if (nwel > 0)
+                        {
+                            FluxRates.Flags[n] = TimeVarientFlag.Individual;
+                            FluxRates.Multipliers[n] = 1;
+                            FluxRates.IPRN[n] = -1;
+
+                            for (int i = 0; i < nwel; i++)
+                            {
+                                var vv = TypeConverterEx.Split<float>(sr.ReadLine());
+                                FluxRates[0, n, i] = vv[0];
+                                FluxRates[1, n, i] = vv[1];
+                                FluxRates[2, n, i] = vv[2];
+                                FluxRates[3, n, i] = vv[3];
+                            }
+                        }
+                        else if (nwel == 0)
+                        {
+                            FluxRates.Flags[n] = TimeVarientFlag.Constant;
+                            FluxRates.Multipliers[n] = 1;
+                            FluxRates.IPRN[n] = -1;
+                        }
+                        else
+                        {
+                            FluxRates.Flags[n] = TimeVarientFlag.Repeat;
+                            FluxRates.Multipliers[n] = ss[1];
+                            FluxRates.IPRN[n] = -1;
+                            //var size = FluxRates.GetVariableSize(n - 1);
+                            //var buf = new float[size[1]];
+                            //FluxRates[n - 1, "0", ":"].CopyTo(buf, 0);
+                            //FluxRates[n, "0", ":"] = buf;
+                        }
+                        FluxRates.DateTimes[n] = TimeService.StressPeriods[n].End;
+                    }
+                    BuildTopology();
+                    OnLoaded(progresshandler);
+                    result = true;
+                }
+                catch (Exception ex)
+                {
+                    result = false;
+                    Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
+                    ShowWarning(Message, progresshandler);
+                }
+                finally
+                {
+                    sr.Close();
+                }
+                return result;
             }
             else
             {
-                State = ModelObjectState.Error;
-                OnLoadFailed("Failed to load", progresshandler);
+                ShowWarning("Failed to load", progresshandler);
                 return false;
             }
         }
@@ -273,66 +338,6 @@ namespace Heiflow.Models.Subsurface
             base.OnTimeServiceUpdated(time);
         }
 
-        private void LoadSP()
-        {
-            if (File.Exists(FileName))
-            {
-                var grid = this.Grid as MFGrid;
-                int np = TimeService.StressPeriods.Count;
-                StreamReader sr = new StreamReader(FileName);
-                var line = ReadComment(sr);
-                var ss = TypeConverterEx.Split<float>(line, 2);
-                MXACTW = (int)ss[0];
-                IWELCB = (int)ss[1];
-
-                FluxRates = new DataCube<float>(4, np, MXACTW)
-                {
-                    DateTimes = new System.DateTime[np],                    ZeroDimension = DimensionFlag.Time,
-                    Variables = new string[4] {"Layer","Row","Column","Q" }
-                };
-
-                for (int n = 0; n < np; n++)
-                {
-                    ss = TypeConverterEx.Split<float>(sr.ReadLine(), 2);
-                    int nwel = (int)ss[0];
-                    if (nwel > 0)
-                    {
-                        FluxRates.Flags[n] = TimeVarientFlag.Individual;
-                        FluxRates.Multipliers[n] = 1;
-                        FluxRates.IPRN[n] = -1;
-
-                        for (int i = 0; i < nwel; i++)
-                        {
-                            var vv = TypeConverterEx.Split<float>(sr.ReadLine());
-                            FluxRates[0, n, i] = vv[0];
-                            FluxRates[1, n, i] = vv[1];
-                            FluxRates[2, n, i] = vv[2];
-                            FluxRates[3, n, i] = vv[3];
-                        }
-                    }
-                    else if (nwel == 0)
-                    {
-                        FluxRates.Flags[n] = TimeVarientFlag.Constant;
-                        FluxRates.Multipliers[n] = 1;
-                        FluxRates.IPRN[n] = -1;
-                    }
-                    else
-                    {
-                        FluxRates.Flags[n] = TimeVarientFlag.Repeat;
-                        FluxRates.Multipliers[n] = ss[1];
-                        FluxRates.IPRN[n] = -1;
-                        //var size = FluxRates.GetVariableSize(n - 1);
-                        //var buf = new float[size[1]];
-                        //FluxRates[n - 1, "0", ":"].CopyTo(buf, 0);
-                        //FluxRates[n, "0", ":"] = buf;
-                    }
-                    FluxRates.DateTimes[n] = TimeService.StressPeriods[n].End;
-                }
-
-                sr.Close();
-                BuildTopology();
-            }
-        }
 
         private void InitTVArrays()
         {

@@ -314,77 +314,91 @@ namespace Heiflow.Models.Subsurface
         {
             if (File.Exists(FileName))
             {
+                var result = false;
                 var grid = (Owner.Grid as MFGrid);
                 Observations.Clear();
                 StreamReader sr = new StreamReader(FileName);
-                var line = ReadComment(sr);
-                var strs = TypeConverterEx.Split<string>(line, 6);
-                NH = int.Parse(strs[0]);
-                MOBS = int.Parse(strs[1]);
-                MAXM = int.Parse(strs[2]);
-                IUHOBSV = int.Parse(strs[3]);
-                HOBDRY = float.Parse(strs[4]);
-                Option = strs[5];
-                TOMULTH = TypeConverterEx.Split<float>(sr.ReadLine(), 1)[0];
-              
-                int i = 0;
-                while (!sr.EndOfStream)
+                try
                 {
-                    line =sr.ReadLine();
-                    var vv = TypeConverterEx.SkipSplit<float>(line, 1, 8);
-                    strs = TypeConverterEx.Split<string>(line);
-                    HeadObservation obs = new HeadObservation(i)
-                    {
-                        Layer = (int)vv[0],
-                        Row = (int)vv[1],
-                        Column = (int)vv[2],
-                        IREFSPFlag = (int)vv[3],
-                        Name = strs[0]
-                    };
-                    obs.CellID = grid.Topology.GetID(obs.Row - 1, obs.Column - 1);
-                    if (obs.IREFSPFlag < 0)
+                    var line = ReadComment(sr);
+                    var strs = TypeConverterEx.Split<string>(line, 6);
+                    NH = int.Parse(strs[0]);
+                    MOBS = int.Parse(strs[1]);
+                    MAXM = int.Parse(strs[2]);
+                    IUHOBSV = int.Parse(strs[3]);
+                    HOBDRY = float.Parse(strs[4]);
+                    Option = strs[5];
+                    TOMULTH = TypeConverterEx.Split<float>(sr.ReadLine(), 1)[0];
+
+                    int i = 0;
+                    while (!sr.EndOfStream)
                     {
                         line = sr.ReadLine();
-                        obs.ITT = TypeConverterEx.Split<int>(line, 1)[0];
-                        int nsp = Math.Abs((int)vv[3]);
-                        obs.IREFSP = new int[nsp];
-                        obs.TOFFSET = new float[nsp];
-                        obs.HOBS = new float[nsp];
-                        obs.ROFF = vv[5];
-                        obs.COFF = vv[6];
-                        for (int t = 0; t < nsp; t++)
+                        var vv = TypeConverterEx.SkipSplit<float>(line, 1, 8);
+                        strs = TypeConverterEx.Split<string>(line);
+                        HeadObservation obs = new HeadObservation(i)
+                        {
+                            Layer = (int)vv[0],
+                            Row = (int)vv[1],
+                            Column = (int)vv[2],
+                            IREFSPFlag = (int)vv[3],
+                            Name = strs[0]
+                        };
+                        obs.CellID = grid.Topology.GetID(obs.Row - 1, obs.Column - 1);
+                        if (obs.IREFSPFlag < 0)
                         {
                             line = sr.ReadLine();
-                            vv = TypeConverterEx.SkipSplit<float>(line, 1, 4);
-                            obs.IREFSP[t] = (int)vv[0];
-                            obs.TOFFSET[t] = vv[1];
-                            obs.HOBS[t] = vv[2];
+                            obs.ITT = TypeConverterEx.Split<int>(line, 1)[0];
+                            int nsp = Math.Abs((int)vv[3]);
+                            obs.IREFSP = new int[nsp];
+                            obs.TOFFSET = new float[nsp];
+                            obs.HOBS = new float[nsp];
+                            obs.ROFF = vv[5];
+                            obs.COFF = vv[6];
+                            for (int t = 0; t < nsp; t++)
+                            {
+                                line = sr.ReadLine();
+                                vv = TypeConverterEx.SkipSplit<float>(line, 1, 4);
+                                obs.IREFSP[t] = (int)vv[0];
+                                obs.TOFFSET[t] = vv[1];
+                                obs.HOBS[t] = vv[2];
+                            }
                         }
+                        else
+                        {
+                            int nsp = 1;
+                            obs.IREFSP = new int[nsp];
+                            obs.TOFFSET = new float[nsp];
+                            obs.HOBS = new float[nsp];
+                            obs.IREFSP[0] = (int)vv[3];
+                            obs.TOFFSET[0] = vv[4];
+                            obs.ROFF = vv[5];
+                            obs.COFF = vv[6];
+                            obs.HOBS[0] = vv[7];
+                        }
+                        obs.Elevation = grid.GetElevationAt(obs.Row - 1, obs.Column - 1, obs.Layer - 1);
+                        Observations.Add(obs);
+                        i++;
                     }
-                    else
-                    {
-                        int nsp = 1;
-                        obs.IREFSP = new int[nsp];
-                        obs.TOFFSET = new float[nsp];
-                        obs.HOBS = new float[nsp];
-                        obs.IREFSP[0] = (int)vv[3];
-                        obs.TOFFSET[0] = vv[4];
-                        obs.ROFF = vv[5];
-                        obs.COFF = vv[6];
-                        obs.HOBS[0] = vv[7];
-                    }
-                    obs.Elevation = grid.GetElevationAt(obs.Row - 1, obs.Column - 1, obs.Layer - 1);
-                    Observations.Add(obs);
-                    i++;
+                    BuildTopology();
+                    OnLoaded(progresshandler);
+                    result = true;
                 }
-                BuildTopology();
-                sr.Close();
-                OnLoaded(progresshandler);
-                return true;
+                catch (Exception ex)
+                {
+                    result = false;
+                    Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
+                    ShowWarning(Message, progresshandler);
+                }
+                finally
+                {
+                    sr.Close();
+                }
+                return result;
             }
             else
             {
-                OnLoadFailed("Failed to load "+this.Name, progresshandler);
+                ShowWarning("Failed to load " + this.Name, progresshandler);
                 return false;
             }
         }

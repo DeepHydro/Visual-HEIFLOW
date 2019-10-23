@@ -34,6 +34,7 @@ using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
 using Heiflow.Models.UI;
 using NetTopologySuite.Geometries;
+using System;
 using System.ComponentModel.Composition;
 using System.Data;
 using System.IO;
@@ -204,73 +205,87 @@ namespace Heiflow.Models.Subsurface
         {
             if (File.Exists(FileName))
             {
+                var result = false;
                 StreamReader sr = new StreamReader(FileName);
+                try
+                {                  
+                    //# Data Set 1 NBDTIM  NFLW  NHED IFHBSS  IFHBCB  NFHBX1  NFHBX2
+                    var line = sr.ReadLine();
+                    var temp = TypeConverterEx.Split<int>(line, 7);
+                    NBDTIM = temp[0];
+                    NFLW = temp[1];
+                    NHED = temp[2];
+                    IFHBSS = temp[3];
+                    IFHBCB = temp[4];
+                    NFHBX1 = temp[5];
+                    NFHBX2 = temp[6];
 
-                //# Data Set 1 NBDTIM  NFLW  NHED IFHBSS  IFHBCB  NFHBX1  NFHBX2
-                var line = sr.ReadLine();
-                var temp = TypeConverterEx.Split<int>(line, 7);
-                NBDTIM = temp[0];
-                NFLW = temp[1];
-                NHED = temp[2];
-                IFHBSS = temp[3];
-                IFHBCB = temp[4];
-                NFHBX1 = temp[5];
-                NFHBX2 = temp[6];
-
-                //112	1	0	# Data Set 4a IFHBUN CNSTM IFHBPT
-                line = sr.ReadLine();
-                var strs = TypeConverterEx.Split<string>(line, 3);
-                IFHBUN = int.Parse(strs[0]);
-                CNSTM = float.Parse(strs[1]);
-                IFHBPT = int.Parse(strs[2]);
-
-                //0	1460	4749	# Data Set 4b BDTIM 
-                line = sr.ReadLine();
-                BDTIM = TypeConverterEx.Split<int>(line);
-
-                //112	1	0	# Data Set 5a IFHBUN CNSTM IFHBPT
-                line = sr.ReadLine();
-                strs = TypeConverterEx.Split<string>(line, 3);
-                IFHBUN = int.Parse(strs[0]);
-                CNSTM = float.Parse(strs[1]);
-                IFHBPT = int.Parse(strs[2]);
-
-                //# Data Set 5b Layer Row Column IAUX  FLWRAT(NBDTIM)
-                //   MFWell[] wells = new MFWell[NFLW];
-                FlowRate = new DataCube<float>(4 + NBDTIM, 1, NFLW)
-                {
-                    Name = "FHB_FlowRate", ZeroDimension= DimensionFlag.Time
-                };
-                FlowRate.Variables[0] = "Layer";//Layer Row Column IAUX  FLWRAT(NBDTIM)
-                FlowRate.Variables[1] = "Row";
-                FlowRate.Variables[2] = "Column";
-                FlowRate.Variables[3] = "IAUX";
-                for (int i = 0; i < NBDTIM; i++)
-                {
-                    FlowRate.Variables[4 + i] = "FLWRAT " + (i + 1);
-                }
-                for (int i = 0; i < NFLW; i++)
-                {
+                    //112	1	0	# Data Set 4a IFHBUN CNSTM IFHBPT
                     line = sr.ReadLine();
-                    var buf = TypeConverterEx.Split<float>(line);
-                    FlowRate[0,0,i] = (int)buf[0];
-                    FlowRate[1,0,i] = (int)buf[1];
-                    FlowRate[2,0,i] = (int)buf[2];
-                    FlowRate[3,0,i] = (int)buf[3];
-                    for (int j = 0; j < NBDTIM; j++)
+                    var strs = TypeConverterEx.Split<string>(line, 3);
+                    IFHBUN = int.Parse(strs[0]);
+                    CNSTM = float.Parse(strs[1]);
+                    IFHBPT = int.Parse(strs[2]);
+
+                    //0	1460	4749	# Data Set 4b BDTIM 
+                    line = sr.ReadLine();
+                    BDTIM = TypeConverterEx.Split<int>(line);
+
+                    //112	1	0	# Data Set 5a IFHBUN CNSTM IFHBPT
+                    line = sr.ReadLine();
+                    strs = TypeConverterEx.Split<string>(line, 3);
+                    IFHBUN = int.Parse(strs[0]);
+                    CNSTM = float.Parse(strs[1]);
+                    IFHBPT = int.Parse(strs[2]);
+
+                    //# Data Set 5b Layer Row Column IAUX  FLWRAT(NBDTIM)
+                    //   MFWell[] wells = new MFWell[NFLW];
+                    FlowRate = new DataCube<float>(4 + NBDTIM, 1, NFLW)
                     {
-                        FlowRate[4+j,0,i] = buf[4+j];
+                        Name = "FHB_FlowRate",
+                        ZeroDimension = DimensionFlag.Time
+                    };
+                    FlowRate.Variables[0] = "Layer";//Layer Row Column IAUX  FLWRAT(NBDTIM)
+                    FlowRate.Variables[1] = "Row";
+                    FlowRate.Variables[2] = "Column";
+                    FlowRate.Variables[3] = "IAUX";
+                    for (int i = 0; i < NBDTIM; i++)
+                    {
+                        FlowRate.Variables[4 + i] = "FLWRAT " + (i + 1);
                     }
+                    for (int i = 0; i < NFLW; i++)
+                    {
+                        line = sr.ReadLine();
+                        var buf = TypeConverterEx.Split<float>(line);
+                        FlowRate[0, 0, i] = (int)buf[0];
+                        FlowRate[1, 0, i] = (int)buf[1];
+                        FlowRate[2, 0, i] = (int)buf[2];
+                        FlowRate[3, 0, i] = (int)buf[3];
+                        for (int j = 0; j < NBDTIM; j++)
+                        {
+                            FlowRate[4 + j, 0, i] = buf[4 + j];
+                        }
+                    }
+                    BuildTopology();                   
+                    OnLoaded(progress);
+                    result = true;
                 }
-                BuildTopology();
-                sr.Close();
-                OnLoaded(progress);
-                return true;
+                catch(Exception ex)
+                {
+                    result = false;
+                    Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
+                    ShowWarning(Message, progress);
+                }
+                finally
+                {
+                    sr.Close();
+                }
+                return result;
             }
             else
             {
-                Message = string.Format("\r\n Failed to load {0}. The package file does not exist: {1}", Name, FileName);
-                OnLoadFailed(Message, progress);
+                Message = string.Format("Failed to load {0}. The package file does not exist: {1}", Name, FileName);
+                ShowWarning(Message, progress);
                 return false;
             }
         }

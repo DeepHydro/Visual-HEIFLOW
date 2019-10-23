@@ -168,7 +168,7 @@ namespace Heiflow.Models.Subsurface
             }
             else
             {
-                OnLoadFailed("The LAK output file does not exist", progresshandler);
+                ShowWarning("The LAK output file does not exist", progresshandler);
                 return false;
             }
         }

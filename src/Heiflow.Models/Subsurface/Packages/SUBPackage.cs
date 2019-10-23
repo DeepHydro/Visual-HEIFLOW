@@ -226,79 +226,96 @@ namespace Heiflow.Models.Subsurface
         {
             if (File.Exists(FileName))
             {
+                var result = false;
                 StreamReader sr = new StreamReader(FileName);
-                //Data Set 2: # ISUBCB ISUBOC NNDB NDB NMZ NN AC1 AC2 ITMIN IDSAVE IDREST SUBLNK
-                string newline = ReadComment(sr);
-                var buf = TypeConverterEx.Split<float>(newline,11);
-                ISUBOC = (int)buf[1];
-                NNDB = (int)buf[2];
-                NDB = (int)buf[3];
-                NMZ = (int)buf[4];
-                NN = (int)buf[5];
-                AC1 = buf[6];
-                AC2= buf[7];
-                ITMIN = (int)buf[8];
-                IDSAVE = (int)buf[9];
-                IDREST = (int)buf[10];
-
-                if (NNDB > 0)
+                try
                 {
-                    newline = sr.ReadLine();
-                    LN = TypeConverterEx.Split<int>(newline, NNDB);
-                }
-                if (NDB > 0)
-                {
-                    newline = sr.ReadLine();
-                    LDN = TypeConverterEx.Split<int>(newline, NDB);
-                }
+                    //Data Set 2: # ISUBCB ISUBOC NNDB NDB NMZ NN AC1 AC2 ITMIN IDSAVE IDREST SUBLNK
+                    string newline = ReadComment(sr);
+                    var buf = TypeConverterEx.Split<float>(newline, 11);
+                    ISUBOC = (int)buf[1];
+                    NNDB = (int)buf[2];
+                    NDB = (int)buf[3];
+                    NMZ = (int)buf[4];
+                    NN = (int)buf[5];
+                    AC1 = buf[6];
+                    AC2 = buf[7];
+                    ITMIN = (int)buf[8];
+                    IDSAVE = (int)buf[9];
+                    IDREST = (int)buf[10];
 
-                var grid = (Owner.Grid as MFGrid);
-
-                if (NNDB > 0)
-                {
-                    this.HC = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
+                    if (NNDB > 0)
                     {
-                        Name = "HC", ZeroDimension=  DimensionFlag.Spatial
-                    };
-                    this.Sfe = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
-                    {
-                        Name = "Sfe",                        ZeroDimension = DimensionFlag.Spatial
-                    };
-                    this.Sfv = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
-                    {
-                        Name = "Sfv",                        ZeroDimension = DimensionFlag.Spatial
-                    };
-                    this.Com = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
-                    {
-                        Name = "Com",                        ZeroDimension = DimensionFlag.Spatial
-                    };
-                    for (int l = 0; l < grid.ActualLayerCount; l++)
-                    {
-                        this.HC.Variables[l] = "HC " + (l + 1);
-                        ReadSerialArray(sr, this.HC, l, 0);
-
-                        this.Sfe.Variables[l] = "Sfe " + (l + 1);
-                        ReadSerialArray(sr, this.Sfe, l, 0);
-
-                        this.Sfv.Variables[l] = "Sfv " + (l + 1);
-                        ReadSerialArray(sr, this.Sfv, l, 0);
-
-                        this.Com.Variables[l] = "Com " + (l + 1);
-                        ReadSerialArray(sr, this.Com, l, 0);
+                        newline = sr.ReadLine();
+                        LN = TypeConverterEx.Split<int>(newline, NNDB);
                     }
+                    if (NDB > 0)
+                    {
+                        newline = sr.ReadLine();
+                        LDN = TypeConverterEx.Split<int>(newline, NDB);
+                    }
+
+                    var grid = (Owner.Grid as MFGrid);
+
+                    if (NNDB > 0)
+                    {
+                        this.HC = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
+                        {
+                            Name = "HC",
+                            ZeroDimension = DimensionFlag.Spatial
+                        };
+                        this.Sfe = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
+                        {
+                            Name = "Sfe",
+                            ZeroDimension = DimensionFlag.Spatial
+                        };
+                        this.Sfv = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
+                        {
+                            Name = "Sfv",
+                            ZeroDimension = DimensionFlag.Spatial
+                        };
+                        this.Com = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
+                        {
+                            Name = "Com",
+                            ZeroDimension = DimensionFlag.Spatial
+                        };
+                        for (int l = 0; l < grid.ActualLayerCount; l++)
+                        {
+                            this.HC.Variables[l] = "HC " + (l + 1);
+                            ReadSerialArray(sr, this.HC, l, 0);
+
+                            this.Sfe.Variables[l] = "Sfe " + (l + 1);
+                            ReadSerialArray(sr, this.Sfe, l, 0);
+
+                            this.Sfv.Variables[l] = "Sfv " + (l + 1);
+                            ReadSerialArray(sr, this.Sfv, l, 0);
+
+                            this.Com.Variables[l] = "Com " + (l + 1);
+                            ReadSerialArray(sr, this.Com, l, 0);
+                        }
+                    }
+
+                    newline = sr.ReadLine();
+                    OutputFIDs = TypeConverterEx.Split<int>(newline, 12);
+                    OnLoaded(progresshandler);
+                    result = true;
                 }
-
-                newline = sr.ReadLine();
-                OutputFIDs = TypeConverterEx.Split<int>(newline, 12);
-
-                sr.Close();
-                OnLoaded(progresshandler);          
-                return true;
+                catch (Exception ex)
+                {
+                    result = false;
+                    Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
+                    ShowWarning(Message, progresshandler);
+                }
+                finally
+                {
+                    sr.Close();
+                }
+                return result;
             }
             else
             {
                 Message = string.Format("\r\n Failed to load {0}. The package file does not exist: {1}", Name, FileName);
-                OnLoadFailed(Message, progresshandler);
+                ShowWarning(Message, progresshandler);
                 return false;
             }
         }
