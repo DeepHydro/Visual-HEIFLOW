@@ -172,7 +172,6 @@ namespace Heiflow.Models.Generic.Grid
                     for (int c = 0; c < ColumnCount; c++)
                     {
                         var cor = Source.LocateCentroid(c + 1, r + 1);
-
                         if (SpatialRelationship.PointInPolygon(geo, cor))
                         {
                             for (int l = 0; l < Source.ActualLayerCount; l++)

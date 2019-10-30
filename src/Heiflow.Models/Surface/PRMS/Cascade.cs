@@ -244,17 +244,17 @@ namespace Heiflow.Models.Surface.PRMS
             sw.WriteLine(line);
             var hru_type = (_Prms.MMSPackage.Parameters["hru_type"] as DataCubeParameter<int>).ToVector();
             int aci = 0;
-            short[] ht = new short[mGrid.ColumnCount];
+            int[] ht = new int[mGrid.ColumnCount];
 
-            for (uint r = 0; r < mGrid.RowCount; r++)
+            for (int r = 0; r < mGrid.RowCount; r++)
             {
                 line = "";
-                MatrixExtension<short>.Set(ht, 0);
-                for (uint c = 0; c < mGrid.ColumnCount; c++)
+                MatrixExtension<int>.Set(ht, 0);
+                for (int c = 0; c < mGrid.ColumnCount; c++)
                 {
-                    if (mGrid.IBound[0, (int)r, (int)c] > 0)
+                    if (mGrid.IBound[0,r, c] > 0)
                     {
-                        ht[c] = (short)hru_type[aci];
+                        ht[c] = hru_type[aci];
                         aci++;
                     }
                 }
