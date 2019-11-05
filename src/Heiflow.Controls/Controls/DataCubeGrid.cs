@@ -686,7 +686,7 @@ namespace Heiflow.Controls.WinForm.Controls
             if (_DataCubeObject != null && _DataCubeObject is IParameter)
             {
                 var para = _DataCubeObject as IParameter;
-                
+
                 //e.RowIndex
                 if (para.VariableType == ParameterType.Dimension)
                 {
@@ -698,7 +698,7 @@ namespace Heiflow.Controls.WinForm.Controls
                         if (buf.Any())
                         {
                             var msg = string.Format("The following parameters, {0}, will be changed. Do you really want to change the value of the dimension: {1}? ", string.Join(",", buf), para.Name);
-                            if (_ShellService.MessageService.ShowQuestion(_ShellService.MainForm, msg).Value)
+                            if (MessageBox.Show(msg, "Change dimension", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                                 mms.AlterLength(para.Name, new_len);
                         }
                     }

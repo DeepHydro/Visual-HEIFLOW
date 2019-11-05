@@ -140,6 +140,9 @@ namespace Heiflow.Models.Generic
             get;
             set;
         }
+        /// <summary>
+        /// parameter that has fixed value
+        /// </summary>
         bool IsFixed
         {
             get;set;

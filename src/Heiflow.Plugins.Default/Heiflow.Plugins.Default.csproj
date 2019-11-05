@@ -299,7 +299,7 @@
     <None Include="Resources\convert_to_mesh.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\1491980156_si-duo-stack.png" />
+    <None Include="Resources\stack.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Abacus.png" />
@@ -327,6 +327,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\3d_plot_printing_printer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rotation3d16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rotation3d32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TableFields32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

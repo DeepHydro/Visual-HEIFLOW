@@ -32,6 +32,7 @@ using DotSpatial.Controls.Docking;
 using DotSpatial.Controls.Header;
 using Heiflow.Applications;
 using Heiflow.Controls.WinForm.Climate;
+using Heiflow.Controls.WinForm.Display;
 using Heiflow.Controls.WinForm.Modflow;
 using Heiflow.Controls.WinForm.Processing;
 using Heiflow.Controls.WinForm.Project;
@@ -49,6 +50,7 @@ namespace Heiflow.Plugins.Default
         private SimpleActionItem _layer_group;
         private SimpleActionItem _runCascade;
         private SimpleActionItem _GlobalSet;
+        private SimpleActionItem _ParaViewer;
 
         public ModelPlugin()
         {
@@ -63,15 +65,6 @@ namespace Heiflow.Plugins.Default
 
         public override void Activate()
         {
-            _fd_grid = new SimpleActionItem("kModel", "Finite Difference Grid", FDGrid_Clicked)
-            {
-                Key = "kFDGrid",
-                ToolTipText = "Create Finite Difference Grid",
-                GroupCaption = "Grid",
-                LargeImage = Properties.Resources.convert_to_mesh,
-                SortOrder = 2
-            };
-            App.HeaderControl.Add(_fd_grid);
 
             _layer_group = new SimpleActionItem("kModel", "Layer Group", LayerGroup_Clicked)
             {
@@ -79,9 +72,20 @@ namespace Heiflow.Plugins.Default
                 ToolTipText = "Set Layer Group",
                 GroupCaption = "Grid",
                 LargeImage = Properties.Resources.stack,
-                SortOrder = 2
+                SortOrder = 0
             };
             App.HeaderControl.Add(_layer_group);
+
+            _fd_grid = new SimpleActionItem("kModel", "Finite Difference Grid", FDGrid_Clicked)
+            {
+                Key = "kFDGrid",
+                ToolTipText = "Create Finite Difference Grid",
+                GroupCaption = "Grid",
+                LargeImage = Properties.Resources.convert_to_mesh,
+                SortOrder = 1
+            };
+            App.HeaderControl.Add(_fd_grid);
+
 
             _runCascade = new SimpleActionItem("kModel", "Cascade", RunCascade_Clicked)
             {
@@ -101,9 +105,22 @@ namespace Heiflow.Plugins.Default
                 GroupCaption = "Setting",
                 LargeImage = Properties.Resources.equilizer_48,
                 Enabled = true,
-                SortOrder = 2
+                SortOrder = 3
             };
             App.HeaderControl.Add(_GlobalSet);
+
+            _ParaViewer = new SimpleActionItem("kModel", "Parameter Viewer", ParaViewer_Clicked)
+            {
+                Key = "kParaViewer",
+                ToolTipText = "Parameter Viewer",
+                GroupCaption = "Setting",
+                LargeImage = Properties.Resources.TableFields32,
+                Enabled = true,
+                SortOrder = 4
+            };
+            App.HeaderControl.Add(_ParaViewer);
+
+            ProjectManager.ShellService.ParameterExplorerView = new ParameterExplorer();
         }
 
         private void FDGrid_Clicked(object sender, EventArgs e)
@@ -142,8 +159,6 @@ namespace Heiflow.Plugins.Default
                     LayerGroupForm form = new LayerGroupForm(mf.LayerGroupManager);
                     form.ShowDialog();
                 }
-
-
             }
             else
             {
@@ -163,6 +178,13 @@ namespace Heiflow.Plugins.Default
                 ProjectManager.ShellService.PropertyView.SelectedObject = ProjectManager.Project.Model.GetType().GetProperty("MasterPackage").GetValue(ProjectManager.Project.Model);
                 GlobalOptionForm form = new GlobalOptionForm();
                 form.ShowDialog();
+            }
+        }
+        private void ParaViewer_Clicked(object sender, EventArgs e)
+        {
+            if (ProjectManager.Project != null && ProjectManager.Project.Model != null)
+            {
+                ProjectManager.ShellService.ParameterExplorerView.ShowView(ProjectManager.ShellService.MainForm);
             }
         }
     }

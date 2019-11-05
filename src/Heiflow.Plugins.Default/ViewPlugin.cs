@@ -31,6 +31,7 @@ using DotSpatial.Controls;
 using DotSpatial.Controls.Docking;
 using DotSpatial.Controls.Header;
 using Heiflow.Applications;
+using Heiflow.Presentation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;

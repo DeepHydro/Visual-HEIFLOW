@@ -271,6 +271,7 @@
     <Compile Include="Subsurface\IExtractMFPackage.cs" />
     <Compile Include="Surface\PRMS\SoilLayer.cs" />
     <Compile Include="Surface\PRMS\SoilLayerManager.cs" />
+    <Compile Include="UI\IParameterExplorerView.cs" />
     <Compile Include="Visualization\TerrainViewerMapFile.cs" />
     <Compile Include="WRM\ManagemenSP.cs" />
     <Compile Include="WRM\ManagementCycle.cs" />

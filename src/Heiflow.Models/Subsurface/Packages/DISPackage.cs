@@ -298,7 +298,7 @@ namespace Heiflow.Models.Subsurface
             string[] bilfiles = new string[nlayer];
             for (int i = 0; i < nlayer; i++)
             {
-                var bilfile = Path.Combine(Owner.WorkDirectory, "Geospatial\\" + Elevation.Variables[i] + ".bil");
+                var bilfile = Path.Combine(Owner.Project.GeoSpatialDirectory, Elevation.Variables[i] + ".bil");
                 bilfiles[i] = bilfile;
                 if (!File.Exists(bilfile))
                 {

@@ -61,6 +61,7 @@ namespace Heiflow.Applications.Services
         protected IFigureService _FigureService;
         protected IModelToolManager _PackageToolManager;
         protected IDataCubeEditor _TV3DMatEditor;
+        protected IParameterExplorerView _IParameterExplorerView;
         protected List<IChildView> _ChildViews = new List<IChildView>();
         public object ShellView
         {
@@ -129,6 +130,12 @@ namespace Heiflow.Applications.Services
         {
             get { return _TV3DMatEditor; }
             set { SetProperty(ref _TV3DMatEditor, value); }
+        }
+
+        public IParameterExplorerView ParameterExplorerView
+        {
+            get { return _IParameterExplorerView; }
+            set { SetProperty(ref _IParameterExplorerView, value); }
         }
 
         [Import(typeof(IProjectExplorer))]

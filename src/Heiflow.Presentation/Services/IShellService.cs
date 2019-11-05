@@ -59,6 +59,7 @@ namespace Heiflow.Presentation.Services
         IMessageService MessageService { get; set; }
         AppManager MapAppManager { get; set; }
         IDataCubeEditor TV3DMatEditor { get; set; }
+        IParameterExplorerView ParameterExplorerView { get; set; }
         bool ShowAnimationMonitor { get; set; }
         void SelectPanel(string key);
         void ClearContents();

@@ -237,6 +237,12 @@
     <Compile Include="Controls\OperatorControl.Designer.cs">
       <DependentUpon>OperatorControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Display\ParameterExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Display\ParameterExplorer.Designer.cs">
+      <DependentUpon>ParameterExplorer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Display\Win3DView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -695,6 +701,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\OperatorControl.resx">
       <DependentUpon>OperatorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Display\ParameterExplorer.resx">
+      <DependentUpon>ParameterExplorer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Display\Win3DView.resx">
       <DependentUpon>Win3DView.cs</DependentUpon>

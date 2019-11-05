@@ -76,7 +76,7 @@ namespace Heiflow.Plugins.View3DPanel
                 Key = "kTerrainViewer",
                 ToolTipText = "Show 3D Terrain Viewe",
                 GroupCaption = "Data",
-                LargeImage = Resources._3d_plot_printing_printer
+                LargeImage = Resources.rotation3d32
             };
             App.HeaderControl.Add(terrainViewer);
 
