@@ -69,6 +69,8 @@ namespace Heiflow.Controls.WinForm.Climate
                 tbPet.Text = _ClimateDataPackage.MasterPackage.PETFile;
             else
                 tbPet.Text = "Disable";
+
+            cmbMethod.SelectedIndex = 0;
         }
 
         private void btnGenerate_Click(object sender, EventArgs e)
@@ -102,6 +104,18 @@ namespace Heiflow.Controls.WinForm.Climate
         private void btnOK_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void cmbMethod_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(cmbMethod.SelectedIndex == 0)
+            {
+                tabControl1.SelectedTab = tabUniform;
+            }
+            else if (cmbMethod.SelectedIndex == 0)
+            {
+                tabControl1.SelectedTab = tabRandom;
+            }
         }
     }
 }

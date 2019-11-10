@@ -1,4 +1,5 @@
 ﻿using Heiflow.Applications;
+using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Surface.PRMS;
 using Heiflow.Models.UI;
@@ -107,6 +108,10 @@ namespace Heiflow.Controls.WinForm.Display
                           };
             }
             cmbFilterCat.SelectedIndex = 0;
+            AutoCompleteStringCollection autolist = new AutoCompleteStringCollection();
+            foreach (var pp in _PRMS.MMSPackage.Parameters.Values)
+                autolist.Add(pp.Name);
+            cmbKeyword.AutoCompleteCustomSource = autolist;
         }
 
         private void ParameterExplorer_FormClosing(object sender, FormClosingEventArgs e)
@@ -178,17 +183,17 @@ namespace Heiflow.Controls.WinForm.Display
         private void btnSave_Click(object sender, EventArgs e)
         {
             var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
-            var configfile = Path.Combine(VHFAppManager.Instance.ConfigManager.ConfigPath, "mms_config_" +prj.Project.SelectedVersion + ".xml");
+            var configfile = Path.Combine(VHFAppManager.Instance.ConfigManager.ConfigPath, "mms_config_" + prj.Project.SelectedVersion + ".xml");
             var modelpara = this.bindingSource1.DataSource as IEnumerable<IParameter>;
             if (File.Exists(configfile) && modelpara != null)
             {
                 var mms = new MMSPackage("PRMS");
                 mms.Deserialize(configfile);
-                
-                foreach (var para in  modelpara)
+
+                foreach (var para in modelpara)
                 {
                     var buf = from pp in mms.Parameters.Values where pp.Name == para.Name select pp;
-                    if(buf.Any())
+                    if (buf.Any())
                     {
                         var mmspara = buf.First();
                         mmspara.DefaultValue = para.DefaultValue;
@@ -199,6 +204,19 @@ namespace Heiflow.Controls.WinForm.Display
                     }
                 }
                 mms.Serialize(configfile);
+            }
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            var paraname = cmbKeyword.Text;
+            if (TypeConverterEx.IsNotNull(paraname))
+            {
+                var para = from pp in _PRMS.MMSPackage.Parameters.Values where pp.Name == paraname select pp;
+                if (para.Any())
+                {
+                    BindParameters(para);
+                }
             }
         }
     }

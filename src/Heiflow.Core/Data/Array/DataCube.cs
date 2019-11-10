@@ -374,7 +374,10 @@ namespace Heiflow.Core.Data
         }
         public bool IsAllocated(int var_index)
         {
-            return _arrays[var_index] != null;
+            if (var_index < _arrays.Length)
+                return _arrays[var_index] != null;
+            else
+                return false;
         }
         public void Allocate(int var_index, int ntime, int ncell)
         {

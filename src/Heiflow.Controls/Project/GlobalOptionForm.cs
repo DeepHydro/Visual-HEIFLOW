@@ -67,7 +67,6 @@ namespace Heiflow.Controls.WinForm.Project
 
             if (File.Exists(outvar_file))
             {
-                listVarDescriptions.Items.Clear();
                 listVars.Items.Clear();
                 StreamReader sr = new StreamReader(outvar_file);
                 var line = sr.ReadLine();
@@ -79,7 +78,6 @@ namespace Heiflow.Controls.WinForm.Project
                         listVars.Items.Add(buf[0], true);
                     else
                         listVars.Items.Add(buf[0], false);
-                    listVarDescriptions.Items.Add(buf[1]);
                 }
                 sr.Close();
             }
@@ -166,6 +164,11 @@ namespace Heiflow.Controls.WinForm.Project
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             tabControl1.SelectedTab = tabOutVars;
+        }
+
+        private void listVars_SelectedIndexChanged(object sender, EventArgs e)
+        {
+          
         }
 
     }

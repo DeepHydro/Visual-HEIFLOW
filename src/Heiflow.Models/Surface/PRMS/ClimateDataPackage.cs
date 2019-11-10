@@ -279,12 +279,12 @@ namespace Heiflow.Models.Surface.PRMS
             sw.WriteAll(mat);
 
             mat.Variables[0] = "hru_tmax";
-            mat.ILArrays[0][":", ":"] = UnitConversion.Celsius2Fahrenheit(tmax);
+            mat.ILArrays[0][":", ":"] = tmax;// UnitConversion.Celsius2Fahrenheit(tmax);
             sw = new DataCubeStreamWriter(MasterPackage.TempMaxFile);
             sw.WriteAll(mat);
 
             mat.Variables[0] = "hru_tmin";
-            mat.ILArrays[0][":", ":"] = UnitConversion.Celsius2Fahrenheit(tmin);
+            mat.ILArrays[0][":", ":"] = tmin;// UnitConversion.Celsius2Fahrenheit(tmin);
             sw = new DataCubeStreamWriter(MasterPackage.TempMinFile);
             sw.WriteAll(mat);
 

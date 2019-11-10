@@ -46,7 +46,6 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.radioRunoffNonLinear = new System.Windows.Forms.RadioButton();
             this.radioRunoffLinear = new System.Windows.Forms.RadioButton();
-            this.tabExtension = new System.Windows.Forms.TabPage();
             this.tabFile = new System.Windows.Forms.TabPage();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.checkPringDebug = new System.Windows.Forms.CheckBox();
@@ -64,21 +63,22 @@
             this.tabOutVars = new System.Windows.Forms.TabPage();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.listVarDescriptions = new System.Windows.Forms.ListBox();
             this.listVars = new System.Windows.Forms.CheckedListBox();
+            this.tabExtension = new System.Windows.Forms.TabPage();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabModule.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.tabExtension.SuspendLayout();
             this.tabFile.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabOutVars.SuspendLayout();
+            this.tabExtension.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -316,17 +316,6 @@
     "area_casc)";
             this.radioRunoffLinear.UseVisualStyleBackColor = true;
             // 
-            // tabExtension
-            // 
-            this.tabExtension.Controls.Add(this.propertyGrid1);
-            this.tabExtension.Location = new System.Drawing.Point(4, 29);
-            this.tabExtension.Name = "tabExtension";
-            this.tabExtension.Padding = new System.Windows.Forms.Padding(3);
-            this.tabExtension.Size = new System.Drawing.Size(723, 524);
-            this.tabExtension.TabIndex = 4;
-            this.tabExtension.Text = "Extensions";
-            this.tabExtension.UseVisualStyleBackColor = true;
-            // 
             // tabFile
             // 
             this.tabFile.Controls.Add(this.groupBox7);
@@ -493,9 +482,9 @@
             // 
             // tabOutVars
             // 
+            this.tabOutVars.Controls.Add(this.textBox1);
             this.tabOutVars.Controls.Add(this.label4);
             this.tabOutVars.Controls.Add(this.label2);
-            this.tabOutVars.Controls.Add(this.listVarDescriptions);
             this.tabOutVars.Controls.Add(this.listVars);
             this.tabOutVars.Location = new System.Drawing.Point(4, 29);
             this.tabOutVars.Name = "tabOutVars";
@@ -527,20 +516,6 @@
             this.label2.TabIndex = 16;
             this.label2.Text = "Variable Name";
             // 
-            // listVarDescriptions
-            // 
-            this.listVarDescriptions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listVarDescriptions.FormattingEnabled = true;
-            this.listVarDescriptions.ItemHeight = 20;
-            this.listVarDescriptions.Items.AddRange(new object[] {
-            "hru_actet"});
-            this.listVarDescriptions.Location = new System.Drawing.Point(252, 35);
-            this.listVarDescriptions.Name = "listVarDescriptions";
-            this.listVarDescriptions.Size = new System.Drawing.Size(462, 464);
-            this.listVarDescriptions.TabIndex = 1;
-            // 
             // listVars
             // 
             this.listVars.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -556,6 +531,18 @@
             this.listVars.Name = "listVars";
             this.listVars.Size = new System.Drawing.Size(242, 466);
             this.listVars.TabIndex = 0;
+            this.listVars.SelectedIndexChanged += new System.EventHandler(this.listVars_SelectedIndexChanged);
+            // 
+            // tabExtension
+            // 
+            this.tabExtension.Controls.Add(this.propertyGrid1);
+            this.tabExtension.Location = new System.Drawing.Point(4, 29);
+            this.tabExtension.Name = "tabExtension";
+            this.tabExtension.Padding = new System.Windows.Forms.Padding(3);
+            this.tabExtension.Size = new System.Drawing.Size(723, 524);
+            this.tabExtension.TabIndex = 4;
+            this.tabExtension.Text = "Extensions";
+            this.tabExtension.UseVisualStyleBackColor = true;
             // 
             // propertyGrid1
             // 
@@ -564,6 +551,14 @@
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.Size = new System.Drawing.Size(717, 518);
             this.propertyGrid1.TabIndex = 0;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(257, 35);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(457, 466);
+            this.textBox1.TabIndex = 17;
             // 
             // GlobalOptionForm
             // 
@@ -590,7 +585,6 @@
             this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.tabExtension.ResumeLayout(false);
             this.tabFile.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
@@ -600,6 +594,7 @@
             this.groupBox1.PerformLayout();
             this.tabOutVars.ResumeLayout(false);
             this.tabOutVars.PerformLayout();
+            this.tabExtension.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -618,7 +613,6 @@
         private System.Windows.Forms.CheckedListBox listVars;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ListBox listVarDescriptions;
         private System.Windows.Forms.RadioButton radioPETPM;
         private System.Windows.Forms.RadioButton radioPETClimate;
         private System.Windows.Forms.TabPage tabFile;
@@ -645,5 +639,6 @@
         private System.Windows.Forms.CheckBox checkPringDebug;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.PropertyGrid propertyGrid1;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }

@@ -402,18 +402,25 @@ namespace Heiflow.Core.IO
                     DataCube.Variables = Variables;
                 }
                 if (!DataCube.IsAllocated(var_index) || DataCube.Size[1] != nstep)
-                    DataCube.Allocate(var_index, nstep, feaNum);
+                    DataCube.Allocate(var_index, nstep, nhru);
                 var vv = new float[feaNum];
                 for (int t = 0; t < nstep; t++)
                 {
-                    for (int s = 0; s < feaNum; s++)
+                    var buf = new float[nhru];
+                    for (int i = 0; i < feaNum; i++)
                     {
-                        vv[s] = br.ReadSingle() * Scale;
+                        vv[i] = br.ReadSingle() * Scale;                  
                     }
                     for (int i = 0; i < nhru; i++)
                     {
-                        DataCube[var_index, t, i] = vv[mapping[i + 1] - 1];
+                        buf[i] = vv[mapping[i + 1] - 1];
                     }
+                    //for (int i = 0; i < nhru; i++)
+                    //{
+                    //    //DataCube[var_index, t, i] = vv[mapping[i + 1] - 1];
+                    //    DataCube[var_index][t, i] = vv[mapping[i + 1] - 1];
+                    //}
+                    DataCube[var_index][t, ":"] = buf;
                     progress = Convert.ToInt32(t * 100 / nstep);
                     OnLoading(progress);
                 }

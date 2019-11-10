@@ -621,7 +621,7 @@ namespace Heiflow.Controls.WinForm.Properties {
         }
         
         /// <summary>
-        ///   查找类似于 (Icon) 的 System.Drawing.Icon 类型的本地化资源。
+        ///   查找类似于 (图标) 的 System.Drawing.Icon 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Icon heiflow {
             get {
@@ -976,6 +976,16 @@ namespace Heiflow.Controls.WinForm.Properties {
         internal static System.Drawing.Bitmap search_db {
             get {
                 object obj = ResourceManager.GetObject("search_db", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap search24 {
+            get {
+                object obj = ResourceManager.GetObject("search24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
