@@ -35,5 +35,5 @@ using System.Threading.Tasks;
 
 namespace Heiflow.Core.MyMath
 {
-    public enum AveragingMethod { Mean, Median, PseudoMedian };
+    public enum AveragingMethod { Mean, Median, PseudoMedian,Majority };
 }

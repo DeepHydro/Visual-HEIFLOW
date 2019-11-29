@@ -53,7 +53,6 @@
             this.olvColumn10 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumn11 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumn12 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.chbUniformProp = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.olvLayerGroup)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -67,7 +66,7 @@
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnCancel.Location = new System.Drawing.Point(769, 299);
+            this.btnCancel.Location = new System.Drawing.Point(800, 321);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(90, 30);
@@ -80,7 +79,7 @@
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOk.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnOk.Location = new System.Drawing.Point(667, 299);
+            this.btnOk.Location = new System.Drawing.Point(704, 321);
             this.btnOk.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(90, 30);
@@ -128,7 +127,7 @@
             this.olvLayerGroup.ShowGroups = false;
             this.olvLayerGroup.ShowImagesOnSubItems = true;
             this.olvLayerGroup.ShowItemToolTips = true;
-            this.olvLayerGroup.Size = new System.Drawing.Size(841, 244);
+            this.olvLayerGroup.Size = new System.Drawing.Size(892, 266);
             this.olvLayerGroup.TabIndex = 21;
             this.olvLayerGroup.UseCellFormatEvents = true;
             this.olvLayerGroup.UseCompatibleStateImageBehavior = false;
@@ -195,7 +194,7 @@
             // 
             this.numericUpDown1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.numericUpDown1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.numericUpDown1.Location = new System.Drawing.Point(186, 299);
+            this.numericUpDown1.Location = new System.Drawing.Point(186, 321);
             this.numericUpDown1.Minimum = new decimal(new int[] {
             1,
             0,
@@ -215,7 +214,7 @@
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.label6.Location = new System.Drawing.Point(8, 302);
+            this.label6.Location = new System.Drawing.Point(8, 324);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(175, 20);
             this.label6.TabIndex = 24;
@@ -225,7 +224,7 @@
             // 
             this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnAdd.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnAdd.Location = new System.Drawing.Point(261, 299);
+            this.btnAdd.Location = new System.Drawing.Point(261, 321);
             this.btnAdd.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(90, 30);
@@ -238,7 +237,7 @@
             // 
             this.btnRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnRemove.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnRemove.Location = new System.Drawing.Point(357, 299);
+            this.btnRemove.Location = new System.Drawing.Point(357, 321);
             this.btnRemove.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(90, 30);
@@ -249,12 +248,15 @@
             // 
             // tabControl1
             // 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPageInitial);
             this.tabControl1.Location = new System.Drawing.Point(11, 7);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(855, 283);
+            this.tabControl1.Size = new System.Drawing.Size(906, 305);
             this.tabControl1.TabIndex = 26;
             // 
             // tabPage1
@@ -263,7 +265,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 29);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(847, 250);
+            this.tabPage1.Size = new System.Drawing.Size(898, 272);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "General Properties";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -274,7 +276,7 @@
             this.tabPageInitial.Location = new System.Drawing.Point(4, 29);
             this.tabPageInitial.Name = "tabPageInitial";
             this.tabPageInitial.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageInitial.Size = new System.Drawing.Size(847, 250);
+            this.tabPageInitial.Size = new System.Drawing.Size(898, 272);
             this.tabPageInitial.TabIndex = 1;
             this.tabPageInitial.Text = "Uniform Properties";
             this.tabPageInitial.UseVisualStyleBackColor = true;
@@ -320,7 +322,7 @@
             this.olvLayersUniformProp.ShowGroups = false;
             this.olvLayersUniformProp.ShowImagesOnSubItems = true;
             this.olvLayersUniformProp.ShowItemToolTips = true;
-            this.olvLayersUniformProp.Size = new System.Drawing.Size(841, 244);
+            this.olvLayersUniformProp.Size = new System.Drawing.Size(892, 266);
             this.olvLayersUniformProp.TabIndex = 22;
             this.olvLayersUniformProp.UseCellFormatEvents = true;
             this.olvLayersUniformProp.UseCompatibleStateImageBehavior = false;
@@ -382,24 +384,12 @@
             this.olvColumn12.Text = "WETDRY";
             this.olvColumn12.Width = 174;
             // 
-            // chbUniformProp
-            // 
-            this.chbUniformProp.AutoSize = true;
-            this.chbUniformProp.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.chbUniformProp.Location = new System.Drawing.Point(478, 302);
-            this.chbUniformProp.Name = "chbUniformProp";
-            this.chbUniformProp.Size = new System.Drawing.Size(183, 24);
-            this.chbUniformProp.TabIndex = 27;
-            this.chbUniformProp.Text = "Use uniform properties";
-            this.chbUniformProp.UseVisualStyleBackColor = true;
-            // 
             // LayerGroupForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(865, 336);
-            this.Controls.Add(this.chbUniformProp);
+            this.ClientSize = new System.Drawing.Size(916, 358);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.numericUpDown1);
             this.Controls.Add(this.label6);
@@ -452,6 +442,5 @@
         private BrightIdeasSoftware.OLVColumn olvColumn10;
         private BrightIdeasSoftware.OLVColumn olvColumn11;
         private BrightIdeasSoftware.OLVColumn olvColumn12;
-        private System.Windows.Forms.CheckBox chbUniformProp;
     }
 }

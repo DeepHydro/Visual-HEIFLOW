@@ -50,6 +50,9 @@ namespace Heiflow.Models.Surface.PRMS
         private string[] dim_name = new string[] { "Dimension" };
         protected string[] _nhru_dim_names = new string[] { "nhru", "nssr", "ngw", "nhrucell", "ngwcell" };
         protected string[] _nlayer_dim_names = new string[] { "nlayer"};
+        private Modules[] _IgnoredModules = new Modules[] { Modules.muskingum, Modules.potet_hamon, Modules.potet_hs,
+            Modules.potet_jh, Modules.potet_pan, Modules.precip_dist2_prms, Modules.precip_laps_prms, Modules.precip_prms,
+            Modules.prms_only, Modules.temp_dist2_prms, Modules.xyz_dist};
 
         public MMSPackage(string name)
             : base(name)
@@ -91,6 +94,15 @@ namespace Heiflow.Models.Surface.PRMS
             {
                 _Parameters = value;
                 OnPropertyChanged("Parameters");
+            }
+        }
+        [XmlIgnore]
+        [Browsable(false)]
+        public Modules[] IgnoredModules
+        {
+            get
+            {
+                return _IgnoredModules;
             }
         }
 
@@ -274,6 +286,16 @@ namespace Heiflow.Models.Surface.PRMS
 
                         i += valueCount + 1;
                     }
+                    var removed_para = new List<string>();
+                    foreach(var pp in Parameters)
+                    {
+                        if(IgnoredModules.Contains( pp.Value.ModuleName ))
+                        {
+                            removed_para.Add(pp.Key);
+                        }
+                    }
+                    foreach (var key in removed_para)
+                        Parameters.Remove(key);
                     OnLoaded(progress);
                     result = true;
                 }
@@ -434,7 +456,9 @@ namespace Heiflow.Models.Surface.PRMS
             foreach (var pp in para)
             {
                 var gv = pp.Value;
+               // if(gv.ModuleName)
                 skip = false;
+                //skip parameters that have zero value dimension
                 foreach(var dimn in gv.DimensionNames)
                 {
                     if(zero_value_dim.Contains(dimn))

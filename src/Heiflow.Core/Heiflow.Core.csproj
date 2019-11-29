@@ -151,6 +151,7 @@
     <Compile Include="IO\TxtFileStream.cs" />
     <Compile Include="IO\CSVFileStream.cs" />
     <Compile Include="IO\IDataCubeStream.cs" />
+    <Compile Include="MyMath\ArrayHelper.cs" />
     <Compile Include="MyMath\mathenum.cs" />
     <Compile Include="Utility\AboutAssemblyDataProvider.cs" />
     <Compile Include="Animation\VariableAnimation.cs" />

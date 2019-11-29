@@ -56,7 +56,6 @@ namespace Heiflow.Controls.WinForm.Modflow
             numericUpDown1.ValueChanged += numericUpDown1_ValueChanged;
         }
 
-
         private void LayerGroupForm_Load(object sender, EventArgs e)
         {
             if (_Layers.Count == 0)
@@ -72,7 +71,6 @@ namespace Heiflow.Controls.WinForm.Modflow
             olvLayerGroup.SetObjects(_Layers);
             olvLayersUniformProp.SetObjects(_Layers);
         }
-
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {

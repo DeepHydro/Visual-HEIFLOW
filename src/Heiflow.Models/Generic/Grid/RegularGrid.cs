@@ -587,6 +587,12 @@ namespace Heiflow.Models.Generic
             c.Y = Origin.Y - row * dy + 0.5 * dy;
             return c;
         }
+        /// <summary>
+        /// Return the lower left location of a given cell. All the index starting from 1
+        /// </summary>
+        /// <param name="col">the col index starting from 1</param>
+        /// <param name="row">the row index starting from 1</param>
+        /// <returns></returns>
         public Coordinate LocateLowerLeft(int col, int row)
         {
             Coordinate c = new Coordinate();

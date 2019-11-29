@@ -45,6 +45,7 @@ namespace Heiflow.Models.Generic
         prms_summary, basin_sum, map_results, write_climate_hru, prms_only, xyz_dist, gsflow_prms2mf, precip_prms, precip_laps_prms,
         precip_dist2_prms, hru_sum_prms, gsflow_setconv, temp_dist2_prms, gsflow_sum,ecology_general
     }
+
     public interface IParameter
     {
         string Name

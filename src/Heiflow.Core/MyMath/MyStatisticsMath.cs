@@ -770,6 +770,46 @@ namespace Heiflow.Core.MyMath
                 return sort[sort.Length / 2];
             }
         }
+
+        public static int Majority(params int[] x)
+        {
+            Dictionary<int, int> d = new Dictionary<int, int>();
+            int majority = x.Length / 2;
+
+            //Stores the number of occcurences of each item in the passed array in a dictionary
+            foreach (int i in x)
+                if (d.ContainsKey(i))
+                {
+                    d[i]++;
+                    //Checks if element just added is the majority element
+                    if (d[i] > majority)
+                        return i;
+                }
+                else
+                    d.Add(i, 1);
+
+            return x[0];
+        }
+
+        public static float Majority(params float[] x)
+        {
+            Dictionary<float, float> d = new Dictionary<float, float>();
+            int majority = x.Length / 2;
+
+            //Stores the number of occcurences of each item in the passed array in a dictionary
+            foreach (int i in x)
+                if (d.ContainsKey(i))
+                {
+                    d[i]++;
+                    //Checks if element just added is the majority element
+                    if (d[i] > majority)
+                        return i;
+                }
+                else
+                    d.Add(i, 1);
+
+            return x[0];
+        }
     }
 }
 

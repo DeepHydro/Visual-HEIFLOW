@@ -46,11 +46,7 @@ namespace Heiflow.Models.Subsurface
         {
 
         }
-        public DataCube<float> CentralPoint
-        {
-            get;
-            set;
-        }
+
         private int[] _ExtractedCellIndex;
      
         /// <summary>

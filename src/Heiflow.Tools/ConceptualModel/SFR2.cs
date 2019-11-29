@@ -119,6 +119,7 @@ namespace Heiflow.Tools.ConceptualModel
                     IgnoreMinorReach = true;
                     UseAccumulativeRaster = false;
                     ReverseOrder = true;
+                    WidthField = "";
                 }
                else if (_StreamGenerator == StreamGenerator.SWAT)
                 {
@@ -131,7 +132,6 @@ namespace Heiflow.Tools.ConceptualModel
                     UseAccumulativeRaster = false;
                     ReverseOrder = false;
                 }
-               
             }
         }
 

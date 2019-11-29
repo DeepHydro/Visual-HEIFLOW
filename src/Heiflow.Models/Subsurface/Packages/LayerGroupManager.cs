@@ -94,7 +94,8 @@ namespace Heiflow.Models.Subsurface
                     layer.LAYTYP = LAYTYP.Confined;
                     layer.LAYWET = LAYWET.Inactive;
                 }
-
+                if (layer.HK < 0)
+                    layer.HK = 1;
                 _Layers.Add(layer);
             }
             Initialized = true;

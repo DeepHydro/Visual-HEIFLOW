@@ -128,11 +128,14 @@ namespace Heiflow.Tools.Conversion
                             IRaster raster = Raster.Open(files[t]);
                             for (int i = 0; i < npt; i++)
                             {
-                                var cell = raster.ProjToCell(coors[i]);
-                                if (cell != null && cell.Row > 0)
-                                    mat_out[0, t, i] = (float)raster.Value[cell.Row, cell.Column];
+                                var vv = raster.GetNearestValue(coors[i]);
+                                if (vv != raster.NoDataValue)
+                                    mat_out[0, t, i] = (float)vv;
                                 else
-                                    mat_out[0, t, i] = 0;
+                                {
+                                    mat_out[0, t, i] = FindNearestCellValue(raster, coors[i], 1);
+                                }
+                             
                             }
                             cancelProgressHandler.Progress("Package_Tool", progress, "Processing raster:" + files[t]);
                         }
@@ -155,6 +158,55 @@ namespace Heiflow.Tools.Conversion
                 cancelProgressHandler.Progress("Package_Tool", 50, "Failed to run. The input parameters are incorrect.");
                 return false;
             }
+        }
+    
+        private float FindNearestCellValue(IRaster raster, Coordinate pt, int neibor)
+        {
+            var list = new List<double>();
+            var p1 = new Coordinate(pt.X - raster.CellWidth * neibor, pt.Y + raster.CellHeight * neibor);
+            var vv = raster.GetNearestValue(p1);
+            if (vv != raster.NoDataValue)
+                list.Add(vv);
+
+            p1 = new Coordinate(pt.X, pt.Y + raster.CellHeight * neibor);
+            vv = raster.GetNearestValue(p1);
+            if (vv != raster.NoDataValue)
+                list.Add(vv);
+
+            p1 = new Coordinate(pt.X + raster.CellWidth * neibor, pt.Y + raster.CellHeight * neibor);
+            vv = raster.GetNearestValue(p1);
+            if (vv != raster.NoDataValue)
+                list.Add(vv);
+
+            p1 = new Coordinate(pt.X - raster.CellWidth * neibor, pt.Y );
+            vv = raster.GetNearestValue(p1);
+            if (vv != raster.NoDataValue)
+                list.Add(vv);
+
+            p1 = new Coordinate(pt.X + raster.CellWidth * neibor, pt.Y);
+            vv = raster.GetNearestValue(p1);
+            if (vv != raster.NoDataValue)
+                list.Add(vv);
+
+            p1 = new Coordinate(pt.X - raster.CellWidth * neibor, pt.Y - raster.CellHeight * neibor);
+            vv = raster.GetNearestValue(p1);
+            if (vv != raster.NoDataValue)
+                list.Add(vv);
+
+            p1 = new Coordinate(pt.X, pt.Y - raster.CellHeight * neibor);
+            vv = raster.GetNearestValue(p1);
+            if (vv != raster.NoDataValue)
+                list.Add(vv);
+
+            p1 = new Coordinate(pt.X + raster.CellWidth * neibor, pt.Y - raster.CellHeight * neibor);
+            vv = raster.GetNearestValue(p1);
+            if (vv != raster.NoDataValue)
+                list.Add(vv);
+
+            if (list.Count > 0)
+                return (float)list.Average();
+            else
+                return FindNearestCellValue(raster, pt, neibor + 1);
         }
     }
 }
