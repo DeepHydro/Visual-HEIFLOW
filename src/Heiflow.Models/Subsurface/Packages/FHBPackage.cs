@@ -128,7 +128,7 @@ namespace Heiflow.Models.Subsurface
         /// 3d mat [4 + NBDTIM][1][NFLW]. The variables are Layer Row Column IAUX  FLWRAT(NBDTIM)
         /// </summary>
       [StaticVariableItem]
-        public DataCube<float> FlowRate { get; set; }
+      public DataCube<float> FlowRate { get; set; }
       public RegularGridTopology Topology { get; set; }
         public override void Initialize()
         {

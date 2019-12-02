@@ -192,6 +192,7 @@
     <Compile Include="IO\enums.cs" />
     <Compile Include="Running\Watcher\MFListWatcher.cs" />
     <Compile Include="IO\MmsParameterFile.cs" />
+    <Compile Include="Subsurface\Packages\CHDPackage.cs" />
     <Compile Include="Subsurface\Packages\HFBPackage.cs" />
     <Compile Include="Subsurface\Packages\SubOutputPackage.cs" />
     <Compile Include="Subsurface\Packages\SUBPackage.cs" />
