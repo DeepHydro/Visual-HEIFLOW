@@ -30,6 +30,10 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WeatherGeneratorForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cmbClimateFormat = new System.Windows.Forms.ComboBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.cmbMethod = new System.Windows.Forms.ComboBox();
             this.dateTimePickerStart = new System.Windows.Forms.DateTimePicker();
             this.dateTimePickerEnd = new System.Windows.Forms.DateTimePicker();
             this.label5 = new System.Windows.Forms.Label();
@@ -50,7 +54,6 @@
             this.tbPet = new System.Windows.Forms.TextBox();
             this.tbTMax = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.tabRandom = new System.Windows.Forms.TabPage();
             this.tabUniform = new System.Windows.Forms.TabPage();
             this.label16 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
@@ -73,18 +76,15 @@
             this.label9 = new System.Windows.Forms.Label();
             this.tbPptvalue = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.tabRandom = new System.Windows.Forms.TabPage();
+            this.label24 = new System.Windows.Forms.Label();
             this.btnGenerate = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
-            this.cmbClimateFormat = new System.Windows.Forms.ComboBox();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.cmbMethod = new System.Windows.Forms.ComboBox();
-            this.label24 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabFile.SuspendLayout();
-            this.tabRandom.SuspendLayout();
             this.tabUniform.SuspendLayout();
+            this.tabRandom.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -104,10 +104,57 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox1.Size = new System.Drawing.Size(600, 123);
+            this.groupBox1.Size = new System.Drawing.Size(600, 104);
             this.groupBox1.TabIndex = 25;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Time";
+            // 
+            // cmbClimateFormat
+            // 
+            this.cmbClimateFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbClimateFormat.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.cmbClimateFormat.FormattingEnabled = true;
+            this.cmbClimateFormat.Items.AddRange(new object[] {
+            "Binary",
+            "Text"});
+            this.cmbClimateFormat.Location = new System.Drawing.Point(425, 66);
+            this.cmbClimateFormat.Name = "cmbClimateFormat";
+            this.cmbClimateFormat.Size = new System.Drawing.Size(160, 28);
+            this.cmbClimateFormat.TabIndex = 17;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.label22.Location = new System.Drawing.Point(330, 67);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(84, 20);
+            this.label22.TabIndex = 16;
+            this.label22.Text = "File format:";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.label23.Location = new System.Drawing.Point(350, 27);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(64, 20);
+            this.label23.TabIndex = 16;
+            this.label23.Text = "Method:";
+            // 
+            // cmbMethod
+            // 
+            this.cmbMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbMethod.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.cmbMethod.FormattingEnabled = true;
+            this.cmbMethod.Items.AddRange(new object[] {
+            "Unifrom",
+            "Random"});
+            this.cmbMethod.Location = new System.Drawing.Point(425, 24);
+            this.cmbMethod.Name = "cmbMethod";
+            this.cmbMethod.Size = new System.Drawing.Size(160, 28);
+            this.cmbMethod.TabIndex = 17;
+            this.cmbMethod.SelectedIndexChanged += new System.EventHandler(this.cmbMethod_SelectedIndexChanged);
             // 
             // dateTimePickerStart
             // 
@@ -155,10 +202,10 @@
             this.tabControl1.Controls.Add(this.tabFile);
             this.tabControl1.Controls.Add(this.tabUniform);
             this.tabControl1.Controls.Add(this.tabRandom);
-            this.tabControl1.Location = new System.Drawing.Point(7, 140);
+            this.tabControl1.Location = new System.Drawing.Point(7, 112);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(600, 361);
+            this.tabControl1.Size = new System.Drawing.Size(600, 352);
             this.tabControl1.TabIndex = 28;
             // 
             // tabFile
@@ -180,7 +227,7 @@
             this.tabFile.Location = new System.Drawing.Point(4, 30);
             this.tabFile.Name = "tabFile";
             this.tabFile.Padding = new System.Windows.Forms.Padding(3);
-            this.tabFile.Size = new System.Drawing.Size(592, 327);
+            this.tabFile.Size = new System.Drawing.Size(592, 318);
             this.tabFile.TabIndex = 2;
             this.tabFile.Text = "Files";
             this.tabFile.UseVisualStyleBackColor = true;
@@ -311,17 +358,6 @@
             this.label6.TabIndex = 0;
             this.label6.Text = "Potential ET";
             // 
-            // tabRandom
-            // 
-            this.tabRandom.Controls.Add(this.label24);
-            this.tabRandom.Location = new System.Drawing.Point(4, 30);
-            this.tabRandom.Name = "tabRandom";
-            this.tabRandom.Padding = new System.Windows.Forms.Padding(3);
-            this.tabRandom.Size = new System.Drawing.Size(592, 327);
-            this.tabRandom.TabIndex = 0;
-            this.tabRandom.Text = "Random Method";
-            this.tabRandom.UseVisualStyleBackColor = true;
-            // 
             // tabUniform
             // 
             this.tabUniform.Controls.Add(this.label16);
@@ -348,7 +384,7 @@
             this.tabUniform.Location = new System.Drawing.Point(4, 30);
             this.tabUniform.Name = "tabUniform";
             this.tabUniform.Padding = new System.Windows.Forms.Padding(3);
-            this.tabUniform.Size = new System.Drawing.Size(592, 327);
+            this.tabUniform.Size = new System.Drawing.Size(592, 294);
             this.tabUniform.TabIndex = 1;
             this.tabUniform.Text = "Uniform";
             this.tabUniform.UseVisualStyleBackColor = true;
@@ -542,13 +578,34 @@
             this.label10.TabIndex = 21;
             this.label10.Text = "Precipitation";
             // 
+            // tabRandom
+            // 
+            this.tabRandom.Controls.Add(this.label24);
+            this.tabRandom.Location = new System.Drawing.Point(4, 30);
+            this.tabRandom.Name = "tabRandom";
+            this.tabRandom.Padding = new System.Windows.Forms.Padding(3);
+            this.tabRandom.Size = new System.Drawing.Size(592, 294);
+            this.tabRandom.TabIndex = 0;
+            this.tabRandom.Text = "Random Method";
+            this.tabRandom.UseVisualStyleBackColor = true;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Segoe UI", 16F);
+            this.label24.Location = new System.Drawing.Point(22, 31);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(194, 37);
+            this.label24.TabIndex = 0;
+            this.label24.Text = "Coming soon...";
+            // 
             // btnGenerate
             // 
             this.btnGenerate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnGenerate.BackColor = System.Drawing.SystemColors.Control;
             this.btnGenerate.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGenerate.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnGenerate.Location = new System.Drawing.Point(11, 508);
+            this.btnGenerate.Location = new System.Drawing.Point(11, 471);
             this.btnGenerate.Margin = new System.Windows.Forms.Padding(0);
             this.btnGenerate.Name = "btnGenerate";
             this.btnGenerate.Size = new System.Drawing.Size(146, 31);
@@ -562,7 +619,7 @@
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnOK.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnOK.Location = new System.Drawing.Point(488, 508);
+            this.btnOK.Location = new System.Drawing.Point(488, 471);
             this.btnOK.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(112, 31);
@@ -571,68 +628,11 @@
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
-            // cmbClimateFormat
-            // 
-            this.cmbClimateFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbClimateFormat.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.cmbClimateFormat.FormattingEnabled = true;
-            this.cmbClimateFormat.Items.AddRange(new object[] {
-            "Binary",
-            "Text"});
-            this.cmbClimateFormat.Location = new System.Drawing.Point(425, 66);
-            this.cmbClimateFormat.Name = "cmbClimateFormat";
-            this.cmbClimateFormat.Size = new System.Drawing.Size(160, 28);
-            this.cmbClimateFormat.TabIndex = 17;
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.label22.Location = new System.Drawing.Point(330, 67);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(84, 20);
-            this.label22.TabIndex = 16;
-            this.label22.Text = "File format:";
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.label23.Location = new System.Drawing.Point(350, 27);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(64, 20);
-            this.label23.TabIndex = 16;
-            this.label23.Text = "Method:";
-            // 
-            // cmbMethod
-            // 
-            this.cmbMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbMethod.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.cmbMethod.FormattingEnabled = true;
-            this.cmbMethod.Items.AddRange(new object[] {
-            "Unifrom",
-            "Random"});
-            this.cmbMethod.Location = new System.Drawing.Point(425, 24);
-            this.cmbMethod.Name = "cmbMethod";
-            this.cmbMethod.Size = new System.Drawing.Size(160, 28);
-            this.cmbMethod.TabIndex = 17;
-            this.cmbMethod.SelectedIndexChanged += new System.EventHandler(this.cmbMethod_SelectedIndexChanged);
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Font = new System.Drawing.Font("Segoe UI", 16F);
-            this.label24.Location = new System.Drawing.Point(22, 31);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(194, 37);
-            this.label24.TabIndex = 0;
-            this.label24.Text = "Coming soon...";
-            // 
             // WeatherGeneratorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(612, 548);
+            this.ClientSize = new System.Drawing.Size(612, 515);
             this.Controls.Add(this.btnGenerate);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btnOK);
@@ -649,10 +649,10 @@
             this.tabControl1.ResumeLayout(false);
             this.tabFile.ResumeLayout(false);
             this.tabFile.PerformLayout();
-            this.tabRandom.ResumeLayout(false);
-            this.tabRandom.PerformLayout();
             this.tabUniform.ResumeLayout(false);
             this.tabUniform.PerformLayout();
+            this.tabRandom.ResumeLayout(false);
+            this.tabRandom.PerformLayout();
             this.ResumeLayout(false);
 
         }

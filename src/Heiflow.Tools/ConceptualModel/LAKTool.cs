@@ -20,10 +20,10 @@ using System.Threading.Tasks;
 
 namespace Heiflow.Tools.ConceptualModel
 {
-    public  class LAK : MapLayerRequiredTool
+    public  class LAKTool : MapLayerRequiredTool
     {
         private IMapLayerDescriptor _LakeFeatureLayerDescriptor;
-            public LAK()
+            public LAKTool()
         {
             Name = "Lake";
             Category = "Conceptual Model";

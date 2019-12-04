@@ -107,6 +107,12 @@ namespace Heiflow.Models.Subsurface
             }
             return lastline;
         }
+        public int GetNumSP()
+        {
+            var mf = Owner as Modflow;
+            var nsp = mf.TimeService.StressPeriods.Count;
+            return nsp;
+        }
         public DataCube<T> ReadInternalMatrix<T>(StreamReader sr)
         {
             string line = sr.ReadLine().ToUpper();

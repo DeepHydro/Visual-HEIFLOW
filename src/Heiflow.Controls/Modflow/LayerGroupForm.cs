@@ -65,7 +65,7 @@ namespace Heiflow.Controls.WinForm.Modflow
             else
             {
                 numericUpDown1.ValueChanged -= numericUpDown1_ValueChanged;
-                numericUpDown1.Value = _Layers.Count;           
+                numericUpDown1.Value = _Layers.Count;
                 numericUpDown1.ValueChanged += numericUpDown1_ValueChanged;
             }
             olvLayerGroup.SetObjects(_Layers);
@@ -111,14 +111,34 @@ namespace Heiflow.Controls.WinForm.Modflow
 
         private void olvLayerGroup_ItemsChanged(object sender, BrightIdeasSoftware.ItemsChangedEventArgs e)
         {
-             
+
         }
 
         private void olvLayerGroup_CellEditFinished(object sender, BrightIdeasSoftware.CellEditEventArgs e)
         {
-            _LayerGroupManager.OnItemChanged(e.RowObject as LayerGroup,e.Column.AspectName);
+            _LayerGroupManager.OnItemChanged(e.RowObject as LayerGroup, e.Column.AspectName);
         }
 
-
+        private void btnSetToUniform_Click(object sender, EventArgs e)
+        {
+            double LayerHeight = 20;
+            double HK = 10;
+            double VKA = 100;
+            double SS = 0.0001;
+            double SY = 0.1;
+            double.TryParse(tbLayerHeight.Text, out LayerHeight);
+            double.TryParse(tbHK.Text, out HK);
+            double.TryParse(tbVKA.Text, out VKA);
+            double.TryParse(tbSS.Text, out SS);
+            double.TryParse(tbSY.Text, out SY);
+            foreach (var layer in _Layers)
+            {
+                layer.HK = HK;
+                layer.VKA = VKA;
+                layer.LayerHeight = LayerHeight;
+                layer.SS = SS;
+                layer.SY = SY;
+            }
+        }
     }
 }

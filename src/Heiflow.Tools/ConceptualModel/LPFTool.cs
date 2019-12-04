@@ -56,19 +56,12 @@ using Heiflow.Spatial.SpatialAnalyst;
 
 namespace Heiflow.Tools.ConceptualModel
 {
-    public class LayerPropertyFlow  : MapLayerRequiredTool
+    public class LPFTool  : MapLayerRequiredTool
     {
-        private IFeatureSet _sourcefs;
-        private IFeatureSet _grid_layer;
-        private string _ValueField;
-        private string _LayerField;
-        private int _SelectedVarIndex = 0;
-        private int _SelectedLayerIndex = 0;
-        private IMapLayerDescriptor _FHBSourceLayer;
 
         private List<LookupTableRecord> _LookupTable = new List<LookupTableRecord>();
         private string[] _RasterFileList;
-        public LayerPropertyFlow()
+        public LPFTool()
         {
             Name = "Layer Property Flow";
             Category = "Conceptual Model";
@@ -76,24 +69,6 @@ namespace Heiflow.Tools.ConceptualModel
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
-        }
-
-        [Category("Input")]
-        [Description("Model grid  layer")]
-        [EditorAttribute(typeof(MapLayerDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        public IMapLayerDescriptor GridFeatureLayer
-        {
-            get;
-            set;
-        }
-
-        [Category("Input")]
-        [Description("A text file that contains the list of raster file names")]
-        [EditorAttribute(typeof(FileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
-        public string FilenameList
-        {
-            get;
-            set;
         }
 
         [Category("Input")]
@@ -116,15 +91,8 @@ namespace Heiflow.Tools.ConceptualModel
 
         public override void Initialize()
         {    
-            _grid_layer = GridFeatureLayer.DataSet as IFeatureSet;
-            if (_sourcefs == null  || _grid_layer == null)
-            {
-                this.Initialized = false;
-                return;
-            }
-
-            this.Initialized = !(_grid_layer == null || _grid_layer.FeatureType != FeatureType.Polygon);
-            this.Initialized = !(_sourcefs == null || _sourcefs.FeatureType != FeatureType.Point);
+            this.Initialized = TypeConverterEx.IsNotNull(LookupTableFile);
+            this.Initialized = TypeConverterEx.IsNotNull(RasterFileList);
         }
 
         public override bool Execute(ICancelProgressHandler cancelProgressHandler)
@@ -312,22 +280,6 @@ namespace Heiflow.Tools.ConceptualModel
             }
          
         }
-
-        public override void AfterExecution(object args)
-        {
-            var shell = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
-            var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
-            var model = prj.Project.Model as Heiflow.Models.Integration.HeiflowModel;
-
-            if (model != null)
-            {
-                var fhb = prj.Project.Model.GetPackage(FHBPackage.PackageName) as FHBPackage;
-                fhb.Attach(shell.MapAppManager.Map, prj.Project.GeoSpatialDirectory);
-                shell.ProjectExplorer.ClearContent();
-                shell.ProjectExplorer.AddProject(prj.Project);
-            }
-        }
-
         private bool LoadLookupTable(ICancelProgressHandler cancelProgressHandler)
         {
             StreamReader sr = new StreamReader(LookupTableFile);
@@ -377,7 +329,7 @@ namespace Heiflow.Tools.ConceptualModel
 
         private bool LoadRasterFileList(ICancelProgressHandler cancelProgressHandler, int nlayer)
         {
-            StreamReader sr = new StreamReader(LookupTableFile);
+            StreamReader sr = new StreamReader(RasterFileList);
             bool result = false;
             string line = "";
             int n = 0;
@@ -399,7 +351,7 @@ namespace Heiflow.Tools.ConceptualModel
             else
             {
                 result = true;
-                sr = new StreamReader(LookupTableFile);
+                sr = new StreamReader(RasterFileList);
                 for (int i = 0; i < nlayer; i++)
                 {
                     line = sr.ReadLine();

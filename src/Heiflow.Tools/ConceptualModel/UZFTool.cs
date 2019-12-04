@@ -53,12 +53,12 @@ using System.Threading.Tasks;
 
 namespace Heiflow.Tools.ConceptualModel
 {
-    public class UZF : MapLayerRequiredTool
+    public class UZFTool : MapLayerRequiredTool
     {
         private IFeatureSet _watershedfs;
         private IMapLayerDescriptor _WatershedLayer;
 
-        public UZF()
+        public UZFTool()
         {
             Name = "Unsaturated-Zone Flow Package";
             Category = "Conceptual Model";

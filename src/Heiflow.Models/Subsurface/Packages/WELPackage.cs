@@ -142,7 +142,7 @@ namespace Heiflow.Models.Subsurface
                 fs.DataTable.Columns.Add(new DataColumn("ID", typeof(int)));
                 fs.DataTable.Columns.Add(new DataColumn("Elevation", typeof(double)));
                 fs.DataTable.Columns.Add(new DataColumn("Name", typeof(string)));
-                fs.DataTable.Columns.Add(new DataColumn(RegularGrid.ParaValueField, typeof(int)));
+                fs.DataTable.Columns.Add(new DataColumn(RegularGrid.ParaValueField, typeof(double)));
                 int np = TimeService.StressPeriods.Count;
                 for (int i = 0; i < np; i++)
                 {
@@ -156,7 +156,7 @@ namespace Heiflow.Models.Subsurface
                         break;
                     }
                 }
-                    for (int i = 0; i < MXACTW; i++)
+                for (int i = 0; i < MXACTW; i++)
                 {
                     int layer = (int)FluxRates[0, fea_sp, i];
                     int row = (int)FluxRates[1, fea_sp, i];

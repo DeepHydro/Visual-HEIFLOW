@@ -143,15 +143,17 @@ namespace Heiflow.Controls.WinForm.Toolbox
             treeView1.BeginUpdate();
             _model.Nodes.Clear();
 
-            var group = from tool in ProjectManager.Tools group tool by tool.Category into gp select new { cat = gp.Key, items = gp };
-            foreach (var gg in group)
+            var groups = from tool in ProjectManager.Tools group tool by tool.Category into gp select new { cat = gp.Key, items = gp };
+            var keys = (from gp in groups select gp.cat).OrderBy(c => c);
+            foreach(var key in keys)
             {
-                Node node_folder = new Node(gg.cat)
+                var cat = (from gp in groups where gp.cat == key select gp).First();
+                Node node_folder = new Node(key)
                 {
                     Image = Resources.toolbox16,
-                    Tag = gg.cat
+                    Tag = key
                 };
-                foreach (var tool in gg.items)
+                foreach (var tool in cat.items)
                 {
                     tool.Workspace = this.Workspace;
                     tool.WorkspaceView = this;
@@ -164,7 +166,29 @@ namespace Heiflow.Controls.WinForm.Toolbox
                     node_folder.Nodes.Add(node_tool);
                 }
                 _model.Nodes.Add(node_folder);
+
             }
+            //foreach (var gg in groups)
+            //{
+            //    Node node_folder = new Node(gg.cat)
+            //    {
+            //        Image = Resources.toolbox16,
+            //        Tag = gg.cat
+            //    };
+            //    foreach (var tool in gg.items)
+            //    {
+            //        tool.Workspace = this.Workspace;
+            //        tool.WorkspaceView = this;
+            //        tool.BindProjectService(_ProjectService);
+            //        Node node_tool = new Node(tool.Name)
+            //        {
+            //            Image = Resources.hammer16,
+            //            Tag = tool
+            //        };
+            //        node_folder.Nodes.Add(node_tool);
+            //    }
+            //    _model.Nodes.Add(node_folder);
+            //}
 
             treeView1.EndUpdate();
         }

@@ -47,9 +47,9 @@ using System.Threading.Tasks;
 
 namespace Heiflow.Tools.ConceptualModel
 {
-    public class Well : MapLayerRequiredTool
+    public class WellTool: MapLayerRequiredTool
     {
-        public Well()
+        public WellTool()
         {
             Name = "Well Package";
             Category = "Conceptual Model";

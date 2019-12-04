@@ -49,7 +49,7 @@ using System.Linq;
 namespace Heiflow.Tools.ConceptualModel
 {
     public enum StreamGenerator { VHF,SWAT, Other};
-    public class SFR2 : MapLayerRequiredTool
+    public class SFR2Tool : MapLayerRequiredTool
     {
         private IFeatureSet _stream_layer;
         private IFeatureSet _grid_layer;
@@ -62,7 +62,7 @@ namespace Heiflow.Tools.ConceptualModel
         private IMapLayerDescriptor _StreamFeatureLayerDescriptor;
         private StreamGenerator _StreamGenerator;
 
-        public SFR2()
+        public SFR2Tool()
         {
             Name = "Streamflow Routing";
             Category = "Conceptual Model";

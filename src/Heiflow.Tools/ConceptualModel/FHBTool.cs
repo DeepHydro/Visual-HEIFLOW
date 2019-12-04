@@ -51,7 +51,7 @@ using System.Threading.Tasks;
 
 namespace Heiflow.Tools.ConceptualModel
 {
-    public class FHB : MapLayerRequiredTool
+    public class FHBTool : MapLayerRequiredTool
     {
         private IFeatureSet _sourcefs;
         private IFeatureSet _grid_layer;
@@ -60,7 +60,7 @@ namespace Heiflow.Tools.ConceptualModel
         private int _SelectedVarIndex = 0;
         private int _SelectedLayerIndex = 0;
         private IMapLayerDescriptor _FHBSourceLayer;
-        public FHB()
+        public FHBTool()
         {
             Name = "Flow and Head Boundary Package";
             Category = "Conceptual Model";

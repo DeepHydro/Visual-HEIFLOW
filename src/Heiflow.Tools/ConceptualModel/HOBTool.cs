@@ -47,9 +47,9 @@ using System.Threading.Tasks;
 
 namespace Heiflow.Tools.ConceptualModel
 {
-    public class HeadObservationPackage : MapLayerRequiredTool
+    public class HOBTool : MapLayerRequiredTool
     {
-        public HeadObservationPackage()
+        public HOBTool()
         {
             Name = "Head Observation Package";
             Category = "Conceptual Model";
