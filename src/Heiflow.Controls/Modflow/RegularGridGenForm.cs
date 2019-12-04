@@ -73,6 +73,11 @@ namespace Heiflow.Controls.WinForm.Modflow
             var mf = mm.ModflowModel;
             numericUpDown1.Value = mf.LayerGroupManager.LayerGroups.Count;
             numericUpDown2.Value = 4;
+
+            if (mm.Project.SelectedVersion == "v1.0.0")
+            {
+                tabControl1.TabPages.Remove(tabPageSoil);
+            }
         }
 
         private void cmbLayers_SelectedIndexChanged(object sender, EventArgs e)

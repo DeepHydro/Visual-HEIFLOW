@@ -66,7 +66,7 @@
             this.cmbAvMethod = new System.Windows.Forms.ComboBox();
             this.cmbRasterLayer = new System.Windows.Forms.ComboBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPageSoil = new System.Windows.Forms.TabPage();
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
             this.label11 = new System.Windows.Forms.Label();
             this.olvSoilLayers = new BrightIdeasSoftware.DataListView();
@@ -75,7 +75,7 @@
             this.colLAYWET = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPageAquifer = new System.Windows.Forms.TabPage();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -83,10 +83,10 @@
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.tabPageSoil.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.olvSoilLayers)).BeginInit();
-            this.tabPage2.SuspendLayout();
+            this.tabPageAquifer.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -498,26 +498,26 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPageSoil);
+            this.tabControl1.Controls.Add(this.tabPageAquifer);
             this.tabControl1.Location = new System.Drawing.Point(3, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(495, 660);
             this.tabControl1.TabIndex = 27;
             // 
-            // tabPage1
+            // tabPageSoil
             // 
-            this.tabPage1.Controls.Add(this.numericUpDown2);
-            this.tabPage1.Controls.Add(this.label11);
-            this.tabPage1.Controls.Add(this.olvSoilLayers);
-            this.tabPage1.Location = new System.Drawing.Point(4, 29);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(487, 627);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Soil";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tabPageSoil.Controls.Add(this.numericUpDown2);
+            this.tabPageSoil.Controls.Add(this.label11);
+            this.tabPageSoil.Controls.Add(this.olvSoilLayers);
+            this.tabPageSoil.Location = new System.Drawing.Point(4, 29);
+            this.tabPageSoil.Name = "tabPageSoil";
+            this.tabPageSoil.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageSoil.Size = new System.Drawing.Size(487, 627);
+            this.tabPageSoil.TabIndex = 0;
+            this.tabPageSoil.Text = "Soil";
+            this.tabPageSoil.UseVisualStyleBackColor = true;
             // 
             // numericUpDown2
             // 
@@ -637,20 +637,20 @@
             this.olvColumn2.Text = "Init PFR";
             this.olvColumn2.Width = 90;
             // 
-            // tabPage2
+            // tabPageAquifer
             // 
-            this.tabPage2.Controls.Add(this.groupBox4);
-            this.tabPage2.Controls.Add(this.groupBox1);
-            this.tabPage2.Controls.Add(this.groupBox3);
-            this.tabPage2.Controls.Add(this.groupBox2);
-            this.tabPage2.Controls.Add(this.Origin);
-            this.tabPage2.Location = new System.Drawing.Point(4, 29);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(487, 627);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Aquifer";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabPageAquifer.Controls.Add(this.groupBox4);
+            this.tabPageAquifer.Controls.Add(this.groupBox1);
+            this.tabPageAquifer.Controls.Add(this.groupBox3);
+            this.tabPageAquifer.Controls.Add(this.groupBox2);
+            this.tabPageAquifer.Controls.Add(this.Origin);
+            this.tabPageAquifer.Location = new System.Drawing.Point(4, 29);
+            this.tabPageAquifer.Name = "tabPageAquifer";
+            this.tabPageAquifer.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageAquifer.Size = new System.Drawing.Size(487, 627);
+            this.tabPageAquifer.TabIndex = 1;
+            this.tabPageAquifer.Text = "Aquifer";
+            this.tabPageAquifer.UseVisualStyleBackColor = true;
             // 
             // RegularGridGenForm
             // 
@@ -683,11 +683,11 @@
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            this.tabPageSoil.ResumeLayout(false);
+            this.tabPageSoil.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.olvSoilLayers)).EndInit();
-            this.tabPage2.ResumeLayout(false);
+            this.tabPageAquifer.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -731,8 +731,8 @@
         private System.Windows.Forms.ComboBox cmbAvMethod;
         private System.Windows.Forms.CheckBox chkSlopeAspect;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabPageSoil;
+        private System.Windows.Forms.TabPage tabPageAquifer;
         private System.Windows.Forms.NumericUpDown numericUpDown2;
         private System.Windows.Forms.Label label11;
         private BrightIdeasSoftware.DataListView olvSoilLayers;

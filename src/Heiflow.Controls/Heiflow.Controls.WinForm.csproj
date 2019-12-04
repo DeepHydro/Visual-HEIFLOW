@@ -257,6 +257,12 @@
     <Compile Include="Editors\PropertyForm.Designer.cs">
       <DependentUpon>PropertyForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Processing\SoilModuleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Processing\SoilModuleForm.Designer.cs">
+      <DependentUpon>SoilModuleForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Project\GlobalOptionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -710,6 +716,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Editors\PropertyForm.resx">
       <DependentUpon>PropertyForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Processing\SoilModuleForm.resx">
+      <DependentUpon>SoilModuleForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Project\GlobalOptionForm.resx">
       <DependentUpon>GlobalOptionForm.cs</DependentUpon>

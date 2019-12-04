@@ -629,6 +629,8 @@ namespace Heiflow.Tools.ConceptualModel
                             key = order + order_count[order] * 0.01;
                         if (has_width_field)
                             reach.Width = double.Parse(dr[WidthField].ToString());
+                        else
+                            reach.Width = 100;
                         reach.OrderKey = key;
                         fealist[segid].Reaches.Add(key, reach);
                         fealist[segid].OutSegmentID = int.Parse(dr[OutSegmentField].ToString());
@@ -866,8 +868,8 @@ namespace Heiflow.Tools.ConceptualModel
                         }
                         else
                         {
-                            //river.Width1 = this.Width1;
-                            //river.Width2 = this.Width2;
+                            river.Width1 = this.Width1;
+                            river.Width2 = this.Width2;
                         }
 
                         for (int c = 0; c < dr_reaches.Count; c++)
