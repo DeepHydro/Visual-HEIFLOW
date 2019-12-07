@@ -83,5 +83,9 @@ namespace Heiflow.Tools.ConceptualModel
         public double Length { get; set; }
         public double Width { get; set; }
         public double OrderKey { get; set; }
+
+        public double MinSegElevation { get; set; }
+        public double MaxSegElevation { get; set; }
+        public double MeanSlope { get; set; }
     }
 }

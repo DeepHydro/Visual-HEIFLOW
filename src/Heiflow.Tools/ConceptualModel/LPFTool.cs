@@ -130,12 +130,17 @@ namespace Heiflow.Tools.ConceptualModel
                 {
                     var loc = grid.Topology.ActiveCellLocation[i];
                     var llpt = grid.LocateLowerLeft(loc[1] + 1, loc[0] + 1);
+                    var cellid = grid.Topology.GetID(loc[0], loc[1]);
                     var majorid = (int)ZonalStatastics.GetCellAverage(rasters[0], llpt, cellsize, AveragingMethod.Majority);
-                    if (majorid != ZonalStatastics.NoDataValue)
+                    if (majorid == ZonalStatastics.NoDataValue)
+                    {
+                        majorid = (int)ZonalStatastics.FindNearestCellValue(rasters[0], llpt, 1, AveragingMethod.Majority);
+                    }
+                    if (majorid != 0)
                     {
                         for (int l = 0; l < nlayer; l++)
                         {
-                            var record = from rec in _LookupTable where rec.ID == majorid select rec;
+                            var record = from rec in _LookupTable where rec.ID == majorid && rec.Layer == (l+1) select rec;
                             if (record.Any())
                             {
                                 var selected = record.First();
@@ -147,7 +152,8 @@ namespace Heiflow.Tools.ConceptualModel
                             }
                             else
                             {
-                                cancelProgressHandler.Progress("Package_Tool", progress, "Warning: no values are found in the lookup table for the cell ID " + (i + 1) + " in the Layer " + (l + 1));
+                                string msg = string.Format("Warning: no values are found in the lookup table at the cell ID {0} in the Layer {1} for the raster value {2}", cellid, (l+1), majorid);
+                                cancelProgressHandler.Progress("Package_Tool", progress,msg);
                             }
                         }
                     }
@@ -156,6 +162,7 @@ namespace Heiflow.Tools.ConceptualModel
                         nullptlist.Add(llpt);
                     }
                     progress = i * 100 / grid.ActiveCellCount;
+
                     if (progress > count)
                     {
                         cancelProgressHandler.Progress("Package_Tool", progress, "Processing cell: " + i);

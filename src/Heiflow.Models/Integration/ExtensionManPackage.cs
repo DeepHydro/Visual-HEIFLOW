@@ -350,7 +350,12 @@ namespace Heiflow.Models.Integration
 
         public override void SaveAs(string filename, DotSpatial.Data.ICancelProgressHandler progress)
         {
-            StreamWriter sw = new StreamWriter(FileName);
+            if(TypeConverterEx.IsNull(filename))
+            {
+                progress.Progress("ex_man_pck", 100, "the file for extension man pakage is Null.");
+                return;
+            }
+            StreamWriter sw = new StreamWriter(filename);
             string newline = "# extension modules";
             sw.WriteLine(newline);
             sw.WriteLine("## Julian Start");

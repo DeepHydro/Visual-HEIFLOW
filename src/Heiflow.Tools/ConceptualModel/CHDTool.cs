@@ -62,7 +62,7 @@ namespace Heiflow.Tools.ConceptualModel
         private IMapLayerDescriptor _FHBSourceLayer;
         public CHDTool()
         {
-            Name = "ime-Variant Specified-Head Package";
+            Name = "Time-Variant Specified-Head Package";
             Category = "Conceptual Model";
             Description = "Translate point shapefile into CHD package";
             Version = "1.0.0.0";
@@ -290,7 +290,6 @@ namespace Heiflow.Tools.ConceptualModel
                 cancelProgressHandler.Progress("Package_Tool", 100, "Error message: Modflow must be used by this tool.");
                 return false;
             }
-
         }
 
         public override void AfterExecution(object args)
@@ -301,8 +300,16 @@ namespace Heiflow.Tools.ConceptualModel
 
             if (model != null)
             {
-                var fhb = prj.Project.Model.GetPackage(FHBPackage.PackageName) as FHBPackage;
-                fhb.Attach(shell.MapAppManager.Map, prj.Project.GeoSpatialDirectory);
+                var uzf = prj.Project.Model.GetPackage(UZFPackage.PackageName) as UZFPackage;
+                var chd = prj.Project.Model.GetPackage(CHDPackage.PackageName) as CHDPackage;
+                
+                for (int i = 0; i < chd.MXACTC; i++)
+                {
+                    var index = chd.MFGridInstance.Topology.GetSerialIndex((int)(chd.SHEAD[0, i, 1] - 1), (int)(chd.SHEAD[0, i, 2] - 1));
+                    uzf.IUZFBND[0, 0, index] = 0;
+                }
+                 
+                chd.Attach(shell.MapAppManager.Map, prj.Project.GeoSpatialDirectory);
                 shell.ProjectExplorer.ClearContent();
                 shell.ProjectExplorer.AddProject(prj.Project);
             }
