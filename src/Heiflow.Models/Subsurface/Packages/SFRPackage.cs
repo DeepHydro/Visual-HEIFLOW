@@ -430,13 +430,13 @@ namespace Heiflow.Models.Subsurface
                         sw.WriteLine(newline);
                         newline = string.Format("{0}\t# Data set 6c: WIDTH2", river.Width2);
                         sw.WriteLine(newline);
-                        if (NUMTAB > 0)
+                    }
+                    if (NUMTAB > 0)
+                    {
+                        for (int t = 0; t < NUMTAB; t++)
                         {
-                            for (int t = 0; t < NUMTAB; t++)
-                            {
-                                newline = string.Format("{0}\t{1}\t{2}", TablesInfo[t, 0], TablesInfo[t, 1], TablesInfo[t, 2]);
-                                sw.WriteLine(newline);
-                            }
+                            newline = string.Format("{0}\t{1}\t{2}", TablesInfo[t, 0], TablesInfo[t, 1], TablesInfo[t, 2]);
+                            sw.WriteLine(newline);
                         }
                     }
                 }
@@ -445,7 +445,7 @@ namespace Heiflow.Models.Subsurface
                     foreach (var river in rvnet.Rivers)
                     {
                         if (river.UpRiverID != 0)
-                            newline = string.Format(format1, river.ID, river.ICALC, river.OutRiverID, river.UpRiverID, river.IPrior, 0, 0, 0,0, river.ROUGHCH);
+                            newline = string.Format(format1, river.ID, river.ICALC, river.OutRiverID, river.UpRiverID, river.IPrior, river.Flow, 0, 0,0, river.ROUGHCH);
                         else
                             newline = string.Format(format, river.ID, river.ICALC, river.OutRiverID, river.UpRiverID, 0, 0, 0, 0, river.ROUGHCH);
                         sw.WriteLine(newline);

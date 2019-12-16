@@ -77,6 +77,14 @@ namespace Heiflow.Tools.ConceptualModel
 
     public class ReachFeature
     {
+        /// <summary>
+        /// starting from 1
+        /// </summary>
+        public int Column { get; set; }
+        /// <summary>
+        /// starting from 1
+        /// </summary>
+        public int Row { get; set; }
         public DataRow DataRow { get; set; }
         public double Elevation { get; set; }
         public double Slope { get; set; }
@@ -87,5 +95,8 @@ namespace Heiflow.Tools.ConceptualModel
         public double MinSegElevation { get; set; }
         public double MaxSegElevation { get; set; }
         public double MeanSlope { get; set; }
+        public int UpRiverID { get; set; }
+        public int IPrior { get; set; }
+        public double Flow { get; set; }
     }
 }

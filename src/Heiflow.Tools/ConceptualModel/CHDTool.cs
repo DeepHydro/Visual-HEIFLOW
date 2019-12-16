@@ -302,7 +302,10 @@ namespace Heiflow.Tools.ConceptualModel
             {
                 var uzf = prj.Project.Model.GetPackage(UZFPackage.PackageName) as UZFPackage;
                 var chd = prj.Project.Model.GetPackage(CHDPackage.PackageName) as CHDPackage;
-                
+                for (int i = 0; i < chd.MFGridInstance.ActiveCellCount; i++)
+                {
+                    uzf.IUZFBND[0, 0, i] = 1;
+                }
                 for (int i = 0; i < chd.MXACTC; i++)
                 {
                     var index = chd.MFGridInstance.Topology.GetSerialIndex((int)(chd.SHEAD[0, i, 1] - 1), (int)(chd.SHEAD[0, i, 2] - 1));
