@@ -99,6 +99,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConceptualModel\BoreholeToAquiferSturcutre.cs" />
+    <Compile Include="ConceptualModel\UZFByZoneIDTool.cs" />
+    <Compile Include="ConceptualModel\LPFByZoneIDTool .cs" />
     <Compile Include="ConceptualModel\LPFTool.cs" />
     <Compile Include="ConceptualModel\LAKTool.cs" />
     <Compile Include="ConceptualModel\UZFTool.cs" />

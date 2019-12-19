@@ -130,7 +130,7 @@ namespace Heiflow.Applications.ViewModels
                 {
                     foreach (DataRow dr in source.Rows)
                     {
-                        var id = dr["ID"].ToString();
+                        var id = double.Parse(dr["ID"].ToString());
                         foreach (DataColumn dc in source.Columns)
                         {
                             if (dc.ColumnName != "ID")

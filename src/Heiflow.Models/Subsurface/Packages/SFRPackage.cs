@@ -341,6 +341,7 @@ namespace Heiflow.Models.Subsurface
         }
         public override void SaveAs(string filename, ICancelProgressHandler prg)
         {
+            var lpf = Owner.GetPackage(LPFPackage.PackageName) as LPFPackage;
             var grid = Owner.Grid as MFGrid;
             int np = TimeService.StressPeriods.Count;
             var rvnet = RiverNetwork;
@@ -390,6 +391,14 @@ namespace Heiflow.Models.Subsurface
                 foreach (var reach in river.Reaches)
                 {
                     reach.Slope = reach.Slope < 0.0001 ? 0.0001 : reach.Slope;
+                    var cell_index = grid.Topology.GetSerialIndex(reach.IRCH - 1, reach.JRCH - 1);
+                    var ds = reach.THTS - lpf.SY[0, 0, cell_index];
+                    if (ds < 0)
+                    {
+                        reach.THTS = lpf.SY[0, 0, cell_index] + 0.05f;
+                    }
+                    if(reach.THTI < ds)
+                        reach.THTI = reach.THTS - lpf.SY[0, 0, cell_index];
                     newline = string.Format(format, reach.KRCH, reach.IRCH, reach.JRCH, reach.ISEG, reach.IREACH, reach.Length.ToString("E5"), reach.TopElevation.ToString("E5"), reach.Slope.ToString("E5"),
                         reach.BedThick, reach.STRHC1.ToString("E5"), reach.THTS, reach.THTI, reach.EPS, reach.IFACE);
                     sw.WriteLine(newline);

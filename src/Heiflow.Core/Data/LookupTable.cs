@@ -47,7 +47,7 @@ namespace Heiflow.Core.Data
         /// [uid][var]
         /// </summary>
         private DataCube<T> _MappingTable;
-        private Dictionary<string, int> _RowIndex;
+        private Dictionary<double, int> _RowIndex;
         private Dictionary<string, int> _ColIndex;
 
         public LookupTable(string[] col_names, string[] row_names, T[] default_values)
@@ -66,7 +66,7 @@ namespace Heiflow.Core.Data
             _RowNames = row_names;
             _DefaultValues = default_values;
             _MappingTable = new DataCube<T>(1, row_names.Length, _ColNames.Length - 1);
-            _RowIndex = new Dictionary<string, int>();
+            _RowIndex = new Dictionary<double, int>();
             _ColIndex = new Dictionary<string, int>();
 
             for (int c = 0; c < col_names.Length; c++)
@@ -83,7 +83,7 @@ namespace Heiflow.Core.Data
             }
             for (int i = 0; i < row_names.Length; i++)
             {
-                _RowIndex.Add(row_names[i], i);
+                _RowIndex.Add(double.Parse(row_names[i]), i);
             }
         }
 
@@ -133,7 +133,7 @@ namespace Heiflow.Core.Data
                 return NoValue;
         }
 
-        public T GetValue(string col_name, string row_name)
+        public T GetValue(string col_name, double row_name)
         {
             if (_RowIndex.Keys.Contains(row_name) && _ColIndex.Keys.Contains(col_name))
                 return _MappingTable[0,_RowIndex[row_name],_ColIndex[col_name]];
@@ -177,7 +177,7 @@ namespace Heiflow.Core.Data
             }
             _RowNames = rownames.ToArray();
             _MappingTable = new DataCube<T>(1,_RowNames.Length, _ColNames.Length - 1);
-            _RowIndex = new Dictionary<string, int>();
+            _RowIndex = new Dictionary<double, int>();
             _ColIndex = new Dictionary<string, int>();
 
             for (int i = 1; i < _ColNames.Length; i++)
@@ -186,7 +186,7 @@ namespace Heiflow.Core.Data
             }
             for (int i = 0; i < _RowNames.Length; i++)
             {
-                _RowIndex.Add(_RowNames[i], i);
+                _RowIndex.Add(double.Parse(_RowNames[i]), i);
             }
             sr.Close();
 

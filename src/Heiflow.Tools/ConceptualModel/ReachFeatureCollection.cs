@@ -98,5 +98,8 @@ namespace Heiflow.Tools.ConceptualModel
         public int UpRiverID { get; set; }
         public int IPrior { get; set; }
         public double Flow { get; set; }
+        public double Offset { get; set; }
+
+        public double STRCH1 { get; set; }
     }
 }

@@ -127,6 +127,8 @@ namespace Heiflow.Tools.ConceptualModel
                     FlowField = "";
                     MinElevationField = "";
                     MaxElevationField = "";
+                    OffsetField = "";
+                    STRHC1Field = "";
                 }
                else if (_StreamGenerator == StreamGenerator.SWAT)
                 {
@@ -145,7 +147,8 @@ namespace Heiflow.Tools.ConceptualModel
                     FlowField = "Flow";
                     MinElevationField = "MinEl";
                     MaxElevationField = "MaxEl";
-
+                    OffsetField = "Offset";
+                    STRHC1Field = "STRHC1";
                 }
             }
         }
@@ -323,6 +326,24 @@ namespace Heiflow.Tools.ConceptualModel
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
         public string SlopeField
+        {
+            get;
+            set;
+        }
+        [Category("Field")]
+        [Description("Segment offset field")]
+        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
+        [DropdownListSource("Fields")]
+        public string OffsetField
+        {
+            get;
+            set;
+        }
+        [Category("Field")]
+        [Description("STRHC1 field")]
+        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
+        [DropdownListSource("Fields")]
+        public string STRHC1Field
         {
             get;
             set;
@@ -582,6 +603,8 @@ namespace Heiflow.Tools.ConceptualModel
             var has_iupseg_field = TypeConverterEx.IsNotNull(IUPSEGField);
             var has_iprior_field = TypeConverterEx.IsNotNull(IPRIORField);
             var has_flow_field = TypeConverterEx.IsNotNull(FlowField);
+            var has_offset_field = TypeConverterEx.IsNotNull(OffsetField);
+            var has_STRCH1_field = TypeConverterEx.IsNotNull(STRHC1Field);
             for (int i = 0; i < _stream_layer.Features.Count; i++)
             {
                 var fea_stream = _stream_layer.GetFeature(i);
@@ -703,6 +726,15 @@ namespace Heiflow.Tools.ConceptualModel
                             reach.Flow = double.Parse(dr[FlowField].ToString());
                         else
                             reach.Flow = 0;
+                        if (has_offset_field)
+                            reach.Offset = double.Parse(dr[OffsetField].ToString());
+                        else
+                            reach.Flow = Offset;
+                        if (has_STRCH1_field)
+                            reach.STRCH1 = double.Parse(dr[STRHC1Field].ToString());
+                        else
+                            reach.STRCH1 = STRHC1;
+
                         reach.OrderKey = key;
                         fealist[segid].Reaches.Add(key, reach);
                         fealist[segid].OutSegmentID = int.Parse(dr[OutSegmentField].ToString());
@@ -1046,7 +1078,7 @@ namespace Heiflow.Tools.ConceptualModel
                                         TopElevation = fea.Elevation + Offset,
                                         Slope = fea.Slope,
                                         BedThick = BedThickness,
-                                        STRHC1 = STRHC1,
+                                        STRHC1 = fea.STRCH1,
                                         THTS = THTS,
                                         THTI = THTI,
                                         EPS = EPS,

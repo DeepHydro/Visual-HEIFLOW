@@ -48,6 +48,9 @@ namespace Heiflow.Core.Hydrology
         public River Parent { get; set; }
 
         public double THTS { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public double THTI { get; set; }
         public double EPS { get; set; }
         public double STRHC1 { get; set; }

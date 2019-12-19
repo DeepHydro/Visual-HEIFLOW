@@ -519,7 +519,7 @@ namespace Heiflow.Models.Subsurface
                     IFTUNIT--;
                 }
             }
-
+            CheckEXTWC(prg);
             for (int p = 0; p < np; p++)
             {
                 int reuse = this.FINF.Flags[p] == TimeVarientFlag.Repeat ? -1 : 0;
@@ -561,6 +561,43 @@ namespace Heiflow.Models.Subsurface
             }
             base.Clear();
         }
+        /// <summary>
+        /// EXTWC must have a value between (THTS-Sy) and THTS, where Sy is the specific yield specified in either the LPF or BCF Package
+        /// </summary>
+        private void CheckEXTWC(ICancelProgressHandler prg)
+        {
+            var lpf = Owner.GetPackage(LPFPackage.PackageName) as LPFPackage;
+            int count_modfied = 0;
+            for (int i = 0; i < MFGridInstance.ActiveCellCount; i++)
+            {
+                if (THTS[0, 0, i] < lpf.SY[0, 0, i])
+                {
+                    THTS[0, 0, i] = lpf.SY[0, 0, i];
+                }
+                var ds = THTS[0, 0, i] - lpf.SY[0, 0, i];
+                if (ds == 0)
+                {
+                    EXTWC[0, 0, i] = 0.05f;
+                    count_modfied++;
+                }
+                else
+                {
+                    if (EXTWC[0, 0, i] < ds)
+                    {
+                        EXTWC[0, 0, i] = ds;
+                        count_modfied++;
+                    }
+                }
+                if (EXTWC[0, 0, i] > THTS[0, 0, i])
+                {
+                    EXTWC[0, 0, i] = THTS[0, 0, i];
+                    count_modfied++;
+                }
+            }
+
+           // prg.Progress("uzf", 80, count_modfied + " cells are modified");
+        }
+
         public override void OnGridUpdated(IGrid sender)
         {
             if (this.TimeService.StressPeriods.Count == 0)

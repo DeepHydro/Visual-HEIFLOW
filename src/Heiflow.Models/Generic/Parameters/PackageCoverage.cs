@@ -51,7 +51,7 @@ namespace Heiflow.Models.Generic.Parameters
         public event EventHandler<int> Processing;
         public event EventHandler<string> Processed;
         protected IPackage _Package;
-        private Dictionary<string, int> _RowIndex;
+        private Dictionary<double, int> _RowIndex;
         private Dictionary<string, int> _ColIndex;
 
         public PackageCoverage()
@@ -59,7 +59,7 @@ namespace Heiflow.Models.Generic.Parameters
             LegendText = "New_Coverage";
             FieldName = "";
             State = ModelObjectState.Standby;
-            _RowIndex = new Dictionary<string, int>();
+            _RowIndex = new Dictionary<double, int>();
             _ColIndex = new Dictionary<string, int>();
             AveragingMethod = AveragingMethod.PseudoMedian;
         }
@@ -210,12 +210,16 @@ namespace Heiflow.Models.Generic.Parameters
                 Processed(this, arg);
         }
 
-        public string GetValue(string col_name, string row_id)
+        public float GetValue(string col_name, double row_id)
         {
+            //if (_ColIndex.Keys.Contains(col_name) && _RowIndex.Keys.Contains(row_id))
+            //    return LookupTable.Rows[_RowIndex[row_id]][col_name].ToString();
+            //else
+            //    return ZonalStatastics.NoDataValueString;
             if (_ColIndex.Keys.Contains(col_name) && _RowIndex.Keys.Contains(row_id))
-                return LookupTable.Rows[_RowIndex[row_id]][col_name].ToString();
+                return float.Parse(LookupTable.Rows[_RowIndex[row_id]][col_name].ToString());
             else
-                return ZonalStatastics.NoDataValueString;
+                return ZonalStatastics.NoDataValue;
         }
         public string GetValue(string col_name, int row_index)
         {
@@ -231,8 +235,8 @@ namespace Heiflow.Models.Generic.Parameters
             {
                 NewLookupTable();
                 _RowIndex.Clear();
-                LookupTable<string> lt = new LookupTable<string>();
-                lt.NoValue = "-9999";
+                LookupTable<float> lt = new LookupTable<float>();
+                lt.NoValue = -9999;
                 lt.FromTextFile(FullLookupTableFileName);
                 for (int i = 0; i < lt.RowNames.Length; i++)
                 {
@@ -246,10 +250,10 @@ namespace Heiflow.Models.Generic.Parameters
                         }
                         else
                         {
-                            dr[ap.AliasName] = ap.DefaultValue.ToString();
+                            dr[ap.AliasName] = ap.DefaultValue;
                         }
                     }
-                    _RowIndex.Add(lt.RowNames[i], i);
+                    _RowIndex.Add(double.Parse(lt.RowNames[i]), i);
                     LookupTable.Rows.Add(dr);
                 }
             }
@@ -258,13 +262,13 @@ namespace Heiflow.Models.Generic.Parameters
         private void NewLookupTable()
         {
             LookupTable = new DataTable();
-            DataColumn dc_id = new DataColumn(_ID_COL_NAME, typeof(string));
+            DataColumn dc_id = new DataColumn(_ID_COL_NAME, typeof(double));
             LookupTable.Columns.Add(dc_id);
             _ColIndex.Clear();
             int i = 0;
             foreach (var ap in ArealProperties)
             {
-                DataColumn dc = new DataColumn(ap.AliasName, typeof(string));
+                DataColumn dc = new DataColumn(ap.AliasName, typeof(float));
                 LookupTable.Columns.Add(dc);
                 _ColIndex.Add(ap.AliasName, i);
                 i++;
@@ -279,12 +283,12 @@ namespace Heiflow.Models.Generic.Parameters
                 var dt = (Source as FeatureSet).DataTable;
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    string id = dt.Rows[i][FieldName].ToString();
+                    var id = double.Parse(dt.Rows[i][FieldName].ToString());
                     var dr = LookupTable.NewRow();
                     dr[_ID_COL_NAME] = id;
                     foreach (var ap in ArealProperties)
                     {
-                        dr[ap.AliasName] = ap.DefaultValue.ToString();
+                        dr[ap.AliasName] = ap.DefaultValue;
                     }
                     _RowIndex.Add(id, i);
                     LookupTable.Rows.Add(dr);
@@ -298,11 +302,11 @@ namespace Heiflow.Models.Generic.Parameters
                 for (int i = 0; i < uval.Count; i++)
                 {
                     var dr = LookupTable.NewRow();
-                    var id =uval.ElementAt(i).ToString();
+                    var id = double.Parse(uval.ElementAt(i).ToString());
                     dr[_ID_COL_NAME] = id;
                     foreach (var ap in ArealProperties)
                     {
-                        dr[ap.AliasName] = ap.DefaultValue.ToString();
+                        dr[ap.AliasName] = ap.DefaultValue;
                     }
                     _RowIndex.Add(id, i);
                     LookupTable.Rows.Add(dr);
@@ -331,13 +335,13 @@ namespace Heiflow.Models.Generic.Parameters
 
         public void ImportFrom(string filename)
         {
-            LookupTable<string> lt = new LookupTable<string>();
+            LookupTable<float> lt = new LookupTable<float>();
             lt.FromTextFile(filename);
-            lt.NoValue = "-9999";
+            lt.NoValue = -9999;
             for (int i = 0; i < LookupTable.Rows.Count; i++)
             {
                 var dr = LookupTable.Rows[i];
-                var id = dr[_ID_COL_NAME].ToString();
+                var id = double.Parse(dr[_ID_COL_NAME].ToString());
                 for (int j = 1; j < LookupTable.Columns.Count; j++)
                 {
                     var col = LookupTable.Columns[j].ColumnName;

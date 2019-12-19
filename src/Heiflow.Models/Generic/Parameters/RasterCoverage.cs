@@ -78,9 +78,9 @@ namespace Heiflow.Models.Generic.Parameters
                         {
                             for (int i = 0; i < vec.Length; i++)
                             {
-                                var vv = GetValue(ap.ParameterName, vec[i].ToString());
-                                if (vv != ZonalStatastics.NoDataValueString)
-                                    ap.Parameter.SetValue(0, i, 0, float.Parse(vv));
+                                var vv = GetValue(ap.ParameterName, vec[i]);
+                                if (vv != ZonalStatastics.NoDataValue)
+                                    ap.Parameter.SetValue(0, i, 0,vv);
                                 else
                                     ap.Parameter.SetValue(0, i, 0, ap.DefaultValue);
                             }
@@ -94,9 +94,9 @@ namespace Heiflow.Models.Generic.Parameters
                                 {
                                     for (int i = 0; i < vec.Length; i++)
                                     {
-                                        var vv = GetValue(ap.PropertyName, vec[i].ToString());
-                                        if (vv != ZonalStatastics.NoDataValueString)
-                                            mat[GridLayer,0,i] = float.Parse(vv);
+                                        var vv = GetValue(ap.PropertyName, vec[i]);
+                                        if (vv != ZonalStatastics.NoDataValue)
+                                            mat[GridLayer,0,i] = vv;
                                         else
                                             mat[GridLayer, 0, i] = (float)ap.DefaultValue;
                                     }
