@@ -186,7 +186,6 @@ namespace Heiflow.Tools.ConceptualModel
         }
         [Category("Input")]
         [Description("Stream layer")]
-        [EditorAttribute(typeof(MapLayerDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         public bool UseSWATElevation
         {
             get;
@@ -599,12 +598,12 @@ namespace Heiflow.Tools.ConceptualModel
             var dt_stream = _stream_layer.DataTable;
             var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
             var grid = prj.Project.Model.Grid as MFGrid;
-            var has_width_field = TypeConverterEx.IsNotNull(WidthField);
-            var has_iupseg_field = TypeConverterEx.IsNotNull(IUPSEGField);
-            var has_iprior_field = TypeConverterEx.IsNotNull(IPRIORField);
-            var has_flow_field = TypeConverterEx.IsNotNull(FlowField);
-            var has_offset_field = TypeConverterEx.IsNotNull(OffsetField);
-            var has_STRCH1_field = TypeConverterEx.IsNotNull(STRHC1Field);
+            var has_width_field = dt.Columns.Contains(WidthField);
+            var has_iupseg_field = dt.Columns.Contains(IUPSEGField);
+            var has_iprior_field = dt.Columns.Contains(IPRIORField);
+            var has_flow_field = dt.Columns.Contains(FlowField);
+            var has_offset_field = dt.Columns.Contains(OffsetField);
+            var has_STRCH1_field = dt.Columns.Contains(STRHC1Field);
             for (int i = 0; i < _stream_layer.Features.Count; i++)
             {
                 var fea_stream = _stream_layer.GetFeature(i);

@@ -219,8 +219,9 @@ namespace Heiflow.Models.Subsurface
                                                 var temp = TypeConverterEx.SkipSplit<float>(line, 5);
                                                 for (int v = 0; v < varLen; v++)
                                                 {
-                                                    DataCube.ILArrays[v].SetValue(temp[v], t, rch_index);
+                                                   // DataCube.ILArrays[v].SetValue(temp[v], t, rch_index);
                                                     //Values.Value[v][t][rch_index] = temp[v];
+                                                    DataCube[v, t, rch_index] = temp[v];
                                                 }
                                             }
                                             else
@@ -241,14 +242,19 @@ namespace Heiflow.Models.Subsurface
                                         }
                                         line = sr.ReadLine();
                                         var temp = TypeConverterEx.SkipSplit<float>(line, 5);
-                                        for (int v = 0; v < varLen; v++)
+                                        if (progress > 91)
                                         {
-                                            // Values.Value[v][t][i] = temp[v];
-                                            DataCube.ILArrays[v].SetValue(temp[v], t, i);
+                                            Console.WriteLine(i);
+                                        }
+                                            for (int v = 0; v < varLen; v++)
+                                        {
+                                            DataCube[v, t, i] = temp[v];
                                         }
                                     }
                                 }
                                 DataCube.DateTimes[t] = TimeService.Timeline[t];
+                                if (progress > 91)
+                                    progress = progress;
                                 progress = t * 100 / nstep;
                                 if (progress > count)
                                 {
@@ -414,7 +420,8 @@ namespace Heiflow.Models.Subsurface
                                     {
                                         var temp = TypeConverterEx.SkipSplit<float>(line, 5);
                                         //Values.Value[var_index][t][rch_index] = temp[var_index];
-                                        DataCube.ILArrays[var_index].SetValue(temp[var_index], t, rch_index);
+                                       // DataCube.ILArrays[var_index].SetValue(temp[var_index], t, rch_index);
+                                        DataCube[var_index, t, rch_index] = temp[var_index];
                                     }
                                     else
                                     {
@@ -433,7 +440,8 @@ namespace Heiflow.Models.Subsurface
                                 line = sr.ReadLine().Trim();
                                 var temp = TypeConverterEx.SkipSplit<float>(line, 5);
                                 //Values.Value[var_index][t][i] = temp[var_index];
-                                DataCube.ILArrays[var_index].SetValue(temp[var_index], t, i);
+                              //  DataCube.ILArrays[var_index].SetValue(temp[var_index], t, i);
+                                DataCube[var_index, t, i] = temp[var_index];
                             }
                         }
                         DataCube.DateTimes[t] = TimeService.Timeline[t];

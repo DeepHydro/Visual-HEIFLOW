@@ -61,6 +61,8 @@ namespace Heiflow.Tools.Conversion
             DateFormat = "yyyy-MM-dd";
             VariableName = "dc";
             Direcotry = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            TimeInteval = 86400;
+            Start = new DateTime(2000, 1, 1);
         }
         private IFeatureSet _grid_layer;
 
@@ -107,6 +109,22 @@ namespace Heiflow.Tools.Conversion
             set;
         }
 
+        [Category("Optional")]
+        [Description("Specify the start date time.")]
+        public DateTime Start
+        {
+            get;
+            set;
+        }
+
+        [Category("Optional")]
+        [Description("Specify the time inteval in the unit of seconds.")]
+        public int TimeInteval
+        {
+            get;
+            set;
+        }
+
         public override void Initialize()
         {
             var mat = Get3DMat(Source);
@@ -140,17 +158,18 @@ namespace Heiflow.Tools.Conversion
             {
                 var ntime = mat.Size[1];
                 var grid = mf.Grid as RegularGrid;
+                if(mat.DateTimes == null)
+                {
+                    mat.DateTimes = new DateTime[ntime];
+                    for (int t = 0; t < ntime; t++)
+                    {
+                        mat.DateTimes[t] = Start.AddSeconds(TimeInteval);
+                    }
+                }
                 for (int t = 0; t < ntime; t++)
                 {
                     var Filename = "";
-                    if (mat.DateTimes != null)
-                    {
-                        Filename = string.Format("{0}_{1}.tif", VariableName, mat.DateTimes[t].ToString(DateFormat)); 
-                    }
-                    else
-                    {
-                        Filename = string.Format("{0}_{1}.tif", VariableName, t.ToString("0000"));
-                    }
+                    Filename = string.Format("{0}_{1}.tif", VariableName, mat.DateTimes[t].ToString(DateFormat));
                     Filename = Path.Combine(Direcotry, Filename);
                     var raster = Raster.CreateRaster(Filename, string.Empty, grid.Topology.ColumnCount, grid.Topology.RowCount, 1, typeof(float), new[] { string.Empty });
                     raster.NoDataValue = 0;
@@ -161,8 +180,6 @@ namespace Heiflow.Tools.Conversion
                     {
                         var loc = grid.Topology.ActiveCellLocation[i];
                         raster.Value[loc[0], loc[1]] = vec[i];
-
-
                     }
                     raster.Save();
                     progress = t * 100 / ntime;

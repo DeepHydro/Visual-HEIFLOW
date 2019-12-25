@@ -135,7 +135,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.toolStripButton2.Image = global::Heiflow.Controls.WinForm.Properties.Resources.setting32;
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(33, 25);
+            this.toolStripButton2.Size = new System.Drawing.Size(34, 25);
             this.toolStripButton2.Text = "toolStripButton2";
             // 
             // menu_LoadAll
@@ -143,21 +143,21 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.menu_LoadAll.Checked = true;
             this.menu_LoadAll.CheckState = System.Windows.Forms.CheckState.Checked;
             this.menu_LoadAll.Name = "menu_LoadAll";
-            this.menu_LoadAll.Size = new System.Drawing.Size(185, 22);
+            this.menu_LoadAll.Size = new System.Drawing.Size(214, 26);
             this.menu_LoadAll.Text = "Load all variables";
             this.menu_LoadAll.Click += new System.EventHandler(this.menu_LoadAll_Click);
             // 
             // menu_LoadSingle
             // 
             this.menu_LoadSingle.Name = "menu_LoadSingle";
-            this.menu_LoadSingle.Size = new System.Drawing.Size(185, 22);
+            this.menu_LoadSingle.Size = new System.Drawing.Size(214, 26);
             this.menu_LoadSingle.Text = "Load singel variable";
             this.menu_LoadSingle.Click += new System.EventHandler(this.menu_LoadSingle_Click);
             // 
             // menu_Clear
             // 
             this.menu_Clear.Name = "menu_Clear";
-            this.menu_Clear.Size = new System.Drawing.Size(185, 22);
+            this.menu_Clear.Size = new System.Drawing.Size(214, 26);
             this.menu_Clear.Text = "Clear loaded data";
             this.menu_Clear.Click += new System.EventHandler(this.menu_Clear_Click);
             // 
@@ -174,7 +174,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // toolStripLabel1
             // 
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(111, 25);
+            this.toolStripLabel1.Size = new System.Drawing.Size(130, 25);
             this.toolStripLabel1.Text = "Simulated Variable";
             // 
             // cmbSFRVars
@@ -224,7 +224,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.toolStripDropDownButton1.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GenericSave_B_16;
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(33, 25);
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(34, 25);
             this.toolStripDropDownButton1.Text = "Export";
             // 
             // exportToolStripMenuItem1
@@ -234,26 +234,26 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.exportReachesToolStripMenuItem,
             this.exportProfileToolStripMenuItem});
             this.exportToolStripMenuItem1.Name = "exportToolStripMenuItem1";
-            this.exportToolStripMenuItem1.Size = new System.Drawing.Size(149, 22);
+            this.exportToolStripMenuItem1.Size = new System.Drawing.Size(176, 26);
             this.exportToolStripMenuItem1.Text = "Export As Text";
             // 
             // exportRiversToolStripMenuItem
             // 
             this.exportRiversToolStripMenuItem.Name = "exportRiversToolStripMenuItem";
-            this.exportRiversToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.exportRiversToolStripMenuItem.Size = new System.Drawing.Size(147, 26);
             this.exportRiversToolStripMenuItem.Text = "Segments";
             this.exportRiversToolStripMenuItem.Click += new System.EventHandler(this.exportRiversToolStripMenuItem_Click);
             // 
             // exportReachesToolStripMenuItem
             // 
             this.exportReachesToolStripMenuItem.Name = "exportReachesToolStripMenuItem";
-            this.exportReachesToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.exportReachesToolStripMenuItem.Size = new System.Drawing.Size(147, 26);
             this.exportReachesToolStripMenuItem.Text = "Reaches";
             // 
             // exportProfileToolStripMenuItem
             // 
             this.exportProfileToolStripMenuItem.Name = "exportProfileToolStripMenuItem";
-            this.exportProfileToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.exportProfileToolStripMenuItem.Size = new System.Drawing.Size(147, 26);
             this.exportProfileToolStripMenuItem.Text = "Profile";
             this.exportProfileToolStripMenuItem.Click += new System.EventHandler(this.exportProfileToolStripMenuItem_Click);
             // 
@@ -263,20 +263,20 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.segmentsToolStripMenuItem,
             this.reachesToolStripMenuItem});
             this.saveAsShpToolStripMenuItem.Name = "saveAsShpToolStripMenuItem";
-            this.saveAsShpToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.saveAsShpToolStripMenuItem.Size = new System.Drawing.Size(176, 26);
             this.saveAsShpToolStripMenuItem.Text = "Save As Shp";
             // 
             // segmentsToolStripMenuItem
             // 
             this.segmentsToolStripMenuItem.Name = "segmentsToolStripMenuItem";
-            this.segmentsToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.segmentsToolStripMenuItem.Size = new System.Drawing.Size(147, 26);
             this.segmentsToolStripMenuItem.Text = "Segments";
             this.segmentsToolStripMenuItem.Click += new System.EventHandler(this.segmentsToolStripMenuItem_Click);
             // 
             // reachesToolStripMenuItem
             // 
             this.reachesToolStripMenuItem.Name = "reachesToolStripMenuItem";
-            this.reachesToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.reachesToolStripMenuItem.Size = new System.Drawing.Size(147, 26);
             this.reachesToolStripMenuItem.Text = "Reaches";
             this.reachesToolStripMenuItem.Click += new System.EventHandler(this.reachesToolStripMenuItem_Click);
             // 
@@ -293,7 +293,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // labelStatus
             // 
             this.labelStatus.Name = "labelStatus";
-            this.labelStatus.Size = new System.Drawing.Size(40, 25);
+            this.labelStatus.Size = new System.Drawing.Size(49, 25);
             this.labelStatus.Text = "Ready";
             // 
             // toolStripLabel4
@@ -327,7 +327,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // cmbVariables
             // 
             this.cmbVariables.Name = "cmbVariables";
-            this.cmbVariables.Size = new System.Drawing.Size(121, 25);
+            this.cmbVariables.Size = new System.Drawing.Size(121, 28);
             // 
             // splitContainer1
             // 
@@ -371,10 +371,10 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabPage3.Controls.Add(this.label4);
             this.tabPage3.Controls.Add(this.label3);
             this.tabPage3.Controls.Add(this.label1);
-            this.tabPage3.Location = new System.Drawing.Point(4, 24);
+            this.tabPage3.Location = new System.Drawing.Point(4, 28);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(257, 597);
+            this.tabPage3.Size = new System.Drawing.Size(257, 593);
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "Time Series";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -394,7 +394,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.chbReadComplData.AutoSize = true;
             this.chbReadComplData.Location = new System.Drawing.Point(10, 264);
             this.chbReadComplData.Name = "chbReadComplData";
-            this.chbReadComplData.Size = new System.Drawing.Size(133, 19);
+            this.chbReadComplData.Size = new System.Drawing.Size(159, 23);
             this.chbReadComplData.TabIndex = 10;
             this.chbReadComplData.Text = "Load complete data";
             this.chbReadComplData.UseVisualStyleBackColor = true;
@@ -408,7 +408,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.cmbObsVars.FormattingEnabled = true;
             this.cmbObsVars.Location = new System.Drawing.Point(6, 222);
             this.cmbObsVars.Name = "cmbObsVars";
-            this.cmbObsVars.Size = new System.Drawing.Size(235, 23);
+            this.cmbObsVars.Size = new System.Drawing.Size(235, 27);
             this.cmbObsVars.TabIndex = 6;
             this.cmbObsVars.SelectedIndexChanged += new System.EventHandler(this.cmbObsVars_SelectedIndexChanged);
             // 
@@ -420,7 +420,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.cmbSite.FormattingEnabled = true;
             this.cmbSite.Location = new System.Drawing.Point(6, 162);
             this.cmbSite.Name = "cmbSite";
-            this.cmbSite.Size = new System.Drawing.Size(235, 23);
+            this.cmbSite.Size = new System.Drawing.Size(235, 27);
             this.cmbSite.TabIndex = 7;
             this.cmbSite.SelectedIndexChanged += new System.EventHandler(this.cmbSite_SelectedIndexChanged);
             // 
@@ -432,7 +432,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.cmbRchID.FormattingEnabled = true;
             this.cmbRchID.Location = new System.Drawing.Point(6, 102);
             this.cmbRchID.Name = "cmbRchID";
-            this.cmbRchID.Size = new System.Drawing.Size(235, 23);
+            this.cmbRchID.Size = new System.Drawing.Size(235, 27);
             this.cmbRchID.TabIndex = 8;
             this.cmbRchID.SelectedIndexChanged += new System.EventHandler(this.cmbRchID_SelectedIndexChanged);
             // 
@@ -444,7 +444,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.cmbSegsID.FormattingEnabled = true;
             this.cmbSegsID.Location = new System.Drawing.Point(6, 42);
             this.cmbSegsID.Name = "cmbSegsID";
-            this.cmbSegsID.Size = new System.Drawing.Size(235, 23);
+            this.cmbSegsID.Size = new System.Drawing.Size(235, 27);
             this.cmbSegsID.TabIndex = 9;
             this.cmbSegsID.SelectedIndexChanged += new System.EventHandler(this.cmbSegsID_SelectedIndexChanged);
             // 
@@ -453,7 +453,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(6, 196);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(108, 15);
+            this.label5.Size = new System.Drawing.Size(128, 19);
             this.label5.TabIndex = 2;
             this.label5.Text = "Observed Variable";
             // 
@@ -462,7 +462,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(6, 136);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(97, 15);
+            this.label4.Size = new System.Drawing.Size(116, 19);
             this.label4.TabIndex = 3;
             this.label4.Text = "Observation Site";
             // 
@@ -471,7 +471,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(6, 76);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(55, 15);
+            this.label3.Size = new System.Drawing.Size(67, 19);
             this.label3.TabIndex = 4;
             this.label3.Text = "Reach ID";
             // 
@@ -480,17 +480,17 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(6, 16);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(67, 15);
+            this.label1.Size = new System.Drawing.Size(83, 19);
             this.label1.TabIndex = 5;
             this.label1.Text = "Segment ID";
             // 
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.groupBox2);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(257, 599);
+            this.tabPage4.Size = new System.Drawing.Size(257, 596);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "Profile";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -506,7 +506,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(251, 593);
+            this.groupBox2.Size = new System.Drawing.Size(251, 590);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             // 
@@ -525,7 +525,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.chbUnifiedByLength.AutoSize = true;
             this.chbUnifiedByLength.Location = new System.Drawing.Point(10, 157);
             this.chbUnifiedByLength.Name = "chbUnifiedByLength";
-            this.chbUnifiedByLength.Size = new System.Drawing.Size(118, 19);
+            this.chbUnifiedByLength.Size = new System.Drawing.Size(141, 23);
             this.chbUnifiedByLength.TabIndex = 11;
             this.chbUnifiedByLength.Text = "Unified by length";
             this.chbUnifiedByLength.UseVisualStyleBackColor = true;
@@ -537,7 +537,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.cmbEndID.FormattingEnabled = true;
             this.cmbEndID.Location = new System.Drawing.Point(10, 110);
             this.cmbEndID.Name = "cmbEndID";
-            this.cmbEndID.Size = new System.Drawing.Size(235, 23);
+            this.cmbEndID.Size = new System.Drawing.Size(235, 27);
             this.cmbEndID.TabIndex = 4;
             this.cmbEndID.SelectedIndexChanged += new System.EventHandler(this.cmbEndID_SelectedIndexChanged);
             // 
@@ -548,7 +548,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.cmbStartID.FormattingEnabled = true;
             this.cmbStartID.Location = new System.Drawing.Point(10, 50);
             this.cmbStartID.Name = "cmbStartID";
-            this.cmbStartID.Size = new System.Drawing.Size(235, 23);
+            this.cmbStartID.Size = new System.Drawing.Size(235, 27);
             this.cmbStartID.TabIndex = 5;
             this.cmbStartID.SelectedIndexChanged += new System.EventHandler(this.cmbStartID_SelectedIndexChanged);
             // 
@@ -557,7 +557,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(10, 84);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(90, 15);
+            this.label6.Size = new System.Drawing.Size(111, 19);
             this.label6.TabIndex = 2;
             this.label6.Text = "End Segment ID";
             // 
@@ -566,17 +566,17 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(10, 24);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(96, 15);
+            this.label7.Size = new System.Drawing.Size(117, 19);
             this.label7.TabIndex = 3;
             this.label7.Text = "Start Segment ID";
             // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.propertyGrid1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(257, 599);
+            this.tabPage1.Size = new System.Drawing.Size(257, 596);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "Config";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -587,7 +587,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertyGrid1.Location = new System.Drawing.Point(3, 3);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(251, 593);
+            this.propertyGrid1.Size = new System.Drawing.Size(251, 590);
             this.propertyGrid1.TabIndex = 1;
             // 
             // tabControl_Chart
@@ -608,7 +608,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabPageTimeSeries.Location = new System.Drawing.Point(4, 4);
             this.tabPageTimeSeries.Name = "tabPageTimeSeries";
             this.tabPageTimeSeries.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageTimeSeries.Size = new System.Drawing.Size(856, 597);
+            this.tabPageTimeSeries.Size = new System.Drawing.Size(856, 593);
             this.tabPageTimeSeries.TabIndex = 0;
             this.tabPageTimeSeries.Text = "Time Series View";
             this.tabPageTimeSeries.UseVisualStyleBackColor = true;
@@ -622,7 +622,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.winChart_timeseries.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.winChart_timeseries.Name = "winChart_timeseries";
             this.winChart_timeseries.ShowStatPanel = true;
-            this.winChart_timeseries.Size = new System.Drawing.Size(850, 591);
+            this.winChart_timeseries.Size = new System.Drawing.Size(850, 587);
             this.winChart_timeseries.TabIndex = 7;
             // 
             // tabPageProfile
@@ -632,7 +632,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabPageProfile.Location = new System.Drawing.Point(4, 4);
             this.tabPageProfile.Name = "tabPageProfile";
             this.tabPageProfile.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageProfile.Size = new System.Drawing.Size(856, 599);
+            this.tabPageProfile.Size = new System.Drawing.Size(856, 596);
             this.tabPageProfile.TabIndex = 1;
             this.tabPageProfile.Text = "Profile View";
             this.tabPageProfile.UseVisualStyleBackColor = true;
@@ -646,7 +646,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.winChart_proflie.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.winChart_proflie.Name = "winChart_proflie";
             this.winChart_proflie.ShowStatPanel = true;
-            this.winChart_proflie.Size = new System.Drawing.Size(850, 570);
+            this.winChart_proflie.Size = new System.Drawing.Size(850, 567);
             this.winChart_proflie.TabIndex = 8;
             // 
             // colorSlider1
@@ -659,7 +659,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.colorSlider1.ElapsedInnerColor = System.Drawing.Color.DeepSkyBlue;
             this.colorSlider1.ElapsedOuterColor = System.Drawing.Color.White;
             this.colorSlider1.LargeChange = ((uint)(5u));
-            this.colorSlider1.Location = new System.Drawing.Point(3, 573);
+            this.colorSlider1.Location = new System.Drawing.Point(3, 570);
             this.colorSlider1.Name = "colorSlider1";
             this.colorSlider1.Size = new System.Drawing.Size(850, 23);
             this.colorSlider1.SmallChange = ((uint)(1u));
@@ -672,7 +672,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // 
             // SFRExplorer
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip1);

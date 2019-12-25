@@ -119,6 +119,7 @@
     <Compile Include="Conversion\ToNetCDF.cs" />
     <Compile Include="Conversion\ToBilFile.cs" />
     <Compile Include="Conversion\ToRaster.cs" />
+    <Compile Include="Conversion\ToRasterListByHRUMap.cs" />
     <Compile Include="Conversion\ToRasterList.cs" />
     <Compile Include="Extraction\ExtractFromRaster.cs" />
     <Compile Include="Hydrology\IncomingRadiationIntensity.cs" />

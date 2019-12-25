@@ -423,7 +423,7 @@
             // 
             this.btnSetToUniform.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnSetToUniform.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnSetToUniform.Location = new System.Drawing.Point(28, 204);
+            this.btnSetToUniform.Location = new System.Drawing.Point(152, 203);
             this.btnSetToUniform.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
             this.btnSetToUniform.Name = "btnSetToUniform";
             this.btnSetToUniform.Size = new System.Drawing.Size(172, 30);
@@ -446,7 +446,6 @@
             this.tbLayerHeight.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.tbLayerHeight.Location = new System.Drawing.Point(152, 15);
             this.tbLayerHeight.Name = "tbLayerHeight";
-            this.tbLayerHeight.ReadOnly = true;
             this.tbLayerHeight.Size = new System.Drawing.Size(363, 27);
             this.tbLayerHeight.TabIndex = 23;
             this.tbLayerHeight.Text = "20";
@@ -465,7 +464,6 @@
             this.tbSS.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.tbSS.Location = new System.Drawing.Point(152, 154);
             this.tbSS.Name = "tbSS";
-            this.tbSS.ReadOnly = true;
             this.tbSS.Size = new System.Drawing.Size(363, 27);
             this.tbSS.TabIndex = 24;
             this.tbSS.Text = "0.0001";
@@ -475,7 +473,6 @@
             this.tbHK.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.tbHK.Location = new System.Drawing.Point(152, 50);
             this.tbHK.Name = "tbHK";
-            this.tbHK.ReadOnly = true;
             this.tbHK.Size = new System.Drawing.Size(363, 27);
             this.tbHK.TabIndex = 25;
             this.tbHK.Text = "10";
@@ -503,7 +500,6 @@
             this.tbSY.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.tbSY.Location = new System.Drawing.Point(152, 119);
             this.tbSY.Name = "tbSY";
-            this.tbSY.ReadOnly = true;
             this.tbSY.Size = new System.Drawing.Size(363, 27);
             this.tbSY.TabIndex = 26;
             this.tbSY.Text = "0.1";
@@ -513,7 +509,6 @@
             this.tbVKA.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.tbVKA.Location = new System.Drawing.Point(152, 84);
             this.tbVKA.Name = "tbVKA";
-            this.tbVKA.ReadOnly = true;
             this.tbVKA.Size = new System.Drawing.Size(363, 27);
             this.tbVKA.TabIndex = 27;
             this.tbVKA.Text = "100";

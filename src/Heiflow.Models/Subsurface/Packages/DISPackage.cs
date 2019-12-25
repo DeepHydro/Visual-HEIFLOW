@@ -305,7 +305,7 @@ namespace Heiflow.Models.Subsurface
                     BilFile.Write(bilfile, MFGridInstance, Elevation, i);
                 }
             }
-            //TerrainViewerMapFile.Save(Elevation.Variables, bilfiles);
+            TerrainViewerMapFile.Save(Elevation.Variables, bilfiles);
         }
         public override void OnGridUpdated(IGrid sender)
         {
