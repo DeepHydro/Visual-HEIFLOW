@@ -44,6 +44,7 @@ using Heiflow.Applications;
 using Heiflow.Controls.WinForm.Toolbox;
 using Heiflow.Models.Tools;
 using Heiflow.Presentation.Services;
+using Heiflow.Spatial.SpatialAnalyst;
 
 namespace Heiflow.Tools.Conversion
 {
@@ -67,7 +68,6 @@ namespace Heiflow.Tools.Conversion
             get;
             set;
         }
-
         [Category("Input")]
         [Description("The name of exported variable")]
         public string VariableName
@@ -75,7 +75,6 @@ namespace Heiflow.Tools.Conversion
             get;
             set;
         }
-
         [Category("Input")]
         [Description("The target feature file")]
         [EditorAttribute(typeof(FileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
@@ -85,6 +84,20 @@ namespace Heiflow.Tools.Conversion
         [Description("The name of the output Data Cube")]
         public string OutputDataCube { get; set; }
 
+        [Category("Optional")]
+        [Description("Averaging method")]
+        public Core.MyMath.AveragingMethod AveragingMethod
+        {
+            get;
+            set;
+        }
+        [Category("Optional")]
+        [Description("Set NoDataValue")]
+        public float NoDataValue
+        {
+            get;
+            set;
+        }
         public override void Initialize()
         {
             Initialized = File.Exists(TargetFeatureFile);
@@ -96,13 +109,7 @@ namespace Heiflow.Tools.Conversion
             if (fs != null && File.Exists(FilenameList))
             {
                 var npt = fs.NumRows();
-                Coordinate[] coors = new Coordinate[npt];
                 int progress = 0;
-                for (int i = 0; i < npt; i++)
-                {
-                    var geo_pt = fs.GetFeature(i).Geometry;
-                    coors[i] = geo_pt.Coordinate;
-                }
                 List<string> files = new List<string>();
                 StreamReader sr = new StreamReader(FilenameList);
                 while (!sr.EndOfStream)
@@ -121,23 +128,25 @@ namespace Heiflow.Tools.Conversion
                         Variables = new string[] { VariableName }
                     };
                     for (int t = 0; t < nstep; t++)
-                    {
+                    { 
                         progress = t * 100 / nstep;
+                        cancelProgressHandler.Progress("Package_Tool", progress, "Processing raster:" + files[t]);
                         if (File.Exists(files[t]))
                         {
                             IRaster raster = Raster.Open(files[t]);
+                            float[] vec = null;
+                            if (fs.FeatureType == FeatureType.Point)
+                            {
+                                vec = ZonalStatastics.ZonalByPoint(raster, fs);
+                            }
+                            else if (fs.FeatureType == FeatureType.Polygon)
+                            {
+                                vec = ZonalStatastics.ZonalByGrid(raster, fs, AveragingMethod);
+                            }
                             for (int i = 0; i < npt; i++)
                             {
-                                var vv = raster.GetNearestValue(coors[i]);
-                                if (vv != raster.NoDataValue)
-                                    mat_out[0, t, i] = (float)vv;
-                                else
-                                {
-                                    mat_out[0, t, i] = FindNearestCellValue(raster, coors[i], 1);
-                                }
-                             
+                                mat_out[0, t, i] = vec[i] != ZonalStatastics.NoDataValue ? vec[i] : this.NoDataValue;
                             }
-                            cancelProgressHandler.Progress("Package_Tool", progress, "Processing raster:" + files[t]);
                         }
                         else
                         {
@@ -207,6 +216,76 @@ namespace Heiflow.Tools.Conversion
                 return (float)list.Average();
             else
                 return FindNearestCellValue(raster, pt, neibor + 1);
+        }
+
+        public bool Execute1(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
+        {
+            var fs = FeatureSet.Open(TargetFeatureFile);
+            if (fs != null && File.Exists(FilenameList))
+            {
+                var npt = fs.NumRows();
+                Coordinate[] coors = new Coordinate[npt];
+                int progress = 0;
+                for (int i = 0; i < npt; i++)
+                {
+                    var geo_pt = fs.GetFeature(i).Geometry;
+                    coors[i] = geo_pt.Coordinate;
+                }
+                List<string> files = new List<string>();
+                StreamReader sr = new StreamReader(FilenameList);
+                while (!sr.EndOfStream)
+                {
+                    var line = sr.ReadLine();
+                    if (TypeConverterEx.IsNotNull(line))
+                        files.Add(line.Trim());
+                }
+                sr.Close();
+                if (files != null)
+                {
+                    int nstep = files.Count();
+                    var mat_out = new DataCube<float>(1, nstep, npt)
+                    {
+                        Name = OutputDataCube,
+                        Variables = new string[] { VariableName }
+                    };
+                    for (int t = 0; t < nstep; t++)
+                    {
+                        progress = t * 100 / nstep;
+                        if (File.Exists(files[t]))
+                        {
+                            IRaster raster = Raster.Open(files[t]);
+                            for (int i = 0; i < npt; i++)
+                            {
+                                var vv = raster.GetNearestValue(coors[i]);
+                                if (vv != raster.NoDataValue)
+                                    mat_out[0, t, i] = (float)vv;
+                                else
+                                {
+                                    mat_out[0, t, i] = FindNearestCellValue(raster, coors[i], 1);
+                                }
+
+                            }
+                            cancelProgressHandler.Progress("Package_Tool", progress, "Processing raster:" + files[t]);
+                        }
+                        else
+                        {
+                            cancelProgressHandler.Progress("Package_Tool", progress, "Warning. The raster dose not exist: " + files[t]);
+                        }
+                    }
+                    Workspace.Add(mat_out);
+                    fs.Close();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                cancelProgressHandler.Progress("Package_Tool", 50, "Failed to run. The input parameters are incorrect.");
+                return false;
+            }
         }
     }
 }

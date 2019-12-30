@@ -35,6 +35,7 @@ using Heiflow.Controls.WinForm.Toolbox;
 using Heiflow.Core.Data;
 using Heiflow.Models.Tools;
 using Heiflow.Presentation.Services;
+using Heiflow.Spatial.SpatialAnalyst;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -57,6 +58,7 @@ namespace Heiflow.Tools.DataManagement
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             NoDataValue = 0;
+            AveragingMethod = Core.MyMath.AveragingMethod.Mean;
         }
 
         [Category("Input")]
@@ -79,6 +81,13 @@ namespace Heiflow.Tools.DataManagement
         [Category("Optional")]
         [Description("Set NoDataValue")]
         public float NoDataValue
+        {
+            get;
+            set;
+        }
+        [Category("Optional")]
+        [Description("Averaging method")]
+        public Core.MyMath.AveragingMethod AveragingMethod
         {
             get;
             set;
@@ -111,6 +120,40 @@ namespace Heiflow.Tools.DataManagement
         }
 
         public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
+        {
+            if (_target_layer != null)
+            {
+                var nrow = _target_layer.NumRows();
+                List<float> temp = new List<float>();
+                var mat = new DataCube<float>(1, 1, nrow);
+                mat.Name = Matrix;
+                mat.Variables = new string[] { Matrix };
+
+                var ras = _dem_layer;
+                float[] vec = null;
+                if (_target_layer.FeatureType == FeatureType.Point)
+                {
+                    vec = ZonalStatastics.ZonalByPoint(ras, _target_layer);
+                }
+                else if (_target_layer.FeatureType == FeatureType.Polygon)
+                {
+                    vec = ZonalStatastics.ZonalByGrid(ras, _target_layer, AveragingMethod);
+                }
+                for (int i = 0; i < nrow; i++)
+                {
+                    mat[0, 0, i] = vec[i] != ZonalStatastics.NoDataValue ? vec[i] : this.NoDataValue;
+                }
+                Workspace.Add(mat);
+                return true;
+            }
+            else
+            {
+                cancelProgressHandler.Progress("Package_Tool", 100, "Error message: the input layers are incorrect.");
+                return false;
+            }
+        }
+
+        public  bool Execute1(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
         {
             int progress = 0;
             int count = 1;
