@@ -29,37 +29,39 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Heiflow.Core.Data.ODM
 {
-    public  class DendritiRecord<T>:IDendritiRecord<T>
+    public class DendritiRecord<T> : IDendritiRecord<T>
     {
         public DendritiRecord()
         {
             Children = new List<IDendritiRecord<T>>();
         }
-
+        [Category("General")]
         public int ID
         {
             get;
             set;
         }
-
+        [Category("General")]
         public string Name
         {
             get;
             set;
         }
+        [Browsable(false)]
 
         public IDendritiRecord<T> Parent
         {
             get;
             set;
         }
-
+        [Browsable(false)]
         public List<IDendritiRecord<T>> Children
         {
             get;
@@ -71,38 +73,38 @@ namespace Heiflow.Core.Data.ODM
             get;
             set;
         }
-
+        [Browsable(false)]
         public T Value
         {
             get;
             set;
         }
-
+        [Browsable(false)]
         public object Tag
         {
             get;
             set;
         }
-
+        [Browsable(false)]
         public int Level
         {
             get;
             set;
         }
-
+        [Browsable(false)]
         public bool CanDelete
         {
             get;
             set;
         }
 
-
+        [Browsable(false)]
         public bool CanExport2Shp
         {
             get;
             set;
         }
-
+        [Browsable(false)]
         public bool CanExport2Excel
         {
             get;

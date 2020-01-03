@@ -372,8 +372,6 @@ namespace Heiflow.Models.Generic
             set
             {
                 _Parent = value;
-                if (!_Parent.Children.Contains(this))
-                    _Parent.Children.Add(this);
             }
         }
         [Browsable(false)]
@@ -546,7 +544,10 @@ namespace Heiflow.Models.Generic
             _IsDirty = false;
             _State = ModelObjectState.Standby;
         }
-
+        public bool ContainChild(string pck_name)
+        {
+            return Children.Any(p => p.Name == pck_name);
+        }
         public virtual void Attach(DotSpatial.Controls.IMap map, string directory)
         {
             string filename = Path.Combine(directory, this.Name + ".shp");
@@ -602,11 +603,22 @@ namespace Heiflow.Models.Generic
         }
         public void AddChild(IPackage pck)
         {
-            if (!Children.Contains(pck))
+            //if (!Children.Contains(pck))
+            //{
+            //    Children.Add(pck);
+            //    pck.Parent = this;
+            //}
+            if (ContainChild(pck.Name))
+            {
+                var pck1 = Children.Single(p => p.Name == pck.Name);
+                Children.Remove(pck1);
+                Children.Add(pck);
+            }
+            else
             {
                 Children.Add(pck);
-                pck.Parent = this;
             }
+            pck.Parent = this;
         }
         public virtual void OnGridUpdated(IGrid sender)
         {

@@ -489,16 +489,20 @@ namespace Heiflow.Models.Subsurface
             {
                 var sfr_info = (from info in mf.NameManager.MasterList where info.FID == this.ISTCB2 select info).First();
                // sfr_info.ModuleName = SFRPackage.PackageName;
-                var sfr_out = new SFROutputPackage(this)
+                if (!mfout.ContainChild(SFROutputPackage.PackageName))
                 {
-                    Owner = mf,
-                    PackageInfo = sfr_info,
-                    FileName = sfr_info.FileName,
-                    Parent=mfout
-                };
-                sfr_out.Initialize();
-             //   sfr_out.Scan();
-                this.DataPackage = sfr_out;
+                    var sfr_out = new SFROutputPackage(this)
+                    {
+                        Owner = mf,
+                        PackageInfo = sfr_info,
+                        FileName = sfr_info.FileName,
+                        Parent = mfout
+                    };
+                    mfout.AddChild(sfr_out);
+                    sfr_out.Initialize();
+                    //   sfr_out.Scan();
+                    this.DataPackage = sfr_out;
+                }
             }
         }
 

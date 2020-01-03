@@ -95,6 +95,7 @@ namespace Heiflow.Models.Generic.Project
         string Token { get; set; }
         string GeoSpatialDirectory { get; }
         string ProcessingDirectory { get; }
+        string DatabaseDirectory { get; }
         string GridFeatureFilePath { get; set; }
         string CentroidFeatureFilePath { get; set; }
         bool IsDirty { get; set; }

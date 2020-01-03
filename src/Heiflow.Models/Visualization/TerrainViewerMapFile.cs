@@ -15,15 +15,26 @@ namespace Heiflow.Models.Visualization
 
         }
 
-        public static string Mapfile
+        public string BaseDirectory
+        {
+            get;
+            set;
+        }
+
+        public string Mapfile
         {
             get
             {
-                return Path.Combine(Application.StartupPath, "External\\TerrainViewer\\maps.xml");
+                return Path.Combine(BaseDirectory, "map.xml");
             }
         }
 
-        public static void Save(string [] mapnames, string [] bilfile)
+        public bool Exist()
+        {
+            return File.Exists(Mapfile);
+        }
+
+        public void Save(string[] mapnames, string[] bilfile)
         {
             StreamWriter sw = new StreamWriter(Mapfile);
             string line = "<?xml version='1.0' encoding=\"ISO-8859-1\" ?>";
@@ -34,7 +45,7 @@ namespace Heiflow.Models.Visualization
             sw.WriteLine(line);
             for (int i = 0; i < mapnames.Length; i++)
             {
-                line = string.Format( "<map name=\"{0}\">", mapnames[i]);
+                line = string.Format("<map name=\"{0}\">", mapnames[i]);
                 sw.WriteLine(line);
                 line = string.Format("<terrain demfile=\"{0}\" texturefile=\"colors\\Geo_1.png\" altscale=\"0.015\"/>", bilfile[i]);
                 sw.WriteLine(line);

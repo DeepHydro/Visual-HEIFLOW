@@ -113,7 +113,7 @@ namespace Heiflow.Tools.ConceptualModel
             }
         }
         [Category("Parameter")]
-        [Description("Field name of OBSNAM")]
+        [Description("Field name of Observation Name")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
         public string OBSNAMField

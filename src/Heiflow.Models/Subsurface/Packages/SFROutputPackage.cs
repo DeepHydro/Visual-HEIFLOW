@@ -253,8 +253,6 @@ namespace Heiflow.Models.Subsurface
                                     }
                                 }
                                 DataCube.DateTimes[t] = TimeService.Timeline[t];
-                                if (progress > 91)
-                                    progress = progress;
                                 progress = t * 100 / nstep;
                                 if (progress > count)
                                 {

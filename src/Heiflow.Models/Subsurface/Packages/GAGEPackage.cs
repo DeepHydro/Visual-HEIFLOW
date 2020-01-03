@@ -115,19 +115,22 @@ namespace Heiflow.Models.Subsurface
 
             if (mf.Packages.Keys.Contains(LakePackage.PackageName))
             {
-                LAKOutputPackage lake_out = new LAKOutputPackage()
+                if (!mfout.ContainChild(LAKOutputPackage.PackageName))
                 {
-                    Owner = mf,
-                    Parent = mf.Packages[LakePackage.PackageName]
-                };
-                lake_out.Initialize();
-                var uids = from vv in this.GagingInfo[0, "1", ":"] where vv < 0 select vv;
-                foreach (var uid in uids)
-                {
-                    var finfo = (from info in mf.NameManager.MasterList where info.FID == -uid select info).First();
-                    lake_out.OutputFilesInfo.Add(finfo);
+                    LAKOutputPackage lake_out = new LAKOutputPackage()
+                    {
+                        Owner = mf,
+                        Parent = mf.Packages[LakePackage.PackageName]
+                    };
+                    lake_out.Initialize();
+                    var uids = from vv in this.GagingInfo[0, "1", ":"] where vv < 0 select vv;
+                    foreach (var uid in uids)
+                    {
+                        var finfo = (from info in mf.NameManager.MasterList where info.FID == -uid select info).First();
+                        lake_out.OutputFilesInfo.Add(finfo);
+                    }
+                    mfout.AddChild(lake_out);
                 }
-                mfout.AddChild(lake_out);
             }
         }
 

@@ -191,12 +191,12 @@ namespace Heiflow.Models.Subsurface
                 {
 
                 }
-                return false;
+                return result;
             }
             else
             {
                 ShowWarning("The file does not exist: " + LocalFileName, progress);
-                return false;
+                return result;
             }
         }
 

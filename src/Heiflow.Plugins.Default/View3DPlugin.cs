@@ -42,15 +42,15 @@ using System.Windows.Forms;
 
 namespace Heiflow.Plugins.View3DPanel
 {
-    public class View3DPlugin: Extension
+    public class View3DPlugin : Extension
     {
-        private  Win3DView _Win3DView;
+        private Win3DView _Win3DView;
         public View3DPlugin()
         {
             DeactivationAllowed = false;
             _Win3DView = new Win3DView();
         }
-     
+
 
         [Import("ProjectController", typeof(IProjectController))]
         public IProjectController ProjectManager
@@ -96,7 +96,13 @@ namespace Heiflow.Plugins.View3DPanel
         public void ShowTerrainViewer(object sender, EventArgs e)
         {
             var workdic = Path.Combine(Application.StartupPath, "External\\TerrainViewer");
-            var exefile= Path.Combine(Application.StartupPath, "External\\TerrainViewer\\TerrainViewer.exe");
+            var exefile = Path.Combine(Application.StartupPath, "External\\TerrainViewer\\TerrainViewer.exe");
+            var mapfile = Path.Combine(ProjectManager.Project.GeoSpatialDirectory, "map.xml");
+            if (!File.Exists(mapfile))
+            {
+                MessageBox.Show(mapfile + " for Terrain Viewer not found.");
+                return;
+            }
             if (File.Exists(exefile))
             {
                 ProcessStartInfo startInfo = new ProcessStartInfo();
@@ -105,12 +111,13 @@ namespace Heiflow.Plugins.View3DPanel
                 startInfo.FileName = exefile;
                 startInfo.WindowStyle = ProcessWindowStyle.Normal;
                 startInfo.WorkingDirectory = workdic;
+                startInfo.Arguments = Path.Combine(ProjectManager.Project.GeoSpatialDirectory, "map.xml");
                 try
                 {
                     // Start the process with the info we specified.
                     // Call WaitForExit and then the using statement will close.
                     Process exeProcess = Process.Start(startInfo);
-                    
+
                 }
                 catch
                 {

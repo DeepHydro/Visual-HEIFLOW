@@ -192,12 +192,13 @@ namespace Heiflow.Models.Subsurface
             get;
             set;
         }
+           [Browsable(false)]
         public RegularGridTopology Topology
         {
             get;
             protected  set;
         }
-
+           [Browsable(false)]
         public override IFeatureSet Feature
         {
             get
@@ -415,7 +416,9 @@ namespace Heiflow.Models.Subsurface
                 Topology.ActiveCellCount = NH;
                 var nsp1 = (Observations[0] as HeadObservation).IREFSP.Length;
                 HOBS = new DataCube<float>(nsp1, 1, NH);
-                HOBS.Variables = new string[] { "Head Observation" };
+                HOBS.Variables = new string[nsp1];
+                for (int t = 0; t < nsp1; t++)
+                    HOBS.Variables[t] = "Stress Period " + (t + 1);
                 for (int t = 0; t < nsp1; t++)
                     for (int k = 0; k < NH; k++)
                     {
@@ -479,15 +482,18 @@ namespace Heiflow.Models.Subsurface
                     pck_info.Format = FileFormat.Text;
                     pck_info.IOState = IOState.REPLACE;
                 }
-                var hob_out = new HOBOutputPackage()
+                if (!mfout.ContainChild(HOBOutputPackage.PackageName))
                 {
-                    Owner = mf,
-                    Parent = this,
-                    PackageInfo = pck_info,
-                    FileName = pck_info.FileName
-                };
-                hob_out.Initialize();
-                mfout.AddChild(hob_out);
+                    var hob_out = new HOBOutputPackage()
+                    {
+                        Owner = mf,
+                        Parent = this,
+                        PackageInfo = pck_info,
+                        FileName = pck_info.FileName
+                    };
+                    hob_out.Initialize();
+                    mfout.AddChild(hob_out);
+                }
             }
         }
 

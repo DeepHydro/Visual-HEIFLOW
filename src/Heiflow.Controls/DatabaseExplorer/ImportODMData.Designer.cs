@@ -71,6 +71,8 @@
             this.dg_external = new System.Windows.Forms.DataGridView();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
             ((System.ComponentModel.ISupportInitialize)(this.nav_top)).BeginInit();
             this.nav_top.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceODM)).BeginInit();
@@ -99,9 +101,11 @@
             this.nav_top.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.nav_top.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.nav_top.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripLabel2,
-            this.cmbTables,
+            this.toolStripLabel1,
             this.btnOpenExcel,
+            this.toolStripLabel4,
+            this.cmbTables,
+            this.toolStripLabel2,
             this.cmbSheet,
             this.btnImport,
             this.toolStripSeparator1,
@@ -443,10 +447,10 @@
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.dg_external);
-            this.tabPage2.Location = new System.Drawing.Point(4, 28);
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(944, 535);
+            this.tabPage2.Size = new System.Drawing.Size(876, 491);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "External Data";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -471,7 +475,7 @@
             this.dg_external.Margin = new System.Windows.Forms.Padding(4);
             this.dg_external.Name = "dg_external";
             this.dg_external.RowTemplate.Height = 23;
-            this.dg_external.Size = new System.Drawing.Size(938, 529);
+            this.dg_external.Size = new System.Drawing.Size(870, 485);
             this.dg_external.TabIndex = 5;
             // 
             // splitContainer2
@@ -499,6 +503,18 @@
             this.propertyGrid1.Name = "propertyGrid1";
             this.propertyGrid1.Size = new System.Drawing.Size(151, 520);
             this.propertyGrid1.TabIndex = 0;
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(113, 25);
+            this.toolStripLabel1.Text = "Open Excel File:";
+            // 
+            // toolStripLabel4
+            // 
+            this.toolStripLabel4.Name = "toolStripLabel4";
+            this.toolStripLabel4.Size = new System.Drawing.Size(93, 25);
+            this.toolStripLabel4.Text = "Select Sheet:";
             // 
             // ImportODMData
             // 
@@ -579,6 +595,8 @@
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.PropertyGrid propertyGrid1;
         private System.Windows.Forms.ToolStripButton btnUpdateSeriesCata;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel4;
 
     }
 }

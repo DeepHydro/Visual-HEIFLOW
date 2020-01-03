@@ -71,7 +71,7 @@ namespace Heiflow.Models.Subsurface
 
         public new void AddChild(IPackage pck)
         {
-            if(Children.Any(p=>p.Name == pck.Name))
+            if(ContainChild(pck.Name))
             {
                var pck1 = Children.Single(p => p.Name == pck.Name);
                Children.Remove(pck1);

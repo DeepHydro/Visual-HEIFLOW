@@ -293,19 +293,25 @@ namespace Heiflow.Models.Subsurface
         {
             this.Feature = Owner.Grid.FeatureSet;
             this.FeatureLayer = Owner.Grid.FeatureLayer;
-
-            int nlayer = Elevation.Size[0];
-            string[] bilfiles = new string[nlayer];
-            for (int i = 0; i < nlayer; i++)
+            TerrainViewerMapFile tv = new TerrainViewerMapFile();
+            tv.BaseDirectory = Owner.Project.GeoSpatialDirectory;
+            if(!tv.Exist())
             {
-                var bilfile = Path.Combine(Owner.Project.GeoSpatialDirectory, Elevation.Variables[i] + ".bil");
-                bilfiles[i] = bilfile;
-                if (!File.Exists(bilfile))
+                int nlayer = Elevation.Size[0];
+                string[] bilfiles = new string[nlayer];
+                for (int i = 0; i < nlayer; i++)
                 {
-                    BilFile.Write(bilfile, MFGridInstance, Elevation, i);
-                }
+                    var bilfile = Elevation.Variables[i].Replace(" ", "_") + ".bil";
+                    bilfiles[i] = bilfile;
+                    var full_bilfile = Path.Combine(tv.BaseDirectory, bilfile);
+                    if (!File.Exists(full_bilfile))
+                    {
+                        BilFile.Write(full_bilfile, MFGridInstance, Elevation, i);
+                    }
+                } 
+                tv.Save(Elevation.Variables, bilfiles);
             }
-            TerrainViewerMapFile.Save(Elevation.Variables, bilfiles);
+         
         }
         public override void OnGridUpdated(IGrid sender)
         {

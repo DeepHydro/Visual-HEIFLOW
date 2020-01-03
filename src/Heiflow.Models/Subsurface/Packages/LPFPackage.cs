@@ -434,6 +434,7 @@ namespace Heiflow.Models.Subsurface
                     PackageInfo = cbc_info,
                     FileName = cbc_info.FileName
                 };
+                mfout.AddChild(CBC);
                 CBC.Initialize();
                 var FlowField = new VelocityPackage()
                  {
@@ -443,6 +444,7 @@ namespace Heiflow.Models.Subsurface
                      Parent = mfout
                  };
                 FlowField.Initialize();
+                mfout.AddChild(FlowField);
             }
         }
         public override void OnGridUpdated(IGrid sender)

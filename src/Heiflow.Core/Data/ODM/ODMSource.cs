@@ -556,6 +556,23 @@ namespace Heiflow.Core.Data.ODM
             return dt;
         }
 
+        public string[] GetDataTableFields(string table_name)
+        {
+            string[] fields = null;
+            switch(table_name)
+            {
+                case "DataValues":
+                    fields = new string[] { "DataValue", "DateTimeUTC", "SiteID", "VariableID" };
+                    break;
+                case "Sites":
+                    fields = new string[] { "SiteID", "Comments", "SiteType", "SiteCode", "SiteName", "Longitude", "Latitude", "Elevation_m", "State", "Country", "MonitorType" };
+                    break;
+                default:
+                    break;
+            }
+            return fields;
+        }
+
         public DataTable Execute(string sql)
         {
             DataTable dt = ODMDB.QueryDataTable(sql);
@@ -863,9 +880,12 @@ namespace Heiflow.Core.Data.ODM
         {
             _sites.Clear();
             var sites = GetSites(new QueryCriteria());
-            foreach (var s in sites)
+            if (sites != null)
             {
-                _sites.Add(s.ID, s);
+                foreach (var s in sites)
+                {
+                    _sites.Add(s.ID, s);
+                }
             }
         }
 

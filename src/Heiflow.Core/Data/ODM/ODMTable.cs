@@ -58,7 +58,6 @@ namespace Heiflow.Core.Data.ODM
             set;
         }
 
-
         public string Message
         {
             get { return _Message; }
@@ -78,26 +77,36 @@ namespace Heiflow.Core.Data.ODM
         {
             bool succ = true;
             var dt_source = ODM.GetDataTable(TableName, 1);
-            var col_external = from DataColumn dc in dt.Columns select dc.ColumnName;
-            var col_source = from DataColumn dc in dt_source.Columns select dc.ColumnName;
-
-            foreach (var str in col_source)
+            string[] source_fields = null;
+            string[] external_fields = null;
+            if (dt_source != null)
             {
-                if (!col_external.Contains(str))
-                {
-                    _Message = string.Format("The neccessary field {0} is missing", str);
-                    succ = false;
-                    break;
-                }
-            }
-            if (!succ)
-            {
-                return false;
+                source_fields = (from DataColumn dc in dt_source.Columns select dc.ColumnName).ToArray();
             }
             else
             {
-                return succ;
+                source_fields = ODM.GetDataTableFields(TableName);
             }
+            if (dt != null)
+                external_fields = (from DataColumn dc in dt.Columns select dc.ColumnName).ToArray();
+
+            if (source_fields != null && external_fields != null)
+            {
+                foreach (var str in source_fields)
+                {
+                    if (!external_fields.Contains(str))
+                    {
+                        _Message = string.Format("The neccessary field {0} is missing", str);
+                        succ = false;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                succ = false;
+            }
+            return succ;
         }
 
         public abstract bool Save(System.Data.DataTable dt);

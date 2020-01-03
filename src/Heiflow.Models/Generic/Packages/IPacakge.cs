@@ -116,5 +116,6 @@ namespace Heiflow.Models.Generic
         void ChangeState(ModelObjectState state);
         void ResetToDefault();
         bool IsLoadFailedRegistered(Delegate prospectiveHandler);
+        bool ContainChild(string pck_name);
     }
 }

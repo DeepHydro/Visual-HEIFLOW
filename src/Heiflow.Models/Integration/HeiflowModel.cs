@@ -41,6 +41,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.IO;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 
 namespace Heiflow.Models.Integration
@@ -324,6 +325,7 @@ namespace Heiflow.Models.Integration
                     progress.Progress(this.Name, 1, msg);
             }
 
+            NewDatabase();
             _IsDirty = true;
             return succ;
         }
@@ -388,36 +390,53 @@ namespace Heiflow.Models.Integration
             _WaterManagementModel.Clear();
         }
 
-        private void MF2PRMS()
+        private void NewDatabase()
         {
-            var sfr = _Modflow.Select(SFRPackage.PackageName);
-            if (sfr != null)
+            string odmfile = Path.Combine(Application.StartupPath, "Data\\ODM.accdb");
+            string odm_templ_file = Path.Combine(Application.StartupPath, "Data\\template.xlsx");
+
+            string local_odmfile = Path.Combine(Project.DatabaseDirectory, "Database\\ODM.accdb");
+            string local_templfile = Path.Combine(Project.DatabaseDirectory, "Database\\template.xlsx");
+            File.Copy(odmfile, local_odmfile, true);
+            File.Copy(odm_templ_file, local_templfile, true);
+
+            Project.ODMSource = new Core.Data.ODM.ODMSource()
             {
-                var sfr_pck = sfr as SFRPackage;
-                sfr_pck.RiverNetwork.PropertyChanged += RiverNetwork_PropertyChanged;
-            }
+                DatabaseFilePath = "Database\\ODM.accdb",
+                Name = Project.Name
+            };
         }
 
-        private void RiverNetwork_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            var net = sender as RiverNetwork;
-             if(e.PropertyName == "RiverCount")
-             {
-                 var nseg_para =  _PRMS.MMSPackage.Select("nsegment");
-                 if(nseg_para != null)
-                 {
-                     nseg_para.SetValue(0, 0, 0, net.RiverCount);
-                 }
-             }
-             else if (e.PropertyName == "ReachCount")
-             {
-                 var nseg_para = _PRMS.MMSPackage.Select("nreach");
-                 if (nseg_para != null)
-                 {
-                     nseg_para.SetValue(0, 0, 0, net.ReachCount);
-                 }
-             }
-        }
+        //private void MF2PRMS()
+        //{
+        //    var sfr = _Modflow.Select(SFRPackage.PackageName);
+        //    if (sfr != null)
+        //    {
+        //        var sfr_pck = sfr as SFRPackage;
+        //        sfr_pck.RiverNetwork.PropertyChanged += RiverNetwork_PropertyChanged;
+        //    }
+        //}
+
+        //private void RiverNetwork_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        //{
+        //    var net = sender as RiverNetwork;
+        //     if(e.PropertyName == "RiverCount")
+        //     {
+        //         var nseg_para =  _PRMS.MMSPackage.Select("nsegment");
+        //         if(nseg_para != null)
+        //         {
+        //             nseg_para.SetValue(0, 0, 0, net.RiverCount);
+        //         }
+        //     }
+        //     else if (e.PropertyName == "ReachCount")
+        //     {
+        //         var nseg_para = _PRMS.MMSPackage.Select("nreach");
+        //         if (nseg_para != null)
+        //         {
+        //             nseg_para.SetValue(0, 0, 0, net.ReachCount);
+        //         }
+        //     }
+        //}
 
     }
 }

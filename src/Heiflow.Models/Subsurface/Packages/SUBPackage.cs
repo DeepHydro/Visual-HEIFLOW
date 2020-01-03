@@ -340,15 +340,19 @@ namespace Heiflow.Models.Subsurface
             {
                 var sfr_info = (from info in mf.NameManager.MasterList where info.FID == this.OutputFIDs[7] select info).First();
                 // sfr_info.ModuleName = SFRPackage.PackageName;
-                var sfr_out = new SubOutputPackage()
+                if (!mfout.ContainChild(SubOutputPackage.PackageName))
                 {
-                    Owner = mf,
-                    PackageInfo = sfr_info,
-                    FileName = sfr_info.FileName,
-                    Parent = mfout
-                };
-                sfr_out.Initialize();
-               // sfr_out.Scan();
+                    var sub_out = new SubOutputPackage()
+                    {
+                        Owner = mf,
+                        PackageInfo = sfr_info,
+                        FileName = sfr_info.FileName,
+                        Parent = mfout
+                    };
+                    mfout.AddChild(sub_out);
+                    sub_out.Initialize();
+                    // sfr_out.Scan();
+                }
             }
         }
 

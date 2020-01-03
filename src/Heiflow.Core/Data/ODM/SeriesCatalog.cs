@@ -155,118 +155,119 @@ namespace Heiflow.Core.Data.ODM
 
         }
         private List<IDendritiRecord<ObservationSeries>> GroupBySiteState()
-        {
-            var group = from re in _Series group re by re.Site.State into vv_cat select new { cat = vv_cat.Key, series = vv_cat };
+        {      
             List<IDendritiRecord<ObservationSeries>> records = new List<IDendritiRecord<ObservationSeries>>();
-
-            foreach (var gp in group)
+            if (_Series != null)
             {
-                DendritiRecord<ObservationSeries> root = new DendritiRecord<ObservationSeries>()
+                var group = from re in _Series group re by re.Site.State into vv_cat select new { cat = vv_cat.Key, series = vv_cat };
+                foreach (var gp in group)
                 {
-                    Level = 0,
-                    Name = gp.cat,
-                    Parent = null,
-                    Value = null,
-                    Tag = null,
-                    CanDelete = false,
-                    CanExport2Excel = false,
-                    CanExport2Shp = false
-                };
-
-                var uni_sites = gp.series.GroupBy(g => g.SiteID).Select(o => o.First());
-                foreach (var site in uni_sites)
-                {
-                    DendritiRecord<ObservationSeries> site_record = new DendritiRecord<ObservationSeries>()
+                    DendritiRecord<ObservationSeries> root = new DendritiRecord<ObservationSeries>()
                     {
-                        Level = 1,
-                        Name = site.Site.Name,
-                        Parent = root,
+                        Level = 0,
+                        Name = gp.cat,
+                        Parent = null,
                         Value = null,
-                        Tag = site.Site,
-                        CanDelete = true,
-                        CanExport2Excel = true,
-                        CanExport2Shp = true
+                        Tag = null,
+                        CanDelete = false,
+                        CanExport2Excel = false,
+                        CanExport2Shp = false
                     };
-                    root.Children.Add(site_record);
 
-                    var site_vars = from ss in _Series where ss.SiteID == site.SiteID select ss;
-                    foreach (var site_var in site_vars)
+                    var uni_sites = gp.series.GroupBy(g => g.SiteID).Select(o => o.First());
+                    foreach (var site in uni_sites)
                     {
-                        DendritiRecord<ObservationSeries> variable_record = new DendritiRecord<ObservationSeries>()
+                        DendritiRecord<ObservationSeries> site_record = new DendritiRecord<ObservationSeries>()
                         {
-                            Level = 2,
-                            Name = site_var.Variable.Name,
-                            Parent = site_record,
-                            Value = site_var,
-                            Tag = site_var,
+                            Level = 1,
+                            Name = site.Site.Name,
+                            Parent = root,
+                            Value = null,
+                            Tag = site.Site,
                             CanDelete = true,
                             CanExport2Excel = true,
                             CanExport2Shp = true
                         };
-                        site_record.Children.Add(variable_record);
+                        root.Children.Add(site_record);
+
+                        var site_vars = from ss in _Series where ss.SiteID == site.SiteID select ss;
+                        foreach (var site_var in site_vars)
+                        {
+                            DendritiRecord<ObservationSeries> variable_record = new DendritiRecord<ObservationSeries>()
+                            {
+                                Level = 2,
+                                Name = site_var.Variable.Name,
+                                Parent = site_record,
+                                Value = site_var,
+                                Tag = site_var,
+                                CanDelete = true,
+                                CanExport2Excel = true,
+                                CanExport2Shp = true
+                            };
+                            site_record.Children.Add(variable_record);
+                        }
                     }
+                    records.Add(root);
                 }
-                records.Add(root);
             }
-
             return records;
-
         }
         private List<IDendritiRecord<ObservationSeries>> GroupByVariable()
-        {
-            var group = from re in _Series group re by re.Variable.GeneralCategory into vv_cat select new { cat = vv_cat.Key, series = vv_cat };
+        {       
             List<IDendritiRecord<ObservationSeries>> records = new List<IDendritiRecord<ObservationSeries>>();
-
-            foreach (var gp in group)
+            if (_Series != null)
             {
-                DendritiRecord<ObservationSeries> root = new DendritiRecord<ObservationSeries>()
+                var group = from re in _Series group re by re.Variable.GeneralCategory into vv_cat select new { cat = vv_cat.Key, series = vv_cat };
+                foreach (var gp in group)
                 {
-                    Level = 0,
-                    Name = gp.cat,
-                    Parent = null,
-                    Value = null,
-                    Tag = null,
-                    CanDelete = false,
-                    CanExport2Excel=false,
-                    CanExport2Shp=false
-                };
-
-                var uni_variables = gp.series.GroupBy(g => g.Variable.Name).Select(o => o.First());
-                foreach (var variable in uni_variables)
-                {
-                    DendritiRecord<ObservationSeries> site_record = new DendritiRecord<ObservationSeries>()
+                    DendritiRecord<ObservationSeries> root = new DendritiRecord<ObservationSeries>()
                     {
-                        Level = 1,
-                        Name = variable.Variable.Name,
-                        Parent = root,
+                        Level = 0,
+                        Name = gp.cat,
+                        Parent = null,
                         Value = null,
-                        Tag = variable.Variable,
-                        CanDelete = true,
-                        CanExport2Excel = true,
-                        CanExport2Shp = true
+                        Tag = null,
+                        CanDelete = false,
+                        CanExport2Excel = false,
+                        CanExport2Shp = false
                     };
-                    root.Children.Add(site_record);
 
-                    var site_vars = from ss in _Series where ss.Variable.ID == variable.Variable.ID select ss;
-                    foreach (var site_var in site_vars)
+                    var uni_variables = gp.series.GroupBy(g => g.Variable.Name).Select(o => o.First());
+                    foreach (var variable in uni_variables)
                     {
-                        DendritiRecord<ObservationSeries> variable_record = new DendritiRecord<ObservationSeries>()
+                        DendritiRecord<ObservationSeries> site_record = new DendritiRecord<ObservationSeries>()
                         {
-                            Level = 2,
-                            Name = site_var.Site.Name,
-                            Parent = site_record,
-                            Value = site_var,
-                            Tag = site_var,
+                            Level = 1,
+                            Name = variable.Variable.Name,
+                            Parent = root,
+                            Value = null,
+                            Tag = variable.Variable,
                             CanDelete = true,
                             CanExport2Excel = true,
                             CanExport2Shp = true
                         };
-                        site_record.Children.Add(variable_record);
-                    }
-                }
-                records.Add(root);
-            }
+                        root.Children.Add(site_record);
 
+                        var site_vars = from ss in _Series where ss.Variable.ID == variable.Variable.ID select ss;
+                        foreach (var site_var in site_vars)
+                        {
+                            DendritiRecord<ObservationSeries> variable_record = new DendritiRecord<ObservationSeries>()
+                            {
+                                Level = 2,
+                                Name = site_var.Site.Name,
+                                Parent = site_record,
+                                Value = site_var,
+                                Tag = site_var,
+                                CanDelete = true,
+                                CanExport2Excel = true,
+                                CanExport2Shp = true
+                            };
+                            site_record.Children.Add(variable_record);
+                        }
+                    }
+                    records.Add(root);
+                }
+            }
             return records;
 
         }

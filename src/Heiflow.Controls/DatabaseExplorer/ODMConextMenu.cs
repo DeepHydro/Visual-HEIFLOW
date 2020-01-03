@@ -113,6 +113,8 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
             else
             {
                 var re = sender as IDendritiRecord<ObservationSeries>;
+                if (re == null)
+                    return;
                 if (re.Children.Count == 0)
                 {   
                     Enable(_ExportExcelString, true);

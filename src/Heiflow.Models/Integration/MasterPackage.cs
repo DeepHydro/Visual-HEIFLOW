@@ -38,6 +38,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using System.Xml;
 
 namespace Heiflow.Models.Integration
@@ -1326,7 +1327,6 @@ namespace Heiflow.Models.Integration
             {
                 //  string xmlcopy = this.FileName.Replace(".control", ".xml");
                 File.Copy(_Controlfile, this.FileName, true);
-
                 LoadFrom(this.FileName);
                 ModelMode = Integration.ModelMode.GSFLOW;
                 StartTime = new DateTime(DateTime.Now.Year - 1, 1, 1);

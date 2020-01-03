@@ -53,11 +53,11 @@
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnConectODM,
-            this.btnRefresh,
             this.toolStripSeparator1,
             this.toolStripDropDownButton1,
             this.btnImport,
-            this.btnRemoveDB});
+            this.btnRemoveDB,
+            this.btnRefresh});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(373, 27);
@@ -77,11 +77,11 @@
             // btnRefresh
             // 
             this.btnRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnRefresh.Image = global::Heiflow.Controls.WinForm.Properties.Resources.cat_db;
+            this.btnRefresh.Image = global::Heiflow.Controls.WinForm.Properties.Resources.refresh;
             this.btnRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(24, 24);
-            this.btnRefresh.Text = "Connect to the ODM Database";
+            this.btnRefresh.Text = "Refresh";
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // toolStripSeparator1
