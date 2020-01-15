@@ -208,7 +208,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.tabPageFigure.Location = new System.Drawing.Point(4, 4);
             this.tabPageFigure.Name = "tabPageFigure";
             this.tabPageFigure.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFigure.Size = new System.Drawing.Size(699, 637);
+            this.tabPageFigure.Size = new System.Drawing.Size(699, 636);
             this.tabPageFigure.TabIndex = 0;
             this.tabPageFigure.Text = "Figure";
             this.tabPageFigure.UseVisualStyleBackColor = true;
@@ -222,7 +222,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.winChart_timeseries.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.winChart_timeseries.Name = "winChart_timeseries";
             this.winChart_timeseries.ShowStatPanel = false;
-            this.winChart_timeseries.Size = new System.Drawing.Size(693, 631);
+            this.winChart_timeseries.Size = new System.Drawing.Size(693, 630);
             this.winChart_timeseries.TabIndex = 8;
             // 
             // tabPageTable
@@ -231,7 +231,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.tabPageTable.Location = new System.Drawing.Point(4, 4);
             this.tabPageTable.Name = "tabPageTable";
             this.tabPageTable.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageTable.Size = new System.Drawing.Size(699, 637);
+            this.tabPageTable.Size = new System.Drawing.Size(699, 640);
             this.tabPageTable.TabIndex = 1;
             this.tabPageTable.Text = "Table";
             this.tabPageTable.UseVisualStyleBackColor = true;
@@ -248,7 +248,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.dataGridEx1.ShowImport = false;
             this.dataGridEx1.ShowSave2Excel = false;
             this.dataGridEx1.ShowSaveButton = false;
-            this.dataGridEx1.Size = new System.Drawing.Size(693, 631);
+            this.dataGridEx1.Size = new System.Drawing.Size(693, 634);
             this.dataGridEx1.TabIndex = 0;
             // 
             // tabPageOutput
@@ -257,7 +257,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.tabPageOutput.Location = new System.Drawing.Point(4, 4);
             this.tabPageOutput.Name = "tabPageOutput";
             this.tabPageOutput.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageOutput.Size = new System.Drawing.Size(699, 637);
+            this.tabPageOutput.Size = new System.Drawing.Size(699, 640);
             this.tabPageOutput.TabIndex = 3;
             this.tabPageOutput.Text = "Output";
             this.tabPageOutput.UseVisualStyleBackColor = true;
@@ -268,7 +268,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.txt_msg.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txt_msg.Location = new System.Drawing.Point(3, 3);
             this.txt_msg.Name = "txt_msg";
-            this.txt_msg.Size = new System.Drawing.Size(693, 631);
+            this.txt_msg.Size = new System.Drawing.Size(693, 634);
             this.txt_msg.TabIndex = 1;
             this.txt_msg.Text = "";
             // 
@@ -546,11 +546,11 @@ namespace Heiflow.Controls.WinForm.Toolbox
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.treeView1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 28);
+            this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage1.Size = new System.Drawing.Size(346, 637);
+            this.tabPage1.Size = new System.Drawing.Size(346, 640);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Tools";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -575,7 +575,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.treeView1.NodeControls.Add(this._nodeTextBox);
             this.treeView1.OnVisibleOverride = null;
             this.treeView1.SelectedNode = null;
-            this.treeView1.Size = new System.Drawing.Size(340, 629);
+            this.treeView1.Size = new System.Drawing.Size(340, 632);
             this.treeView1.TabIndex = 1;
             this.treeView1.Text = "treeViewAdv1";
             // 

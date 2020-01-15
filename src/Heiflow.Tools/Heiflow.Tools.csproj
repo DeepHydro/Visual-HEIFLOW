@@ -98,6 +98,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Anlysis\CompareGWHead.cs" />
     <Compile Include="ConceptualModel\BoreholeToAquiferSturcutre.cs" />
     <Compile Include="ConceptualModel\UZFByZoneIDTool.cs" />
     <Compile Include="ConceptualModel\LPFByZoneIDTool .cs" />
@@ -202,9 +203,7 @@
       <Name>Heiflow.Presentation</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Anlysis\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Heiflow.Tools.licenseheader" />
     <None Include="vhf.pfx" />
