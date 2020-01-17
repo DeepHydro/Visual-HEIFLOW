@@ -148,7 +148,7 @@
             this.cmbMethod.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.cmbMethod.FormattingEnabled = true;
             this.cmbMethod.Items.AddRange(new object[] {
-            "Unifrom",
+            "Uniform",
             "Random"});
             this.cmbMethod.Location = new System.Drawing.Point(425, 24);
             this.cmbMethod.Name = "cmbMethod";
@@ -291,9 +291,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(18, 62);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(151, 21);
+            this.label1.Size = new System.Drawing.Size(169, 21);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Minum Temperature";
+            this.label1.Text = "Minimum Temperature";
             // 
             // tbWind
             // 
@@ -384,7 +384,7 @@
             this.tabUniform.Location = new System.Drawing.Point(4, 30);
             this.tabUniform.Name = "tabUniform";
             this.tabUniform.Padding = new System.Windows.Forms.Padding(3);
-            this.tabUniform.Size = new System.Drawing.Size(592, 294);
+            this.tabUniform.Size = new System.Drawing.Size(592, 318);
             this.tabUniform.TabIndex = 1;
             this.tabUniform.Text = "Uniform";
             this.tabUniform.UseVisualStyleBackColor = true;
@@ -584,7 +584,7 @@
             this.tabRandom.Location = new System.Drawing.Point(4, 30);
             this.tabRandom.Name = "tabRandom";
             this.tabRandom.Padding = new System.Windows.Forms.Padding(3);
-            this.tabRandom.Size = new System.Drawing.Size(592, 294);
+            this.tabRandom.Size = new System.Drawing.Size(592, 318);
             this.tabRandom.TabIndex = 0;
             this.tabRandom.Text = "Random Method";
             this.tabRandom.UseVisualStyleBackColor = true;

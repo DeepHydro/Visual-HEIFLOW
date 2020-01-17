@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 
 namespace Heiflow.Tools.Anlysis
 {
+    public enum CompareMode { Head,Depth};
     public class CompareGWHead : MapLayerRequiredTool
     {
         public CompareGWHead()
@@ -27,12 +28,15 @@ namespace Heiflow.Tools.Anlysis
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
+
+            CompareMode = Anlysis.CompareMode.Head;
         }
 
         private IMapLayerDescriptor _SourceLayer;
         private IFeatureSet _sourcefs;
         private IFeatureSet _grid_layer;
         private string _ObservedHeadField;
+        private string _ObservedDepthField;
         private string _LayerItem;
 
         [Category("Input")]
@@ -80,7 +84,21 @@ namespace Heiflow.Tools.Anlysis
                 _ObservedHeadField = value;
             }
         }
-
+        [Category("Field Parameter")]
+        [Description("Field name of the Observed Head")]
+        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
+        [DropdownListSource("Fields")]
+        public string ObservedDepthField
+        {
+            get
+            {
+                return _ObservedDepthField;
+            }
+            set
+            {
+                _ObservedDepthField = value;
+            }
+        }
         [Category("Parameter")]
         [Description("Field name of the Observed Head")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
@@ -95,6 +113,13 @@ namespace Heiflow.Tools.Anlysis
             {
                 _LayerItem = value;
             }
+        }
+        [Category("Parameter")]
+        [Description("Comparision mode")]
+        public CompareMode CompareMode
+        {
+            get;
+            set;
         }
         [Browsable(false)]
         public string[] Fields
@@ -159,15 +184,41 @@ namespace Heiflow.Tools.Anlysis
                     var grid = (mf.Grid as MFGrid);
                     var fhd = buf.First() as FHDPackage;
                     int nwel = _sourcefs.DataTable.Rows.Count;
+                    if (!_sourcefs.DataTable.Columns.Contains("SimHead"))
+                    {
+                        DataColumn dc = new DataColumn("SimHead", Type.GetType("System.Double"));
+                        _sourcefs.DataTable.Columns.Add(dc);
+                    }
+                    if (!_sourcefs.DataTable.Columns.Contains("SimDepth"))
+                    {
+                        DataColumn dc = new DataColumn("SimDepth", Type.GetType("System.Double"));
+                        _sourcefs.DataTable.Columns.Add(dc);
+                    }
+                    if(!_sourcefs.DataTable.Columns.Contains("dh"))
+                    {
+                        DataColumn dc = new DataColumn("dh", Type.GetType("System.Double"));
+                        _sourcefs.DataTable.Columns.Add(dc);
+                    }
+                    if (!_sourcefs.DataTable.Columns.Contains("dd"))
+                    {
+                        DataColumn dc = new DataColumn("dd", Type.GetType("System.Double"));
+                        _sourcefs.DataTable.Columns.Add(dc);
+                    }
+
                     int layer = GetLayerIndex();
                     if (fhd.DataCube.IsAllocated(layer))
                     {
                         float head = 0;
+                        float elev = 0;
+                        float obsdep = 0;
                         float[] sim = new float[nwel];
                         float[] obs = new float[nwel];
+                        float[] sim_dep = new float[nwel];
+                        float[] obs_dep = new float[nwel];
                         for (int i = 0; i < nwel; i++)
                         {
                             float.TryParse(_sourcefs.DataTable.Rows[i][ObservedHeadField].ToString(), out head);
+                            float.TryParse(_sourcefs.DataTable.Rows[i][ObservedDepthField].ToString(), out obsdep);
                             var pt = _sourcefs.Features[i].Geometry.Coordinate;
                             for (int j = 0; j < _grid_layer.Features.Count; j++)
                             {
@@ -178,22 +229,41 @@ namespace Heiflow.Tools.Anlysis
                                     var Column = int.Parse(_grid_layer.DataTable.Rows[j]["COLUMN"].ToString());
                                     var index = grid.Topology.GetSerialIndex(Row - 1, Column - 1);
                                     sim[i] = fhd.DataCube[layer, 0, index];
+                                    elev = grid.Elevations[0, 0, index];
                                     break;
-                                }
+                                } 
                             }
                             obs[i] = head;
+                            _sourcefs.DataTable.Rows[i]["SimHead"] = sim[i];
+                            _sourcefs.DataTable.Rows[i]["SimDepth"] = elev - sim[i];
+                            sim_dep[i] = elev - sim[i];
+                            obs_dep[i] = obsdep;
+                            _sourcefs.DataTable.Rows[i]["dh"] = System.Math.Round((sim[i] - head), 2);
+                            _sourcefs.DataTable.Rows[i]["dd"] = System.Math.Round((elev - sim[i] - obsdep), 2);
                             progress = i * 100 / nwel;
                             cancelProgressHandler.Progress("Package_Tool", progress, "Process observation well: " + (i + 1));
                         }
+                        _sourcefs.Save();
                         if (obs.Length > 0)
                         {
-                            var min = System.Math.Min(obs.Min(), sim.Min());
-                            var max = System.Math.Max(obs.Max(), sim.Max());
-
-                            var xx = new float[] { min, max };
-                            var yy = new float[] { min, max };
-                            WorkspaceView.Plot<float>(xx, yy, "45 Degree Line", Models.UI.MySeriesChartType.FastLine);
-                            WorkspaceView.Plot<float>(obs, sim, "Observed VS. Simulated Head", Models.UI.MySeriesChartType.FastPoint);
+                            if (CompareMode == Anlysis.CompareMode.Head)
+                            {
+                                var min = System.Math.Min(obs.Min(), sim.Min());
+                                var max = System.Math.Max(obs.Max(), sim.Max());
+                                var xx = new float[] { min, max };
+                                var yy = new float[] { min, max };
+                                WorkspaceView.Plot<float>(xx, yy, "45 Degree Line", Models.UI.MySeriesChartType.FastLine);
+                                WorkspaceView.Plot<float>(obs, sim, -999, "Observed VS. Simulated Head", Models.UI.MySeriesChartType.FastPoint);
+                            }
+                            else
+                            {
+                                var min = System.Math.Min(obs_dep.Min(), sim_dep.Min());
+                                var max = System.Math.Max(obs_dep.Max(), sim_dep.Max());
+                                var xx = new float[] { min, max };
+                                var yy = new float[] { min, max };
+                                WorkspaceView.Plot<float>(xx, yy, "45 Degree Line", Models.UI.MySeriesChartType.FastLine);
+                                WorkspaceView.Plot<float>(obs_dep, sim_dep, -999, "Observed VS. Simulated Depth", Models.UI.MySeriesChartType.FastPoint);
+                            }
                         }
                     }
                     else

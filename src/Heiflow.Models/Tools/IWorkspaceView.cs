@@ -45,7 +45,9 @@ namespace Heiflow.Models.Tools
         void Plot<T>(T[] xx, T[] yy,  string seriesName, MySeriesChartType chartType);
         void Plot<T>(T[] yy, string seriesName, MySeriesChartType chartType);
         void Plot<T>(DataCube<T> source, MySeriesChartType chartType);
+        void Plot<T>(T[] _ObsHead, T[] _SimHead, T p1, string p2, MySeriesChartType mySeriesChartType);
         void RefreshLayerBy(object gridLayer, string fieldName);
         void RefreshChart();
+
     }
 }

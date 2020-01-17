@@ -518,7 +518,24 @@ namespace Heiflow.Controls.WinForm.Toolbox
                 this.winChart_timeseries.Refresh();
             }
         }
-
+        public void Plot<T>(T[] xx, T[] yy, T nodata, string seriesName = "", MySeriesChartType chartType = MySeriesChartType.FastLine)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new MethodInvoker(delegate
+                {
+                    this.winChart_timeseries.Plot<T>(xx, yy, nodata, seriesName,
+            EnumHelper.FromString<SeriesChartType>(chartType.ToString()));
+                    this.winChart_timeseries.Refresh();
+                }));
+            }
+            else
+            {
+                this.winChart_timeseries.Plot<T>(xx, yy,nodata, seriesName,
+                 EnumHelper.FromString<SeriesChartType>(chartType.ToString()));
+                this.winChart_timeseries.Refresh();
+            }
+        }
         public void Plot<T>(T[] yy, string seriesName, MySeriesChartType chartType)
         {
             if (InvokeRequired)
@@ -557,6 +574,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
 
         public void RefreshChart()
         {
+            this.Refresh();
             this.winChart_timeseries.Refresh();
         }
 
@@ -590,7 +608,6 @@ namespace Heiflow.Controls.WinForm.Toolbox
                 gridLayer.ApplyScheme(newScheme);
             }
         }
-
 
         public void ClearContent()
         {
