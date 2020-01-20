@@ -86,6 +86,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Bin\Debug\DotSpatial.Modeling.Forms.dll</HintPath>
     </Reference>
+    <Reference Include="DotSpatial.NetTopologySuite, Version=1.14.2.0, Culture=neutral, PublicKeyToken=f580a05016ebada1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Debug\DotSpatial.NetTopologySuite.dll</HintPath>
+    </Reference>
     <Reference Include="DotSpatial.Projections, Version=2.0.0.0, Culture=neutral, PublicKeyToken=272632bddd08a38b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Projections.dll</HintPath>

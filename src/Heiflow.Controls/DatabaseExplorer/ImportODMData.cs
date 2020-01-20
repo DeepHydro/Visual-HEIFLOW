@@ -27,14 +27,16 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Data;
+using DotSpatial.Projections;
 using Excel;
+using GeoAPI.Geometries;
 using Heiflow.Core.Data;
 using Heiflow.Core.Data.ODM;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -46,7 +48,7 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
     public partial class ImportODMData : Form
     {
         private ODMSource _ODM;
-        private DataSet _DataSet;
+        private System.Data.DataSet _DataSet;
         private DataTable _ODM_Table;
         private DataTable _External_Table;
         private BackgroundWorker worker;
@@ -128,7 +130,7 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
                 if (odm.Check(dt))
                 {
                     worker.RunWorkerAsync(dt);
-                    if(odm.Message != "")
+                    if (odm.Message != "")
                         MessageBox.Show(odm.Message);
                 }
                 else
@@ -142,18 +144,18 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
             }
         }
 
-        private   void odm_ProgressChanged(object sender, int e)
+        private void odm_ProgressChanged(object sender, int e)
         {
             worker.ReportProgress(e);
         }
         private void odm_Started(object sender, EventArgs e)
         {
-            this.Invoke((MethodInvoker)delegate   
+            this.Invoke((MethodInvoker)delegate
             {
-                 toolStripProgressBar1.Visible = true;
-                 nav_top.Enabled = false;
-                 nav_bottom.Enabled = false;
-            });       
+                toolStripProgressBar1.Visible = true;
+                nav_top.Enabled = false;
+                nav_bottom.Enabled = false;
+            });
         }
 
         private void odm_Finished(object sender, EventArgs e)
@@ -172,7 +174,7 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(tabControl1.SelectedIndex == 0)
+            if (tabControl1.SelectedIndex == 0)
             {
                 this.bindingSourceODM.DataSource = _ODM_Table;
             }
@@ -192,7 +194,7 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
             if (e.ProgressPercentage >= toolStripProgressBar1.Minimum && e.ProgressPercentage <= toolStripProgressBar1.Maximum)
                 toolStripProgressBar1.Value = e.ProgressPercentage;
             labelStatus.Text = string.Format("Saving  {0}%", e.ProgressPercentage);
-          
+
         }
 
         private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -202,7 +204,7 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
 
         private void btn_script_Click(object sender, EventArgs e)
         {
-            if(! TypeConverterEx.IsNull(tb_script.Text))
+            if (!TypeConverterEx.IsNull(tb_script.Text))
             {
                 _ODM_Table = _ODM.Execute(tb_script.Text);
                 if (_ODM_Table != null)
@@ -220,9 +222,9 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
                 odm = _ODM.ODMTables[cmbTables.SelectedItem.ToString()];
                 SaveFileDialog dlg = new SaveFileDialog();
                 dlg.Filter = "csv file|*.csv";
-                if(dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    odm.Export(dlg.FileName,_ODM_Table);
+                    odm.Export(dlg.FileName, _ODM_Table);
                 }
             }
         }
@@ -246,5 +248,44 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
             Cursor.Current = Cursors.Default;
         }
 
+        private void btnExportSiteAsShp_Click(object sender, EventArgs e)
+        {
+            if (_ODM_Table != null && _ODM_Table.Columns.Contains("SiteID"))
+            {
+                SaveFileDialog dlg = new SaveFileDialog();
+                dlg.FileName = "site.shp";
+                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    var wgs84 = ProjectionInfo.FromEpsgCode(4326);
+                    IFeatureSet fs = new FeatureSet(FeatureType.Point);
+                    fs.Name = "sites";
+                    //      "SiteID", "Longitude", "Latitude", "Elevation_m",  "SiteType", "SiteName",  "State"
+                    fs.DataTable.Columns.Add(new DataColumn("SiteID", typeof(int)));
+                    fs.DataTable.Columns.Add(new DataColumn("SiteName", typeof(string)));
+                    fs.DataTable.Columns.Add(new DataColumn("Longitude", typeof(double)));
+                    fs.DataTable.Columns.Add(new DataColumn("Latitude", typeof(double)));
+                    fs.DataTable.Columns.Add(new DataColumn("Elevation_m", typeof(double)));
+                    fs.Projection = wgs84;
+                    var lon = 0.0;
+                    var lat = 0.0;
+                    foreach (DataRow dr in _ODM_Table.Rows)
+                    {
+                        lon = double.Parse(dr["Longitude"].ToString());
+                        lat = double.Parse(dr["Latitude"].ToString());
+                        NetTopologySuite.Geometries.Point geom = new NetTopologySuite.Geometries.Point(lon, lat);
+                        IFeature feature = fs.AddFeature(geom);
+                        feature.DataRow.BeginEdit();
+                        feature.DataRow["SiteID"] = dr["SiteID"];
+                        feature.DataRow["SiteName"] = dr["SiteName"];
+                        feature.DataRow["Longitude"] = dr["Longitude"];
+                        feature.DataRow["Latitude"] = dr["Latitude"];
+                        feature.DataRow["Elevation_m"] = dr["Elevation_m"];
+                        feature.DataRow.EndEdit();
+                    }
+                    fs.SaveAs(dlg.FileName, true);
+                }
+            }
+        }
     }
+
 }
