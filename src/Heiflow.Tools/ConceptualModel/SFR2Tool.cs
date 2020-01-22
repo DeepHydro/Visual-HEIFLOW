@@ -120,15 +120,15 @@ namespace Heiflow.Tools.ConceptualModel
                     UseAccumulativeRaster = false;
                     ReverseOrder = true;
                     UseSWATElevation = false;
-                    WidthField = "";
-                    SlopeField = "";
-                    IUPSEGField = "";
-                    IPRIORField = "";
-                    FlowField = "";
-                    MinElevationField = "";
-                    MaxElevationField = "";
-                    OffsetField = "";
-                    STRHC1Field = "";
+                    WidthField = "Wid2";
+                    SlopeField = "Slo2";
+                    IUPSEGField = "IUPSEG";
+                    IPRIORField = "IPRIO";
+                    FlowField = "Flow";
+                    MinElevationField = "MinEl";
+                    MaxElevationField = "MaxEl";
+                    OffsetField = "Offset";
+                    STRHC1Field = "STRHC1";
                 }
                else if (_StreamGenerator == StreamGenerator.SWAT)
                 {
@@ -540,7 +540,71 @@ namespace Heiflow.Tools.ConceptualModel
                 };
             }
 
-            var dt_cmp = _sfr_insct_layer.DataTable;
+              var dt_cmp = _sfr_insct_layer.DataTable;
+
+              var has_width_field = dt_cmp.Columns.Contains(WidthField);
+              var has_iupseg_field = dt_cmp.Columns.Contains(IUPSEGField);
+              var has_iprior_field = dt_cmp.Columns.Contains(IPRIORField);
+              var has_flow_field = dt_cmp.Columns.Contains(FlowField);
+              var has_offset_field = dt_cmp.Columns.Contains(OffsetField);
+              var has_STRCH1_field = dt_cmp.Columns.Contains(STRHC1Field);
+
+              if (!has_width_field)
+              {
+                  DataColumn dc = new DataColumn(WidthField, typeof(float));
+                  dt_cmp.Columns.Add(dc);
+                  foreach (DataRow row in dt_cmp.Rows)
+                  {
+                      row[WidthField] = this.Width1;
+                  }
+              }
+              if (!has_iupseg_field)
+              {
+                  DataColumn dc = new DataColumn(IUPSEGField, typeof(int));
+                  dt_cmp.Columns.Add(dc);
+                  foreach (DataRow row in dt_cmp.Rows)
+                  {
+                      row[IUPSEGField] = 0;
+                  }
+              }
+              if (!has_iprior_field)
+              {
+                  DataColumn dc = new DataColumn(IPRIORField, typeof(int));
+                  dt_cmp.Columns.Add(dc);
+                  foreach (DataRow row in dt_cmp.Rows)
+                  {
+                      row[IPRIORField] = 0;
+                  }
+              }
+              if (!has_flow_field)
+              {
+                  DataColumn dc = new DataColumn(FlowField, typeof(float));
+                  dt_cmp.Columns.Add(dc);
+                  foreach (DataRow row in dt_cmp.Rows)
+                  {
+                      row[FlowField] = this.Flow;
+                  }
+              }
+              if (!has_offset_field)
+              {
+                  DataColumn dc = new DataColumn(OffsetField, typeof(float));
+                  dt_cmp.Columns.Add(dc);
+                  foreach (DataRow row in dt_cmp.Rows)
+                  {
+                      row[OffsetField] = this.Offset;
+                  }
+              }
+              if (!has_STRCH1_field)
+              {
+                  DataColumn dc = new DataColumn(STRHC1Field, typeof(float));
+                  dt_cmp.Columns.Add(dc);
+                  foreach (DataRow row in dt_cmp.Rows)
+                  {
+                      row[STRHC1Field] = this.STRHC1;
+                  }
+              }
+              _sfr_insct_layer.Save();
+
             var segid = new List<int>();
             foreach (DataRow row in dt_cmp.Rows)
             {
@@ -598,12 +662,6 @@ namespace Heiflow.Tools.ConceptualModel
             var dt_stream = _stream_layer.DataTable;
             var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
             var grid = prj.Project.Model.Grid as MFGrid;
-            var has_width_field = dt.Columns.Contains(WidthField);
-            var has_iupseg_field = dt.Columns.Contains(IUPSEGField);
-            var has_iprior_field = dt.Columns.Contains(IPRIORField);
-            var has_flow_field = dt.Columns.Contains(FlowField);
-            var has_offset_field = dt.Columns.Contains(OffsetField);
-            var has_STRCH1_field = dt.Columns.Contains(STRHC1Field);
             for (int i = 0; i < _stream_layer.Features.Count; i++)
             {
                 var fea_stream = _stream_layer.GetFeature(i);
@@ -709,31 +767,12 @@ namespace Heiflow.Tools.ConceptualModel
                         double key = order;
                         if (fealist[segid].Reaches.Keys.Contains(key))
                             key = order + order_count[order] * 0.01;
-                        if (has_width_field)
-                            reach.Width = double.Parse(dr[WidthField].ToString());
-                        else
-                            reach.Width = 100;
-                        if (has_iupseg_field)
-                            reach.UpRiverID = int.Parse(dr[IUPSEGField].ToString());
-                        else
-                            reach.UpRiverID = 0;
-                        if (has_iprior_field)
-                            reach.IPrior = int.Parse(dr[IPRIORField].ToString());
-                        else
-                            reach.IPrior = 0;
-                        if (has_flow_field)
-                            reach.Flow = double.Parse(dr[FlowField].ToString());
-                        else
-                            reach.Flow = 0;
-                        if (has_offset_field)
-                            reach.Offset = double.Parse(dr[OffsetField].ToString());
-                        else
-                            reach.Flow = Offset;
-                        if (has_STRCH1_field)
-                            reach.STRCH1 = double.Parse(dr[STRHC1Field].ToString());
-                        else
-                            reach.STRCH1 = STRHC1;
-
+                        reach.Width = double.Parse(dr[WidthField].ToString());
+                        reach.UpRiverID = int.Parse(dr[IUPSEGField].ToString());
+                        reach.IPrior = int.Parse(dr[IPRIORField].ToString());
+                        reach.Flow = double.Parse(dr[FlowField].ToString());
+                        reach.Offset = double.Parse(dr[OffsetField].ToString());
+                        reach.STRCH1 = double.Parse(dr[STRHC1Field].ToString());
                         reach.OrderKey = key;
                         fealist[segid].Reaches.Add(key, reach);
                         fealist[segid].OutSegmentID = int.Parse(dr[OutSegmentField].ToString());
@@ -981,10 +1020,6 @@ namespace Heiflow.Tools.ConceptualModel
                 var sfr = ps.Project.Model.GetPackage(SFRPackage.PackageName) as SFRPackage;
                 var grid = ps.Project.Model.Grid as MFGrid;
                 var mfout = ps.Project.Model.GetPackage(MFOutputPackage.PackageName) as MFOutputPackage;
-                var has_width_field = TypeConverterEx.IsNotNull(WidthField);
-                var has_iupseg_field = TypeConverterEx.IsNotNull(IUPSEGField);
-                var has_iprior_field = TypeConverterEx.IsNotNull(IPRIORField);
-                var has_flow_field = TypeConverterEx.IsNotNull(FlowField);
                 if (sfr != null)
                 {
                     var net = new RiverNetwork();
@@ -1026,37 +1061,17 @@ namespace Heiflow.Tools.ConceptualModel
                             var reach_local_id = 1;
                             out_segid = out_segid < 0 ? 0 : out_segid;
                             river.OutRiverID = out_segid;
-                            river.UpRiverID = 0;
-                            river.IPrior = 0;
-                            river.Flow = 0;
+
                             river.Runoff = this.Runoff;
                             river.ETSW = this.ETSW;
                             river.PPTSW = this.PPTSW;
                             river.ROUGHCH = this.ROUGHCH;
                             var firstreach = dr_reaches.Values.First();
-                            if (has_width_field)
-                            {
-                                river.Width1 = firstreach.Width;
-                                river.Width2 = firstreach.Width;
-                            }
-                            else
-                            {
-                                river.Width1 = this.Width1;
-                                river.Width2 = this.Width2;
-                            }
-                            if (has_iupseg_field)
-                            {
-                                river.UpRiverID = firstreach.UpRiverID;
-                                if (has_iprior_field)
-                                    river.IPrior = firstreach.IPrior;
-                                else
-                                    river.IPrior = 0;
-                                if (has_flow_field)
-                                    river.Flow = firstreach.Flow;
-                                else
-                                    river.Flow = this.Flow;
-                            }
-
+                            river.Width1 = firstreach.Width;
+                            river.Width2 = firstreach.Width;
+                            river.UpRiverID = firstreach.UpRiverID;
+                            river.IPrior = firstreach.IPrior;
+                            river.Flow = firstreach.Flow;
                             for (int c = 0; c < dr_reaches.Count; c++)
                             {
                                 var fea = dr_reaches.ElementAt(c).Value;
@@ -1112,7 +1127,7 @@ namespace Heiflow.Tools.ConceptualModel
                                 reach_count += river.Reaches.Count;
                             }
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             Console.WriteLine(ex.Message);
                         }

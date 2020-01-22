@@ -75,6 +75,8 @@ namespace Heiflow.Tools.DataManagement
         public override void Initialize()
         {
             Initialized = File.Exists(DcxFileName) && File.Exists(TimeStampsFileName);
+            //DotSpatial.Projections.Reproject.ReprojectPoints(pointArray, zArray, epsg25832, epsg3857, 0, (pointArray.Length / 2));
+
         }
 
         public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
