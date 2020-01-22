@@ -42,10 +42,10 @@ namespace Heiflow.Models.Subsurface
     [DataPackageCollectionItem("Subsurface Output")]
     public class MFOutputPackage : DataPackageCollection
     {
-        public static string PackageName="ModelFlow Output";
+        public static string PackageName="ModFlow Output";
         public MFOutputPackage()
         {
-            _Name = "ModelFlow Output";
+            _Name = "ModFlow Output";
         }
 
         public override void Initialize()
