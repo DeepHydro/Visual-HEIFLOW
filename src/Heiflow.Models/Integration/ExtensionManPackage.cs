@@ -267,8 +267,9 @@ namespace Heiflow.Models.Integration
             base.Initialize();
         }
 
-        public override bool Load(DotSpatial.Data.ICancelProgressHandler progess)
+        public override LoadingState Load(DotSpatial.Data.ICancelProgressHandler progess)
         {
+            var result = LoadingState.Normal;
             if (File.Exists(FileName))
             {
                 FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
@@ -318,15 +319,14 @@ namespace Heiflow.Models.Integration
                     EnableABM = TypeConverterEx.String2Bool(newline.Trim());
                     ABM_MODEL_File = sr.ReadLine().Trim();
                     State = ModelObjectState.Ready;
-                    OnLoaded(progess);
-                    return true;
+                    result = LoadingState.Normal;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     State = ModelObjectState.Standby;
                     Message = string.Format("Failed to load extension control file: {0}. Error message: {1}", FileName, ex.Message);
                     ShowWarning(Message, progess);
-                    return false;
+                    result = LoadingState.Warning;
                 }
                 finally
                 {
@@ -338,8 +338,10 @@ namespace Heiflow.Models.Integration
             {
                 Message = "The extension manager file dose not exist: " + FileName;
                 ShowWarning(Message, progess);
-                return false;
+                result = LoadingState.Warning;
             }
+            OnLoaded(progess, new LoadingObjectState() { Message = Message, Object = this, State = result });
+            return result;
         }
         public override void New()
         {

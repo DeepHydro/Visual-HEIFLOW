@@ -109,7 +109,7 @@ namespace Heiflow.Models.IO
             return true;
         }
 
-        public override bool Load(ICancelProgressHandler cancelprogess)
+        public override LoadingState Load(ICancelProgressHandler cancelprogess)
         {
             OnLoading(0);
             Scan();
@@ -146,11 +146,11 @@ namespace Heiflow.Models.IO
             sr.Close();
             fileStream.Close();
             DataCube = mat;
-            OnLoaded(cancelprogess);
-            return true;
+            OnLoaded(cancelprogess, new LoadingObjectState());
+            return LoadingState.Normal;
         }
 
-        public override bool Load(int var_index, ICancelProgressHandler cancelprogess)
+        public override LoadingState Load(int var_index, ICancelProgressHandler cancelprogess)
         {
             return Load(cancelprogess);
         }

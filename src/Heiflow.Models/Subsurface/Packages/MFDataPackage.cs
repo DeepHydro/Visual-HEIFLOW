@@ -56,19 +56,19 @@ namespace Heiflow.Models.Subsurface
             return true;
         }
 
-        public override bool Load(int var_index, ICancelProgressHandler progress)
+        public override LoadingState Load(int var_index, ICancelProgressHandler progress)
         {
-            return true;
+            return LoadingState.Normal;
         }
 
-        public override bool Load(ICancelProgressHandler progess)
+        public override LoadingState Load(ICancelProgressHandler progess)
         {
-            throw new NotImplementedException();
+            return LoadingState.Normal;  
         }
 
         public override void SaveAs(string filename, ICancelProgressHandler progress)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

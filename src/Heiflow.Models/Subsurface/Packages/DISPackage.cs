@@ -117,11 +117,12 @@ namespace Heiflow.Models.Subsurface
         {
             base.New();
         }
-        public override bool Load(ICancelProgressHandler progress)
+        public override LoadingState Load(ICancelProgressHandler progress)
         {
+            var result = LoadingState.Normal;
             if (File.Exists(FileName))
             {
-                var result = false;
+        
                 var grid = (Owner.Grid as MFGrid);
                 var mf = Owner as Modflow;
 
@@ -221,12 +222,12 @@ namespace Heiflow.Models.Subsurface
                             ID = i + 1
                         });
                     }
-                    result = true;
-                    OnLoaded(progress);
+                    result = LoadingState.Normal;
+                    
                 }
                 catch (Exception ex)
                 {
-                    result = false;
+                    result = LoadingState.FatalError;
                     Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
                     ShowWarning(Message, progress);
                 }
@@ -234,14 +235,15 @@ namespace Heiflow.Models.Subsurface
                 {
                     sr.Close();
                 }
-                return result;
             }
             else
             {
                 Message = string.Format("\r\n Failed to load {0}. The package file does not exist: {1}", Name, FileName);
                 ShowWarning(Message, progress);
-                return false;
+                result =  LoadingState.FatalError;
             }
+            OnLoaded(progress, new LoadingObjectState() { Message = Message, State = result });
+            return result;
         }
         public override void SaveAs(string filename, ICancelProgressHandler progress)
         {

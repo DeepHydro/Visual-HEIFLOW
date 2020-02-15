@@ -100,6 +100,7 @@
   <ItemGroup>
     <Compile Include="Anlysis\CompareGWHead.cs" />
     <Compile Include="ConceptualModel\BoreholeToAquiferSturcutre.cs" />
+    <Compile Include="Proprocessing\PreproSFRTool.cs" />
     <Compile Include="ConceptualModel\UZFByZoneIDTool.cs" />
     <Compile Include="ConceptualModel\LPFByZoneIDTool .cs" />
     <Compile Include="ConceptualModel\LPFTool.cs" />

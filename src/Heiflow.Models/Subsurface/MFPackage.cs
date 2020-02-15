@@ -88,7 +88,7 @@ namespace Heiflow.Models.Subsurface
         }
         public override void Initialize()
         {
-            this.LoadFailed += ModflowInstance.OnLoadFailed;
+            //this.LoadFailed += ModflowInstance.OnLoadFailed;
             base.Initialize();
         }
         /// <summary>
@@ -492,7 +492,7 @@ namespace Heiflow.Models.Subsurface
         public override void Clear()
         {
             var mf = Owner as Modflow;
-            this.LoadFailed -= mf.OnLoadFailed;
+            //this.LoadFailed -= mf.OnLoadFailed;
             base.Clear();
         }
 
@@ -501,9 +501,9 @@ namespace Heiflow.Models.Subsurface
            
         }
 
-        public override bool Load(ICancelProgressHandler progess)
+        public override LoadingState Load(ICancelProgressHandler progess)
         {
-            return true;
+            return LoadingState.Normal;
         }
     }
 }

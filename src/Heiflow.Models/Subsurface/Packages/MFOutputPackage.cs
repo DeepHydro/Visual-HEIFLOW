@@ -57,10 +57,10 @@ namespace Heiflow.Models.Subsurface
             base.Initialize();
             State = ModelObjectState.Ready;
         }
-        public override bool Load(ICancelProgressHandler progress)
+        public override LoadingState Load(ICancelProgressHandler progress)
         {
-            OnLoaded(progress);
-            return true;
+            OnLoaded(progress, new LoadingObjectState());
+            return LoadingState.Normal;
         }
 
         public override void Clear()

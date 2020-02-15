@@ -203,11 +203,12 @@ namespace Heiflow.Models.Subsurface
             ModflowInstance.NameManager.Add(cbc_info);
             base.New();
         }
-        public override bool Load(ICancelProgressHandler progresshandler)
+        public override LoadingState Load(ICancelProgressHandler progresshandler)
         {
+            var result = LoadingState.Normal;
             if (File.Exists(FileName))
             {
-                var result = false;
+
                 var mf = Owner as Modflow;
                 var grid = (Owner.Grid as MFGrid);
                 int nlayer = grid.ActualLayerCount;
@@ -326,12 +327,11 @@ namespace Heiflow.Models.Subsurface
                         SY.Variables[l] = "SY Layer" + (l + 1);
                         WETDRY.Variables[l] = "WETDRY Layer" + (l + 1);
                     }
-                    OnLoaded(progresshandler);
-                    result = true;
+                    result = LoadingState.Normal;
                 }
                 catch (Exception ex)
                 {
-                    result = false;
+                    result = LoadingState.Warning;
                     Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
                     ShowWarning(Message, progresshandler);
                 }
@@ -339,13 +339,14 @@ namespace Heiflow.Models.Subsurface
                 {
                     sr.Close();
                 }
-                return result;
             }
             else
             {
                 ShowWarning("Failed to load " + this.Name, progresshandler);
-                return false;
+                result = LoadingState.Warning;
             }
+            OnLoaded(progresshandler, new LoadingObjectState() { Message = Message, Object = this, State = result });
+            return result;
         }
         public override void Attach(DotSpatial.Controls.IMap map, string directory)
         {

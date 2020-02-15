@@ -125,6 +125,7 @@ namespace Heiflow.Models.Running
                 RedirectStandardInput = true,
                 RedirectStandardOutput = true,
                 WorkingDirectory = _WorkingDirectory,
+                WindowStyle = ProcessWindowStyle.Hidden,
                 Arguments = e.Argument.ToString()
             };
             workProcess = Process.Start(info);

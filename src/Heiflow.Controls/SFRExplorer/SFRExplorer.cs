@@ -126,7 +126,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                 colorSlider1.Enabled = false;
                 SFROutput.Loading += SFROutputPackage_Loading;
                 SFROutput.Loaded += SFROutputPackage_Loaded;
-                SFROutput.LoadFailed += SFROutput_LoadFailed;
+            //    SFROutput.LoadFailed += SFROutput_LoadFailed;
 
                 if (cmbSFRVars.SelectedIndex < 0)
                     menu_LoadAll_Click(menu_LoadAll, null);
@@ -150,7 +150,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                 colorSlider1.Enabled = true;
                 SFROutput.Loading -= SFROutputPackage_Loading;
                 SFROutput.Loaded -= SFROutputPackage_Loaded;
-                SFROutput.LoadFailed -= SFROutput_LoadFailed;
+                //SFROutput.LoadFailed -= SFROutput_LoadFailed;
 
                 var riv_ids = from rv in SFROutput.RiverNetwork.Rivers select rv.ID;
                 cmbSegsID.DataSource = SFROutput.RiverNetwork.Rivers;
@@ -174,7 +174,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
            toolStrip1.Enabled = true;
            tabControl2.Enabled = true;
            colorSlider1.Enabled = true;
-           SFROutput.LoadFailed -= SFROutput_LoadFailed;
+           //SFROutput.LoadFailed -= SFROutput_LoadFailed;
        });
         }
         private void worker_DoWork(object sender, DoWorkEventArgs e)

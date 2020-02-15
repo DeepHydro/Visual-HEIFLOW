@@ -211,7 +211,7 @@ namespace Heiflow.Models.IO
                 layer = layer - 1;
                 if (layer < 0)
                     layer = 0;
-               // MyLazy3DMat<float> mat = new MyLazy3DMat<float>(Variables.Length, nstep, grid.ActiveCellCount);
+                // MyLazy3DMat<float> mat = new MyLazy3DMat<float>(Variables.Length, nstep, grid.ActiveCellCount);
                 if (DataCube == null)
                     DataCube = new DataCube<float>(Variables.Length, nstep, grid.ActualLayerCount, true);
                 DataCube.Allocate(layer + 1);
@@ -240,15 +240,14 @@ namespace Heiflow.Models.IO
                         }
                     }
                     DataCube.ILArrays[layer + 1][t, ":"] = buf;
-                    for (int l = layer +1 ; l < grid.ActualLayerCount; l++)
+                    for (int l = layer + 1; l < grid.ActualLayerCount; l++)
                     {
                         fs.Seek(layerbyte, SeekOrigin.Current);
                     }
                     progress = Convert.ToInt32(t * 100 / nstep);
                     OnLoading(progress);
                 }
-                if (progress < 100)
-                    OnLoading(100);
+                OnLoading(100);
                 br.Close();
                 fs.Close();
                 OnDataCubedLoaded(DataCube);

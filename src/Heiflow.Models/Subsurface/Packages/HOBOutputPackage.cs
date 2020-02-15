@@ -116,20 +116,20 @@ namespace Heiflow.Models.Subsurface
             }
         }
 
-        public override bool Load(ICancelProgressHandler progress)
+        public override LoadingState Load(ICancelProgressHandler progress)
         {
-            var result = true;
+            var result = LoadingState.Normal;
             _ProgressHandler = progress;
-             result = ExtractTo();
-             OnLoaded(progress);
-             return result;
+            result = ExtractTo() ? LoadingState.Normal : LoadingState.Warning;
+            OnLoaded(progress, new LoadingObjectState() { State = result });
+            return result;
         }
-        public override bool Load(int var_index, ICancelProgressHandler progress)
+        public override LoadingState Load(int var_index, ICancelProgressHandler progress)
         {
-            var result = true;
+            var result = LoadingState.Normal;
             _ProgressHandler = progress;
-            result = ExtractTo();
-            OnLoaded(progress);
+            result = ExtractTo() ? LoadingState.Normal : LoadingState.Warning;
+            OnLoaded(progress, new LoadingObjectState() { State = result });
             return result;
         }
         public override void Clear()
@@ -172,6 +172,7 @@ namespace Heiflow.Models.Subsurface
                         OnLoading(50);
                         DataCube = fhd.ExtractTo(Sites, SelectedLayerIndex);
                         DataCube.Topology = hob.Topology;
+                        OnLoaded(_ProgressHandler, new LoadingObjectState());
                         return true;
                     }
                     else
@@ -191,7 +192,7 @@ namespace Heiflow.Models.Subsurface
             error:
             {
                 State = ModelObjectState.Error;
-                OnLoaded(null);
+                OnLoaded(_ProgressHandler, new LoadingObjectState() { State = LoadingState.Warning });
                 return false;
             }
         }
@@ -224,7 +225,7 @@ namespace Heiflow.Models.Subsurface
                 if (progress < 100)
                     OnLoading(100);
                 ComparingValues.DateTimes = new DateTime[] { TimeService.Timeline[0] };
-                OnLoaded(_ProgressHandler);
+                OnLoaded(_ProgressHandler, new LoadingObjectState());
                 sr.Close();
             }
         }

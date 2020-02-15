@@ -150,15 +150,15 @@ namespace Heiflow.Models.Surface.PRMS
             Scan();
             base.New();
         }
-        public override bool Load(ICancelProgressHandler progress)
+        public override LoadingState Load(ICancelProgressHandler progress)
         {
             _ProgressHandler = progress;
-            OnLoaded(progress);
+            OnLoaded(progress, new LoadingObjectState());
             _SelectedIndex = -1;
-            return true;
+            return LoadingState.Normal;
         }
 
-        public override bool Load(int var_index, ICancelProgressHandler progress)
+        public override LoadingState Load(int var_index, ICancelProgressHandler progress)
         {
             _ProgressHandler = progress;
             var full_file = Path.Combine(ModelService.WorkDirectory, _FileNames[var_index]);
@@ -203,7 +203,7 @@ namespace Heiflow.Models.Surface.PRMS
                     stream.LoadDataCubeSingle(var_index);
             }
 
-            return true;
+            return LoadingState.Normal;
         }
 
         public override void Attach(DotSpatial.Controls.IMap map, string directory)
@@ -369,7 +369,7 @@ namespace Heiflow.Models.Surface.PRMS
         private void data_DataCubeLoaded(object sender, DataCube<float> e)
         {
             e.DateTimes = this.TimeService.IOTimeline.ToArray();
-            OnLoaded(_ProgressHandler);
+            OnLoaded(_ProgressHandler,new LoadingObjectState());
         }
         private void data_LoadFailed(object sender, string e)
         {

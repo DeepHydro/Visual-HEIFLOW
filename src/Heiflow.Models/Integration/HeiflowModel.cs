@@ -159,8 +159,8 @@ namespace Heiflow.Models.Integration
         public override void Initialize()
         {
             TimeServiceList.Clear();
-            _MasterPackage.LoadFailed += this.OnLoadFailed;
-            _ExtensionManPackage.LoadFailed += this.OnLoadFailed;
+            //_MasterPackage.LoadFailed += this.OnLoadFailed;
+            //_ExtensionManPackage.LoadFailed += this.OnLoadFailed;
 
             this.TimeService = _MasterPackage.TimeService;
             this.TimeService.Updated += this.OnTimeServiceUpdated;
@@ -185,13 +185,13 @@ namespace Heiflow.Models.Integration
             this.TimeServiceList.Add(_Modflow.TimeService.Name, _Modflow.TimeService);
         }
 
-        public override bool Load(ICancelProgressHandler progress)
+        public override LoadingState Load(ICancelProgressHandler progress)
         {
             try
             {
                 _MasterPackage.FileName = ControlFileName;
                 _MasterPackage.Initialize();
-                if (_MasterPackage.Load(progress))
+                if (_MasterPackage.Load(progress) == LoadingState.Normal)
                 {
                     ModelService.Model = this;
                     ModelService.Start = _MasterPackage.TimeService.Start;
@@ -215,44 +215,44 @@ namespace Heiflow.Models.Integration
                     _WaterManagementModel.Initialize();
 
                     progress.Progress("Heiflow", 1, "Loading Modflow packages...");
-                    if (_Modflow.Load(progress))
+                    if (_Modflow.Load(progress) != LoadingState.FatalError)
                     {
                         _Modflow.IOLogFile = _ExtensionManPackage.MF_IOLOG_File;
                         progress.Progress("Heiflow", 1, "Loading PRMS packages...");
-                        if (_PRMS.Load(progress))
+                        if (_PRMS.Load(progress) != LoadingState.FatalError)
                         {
                             progress.Progress("Heiflow", 1, "Loading WMM packages...");
-                            if (_WaterManagementModel.Load(progress))
+                            if (_WaterManagementModel.Load(progress) != LoadingState.FatalError)
                             {
                                 Packages.Clear();
                                 AddInSilence(_MasterPackage);
                                 AddInSilence(_ExtensionManPackage);
-                                return true;
+                                return LoadingState.Normal;
                             }
                             else
                             {
-                                return false;
+                                return LoadingState.FatalError;
                             }
                         }
                         else
                         {
-                            return false;
+                            return LoadingState.FatalError;
                         }
                     }
                     else
                     {
-                        return false;
+                        return LoadingState.FatalError;
                     }
                 }
                 else
                 {
-                    return false;
+                    return LoadingState.FatalError;
                 }
             }
             catch(Exception ex)
             {
                 OnLoadFailed(this, ex.Message);
-                return false;
+                return LoadingState.FatalError;
             }
         }
 
@@ -350,7 +350,7 @@ namespace Heiflow.Models.Integration
             {
                 FileName = filename
             };
-            if (master.Load(null))
+            if (master.Load(null) != LoadingState.FatalError)
             {
                 var mfn = Path.Combine(ModelService.WorkDirectory, master.ModflowFilePath);
                 if (File.Exists(mfn))
@@ -395,8 +395,8 @@ namespace Heiflow.Models.Integration
             string odmfile = Path.Combine(Application.StartupPath, "Data\\ODM.accdb");
             string odm_templ_file = Path.Combine(Application.StartupPath, "Data\\template.xlsx");
 
-            string local_odmfile = Path.Combine(Project.DatabaseDirectory, "Database\\ODM.accdb");
-            string local_templfile = Path.Combine(Project.DatabaseDirectory, "Database\\template.xlsx");
+            string local_odmfile = Path.Combine(Project.DatabaseDirectory, "ODM.accdb");
+            string local_templfile = Path.Combine(Project.DatabaseDirectory, "template.xlsx");
             File.Copy(odmfile, local_odmfile, true);
             File.Copy(odm_templ_file, local_templfile, true);
 

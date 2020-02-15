@@ -160,7 +160,7 @@ namespace Heiflow.Plugins.Menubar
         {
             if (ProjectManager.ProjectService.Project != null)
             {
-                var msg = string.Format("The project has  been opened. Do you want to save the project?", ProjectManager.ProjectService.Project.Name);
+                var msg = string.Format("A project has  been opened. Do you want to save the project?", ProjectManager.ProjectService.Project.Name);
                 var result = MessageBox.Show(msg, "Warning", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
                 if (result == DialogResult.Yes)
                 {

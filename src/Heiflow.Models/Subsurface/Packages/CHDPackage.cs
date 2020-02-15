@@ -94,9 +94,9 @@ namespace Heiflow.Models.Subsurface
         {
             base.New();
         }
-        public override bool Load(ICancelProgressHandler progress)
+        public override LoadingState Load(ICancelProgressHandler progress)
         {
-            var result = false;
+            var result = LoadingState.Normal;
             if (File.Exists(FileName))
             {
                 StreamReader sr = new StreamReader(FileName);
@@ -137,15 +137,15 @@ namespace Heiflow.Models.Subsurface
                         }
                     }
                     BuildTopology();
-                    sr.Close();
-                    OnLoaded(progress);
-                    result = true;
+                    sr.Close();      
+                    result = LoadingState.Normal;
+                    Message = string.Format("{0} loaded", this.Name);
                 }
                 catch (Exception ex)
                 {
                     Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
                     ShowWarning(Message, progress);
-                    result = false;
+                    result = LoadingState.Warning;
                 }
                 finally
                 {
@@ -156,8 +156,9 @@ namespace Heiflow.Models.Subsurface
             {
                 Message = string.Format("Failed to load {0}. The package file does not exist: {1}", Name, FileName);
                 ShowWarning(Message, progress);
-                result = false;
+                result = LoadingState.Warning;
             }
+            OnLoaded(progress, new LoadingObjectState() { Message = Message, Object = this, State = result });
             return result;
         }
         public override void SaveAs(string filename, ICancelProgressHandler progress)

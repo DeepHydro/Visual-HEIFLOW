@@ -38,4 +38,5 @@ namespace Heiflow.Models.Generic
     public enum CoverageType { Feature, Raster }
     public enum FileFormat {  Text = 1, Binary = 2 }
     public enum ModelObjectState { Standby, Ready, Error }
+    public enum LoadingState { Warning, Normal, FatalError }
 }

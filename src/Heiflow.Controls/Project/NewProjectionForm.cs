@@ -150,11 +150,11 @@ namespace Heiflow.Presentation.Controls.Project
         private void btnOK_Click(object sender, EventArgs e)
         {
             var project_service = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
-               var shell = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
+            var shell = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
             if (lstPrjTemplate.SelectedItems.Count != 1)
                 return;
-            if(txtPrjName.Text == ""|| !Directory.Exists(txtPrjDir.Text))
-            {                
+            if (txtPrjName.Text == "" || !Directory.Exists(txtPrjDir.Text))
+            {
                 return;
             }
             _ProjectName = txtPrjName.Text;
@@ -165,19 +165,19 @@ namespace Heiflow.Presentation.Controls.Project
                 var prj = lstPrjTemplate.SelectedItems[0].Tag as IProject;
                 prj.SelectedVersion = cmbVersion.SelectedItem.ToString();
                 ModelService.WorkDirectory = Path.GetFullPath(_ProjectPath);
-                project_service.Serializer.New(_ProjectName, _ProjectPath, prj, null, chbImprot.Checked);               
+                project_service.Serializer.New(_ProjectName, _ProjectPath, prj, null, chbImprot.Checked);
                 project_service.Project = project_service.Serializer.CurrentProject;
-             if(chbImprot.Checked)
-             {
-                 ImportModelForm form = new ImportModelForm(project_service.Project);
-                 form.ShowInTaskbar = false;
-                 if (form.ShowDialog() == DialogResult.OK)
-                 {
-                     shell.ProjectExplorer.AddProject(project_service.Project);
-                 }
-             }
+                if (chbImprot.Checked)
+                {
+                    ImportModelForm form = new ImportModelForm(project_service.Project);
+                    form.ShowInTaskbar = false;
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        shell.ProjectExplorer.AddProject(project_service.Project);
+                    }
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 string msg = string.Format("Failed to creat project. Error message: {0}" + ex.Message);
                 MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

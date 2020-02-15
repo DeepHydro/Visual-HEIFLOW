@@ -145,71 +145,74 @@ namespace Heiflow.Models.Generic.Project
         /// </summary>
         /// <param name="fileName">Name of the file.</param>
           public void Open(string fileName, ICancelProgressHandler progress)
-        {
-            var dic = Path.GetDirectoryName(fileName);
-            var loaded = true;
-            string pname = GetProviderName(fileName);
-            string errormsg = "";
-            SetCurrentProjectDirectory(dic);
+          {
+              var dic = Path.GetDirectoryName(fileName);
+              var loaded = LoadingState.Normal;
+              string pname = GetProviderName(fileName);
+              string errormsg = "";
+              SetCurrentProjectDirectory(dic);
 
-            foreach (var provider in OpenProjectFileProviders)
-            {
-                if (String.Equals(provider.ProviderName, pname, StringComparison.OrdinalIgnoreCase))
-                {
-                    var op = provider as IOpenProjectFileProvider;
-                    CurrentProject = op.Open(fileName);
-                    CurrentProject.AbsolutePathToProjectFile = Path.GetDirectoryName(fileName);
-                    string prj_dic = Path.GetDirectoryName(fileName);
+              foreach (var provider in OpenProjectFileProviders)
+              {
+                  if (String.Equals(provider.ProviderName, pname, StringComparison.OrdinalIgnoreCase))
+                  {
+                      var op = provider as IOpenProjectFileProvider;
+                      CurrentProject = op.Open(fileName);
+                      CurrentProject.AbsolutePathToProjectFile = Path.GetDirectoryName(fileName);
+                      string prj_dic = Path.GetDirectoryName(fileName);
 
-                    //repaire path
-                    if(prj_dic.ToLower() != CurrentProject.AbsolutePathToProjectFile.ToLower())
-                    {
-                        CurrentProject.AbsolutePathToProjectFile = prj_dic;
-                    }
+                      //repaire path
+                      if (prj_dic.ToLower() != CurrentProject.AbsolutePathToProjectFile.ToLower())
+                      {
+                          CurrentProject.AbsolutePathToProjectFile = prj_dic;
+                      }
 
-                    CurrentProject.FullProjectFileName = fileName;
-                    string controlfile = Path.Combine(CurrentProject.FullModelWorkDirectory, CurrentProject.RelativeControlFileName);
-                    string ext = Path.GetExtension(controlfile);
+                      CurrentProject.FullProjectFileName = fileName;
+                      string controlfile = Path.Combine(CurrentProject.FullModelWorkDirectory, CurrentProject.RelativeControlFileName);
+                      string ext = Path.GetExtension(controlfile);
 
-                    if (!File.Exists(controlfile))
-                    {
-                        errormsg = string.Format("Control file dosen't exsit: {0}", controlfile);
-                        OnOpenFailed(this, errormsg);
-                        return;
-                    }
-                    CurrentProject.Initialize();
-                    foreach (var mod in this.SurpportedModelLoaders)
-                    {
-                        if (mod.Extension.ToLower() == ext.ToLower())
-                        {
-                            _CurrentModelLoader = mod;
-                            mod.LoadFailed += OnOpenFailed;
-                            try
-                            {
-                                loaded = mod.Load(CurrentProject, progress);                              
-                            }
-                            catch(Exception ex)
-                            {
-                                loaded = false;
-                                errormsg = string.Format("Failed to load project file. Error message: {0}", controlfile);
-                                OnOpenFailed(this, ex.Message);
-                            }
-                            finally
-                            {                                
-                                mod.LoadFailed -= OnOpenFailed;
-                            }
-                            break;
-                        }
-                    }
-                    break;
-                }
-            }
-            if (loaded)
-            {
-                AddFileToRecentFiles(fileName);
-                OnProjectOpened(loaded);
-            }
-        }
+                      if (!File.Exists(controlfile))
+                      {
+                          errormsg = string.Format("Control file dosen't exsit: {0}", controlfile);
+                          OnOpenFailed(this, errormsg);
+                          return;
+                      }
+                      CurrentProject.Initialize();
+                      foreach (var mod in this.SurpportedModelLoaders)
+                      {
+                          if (mod.Extension.ToLower() == ext.ToLower())
+                          {
+                              _CurrentModelLoader = mod;
+                              // mod.LoadFailed += OnOpenFailed;
+                              try
+                              {
+                                  loaded = mod.Load(CurrentProject, progress);
+                              }
+                              catch (Exception ex)
+                              {
+                                  loaded = LoadingState.FatalError;
+                                  errormsg = ex.Message;
+                              }
+                              finally
+                              {
+                                  // mod.LoadFailed -= OnOpenFailed;
+                              }
+                              break;
+                          }
+                      }
+                      break;
+                  }
+              }
+              if (loaded != LoadingState.FatalError)
+              {
+                  AddFileToRecentFiles(fileName);
+                  OnProjectOpened(true);
+              }
+              else
+              {
+                  OnOpenFailed(this, errormsg);
+              }
+          }
 
         /// <summary>
         /// Creates a new project.

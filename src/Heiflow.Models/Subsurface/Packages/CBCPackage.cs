@@ -80,7 +80,7 @@ namespace Heiflow.Models.Subsurface
             State = ModelObjectState.Ready;
             _Initialized = true;
         }
-        public override bool Load(ICancelProgressHandler progress)
+        public override LoadingState Load(ICancelProgressHandler progress)
         {
             if (File.Exists(FileName))
             {
@@ -94,11 +94,11 @@ namespace Heiflow.Models.Subsurface
                 cbc.DataCubeLoaded += cbc_DataCubeLoaded;
                 cbc.LoadingBehavior = this.LoadingBehavior;
                 cbc.LoadDataCube();
-                return true;
+                return  LoadingState.Normal;
             }
             else
             {
-                return false;
+                return LoadingState.Warning;
             }
         }
 
@@ -127,9 +127,10 @@ namespace Heiflow.Models.Subsurface
             }
         }
 
-        public override bool Load(int var_index, ICancelProgressHandler progress)
+        public override LoadingState Load(int var_index, ICancelProgressHandler progress)
         {
             _ProgressHandler = progress;
+            var result = LoadingState.Normal;
             if (File.Exists(LocalFileName))
             {
                 try
@@ -166,19 +167,25 @@ namespace Heiflow.Models.Subsurface
                     cbc.DataCubeLoaded += cbc_DataCubeLoaded;
                     cbc.LoadFailed += cbc_LoadFailed;
                     cbc.LoadDataCube(var_index);
-                    return true;
+                    result = LoadingState.Normal;
                 }
                 catch(Exception ex)
                 {
+                    Message = ex.Message;
                     ShowWarning(ex.Message, progress);
-                    return false;
+                    result = LoadingState.Warning;
+                    cbc_LoadFailed(this, Message);
                 }
             }
             else
             {
-                ShowWarning("The file does not exist: " + LocalFileName, progress);
-                return false;
+                Message="The file does not exist: " + LocalFileName;
+                ShowWarning(Message, progress);
+                result = LoadingState.Warning;
+                cbc_LoadFailed(this, Message);
             }
+
+            return result;
         }
 
         public override void Clear()
@@ -201,11 +208,13 @@ namespace Heiflow.Models.Subsurface
         }
         private void cbc_LoadFailed(object sender, string e)
         {
-            ShowWarning(e, _ProgressHandler);
+           // ShowWarning(e, _ProgressHandler);
+            //OnLoadFailed(e, _ProgressHandler);
+            OnLoaded(_ProgressHandler, new LoadingObjectState() { Message = e, State = LoadingState.Warning });
         }
         private void cbc_DataCubeLoaded(object sender, DataCube<float> e)
         {
-            OnLoaded(_ProgressHandler);
+            OnLoaded(_ProgressHandler, new LoadingObjectState() { DataCube = e, State = LoadingState.Normal });
         }
     }
 }

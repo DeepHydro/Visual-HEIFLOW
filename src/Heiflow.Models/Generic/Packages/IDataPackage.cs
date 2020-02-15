@@ -52,6 +52,6 @@ namespace Heiflow.Models.Generic
         Heiflow.Core.TimeUnits TimeUnits { get; set; }
         int ODMVariableID { get; set; }
         bool Scan();
-        bool Load(int var_index, ICancelProgressHandler progess);
+        LoadingState Load(int var_index, ICancelProgressHandler progess);
     }
 }

@@ -119,8 +119,9 @@ namespace Heiflow.Models.Subsurface
             _Initialized = true;
          
         }
-        public override bool Load(ICancelProgressHandler progresshandler)
+        public override LoadingState Load(ICancelProgressHandler progresshandler)
         {
+            var result = LoadingState.Normal;
             if (File.Exists(OutputFilesInfo[0].FileName))
             {
                 if (Sites.Count == 0)
@@ -162,18 +163,19 @@ namespace Heiflow.Models.Subsurface
                     }
                 }
                 DataCube.DateTimes = TimeService.IOTimeline.Take(nstep).ToArray();
-                OnLoaded(progresshandler);
-
-                return true;
+                result = LoadingState.Normal;
             }
             else
             {
                 ShowWarning("The LAK output file does not exist", progresshandler);
-                return false;
+                result = LoadingState.Warning;
             }
+
+            OnLoaded(progresshandler, new LoadingObjectState() { State = result });
+             return result;
         }
 
-        public override bool Load(int site_index, ICancelProgressHandler progress)
+        public override LoadingState Load(int site_index, ICancelProgressHandler progress)
         {
             return Load(progress);
         }

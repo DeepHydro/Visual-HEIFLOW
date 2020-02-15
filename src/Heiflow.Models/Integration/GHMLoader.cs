@@ -72,12 +72,12 @@ namespace Heiflow.Models.Integration
             model.Load(progress);
         }
 
-        public bool Load(IProject project, ICancelProgressHandler progress)
+        public LoadingState Load(IProject project, ICancelProgressHandler progress)
         {
-            var succ = true;
+            var succ = LoadingState.Normal;
             GHModel model = new GHModel();
             succ= model.Load( progress);
-            succ = model.LoadGrid(progress);
+            succ = model.LoadGrid(progress) ? LoadingState.Normal : LoadingState.FatalError;
             return succ;
         }
 

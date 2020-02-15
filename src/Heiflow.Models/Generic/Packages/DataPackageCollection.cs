@@ -50,14 +50,14 @@ namespace Heiflow.Models.Generic
             return true;
         }
 
-        public override bool Load(int var_index, ICancelProgressHandler progess)
+        public override LoadingState Load(int var_index, ICancelProgressHandler progess)
         {
-            return true;
+            return LoadingState.Normal;
         }
 
-        public override bool Load(ICancelProgressHandler progess)
+        public override LoadingState Load(ICancelProgressHandler progess)
         {
-            return true;
+            return LoadingState.Normal;
         }
 
         public override void SaveAs(string filename, ICancelProgressHandler progress)

@@ -128,11 +128,11 @@ namespace Heiflow.Models.Surface.PRMS
             this.TimeService = Owner.TimeService;
             _Initialized = true;
         }
-        public bool Load(string filename, ICancelProgressHandler progress)
+        public LoadingState Load(string filename, ICancelProgressHandler progress)
         {
+            var result = LoadingState.Normal;
             if (File.Exists(filename))
             {
-                var result = false;
                 StreamReader sr = new StreamReader(filename);
                 try
                 {
@@ -296,12 +296,11 @@ namespace Heiflow.Models.Surface.PRMS
                     }
                     foreach (var key in removed_para)
                         Parameters.Remove(key);
-                    OnLoaded(progress);
-                    result = true;
+                    result = LoadingState.Normal;
                 }
                 catch (Exception ex)
                 {
-                    result = false;
+                    result = LoadingState.FatalError;
                     Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
                     ShowWarning(Message, progress);
                 }
@@ -309,16 +308,17 @@ namespace Heiflow.Models.Surface.PRMS
                 {
                     sr.Close();
                 }
-                return result;
             }
             else
             {
                 Message = string.Format("\tFailed to load {0}. The package file does not exist: {1}", Name, FileName);
                 ShowWarning(Message, progress);
-                return false;
+                result = LoadingState.FatalError;
             }
+            OnLoaded(progress, new LoadingObjectState() { Message = Message, Object = this, State = result });
+            return result;
         }
-        public override bool Load(ICancelProgressHandler progress)
+        public override LoadingState Load(ICancelProgressHandler progress)
         {
             return Load(FileName, progress);
         }

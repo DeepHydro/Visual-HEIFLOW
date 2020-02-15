@@ -130,7 +130,7 @@ namespace Heiflow.Models.Subsurface
                 return true;
             }
         }
-        public override bool Load(ICancelProgressHandler progresshandler)
+        public override LoadingState Load(ICancelProgressHandler progresshandler)
         {
             _ProgressHandler = progresshandler;
             Scan();
@@ -173,11 +173,12 @@ namespace Heiflow.Models.Subsurface
                 }
             }
 
-            OnLoaded(progresshandler);
-            return true;
+            OnLoaded(progresshandler,new LoadingObjectState());
+            return LoadingState.Normal;
         }
-        public override bool Load(int site_index, ICancelProgressHandler progresshandler)
+        public override LoadingState Load(int site_index, ICancelProgressHandler progresshandler)
         {
+            var result = LoadingState.Normal;
             _ProgressHandler = progresshandler;
             Scan();
             OnLoading(0);
@@ -216,9 +217,9 @@ namespace Heiflow.Models.Subsurface
                 mat.Variables = new string[] { "Streamflow" };
                 site.TimeSeries = mat;
                 sr.Close();
-                OnLoaded(progresshandler);
             }
-            return true;
+            OnLoaded(progresshandler, new LoadingObjectState() { Message = Message, Object = this, State = result });
+            return result;
         }
         public override void Clear()
         {

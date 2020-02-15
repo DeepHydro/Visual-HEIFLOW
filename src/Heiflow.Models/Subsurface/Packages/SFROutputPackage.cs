@@ -131,12 +131,12 @@ namespace Heiflow.Models.Subsurface
             }
             return true;
         }
-        public override bool Load(ICancelProgressHandler progresshandler)
+        public override LoadingState Load(ICancelProgressHandler progresshandler)
         {
             _ProgressHandler = progresshandler;
             _NumTimeStep = TimeService.GetIOTimeLength(ModelService.WorkDirectory);
             var filename = LocalFileName;
-            var result = false;
+            var result = LoadingState.Normal;
             if (File.Exists(filename))
             {
                 var network = this._SFRPackage.RiverNetwork;
@@ -144,7 +144,7 @@ namespace Heiflow.Models.Subsurface
                 int count = 1;
                 if (network == null)
                 {
-                    return false;
+                    return LoadingState.Warning;
                 }
                 else
                 {
@@ -200,7 +200,7 @@ namespace Heiflow.Models.Subsurface
                             catch (Exception)
                             {
                                 Message = "Out of memory.";
-                                return false;
+                                return LoadingState.Warning;
                             }
                             for (int t = 0; t < nstep; t++)
                             {
@@ -272,21 +272,19 @@ namespace Heiflow.Models.Subsurface
 
                             DataCube.Variables = DefaultAttachedVariables;
                             Variables = DefaultAttachedVariables;
-                            OnLoaded(progresshandler);
-                            result = true;
+                            result = LoadingState.Normal;
                         }
                         catch (Exception ex)
                         {
-                            result = false;
+                            result = LoadingState.Warning;
                             Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
-                            ShowWarning(Message, progresshandler);
+                            //ShowWarning(Message, progresshandler);                    
                         }
                         finally
                         {
                             sr.Close();
                             fs.Close();
                         }
-                        return result;
                     }
                     else
                     {
@@ -299,15 +297,19 @@ namespace Heiflow.Models.Subsurface
                         stream.Loading += stream_LoadingProgressChanged;
                         stream.DataCubeLoaded += stream_Loaded;
                         stream.LoadDataCube();
-                        return true;
+                        result = LoadingState.Normal;
                     }
                 }
             }
             else
             {
-                ShowWarning("The file does not exist: " + filename, progresshandler);
-                return false;
+                Message="The file does not exist: " + filename;
+                ShowWarning(Message, progresshandler);
+                result = LoadingState.Warning;
             }
+
+            OnLoaded(progresshandler, new LoadingObjectState() { Message = Message, Object = this, State = result });
+            return result;
         }
         public override void Clear()
         {
@@ -330,15 +332,15 @@ namespace Heiflow.Models.Subsurface
                 DataCube.Topology = _SFRPackage.ReachTopology;
             else
                 DataCube.Topology = _SFRPackage.SegTopology;
-            OnLoaded(_ProgressHandler);
+            OnLoaded(_ProgressHandler,new LoadingObjectState());
         }
 
-        public override bool Load(int var_index, ICancelProgressHandler progresshandler)
+        public override LoadingState Load(int var_index, ICancelProgressHandler progresshandler)
         {
             _ProgressHandler = progresshandler;
             _NumTimeStep = TimeService.GetIOTimeLength(ModelService.WorkDirectory);
              var  filename =LocalFileName;
-
+             var result = LoadingState.Normal;
             if (File.Exists(filename))
             {
                 var network = _SFRPackage.RiverNetwork;
@@ -346,7 +348,7 @@ namespace Heiflow.Models.Subsurface
                 if (network == null)
                 {
                     ShowWarning("The river network does not exist: ", progresshandler);
-                    return false;
+                    return LoadingState.Warning;
                 }
                 else
                 {
@@ -400,7 +402,7 @@ namespace Heiflow.Models.Subsurface
                     {
                         Message = "Out of memory. Error message: " + ex.Message;
                         ShowWarning(Message, progresshandler);
-                        return false;
+                        return LoadingState.Warning;
                     }
                     for (int t = 0; t < nstep; t++)
                     {
@@ -462,15 +464,17 @@ namespace Heiflow.Models.Subsurface
                         DataCube.Topology = _SFRPackage.SegTopology;
                     DataCube.Variables = DefaultAttachedVariables;
                     Variables = DefaultAttachedVariables;
-                    OnLoaded(progresshandler);
-                    return true;
+                    result = LoadingState.Normal;
                 }
             }
             else
             {
                 ShowWarning("The file does not exist: " + filename, progresshandler);
-                return false;
+                result = LoadingState.Warning;
             }
+
+            OnLoaded(progresshandler, new LoadingObjectState() { Message = Message, Object = this, State = result });
+            return result;
         }
 
         public DataCube<float> GetTimeSeries(int segIndex, int rchIndex, int varid, DateTime start)

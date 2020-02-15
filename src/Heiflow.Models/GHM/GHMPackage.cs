@@ -95,9 +95,9 @@ namespace Heiflow.Models.GHM
         }
 
 
-        public override bool Load(ICancelProgressHandler progess)
+        public override LoadingState Load(ICancelProgressHandler progess)
         {
-            return true;
+            return LoadingState.Normal;
         }
     }
 }

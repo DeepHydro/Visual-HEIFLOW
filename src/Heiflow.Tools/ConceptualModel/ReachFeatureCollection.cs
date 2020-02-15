@@ -47,7 +47,7 @@ namespace Heiflow.Tools.ConceptualModel
         public ReachFeatureCollection(int segid)
         {
             SegmentID = segid;
-            Reaches = new SortedList<double, ReachFeature>();
+           // Reaches = new SortedList<double, ReachFeature>();
         }
 
         public int SegmentID
@@ -63,7 +63,7 @@ namespace Heiflow.Tools.ConceptualModel
         public SortedList<double, ReachFeature> Reaches
         {
             get;
-            private set;
+            set;
         }
     
         public int NReach
@@ -101,5 +101,21 @@ namespace Heiflow.Tools.ConceptualModel
         public double Offset { get; set; }
 
         public double STRCH1 { get; set; }
+
+        public double Runoff { get; set; }
+
+        public double Rainfall { get; set; }
+
+        public double ET { get; set; }
+
+        public double Roughness { get; set; }
+
+        public double BedThickness { get; set; }
+
+        public double THTI { get; set; }
+
+        public double THTS { get; set; }
+
+        public double EPS { get; set; }
     }
 }

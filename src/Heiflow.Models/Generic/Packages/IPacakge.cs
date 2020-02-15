@@ -48,8 +48,8 @@ namespace Heiflow.Models.Generic
     public interface IPackage : INotifyPropertyChanged
     {
         event EventHandler<int> Loading;
-        event EventHandler<object> Loaded;
-        event EventHandler<string> LoadFailed;
+        event EventHandler<LoadingObjectState> Loaded;
+       // event EventHandler<string> LoadFailed;
         event EventHandler<string> ScanFailed;
         event EventHandler<int> Saving;
         event EventHandler Saved;
@@ -95,7 +95,7 @@ namespace Heiflow.Models.Generic
         /// Load package from an exsiting file
         /// </summary>
         /// <returns></returns>
-        bool Load(ICancelProgressHandler progess);
+        LoadingState Load(ICancelProgressHandler progess);
         /// <summary>
         /// do something after loaded
         /// </summary>
@@ -115,7 +115,7 @@ namespace Heiflow.Models.Generic
         void OnTimeServiceUpdated(ITimeService time);
         void ChangeState(ModelObjectState state);
         void ResetToDefault();
-        bool IsLoadFailedRegistered(Delegate prospectiveHandler);
+        //bool IsLoadFailedRegistered(Delegate prospectiveHandler);
         bool ContainChild(string pck_name);
     }
 }

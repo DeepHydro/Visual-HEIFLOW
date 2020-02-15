@@ -61,12 +61,12 @@
             this.checkMappedClimate = new System.Windows.Forms.CheckBox();
             this.btnCreateMapFile = new System.Windows.Forms.Button();
             this.tabOutVars = new System.Windows.Forms.TabPage();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.listVars = new System.Windows.Forms.CheckedListBox();
             this.tabExtension = new System.Windows.Forms.TabPage();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabModule.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -85,7 +85,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(618, 564);
+            this.btnCancel.Location = new System.Drawing.Point(611, 483);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(100, 30);
             this.btnCancel.TabIndex = 4;
@@ -96,7 +96,7 @@
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(500, 564);
+            this.btnOK.Location = new System.Drawing.Point(493, 483);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(100, 30);
             this.btnOK.TabIndex = 5;
@@ -116,7 +116,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(731, 557);
+            this.tabControl1.Size = new System.Drawing.Size(731, 477);
             this.tabControl1.TabIndex = 6;
             // 
             // tabModule
@@ -128,7 +128,7 @@
             this.tabModule.Location = new System.Drawing.Point(4, 29);
             this.tabModule.Name = "tabModule";
             this.tabModule.Padding = new System.Windows.Forms.Padding(3);
-            this.tabModule.Size = new System.Drawing.Size(723, 524);
+            this.tabModule.Size = new System.Drawing.Size(723, 444);
             this.tabModule.TabIndex = 0;
             this.tabModule.Text = "Modules";
             this.tabModule.UseVisualStyleBackColor = true;
@@ -324,7 +324,7 @@
             this.tabFile.Location = new System.Drawing.Point(4, 29);
             this.tabFile.Name = "tabFile";
             this.tabFile.Padding = new System.Windows.Forms.Padding(3);
-            this.tabFile.Size = new System.Drawing.Size(723, 524);
+            this.tabFile.Size = new System.Drawing.Size(723, 465);
             this.tabFile.TabIndex = 3;
             this.tabFile.Text = "Input/Output Files";
             this.tabFile.UseVisualStyleBackColor = true;
@@ -489,10 +489,18 @@
             this.tabOutVars.Location = new System.Drawing.Point(4, 29);
             this.tabOutVars.Name = "tabOutVars";
             this.tabOutVars.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOutVars.Size = new System.Drawing.Size(723, 524);
+            this.tabOutVars.Size = new System.Drawing.Size(723, 465);
             this.tabOutVars.TabIndex = 1;
             this.tabOutVars.Text = "Output Variables";
             this.tabOutVars.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(257, 35);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(457, 466);
+            this.textBox1.TabIndex = 17;
             // 
             // label4
             // 
@@ -529,7 +537,7 @@
             "sroff"});
             this.listVars.Location = new System.Drawing.Point(8, 35);
             this.listVars.Name = "listVars";
-            this.listVars.Size = new System.Drawing.Size(242, 466);
+            this.listVars.Size = new System.Drawing.Size(242, 400);
             this.listVars.TabIndex = 0;
             this.listVars.SelectedIndexChanged += new System.EventHandler(this.listVars_SelectedIndexChanged);
             // 
@@ -539,7 +547,7 @@
             this.tabExtension.Location = new System.Drawing.Point(4, 29);
             this.tabExtension.Name = "tabExtension";
             this.tabExtension.Padding = new System.Windows.Forms.Padding(3);
-            this.tabExtension.Size = new System.Drawing.Size(723, 524);
+            this.tabExtension.Size = new System.Drawing.Size(723, 465);
             this.tabExtension.TabIndex = 4;
             this.tabExtension.Text = "Extensions";
             this.tabExtension.UseVisualStyleBackColor = true;
@@ -549,22 +557,14 @@
             this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertyGrid1.Location = new System.Drawing.Point(3, 3);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(717, 518);
+            this.propertyGrid1.Size = new System.Drawing.Size(717, 459);
             this.propertyGrid1.TabIndex = 0;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(257, 35);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(457, 466);
-            this.textBox1.TabIndex = 17;
             // 
             // GlobalOptionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(734, 606);
+            this.ClientSize = new System.Drawing.Size(734, 521);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);

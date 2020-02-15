@@ -134,15 +134,15 @@ namespace Heiflow.Models.Surface.PRMS
             foreach (var pck in pcks)
             {
                 pck.Initialize();
-                pck.LoadFailed += this.OnLoadFailed;
+              //  pck.LoadFailed += this.OnLoadFailed;
             }
         }
 
-        public override bool Load(ICancelProgressHandler progress)
+        public override LoadingState Load(ICancelProgressHandler progress)
         {
             if (File.Exists(ControlFileName))
             {
-                if (_mmsPackage.Load(progress))
+                if (_mmsPackage.Load(progress) != LoadingState.FatalError)
                 {
                     ResolveLoadedParameters(true);
                     ResolveModules();
@@ -151,18 +151,18 @@ namespace Heiflow.Models.Surface.PRMS
                         pck.AfterLoad();
                     }
                     progress.Progress("PRMS", 1, "Parameter file loaded.");
-                    return true;
+                    return LoadingState.Normal;
                 }
                 else
                 {
-                    return false;
+                    return LoadingState.FatalError;
                 }
             }
             else
             {
                 string msg = string.Format("Failed to load {0}. The parameter file does not exist: {1}", Name, ControlFileName);
                 OnLoadFailed(this, msg);
-                return false;
+                return LoadingState.FatalError;
             }
         }
 
@@ -183,7 +183,7 @@ namespace Heiflow.Models.Surface.PRMS
             if (File.Exists(parafile))
             {
                 File.Copy(parafile, _mmsPackage.FileName, true);
-                succ = _mmsPackage.Load(progress);
+                succ = _mmsPackage.Load(progress) != LoadingState.FatalError;
                 if (succ)
                 {
                     ResolveLoadedParameters(false);
@@ -212,7 +212,7 @@ namespace Heiflow.Models.Surface.PRMS
             foreach (var pck in Packages.Values)
             {
                 pck.Clear();
-                pck.LoadFailed -= this.OnLoadFailed;
+                //pck.LoadFailed -= this.OnLoadFailed;
             }
             Packages.Clear();
         }

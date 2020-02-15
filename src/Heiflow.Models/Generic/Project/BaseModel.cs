@@ -209,7 +209,7 @@ namespace Heiflow.Models.Generic
             protected set;
         }
         public abstract void Initialize();
-        public abstract bool Load(ICancelProgressHandler progress);
+        public abstract LoadingState Load(ICancelProgressHandler progress);
         public abstract bool LoadGrid(ICancelProgressHandler progress);
         public abstract bool Validate();
         public abstract bool New(ICancelProgressHandler progress);
@@ -253,9 +253,9 @@ namespace Heiflow.Models.Generic
         }
 
 
-        public bool Load(string masterfile, ICancelProgressHandler progress)
+        public LoadingState Load(string masterfile, ICancelProgressHandler progress)
         {
-            return false;
+            return  LoadingState.Normal;
         }
 
         public virtual void OnTimeServiceUpdated(ITimeService sender)

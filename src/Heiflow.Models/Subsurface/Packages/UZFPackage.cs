@@ -223,11 +223,12 @@ namespace Heiflow.Models.Subsurface
         {
             base.New();
         }
-        public override bool Load(ICancelProgressHandler progresshandler)
+        public override LoadingState Load(ICancelProgressHandler progresshandler)
         {
+            var result = LoadingState.Normal;
             if (File.Exists(FileName))
             {
-                var result = false;
+
                 var grid = (Owner.Grid as MFGrid);
                 int layer = grid.ActualLayerCount;
                 int ncell = grid.ActiveCellCount;
@@ -440,12 +441,11 @@ namespace Heiflow.Models.Subsurface
                         this.EXTDP.Variables[p] = "EXTDP Stress Period " + (p + 1);
                         this.EXTWC.Variables[p] = "EXTWC Stress Period " + (p + 1);
                     }
-                    OnLoaded(progresshandler);
-                    result = true;
+                    result = LoadingState.Normal;
                 }
                 catch (Exception ex)
                 {
-                    result = false;
+                    result = LoadingState.Warning;
                     Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
                     ShowWarning(Message, progresshandler);
                 }
@@ -453,13 +453,14 @@ namespace Heiflow.Models.Subsurface
                 {
                     sr.Close();
                 }
-                return result;
             }
             else
             {
                 ShowWarning("Failed to load" + this.Name, progresshandler);
-                return false;
+                result = LoadingState.Warning;
             }
+            OnLoaded(progresshandler, new LoadingObjectState() { Message = Message, Object = this, State = result });
+            return result;
         }
 
         public override void CompositeOutput(MFOutputPackage mfout)

@@ -89,17 +89,18 @@ namespace Heiflow.Models.Subsurface
             State = ModelObjectState.Ready;
             _Initialized = true;
         }
-        public override bool Load(ICancelProgressHandler progresshandler)
+        public override LoadingState Load(ICancelProgressHandler progresshandler)
         {
             var cbcpck = CBCPackage;
+            var result = LoadingState.Normal;
             if (cbcpck.DataCube != null)
             {
                 var cbc = cbcpck.DataCube;
                 int steps = cbc.Size[1];
                 int nfea = cbc.Size[2];
-               OnLoading(0);
-               int progress = 0;
-               if (DataCube == null || DataCube.Size[1] != steps)
+                OnLoading(0);
+                int progress = 0;
+                if (DataCube == null || DataCube.Size[1] != steps)
                 {
                     DataCube = new DataCube<float>(2, steps, nfea);
                     DataCube.DateTimes = new DateTime[steps];
@@ -111,14 +112,14 @@ namespace Heiflow.Models.Subsurface
                     {
                         for (int i = 0; i < nfea; i++)
                         {
-                            var r = Math.Sqrt(cbc[DimX,s,i] * cbc[DimX,s,i]
-                                + cbc[DimY,s,i] * cbc[DimY,s,i]);
+                            var r = Math.Sqrt(cbc[DimX, s, i] * cbc[DimX, s, i]
+                                + cbc[DimY, s, i] * cbc[DimY, s, i]);
                             if (r == 0)
                                 r = 1;
                             if (r < 0)
                                 r = 1;
-                            DataCube[0,s,i] = (float)r;
-                            DataCube[1,s,i] = (float)(Math.Asin(cbc[DimY, s, i] / r)); //* 57.29578
+                            DataCube[0, s, i] = (float)r;
+                            DataCube[1, s, i] = (float)(Math.Asin(cbc[DimY, s, i] / r)); //* 57.29578
                         }
                         progress = Convert.ToInt32(s * 100 / steps);
                         OnLoading(progress);
@@ -130,13 +131,16 @@ namespace Heiflow.Models.Subsurface
                 }
                 DataCube.Variables = this.Variables;
                 DataCube.Topology = (Grid as RegularGrid).Topology;
-                OnLoaded(progresshandler);
-                return true;
+              
+                result = LoadingState.Normal;
             }
             else
             {
-                return false;
+                result = LoadingState.Warning;
             }
+
+            OnLoaded(progresshandler, new LoadingObjectState() { State = result });
+            return result;
         }
 
         public override void Attach(DotSpatial.Controls.IMap map, string directory)
@@ -167,7 +171,7 @@ namespace Heiflow.Models.Subsurface
             State = ModelObjectState.Standby;
             _Initialized = false;
         }
-        public override bool Load(int var_index, ICancelProgressHandler progress)
+        public override LoadingState Load(int var_index, ICancelProgressHandler progress)
         {
             return Load(progress);
         }

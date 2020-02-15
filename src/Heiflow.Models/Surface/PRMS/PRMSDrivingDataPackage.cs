@@ -91,9 +91,9 @@ namespace Heiflow.Models.Surface.PRMS
             return true;
         }
 
-        public override bool Load(int var_index, ICancelProgressHandler progress)
+        public override LoadingState Load(int var_index, ICancelProgressHandler progress)
         {
-            return true;
+            return LoadingState.Normal;
         }
 
         public override void New()

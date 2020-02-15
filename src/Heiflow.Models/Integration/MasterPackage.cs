@@ -103,7 +103,7 @@ namespace Heiflow.Models.Integration
         bool _UseGridClimate = false;
         string _GridClimateFile;
         int _GlobalTimeUnit = 4;
-        FileFormat _ClimateInputFormat = FileFormat.Text;
+        FileFormat _ClimateInputFormat = FileFormat.Binary;
         private bool _AnimationOutOC = false;
         private string  _AnimationOutOCFile;
         private string _wra_module = "none";
@@ -1178,8 +1178,9 @@ namespace Heiflow.Models.Integration
         /// Load from an  exsiting file
         /// </summary>
         /// <returns></returns>
-        public override bool Load(ICancelProgressHandler cancelprogess)
+        public override LoadingState Load(ICancelProgressHandler cancelprogess)
         {
+            var result = LoadingState.Normal;
             if (File.Exists(FileName))
             {
                 try
@@ -1293,23 +1294,21 @@ namespace Heiflow.Models.Integration
                         pr.Owner = this;
                     this.TimeService.IOTimeFile = WaterBudgetCsvFile;
                     UpdateTimeService();
-                    OnLoaded(cancelprogess);
-                    return true;
+                    result = LoadingState.Normal;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Message = string.Format("Failed to load control file {0}. Error message: {1}", FileName, ex.Message);
-                    OnLoadFailed(Message, cancelprogess);
-                    return false;
-                }       
+                    result = LoadingState.FatalError;
+                }
             }
             else
             {
                 Message = string.Format("{0} does not exist. Please check the control file: ", FileName);
-                OnLoadFailed(Message, cancelprogess);
-                return false;
+                result = LoadingState.FatalError;
             }
-            
+            OnLoaded(cancelprogess, new LoadingObjectState() { Message = Message, Object = this, State = result });
+            return result;
         }
 
         public override void SaveAs(string filename, ICancelProgressHandler prg)
@@ -1424,8 +1423,8 @@ namespace Heiflow.Models.Integration
 
         public override void Clear()
         {
-            if(_Initialized)
-                TimeService.Updated -= OnTimeServiceUpdated;
+            //if(_Initialized)
+            //    TimeService.Updated -= OnTimeServiceUpdated;
             base.Clear();
         }
         public override void UpdateTimeService()

@@ -91,13 +91,13 @@ namespace Heiflow.Models.Integration
             _model.ControlFileName = project.RelativeControlFileName;
             _model.Initialize();
             _model.Grid.Origin = new GeoAPI.Geometries.Coordinate(property.OriginX, property.OriginY);
-            if (_model.Load(progress))
+            if (_model.Load(progress) != LoadingState.FatalError)
             {
                 _model.ModflowModel.Grid.Projection = property.Projection;
             }
         }
 
-        public bool Load(IProject project, ICancelProgressHandler progress)
+        public LoadingState Load(IProject project, ICancelProgressHandler progress)
         {
             ModelService.WorkDirectory = project.FullModelWorkDirectory;
             HeiflowModel model = new HeiflowModel();

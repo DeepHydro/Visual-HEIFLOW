@@ -97,7 +97,7 @@ namespace Heiflow.Models.Surface.PRMS
             return true;
         }
 
-        public override bool Load(ICancelProgressHandler progress)
+        public override LoadingState Load(ICancelProgressHandler progress)
         {
             _ProgressHandler = progress;
             string filename = this.FileName;
@@ -111,10 +111,10 @@ namespace Heiflow.Models.Surface.PRMS
             stream.DataCubeLoaded += stream_DataCubeLoaded;
             stream.LoadFailed += stream_LoadFailed;
             stream.LoadDataCube();
-            return true;
+            return LoadingState.Normal;
         }
 
-        public override bool Load(int var_index, ICancelProgressHandler progress)
+        public override LoadingState Load(int var_index, ICancelProgressHandler progress)
         {
             if (!FileName.Contains(".nhru"))
                 FileName += ".nhru";
@@ -147,7 +147,7 @@ namespace Heiflow.Models.Surface.PRMS
             stream.DataCubeLoaded += stream_DataCubeLoaded;
             stream.LoadFailed += this.stream_LoadFailed;
             stream.LoadDataCube(var_index);
-            return true;
+            return LoadingState.Normal;
         }
 
         public override void Attach(DotSpatial.Controls.IMap map, string directory)
@@ -171,9 +171,8 @@ namespace Heiflow.Models.Surface.PRMS
             OnLoading(e);
         }
         private void stream_DataCubeLoaded(object sender, DataCube<float> e)
-        {
-            
-            OnLoaded( _ProgressHandler);
+        {          
+            OnLoaded( _ProgressHandler, new LoadingObjectState());
         }
         private void stream_LoadFailed(object sender, string e)
         {

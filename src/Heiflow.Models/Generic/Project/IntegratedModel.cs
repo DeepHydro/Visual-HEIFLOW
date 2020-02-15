@@ -66,9 +66,9 @@ namespace Heiflow.Models.Generic
         {
             return true;
         }
-        public override bool Load(ICancelProgressHandler progress)
+        public override LoadingState Load(ICancelProgressHandler progress)
         {
-            return true;
+            return LoadingState.Normal;
         }
 
         public override bool New(ICancelProgressHandler progress)

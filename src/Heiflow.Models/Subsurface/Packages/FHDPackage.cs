@@ -85,7 +85,7 @@ namespace Heiflow.Models.Subsurface
             NumTimeStep = TimeService.IOTimeline.Count;
             base.Initialize();
         }
-        public override bool Load(ICancelProgressHandler progress)
+        public override LoadingState Load(ICancelProgressHandler progress)
         {
             _ProgressHandler = progress;
             if (File.Exists(FileName))
@@ -102,17 +102,18 @@ namespace Heiflow.Models.Subsurface
                     fhd.DataCubeLoaded += fhd_DataCubeLoaded;
                     //TODO: require modifcation
                     fhd.LoadDataCube();
-                    return true;
+                    return LoadingState.Normal;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
-                    return false;
+                    ShowWarning(ex.Message, progress);
+                    return LoadingState.Warning;
                 }
             }
             else
             {
-                return false;
+                return LoadingState.Warning;
             }
         }
 
@@ -145,9 +146,9 @@ namespace Heiflow.Models.Subsurface
             return true;
         }
 
-        public override bool Load(int var_index, ICancelProgressHandler progress)
+        public override LoadingState Load(int var_index, ICancelProgressHandler progress)
         {
-            var result = false;
+            var result = LoadingState.Normal;
             _ProgressHandler = progress;
             var list = TimeService.GetIOTimeFromFile((Owner as Modflow).IOLogFile);
             if (list.Count > 0)
@@ -180,24 +181,27 @@ namespace Heiflow.Models.Subsurface
                     fhd.DataCubeLoaded += fhd_DataCubeLoaded;
                     fhd.LoadFailed += fhd_LoadFailed;
                     fhd.LoadDataCube(var_index);
-                    result = true;
+                    result = LoadingState.Normal;
                 }
                 catch (Exception ex)
                 {
                     ShowWarning(ex.Message, progress);
-                    result = false;
+                    result = LoadingState.Warning;
+                    fhd_LoadFailed(this, ex.Message);
                 } 
                 finally
                 {
 
                 }
-                return result;
             }
             else
             {
-                ShowWarning("The file does not exist: " + LocalFileName, progress);
-                return result;
+                Message="The file does not exist: " + LocalFileName;
+                ShowWarning(Message, progress);
+                result = LoadingState.Warning;
+                fhd_LoadFailed(this, Message);
             }
+            return result;
         }
 
         public override void Clear()
@@ -288,11 +292,13 @@ namespace Heiflow.Models.Subsurface
 
         private void fhd_DataCubeLoaded(object sender, DataCube<float> e)
         {        
-            OnLoaded(_ProgressHandler);
+            OnLoaded(_ProgressHandler,new LoadingObjectState());
         }
         private void fhd_LoadFailed(object sender, string e)
         {
-            ShowWarning(e, _ProgressHandler);
+            //ShowWarning(e, _ProgressHandler);
+            //OnLoadFailed(e, _ProgressHandler);
+            OnLoaded(_ProgressHandler, new LoadingObjectState() { Message = e, State = LoadingState.Warning });
         }
     }
 }

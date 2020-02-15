@@ -237,8 +237,9 @@ namespace Heiflow.Models.Subsurface
             base.New();
             State = ModelObjectState.Ready;
         }
-        public override bool Load(ICancelProgressHandler progresshandler)
+        public override LoadingState Load(ICancelProgressHandler progresshandler)
         {
+            var result = LoadingState.Normal;
             var mf = Owner as Modflow;
             var sp_start = Owner.TimeService.Start;
             var _Dic_SP = Owner.TimeService.StressPeriods;
@@ -286,8 +287,8 @@ namespace Heiflow.Models.Subsurface
             }
             sr.Close();
             Owner.TimeService.UpdateStressPeriodTimeLine();
-            OnLoaded(progresshandler);
-            return true;
+            OnLoaded(progresshandler, new LoadingObjectState() { Message = Message, Object = this, State = result });
+            return result;
         }
         public override void SaveAs(string filename, ICancelProgressHandler prg)
         {

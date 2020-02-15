@@ -236,10 +236,17 @@ namespace Heiflow.Applications.Controllers
         }
         private void Serializer_ProjectOpened(object sender, bool e)
         {
-            _ProjectService.Project = _ProjectService.Serializer.CurrentProject;
-            _ShellService.ProjectExplorer.AddProject(_ProjectService.Project);
-            ModelService.ProjectDirectory = _ProjectService.Project.AbsolutePathToProjectFile;
-            _ShellService.ProgressWindow.Progress("Loading map layers...");
+            if (_ProjectService.Serializer.CurrentProject != null)
+            {
+                _ProjectService.Project = _ProjectService.Serializer.CurrentProject;
+                _ShellService.ProjectExplorer.AddProject(_ProjectService.Project);
+                ModelService.ProjectDirectory = _ProjectService.Project.AbsolutePathToProjectFile;
+                _ShellService.ProgressWindow.Progress("Loading map layers...");
+            }
+            else
+            {
+
+            }
         }
 
         private void ProgressWindow_DoOpenProjectCompleted(object sender, EventArgs e)
@@ -269,7 +276,6 @@ namespace Heiflow.Applications.Controllers
         }
         private void Serializer_OpenFailed(object sender, string e)
         {
-            _ProjectService.Project = null;
             _ShellService.ProgressWindow.AutoCloseWindow = false;
             _ShellService.ProgressWindow.Progress("project", 100, "Please note the error and warning informaiton during the loading");
         }

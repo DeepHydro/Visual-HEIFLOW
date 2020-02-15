@@ -65,13 +65,13 @@ namespace Heiflow.Models.Subsurface
         [DisplayablePropertyItem]
         public DataCube<int> GagingInfo { get; set; }
 
-        public override bool Load(ICancelProgressHandler progress)
+        public override LoadingState Load(ICancelProgressHandler progress)
         {
+            var result = LoadingState.Normal;
             if (File.Exists(FileName))
-            {
+            {          
                 int num = 0;
                 StreamReader sr = new StreamReader(FileName);
-                var result = false;
                 try
                 {
                     string line = sr.ReadLine();
@@ -87,12 +87,12 @@ namespace Heiflow.Models.Subsurface
                         mat[0, 2, i] = buf[2];
                     }
                     GagingInfo = mat;
-                    OnLoaded(progress);
-                    result = true;
+
+                    result = LoadingState.Normal;
                 }
                 catch (Exception ex)
                 {
-                    result = false;
+                    result = LoadingState.Warning;
                     Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
                     ShowWarning(Message, progress);
                 }
@@ -100,13 +100,16 @@ namespace Heiflow.Models.Subsurface
                 {
                     sr.Close();
                 }
-                return result;
+                result = LoadingState.Normal;
             }
             else
             {
+                Message = string.Format("Failed to load {0}. The package file does not exist: {1}", Name, FileName);
                 ShowWarning("Failed to load " + this.Name, progress);
-                return false;
+                result = LoadingState.Warning;
             }
+            OnLoaded(progress, new LoadingObjectState() { State = result,Message = Message });
+            return result;
         }
 
         public override void CompositeOutput(MFOutputPackage mfout)

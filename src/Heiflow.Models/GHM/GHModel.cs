@@ -125,7 +125,7 @@ namespace Heiflow.Models.GHM
         }
 
 
-        public override bool Load(ICancelProgressHandler progress)
+        public override LoadingState Load(ICancelProgressHandler progress)
         {
             string masterfile = ControlFileName;
             if (File.Exists(masterfile))
@@ -160,12 +160,12 @@ namespace Heiflow.Models.GHM
                         }
                     }
                 }
-                return true;
-            }   
-            {            
-                var msg= "\r\nThe model file dose not exist: " + ControlFileName;
+                return LoadingState.Normal;
+            }
+            {
+                var msg = "\r\nThe model file dose not exist: " + ControlFileName;
                 progress.Progress("GHModel", 1, msg);
-                return false;
+                return LoadingState.FatalError;
             }
         }
 

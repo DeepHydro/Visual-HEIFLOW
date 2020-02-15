@@ -150,33 +150,34 @@ namespace Heiflow.Models.Subsurface
             mfout.Initialize();
             return succ;
         }
-        public override bool Load(ICancelProgressHandler progress)
+        public override LoadingState Load(ICancelProgressHandler progress)
         {
             string masterfile = ControlFileName;
+            string msg = "";
             if (File.Exists(masterfile))
             {
-                if(Subscribe(masterfile, ModelService.WorkDirectory))
+                if (Subscribe(masterfile, ModelService.WorkDirectory, ref msg))
                 {
-                    if(LoadGrid(progress))
+                    if (LoadGrid(progress))
                     {
-                        LoadPackages(progress);
-                        return true;
+                        return LoadPackages(progress);
                     }
                     else
                     {
-                        return false;
+                        return LoadingState.FatalError;
                     }
                 }
                 else
                 {
-                    return false;
+                    OnLoadFailed(this, msg);
+                    return LoadingState.FatalError;
                 }
             }
             else
             {
-                var msg = "The modflow name file dose not exist: " + ControlFileName;
+                msg = "The modflow name file dose not exist: " + ControlFileName;
                 OnLoadFailed(this, msg);
-                return false;
+                return LoadingState.FatalError;
             }
         }
         public override void Clear()
@@ -232,11 +233,11 @@ namespace Heiflow.Models.Subsurface
             var bas = (Packages["BAS6"] as BASPackage);
             var oc = (Packages[OCPackage.PackageName] as OCPackage);
             dis.GetGridInfo(_MFGrid);
-            if(bas.Load(progress))
+            if(bas.Load(progress) != LoadingState.FatalError)
             {
-                if(dis.Load(progress))
+                if (dis.Load(progress) != LoadingState.FatalError)
                 {
-                    if(oc.Load(progress))
+                    if (oc.Load(progress) != LoadingState.FatalError)
                     {
                         _MFGrid.Topology = new RegularGridTopology();
                         _MFGrid.Topology.Build();
@@ -330,10 +331,11 @@ namespace Heiflow.Models.Subsurface
             return pck;
         }
 
-        private bool Subscribe(string masterfile, string masterDic)
+        private bool Subscribe(string masterfile, string masterDic, ref string msg)
         {
             bool result = false;
             string line = "";
+            msg = "";
             FileStream fs = new FileStream(masterfile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             StreamReader sr = new StreamReader(fs);
             try
@@ -393,7 +395,7 @@ namespace Heiflow.Models.Subsurface
             catch (Exception ex)
             {
                 result = false;
-                string msg = string.Format("Failed to load name file of MODFLOW. Error message: {0}", ex.Message);
+                msg = string.Format("Failed to load name file of MODFLOW. Error message: {0}", ex.Message);
                 OnLoadFailed(this, msg);
             }
             finally
@@ -403,8 +405,9 @@ namespace Heiflow.Models.Subsurface
             }
             return result;
         }
-        private void LoadPackages(ICancelProgressHandler progress)
+        private LoadingState LoadPackages(ICancelProgressHandler progress)
         {
+            var result = LoadingState.Normal;
             MFOutputPackage mfout = new MFOutputPackage()
             {
                 Owner = this
@@ -421,7 +424,7 @@ namespace Heiflow.Models.Subsurface
                         {
                             pck.Clear();
                             pck.Initialize();
-                            pck.Load(progress);
+                            result = pck.Load(progress);
                         }
                         if (pck.State == ModelObjectState.Ready)
                         {
@@ -434,12 +437,14 @@ namespace Heiflow.Models.Subsurface
                     {
                         var msg = string.Format("Failed to load {0}. Error message: {1}", pck.Name, ex.Message);
                         OnLoadFailed(this, msg);
+                        result = LoadingState.Warning;
                     }
                 }
             }
             var oc = (Packages[OCPackage.PackageName] as OCPackage);
             oc.CompositeOutput(mfout);
             mfout.Initialize();
+            return result;
         }
 
         public override void OnTimeServiceUpdated(ITimeService time)

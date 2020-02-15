@@ -222,11 +222,11 @@ namespace Heiflow.Models.Subsurface
             get;
             set;
         }
-        public override bool Load(ICancelProgressHandler progresshandler)
+        public override LoadingState Load(ICancelProgressHandler progresshandler)
         {
+            var result = LoadingState.Normal;
             if (File.Exists(FileName))
             {
-                var result = false;
                 StreamReader sr = new StreamReader(FileName);
                 try
                 {
@@ -297,12 +297,11 @@ namespace Heiflow.Models.Subsurface
 
                     newline = sr.ReadLine();
                     OutputFIDs = TypeConverterEx.Split<int>(newline, 12);
-                    OnLoaded(progresshandler);
-                    result = true;
+                    result = LoadingState.Normal;
                 }
                 catch (Exception ex)
                 {
-                    result = false;
+                    result = LoadingState.Warning;
                     Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
                     ShowWarning(Message, progresshandler);
                 }
@@ -310,14 +309,15 @@ namespace Heiflow.Models.Subsurface
                 {
                     sr.Close();
                 }
-                return result;
             }
             else
             {
                 Message = string.Format("\r\n Failed to load {0}. The package file does not exist: {1}", Name, FileName);
                 ShowWarning(Message, progresshandler);
-                return false;
+                result = LoadingState.Warning;
             }
+            OnLoaded(progresshandler, new LoadingObjectState() { Message = Message, Object = this, State = result });
+            return result;
         }
         public override void SaveAs(string filename,ICancelProgressHandler progress)
         {

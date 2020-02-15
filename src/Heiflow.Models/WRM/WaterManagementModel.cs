@@ -26,7 +26,7 @@ namespace Heiflow.Models.WRM
             LargeIcon = Resources.mf32;
             Description = "Water resources management model";
             _WRAPackage = new WRAPackage();
-            _WRAPackage.LoadFailed += this.OnLoadFailed;
+            //_WRAPackage.LoadFailed += this.OnLoadFailed;
         }
 
         [Browsable(false)]
@@ -56,7 +56,7 @@ namespace Heiflow.Models.WRM
             Packages.Clear();
         }
 
-        public override bool Load(ICancelProgressHandler progress)
+        public override LoadingState Load(ICancelProgressHandler progress)
         {
             if (MasterPackage.WRAModule == "auto_wra")
             {
@@ -70,7 +70,7 @@ namespace Heiflow.Models.WRM
             }
             else
             {
-                return true;
+                return LoadingState.Normal;
             }
         }
 
@@ -85,7 +85,6 @@ namespace Heiflow.Models.WRM
         }
         public override void Clear()
         {
-            _WRAPackage.LoadFailed -= this.OnLoadFailed;
             foreach (var pck in Packages.Values)
                 pck.Clear();
         }

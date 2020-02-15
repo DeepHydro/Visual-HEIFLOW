@@ -537,6 +537,11 @@ namespace Heiflow.Controls.WinForm.Controls
             else
             {
                 int.TryParse(cmbTime.Text, out time_index);
+                if (time_index < 0 || time_index >= _DataCubeObject.Size[1])
+                {
+                    MessageBox.Show("Invalid time index","DataCube Grid", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
             if (cmbCell.Text == AllString)
             {
@@ -545,8 +550,25 @@ namespace Heiflow.Controls.WinForm.Controls
             else
             {
                 int.TryParse(cmbCell.Text, out cell_index);
+                if(cell_index <0 || cell_index >= _DataCubeObject.Size[2])
+                {
+                    MessageBox.Show("Invalid cell index", "DataCube Grid", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
-            this.DataTable = _DataCubeObject.ToDataTable(cmbVar.SelectedIndex, time_index, cell_index);
+            try
+            {
+                if (time_index == -1 && cell_index == -1)
+                {
+                    MessageBox.Show("All time and all cells should not be displayed at the same time", "DataCube Grid", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                this.DataTable = _DataCubeObject.ToDataTable(cmbVar.SelectedIndex, time_index, cell_index);
+            }
+            catch
+            {
+                MessageBox.Show("Invalid time or cell index", "DataCube Grid", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         private void sortingAcendingToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -760,6 +782,23 @@ namespace Heiflow.Controls.WinForm.Controls
             {
                 cell_index = -1;
             }
+            if (time_index != -1)
+            {
+                if (time_index < 0 || time_index > _DataCubeObject.Size[1])
+                {
+                    MessageBox.Show("Invalid time index", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+            if(cell_index != -1)
+            {
+                if(cell_index <0 || cell_index> _DataCubeObject.Size[2])
+                {
+                    MessageBox.Show("Invalid cell index", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+            
             this.DataTable = _DataCubeObject.ToDataTable(cmbVar.SelectedIndex, time_index, cell_index); 
         }
 

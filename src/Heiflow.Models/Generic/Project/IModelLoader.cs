@@ -45,8 +45,7 @@ namespace Heiflow.Models.Generic.Project
         event EventHandler<string> LoadFailed;
         string Extension { get; }
         string FileTypeDescription { get; }
-
-        bool Load( IProject project, ICancelProgressHandler progress);
+        LoadingState Load(IProject project, ICancelProgressHandler progress);
         bool CanImport(IProject project);
         void Import(IProject project, IImportProperty property, ICancelProgressHandler progress);
         void Clear();

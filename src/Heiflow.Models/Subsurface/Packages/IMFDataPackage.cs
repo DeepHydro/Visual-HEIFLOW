@@ -28,6 +28,7 @@
 //
 
 using DotSpatial.Data;
+using Heiflow.Models.Generic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +40,6 @@ namespace Heiflow.Models.Subsurface
     public interface IMFDataPackage
     {
         bool Scan();
-
-        bool Load(int var_index, ICancelProgressHandler progresshandler);
+        LoadingState Load(int var_index, ICancelProgressHandler progresshandler);
     }
 }

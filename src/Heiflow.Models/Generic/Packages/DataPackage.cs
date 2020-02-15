@@ -268,7 +268,7 @@ namespace Heiflow.Models.Generic
 
         public abstract  bool Scan();
 
-        public abstract bool Load(int var_index, ICancelProgressHandler progess);
+        public abstract LoadingState Load(int var_index, ICancelProgressHandler progess);
 
         public override void Attach(DotSpatial.Controls.IMap map, string directory)
         {

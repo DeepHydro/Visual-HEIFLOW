@@ -193,7 +193,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
                 dp.Layer = Package.TimeService.CurrentGridLayer;
                 dp.Loading += dp_Loading;
                 dp.Loaded += dp_Loaded;
-                dp.LoadFailed += dp_LoadFailed;
+              //  dp.LoadFailed += dp_LoadFailed;
                 _ShellService.ProgressWindow.DoWork += ProgressPanel_DoWork;
                 foreach (var item in _sub_menus)
                 {
@@ -220,7 +220,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
             _ShellService.ProgressWindow.Progress(_Package.Name, e, msg);
         }
 
-        protected virtual void dp_Loaded(object sender, object e)
+        protected virtual void dp_Loaded(object sender, LoadingObjectState e)
         {
             var dp = _Package as IDataPackage;
             foreach (var item in _sub_menus)
@@ -232,15 +232,23 @@ namespace Heiflow.Controls.WinForm.MenuItems
             Enable(_VI3, false);
             Enable(_A2DC, false);
 
-            if (dp.DataCube != null)
+            if (e.State == LoadingState.Normal)
             {
-                _ActiveDataService.Source = dp.DataCube;
-                _ActiveDataService.Source.SelectedVariableIndex = this.VariableIndex;
-               // _ActiveDataService.SourceStatistics = dp.DataCube.SpatialMean(this.VariableIndex);
+                if (dp.DataCube != null)
+                {
+                    _ActiveDataService.Source = dp.DataCube;
+                    _ActiveDataService.Source.SelectedVariableIndex = this.VariableIndex;
+                    // _ActiveDataService.SourceStatistics = dp.DataCube.SpatialMean(this.VariableIndex);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Failed to load. Error message: " + e.Message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             _ShellService.ProgressWindow.DoWork -= ProgressPanel_DoWork;
             dp.Loading -= dp_Loading;
             dp.Loaded -= dp_Loaded;
+           // dp.LoadFailed -= dp_LoadFailed;
         }
         protected void dp_LoadFailed(object sender, string e)
         {
@@ -258,7 +266,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
             _ShellService.ProgressWindow.DoWork -= ProgressPanel_DoWork;
             dp.Loading -= dp_Loading;
             dp.Loaded -= dp_Loaded;
-            dp.LoadFailed -= dp_LoadFailed;
+           // dp.LoadFailed -= dp_LoadFailed;
         }
 
         protected virtual void AttributeTable_Clicked(object sender, EventArgs e)

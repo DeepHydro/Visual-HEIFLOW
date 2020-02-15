@@ -74,7 +74,7 @@ namespace Heiflow.Models.Subsurface
         }
         public void Import(IProject project, IImportProperty property, ICancelProgressHandler progress)
         {
-            var succ = true;
+            var succ = LoadingState.Normal;
             ModelService.WorkDirectory = project.FullModelWorkDirectory;
             if (project.Model == null)
             {
@@ -86,22 +86,22 @@ namespace Heiflow.Models.Subsurface
                 project.Model.Clear();
             }
             var model = project.Model as Modflow;
-                model.Project = project;
-                model.WorkDirectory = project.FullModelWorkDirectory;
-                model.ControlFileName = project.RelativeControlFileName;
-                model.Initialize();
-                model.Grid.Origin = new GeoAPI.Geometries.Coordinate(property.OriginX, property.OriginY);
-                project.Model = model;
-                succ = model.Load(progress);
-                if (succ)
-                {
-                    model.TimeService.PopulateTimelineFromSP(property.Start);
-                    model.TimeService.PopulateIOTimelineFromSP();
-                    model.Grid.Projection = property.Projection;
-                }
+            model.Project = project;
+            model.WorkDirectory = project.FullModelWorkDirectory;
+            model.ControlFileName = project.RelativeControlFileName;
+            model.Initialize();
+            model.Grid.Origin = new GeoAPI.Geometries.Coordinate(property.OriginX, property.OriginY);
+            project.Model = model;
+            succ = model.Load(progress);
+            if (succ != LoadingState.FatalError)
+            {
+                model.TimeService.PopulateTimelineFromSP(property.Start);
+                model.TimeService.PopulateIOTimelineFromSP();
+                model.Grid.Projection = property.Projection;
+            }
         }
 
-        public bool Load(IProject project, ICancelProgressHandler progress)
+        public LoadingState Load(IProject project, ICancelProgressHandler progress)
         {
             ModelService.WorkDirectory = project.FullModelWorkDirectory;
             Modflow model = new Modflow();
@@ -111,7 +111,7 @@ namespace Heiflow.Models.Subsurface
             project.Model = model;
             model.Initialize();
             var succ = model.Load(progress);
-            if(succ)
+            if(succ != LoadingState.FatalError)
             {
                 var dic =GetExtentSettings(model.ControlFileName+".ext");
                 var start=DateTime.Now;

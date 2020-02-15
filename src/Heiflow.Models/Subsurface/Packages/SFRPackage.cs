@@ -266,12 +266,28 @@ namespace Heiflow.Models.Subsurface
                 fs.DataTable.Columns.Add(new DataColumn("ISEG", typeof(int)));
                 fs.DataTable.Columns.Add(new DataColumn("IRCH", typeof(int)));
                 fs.DataTable.Columns.Add(new DataColumn("JRCH", typeof(int)));
+                fs.DataTable.Columns.Add(new DataColumn("RCHINDEX", typeof(int)));
 
+                //reach parameters
                 fs.DataTable.Columns.Add(new DataColumn("BedThick", typeof(double)));
-                fs.DataTable.Columns.Add(new DataColumn("TopElev", typeof(double)));
+                fs.DataTable.Columns.Add(new DataColumn("Elev", typeof(double)));
                 fs.DataTable.Columns.Add(new DataColumn("Slope", typeof(double)));
-                fs.DataTable.Columns.Add(new DataColumn("Width", typeof(double)));
                 fs.DataTable.Columns.Add(new DataColumn("Length", typeof(double)));
+                fs.DataTable.Columns.Add(new DataColumn("Offset", typeof(double)));
+                fs.DataTable.Columns.Add(new DataColumn("VK", typeof(double)));
+                fs.DataTable.Columns.Add(new DataColumn("THTS", typeof(double)));
+                fs.DataTable.Columns.Add(new DataColumn("THTI", typeof(double)));
+                fs.DataTable.Columns.Add(new DataColumn("EPS", typeof(double)));
+                //segment parameters
+                fs.DataTable.Columns.Add(new DataColumn("Width", typeof(double)));
+                fs.DataTable.Columns.Add(new DataColumn("IUPSEG", typeof(int)));
+                fs.DataTable.Columns.Add(new DataColumn("IPRIO", typeof(int)));
+                fs.DataTable.Columns.Add(new DataColumn("Flow", typeof(double)));
+                fs.DataTable.Columns.Add(new DataColumn("Runoff", typeof(double)));
+                fs.DataTable.Columns.Add(new DataColumn("ET", typeof(double)));
+                fs.DataTable.Columns.Add(new DataColumn("Rainfall", typeof(double)));
+                fs.DataTable.Columns.Add(new DataColumn("Rough", typeof(double)));
+
                 fs.DataTable.Columns.Add(new DataColumn(RegularGrid.ParaValueField, typeof(double)));
 
                 for (int i = 0; i < RiverNetwork.RiverCount; i++)
@@ -289,11 +305,26 @@ namespace Heiflow.Models.Subsurface
                         feature.DataRow["ISEG"] = reach.ISEG;
                         feature.DataRow["IRCH"] = reach.IRCH;
                         feature.DataRow["JRCH"] = reach.JRCH;
+
                         feature.DataRow["BedThick"] = reach.BedThick;
-                        feature.DataRow["TopElev"] = reach.TopElevation;
+                        feature.DataRow["Elev"] = reach.TopElevation;
                         feature.DataRow["Slope"] = reach.Slope;
-                        feature.DataRow["Width"] = reach.Width;
                         feature.DataRow["Length"] = reach.Length;
+                        feature.DataRow["Offset"] = reach.Offset;
+                        feature.DataRow["VK"] = reach.STRHC1;
+                        feature.DataRow["THTS"] = reach.THTS;
+                        feature.DataRow["THTI"] = reach.THTI;
+                        feature.DataRow["EPS"] = reach.EPS;
+
+                        feature.DataRow["Width"] = reach.Width;
+                        feature.DataRow["IUPSEG"] = river.UpRiverID;
+                        feature.DataRow["IPRIO"] = river.IPrior;
+                        feature.DataRow["Flow"] = river.Flow;
+                        feature.DataRow["Runoff"] = river.Runoff;
+                        feature.DataRow["ET"] = river.ETSW;
+                        feature.DataRow["Rainfall"] = river.PPTSW;
+                        feature.DataRow["Rough"] = river.ROUGHCH;
+
                         feature.DataRow[RegularGrid.ParaValueField] = 0;
                         feature.DataRow.EndEdit();
                     }
@@ -308,8 +339,9 @@ namespace Heiflow.Models.Subsurface
                 return null;
             }
         }
-        public override bool Load(ICancelProgressHandler progresshandler)
+        public override LoadingState Load(ICancelProgressHandler progresshandler)
         {
+            var result = LoadingState.Normal;
             var mf = (Owner as Modflow);
             if (File.Exists(FileName))
             {
@@ -328,16 +360,17 @@ namespace Heiflow.Models.Subsurface
                 }
                 NetworkToMat();
                 BuildTopology();
-                OnLoaded(progresshandler);
-                return true;
+                result = LoadingState.Normal;
             }
             else
             {
                 this.ISTCB1 = mf.NameManager.GetFID(".cbc");
                 this.ISTCB2 = mf.NameManager.GetFID(".sft_out");
                 ShowWarning("Failed to load "+ this.Name, progresshandler);
-                return false;
+                result = LoadingState.Warning;
             }
+            OnLoaded(progresshandler, new LoadingObjectState() { Message = Message, Object = this, State = result });
+            return result;
         }
         public override void SaveAs(string filename, ICancelProgressHandler prg)
         {

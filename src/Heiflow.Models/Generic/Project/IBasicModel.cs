@@ -70,7 +70,7 @@ namespace Heiflow.Models.Generic
         void Initialize();
         bool Exsit(string filename);
         bool New(ICancelProgressHandler progress);
-        bool Load(ICancelProgressHandler progress);
+        LoadingState Load(ICancelProgressHandler progress);
         void Attach(IMap map, string directory);
         void Save(ICancelProgressHandler progress);
         void Clear();

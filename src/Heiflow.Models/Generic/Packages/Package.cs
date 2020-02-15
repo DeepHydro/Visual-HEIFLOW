@@ -51,8 +51,8 @@ namespace Heiflow.Models.Generic
     {
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<int> Loading;
-        public event EventHandler<object> Loaded;
-        public event EventHandler<string> LoadFailed;
+        public event EventHandler<LoadingObjectState> Loaded;
+        //public event EventHandler<string> LoadFailed;
         public event EventHandler<string> ScanFailed;
         public event EventHandler<int> Saving;
         public event EventHandler Saved;
@@ -403,7 +403,7 @@ namespace Heiflow.Models.Generic
         /// Load from  an  exsiting file
         /// </summary>
         /// <param name="progess"></param>
-        public abstract bool Load(ICancelProgressHandler progess);
+        public abstract LoadingState Load(ICancelProgressHandler progess);
         /// <summary>
         /// do something after loaded
         /// </summary>
@@ -475,29 +475,29 @@ namespace Heiflow.Models.Generic
                 Loading(this, percent);
         }
 
-        protected void OnLoaded(ICancelProgressHandler progress)
+        protected void OnLoaded(ICancelProgressHandler progress, LoadingObjectState state)
         {
             IsDirty = false;
             _IsUsed = true;
             State = ModelObjectState.Ready;
-            string msg = string.Format("{0} loaded", this.Name);
+          //  string msg = string.Format("{0} loaded", this.Name);
             if (Loaded != null)
             {
-                Loaded(this,msg);
+                Loaded(this, state);
             }
         }
 
-        protected void OnLoadFailed(string msg, ICancelProgressHandler progress)
-        {
-            //_IsUsed = false;
-            State = ModelObjectState.Error;
-            if (LoadFailed != null)
-            {
-                LoadFailed(this, msg);
-            }
-            if (progress != null)
-                progress.Progress("progress", 1, msg);
-        }
+        //protected void OnLoadFailed(string msg, ICancelProgressHandler progress)
+        //{
+        //    //_IsUsed = false;
+        //    State = ModelObjectState.Error;
+        //    if (LoadFailed != null)
+        //    {
+        //        LoadFailed(this, msg);
+        //    }
+        //    if (progress != null)
+        //        progress.Progress("progress", 1, msg);
+        //}
         protected void ShowWarning(string warning, ICancelProgressHandler progress)
         {
             State = ModelObjectState.Error;
@@ -686,19 +686,19 @@ namespace Heiflow.Models.Generic
         {
 
         }
-        public bool IsLoadFailedRegistered(Delegate prospectiveHandler)
-        {
-            if (LoadFailed != null)
-            {
-                foreach (Delegate existingHandler in this.LoadFailed.GetInvocationList())
-                {
-                    if (existingHandler == prospectiveHandler)
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
+        //public bool IsLoadFailedRegistered(Delegate prospectiveHandler)
+        //{
+        //    if (LoadFailed != null)
+        //    {
+        //        foreach (Delegate existingHandler in this.LoadFailed.GetInvocationList())
+        //        {
+        //            if (existingHandler == prospectiveHandler)
+        //            {
+        //                return true;
+        //            }
+        //        }
+        //    }
+        //    return false;
+        //}
     }
 }

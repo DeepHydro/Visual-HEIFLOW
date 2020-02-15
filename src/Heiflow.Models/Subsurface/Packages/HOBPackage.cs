@@ -311,11 +311,12 @@ namespace Heiflow.Models.Subsurface
                 return null;
             }
         }
-        public override bool Load(ICancelProgressHandler progresshandler)
+        public override LoadingState Load(ICancelProgressHandler progresshandler)
         {
+            var result = LoadingState.Normal;
             if (File.Exists(FileName))
             {
-                var result = false;
+           
                 var grid = (Owner.Grid as MFGrid);
                 Observations.Clear();
                 StreamReader sr = new StreamReader(FileName);
@@ -382,26 +383,26 @@ namespace Heiflow.Models.Subsurface
                         i++;
                     }
                     BuildTopology();
-                    OnLoaded(progresshandler);
-                    result = true;
+                    result = LoadingState.Normal;
                 }
                 catch (Exception ex)
                 {
-                    result = false;
                     Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
                     ShowWarning(Message, progresshandler);
+                    result = LoadingState.Warning;
                 }
                 finally
                 {
                     sr.Close();
                 }
-                return result;
             }
             else
             {
                 ShowWarning("Failed to load " + this.Name, progresshandler);
-                return false;
+                result = LoadingState.Warning;
             }
+            OnLoaded(progresshandler, new LoadingObjectState() { Message = Message, Object = this, State = result });
+            return result;
         }
         public void BuildTopology()
         {
