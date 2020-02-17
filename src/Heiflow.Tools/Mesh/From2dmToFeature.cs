@@ -48,7 +48,7 @@ namespace Heiflow.Tools.Mesh
         {
             Name = "From2dmToFeature";
             Category = "Mesh";
-            Description = "Convert 2dm file to shapefile. The 2dm is a file format used by SM to store unstructured mesh";
+            Description = "Convert 2dm file to shapefile. The 2dm is a file format used by SMS to store unstructured mesh";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
         }

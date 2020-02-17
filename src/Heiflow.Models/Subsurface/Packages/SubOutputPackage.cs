@@ -173,6 +173,7 @@ namespace Heiflow.Models.Subsurface
         void fhd_LoadFailed(object sender, string e)
         {
             ShowWarning(e, _ProgressHandler);
+            OnLoaded(_ProgressHandler, new LoadingObjectState() { State = LoadingState.Warning, Message = e });
         }
     }
 }

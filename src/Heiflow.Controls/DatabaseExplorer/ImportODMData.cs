@@ -76,18 +76,15 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
         {
             _ODM_Table = _ODM.GetDataTable(cmbTables.SelectedItem.ToString());
             this.bindingSourceODM.DataSource = _ODM_Table;
-            this.dg_odm.DataSource = this.bindingSourceODM;
-            tabControl1.SelectedIndex = 0;
-            odm = _ODM.ODMTables[cmbTables.SelectedItem.ToString()];
-            propertyGrid1.SelectedObject = odm.ExportSetting;
-            if (odm.ExportSetting != null)
+            this.dg_odm.DataSource = bindingSourceODM;
+            if (cmbTables.SelectedItem.ToString() == "Sites")
             {
                 defaultExportToolStripMenuItem.Enabled = true;
                 customExportToolStripMenuItem.Enabled = true;
             }
             else
             {
-                defaultExportToolStripMenuItem.Enabled = true;
+                defaultExportToolStripMenuItem.Enabled = false;
                 customExportToolStripMenuItem.Enabled = false;
             }
         }
@@ -98,14 +95,14 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
             open.Filter = "excel 2007~2013 file|*.xlsx|excel 2003 file|*.xls";
             if (open.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                cmbSheet.Items.Clear();
+                cmbSheets.Items.Clear();
                 FileStream stream = File.Open(open.FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 IExcelDataReader excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
                 excelReader.IsFirstRowAsColumnNames = true;
                 _DataSet = excelReader.AsDataSet();
                 var tbs = from DataTable dt in _DataSet.Tables select dt.TableName;
-                cmbSheet.Items.AddRange(tbs.ToArray());
-                cmbSheet.SelectedIndex = 0;
+                cmbSheets.Items.AddRange(tbs.ToArray());
+                cmbSheets.SelectedIndex = 0;
                 tabControl1.SelectedIndex = 1;
                 lb_File.Text = open.FileName;
             }
@@ -113,9 +110,12 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
 
         private void cmbSheet_SelectedIndexChanged(object sender, EventArgs e)
         {
-            _External_Table = _DataSet.Tables[cmbSheet.SelectedIndex];
-            this.bindingSourceODM.DataSource = _External_Table;
-            this.dg_external.DataSource = this.bindingSourceODM;
+            if (_DataSet != null)
+            {
+                _External_Table = _DataSet.Tables[cmbTables.SelectedIndex];
+                this.bindingSourceExcel.DataSource = _External_Table;
+                this.dg_external.DataSource = this.bindingSourceExcel;
+            }
         }
 
         private void btnImport_Click(object sender, EventArgs e)
@@ -174,14 +174,14 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tabControl1.SelectedIndex == 0)
-            {
-                this.bindingSourceODM.DataSource = _ODM_Table;
-            }
-            else if (tabControl1.SelectedIndex == 1)
-            {
-                this.bindingSourceODM.DataSource = _External_Table;
-            }
+            //if (tabControl1.SelectedIndex == 0)
+            //{
+            //    this.bindingSourceODM.DataSource = _ODM_Table;
+            //}
+            //else if (tabControl1.SelectedIndex == 1)
+            //{
+            //    this.bindingSourceODM.DataSource = _External_Table;
+            //}
         }
 
         private void worker_DoWork(object sender, DoWorkEventArgs e)
@@ -285,6 +285,11 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
                     fs.SaveAs(dlg.FileName, true);
                 }
             }
+        }
+
+        private void ImportODMData_Load(object sender, EventArgs e)
+        {
+
         }
     }
 

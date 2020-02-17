@@ -32,12 +32,13 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HOBExplorerView));
             this.timeSeriesExplorer1 = new Heiflow.Controls.WinForm.TimeSeriesExplorer.SiteTimeSeriesExplorer();
             this.tbn_compare_tr = new System.Windows.Forms.ToolStripButton();
-            this.tbn_compare_ss = new System.Windows.Forms.ToolStripButton();
+            //this.tbn_compare_ss = new System.Windows.Forms.ToolStripButton();
             this.cmbMapLayers = new System.Windows.Forms.ToolStripComboBox();
             this.SuspendLayout();
             // 
             // timeSeriesExplorer1
             // 
+            this.timeSeriesExplorer1.AutoSize = true;
             this.timeSeriesExplorer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.timeSeriesExplorer1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.timeSeriesExplorer1.Location = new System.Drawing.Point(0, 0);
@@ -60,13 +61,13 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
             // 
             // tbn_compare_ss
             // 
-            this.tbn_compare_ss.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbn_compare_ss.Image = global::Heiflow.Controls.WinForm.Properties.Resources.ViewCompact16;
-            this.tbn_compare_ss.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tbn_compare_ss.Name = "tbn_compare_ss";
-            this.tbn_compare_ss.Size = new System.Drawing.Size(24, 25);
-            this.tbn_compare_ss.Text = "Compare";
-            this.tbn_compare_ss.ToolTipText = "Compare Steady State";
+            //this.tbn_compare_ss.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            //this.tbn_compare_ss.Image = global::Heiflow.Controls.WinForm.Properties.Resources.ViewCompact16;
+            //this.tbn_compare_ss.ImageTransparentColor = System.Drawing.Color.Magenta;
+            //this.tbn_compare_ss.Name = "tbn_compare_ss";
+            //this.tbn_compare_ss.Size = new System.Drawing.Size(24, 25);
+            //this.tbn_compare_ss.Text = "Compare";
+            //this.tbn_compare_ss.ToolTipText = "Compare Steady State";
             // 
             // cmbMapLayers
             // 
@@ -86,7 +87,9 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "HOBExplorerView";
             this.Text = "Head Observation Explorer";
+            this.Load += new System.EventHandler(this.HOBExplorerView_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -94,7 +97,7 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
 
         private SiteTimeSeriesExplorer timeSeriesExplorer1;
         private System.Windows.Forms.ToolStripButton tbn_compare_tr;
-        private System.Windows.Forms.ToolStripButton tbn_compare_ss;
+     //   private System.Windows.Forms.ToolStripButton tbn_compare_ss;
         private System.Windows.Forms.ToolStripComboBox cmbMapLayers;
     }
 }

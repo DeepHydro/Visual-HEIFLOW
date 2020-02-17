@@ -144,7 +144,9 @@ namespace Heiflow.Models.Subsurface
                 int count = 1;
                 if (network == null)
                 {
-                    return LoadingState.Warning;
+                    result = LoadingState.Warning;
+                    Message = "The river network dose not exist.";
+                    OnLoaded(progresshandler, new LoadingObjectState() { Message = Message, Object = this, State = result });
                 }
                 else
                 {
@@ -200,7 +202,9 @@ namespace Heiflow.Models.Subsurface
                             catch (Exception)
                             {
                                 Message = "Out of memory.";
-                                return LoadingState.Warning;
+                                result = LoadingState.Warning;
+                                OnLoaded(progresshandler, new LoadingObjectState() { Message = Message, Object = this, State = result });
+                                return result;
                             }
                             for (int t = 0; t < nstep; t++)
                             {
@@ -278,7 +282,7 @@ namespace Heiflow.Models.Subsurface
                         {
                             result = LoadingState.Warning;
                             Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
-                            //ShowWarning(Message, progresshandler);                    
+                            ShowWarning(Message, progresshandler);
                         }
                         finally
                         {
@@ -347,8 +351,11 @@ namespace Heiflow.Models.Subsurface
                 RiverNetwork = network;
                 if (network == null)
                 {
-                    ShowWarning("The river network does not exist: ", progresshandler);
-                    return LoadingState.Warning;
+                    Message = "The river network does not exist.";
+                    ShowWarning(Message, progresshandler);
+                    result = LoadingState.Warning;
+                    OnLoaded(progresshandler, new LoadingObjectState() { Message = Message, Object = this, State = result });
+                    return result;
                 }
                 else
                 {
@@ -402,7 +409,9 @@ namespace Heiflow.Models.Subsurface
                     {
                         Message = "Out of memory. Error message: " + ex.Message;
                         ShowWarning(Message, progresshandler);
-                        return LoadingState.Warning;
+                        result = LoadingState.Warning;
+                        OnLoaded(progresshandler, new LoadingObjectState() { Message = Message, Object = this, State = result });
+                        return result;
                     }
                     for (int t = 0; t < nstep; t++)
                     {

@@ -34,12 +34,13 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.nav_top = new System.Windows.Forms.BindingNavigator(this.components);
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
-            this.cmbSheet = new System.Windows.Forms.ToolStripComboBox();
+            this.cmbTables = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btn_ShowScript = new System.Windows.Forms.ToolStripButton();
             this.btn_script = new System.Windows.Forms.ToolStripButton();
             this.btnExport = new System.Windows.Forms.ToolStripDropDownButton();
             this.defaultExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnExportSiteAsShp = new System.Windows.Forms.ToolStripMenuItem();
             this.customExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnUpdateSeriesCata = new System.Windows.Forms.ToolStripButton();
             this.bindingSourceODM = new System.Windows.Forms.BindingSource(this.components);
@@ -65,17 +66,17 @@
             this.dg_odm = new System.Windows.Forms.DataGridView();
             this.tb_script = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            this.dg_external = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btnOpenExcel = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.cmbSheets = new System.Windows.Forms.ComboBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.cmbTables = new System.Windows.Forms.ComboBox();
-            this.dg_external = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.btnExportSiteAsShp = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnOpenExcel = new System.Windows.Forms.Button();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            this.bindingSourceExcel = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.nav_top)).BeginInit();
             this.nav_top.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceODM)).BeginInit();
@@ -89,12 +90,13 @@
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg_odm)).BeginInit();
             this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dg_external)).BeginInit();
+            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dg_external)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceExcel)).BeginInit();
             this.SuspendLayout();
             // 
             // nav_top
@@ -106,7 +108,7 @@
             this.nav_top.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.nav_top.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel2,
-            this.cmbSheet,
+            this.cmbTables,
             this.toolStripSeparator1,
             this.btn_ShowScript,
             this.btn_script,
@@ -129,12 +131,12 @@
             this.toolStripLabel2.Size = new System.Drawing.Size(80, 25);
             this.toolStripLabel2.Text = "Data Table";
             // 
-            // cmbSheet
+            // cmbTables
             // 
-            this.cmbSheet.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbSheet.Name = "cmbSheet";
-            this.cmbSheet.Size = new System.Drawing.Size(150, 28);
-            this.cmbSheet.SelectedIndexChanged += new System.EventHandler(this.cmbSheet_SelectedIndexChanged);
+            this.cmbTables.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbTables.Name = "cmbTables";
+            this.cmbTables.Size = new System.Drawing.Size(150, 28);
+            this.cmbTables.SelectedIndexChanged += new System.EventHandler(this.cmbTables_SelectedIndexChanged);
             // 
             // toolStripSeparator1
             // 
@@ -181,6 +183,13 @@
             this.defaultExportToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
             this.defaultExportToolStripMenuItem.Text = "Export Data Table as CSV File";
             this.defaultExportToolStripMenuItem.Click += new System.EventHandler(this.defaultExportToolStripMenuItem_Click);
+            // 
+            // btnExportSiteAsShp
+            // 
+            this.btnExportSiteAsShp.Name = "btnExportSiteAsShp";
+            this.btnExportSiteAsShp.Size = new System.Drawing.Size(279, 26);
+            this.btnExportSiteAsShp.Text = "Export Site Table as Shapefile";
+            this.btnExportSiteAsShp.Click += new System.EventHandler(this.btnExportSiteAsShp_Click);
             // 
             // customExportToolStripMenuItem
             // 
@@ -364,7 +373,7 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(790, 487);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Database";
+            this.tabPage1.Text = "Data Table";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // splitContainer1
@@ -429,6 +438,98 @@
             this.tabPage2.Text = "Import Data";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // dg_external
+            // 
+            this.dg_external.AllowUserToAddRows = false;
+            this.dg_external.AllowUserToDeleteRows = false;
+            this.dg_external.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.dg_external.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dg_external.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.LightGreen;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dg_external.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dg_external.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dg_external.Location = new System.Drawing.Point(3, 92);
+            this.dg_external.Margin = new System.Windows.Forms.Padding(4);
+            this.dg_external.Name = "dg_external";
+            this.dg_external.RowTemplate.Height = 23;
+            this.dg_external.Size = new System.Drawing.Size(784, 392);
+            this.dg_external.TabIndex = 7;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.cmbSheets);
+            this.panel1.Controls.Add(this.textBox1);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.btnOpenExcel);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(784, 89);
+            this.panel1.TabIndex = 6;
+            // 
+            // cmbSheets
+            // 
+            this.cmbSheets.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSheets.FormattingEnabled = true;
+            this.cmbSheets.Location = new System.Drawing.Point(185, 51);
+            this.cmbSheets.Name = "cmbSheets";
+            this.cmbSheets.Size = new System.Drawing.Size(201, 28);
+            this.cmbSheets.TabIndex = 3;
+            this.cmbSheets.SelectedIndexChanged += new System.EventHandler(this.cmbSheet_SelectedIndexChanged);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(185, 11);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(405, 27);
+            this.textBox1.TabIndex = 2;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(76, 54);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(103, 20);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Select a sheet:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 14);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(176, 20);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Excel file to be imported:";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(596, 49);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(84, 31);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "Import";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.btnImport_Click);
+            // 
+            // btnOpenExcel
+            // 
+            this.btnOpenExcel.Location = new System.Drawing.Point(596, 9);
+            this.btnOpenExcel.Name = "btnOpenExcel";
+            this.btnOpenExcel.Size = new System.Drawing.Size(84, 31);
+            this.btnOpenExcel.TabIndex = 0;
+            this.btnOpenExcel.Text = "Browse...";
+            this.btnOpenExcel.UseVisualStyleBackColor = true;
+            this.btnOpenExcel.Click += new System.EventHandler(this.btnOpenExcel_Click);
+            // 
             // splitContainer2
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -455,105 +556,6 @@
             this.propertyGrid1.Size = new System.Drawing.Size(248, 520);
             this.propertyGrid1.TabIndex = 0;
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.cmbTables);
-            this.panel1.Controls.Add(this.textBox1);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.button1);
-            this.panel1.Controls.Add(this.btnOpenExcel);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(3, 3);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(784, 89);
-            this.panel1.TabIndex = 6;
-            // 
-            // btnOpenExcel
-            // 
-            this.btnOpenExcel.Location = new System.Drawing.Point(596, 9);
-            this.btnOpenExcel.Name = "btnOpenExcel";
-            this.btnOpenExcel.Size = new System.Drawing.Size(84, 31);
-            this.btnOpenExcel.TabIndex = 0;
-            this.btnOpenExcel.Text = "Browse...";
-            this.btnOpenExcel.UseVisualStyleBackColor = true;
-            this.btnOpenExcel.Click += new System.EventHandler(this.btnOpenExcel_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 14);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(176, 20);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Excel file to be imported:";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(185, 11);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(405, 27);
-            this.textBox1.TabIndex = 2;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(76, 54);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(103, 20);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Select a sheet:";
-            // 
-            // cmbTables
-            // 
-            this.cmbTables.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbTables.FormattingEnabled = true;
-            this.cmbTables.Location = new System.Drawing.Point(185, 51);
-            this.cmbTables.Name = "cmbTables";
-            this.cmbTables.Size = new System.Drawing.Size(201, 28);
-            this.cmbTables.TabIndex = 3;
-            this.cmbTables.SelectedIndexChanged += new System.EventHandler(this.cmbTables_SelectedIndexChanged);
-            // 
-            // dg_external
-            // 
-            this.dg_external.AllowUserToAddRows = false;
-            this.dg_external.AllowUserToDeleteRows = false;
-            this.dg_external.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.dg_external.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dg_external.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.LightGreen;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dg_external.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dg_external.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dg_external.Location = new System.Drawing.Point(3, 92);
-            this.dg_external.Margin = new System.Windows.Forms.Padding(4);
-            this.dg_external.Name = "dg_external";
-            this.dg_external.RowTemplate.Height = 23;
-            this.dg_external.Size = new System.Drawing.Size(784, 392);
-            this.dg_external.TabIndex = 7;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(596, 49);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(84, 31);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Import";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.btnImport_Click);
-            // 
-            // btnExportSiteAsShp
-            // 
-            this.btnExportSiteAsShp.Name = "btnExportSiteAsShp";
-            this.btnExportSiteAsShp.Size = new System.Drawing.Size(279, 26);
-            this.btnExportSiteAsShp.Text = "Export Site Table as Shapefile";
-            this.btnExportSiteAsShp.Click += new System.EventHandler(this.btnExportSiteAsShp_Click);
-            // 
             // ImportODMData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -566,6 +568,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ImportODMData";
             this.Text = "ODM Database Manager";
+            this.Load += new System.EventHandler(this.ImportODMData_Load);
             ((System.ComponentModel.ISupportInitialize)(this.nav_top)).EndInit();
             this.nav_top.ResumeLayout(false);
             this.nav_top.PerformLayout();
@@ -582,13 +585,14 @@
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dg_odm)).EndInit();
             this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dg_external)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dg_external)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceExcel)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -597,7 +601,7 @@
         #endregion
 
         private System.Windows.Forms.BindingNavigator nav_top;
-        private System.Windows.Forms.ToolStripComboBox cmbSheet;
+        private System.Windows.Forms.ToolStripComboBox cmbTables;
         private System.Windows.Forms.ToolStripLabel toolStripLabel2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.BindingSource bindingSourceODM;
@@ -632,7 +636,7 @@
         private System.Windows.Forms.PropertyGrid propertyGrid1;
         private System.Windows.Forms.ToolStripButton btnUpdateSeriesCata;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.ComboBox cmbTables;
+        private System.Windows.Forms.ComboBox cmbSheets;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
@@ -640,6 +644,7 @@
         private System.Windows.Forms.DataGridView dg_external;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ToolStripMenuItem btnExportSiteAsShp;
+        private System.Windows.Forms.BindingSource bindingSourceExcel;
 
     }
 }

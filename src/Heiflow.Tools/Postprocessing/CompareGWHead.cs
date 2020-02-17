@@ -15,7 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Heiflow.Tools.Anlysis
+namespace Heiflow.Tools.Postprocessing
 {
     public enum CompareMode { Head,Depth};
     public class CompareGWHead : MapLayerRequiredTool
@@ -29,7 +29,7 @@ namespace Heiflow.Tools.Anlysis
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
 
-            CompareMode = Anlysis.CompareMode.Head;
+            CompareMode = CompareMode.Head;
         }
 
         private IMapLayerDescriptor _SourceLayer;
@@ -194,14 +194,14 @@ namespace Heiflow.Tools.Anlysis
                         DataColumn dc = new DataColumn("SimDepth", Type.GetType("System.Double"));
                         _sourcefs.DataTable.Columns.Add(dc);
                     }
-                    if(!_sourcefs.DataTable.Columns.Contains("dh"))
+                    if(!_sourcefs.DataTable.Columns.Contains("HeadDIF"))
                     {
-                        DataColumn dc = new DataColumn("dh", Type.GetType("System.Double"));
+                        DataColumn dc = new DataColumn("HeadDIF", Type.GetType("System.Double"));
                         _sourcefs.DataTable.Columns.Add(dc);
                     }
-                    if (!_sourcefs.DataTable.Columns.Contains("dd"))
+                    if (!_sourcefs.DataTable.Columns.Contains("DepDIF"))
                     {
-                        DataColumn dc = new DataColumn("dd", Type.GetType("System.Double"));
+                        DataColumn dc = new DataColumn("DepDIF", Type.GetType("System.Double"));
                         _sourcefs.DataTable.Columns.Add(dc);
                     }
 
@@ -238,15 +238,15 @@ namespace Heiflow.Tools.Anlysis
                             _sourcefs.DataTable.Rows[i]["SimDepth"] = elev - sim[i];
                             sim_dep[i] = elev - sim[i];
                             obs_dep[i] = obsdep;
-                            _sourcefs.DataTable.Rows[i]["dh"] = System.Math.Round((sim[i] - head), 2);
-                            _sourcefs.DataTable.Rows[i]["dd"] = System.Math.Round((elev - sim[i] - obsdep), 2);
+                            _sourcefs.DataTable.Rows[i]["HeadDIF"] = System.Math.Round((sim[i] - head), 2);
+                            _sourcefs.DataTable.Rows[i]["DepDIF"] = System.Math.Round((elev - sim[i] - obsdep), 2);
                             progress = i * 100 / nwel;
                             cancelProgressHandler.Progress("Package_Tool", progress, "Process observation well: " + (i + 1));
                         }
                         _sourcefs.Save();
                         if (obs.Length > 0)
                         {
-                            if (CompareMode == Anlysis.CompareMode.Head)
+                            if (CompareMode == CompareMode.Head)
                             {
                                 var min = System.Math.Min(obs.Min(), sim.Min());
                                 var max = System.Math.Max(obs.Max(), sim.Max());

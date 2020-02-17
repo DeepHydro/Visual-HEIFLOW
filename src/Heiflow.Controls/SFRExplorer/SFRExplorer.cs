@@ -33,6 +33,7 @@ using Heiflow.Controls.WinForm.TimeSeriesExplorer;
 using Heiflow.Core.Data;
 using Heiflow.Core.Data.ODM;
 using Heiflow.Core.Hydrology;
+using Heiflow.Models.Generic;
 using Heiflow.Models.Subsurface;
 using Heiflow.Presentation.Services;
 using System;
@@ -139,7 +140,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.winChart_timeseries.Clear();
            
         }
-        private void SFROutputPackage_Loaded(object sender, object e)
+        private void SFROutputPackage_Loaded(object sender, LoadingObjectState e)
         {
             this.Invoke((MethodInvoker)delegate
             {
@@ -152,10 +153,16 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                 SFROutput.Loaded -= SFROutputPackage_Loaded;
                 //SFROutput.LoadFailed -= SFROutput_LoadFailed;
 
-                var riv_ids = from rv in SFROutput.RiverNetwork.Rivers select rv.ID;
-                cmbSegsID.DataSource = SFROutput.RiverNetwork.Rivers;
-                cmbStartID.DataSource = riv_ids.ToArray();
-
+                if (e.State == LoadingState.Normal)
+                {
+                    var riv_ids = from rv in SFROutput.RiverNetwork.Rivers select rv.ID;
+                    cmbSegsID.DataSource = SFROutput.RiverNetwork.Rivers;
+                    cmbStartID.DataSource = riv_ids.ToArray();
+                }
+                else
+                {
+                    MessageBox.Show("Failed to load data. Error message: " + e.Message, "SFR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             });
         }
 
@@ -392,9 +399,16 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             if(_ShellService == null)
                 _ShellService = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
             Cursor.Current = Cursors.WaitCursor;
-            var mat = SFROutput.GetProfileTimeSeries(_ProfileRivers, cmbSFRVars.SelectedIndex, cmbSFRVars.SelectedItem.ToString(), SFROutput.DataCube.Size[1],
-                   chbReadComplData.Checked, chbUnifiedByLength.Checked);
-            _ShellService.PackageToolManager.Workspace.Add(mat);
+            if (_ProfileRivers != null && SFROutput.DataCube != null)
+            {
+                var mat = SFROutput.GetProfileTimeSeries(_ProfileRivers, cmbSFRVars.SelectedIndex, cmbSFRVars.SelectedItem.ToString(), SFROutput.DataCube.Size[1],
+                       chbReadComplData.Checked, chbUnifiedByLength.Checked);
+                _ShellService.PackageToolManager.Workspace.Add(mat);
+            }
+            else
+            {
+                MessageBox.Show("No data loaded", "SFR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
             Cursor.Current = Cursors.Default;
         }
 

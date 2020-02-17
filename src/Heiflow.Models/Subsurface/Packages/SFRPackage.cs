@@ -266,7 +266,7 @@ namespace Heiflow.Models.Subsurface
                 fs.DataTable.Columns.Add(new DataColumn("ISEG", typeof(int)));
                 fs.DataTable.Columns.Add(new DataColumn("IRCH", typeof(int)));
                 fs.DataTable.Columns.Add(new DataColumn("JRCH", typeof(int)));
-                fs.DataTable.Columns.Add(new DataColumn("RCHINDEX", typeof(int)));
+                fs.DataTable.Columns.Add(new DataColumn("IREACH", typeof(int)));
 
                 //reach parameters
                 fs.DataTable.Columns.Add(new DataColumn("BedThick", typeof(double)));
@@ -305,6 +305,7 @@ namespace Heiflow.Models.Subsurface
                         feature.DataRow["ISEG"] = reach.ISEG;
                         feature.DataRow["IRCH"] = reach.IRCH;
                         feature.DataRow["JRCH"] = reach.JRCH;
+                        feature.DataRow["IREACH"] = reach.SubID;
 
                         feature.DataRow["BedThick"] = reach.BedThick;
                         feature.DataRow["Elev"] = reach.TopElevation;

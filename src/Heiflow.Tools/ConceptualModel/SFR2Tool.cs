@@ -64,15 +64,13 @@ namespace Heiflow.Tools.ConceptualModel
         private bool issucuess = false;
         public SFR2Tool()
         {
-            Name = "Streamflow Routing";
+            Name = "Streamflow Routing (SFR)";
             Category = "Conceptual Model";
             Description = "Translate stream shapefile to SFR2 package";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
 
-            //Width1 = 50;
-            //Width2 = 50;
             Width = 50;
             Flow = 0;
             Runoff = 0;
@@ -90,7 +88,7 @@ namespace Heiflow.Tools.ConceptualModel
     
             IgnoreMinorReach = true;
             UseAccumulativeRaster = false;
-
+            UseLPFVK = true;
             StreamGenerator = ConceptualModel.StreamGenerator.VHF;
         }
 
@@ -272,6 +270,14 @@ namespace Heiflow.Tools.ConceptualModel
         [Category("Stream Network")]
         [Description("Reverse orders of points in a reach")]
         public bool ReverseOrder
+        {
+            get;
+            set;
+        }
+
+        [Category("Stream Network")]
+        [Description("Set hydroconductivity of streambed using VK values in LPF")]
+        public bool UseLPFVK
         {
             get;
             set;
@@ -858,6 +864,7 @@ namespace Heiflow.Tools.ConceptualModel
             var dt = _sfr_insct_layer.DataTable;
             var dt_stream = _stream_layer.DataTable;
             var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
+            var lpf = prj.Project.Model.GetPackage(LPFPackage.PackageName) as LPFPackage;
             var grid = prj.Project.Model.Grid as MFGrid;
             for (int i = 0; i < _stream_layer.Features.Count; i++)
             {
@@ -915,6 +922,8 @@ namespace Heiflow.Tools.ConceptualModel
                     {
                         double elev_av = grid.GetElevationAt(row - 1, col - 1, 0);
                         double slope = MinSlope;
+                        var cellindex = grid.Topology.GetSerialIndex(row-1,col-1);
+                        var vk = lpf.HK[0, 0, cellindex] / lpf.VKA[0, 0, cellindex];
                         //dis[0] = 0;
                         //elvs[0] = _dem_layer.Value[cell.Row, cell.Column];
                         ////elvs[0] = _dem_layer.GetNearestValue(pt0);
@@ -971,8 +980,15 @@ namespace Heiflow.Tools.ConceptualModel
                         reach.Roughness = TypeConverterEx.IsNotNull(dr[RoughnessField].ToString()) ? double.Parse(dr[RoughnessField].ToString()) : Roughness;
                         reach.Slope = TypeConverterEx.IsNotNull(dr[SlopeField].ToString()) ? double.Parse(dr[SlopeField].ToString()) : Slope;
 
-                        reach.Offset = TypeConverterEx.IsNotNull(dr[OffsetField].ToString()) ? double.Parse(dr[OffsetField].ToString()) : Offset;
-                        reach.STRCH1 = TypeConverterEx.IsNotNull(dr[VKField].ToString()) ? double.Parse(dr[VKField].ToString()) : STRHC1;
+                        if(UseLPFVK)
+                        {
+                            reach.STRCH1 = vk;
+                        }
+                        else
+                        {
+                            reach.STRCH1 = TypeConverterEx.IsNotNull(dr[VKField].ToString()) ? double.Parse(dr[VKField].ToString()) : STRHC1;
+                        }
+                        reach.Offset = TypeConverterEx.IsNotNull(dr[OffsetField].ToString()) ? double.Parse(dr[OffsetField].ToString()) : Offset;                   
                         reach.BedThickness = TypeConverterEx.IsNotNull(dr[BedThicknessField].ToString()) ? double.Parse(dr[BedThicknessField].ToString()) : BedThickness;
                         reach.THTI = TypeConverterEx.IsNotNull(dr[THTIField].ToString()) ? double.Parse(dr[THTIField].ToString()) : THTI;
                         reach.THTS = TypeConverterEx.IsNotNull(dr[THTSField].ToString()) ? double.Parse(dr[THTSField].ToString()) : THTS;

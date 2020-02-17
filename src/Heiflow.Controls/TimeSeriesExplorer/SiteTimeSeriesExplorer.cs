@@ -320,5 +320,10 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
                     cmbObsSite.DataSource = sites;
             }
         }
+
+        private void btnCompareMode_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

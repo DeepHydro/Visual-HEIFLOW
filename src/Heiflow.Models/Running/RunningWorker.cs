@@ -117,19 +117,19 @@ namespace Heiflow.Models.Running
         {
             ProcessStartInfo info = new ProcessStartInfo()
             {
-                CreateNoWindow = false,
+                CreateNoWindow = true,
                 FileName = _Exepath,
-                UseShellExecute = false,
+                UseShellExecute = false, 
                 ErrorDialog = true,
                 RedirectStandardError = true,
                 RedirectStandardInput = true,
                 RedirectStandardOutput = true,
                 WorkingDirectory = _WorkingDirectory,
-                WindowStyle = ProcessWindowStyle.Hidden,
-                Arguments = e.Argument.ToString()
+                WindowStyle = ProcessWindowStyle.Hidden,         
+                Arguments = e.Argument.ToString(),
             };
             workProcess = Process.Start(info);
-
+ 
             //var automator = new ConsoleAutomator(workProcess.StandardInput, workProcess.StandardOutput);
             //// AutomatorStandardInputRead is the event handler
             //automator.StandardInputRead += new EventHandler<ConsoleInputReadEventArgs>(automator_StandardInputRead);

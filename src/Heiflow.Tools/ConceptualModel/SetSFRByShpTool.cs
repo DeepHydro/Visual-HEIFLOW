@@ -48,51 +48,20 @@ using System.Linq;
 
 namespace Heiflow.Tools.ConceptualModel
 {
-    public class PreproSFRTool : MapLayerRequiredTool
+    public class SetSFRByShpTool : MapLayerRequiredTool
     {
-        private IFeatureSet _stream_layer;
         private IMapLayerDescriptor _StreamFeatureLayerDescriptor;
-        public PreproSFRTool()
+        private IFeatureSet _stream_layer;
+        private StreamGenerator _StreamGenerator;
+        public SetSFRByShpTool()
         {
-            Name = "Preprocess River Shapefie for SFR";
-            Category = "Preprocessing";
-            Description = "Preprocess River Shapefie for SFR";
+            Name = "Set SFR parameter by shp";
+            Category = "Conceptual Model";
+            Description = "Set SFR parameters by shp";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
-            MultiThreadRequired = false;
-
-            //Width1 = 50;
-            //Width2 = 50;
-            Width = 50;
-            Flow = 0;
-            Runoff = 0;
-            ET = 0;
-            Rainfall = 0;
-            Roughness = 0.05;
-            Offset = -2;
-            Slope = 0.001;
-            BedThickness = 2;
-            STRHC1 = 0.1;
-            THTS = 0.3;
-            THTI = 0.2;
-            EPS = 3.5;
-
-            WidthField = "Width";
-            IUPSEGField = "IUPSEG";
-            IPRIORField = "IPRIO";
-            FlowField = "Flow";
-            RunoffField = "Runoff";
-            ETField = "ET";
-            RainfallField = "Rainfall";
-            RoughnessField = "Roughness";
-
-            BedThicknessField = "BedThick";
-            SlopeField = "Slope";
-            OffsetField = "Offset";
-            VKField = "VK";
-            THTIField = "THTI";
-            THTSField = "THTS";
-            EPSField = "EPS";
+            MultiThreadRequired = true;
+            StreamGenerator = ConceptualModel.StreamGenerator.VHF;
         }
 
         #region GIS Layers
@@ -120,7 +89,60 @@ namespace Heiflow.Tools.ConceptualModel
                 }
             }
         }
- 
+        #endregion
+
+        #region Stream Network
+        [Category("Stream Network")]
+        [Description("the generator used to generate stream network.")]
+
+        public StreamGenerator StreamGenerator
+        {
+            get
+            {
+                return _StreamGenerator;
+            }
+            set
+            {
+                _StreamGenerator = value;
+                if (_StreamGenerator == StreamGenerator.VHF)
+                {
+                    WidthField = "Width";
+                    IUPSEGField = "IUPSEG";
+                    IPRIORField = "IPRIO";
+                    FlowField = "Flow";
+                    RunoffField = "Runoff";
+                    ETField = "ET";
+                    RainfallField = "Rainfall";
+                    RoughnessField = "Roughness";
+                    BedThicknessField = "BedThick";
+                    SlopeField = "Slope";
+                    OffsetField = "Offset";
+                    VKField = "VK";
+                    THTIField = "THTI";
+                    THTSField = "THTS";
+                    EPSField = "EPS";
+                    ElevationField = "Elev";
+                }
+                else if (_StreamGenerator == StreamGenerator.SWAT)
+                {
+                    WidthField = "Wid2";
+                    IUPSEGField = "IUPSEG";
+                    IPRIORField = "IPRIO";
+                    FlowField = "Flow";
+                    ETField = "ET";
+                    RainfallField = "Rainfall";
+                    RoughnessField = "Roughness";
+                    BedThicknessField = "BedThick";
+                    SlopeField = "Slo2";
+                    OffsetField = "Offset";
+                    VKField = "VK";
+                    THTIField = "THTI";
+                    THTSField = "THTS";
+                    EPSField = "EPS";
+                    ElevationField = "Elev";
+                }
+            }
+        }
         #endregion
 
         #region Field Binding
@@ -130,7 +152,7 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             protected set;
         }
-     
+
         [Category("Mandatory Segment Field Binding")]
         [Description("Segment width")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
@@ -212,24 +234,15 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             set;
         }
-        //[Category("Segment Field Binding")]
-        //[Description("Segment min elevation")]
-        //[EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        //[DropdownListSource("Fields")]
-        //public string MinElevationField
-        //{
-        //    get;
-        //    set;
-        //}
-        //[Category("Segment Field Binding")]
-        //[Description("Segment max elevation field")]
-        //[EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        //[DropdownListSource("Fields")]
-        //public string MaxElevationField
-        //{
-        //    get;
-        //    set;
-        //}
+        [Category("Reach Field Binding")]
+        [Description("Top elevation of streambed")]
+        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
+        [DropdownListSource("Fields")]
+        public string ElevationField
+        {
+            get;
+            set;
+        }
         [Category("Optional Reach Field Binding")]
         [Description("Segment mean slope field")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
@@ -295,264 +308,68 @@ namespace Heiflow.Tools.ConceptualModel
         }
         #endregion
 
-        #region Default Value
-        [Category("Reach Default Value")]
-        [Description("Offset to the top elevation of the streambed")]
-        public double Offset
-        {
-            get;
-            set;
-        }
 
-        [Category("Reach Default Value")]
-        [Description("The thickness of the streambed")]
-        public double BedThickness
-        {
-            get;
-            set;
-        }
-        [Category("Reach Default Value")]
-        [Description("The slope of reach")]
-        public double Slope
-        {
-            get;
-            set;
-        }
-        [Category("Reach Default Value")]
-        [Description("The defualt hydraulic conductivity of the streambed")]
-        public double STRHC1
-        {
-            get;
-            set;
-        }
-        [Category("Reach Default Value")]
-        [Description("The saturated volumetric water content in the unsaturated zone")]
-        public double THTS
-        {
-            get;
-            set;
-        }
-        [Category("Reach Default Value")]
-        [Description("The initial volumetric water content. THTI must be less than or equal to THTS and greater than or equal to THTS minus the specific yield defined in either LPF or BCF. This variable is read when ISFROPT is 2 or 3.")]
-        public double THTI
-        {
-            get;
-            set;
-        }
-        [Category("Reach Default Value")]
-        [Description("The Brooks-Corey exponent used in the relation between water content and hydraulic conductivity within the unsaturated zone (Brooks and Corey, 1966). This variable is read when ISFROPT is 2 or 3.")]
-        public double EPS
-        {
-            get;
-            set;
-        }
-        [Category("Segment Default Value")]
-        [Description("Offset to the top elevation of the streambed")]
-        public double Width
-        {
-            get;
-            set;
-        }
-        [Category("Segment Default Value")]
-        [Description("")]
-        public double Flow
-        {
-            get;
-            set;
-        }
-
-        [Category("Segment Default Value")]
-        [Description("")]
-        public double Runoff
-        {
-            get;
-            set;
-        }
-
-        [Category("Segment Default Value")]
-        [Description("")]
-        public double ET
-        {
-            get;
-            set;
-        }
-
-        [Category("Segment Default Value")]
-        [Description("")]
-        public double Rainfall
-        {
-            get;
-            set;
-        }
-
-        [Category("Segment Default Value")]
-        [Description("")]
-        public double Roughness
-        {
-            get;
-            set;
-        }
-      
-        #endregion
         public override void Initialize()
         {
-            this.Initialized = true;
-            if (StreamFeatureLayer == null )
-            {
-                this.Initialized = false;
-                return;
-            } 
+            this.Initialized = !(_stream_layer == null || _stream_layer.FeatureType != FeatureType.Polygon);
         }
 
         public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
         {
-            PreproIntersection();
-            cancelProgressHandler.Progress("Package_Tool", 100, "The river shapefile has been prepared.");
-            return true;
+            var dt = _stream_layer.DataTable;
+            var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
+            var grid = prj.Project.Model.Grid as MFGrid;
+            var sfr = prj.Project.Model.GetPackage(SFRPackage.PackageName) as SFRPackage;
+            if (sfr != null)
+            {
+                if (sfr.RiverNetwork.ReachCount != dt.Rows.Count)
+                {
+                    cancelProgressHandler.Progress("Package_Tool", 90, "Reach count in SFR package is not equal to the row count of the GIS layer");
+                    return false;
+                }
+                else
+                {
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        var segid = int.Parse(dr["ISEG"].ToString());
+                        var reachid = int.Parse(dr["IREACH"].ToString());
+                        var buf = from rr in sfr.RiverNetwork.Reaches where rr.SubID == reachid && rr.ISEG == segid select rr;
+                        if (buf.Any())
+                        {
+                            var reach = buf.First();
+                            var river = reach.Parent;
+
+                            river.UpRiverID = TypeConverterEx.IsNotNull(dr[IUPSEGField].ToString()) ? int.Parse(dr[IUPSEGField].ToString()) : 0;
+                            river.IPrior = TypeConverterEx.IsNotNull(dr[IPRIORField].ToString()) ? int.Parse(dr[IPRIORField].ToString()) : 0;
+                            river.Flow = TypeConverterEx.IsNotNull(dr[FlowField].ToString()) ? double.Parse(dr[FlowField].ToString()) : 0;
+                            river.Runoff = TypeConverterEx.IsNotNull(dr[RunoffField].ToString()) ? double.Parse(dr[RunoffField].ToString()) : 0;
+                            river.PPTSW = TypeConverterEx.IsNotNull(dr[RainfallField].ToString()) ? double.Parse(dr[RainfallField].ToString()) : 0;
+                            river.ETSW = TypeConverterEx.IsNotNull(dr[ETField].ToString()) ? double.Parse(dr[ETField].ToString()) : 0;
+                            river.ROUGHCH = TypeConverterEx.IsNotNull(dr[RoughnessField].ToString()) ? double.Parse(dr[RoughnessField].ToString()) : 0;
+                            river.Width1 = TypeConverterEx.IsNotNull(dr[WidthField].ToString()) ? double.Parse(dr[WidthField].ToString()) : 50;
+                            river.Width2 = TypeConverterEx.IsNotNull(dr[WidthField].ToString()) ? double.Parse(dr[WidthField].ToString()) : 50;
+                            river.Width2 = TypeConverterEx.IsNotNull(dr[WidthField].ToString()) ? double.Parse(dr[WidthField].ToString()) : 50;
+
+                            reach.TopElevation = TypeConverterEx.IsNotNull(dr[ElevationField].ToString()) ? double.Parse(dr[WidthField].ToString()) : 100;
+                            reach.Width = TypeConverterEx.IsNotNull(dr[WidthField].ToString()) ? double.Parse(dr[WidthField].ToString()) : 50;
+                            reach.Slope = TypeConverterEx.IsNotNull(dr[SlopeField].ToString()) ? double.Parse(dr[SlopeField].ToString()) : 0.001;
+                            reach.STRHC1 = TypeConverterEx.IsNotNull(dr[VKField].ToString()) ? double.Parse(dr[VKField].ToString()) : 0.05;
+                            reach.Offset = TypeConverterEx.IsNotNull(dr[OffsetField].ToString()) ? double.Parse(dr[OffsetField].ToString()) : -2;
+                            reach.BedThick = TypeConverterEx.IsNotNull(dr[BedThicknessField].ToString()) ? double.Parse(dr[BedThicknessField].ToString()) : 2;
+                            reach.THTI = TypeConverterEx.IsNotNull(dr[THTIField].ToString()) ? double.Parse(dr[THTIField].ToString()) : 0.1;
+                            reach.THTS = TypeConverterEx.IsNotNull(dr[THTSField].ToString()) ? double.Parse(dr[THTSField].ToString()) : 0.3;
+                            reach.EPS = TypeConverterEx.IsNotNull(dr[EPSField].ToString()) ? double.Parse(dr[EPSField].ToString()) : 3.5;
+                        }
+                    }
+                    return true;
+                }
+            }
+            else
+            {
+                cancelProgressHandler.Progress("Package_Tool", 90, "SFR package not loaded.");
+                return false;
+            }
+           
         }
-
-        private void PreproIntersection()
-        {
-            var dt_insct = _stream_layer.DataTable;
-
-            if (!dt_insct.Columns.Contains(WidthField))
-            {
-                DataColumn dc = new DataColumn(WidthField, typeof(float));
-                dt_insct.Columns.Add(dc);
-                foreach (DataRow row in dt_insct.Rows)
-                {
-                    row[WidthField] = this.Width;
-                }
-            }
-            if (!dt_insct.Columns.Contains(IUPSEGField))
-            {
-                DataColumn dc = new DataColumn(IUPSEGField, typeof(int));
-                dt_insct.Columns.Add(dc);
-                foreach (DataRow row in dt_insct.Rows)
-                {
-                    row[IUPSEGField] = 0;
-                }
-            }
-            if (!dt_insct.Columns.Contains(IPRIORField))
-            {
-                DataColumn dc = new DataColumn(IPRIORField, typeof(int));
-                dt_insct.Columns.Add(dc);
-                foreach (DataRow row in dt_insct.Rows)
-                {
-                    row[IPRIORField] = 0;
-                }
-            }
-            if (!dt_insct.Columns.Contains(FlowField))
-            {
-                DataColumn dc = new DataColumn(FlowField, typeof(float));
-                dt_insct.Columns.Add(dc);
-                foreach (DataRow row in dt_insct.Rows)
-                {
-                    row[FlowField] = this.Flow;
-                }
-            }
-            if (!dt_insct.Columns.Contains(RunoffField))
-            {
-                DataColumn dc = new DataColumn(RunoffField, typeof(float));
-                dt_insct.Columns.Add(dc);
-                foreach (DataRow row in dt_insct.Rows)
-                {
-                    row[RunoffField] = this.Runoff;
-                }
-            }
-            if (!dt_insct.Columns.Contains(ETField))
-            {
-                DataColumn dc = new DataColumn(ETField, typeof(float));
-                dt_insct.Columns.Add(dc);
-                foreach (DataRow row in dt_insct.Rows)
-                {
-                    row[ETField] = this.ET;
-                }
-            }
-            if (!dt_insct.Columns.Contains(RainfallField))
-            {
-                DataColumn dc = new DataColumn(RainfallField, typeof(float));
-                dt_insct.Columns.Add(dc);
-                foreach (DataRow row in dt_insct.Rows)
-                {
-                    row[RainfallField] = this.Rainfall;
-                }
-            }
-            if (!dt_insct.Columns.Contains(RoughnessField))
-            {
-                DataColumn dc = new DataColumn(RoughnessField, typeof(float));
-                dt_insct.Columns.Add(dc);
-                foreach (DataRow row in dt_insct.Rows)
-                {
-                    row[RoughnessField] = this.Roughness;
-                }
-            }
-
-            if (!dt_insct.Columns.Contains(OffsetField))
-            {
-                DataColumn dc = new DataColumn(OffsetField, typeof(float));
-                dt_insct.Columns.Add(dc);
-                foreach (DataRow row in dt_insct.Rows)
-                {
-                    row[OffsetField] = this.Offset;
-                }
-            }
-            if (!dt_insct.Columns.Contains(BedThicknessField))
-            {
-                DataColumn dc = new DataColumn(BedThicknessField, typeof(float));
-                dt_insct.Columns.Add(dc);
-                foreach (DataRow row in dt_insct.Rows)
-                {
-                    row[BedThicknessField] = this.BedThickness;
-                }
-            }
-            if (!dt_insct.Columns.Contains(SlopeField))
-            {
-                DataColumn dc = new DataColumn(SlopeField, typeof(float));
-                dt_insct.Columns.Add(dc);
-                foreach (DataRow row in dt_insct.Rows)
-                {
-                    row[SlopeField] = this.Slope;
-                }
-            }
-            if (!dt_insct.Columns.Contains(VKField))
-            {
-                DataColumn dc = new DataColumn(VKField, typeof(float));
-                dt_insct.Columns.Add(dc);
-                foreach (DataRow row in dt_insct.Rows)
-                {
-                    row[VKField] = this.STRHC1;
-                }
-            }
-            if (!dt_insct.Columns.Contains(THTIField))
-            {
-                DataColumn dc = new DataColumn(THTIField, typeof(float));
-                dt_insct.Columns.Add(dc);
-                foreach (DataRow row in dt_insct.Rows)
-                {
-                    row[THTIField] = this.THTI;
-                }
-            }
-            if (!dt_insct.Columns.Contains(THTSField))
-            {
-                DataColumn dc = new DataColumn(THTSField, typeof(float));
-                dt_insct.Columns.Add(dc);
-                foreach (DataRow row in dt_insct.Rows)
-                {
-                    row[THTSField] = this.THTS;
-                }
-            }
-            if (!dt_insct.Columns.Contains(EPSField))
-            {
-                DataColumn dc = new DataColumn(EPSField, typeof(float));
-                dt_insct.Columns.Add(dc);
-                foreach (DataRow row in dt_insct.Rows)
-                {
-                    row[EPSField] = this.EPS;
-                }
-            }
-            _stream_layer.Save();
-        }
-  
     }
 }

@@ -62,13 +62,13 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
         {
             InitializeComponent();
             tbn_compare_tr.Click += tbn_compare_tr_Click;
-            tbn_compare_ss.Click += tbn_compare_ss_Click;
+            //tbn_compare_ss.Click += tbn_compare_ss_Click;
             this.timeSeriesExplorer1.SQLSelection = Settings.Default.HOBSQL;
             cmbMapLayers.ComboBox.SelectedIndexChanged += cmbMapLayers_SelectedIndexChanged;
             cmbMapLayers.ComboBox.DisplayMember = "LegendText";
             cmbMapLayers.ComboBox.ValueMember = "DataSet";
             this.timeSeriesExplorer1.MainBar.Items.Add(tbn_compare_tr);
-            this.timeSeriesExplorer1.MainBar.Items.Add(tbn_compare_ss);
+            //this.timeSeriesExplorer1.MainBar.Items.Add(tbn_compare_ss);
             this.timeSeriesExplorer1.MainBar.Items.Add(cmbMapLayers);
             this.FormClosing += HOBExplorerView_FormClosing;
             this.timeSeriesExplorer1.LoadPackage_Clicking += timeSeriesExplorer1_Load_Clicking;
@@ -241,7 +241,6 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
                 hob_out.ComparingValues[1, "0", ":"] = sim_list.ToArray();
             }
 
-
             var obs = hob_out.ComparingValues[0, "0", ":"];
             var sim = hob_out.ComparingValues[1, "0", ":"];
 
@@ -349,6 +348,11 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
             this.timeSeriesExplorer1.ClearContent();
         }
         public void InitService()
+        {
+
+        }
+
+        private void HOBExplorerView_Load(object sender, EventArgs e)
         {
 
         }

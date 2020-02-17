@@ -60,7 +60,6 @@ namespace Heiflow.Tools.ConceptualModel
     {
 
         private List<LookupTableRecord> _LookupTable = new List<LookupTableRecord>();
-        private string[] _RasterFileList;
         public LPFByZoneID()
         {
             Name = "Layer Property Flow By Zone ID";

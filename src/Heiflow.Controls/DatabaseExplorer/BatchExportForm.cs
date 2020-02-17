@@ -41,10 +41,10 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
         {
             queryCriteria = new QueryCriteria()
             {
-                 Start= dateTimePickerEnd.Value,
-                 End= dateTimePickerStart.Value,
-                 VariableName = (cmbVariables.SelectedItem as Variable).Name,
-                 VariableID = (cmbVariables.SelectedItem as Variable).ID
+                End = dateTimePickerEnd.Value,
+                Start = dateTimePickerStart.Value,
+                VariableName = (cmbVariables.SelectedItem as Variable).Name,
+                VariableID = (cmbVariables.SelectedItem as Variable).ID
             };
 
             _sites = _source.GetSites(queryCriteria);
@@ -69,6 +69,7 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
             if(TypeConverterEx.IsNotNull(dic) && _sites != null)
             {
                 Cursor.Current = Cursors.WaitCursor;
+                btnClose.Enabled = false;
                 foreach (var site in _sites)
                 {
                     var series = new ObservationSeries()
@@ -87,6 +88,7 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
                         csv.Save(ts);
                     }
                 }
+                btnClose.Enabled = true;
                 Cursor.Current = Cursors.Default;
                 MessageBox.Show("Finshied", "Export", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -94,6 +96,11 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
             {
                 MessageBox.Show("Can not export because no sites are selected or output directory is not set.", "Export", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

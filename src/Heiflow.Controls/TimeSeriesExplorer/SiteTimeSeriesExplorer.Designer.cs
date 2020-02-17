@@ -157,6 +157,7 @@
             this.btnCompareMode.Name = "btnCompareMode";
             this.btnCompareMode.Size = new System.Drawing.Size(24, 26);
             this.btnCompareMode.Text = "Compare Mode";
+            this.btnCompareMode.Click += new System.EventHandler(this.btnCompareMode_Click);
             // 
             // toolStripProgressBar1
             // 

@@ -57,6 +57,7 @@
             this.btnGetSites = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.dg_site = new System.Windows.Forms.DataGridView();
+            this.btnClose = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.nav_bottom)).BeginInit();
             this.nav_bottom.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceODM)).BeginInit();
@@ -68,7 +69,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 26);
+            this.label1.Location = new System.Drawing.Point(3, 28);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(118, 20);
             this.label1.TabIndex = 0;
@@ -78,16 +79,16 @@
             // 
             this.tbPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbPath.Location = new System.Drawing.Point(124, 22);
+            this.tbPath.Location = new System.Drawing.Point(127, 24);
             this.tbPath.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tbPath.Name = "tbPath";
-            this.tbPath.Size = new System.Drawing.Size(576, 27);
+            this.tbPath.Size = new System.Drawing.Size(485, 27);
             this.tbPath.TabIndex = 1;
             // 
             // btnOpenDic
             // 
             this.btnOpenDic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOpenDic.Location = new System.Drawing.Point(720, 20);
+            this.btnOpenDic.Location = new System.Drawing.Point(618, 21);
             this.btnOpenDic.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnOpenDic.Name = "btnOpenDic";
             this.btnOpenDic.Size = new System.Drawing.Size(94, 32);
@@ -235,6 +236,7 @@
             // 
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.tbPath);
+            this.panel1.Controls.Add(this.btnClose);
             this.panel1.Controls.Add(this.btnExport);
             this.panel1.Controls.Add(this.btnOpenDic);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -246,7 +248,7 @@
             // btnExport
             // 
             this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExport.Location = new System.Drawing.Point(833, 19);
+            this.btnExport.Location = new System.Drawing.Point(718, 21);
             this.btnExport.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(94, 32);
@@ -322,6 +324,18 @@
             this.dg_site.Size = new System.Drawing.Size(937, 479);
             this.dg_site.TabIndex = 8;
             // 
+            // btnClose
+            // 
+            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClose.Location = new System.Drawing.Point(825, 21);
+            this.btnClose.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(94, 32);
+            this.btnClose.TabIndex = 2;
+            this.btnClose.Text = "Close";
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
             // BatchExportForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -379,5 +393,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DataGridView dg_site;
         private System.Windows.Forms.BindingSource bindingSourceODM;
+        private System.Windows.Forms.Button btnClose;
     }
 }

@@ -58,9 +58,7 @@ namespace Heiflow.Tools.ConceptualModel
 {
     public class UZFByZoneIDTool  : MapLayerRequiredTool
     {
-
         private List<UZFLookupTableRecord> _LookupTable = new List<UZFLookupTableRecord>();
-        private string[] _RasterFileList;
         public UZFByZoneIDTool()
         {
             Name = "Unsaturated-Zone Flow Package By Zone ID";

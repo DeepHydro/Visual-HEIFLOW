@@ -208,7 +208,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.tabPageFigure.Location = new System.Drawing.Point(4, 4);
             this.tabPageFigure.Name = "tabPageFigure";
             this.tabPageFigure.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFigure.Size = new System.Drawing.Size(699, 636);
+            this.tabPageFigure.Size = new System.Drawing.Size(699, 640);
             this.tabPageFigure.TabIndex = 0;
             this.tabPageFigure.Text = "Figure";
             this.tabPageFigure.UseVisualStyleBackColor = true;
@@ -222,7 +222,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.winChart_timeseries.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.winChart_timeseries.Name = "winChart_timeseries";
             this.winChart_timeseries.ShowStatPanel = false;
-            this.winChart_timeseries.Size = new System.Drawing.Size(693, 630);
+            this.winChart_timeseries.Size = new System.Drawing.Size(693, 634);
             this.winChart_timeseries.TabIndex = 8;
             // 
             // tabPageTable
@@ -231,7 +231,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.tabPageTable.Location = new System.Drawing.Point(4, 4);
             this.tabPageTable.Name = "tabPageTable";
             this.tabPageTable.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageTable.Size = new System.Drawing.Size(699, 640);
+            this.tabPageTable.Size = new System.Drawing.Size(699, 636);
             this.tabPageTable.TabIndex = 1;
             this.tabPageTable.Text = "Table";
             this.tabPageTable.UseVisualStyleBackColor = true;
@@ -248,7 +248,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.dataGridEx1.ShowImport = false;
             this.dataGridEx1.ShowSave2Excel = false;
             this.dataGridEx1.ShowSaveButton = false;
-            this.dataGridEx1.Size = new System.Drawing.Size(693, 634);
+            this.dataGridEx1.Size = new System.Drawing.Size(693, 630);
             this.dataGridEx1.TabIndex = 0;
             // 
             // tabPageOutput
