@@ -197,7 +197,7 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
             if (!CheckConnection())
                 return;
 
-            ImportODMData import_odm = new ImportODMData(_SeriesCatalog.ODM);
+            ODMManager import_odm = new ODMManager(_SeriesCatalog.ODM);
             import_odm.ShowDialog();
         }
         private void btnRemoveDB_Click(object sender, EventArgs e)

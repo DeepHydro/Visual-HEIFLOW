@@ -37,6 +37,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -45,7 +46,7 @@ using System.Windows.Forms;
 
 namespace Heiflow.Controls.WinForm.DatabaseExplorer
 {
-    public partial class ImportODMData : Form
+    public partial class ODMManager : Form
     {
         private ODMSource _ODM;
         private System.Data.DataSet _DataSet;
@@ -53,14 +54,18 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
         private DataTable _External_Table;
         private BackgroundWorker worker;
         private IODMTable odm;
+        private string _currentTableName = "";
+        private int _ExcelRowCount = 0;
 
-        public ImportODMData(ODMSource odm)
+        public ODMManager(ODMSource odm)
         {
             InitializeComponent();
             _ODM = odm;
-            cmbTables.Items.AddRange(_ODM.GetODMTableNames());
+            cmbTable.Items.AddRange(_ODM.GetODMTableNames());
+            var tables= _ODM.GetODMTableNames();
+            foreach (var table in tables)
+                lvDataTables.Items.Add(table);
             toolStripProgressBar1.Visible = false;
-            lb_File.Text = "";
             splitContainer1.Panel2Collapsed = true;
             defaultExportToolStripMenuItem.Enabled = false;
             customExportToolStripMenuItem.Enabled = false;
@@ -72,23 +77,19 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
             worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(worker_RunWorkerCompleted);
         }
 
-        private void cmbTables_SelectedIndexChanged(object sender, EventArgs e)
+ 
+        private void lvDataTables_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            _ODM_Table = _ODM.GetDataTable(cmbTables.SelectedItem.ToString());
-            this.bindingSourceODM.DataSource = _ODM_Table;
-            this.dg_odm.DataSource = bindingSourceODM;
-            if (cmbTables.SelectedItem.ToString() == "Sites")
+            if (lvDataTables.SelectedItems.Count > 0)
             {
-                defaultExportToolStripMenuItem.Enabled = true;
-                customExportToolStripMenuItem.Enabled = true;
-            }
-            else
-            {
-                defaultExportToolStripMenuItem.Enabled = false;
-                customExportToolStripMenuItem.Enabled = false;
+                ListViewItem item = lvDataTables.SelectedItems[0];
+                _currentTableName = item.Text.ToString();
+                _ODM_Table = _ODM.GetDataTable(_currentTableName);
+                this.bindingSourceODM.DataSource = _ODM_Table;
+                this.dg_odm.DataSource = bindingSourceODM;
+                btnExportSiteAsShp.Enabled = _currentTableName == "Sites";
             }
         }
-
         private void btnOpenExcel_Click(object sender, EventArgs e)
         {
             OpenFileDialog open = new OpenFileDialog();
@@ -104,7 +105,7 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
                 cmbSheets.Items.AddRange(tbs.ToArray());
                 cmbSheets.SelectedIndex = 0;
                 tabControl1.SelectedIndex = 1;
-                lb_File.Text = open.FileName;
+                tbExcelFile.Text = open.FileName;
             }
         }
 
@@ -112,7 +113,7 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
         {
             if (_DataSet != null)
             {
-                _External_Table = _DataSet.Tables[cmbTables.SelectedIndex];
+                _External_Table = _DataSet.Tables[cmbSheets.SelectedIndex];
                 this.bindingSourceExcel.DataSource = _External_Table;
                 this.dg_external.DataSource = this.bindingSourceExcel;
             }
@@ -120,10 +121,11 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
 
         private void btnImport_Click(object sender, EventArgs e)
         {
-            var dt = this.bindingSourceODM.DataSource as DataTable;
-            if (cmbTables.SelectedItem != null && dt != null)
+            var dt = this.bindingSourceExcel.DataSource as DataTable;
+            if (cmbTable.SelectedItem != null && dt != null)
             {
-                odm = _ODM.ODMTables[cmbTables.SelectedItem.ToString()];
+                _ExcelRowCount = dt.Rows.Count;
+                odm = _ODM.ODMTables[cmbTable.SelectedItem.ToString()];
                 odm.Started += odm_Started;
                 odm.Finished += odm_Finished;
                 odm.ProgressChanged += odm_ProgressChanged;
@@ -153,8 +155,6 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
             this.Invoke((MethodInvoker)delegate
             {
                 toolStripProgressBar1.Visible = true;
-                nav_top.Enabled = false;
-                nav_bottom.Enabled = false;
             });
         }
 
@@ -168,22 +168,9 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
               odm.ProgressChanged -= odm_ProgressChanged;
               nav_top.Enabled = true;
               nav_bottom.Enabled = true;
-              labelStatus.Text = "Ready";
+              lbStatus.Text = _ExcelRowCount + " records are saved to Database";
           });
         }
-
-        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //if (tabControl1.SelectedIndex == 0)
-            //{
-            //    this.bindingSourceODM.DataSource = _ODM_Table;
-            //}
-            //else if (tabControl1.SelectedIndex == 1)
-            //{
-            //    this.bindingSourceODM.DataSource = _External_Table;
-            //}
-        }
-
         private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
             odm.Save(e.Argument as DataTable);
@@ -193,13 +180,13 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
         {
             if (e.ProgressPercentage >= toolStripProgressBar1.Minimum && e.ProgressPercentage <= toolStripProgressBar1.Maximum)
                 toolStripProgressBar1.Value = e.ProgressPercentage;
-            labelStatus.Text = string.Format("Saving  {0}%", e.ProgressPercentage);
+            lbStatus.Text = string.Format("Saving  {0}%", e.ProgressPercentage); 
 
         }
 
         private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            lb_File.Text = "";
+            lbStatus.Text = "";
         }
 
         private void btn_script_Click(object sender, EventArgs e)
@@ -217,9 +204,9 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
 
         private void defaultExportToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (cmbTables.SelectedItem != null && _ODM_Table != null)
+            if (_currentTableName != ""  && _ODM_Table != null)
             {
-                odm = _ODM.ODMTables[cmbTables.SelectedItem.ToString()];
+                odm = _ODM.ODMTables[_currentTableName];
                 SaveFileDialog dlg = new SaveFileDialog();
                 dlg.Filter = "csv file|*.csv";
                 if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -265,6 +252,7 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
                     fs.DataTable.Columns.Add(new DataColumn("Longitude", typeof(double)));
                     fs.DataTable.Columns.Add(new DataColumn("Latitude", typeof(double)));
                     fs.DataTable.Columns.Add(new DataColumn("Elevation_m", typeof(double)));
+                    fs.DataTable.Columns.Add(new DataColumn("SiteType", typeof(string)));
                     fs.Projection = wgs84;
                     var lon = 0.0;
                     var lat = 0.0;
@@ -280,6 +268,7 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
                         feature.DataRow["Longitude"] = dr["Longitude"];
                         feature.DataRow["Latitude"] = dr["Latitude"];
                         feature.DataRow["Elevation_m"] = dr["Elevation_m"];
+                        feature.DataRow["SiteType"] = dr["SiteType"];
                         feature.DataRow.EndEdit();
                     }
                     fs.SaveAs(dlg.FileName, true);
@@ -287,10 +276,13 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
             }
         }
 
-        private void ImportODMData_Load(object sender, EventArgs e)
+        private void btnTemplate_Click(object sender, EventArgs e)
         {
-
+            string path = Path.Combine(Application.StartupPath, "data");
+            Process.Start("explorer.exe", path);
         }
+
+
     }
 
 }

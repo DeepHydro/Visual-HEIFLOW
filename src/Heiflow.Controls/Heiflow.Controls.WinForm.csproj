@@ -172,11 +172,11 @@
     <Compile Include="DatabaseExplorer\BatchExportForm.Designer.cs">
       <DependentUpon>BatchExportForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseExplorer\ImportODMData.cs">
+    <Compile Include="DatabaseExplorer\ODMManager.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DatabaseExplorer\ImportODMData.Designer.cs">
-      <DependentUpon>ImportODMData.cs</DependentUpon>
+    <Compile Include="DatabaseExplorer\ODMManager.Designer.cs">
+      <DependentUpon>ODMManager.cs</DependentUpon>
     </Compile>
     <Compile Include="DatabaseExplorer\ODMConextMenu.cs" />
     <Compile Include="DatabaseExplorer\ODMNodeCreator.cs" />
@@ -679,8 +679,8 @@
     <EmbeddedResource Include="DatabaseExplorer\BatchExportForm.resx">
       <DependentUpon>BatchExportForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DatabaseExplorer\ImportODMData.resx">
-      <DependentUpon>ImportODMData.cs</DependentUpon>
+    <EmbeddedResource Include="DatabaseExplorer\ODMManager.resx">
+      <DependentUpon>ODMManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\AnimationPlayer.resx">
       <DependentUpon>AnimationPlayer.cs</DependentUpon>
