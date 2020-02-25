@@ -34,6 +34,7 @@ using Heiflow.Models.Generic.Attributes;
 using Heiflow.Models.UI;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
@@ -78,6 +79,9 @@ namespace Heiflow.Models.Subsurface
         /// <summary>
         /// the maximum number of outer iterations
         /// </summary>
+        /// 
+        [Description("the maximum number of outer iterations")]
+        [Category("Iteration")]
         public int MXITER
         {
             get;
@@ -86,6 +90,9 @@ namespace Heiflow.Models.Subsurface
         /// <summary>
         /// the number of inner iterations.
         /// </summary>
+        /// 
+        [Description("the number of inner iterations")]
+        [Category("Iteration")]
         public int ITER1
         {
             get;
@@ -96,6 +103,10 @@ namespace Heiflow.Models.Subsurface
         /// 1—is for Modified Incomplete Cholesky (for use on scalar computers)
         /// 2—is for Polynomial (for use on vector computers or to conserve computer memory)
         /// </summary>
+        /// 
+        [Description("the flag used to select the matrix conditioning method:1—is for Modified Incomplete Cholesky (for use on scalar computers;"+
+            "2—is for Polynomial (for use on vector computers or to conserve computer memory")]
+        [Category("Matrix")]
         public int NPCOND
         {
             get;
@@ -106,6 +117,9 @@ namespace Heiflow.Models.Subsurface
         /// 0—cell converts to dry regardless of HCOF value. This is the default, which is the way PCG2 worked prior to the addition of this option.
         /// Not 0—cell converts to dry only if HCOF is 0 (no head-dependent stresses or storage terms) )
         /// </summary>
+        /// 
+        [Description("0—cell converts to dry regardless of HCOF value; Not 0—cell converts to dry only if HCOF is 0 (no head-dependent stresses or storage terms)")]
+        [Category("Solve")]
         public int IHCOFADD
         {
             get;
@@ -115,6 +129,10 @@ namespace Heiflow.Models.Subsurface
         /// the head change criterion for convergence, in units of length. When the maximum absolute value of head change 
         /// from all nodes during an iteration is less than or equal to HCLOSE, and the criterion for RCLOSE is also satisfied (see below), iteration stops.
         /// </summary>
+        /// 
+        [Description("the head change criterion for convergence, in units of length. When the maximum absolute value of head change"+ 
+         "from all nodes during an iteration is less than or equal to HCLOSE, and the criterion for RCLOSE is also satisfied, iteration stops.")]
+        [Category("Convergence")]
         public float HCLOSE
         {
             get;
@@ -126,6 +144,9 @@ namespace Heiflow.Models.Subsurface
         ///  and the criterion for HCLOSE is also satisfied (see above), iteration stops.
         ///  For nonlinear problems, convergence is achieved when the convergence criteria are satisfied for the first inner iteration.
         /// </summary>
+        /// 
+        [Description("residual criterion for convergence, in units of cubic length per time.When the maximum absolute value of the residual at all nodes during an iteration is less than or equal to RCLOSE ")]
+        [Category("Convergence")]
         public float RCLOSE
         {
             get;
@@ -136,6 +157,11 @@ namespace Heiflow.Models.Subsurface
         ///  but for some problems a value of 0.99, 0.98, or 0.97 will reduce the number of iterations required for convergence. 
         ///  RELAX is not used if NPCOND is not 1.
         /// </summary>
+        /// 
+        [Description("the relaxation parameter used with NPCOND = 1. Usually, RELAX = 1.0" +
+            "but for some problems a value of 0.99, 0.98, or 0.97 will reduce the number of iterations required for convergence."+
+            "RELAX is not used if NPCOND is not 1.")]
+        [Category("Solve")]
         public float RELAX
         {
             get;
@@ -147,6 +173,9 @@ namespace Heiflow.Models.Subsurface
         /// NBPOL = 2 is used to specify the value is 2.0; for any other value of NBPOL, the estimate is calculated.
         /// Convergence is generally insensitive to this parameter. NBPOL is not used if NPCOND is not 2.
         /// </summary>
+        /// 
+        [Description("NBPOL is used when NPCOND = 2. Convergence is generally insensitive to this parameter. NBPOL is not used if NPCOND is not 2.")]
+        [Category("Solve")]
         public float NBPOL
         {
             get;
@@ -158,6 +187,9 @@ namespace Heiflow.Models.Subsurface
         /// whenever the time step is an even multiple of IPRPCG. 
         /// This printout also occurs at the end of each stress period regardless of the value of IPRPCG.
         /// </summary>
+        /// 
+        [Description("The printout interval for PCG. The maximum head change (positive or negative) and residual change are printed for each iteration of a time step ")]
+        [Category("Printout")]
         public int IPRPCG
         {
             get;
@@ -170,6 +202,13 @@ namespace Heiflow.Models.Subsurface
         /// 2—is for no printing
         /// 3—is for printing only if convergence fails
         /// </summary>
+        /// 
+        [Description("a flag that controls printing of convergence information from the solver:" +
+            "0—is for printing tables of maximum head change and residual each iteration " +
+            "1—is for printing only the total number of iterations "+
+            "2—is for no printing" +
+            "3—is for printing only if convergence fails")]
+        [Category("Printout")]
         public int MUTPCG
         {
             get;
@@ -180,6 +219,10 @@ namespace Heiflow.Models.Subsurface
         /// >0 -- applies to both steady-state and transient stress periods.
         /// less than 0 -- applies only to steady-state stress periods.  The absolute value is used as the damping factor.
         /// </summary>
+        /// 
+        [Description("the damping factor. It is typically set equal to one, which indicates no damping.A value less than 1 and greater than 0 causes damping. "+
+            ">0: applies to both steady-state and transient stress periods. Less than 0: applies only to steady-state stress periods.  The absolute value is used as the damping factor.")]
+        [Category("Damping")]
         public float DAMPPCG
         {
             get;
@@ -191,6 +234,10 @@ namespace Heiflow.Models.Subsurface
         ///  If DAMPPCGT is not read, then the single damping factor, 
         ///  DAMPPCG, is used for both transient and steady-state stress periods.
         /// </summary>
+        /// 
+        [Description("The damping factor for transient stress periods. DAMPPCGT is enclosed in brackets indicating that it is an optional variable that only is read"+ 
+        " when DAMPPCG is specified as a negative value.")]
+        [Category("Damping")]
         public float DAMPPCGT
         {
             get;
@@ -218,7 +265,7 @@ namespace Heiflow.Models.Subsurface
         {
             var result = LoadingState.Normal;
             if (File.Exists(FileName))
-            {              
+            {
                 StreamReader sr = new StreamReader(FileName);
                 try
                 {
@@ -254,7 +301,7 @@ namespace Heiflow.Models.Subsurface
                     DAMPPCG = buf;
                     float.TryParse(strs[7], out ff);
                     DAMPPCGT = ff;
-                  
+
                     result = LoadingState.Normal;
                 }
                 catch (Exception ex)

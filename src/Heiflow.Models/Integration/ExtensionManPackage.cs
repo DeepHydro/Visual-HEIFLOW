@@ -51,6 +51,7 @@ namespace Heiflow.Models.Integration
          private string _MF_IOLOG_File;
          private string _PET_CONSTRAINT_File;
          private string _ABM_MODEL_File;
+         private string _LP_MODEL_File;
 
         public ExtensionManPackage()
         {
@@ -248,6 +249,13 @@ namespace Heiflow.Models.Integration
             get;
             set;
         }
+        [Category("Linear Programming Model Extension")]
+        [Description("")]
+        public bool EnableLP
+        {
+            get;
+            set;
+        }
         [Category("Agent Based Model Extension")]
         [Description("")]
         public string ABM_MODEL_File
@@ -259,6 +267,19 @@ namespace Heiflow.Models.Integration
             set
             {
                 _ABM_MODEL_File = value;
+            }
+        }
+        [Category("Agent Based Model Extension")]
+        [Description("")]
+        public string LP_MODEL_File
+        {
+            get
+            {
+                return Path.Combine(Owner.WorkDirectory, _LP_MODEL_File);
+            }
+            set
+            {
+                _LP_MODEL_File = value;
             }
         }
         public override void Initialize()
@@ -389,7 +410,9 @@ namespace Heiflow.Models.Integration
             sw.WriteLine("## ABM Model");
             sw.WriteLine(TypeConverterEx.Bool2String(EnableABM));
             sw.WriteLine(_ABM_MODEL_File);
-
+            sw.WriteLine("## LP Model");
+            sw.WriteLine(TypeConverterEx.Bool2String(EnableLP));
+            sw.WriteLine(_LP_MODEL_File);
             sw.Close();
             OnSaved(progress);
         }
@@ -409,6 +432,7 @@ namespace Heiflow.Models.Integration
             EnableSFRReport = false;
             EnableLakeEx = false;
             EnableAllocCurveEx = false;
+            EnableLP = false;
             _MFOutputExFile = ".\\Input\\Extension\\mfoutput.ex";
             _SFRExFile = ".\\Input\\Extension\\sfr.ex";
             _SFRReportFile = ".\\Output\\sfr_report.txt";
@@ -418,6 +442,7 @@ namespace Heiflow.Models.Integration
             _MF_IOLOG_File = ".\\Output\\mf_io_log.csv";
             _PET_CONSTRAINT_File = ".\\Input\\Extension\\pet_constraint.ex";
             _ABM_MODEL_File = ".\\Input\\Extension\\abm.ex";
+            _LP_MODEL_File = ".\\Input\\Extension\\lp.ex";
         }
     }
 }

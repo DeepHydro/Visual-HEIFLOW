@@ -213,8 +213,15 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                     if (cmbSFRVars.SelectedIndex < 0)
                         return;
                     var fts = SFROutput.GetTimeSeries(river.ID - 1, cmbSFRVars.SelectedIndex);
-                    string sereis = string.Format("{0} at Segment {1} Reach {2}", cmbSFRVars.SelectedItem.ToString(), river.ID, river.LastReach.SubID);
-                    winChart_timeseries.Plot<float>(fts.DateTimes, fts[0,":","0"], sereis);
+                    if (fts != null)
+                    {
+                        string sereis = string.Format("{0} at Segment {1} Reach {2}", cmbSFRVars.SelectedItem.ToString(), river.ID, river.LastReach.SubID);
+                        winChart_timeseries.Plot<float>(fts.DateTimes, fts[0, ":", "0"], sereis);
+                    }
+                    else
+                    {
+                        MessageBox.Show("No data loaded.", "SFR", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                 }
             }
         }
@@ -229,8 +236,15 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                 tabControl_Chart.SelectedTab = this.tabPageTimeSeries;
                 var reach = cmbRchID.SelectedItem as Reach;
                 var fts = SFROutput.GetTimeSeries(reach.Parent.SubIndex, reach.SubIndex, cmbSFRVars.SelectedIndex, _SFROutputPackage.StartOfLoading);
-                string sereis = string.Format("{0} at Segment {1} Reach {2}", cmbSFRVars.SelectedItem.ToString(), reach.Parent.ID, reach.SubID);
-                winChart_timeseries.Plot<float>(fts.DateTimes, fts[0,":","0"], sereis);
+                if (fts != null)
+                {
+                    string sereis = string.Format("{0} at Segment {1} Reach {2}", cmbSFRVars.SelectedItem.ToString(), reach.Parent.ID, reach.SubID);
+                    winChart_timeseries.Plot<float>(fts.DateTimes, fts[0, ":", "0"], sereis);
+                }
+                else
+                {
+                    MessageBox.Show("No data loaded.", "SFR", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
         }
 

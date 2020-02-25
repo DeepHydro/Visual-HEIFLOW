@@ -250,6 +250,18 @@ namespace Heiflow.Models.Surface.PRMS
 
         public void ResolveModules()
         {
+            var removed_para = new List<string>();
+            foreach (var pp in _mmsPackage.Parameters)
+            {
+                if (_mmsPackage.IgnoredModules.Contains(pp.Value.ModuleName)
+                    && !_mmsPackage._nhru_dim_names.Contains(pp.Key))
+                {
+                    removed_para.Add(pp.Key);
+                }
+            }
+            foreach (var key in removed_para)
+                _mmsPackage.Parameters.Remove(key);
+
             var para = from par in _mmsPackage.Parameters.Values
                        group par by par.ModuleName into pp
                        select new

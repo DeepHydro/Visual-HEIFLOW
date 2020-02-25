@@ -772,6 +772,11 @@ namespace Heiflow.Controls.WinForm.Controls
 
         private void DC2DataTable()
         {
+            if(cmbTime.SelectedItem == null || cmbCell.SelectedItem == null)
+            {
+                MessageBox.Show("Invalid time or cell index", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             int time_index = cmbTime.SelectedIndex;
             int cell_index = cmbCell.SelectedIndex;
             if (cmbTime.SelectedItem.ToString() == AllString)

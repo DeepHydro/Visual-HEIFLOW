@@ -45,6 +45,7 @@ using Heiflow.Core.Data.ODM;
 using Heiflow.Controls.WinForm.Properties;
 using System.Data.OleDb;
 using Heiflow.Presentation.Controls;
+using System.IO;
 
 namespace Heiflow.Controls.WinForm.DatabaseExplorer
 {
@@ -148,6 +149,28 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
         {
             if (viewModel.Value.ODMSource != null)
             {
+                if (!File.Exists(viewModel.Value.ODMSource.DatabaseFilePath))
+                {
+                    string msg = string.Format("The following Database file dose not exit: {0}. Do you want to select a Database file", viewModel.Value.ODMSource.DatabaseFilePath);
+                    if (MessageBox.Show(msg, "Database Connection", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        OpenFileDialog form = new OpenFileDialog();
+                        form.Filter = "access 2007-2013 file|*.accdb|access 2003 file |*.mdb";
+                        if (form.ShowDialog() == DialogResult.OK)
+                        {
+                            viewModel.Value.ODMSource.DatabaseFilePath = form.FileName;
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        return;
+                    }
+
+                }
                 if (_SeriesCatalog == null)
                 {
                     _SeriesCatalog = new SeriesCatalog(viewModel.Value.ODMSource);
@@ -155,14 +178,14 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
                 }
                 else
                 {
-                    MessageBox.Show("An ODM database has been connected. If you want to connect to another database, please removec connection to current database at first"
+                    MessageBox.Show("An ODM database has been connected. If you want to connect to another database, please removec connection to the current database at first"
                         , "Database Connection", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             else
             {
                 OpenFileDialog form = new OpenFileDialog();
-                form.Filter = "access 2003 file |*.mdb|access 2007-2013 file|*.accdb";
+                form.Filter = "access 2007-2013 file|*.accdb|access 2003 file |*.mdb";
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     ODMSource odm = new ODMSource();

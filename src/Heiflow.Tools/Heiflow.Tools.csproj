@@ -98,6 +98,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConceptualModel\SetSFRVKTool.cs" />
     <Compile Include="DataManagement\CreateStationLayer.cs" />
     <Compile Include="Postprocessing\CompareGWHead.cs" />
     <Compile Include="ConceptualModel\BoreholeToAquiferSturcutre.cs" />

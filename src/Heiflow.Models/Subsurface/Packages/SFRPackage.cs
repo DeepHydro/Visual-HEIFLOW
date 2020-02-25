@@ -262,6 +262,7 @@ namespace Heiflow.Models.Subsurface
                 FeatureSet fs = new FeatureSet(FeatureType.Polygon);
                 fs.Name = this.Name;
                 fs.Projection = proj_info;
+                fs.DataTable.Columns.Add(new DataColumn("ID", typeof(int)));
                 fs.DataTable.Columns.Add(new DataColumn("CELL_ID", typeof(int)));
                 fs.DataTable.Columns.Add(new DataColumn("ISEG", typeof(int)));
                 fs.DataTable.Columns.Add(new DataColumn("IRCH", typeof(int)));
@@ -289,7 +290,7 @@ namespace Heiflow.Models.Subsurface
                 fs.DataTable.Columns.Add(new DataColumn("Rough", typeof(double)));
 
                 fs.DataTable.Columns.Add(new DataColumn(RegularGrid.ParaValueField, typeof(double)));
-
+                int k = 1;
                 for (int i = 0; i < RiverNetwork.RiverCount; i++)
                 {
                     var river=RiverNetwork.Rivers[i];
@@ -301,6 +302,7 @@ namespace Heiflow.Models.Subsurface
                         Polygon geom = new Polygon(ring);
                         IFeature feature = fs.AddFeature(geom);
                         feature.DataRow.BeginEdit();
+                        feature.DataRow["ID"] = k;
                         feature.DataRow["CELL_ID"] = grid.Topology.GetID(reach.IRCH - 1, reach.JRCH - 1);
                         feature.DataRow["ISEG"] = reach.ISEG;
                         feature.DataRow["IRCH"] = reach.IRCH;
@@ -328,6 +330,7 @@ namespace Heiflow.Models.Subsurface
 
                         feature.DataRow[RegularGrid.ParaValueField] = 0;
                         feature.DataRow.EndEdit();
+                        k++;
                     }
                 }
 

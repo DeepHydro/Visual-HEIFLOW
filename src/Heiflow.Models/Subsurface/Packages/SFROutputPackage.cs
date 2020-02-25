@@ -493,14 +493,17 @@ namespace Heiflow.Models.Subsurface
             {
                 var scaleFactor = ScaleFactor;
                 var index = GetReachIndex(segIndex, rchIndex);
-                var vector = DataCube.GetVector(varid, ":", index.ToString());
-                DateTime[] dates = new DateTime[DataCube.Size[1]];
-                for (int t = 0; t < DataCube.Size[1]; t++)
+                if (DataCube.IsAllocated(varid))
                 {
-                    dates[t] = start.AddDays(t);
+                    var vector = DataCube.GetVector(varid, ":", index.ToString());
+                    DateTime[] dates = new DateTime[DataCube.Size[1]];
+                    for (int t = 0; t < DataCube.Size[1]; t++)
+                    {
+                        dates[t] = start.AddDays(t);
+                    }
+                    MatrixOperation.Mulitple(vector, (float)scaleFactor);
+                    ts = new DataCube<float>(vector, dates);
                 }
-                MatrixOperation.Mulitple(vector, (float)scaleFactor);
-                ts = new DataCube<float>(vector, dates);
             }
             return ts;
         }
@@ -508,7 +511,7 @@ namespace Heiflow.Models.Subsurface
         public DataCube<float> GetTimeSeries(int segIndex, int varid)
         {
             DataCube<float> ts = null;
-            if (DataCube != null)
+            if (DataCube != null && DataCube.IsAllocated(varid))
             {
                 var scaleFactor = ScaleFactor;
                 var vector = DataCube.GetVector(varid, ":", segIndex.ToString());
@@ -524,22 +527,22 @@ namespace Heiflow.Models.Subsurface
                     ts = TimeSeriesAnalyzer.Derieve(ts, NumericalDataType, TimeUnits);
                 }
             }
-            else if(DataCube != null)
-            {
-                var scaleFactor = ScaleFactor;
-                var vector = DataCube.GetVector(varid, ":",segIndex.ToString());
-                DateTime[] dates = new DateTime[DataCube.Size[1]];
-                for (int t = 0; t < DataCube.Size[1]; t++)
-                {
-                    dates[t] = DataCube.DateTimes[t];
-                }
-                MatrixOperation.Mulitple(vector, (float)scaleFactor);
-                ts = new DataCube<float>(vector, dates);
-                if (TimeUnits != Core.TimeUnits.Day)
-                {
-                    ts = TimeSeriesAnalyzer.Derieve(ts, NumericalDataType, TimeUnits);
-                }
-            }
+            //else if(DataCube != null)
+            //{
+            //    var scaleFactor = ScaleFactor;
+            //    var vector = DataCube.GetVector(varid, ":",segIndex.ToString());
+            //    DateTime[] dates = new DateTime[DataCube.Size[1]];
+            //    for (int t = 0; t < DataCube.Size[1]; t++)
+            //    {
+            //        dates[t] = DataCube.DateTimes[t];
+            //    }
+            //    MatrixOperation.Mulitple(vector, (float)scaleFactor);
+            //    ts = new DataCube<float>(vector, dates);
+            //    if (TimeUnits != Core.TimeUnits.Day)
+            //    {
+            //        ts = TimeSeriesAnalyzer.Derieve(ts, NumericalDataType, TimeUnits);
+            //    }
+            //}
             return ts;
         }
 
