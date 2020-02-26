@@ -25,9 +25,10 @@ namespace Heiflow.Tools.ConceptualModel
         private IMapLayerDescriptor _LakeFeatureLayerDescriptor;
             public LAKTool()
         {
-            Name = "Lake";
-            Category = "Conceptual Model";
-            Description = "Translate lake shapefile to LAK package";
+            Name = "Create LAK Package";
+            Category = Cat_CMG;
+            SubCategory = "LAK";
+            Description = "Create LAK package from polygon shapefile";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;

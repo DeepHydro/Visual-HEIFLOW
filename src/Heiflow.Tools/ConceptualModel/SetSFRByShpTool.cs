@@ -55,9 +55,10 @@ namespace Heiflow.Tools.ConceptualModel
         private StreamGenerator _StreamGenerator;
         public SetSFRByShpTool()
         {
-            Name = "Set SFR parameter by shp";
-            Category = "Conceptual Model";
-            Description = "Set SFR parameters by shp";
+            Name = "Set SFR Parameters by Feature Layer";
+            Category = Cat_CMG;
+            SubCategory = "SFR";
+            Description = "Set SFR Parameters by Feature Layer";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;

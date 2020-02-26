@@ -39,6 +39,7 @@ namespace Heiflow.Models.Tools
 {
     public interface IModelTool : ITool
     {
+        string SubCategory { get; }
         bool Initialized { get; }
         bool MultiThreadRequired { get; }
         IModelWorkspace Workspace { get; set; }

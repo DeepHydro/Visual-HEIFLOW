@@ -47,10 +47,15 @@ namespace Heiflow.Tools
     [InheritedExport(typeof(IModelTool))]
     public abstract class ModelTool : IModelTool
     {
+        /// <summary>
+        /// Conceptual Modelling for Groundwater
+        /// </summary>
+        protected const string Cat_CMG = "Conceptual Modelling for Groundwater";
         public ModelTool()
         {
             Description = "This is a modeling tool";
             MultiThreadRequired = true;
+            SubCategory = "None";
         }
         [Browsable(false)]
         public string AssemblyQualifiedName { get; protected set; }
@@ -59,6 +64,9 @@ namespace Heiflow.Tools
  
         [Browsable(false)]
         public string Category { get; protected set; }
+
+        [Browsable(false)]
+        public string SubCategory { get; protected set; }
  
         [Browsable(true)]
         [Category("Basic")]

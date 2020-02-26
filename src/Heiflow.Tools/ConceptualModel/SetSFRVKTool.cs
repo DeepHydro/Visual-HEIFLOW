@@ -53,9 +53,10 @@ namespace Heiflow.Tools.ConceptualModel
     {
         public SetSFRVKTool()
         {
-            Name = "Set SFR VK by LPF Value";
-            Category = "Conceptual Model";
-            Description = "Set SFR VK by LPF Value";
+            Name = "Set SFR VK using LPF Value";
+            Category = Cat_CMG;
+            SubCategory = "SFR";
+            Description = "Set SFR VK using LPF Value";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;

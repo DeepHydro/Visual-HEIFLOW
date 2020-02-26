@@ -63,16 +63,17 @@ namespace Heiflow.Tools.ConceptualModel
         private string[] _RasterFileList;
         public LPFTool()
         {
-            Name = "Layer Property Flow";
-            Category = "Conceptual Model";
-            Description = "Extract aquifer properties from raster files and assign the properties to LPF";
+            Name = "Set LPF Values By Raster List";
+            Category = Cat_CMG;
+            SubCategory = "LPF";
+            Description = "Set LPF values from raster list";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
         }
 
         [Category("Input")]
-        [Description("A text file that contains the list of raster file names")]
+        [Description("A text file that contains the list of raster file names. There is no head line. There must be NLayer rasters. Each row is a full raster filename")]
         [EditorAttribute(typeof(FileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public string RasterFileList
         {
@@ -81,7 +82,8 @@ namespace Heiflow.Tools.ConceptualModel
         }
 
         [Category("Input")]
-        [Description("A text file that contains the lookup table between raster value and aquifer properties. The first line of the text file is a head line. The column names must be: LAYER,ID,HK,VKA,SY,SS,WETDRY")]
+        [Description("A text file that contains the lookup table between raster value and aquifer properties. The first line of the text file is a head line." + 
+        "The column names must be: LAYER,ID,HK,VKA,SY,SS,WETDRY; There are NLayer*NID rows.")]
         [EditorAttribute(typeof(FileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public string LookupTableFile
         {

@@ -64,9 +64,10 @@ namespace Heiflow.Tools.ConceptualModel
         private bool issucuess = false;
         public SFR2Tool()
         {
-            Name = "Streamflow Routing (SFR)";
-            Category = "Conceptual Model";
-            Description = "Translate stream shapefile to SFR2 package";
+            Name = "Create SFR Package";
+            Category = Cat_CMG;
+            SubCategory = "SFR";
+            Description = "Create SFR Package based on Line Feature Layer";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;

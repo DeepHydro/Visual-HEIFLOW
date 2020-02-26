@@ -61,9 +61,10 @@ namespace Heiflow.Tools.ConceptualModel
         private List<UZFLookupTableRecord> _LookupTable = new List<UZFLookupTableRecord>();
         public UZFByZoneIDTool()
         {
-            Name = "Unsaturated-Zone Flow Package By Zone ID";
-            Category = "Conceptual Model";
-            Description = "Extract aquifer zone from input file and assign the properties to UZF";
+            Name = "Set UZF Parameters By Lookup Table";
+            Category = Cat_CMG;
+            SubCategory = "UZF";
+            Description = "Set UZF parameters by lookup table";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;

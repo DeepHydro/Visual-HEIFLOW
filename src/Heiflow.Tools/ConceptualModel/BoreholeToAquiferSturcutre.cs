@@ -61,9 +61,10 @@ namespace Heiflow.Tools.ConceptualModel
         private float _default_layer_height = 10;
         public BoreholeToAquiferSturcutre()
         {
-            Name = "Borehole To Aquifer Structure";
-            Category = "Conceptual Model";
-            Description = "Create aquifer structure using borehole data. The borehole data is represented by a shapefile";
+            Name = "Interpolate Layer Elevations from Borehole Data";
+            Category = Cat_CMG;
+            SubCategory = "DIS";
+            Description = "Interpolate layer elevations from borehole data. The borehole data is represented by a shapefile";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;

@@ -142,7 +142,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             _ProjectService = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
             treeView1.BeginUpdate();
             _model.Nodes.Clear();
-
+            
             var groups = from tool in ProjectManager.Tools group tool by tool.Category into gp select new { cat = gp.Key, items = gp };
             var keys = (from gp in groups select gp.cat).OrderBy(c => c);
             foreach(var key in keys)
@@ -153,43 +153,51 @@ namespace Heiflow.Controls.WinForm.Toolbox
                     Image = Resources.toolbox16,
                     Tag = key
                 };
-                foreach (var tool in cat.items)
+                var subgroups = from tool in cat.items group tool by tool.SubCategory into gp select new { cat = gp.Key, items = gp };
+                var subkeys = (from gp in subgroups select gp.cat).OrderBy(c => c);
+               
+                foreach(var subkey in subkeys)
                 {
-                    tool.Workspace = this.Workspace;
-                    tool.WorkspaceView = this;
-                    tool.BindProjectService(_ProjectService);
-                    Node node_tool = new Node(tool.Name)
+                    if (subkey == "None")
                     {
-                        Image = Resources.hammer16,
-                        Tag = tool
-                    };
-                    node_folder.Nodes.Add(node_tool);
+                        foreach (var tool in cat.items)
+                        {
+                            tool.Workspace = this.Workspace;
+                            tool.WorkspaceView = this;
+                            tool.BindProjectService(_ProjectService);
+                            Node node_tool = new Node(tool.Name)
+                            {
+                                Image = Resources.hammer16,
+                                Tag = tool
+                            };
+                            node_folder.Nodes.Add(node_tool);
+                        }
+                    }
+                    else
+                    {
+                        var subcat = (from gp in subgroups where gp.cat == subkey select gp).First();
+                        Node sub_node_folder = new Node(subkey)
+                        {
+                            Image = Resources.toolbox16,
+                            Tag = key
+                        };
+                        foreach (var tool in subcat.items)
+                        {
+                            tool.Workspace = this.Workspace;
+                            tool.WorkspaceView = this;
+                            tool.BindProjectService(_ProjectService);
+                            Node node_tool = new Node(tool.Name)
+                            {
+                                Image = Resources.hammer16,
+                                Tag = tool
+                            };
+                            sub_node_folder.Nodes.Add(node_tool);
+                        }
+                        node_folder.Nodes.Add(sub_node_folder);
+                    }
                 }
                 _model.Nodes.Add(node_folder);
-
             }
-            //foreach (var gg in groups)
-            //{
-            //    Node node_folder = new Node(gg.cat)
-            //    {
-            //        Image = Resources.toolbox16,
-            //        Tag = gg.cat
-            //    };
-            //    foreach (var tool in gg.items)
-            //    {
-            //        tool.Workspace = this.Workspace;
-            //        tool.WorkspaceView = this;
-            //        tool.BindProjectService(_ProjectService);
-            //        Node node_tool = new Node(tool.Name)
-            //        {
-            //            Image = Resources.hammer16,
-            //            Tag = tool
-            //        };
-            //        node_folder.Nodes.Add(node_tool);
-            //    }
-            //    _model.Nodes.Add(node_folder);
-            //}
-
             treeView1.EndUpdate();
         }
   

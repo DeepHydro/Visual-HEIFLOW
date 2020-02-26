@@ -62,16 +62,18 @@ namespace Heiflow.Tools.ConceptualModel
         private List<LookupTableRecord> _LookupTable = new List<LookupTableRecord>();
         public LPFByZoneID()
         {
-            Name = "Layer Property Flow By Zone ID";
-            Category = "Conceptual Model";
-            Description = "Extract aquifer zone from input file and assign the properties to LPF";
+            Name = "Set LPF Parameters By Lookup Table";
+            Category = Cat_CMG;
+            SubCategory = "LPF";
+            Description = "Set LPF parameters by lookup table.";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
         }
 
         [Category("Input")]
-        [Description("A text file that contains the zone id for each layer. The first column is HRU_ID. The rest layers are Zone ID")]
+        [Description("A csv file that contains the zone id for each layer. The first column is HRU_ID."+
+            " The rest columns are layer1, layer2,..., layerN. Each row contains HURID, zone_id of the HRU1 in  layer1, zone_id of the HRU1 in  layer2, etc.")]
         [EditorAttribute(typeof(FileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public string ZoneIDFile
         {
@@ -80,7 +82,8 @@ namespace Heiflow.Tools.ConceptualModel
         }
 
         [Category("Input")]
-        [Description("A text file that contains the lookup table between raster value and aquifer properties. The first line of the text file is a head line. The column names must be: LAYER,ID,HK,VKA,SY,SS,WETDRY")]
+        [Description("A csv file that contains the lookup table between raster value and aquifer properties."+ 
+        "The first line of the text file is a head line. The column names must be: LAYER,ID,HK,VKA,SY,SS,WETDRY")]
         [EditorAttribute(typeof(FileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public string LookupTableFile
         {
@@ -150,7 +153,8 @@ namespace Heiflow.Tools.ConceptualModel
             }
          
         }
-        private bool LoadLookupTable(ICancelProgressHandler cancelProgressHandler)
+        private bool 
+            LoadLookupTable(ICancelProgressHandler cancelProgressHandler)
         {
             StreamReader sr = new StreamReader(LookupTableFile);
             bool result = false;
