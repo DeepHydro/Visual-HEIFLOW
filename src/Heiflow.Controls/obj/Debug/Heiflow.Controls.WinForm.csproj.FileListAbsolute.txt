@@ -251,7 +251,6 @@ F:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Heiflow.Controls.WinForm.pdb
 F:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\zh-CN\Heiflow.Controls.WinForm.resources.dll
 F:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\cs\Heiflow.Controls.WinForm.resources.dll
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.Climate.WeatherGeneratorForm.resources
-F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.DatabaseExplorer.ImportODMData.resources
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.Controls.AnimationPlayer.resources
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.Controls.DataGridEx.resources
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.Display.ExportDataForm.resources
@@ -387,3 +386,4 @@ E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Controls\obj\Debug\Heiflow.Con
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.Project.GlobalOptionForm.resources
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csprojResolveAssemblyReference.cache
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.DatabaseExplorer.ODMManager.resources
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.DatabaseExplorer.ODMManager.resources

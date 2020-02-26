@@ -147,15 +147,16 @@ namespace Heiflow.Controls.WinForm.Display
         {
             if (viewModel.ProjectService.Project != null && viewModel.ProjectService.Project.Model != null)
             {
+                var ts = viewModel.ProjectService.Project.Model.TimeService;
                 progressBar1.Visible = true;
-                progressBar1.Maximum = viewModel.ProjectService.Project.Model.TimeService.NumTimeStep;
+                progressBar1.Maximum = ts.NumTimeStep;
                 progressBar1.Value = 0;
-                var datasource = viewModel.StateMonitor.Monitor.DataSource;
-                var dates = datasource.Dates;
+                //var datasource = viewModel.StateMonitor.Monitor.DataSource;
+                //var dates = datasource.Dates;
                 if (_Series != null)
                     _Series.Points.Clear();
                 _line_count = 0;
-                this.labelInfo.Text = string.Format("Current date: {0};   Total elapsed time: {1} (day)", dates[0], 0);
+                this.labelInfo.Text = string.Format("Current date: {0};   Total elapsed time: {1} (day)",ts.Start, 0);
                 richTextBox1.Clear();
                 chart1.Update();
             }
