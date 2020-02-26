@@ -280,7 +280,6 @@ namespace Heiflow.Models.Subsurface
                 {
                     sr.Close();
                 }
-                return result;
             }
             else
             {
