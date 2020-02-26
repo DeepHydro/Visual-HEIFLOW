@@ -60,9 +60,11 @@ namespace Heiflow.Tools.ConceptualModel
 
         public UZFTool()
         {
-            Name = "Unsaturated-Zone Flow Package";
-            Category = "Conceptual Model";
-            Description = "Translate point shapefile into UZF package";
+            Name = "Set IRUNBND Values";
+            Category = Cat_CMG;
+            SubCategory = "UZF";
+            Description = "IRUNBND define the stream segments within the Streamflow-Routing (SFR2) Package or lake numbers in the Lake (LAK3)" +  
+           " Package to which overland runoff from excess infiltration and ground-water discharge to land surface will be added.";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;

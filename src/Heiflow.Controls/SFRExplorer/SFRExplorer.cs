@@ -220,7 +220,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                     }
                     else
                     {
-                        MessageBox.Show("No data loaded.", "SFR", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("No data retrieved.", "SFR", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
             }
@@ -243,7 +243,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                 }
                 else
                 {
-                    MessageBox.Show("No data loaded.", "SFR", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("No data retrieved.", "SFR", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }

@@ -62,9 +62,10 @@ namespace Heiflow.Tools.ConceptualModel
         private IMapLayerDescriptor _FHBSourceLayer;
         public FHBTool()
         {
-            Name = "Flow and Head Boundary Package";
-            Category = "Conceptual Model";
-            Description = "Translate point shapefile into FHB package";
+            Name = "Create FHB Package";
+            Category = Cat_CMG;
+            SubCategory = "FHB";
+            Description = "Create Flow and Head Boundary (FHB) package from point shapefile";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;

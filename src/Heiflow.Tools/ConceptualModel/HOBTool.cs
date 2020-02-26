@@ -51,9 +51,10 @@ namespace Heiflow.Tools.ConceptualModel
     {
         public HOBTool()
         {
-            Name = "Head Observation Package";
-            Category = "Conceptual Model";
-            Description = "Translate point shapefile into WEL package";
+            Name = "Create HOB Package";
+            Category = Cat_CMG;
+            SubCategory = "HOB";
+            Description = "Create Head Observation (HOB) package from point shapefile";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;

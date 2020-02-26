@@ -51,9 +51,10 @@ namespace Heiflow.Tools.ConceptualModel
     {
         public WellTool()
         {
-            Name = "Well Package";
-            Category = "Conceptual Model";
-            Description = "Translate point shapefile into WEL package";
+            Name = "Create Well Package";
+            Category = Cat_CMG;
+            SubCategory = "WEL";
+            Description = "Create WEL package by using point feature layer";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;

@@ -23,7 +23,7 @@ namespace Heiflow.Tools.Postprocessing
         public CompareGWHead()
         {
             Name = "Compare Groundwater Head";
-            Category = "Analysis";
+            Category = "Postprocessing";
             Description = "Compare groundwater head for steady state";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";

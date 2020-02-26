@@ -62,9 +62,10 @@ namespace Heiflow.Tools.ConceptualModel
         private IMapLayerDescriptor _FHBSourceLayer;
         public CHDTool()
         {
-            Name = "Time-Variant Specified-Head Package";
-            Category = "Conceptual Model";
-            Description = "Translate point shapefile into CHD package";
+            Name = "Create CHD Package ";
+            Category = Cat_CMG;
+            SubCategory = "CHD";
+            Description = "Create Time-Variant Specified-Head (CHD) package from point shapefile";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
