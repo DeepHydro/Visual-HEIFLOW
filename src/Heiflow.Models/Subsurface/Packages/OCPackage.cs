@@ -317,15 +317,19 @@ namespace Heiflow.Models.Subsurface
                     sw.WriteLine(line);
                 }
             }
-            int step = 1;
+          
             for (int n = 0; n < sp.Count; n++)
             {
+                int step = 1;
                 foreach(var op in sp[n].StepOptions)
                 {
-                    line = string.Format("PERIOD {0} STEP {1}  ", n + 1, op.Step);
-                    sw.WriteLine(line);
-                    WriteCmds(sw);
-                    step += Inteval;
+                    if (op.Step >= step)
+                    {
+                        line = string.Format("PERIOD {0} STEP {1}  ", n + 1, op.Step);
+                        sw.WriteLine(line);
+                        WriteCmds(sw);
+                        step += Inteval;
+                    }
                 }
             }
             sw.Close();

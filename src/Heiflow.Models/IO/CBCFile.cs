@@ -144,8 +144,6 @@ namespace Heiflow.Models.IO
             long layerbyte = _Grid.RowCount * _Grid.ColumnCount * 4;
             fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             br = new BinaryReader(fs);
-
-
             DataCube = new DataCube<float>(Variables.Length, nstep, _Grid.ActiveCellCount);
 
             for (int s = 0; s < NumTimeStep; s++)

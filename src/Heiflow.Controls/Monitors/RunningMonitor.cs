@@ -150,9 +150,12 @@ namespace Heiflow.Controls.WinForm.Display
                 progressBar1.Visible = true;
                 progressBar1.Maximum = viewModel.ProjectService.Project.Model.TimeService.NumTimeStep;
                 progressBar1.Value = 0;
+                var datasource = viewModel.StateMonitor.Monitor.DataSource;
+                var dates = datasource.Dates;
                 if (_Series != null)
                     _Series.Points.Clear();
                 _line_count = 0;
+                this.labelInfo.Text = string.Format("Current date: {0};   Total elapsed time: {1} (day)", dates[0], 0);
                 richTextBox1.Clear();
                 chart1.Update();
             }
