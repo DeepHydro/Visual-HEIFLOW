@@ -82,7 +82,7 @@ namespace Heiflow.Models.Subsurface
         }
         public override bool Scan()
         {
-            NumTimeStep = 0;
+            _NumTimeStep = 0;
             int nsite = _SFRPackage.InputFilesInfo.Count;
             var vv = new string[nsite];
             for (int i = 0; i < nsite; i++)
@@ -91,15 +91,16 @@ namespace Heiflow.Models.Subsurface
             }
             if (_SFRPackage.InputFilesInfo.Count > 0)
             {
-                StreamReader sr = new StreamReader(_SFRPackage.InputFilesInfo[0].FileName);
+                FileStream fs = new FileStream(_SFRPackage.InputFilesInfo[0].FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                StreamReader sr = new StreamReader(fs);
                 string line = sr.ReadLine();
                 while (!sr.EndOfStream)
                 {
                     line = sr.ReadLine();
-                    NumTimeStep++;
+                    _NumTimeStep++;
                 }
                 if (TypeConverterEx.IsNull(line))
-                    NumTimeStep--;
+                    _NumTimeStep--;
                 sr.Close();
 
                 Sites.Clear();
@@ -121,15 +122,16 @@ namespace Heiflow.Models.Subsurface
                         Sites.Add(site);
                     }
                 }
-
+                _MaxTimeStep = _NumTimeStep;
                 Variables = vv;
                 return true;
             }
             else
             {
-                return true;
+                return false;
             }
         }
+        
         public override LoadingState Load(ICancelProgressHandler progresshandler)
         {
             _ProgressHandler = progresshandler;
@@ -148,7 +150,8 @@ namespace Heiflow.Models.Subsurface
                     var dates = new DateTime[nstep];
                     var mat = new DataCube<double>(1, nstep, nsite);
                     var site = (from ss in Sites where ss.Name == _SFRPackage.InputFilesInfo[i].Name select ss).First();
-                    StreamReader sr = new StreamReader(_SFRPackage.InputFilesInfo[i].FileName);
+                    FileStream fs = new FileStream(_SFRPackage.InputFilesInfo[i].FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                    StreamReader sr = new StreamReader(fs);
                     string line = sr.ReadLine();
                     for (int t = 0; t < nstep; t++)
                     {
@@ -180,43 +183,58 @@ namespace Heiflow.Models.Subsurface
         {
             var result = LoadingState.Normal;
             _ProgressHandler = progresshandler;
-            Scan();
             OnLoading(0);
             var grid = Owner.Grid as MFGrid;
             int nstep = StepsToLoad;
             int progress = 0;
+            string filename = _SFRPackage.InputFilesInfo[site_index].FileName;
 
-            if (File.Exists(_SFRPackage.InputFilesInfo[site_index].FileName))
+            if (DataCube == null)
             {
-                var site = (from ss in Sites where ss.Name == _SFRPackage.InputFilesInfo[site_index].Name select ss).First();
-                StreamReader sr = new StreamReader(_SFRPackage.InputFilesInfo[site_index].FileName);
+                DataCube = new DataCube<float>(Variables.Length, StepsToLoad, 1, false)
+                {
+                    Name = "SFR_Inflow"
+                };
+                DataCube.Variables = this.Variables;
+            }
+            if (File.Exists(filename))
+            {
+                var site = Sites[site_index];
+                FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                StreamReader sr = new StreamReader(fs);
                 string line = sr.ReadLine();
 
                 var mat = new DataCube<double>(1, nstep, 1);
-                var dates = new DateTime[nstep];
+                var dates = TimeService.Timeline.Take(nstep).ToArray();
+                double[] vector = new double[nstep];
+                float[] vectorf = new float[nstep];
                 for (int t = 0; t < nstep; t++)
                 {
                     line = sr.ReadLine();
-
                     if (!TypeConverterEx.IsNull(line))
                     {
                         var vv = TypeConverterEx.Split<double>(line);
-                        mat[0,t,0] = vv[1];
-                        dates[t] = TimeService.Timeline[(int)vv[0] - 1];
+                        vector[t] = vv[1];
+                        vectorf[t] = (float)vv[1];
                     }
-                    if (progress % 10 == 0)
-                        progress = Convert.ToInt32(t * 100 / nstep);
+                    progress = Convert.ToInt32(t * 100 / nstep);
                     OnLoading(progress);
                 }
 
-                if (progress < 100)
-                    OnLoading(100);
-
+                mat.ILArrays[0][":", 0] = vector;
                 mat.DateTimes = dates;
                 mat.Name = "Streamflow";
                 mat.Variables = new string[] { "Streamflow" };
                 site.TimeSeries = mat;
+
+                DataCube.ILArrays[site_index][":", 0] = vectorf;
+                DataCube.DateTimes = dates;
                 sr.Close();
+            }
+            else
+            {
+                Message = string.Format("{0} dose not exist.", filename);
+                result = LoadingState.Warning;
             }
             OnLoaded(progresshandler, new LoadingObjectState() { Message = Message, Object = this, State = result });
             return result;

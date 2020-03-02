@@ -54,6 +54,7 @@ namespace Heiflow.Core.Hydrology
             Upstreams.AddRange(ups);
             HydroFeatureType = HydroFeatureType.River;
             ICALC = 1;
+            IPrior = 0;
         }
 
         public River Downstream { get; set; }

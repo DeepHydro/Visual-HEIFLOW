@@ -61,8 +61,8 @@ namespace Heiflow.Models.Generic
             Name = name;
             _TimeUnit = 4;
             UseStressPeriods = false;
-            _Start = new DateTime(DateTime.Now.Year - 1, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
             _End = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 23, 0, 0);
+            _Start = _End.AddYears(-1);
             Initialized = false;
         }
 

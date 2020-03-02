@@ -106,7 +106,7 @@ namespace Heiflow.Models.Subsurface
         /// 
         [Description("the flag used to select the matrix conditioning method:1—is for Modified Incomplete Cholesky (for use on scalar computers;"+
             "2—is for Polynomial (for use on vector computers or to conserve computer memory")]
-        [Category("Matrix")]
+        [Category("Solve")]
         public int NPCOND
         {
             get;
@@ -297,8 +297,8 @@ namespace Heiflow.Models.Subsurface
                     IPRPCG = buf;
                     int.TryParse(strs[5], out buf);
                     MUTPCG = buf;
-                    int.TryParse(strs[6], out buf);
-                    DAMPPCG = buf;
+                    float.TryParse(strs[6], out ff);
+                    DAMPPCG = ff;
                     float.TryParse(strs[7], out ff);
                     DAMPPCGT = ff;
 

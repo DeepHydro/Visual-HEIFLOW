@@ -229,14 +229,17 @@ namespace Heiflow.Controls.WinForm.MenuItems
             if (gridLayer != null)
             {
                 IFeatureScheme newScheme = gridLayer.Symbology;
-                newScheme.EditorSettings.IntervalMethod = IntervalMethod.NaturalBreaks;
-                newScheme.EditorSettings.NumBreaks = 5;
-                newScheme.EditorSettings.UseGradient = true;
-                newScheme.EditorSettings.ClassificationType = ClassificationType.Quantities;
-                newScheme.EditorSettings.FieldName = fieldName;
-                newScheme.CreateCategories(gridLayer.DataSet.DataTable);
-                newScheme.ResumeEvents();
-                gridLayer.ApplyScheme(newScheme);
+                if (newScheme != null)
+                {
+                    newScheme.EditorSettings.IntervalMethod = IntervalMethod.NaturalBreaks;
+                    newScheme.EditorSettings.NumBreaks = 5;
+                    newScheme.EditorSettings.UseGradient = true;
+                    newScheme.EditorSettings.ClassificationType = ClassificationType.Quantities;
+                    newScheme.EditorSettings.FieldName = fieldName;
+                    newScheme.CreateCategories(gridLayer.DataSet.DataTable);
+                    newScheme.ResumeEvents();
+                    gridLayer.ApplyScheme(newScheme);
+                }
             }
         }
 

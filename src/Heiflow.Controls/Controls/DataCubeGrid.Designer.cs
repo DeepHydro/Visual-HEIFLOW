@@ -43,6 +43,7 @@
             this.sortingDescendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sortingAcendingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip_datagrid = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.statisticsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.btnImport = new System.Windows.Forms.ToolStripButton();
@@ -65,14 +66,22 @@
             this.cmbVar = new System.Windows.Forms.ToolStripComboBox();
             this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripLabel4 = new System.Windows.Forms.ToolStripLabel();
-            this.btnSave = new System.Windows.Forms.ToolStripButton();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.btnRetrieve = new System.Windows.Forms.ToolStripButton();
+            this.btnSave = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnStatPanel = new System.Windows.Forms.ToolStripButton();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.propertyGridStat = new System.Windows.Forms.PropertyGrid();
             this.contextMenuStrip_datagrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // importToolStripMenuItem
@@ -159,12 +168,20 @@
             this.pasteToolStripMenuItem,
             this.toolStripSeparator4,
             this.plotToolStripMenuItem,
+            this.statisticsToolStripMenuItem,
             this.toolStripSeparator3,
             this.deaultValueToolStripMenuItem,
             this.toolStripSeparator5,
             this.importToolStripMenuItem});
             this.contextMenuStrip_datagrid.Name = "contextMenuStrip_datagrid";
-            this.contextMenuStrip_datagrid.Size = new System.Drawing.Size(227, 210);
+            this.contextMenuStrip_datagrid.Size = new System.Drawing.Size(227, 236);
+            // 
+            // statisticsToolStripMenuItem
+            // 
+            this.statisticsToolStripMenuItem.Name = "statisticsToolStripMenuItem";
+            this.statisticsToolStripMenuItem.Size = new System.Drawing.Size(226, 26);
+            this.statisticsToolStripMenuItem.Text = "Statistics...";
+            this.statisticsToolStripMenuItem.Click += new System.EventHandler(this.statisticsToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
@@ -306,7 +323,9 @@
             this.bindingNavigatorCountItem,
             this.bindingNavigatorSeparator1,
             this.bindingNavigatorMoveNextItem,
-            this.bindingNavigatorMoveLastItem});
+            this.bindingNavigatorMoveLastItem,
+            this.toolStripSeparator7,
+            this.btnStatPanel});
             this.bindingNavigator1.Location = new System.Drawing.Point(0, 0);
             this.bindingNavigator1.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
             this.bindingNavigator1.MoveLastItem = this.bindingNavigatorMoveLastItem;
@@ -352,6 +371,16 @@
             this.toolStripLabel4.Size = new System.Drawing.Size(34, 25);
             this.toolStripLabel4.Text = "Cell";
             // 
+            // btnRetrieve
+            // 
+            this.btnRetrieve.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnRetrieve.Image = global::Heiflow.Controls.WinForm.Properties.Resources.Go_24px;
+            this.btnRetrieve.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnRetrieve.Name = "btnRetrieve";
+            this.btnRetrieve.Size = new System.Drawing.Size(24, 25);
+            this.btnRetrieve.Text = "Retrieve";
+            this.btnRetrieve.Click += new System.EventHandler(this.btnRetrieve_Click);
+            // 
             // btnSave
             // 
             this.btnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -361,6 +390,22 @@
             this.btnSave.Size = new System.Drawing.Size(24, 25);
             this.btnSave.Text = "Save temporarily. This will not save to source file";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(6, 28);
+            // 
+            // btnStatPanel
+            // 
+            this.btnStatPanel.CheckOnClick = true;
+            this.btnStatPanel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnStatPanel.Image = global::Heiflow.Controls.WinForm.Properties.Resources.CadastralParcelHistoric16;
+            this.btnStatPanel.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnStatPanel.Name = "btnStatPanel";
+            this.btnStatPanel.Size = new System.Drawing.Size(24, 25);
+            this.btnStatPanel.Text = "Show or hide Statistics Panel";
+            this.btnStatPanel.CheckedChanged += new System.EventHandler(this.btnStatPanel_CheckedChanged);
             // 
             // dataGridView1
             // 
@@ -378,31 +423,46 @@
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 28);
+            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(1109, 629);
+            this.dataGridView1.Size = new System.Drawing.Size(867, 629);
             this.dataGridView1.TabIndex = 5;
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
             this.dataGridView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView1_KeyDown);
             this.dataGridView1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseDown);
             // 
-            // btnRetrieve
+            // splitContainer1
             // 
-            this.btnRetrieve.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnRetrieve.Image = global::Heiflow.Controls.WinForm.Properties.Resources.Go_24px;
-            this.btnRetrieve.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnRetrieve.Name = "btnRetrieve";
-            this.btnRetrieve.Size = new System.Drawing.Size(24, 25);
-            this.btnRetrieve.Text = "Retrieve";
-            this.btnRetrieve.Click += new System.EventHandler(this.btnRetrieve_Click);
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 28);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.dataGridView1);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.propertyGridStat);
+            this.splitContainer1.Size = new System.Drawing.Size(1109, 629);
+            this.splitContainer1.SplitterDistance = 867;
+            this.splitContainer1.TabIndex = 6;
+            // 
+            // propertyGridStat
+            // 
+            this.propertyGridStat.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGridStat.Location = new System.Drawing.Point(0, 0);
+            this.propertyGridStat.Name = "propertyGridStat";
+            this.propertyGridStat.Size = new System.Drawing.Size(238, 629);
+            this.propertyGridStat.TabIndex = 0;
             // 
             // DataCubeGrid
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.bindingNavigator1);
             this.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -414,6 +474,10 @@
             this.bindingNavigator1.ResumeLayout(false);
             this.bindingNavigator1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -458,5 +522,10 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.ToolStripLabel lbDCName;
         private System.Windows.Forms.ToolStripButton btnRetrieve;
+        private System.Windows.Forms.ToolStripMenuItem statisticsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripButton btnStatPanel;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.PropertyGrid propertyGridStat;
     }
 }

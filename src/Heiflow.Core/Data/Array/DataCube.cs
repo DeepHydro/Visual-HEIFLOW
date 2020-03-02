@@ -179,6 +179,9 @@ namespace Heiflow.Core.Data
             get;
             set;
         }
+        /// <summary>
+        /// 
+        /// </summary>
         [XmlIgnore]
         [Browsable(false)]
         public DimensionFlag ZeroDimension

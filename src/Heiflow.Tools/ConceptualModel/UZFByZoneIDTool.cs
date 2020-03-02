@@ -80,7 +80,8 @@ namespace Heiflow.Tools.ConceptualModel
         }
 
         [Category("Input")]
-        [Description("A text file that contains the lookup table between raster value and aquifer properties. The first line of the text file is a head line. The column names must be: LAYER,ID,THTS,THTI,EPS,EXTDP,EXTWC")]
+        [Description(@"A text file that contains the lookup table between raster value and aquifer properties. 
+        The first line of the text file is a head line. The column names must be: LAYER,ID,THTS,THTI,EPS,EXTDP,EXTWC,VKS")]
         [EditorAttribute(typeof(FileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public string LookupTableFile
         {
@@ -128,6 +129,7 @@ namespace Heiflow.Tools.ConceptualModel
                         uzf.EPS[l, 0, i] = selected.EPS;
                         uzf.EXTDP[l, 0, i] = selected.EXTDP;
                         uzf.EXTWC[l, 0, i] = selected.EXTWC;
+                        uzf.VKS[l, 0, i] = selected.VKS;
                     }
                     else
                     {
@@ -159,7 +161,7 @@ namespace Heiflow.Tools.ConceptualModel
                 string line = "";
                 line = sr.ReadLine();
                 var fields = TypeConverterEx.Split<string>(line);
-                if (fields.Length != 7)
+                if (fields.Length != 8)
                 {
                     cancelProgressHandler.Progress("Package_Tool", 100, "Error message: failed to load lookup table file. The number of column names in the head line is not equal to 7.");
                     result = false;
@@ -180,6 +182,7 @@ namespace Heiflow.Tools.ConceptualModel
                             EPS = buf[4],
                             EXTDP = buf[5],
                             EXTWC = buf[6],
+                            VKS = buf[7]
                         };
                         _LookupTable.Add(table);
                     }
@@ -244,6 +247,7 @@ namespace Heiflow.Tools.ConceptualModel
             public float EXTDP { get; set; }
 
             public float EXTWC { get; set; }
+            public float VKS { get; set; }
         }
     }
 }

@@ -56,7 +56,7 @@ namespace Heiflow.Models.Subsurface
             IWETIT = 4;
             IHDWET = 0;
             ILPFCB = 9;
-            HDRY = -999.0f;
+            HDRY = -9999.0f;
             NPLPF = 0;
             IPHDRY = 0;
             Options = "CONSTANTCV ";
@@ -64,7 +64,7 @@ namespace Heiflow.Models.Subsurface
             _PackageInfo.IOState = IOState.OLD;
             _PackageInfo.FileExtension = ".lpf";
             _PackageInfo.ModuleName = "LPF";
-            IsMandatory = true;
+            IsMandatory = false;
             Version = "LPF1";
             _Layer3DToken = "RegularGrid";
         }

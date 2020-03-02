@@ -196,14 +196,14 @@ namespace Heiflow.Models.Subsurface
             get;
             private set;
         }
-
+        [Browsable(false)]
         [StaticVariableItem]
         public DataCube<float> Reaches
         {
             get;
             private set;
         }
-
+           [Browsable(false)]
         public RegularGridTopology ReachTopology
         {
             get
@@ -211,7 +211,7 @@ namespace Heiflow.Models.Subsurface
                 return _ReachTopo;
             }
         }
-
+           [Browsable(false)]
         public RegularGridTopology SegTopology
         {
             get
@@ -288,6 +288,7 @@ namespace Heiflow.Models.Subsurface
                 fs.DataTable.Columns.Add(new DataColumn("ET", typeof(double)));
                 fs.DataTable.Columns.Add(new DataColumn("Rainfall", typeof(double)));
                 fs.DataTable.Columns.Add(new DataColumn("Rough", typeof(double)));
+                fs.DataTable.Columns.Add(new DataColumn("IPrior", typeof(double)));
 
                 fs.DataTable.Columns.Add(new DataColumn(RegularGrid.ParaValueField, typeof(double)));
                 int k = 1;
@@ -327,6 +328,7 @@ namespace Heiflow.Models.Subsurface
                         feature.DataRow["ET"] = river.ETSW;
                         feature.DataRow["Rainfall"] = river.PPTSW;
                         feature.DataRow["Rough"] = river.ROUGHCH;
+                        feature.DataRow["IPrior"] = river.IPrior;
 
                         feature.DataRow[RegularGrid.ParaValueField] = 0;
                         feature.DataRow.EndEdit();
@@ -693,18 +695,20 @@ namespace Heiflow.Models.Subsurface
         {
             Reaches = new DataCube<float>(13, 1, RiverNetwork.ReachCount)
             {
-                Name = "Reaches", ZeroDimension= DimensionFlag.Spatial
+                Name = "Reaches", 
+                ZeroDimension= DimensionFlag.Spatial
             };
-            Segments = new DataCube<float>(11, 1, RiverNetwork.RiverCount)
+            Segments = new DataCube<float>(12, 1, RiverNetwork.RiverCount)
             {
-                Name = "Segments",                ZeroDimension = DimensionFlag.Spatial
+                Name = "Segments",                
+                ZeroDimension = DimensionFlag.Spatial
             };
             Reaches.DataCubeValueChanged += Reaches_DataCubeValueChanged;
             Reaches.Topology = this.ReachTopology;
             Reaches.Variables = new string[] { "KRCH", "IRCH", "JRCH", "ISEG", "IREACH", "RCHLEN", "STRTOP", 
                 "SLOPE", "STRTHICK", "STRHC1", "THTS","THTI","EPS" };
             Segments.Topology = this.SegTopology;
-            Segments.Variables = new string[] { "NSEG", "ICALC", "OUTSEG", "IUPSEG", "FLOW", "RUNOFF", "ETSW", "PPTSW", "ROUGHCH", "WIDTH1", "WIDTH2" };
+            Segments.Variables = new string[] { "NSEG", "ICALC", "OUTSEG", "IUPSEG", "FLOW", "RUNOFF", "ETSW", "PPTSW", "ROUGHCH", "WIDTH1", "WIDTH2", "IPRIOR" };
             Segments.DataCubeValueChanged += Segments_DataCubeValueChanged;
             for (int i = 0; i < RiverNetwork.ReachCount; i++)
             {
@@ -737,6 +741,7 @@ namespace Heiflow.Models.Subsurface
                 Segments[8, 0, i] = (float)seg.ROUGHCH;
                 Segments[9, 0, i] = (float)seg.Width1;
                 Segments[10, 0, i] = (float)seg.Width2;
+                Segments[11, 0, i] = (float)seg.IPrior;
             }
         }
 

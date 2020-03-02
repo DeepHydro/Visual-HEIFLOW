@@ -166,6 +166,12 @@
       <DependentUpon>DataCubeGrid.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\ILSurfaceMeta.cs" />
+    <Compile Include="Controls\StatisticsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\StatisticsForm.Designer.cs">
+      <DependentUpon>StatisticsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseExplorer\BatchExportForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -675,6 +681,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\DataCubeGrid.resx">
       <DependentUpon>DataCubeGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\StatisticsForm.resx">
+      <DependentUpon>StatisticsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DatabaseExplorer\BatchExportForm.resx">
       <DependentUpon>BatchExportForm.cs</DependentUpon>

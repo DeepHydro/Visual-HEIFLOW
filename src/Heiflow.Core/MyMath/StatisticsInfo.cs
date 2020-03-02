@@ -29,6 +29,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,16 +38,25 @@ namespace Heiflow.Core.MyMath
 {
     public class StatisticsInfo
     {
+        [Category("General")]
+        public double Sum { get; set; }
+        [Category("General")]
         public int Count { get; set; }
+        [Category("General")]
         public double Max { get; set; }
+        [Category("General")]
         public double Min { get; set; }
+        [Category("General")]
         public double Average { get; set; }
+        [Category("General")]
+        [Browsable(false)]
         public double NoDataValue { get; set; }
+        [Category("General")]
         public double StandardDeviation { get; set; }
 
         public override string ToString()
         {
-            return string.Format("{0},{1},{2},{3},{4},{5}", Max, Min, Average, NoDataValue, StandardDeviation,Count);
+            return string.Format("{0},{1},{2},{3},{4},{5}", Max, Min, Average, NoDataValue, StandardDeviation, Count);
         }
     }
 }

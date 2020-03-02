@@ -91,6 +91,11 @@ namespace Heiflow.Tools.Conversion
             var mat = Get3DMat(Source);
             Initialized = mat != null;
 
+            if (GridFeatureLayer == null)
+            {
+                Initialized = false;
+                return;
+            }
             _grid_layer = GridFeatureLayer.DataSet as IFeatureSet;
             if (_grid_layer == null)
             {

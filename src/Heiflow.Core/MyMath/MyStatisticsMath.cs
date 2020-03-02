@@ -412,6 +412,7 @@ namespace Heiflow.Core.MyMath
             info.Average = vector.Average();
             info.StandardDeviation = StandardDeviation(vector);
             info.Count = vector.Length;
+            info.Sum = vector.Sum();
             return info;
         }
 

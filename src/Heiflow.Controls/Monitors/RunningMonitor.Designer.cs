@@ -75,7 +75,7 @@
             this.labelInfo.AutoSize = true;
             this.labelInfo.Location = new System.Drawing.Point(3, 7);
             this.labelInfo.Name = "labelInfo";
-            this.labelInfo.Size = new System.Drawing.Size(115, 17);
+            this.labelInfo.Size = new System.Drawing.Size(148, 22);
             this.labelInfo.TabIndex = 4;
             this.labelInfo.Text = "Total elapsed time:";
             // 
@@ -197,7 +197,7 @@
             // 
             // RunningMonitor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(832, 673);
             this.Controls.Add(this.splitter1);
@@ -207,8 +207,8 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.Name = "RunningMonitor";
-            this.ShowInTaskbar = false;
             this.Text = "Running Model";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RunningMonitor_FormClosing);
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.panel3.ResumeLayout(false);

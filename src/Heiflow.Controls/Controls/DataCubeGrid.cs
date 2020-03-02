@@ -1,6 +1,7 @@
 ﻿using Heiflow.Applications;
 using Heiflow.Core.Data;
 using Heiflow.Core.IO;
+using Heiflow.Core.MyMath;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Surface.PRMS;
 using Heiflow.Models.UI;
@@ -38,6 +39,8 @@ namespace Heiflow.Controls.WinForm.Controls
         {
             InitializeComponent();
             EnableControls(false, false, false, false, false,false);
+            btnStatPanel.Checked = false;
+            splitContainer1.Panel2Collapsed = true;
         }
 
         public BindingNavigator Navigator
@@ -751,11 +754,22 @@ namespace Heiflow.Controls.WinForm.Controls
             {
                 OpenFileDialog sd = new OpenFileDialog();
                 sd.Filter = "csv file|*.csv";
+                bool succ = false;
                 if (sd.ShowDialog() == DialogResult.OK)
                 {
-                    CSVFileStream csv = new CSVFileStream(sd.FileName);
-                    csv.LoadTo(dt);
-                    DataTable = dt;
+                    try
+                    {
+                        CSVFileStream csv = new CSVFileStream(sd.FileName);
+                        csv.LoadTo(dt);
+                        succ = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        succ = false;
+                        MessageBox.Show("Failed to import the selected filr. Error message: " + ex.Message, "Import Data", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    if (succ)
+                        DataTable = dt;
                 }
             }
         }
@@ -807,6 +821,28 @@ namespace Heiflow.Controls.WinForm.Controls
             this.DataTable = _DataCubeObject.ToDataTable(cmbVar.SelectedIndex, time_index, cell_index); 
         }
 
+        private void statisticsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!btnStatPanel.Checked)
+                btnStatPanel.Checked = true;
+            if (DataTable != null && _CurrentColumnIndex > -1)
+            {
+                float buf = 0;
+                int nrow = DataTable.Rows.Count;
+                float[] vv = new float[nrow];
+                for (int i = 0; i < nrow; i++)
+                {
+                    float.TryParse(DataTable.Rows[i][_CurrentColumnIndex].ToString(), out buf);
+                    vv[i] = buf;
+                }
+                var info = MyStatisticsMath.SimpleStatistics(vv.ToArray());
+                propertyGridStat.SelectedObject = info;
+            }
+        }
 
+        private void btnStatPanel_CheckedChanged(object sender, EventArgs e)
+        {
+            splitContainer1.Panel2Collapsed = !btnStatPanel.Checked;
+        }
     }
 }
