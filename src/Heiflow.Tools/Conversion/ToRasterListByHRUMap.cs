@@ -51,11 +51,14 @@ namespace Heiflow.Tools.Conversion
     public class ToRasterListByHRUMap : MapLayerRequiredTool
     {
         public enum FilterMode { Maximum, Minimum, None }
+        private IFeatureSet _grid_layer;
         public ToRasterListByHRUMap()
         {
             Name = "To raster list by spatial map";
             Category = "Conversion";
-            Description = "Convert data cube to raster file with format of TIF by considering HRU spatial mapping table";
+            SubCategory = "To Raster";
+            Description = @"Convert data cube to raster file with format of TIF by considering HRU spatial mapping table.
+            The mapping table relates CellID in the data cube to HRUID. The data cube has coarser spatial resolution than the Model Grid feature layer.";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             DateFormat = "yyyy-MM-dd";
@@ -64,10 +67,10 @@ namespace Heiflow.Tools.Conversion
             TimeInteval = 86400;
             Start = new DateTime(2000, 1, 1);
         }
-        private IFeatureSet _grid_layer;
+
 
         [Category("Input")]
-        [Description("The name of the datacube being exported. The Source should be mat[0][0][:]")]
+        [Description("The name of the datacube being exported. The expression of Source should be mat[0][:][:]")]
         public string Source
         {
             get;
@@ -92,7 +95,7 @@ namespace Heiflow.Tools.Conversion
             set;
         }
         [Category("Input Files")]
-        [Description("The HRU Map filename")]
+        [Description("The HRU Map filename. The file contains nhru+1 rows. The first line is a head line, then followed by CellID, HRUID. The CellID is the ID in the DataCuube")]
         [EditorAttribute(typeof(FileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public string HRUMapFileName
         {

@@ -63,18 +63,21 @@ namespace Heiflow.Models.Subsurface
             _Layer3DToken = "RegularGrid";
         }
 
-
+        [Description("The dimension representing X component. It starts from 0.")]
+        [Category("Dimension")]
         public int DimX
         {
             get;
             set;
         }
+        [Description("The dimension representing X component. It starts from 0.")]
+        [Category("Dimension")]
         public int DimY
         {
             get;
             set;
         }
-
+        [Browsable(false)]
         public CBCPackage CBCPackage
         {
             get;

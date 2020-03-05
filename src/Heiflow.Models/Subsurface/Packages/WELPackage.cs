@@ -288,7 +288,7 @@ namespace Heiflow.Models.Subsurface
         {
             if (mfout == null)
                 return;
-            var cbc = mfout.SelectChild(CBCPackage.CBCName);
+            var cbc = mfout.SelectChild(CBCPackage.PackageName);
             if(cbc != null)
                 this.IWELCB = cbc.PackageInfo.FID;
         }

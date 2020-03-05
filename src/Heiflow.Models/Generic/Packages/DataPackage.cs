@@ -110,7 +110,6 @@ namespace Heiflow.Models.Generic
             }
         }
         [Category("Spatial Behavior")]
-        [Browsable(false)]
         public int Layer
         {
             get;

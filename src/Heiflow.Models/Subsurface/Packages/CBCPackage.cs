@@ -46,10 +46,10 @@ namespace Heiflow.Models.Subsurface
 {
     public class CBCPackage : MFDataPackage
     {
-        public static string CBCName = "CBC";
+        public static string PackageName = "CBC";
         public CBCPackage()
         {
-            Name = CBCName;
+            Name = PackageName;
             _MaxTimeStep = 10;
             Layer = 0;
             NumTimeStep = 0;

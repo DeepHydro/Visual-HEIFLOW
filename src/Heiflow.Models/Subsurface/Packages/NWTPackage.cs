@@ -206,7 +206,8 @@ namespace Heiflow.Models.Subsurface
                     IPRNWT = buf;
                     int.TryParse(strs[6], out buf);
                     IBOTAV = buf;
-                    OPTIONS = TypeConverterEx.ChangeType<NWTOPTIONS>(strs[7].ToUpper());
+
+                    OPTIONS = GetOption(strs[7].Trim().ToUpper());
 
                     result = LoadingState.Normal;
                 }
@@ -244,6 +245,29 @@ namespace Heiflow.Models.Subsurface
         public override void Attach(DotSpatial.Controls.IMap map, string directory)
         {
 
+        }
+
+        private NWTOPTIONS GetOption(string option)
+        {
+            NWTOPTIONS opt = NWTOPTIONS.SIMPLE;
+            switch(option)
+            {
+                case "SIMPLE":
+                 opt=  NWTOPTIONS.SIMPLE;
+                 break;
+                case "COMPLEX":
+                 opt = NWTOPTIONS.COMPLEX;
+                 break;
+                case "MODERATE":
+                 opt = NWTOPTIONS.MODERATE;
+                 break;
+                case "SPECIFIED":
+                 opt = NWTOPTIONS.SPECIFIED;
+                 break;
+                default:
+                 break;
+            }
+            return opt;
         }
     }
 }

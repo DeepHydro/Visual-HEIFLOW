@@ -55,6 +55,7 @@ namespace Heiflow.Tools.Conversion
         {
             Name = "To raster";
             Category = "Conversion";
+            SubCategory = "To Raster";
             Description = "Convert data cube  to raster file with format of TIF";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
@@ -63,7 +64,7 @@ namespace Heiflow.Tools.Conversion
         private IFeatureSet _grid_layer;
 
         [Category("Input")]
-        [Description("The name of the datacube being exported. The Source should be mat[0][0][:]")]
+        [Description("The name of the datacube being exported. The expression of Source should be mat[0][0][:]")]
         public string Source
         {
             get;

@@ -198,7 +198,7 @@ namespace Heiflow.Models.Subsurface
                 IOState = IOState.REPLACE,
                 ModuleName = "DATA",
                 WorkDirectory = ModflowInstance.WorkDirectory,
-                Name = CBCPackage.CBCName
+                Name = CBCPackage.PackageName
             };
             ModflowInstance.NameManager.Add(cbc_info);
             base.New();
@@ -427,7 +427,7 @@ namespace Heiflow.Models.Subsurface
             {
                 var mf = Owner as Modflow;
                 var cbc_info = (from info in mf.NameManager.MasterList where info.FID == this.ILPFCB select info).First();
-                cbc_info.Name = CBCPackage.CBCName;
+                cbc_info.Name = CBCPackage.PackageName;
                 var CBC = new CBCPackage()
                 {
                     Owner = mf,

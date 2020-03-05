@@ -178,6 +178,7 @@
     <Compile Include="Statisitcs\SpatialSimpleStatistics.cs" />
     <Compile Include="TempoSpatialAnalysis\ZonalStatisticsAsTable.cs" />
     <Compile Include="Time\CreatMonthTimeInteval.cs" />
+    <Compile Include="Visualization\Export2EChartsInput.cs" />
     <Compile Include="Visualization\ShowOnFeatureLayer.cs" />
     <Compile Include="Visualization\GridView.cs" />
     <Compile Include="RemoteSensing\WaterBodyMapping.cs" />

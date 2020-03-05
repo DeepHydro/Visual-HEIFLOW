@@ -43,7 +43,7 @@ namespace Heiflow.Tools.Visualization
     {
         public GridView()
         {
-            Name = "Grid View";
+            Name = "Show On Map Grid";
             Category = "Visualization";
             Description = " ";
             Version = "1.0.0.0";

@@ -82,7 +82,6 @@ namespace Heiflow.Tools.Conversion
             }
         }
 
-
         [Category("Parameter")]
         [Description("Name of the variable")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]

@@ -465,7 +465,7 @@ namespace Heiflow.Models.Subsurface
 
         public override void CompositeOutput(MFOutputPackage mfout)
         {
-            var cbc = mfout.SelectChild(CBCPackage.CBCName);
+            var cbc = mfout.SelectChild(CBCPackage.PackageName);
             this.IUZFCB1 = cbc.PackageInfo.FID;
         }
         public override void Attach(DotSpatial.Controls.IMap map,  string directory)
