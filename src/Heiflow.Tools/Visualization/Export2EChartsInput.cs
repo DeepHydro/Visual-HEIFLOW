@@ -66,40 +66,87 @@ namespace Heiflow.Tools.Visualization
             TimeInteval = 8640;
             NoDataValue = 9999;
             FileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "GWFlowField.html");
+            MinHeight = 600;
+            MinWidth = 800;
+            ParticleDensity = 256;
+            ParticleOpacity = 1;
+            ParticleSize = 2;
         }
 
  
         [Description("The dimension representing X component. It starts from 0.")]
-        [Category("Dimension")]
+        [Category("Data")]
         public int DimX
         {
             get;
             set;
         }
         [Description("The dimension representing X component. Its value starts from 0.")]
-        [Category("Dimension")]
+        [Category("Data")]
         public int DimY
         {
             get;
             set;
         }
         [Description("The time step at which the data cube slice will be exported. Its value starts from 0.")]
-        [Category("Dimension")]
+        [Category("Data")]
         public int TimeStep
         {
             get;
             set;
         }
         [Description("The time intel in the unit of seconds.")]
-        [Category("Optional")]
+        [Category("Data")]
         public int TimeInteval
         {
             get;
             set;
         }
         [Description("The time intel in the unit of seconds.")]
-        [Category("Optional")]
+        [Category("Data")]
         public double NoDataValue
+        {
+            get;
+            set;
+        }
+        [Description("The minimum width of the plot")]
+        [Category("Layout")]
+        public int MinWidth
+        {
+            get;
+            set;
+        }
+        [Description("The minimum height of the plot")]
+        [Category("Layout")]
+        public int MinHeight
+        {
+            get;
+            set;
+        }
+        [Description("The minimum height of the plot")]
+        [Category("Layout")]
+        public float LayoutFactor
+        {
+            get;
+            set;
+        }
+        [Description("The density of particles")]
+        [Category("Particle Effect")]
+        public int ParticleDensity
+        {
+            get;
+            set;
+        }
+        [Description("The size of particles")]
+        [Category("Particle Effect")]
+        public float ParticleSize
+        {
+            get;
+            set;
+        }
+        [Description("The size of particles")]
+        [Category("Particle Effect")]
+        public float ParticleOpacity
         {
             get;
             set;
@@ -137,23 +184,26 @@ namespace Heiflow.Tools.Visualization
                  if (TimeInteval <= 0)
                      TimeInteval = 864;
 
+                 string newline = "";
                 var vecx = cbc[DimX,TimeStep.ToString(),":"];
                  var vecy = cbc[DimY,TimeStep.ToString(),":"];
                  StreamWriter sw = new StreamWriter(FileName);
                  foreach (var line in EChartsFile.TopSection)
                  {
+                     newline = line;
                      if (line.Contains("container") && line.Contains("div"))
                      {
-                         var ss = string.Format(@"<div id=""container"" style=""height: {0}pt;width: {1}pt""></div>", grid.RowCount * 2, grid.ColumnCount * 2);
-                         sw.WriteLine(ss);
+                         int width = (int)(grid.RowCount * LayoutFactor);
+                         int height = (int)(grid.ColumnCount * LayoutFactor);
+                         width = System.Math.Max(width, MinWidth);
+                         height = System.Math.Max(height, MinHeight);
+                         newline = string.Format(@"<div id=""container"" style=""height: {0}pt;width: {1}pt""></div>", height, width);
                      }
-                     else
-                         sw.WriteLine(line);
+                     sw.WriteLine(newline);
                  }
                 sw.WriteLine("function generateData() {");
                 sw.WriteLine("data = [];");
 
-                string newline = "";
                 double valMax = float.MinValue;
                 double valMin = float.MaxValue;
                 double mag=0;
@@ -179,8 +229,8 @@ namespace Heiflow.Tools.Visualization
                            k++;
                        }
                    }
-                   progress = i * 100 / grid.RowCount;
-                   cancelProgressHandler.Progress("Package_Tool", progress, "Processing row: " + (i + 1));
+                   progress = i * 100 / grid.ColumnCount;
+                   cancelProgressHandler.Progress("Package_Tool", progress, "Processing column: " + (i + 1));
                }
                sw.WriteLine("return data;");
                sw.WriteLine("}");
@@ -197,7 +247,16 @@ namespace Heiflow.Tools.Visualization
                sw.WriteLine("//set options");
                foreach (var line in EChartsFile.EndSection)
                {
-                   sw.WriteLine(line);
+                   newline = line;
+                   if (line.Contains("particleDensity"))
+                   {
+                       newline = string.Format("particleDensity: {0},", ParticleDensity);
+                   }
+                   else if (line.Contains("particleSize"))
+                   {
+                       newline = string.Format("particleSize: {0},", ParticleSize);
+                   }
+                   sw.WriteLine(newline);
                }
                 sw.Close();
                 return true;

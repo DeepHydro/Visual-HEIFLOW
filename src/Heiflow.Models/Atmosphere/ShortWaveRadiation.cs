@@ -224,7 +224,7 @@ namespace Heiflow.Models.Atmosphere
             return Rnet;
         }
 
-        public double DailyNetRadiation(double lat, double lng, DateTime day, double tmax, double tmin, double ea,
+        public double DailyNetRadiation(double lat, double lng, DateTime day, double tmax, double tmin, double ea, ref double Rns, ref double Rnl,
     double reflectionRate = 0.23, double cloudcover = 0.1)
         {
             mSunEarth.Latitude = lat;
@@ -232,11 +232,11 @@ namespace Heiflow.Models.Atmosphere
 
             double lightRate = 0.9;
             double ns = DailyIncomingRadiationIntensity(lat, lng, day, cloudcover);
-            double Rns = (1 - reflectionRate) * (0.2 + 0.79 * lightRate) * ns * 1e-6;
+            Rns = (1 - reflectionRate) * (0.2 + 0.79 * lightRate) * ns * 1e-6;
 
             double t1 = (Math.Pow(tmax, 4) + Math.Pow(tmin, 4)) * 0.5;
 
-            double Rnl = 4.903e-9 * t1 * (0.56 - 0.25 * Math.Sqrt(ea)) * (0.1 + 0.9 * lightRate);
+            Rnl = 4.903e-9 * t1 * (0.56 - 0.25 * Math.Sqrt(ea)) * (0.1 + 0.9 * lightRate);
 
             double Rnet = Rns - Rnl;
             return Rnet;

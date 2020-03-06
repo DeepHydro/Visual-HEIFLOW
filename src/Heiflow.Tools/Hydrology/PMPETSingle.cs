@@ -112,6 +112,8 @@ namespace Heiflow.Tools.Math
             List<DateTime> dates = new List<DateTime>();
             List<float[]> meto = new List<float[]>();
             List<float> tav = new List<float>();
+            double short_rad = 0;
+            double long_rad = 0;
             while (!sr.EndOfStream)
             {
                 var line = sr.ReadLine();
@@ -134,7 +136,7 @@ namespace Heiflow.Tools.Math
             for (int i = 0; i < nrow; i++)
             {
                 var vv = meto[i];
-                et0.Add((float)pet.ET0(Latitude, Longitude, vv[0], vv[1], vv[2], vv[3], vv[4], vv[5], dates[i], CloudCover));
+                et0.Add((float)pet.ET0(Latitude, Longitude, vv[0], vv[1], vv[2], vv[3], vv[4], vv[5], dates[i], CloudCover, ref short_rad, ref long_rad));
 
             }
             DataCube<float> mat_out = new DataCube<float>(1, 1, et0.Count);

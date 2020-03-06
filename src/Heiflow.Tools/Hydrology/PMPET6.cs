@@ -208,6 +208,8 @@ namespace Heiflow.Tools.Math
             DataCube<float> mat_out = new DataCube<float>(1, 1, ncell);
             mat_out.DateTimes = new DateTime[nstep];
             int count = 1;
+            double short_rad = 0;
+            double long_rad = 0;
             for (int t = 0; t < nstep; t++)
             {
                 for (int i = 0; i < nfile; i++)
@@ -233,7 +235,7 @@ namespace Heiflow.Tools.Math
                     }
                     double ap = mats[4][0,0,n]/ 1000;
                     var et0 = pet.ET0(coors[n].Y, coors[n].X, tav, tmax, tmin,
-                         mats[3][0, 0, n], ap, mats[5][0, 0, n], Start.AddDays(t), CloudCover);
+                         mats[3][0, 0, n], ap, mats[5][0, 0, n], Start.AddDays(t), CloudCover, ref short_rad, ref long_rad);
 
                     if (OutputLengthUnit == LengthUnit.inch)
                     {

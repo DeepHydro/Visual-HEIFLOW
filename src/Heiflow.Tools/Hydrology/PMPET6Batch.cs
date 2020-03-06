@@ -95,9 +95,23 @@ namespace Heiflow.Tools.Math
         }
 
         [Category("Output")]
-        [Description("The name of the output file")]
+        [Description("The name of the PET output file")]
         [EditorAttribute(typeof(SaveFileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
-        public string OutputFileName { get; set; }
+        public string PETOutputFileName { get; set; }
+
+        [Category("Output")]
+        [Description("Output short-wave and long-wave radiaton in seperated files")]
+        public bool OutputRadiation { get; set; }
+
+        [Category("Output")]
+        [Description("The name of the short-wave radiation output file")]
+        [EditorAttribute(typeof(SaveFileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
+        public string ShortWaveRadOutputFileName { get; set; }
+
+        [Category("Output")]
+        [Description("The name of the long-wave radiation output file")]
+        [EditorAttribute(typeof(SaveFileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
+        public string LongWaveRadOutputFileName { get; set; }
 
         public override void Initialize()
         {
@@ -113,14 +127,6 @@ namespace Heiflow.Tools.Math
 
         public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
         {
-            //string basedir = @"E:\Heihe\HRB\DataSets\Driving Forces\PXD\";
-            //AverageTemperatureFileName = basedir + "daily_tavk_11243.dcx";
-            //MaxTemperatureFileName = basedir + "daily_tmaxk_11243.dcx";
-            //MinTemperatureFileName = basedir + "daily_tmink_11243.dcx";
-            //RelativeHumidityFileName = @"E:\Heihe\HRB\DataSets\Driving Forces\TY\rh.dcx";
-            //AirPressureFileName = basedir + "daily_ap_11243.dcx";
-            //WindSpeedFileName = basedir + "daily_windspeed_11243.dcx";
-
             StreamReader sr_list = new StreamReader(InputFileList);
             string[] files = new string[6];
             for (int i = 0; i < 6; i++)
@@ -150,11 +156,28 @@ namespace Heiflow.Tools.Math
             int ncell = ass[0].FeatureCount;
             PenmanMonteithET pet = new PenmanMonteithET();
 
-            DataCubeStreamWriter sw = new DataCubeStreamWriter(OutputFileName);
-            sw.WriteHeader(new string[] { "pet" }, ncell);
-            DataCube<float> mat_out = new DataCube<float>(1, 1, ncell);
+            DataCubeStreamWriter sw_shortrd = null;
+            DataCubeStreamWriter sw_longrd = null;
+            DataCube<float> swr_out = null;
+            DataCube<float> lwr_out = null;
+            DataCubeStreamWriter sw_pet = new DataCubeStreamWriter(PETOutputFileName);
+            sw_pet.WriteHeader(new string[] { "pet" }, ncell);
+            DataCube<float> pet_out = new DataCube<float>(1, 1, ncell);
+
+            if(OutputRadiation)
+            {
+                sw_shortrd = new DataCubeStreamWriter(ShortWaveRadOutputFileName);
+                sw_shortrd.WriteHeader(new string[] { "swr" }, ncell);
+                swr_out = new DataCube<float>(1, 1, ncell);
+
+                sw_longrd = new DataCubeStreamWriter(LongWaveRadOutputFileName);
+                sw_longrd.WriteHeader(new string[] { "lwr" }, ncell); 
+                lwr_out = new DataCube<float>(1, 1, ncell);
+            }
 
             int count = 1;
+            double short_rad = 0;
+            double long_rad = 0;
             for (int t = 0; t < nstep; t++)
             {
                 for (int i = 0; i < nfile; i++)
@@ -179,18 +202,25 @@ namespace Heiflow.Tools.Math
                         tav = (float)UnitConversion.Celsius2Kelvin(tav);
                     }
                     var et0 = pet.ET0(coors[n].Y, coors[n].X, tav, tmax, tmin,
-                         mats[3][0, 0, n], mats[4][0, 0, n], mats[5][0, 0, n], Start.AddDays(t), CloudCover);
+                         mats[3][0, 0, n], mats[4][0, 0, n], mats[5][0, 0, n], Start.AddDays(t), CloudCover, ref short_rad, ref long_rad);
 
                     if (OutputLengthUnit == LengthUnit.inch)
                     {
-                        mat_out[0,0,n] = (float)(et0 * UnitConversion.mm2Inch);
+                        pet_out[0,0,n] = (float)(et0 * UnitConversion.mm2Inch);
                     }
                     else
                     {
-                        mat_out[0, 0, n] = (float)et0;
+                        pet_out[0, 0, n] = (float)et0;
                     }
+                    swr_out[0, 0, n] = (float)short_rad;
+                    lwr_out[0, 0, n] = (float)long_rad;
                 }
-                sw.WriteStep(1, ncell, mat_out);
+                sw_pet.WriteStep(1, ncell, pet_out);
+                if(OutputRadiation)
+                {
+                    sw_shortrd.WriteStep(1, ncell, swr_out);
+                    sw_longrd.WriteStep(1, ncell, lwr_out);
+                }
                 progress = t * 100 / nstep;
                 if (progress > count)
                 {
@@ -199,7 +229,12 @@ namespace Heiflow.Tools.Math
                 }
             }
 
-            sw.Close();
+            sw_pet.Close();
+            if (OutputRadiation)
+            {
+                sw_shortrd.Close();
+                sw_longrd.Close();
+            }
             for (int i = 0; i < nfile; i++)
             {
                 ass[i].Close();
