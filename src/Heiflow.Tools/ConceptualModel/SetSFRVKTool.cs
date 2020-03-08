@@ -88,7 +88,7 @@ namespace Heiflow.Tools.ConceptualModel
             var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
             var grid = prj.Project.Model.Grid as MFGrid;
             var sfr = prj.Project.Model.GetPackage(SFRPackage.PackageName) as SFRPackage;
-            var lpf = prj.Project.Model.GetPackage(LPFPackage.PackageName) as LPFPackage;
+            var lpf = sfr.ModflowInstance.FlowPropertyPackage;
             if (sfr != null)
             {
                 var rvnet = sfr.RiverNetwork;

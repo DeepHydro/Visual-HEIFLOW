@@ -73,7 +73,8 @@ namespace Heiflow.Models.Subsurface
 
             TimeUnit = 4;
             LengthUnit = 2;
-            Description = "the U.S. Geological Survey modular finite-difference flow model, which is a computer code that solves the groundwater flow equation.";
+            MFVersion = MODFLOWVersion.MFNWT;
+            Description = "The U.S. Geological Survey modular finite-difference flow model, which is a computer code that solves the groundwater flow equation.";
         }
         [Category("Units")]
         public int TimeUnit { get; set; }
@@ -107,12 +108,26 @@ namespace Heiflow.Models.Subsurface
                 _IOLogFile = value;
             }
         }
+        [Category("Version")]
+        public MODFLOWVersion MFVersion
+        {
+            get;
+            set;
+        }
+
+        public IFlowPropertyPackage FlowPropertyPackage
+        {
+            get;
+            private set;
+        }
+
         public override void Initialize()
         {
             TimeServiceList.Add(this.TimeService.Name, this.TimeService);
         }
         public override bool New(ICancelProgressHandler progress)
         {
+            SelectVersion();
             bool succ = true;
             MFOutputPackage mfout = new MFOutputPackage()
             {
@@ -122,6 +137,7 @@ namespace Heiflow.Models.Subsurface
 
             var list_info = _MFNameManager.GetList(100, Project.Name);
             _MFNameManager.Add(list_info);
+
             foreach (var pck in ModflowService.SupportedPackages)
             {
                 if (pck.IsMandatory && pck is IMFPackage)
@@ -147,9 +163,14 @@ namespace Heiflow.Models.Subsurface
                     (pck as IMFPackage).CompositeOutput(mfout);
                 }
             }
+            if (MFVersion == MODFLOWVersion.MFNWT)
+                FlowPropertyPackage = Select(UPWPackage.PackageName) as UPWPackage;
+            else if (MFVersion == MODFLOWVersion.MF2005)
+                FlowPropertyPackage = Select(UPWPackage.PackageName) as LPFPackage;
             mfout.Initialize();
             return succ;
         }
+
         public override LoadingState Load(ICancelProgressHandler progress)
         {
             string masterfile = ControlFileName;
@@ -444,6 +465,19 @@ namespace Heiflow.Models.Subsurface
             var oc = (Packages[OCPackage.PackageName] as OCPackage);
             oc.CompositeOutput(mfout);
             mfout.Initialize();
+
+            var lpf = GetPackage(LPFPackage.PackageName);
+            if (lpf != null)
+            {
+                this.MFVersion = MODFLOWVersion.MF2005;
+                FlowPropertyPackage = lpf as LPFPackage;
+            }
+            var upw = GetPackage(UPWPackage.PackageName);
+            if (upw != null)
+            {
+                this.MFVersion = MODFLOWVersion.MFNWT;
+                FlowPropertyPackage = upw as UPWPackage;
+            }
             return result;
         }
 
@@ -487,6 +521,56 @@ namespace Heiflow.Models.Subsurface
             }
 
             _MFNameManager.Save(ControlFileName);
+        }
+
+        private void SelectVersion()
+        {
+            this.MFVersion = ModflowService.SelectedMFVersion;
+            if (this.MFVersion == MODFLOWVersion.MFNWT)
+            {
+                ModflowService.SelectedMFVersion = MODFLOWVersion.MFNWT;
+                foreach(var pck in ModflowService.SupportedPackages)
+                {
+                    if(pck.Name == UPWPackage.PackageName)
+                    {
+                        pck.IsMandatory = true;
+                    }
+                    if (pck.Name == NWTPackage.PackageName)
+                    {
+                        pck.IsMandatory = true; 
+                    }
+                    if (pck.Name == LPFPackage.PackageName)
+                    {
+                        pck.IsMandatory = false;
+                    }
+                    if (pck.Name == PCGPackage.PackageName)
+                    {
+                        pck.IsMandatory = true;
+                    }
+                }
+            }
+            else if (this.MFVersion == MODFLOWVersion.MF2005)
+            {
+                foreach (var pck in ModflowService.SupportedPackages)
+                {
+                    if (pck.Name == UPWPackage.PackageName)
+                    {
+                        pck.IsMandatory = false;
+                    }
+                    if (pck.Name == NWTPackage.PackageName)
+                    {
+                        pck.IsMandatory = false;
+                    }
+                    if (pck.Name == LPFPackage.PackageName)
+                    {
+                        pck.IsMandatory = true;
+                    }
+                    if (pck.Name == PCGPackage.PackageName)
+                    {
+                        pck.IsMandatory = true;
+                    }
+                }
+            }
         }
 
     }

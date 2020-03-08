@@ -114,7 +114,7 @@ namespace Heiflow.Tools.ConceptualModel
             {
                 int nlayer = mf.Grid.ActualLayerCount;
                 var grid = mf.Grid as MFGrid;
-                var lpf = mf.GetPackage(LPFPackage.PackageName) as LPFPackage;
+                var lpf = mf.FlowPropertyPackage;
                 if (!LoadLookupTable(cancelProgressHandler))
                     return false;
                 if (!LoadRasterFileList(cancelProgressHandler, nlayer))
@@ -202,7 +202,7 @@ namespace Heiflow.Tools.ConceptualModel
             {
                 int nlayer = mf.Grid.ActualLayerCount;
                 var grid = mf.Grid as MFGrid;
-                var lpf = mf.GetPackage(LPFPackage.PackageName) as LPFPackage;
+                var lpf = mf.FlowPropertyPackage;
                 if (!LoadLookupTable(cancelProgressHandler))
                     return false;
                 if (!LoadRasterFileList(cancelProgressHandler, nlayer))

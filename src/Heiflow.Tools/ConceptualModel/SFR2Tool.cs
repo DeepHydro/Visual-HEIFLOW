@@ -35,6 +35,7 @@ using Heiflow.Controls.WinForm.Toolbox;
 using Heiflow.Core.Data;
 using Heiflow.Core.Hydrology;
 using Heiflow.Core.MyMath;
+using Heiflow.Models.Integration;
 using Heiflow.Models.Subsurface;
 using Heiflow.Models.Tools;
 using Heiflow.Presentation.Services;
@@ -864,9 +865,14 @@ namespace Heiflow.Tools.ConceptualModel
             msg = "";
             var dt = _sfr_insct_layer.DataTable;
             var dt_stream = _stream_layer.DataTable;
-            var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
-            var lpf = prj.Project.Model.GetPackage(LPFPackage.PackageName) as LPFPackage;
+            var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();     
             var grid = prj.Project.Model.Grid as MFGrid;
+            Modflow mf = null;
+            if (prj.Project.Model is HeiflowModel)
+                mf = (prj.Project.Model as HeiflowModel).ModflowModel;
+            else if (prj.Project.Model is Modflow)
+                mf = prj.Project.Model as Modflow;
+            var lpf = mf.FlowPropertyPackage;
             for (int i = 0; i < _stream_layer.Features.Count; i++)
             {
                 var fea_stream = _stream_layer.GetFeature(i);

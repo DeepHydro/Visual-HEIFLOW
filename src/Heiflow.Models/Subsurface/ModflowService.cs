@@ -38,9 +38,15 @@ using System.Threading.Tasks;
 
 namespace Heiflow.Models.Subsurface
 {
+    public enum MODFLOWVersion { MFNWT,MF2005};
     public static class ModflowService
     {
         public static IEnumerable<IMFPackage> SupportedPackages
+        {
+            get;
+            set;
+        }
+        public static MODFLOWVersion SelectedMFVersion
         {
             get;
             set;

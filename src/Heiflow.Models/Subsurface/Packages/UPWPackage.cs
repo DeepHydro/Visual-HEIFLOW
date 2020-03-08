@@ -42,10 +42,10 @@ using System.Linq;
 namespace Heiflow.Models.Subsurface
 {
     [PackageItem]
-    [PackageCategory("Basic", true)]
+    [PackageCategory("Basic", false)]
     [CoverageItem]
     [Export(typeof(IMFPackage))]
-    public class UPWPackage : MFPackage, INotifyPropertyChanged
+    public class UPWPackage : MFPackage, INotifyPropertyChanged, IFlowPropertyPackage
     {
         public static string PackageName = "UPW";
         public UPWPackage()
@@ -55,10 +55,10 @@ namespace Heiflow.Models.Subsurface
             WETFCT = 0.5f;
             IWETIT = 4;
             IHDWET = 0;
-            ILPFCB = 9;
+            IUPWCB = 9;
             HDRY = -9999.0f;
-            NPLPF = 0;
-            IPHDRY = 0;
+            NPUPW = 0;
+            IPHDRY = 1;
             Options = "CONSTANTCV ";
             _PackageInfo.Format = FileFormat.Text;
             _PackageInfo.IOState = IOState.OLD;
@@ -71,19 +71,22 @@ namespace Heiflow.Models.Subsurface
 
         #region Properties
         /// <summary>
-        ///ILPFCB > 0, it is the unit number to which cell-by-cell flow terms will be written;ILPFCB= 0, cell-by-cell flow terms will not be written.
-        /// ILPFCB less than 0, cell-by-cell flow for constant-head cells will be written in the listing file when "SAVE BUDGET"
+        ///IUPWCB  > 0, it is the unit number to which cell-by-cell flow terms will be written;IUPWCB = 0, cell-by-cell flow terms will not be written.
+        /// IUPWCB  less than 0, cell-by-cell flow for constant-head cells will be written in the listing file when "SAVE BUDGET"
         /// </summary>
-        public int ILPFCB { get; set; }
+        public int IUPWCB { get; set; }
         /// <summary>
         /// the head that is assigned to cells that are converted to dry during a simulation
         /// </summary>
         public float HDRY { get; set; }
         /// <summary>
-        /// the number of LPF parameters. 
+        /// the number of UPW parameters. 
         /// </summary>
-        public int NPLPF { get; set; }
-
+        public int NPUPW { get; set; }
+        /// <summary>
+        /// If IPHDRY=0, then head will not be set to HDRY.
+        /// If IPHDRY>0, then head will be set to HDRY.
+        /// </summary>
         public int IPHDRY { get; set; }
         /// <summary>
         /// contains a flag for each layer that specifies the layer type. 0—confined ; not 0—convertible 
@@ -188,10 +191,10 @@ namespace Heiflow.Models.Subsurface
 
         public override void New()
         {
-            this.ILPFCB = ModflowInstance.NameManager.NextFID();
+            this.IUPWCB = ModflowInstance.NameManager.NextFID();
             var cbc_info = new PackageInfo()
             {
-                FID = this.ILPFCB,
+                FID = this.IUPWCB,
                 FileExtension = ".cbc",
                 FileName = string.Format("{0}{1}{2}", Modflow.OutputDic, ModflowInstance.Project.Name, ".cbc"),
                 Format = FileFormat.Binary,
@@ -217,13 +220,14 @@ namespace Heiflow.Models.Subsurface
                 StreamReader sr = new StreamReader(FileName);
                 try
                 {
-                    //Data Set 1: # ILPFCB, HDRY, NPLPF
+                    //Data Set 1: # IUPWCB, HDRY, NPLPF
                     string newline = ReadComment(sr);
-                    float[] fv = TypeConverterEx.Split<float>(newline, 3);
+                    float[] fv = TypeConverterEx.Split<float>(newline, 4);
                     int ncell = grid.ActiveCellCount;
-                    ILPFCB = (int)fv[0];
+                    IUPWCB = (int)fv[0];
                     HDRY = fv[1];
-                    NPLPF = (int)fv[2];
+                    NPUPW = (int)fv[2];
+                    IPHDRY = (int)fv[3];
 
                     //Data Set 2: # 
                     newline = sr.ReadLine();
@@ -244,16 +248,6 @@ namespace Heiflow.Models.Subsurface
                     //Data Set 6: # 
                     newline = sr.ReadLine();
                     LAYWET = TypeConverterEx.Split<int>(newline, nlayer);
-
-                    if (LAYWET.Sum() != 0)
-                    {
-                        //Data Set 7: # 
-                        newline = sr.ReadLine();
-                        fv = TypeConverterEx.Split<float>(newline, 3);
-                        WETFCT = fv[0];
-                        IWETIT = (int)fv[1];
-                        IHDWET = (int)fv[2];
-                    }
 
                     mf.LayerGroupManager.LayerGroups.CollectionChanged -= this.LayerGroups_CollectionChanged;
                     mf.LayerGroupManager.Initialize(grid.ActualLayerCount);
@@ -358,7 +352,7 @@ namespace Heiflow.Models.Subsurface
             var grid = (Owner.Grid as IRegularGrid);
             StreamWriter sw = new StreamWriter(filename);
             WriteDefaultComment(sw, this.Name);
-            string line = string.Format("{0}\t{1}\t{2}\t{3}\t# ILPFCB, HDRY, NPLPF", ILPFCB, HDRY, NPLPF, Options);
+            string line = string.Format("{0}\t{1}\t{2}\t{3}\t# IUPWCB , HDRY, NPLPF, IPHDRY, OPTIONS ", IUPWCB, HDRY, NPUPW, IPHDRY, Options);
             sw.WriteLine(line);
 
             line = TypeConverterEx.Vector2String<int>(LAYTYP) + "\t# LAYTYP";
@@ -376,8 +370,8 @@ namespace Heiflow.Models.Subsurface
             line = TypeConverterEx.Vector2String<int>(LAYWET) + "\t# LAYWET";
             sw.WriteLine(line);
 
-            line = string.Format("{0}\t{1}\t{2}\t# WETFCT, IWETIT, IHDWET", WETFCT, IWETIT, IHDWET);
-            sw.WriteLine(line);
+            //line = string.Format("{0}\t{1}\t{2}\t# WETFCT, IWETIT, IHDWET", WETFCT, IWETIT, IHDWET);
+            //sw.WriteLine(line);
 
             for (int l = 0; l < grid.ActualLayerCount; l++)
             {
@@ -400,12 +394,6 @@ namespace Heiflow.Models.Subsurface
                     //WriteSerialFloatInternalMatrix(sw, SY[l, 0], 1, "E5", -1, cmt);
                     WriteSerialFloatArray(sw, SY, l, 0, "E6", cmt);
                 }
-                if (LAYTYP[l] != 0 && LAYWET[l] != 0)
-                {
-                    cmt = string.Format("#WETDRY Layer {0}", l + 1);
-                    //  WriteSerialFloatInternalMatrix(sw, WETDRY[l, 0], 1, "E5", -1, cmt);
-                    WriteSerialFloatArray(sw, WETDRY, l, 0, "E6", cmt);
-                }
             }
             sw.Close();
             this.OnSaved(prg);
@@ -423,10 +411,10 @@ namespace Heiflow.Models.Subsurface
         }
         public override void CompositeOutput(MFOutputPackage mfout)
         {
-            if (ILPFCB > 0)
+            if (IUPWCB > 0)
             {
                 var mf = Owner as Modflow;
-                var cbc_info = (from info in mf.NameManager.MasterList where info.FID == this.ILPFCB select info).First();
+                var cbc_info = (from info in mf.NameManager.MasterList where info.FID == this.IUPWCB select info).First();
                 cbc_info.Name = CBCPackage.PackageName;
                 var CBC = new CBCPackage()
                 {
@@ -568,11 +556,11 @@ namespace Heiflow.Models.Subsurface
         }
         public override IPackage Extract(Modflow newmf)
         {
-            LPFPackage lpf = new LPFPackage();
+            UPWPackage lpf = new UPWPackage();
             lpf.Owner = newmf;
-            lpf.ILPFCB = this.ILPFCB;
+            lpf.IUPWCB = this.IUPWCB;
             lpf.HDRY = this.HDRY;
-            lpf.NPLPF = this.NPLPF;
+            lpf.NPUPW = this.NPUPW;
             lpf.IPHDRY = this.IPHDRY;
             lpf.LAYTYP = this.LAYTYP;
             lpf.LAYAVG = this.LAYAVG;
@@ -616,10 +604,6 @@ namespace Heiflow.Models.Subsurface
             {
                 case "LAYTYP":
                     LAYTYP[layer] = (int)e.LAYTYP;
-                    if (LAYTYP[layer] == 1)
-                        LAYWET[layer] = 1;
-                    else
-                        LAYWET[layer] = 0;
                     break;
                 case "LAYAVG":
                     LAYAVG[layer] = (int)e.LAYAVG;

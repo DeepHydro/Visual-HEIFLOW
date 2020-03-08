@@ -44,6 +44,8 @@ namespace Heiflow.Presentation.Controls.Project
             this.chbImprot = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.cmbVersion = new System.Windows.Forms.ComboBox();
+            this.cmbMFVersions = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -72,7 +74,7 @@ namespace Heiflow.Presentation.Controls.Project
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 367);
+            this.label1.Location = new System.Drawing.Point(14, 368);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(52, 20);
             this.label1.TabIndex = 2;
@@ -81,7 +83,7 @@ namespace Heiflow.Presentation.Controls.Project
             // txtPrjName
             // 
             this.txtPrjName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtPrjName.Location = new System.Drawing.Point(103, 367);
+            this.txtPrjName.Location = new System.Drawing.Point(101, 368);
             this.txtPrjName.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtPrjName.Multiline = true;
             this.txtPrjName.Name = "txtPrjName";
@@ -92,7 +94,7 @@ namespace Heiflow.Presentation.Controls.Project
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(16, 400);
+            this.label2.Location = new System.Drawing.Point(14, 401);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(69, 20);
             this.label2.TabIndex = 2;
@@ -101,7 +103,7 @@ namespace Heiflow.Presentation.Controls.Project
             // txtPrjDir
             // 
             this.txtPrjDir.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtPrjDir.Location = new System.Drawing.Point(103, 400);
+            this.txtPrjDir.Location = new System.Drawing.Point(101, 401);
             this.txtPrjDir.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtPrjDir.Multiline = true;
             this.txtPrjDir.Name = "txtPrjDir";
@@ -110,7 +112,7 @@ namespace Heiflow.Presentation.Controls.Project
             // 
             // btnBrowse
             // 
-            this.btnBrowse.Location = new System.Drawing.Point(548, 395);
+            this.btnBrowse.Location = new System.Drawing.Point(546, 396);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(100, 30);
             this.btnBrowse.TabIndex = 3;
@@ -121,7 +123,7 @@ namespace Heiflow.Presentation.Controls.Project
             // btnOK
             // 
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(436, 440);
+            this.btnOK.Location = new System.Drawing.Point(434, 441);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(100, 30);
             this.btnOK.TabIndex = 3;
@@ -132,7 +134,7 @@ namespace Heiflow.Presentation.Controls.Project
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(548, 440);
+            this.btnCancel.Location = new System.Drawing.Point(546, 441);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(100, 30);
             this.btnCancel.TabIndex = 3;
@@ -152,7 +154,7 @@ namespace Heiflow.Presentation.Controls.Project
             // chbImprot
             // 
             this.chbImprot.AutoSize = true;
-            this.chbImprot.Location = new System.Drawing.Point(304, 334);
+            this.chbImprot.Location = new System.Drawing.Point(18, 438);
             this.chbImprot.Name = "chbImprot";
             this.chbImprot.Size = new System.Drawing.Size(234, 24);
             this.chbImprot.TabIndex = 5;
@@ -176,6 +178,28 @@ namespace Heiflow.Presentation.Controls.Project
             this.cmbVersion.Size = new System.Drawing.Size(163, 28);
             this.cmbVersion.TabIndex = 6;
             // 
+            // cmbMFVersions
+            // 
+            this.cmbMFVersions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbMFVersions.FormattingEnabled = true;
+            this.cmbMFVersions.Items.AddRange(new object[] {
+            "MODFLOW-NWT",
+            "MODFLOW-2005"});
+            this.cmbMFVersions.Location = new System.Drawing.Point(483, 331);
+            this.cmbMFVersions.Name = "cmbMFVersions";
+            this.cmbMFVersions.Size = new System.Drawing.Size(163, 28);
+            this.cmbMFVersions.TabIndex = 6;
+            this.cmbMFVersions.SelectedIndexChanged += new System.EventHandler(this.cmbMFVersions_SelectedIndexChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(330, 334);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(137, 20);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "MODFLOW Version:";
+            // 
             // NewProjectionForm
             // 
             this.AcceptButton = this.btnOK;
@@ -183,7 +207,8 @@ namespace Heiflow.Presentation.Controls.Project
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(658, 482);
+            this.ClientSize = new System.Drawing.Size(658, 479);
+            this.Controls.Add(this.cmbMFVersions);
             this.Controls.Add(this.cmbVersion);
             this.Controls.Add(this.chbImprot);
             this.Controls.Add(this.panel1);
@@ -191,6 +216,7 @@ namespace Heiflow.Presentation.Controls.Project
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnBrowse);
             this.Controls.Add(this.label2);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtPrjDir);
@@ -227,5 +253,7 @@ namespace Heiflow.Presentation.Controls.Project
         private System.Windows.Forms.CheckBox chbImprot;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cmbVersion;
+        private System.Windows.Forms.ComboBox cmbMFVersions;
+        private System.Windows.Forms.Label label4;
     }
 }

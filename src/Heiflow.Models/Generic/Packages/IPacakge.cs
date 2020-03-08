@@ -68,7 +68,7 @@ namespace Heiflow.Models.Generic
         /// Holds any information when loading or saving
         /// </summary>
         string Message { get; set; }
-        bool IsMandatory { get; }
+        bool IsMandatory { get; set; }
         IBasicModel Owner { get; set; }
         IPackage Parent { get; set; }
         List<IPackage> Children { get; set; }

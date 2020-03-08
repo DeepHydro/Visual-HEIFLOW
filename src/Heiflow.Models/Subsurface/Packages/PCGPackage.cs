@@ -44,10 +44,11 @@ using System.Threading.Tasks;
 namespace Heiflow.Models.Subsurface
 {
     [PackageItem]
-    [PackageCategory("Solver", true)]
+    [PackageCategory("Solver", false)]
     [Export(typeof(IMFPackage))]
     public class PCGPackage : MFPackage
     {
+        public static string PackageName = "PCG";
         public PCGPackage()
         {
             Name = "PCG";

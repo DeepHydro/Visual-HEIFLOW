@@ -264,6 +264,7 @@ namespace Heiflow.Models.Subsurface
                 fs.Projection = proj_info;
                 fs.DataTable.Columns.Add(new DataColumn("ID", typeof(int)));
                 fs.DataTable.Columns.Add(new DataColumn("CELL_ID", typeof(int)));
+                fs.DataTable.Columns.Add(new DataColumn("HRU_ID", typeof(int)));
                 fs.DataTable.Columns.Add(new DataColumn("ISEG", typeof(int)));
                 fs.DataTable.Columns.Add(new DataColumn("IRCH", typeof(int)));
                 fs.DataTable.Columns.Add(new DataColumn("JRCH", typeof(int)));
@@ -305,6 +306,7 @@ namespace Heiflow.Models.Subsurface
                         feature.DataRow.BeginEdit();
                         feature.DataRow["ID"] = k;
                         feature.DataRow["CELL_ID"] = grid.Topology.GetID(reach.IRCH - 1, reach.JRCH - 1);
+                        feature.DataRow["HRU_ID"] = grid.Topology.GetSerialIndex(reach.IRCH - 1, reach.JRCH - 1) + 1;
                         feature.DataRow["ISEG"] = reach.ISEG;
                         feature.DataRow["IRCH"] = reach.IRCH;
                         feature.DataRow["JRCH"] = reach.JRCH;
@@ -380,7 +382,7 @@ namespace Heiflow.Models.Subsurface
         }
         public override void SaveAs(string filename, ICancelProgressHandler prg)
         {
-            var lpf = Owner.GetPackage(LPFPackage.PackageName) as LPFPackage;
+            var lpf = ModflowInstance.FlowPropertyPackage;
             var grid = Owner.Grid as MFGrid;
             int np = TimeService.StressPeriods.Count;
             var rvnet = RiverNetwork;
@@ -436,7 +438,7 @@ namespace Heiflow.Models.Subsurface
                     {
                         reach.THTS = lpf.SY[0, 0, cell_index] + 0.05f;
                     }
-                    if(reach.THTI < ds)
+                    if (reach.THTI < ds)
                         reach.THTI = reach.THTS - lpf.SY[0, 0, cell_index];
                     newline = string.Format(format, reach.KRCH, reach.IRCH, reach.JRCH, reach.ISEG, reach.IREACH, reach.Length.ToString("E5"), reach.TopElevation.ToString("E5"), reach.Slope.ToString("E5"),
                         reach.BedThick, reach.STRHC1.ToString("E5"), reach.THTS, reach.THTI, reach.EPS, reach.IFACE);
@@ -493,7 +495,7 @@ namespace Heiflow.Models.Subsurface
                     foreach (var river in rvnet.Rivers)
                     {
                         if (river.UpRiverID != 0)
-                            newline = string.Format(format1, river.ID, river.ICALC, river.OutRiverID, river.UpRiverID, river.IPrior, river.Flow, 0, 0,0, river.ROUGHCH);
+                            newline = string.Format(format1, river.ID, river.ICALC, river.OutRiverID, river.UpRiverID, river.IPrior, river.Flow, 0, 0, 0, river.ROUGHCH);
                         else
                             newline = string.Format(format, river.ID, river.ICALC, river.OutRiverID, river.UpRiverID, 0, 0, 0, 0, river.ROUGHCH);
                         sw.WriteLine(newline);
@@ -1279,8 +1281,7 @@ namespace Heiflow.Models.Subsurface
 
         public void SetVK(double scale, double minimum = 0.05)
         {
-            var lpf = Owner.Packages["LPF"] as LPFPackage;
-
+            var lpf = ModflowInstance.FlowPropertyPackage;
             foreach (River river in RiverNetwork.Rivers)
             {
                 for (int i = 0; i < river.Reaches.Count; i++)
@@ -1308,7 +1309,7 @@ namespace Heiflow.Models.Subsurface
 
         public void SetVK(List<River> rivers, double scale = 1.0)
         {
-            var lpf = Owner.Packages["LPF"] as LPFPackage;
+            var lpf = ModflowInstance.FlowPropertyPackage;
             foreach (River river in rivers)
             {
                 for (int i = 0; i < river.Reaches.Count; i++)

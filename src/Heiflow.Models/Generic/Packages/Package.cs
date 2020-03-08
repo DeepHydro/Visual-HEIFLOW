@@ -359,7 +359,7 @@ namespace Heiflow.Models.Generic
         public bool IsMandatory
         {
             get;
-            protected set;
+            set;
         }
         [Browsable(false)]
         [XmlIgnore]

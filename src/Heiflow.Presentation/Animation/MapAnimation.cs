@@ -56,7 +56,7 @@ namespace Heiflow.Presentation.Animation
         protected override void Plot(int time_index )
         {
             var pck = _DataSource.DataOwner as IPackage;
-            if (pck != null)
+            if (pck != null && time_index > -1)
             {
                 var vector = _DataSource.GetVectorAsArray(_DataSource.SelectedVariableIndex, time_index.ToString(), ":");
                 if (pck.Feature != null && vector != null)

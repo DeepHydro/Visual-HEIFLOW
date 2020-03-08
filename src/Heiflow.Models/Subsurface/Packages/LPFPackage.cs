@@ -42,10 +42,10 @@ using System.Linq;
 namespace Heiflow.Models.Subsurface
 {
     [PackageItem]
-    [PackageCategory("Basic", true)]
+    [PackageCategory("Basic", false)]
     [CoverageItem]
     [Export(typeof(IMFPackage))]
-    public class LPFPackage : MFPackage, INotifyPropertyChanged
+    public class LPFPackage : MFPackage, INotifyPropertyChanged, IFlowPropertyPackage
     {
         public static string PackageName = "LPF";
         public LPFPackage()

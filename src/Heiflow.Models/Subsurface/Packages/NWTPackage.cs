@@ -44,10 +44,11 @@ using System.Threading.Tasks;
 namespace Heiflow.Models.Subsurface
 {
     [PackageItem]
-    [PackageCategory("Solver", true)]
+    [PackageCategory("Solver", false)]
     [Export(typeof(IMFPackage))]
     public class NWTPackage : MFPackage
     {
+        public static string PackageName = "NWT";
         public enum NWTOPTIONS { SPECIFIED, SIMPLE, MODERATE, COMPLEX };
         public NWTPackage()
         {

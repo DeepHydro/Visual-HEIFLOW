@@ -114,7 +114,7 @@ namespace Heiflow.Tools.ConceptualModel
             {
                 int nlayer = mf.Grid.ActualLayerCount;
                 var grid = mf.Grid as MFGrid;
-                var lpf = mf.GetPackage(LPFPackage.PackageName) as LPFPackage;
+                var lpf = mf.FlowPropertyPackage;
                 if (!LoadLookupTable(cancelProgressHandler))
                     return false;
                 var zoneid = LoadZoneIDTable(cancelProgressHandler, grid.ActualLayerCount, grid.ActiveCellCount);

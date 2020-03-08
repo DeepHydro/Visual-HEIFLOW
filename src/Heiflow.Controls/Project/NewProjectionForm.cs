@@ -37,6 +37,7 @@ using System.Windows.Forms;
 using Heiflow.Applications;
 using Heiflow.Presentation.Services;
 using Heiflow.Controls.WinForm.Project;
+using Heiflow.Models.Subsurface;
 
 namespace Heiflow.Presentation.Controls.Project
 {
@@ -53,8 +54,8 @@ namespace Heiflow.Presentation.Controls.Project
             lstPrjTemplate.DrawItem += lstPrjTemplate_DrawItem;
             lstPrjTemplate.Leave += lstPrjTemplate_Leave;
             lstPrjTemplate.HideSelection = false;
+            cmbMFVersions.SelectedIndex = 0;
         }
-
 
         public string ProjectName
         {
@@ -186,7 +187,7 @@ namespace Heiflow.Presentation.Controls.Project
 
         private void btnBrowse_Click(object sender, EventArgs e)
         {
-            if(folderBrowserDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (folderBrowserDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 txtPrjDir.Text = folderBrowserDialog1.SelectedPath;
             }
@@ -197,6 +198,14 @@ namespace Heiflow.Presentation.Controls.Project
             txtPrjName.TextChanged -= txtPrjName_TextChanged;
             txtPrjName.Text = txtPrjName.Text.Replace(' ', '_');
             txtPrjName.TextChanged += txtPrjName_TextChanged;
+        }
+
+        private void cmbMFVersions_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbMFVersions.SelectedIndex == 0)
+                ModflowService.SelectedMFVersion = MODFLOWVersion.MFNWT;
+            else if (cmbMFVersions.SelectedIndex == 1)
+                ModflowService.SelectedMFVersion = MODFLOWVersion.MF2005;
         }
     }
 }

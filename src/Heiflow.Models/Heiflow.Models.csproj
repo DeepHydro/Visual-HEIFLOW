@@ -195,6 +195,7 @@
     <Compile Include="IO\MmsParameterFile.cs" />
     <Compile Include="Subsurface\Packages\CHDPackage.cs" />
     <Compile Include="Subsurface\Packages\HFBPackage.cs" />
+    <Compile Include="Subsurface\Packages\IFlowPropertyPackage.cs" />
     <Compile Include="Subsurface\Packages\NWTPackage.cs" />
     <Compile Include="Subsurface\Packages\SubOutputPackage.cs" />
     <Compile Include="Subsurface\Packages\SUBPackage.cs" />

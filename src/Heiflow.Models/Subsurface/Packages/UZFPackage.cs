@@ -567,7 +567,7 @@ namespace Heiflow.Models.Subsurface
         /// </summary>
         private void CheckEXTWC(ICancelProgressHandler prg)
         {
-            var lpf = Owner.GetPackage(LPFPackage.PackageName) as LPFPackage;
+            var lpf = ModflowInstance.FlowPropertyPackage;
             int count_modfied = 0;
             for (int i = 0; i < MFGridInstance.ActiveCellCount; i++)
             {
