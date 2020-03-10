@@ -94,7 +94,7 @@ namespace Heiflow.Models.Atmosphere
             return et0;
         }
 
-        public double ET0(double lat, double lng, double tavrg, double tmax, double tmin, double rh, double airP, double wind2, DateTime day, double cloudCover, ref double short_rad, ref double long_rad)
+        public double ET0(double lat, double lng, double tavrg, double tmax, double tmin, double rh, double airP, double wind2, DateTime day, double cloudCover, double albedo, ref double short_rad, ref double long_rad)
         {
             sw.Latitude = lat;
             sw.Longitude = lng;
@@ -117,7 +117,7 @@ namespace Heiflow.Models.Atmosphere
                 G = 0.14 * (MonthTemperature[month - 1] - MonthTemperature[month - 2]);
             }
 
-            double Rnet = sw.DailyNetRadiation(lat, lng, day, tmax, tmin, Ea, ref short_rad,ref long_rad,0.23, cloudCover);
+            double Rnet = sw.DailyNetRadiation(lat, lng, day, tmax, tmin, Ea, ref short_rad,ref long_rad, albedo, cloudCover);
 
             double d = 0.408 * delta * (Rnet - G) + garma * 900 * wind2 * (Es - Ea) / (tavrg - 0.15);
             et0 = d / (delta + garma * (1 + 0.34 * wind2));

@@ -61,6 +61,7 @@ namespace Heiflow.Tools.Math
             this.Author = "Yong Tian";
             CloudCover = 0.15;
             PET = "PET";
+            DefaultAlbedo = 0.23;
         }
         [Category("Input")]
         [Description("The data file should be a txt or csv file. It cotains 7 columns, including date, tav,tmax,tmin,relative humidity, air pressure and wind speed. The units should be K, K, K, percentage, Kpa and m/s")]
@@ -87,7 +88,12 @@ namespace Heiflow.Tools.Math
             get;
             set;
         }
-
+        [Category("Parameter")]
+        public double DefaultAlbedo
+        {
+            get;
+            set;
+        }
         [Category("Output")]
         [Description("The matrix name of PET")]
         public string PET
@@ -136,7 +142,7 @@ namespace Heiflow.Tools.Math
             for (int i = 0; i < nrow; i++)
             {
                 var vv = meto[i];
-                et0.Add((float)pet.ET0(Latitude, Longitude, vv[0], vv[1], vv[2], vv[3], vv[4], vv[5], dates[i], CloudCover, ref short_rad, ref long_rad));
+                et0.Add((float)pet.ET0(Latitude, Longitude, vv[0], vv[1], vv[2], vv[3], vv[4], vv[5], dates[i], CloudCover,DefaultAlbedo, ref short_rad, ref long_rad));
 
             }
             DataCube<float> mat_out = new DataCube<float>(1, 1, et0.Count);

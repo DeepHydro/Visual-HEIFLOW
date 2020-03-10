@@ -62,6 +62,7 @@ namespace Heiflow.Tools.Math
             InputTemperatureUnit = TemperatureUnit.Fahrenheit;
             OutputLengthUnit = LengthUnit.inch;
             CloudCover = 0.15;
+            DefaultAlbedo = 0.23;
         }
         [Category("Input")]
         [Description("The shpfile name")]
@@ -152,7 +153,12 @@ namespace Heiflow.Tools.Math
             get;
             set;
         }
-
+        [Category("Parameter")]
+        public double DefaultAlbedo
+        {
+            get;
+            set;
+        }
         [Category("Output")]
         [Description("The name of the output file")]
         [EditorAttribute(typeof(SaveFileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
@@ -235,7 +241,7 @@ namespace Heiflow.Tools.Math
                     }
                     double ap = mats[4][0,0,n]/ 1000;
                     var et0 = pet.ET0(coors[n].Y, coors[n].X, tav, tmax, tmin,
-                         mats[3][0, 0, n], ap, mats[5][0, 0, n], Start.AddDays(t), CloudCover, ref short_rad, ref long_rad);
+                         mats[3][0, 0, n], ap, mats[5][0, 0, n], Start.AddDays(t), CloudCover,DefaultAlbedo, ref short_rad, ref long_rad);
 
                     if (OutputLengthUnit == LengthUnit.inch)
                     {

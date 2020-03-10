@@ -40,7 +40,7 @@ namespace Heiflow.Models.Atmosphere
     /// </summary>
     public class SunEarth
     {
-          double k1 = 360.0 / 365.0;
+          readonly double k1 = 360.0 / 365.0;
           public static double D2R = Math.PI / 180.0;
           public static double R2D = 180.0 / Math.PI;
 
