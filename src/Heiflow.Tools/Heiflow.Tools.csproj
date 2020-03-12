@@ -98,12 +98,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConceptualModel\SetSFRElevTool.cs" />
-    <Compile Include="ConceptualModel\SetSFRVKTool.cs" />
+    <Compile Include="ConceptualModel\SFR\SetReachByCSV.cs" />
+    <Compile Include="ConceptualModel\SFR\SetSFRElevTool.cs" />
+    <Compile Include="ConceptualModel\SFR\SetSFRVKTool.cs" />
     <Compile Include="DataManagement\CreateStationLayer.cs" />
     <Compile Include="Postprocessing\CompareGWHead.cs" />
     <Compile Include="ConceptualModel\BoreholeToAquiferSturcutre.cs" />
-    <Compile Include="ConceptualModel\SetSFRByShpTool.cs" />
+    <Compile Include="ConceptualModel\SFR\SetSFRByShpTool.cs" />
     <Compile Include="Preprocessing\PreproSFRTool.cs" />
     <Compile Include="ConceptualModel\UZFByZoneIDTool.cs" />
     <Compile Include="ConceptualModel\LPFByZoneIDTool .cs" />
@@ -113,7 +114,7 @@
     <Compile Include="ConceptualModel\FHBTool.cs" />
     <Compile Include="ConceptualModel\HOBTool.cs" />
     <Compile Include="ConceptualModel\ReachFeatureCollection.cs" />
-    <Compile Include="ConceptualModel\SFR2Tool.cs" />
+    <Compile Include="ConceptualModel\SFR\SFR2Tool.cs" />
     <Compile Include="ConceptualModel\CHDTool.cs" />
     <Compile Include="ConceptualModel\WellTool.cs" />
     <Compile Include="Conversion\FromExcel.cs" />

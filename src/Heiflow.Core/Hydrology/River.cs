@@ -104,6 +104,14 @@ namespace Heiflow.Core.Hydrology
                 this.Width = reach.Width;
             }
         }
+        public Reach GetReach(int iseg, int ireach)
+        {
+            var reach = Reaches.Where(r => r.ISEG == iseg && r.IREACH == ireach);
+            if (reach.Any())
+                return reach.First();
+            else
+                return null;
+        }
 
         public Reach GetReach(int id)
         {

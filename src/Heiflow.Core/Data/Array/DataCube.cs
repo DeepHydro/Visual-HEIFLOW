@@ -865,8 +865,11 @@ namespace Heiflow.Core.Data
         {
             for (int i = 0; i < Size[0]; i++)
             {
-                _arrays[i].Dispose();
-                _arrays[i] = null;
+                if (_arrays[i] != null)
+                {
+                    _arrays[i].Dispose();
+                    _arrays[i] = null;
+                }
             }
         }
         public void OnDataCubeValueChanged()

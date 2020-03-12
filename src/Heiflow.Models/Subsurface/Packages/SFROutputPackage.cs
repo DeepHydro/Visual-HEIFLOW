@@ -223,7 +223,7 @@ namespace Heiflow.Models.Subsurface
                                                 var temp = TypeConverterEx.SkipSplit<float>(line, 5);
                                                 for (int v = 0; v < varLen; v++)
                                                 {
-                                                   // DataCube.ILArrays[v].SetValue(temp[v], t, rch_index);
+                                                    // DataCube.ILArrays[v].SetValue(temp[v], t, rch_index);
                                                     //Values.Value[v][t][rch_index] = temp[v];
                                                     DataCube[v, t, rch_index] = temp[v];
                                                 }
@@ -246,11 +246,7 @@ namespace Heiflow.Models.Subsurface
                                         }
                                         line = sr.ReadLine();
                                         var temp = TypeConverterEx.SkipSplit<float>(line, 5);
-                                        if (progress > 91)
-                                        {
-                                            Console.WriteLine(i);
-                                        }
-                                            for (int v = 0; v < varLen; v++)
+                                        for (int v = 0; v < varLen; v++)
                                         {
                                             DataCube[v, t, i] = temp[v];
                                         }
@@ -307,7 +303,7 @@ namespace Heiflow.Models.Subsurface
             }
             else
             {
-                Message="The file does not exist: " + filename;
+                Message = "The file does not exist: " + filename;
                 ShowWarning(Message, progresshandler);
                 result = LoadingState.Warning;
             }

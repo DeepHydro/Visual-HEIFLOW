@@ -109,6 +109,18 @@ namespace Heiflow.Core.Hydrology
              else
                  return null;
         }
+        public Reach GetReach(int iseg, int ireach)
+        {
+            var river = GetRiver(iseg);
+            if (river != null)
+            {
+                return river.GetReach(iseg, ireach);
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         public List<River> BuildProfile(int startID, int endID)
         {

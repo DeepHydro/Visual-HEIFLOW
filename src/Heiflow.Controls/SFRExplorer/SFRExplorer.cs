@@ -390,12 +390,14 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 StreamWriter sw = new StreamWriter(ofd.FileName);
-                sw.WriteLine("River,Reach,Length,TopElevation");
+                sw.WriteLine("KRCH,IRCH,JRCH,ISEG,IREACH,RCHLEN,STRTOP,SLOPE,STRTHICK,STRHC1,THTS,THTI,EPS");
                 foreach (var river in _ProfileRivers)
                 {
                     foreach (var re in river.Reaches)
                     {
-                        string line = string.Format("{0},{1},{2},{3}", river.ID, re.SubID, re.Length, re.TopElevation);
+                        string line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12}", re.KRCH, re.IRCH, re.JRCH, re.ISEG, 
+                            re.IREACH, re.Length, re.TopElevation, re.Slope, re.BedThick,
+                            re.STRHC1, re.THTS, re.THTI, re.EPS);
                         sw.WriteLine(line);
                     }
                 }

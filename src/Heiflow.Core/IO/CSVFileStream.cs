@@ -207,29 +207,35 @@ namespace Heiflow.Core.IO
         /// <summary>
         /// load datatable from .csv file.
         /// </summary>
-        /// <returns>DataTable that has one column with float type</returns>
+        /// <returns>DataTable</returns>
         public DataTable Load()
         {
-            DataTable dt = new DataTable();
-            StreamReader sr = new StreamReader(_Filename);
-
-            string line = sr.ReadLine().Trim();
-            DataColumn dc = new DataColumn(line, Type.GetType("System.Single"));
-            dt.Columns.Add(dc);
-            while (!sr.EndOfStream)
+            DataTable dtCsv = new DataTable();
+            using (StreamReader sr = new StreamReader(_Filename))
             {
-                line = sr.ReadLine().Trim();
-                if (!TypeConverterEx.IsNull(line))
+                var line = sr.ReadLine();
+                string[] rowValues = line.Split(','); //split each row with comma to get individual values  
+                for (int j = 0; j < rowValues.Count(); j++)
                 {
-                    float vv = 0;
-                    float.TryParse(line, out vv);
-                    var dr = dt.NewRow();
-                    dr[0] = vv;
-                    dt.Rows.Add(dr);
+                    dtCsv.Columns.Add(rowValues[j]); //add headers  
+                }
+                while (!sr.EndOfStream)
+                {
+                    line = sr.ReadLine();
+                    if (TypeConverterEx.IsNotNull(line))
+                    {
+                        rowValues = line.Split(','); //split each row with comma to get individual values  
+                        DataRow dr = dtCsv.NewRow();
+                        for (int k = 0; k < rowValues.Count(); k++)
+                        {
+                            dr[k] = rowValues[k].ToString();
+                        }
+                        dtCsv.Rows.Add(dr); //add other rows  
+                    }
                 }
             }
-            sr.Close();
-            return dt;
+
+            return dtCsv;
         }
 
         public void LoadTo(DataTable source)
@@ -277,7 +283,7 @@ namespace Heiflow.Core.IO
             sr.Close();
         }
 
-        public void GetCotentInfo(ref int nrow, ref int ncol, ref string header)
+        public void GetContentInfo(ref int nrow, ref int ncol, ref string header)
         {
             nrow = 0;
             StreamReader sr = new StreamReader(_Filename);
@@ -316,7 +322,7 @@ namespace Heiflow.Core.IO
              int nrow=0;
             int ncol=0;
              string header="";
-            GetCotentInfo(ref  nrow, ref  ncol, ref  header);
+            GetContentInfo(ref  nrow, ref  ncol, ref  header);
             ILArray<T> array = ILMath.zeros<T>(nrow, ncol);
             StreamReader sr = new StreamReader(_Filename);
             try
