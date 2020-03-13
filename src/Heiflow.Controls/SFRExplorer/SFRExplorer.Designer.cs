@@ -143,21 +143,21 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.menu_LoadAll.Checked = true;
             this.menu_LoadAll.CheckState = System.Windows.Forms.CheckState.Checked;
             this.menu_LoadAll.Name = "menu_LoadAll";
-            this.menu_LoadAll.Size = new System.Drawing.Size(214, 26);
+            this.menu_LoadAll.Size = new System.Drawing.Size(216, 26);
             this.menu_LoadAll.Text = "Load all variables";
             this.menu_LoadAll.Click += new System.EventHandler(this.menu_LoadAll_Click);
             // 
             // menu_LoadSingle
             // 
             this.menu_LoadSingle.Name = "menu_LoadSingle";
-            this.menu_LoadSingle.Size = new System.Drawing.Size(214, 26);
+            this.menu_LoadSingle.Size = new System.Drawing.Size(216, 26);
             this.menu_LoadSingle.Text = "Load singel variable";
             this.menu_LoadSingle.Click += new System.EventHandler(this.menu_LoadSingle_Click);
             // 
             // menu_Clear
             // 
             this.menu_Clear.Name = "menu_Clear";
-            this.menu_Clear.Size = new System.Drawing.Size(214, 26);
+            this.menu_Clear.Size = new System.Drawing.Size(216, 26);
             this.menu_Clear.Text = "Clear loaded data";
             this.menu_Clear.Click += new System.EventHandler(this.menu_Clear_Click);
             // 
@@ -487,10 +487,10 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.groupBox2);
-            this.tabPage4.Location = new System.Drawing.Point(4, 25);
+            this.tabPage4.Location = new System.Drawing.Point(4, 28);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(257, 596);
+            this.tabPage4.Size = new System.Drawing.Size(257, 593);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "Profile";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -506,7 +506,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(3, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(251, 590);
+            this.groupBox2.Size = new System.Drawing.Size(251, 587);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             // 

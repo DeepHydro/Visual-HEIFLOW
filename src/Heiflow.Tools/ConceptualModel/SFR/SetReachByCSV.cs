@@ -52,9 +52,6 @@ namespace Heiflow.Tools.ConceptualModel
 {
     public class SetReachByCSV : MapLayerRequiredTool
     {
-        private IMapLayerDescriptor _StreamFeatureLayerDescriptor;
-        private IFeatureSet _stream_layer;
-        private StreamGenerator _StreamGenerator;
         public SetReachByCSV()
         {
             Name = "Set Reach Parameters by CSV File";

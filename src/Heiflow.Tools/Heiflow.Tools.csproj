@@ -98,6 +98,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConceptualModel\SFR\SmoothElev.cs" />
     <Compile Include="ConceptualModel\SFR\SetReachByCSV.cs" />
     <Compile Include="ConceptualModel\SFR\SetSFRElevTool.cs" />
     <Compile Include="ConceptualModel\SFR\SetSFRVKTool.cs" />
