@@ -106,6 +106,7 @@ namespace Heiflow.Models.Generic
         bool Check(out string msg);
         void Remove();
         void UpdateTimeService();
+        void UpdateAttributeTable();
         void AddChild(IPackage pck);
         IPackage SelectChild(string name);
         void Attach(DotSpatial.Controls.IMap map,  string directory);

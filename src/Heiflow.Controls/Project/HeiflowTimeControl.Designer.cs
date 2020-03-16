@@ -543,7 +543,7 @@
             // 
             // olvColMFNumTime
             // 
-            this.olvColMFNumTime.AspectName = "NumTimeSteps";
+            this.olvColMFNumTime.AspectName = "NSTP";
             this.olvColMFNumTime.CellEditUseWholeCell = true;
             this.olvColMFNumTime.Text = "Num Time Steps";
             this.olvColMFNumTime.Width = 124;

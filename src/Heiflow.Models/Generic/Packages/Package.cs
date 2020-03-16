@@ -564,7 +564,10 @@ namespace Heiflow.Models.Generic
         {
             return null;
         }
+        public virtual void UpdateAttributeTable()
+        {
 
+        }
         private void NewFeatureLayer(DotSpatial.Controls.IMap map, string directory)
         {
             string filename = Path.Combine(directory, this.Name + ".shp");

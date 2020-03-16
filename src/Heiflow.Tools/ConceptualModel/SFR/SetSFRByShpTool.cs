@@ -114,7 +114,7 @@ namespace Heiflow.Tools.ConceptualModel
                     RunoffField = "Runoff";
                     ETField = "ET";
                     RainfallField = "Rainfall";
-                    RoughnessField = "Roughness";
+                    RoughnessField = "Rough";
                     BedThicknessField = "BedThick";
                     SlopeField = "Slope";
                     OffsetField = "Offset";
@@ -132,7 +132,7 @@ namespace Heiflow.Tools.ConceptualModel
                     FlowField = "Flow";
                     ETField = "ET";
                     RainfallField = "Rainfall";
-                    RoughnessField = "Roughness";
+                    RoughnessField = "Rough";
                     BedThicknessField = "BedThick";
                     SlopeField = "Slo2";
                     OffsetField = "Offset";
@@ -362,6 +362,7 @@ namespace Heiflow.Tools.ConceptualModel
                             reach.EPS = TypeConverterEx.IsNotNull(dr[EPSField].ToString()) ? double.Parse(dr[EPSField].ToString()) : 3.5;
                         }
                     }
+                    sfr.NetworkToMat();
                     return true;
                 }
             }

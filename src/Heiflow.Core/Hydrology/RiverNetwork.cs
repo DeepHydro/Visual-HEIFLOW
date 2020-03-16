@@ -132,7 +132,21 @@ namespace Heiflow.Core.Hydrology
             pro.Add(end);
             return pro;
         }
-
+        public float[] GetProfileProperty(int startID, int endID,string propname)
+        {
+            var profile = BuildProfile(startID, endID);
+            var list = new List<float>();
+            foreach(var riv in profile)
+            {
+                foreach(var rch in riv.Reaches)
+                {
+                    var vv = rch.GetType().GetProperty(propname).GetValue(rch);
+                    list.Add(float.Parse(vv.ToString()));
+           //         rch.TopElevation,rch.Width,rch.ROUGHCH
+                }
+            }
+            return list.ToArray();
+        }
         private void FindDownSteam(List<River> pro, River up, int endid)
         {
             if (up.Downstream != null && up.Downstream.ID != endid)

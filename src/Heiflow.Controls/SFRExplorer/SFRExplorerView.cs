@@ -27,12 +27,15 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Symbology;
 using Heiflow.Applications;
+using Heiflow.Controls.WinForm.Display;
 using Heiflow.Controls.WinForm.Properties;
 using Heiflow.Controls.WinForm.TimeSeriesExplorer;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Subsurface;
 using Heiflow.Models.UI;
+using Heiflow.Presentation;
 using Heiflow.Presentation.Services;
 using Microsoft.Research.Science.Data.NetCDF4;
 using System;
@@ -90,9 +93,14 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         }
 
         public void ShowView(IWin32Window pararent)
-        {          
-            if(!this.Visible)
+        {
+            if (!this.Visible)
+            {
+                var control = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectController>();
+                var map_layers = from layer in control.MapAppManager.Map.Layers where layer is IFeatureLayer select new FeatureMapLayer { LegendText = layer.LegendText, DataSet = (layer as IFeatureLayer).DataSet };
+                sfrExplorer1.FeatureLayers = map_layers.ToArray();
                 this.Show(pararent);
+            }
         }
         private  void SFRExplorerView_FormClosing(object sender, FormClosingEventArgs e)
         {

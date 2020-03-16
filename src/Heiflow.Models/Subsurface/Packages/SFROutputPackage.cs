@@ -65,6 +65,8 @@ namespace Heiflow.Models.Subsurface
             SkippedSteps = 1;
             DefaultAttachedVariables = new string[] { "Flow into stream", "Stream loss", "Flow out of stream", "Overland runoff","Direct pricipitation", "Stream ET"
             ,"Stream head", "Stream depth","Stream width", "Stream conductance", "Flow to water table", "Change of unsat. stor.", "Groundwater head"};
+            DefaultVariablesAbbrv = new string[] { "FlowIn", "FlowLoss", "FlowOut", "Runoff","RiverRain", "RiverET"
+            ,"RiverHead", "RiverDepth","RiverWidth", "RivConduct", "FlowToGW", "UnsatStor", "GWHead"};
             ReachIndex = new List<Tuple<int, int, int>>();
             _SFRPackage = sfr;
             _Layer3DToken = "SFR";
@@ -77,7 +79,12 @@ namespace Heiflow.Models.Subsurface
             get;
             private set;
         }
-
+        [Browsable(false)]
+        public string[] DefaultVariablesAbbrv
+        {
+            get;
+            private set;
+        }
         public bool IsReadSSData
         {
             get;

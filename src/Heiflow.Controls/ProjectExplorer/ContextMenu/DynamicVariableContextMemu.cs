@@ -154,7 +154,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
         {
             var dp = _Package as IDataPackage;
             var mat = dp.DataCube;
-            if (mat != null)
+            if (mat != null && _SelectedNode != null)
             {
                 mat.ILArrays[this.VariableIndex] = null;
                 foreach (var item in _sub_menus)

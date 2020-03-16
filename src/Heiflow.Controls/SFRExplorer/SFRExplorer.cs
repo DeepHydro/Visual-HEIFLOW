@@ -27,7 +27,9 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Symbology;
 using Heiflow.Applications;
+using Heiflow.Controls.WinForm.Display;
 using Heiflow.Controls.WinForm.Properties;
 using Heiflow.Controls.WinForm.TimeSeriesExplorer;
 using Heiflow.Core.Data;
@@ -35,10 +37,12 @@ using Heiflow.Core.Data.ODM;
 using Heiflow.Core.Hydrology;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Subsurface;
+using Heiflow.Presentation;
 using Heiflow.Presentation.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -54,6 +58,8 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         private IShellService _ShellService;
         private int _Selected_Sfr_var;
         private bool _LoadAllVars = true;
+        private FeatureMapLayer[] _FeatureMapLayers;
+        private FeatureMapLayer _SelectedFeatureMapLayer;
 
         public SFRExplorer()
         {
@@ -68,6 +74,10 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             cmbRchID.DisplayMember = "SubID";
             cmbSite.DisplayMember = "Name";
             cmbObsVars.DisplayMember = "Name";
+            cmbLoadVar.SelectedIndex = 0;
+            tabControlLeft.Enabled = false;
+            cmbLayers.DisplayMember = "LegendText";
+            cmbLayers.ValueMember = "DataSet";
         }
 
         public SFROutputPackage SFROutput
@@ -103,6 +113,19 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             }
         }
 
+        public FeatureMapLayer[] FeatureLayers
+        {
+            set
+            {
+                _FeatureMapLayers = value;
+                cmbLayers.DataSource = _FeatureMapLayers;
+            }
+            get
+            {
+                return _FeatureMapLayers;
+            }
+        }
+
         private void SFRExplorer_Load(object sender, EventArgs e)
         {
             labelStatus.Text = "";
@@ -123,14 +146,10 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                 SFROutput.IsLoadCompleteData = chbReadComplData.Checked;
                 toolStripProgressBar1.Visible = true;
                 toolStrip1.Enabled = false;
-                tabControl2.Enabled = false;
+                tabControlLeft.Enabled = false;
                 colorSlider1.Enabled = false;
                 SFROutput.Loading += SFROutputPackage_Loading;
                 SFROutput.Loaded += SFROutputPackage_Loaded;
-            //    SFROutput.LoadFailed += SFROutput_LoadFailed;
-
-                if (cmbSFRVars.SelectedIndex < 0)
-                    menu_LoadAll_Click(menu_LoadAll, null);
                 worker.RunWorkerAsync();
             }
         }
@@ -138,7 +157,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         public void ClearContent()
         {
             this.winChart_timeseries.Clear();
-           
+
         }
         private void SFROutputPackage_Loaded(object sender, LoadingObjectState e)
         {
@@ -147,17 +166,17 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                 toolStripProgressBar1.Visible = false;
                 labelStatus.Text = "";
                 toolStrip1.Enabled = true;
-                tabControl2.Enabled = true;
+                tabControlLeft.Enabled = true;
                 colorSlider1.Enabled = true;
                 SFROutput.Loading -= SFROutputPackage_Loading;
                 SFROutput.Loaded -= SFROutputPackage_Loaded;
-                //SFROutput.LoadFailed -= SFROutput_LoadFailed;
 
                 if (e.State == LoadingState.Normal)
                 {
                     var riv_ids = from rv in SFROutput.RiverNetwork.Rivers select rv.ID;
                     cmbSegsID.DataSource = SFROutput.RiverNetwork.Rivers;
                     cmbStartID.DataSource = riv_ids.ToArray();
+                    cmbDates.DataSource = SFROutput.DataCube.DateTimes;
                 }
                 else
                 {
@@ -179,7 +198,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
            toolStripProgressBar1.Visible = false;
            labelStatus.Text = "";
            toolStrip1.Enabled = true;
-           tabControl2.Enabled = true;
+           tabControlLeft.Enabled = true;
            colorSlider1.Enabled = true;
            //SFROutput.LoadFailed -= SFROutput_LoadFailed;
        });
@@ -304,20 +323,39 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
 
         private void cmbEndID_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbSFRVars.SelectedIndex < 0)
-                return;
             if (cmbEndID.SelectedItem != null)
             {
+                if (cmbSFRVars.SelectedIndex < 0)
+                    return;
+
+                if (!SFROutput.DataCube.IsAllocated(cmbSFRVars.SelectedIndex))
+                {
+                    MessageBox.Show("The selected variable is not loaded.", "SFR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 tabControl_Chart.SelectedTab = this.tabPageProfile;
                 var river_start = (int)cmbStartID.SelectedItem;
                 var river_end = (int)cmbEndID.SelectedItem;
-                _ProfileRivers = SFROutput.RiverNetwork.BuildProfile(river_start, river_end);
-                _ProfileMat = SFROutput.ProfileTimeSeries(_ProfileRivers, cmbSFRVars.SelectedIndex, 0,
-                    chbReadComplData.Checked, chbUnifiedByLength.Checked);
-                colorSlider1.Maximum = SFROutput.DataCube.Size[1] - 1;
-                colorSlider1.Value = 0;
-                string series = string.Format("{0} from {1} to {2}", cmbSFRVars.SelectedItem.ToString(), river_start, river_end);
-                winChart_proflie.Plot(_ProfileMat[0, "0", ":"], _ProfileMat[1, "0", ":"], series);
+
+                if (radioPlotVar.Checked)
+                {
+                    _ProfileRivers = SFROutput.RiverNetwork.BuildProfile(river_start, river_end);
+                    _ProfileMat = SFROutput.ProfileTimeSeries(_ProfileRivers, cmbSFRVars.SelectedIndex, 0,
+                        chbReadComplData.Checked, chbUnifiedByLength.Checked);
+                    colorSlider1.Maximum = SFROutput.DataCube.Size[1] - 1;
+                    colorSlider1.Value = 0;
+                    string series = string.Format("{0} from {1} to {2}", cmbSFRVars.SelectedItem.ToString(), river_start, river_end);
+                    winChart_proflie.Plot(_ProfileMat[0, "0", ":"], _ProfileMat[1, "0", ":"], series);
+                }
+                else if (radioPlotProp.Checked)
+                {
+                    if (cmbPropertyName.SelectedIndex < 0)
+                        return;
+                    var prof = SFROutput.RiverNetwork.GetProfileProperty(river_start, river_end, cmbPropertyName.SelectedItem.ToString());
+                    string series = string.Format("{0} from {1} to {2}", cmbPropertyName.SelectedItem.ToString(), river_start, river_end);
+                    winChart_proflie.Plot(prof, series);
+                }
             }
         }
 
@@ -380,13 +418,32 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             }
         }
 
-
-        private void exportProfileToolStripMenuItem_Click(object sender, EventArgs e)
+        private void exportRiversToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (_ProfileRivers == null)
                 return;
             SaveFileDialog ofd = new SaveFileDialog();
-            ofd.FileName = "River Profile.csv";
+            ofd.FileName = "Segment Profile.csv";
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                StreamWriter sw = new StreamWriter(ofd.FileName);
+                sw.WriteLine("NSEG,ICALC,OUTSEG,IUPSEG,FLOW,RUNOFF,ETSW,PPTSW,ROUGHCH,WIDTH1,WIDTH2,IPRIOR");
+                foreach (var river in _ProfileRivers)
+                {
+                    string line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}", river.ID, river.ICALC, river.OutRiverID,
+                        river.UpRiverID, river.Flow, river.Runoff, river.ETSW, river.PPTSW, river.ROUGHCH, river.Width1, river.Width2,river.IPrior);
+                    sw.WriteLine(line);
+
+                }
+                sw.Close();
+            }
+        }
+        private void exportReachesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_ProfileRivers == null)
+                return;
+            SaveFileDialog ofd = new SaveFileDialog();
+            ofd.FileName = "Reach Profile.csv";
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 StreamWriter sw = new StreamWriter(ofd.FileName);
@@ -395,7 +452,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                 {
                     foreach (var re in river.Reaches)
                     {
-                        string line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12}", re.KRCH, re.IRCH, re.JRCH, re.ISEG, 
+                        string line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12}", re.KRCH, re.IRCH, re.JRCH, re.ISEG,
                             re.IREACH, re.Length, re.TopElevation, re.Slope, re.BedThick,
                             re.STRHC1, re.THTS, re.THTI, re.EPS);
                         sw.WriteLine(line);
@@ -405,14 +462,9 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             }
         }
 
-        private void exportRiversToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnAdd2Toolbox_Click(object sender, EventArgs e)
         {
-            if(_ShellService == null)
+            if (_ShellService == null)
                 _ShellService = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
             Cursor.Current = Cursors.WaitCursor;
             if (_ProfileRivers != null && SFROutput.DataCube != null)
@@ -437,30 +489,92 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             Cursor.Current = Cursors.Default;
         }
 
-        private void menu_LoadAll_Click(object sender, EventArgs e)
-        {
-            menu_LoadAll.CheckState = CheckState.Checked;
-            menu_LoadSingle.CheckState = CheckState.Unchecked;
-            SFROutput.Scan();
-            _LoadAllVars = true;
-        }
-
-        private void menu_LoadSingle_Click(object sender, EventArgs e)
-        {
-            menu_LoadAll.CheckState = CheckState.Unchecked;
-            menu_LoadSingle.CheckState = CheckState.Checked;
-            SFROutput.Scan();
-            _LoadAllVars = false;
-        }
-
-        private void menu_Clear_Click(object sender, EventArgs e)
-        {
-            _SFROutputPackage.DataCube.Clear();
-        }
-
         private void cmbSFRVars_SelectedIndexChanged(object sender, EventArgs e)
         {
             _Selected_Sfr_var = cmbSFRVars.SelectedIndex;
         }
+
+        private void btnScan_Click(object sender, EventArgs e)
+        {
+            SFROutput.Scan();
+            if (SFROutput.NumTimeStep > 0)
+            {
+                tabControlLeft.Enabled = true;
+              
+            }
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            _SFROutputPackage.DataCube.Clear();
+        }
+
+        private void cmbLoadVar_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbLoadVar.SelectedIndex == 0)
+                _LoadAllVars = true;
+            else
+                _LoadAllVars = false;
+        }
+
+        private void radioPlotVar_CheckedChanged(object sender, EventArgs e)
+        {
+            groupPlotVar.Enabled = radioPlotVar.Checked;
+            groupPlotProp.Enabled = radioPlotProp.Checked;
+            if (cmbPropertyName.SelectedIndex < 0)
+                cmbPropertyName.SelectedIndex = 0;
+        }
+
+        private void btnShowLayer_Click(object sender, EventArgs e)
+        {
+            if (cmbLayers.SelectedItem == null)
+                return;
+            if (cmbDates.SelectedItem == null)
+                return;
+            if (cmbSFRVars.SelectedIndex < 0)
+                return;
+            if (!SFROutput.DataCube.IsAllocated(cmbSFRVars.SelectedIndex))
+            {
+                MessageBox.Show("The selected variable is not loaded.", "SFR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            _SelectedFeatureMapLayer = cmbLayers.SelectedItem as FeatureMapLayer;
+            if (_SelectedFeatureMapLayer != null)
+            {
+                var dt = _SelectedFeatureMapLayer.DataSet.DataTable;
+                if (SFROutput.DataCube.Size[2] == dt.Rows.Count)
+                {
+                    Cursor.Current = Cursors.WaitCursor;
+                    var varname = SFROutput.DefaultVariablesAbbrv[cmbSFRVars.SelectedIndex];
+                    if (!dt.Columns.Contains(varname))
+                    {
+                        DataColumn col = new DataColumn(varname, typeof(float));
+                        dt.Columns.Add(col);
+                    }
+                    var vec = SFROutput.DataCube.GetVector(cmbSFRVars.SelectedIndex, cmbDates.SelectedIndex.ToString(), ":");
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        dt.Rows[i][varname] = vec[i];
+                    }
+                    _SelectedFeatureMapLayer.DataSet.Save();
+                    Cursor.Current = Cursors.Default;
+                }
+                else
+                {
+                    MessageBox.Show("The selected Feature Layer is invalid.", "SFR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+        }
+
+        private void btnRefreshLayer_Click(object sender, EventArgs e)
+        {
+            var control = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectController>();
+            var map_layers = from layer in control.MapAppManager.Map.Layers where layer is IFeatureLayer select new FeatureMapLayer { LegendText = layer.LegendText, DataSet = (layer as IFeatureLayer).DataSet };
+            this.FeatureLayers = map_layers.ToArray();
+        }
+
+ 
     }
 }

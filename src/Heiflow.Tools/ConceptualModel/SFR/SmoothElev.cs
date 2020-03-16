@@ -62,8 +62,10 @@ namespace Heiflow.Tools.ConceptualModel
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
             DefaultOutfallElevation = 0;
-            MaxOffsetToGroundElev = 10;
+            //MaxOffsetToGroundElev = 10;
             MinOffsetToGroundElev = 5;
+            //GroundElevOffsetToStream = 5;
+            StreamBedOffsetToBtmElev = 10;
         }
         [Category("Parameter")]
         [Description("The default elevation of outfalls")]
@@ -72,13 +74,13 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             set;
         }
-        [Category("Parameter")]
-        [Description("The maximum offset to ground elevation. It is used to determin the minimum elevation of stream bed")]
-        public double MaxOffsetToGroundElev
-        {
-            get;
-            set;
-        }
+        //[Category("Parameter")]
+        //[Description("The maximum offset to ground elevation. It is used to determin the minimum elevation of stream bed")]
+        //public double MaxOffsetToGroundElev
+        //{
+        //    get;
+        //    set;
+        //}
         [Category("Parameter")]
         [Description("The minimum offset to ground elevation. It is used to determin the maximum elevation of stream bed")]
         public double MinOffsetToGroundElev
@@ -86,7 +88,20 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             set;
         }
-
+        //[Category("Parameter")]
+        //[Description("The ground elevation offset to stream bed")]
+        //public double GroundElevOffsetToStream
+        //{
+        //    get;
+        //    set;
+        //}
+        [Category("Parameter")]
+        [Description("The stream bed elevation offset to the bottom elevation of top layer")]
+        public double StreamBedOffsetToBtmElev
+        {
+            get;
+            set;
+        }
         public override void Initialize()
         {
             this.Initialized = true;
@@ -107,7 +122,7 @@ namespace Heiflow.Tools.ConceptualModel
                 foreach (var outfall in net.Outfalls)
                 {
                     msg = string.Format("Processing the Outfall {0}", outfall.ID);
-                    ModifyRiverElev(-10, outfall.RiverObject, grid,dis);
+                    ModifyRiverElev(DefaultOutfallElevation, outfall.RiverObject, grid,dis);
                     progress = i / net.Outfalls.Count;
                     cancelProgressHandler.Progress("Package_Tool", progress, msg);
                     i++;
@@ -133,12 +148,32 @@ namespace Heiflow.Tools.ConceptualModel
                 var reach = river.Reaches[i];
                 reach.TopElevation = river.Reaches[i + 1].TopElevation + reach.Length * reach.Slope;
                 var index = grid.Topology.GetSerialIndex(reach.IRCH - 1, reach.JRCH - 1);
-                var minelev = dis.Elevation[0, 0, index] - MaxOffsetToGroundElev;
-                var maxelev = dis.Elevation[0, 0, index] - MinOffsetToGroundElev;
-                if (reach.TopElevation < minelev)
-                    reach.TopElevation = minelev;
-                if (reach.TopElevation > maxelev)
-                    reach.TopElevation = maxelev;
+                if (reach.TopElevation < dis.Elevation[1, 0, index])
+                {
+                    reach.TopElevation = dis.Elevation[1, 0, index] + StreamBedOffsetToBtmElev;
+                }
+                else if (reach.TopElevation > dis.Elevation[0, 0, index])
+                {
+                    //var delta = (float)reach.TopElevation - dis.Elevation[0, 0, index];
+                    //dis.Elevation[0, 0, index] += delta;
+                    if (i > 1 && i < nrch - 1)
+                    {
+                        var rch1 = river.Reaches[i + 1];
+                        var rch2 = river.Reaches[i - 1];
+                        var avelev = System.Math.Min(System.Math.Min(reach.TopElevation, rch1.TopElevation), rch2.TopElevation);
+                        reach.TopElevation = avelev - MinOffsetToGroundElev;
+                    }
+                    else
+                    {
+                        reach.TopElevation = dis.Elevation[0, 0, index] - MinOffsetToGroundElev;
+                    }
+                }
+                //var minelev = dis.Elevation[0, 0, index] - MaxOffsetToGroundElev;
+                //var maxelev = dis.Elevation[0, 0, index] - MinOffsetToGroundElev;
+                //if (reach.TopElevation < minelev)
+                //    reach.TopElevation = minelev;
+                //if (reach.TopElevation > maxelev)
+                //    reach.TopElevation = maxelev;
             }
             river.InletNode.Elevation = river.FirstReach.TopElevation;
             if(river.Upstreams.Count > 0)

@@ -271,6 +271,7 @@ namespace Heiflow.Models.Subsurface
                 fs.DataTable.Columns.Add(new DataColumn("IREACH", typeof(int)));
 
                 //reach parameters
+                fs.DataTable.Columns.Add(new DataColumn("CellElev", typeof(double)));
                 fs.DataTable.Columns.Add(new DataColumn("BedThick", typeof(double)));
                 fs.DataTable.Columns.Add(new DataColumn("Elev", typeof(double)));
                 fs.DataTable.Columns.Add(new DataColumn("Slope", typeof(double)));
@@ -312,6 +313,7 @@ namespace Heiflow.Models.Subsurface
                         feature.DataRow["JRCH"] = reach.JRCH;
                         feature.DataRow["IREACH"] = reach.SubID;
 
+                        feature.DataRow["CellElev"] = grid.GetElevationAt(reach.IRCH - 1, reach.JRCH - 1, 0);
                         feature.DataRow["BedThick"] = reach.BedThick;
                         feature.DataRow["Elev"] = reach.TopElevation;
                         feature.DataRow["Slope"] = reach.Slope;
@@ -346,6 +348,45 @@ namespace Heiflow.Models.Subsurface
             {
                 return null;
             }
+        }
+        public override void UpdateAttributeTable()
+        {
+             if(this.Feature != null)
+             {
+                 var dt = this.Feature.DataTable;               
+                 foreach(DataRow dr in dt.Rows)
+                 {
+                     var ireach = 0;
+                     var iseg = 0;
+                     iseg = int.Parse(dr["ISEG"].ToString());
+                     ireach = int.Parse(dr["IREACH"].ToString());
+                     var reach = RiverNetwork.GetReach(iseg, ireach);
+                     var river = RiverNetwork.GetRiver(iseg);
+                     if (reach != null && river != null)
+                     {
+                         dr["BedThick"] = reach.BedThick;
+                         dr["Elev"] = reach.TopElevation;
+                         dr["Slope"] = reach.Slope;
+                         dr["Length"] = reach.Length;
+                         dr["Offset"] = reach.Offset;
+                         dr["VK"] = reach.STRHC1;
+                         dr["THTS"] = reach.THTS;
+                         dr["THTI"] = reach.THTI;
+                         dr["EPS"] = reach.EPS;
+
+                         dr["Width"] = reach.Width;
+                         dr["IUPSEG"] = river.UpRiverID;
+                         dr["IPRIO"] = river.IPrior;
+                         dr["Flow"] = river.Flow;
+                         dr["Runoff"] = river.Runoff;
+                         dr["ET"] = river.ETSW;
+                         dr["Rainfall"] = river.PPTSW;
+                         dr["Rough"] = river.ROUGHCH;
+                         dr["IPrior"] = river.IPrior;
+                     }
+                 }
+                 this.Feature.Save();
+             }
         }
         public override LoadingState Load(ICancelProgressHandler progresshandler)
         {
@@ -431,7 +472,7 @@ namespace Heiflow.Models.Subsurface
             {
                 foreach (var reach in river.Reaches)
                 {
-                    reach.Slope = reach.Slope < 0.0001 ? 0.0001 : reach.Slope;
+                   // reach.Slope = reach.Slope < 0.0001 ? 0.0001 : reach.Slope;
                     var cell_index = grid.Topology.GetSerialIndex(reach.IRCH - 1, reach.JRCH - 1);
                     var ds = reach.THTS - lpf.SY[0, 0, cell_index];
                     if (ds < 0)
@@ -440,8 +481,8 @@ namespace Heiflow.Models.Subsurface
                     }
                     if (reach.THTI < ds)
                         reach.THTI = reach.THTS - lpf.SY[0, 0, cell_index];
-                    newline = string.Format(format, reach.KRCH, reach.IRCH, reach.JRCH, reach.ISEG, reach.IREACH, reach.Length.ToString("E5"), reach.TopElevation.ToString("E5"), reach.Slope.ToString("E5"),
-                        reach.BedThick, reach.STRHC1.ToString("E5"), reach.THTS, reach.THTI, reach.EPS, reach.IFACE);
+                    newline = string.Format(format, reach.KRCH, reach.IRCH, reach.JRCH, reach.ISEG, reach.IREACH, reach.Length.ToString("E5"), reach.TopElevation.ToString("E5"), reach.Slope.ToString("E8"),
+                        reach.BedThick.ToString("E5"), reach.STRHC1.ToString("E5"), reach.THTS.ToString("E5"), reach.THTI.ToString("E5"), reach.EPS.ToString("E5"), reach.IFACE.ToString("E5"));
                     sw.WriteLine(newline);
                 }
             }

@@ -36,7 +36,7 @@ using System.Threading.Tasks;
 
 namespace Heiflow.Controls.WinForm.Display
 {
-    internal class FeatureMapLayer
+    public class FeatureMapLayer
     {
         public string LegendText { get; set; }
         public IFeatureSet DataSet { get; set; }

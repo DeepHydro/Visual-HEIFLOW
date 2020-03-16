@@ -123,9 +123,16 @@ namespace Heiflow.Controls.WinForm.Controls
 
         private void btnZoomFull_Click(object sender, EventArgs e)
         {
-            SetScale();
-            chart1.ChartAreas["Default"].AxisX.ScaleView.ZoomReset(0);
-            chart1.ChartAreas["Default"].AxisY.ScaleView.ZoomReset(0);
+            try
+            {
+                SetScale();
+                chart1.ChartAreas["Default"].AxisX.ScaleView.ZoomReset(0);
+                chart1.ChartAreas["Default"].AxisY.ScaleView.ZoomReset(0);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void btnStat_Click(object sender, EventArgs e)

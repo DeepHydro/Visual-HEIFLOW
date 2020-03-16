@@ -97,7 +97,7 @@ namespace Heiflow.Models.Subsurface
 
         public override string ToString()
         {
-            return string.Format("{0}\t{1}\t{2}\t{3}\t# PERLEN NSTP TSMULT Ss/tr (Stress period {4})", Length, NumTimeSteps, Multiplier, State, ID);
+            return string.Format("{0}\t{1}\t{2}\t{3}\t# PERLEN NSTP TSMULT Ss/tr (Stress period {4})", Length, NSTP, Multiplier, State, ID);
         }
     }
 }

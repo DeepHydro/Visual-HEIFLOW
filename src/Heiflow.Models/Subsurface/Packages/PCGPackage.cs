@@ -61,7 +61,7 @@ namespace Heiflow.Models.Subsurface
             " is used to solve the finite difference equations " +
             " in each step of a MODFLOW stress period";
             Version = "PCG7";
-            IsMandatory = true;
+            IsMandatory = false;
 
             MXITER = 200;
             ITER1 = 500;

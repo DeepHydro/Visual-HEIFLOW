@@ -50,14 +50,14 @@ using System.Windows.Forms.Design;
 
 namespace Heiflow.Tools.ConceptualModel
 {
-    public class SetReachByCSV : MapLayerRequiredTool
+    public class SetSegmentByCSV : MapLayerRequiredTool
     {
-        public SetReachByCSV()
+        public SetSegmentByCSV()
         {
-            Name = "Set Reach Parameters by CSV File";
+            Name = "Set Segment Parameters by CSV File";
             Category = Cat_CMG;
             SubCategory = "SFR";
-            Description = "Set Reach Parameters by CSV File";
+            Description = "Set Segment Parameters by CSV File";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
@@ -94,24 +94,30 @@ namespace Heiflow.Tools.ConceptualModel
                 foreach (DataRow dr in dt.Rows)
                 {
                     var iseg = 0;
-                    var ireach = 0;
-                    int.TryParse(dr["ISEG"].ToString(), out iseg);
-                    int.TryParse(dr["IREACH"].ToString(), out ireach);
-                    var reach = rvnet.GetReach(iseg, ireach);
-                    if(reach != null)
+                    int.TryParse(dr["NSEG"].ToString(), out iseg);
+                    var river = rvnet.GetRiver(iseg);
+                    if(river != null)
                     {
-                        reach.Length = double.Parse(dr["RCHLEN"].ToString());
-                        reach.TopElevation = double.Parse(dr["STRTOP"].ToString());
-                        reach.Slope = double.Parse(dr["SLOPE"].ToString());
-                        reach.BedThick = double.Parse(dr["STRTHICK"].ToString());
-                        reach.STRHC1 = double.Parse(dr["STRHC1"].ToString());
-                        reach.THTS = double.Parse(dr["THTS"].ToString());
-                        reach.THTI = double.Parse(dr["THTI"].ToString());
-                        reach.EPS = double.Parse(dr["EPS"].ToString());
+                        river.UpRiverID = int.Parse(dr["IUPSEG"].ToString());
+                        river.Flow = double.Parse(dr["FLOW"].ToString());
+                        river.Runoff = double.Parse(dr["RUNOFF"].ToString());
+                        river.ETSW = double.Parse(dr["ETSW"].ToString());
+                        river.PPTSW = double.Parse(dr["PPTSW"].ToString());
+                        river.ROUGHCH = double.Parse(dr["ROUGHCH"].ToString());
+                        river.Width = double.Parse(dr["WIDTH1"].ToString());
+                        river.Width1 = double.Parse(dr["WIDTH1"].ToString());
+                        river.Width2 = double.Parse(dr["WIDTH2"].ToString());
+                        river.IPrior = int.Parse(dr["IPRIOR"].ToString());
+                        foreach(var rch in river.Reaches)
+                        {
+                            rch.Width = river.Width;
+                            rch.Width1 = river.Width;
+                            rch.Width2 = river.Width;
+                        }
                         count++;
                     }
                 }
-                msg = string.Format("{0} reaches are modified", count);
+                msg = string.Format("{0} segments are modified", count);
                 sfr.NetworkToMat();
                 cancelProgressHandler.Progress("Package_Tool", 90, msg);
                 return true;

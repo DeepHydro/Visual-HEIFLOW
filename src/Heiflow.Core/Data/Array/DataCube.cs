@@ -650,40 +650,51 @@ namespace Heiflow.Core.Data
             }
             else
             {
+                bool all_alloc = true;
                 for (int i = 0; i < nvar; i++)
                 {
-                    var dc = new DataColumn(Variables[i], typeof(T));
-                    dt.Columns.Add(dc);
-                }
-                if (time_index == -1 && cell_index == 0)
-                {
-                    for (int i = 0; i < ntime; i++)
+                    if (!IsAllocated(i))
                     {
-                        var dr = dt.NewRow();
-                        for (int j = 0; j < nvar; j++)
-                        {
-                            dr[j] = this[j, i, 0];
-                        }
-                        dt.Rows.Add(dr);
+                        all_alloc = false;
+                        break;
                     }
                 }
-                else if (time_index == 0 && cell_index == -1)
+                if (all_alloc)
                 {
-                    for (int i = 0; i < ncell; i++)
+                    for (int i = 0; i < nvar; i++)
                     {
-                        var dr = dt.NewRow();
-                        for (int j = 0; j < nvar; j++)
+                        var dc = new DataColumn(Variables[i], typeof(T));
+                        dt.Columns.Add(dc);
+                    }
+                    if (time_index == -1 && cell_index == 0)
+                    {
+                        for (int i = 0; i < ntime; i++)
                         {
-                            dr[j] = this[j, 0, i];
+                            var dr = dt.NewRow();
+                            for (int j = 0; j < nvar; j++)
+                            {
+                                dr[j] = this[j, i, 0];
+                            }
+                            dt.Rows.Add(dr);
                         }
-                        dt.Rows.Add(dr);
+                    }
+                    else if (time_index == 0 && cell_index == -1)
+                    {
+                        for (int i = 0; i < ncell; i++)
+                        {
+                            var dr = dt.NewRow();
+                            for (int j = 0; j < nvar; j++)
+                            {
+                                dr[j] = this[j, 0, i];
+                            }
+                            dt.Rows.Add(dr);
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Wrong value for the argument time_index or cell_index");
                     }
                 }
-                else
-                {
-                    throw new Exception("Wrong value for the argument time_index or cell_index");
-                }
-
             }
             return dt;
         }

@@ -51,7 +51,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
         protected const string _SaveAs = "Save As...";
         protected const string _EX = "Export...";
         protected const string _RM = "Remove";
-    
+        protected const string _UAT = "Update Attribute Table";
         protected const string _CS = "Coverage Setup...";
       //  protected const string _FS = "FeatureSet...";
         protected const string _AD = "Advanced...";
@@ -74,11 +74,10 @@ namespace Heiflow.Controls.WinForm.MenuItems
         {
             ContextMenuItems.Add(new ExplorerMenuItem(_Save, null, Save_Clicked));
             ContextMenuItems.Add(new ExplorerMenuItem(_SaveAs, Resources.GenericSave_B_16, SaveAs_Clicked));
-            
+            ContextMenuItems.Add(new ExplorerMenuItem(_UAT, null, UpdateAttributeTable_Clicked));
             ContextMenuItems.Add(new ExplorerMenuItem(_EX, null, Export_Clicked));
             if (MyAppManager.Instance.AppMode == AppMode.VHF)
             {
-         
                 ContextMenuItems.Add(new ExplorerMenuItem(PEContextMenu.MenuSeparator, null, null));
                 ContextMenuItems.Add(new ExplorerMenuItem(_CS, Resources.MapPackageTiledTPKFile16, CoverageSetup_Clicked));
                 //ContextMenuItems.Add(new ExplorerMenuItem(_FS, null, FeatureSet_Clicked));
@@ -167,7 +166,12 @@ namespace Heiflow.Controls.WinForm.MenuItems
             csc.ViewModel.Coverage = _Package.Coverage;
             csc.ViewModel.ShowView();
         }
-
+        protected virtual void UpdateAttributeTable_Clicked(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            Package.UpdateAttributeTable();
+            Cursor.Current = Cursors.Default;
+        }
         private void FeatureSet_Clicked(object sender, EventArgs e)
         {
             PackageFeatureSet form = new PackageFeatureSet(this.Package, (_AppManager as VHFAppManager).MapAppManager.Map,null); 

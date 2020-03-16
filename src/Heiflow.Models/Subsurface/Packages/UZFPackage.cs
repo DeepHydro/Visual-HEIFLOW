@@ -573,27 +573,34 @@ namespace Heiflow.Models.Subsurface
             {
                 if (THTS[0, 0, i] < lpf.SY[0, 0, i])
                 {
-                    THTS[0, 0, i] = lpf.SY[0, 0, i];
+                    THTS[0, 0, i] = lpf.SY[0, 0, i] + 0.05f;
                 }
+
                 var ds = THTS[0, 0, i] - lpf.SY[0, 0, i];
-                if (ds == 0)
-                {
-                    EXTWC[0, 0, i] = 0.05f;
-                    count_modfied++;
-                }
-                else
-                {
-                    if (EXTWC[0, 0, i] < ds)
-                    {
-                        EXTWC[0, 0, i] = ds;
-                        count_modfied++;
-                    }
-                }
-                if (EXTWC[0, 0, i] > THTS[0, 0, i])
-                {
+                if (EXTWC[0, 0, i] < ds)
+                    EXTWC[0, 0, i] = ds + 0.01f;
+                else if (EXTWC[0, 0, i] > THTS[0, 0, i])
                     EXTWC[0, 0, i] = THTS[0, 0, i];
-                    count_modfied++;
-                }
+
+
+                //if (ds == 0)
+                //{
+                //    EXTWC[0, 0, i] = 0.05f;
+                //    count_modfied++;
+                //}
+                //else
+                //{
+                //    if (EXTWC[0, 0, i] < ds)
+                //    {
+                //        EXTWC[0, 0, i] = ds;
+                //        count_modfied++;
+                //    }
+                //}
+                //if (EXTWC[0, 0, i] > THTS[0, 0, i])
+                //{
+                //    EXTWC[0, 0, i] = THTS[0, 0, i];
+                //    count_modfied++;
+                //}
             }
 
            // prg.Progress("uzf", 80, count_modfied + " cells are modified");
