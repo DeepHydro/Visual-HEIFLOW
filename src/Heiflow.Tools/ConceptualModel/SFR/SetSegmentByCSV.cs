@@ -54,7 +54,7 @@ namespace Heiflow.Tools.ConceptualModel
     {
         public SetSegmentByCSV()
         {
-            Name = "Set Segment Parameters by CSV File";
+            Name = "Set Segment Parameters From CSV File";
             Category = Cat_CMG;
             SubCategory = "SFR";
             Description = "Set Segment Parameters by CSV File";

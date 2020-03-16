@@ -568,7 +568,6 @@ namespace Heiflow.Models.Subsurface
         private void CheckEXTWC(ICancelProgressHandler prg)
         {
             var lpf = ModflowInstance.FlowPropertyPackage;
-            int count_modfied = 0;
             for (int i = 0; i < MFGridInstance.ActiveCellCount; i++)
             {
                 if (THTS[0, 0, i] < lpf.SY[0, 0, i])
@@ -581,29 +580,7 @@ namespace Heiflow.Models.Subsurface
                     EXTWC[0, 0, i] = ds + 0.01f;
                 else if (EXTWC[0, 0, i] > THTS[0, 0, i])
                     EXTWC[0, 0, i] = THTS[0, 0, i];
-
-
-                //if (ds == 0)
-                //{
-                //    EXTWC[0, 0, i] = 0.05f;
-                //    count_modfied++;
-                //}
-                //else
-                //{
-                //    if (EXTWC[0, 0, i] < ds)
-                //    {
-                //        EXTWC[0, 0, i] = ds;
-                //        count_modfied++;
-                //    }
-                //}
-                //if (EXTWC[0, 0, i] > THTS[0, 0, i])
-                //{
-                //    EXTWC[0, 0, i] = THTS[0, 0, i];
-                //    count_modfied++;
-                //}
             }
-
-           // prg.Progress("uzf", 80, count_modfied + " cells are modified");
         }
 
         public override void OnGridUpdated(IGrid sender)

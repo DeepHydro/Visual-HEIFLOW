@@ -54,7 +54,7 @@ namespace Heiflow.Tools.ConceptualModel
     {
         public SmoothElev()
         {
-            Name = "Smooth Stream Bed Elevation";
+            Name = "Smooth Reach Bed Elevation";
             Category = Cat_CMG;
             SubCategory = "SFR";
             Description = "Smooth stream bed elevation based on Slope value";

@@ -72,7 +72,14 @@ namespace Heiflow.Models.Subsurface
             _Layer3DToken = "SFR";
             Variables = DefaultAttachedVariables;
         }
-
+        [Browsable(false)]
+        public SFRPackage SFRPackage
+        {
+            get
+            {
+                return _SFRPackage;
+            }
+        }
         [Browsable(false)]
         public string[] DefaultAttachedVariables
         {

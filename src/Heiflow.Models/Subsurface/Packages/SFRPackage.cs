@@ -53,6 +53,14 @@ namespace Heiflow.Models.Subsurface
     public class SFRPackage : MFPackage
     {
         public static string PackageName = "SFR";
+        /// <summary>
+        /// "Width", "IUPSEG", "IPRIO", "Flow", "Runoff", "ETSW", "PPTSW", "ROUGHCH"
+        /// </summary>
+        public static string[] SegmentPara = new string[] { "Width", "IUPSEG", "IPRIO", "Flow", "Runoff", "ETSW", "PPTSW", "ROUGHCH" };
+        /// <summary>
+        /// "CellElev","BedThick","TopElev","Slope","Length","Offset"，"STRHC1","THTS", "THTI","EPS"
+        /// </summary>
+        public static string[] ReachPara = new string[] { "CellElev", "BedThick", "TopElev", "Slope", "Length", "Offset", "STRHC1", "THTS", "THTI", "EPS" };
         private RegularGridTopology _SegTopo;
         private RegularGridTopology _ReachTopo;
         public SFRPackage()
@@ -273,11 +281,11 @@ namespace Heiflow.Models.Subsurface
                 //reach parameters
                 fs.DataTable.Columns.Add(new DataColumn("CellElev", typeof(double)));
                 fs.DataTable.Columns.Add(new DataColumn("BedThick", typeof(double)));
-                fs.DataTable.Columns.Add(new DataColumn("Elev", typeof(double)));
+                fs.DataTable.Columns.Add(new DataColumn("TopElev", typeof(double)));
                 fs.DataTable.Columns.Add(new DataColumn("Slope", typeof(double)));
                 fs.DataTable.Columns.Add(new DataColumn("Length", typeof(double)));
                 fs.DataTable.Columns.Add(new DataColumn("Offset", typeof(double)));
-                fs.DataTable.Columns.Add(new DataColumn("VK", typeof(double)));
+                fs.DataTable.Columns.Add(new DataColumn("STRHC1", typeof(double)));
                 fs.DataTable.Columns.Add(new DataColumn("THTS", typeof(double)));
                 fs.DataTable.Columns.Add(new DataColumn("THTI", typeof(double)));
                 fs.DataTable.Columns.Add(new DataColumn("EPS", typeof(double)));
@@ -287,13 +295,13 @@ namespace Heiflow.Models.Subsurface
                 fs.DataTable.Columns.Add(new DataColumn("IPRIO", typeof(int)));
                 fs.DataTable.Columns.Add(new DataColumn("Flow", typeof(double)));
                 fs.DataTable.Columns.Add(new DataColumn("Runoff", typeof(double)));
-                fs.DataTable.Columns.Add(new DataColumn("ET", typeof(double)));
-                fs.DataTable.Columns.Add(new DataColumn("Rainfall", typeof(double)));
-                fs.DataTable.Columns.Add(new DataColumn("Rough", typeof(double)));
-                fs.DataTable.Columns.Add(new DataColumn("IPrior", typeof(double)));
+                fs.DataTable.Columns.Add(new DataColumn("ETSW", typeof(double)));
+                fs.DataTable.Columns.Add(new DataColumn("PPTSW", typeof(double)));
+                fs.DataTable.Columns.Add(new DataColumn("ROUGHCH", typeof(double)));
 
                 fs.DataTable.Columns.Add(new DataColumn(RegularGrid.ParaValueField, typeof(double)));
                 int k = 1;
+            
                 for (int i = 0; i < RiverNetwork.RiverCount; i++)
                 {
                     var river=RiverNetwork.Rivers[i];
@@ -315,11 +323,11 @@ namespace Heiflow.Models.Subsurface
 
                         feature.DataRow["CellElev"] = grid.GetElevationAt(reach.IRCH - 1, reach.JRCH - 1, 0);
                         feature.DataRow["BedThick"] = reach.BedThick;
-                        feature.DataRow["Elev"] = reach.TopElevation;
+                        feature.DataRow["TopElev"] = reach.TopElevation;
                         feature.DataRow["Slope"] = reach.Slope;
                         feature.DataRow["Length"] = reach.Length;
                         feature.DataRow["Offset"] = reach.Offset;
-                        feature.DataRow["VK"] = reach.STRHC1;
+                        feature.DataRow["STRHC1"] = reach.STRHC1;
                         feature.DataRow["THTS"] = reach.THTS;
                         feature.DataRow["THTI"] = reach.THTI;
                         feature.DataRow["EPS"] = reach.EPS;
@@ -329,10 +337,9 @@ namespace Heiflow.Models.Subsurface
                         feature.DataRow["IPRIO"] = river.IPrior;
                         feature.DataRow["Flow"] = river.Flow;
                         feature.DataRow["Runoff"] = river.Runoff;
-                        feature.DataRow["ET"] = river.ETSW;
-                        feature.DataRow["Rainfall"] = river.PPTSW;
-                        feature.DataRow["Rough"] = river.ROUGHCH;
-                        feature.DataRow["IPrior"] = river.IPrior;
+                        feature.DataRow["ETSW"] = river.ETSW;
+                        feature.DataRow["PPTSW"] = river.PPTSW;
+                        feature.DataRow["ROUGHCH"] = river.ROUGHCH;
 
                         feature.DataRow[RegularGrid.ParaValueField] = 0;
                         feature.DataRow.EndEdit();

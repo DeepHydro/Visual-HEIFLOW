@@ -48,17 +48,17 @@ using System.Linq;
 
 namespace Heiflow.Tools.ConceptualModel
 {
-    public class SetSFRByShpTool : MapLayerRequiredTool
+    public class SetReachByFeatureLayer : MapLayerRequiredTool
     {
         private IMapLayerDescriptor _StreamFeatureLayerDescriptor;
         private IFeatureSet _stream_layer;
         private StreamGenerator _StreamGenerator;
-        public SetSFRByShpTool()
+        public SetReachByFeatureLayer()
         {
-            Name = "Set SFR Parameters by Feature Layer";
+            Name = "Set Reach Parameters From Feature Layer";
             Category = Cat_CMG;
             SubCategory = "SFR";
-            Description = "Set SFR Parameters by Feature Layer";
+            Description = "Set Reach Parameters by Feature Layer";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
@@ -112,35 +112,35 @@ namespace Heiflow.Tools.ConceptualModel
                     IPRIORField = "IPRIO";
                     FlowField = "Flow";
                     RunoffField = "Runoff";
-                    ETField = "ET";
-                    RainfallField = "Rainfall";
-                    RoughnessField = "Rough";
+                    ETField = "ETSW";
+                    RainfallField = "PPTSW";
+                    RoughnessField = "ROUGHCH";
                     BedThicknessField = "BedThick";
                     SlopeField = "Slope";
                     OffsetField = "Offset";
-                    VKField = "VK";
+                    VKField = "STRHC1";
                     THTIField = "THTI";
                     THTSField = "THTS";
                     EPSField = "EPS";
-                    ElevationField = "Elev";
+                    ElevationField = "TopElev";
                 }
                 else if (_StreamGenerator == StreamGenerator.SWAT)
                 {
-                    WidthField = "Wid2";
+                    WidthField = "Width";
                     IUPSEGField = "IUPSEG";
                     IPRIORField = "IPRIO";
                     FlowField = "Flow";
-                    ETField = "ET";
-                    RainfallField = "Rainfall";
-                    RoughnessField = "Rough";
+                    ETField = "ETSW";
+                    RainfallField = "PPTSW";
+                    RoughnessField = "ROUGHCH";
                     BedThicknessField = "BedThick";
-                    SlopeField = "Slo2";
+                    SlopeField = "Slope";
                     OffsetField = "Offset";
-                    VKField = "VK";
+                    VKField = "STRHC1";
                     THTIField = "THTI";
                     THTSField = "THTS";
                     EPSField = "EPS";
-                    ElevationField = "Elev";
+                    ElevationField = "TopElev";
                 }
             }
         }
@@ -347,8 +347,8 @@ namespace Heiflow.Tools.ConceptualModel
                             river.PPTSW = TypeConverterEx.IsNotNull(dr[RainfallField].ToString()) ? double.Parse(dr[RainfallField].ToString()) : 0;
                             river.ETSW = TypeConverterEx.IsNotNull(dr[ETField].ToString()) ? double.Parse(dr[ETField].ToString()) : 0;
                             river.ROUGHCH = TypeConverterEx.IsNotNull(dr[RoughnessField].ToString()) ? double.Parse(dr[RoughnessField].ToString()) : 0;
+                            river.Width = TypeConverterEx.IsNotNull(dr[WidthField].ToString()) ? double.Parse(dr[WidthField].ToString()) : 50;
                             river.Width1 = TypeConverterEx.IsNotNull(dr[WidthField].ToString()) ? double.Parse(dr[WidthField].ToString()) : 50;
-                            river.Width2 = TypeConverterEx.IsNotNull(dr[WidthField].ToString()) ? double.Parse(dr[WidthField].ToString()) : 50;
                             river.Width2 = TypeConverterEx.IsNotNull(dr[WidthField].ToString()) ? double.Parse(dr[WidthField].ToString()) : 50;
 
                             reach.TopElevation = TypeConverterEx.IsNotNull(dr[ElevationField].ToString()) ? double.Parse(dr[WidthField].ToString()) : 100;

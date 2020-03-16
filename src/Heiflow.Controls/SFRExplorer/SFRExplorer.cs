@@ -398,23 +398,21 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
 
         private void segmentsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var sfr = SFROutput.Parent as SFRPackage;
             SaveFileDialog dlg = new SaveFileDialog();
             dlg.Filter = "shp file|*.shp";
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                sfr.SaveSegmentAsShp(dlg.FileName);
+                SFROutput.SFRPackage.SaveSegmentAsShp(dlg.FileName);
             }
         }
 
         private void reachesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var sfr = SFROutput.Parent as SFRPackage;
             SaveFileDialog dlg = new SaveFileDialog();
             dlg.Filter = "shp file|*.shp";
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                sfr.SaveReachAsShp(dlg.FileName);
+                SFROutput.SFRPackage.SaveReachAsShp(dlg.FileName);
             }
         }
 

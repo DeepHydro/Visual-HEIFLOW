@@ -52,7 +52,7 @@ namespace Heiflow.Tools.ConceptualModel
     {
         public SetSFRElevTool()
         {
-            Name = "Set SFR Bed Elevation based on DIS Value";
+            Name = "Set Reach Bed Elevation using DIS Value";
             Category = Cat_CMG;
             SubCategory = "SFR";
             Description = "Set SFR Bed Elevation based on DIS Value";
