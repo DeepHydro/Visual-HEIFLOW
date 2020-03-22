@@ -850,7 +850,8 @@ namespace Heiflow.Models.Subsurface
                 THTS = double.Parse(strs[10]),
                 THTI = double.Parse(strs[11]),
                 EPS = double.Parse(strs[12]),
-                SubID = ireach
+                SubID = ireach,
+                SubIndex = ireach-1
                 //   IFACE = int.Parse(strs[14])
             };
             return reach;

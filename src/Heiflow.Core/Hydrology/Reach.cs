@@ -67,8 +67,8 @@ namespace Heiflow.Core.Hydrology
         public int IFACE { get; set; }
         public int ISEG { get; set; }
         public int IREACH { get; set; }
-
         public double Offset { get; set; }
+        public string LocationCode { get; set; }
     }
 
     //public  CONDUITS
