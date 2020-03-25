@@ -338,14 +338,13 @@ namespace Heiflow.Models.WRM
             StreamReader sr = new StreamReader(filename);
             int nfarm = 0;
             int nindustry = 0;
+            double[] bufdouble = null;
+            float[] buffloat = null;
             var line = sr.ReadLine();
             line = sr.ReadLine();
             var buf = TypeConverterEx.Split<int>(line, 4);
             nfarm = buf[0];
             nindustry = buf[1];
-            line = sr.ReadLine();
-            double[] bufdouble = null;
-            float[] buffloat = null;
             var nobj = nfarm + nindustry;
             msp.Quota = new DataCube<float>(ncycle, 366, nobj);
             msp.QuotaFlag = new int[ncycle];
@@ -353,87 +352,95 @@ namespace Heiflow.Models.WRM
             msp.Industries = new  ManagementObject[nindustry];
             msp.FarmCycles = new ManagementCycle[ncycle];
             msp.IndustryCycles = new ManagementCycle[ncycle];
-            for (int i = 0; i < nfarm; i++)
+
+            if (nfarm > 0)
             {
                 line = sr.ReadLine();
-                buf = TypeConverterEx.Split<int>(line, 6);
-                ManagementObject obj = new ManagementObject();
-                //1   739 41  1   3   1	#	oid, hrunum, iseg, ireach, num_well_layer, inlet_type 北大河灌区
-                obj.ID = buf[0];
-                obj.HRU_Num = buf[1];
-                obj.SegID = buf[2];
-                obj.ReachID = buf[3];
-                obj.Num_well_layer = buf[4];
-                obj.Inlet_Type = buf[5];
-                line = sr.ReadLine();
-                buf = TypeConverterEx.Split<int>(line);
-                obj.HRU_List = buf;
-                obj.IHRUList.AddRange(buf);
-                line = sr.ReadLine();
-                bufdouble = TypeConverterEx.Split<double>(line);
-                obj.Canal_Efficiency_list = bufdouble;
-                obj.Canal_Efficiency = bufdouble[0];
-                line = sr.ReadLine();
-                bufdouble = TypeConverterEx.Split<double>(line);
-                obj.Canal_Ratio_list = bufdouble;
-                obj.Canal_Ratio = bufdouble[0];
-                obj.Well_layers = new int[obj.Num_well_layer];
-                obj.Well_ratios = new double[obj.Num_well_layer];
-                for (int j = 0; j < obj.Num_well_layer; j++)
+                for (int i = 0; i < nfarm; i++)
                 {
                     line = sr.ReadLine();
-                    bufdouble = TypeConverterEx.Split<double>(line, 2);
-                    obj.Well_layers[j] = (int)bufdouble[0];
-                    obj.Well_ratios[j] = bufdouble[1];
+                    buf = TypeConverterEx.Split<int>(line, 6);
+                    ManagementObject obj = new ManagementObject();
+                    //1   739 41  1   3   1	#	oid, hrunum, iseg, ireach, num_well_layer, inlet_type 北大河灌区
+                    obj.ID = buf[0];
+                    obj.HRU_Num = buf[1];
+                    obj.SegID = buf[2];
+                    obj.ReachID = buf[3];
+                    obj.Num_well_layer = buf[4];
+                    obj.Inlet_Type = buf[5];
+                    line = sr.ReadLine();
+                    buf = TypeConverterEx.Split<int>(line);
+                    obj.HRU_List = buf;
+                    obj.IHRUList.AddRange(buf);
+                    line = sr.ReadLine();
+                    bufdouble = TypeConverterEx.Split<double>(line);
+                    obj.Canal_Efficiency_list = bufdouble;
+                    obj.Canal_Efficiency = bufdouble[0];
+                    line = sr.ReadLine();
+                    bufdouble = TypeConverterEx.Split<double>(line);
+                    obj.Canal_Ratio_list = bufdouble;
+                    obj.Canal_Ratio = bufdouble[0];
+                    obj.Well_layers = new int[obj.Num_well_layer];
+                    obj.Well_ratios = new double[obj.Num_well_layer];
+                    for (int j = 0; j < obj.Num_well_layer; j++)
+                    {
+                        line = sr.ReadLine();
+                        bufdouble = TypeConverterEx.Split<double>(line, 2);
+                        obj.Well_layers[j] = (int)bufdouble[0];
+                        obj.Well_ratios[j] = bufdouble[1];
+                    }
+                    line = sr.ReadLine();
+                    bufdouble = TypeConverterEx.Split<double>(line, 1);
+                    obj.Drawdown = bufdouble[0];
+                    line = sr.ReadLine();
+                    bufdouble = TypeConverterEx.Split<double>(line, 3);
+                    obj.Inlet_MinFlow = bufdouble[0];
+                    obj.Inlet_MaxFlow = bufdouble[1];
+                    obj.Inlet_Flow_Ratio = bufdouble[2];
+                    msp.Farms[i] = obj;
                 }
-                line = sr.ReadLine();
-                bufdouble = TypeConverterEx.Split<double>(line, 1);
-                obj.Drawdown = bufdouble[0];
-                line = sr.ReadLine();
-                bufdouble = TypeConverterEx.Split<double>(line, 3);
-                obj.Inlet_MinFlow = bufdouble[0];
-                obj.Inlet_MaxFlow = bufdouble[1];
-                obj.Inlet_Flow_Ratio = bufdouble[2];
-                msp.Farms[i] = obj;
             }
-            line = sr.ReadLine();
-            for (int i = 0; i < nindustry; i++)
+            if (nindustry > 0)
             {
                 line = sr.ReadLine();
-                buf = TypeConverterEx.Split<int>(line, 6);
-                ManagementObject obj = new ManagementObject();
-                //1   739 41  1   3   1	#	oid, hrunum, iseg, ireach, num_well_layer, inlet_type 北大河灌区
-                obj.ID = buf[0];
-                obj.HRU_Num = buf[1];
-                obj.SegID = buf[2];
-                obj.ReachID = buf[3];
-                obj.Num_well_layer = buf[4];
-                obj.Inlet_Type = buf[5];
-                line = sr.ReadLine();
-                buf = TypeConverterEx.Split<int>(line);
-                obj.HRU_List = buf;
-                obj.IHRUList.AddRange(buf);
-                obj.Well_layers = new int[obj.Num_well_layer];
-                obj.Well_ratios = new double[obj.Num_well_layer];
-                for (int j = 0; j < obj.Num_well_layer; j++)
+                for (int i = 0; i < nindustry; i++)
                 {
                     line = sr.ReadLine();
-                    bufdouble = TypeConverterEx.Split<double>(line, 2);
-                    obj.Well_layers[j] = (int)bufdouble[0];
-                    obj.Well_ratios[j] = bufdouble[1];
+                    buf = TypeConverterEx.Split<int>(line, 6);
+                    ManagementObject obj = new ManagementObject();
+                    //1   739 41  1   3   1	#	oid, hrunum, iseg, ireach, num_well_layer, inlet_type 北大河灌区
+                    obj.ID = buf[0];
+                    obj.HRU_Num = buf[1];
+                    obj.SegID = buf[2];
+                    obj.ReachID = buf[3];
+                    obj.Num_well_layer = buf[4];
+                    obj.Inlet_Type = buf[5];
+                    line = sr.ReadLine();
+                    buf = TypeConverterEx.Split<int>(line);
+                    obj.HRU_List = buf;
+                    obj.IHRUList.AddRange(buf);
+                    obj.Well_layers = new int[obj.Num_well_layer];
+                    obj.Well_ratios = new double[obj.Num_well_layer];
+                    for (int j = 0; j < obj.Num_well_layer; j++)
+                    {
+                        line = sr.ReadLine();
+                        bufdouble = TypeConverterEx.Split<double>(line, 2);
+                        obj.Well_layers[j] = (int)bufdouble[0];
+                        obj.Well_ratios[j] = bufdouble[1];
+                    }
+                    line = sr.ReadLine();
+                    bufdouble = TypeConverterEx.Split<double>(line, 1);
+                    obj.Drawdown = bufdouble[0];
+                    line = sr.ReadLine();
+                    bufdouble = TypeConverterEx.Split<double>(line, 3);
+                    obj.Inlet_MinFlow = bufdouble[0];
+                    obj.Inlet_MaxFlow = bufdouble[1];
+                    obj.Inlet_Flow_Ratio = bufdouble[2];
+                    line = sr.ReadLine();
+                    bufdouble = TypeConverterEx.Split<double>(line, 1);
+                    obj.Returnflow_ratio = bufdouble[0];
+                    msp.Industries[i] = obj;
                 }
-                line = sr.ReadLine();
-                bufdouble = TypeConverterEx.Split<double>(line, 1);
-                obj.Drawdown = bufdouble[0];
-                line = sr.ReadLine();
-                bufdouble = TypeConverterEx.Split<double>(line, 3);
-                obj.Inlet_MinFlow = bufdouble[0];
-                obj.Inlet_MaxFlow = bufdouble[1];
-                obj.Inlet_Flow_Ratio = bufdouble[2];
-                line = sr.ReadLine();
-                bufdouble = TypeConverterEx.Split<double>(line, 1);
-                obj.Returnflow_ratio = bufdouble[0];
-                msp.Industries[i] = obj;
             }
 
             for (int i = 0; i < ncycle; i++)

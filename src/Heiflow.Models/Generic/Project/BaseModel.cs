@@ -29,6 +29,7 @@
 
 using DotSpatial.Controls;
 using DotSpatial.Data;
+using Heiflow.Core.Data;
 using Heiflow.Core.Utility;
 using Heiflow.Models.Generic.Packages;
 using Heiflow.Models.Generic.Project;
@@ -110,7 +111,10 @@ namespace Heiflow.Models.Generic
         {
             get
             {
-                return Path.Combine(ModelService.WorkDirectory, _ControlFileName);
+                if (TypeConverterEx.IsNotNull(_ControlFileName))
+                    return Path.Combine(ModelService.WorkDirectory, _ControlFileName);
+                else
+                    return "";
             }
             set
             {

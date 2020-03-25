@@ -113,6 +113,7 @@ namespace Heiflow.Tools.DataManagement
             get;
             set;
         }
+        #region Fields binding
         [Category("Farm Parameters")]
         [Description("Field name of the farm name")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
@@ -241,6 +242,8 @@ namespace Heiflow.Tools.DataManagement
             get;
             protected set;
         }
+        #endregion
+
         [Category("Input Files")]
         [Description("The quota filename")]
         [EditorAttribute(typeof(FileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
@@ -286,7 +289,7 @@ namespace Heiflow.Tools.DataManagement
 
         [Category("Output Files")]
         [Description("The output filename")]
-        [EditorAttribute(typeof(FileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
+       [Browsable(false)]
         public string OutputFileName
         {
             get
@@ -538,10 +541,12 @@ namespace Heiflow.Tools.DataManagement
                 wra_pck.MangamentUnitReportFile = ".\\output\\man_units.csv";
                 wra_pck.SummaryReportFile = ".\\output\\wra_summary.csv";
                 wra_pck.PumpReportFile = ".\\output\\wra_pump_report.csv";
-                wra_pck.StressPeriodFiles.Add(string.Format(".\\Input\\Extension\\{0}.unit", prj.Project.Name));
+                _OutputFileName = string.Format(".\\Input\\Extension\\{0}.unit", prj.Project.Name);
+                wra_pck.StressPeriodFiles.Add(_OutputFileName);
 
                 var out_dic = Path.Combine(model.WorkDirectory, ".\\output");
-                DirectoryHelper.Create(out_dic);
+                if(!Directory.Exists(out_dic))
+                    DirectoryHelper.Create(out_dic);
 
                 for (int i = model.TimeService.Start.Year + 1; i <= model.TimeService.End.Year; i++)
                 {
@@ -789,13 +794,19 @@ namespace Heiflow.Tools.DataManagement
                 {
                     sw_out.WriteLine(i + " # cycle index");
                     sw_out.WriteLine("-1 # quota_flag");
-                    sw_out.WriteLine("# irrigation objects");
-                    if (GWCompensate)
-                        sw_out.WriteLine("-1 -1	-1 -1 -1 -1 -1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag,plantarea_flag,max_pump_rate_flag,max_total_pump_flag");
-                    else
-                        sw_out.WriteLine("-1 -1	-1 -1 -1 -1 -1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag,plantarea_flag");
-                    sw_out.WriteLine("# industrial objects");
-                    sw_out.WriteLine("-1 -1	-1	-1	-1  #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag");
+                    if (num_irrg_obj > 0)
+                    {
+                        sw_out.WriteLine("# irrigation objects");
+                        if (GWCompensate)
+                            sw_out.WriteLine("-1 -1	-1 -1 -1 -1 -1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag,plantarea_flag,max_pump_rate_flag,max_total_pump_flag");
+                        else
+                            sw_out.WriteLine("-1 -1	-1 -1 -1 -1 -1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag,plantarea_flag");
+                    }
+                    if (num_indust_obj > 0)
+                    {
+                        sw_out.WriteLine("# industrial objects");
+                        sw_out.WriteLine("-1 -1	-1	-1	-1  #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag");
+                    }
                 }
             
                 wra_pck.IsDirty = true;
