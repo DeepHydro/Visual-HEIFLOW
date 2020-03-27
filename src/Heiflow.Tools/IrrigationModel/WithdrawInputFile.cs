@@ -269,17 +269,18 @@ namespace Heiflow.Tools.DataManagement
 
             newline = "# Water resources allocation package " + DateTime.Now;
             sw_out.WriteLine(newline);
-            newline = string.Format("{0}\t{1}\t0\t0\t # num_irrg_obj, num_indu_obj, num_doms_obj, num_ecos_obj ", num_irrg_obj, num_indust_obj);
+            newline = string.Format("{0}\t{1}\t0\t0\t # Data Set 1 num_irrg_obj, num_indu_obj, num_doms_obj, num_ecos_obj ", num_irrg_obj, num_indust_obj);
             sw_out.WriteLine(newline);
 
-            sw_out.WriteLine("# irrigation objects");
+            sw_out.WriteLine("# Data Set 2 irrigation objects");
             for (int i = 0; i < num_irrg_obj; i++)
             {
                 var obj = irrg_obj_list[i];
                 int oid = i + 1;
-                newline = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t#	oid, hrunum, iseg, ireach, num_well_layer, inlet_type {6}", obj.ID, obj.HRU_Num, obj.SegID, obj.ReachID, num_well_layer, obj.Inlet_Type, obj.Name);
+                newline = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t#	 Data Set 2a oid, hrunum, iseg, ireach, num_well_layer, inlet_type {6}", obj.ID, obj.HRU_Num, obj.SegID, obj.ReachID, num_well_layer, obj.Inlet_Type, obj.Name);
                 sw_out.WriteLine(newline);
                 newline = string.Join("\t", obj.HRU_List);
+                newline += "\t# Data Set 2b IHRU ID list for the object " + oid;
                 sw_out.WriteLine(newline);
                 var canal_eff = new double[obj.HRU_Num];
                 var canal_ratio = new double[obj.HRU_Num];
@@ -288,16 +289,16 @@ namespace Heiflow.Tools.DataManagement
                     canal_eff[j] = obj.Canal_Efficiency;
                     canal_ratio[j] = obj.Canal_Ratio;
                 }
-                newline = string.Join("\t", canal_eff);
+                newline = string.Join("\t", canal_eff) + "\t# Data Set 2c canal efficiency for each IHRU in the object " + oid;
                 sw_out.WriteLine(newline);
-                newline = string.Join("\t", canal_ratio);
+                newline = string.Join("\t", canal_ratio) + "\t# Data Set 2d canal area ratio for each IHRU in the object " + oid;
                 sw_out.WriteLine(newline);
                 for (int j = 0; j < num_well_layer; j++)
                 {
-                    newline = well_layer[j] + "\t" + layer_ratio[j] + " # well_layer layer_ratio";
+                    newline = well_layer[j] + "\t" + layer_ratio[j] + "\t# Data Set 2e well_layer layer_ratio  in the object " + oid;
                     sw_out.WriteLine(newline);
                 }
-                newline = string.Format("{0}\t#	drawdown constaint of object {1}", irrg_obj_list[i].Drawdown, oid);
+                newline = string.Format("{0}\t# Data Set 2f	drawdown constraint of object {1}", irrg_obj_list[i].Drawdown, oid);
                 sw_out.WriteLine(newline);
                 newline = string.Format("{0}\t{1}\t{2}\t#  inlet	min flow,  max flow and flow ratio  for object {3}", irrg_obj_list[i].Inlet_MinFlow, irrg_obj_list[i].Inlet_MaxFlow, irrg_obj_list[i].Inlet_Flow_Ratio,
                     irrg_obj_list[i].ID);
@@ -342,9 +343,9 @@ namespace Heiflow.Tools.DataManagement
             newline = "# irrigation objects";
             sw_out.WriteLine(newline);
             if(GWCompensate)
-                newline = "1 1	1	1	1	1	1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag,plantarea_flag,max_pump_rate_flag,max_total_pump_flag";
+                newline = "1 1	1	1	1	1	1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, quota_id_flag,plantarea_flag,max_pump_rate_flag,max_total_pump_flag";
             else
-                newline = "1 1	1	1	1	1	1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag,plantarea_flag";
+                newline = "1 1	1	1	1	1	1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, quota_id_flag,plantarea_flag";
             sw_out.WriteLine(newline);
             //地表水比例
             for (int i = 0; i < num_irrg_obj; i++)
@@ -382,7 +383,7 @@ namespace Heiflow.Tools.DataManagement
                 {
                     newline += irrg_obj_list[i].ObjType_Fram + "\t";
                 }
-                newline += "# Plant type of object " + (i + 1);
+                newline += "# Quota ID of object " + (i + 1);
                 sw_out.WriteLine(newline);
             }
             //种植面积

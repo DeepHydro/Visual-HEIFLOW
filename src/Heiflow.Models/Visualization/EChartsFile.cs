@@ -9,22 +9,22 @@ namespace Heiflow.Models.Visualization
 {
     public class EChartsFile
     {
-        public static List<string> TopSection
+        public List<string> TopSection
         {
             get;
             private set;
         }
-        public static List<string> EndSection
+        public List<string> EndSection
         {
             get;
             private set;
         }
-        public static bool Initialized
+        public bool Initialized
         {
             get;
             private set;
         }
-        public static void Initialize(string templatefile)
+        public void Initialize(string templatefile)
         {
             TopSection = new List<string>();
             EndSection = new List<string>();
@@ -32,17 +32,17 @@ namespace Heiflow.Models.Visualization
             {
                 StreamReader sr = new StreamReader(templatefile);
                 var line = "";
-                while(!sr.EndOfStream)
+                while (!sr.EndOfStream)
                 {
-                   line = sr.ReadLine();
-                   if (line != @"//generateData")
+                    line = sr.ReadLine();
+                    if (line != @"//generateData")
                     {
                         TopSection.Add(line);
-                    }                 
+                    }
                     else
-                   {
-                       break;
-                   }
+                    {
+                        break;
+                    }
                 }
                 while (!sr.EndOfStream)
                 {

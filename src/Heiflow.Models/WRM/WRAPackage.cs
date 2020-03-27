@@ -294,7 +294,7 @@ namespace Heiflow.Models.WRM
             StreamWriter sw = new StreamWriter(filename);
             string line = string.Format("#{0}: created on {1} by Visual HEIFLOW", PackageName, DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"));
             sw.WriteLine(line);
-            line = string.Format("{0} {1} {2} {3} {4} {5} {6} {7} # num_wra_sp num_wra_cycle num_cycle_len num_obj_type drawdown_constaint gw_compensate enable_sw_storage water_source_priority",
+            line = string.Format("{0} {1} {2} {3} {4} {5} {6} {7} # num_wra_sp num_wra_cycle num_cycle_len num_alloc_obj drawdown_constraint gw_compensate enable_sw_storage water_source_priority",
                 NumStressPeriod, NumCycle, _num_cycle_len, NumObj, TypeConverterEx.Bool2Num(EnableDrawdownConstaint), TypeConverterEx.Bool2Num(EnableGWCompensated),
                 TypeConverterEx.Bool2Num(EnableSWStorage), SourcePriority);
             sw.WriteLine(line);
@@ -310,10 +310,10 @@ namespace Heiflow.Models.WRM
                 line = StressPeriodFiles[i];
                 sw.WriteLine(line);
             }
-            sw.WriteLine("# Summary Report File");
+            sw.WriteLine("# Summary File");
             sw.WriteLine("1");
             sw.WriteLine(SummaryReportFile);
-            sw.WriteLine("# Mangament Unit Report File");
+            sw.WriteLine("# Managment Objects Report File");
             sw.WriteLine("1");
             sw.WriteLine(MangamentUnitReportFile);
             sw.WriteLine("# Budgets Report File");

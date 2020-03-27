@@ -541,7 +541,7 @@ namespace Heiflow.Tools.DataManagement
                 wra_pck.MangamentUnitReportFile = ".\\output\\man_units.csv";
                 wra_pck.SummaryReportFile = ".\\output\\wra_summary.csv";
                 wra_pck.PumpReportFile = ".\\output\\wra_pump_report.csv";
-                _OutputFileName = string.Format(".\\Input\\Extension\\{0}.unit", prj.Project.Name);
+                _OutputFileName = string.Format(".\\Input\\Extension\\{0}.sp", prj.Project.Name);
                 wra_pck.StressPeriodFiles.Add(_OutputFileName);
 
                 var out_dic = Path.Combine(model.WorkDirectory, ".\\output");

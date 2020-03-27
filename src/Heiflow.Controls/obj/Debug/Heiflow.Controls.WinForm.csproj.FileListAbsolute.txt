@@ -388,6 +388,4 @@ E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Controls\obj\Debug\Heiflow.Con
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.DatabaseExplorer.ODMManager.resources
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.Controls.StatisticsForm.resources
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.Controls.StatisticsForm.resources
-F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csprojAssemblyReference.cache
-F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csproj.CoreCompileInputs.cache
-F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csproj.CopyComplete
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csprojResolveAssemblyReference.cache
