@@ -64,8 +64,8 @@ namespace Heiflow.Tools.ConceptualModel
         {
             Name = "Set LPF Parameters By Lookup Table";
             Category = Cat_CMG;
-            SubCategory = "LPF";
-            Description = "Set LPF parameters by lookup table.";
+            SubCategory = "LPF/UPW";
+            Description = "Set LPF/UPW parameters by lookup table.";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;

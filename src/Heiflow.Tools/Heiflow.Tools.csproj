@@ -98,6 +98,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConceptualModel\SFR\ProcessDuplRch.cs" />
     <Compile Include="ConceptualModel\SFR\SetSegmentByFeatureLayer.cs" />
     <Compile Include="ConceptualModel\SFR\SetSegmentByCSV.cs" />
     <Compile Include="ConceptualModel\SFR\RemoveDuplRch.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="Statisitcs\SpatialSimpleStatistics.cs" />
     <Compile Include="TempoSpatialAnalysis\ZonalStatisticsAsTable.cs" />
     <Compile Include="Time\CreatMonthTimeInteval.cs" />
+    <Compile Include="Visualization\VisScatter3D.cs" />
     <Compile Include="Visualization\VisFlowField.cs" />
     <Compile Include="Visualization\VisGWFlowField.cs" />
     <Compile Include="Visualization\ShowOnFeatureLayer.cs" />

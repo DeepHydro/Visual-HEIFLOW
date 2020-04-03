@@ -65,8 +65,8 @@ namespace Heiflow.Tools.ConceptualModel
         {
             Name = "Set LPF Values By Raster List";
             Category = Cat_CMG;
-            SubCategory = "LPF";
-            Description = "Set LPF values from raster list";
+            SubCategory = "LPF/UPW";
+            Description = "Set LPF/UPW values from raster list";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
