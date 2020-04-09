@@ -52,9 +52,10 @@ namespace Heiflow.Tools.Visualization
 {
     public class VisScatter3D : ModelTool
     {
+        private bool isgenerated = false;
         public VisScatter3D()
         {
-            Name = "Plot Scatter 3D";
+            Name = "Plot 3D Scatter";
             Category = "Visualization";
             Description = " ";
             Version = "1.0.0.0";
@@ -69,8 +70,8 @@ namespace Heiflow.Tools.Visualization
             MinSymbolSize = 0.5f;
         }
         [Category("Data")]
-        [Description("The matrix that is to be shown on the map")]
-        public string XVector
+        [Description("The input data cube. Its sytle should be mat[0][0][:]")]
+        public string InputVector
         {
             get;
             set;
@@ -82,7 +83,7 @@ namespace Heiflow.Tools.Visualization
             get;
             set;
         }
-        [Description("The grid layer")]
+        [Description("The grid layer starting from 0")]
         [Category("Data")]
         public int Layer
         {
@@ -117,6 +118,14 @@ namespace Heiflow.Tools.Visualization
             get;
             set;
         }
+        [Description("The min size of symbol")]
+        [Category("Symbol Effect")]
+        public bool UseGridElevation
+        {
+            get;
+            set;
+        }
+
         [Description("The max size of symbol")]
         [Category("Symbol Effect")]
         public float MaxSymbolSize
@@ -143,12 +152,13 @@ namespace Heiflow.Tools.Visualization
         }
         public override void Initialize()
         {
-            this.Initialized = Validate(XVector);
+            this.Initialized = Validate(InputVector);
         }
 
         public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
         {
             int progress = 0;
+            isgenerated = false;
             var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
             var grid = prj.Project.Model.Grid as MFGrid;
             string echart = Path.Combine(Application.StartupPath, "External\\Echarts\\scatter3d.html");
@@ -157,87 +167,117 @@ namespace Heiflow.Tools.Visualization
             template.Initialize(echart);
 
             string newline = "";
-            var vecx = GetVector(XVector);
+            var vecx = GetVector(InputVector);
             StreamWriter sw = new StreamWriter(FileName);
-            foreach (var line in template.TopSection)
+            try
             {
-                newline = line;
-                if (line.Contains("container") && line.Contains("div"))
+                foreach (var line in template.TopSection)
                 {
-                    int width = (int)(grid.RowCount * LayoutFactor);
-                    int height = (int)(grid.ColumnCount * LayoutFactor);
-                    width = System.Math.Max(width, MinWidth);
-                    height = System.Math.Max(height, MinHeight);
-                    newline = string.Format(@"<div id=""container"" style=""height: {0}pt;width: {1}pt""></div>", height, width);
+                    newline = line;
+                    if (line.Contains("container") && line.Contains("div"))
+                    {
+                        int width = (int)(grid.RowCount * LayoutFactor);
+                        int height = (int)(grid.ColumnCount * LayoutFactor);
+                        width = System.Math.Max(width, MinWidth);
+                        height = System.Math.Max(height, MinHeight);
+                        newline = string.Format(@"<div id=""container"" style=""height: {0}pt;width: {1}pt""></div>", height, width);
+                    }
+                    sw.WriteLine(newline);
                 }
-                sw.WriteLine(newline);
-            }
-            sw.WriteLine("function generateData() {");
-            sw.WriteLine("data = [];");
+                sw.WriteLine("function generateData() {");
+                sw.WriteLine("data = [];");
 
-            double valMax = float.MinValue;
-            double valMin = float.MaxValue;
-            //int k = 0;
-            var mat_x = grid.ToMatrix<float>(vecx, 0);
+                double valMax = float.MinValue;
+                double valMin = float.MaxValue;
+                //int k = 0;
+                //var mat_x = grid.ToMatrix<float>(vecx, 0);
 
-            for (int i = 0; i < vecx.Length; i++)
-            {
-                var loc = grid.Topology.ActiveCellLocation[i];
-                newline = string.Format("data[{0}] = [{1},{2},{3},{4}];",loc[0],loc[1],1, vecx[i]);
-                valMax = System.Math.Max(valMax, vecx[i]);
-                valMin = System.Math.Min(valMin, vecx[i]);
-                sw.WriteLine(newline);
-                progress = i * 100 / grid.ColumnCount;
-                cancelProgressHandler.Progress("Package_Tool", progress, "Processing column: " + (i + 1));
-            }
-          
-            //for (int i = 0; i < grid.ColumnCount; i++)
-            //{
-            //    for (int j = 0; j < grid.RowCount; j++)
-            //    {
-            //        var mag = System.Math.Round(mat_x[j][i], 4);
-            //        if (mag != NoDataValue)
-            //        {
-            //            newline = string.Format("data[{0}] = [{1},{2},{3},{4}];", k, i, grid.RowCount - 1 - j, grid.GetElevationAt(j, i, Layer), mag);
-            //            valMax = System.Math.Max(valMax, mag);
-            //            valMin = System.Math.Min(valMin, mag);
-            //            sw.WriteLine(newline);
-            //            k++;
-            //        }
-            //    }
-            //    progress = i * 100 / grid.ColumnCount;
-            //    cancelProgressHandler.Progress("Package_Tool", progress, "Processing column: " + (i + 1));
-            //}
-            sw.WriteLine("return data;");
-            sw.WriteLine("}");
-            newline = string.Format("var valMax = {0};", valMax);
-            sw.WriteLine(newline);
-            newline = string.Format("var valMin = {0};", valMin);
-            sw.WriteLine(newline);
-            newline = string.Format("var nrow = {0};", grid.RowCount);
-            sw.WriteLine(newline);
-            newline = string.Format("var ncol = {0};", grid.ColumnCount);
-            sw.WriteLine(newline);
-
-            sw.WriteLine("var data = generateData();");
-            sw.WriteLine("//set options");
-            foreach (var line in template.EndSection)
-            {
-                newline = line;
-                if (line.Contains("symbolSize"))
+                if (UseGridElevation)
                 {
-                    newline = string.Format("symbolSize: [{0}, {1}],", MinSymbolSize, MaxSymbolSize);
+                    for (int i = 0; i < vecx.Length; i++)
+                    {
+                        var loc = grid.Topology.ActiveCellLocation[i];
+                        newline = string.Format("data[{0}] = [{1},{2},{3},{4}];", i, loc[0], loc[1], grid.Elevations[Layer,0,i], vecx[i]);
+                        valMax = System.Math.Max(valMax, vecx[i]);
+                        valMin = System.Math.Min(valMin, vecx[i]);
+                        sw.WriteLine(newline);
+                        progress = i * 100 / grid.ColumnCount;
+                        //cancelProgressHandler.Progress("Package_Tool", progress, "Processing column: " + (i + 1));
+                    }
                 }
+                else
+                {
+                    for (int i = 0; i < vecx.Length; i++)
+                    {
+                        var loc = grid.Topology.ActiveCellLocation[i];
+                        newline = string.Format("data[{0}] = [{1},{2},{3},{4}];", i, loc[0], loc[1], 1, vecx[i]);
+                        valMax = System.Math.Max(valMax, vecx[i]);
+                        valMin = System.Math.Min(valMin, vecx[i]);
+                        sw.WriteLine(newline);
+                        progress = i * 100 / grid.ColumnCount;
+                        //cancelProgressHandler.Progress("Package_Tool", progress, "Processing column: " + (i + 1));
+                    }
+                }
+                //for (int i = 0; i < grid.ColumnCount; i++)
+                //{
+                //    for (int j = 0; j < grid.RowCount; j++)
+                //    {
+                //        var mag = System.Math.Round(mat_x[j][i], 4);
+                //        if (mag != NoDataValue)
+                //        {
+                //            newline = string.Format("data[{0}] = [{1},{2},{3},{4}];", k, i, grid.RowCount - 1 - j, grid.GetElevationAt(j, i, Layer), mag);
+                //            valMax = System.Math.Max(valMax, mag);
+                //            valMin = System.Math.Min(valMin, mag);
+                //            sw.WriteLine(newline);
+                //            k++;
+                //        }
+                //    }
+                //    progress = i * 100 / grid.ColumnCount;
+                //    cancelProgressHandler.Progress("Package_Tool", progress, "Processing column: " + (i + 1));
+                //}
+                sw.WriteLine("return data;");
+                sw.WriteLine("}");
+                newline = string.Format("var valMax = {0};", valMax);
                 sw.WriteLine(newline);
+                newline = string.Format("var valMin = {0};", valMin);
+                sw.WriteLine(newline);
+                newline = string.Format("var nrow = {0};", grid.RowCount);
+                sw.WriteLine(newline);
+                newline = string.Format("var ncol = {0};", grid.ColumnCount);
+                sw.WriteLine(newline);
+
+                sw.WriteLine("var data = generateData();");
+                sw.WriteLine("//set options");
+                foreach (var line in template.EndSection)
+                {
+                    newline = line;
+                    if (line.Contains("symbolSize"))
+                    {
+                        newline = string.Format("symbolSize: [{0}, {1}],", MinSymbolSize, MaxSymbolSize);
+                    }
+                    sw.WriteLine(newline);
+                }
+                isgenerated = true;
             }
-            sw.Close();
+            catch(Exception ex)
+            {
+                isgenerated = false;
+                cancelProgressHandler.Progress("Package_Tool", 100, "Faile. Error message: " + ex.Message);
+            }
+            finally
+            {
+                sw.Close();
+            }      
             return true;
         }
 
         public override void AfterExecution(object args)
         {
-            string url = string.Format("file:///{0}", FileName);
-            System.Diagnostics.Process.Start("explorer.exe", url);
+            if (isgenerated)
+            {
+                string url = string.Format("file:///{0}", FileName);
+                System.Diagnostics.Process.Start("explorer.exe", url);
+            }
         }
     }
 }

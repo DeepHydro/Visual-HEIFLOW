@@ -30,9 +30,9 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         private void InitializeComponent()
         {
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.btnScan = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripLabel();
             this.cmbLoadVar = new System.Windows.Forms.ToolStripComboBox();
-            this.btnScan = new System.Windows.Forms.ToolStripButton();
             this.btnLoad = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.cmbSFRVars = new System.Windows.Forms.ToolStripComboBox();
@@ -124,9 +124,9 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.toolStrip1.Font = new System.Drawing.Font("Calibri", 9.5F);
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnScan,
             this.toolStripButton2,
             this.cmbLoadVar,
-            this.btnScan,
             this.btnLoad,
             this.toolStripLabel1,
             this.cmbSFRVars,
@@ -145,6 +145,16 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
+            // btnScan
+            // 
+            this.btnScan.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnScan.Image = global::Heiflow.Controls.WinForm.Properties.Resources.refresh_src;
+            this.btnScan.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnScan.Name = "btnScan";
+            this.btnScan.Size = new System.Drawing.Size(24, 25);
+            this.btnScan.Text = "Refresh output information";
+            this.btnScan.Click += new System.EventHandler(this.btnScan_Click);
+            // 
             // toolStripButton2
             // 
             this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -162,16 +172,6 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.cmbLoadVar.Name = "cmbLoadVar";
             this.cmbLoadVar.Size = new System.Drawing.Size(121, 28);
             this.cmbLoadVar.SelectedIndexChanged += new System.EventHandler(this.cmbLoadVar_SelectedIndexChanged);
-            // 
-            // btnScan
-            // 
-            this.btnScan.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnScan.Image = global::Heiflow.Controls.WinForm.Properties.Resources.compare_24p;
-            this.btnScan.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnScan.Name = "btnScan";
-            this.btnScan.Size = new System.Drawing.Size(24, 25);
-            this.btnScan.Text = "Refresh output information";
-            this.btnScan.Click += new System.EventHandler(this.btnScan_Click);
             // 
             // btnLoad
             // 
@@ -261,14 +261,14 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // exportRiversToolStripMenuItem
             // 
             this.exportRiversToolStripMenuItem.Name = "exportRiversToolStripMenuItem";
-            this.exportRiversToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.exportRiversToolStripMenuItem.Size = new System.Drawing.Size(147, 26);
             this.exportRiversToolStripMenuItem.Text = "Segments";
             this.exportRiversToolStripMenuItem.Click += new System.EventHandler(this.exportRiversToolStripMenuItem_Click);
             // 
             // exportReachesToolStripMenuItem
             // 
             this.exportReachesToolStripMenuItem.Name = "exportReachesToolStripMenuItem";
-            this.exportReachesToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.exportReachesToolStripMenuItem.Size = new System.Drawing.Size(147, 26);
             this.exportReachesToolStripMenuItem.Text = "Reaches";
             this.exportReachesToolStripMenuItem.Click += new System.EventHandler(this.exportReachesToolStripMenuItem_Click);
             // 
@@ -278,20 +278,20 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.segmentsToolStripMenuItem,
             this.reachesToolStripMenuItem});
             this.saveAsShpToolStripMenuItem.Name = "saveAsShpToolStripMenuItem";
-            this.saveAsShpToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.saveAsShpToolStripMenuItem.Size = new System.Drawing.Size(219, 26);
             this.saveAsShpToolStripMenuItem.Text = "Save As Shp";
             // 
             // segmentsToolStripMenuItem
             // 
             this.segmentsToolStripMenuItem.Name = "segmentsToolStripMenuItem";
-            this.segmentsToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.segmentsToolStripMenuItem.Size = new System.Drawing.Size(147, 26);
             this.segmentsToolStripMenuItem.Text = "Segments";
             this.segmentsToolStripMenuItem.Click += new System.EventHandler(this.segmentsToolStripMenuItem_Click);
             // 
             // reachesToolStripMenuItem
             // 
             this.reachesToolStripMenuItem.Name = "reachesToolStripMenuItem";
-            this.reachesToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.reachesToolStripMenuItem.Size = new System.Drawing.Size(147, 26);
             this.reachesToolStripMenuItem.Text = "Reaches";
             this.reachesToolStripMenuItem.Click += new System.EventHandler(this.reachesToolStripMenuItem_Click);
             // 
@@ -506,10 +506,10 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabPage4.Controls.Add(this.groupPlotVar);
             this.tabPage4.Controls.Add(this.groupBox3);
             this.tabPage4.Controls.Add(this.groupBox2);
-            this.tabPage4.Location = new System.Drawing.Point(4, 28);
+            this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(257, 593);
+            this.tabPage4.Size = new System.Drawing.Size(257, 596);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "Profile";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -683,10 +683,10 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabPage2.Controls.Add(this.cmbDates);
             this.tabPage2.Controls.Add(this.label8);
             this.tabPage2.Controls.Add(this.cmbLayers);
-            this.tabPage2.Location = new System.Drawing.Point(4, 28);
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(257, 593);
+            this.tabPage2.Size = new System.Drawing.Size(257, 596);
             this.tabPage2.TabIndex = 3;
             this.tabPage2.Text = "Feature Layer";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -750,10 +750,10 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.propertyGrid1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 28);
+            this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(257, 593);
+            this.tabPage1.Size = new System.Drawing.Size(257, 596);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "Config";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -764,7 +764,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertyGrid1.Location = new System.Drawing.Point(3, 3);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(251, 587);
+            this.propertyGrid1.Size = new System.Drawing.Size(251, 590);
             this.propertyGrid1.TabIndex = 1;
             // 
             // tabControl_Chart

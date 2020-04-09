@@ -943,6 +943,16 @@ namespace Heiflow.Controls.WinForm.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap refresh_src {
+            get {
+                object obj = ResourceManager.GetObject("refresh_src", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap remove_db {
             get {
                 object obj = ResourceManager.GetObject("remove_db", resourceCulture);
@@ -1077,6 +1087,15 @@ namespace Heiflow.Controls.WinForm.Properties {
             get {
                 object obj = ResourceManager.GetObject("star32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Output 的本地化字符串。
+        /// </summary>
+        internal static string String {
+            get {
+                return ResourceManager.GetString("String", resourceCulture);
             }
         }
         
