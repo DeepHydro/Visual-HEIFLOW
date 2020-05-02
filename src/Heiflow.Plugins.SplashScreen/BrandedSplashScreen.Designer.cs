@@ -51,7 +51,7 @@
             this.labelControl1.Name = "labelControl1";
             this.labelControl1.Size = new System.Drawing.Size(109, 13);
             this.labelControl1.TabIndex = 6;
-            this.labelControl1.Text = "Copyright ©2016-2017 SUSTech. All Rights Reserved. Version 1.0.0";
+            this.labelControl1.Text = "Copyright ©2016-2020 SUSTech. All Rights Reserved. Version 1.0.4";
            // this.labelControl1.Text = "版本1.0.  © 2017 中国水利水电科学研究院. 保留所有权利. ";
             // 
             // uxMessage
