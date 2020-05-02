@@ -124,17 +124,17 @@
   <data name="btnSave2Excel.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAJMSURBVFhH7ZU/ixNBGMYnXrI7e9yhoIWHfyuVayy8u2Rn
-        EhcUxMZKAuIHUDjRXGZmExExjXYiFoLN9fcBxMbKwkLxC2gpiCCI2Ih4+O+dzUt4Z7M5LhvDNnngaXZ+
-        L/PszLwzjBv5t0jPArgBdHhsbyvaN017sThJ53QCWIBNWfMmOkjnnAXYOcC1MxVuRIdreZc6aMsaEgN5
-        Wl4a4rRosx7bg0iisVfAU7JFGeuyqn5g69ECIsCEp3jr9I80B76KyEB5tqDEtXhGOWvfyEfJaC8qeyZ8
-        nR6HmifJeEq5zsCCig6UjfxIWd6Uv4NYrMBSd53vYF/LN+zmRR/LHeU+hDyuR3ZSynMTvufr8if9Blv2
-        hXflUSwbUu4AVnAge5TP8B/fiAuIZ2qiAKzZnPO0eElrHGtxD8mRmiwAKGjXDvkbK19pXd/hi3TLZWni
-        APBenOVm+RetS6zkOxaLRcRGaqIAQWftcMXIz7SGGlpzC7BSn85W/gDQVra9KJ9lCHEDKzKVN0AJ9niT
-        suin9lZMfdsOOrU1rBtSrgDwV9cpZ21vP9Zb9ngsGun7wYZavL26H8sdjR0Aej+EsW3K8Vvym9+tHkfE
-        BnzgjFtr+TyrK8YKML/RWKqY2ifKWAdGXEakL3g14Xy8TXNciTtIDLT7ALC8nhKv6HjiEY+Mp+onoBW/
-        Oyxsja/Dc4gk2nUArhpHoOevpA2vH0dkSIGuV9O8r+rncThRrkP4PzULsGMAeEofwmm+P01DWz+mczoB
-        inDxAZJlL9B4NIoSY/8AlyW3oXCAmL8AAAAASUVORK5CYII=
+        YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAAJMSURBVFhH7ZU/ixNBGMYnmuzOHncoeIXi30rlGgvPS3Ym
+        cUFBbKz0QPwACieay8xschzHpTk7EQvBxt4PIDZWFhaKX0BLQQRBxEbEw3/vbF7Cu5PNcdkYtskDT7Pz
+        e5lnZ+adYdzIv0V6GiAdQIfH9zWj/ZO0F4tTdM5UAAuwCWvGRAfpnNMAOwe4ebbCjWhzLTeog5asIdGX
+        p+WVAU6LFuuyPYgkGnkFPCWblLEuq+oHthLNIgJMeJo3z/xwOfANRPrKswUlrsUzyln7Rj5IRrtR2TPh
+        a3ccah4l445ynYFZFc2XjfxIWX5N/g5isQhL3Ul9B/tavmF3LvtYnlLuQ8jjemQnpTw34Xu+In/Sb7Bl
+        X3hHHsOyAeUOYAUHskv5DP/xjbiEeKbGCsCWl/d6WrykNSlrsYnkUI0XABS0aof91cWvtK7n8IXbclka
+        OwC8F+e5WfhF6xIr+Y7FYg6xoRorQNBeOlIx8jOtoYbWfApYqUdnK38AaCvbXpTPMoS4jRWZyhugBHv8
+        hLLox/ZWdL5tB+3aEtYNKFcA+KtblLO2tx/rLng8Fg33frCh5tbOHcDylEYOAL0fwtg25fhd+c3vVE8g
+        YgPeS41ba/k8qytGCjCz2jhUMbVPlLEOjLiKSE/wasL5eOtyXIl1JPrafQBYXk+JV3Q88ZBHxlP1k9CK
+        31MsbI2vwwuIJNp1AK4aR6Hnr7uG148jMqBA16su76v6RRxOlOsQ/k9NA+wYAJ7S+3CatyZpaOuHdM5U
+        gCJcfIBk2Qs0Ho2ixNg/du+3nVqnhHoAAAAASUVORK5CYII=
 </value>
   </data>
   <data name="bindingNavigatorMoveLastItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

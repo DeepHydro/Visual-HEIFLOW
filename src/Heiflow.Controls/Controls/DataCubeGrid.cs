@@ -647,13 +647,38 @@ namespace Heiflow.Controls.WinForm.Controls
             {
                 float buf = 0;
                 int nrow = DataTable.Rows.Count;
-                float[] vv = new float[nrow];
-                for (int i = 0; i < nrow; i++)
+                bool has_date = false;
+                var date_name = "";
+                foreach(DataColumn dc in DataTable.Columns)
                 {
-                    float.TryParse(DataTable.Rows[i][_CurrentColumnIndex].ToString(), out buf);
-                    vv[i] = buf;
+                    if(dc.GetType() == typeof(DateTime))
+                    {
+                        has_date = true;
+                        date_name = dc.ColumnName;
+                    }
                 }
-                _ShellService.WinChart.Plot<float>(vv, DataTable.Columns[_CurrentColumnIndex].ColumnName, SeriesChartType.FastLine);
+                if (has_date)
+                {
+                    float[] vv = new float[nrow];
+                    DateTime[] dates = new DateTime[nrow]; 
+                    for (int i = 0; i < nrow; i++)
+                    {
+                        float.TryParse(DataTable.Rows[i][_CurrentColumnIndex].ToString(), out buf);
+                        vv[i] = buf;
+                        dates[i] = (DateTime)DataTable.Rows[i][date_name];
+                    }
+                    _ShellService.WinChart.Plot<float>(dates,vv, DataTable.Columns[_CurrentColumnIndex].ColumnName, SeriesChartType.FastLine);
+                }
+                else
+                {
+                    float[] vv = new float[nrow];
+                    for (int i = 0; i < nrow; i++)
+                    {
+                        float.TryParse(DataTable.Rows[i][_CurrentColumnIndex].ToString(), out buf);
+                        vv[i] = buf;
+                    }
+                    _ShellService.WinChart.Plot<float>(vv, DataTable.Columns[_CurrentColumnIndex].ColumnName, SeriesChartType.FastLine);
+                }
             }
         }
 
@@ -705,7 +730,48 @@ namespace Heiflow.Controls.WinForm.Controls
                 this.dataGridView1.DataSource = bindingSource1;
             }
         }
+        private void toolStripTextBox_Mult_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                //Has a bug
+                var data_type = _DataTable.Columns[_CurrentColumnIndex].DataType;
 
+            
+                this.bindingSource1.DataSource = null;
+
+                if(data_type == typeof(int))
+                {
+                    int mult = 1;
+                    int.TryParse(toolStripTextBox_constant.Text,out mult);
+                    for (int r = 0; r < _DataTable.Rows.Count; r++)
+                    {
+                        _DataTable.Rows[r][_CurrentColumnIndex] = ((int)_DataTable.Rows[r][_CurrentColumnIndex]) * mult;
+                    }
+                }
+                else if (data_type == typeof(float))
+                {
+                    float mult = 1;
+                    float.TryParse(toolStripTextBox_constant.Text, out mult);
+                    for (int r = 0; r < _DataTable.Rows.Count; r++)
+                    {
+                        _DataTable.Rows[r][_CurrentColumnIndex] = ((float)_DataTable.Rows[r][_CurrentColumnIndex]) * mult;
+                    }
+                }
+                if (data_type == typeof(double))
+                {
+                    double mult = 1;
+                    double.TryParse(toolStripTextBox_constant.Text, out mult);
+                    for (int r = 0; r < _DataTable.Rows.Count; r++)
+                    {
+                        _DataTable.Rows[r][_CurrentColumnIndex] = ((double)_DataTable.Rows[r][_CurrentColumnIndex]) * mult;
+                    }
+                }
+           
+                this.bindingSource1.DataSource = _DataTable;
+                this.dataGridView1.DataSource = bindingSource1;
+            }
+        }
         private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (_DataCubeObject != null && _DataCubeObject is IParameter)
@@ -844,5 +910,7 @@ namespace Heiflow.Controls.WinForm.Controls
         {
             splitContainer1.Panel2Collapsed = !btnStatPanel.Checked;
         }
+
+
     }
 }

@@ -73,6 +73,8 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.propertyGridStat = new System.Windows.Forms.PropertyGrid();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripTextBox_Mult = new System.Windows.Forms.ToolStripTextBox();
             this.contextMenuStrip_datagrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
@@ -171,10 +173,11 @@
             this.statisticsToolStripMenuItem,
             this.toolStripSeparator3,
             this.deaultValueToolStripMenuItem,
+            this.toolStripMenuItem1,
             this.toolStripSeparator5,
             this.importToolStripMenuItem});
             this.contextMenuStrip_datagrid.Name = "contextMenuStrip_datagrid";
-            this.contextMenuStrip_datagrid.Size = new System.Drawing.Size(227, 236);
+            this.contextMenuStrip_datagrid.Size = new System.Drawing.Size(227, 290);
             // 
             // statisticsToolStripMenuItem
             // 
@@ -458,6 +461,21 @@
             this.propertyGridStat.Size = new System.Drawing.Size(238, 629);
             this.propertyGridStat.TabIndex = 0;
             // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripTextBox_Mult});
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(226, 26);
+            this.toolStripMenuItem1.Text = "Multiply By";
+            // 
+            // toolStripTextBox_Mult
+            // 
+            this.toolStripTextBox_Mult.Name = "toolStripTextBox_Mult";
+            this.toolStripTextBox_Mult.Size = new System.Drawing.Size(181, 27);
+            this.toolStripTextBox_Mult.Text = "1";
+            this.toolStripTextBox_Mult.KeyUp += new System.Windows.Forms.KeyEventHandler(this.toolStripTextBox_Mult_KeyUp);
+            // 
             // DataCubeGrid
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
@@ -527,5 +545,7 @@
         private System.Windows.Forms.ToolStripButton btnStatPanel;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.PropertyGrid propertyGridStat;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox_Mult;
     }
 }
