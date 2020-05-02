@@ -37,9 +37,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Heiflow.Plugins.SplashScreen")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("DeepHydro")]
 [assembly: AssemblyProduct("Heiflow.Plugins.SplashScreen")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2016")]
+[assembly: AssemblyCopyright("Copyright © DeepHydro 2016-2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

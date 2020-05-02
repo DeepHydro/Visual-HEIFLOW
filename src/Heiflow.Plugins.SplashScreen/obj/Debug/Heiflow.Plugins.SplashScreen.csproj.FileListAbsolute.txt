@@ -50,8 +50,6 @@ F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Plugins.SplashScreen\obj\Debug\Heiflow
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Plugins.SplashScreen\obj\Debug\Heiflow.Plugins.SplashScreen.dll.licenses
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Plugins.SplashScreen\obj\Debug\Heiflow.Plugins.SplashScreen.dll
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Plugins.SplashScreen\obj\Debug\Heiflow.Plugins.SplashScreen.pdb
-F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Plugins.SplashScreen\obj\Debug\Heiflow.Plugins.SplashScreen.csprojAssemblyReference.cache
-F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Plugins.SplashScreen\obj\Debug\Heiflow.Plugins.SplashScreen.csproj.CoreCompileInputs.cache
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\bin\Debug\Application Extensions\SplashScreenManager\Heiflow.Plugins.SplashScreen.dll.config
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\bin\Debug\Application Extensions\SplashScreenManager\Heiflow.Plugins.SplashScreen.dll
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\bin\Debug\Application Extensions\SplashScreenManager\Heiflow.Plugins.SplashScreen.pdb
