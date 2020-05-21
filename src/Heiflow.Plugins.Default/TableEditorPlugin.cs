@@ -49,24 +49,24 @@ namespace Heiflow.Plugins.Default
 
         public override void Activate()
         {
-            App.HeaderControl.Add(new SimpleActionItem(HeaderControl.HomeRootItemKey, "View Attribute Table", AttributeTable_Click) { GroupCaption = "Map Tool",
-                                                                                                                                      SmallImage = Resources.table_green_48,
-                                                                                                                                      LargeImage = Resources.table_green_48
-            });
-            App.Map.LayerAdded += Map_LayerAdded;
-            App.SerializationManager.Deserializing += SerializationManager_Deserializing;
-            // TODO: if layers were loaded before this plugin, do something about adding them to the context menu.
+            //App.HeaderControl.Add(new SimpleActionItem(HeaderControl.HomeRootItemKey, "View Attribute Table", AttributeTable_Click) { GroupCaption = "Map Tool",
+            //                                                                                                                          SmallImage = Resources.table_green_48,
+            //                                                                                                                          LargeImage = Resources.table_green_48
+            //});
+            //App.Map.LayerAdded += Map_LayerAdded;
+            //App.SerializationManager.Deserializing += SerializationManager_Deserializing;
+            //// TODO: if layers were loaded before this plugin, do something about adding them to the context menu.
         
-            _TableEditorControl = new TableEditorControl();
-            _TableEditorControl.Size = new System.Drawing.Size(800, 600);
-            var dock = new DockablePanel("kAttributeTable", "Attribute Table", _TableEditorControl, DockStyle.None)
-            {
-                SmallImage = Properties.Resources.table_green_48,
-            };
+            //_TableEditorControl = new TableEditorControl();
+            //_TableEditorControl.Size = new System.Drawing.Size(800, 600);
+            //var dock = new DockablePanel("kAttributeTable", "Attribute Table", _TableEditorControl, DockStyle.None)
+            //{
+            //    SmallImage = Properties.Resources.table_green_48,
+            //};
 
-            App.DockManager.Add(dock);
+            //App.DockManager.Add(dock);
 
-            base.Activate();
+            //base.Activate();
         }
 
         private void SerializationManager_Deserializing(object sender, SerializingEventArgs e)

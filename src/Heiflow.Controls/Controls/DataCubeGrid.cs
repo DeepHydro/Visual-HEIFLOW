@@ -735,15 +735,12 @@ namespace Heiflow.Controls.WinForm.Controls
             if (e.KeyCode == Keys.Enter)
             {
                 //Has a bug
-                var data_type = _DataTable.Columns[_CurrentColumnIndex].DataType;
-
-            
+                var data_type = _DataTable.Columns[_CurrentColumnIndex].DataType;       
                 this.bindingSource1.DataSource = null;
-
                 if(data_type == typeof(int))
                 {
                     int mult = 1;
-                    int.TryParse(toolStripTextBox_constant.Text,out mult);
+                    int.TryParse(toolStripTextBox_Mult.Text, out mult);
                     for (int r = 0; r < _DataTable.Rows.Count; r++)
                     {
                         _DataTable.Rows[r][_CurrentColumnIndex] = ((int)_DataTable.Rows[r][_CurrentColumnIndex]) * mult;
@@ -752,7 +749,7 @@ namespace Heiflow.Controls.WinForm.Controls
                 else if (data_type == typeof(float))
                 {
                     float mult = 1;
-                    float.TryParse(toolStripTextBox_constant.Text, out mult);
+                    float.TryParse(toolStripTextBox_Mult.Text, out mult); 
                     for (int r = 0; r < _DataTable.Rows.Count; r++)
                     {
                         _DataTable.Rows[r][_CurrentColumnIndex] = ((float)_DataTable.Rows[r][_CurrentColumnIndex]) * mult;
@@ -761,7 +758,7 @@ namespace Heiflow.Controls.WinForm.Controls
                 if (data_type == typeof(double))
                 {
                     double mult = 1;
-                    double.TryParse(toolStripTextBox_constant.Text, out mult);
+                    double.TryParse(toolStripTextBox_Mult.Text, out mult);
                     for (int r = 0; r < _DataTable.Rows.Count; r++)
                     {
                         _DataTable.Rows[r][_CurrentColumnIndex] = ((double)_DataTable.Rows[r][_CurrentColumnIndex]) * mult;
