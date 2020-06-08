@@ -166,7 +166,7 @@ namespace Heiflow.Models.Subsurface
             if (MFVersion == MODFLOWVersion.MFNWT)
                 FlowPropertyPackage = Select(UPWPackage.PackageName) as UPWPackage;
             else if (MFVersion == MODFLOWVersion.MF2005)
-                FlowPropertyPackage = Select(UPWPackage.PackageName) as LPFPackage;
+                FlowPropertyPackage = Select(LPFPackage.PackageName) as LPFPackage;
             mfout.Initialize();
             return succ;
         }

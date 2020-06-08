@@ -568,18 +568,21 @@ namespace Heiflow.Models.Subsurface
         private void CheckEXTWC(ICancelProgressHandler prg)
         {
             var lpf = ModflowInstance.FlowPropertyPackage;
-            for (int i = 0; i < MFGridInstance.ActiveCellCount; i++)
+            if (lpf != null)
             {
-                if (THTS[0, 0, i] < lpf.SY[0, 0, i])
+                for (int i = 0; i < MFGridInstance.ActiveCellCount; i++)
                 {
-                    THTS[0, 0, i] = lpf.SY[0, 0, i] + 0.05f;
-                }
+                    if (THTS[0, 0, i] < lpf.SY[0, 0, i])
+                    {
+                        THTS[0, 0, i] = lpf.SY[0, 0, i] + 0.05f;
+                    }
 
-                var ds = THTS[0, 0, i] - lpf.SY[0, 0, i];
-                if (EXTWC[0, 0, i] < ds)
-                    EXTWC[0, 0, i] = ds + 0.01f;
-                else if (EXTWC[0, 0, i] > THTS[0, 0, i])
-                    EXTWC[0, 0, i] = THTS[0, 0, i];
+                    var ds = THTS[0, 0, i] - lpf.SY[0, 0, i];
+                    if (EXTWC[0, 0, i] < ds)
+                        EXTWC[0, 0, i] = ds + 0.01f;
+                    else if (EXTWC[0, 0, i] > THTS[0, 0, i])
+                        EXTWC[0, 0, i] = THTS[0, 0, i];
+                }
             }
         }
 

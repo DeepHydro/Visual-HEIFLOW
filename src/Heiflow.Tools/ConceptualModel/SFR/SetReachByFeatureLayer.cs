@@ -309,10 +309,142 @@ namespace Heiflow.Tools.ConceptualModel
         }
         #endregion
 
-
         public override void Initialize()
         {
             this.Initialized = !(_stream_layer == null || _stream_layer.FeatureType != FeatureType.Polygon);
+        }
+
+        public void CheckFields()
+        {
+            var dt_insct = _stream_layer.DataTable;
+            if (!dt_insct.Columns.Contains(IUPSEGField))
+            {
+                DataColumn dc = new DataColumn(IUPSEGField, typeof(int));
+                dt_insct.Columns.Add(dc);
+                foreach (DataRow row in dt_insct.Rows)
+                {
+                    row[IUPSEGField] = 0;
+                }
+            }
+            if (!dt_insct.Columns.Contains(IPRIORField))
+            {
+                DataColumn dc = new DataColumn(IPRIORField, typeof(int));
+                dt_insct.Columns.Add(dc);
+                foreach (DataRow row in dt_insct.Rows)
+                {
+                    row[IPRIORField] = 0;
+                }
+            }
+            if (!dt_insct.Columns.Contains(FlowField))
+            {
+                DataColumn dc = new DataColumn(FlowField, typeof(float));
+                dt_insct.Columns.Add(dc);
+                foreach (DataRow row in dt_insct.Rows)
+                {
+                    row[FlowField] = 0;
+                }
+            }
+            if (!dt_insct.Columns.Contains(RunoffField))
+            {
+                DataColumn dc = new DataColumn(RunoffField, typeof(float));
+                dt_insct.Columns.Add(dc);
+                foreach (DataRow row in dt_insct.Rows)
+                {
+                    row[RunoffField] = 0;
+                }
+            }
+            if (!dt_insct.Columns.Contains(ETField))
+            {
+                DataColumn dc = new DataColumn(ETField, typeof(float));
+                dt_insct.Columns.Add(dc);
+                foreach (DataRow row in dt_insct.Rows)
+                {
+                    row[ETField] = 0;
+                }
+            }
+            if (!dt_insct.Columns.Contains(RainfallField))
+            {
+                DataColumn dc = new DataColumn(RainfallField, typeof(float));
+                dt_insct.Columns.Add(dc);
+                foreach (DataRow row in dt_insct.Rows)
+                {
+                    row[RainfallField] = 0;
+                }
+            }
+            if (!dt_insct.Columns.Contains(RoughnessField))
+            {
+                DataColumn dc = new DataColumn(RoughnessField, typeof(float));
+                dt_insct.Columns.Add(dc);
+                foreach (DataRow row in dt_insct.Rows)
+                {
+                    row[RoughnessField] = 0.05;
+                }
+            }
+
+            if (!dt_insct.Columns.Contains(OffsetField))
+            {
+                DataColumn dc = new DataColumn(OffsetField, typeof(float));
+                dt_insct.Columns.Add(dc);
+                foreach (DataRow row in dt_insct.Rows)
+                {
+                    row[OffsetField] = 0;
+                }
+            }
+            if (!dt_insct.Columns.Contains(BedThicknessField))
+            {
+                DataColumn dc = new DataColumn(BedThicknessField, typeof(float));
+                dt_insct.Columns.Add(dc);
+                foreach (DataRow row in dt_insct.Rows)
+                {
+                    row[BedThicknessField] = 2;
+                }
+            }
+            if (!dt_insct.Columns.Contains(SlopeField))
+            {
+                DataColumn dc = new DataColumn(SlopeField, typeof(float));
+                dt_insct.Columns.Add(dc);
+                foreach (DataRow row in dt_insct.Rows)
+                {
+                    row[SlopeField] = 0.0001;
+                }
+            }
+            if (!dt_insct.Columns.Contains(VKField))
+            {
+                DataColumn dc = new DataColumn(VKField, typeof(float));
+                dt_insct.Columns.Add(dc);
+                foreach (DataRow row in dt_insct.Rows)
+                {
+                    row[VKField] = 0.1;
+                }
+            }
+            if (!dt_insct.Columns.Contains(THTIField))
+            {
+                DataColumn dc = new DataColumn(THTIField, typeof(float));
+                dt_insct.Columns.Add(dc);
+                foreach (DataRow row in dt_insct.Rows)
+                {
+                    row[THTIField] = 0.2;
+                }
+            }
+            if (!dt_insct.Columns.Contains(THTSField))
+            {
+                DataColumn dc = new DataColumn(THTSField, typeof(float));
+                dt_insct.Columns.Add(dc);
+                foreach (DataRow row in dt_insct.Rows)
+                {
+                    row[THTSField] = 0.3;
+                }
+            }
+            if (!dt_insct.Columns.Contains(EPSField))
+            {
+                DataColumn dc = new DataColumn(EPSField, typeof(float));
+                dt_insct.Columns.Add(dc);
+                foreach (DataRow row in dt_insct.Rows)
+                {
+                    row[EPSField] = 3.5;
+                }
+            }
+            _stream_layer.Save();
         }
 
         public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)

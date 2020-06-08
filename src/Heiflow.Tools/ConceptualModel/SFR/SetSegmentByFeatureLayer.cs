@@ -120,7 +120,7 @@ namespace Heiflow.Tools.ConceptualModel
             set;
         }
         [Category("SFR Parameter")]
-        [Description("The field of the feature layer used to set the segment parameter")]
+        [Description("The name segment parameter")]
 
         public SFRParameter ParameterName
         {

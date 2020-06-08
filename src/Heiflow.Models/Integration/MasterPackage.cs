@@ -915,7 +915,7 @@ namespace Heiflow.Models.Integration
                 if (value != null)
                     NumAniOutVar = _AniOutVarNames.Length;
                 var para = Parameters["aniOutVar_names"] as DataCubeParameter<string>;
-                if (para.Size[2] != NumAniOutVar)
+                if (para.Size[1] != NumAniOutVar)
                 {
                     para.ReSize(1, NumAniOutVar, 1);
                 }
