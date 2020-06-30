@@ -62,15 +62,15 @@ namespace Heiflow.Tools.ConceptualModel
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
-            StreamGenerator = ConceptualModel.StreamGenerator.VHF;
+            //StreamGenerator = ConceptualModel.StreamGenerator.VHF;
         }
 
         #region GIS Layers
 
         [Category("Input GIS Layer")]
-        [Description("Stream layer")]
+        [Description("Reach layer")]
         [EditorAttribute(typeof(MapLayerDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        public IMapLayerDescriptor StreamFeatureLayer
+        public IMapLayerDescriptor ReachFeatureLayer
         {
             get
             {
@@ -92,59 +92,59 @@ namespace Heiflow.Tools.ConceptualModel
         }
         #endregion
 
-        #region Stream Network
-        [Category("Stream Network")]
-        [Description("the generator used to generate stream network.")]
+        //#region Stream Network
+        //[Category("Stream Network")]
+        //[Description("the generator used to generate stream network.")]
 
-        public StreamGenerator StreamGenerator
-        {
-            get
-            {
-                return _StreamGenerator;
-            }
-            set
-            {
-                _StreamGenerator = value;
-                if (_StreamGenerator == StreamGenerator.VHF)
-                {
-                    WidthField = "Width";
-                    IUPSEGField = "IUPSEG";
-                    IPRIORField = "IPRIO";
-                    FlowField = "Flow";
-                    RunoffField = "Runoff";
-                    ETField = "ETSW";
-                    RainfallField = "PPTSW";
-                    RoughnessField = "ROUGHCH";
-                    BedThicknessField = "BedThick";
-                    SlopeField = "Slope";
-                    OffsetField = "Offset";
-                    VKField = "STRHC1";
-                    THTIField = "THTI";
-                    THTSField = "THTS";
-                    EPSField = "EPS";
-                    ElevationField = "TopElev";
-                }
-                else if (_StreamGenerator == StreamGenerator.SWAT)
-                {
-                    WidthField = "Width";
-                    IUPSEGField = "IUPSEG";
-                    IPRIORField = "IPRIO";
-                    FlowField = "Flow";
-                    ETField = "ETSW";
-                    RainfallField = "PPTSW";
-                    RoughnessField = "ROUGHCH";
-                    BedThicknessField = "BedThick";
-                    SlopeField = "Slope";
-                    OffsetField = "Offset";
-                    VKField = "STRHC1";
-                    THTIField = "THTI";
-                    THTSField = "THTS";
-                    EPSField = "EPS";
-                    ElevationField = "TopElev";
-                }
-            }
-        }
-        #endregion
+        //public StreamGenerator StreamGenerator
+        //{
+        //    get
+        //    {
+        //        return _StreamGenerator;
+        //    }
+        //    set
+        //    {
+        //        _StreamGenerator = value;
+        //        if (_StreamGenerator == StreamGenerator.VHF)
+        //        {
+        //            WidthField = "Width";
+        //            IUPSEGField = "IUPSEG";
+        //            IPRIORField = "IPRIO";
+        //            FlowField = "Flow";
+        //            RunoffField = "Runoff";
+        //            ETField = "ETSW";
+        //            RainfallField = "PPTSW";
+        //            RoughnessField = "ROUGHCH";
+        //            BedThicknessField = "BedThick";
+        //            SlopeField = "Slope";
+        //            OffsetField = "Offset";
+        //            VKField = "STRHC1";
+        //            THTIField = "THTI";
+        //            THTSField = "THTS";
+        //            EPSField = "EPS";
+        //            ElevationField = "TopElev";
+        //        }
+        //        else if (_StreamGenerator == StreamGenerator.SWAT)
+        //        {
+        //            WidthField = "Width";
+        //            IUPSEGField = "IUPSEG";
+        //            IPRIORField = "IPRIO";
+        //            FlowField = "Flow";
+        //            ETField = "ETSW";
+        //            RainfallField = "PPTSW";
+        //            RoughnessField = "ROUGHCH";
+        //            BedThicknessField = "BedThick";
+        //            SlopeField = "Slope";
+        //            OffsetField = "Offset";
+        //            VKField = "STRHC1";
+        //            THTIField = "THTI";
+        //            THTSField = "THTS";
+        //            EPSField = "EPS";
+        //            ElevationField = "TopElev";
+        //        }
+        //    }
+        //}
+        //#endregion
 
         #region Field Binding
         [Browsable(false)]
@@ -154,7 +154,7 @@ namespace Heiflow.Tools.ConceptualModel
             protected set;
         }
 
-        [Category("Mandatory Segment Field Binding")]
+        [Category("Optional Segment Field Binding")]
         [Description("Segment width")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
@@ -244,7 +244,7 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             set;
         }
-        [Category("Optional Reach Field Binding")]
+        [Category("Reach Field Binding")]
         [Description("Segment mean slope field")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
@@ -253,7 +253,7 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             set;
         }
-        [Category("Optional Reach Field Binding")]
+        [Category("Reach Field Binding")]
         [Description("Thickness of the streambed")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
@@ -262,7 +262,7 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             set;
         }
-        [Category("Optional Reach Field Binding")]
+        [Category("Reach Field Binding")]
         [Description("Offset to  elevation of the cell coresponding to the reach")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
@@ -271,7 +271,7 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             set;
         }
-        [Category("Optional Reach Field Binding")]
+        [Category("Reach Field Binding")]
         [Description("VK is a real number equal to the hydraulic conductivity of the streambed. This variable is read when ISFROPT is 1, 2, or 3.")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
@@ -280,7 +280,7 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             set;
         }
-        [Category("Optional Reach Field Binding")]
+        [Category("Reach Field Binding")]
         [Description("THTS is the saturated volumetric water content in the unsaturated zone.")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
@@ -289,7 +289,7 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             set;
         }
-        [Category("Optional Reach Field Binding")]
+        [Category("Reach Field Binding")]
         [Description("THTI is the initial volumetric water content")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
@@ -298,7 +298,7 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             set;
         }
-        [Category("Optional Reach Field Binding")]
+        [Category("Reach Field Binding")]
         [Description("EPS is the Brooks-Corey exponent used in the relation between water content and hydraulic conductivity within the unsaturated zone (Brooks and Corey, 1966). This variable is read when ISFROPT is 2 or 3.")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]

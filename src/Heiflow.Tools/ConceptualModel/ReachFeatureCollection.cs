@@ -85,6 +85,7 @@ namespace Heiflow.Tools.ConceptualModel
         /// starting from 1
         /// </summary>
         public int Row { get; set; }
+        public int CellID { get; set; }
         public DataRow DataRow { get; set; }
         public double Elevation { get; set; }
         public double Slope { get; set; }

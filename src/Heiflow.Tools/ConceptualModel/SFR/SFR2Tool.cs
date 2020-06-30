@@ -44,6 +44,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 
@@ -55,8 +56,6 @@ namespace Heiflow.Tools.ConceptualModel
         private IFeatureSet _stream_layer;
         private IFeatureSet _grid_layer;
         private IFeatureSet _sfr_insct_layer;
-        private IRaster _dem_layer;
-        private IRaster _ad_layer;
         private double _minum_slope = 0.0001;
         private double _maximum_slope = 0.02;
         private IMapLayerDescriptor _StreamGridInctLayerDescriptor;
@@ -79,7 +78,6 @@ namespace Heiflow.Tools.ConceptualModel
             ET = 0;
             Rainfall = 0;
             Roughness = 0.05;
-            Slope = 0.001;
             Offset = -2;
             
             BedThickness = 2;
@@ -87,9 +85,11 @@ namespace Heiflow.Tools.ConceptualModel
             THTS = 0.3;
             THTI = 0.2;
             EPS = 3.5;
+            SlopeScale = 0.01;
+
+            MinReachLength = 10;
     
             IgnoreMinorReach = true;
-            UseAccumulativeRaster = false;
             UseLPFVK = true;
             StreamGenerator = ConceptualModel.StreamGenerator.VHF;
         }
@@ -99,14 +99,6 @@ namespace Heiflow.Tools.ConceptualModel
         [Description("Model grid layer")]
         [EditorAttribute(typeof(MapLayerDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         public IMapLayerDescriptor GridFeatureLayer
-        {
-            get;
-            set;
-        }
-        [Category("Input GIS Layer")]
-        [Description("DEM")]
-        [EditorAttribute(typeof(MapLayerDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        public IMapLayerDescriptor DEMLayer
         {
             get;
             set;
@@ -136,18 +128,10 @@ namespace Heiflow.Tools.ConceptualModel
             }
         }
 
-        [Category("Optional GIS Layer")]
-        [Description("Accumulated drainage map layer")]
-        [EditorAttribute(typeof(MapLayerDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        public IMapLayerDescriptor AccumulatedDrainageLayer
-        {
-            get;
-            set;
-        }
-        [Category("Optional GIS Layer")]
+        [Category("Input GIS Layer (Optional)")]
         [Description("Stream-Grid intersection layer")]
         [EditorAttribute(typeof(MapLayerDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        public IMapLayerDescriptor StreamGridInctLayer
+        public IMapLayerDescriptor StreamGridIntersectionLayer
         {
             get
             {
@@ -187,12 +171,11 @@ namespace Heiflow.Tools.ConceptualModel
                     SegmentIDOffset = 1;
                     SegmentIDField = "WSNO";
                     OutSegmentIDField = "DSLINKNO";
-                    IsManualSegmentField = "Order";
+                    //IsManualSegmentField = "Order";
                     IgnoreMinorReach = true;
-                    UseAccumulativeRaster = false;
                     ReverseOrder = true;
-                   // UseSWATElevation = false;
                     WidthField = "Width";
+                    SlopeField = "Slope";
                     //IUPSEGField = "IUPSEG";
                     //IPRIORField = "IPRIO";
                     //FlowField = "Flow";
@@ -203,7 +186,6 @@ namespace Heiflow.Tools.ConceptualModel
                     //BedThicknessField = "BedThick";
                     //MinElevationField = "MinEl";
                     //MaxElevationField = "MaxEl";
-                    //SlopeField = "Slope";
                     //OffsetField = "Offset";
                     //VKField = "VK";
                     //THTIField = "THTI";
@@ -215,12 +197,11 @@ namespace Heiflow.Tools.ConceptualModel
                     SegmentIDOffset = 0;
                     SegmentIDField = "FROM_NODE";
                     OutSegmentIDField = "TO_NODE";
-                    IsManualSegmentField = "ARCID";
+                    //IsManualSegmentField = "ARCID";
                     IgnoreMinorReach = true;
-                    UseAccumulativeRaster = false;
                     ReverseOrder = false;
-                  // UseSWATElevation = false;
                     WidthField = "Wid2";
+                    SlopeField = "Slo2";
                     //IUPSEGField = "IUPSEG";
                     //IPRIORField = "IPRIO";
                     //FlowField = "Flow";
@@ -230,7 +211,7 @@ namespace Heiflow.Tools.ConceptualModel
                     //BedThicknessField = "BedThick";
                     //MinElevationField = "MinEl";
                     //MaxElevationField = "MaxEl";
-                    //SlopeField = "Slo2";
+
                     //OffsetField = "Offset";
                     //VKField = "VK";
                     //THTIField = "THTI";
@@ -251,13 +232,6 @@ namespace Heiflow.Tools.ConceptualModel
         [Category("Stream Network")]
         [Description("Ignore reach whose length is very small")]
         public bool IgnoreMinorReach
-        {
-            get;
-            set;
-        }
-        [Category("Stream Network")]
-        [Description("If VHF stream generator used, Accumulative Raster will be used to determine reach sequences if setting to True value")]
-        public bool UseAccumulativeRaster
         {
             get;
             set;
@@ -312,20 +286,38 @@ namespace Heiflow.Tools.ConceptualModel
             set;
         }
 
-        [Category("Mandatory Segment Field Binding")]
-        [Description("0 indicates that the segment is manually edited. Otherwise the segment is automatically generated")]
-        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        [DropdownListSource("Fields")]
-        public string IsManualSegmentField
-        {
-            get;
-            set;
-        }
+        //[Category("Mandatory Segment Field Binding")]
+        //[Description("0 indicates that the segment is manually edited. Otherwise the segment is automatically generated")]
+        //[EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
+        //[DropdownListSource("Fields")]
+        //public string IsManualSegmentField
+        //{
+        //    get;
+        //    set;
+        //}
         [Category("Mandatory Segment Field Binding")]
         [Description("Segment width")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
         public string WidthField
+        {
+            get;
+            set;
+        }
+        [Category("Mandatory Segment Field Binding")]
+        [Description("Segment slope")]
+        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
+        [DropdownListSource("Fields")]
+        public string SlopeField
+        {
+            get;
+            set;
+        }
+        [Category("Mandatory Segment Field Binding")]
+        [Description("Segment slope")]
+        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
+        [DropdownListSource("Fields")]
+        public double SlopeScale
         {
             get;
             set;
@@ -501,13 +493,13 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             set;
         }
-        [Category("Reach Default Value")]
-        [Description("The slope of reach")]
-        public double Slope
-        {
-            get;
-            set;
-        }
+        //[Category("Reach Default Value")]
+        //[Description("The slope of reach")]
+        //public double Slope
+        //{
+        //    get;
+        //    set;
+        //}
         [Category("Reach Default Value")]
         [Description("The defualt hydraulic conductivity of the streambed")]
         public double STRHC1
@@ -536,6 +528,15 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             set;
         }
+           
+        [Category("Reach Default Value")]
+        [Description("The minimum length of a reach. Reach whose lenght is smaller than this value will be ignored.")]
+        public double MinReachLength
+        {
+            get;
+            set;
+        }
+
         [Category("Segment Default Value")]
         [Description("Offset to the top elevation of the streambed")]
         public double Width
@@ -582,6 +583,8 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             set;
         }
+
+
         [Category("Segment Default Value")]
         [Description("The maximum slope")]
         public double MaxSlope
@@ -613,22 +616,14 @@ namespace Heiflow.Tools.ConceptualModel
 
         public override void Initialize()
         {
-            if (GridFeatureLayer == null || StreamFeatureLayer == null || DEMLayer == null)
+            if (GridFeatureLayer == null || StreamFeatureLayer == null)
             {
                 this.Initialized = false;
                 return;
             }
             _grid_layer = GridFeatureLayer.DataSet as IFeatureSet;
-            _dem_layer = DEMLayer.DataSet as IRaster;
             _stream_layer = StreamFeatureLayer.DataSet as IFeatureSet;
-            if (UseAccumulativeRaster)
-            {
-                if (AccumulatedDrainageLayer != null)
-                    _ad_layer = AccumulatedDrainageLayer.DataSet as IRaster;
-                else
-                    this.Initialized = false;
-             }
-            if (_grid_layer == null || _dem_layer == null)
+            if (_grid_layer == null)
             {
                 this.Initialized = false;
                 return;
@@ -644,14 +639,14 @@ namespace Heiflow.Tools.ConceptualModel
             string msg = "";
             Dictionary<int, ReachFeatureCollection> fea_list = new Dictionary<int, ReachFeatureCollection>();
             cancelProgressHandler.Progress("Package_Tool", 10, "Calculating...");
-            if (StreamGridInctLayer != null)
-                _sfr_insct_layer = StreamGridInctLayer.DataSet as FeatureSet;
+            if (StreamGridIntersectionLayer != null)
+                _sfr_insct_layer = StreamGridIntersectionLayer.DataSet as FeatureSet;
             else
             {
                 _sfr_insct_layer = _stream_layer.Intersection1(_grid_layer, FieldJoinType.All, null);
                 _sfr_insct_layer.Projection = _stream_layer.Projection;
                 _sfr_insct_layer.SaveAs(out_fn, true);
-                StreamGridInctLayer = new MapLayerDescriptor()
+                StreamGridIntersectionLayer = new MapLayerDescriptor()
                 {
                     DataSet = _sfr_insct_layer,
                     LegendText = "sfr_cpm"
@@ -669,8 +664,8 @@ namespace Heiflow.Tools.ConceptualModel
 
             foreach (var id in distinct_segs)
             {
-                var rch= new ReachFeatureCollection(id);
-                if(ReverseOrder)
+                var rch = new ReachFeatureCollection(id);
+                if (ReverseOrder)
                 {
                     var descendingComparer = Comparer<double>.Create((x, y) => y.CompareTo(x));
                     rch.Reaches = new SortedList<double, ReachFeature>(descendingComparer);
@@ -683,15 +678,8 @@ namespace Heiflow.Tools.ConceptualModel
             }
 
             cancelProgressHandler.Progress("Package_Tool", 30, "Calculation of intersectons between Grid and Stream finished");
-            if (UseAccumulativeRaster)
-                PrePro(fea_list, out msg);
-            else
-            {
-                PreProByOrder(fea_list, out msg);
-            }
+            PreProByOrder(fea_list, cancelProgressHandler);
             cancelProgressHandler.Progress("Package_Tool", 70, "Calculation of reach parameters finished");
-            if (msg != "")
-                cancelProgressHandler.Progress("Package_Tool", 80, "Warnings: " + msg);
             Save2SFRFile(fea_list, cancelProgressHandler);
             issucuess = true;
             cancelProgressHandler.Progress("Package_Tool", 90, "SFR file saved");
@@ -703,14 +691,22 @@ namespace Heiflow.Tools.ConceptualModel
             var dt_insct = _sfr_insct_layer.DataTable;
             if (!dt_insct.Columns.Contains(WidthField))
             {
-                DataColumn dc = new DataColumn(WidthField, typeof(float));
+                DataColumn dc = new DataColumn(WidthField, typeof(double));
                 dt_insct.Columns.Add(dc);
                 foreach (DataRow row in dt_insct.Rows)
                 {
                     row[WidthField] = this.Width;
                 }
             }
-          
+            if (!dt_insct.Columns.Contains(SlopeField))
+            {
+                DataColumn dc = new DataColumn(SlopeField, typeof(double));
+                dt_insct.Columns.Add(dc);
+                foreach (DataRow row in dt_insct.Rows)
+                {
+                    row[SlopeField] = 0.0001;
+                }
+            }
             _sfr_insct_layer.Save();
         }
         public override void AfterExecution(object args)
@@ -733,24 +729,91 @@ namespace Heiflow.Tools.ConceptualModel
 
            // shell.MapAppManager.Map.AddLayer(_sfr_insct_layer.Filename);
         }
-        private int FindNearestPointIndex(Coordinate[] path, Coordinate target)
+        private double FindNearestPointIndex(Coordinate[] path, Coordinate target)
         {
-            var index = 0;
-            double distance = double.MaxValue;
-            for (int i = 0; i < path.Length; i++)
+            int nseg = path.Count() - 1;
+            double[] seglen = new double[nseg];
+            double accum_lenth = 0;
+            double mindis = double.MaxValue;
+            int nearest_index = 0;
+            Coordinate nearestpt=null;
+            for (int i = 0; i < nseg; i++)
             {
-                var dis = path[i].Distance(target);
-                if(dis < distance)
+                seglen[i] = path[i].Distance(path[i + 1]);
+                var dis = FindDistanceToSegment(target, path[i], path[i + 1], out nearestpt);
+                if(dis < mindis)
                 {
-                    distance = dis;
-                    index = i;
+                    mindis = dis;
+                    nearest_index = i;
                 }
             }
-            return index;
+
+            if(nearest_index > 0)
+            {
+                for (int i = 0; i < nearest_index; i++)
+                {
+                    accum_lenth += seglen[i];
+                }
+                accum_lenth += target.Distance(path[nearest_index]);
+            }
+            else
+            {
+                accum_lenth = target.Distance(path[nearest_index]);
+            }
+            return accum_lenth;
         }
-        private void PreProByOrder(Dictionary<int, ReachFeatureCollection> fealist, out string msg)
+
+        /// <summary>
+        ///  Calculate the distance between point pt and the segment p1 --> p2.
+        /// </summary>
+        /// <param name="pt"></param>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <param name="closest"></param>
+        /// <returns></returns>
+        public static double FindDistanceToSegment(Coordinate pt, Coordinate p1, Coordinate p2, out Coordinate closest)
         {
-            msg = "";
+            double dx = p2.X - p1.X;
+            double dy = p2.Y - p1.Y;
+            if ((dx == 0) && (dy == 0))
+            {
+                // It's a point not a line segment.
+                closest = p1;
+                dx = pt.X - p1.X;
+                dy = pt.Y - p1.Y;
+                return System.Math.Sqrt(dx * dx + dy * dy);
+            }
+
+            // Calculate the t that minimizes the distance.
+            double t = ((pt.X - p1.X) * dx + (pt.Y - p1.Y) * dy) /
+                (dx * dx + dy * dy);
+
+            // See if this represents one of the segment's
+            // end points or a point in the middle.
+            if (t < 0)
+            {
+                closest = new Coordinate(p1.X, p1.Y);
+                dx = pt.X - p1.X;
+                dy = pt.Y - p1.Y;
+            }
+            else if (t > 1)
+            {
+                closest = new Coordinate(p2.X, p2.Y);
+                dx = pt.X - p2.X;
+                dy = pt.Y - p2.Y;
+            }
+            else
+            {
+                closest = new Coordinate(p1.X + t * dx, p1.Y + t * dy);
+                dx = pt.X - closest.X;
+                dy = pt.Y - closest.Y;
+            }
+
+            return System.Math.Sqrt(dx * dx + dy * dy);
+        }
+
+        private void PreProByOrder(Dictionary<int, ReachFeatureCollection> fealist, ICancelProgressHandler cancelProgressHandler)
+        {
             var dt = _sfr_insct_layer.DataTable;
             var dt_stream = _stream_layer.DataTable;
             var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();     
@@ -761,6 +824,9 @@ namespace Heiflow.Tools.ConceptualModel
             else if (prj.Project.Model is Modflow)
                 mf = prj.Project.Model as Modflow;
             var lpf = mf.FlowPropertyPackage;
+            var duplicated_rch = 0;
+            var ignored_rch = 0;
+            Dictionary<int, double> cell_reach = new Dictionary<int, double>();
             for (int i = 0; i < _stream_layer.Features.Count; i++)
             {
                 var fea_stream = _stream_layer.GetFeature(i);
@@ -770,91 +836,44 @@ namespace Heiflow.Tools.ConceptualModel
                 int k = 0;
                 var npt_stream = geo_stream.Coordinates.Count();
                 var reaches = from fs in _sfr_insct_layer.Features where (int.Parse(fs.DataRow[SegmentIDField].ToString()) + SegmentIDOffset) == segid select fs;
-                var isman_seg = int.Parse(dr_stream[IsManualSegmentField].ToString()) == 0;
-                var order_count = new int[npt_stream];
+                var reach_orders = new int[reaches.Count()];
+                cell_reach.Clear();
 
                 foreach (var rch in reaches)
                 {
                     var rch_geo = rch.Geometry;
-                    int order = 0;
-                    var npt = rch_geo.Coordinates.Count();
-
-                    if (rch_geo.Length <= _dem_layer.CellHeight && IgnoreMinorReach)
-                    {
-                        continue;
-                    }
-                    if (isman_seg)
-                    {
-                        order = k;
-                    }
-                    else
-                    {
-                        //var distance = rch_geo.Coordinates[0].Distance(geo_stream.Coordinates[0]);
-                        //for (int j = 1; j < npt_stream; j++)
-                        //{
-                        //    var dist = rch_geo.Coordinates[0].Distance(geo_stream.Coordinates[j]);
-                        //    if (dist < distance)
-                        //    {
-                        //        distance = dist;
-                        //        order = j;
-                        //    }
-                        //}
-                        //order_count[order]++;
-                        order = FindNearestPointIndex(geo_stream.Coordinates, rch_geo.Coordinates[0]);
-                    }
-                    if (fealist[segid].Reaches.Keys.Contains(order))
-                        continue;
+                    double order = 0;
                     var dr = rch.DataRow;
-                    //double rs = 0, yint = 0;
-                    //double[] dis = new double[npt];
-                    //double[] ac_dis = new double[npt];
-                    //double[] elvs = new double[npt];
-                    //double elev_av = 0;
-                    //var pt0 = rch_geo.Coordinates[0];
-                    //var cell = _dem_layer.ProjToCell(pt0.X, pt0.Y);
-
                     int row = int.Parse(dr["ROW"].ToString());
                     int col = int.Parse(dr["COLUMN"].ToString());
+                    int cellid = grid.Topology.GetID(row - 1, col - 1);
+                    order = FindNearestPointIndex(geo_stream.Coordinates, rch_geo.Coordinates[0]);
+
+                    if (rch_geo.Length <= MinReachLength && IgnoreMinorReach)
+                    {
+                        ignored_rch++;
+                        continue;
+                    }
+                    if (fealist[segid].Reaches.Keys.Contains(order))
+                    {
+                        duplicated_rch++;
+                        continue;
+                    }
+                    if(cell_reach.Keys.Contains(cellid))
+                    {
+                        duplicated_rch++;
+                        var buf = from r in  fealist[segid].Reaches.Values where r.CellID == cellid select r;
+                        if (buf.Any())
+                            buf.First().Length += rch_geo.Length;
+                        continue;
+                    }
+
                     if (grid.IsActive(row - 1, col - 1, 0))
                     {
                         double elev_av = grid.GetElevationAt(row - 1, col - 1, 0);
                         double slope = MinSlope;
-                        var cellindex = grid.Topology.GetSerialIndex(row-1,col-1);
+                        var cellindex = grid.Topology.GetSerialIndex(row - 1, col - 1);
                         var vk = lpf.HK[0, 0, cellindex] / lpf.VKA[0, 0, cellindex];
-                        //dis[0] = 0;
-                        //elvs[0] = _dem_layer.Value[cell.Row, cell.Column];
-                        ////elvs[0] = _dem_layer.GetNearestValue(pt0);
-                        //for (int j = 1; j < npt; j++)
-                        //{
-                        //    cell = _dem_layer.ProjToCell(rch_geo.Coordinates[j].X, rch_geo.Coordinates[j].Y);
-                        //    elvs[j] = _dem_layer.Value[cell.Row, cell.Column];
-                        //    dis[j] = SpatialDistance.DistanceBetween(rch_geo.Coordinates[j - 1], rch_geo.Coordinates[j]);
-                        //}
-                        //for (int j = 0; j < npt; j++)
-                        //{
-                        //    ac_dis[j] = dis.Take(j + 1).Sum();
-                        //}
-                        //MyStatisticsMath.LinearRegression(ac_dis, elvs, 0, elvs.Length, out rs, out yint, out slope);
-                        //if (slope <= 0)
-                        //{
-                        //    //msg += "minus slope found...\n at reach " + (i + 1);
-                        //    slope = MinSlope;
-                        //    elvs = elvs.Reverse().ToArray();
-                        //    MyStatisticsMath.LinearRegression(ac_dis, elvs, 0, elvs.Length, out rs, out yint, out slope);
-                        //    if (slope == 0)
-                        //        slope = MinSlope;
-                        //}
-                        //for (int j = 0; j < npt; j++)
-                        //{
-                        //    elvs[j] = yint + slope * ac_dis[j];
-                        //}
-                        //elev_av = elvs.Average();
-
-                        //if (slope < MinSlope)
-                        //    slope = MinSlope;
-                        //if (slope > MaxSlope)
-                        //    slope = MaxSlope;
-
                         var reach = new ReachFeature()
                         {
                             Row = row,
@@ -862,44 +881,29 @@ namespace Heiflow.Tools.ConceptualModel
                             DataRow = dr,
                             Elevation = elev_av,
                             Slope = slope,
-                            Length = rch_geo.Length
+                            Length = rch_geo.Length,
+                            CellID = cellid
                         };
-                        double key = order;
-                        //if (fealist[segid].Reaches.Keys.Contains(key))
-                        //    key = order + order_count[order] * 0.01;
+                      
                         reach.Width = TypeConverterEx.IsNotNull(dr[WidthField].ToString()) ? double.Parse(dr[WidthField].ToString()) : this.Width;
-                        //reach.UpRiverID = TypeConverterEx.IsNotNull(dr[IUPSEGField].ToString()) ? int.Parse(dr[IUPSEGField].ToString()) : 0;
-                        //reach.IPrior = TypeConverterEx.IsNotNull(dr[IPRIORField].ToString()) ? int.Parse(dr[IPRIORField].ToString()) : 0;
-                        //reach.Flow = TypeConverterEx.IsNotNull(dr[FlowField].ToString()) ? double.Parse(dr[FlowField].ToString()) : this.Flow;
-                        //reach.Runoff = TypeConverterEx.IsNotNull(dr[RunoffField].ToString()) ? double.Parse(dr[RunoffField].ToString()) : this.Runoff;
-                        //reach.Rainfall = TypeConverterEx.IsNotNull(dr[RainfallField].ToString()) ? double.Parse(dr[RainfallField].ToString()) : this.Rainfall;
-                        //reach.ET = TypeConverterEx.IsNotNull(dr[ETField].ToString()) ? double.Parse(dr[ETField].ToString()) : ET;
-                        //reach.Roughness = TypeConverterEx.IsNotNull(dr[RoughnessField].ToString()) ? double.Parse(dr[RoughnessField].ToString()) : Roughness;
-                        //reach.Slope = TypeConverterEx.IsNotNull(dr[SlopeField].ToString()) ? double.Parse(dr[SlopeField].ToString()) : Slope;
+                        reach.Slope = TypeConverterEx.IsNotNull(dr[SlopeField].ToString()) ? double.Parse(dr[SlopeField].ToString()) * SlopeScale : 0.0001;
 
                         reach.UpRiverID = 0;
                         reach.IPrior = 0;
                         reach.Flow = this.Flow;
-                        reach.Runoff =  this.Runoff;
-                        reach.Rainfall =  this.Rainfall;
+                        reach.Runoff = this.Runoff;
+                        reach.Rainfall = this.Rainfall;
                         reach.ET = this.ET;
                         reach.Roughness = this.Roughness;
-                        reach.Slope = this.Slope;
 
-                        if(UseLPFVK)
+                        if (UseLPFVK)
                         {
                             reach.STRCH1 = vk;
                         }
                         else
                         {
-                           // reach.STRCH1 = TypeConverterEx.IsNotNull(dr[VKField].ToString()) ? double.Parse(dr[VKField].ToString()) : STRHC1;
                             reach.STRCH1 = this.STRHC1;
                         }
-                        //reach.Offset = TypeConverterEx.IsNotNull(dr[OffsetField].ToString()) ? double.Parse(dr[OffsetField].ToString()) : Offset;                   
-                        //reach.BedThickness = TypeConverterEx.IsNotNull(dr[BedThicknessField].ToString()) ? double.Parse(dr[BedThicknessField].ToString()) : BedThickness;
-                        //reach.THTI = TypeConverterEx.IsNotNull(dr[THTIField].ToString()) ? double.Parse(dr[THTIField].ToString()) : THTI;
-                        //reach.THTS = TypeConverterEx.IsNotNull(dr[THTSField].ToString()) ? double.Parse(dr[THTSField].ToString()) : THTS;
-                        //reach.EPS = TypeConverterEx.IsNotNull(dr[EPSField].ToString()) ? double.Parse(dr[EPSField].ToString()) : EPS;
 
                         reach.Offset = this.Offset;
                         reach.BedThickness = this.BedThickness;
@@ -907,9 +911,8 @@ namespace Heiflow.Tools.ConceptualModel
                         reach.THTS = this.THTS;
                         reach.EPS = this.EPS;
 
-                        reach.OrderKey = key;
-                        fealist[segid].Reaches.Add(key, reach);
-                   //     fealist[segid].OutSegmentID = int.Parse(dr[OutSegmentField].ToString()) + SegIDOffset;
+                        reach.OrderKey = order;
+                        fealist[segid].Reaches.Add(order, reach);
                         fealist[segid].OutSegmentID = int.Parse(dr[OutSegmentIDField].ToString());
                         k++;
                     }
@@ -950,197 +953,143 @@ namespace Heiflow.Tools.ConceptualModel
             {
                 fealist.Add(segid, newfealist[segid]);
             }
-            //if (UseSWATElevation)
-            //{
-            //    foreach (var segid in fealist.Keys)
-            //    {
-            //        var reaches = fealist[segid].Reaches.Values;
-            //        var seglength = (from rch in reaches select rch.Length).Sum();
-            //        var last = reaches.Last();
-            //        var firstreach = reaches.First();
-            //        var delta_el = firstreach.MaxSegElevation - firstreach.MinSegElevation;
-            //        if (delta_el <= 0)
-            //            delta_el = 1;
-            //        var slope = firstreach.Slope;// delta_el / seglength;
-            //        double curlen = 0;
-            //        firstreach.Elevation = firstreach.MaxSegElevation;
-            //        for (int i = 1; i < reaches.Count; i++)
-            //        {
-            //            curlen += reaches[i].Length;
-            //            reaches[i].Elevation = reaches[i].MaxSegElevation - curlen * slope;
-            //            reaches[i].Slope = slope;
-            //        }
-            //        if (last.MinSegElevation != last.Elevation)
-            //        {
-            //            msg += "Waring: elevation error at ";
-            //        }
-            //    }
-            //}
-            //else
-            //{
-            //    foreach (var segid in fealist.Keys)
-            //    {
-            //        var reaches = fealist[segid].Reaches.Values;
-            //        var len = new double[reaches.Count];
-            //        var elevs = new double[reaches.Count];
-            //        double rs = 0, slope = 0, yint = 0;
-            //        double curlen = 0;
-            //        for (int i = 0; i < reaches.Count; i++)
-            //        {
-            //            curlen += reaches[i].Length;
-            //            len[i] = curlen;
-            //            reaches[i].Elevation = grid.GetElevationAt(reaches[i].Row - 1, reaches[i].Column - 1, 0);
-            //            elevs[i] = reaches[i].Elevation;
-            //        }
-            //        if (reaches.Count == 1)
-            //        {
-            //            slope = MinSlope;
-            //        }
-            //        else
-            //        {
-            //            MyStatisticsMath.LinearRegression(len, elevs, 0, elevs.Length, out rs, out yint, out slope);
-            //            slope = System.Math.Abs(slope);
-            //            if (slope > MaxSlope)
-            //                slope = MaxSlope;
-            //            else if (slope < MinSlope)
-            //                slope = MinSlope;
-            //            if (slope == double.NaN)
-            //                slope = MinSlope;
-            //        }
-            //        for (int i = 0; i < reaches.Count; i++)
-            //        {
-            //            reaches[i].Slope = slope;
-            //        }
-            //    }
-            //}
-        }
-        private void PrePro(Dictionary<int, ReachFeatureCollection> fealist, out string msg)
-        {
-            double rs = 0, slope = 0, yint = 0;
-            var dt = _sfr_insct_layer.DataTable;
-            var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
-            var grid = prj.Project.Model.Grid as MFGrid;
-            msg = "";
-            for (int i = 0; i < _sfr_insct_layer.Features.Count; i++)
+
+            if(ignored_rch > 0)
             {
-                try
-                {
-                    var dr = dt.Rows[i];
-                    var geo = _sfr_insct_layer.GetFeature(i).Geometry;
-                    if (geo.Length <= _dem_layer.CellHeight && IgnoreMinorReach)
-                    {
-                        continue;
-                    }
-                    var npt = geo.Coordinates.Count();
-                    int segid = int.Parse(dr[SegmentIDField].ToString()) + SegmentIDOffset;
-                    double[] dis = new double[npt];
-                    double[] ac_dis = new double[npt];
-                    double[] elvs = new double[npt];
-                    double elev_av = 0;
-                    var pt0 = geo.Coordinates[0];
-                    var cell = _dem_layer.ProjToCell(pt0.X, pt0.Y);
-                    double ad = 0;
-                    int row = int.Parse(dr["ROW"].ToString());
-                    int col = int.Parse(dr["COLUMN"].ToString());
-                    if (grid.IsActive(row - 1, col - 1, 0))
-                    {
-                        dis[0] = 0;
-                        elvs[0] = _dem_layer.Value[cell.Row, cell.Column];
-                        for (int j = 0; j < npt; j++)
-                        {
-                            cell = _ad_layer.ProjToCell(geo.Coordinates[j].X, geo.Coordinates[j].Y);
-                            if (cell.Row > 0 && cell.Column > 0)
-                                ad += _ad_layer.Value[cell.Row, cell.Column];
-                        }
-                        ad = ad / npt;
-                        for (int j = 1; j < npt; j++)
-                        {
-                            cell = _dem_layer.ProjToCell(geo.Coordinates[j].X, geo.Coordinates[j].Y);
-                            elvs[j] = _dem_layer.Value[cell.Row, cell.Column];
-                            dis[j] = SpatialDistance.DistanceBetween(geo.Coordinates[j - 1], geo.Coordinates[j]);
-                        }
-                        for (int j = 0; j < npt; j++)
-                        {
-                            ac_dis[j] = dis.Take(j + 1).Sum();
-                        }
-
-                        MyStatisticsMath.LinearRegression(ac_dis, elvs, 0, elvs.Length, out rs, out yint, out slope);
-
-                        if (slope < 0)
-                        {
-                            slope = -slope;
-                        }
-                        else if (slope == 0)
-                        {
-                            slope = MinSlope;
-                        }
-
-                        for (int j = 0; j < npt; j++)
-                        {
-                            elvs[j] = yint + slope * ac_dis[j];
-                        }
-                        elev_av = elvs.Average();
-
-                        if (slope < MinSlope)
-                            slope = MinSlope;
-                        if (slope > MaxSlope)
-                            slope = MaxSlope;
-
-                        var rch = new ReachFeature()
-                        {
-                            DataRow = dr,
-                            Elevation = elev_av,
-                            Slope = slope,
-                            Length= geo.Length
-                        };
-                        if (fealist[segid].Reaches.ContainsKey(ad))
-                        {
-                            ad += i * 0.001;
-                        }
-                        fealist[segid].Reaches.Add(ad, rch);
-                        fealist[segid].OutSegmentID = int.Parse(dr[OutSegmentIDField].ToString());
-                    }
-                }
-                catch (Exception ex)
-                {
-                    msg += ex.Message + "\n";
-                }
+                cancelProgressHandler.Progress("Package_Tool", 70, "The number of ignored reaches is: " + ignored_rch);
             }
-            var list = new List<int>();
-            int nseg = fealist.Keys.Count;
-            var oldid_newid = new Dictionary<int, int>();
-            var newfealist = new Dictionary<int, ReachFeatureCollection>();
-            foreach (var seg in fealist.Values)
+            if (duplicated_rch > 0)
             {
-                if (seg.Reaches.Count == 0)
-                    list.Add(seg.SegmentID);
-            }
-            foreach (var segid in list)
-            {
-                fealist.Remove(segid);
-            }
-            var keys = fealist.Keys;
-            var sortedkeys = keys.OrderBy(x => x);
-
-            for (int i = 0; i < sortedkeys.Count(); i++)
-            {
-                oldid_newid.Add(sortedkeys.ElementAt(i), i + 1);
-            }
-            foreach (var seg in fealist.Values)
-            {
-                seg.SegmentID = oldid_newid[seg.SegmentID];
-                if (sortedkeys.Contains(seg.OutSegmentID))
-                    seg.OutSegmentID = oldid_newid[seg.OutSegmentID];
-                else
-                    seg.OutSegmentID = -1;
-                newfealist.Add(seg.SegmentID, seg);
-            }
-            fealist.Clear();
-            foreach (var segid in newfealist.Keys)
-            {
-                fealist.Add(segid, newfealist[segid]);
+                cancelProgressHandler.Progress("Package_Tool", 70, "The number of duplicated reaches is: " + duplicated_rch);
             }
         }
+        //private void PrePro(Dictionary<int, ReachFeatureCollection> fealist, out string msg)
+        //{
+        //    double rs = 0, slope = 0, yint = 0;
+        //    var dt = _sfr_insct_layer.DataTable;
+        //    var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
+        //    var grid = prj.Project.Model.Grid as MFGrid;
+        //    msg = "";
+        //    for (int i = 0; i < _sfr_insct_layer.Features.Count; i++)
+        //    {
+        //        try
+        //        {
+        //            var dr = dt.Rows[i];
+        //            var geo = _sfr_insct_layer.GetFeature(i).Geometry;
+        //            if (geo.Length <= _dem_layer.CellHeight && IgnoreMinorReach)
+        //            {
+        //                continue;
+        //            }
+        //            var npt = geo.Coordinates.Count();
+        //            int segid = int.Parse(dr[SegmentIDField].ToString()) + SegmentIDOffset;
+        //            double[] dis = new double[npt];
+        //            double[] ac_dis = new double[npt];
+        //            double[] elvs = new double[npt];
+        //            double elev_av = 0;
+        //            var pt0 = geo.Coordinates[0];
+        //            var cell = _dem_layer.ProjToCell(pt0.X, pt0.Y);
+        //            double ad = 0;
+        //            int row = int.Parse(dr["ROW"].ToString());
+        //            int col = int.Parse(dr["COLUMN"].ToString());
+        //            if (grid.IsActive(row - 1, col - 1, 0))
+        //            {
+        //                dis[0] = 0;
+        //                elvs[0] = _dem_layer.Value[cell.Row, cell.Column];
+        //                for (int j = 0; j < npt; j++)
+        //                {
+        //                    cell = _ad_layer.ProjToCell(geo.Coordinates[j].X, geo.Coordinates[j].Y);
+        //                    if (cell.Row > 0 && cell.Column > 0)
+        //                        ad += _ad_layer.Value[cell.Row, cell.Column];
+        //                }
+        //                ad = ad / npt;
+        //                for (int j = 1; j < npt; j++)
+        //                {
+        //                    cell = _dem_layer.ProjToCell(geo.Coordinates[j].X, geo.Coordinates[j].Y);
+        //                    elvs[j] = _dem_layer.Value[cell.Row, cell.Column];
+        //                    dis[j] = SpatialDistance.DistanceBetween(geo.Coordinates[j - 1], geo.Coordinates[j]);
+        //                }
+        //                for (int j = 0; j < npt; j++)
+        //                {
+        //                    ac_dis[j] = dis.Take(j + 1).Sum();
+        //                }
+
+        //                MyStatisticsMath.LinearRegression(ac_dis, elvs, 0, elvs.Length, out rs, out yint, out slope);
+
+        //                if (slope < 0)
+        //                {
+        //                    slope = -slope;
+        //                }
+        //                else if (slope == 0)
+        //                {
+        //                    slope = MinSlope;
+        //                }
+
+        //                for (int j = 0; j < npt; j++)
+        //                {
+        //                    elvs[j] = yint + slope * ac_dis[j];
+        //                }
+        //                elev_av = elvs.Average();
+
+        //                if (slope < MinSlope)
+        //                    slope = MinSlope;
+        //                if (slope > MaxSlope)
+        //                    slope = MaxSlope;
+
+        //                var rch = new ReachFeature()
+        //                {
+        //                    DataRow = dr,
+        //                    Elevation = elev_av,
+        //                    Slope = slope,
+        //                    Length= geo.Length
+        //                };
+        //                if (fealist[segid].Reaches.ContainsKey(ad))
+        //                {
+        //                    ad += i * 0.001;
+        //                }
+        //                fealist[segid].Reaches.Add(ad, rch);
+        //                fealist[segid].OutSegmentID = int.Parse(dr[OutSegmentIDField].ToString());
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            msg += ex.Message + "\n";
+        //        }
+        //    }
+        //    var list = new List<int>();
+        //    int nseg = fealist.Keys.Count;
+        //    var oldid_newid = new Dictionary<int, int>();
+        //    var newfealist = new Dictionary<int, ReachFeatureCollection>();
+        //    foreach (var seg in fealist.Values)
+        //    {
+        //        if (seg.Reaches.Count == 0)
+        //            list.Add(seg.SegmentID);
+        //    }
+        //    foreach (var segid in list)
+        //    {
+        //        fealist.Remove(segid);
+        //    }
+        //    var keys = fealist.Keys;
+        //    var sortedkeys = keys.OrderBy(x => x);
+
+        //    for (int i = 0; i < sortedkeys.Count(); i++)
+        //    {
+        //        oldid_newid.Add(sortedkeys.ElementAt(i), i + 1);
+        //    }
+        //    foreach (var seg in fealist.Values)
+        //    {
+        //        seg.SegmentID = oldid_newid[seg.SegmentID];
+        //        if (sortedkeys.Contains(seg.OutSegmentID))
+        //            seg.OutSegmentID = oldid_newid[seg.OutSegmentID];
+        //        else
+        //            seg.OutSegmentID = -1;
+        //        newfealist.Add(seg.SegmentID, seg);
+        //    }
+        //    fealist.Clear();
+        //    foreach (var segid in newfealist.Keys)
+        //    {
+        //        fealist.Add(segid, newfealist[segid]);
+        //    }
+        //}
 
         private void Save2SFRFile(Dictionary<int, ReachFeatureCollection> fea_list, ICancelProgressHandler cancelProgressHandler)
         {
@@ -1276,5 +1225,7 @@ namespace Heiflow.Tools.ConceptualModel
                 }
             }
         }
+
+
     }
 }

@@ -64,7 +64,7 @@ namespace Heiflow.Tools.ConceptualModel
         }
 
         [Category("Input")]
-        [Description("The  input csv data filename. The csv file is generated either by exporting from the DataView or by exmporting from the Profile.")]
+        [Description("The  input csv data filename. The csv file is generated either by exporting from the DataView or by exporting from the Profile in the SFR Window.")]
         [EditorAttribute(typeof(FileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public string CSVFileName
         {

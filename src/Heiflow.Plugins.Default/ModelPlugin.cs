@@ -109,10 +109,10 @@ namespace Heiflow.Plugins.Default
             };
             App.HeaderControl.Add(_GlobalSet);
 
-            _ParaViewer = new SimpleActionItem("kModel", "Parameter Viewer", ParaViewer_Clicked)
+            _ParaViewer = new SimpleActionItem("kModel", "Surface Parameter", ParaViewer_Clicked)
             {
                 Key = "kParaViewer",
-                ToolTipText = "Parameter Viewer",
+                ToolTipText = "Surface Parameter Viewer",
                 GroupCaption = "Setting",
                 LargeImage = Properties.Resources.TableFields32,
                 Enabled = true,
