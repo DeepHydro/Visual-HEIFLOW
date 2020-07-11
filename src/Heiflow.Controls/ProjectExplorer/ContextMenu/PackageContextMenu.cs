@@ -53,7 +53,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
         protected const string _RM = "Remove";
         protected const string _UAT = "Update Attribute Table";
         protected const string _CS = "Coverage Setup...";
-      //  protected const string _FS = "FeatureSet...";
+        protected const string _FS = "Update FeatureSet";
         protected const string _AD = "Advanced...";
 
         public PackageContextMenu()
@@ -74,6 +74,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
         {
             ContextMenuItems.Add(new ExplorerMenuItem(_Save, null, Save_Clicked));
             ContextMenuItems.Add(new ExplorerMenuItem(_SaveAs, Resources.GenericSave_B_16, SaveAs_Clicked));
+            ContextMenuItems.Add(new ExplorerMenuItem(_FS, null, UpdateFeature_Clicked));
             ContextMenuItems.Add(new ExplorerMenuItem(_UAT, null, UpdateAttributeTable_Clicked));
             ContextMenuItems.Add(new ExplorerMenuItem(_EX, null, Export_Clicked));
             if (MyAppManager.Instance.AppMode == AppMode.VHF)
@@ -170,6 +171,12 @@ namespace Heiflow.Controls.WinForm.MenuItems
         {
             Cursor.Current = Cursors.WaitCursor;
             Package.UpdateAttributeTable();
+            Cursor.Current = Cursors.Default;
+        }
+        protected virtual void UpdateFeature_Clicked(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            Package.UpdateFeature((_AppManager as VHFAppManager).MapAppManager.Map, (_AppManager as VHFAppManager).ProjectController.Project.GeoSpatialDirectory);
             Cursor.Current = Cursors.Default;
         }
         private void FeatureSet_Clicked(object sender, EventArgs e)

@@ -35,6 +35,7 @@ using Heiflow.Controls.WinForm.Toolbox;
 using Heiflow.Core.Data;
 using Heiflow.Core.Hydrology;
 using Heiflow.Core.MyMath;
+using Heiflow.Models.GeoSpatial;
 using Heiflow.Models.Integration;
 using Heiflow.Models.Subsurface;
 using Heiflow.Models.Tools;
@@ -171,63 +172,24 @@ namespace Heiflow.Tools.ConceptualModel
                     SegmentIDOffset = 1;
                     SegmentIDField = "WSNO";
                     OutSegmentIDField = "DSLINKNO";
-                    //IsManualSegmentField = "Order";
                     IgnoreMinorReach = true;
                     ReverseOrder = true;
                     WidthField = "Width";
                     SlopeField = "Slope";
-                    //IUPSEGField = "IUPSEG";
-                    //IPRIORField = "IPRIO";
-                    //FlowField = "Flow";
-                    //RunoffField = "Runoff";
-                    //ETField = "ET";
-                    //RainfallField = "Rainfall";
-                    //RoughnessField = "Roughness";
-                    //BedThicknessField = "BedThick";
-                    //MinElevationField = "MinEl";
-                    //MaxElevationField = "MaxEl";
-                    //OffsetField = "Offset";
-                    //VKField = "VK";
-                    //THTIField = "THTI";
-                    //THTSField = "THTS";
-                    //EPSField = "EPS";
                 }
                 else if (_StreamGenerator == StreamGenerator.SWAT)
                 {
                     SegmentIDOffset = 0;
                     SegmentIDField = "FROM_NODE";
                     OutSegmentIDField = "TO_NODE";
-                    //IsManualSegmentField = "ARCID";
                     IgnoreMinorReach = true;
                     ReverseOrder = false;
                     WidthField = "Wid2";
                     SlopeField = "Slo2";
-                    //IUPSEGField = "IUPSEG";
-                    //IPRIORField = "IPRIO";
-                    //FlowField = "Flow";
-                    //ETField = "ET";
-                    //RainfallField = "Rainfall";
-                    //RoughnessField = "Roughness";
-                    //BedThicknessField = "BedThick";
-                    //MinElevationField = "MinEl";
-                    //MaxElevationField = "MaxEl";
-
-                    //OffsetField = "Offset";
-                    //VKField = "VK";
-                    //THTIField = "THTI";
-                    //THTSField = "THTS";
-                    //EPSField = "EPS";
                 }
             }
         }
 
-        //[Category("Stream Network")]
-        //[Description("When ArcSWAT stream generator, stream elevations automatically generated will be used if setting to True value")]
-        //public bool UseSWATElevation
-        //{
-        //    get;
-        //    set;
-        //}
 
         [Category("Stream Network")]
         [Description("Ignore reach whose length is very small")]
@@ -322,159 +284,7 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             set;
         }
-        //[Category("Optional Segment Field Binding")]
-        //[Description("IUPSEG is an integer value of the downstream stream segment that receives tributary inflow from the last downstream reach of this segment.")]
-        //[EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        //[DropdownListSource("Fields")]
-        //public string IUPSEGField
-        //{
-        //    get;
-        //    set;
-        //}
-        //IPRIOR An integer value that only is specified if IUPSEG > 0 (do not specify a value in this field if IUPSEG = 0 or IUPSEG < 0). IPRIOR defines the prioritization system for diversion, such as when insufficient water is available to meet all diversion stipulations, and is used in conjunction with the value of FLOW (specified below).
-        //When IPRIOR = 0, then if the specified diversion flow (FLOW) is greater than the flow available in the stream segment from which the diversion is made, the diversion is reduced to the amount available, which will leave no flow available for tributary flow into a downstream tributary of segment IUPSEG.
-        //When IPRIOR = -1, then if the specified diversion flow (FLOW) is greater than the flow available in the stream segment from which the diversion is made, no water is diverted from the stream. This approach assumes that once flow in the stream is sufficiently low, diversions from the stream cease, and is the “priority” algorithm that originally was programmed into the STR1 Package (Prudic, 1989).
-        //When IPRIOR = -2, then the amount of the diversion is computed as a fraction of the available flow in segment IUPSEG; in this case, 0.0 < FLOW < 1.0.
-        //When IPRIOR = -3, then a diversion is made only if the streamflow leaving segment IUPSEG exceeds the value of FLOW. If this occurs, then the quantity of water diverted is the excess flow and the quantity that flows from the last reach of segment IUPSEG into its downstream tributary (OUTSEG) is equal to FLOW. This represents a flood-control type of diversion, as described by Danskin and Hanson (2002).
-        //[Category("Optional Segment Field Binding")]
-        //[Description("An integer value that only is specified if IUPSEG > 0 (do not specify a value in this field if IUPSEG = 0 or IUPSEG < 0). ")]
-        //[EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        //[DropdownListSource("Fields")]
-        //public string IPRIORField
-        //{
-        //    get;
-        //    set;
-        //}
-//•	If the stream is a headwater stream, FLOW defines the total inflow to the first reach of the segment. The value can be any number ≥ 0.
-//•	If the stream is a tributary stream, FLOW defines additional specified inflow to or withdrawal from the first reach of the segment (that is, in addition to the discharge from the upstream segment of which this is a tributary). This additional flow does not interact with the groundwater system. For example, a positive number might be used to represent direct outflow into a stream from a sewage treatment plant, whereas a negative number might be used to represent pumpage directly from a stream into an intake pipe for a municipal water treatment plant. (Also see additional explanatory notes below.)
-//•	If the stream is a diversionary stream, and the diversion is from another stream segment, FLOW defines the streamflow diverted from the last reach of stream segment IUPSEG into the first reach of this segment. The diversion is computed or adjusted according to the value of IPRIOR.
-//•	If the stream is a diversionary stream, and the diversion is from a lake, FLOW defines a fixed rate of discharge diverted from the lake into the first reach of this stream segment (unless the lake goes dry) and flow from the lake is not dependent on the value of ICALC. However, if FLOW = 0, then the lake outflow into the first reach of this segment will be calculated on the basis of lake stage relative to the top of the streambed for the first reach using one of the methods defined by ICALC.
-        //[Category("Optional Segment Field Binding")]
-        //[Description("FLOW A real number that is the streamflow (in units of volume per time) entering or leaving the upstream end of a stream segment (that is, into the first reach).")]
-        //[EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        //[DropdownListSource("Fields")]
-        //public string FlowField
-        //{
-        //    get;
-        //    set;
-        //}
-        //[Category("Optional Segment Field Binding")]
-        //[Description("")]
-        //[EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        //[DropdownListSource("Fields")]
-        //public string RunoffField
-        //{
-        //    get;
-        //    set;
-        //}
-        //[Category("Optional Segment Field Binding")]
-        //[Description("")]
-        //[EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        //[DropdownListSource("Fields")]
-        //public string ETField
-        //{
-        //    get;
-        //    set;
-        //}
-        //[Category("Optional Segment Field Binding")]
-        //[Description("")]
-        //[EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        //[DropdownListSource("Fields")]
-        //public string RainfallField
-        //{
-        //    get;
-        //    set;
-        //}
-        //[Category("Optional Segment Field Binding")]
-        //[Description("")]
-        //[EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        //[DropdownListSource("Fields")]
-        //public string RoughnessField
-        //{
-        //    get;
-        //    set;
-        //}
-        //[Category("Segment Field Binding")]
-        //[Description("Segment min elevation")]
-        //[EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        //[DropdownListSource("Fields")]
-        //public string MinElevationField
-        //{
-        //    get;
-        //    set;
-        //}
-        //[Category("Segment Field Binding")]
-        //[Description("Segment max elevation field")]
-        //[EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        //[DropdownListSource("Fields")]
-        //public string MaxElevationField
-        //{
-        //    get;
-        //    set;
-        //}
-        //[Category("Optional Reach Field Binding")]
-        //[Description("Segment mean slope field")]
-        //[EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        //[DropdownListSource("Fields")]
-        //public string SlopeField
-        //{
-        //    get;
-        //    set;
-        //}
-        //[Category("Optional Reach Field Binding")]
-        //[Description("Thickness of the streambed")]
-        //[EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        //[DropdownListSource("Fields")]
-        //public string BedThicknessField
-        //{
-        //    get;
-        //    set;
-        //}
-        //[Category("Optional Reach Field Binding")]
-        //[Description("Offset to  elevation of the cell coresponding to the reach")]
-        //[EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        //[DropdownListSource("Fields")]
-        //public string OffsetField
-        //{
-        //    get;
-        //    set;
-        //}
-        //[Category("Optional Reach Field Binding")]
-        //[Description("VK is a real number equal to the hydraulic conductivity of the streambed. This variable is read when ISFROPT is 1, 2, or 3.")]
-        //[EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        //[DropdownListSource("Fields")]
-        //public string VKField
-        //{
-        //    get;
-        //    set;
-        //}
-        //[Category("Optional Reach Field Binding")]
-        //[Description("THTS is the saturated volumetric water content in the unsaturated zone.")]
-        //[EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        //[DropdownListSource("Fields")]
-        //public string THTSField
-        //{
-        //    get;
-        //    set;
-        //}
-        //[Category("Optional Reach Field Binding")]
-        //[Description("THTI is the initial volumetric water content")]
-        //[EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        //[DropdownListSource("Fields")]
-        //public string THTIField
-        //{
-        //    get;
-        //    set;
-        //}
-        //[Category("Optional Reach Field Binding")]
-        //[Description("EPS is the Brooks-Corey exponent used in the relation between water content and hydraulic conductivity within the unsaturated zone (Brooks and Corey, 1966). This variable is read when ISFROPT is 2 or 3.")]
-        //[EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        //[DropdownListSource("Fields")]
-        //public string EPSField
-        //{
-        //    get;
-        //    set;
-        //}
+     
         #endregion
 
         #region Default Value
@@ -493,13 +303,7 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             set;
         }
-        //[Category("Reach Default Value")]
-        //[Description("The slope of reach")]
-        //public double Slope
-        //{
-        //    get;
-        //    set;
-        //}
+
         [Category("Reach Default Value")]
         [Description("The defualt hydraulic conductivity of the streambed")]
         public double STRHC1
@@ -725,10 +529,10 @@ namespace Heiflow.Tools.ConceptualModel
                 sfr.Attach(shell.MapAppManager.Map, prj.Project.GeoSpatialDirectory);
                 shell.ProjectExplorer.ClearContent();
                 shell.ProjectExplorer.AddProject(prj.Project);
+                sfr.UpdateFeature(shell.MapAppManager.Map, prj.Project.GeoSpatialDirectory);
             }
-
-           // shell.MapAppManager.Map.AddLayer(_sfr_insct_layer.Filename);
         }
+
         private double FindNearestPointIndex(Coordinate[] path, Coordinate target)
         {
             int nseg = path.Count() - 1;
@@ -963,134 +767,7 @@ namespace Heiflow.Tools.ConceptualModel
                 cancelProgressHandler.Progress("Package_Tool", 70, "The number of duplicated reaches is: " + duplicated_rch);
             }
         }
-        //private void PrePro(Dictionary<int, ReachFeatureCollection> fealist, out string msg)
-        //{
-        //    double rs = 0, slope = 0, yint = 0;
-        //    var dt = _sfr_insct_layer.DataTable;
-        //    var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
-        //    var grid = prj.Project.Model.Grid as MFGrid;
-        //    msg = "";
-        //    for (int i = 0; i < _sfr_insct_layer.Features.Count; i++)
-        //    {
-        //        try
-        //        {
-        //            var dr = dt.Rows[i];
-        //            var geo = _sfr_insct_layer.GetFeature(i).Geometry;
-        //            if (geo.Length <= _dem_layer.CellHeight && IgnoreMinorReach)
-        //            {
-        //                continue;
-        //            }
-        //            var npt = geo.Coordinates.Count();
-        //            int segid = int.Parse(dr[SegmentIDField].ToString()) + SegmentIDOffset;
-        //            double[] dis = new double[npt];
-        //            double[] ac_dis = new double[npt];
-        //            double[] elvs = new double[npt];
-        //            double elev_av = 0;
-        //            var pt0 = geo.Coordinates[0];
-        //            var cell = _dem_layer.ProjToCell(pt0.X, pt0.Y);
-        //            double ad = 0;
-        //            int row = int.Parse(dr["ROW"].ToString());
-        //            int col = int.Parse(dr["COLUMN"].ToString());
-        //            if (grid.IsActive(row - 1, col - 1, 0))
-        //            {
-        //                dis[0] = 0;
-        //                elvs[0] = _dem_layer.Value[cell.Row, cell.Column];
-        //                for (int j = 0; j < npt; j++)
-        //                {
-        //                    cell = _ad_layer.ProjToCell(geo.Coordinates[j].X, geo.Coordinates[j].Y);
-        //                    if (cell.Row > 0 && cell.Column > 0)
-        //                        ad += _ad_layer.Value[cell.Row, cell.Column];
-        //                }
-        //                ad = ad / npt;
-        //                for (int j = 1; j < npt; j++)
-        //                {
-        //                    cell = _dem_layer.ProjToCell(geo.Coordinates[j].X, geo.Coordinates[j].Y);
-        //                    elvs[j] = _dem_layer.Value[cell.Row, cell.Column];
-        //                    dis[j] = SpatialDistance.DistanceBetween(geo.Coordinates[j - 1], geo.Coordinates[j]);
-        //                }
-        //                for (int j = 0; j < npt; j++)
-        //                {
-        //                    ac_dis[j] = dis.Take(j + 1).Sum();
-        //                }
-
-        //                MyStatisticsMath.LinearRegression(ac_dis, elvs, 0, elvs.Length, out rs, out yint, out slope);
-
-        //                if (slope < 0)
-        //                {
-        //                    slope = -slope;
-        //                }
-        //                else if (slope == 0)
-        //                {
-        //                    slope = MinSlope;
-        //                }
-
-        //                for (int j = 0; j < npt; j++)
-        //                {
-        //                    elvs[j] = yint + slope * ac_dis[j];
-        //                }
-        //                elev_av = elvs.Average();
-
-        //                if (slope < MinSlope)
-        //                    slope = MinSlope;
-        //                if (slope > MaxSlope)
-        //                    slope = MaxSlope;
-
-        //                var rch = new ReachFeature()
-        //                {
-        //                    DataRow = dr,
-        //                    Elevation = elev_av,
-        //                    Slope = slope,
-        //                    Length= geo.Length
-        //                };
-        //                if (fealist[segid].Reaches.ContainsKey(ad))
-        //                {
-        //                    ad += i * 0.001;
-        //                }
-        //                fealist[segid].Reaches.Add(ad, rch);
-        //                fealist[segid].OutSegmentID = int.Parse(dr[OutSegmentIDField].ToString());
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            msg += ex.Message + "\n";
-        //        }
-        //    }
-        //    var list = new List<int>();
-        //    int nseg = fealist.Keys.Count;
-        //    var oldid_newid = new Dictionary<int, int>();
-        //    var newfealist = new Dictionary<int, ReachFeatureCollection>();
-        //    foreach (var seg in fealist.Values)
-        //    {
-        //        if (seg.Reaches.Count == 0)
-        //            list.Add(seg.SegmentID);
-        //    }
-        //    foreach (var segid in list)
-        //    {
-        //        fealist.Remove(segid);
-        //    }
-        //    var keys = fealist.Keys;
-        //    var sortedkeys = keys.OrderBy(x => x);
-
-        //    for (int i = 0; i < sortedkeys.Count(); i++)
-        //    {
-        //        oldid_newid.Add(sortedkeys.ElementAt(i), i + 1);
-        //    }
-        //    foreach (var seg in fealist.Values)
-        //    {
-        //        seg.SegmentID = oldid_newid[seg.SegmentID];
-        //        if (sortedkeys.Contains(seg.OutSegmentID))
-        //            seg.OutSegmentID = oldid_newid[seg.OutSegmentID];
-        //        else
-        //            seg.OutSegmentID = -1;
-        //        newfealist.Add(seg.SegmentID, seg);
-        //    }
-        //    fealist.Clear();
-        //    foreach (var segid in newfealist.Keys)
-        //    {
-        //        fealist.Add(segid, newfealist[segid]);
-        //    }
-        //}
-
+       
         private void Save2SFRFile(Dictionary<int, ReachFeatureCollection> fea_list, ICancelProgressHandler cancelProgressHandler)
         {
             var ps = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();

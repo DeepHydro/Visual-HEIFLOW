@@ -98,10 +98,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConceptualModel\BAS\CalibrateIBoundTool.cs" />
+    <Compile Include="ConceptualModel\DIS\CalibrateElevTool.cs" />
+    <Compile Include="ConceptualModel\SFR\CheckSFRPropTool .cs" />
     <Compile Include="ConceptualModel\SFR\ProcessDuplRch.cs" />
+    <Compile Include="ConceptualModel\SFR\SetParaByFeatureLayer.cs" />
+    <Compile Include="ConceptualModel\SFR\SaveHydroTreeNodesFeature.cs" />
     <Compile Include="ConceptualModel\SFR\SetSegmentByFeatureLayer.cs" />
     <Compile Include="ConceptualModel\SFR\SetSegmentByCSV.cs" />
     <Compile Include="ConceptualModel\SFR\RemoveDuplRch.cs" />
+    <Compile Include="ConceptualModel\SFR\CheckSFRElevTool.cs" />
+    <Compile Include="ConceptualModel\SFR\SmoothNetworkElev.cs" />
     <Compile Include="ConceptualModel\SFR\SmoothElev.cs" />
     <Compile Include="ConceptualModel\SFR\SetReachByCSV.cs" />
     <Compile Include="ConceptualModel\SFR\SetSFRElevTool.cs" />
@@ -112,11 +119,11 @@
     <Compile Include="ConceptualModel\BoreholeToAquiferSturcutre.cs" />
     <Compile Include="ConceptualModel\SFR\SetReachByFeatureLayer.cs" />
     <Compile Include="Preprocessing\PreproSFRTool.cs" />
-    <Compile Include="ConceptualModel\UZFByZoneIDTool.cs" />
-    <Compile Include="ConceptualModel\LPFByZoneIDTool .cs" />
-    <Compile Include="ConceptualModel\LPFTool.cs" />
+    <Compile Include="ConceptualModel\UZF\UZFByZoneIDTool.cs" />
+    <Compile Include="ConceptualModel\LPF\LPFByZoneIDTool .cs" />
+    <Compile Include="ConceptualModel\LPF\LPFTool.cs" />
     <Compile Include="ConceptualModel\LAKTool.cs" />
-    <Compile Include="ConceptualModel\UZFTool.cs" />
+    <Compile Include="ConceptualModel\UZF\UZFTool.cs" />
     <Compile Include="ConceptualModel\FHBTool.cs" />
     <Compile Include="ConceptualModel\HOBTool.cs" />
     <Compile Include="ConceptualModel\ReachFeatureCollection.cs" />

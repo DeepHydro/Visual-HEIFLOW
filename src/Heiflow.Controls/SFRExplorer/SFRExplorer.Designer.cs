@@ -96,10 +96,12 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.tabControl_Chart = new System.Windows.Forms.TabControl();
             this.tabPageTimeSeries = new System.Windows.Forms.TabPage();
-            this.winChart_timeseries = new Heiflow.Controls.WinForm.Controls.WinChart();
             this.tabPageProfile = new System.Windows.Forms.TabPage();
+            this.exportToSWMMInpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.winChart_timeseries = new Heiflow.Controls.WinForm.Controls.WinChart();
             this.winChart_proflie = new Heiflow.Controls.WinForm.Controls.WinChart();
             this.colorSlider1 = new Heiflow.Controls.WinForm.ColorSlider();
+            this.riverJunctionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -242,7 +244,8 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exportToolStripMenuItem1,
-            this.saveAsShpToolStripMenuItem});
+            this.saveAsShpToolStripMenuItem,
+            this.exportToSWMMInpToolStripMenuItem});
             this.toolStripDropDownButton1.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GenericSave_B_16;
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
@@ -276,7 +279,8 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // 
             this.saveAsShpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.segmentsToolStripMenuItem,
-            this.reachesToolStripMenuItem});
+            this.reachesToolStripMenuItem,
+            this.riverJunctionsToolStripMenuItem});
             this.saveAsShpToolStripMenuItem.Name = "saveAsShpToolStripMenuItem";
             this.saveAsShpToolStripMenuItem.Size = new System.Drawing.Size(219, 26);
             this.saveAsShpToolStripMenuItem.Text = "Save As Shp";
@@ -284,14 +288,14 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // segmentsToolStripMenuItem
             // 
             this.segmentsToolStripMenuItem.Name = "segmentsToolStripMenuItem";
-            this.segmentsToolStripMenuItem.Size = new System.Drawing.Size(147, 26);
+            this.segmentsToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.segmentsToolStripMenuItem.Text = "Segments";
             this.segmentsToolStripMenuItem.Click += new System.EventHandler(this.segmentsToolStripMenuItem_Click);
             // 
             // reachesToolStripMenuItem
             // 
             this.reachesToolStripMenuItem.Name = "reachesToolStripMenuItem";
-            this.reachesToolStripMenuItem.Size = new System.Drawing.Size(147, 26);
+            this.reachesToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.reachesToolStripMenuItem.Text = "Reaches";
             this.reachesToolStripMenuItem.Click += new System.EventHandler(this.reachesToolStripMenuItem_Click);
             // 
@@ -506,10 +510,10 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabPage4.Controls.Add(this.groupPlotVar);
             this.tabPage4.Controls.Add(this.groupBox3);
             this.tabPage4.Controls.Add(this.groupBox2);
-            this.tabPage4.Location = new System.Drawing.Point(4, 25);
+            this.tabPage4.Location = new System.Drawing.Point(4, 28);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(257, 596);
+            this.tabPage4.Size = new System.Drawing.Size(257, 593);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "Profile";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -683,10 +687,10 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabPage2.Controls.Add(this.cmbDates);
             this.tabPage2.Controls.Add(this.label8);
             this.tabPage2.Controls.Add(this.cmbLayers);
-            this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Location = new System.Drawing.Point(4, 28);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(257, 596);
+            this.tabPage2.Size = new System.Drawing.Size(257, 593);
             this.tabPage2.TabIndex = 3;
             this.tabPage2.Text = "Feature Layer";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -750,10 +754,10 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.propertyGrid1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 25);
+            this.tabPage1.Location = new System.Drawing.Point(4, 28);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(257, 596);
+            this.tabPage1.Size = new System.Drawing.Size(257, 593);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "Config";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -790,6 +794,25 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabPageTimeSeries.Text = "Time Series View";
             this.tabPageTimeSeries.UseVisualStyleBackColor = true;
             // 
+            // tabPageProfile
+            // 
+            this.tabPageProfile.Controls.Add(this.winChart_proflie);
+            this.tabPageProfile.Controls.Add(this.colorSlider1);
+            this.tabPageProfile.Location = new System.Drawing.Point(4, 4);
+            this.tabPageProfile.Name = "tabPageProfile";
+            this.tabPageProfile.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageProfile.Size = new System.Drawing.Size(856, 593);
+            this.tabPageProfile.TabIndex = 1;
+            this.tabPageProfile.Text = "Profile View";
+            this.tabPageProfile.UseVisualStyleBackColor = true;
+            // 
+            // exportToSWMMInpToolStripMenuItem
+            // 
+            this.exportToSWMMInpToolStripMenuItem.Name = "exportToSWMMInpToolStripMenuItem";
+            this.exportToSWMMInpToolStripMenuItem.Size = new System.Drawing.Size(219, 26);
+            this.exportToSWMMInpToolStripMenuItem.Text = "Export to SWMM Inp";
+            this.exportToSWMMInpToolStripMenuItem.Click += new System.EventHandler(this.exportToSWMMInpToolStripMenuItem_Click);
+            // 
             // winChart_timeseries
             // 
             this.winChart_timeseries.BackColor = System.Drawing.SystemColors.Control;
@@ -801,18 +824,6 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.winChart_timeseries.ShowStatPanel = true;
             this.winChart_timeseries.Size = new System.Drawing.Size(850, 587);
             this.winChart_timeseries.TabIndex = 7;
-            // 
-            // tabPageProfile
-            // 
-            this.tabPageProfile.Controls.Add(this.winChart_proflie);
-            this.tabPageProfile.Controls.Add(this.colorSlider1);
-            this.tabPageProfile.Location = new System.Drawing.Point(4, 4);
-            this.tabPageProfile.Name = "tabPageProfile";
-            this.tabPageProfile.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageProfile.Size = new System.Drawing.Size(856, 596);
-            this.tabPageProfile.TabIndex = 1;
-            this.tabPageProfile.Text = "Profile View";
-            this.tabPageProfile.UseVisualStyleBackColor = true;
             // 
             // winChart_proflie
             // 
@@ -846,6 +857,13 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.colorSlider1.ThumbSize = 30;
             this.colorSlider1.Value = 0;
             this.colorSlider1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.colorSlider1_Scroll);
+            // 
+            // riverJunctionsToolStripMenuItem
+            // 
+            this.riverJunctionsToolStripMenuItem.Name = "riverJunctionsToolStripMenuItem";
+            this.riverJunctionsToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.riverJunctionsToolStripMenuItem.Text = "River Junctions";
+            this.riverJunctionsToolStripMenuItem.Click += new System.EventHandler(this.riverJunctionsToolStripMenuItem_Click);
             // 
             // SFRExplorer
             // 
@@ -958,5 +976,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox cmbLayers;
         private System.Windows.Forms.Button btnRefreshLayer;
+        private System.Windows.Forms.ToolStripMenuItem exportToSWMMInpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem riverJunctionsToolStripMenuItem;
     }
 }

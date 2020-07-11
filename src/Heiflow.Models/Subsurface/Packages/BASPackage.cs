@@ -51,6 +51,7 @@ namespace Heiflow.Models.Subsurface
     [Export(typeof(IMFPackage))]
     public class BASPackage : MFPackage
     {
+        public static string PackageName = "BAS6";
         public BASPackage()
         {
             Name = "BAS6";

@@ -49,6 +49,7 @@ namespace Heiflow.Core.Hydrology
             RiverJunctions = new List<HydroPoint>();
             RiverConjunctions = new List<HydroPoint>();
             Outfalls = new List<HydroPoint>();
+            HydroTrees = new List<HydroTree>();
         }
         public int RiverCount 
         { 
@@ -81,6 +82,7 @@ namespace Heiflow.Core.Hydrology
         public List<HydroPoint> RiverJunctions { get; set; }
         public List<HydroPoint> RiverConjunctions { get; set; }
         public List<HydroPoint> Outfalls { get; set; }
+        public List<HydroTree> HydroTrees { get; set; }
 
         public List<River> Rivers
         {
@@ -121,7 +123,20 @@ namespace Heiflow.Core.Hydrology
                 return null;
             }
         }
-
+        /// <summary>
+        ///  Get reaches based on their locations
+        /// </summary>
+        /// <param name="rowid">ID starting from 1</param>
+        /// <param name="colid">ID starting from 1</param>
+        /// <returns></returns>
+        public Reach[] GetReachByLocation(int rowid, int colid)
+        {
+            var rch = from r in Reaches where r.IRCH == rowid && r.JRCH == colid select r;
+            if (rch.Any())
+                return rch.ToArray();
+            else
+                return null;
+        }
         public List<River> BuildProfile(int startID, int endID)
         {
             List<River> pro = new List<River>();
@@ -156,6 +171,58 @@ namespace Heiflow.Core.Hydrology
             }
         }
 
+        public void BuildHydroTrees()
+        {
+            HydroTrees.Clear();
+            GetJunctions();
+            int treeid = 0;
+
+            foreach (var outlet in Outfalls)
+            {
+                HydroTree tree = new HydroTree(treeid);
+                int nodeid = 0;
+                tree.Outlet = new HydroTreeNode(nodeid)
+                {
+                    River = outlet.RiverObject
+                };
+                nodeid++;
+                tree.Root = new HydroTreeNode(nodeid)
+                {
+                    River = outlet.RiverObject,
+                    Parent = null
+                };
+                tree.Nodes.Add(tree.Root);
+                BuildHydroTree(tree.Root, ref nodeid, tree.Nodes);
+                HydroTrees.Add(tree);
+                treeid++;
+            }
+        }
+
+        private void BuildHydroTree(HydroTreeNode parent, ref int nodeid, List<HydroTreeNode> nodes)
+        {
+            if(parent.River.Upstreams.Count == 0)
+            {
+                parent.IsLeaf = true;
+                return;
+            }
+            else
+            {
+                foreach(var river in parent.River.Upstreams)
+                {
+                    nodeid++;
+                    HydroTreeNode node = new HydroTreeNode(nodeid)
+                    {
+                        River = river,
+                        Parent = parent
+                    };
+                    parent.AddChild(node);
+                    if(!nodes.Contains(node))
+                        nodes.Add(node);
+                    BuildHydroTree(node, ref nodeid, nodes);
+                }
+            }
+        }
+
         public List<River> BuildProfile(int startID)
         {
             List<River> pro = new List<River>();
@@ -183,7 +250,9 @@ namespace Heiflow.Core.Hydrology
             foreach (var river in rivers)
             {
                 if (!junctions.Contains(river.InletNode))
+                {
                     junctions.Add(river.InletNode);
+                }
                 if (!junctions.Contains(river.OutletNode))
                     junctions.Add(river.OutletNode);
             }
@@ -277,7 +346,10 @@ namespace Heiflow.Core.Hydrology
                 foreach (var rch in river.Reaches)
                 {
                     if (junctions.Where(t => t.ID == rch.InletNode.ID).Count() == 0)
+                    {
                         junctions.Add(rch.InletNode);
+
+                    }
                     if (junctions.Where(t => t.ID == rch.OutletNode.ID).Count() == 0)
                         junctions.Add(rch.OutletNode);
                 }

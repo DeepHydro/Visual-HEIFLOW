@@ -30,6 +30,7 @@
 using DotSpatial.Data;
 using Heiflow.Applications;
 using Heiflow.Controls.WinForm.Editors;
+using Heiflow.Core.Data;
 using Heiflow.Core.Hydrology;
 using Heiflow.Models.Subsurface;
 using Heiflow.Models.Tools;
@@ -40,16 +41,7 @@ using System.Linq;
 
 namespace Heiflow.Tools.ConceptualModel
 {
-    public enum SFRParameter
-    {
-        STRHC1, Slope, Width, TopElevation, ROUGHCH, Runoff,
-        PPTSW, ETSW, BedThick, IPrior, UpRiverID, Flow
-    };
-    public enum ReachParameter
-    {
-        STRHC1, Slope, Width, TopElevation, ROUGHCH, Runoff,
-        PPTSW, ETSW, BedThick, IPrior, UpRiverID, Flow
-    };
+
     public class SetSegmentByFeatureLayer : MapLayerRequiredTool
     {
         private IMapLayerDescriptor _StreamFeatureLayerDescriptor;
@@ -93,7 +85,6 @@ namespace Heiflow.Tools.ConceptualModel
         }
         #endregion
 
-
         #region Field Binding
         [Browsable(false)]
         public string[] Fields
@@ -110,30 +101,93 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             set;
         }
-        [Category("GIS Layer")]
-        [Description("The field of the feature layer used to set the segment parameter")]
+
+        [Category("Optional Segment Field Binding")]
+        [Description("Segment width")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
-        public string ParameterField
+        public string WidthField
         {
             get;
             set;
         }
-        [Category("SFR Parameter")]
-        [Description("The name segment parameter")]
-
-        public SFRParameter ParameterName
+        [Category("Optional Segment Field Binding")]
+        [Description("IUPSEG is an integer value of the downstream stream segment that receives tributary inflow from the last downstream reach of this segment.")]
+        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
+        [DropdownListSource("Fields")]
+        public string IUPSEGField
+        {
+            get;
+            set;
+        }
+        //IPRIOR An integer value that only is specified if IUPSEG > 0 (do not specify a value in this field if IUPSEG = 0 or IUPSEG < 0). IPRIOR defines the prioritization system for diversion, such as when insufficient water is available to meet all diversion stipulations, and is used in conjunction with the value of FLOW (specified below).
+        //When IPRIOR = 0, then if the specified diversion flow (FLOW) is greater than the flow available in the stream segment from which the diversion is made, the diversion is reduced to the amount available, which will leave no flow available for tributary flow into a downstream tributary of segment IUPSEG.
+        //When IPRIOR = -1, then if the specified diversion flow (FLOW) is greater than the flow available in the stream segment from which the diversion is made, no water is diverted from the stream. This approach assumes that once flow in the stream is sufficiently low, diversions from the stream cease, and is the “priority” algorithm that originally was programmed into the STR1 Package (Prudic, 1989).
+        //When IPRIOR = -2, then the amount of the diversion is computed as a fraction of the available flow in segment IUPSEG; in this case, 0.0 < FLOW < 1.0.
+        //When IPRIOR = -3, then a diversion is made only if the streamflow leaving segment IUPSEG exceeds the value of FLOW. If this occurs, then the quantity of water diverted is the excess flow and the quantity that flows from the last reach of segment IUPSEG into its downstream tributary (OUTSEG) is equal to FLOW. This represents a flood-control type of diversion, as described by Danskin and Hanson (2002).
+        [Category("Optional Segment Field Binding")]
+        [Description("An integer value that only is specified if IUPSEG > 0 (do not specify a value in this field if IUPSEG = 0 or IUPSEG < 0). ")]
+        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
+        [DropdownListSource("Fields")]
+        public string IPRIORField
+        {
+            get;
+            set;
+        }
+        //•	If the stream is a headwater stream, FLOW defines the total inflow to the first reach of the segment. The value can be any number ≥ 0.
+        //•	If the stream is a tributary stream, FLOW defines additional specified inflow to or withdrawal from the first reach of the segment (that is, in addition to the discharge from the upstream segment of which this is a tributary). This additional flow does not interact with the groundwater system. For example, a positive number might be used to represent direct outflow into a stream from a sewage treatment plant, whereas a negative number might be used to represent pumpage directly from a stream into an intake pipe for a municipal water treatment plant. (Also see additional explanatory notes below.)
+        //•	If the stream is a diversionary stream, and the diversion is from another stream segment, FLOW defines the streamflow diverted from the last reach of stream segment IUPSEG into the first reach of this segment. The diversion is computed or adjusted according to the value of IPRIOR.
+        //•	If the stream is a diversionary stream, and the diversion is from a lake, FLOW defines a fixed rate of discharge diverted from the lake into the first reach of this stream segment (unless the lake goes dry) and flow from the lake is not dependent on the value of ICALC. However, if FLOW = 0, then the lake outflow into the first reach of this segment will be calculated on the basis of lake stage relative to the top of the streambed for the first reach using one of the methods defined by ICALC.
+        [Category("Optional Segment Field Binding")]
+        [Description("FLOW A real number that is the streamflow (in units of volume per time) entering or leaving the upstream end of a stream segment (that is, into the first reach).")]
+        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
+        [DropdownListSource("Fields")]
+        public string FlowField
+        {
+            get;
+            set;
+        }
+        [Category("Optional Segment Field Binding")]
+        [Description("")]
+        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
+        [DropdownListSource("Fields")]
+        public string RunoffField
+        {
+            get;
+            set;
+        }
+        [Category("Optional Segment Field Binding")]
+        [Description("")]
+        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
+        [DropdownListSource("Fields")]
+        public string ETField
+        {
+            get;
+            set;
+        }
+        [Category("Optional Segment Field Binding")]
+        [Description("")]
+        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
+        [DropdownListSource("Fields")]
+        public string RainfallField
+        {
+            get;
+            set;
+        }
+        [Category("Optional Segment Field Binding")]
+        [Description("")]
+        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
+        [DropdownListSource("Fields")]
+        public string RoughnessField
         {
             get;
             set;
         }
         #endregion
 
-
         public override void Initialize()
         {
             this.Initialized = _stream_layer != null;
-
         }
 
         public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
@@ -147,27 +201,25 @@ namespace Heiflow.Tools.ConceptualModel
                 if (sfr.RiverNetwork.RiverCount != dt.Rows.Count)
                 {
                     cancelProgressHandler.Progress("Package_Tool", 1, "Warning: Segment count in SFR package is not equal to the row count of the GIS layer");
+                    return false;
                 }
-                var isreach_para = SFRPackage.ReachPara.Contains(ParameterName.ToString());
                 foreach (DataRow dr in dt.Rows)
                 {
-                    var segid = int.Parse(dr[SegmentIDField].ToString());
+                    var segid = int.Parse(dr["ISEG"].ToString());
                     var river = sfr.RiverNetwork.GetRiver(segid);
                     if (river != null)
                     {
-                        if (isreach_para)
-                        {
-                            foreach (Reach rch in river.Reaches)
-                            {
-                                rch.GetType().GetProperty(ParameterName.ToString()).SetValue(rch, dr[ParameterField]);
-                            }
-                        }
-                        else
-                        {
-                            river.GetType().GetProperty(ParameterName.ToString()).SetValue(river, dr[ParameterField]);
-                        }
+                        river.Width = TypeConverterEx.IsNotNull(dr[WidthField].ToString()) ? double.Parse(dr[WidthField].ToString()) : 100;
+                        river.UpRiverID = TypeConverterEx.IsNotNull(dr[IUPSEGField].ToString()) ? int.Parse(dr[IUPSEGField].ToString()) : 0;
+                        river.IPrior = TypeConverterEx.IsNotNull(dr[IUPSEGField].ToString()) ? int.Parse(dr[IPRIORField].ToString()) : 0;
+                        river.Flow = TypeConverterEx.IsNotNull(dr[FlowField].ToString()) ? double.Parse(dr[FlowField].ToString()) : 0;
+                        river.Runoff = TypeConverterEx.IsNotNull(dr[RunoffField].ToString()) ? double.Parse(dr[RunoffField].ToString()) : 0;
+                        river.ETSW = TypeConverterEx.IsNotNull(dr[ETField].ToString()) ? double.Parse(dr[ETField].ToString()) : 0;
+                        river.PPTSW = TypeConverterEx.IsNotNull(dr[RainfallField].ToString()) ? double.Parse(dr[RainfallField].ToString()) : 0;
+                        river.ROUGHCH = TypeConverterEx.IsNotNull(dr[RoughnessField].ToString()) ? double.Parse(dr[RoughnessField].ToString()) : 0.05;
                     }
                 }
+
                 sfr.NetworkToMat();
                 return true;
             }

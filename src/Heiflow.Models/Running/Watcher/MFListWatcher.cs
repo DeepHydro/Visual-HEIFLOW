@@ -280,6 +280,10 @@ namespace Heiflow.Models.Running
                         line = sr.ReadLine();
                         if (!string.IsNullOrEmpty(line))
                         {
+                            //if (line.Contains("VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  2828"))
+                            //{
+                            //    var a = 0;
+                            //}
                             if (line.Contains("VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP"))
                             {
                                 var vector = new double[total_var];
@@ -292,14 +296,15 @@ namespace Heiflow.Models.Running
                                 for (int i = 0; i < nvar; i++)
                                 {
                                     line = sr.ReadLine();
+                                    line = line.Replace("=", " ");
                                     var buf = TypeConverterEx.Split<string>(line);
-                                    if (buf.Length == 6)
+                                    if (buf.Length == 4)
+                                    {
+                                        vector[i] = double.Parse(buf[3]);
+                                    }
+                                    else if (buf.Length == 6)
                                     {
                                         vector[i] = double.Parse(buf[5]);
-                                    }
-                                    else if (buf.Length == 8)
-                                    {
-                                        vector[i] = double.Parse(buf[7]);
                                     }
                                     total_in += vector[i];
                                 }
@@ -310,14 +315,15 @@ namespace Heiflow.Models.Running
                                 for (int i = nvar; i < nvar * 2; i++)
                                 {
                                     line = sr.ReadLine();
+                                    line = line.Replace("=", " ");
                                     var buf = TypeConverterEx.Split<string>(line);
-                                    if (buf.Length == 6)
+                                    if (buf.Length == 4)
+                                    {
+                                        vector[i] = double.Parse(buf[3]);
+                                    }
+                                    else if (buf.Length == 6)
                                     {
                                         vector[i] = double.Parse(buf[5]);
-                                    }
-                                    else if (buf.Length == 8)
-                                    {
-                                        vector[i] = double.Parse(buf[7]);
                                     }
                                     total_out += vector[i];
                                 }

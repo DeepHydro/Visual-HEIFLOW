@@ -110,6 +110,7 @@ namespace Heiflow.Models.Generic
         void AddChild(IPackage pck);
         IPackage SelectChild(string name);
         void Attach(DotSpatial.Controls.IMap map,  string directory);
+       void UpdateFeature(DotSpatial.Controls.IMap map,  string directory);
         List<IParameter> GetParameters();
         void RaiseStateChanged(ModelObjectState state);
         void OnGridUpdated(IGrid sender);

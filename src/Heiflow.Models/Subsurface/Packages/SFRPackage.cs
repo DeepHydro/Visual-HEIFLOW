@@ -372,11 +372,11 @@ namespace Heiflow.Models.Subsurface
                      if (reach != null && river != null)
                      {
                          dr["BedThick"] = reach.BedThick;
-                         dr["Elev"] = reach.TopElevation;
+                         dr["CellElev"] = reach.TopElevation;
                          dr["Slope"] = reach.Slope;
                          dr["Length"] = reach.Length;
                          dr["Offset"] = reach.Offset;
-                         dr["VK"] = reach.STRHC1;
+                         dr["STRHC1"] = reach.STRHC1;
                          dr["THTS"] = reach.THTS;
                          dr["THTI"] = reach.THTI;
                          dr["EPS"] = reach.EPS;
@@ -386,10 +386,10 @@ namespace Heiflow.Models.Subsurface
                          dr["IPRIO"] = river.IPrior;
                          dr["Flow"] = river.Flow;
                          dr["Runoff"] = river.Runoff;
-                         dr["ET"] = river.ETSW;
-                         dr["Rainfall"] = river.PPTSW;
-                         dr["Rough"] = river.ROUGHCH;
-                         dr["IPrior"] = river.IPrior;
+                         dr["ETSW"] = river.ETSW;
+                         dr["PPTSW"] = river.PPTSW;
+                         dr["ROUGHCH"] = river.ROUGHCH;
+                         dr["IPRIO"] = river.IPrior;
                      }
                  }
                  this.Feature.Save();
@@ -1409,6 +1409,27 @@ namespace Heiflow.Models.Subsurface
             fs.SaveAs(shp, true);
         }
 
+        public void SaveJunctionsAsShp(string shp)
+        {
+            DotSpatial.Data.FeatureSet fs = new DotSpatial.Data.FeatureSet(FeatureType.Point);
+            fs.DataTable.Columns.Add(new DataColumn("ID", Type.GetType("System.Int32")));
+            fs.DataTable.Columns.Add(new DataColumn("ISEG", Type.GetType("System.Int32")));
+            fs.DataTable.Columns.Add(new DataColumn("IReach", Type.GetType("System.Int32")));
+
+            this.RiverNetwork.GetJunctions();
+            foreach(var node in this.RiverNetwork.RiverJunctions)
+            {
+                Point lr = new Point(node.Coordinate.X, node.Coordinate.Y);
+                DotSpatial.Data.Feature ft = new DotSpatial.Data.Feature(lr);             
+                ft.DataRow = fs.DataTable.NewRow();
+                ft.DataRow["ID"] = node.ID;
+                ft.DataRow["ISEG"] = node.RiverObject.ID;
+                ft.DataRow["IReach"] = node.ReachObject.ID;
+                fs.Features.Add(ft);
+            }
+            fs.Projection = this.Feature.Projection;
+            fs.SaveAs(shp, true);
+        }
         public void SaveReachAsShp(string shp)
         {
             var mfgrid = (Owner.Grid as MFGrid);

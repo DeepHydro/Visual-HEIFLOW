@@ -192,11 +192,10 @@ namespace Heiflow.Controls.WinForm.Display
             var surface_et= e[FileMonitor.BASINIMPERVEVAP_HRU] + e[FileMonitor.BASININTCPEVAP_HRU]
                 + e[FileMonitor.BASINSNOWEVAP_HRU] + e[FileMonitor.IR_Industry];
 
-            var soilin =  e[FileMonitor.Streams_Inflow]
-                + e[FileMonitor.IR_PUMP] + e[FileMonitor.SURFACE_LEAKAGE_OUT] + e[FileMonitor.PPT];
+            var soilin = e[FileMonitor.IR_PUMP] + e[FileMonitor.SURFACE_LEAKAGE_OUT] + e[FileMonitor.PPT];
             var soilout = e[FileMonitor.BASININTERFLOW] + e[FileMonitor.BASINSROFF]
                 + e[FileMonitor.BASINLAKEINSZ] + e[FileMonitor.BASINHORTONIANLAKES]
-                 + e[FileMonitor.BASINPERVET_HRU] + e[FileMonitor.Streams_Outflow]
+                 + e[FileMonitor.BASINPERVET_HRU]
                  + e[FileMonitor.BASINIMPERVEVAP_HRU] + e[FileMonitor.BASININTCPEVAP_HRU] + e[FileMonitor.BASINSNOWEVAP_HRU]
                  + e[FileMonitor.UZF_INFIL]
                  + e[FileMonitor.CANAL_ET] + e[FileMonitor.SFRET] + e[FileMonitor.LAKET];

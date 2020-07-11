@@ -62,7 +62,7 @@ namespace Heiflow.Tools.ConceptualModel
             Offset = -5;
         }
         [Category("Parameter")]
-        [Description("The scale factor applied to the original value.")]
+        [Description("The offset applied to the original value.")]
         public float Offset
         {
             get;

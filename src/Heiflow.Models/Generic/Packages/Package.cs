@@ -564,6 +564,17 @@ namespace Heiflow.Models.Generic
         {
             return null;
         }
+
+        public virtual void UpdateFeature(DotSpatial.Controls.IMap map, string directory)
+        {
+            string filename = Path.Combine(directory, this.Name + ".shp");
+            this.FeatureLayer = MapHelper.Select(filename, map, ModelService.ProjectDirectory) as IMapFeatureLayer;
+            if (this.FeatureLayer != null)
+            {
+                map.MapFrame.Remove(this.FeatureLayer);
+                NewFeatureLayer(map, directory);
+            }
+        }
         public virtual void UpdateAttributeTable()
         {
 
@@ -571,10 +582,10 @@ namespace Heiflow.Models.Generic
         private void NewFeatureLayer(DotSpatial.Controls.IMap map, string directory)
         {
             string filename = Path.Combine(directory, this.Name + ".shp");
-            if (!File.Exists(filename))
-            {
+            //if (!File.Exists(filename))
+            //{
                 CreateFeature(map.Projection, directory);
-            }
+            //}
 
             this.Feature = FeatureSet.Open(filename);
             if (this.Feature.FeatureType == FeatureType.Polygon)

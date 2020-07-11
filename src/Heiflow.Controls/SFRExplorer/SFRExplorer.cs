@@ -573,6 +573,26 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.FeatureLayers = map_layers.ToArray();
         }
 
+        private void exportToSWMMInpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.Filter = "SWMM input file|*.inp";
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                SFROutput.SFRPackage.RiverNetwork.NetworkToSWMM(dlg.FileName);
+            }
+        }
+
+        private void riverJunctionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.Filter = "shp file|*.shp";
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                SFROutput.SFRPackage.SaveJunctionsAsShp(dlg.FileName);
+            }
+        }
+
  
     }
 }

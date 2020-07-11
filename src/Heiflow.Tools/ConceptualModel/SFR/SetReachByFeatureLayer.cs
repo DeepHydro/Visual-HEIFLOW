@@ -62,7 +62,16 @@ namespace Heiflow.Tools.ConceptualModel
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
-            //StreamGenerator = ConceptualModel.StreamGenerator.VHF;
+
+            ElevationField = "TopElev";
+            BedThicknessField = "BedThick";
+            SlopeField = "Slope";
+            OffsetField = "Offset";
+            VKField = "STRHC1";
+            THTSField = "THTS";
+            THTIField = "THTI";
+            EPSField = "EPS";
+
         }
 
         #region GIS Layers
@@ -92,60 +101,6 @@ namespace Heiflow.Tools.ConceptualModel
         }
         #endregion
 
-        //#region Stream Network
-        //[Category("Stream Network")]
-        //[Description("the generator used to generate stream network.")]
-
-        //public StreamGenerator StreamGenerator
-        //{
-        //    get
-        //    {
-        //        return _StreamGenerator;
-        //    }
-        //    set
-        //    {
-        //        _StreamGenerator = value;
-        //        if (_StreamGenerator == StreamGenerator.VHF)
-        //        {
-        //            WidthField = "Width";
-        //            IUPSEGField = "IUPSEG";
-        //            IPRIORField = "IPRIO";
-        //            FlowField = "Flow";
-        //            RunoffField = "Runoff";
-        //            ETField = "ETSW";
-        //            RainfallField = "PPTSW";
-        //            RoughnessField = "ROUGHCH";
-        //            BedThicknessField = "BedThick";
-        //            SlopeField = "Slope";
-        //            OffsetField = "Offset";
-        //            VKField = "STRHC1";
-        //            THTIField = "THTI";
-        //            THTSField = "THTS";
-        //            EPSField = "EPS";
-        //            ElevationField = "TopElev";
-        //        }
-        //        else if (_StreamGenerator == StreamGenerator.SWAT)
-        //        {
-        //            WidthField = "Width";
-        //            IUPSEGField = "IUPSEG";
-        //            IPRIORField = "IPRIO";
-        //            FlowField = "Flow";
-        //            ETField = "ETSW";
-        //            RainfallField = "PPTSW";
-        //            RoughnessField = "ROUGHCH";
-        //            BedThicknessField = "BedThick";
-        //            SlopeField = "Slope";
-        //            OffsetField = "Offset";
-        //            VKField = "STRHC1";
-        //            THTIField = "THTI";
-        //            THTSField = "THTS";
-        //            EPSField = "EPS";
-        //            ElevationField = "TopElev";
-        //        }
-        //    }
-        //}
-        //#endregion
-
         #region Field Binding
         [Browsable(false)]
         public string[] Fields
@@ -154,87 +109,25 @@ namespace Heiflow.Tools.ConceptualModel
             protected set;
         }
 
-        [Category("Optional Segment Field Binding")]
-        [Description("Segment width")]
+        [Category("Basic Field Binding")]
+        [Description("Segment ID")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
-        public string WidthField
+        public string SegmentIDField
         {
             get;
             set;
         }
-        [Category("Optional Segment Field Binding")]
-        [Description("IUPSEG is an integer value of the downstream stream segment that receives tributary inflow from the last downstream reach of this segment.")]
+        [Category("Basic Field Binding")]
+        [Description("Reach ID")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
-        public string IUPSEGField
+        public string ReachIDField
         {
             get;
             set;
         }
-        //IPRIOR An integer value that only is specified if IUPSEG > 0 (do not specify a value in this field if IUPSEG = 0 or IUPSEG < 0). IPRIOR defines the prioritization system for diversion, such as when insufficient water is available to meet all diversion stipulations, and is used in conjunction with the value of FLOW (specified below).
-        //When IPRIOR = 0, then if the specified diversion flow (FLOW) is greater than the flow available in the stream segment from which the diversion is made, the diversion is reduced to the amount available, which will leave no flow available for tributary flow into a downstream tributary of segment IUPSEG.
-        //When IPRIOR = -1, then if the specified diversion flow (FLOW) is greater than the flow available in the stream segment from which the diversion is made, no water is diverted from the stream. This approach assumes that once flow in the stream is sufficiently low, diversions from the stream cease, and is the “priority” algorithm that originally was programmed into the STR1 Package (Prudic, 1989).
-        //When IPRIOR = -2, then the amount of the diversion is computed as a fraction of the available flow in segment IUPSEG; in this case, 0.0 < FLOW < 1.0.
-        //When IPRIOR = -3, then a diversion is made only if the streamflow leaving segment IUPSEG exceeds the value of FLOW. If this occurs, then the quantity of water diverted is the excess flow and the quantity that flows from the last reach of segment IUPSEG into its downstream tributary (OUTSEG) is equal to FLOW. This represents a flood-control type of diversion, as described by Danskin and Hanson (2002).
-        [Category("Optional Segment Field Binding")]
-        [Description("An integer value that only is specified if IUPSEG > 0 (do not specify a value in this field if IUPSEG = 0 or IUPSEG < 0). ")]
-        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        [DropdownListSource("Fields")]
-        public string IPRIORField
-        {
-            get;
-            set;
-        }
-        //•	If the stream is a headwater stream, FLOW defines the total inflow to the first reach of the segment. The value can be any number ≥ 0.
-        //•	If the stream is a tributary stream, FLOW defines additional specified inflow to or withdrawal from the first reach of the segment (that is, in addition to the discharge from the upstream segment of which this is a tributary). This additional flow does not interact with the groundwater system. For example, a positive number might be used to represent direct outflow into a stream from a sewage treatment plant, whereas a negative number might be used to represent pumpage directly from a stream into an intake pipe for a municipal water treatment plant. (Also see additional explanatory notes below.)
-        //•	If the stream is a diversionary stream, and the diversion is from another stream segment, FLOW defines the streamflow diverted from the last reach of stream segment IUPSEG into the first reach of this segment. The diversion is computed or adjusted according to the value of IPRIOR.
-        //•	If the stream is a diversionary stream, and the diversion is from a lake, FLOW defines a fixed rate of discharge diverted from the lake into the first reach of this stream segment (unless the lake goes dry) and flow from the lake is not dependent on the value of ICALC. However, if FLOW = 0, then the lake outflow into the first reach of this segment will be calculated on the basis of lake stage relative to the top of the streambed for the first reach using one of the methods defined by ICALC.
-        [Category("Optional Segment Field Binding")]
-        [Description("FLOW A real number that is the streamflow (in units of volume per time) entering or leaving the upstream end of a stream segment (that is, into the first reach).")]
-        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        [DropdownListSource("Fields")]
-        public string FlowField
-        {
-            get;
-            set;
-        }
-        [Category("Optional Segment Field Binding")]
-        [Description("")]
-        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        [DropdownListSource("Fields")]
-        public string RunoffField
-        {
-            get;
-            set;
-        }
-        [Category("Optional Segment Field Binding")]
-        [Description("")]
-        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        [DropdownListSource("Fields")]
-        public string ETField
-        {
-            get;
-            set;
-        }
-        [Category("Optional Segment Field Binding")]
-        [Description("")]
-        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        [DropdownListSource("Fields")]
-        public string RainfallField
-        {
-            get;
-            set;
-        }
-        [Category("Optional Segment Field Binding")]
-        [Description("")]
-        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        [DropdownListSource("Fields")]
-        public string RoughnessField
-        {
-            get;
-            set;
-        }
+
         [Category("Reach Field Binding")]
         [Description("Top elevation of streambed")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
@@ -317,70 +210,6 @@ namespace Heiflow.Tools.ConceptualModel
         public void CheckFields()
         {
             var dt_insct = _stream_layer.DataTable;
-            if (!dt_insct.Columns.Contains(IUPSEGField))
-            {
-                DataColumn dc = new DataColumn(IUPSEGField, typeof(int));
-                dt_insct.Columns.Add(dc);
-                foreach (DataRow row in dt_insct.Rows)
-                {
-                    row[IUPSEGField] = 0;
-                }
-            }
-            if (!dt_insct.Columns.Contains(IPRIORField))
-            {
-                DataColumn dc = new DataColumn(IPRIORField, typeof(int));
-                dt_insct.Columns.Add(dc);
-                foreach (DataRow row in dt_insct.Rows)
-                {
-                    row[IPRIORField] = 0;
-                }
-            }
-            if (!dt_insct.Columns.Contains(FlowField))
-            {
-                DataColumn dc = new DataColumn(FlowField, typeof(float));
-                dt_insct.Columns.Add(dc);
-                foreach (DataRow row in dt_insct.Rows)
-                {
-                    row[FlowField] = 0;
-                }
-            }
-            if (!dt_insct.Columns.Contains(RunoffField))
-            {
-                DataColumn dc = new DataColumn(RunoffField, typeof(float));
-                dt_insct.Columns.Add(dc);
-                foreach (DataRow row in dt_insct.Rows)
-                {
-                    row[RunoffField] = 0;
-                }
-            }
-            if (!dt_insct.Columns.Contains(ETField))
-            {
-                DataColumn dc = new DataColumn(ETField, typeof(float));
-                dt_insct.Columns.Add(dc);
-                foreach (DataRow row in dt_insct.Rows)
-                {
-                    row[ETField] = 0;
-                }
-            }
-            if (!dt_insct.Columns.Contains(RainfallField))
-            {
-                DataColumn dc = new DataColumn(RainfallField, typeof(float));
-                dt_insct.Columns.Add(dc);
-                foreach (DataRow row in dt_insct.Rows)
-                {
-                    row[RainfallField] = 0;
-                }
-            }
-            if (!dt_insct.Columns.Contains(RoughnessField))
-            {
-                DataColumn dc = new DataColumn(RoughnessField, typeof(float));
-                dt_insct.Columns.Add(dc);
-                foreach (DataRow row in dt_insct.Rows)
-                {
-                    row[RoughnessField] = 0.05;
-                }
-            }
-
             if (!dt_insct.Columns.Contains(OffsetField))
             {
                 DataColumn dc = new DataColumn(OffsetField, typeof(float));
@@ -460,50 +289,36 @@ namespace Heiflow.Tools.ConceptualModel
                     cancelProgressHandler.Progress("Package_Tool", 90, "Reach count in SFR package is not equal to the row count of the GIS layer");
                     return false;
                 }
-                else
+
+                foreach (DataRow dr in dt.Rows)
                 {
-                    foreach (DataRow dr in dt.Rows)
+                    var segid = int.Parse(dr["ISEG"].ToString());
+                    var reachid = int.Parse(dr["IREACH"].ToString());
+                    var buf = from rr in sfr.RiverNetwork.Reaches where rr.SubID == reachid && rr.ISEG == segid select rr;
+                    if (buf.Any())
                     {
-                        var segid = int.Parse(dr["ISEG"].ToString());
-                        var reachid = int.Parse(dr["IREACH"].ToString());
-                        var buf = from rr in sfr.RiverNetwork.Reaches where rr.SubID == reachid && rr.ISEG == segid select rr;
-                        if (buf.Any())
-                        {
-                            var reach = buf.First();
-                            var river = reach.Parent;
+                        var reach = buf.First();
+                        var river = reach.Parent;
 
-                            river.UpRiverID = TypeConverterEx.IsNotNull(dr[IUPSEGField].ToString()) ? int.Parse(dr[IUPSEGField].ToString()) : 0;
-                            river.IPrior = TypeConverterEx.IsNotNull(dr[IPRIORField].ToString()) ? int.Parse(dr[IPRIORField].ToString()) : 0;
-                            river.Flow = TypeConverterEx.IsNotNull(dr[FlowField].ToString()) ? double.Parse(dr[FlowField].ToString()) : 0;
-                            river.Runoff = TypeConverterEx.IsNotNull(dr[RunoffField].ToString()) ? double.Parse(dr[RunoffField].ToString()) : 0;
-                            river.PPTSW = TypeConverterEx.IsNotNull(dr[RainfallField].ToString()) ? double.Parse(dr[RainfallField].ToString()) : 0;
-                            river.ETSW = TypeConverterEx.IsNotNull(dr[ETField].ToString()) ? double.Parse(dr[ETField].ToString()) : 0;
-                            river.ROUGHCH = TypeConverterEx.IsNotNull(dr[RoughnessField].ToString()) ? double.Parse(dr[RoughnessField].ToString()) : 0;
-                            river.Width = TypeConverterEx.IsNotNull(dr[WidthField].ToString()) ? double.Parse(dr[WidthField].ToString()) : 50;
-                            river.Width1 = TypeConverterEx.IsNotNull(dr[WidthField].ToString()) ? double.Parse(dr[WidthField].ToString()) : 50;
-                            river.Width2 = TypeConverterEx.IsNotNull(dr[WidthField].ToString()) ? double.Parse(dr[WidthField].ToString()) : 50;
-
-                            reach.TopElevation = TypeConverterEx.IsNotNull(dr[ElevationField].ToString()) ? double.Parse(dr[WidthField].ToString()) : 100;
-                            reach.Width = TypeConverterEx.IsNotNull(dr[WidthField].ToString()) ? double.Parse(dr[WidthField].ToString()) : 50;
-                            reach.Slope = TypeConverterEx.IsNotNull(dr[SlopeField].ToString()) ? double.Parse(dr[SlopeField].ToString()) : 0.001;
-                            reach.STRHC1 = TypeConverterEx.IsNotNull(dr[VKField].ToString()) ? double.Parse(dr[VKField].ToString()) : 0.05;
-                            reach.Offset = TypeConverterEx.IsNotNull(dr[OffsetField].ToString()) ? double.Parse(dr[OffsetField].ToString()) : -2;
-                            reach.BedThick = TypeConverterEx.IsNotNull(dr[BedThicknessField].ToString()) ? double.Parse(dr[BedThicknessField].ToString()) : 2;
-                            reach.THTI = TypeConverterEx.IsNotNull(dr[THTIField].ToString()) ? double.Parse(dr[THTIField].ToString()) : 0.1;
-                            reach.THTS = TypeConverterEx.IsNotNull(dr[THTSField].ToString()) ? double.Parse(dr[THTSField].ToString()) : 0.3;
-                            reach.EPS = TypeConverterEx.IsNotNull(dr[EPSField].ToString()) ? double.Parse(dr[EPSField].ToString()) : 3.5;
-                        }
+                        reach.TopElevation = TypeConverterEx.IsNotNull(dr[ElevationField].ToString()) ? double.Parse(dr[ElevationField].ToString()) : 100;
+                        reach.Slope = TypeConverterEx.IsNotNull(dr[SlopeField].ToString()) ? double.Parse(dr[SlopeField].ToString()) : 0.001;
+                        reach.STRHC1 = TypeConverterEx.IsNotNull(dr[VKField].ToString()) ? double.Parse(dr[VKField].ToString()) : 0.05;
+                        reach.Offset = TypeConverterEx.IsNotNull(dr[OffsetField].ToString()) ? double.Parse(dr[OffsetField].ToString()) : -2;
+                        reach.BedThick = TypeConverterEx.IsNotNull(dr[BedThicknessField].ToString()) ? double.Parse(dr[BedThicknessField].ToString()) : 2;
+                        reach.THTI = TypeConverterEx.IsNotNull(dr[THTIField].ToString()) ? double.Parse(dr[THTIField].ToString()) : 0.1;
+                        reach.THTS = TypeConverterEx.IsNotNull(dr[THTSField].ToString()) ? double.Parse(dr[THTSField].ToString()) : 0.3;
+                        reach.EPS = TypeConverterEx.IsNotNull(dr[EPSField].ToString()) ? double.Parse(dr[EPSField].ToString()) : 3.5;
                     }
-                    sfr.NetworkToMat();
-                    return true;
                 }
+                sfr.NetworkToMat();
+                return true;
             }
             else
             {
                 cancelProgressHandler.Progress("Package_Tool", 90, "SFR package not loaded.");
                 return false;
             }
-           
+
         }
     }
 }

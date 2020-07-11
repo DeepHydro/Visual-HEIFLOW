@@ -34,6 +34,9 @@ namespace Heiflow.Controls.WinForm.Display
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl3 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.treeView1 = new Heiflow.Controls.Tree.TreeViewAdv();
+            this.nodeStateIcon1 = new Heiflow.Controls.Tree.NodeControls.NodeStateIcon();
+            this.nodeTextBox1 = new Heiflow.Controls.Tree.NodeControls.NodeTextBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -42,6 +45,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.btnClearCache = new System.Windows.Forms.ToolStripButton();
             this.tabControl_Main = new System.Windows.Forms.TabControl();
             this.tabPage_Graph = new System.Windows.Forms.TabPage();
+            this.winChart1 = new Heiflow.Controls.WinForm.Controls.WinChart();
             this.tabPage_Report = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -50,6 +54,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumn3 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -92,11 +97,6 @@ namespace Heiflow.Controls.WinForm.Display
             this.canal_et = new System.Windows.Forms.TextBox();
             this.sfr_et = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.treeView1 = new Heiflow.Controls.Tree.TreeViewAdv();
-            this.nodeStateIcon1 = new Heiflow.Controls.Tree.NodeControls.NodeStateIcon();
-            this.nodeTextBox1 = new Heiflow.Controls.Tree.NodeControls.NodeTextBox();
-            this.winChart1 = new Heiflow.Controls.WinForm.Controls.WinChart();
-            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -159,6 +159,45 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabPage5.TabIndex = 0;
             this.tabPage5.Text = "Explorer";
             this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // treeView1
+            // 
+            this.treeView1.BackColor = System.Drawing.SystemColors.Window;
+            this.treeView1.BackColor2 = System.Drawing.SystemColors.Window;
+            this.treeView1.BackgroundPaintMode = Heiflow.Controls.Tree.BackgroundPaintMode.Default;
+            this.treeView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.treeView1.DefaultToolTipProvider = null;
+            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView1.DragDropMarkColor = System.Drawing.Color.Black;
+            this.treeView1.Font = new System.Drawing.Font("Calibri", 10.5F);
+            this.treeView1.HighlightColorActive = System.Drawing.SystemColors.Highlight;
+            this.treeView1.HighlightColorInactive = System.Drawing.SystemColors.InactiveBorder;
+            this.treeView1.LineColor = System.Drawing.SystemColors.ControlDark;
+            this.treeView1.Location = new System.Drawing.Point(3, 4);
+            this.treeView1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.treeView1.Model = null;
+            this.treeView1.Name = "treeView1";
+            this.treeView1.NodeControls.Add(this.nodeStateIcon1);
+            this.treeView1.NodeControls.Add(this.nodeTextBox1);
+            this.treeView1.OnVisibleOverride = null;
+            this.treeView1.SelectedNode = null;
+            this.treeView1.Size = new System.Drawing.Size(205, 646);
+            this.treeView1.TabIndex = 2;
+            this.treeView1.Text = "treeViewAdv1";
+            // 
+            // nodeStateIcon1
+            // 
+            this.nodeStateIcon1.LeftMargin = 1;
+            this.nodeStateIcon1.ParentColumn = null;
+            this.nodeStateIcon1.ScaleMode = Heiflow.Controls.Tree.ImageScaleMode.Clip;
+            // 
+            // nodeTextBox1
+            // 
+            this.nodeTextBox1.DataPropertyName = "Text";
+            this.nodeTextBox1.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.nodeTextBox1.IncrementalSearchEnabled = true;
+            this.nodeTextBox1.LeftMargin = 3;
+            this.nodeTextBox1.ParentColumn = null;
             // 
             // tabPage6
             // 
@@ -249,6 +288,18 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabPage_Graph.TabIndex = 0;
             this.tabPage_Graph.Text = "Time Series";
             this.tabPage_Graph.UseVisualStyleBackColor = true;
+            // 
+            // winChart1
+            // 
+            this.winChart1.BackColor = System.Drawing.SystemColors.Control;
+            this.winChart1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.winChart1.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.winChart1.Location = new System.Drawing.Point(3, 4);
+            this.winChart1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.winChart1.Name = "winChart1";
+            this.winChart1.ShowStatPanel = true;
+            this.winChart1.Size = new System.Drawing.Size(1097, 673);
+            this.winChart1.TabIndex = 0;
             // 
             // tabPage_Report
             // 
@@ -391,6 +442,15 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "Zonal Budgets";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(912, 10);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(173, 19);
+            this.label6.TabIndex = 3;
+            this.label6.Text = "Percent Discrepancy (PD)";
             // 
             // label5
             // 
@@ -815,66 +875,6 @@ namespace Heiflow.Controls.WinForm.Display
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
-            // 
-            // treeView1
-            // 
-            this.treeView1.BackColor = System.Drawing.SystemColors.Window;
-            this.treeView1.BackColor2 = System.Drawing.SystemColors.Window;
-            this.treeView1.BackgroundPaintMode = Heiflow.Controls.Tree.BackgroundPaintMode.Default;
-            this.treeView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.treeView1.DefaultToolTipProvider = null;
-            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView1.DragDropMarkColor = System.Drawing.Color.Black;
-            this.treeView1.Font = new System.Drawing.Font("Calibri", 10.5F);
-            this.treeView1.HighlightColorActive = System.Drawing.SystemColors.Highlight;
-            this.treeView1.HighlightColorInactive = System.Drawing.SystemColors.InactiveBorder;
-            this.treeView1.LineColor = System.Drawing.SystemColors.ControlDark;
-            this.treeView1.Location = new System.Drawing.Point(3, 4);
-            this.treeView1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.treeView1.Model = null;
-            this.treeView1.Name = "treeView1";
-            this.treeView1.NodeControls.Add(this.nodeStateIcon1);
-            this.treeView1.NodeControls.Add(this.nodeTextBox1);
-            this.treeView1.OnVisibleOverride = null;
-            this.treeView1.SelectedNode = null;
-            this.treeView1.Size = new System.Drawing.Size(205, 646);
-            this.treeView1.TabIndex = 2;
-            this.treeView1.Text = "treeViewAdv1";
-            // 
-            // nodeStateIcon1
-            // 
-            this.nodeStateIcon1.LeftMargin = 1;
-            this.nodeStateIcon1.ParentColumn = null;
-            this.nodeStateIcon1.ScaleMode = Heiflow.Controls.Tree.ImageScaleMode.Clip;
-            // 
-            // nodeTextBox1
-            // 
-            this.nodeTextBox1.DataPropertyName = "Text";
-            this.nodeTextBox1.Font = new System.Drawing.Font("Calibri", 9.5F);
-            this.nodeTextBox1.IncrementalSearchEnabled = true;
-            this.nodeTextBox1.LeftMargin = 3;
-            this.nodeTextBox1.ParentColumn = null;
-            // 
-            // winChart1
-            // 
-            this.winChart1.BackColor = System.Drawing.SystemColors.Control;
-            this.winChart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.winChart1.Font = new System.Drawing.Font("Calibri", 9.5F);
-            this.winChart1.Location = new System.Drawing.Point(3, 4);
-            this.winChart1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.winChart1.Name = "winChart1";
-            this.winChart1.ShowStatPanel = true;
-            this.winChart1.Size = new System.Drawing.Size(1097, 673);
-            this.winChart1.TabIndex = 0;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(912, 10);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(173, 19);
-            this.label6.TabIndex = 3;
-            this.label6.Text = "Percent Discrepancy (PD)";
             // 
             // StateMonitor
             // 

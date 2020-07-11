@@ -144,6 +144,8 @@
     <Compile Include="Extensions\ReferenceExt.cs" />
     <Compile Include="Extensions\TimeRelated\DateTimeBasedExt.cs" />
     <Compile Include="Extensions\TimeRelated\TimeSpanBasedExt.cs" />
+    <Compile Include="Hydrology\HydroTree.cs" />
+    <Compile Include="Hydrology\HydroTreeNode.cs" />
     <Compile Include="IO\DataCubeDescriptor.cs" />
     <Compile Include="IO\BaseDataCubeStream.cs" />
     <Compile Include="IO\DataCubeStreamWriter.cs" />
