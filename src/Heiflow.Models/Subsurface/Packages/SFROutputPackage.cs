@@ -577,6 +577,9 @@ namespace Heiflow.Models.Subsurface
             int startday = 0;
             var scaleFactor = ScaleFactor;
 
+            if (profile == null)
+                return mat;
+
             if (allReach)
             {
                 int count = 0;

@@ -440,7 +440,6 @@ namespace Heiflow.Tools.ConceptualModel
             issucuess = false;
             var dic = Path.GetDirectoryName(_stream_layer.FilePath);
             var out_fn = Path.Combine(dic, "sfr_cpm.shp");
-            string msg = "";
             Dictionary<int, ReachFeatureCollection> fea_list = new Dictionary<int, ReachFeatureCollection>();
             cancelProgressHandler.Progress("Package_Tool", 10, "Calculating...");
             if (StreamGridIntersectionLayer != null)

@@ -48,22 +48,32 @@ using System.Linq;
 
 namespace Heiflow.Tools.ConceptualModel
 {
-    public class CheckSFRElevTool : MapLayerRequiredTool
+    public enum CorrectionMethod { ModifyBottom, Offset2Bottom }
+    public class CorrectReachElevTool : MapLayerRequiredTool
     {
-        public CheckSFRElevTool()
+        public CorrectReachElevTool()
         {
-            Name = "Check Reach Bed Elevation";
+            Name = "Correct Reach Bed Elevation";
             Category = Cat_CMG;
             SubCategory = "SFR";
-            Description = "Check reach bed elevation to make sure that the bed elevation is greater than the bottom elevatin of top layer";
+            Description = "Correct reach bed elevation to make sure that the bed elevation is greater than the bottom elevatin of top layer";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
             Offset = 5;
+            CorrectionMethod = CorrectionMethod.ModifyBottom;
         }
         [Category("Parameter")]
         [Description("The offset applied to the original value.")]
         public float Offset
+        {
+            get;
+            set;
+        }
+
+        [Category("Parameter")]
+        [Description("The offset applied to the original value. If ModifyBottom is selected, Offset is not used.")]
+        public CorrectionMethod CorrectionMethod
         {
             get;
             set;
@@ -86,20 +96,50 @@ namespace Heiflow.Tools.ConceptualModel
                 int count = 0;
                 string msg = "";
                 int i = 0;
-                foreach (var river in rvnet.Rivers)
+                if (CorrectionMethod == CorrectionMethod.Offset2Bottom)
                 {
-                    foreach (Reach reach in river.Reaches)
+                    foreach (var river in rvnet.Rivers)
                     {
-                        var index = grid.Topology.GetSerialIndex(reach.IRCH - 1, reach.JRCH - 1);
-                        if (reach.TopElevation < dis.Elevation[1, 0, index])
+                        foreach (Reach reach in river.Reaches)
                         {
-                            reach.TopElevation = dis.Elevation[1, 0, index] + Offset + reach.BedThick;
-                            msg = string.Format("The reach at {0},{1} is modified.", river.ID, reach.ID);
-                            cancelProgressHandler.Progress("tool", i / rvnet.RiverCount * 100, msg);
-                            count++;
+                            var index = grid.Topology.GetSerialIndex(reach.IRCH - 1, reach.JRCH - 1);
+                            if ((reach.TopElevation - reach.BedThick) < dis.Elevation[1, 0, index])
+                            {
+                                reach.TopElevation = dis.Elevation[1, 0, index] + Offset + reach.BedThick;
+                                msg = string.Format("The reach at {0},{1} is modified.", river.ID, reach.ID);
+                                cancelProgressHandler.Progress("tool", i / rvnet.RiverCount * 100, msg);
+                                count++;
+                            }
                         }
+                        i++;
                     }
-                    i++;
+                }
+                else if (CorrectionMethod == CorrectionMethod.ModifyBottom)
+                {
+                    var thickness = new float[grid.ActualLayerCount];
+                    foreach (var river in rvnet.Rivers)
+                    {
+                        foreach (Reach reach in river.Reaches)
+                        {
+                            var index = grid.Topology.GetSerialIndex(reach.IRCH - 1, reach.JRCH - 1);
+                            if ((reach.TopElevation - reach.BedThick) < dis.Elevation[1, 0, index])
+                            {
+                                for (int j = 0; j < grid.ActualLayerCount;j++ )
+                                {
+                                    thickness[j] = dis.Elevation[j, 0, index] - dis.Elevation[j + 1, 0, index];
+                                }
+                                dis.Elevation[1, 0, index] = (float)(reach.TopElevation - reach.BedThick - 1);
+                                for (int j = 2; j < grid.LayerCount; j++)
+                                {
+                                    dis.Elevation[j, 0, index] = dis.Elevation[j - 1, 0, index] - thickness[j - 1];
+                                }
+                                msg = string.Format("The bottom elevations at {0},{1} are modified.", river.ID, reach.ID);
+                                cancelProgressHandler.Progress("tool", i / rvnet.RiverCount * 100, msg);
+                                count++;
+                            }
+                        }
+                        i++;
+                    }
                 }
                 msg = string.Format("Total number of modified reaches is: {0}", count);
                 cancelProgressHandler.Progress("tool", 100, msg);

@@ -52,7 +52,6 @@ namespace Heiflow.Tools.ConceptualModel
     {
         private IMapLayerDescriptor _StreamFeatureLayerDescriptor;
         private IFeatureSet _stream_layer;
-        private StreamGenerator _StreamGenerator;
         public SetReachByFeatureLayer()
         {
             Name = "Set Reach Parameters From Feature Layer";

@@ -48,27 +48,44 @@ using System.Linq;
 
 namespace Heiflow.Tools.ConceptualModel
 {
-    public class SetSFRElevTool : MapLayerRequiredTool
+    public class CorrectReachVKTool  : MapLayerRequiredTool
     {
-        public SetSFRElevTool()
+        public CorrectReachVKTool()
         {
-            Name = "Set Reach Bed Elevation using DIS Value";
+            Name = "Correct Reach VK By Surface Leakage";
             Category = Cat_CMG;
             SubCategory = "SFR";
-            Description = "Set SFR Bed Elevation based on DIS Value";
+            Description = "Correct SFR VK By Surface Leakage. If the absolute value of Surface Leakage is greater than the Threashhold at a reach, VK of the reach will be set to the specified VK";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
-            Offset = -5;
+            ModifiedVK = 0;
+            Threashhold = 100000000;
         }
-        [Category("Parameter")]
-        [Description("The offset applied to the original value.")]
-        public float Offset
+
+        [Category("Input")]
+        [Description("The surface leakage data cube. The Data Cube style should be mat[0][0][:]")]
+        public string SurfLeakageDataCube
         {
             get;
             set;
         }
 
+        [Category("Input")]
+        [Description("The threashhold value used to determine which SFR reaches would be modified.")]
+        public double Threashhold
+        {
+            get;
+            set;
+        }
+
+        [Category("Input")]
+        [Description("The modified VK value")]
+        public double ModifiedVK
+        {
+            get;
+            set;
+        }
         public override void Initialize()
         {
             Initialized = true;
@@ -80,26 +97,40 @@ namespace Heiflow.Tools.ConceptualModel
             var grid = prj.Project.Model.Grid as MFGrid;
             var sfr = prj.Project.Model.GetPackage(SFRPackage.PackageName) as SFRPackage;
             var dis = prj.Project.Model.GetPackage(DISPackage.PackageName) as DISPackage;
-            if (sfr != null)
+            var vec_src = GetVector(SurfLeakageDataCube);
+            string msg = "";
+            int count = 0;
+            if (vec_src != null && sfr != null)
             {
                 var rvnet = sfr.RiverNetwork;
-                foreach (var river in rvnet.Rivers)
+                for (int i = 0; i < vec_src.Length;i++ )
                 {
-                    foreach (Reach reach in river.Reaches)
+                    if (System.Math.Abs(vec_src[i]) > System.Math.Abs(Threashhold))
                     {
-                        var index = grid.Topology.GetSerialIndex(reach.IRCH - 1, reach.JRCH - 1);
-                        reach.TopElevation = dis.Elevation[0, 0, index] + Offset;
+                        var loc = grid.Topology.ActiveCellLocation[i];
+                        var rches = rvnet.GetReachByLocation(loc[0] + 1, loc[1] + 1);
+                        if (rches != null)
+                        {
+                            foreach (var rch in rches)
+                            {
+                                rch.STRHC1 = this.ModifiedVK;
+                                msg = string.Format("The reach at {0},{1} is modified.", loc[0] + 1, loc[1] + 1);
+                                cancelProgressHandler.Progress("tool", i / vec_src.Length * 100, msg);
+                                count++;
+                            }
+                        }
                     }
                 }
                 sfr.NetworkToMat();
+                msg = string.Format("Total number of modified reaches is: {0}", count);
+                cancelProgressHandler.Progress("tool", 100, msg);
                 return true;
             }
             else
             {
-                cancelProgressHandler.Progress("Package_Tool", 90, "SFR package not loaded.");
+                cancelProgressHandler.Progress("Package_Tool", 100, "Failed. The source or target matrix style is wrong.");
                 return false;
             }
-
         }
     }
 }

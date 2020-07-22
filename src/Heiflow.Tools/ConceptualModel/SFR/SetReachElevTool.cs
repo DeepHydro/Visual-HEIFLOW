@@ -48,44 +48,27 @@ using System.Linq;
 
 namespace Heiflow.Tools.ConceptualModel
 {
-    public class CheckSFRPropTool : MapLayerRequiredTool
+    public class SetReachElevTool : MapLayerRequiredTool
     {
-        public CheckSFRPropTool()
+        public SetReachElevTool()
         {
-            Name = "Check SFR Parameters Based On Surf Leakage";
+            Name = "Set Reach Bed Elevation using DIS Value";
             Category = Cat_CMG;
             SubCategory = "SFR";
             Description = "Set SFR Bed Elevation based on DIS Value";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
-            STRHC1 = 0;
-            Threashhold = 100000000;
+            Offset = -5;
         }
-
-        [Category("Input")]
-        [Description("The surface leakage data cube. The Data Cube style should be mat[0][0][:]")]
-        public string SurfLeakageDataCube
+        [Category("Parameter")]
+        [Description("The offset applied to the original value.")]
+        public float Offset
         {
             get;
             set;
         }
 
-        [Category("Input")]
-        [Description("The threashhold value used to determine which SFR reaches would be modified.")]
-        public double Threashhold
-        {
-            get;
-            set;
-        }
-
-        [Category("Input")]
-        [Description("The modified VK value")]
-        public double STRHC1
-        {
-            get;
-            set;
-        }
         public override void Initialize()
         {
             Initialized = true;
@@ -97,40 +80,26 @@ namespace Heiflow.Tools.ConceptualModel
             var grid = prj.Project.Model.Grid as MFGrid;
             var sfr = prj.Project.Model.GetPackage(SFRPackage.PackageName) as SFRPackage;
             var dis = prj.Project.Model.GetPackage(DISPackage.PackageName) as DISPackage;
-            var vec_src = GetVector(SurfLeakageDataCube);
-            string msg = "";
-            int count = 0;
-            if (vec_src != null && sfr != null)
+            if (sfr != null)
             {
                 var rvnet = sfr.RiverNetwork;
-                for (int i = 0; i < vec_src.Length;i++ )
+                foreach (var river in rvnet.Rivers)
                 {
-                    if (System.Math.Abs(vec_src[i]) > System.Math.Abs(Threashhold))
+                    foreach (Reach reach in river.Reaches)
                     {
-                        var loc = grid.Topology.ActiveCellLocation[i];
-                        var rches = rvnet.GetReachByLocation(loc[0] + 1, loc[1] + 1);
-                        if (rches != null)
-                        {
-                            foreach (var rch in rches)
-                            {
-                                rch.STRHC1 = this.STRHC1;
-                                msg = string.Format("The reach at {0},{1} is modified.", loc[0] + 1, loc[1] + 1);
-                                cancelProgressHandler.Progress("tool", i / vec_src.Length * 100, msg);
-                                count++;
-                            }
-                        }
+                        var index = grid.Topology.GetSerialIndex(reach.IRCH - 1, reach.JRCH - 1);
+                        reach.TopElevation = dis.Elevation[0, 0, index] + Offset;
                     }
                 }
                 sfr.NetworkToMat();
-                msg = string.Format("Total number of modified reaches is: {0}", count);
-                cancelProgressHandler.Progress("tool", 100, msg);
                 return true;
             }
             else
             {
-                cancelProgressHandler.Progress("Package_Tool", 100, "Failed. The source or target matrix style is wrong.");
+                cancelProgressHandler.Progress("Package_Tool", 90, "SFR package not loaded.");
                 return false;
             }
+
         }
     }
 }

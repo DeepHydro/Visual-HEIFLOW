@@ -54,10 +54,10 @@ namespace Heiflow.Tools.ConceptualModel
     {
         public SetReachByCSV()
         {
-            Name = "Set Reach Parameters From CSV File";
+            Name = "Set Reach Parameters By CSV File";
             Category = Cat_CMG;
             SubCategory = "SFR";
-            Description = "Set Reach Parameters From CSV File";
+            Description = "Set Reach Parameters By CSV File";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;

@@ -12,6 +12,7 @@ namespace Heiflow.Core.Hydrology
         {
             ID = id;
             Nodes = new List<HydroTreeNode>();
+            NodeElevChanged = false;
         }
         public int ID
         {
@@ -37,6 +38,11 @@ namespace Heiflow.Core.Hydrology
             get;
             set;
         }
-        
+
+        public bool NodeElevChanged
+        {
+            get;
+            set;
+        }
     }
 }

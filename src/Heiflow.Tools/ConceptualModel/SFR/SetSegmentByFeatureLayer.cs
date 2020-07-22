@@ -92,7 +92,7 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             protected set;
         }
-        [Category("GIS Layer")]
+        [Category("Basic Field Binding")]
         [Description("The segment ID field")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
@@ -102,7 +102,7 @@ namespace Heiflow.Tools.ConceptualModel
             set;
         }
 
-        [Category("Optional Segment Field Binding")]
+        [Category("Segment Field Binding")]
         [Description("Segment width")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
@@ -111,7 +111,7 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             set;
         }
-        [Category("Optional Segment Field Binding")]
+        [Category("Segment Field Binding")]
         [Description("IUPSEG is an integer value of the downstream stream segment that receives tributary inflow from the last downstream reach of this segment.")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
@@ -125,7 +125,7 @@ namespace Heiflow.Tools.ConceptualModel
         //When IPRIOR = -1, then if the specified diversion flow (FLOW) is greater than the flow available in the stream segment from which the diversion is made, no water is diverted from the stream. This approach assumes that once flow in the stream is sufficiently low, diversions from the stream cease, and is the “priority” algorithm that originally was programmed into the STR1 Package (Prudic, 1989).
         //When IPRIOR = -2, then the amount of the diversion is computed as a fraction of the available flow in segment IUPSEG; in this case, 0.0 < FLOW < 1.0.
         //When IPRIOR = -3, then a diversion is made only if the streamflow leaving segment IUPSEG exceeds the value of FLOW. If this occurs, then the quantity of water diverted is the excess flow and the quantity that flows from the last reach of segment IUPSEG into its downstream tributary (OUTSEG) is equal to FLOW. This represents a flood-control type of diversion, as described by Danskin and Hanson (2002).
-        [Category("Optional Segment Field Binding")]
+        [Category("Segment Field Binding")]
         [Description("An integer value that only is specified if IUPSEG > 0 (do not specify a value in this field if IUPSEG = 0 or IUPSEG < 0). ")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
@@ -138,7 +138,7 @@ namespace Heiflow.Tools.ConceptualModel
         //•	If the stream is a tributary stream, FLOW defines additional specified inflow to or withdrawal from the first reach of the segment (that is, in addition to the discharge from the upstream segment of which this is a tributary). This additional flow does not interact with the groundwater system. For example, a positive number might be used to represent direct outflow into a stream from a sewage treatment plant, whereas a negative number might be used to represent pumpage directly from a stream into an intake pipe for a municipal water treatment plant. (Also see additional explanatory notes below.)
         //•	If the stream is a diversionary stream, and the diversion is from another stream segment, FLOW defines the streamflow diverted from the last reach of stream segment IUPSEG into the first reach of this segment. The diversion is computed or adjusted according to the value of IPRIOR.
         //•	If the stream is a diversionary stream, and the diversion is from a lake, FLOW defines a fixed rate of discharge diverted from the lake into the first reach of this stream segment (unless the lake goes dry) and flow from the lake is not dependent on the value of ICALC. However, if FLOW = 0, then the lake outflow into the first reach of this segment will be calculated on the basis of lake stage relative to the top of the streambed for the first reach using one of the methods defined by ICALC.
-        [Category("Optional Segment Field Binding")]
+        [Category("Segment Field Binding")]
         [Description("FLOW A real number that is the streamflow (in units of volume per time) entering or leaving the upstream end of a stream segment (that is, into the first reach).")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
@@ -147,7 +147,7 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             set;
         }
-        [Category("Optional Segment Field Binding")]
+        [Category("Segment Field Binding")]
         [Description("")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
@@ -156,7 +156,7 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             set;
         }
-        [Category("Optional Segment Field Binding")]
+        [Category("Segment Field Binding")]
         [Description("")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
@@ -165,7 +165,7 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             set;
         }
-        [Category("Optional Segment Field Binding")]
+        [Category("Segment Field Binding")]
         [Description("")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
@@ -174,7 +174,7 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             set;
         }
-        [Category("Optional Segment Field Binding")]
+        [Category("Segment Field Binding")]
         [Description("")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]

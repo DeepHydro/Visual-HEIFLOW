@@ -348,7 +348,6 @@ namespace Heiflow.Core.Hydrology
                     if (junctions.Where(t => t.ID == rch.InletNode.ID).Count() == 0)
                     {
                         junctions.Add(rch.InletNode);
-
                     }
                     if (junctions.Where(t => t.ID == rch.OutletNode.ID).Count() == 0)
                         junctions.Add(rch.OutletNode);

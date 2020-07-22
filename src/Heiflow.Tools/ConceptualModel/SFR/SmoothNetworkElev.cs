@@ -70,6 +70,7 @@ namespace Heiflow.Tools.ConceptualModel
             LengthField = "Length";
             SurfaceElevField = "Elev";
             NewBedElevField = "NewBedElev";
+            MaxDepth = 5;
             MultiThreadRequired = true;
         }
         [Category("GIS Layer")]
@@ -176,6 +177,14 @@ namespace Heiflow.Tools.ConceptualModel
             set;
         }
         #endregion
+
+        [Category("Optional")]
+        [Description("maximum depth")]
+        public double MaxDepth
+        {
+            get;
+            set;
+        }
         public override void Initialize()
         {
             this.Initialized = true;
@@ -210,8 +219,9 @@ namespace Heiflow.Tools.ConceptualModel
                     tree.Root.Length = double.Parse(drnode[LengthField].ToString());
                     tree.Root.SurfaceElevation = double.Parse(drnode[SurfaceElevField].ToString());
                     GetElevFromShp(tree.Root);
-                    SmoothElev(tree.Root);
+                    SmoothNodeElevBySlope(tree.Root);
                     Check(tree.Root);
+                    SmoothReach(tree.Root, net);
                     i++;
                 }
  
@@ -225,58 +235,46 @@ namespace Heiflow.Tools.ConceptualModel
                 return false;
             }
         }
-
-        private void SmoothElev(HydroTreeNode curent)
+        private void SmoothNodeElevBySlope(HydroTreeNode curent)
         {
             if (curent.Parent == null)
             {
                 foreach (var node in curent.Children)
                 {
-                    SmoothElev(node);
+                    SmoothNodeElevBySlope(node);
                 }
-                return;
             }
             else if (curent.ChildrenCount == 0)
             {
-                if (curent.BedElevation <= curent.Parent.BedElevation)
-                {
-                    curent.BedElevation = curent.Parent.BedElevation + curent.Length * curent.Slope;
-                    if (curent.BedElevation > curent.SurfaceElevation)
-                        curent.BedElevation = curent.Parent.BedElevation + 0.1;
-                    return;
-                }
-                else
-                {
-                    return;
-                }
+                return;
             }
-            var child_elevs = (from ch in curent.Children select ch.BedElevation).ToArray();
-            var child_min = child_elevs.Min();
-            if (curent.Parent.BedElevation >= child_min)
-            {
-                if (curent.Parent.Parent != null)
-                {
-                    curent.Parent.BedElevation = curent.Parent.Parent.BedElevation + curent.Parent.Length * curent.Parent.Slope;
-                    if (curent.Parent.BedElevation > curent.Parent.SurfaceElevation)
-                        curent.Parent.BedElevation = curent.Parent.Parent.BedElevation + 0.1;
-                }
-                if (curent.Parent.BedElevation >= child_min)
-                {
-                    curent.Parent.BedElevation = child_min - 0.1;
-                }
-            }
-            if (curent.BedElevation < curent.Parent.BedElevation || curent.BedElevation > child_min)
-            {
-                curent.BedElevation = (curent.Parent.BedElevation + child_min) * 0.5;
-            }
+           
             foreach (var node in curent.Children)
             {
-                SmoothElev(node);
+                var elevs = node.Parent.BedElevation + node.Slope * node.Length;
+                var temp = System.Math.Min(elevs, node.BedElevation);
+                var minelev= node.SurfaceElevation - MaxDepth;
+                if (temp < minelev)
+                    temp = minelev;
+
+                if (temp > node.Parent.BedElevation)
+                    node.BedElevation = temp;
+                else
+                {
+                    node.BedElevation = node.Parent.BedElevation + 0.1;
+                    node.Slope = 0.1 / node.Length;
+                }
+                SmoothNodeElevBySlope(node);
             }
         }
-
         private void Check(HydroTreeNode parent)
         {
+            if(parent.Parent == null)
+            {
+                var drnode = (from DataRow dr in _junction_layer.DataTable.Rows where int.Parse(dr[RiverIDField].ToString()) == parent.River.ID && int.Parse(dr[NodeTypeField].ToString()) > 0 select dr).First();
+                drnode[ElevErrorField] = 0;
+                drnode[NewBedElevField] = parent.BedElevation;
+            }
             if (parent.ChildrenCount == 0)
                 return;
             else
@@ -288,6 +286,7 @@ namespace Heiflow.Tools.ConceptualModel
                     {
                         node.ElevationFlag = 1;
                     }
+                    // Greater than surface elevation
                     if (node.BedElevation > node.SurfaceElevation)
                     {
                         node.ElevationFlag = 2;
@@ -299,7 +298,6 @@ namespace Heiflow.Tools.ConceptualModel
                 }
             }
         }
-
         private void GetElevFromShp(HydroTreeNode parent)
         {
             if (parent.ChildrenCount == 0)
@@ -319,5 +317,87 @@ namespace Heiflow.Tools.ConceptualModel
             }
         }
 
+        private void SmoothReach(HydroTreeNode curent, RiverNetwork net)
+        {
+            if (curent.Parent == null)
+            {
+                SetReachElev(curent);
+                //curent.River.OutletNode.Elevation = curent.River.LastReach.TopElevation;
+                foreach (var node in curent.Children)
+                {
+                    SmoothReach(node,net);
+                }
+            }
+            else if (curent.ChildrenCount == 0)
+            {
+                SetReachElev(curent);
+                return;
+            }
+
+            foreach (var node in curent.Children)
+            {
+                SetReachElev(curent);
+                SmoothReach(node, net);
+            }
+        }
+
+        private void SetReachElev(HydroTreeNode node)
+        {
+            var river = node.River;
+            var nrch = river.Reaches.Count;
+                            var lengths = (from rch in river.Reaches select rch.Length).ToArray();
+                var totallen = lengths.Sum() - river.Reaches[nrch - 1].Length;
+            if (node.Parent != null)
+            {
+                var dh = node.BedElevation - node.Parent.BedElevation;
+                if (dh < 0)
+                {
+                    throw new Exception("invalid bed elevation");
+                }
+
+
+                double aclen = 0;
+                river.Reaches[0].TopElevation = node.BedElevation;
+                river.Reaches[0].InletNode.Elevation = node.BedElevation;
+                for (int i = 0; i < nrch; i++)
+                {
+                    river.Reaches[i].Slope = node.Slope;
+                }
+                for (int i = 1; i < nrch; i++)
+                {
+                    aclen += lengths[i - 1];
+                    river.Reaches[i].TopElevation = node.BedElevation - aclen / totallen * dh;
+                    river.Reaches[i].InletNode.Elevation = river.Reaches[i].TopElevation;
+                }
+                river.LastReach.OutletNode.Elevation = node.Parent.BedElevation;
+                if (nrch > 2)
+                    river.LastReach.InletNode.Elevation = (river.Reaches[nrch - 2].InletNode.Elevation + river.LastReach.OutletNode.Elevation) * 0.5;
+                else if (nrch == 2)
+                    river.LastReach.InletNode.Elevation = (node.BedElevation + river.LastReach.OutletNode.Elevation) * 0.5;
+            }
+            else
+            {
+                river.Reaches[0].TopElevation = node.BedElevation;
+                river.Reaches[0].InletNode.Elevation = node.BedElevation;
+                for (int i = 0; i < nrch; i++)
+                {
+                    river.Reaches[i].Slope = node.Slope;
+                }
+                for (int i = 1; i < nrch; i++)
+                {
+                    river.Reaches[i].TopElevation = river.Reaches[i - 1].TopElevation - node.Slope * river.Reaches[i - 1].Length;
+                    river.Reaches[i].InletNode.Elevation = river.Reaches[i].TopElevation;
+                }
+                //if (nrch > 2)
+                //{
+                    river.LastReach.OutletNode.Elevation = river.LastReach.InletNode.Elevation - river.LastReach.Slope * river.LastReach.Length;  
+                //}
+                //else
+                //{
+                //    river.LastReach.OutletNode.Elevation = node.BedElevation - lengths.Sum() * node.Slope;
+                //}
+                river.OutletNode.Elevation = river.LastReach.OutletNode.Elevation;
+            }
+        }
     }
 }

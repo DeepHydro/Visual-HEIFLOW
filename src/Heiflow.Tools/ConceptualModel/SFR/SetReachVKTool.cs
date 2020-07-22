@@ -49,9 +49,9 @@ using System.Linq;
 namespace Heiflow.Tools.ConceptualModel
 {
     public enum ConductivitySource { HK, VK };
-    public class SetSFRVKTool : MapLayerRequiredTool
+    public class SetReachVKTool : MapLayerRequiredTool
     {
-        public SetSFRVKTool()
+        public SetReachVKTool()
         {
             Name = "Set Reach VK using LPF Value";
             Category = Cat_CMG;

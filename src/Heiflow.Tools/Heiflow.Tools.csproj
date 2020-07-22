@@ -100,19 +100,19 @@
   <ItemGroup>
     <Compile Include="ConceptualModel\BAS\CalibrateIBoundTool.cs" />
     <Compile Include="ConceptualModel\DIS\CalibrateElevTool.cs" />
-    <Compile Include="ConceptualModel\SFR\CheckSFRPropTool .cs" />
+    <Compile Include="ConceptualModel\SFR\CorrectReachVKTool .cs" />
     <Compile Include="ConceptualModel\SFR\ProcessDuplRch.cs" />
     <Compile Include="ConceptualModel\SFR\SetParaByFeatureLayer.cs" />
-    <Compile Include="ConceptualModel\SFR\SaveHydroTreeNodesFeature.cs" />
+    <Compile Include="ConceptualModel\SFR\ExportHydroTreeNodesFeature.cs" />
     <Compile Include="ConceptualModel\SFR\SetSegmentByFeatureLayer.cs" />
     <Compile Include="ConceptualModel\SFR\SetSegmentByCSV.cs" />
     <Compile Include="ConceptualModel\SFR\RemoveDuplRch.cs" />
-    <Compile Include="ConceptualModel\SFR\CheckSFRElevTool.cs" />
+    <Compile Include="ConceptualModel\SFR\CorrectReachElevTool.cs" />
+    <Compile Include="ConceptualModel\SFR\ExportSFRAsSWMM.cs" />
     <Compile Include="ConceptualModel\SFR\SmoothNetworkElev.cs" />
-    <Compile Include="ConceptualModel\SFR\SmoothElev.cs" />
     <Compile Include="ConceptualModel\SFR\SetReachByCSV.cs" />
-    <Compile Include="ConceptualModel\SFR\SetSFRElevTool.cs" />
-    <Compile Include="ConceptualModel\SFR\SetSFRVKTool.cs" />
+    <Compile Include="ConceptualModel\SFR\SetReachElevTool.cs" />
+    <Compile Include="ConceptualModel\SFR\SetReachVKTool.cs" />
     <Compile Include="DataManagement\CreateStationLayer.cs" />
     <Compile Include="DataManagement\Resample.cs" />
     <Compile Include="Postprocessing\CompareGWHead.cs" />
@@ -181,6 +181,11 @@
     <Compile Include="Plot\FastLine.cs" />
     <Compile Include="Plot\Scatter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
     <Compile Include="SpatialAnalyst\GIDW.cs" />
     <Compile Include="SpatialAnalyst\IDW.cs" />
     <Compile Include="SpatialAnalyst\Intersection.cs" />
@@ -225,7 +230,12 @@
       <Name>Heiflow.Presentation</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <None Include="Heiflow.Tools.licenseheader" />
     <None Include="vhf.pfx" />

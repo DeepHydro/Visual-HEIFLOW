@@ -15,6 +15,7 @@ namespace Heiflow.Core.Hydrology
             ID = id;
             IsLeaf = false;
             Children = new List<HydroTreeNode>();
+            ElveCache = new List<double>();
         }
         public int ID
         {
@@ -94,7 +95,11 @@ namespace Heiflow.Core.Hydrology
                 Children.Add(node);
         }
 
-
+        public List<double> ElveCache
+        {
+            get;
+            set;
+        }
 
         public double Length { get; set; }
     }
