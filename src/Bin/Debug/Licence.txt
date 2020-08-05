@@ -2,7 +2,7 @@
 The Visual HEIFLOW License
 ====================================================================
 
-Copyright (c) 2015-2018 Yong Tian, SUSTech, Shenzhen, China. All rights reserved.
+Copyright (c) 2015-2020 Yong Tian, SUSTech, Shenzhen, China. All rights reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -52,5 +52,5 @@ permission from the owners of the copyright.
 ====================================================================
 CONTACT
 ====================================================================
-Email: tiany@sustc.edu.cn
+Email: tiany@sustech.edu.cn
 Web: https://github.com/DeepHydro/Visual-HEIFLOW

@@ -94,7 +94,34 @@ namespace Heiflow.Models.Atmosphere
             return et0;
         }
 
-        public double ET0(double lat, double lng, double tavrg, double tmax, double tmin, double rh, double airP, double wind2, DateTime day, double cloudCover, double albedo, ref double short_rad, ref double long_rad)
+        public double ET0(double tavrg, double rh, double airP,double wind2, double Rnet)
+        {
+            double Es = vp.VaporPressureK(tavrg) * 0.1;
+            double Ea = Es * rh;
+            double delta = 4098 * Es / Math.Pow((tavrg - 35.85), 2.0);
+            double garma = 0.00163 * airP / (2.150025 - 0.002365 * (tavrg - 273.15));
+            double et0 = 0;
+
+           // int month = day.Month;
+            double G = 0;
+            //if (month == 1)
+            //{
+            //    G = 0.14 * (MonthTemperature[0] - MonthTemperature[11]);
+            //}
+            //else
+            //{
+            //    G = 0.14 * (MonthTemperature[month - 1] - MonthTemperature[month - 2]);
+            //}
+
+            //double Rnet = sw.DailyNetRadiation(lat, lng, day, tmax, tmin, Ea, 0.23, cloudCover);
+
+            double d = 0.408 * delta * (Rnet - G) + garma * 900 * wind2 * (Es - Ea) / (tavrg - 0.15);
+            et0 = d / (delta + garma * (1 + 0.34 * wind2));
+            if (et0 < 0) et0 = 0.01;
+            return et0;
+        }
+
+        public double ET0(double lat, double lng, double tavrg, double tmax, double tmin, double rh, double airP, double wind2, DateTime day, double cloudCover, double albedo, ref double short_rad, ref double long_rad, bool ignor_ground_flux = true)
         {
             sw.Latitude = lat;
             sw.Longitude = lng;
@@ -108,15 +135,17 @@ namespace Heiflow.Models.Atmosphere
 
             int month = day.Month;
             double G = 0;
-            if (month == 1)
+            if (!ignor_ground_flux)
             {
-                G = 0.14 * (MonthTemperature[0] - MonthTemperature[11]);
+                if (month == 1)
+                {
+                    G = 0.14 * (MonthTemperature[0] - MonthTemperature[11]);
+                }
+                else
+                {
+                    G = 0.14 * (MonthTemperature[month - 1] - MonthTemperature[month - 2]);
+                }
             }
-            else
-            {
-                G = 0.14 * (MonthTemperature[month - 1] - MonthTemperature[month - 2]);
-            }
-
             double Rnet = sw.DailyNetRadiation(lat, lng, day, tmax, tmin, Ea, ref short_rad,ref long_rad, albedo, cloudCover);
 
             double d = 0.408 * delta * (Rnet - G) + garma * 900 * wind2 * (Es - Ea) / (tavrg - 0.15);

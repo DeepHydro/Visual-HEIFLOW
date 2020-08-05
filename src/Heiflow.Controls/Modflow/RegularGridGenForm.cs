@@ -99,6 +99,8 @@ namespace Heiflow.Controls.WinForm.Modflow
 
         private void cmbRasterLayer_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (cmbRasterLayer.SelectedItem == null)
+                return;
             var raster = (cmbRasterLayer.SelectedItem as MapLayerDescriptor).DataSet as IRaster;
             _GridGenerator.DEM = raster;
         }

@@ -371,7 +371,8 @@ namespace Heiflow.Models.Generic
                     ID = 1,
                     Length = 1,
                     Multiplier = 1,
-                    State = ModelState.SS
+                    State = ModelState.SS,
+                    NSTP = 1
                 };
                 sp.Dates.Add(this.Start);
                 var op = new StepOption(sp.ID, 1);
@@ -386,7 +387,8 @@ namespace Heiflow.Models.Generic
                 {
                     Length = steps[i],
                     Multiplier = 1,
-                    State = ModelState.TR
+                    State = ModelState.TR,
+                    NSTP = steps[i]
                 };
                 if (has_steady_state)
                     sp.ID = i + 2;

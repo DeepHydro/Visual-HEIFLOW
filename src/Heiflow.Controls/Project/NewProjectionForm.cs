@@ -54,7 +54,7 @@ namespace Heiflow.Presentation.Controls.Project
             lstPrjTemplate.DrawItem += lstPrjTemplate_DrawItem;
             lstPrjTemplate.Leave += lstPrjTemplate_Leave;
             lstPrjTemplate.HideSelection = false;
-            cmbMFVersions.SelectedIndex = 0;
+            cmbMFVersions.SelectedIndex = 1;
         }
 
         public string ProjectName
@@ -145,7 +145,7 @@ namespace Heiflow.Presentation.Controls.Project
             var prj = (e.Item.Tag as IProject);
             tbModelDes.Text = prj.Description;
             cmbVersion.DataSource = prj.SupportedVersions;
-            cmbVersion.SelectedIndex = prj.SupportedVersions.Length - 1;
+            cmbVersion.SelectedIndex = 0;
         }
 
         private void btnOK_Click(object sender, EventArgs e)

@@ -336,11 +336,11 @@ namespace Heiflow.Models.Running
                                 vector[2 * nvar + 2] = ds;
                                 vector[2 * nvar + 3] = error;
              
-                                if (t > 0)
-                                {
+                                //if (t > 0)
+                                //{
                                     var date = ModelService.Start.AddDays(t - 1);
                                     _DataSource.Add(date, vector);      
-                                }
+                                //}
                                 t++;
                             }
                         }

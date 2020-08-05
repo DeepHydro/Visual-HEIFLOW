@@ -386,7 +386,7 @@
             this.tabUniform.Padding = new System.Windows.Forms.Padding(3);
             this.tabUniform.Size = new System.Drawing.Size(592, 318);
             this.tabUniform.TabIndex = 1;
-            this.tabUniform.Text = "Uniform";
+            this.tabUniform.Text = "Uniform Method";
             this.tabUniform.UseVisualStyleBackColor = true;
             // 
             // label16

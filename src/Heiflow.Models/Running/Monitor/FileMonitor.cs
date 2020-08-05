@@ -130,7 +130,7 @@ namespace Heiflow.Models.Running
         public static string Soil_ET = "Soil Zone ET";
 
         public static string UZF_INFIL = "Infiltration to UZ and SZ zones";
-        public static string UZF_ET = "ET from UZ and SZ zones";
+        public static string UZF_ET = "ET from UZ zone";
         public static string UZF_RECHARGE = "Recharge from UZ to SZ";
         public static string UZF_IN = "Total UZ In";
         public static string UZF_OUT = "Total UZ Out";

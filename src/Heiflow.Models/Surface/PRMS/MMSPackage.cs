@@ -824,9 +824,9 @@ namespace Heiflow.Models.Surface.PRMS
             var hru_area = Select("hru_area");
             hru_area.Constant((float)grid.GetCellArea() * ConstantNumber.SqM2Acre);
 
-            var area = grid.GetTotalArea() * ConstantNumber.SqM2Acre;
+            var area = grid.GetTotalArea();
             var basin_area = Select("basin_area");
-            basin_area.SetValue(0, 0, 0, area);
+            basin_area.SetValue(0, 0, 0, area * ConstantNumber.SqM2Acre);
             ModelService.BasinArea = area;
 
             var master = (this.Owner as PRMS).MasterPackage;

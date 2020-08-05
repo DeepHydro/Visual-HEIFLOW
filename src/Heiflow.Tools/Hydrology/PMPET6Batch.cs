@@ -53,13 +53,13 @@ namespace Heiflow.Tools.Math
     public class PMPET6Batch : ModelTool
     {
         private string _ValueField = "";
-        private int _SelectedVarIndex = -1;
+        private int _SelectedVarAlbedoIndex = -1;
         private string _FeatureFileName;
         private IFeatureSet _FeatureSet;
 
         public PMPET6Batch()
         {
-            Name = "Penman Monteith PET batch";
+            Name = "Penman Monteith PET Batch";
             Category = "Hydrology";
             Description = "Calculate PET based on FAO P-M Model using 6 meterological variables.";
             Version = "1.0.0.0";
@@ -115,7 +115,7 @@ namespace Heiflow.Tools.Math
                     {
                         if (_ValueField == Fields[i])
                         {
-                            _SelectedVarIndex = i;
+                            _SelectedVarAlbedoIndex = i;
                             break;
                         }
                     }
@@ -214,9 +214,9 @@ namespace Heiflow.Tools.Math
             {
                 var geo_pt = fs.GetFeature(i).Geometry;
                 coors[i] = geo_pt.Coordinate;
-                if (_SelectedVarIndex >= 0)
+                if (_SelectedVarAlbedoIndex >= 0)
                 {
-                    double.TryParse(fs.DataTable.Rows[i][_SelectedVarIndex].ToString(), out albedo);
+                    double.TryParse(fs.DataTable.Rows[i][_SelectedVarAlbedoIndex].ToString(), out albedo);
                     albedo_list[i] = albedo;
                     if(albedo_list[i] <0 || albedo_list[i] > 1)
                         albedo_list[i] = DefaultAlbedo;

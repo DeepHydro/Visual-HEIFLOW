@@ -45,7 +45,7 @@ namespace Heiflow.Plugins.Default
         //context menu item name
         //TODO: make this localizable
         private const string contextMenuItemName = "Attribute Table Editor";
-        private TableEditorControl _TableEditorControl;
+        //private TableEditorControl _TableEditorControl;
 
         public override void Activate()
         {
@@ -169,7 +169,7 @@ namespace Heiflow.Plugins.Default
         private  void ShowAttributes(IFeatureLayer layer)
         {
             App.DockManager.ShowPanel("kAttributeTable");
-            _TableEditorControl.FeatureLayer = layer;
+            //_TableEditorControl.FeatureLayer = layer;
             //if (layer != null)
             //    layer.ShowAttributes();
         }

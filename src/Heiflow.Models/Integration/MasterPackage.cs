@@ -87,13 +87,13 @@ namespace Heiflow.Models.Integration
         bool _SaveVarsToFile = false;
         string _VarSaveFile;
         bool _SubbasinFlag = false;
-        private string _PrecipitationFile="ppt.txt";
-        private string _TempMaxFile="tmax.txt";
-        private string _TempMinFile = "tmin.txt";
-        private string _PETFile="pet.txt";
-        private string _WindFile="wind.txt";
-        private string _HumidityFile = "hum.txt";
-        private string _PressureFile ="pressure.txt";
+        private string _PrecipitationFile="ppt.dcx";
+        private string _TempMaxFile = "tmax.dcx";
+        private string _TempMinFile = "tmin.dcx";
+        private string _PETFile = "pet.dcx";
+        private string _WindFile = "wind.dcx";
+        private string _HumidityFile = "hum.dcx";
+        private string _PressureFile = "pressure.dcx";
         bool _PrintDebug = false;
         bool _dynamic_para = false;
         int[] _dynamic_day;
@@ -331,7 +331,7 @@ namespace Heiflow.Models.Integration
         {
             get
             {
-                return _PrecipitationFile;
+                return Path.Combine(ModelService.WorkDirectory, _PrecipitationFile);
             }
             set
             {
@@ -347,7 +347,7 @@ namespace Heiflow.Models.Integration
         {
             get
             {
-                return _TempMaxFile;
+                return Path.Combine(ModelService.WorkDirectory,_TempMaxFile);
             }
             set
             {
@@ -363,7 +363,7 @@ namespace Heiflow.Models.Integration
         {
             get
             {
-                return _TempMinFile;
+                return Path.Combine(ModelService.WorkDirectory,_TempMinFile);
             }
             set
             {
@@ -378,7 +378,7 @@ namespace Heiflow.Models.Integration
         {
             get
             {
-                return _PETFile;
+                return Path.Combine(ModelService.WorkDirectory,_PETFile);
             }
             set
             {
@@ -396,7 +396,7 @@ namespace Heiflow.Models.Integration
         {
             get
             {
-                return _WindFile;
+                return Path.Combine(ModelService.WorkDirectory,_WindFile);
             }
             set
             {
@@ -414,7 +414,7 @@ namespace Heiflow.Models.Integration
         {
             get
             {
-                return _HumidityFile;
+                return Path.Combine(ModelService.WorkDirectory,_HumidityFile);
             }
             set
             {
@@ -432,7 +432,7 @@ namespace Heiflow.Models.Integration
         {
             get
             {
-                return _PressureFile;
+                return Path.Combine(ModelService.WorkDirectory,_PressureFile);
             }
             set
             {
@@ -1360,7 +1360,7 @@ namespace Heiflow.Models.Integration
                 UseGridClimate = true;
                 ReportDays = 1;
                 PrintDebug = false;
-                ClimateInputFormat = FileFormat.Text;
+                ClimateInputFormat = FileFormat.Binary;
                 WRAModule = "none";
                 HydraulicsEngine = "SFR";
                 AnimationOutOC = false;
@@ -1374,16 +1374,16 @@ namespace Heiflow.Models.Integration
                 ModflowFilePath = string.Format(".\\input\\modflow\\{0}.nam", Owner.Project.Name);
                 GridClimateFile = string.Format(".\\input\\prms\\{0}.hru_clm", Owner.Project.Name);
                 VarInitFile = string.Format(".\\input\\prms\\{0}_prms_ic.in", Owner.Project.Name);
-                PrecipitationFile = string.Format(".\\input\\prms\\{0}_precip.txt", Owner.Project.Name);
-                TempMaxFile = string.Format(".\\input\\prms\\{0}_tmax.txt", Owner.Project.Name);
-                TempMinFile = string.Format(".\\input\\prms\\{0}_tmin.txt", Owner.Project.Name);
+                PrecipitationFile = string.Format(".\\input\\prms\\{0}_precip.dcx", Owner.Project.Name);
+                TempMaxFile = string.Format(".\\input\\prms\\{0}_tmax.dcx", Owner.Project.Name);
+                TempMinFile = string.Format(".\\input\\prms\\{0}_tmin.dcx", Owner.Project.Name);
                 if (Owner.Project.SelectedVersion == "v1.0.0")
-                    PETFile = string.Format(".\\input\\prms\\{0}_pet.txt", Owner.Project.Name);
+                    PETFile = string.Format(".\\input\\prms\\{0}_pet.dcx", Owner.Project.Name);
                 else
                 {
-                    WindFile = string.Format(".\\input\\prms\\{0}_wnd.txt", Owner.Project.Name);
-                    HumidityFile = string.Format(".\\input\\prms\\{0}_hum.txt", Owner.Project.Name);
-                    PressureFile = string.Format(".\\input\\prms\\{0}_pres.txt", Owner.Project.Name);
+                    WindFile = string.Format(".\\input\\prms\\{0}_wnd.dcx", Owner.Project.Name);
+                    HumidityFile = string.Format(".\\input\\prms\\{0}_hum.dcx", Owner.Project.Name);
+                    PressureFile = string.Format(".\\input\\prms\\{0}_pres.dcx", Owner.Project.Name);
                 }
                 AnimationOutOCFile = string.Format(".\\input\\prms\\{0}_aniout.oc", Owner.Project.Name);
                 WRAModuleFile = string.Format(".\\input\\prms\\{0}.wra", Owner.Project.Name);
@@ -1405,7 +1405,8 @@ namespace Heiflow.Models.Integration
                 DynamicDays = new int[] { 2 };
                 DynamicPara = false;
                 DynamicParamFiles = new string[] { _ParameterFile };
-                
+
+                this.TimeService.IOTimeFile = WaterBudgetCsvFile;
                 foreach (var pr in Parameters.Values)
                     pr.Owner = this;
                 UpdateTimeService();

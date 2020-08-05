@@ -63,8 +63,8 @@ namespace Heiflow.Tools.Visualization
         }
 
         [Category("Input")]
-        [Description("The matrix that is to be shown on the map")]
-        public string Matrix
+        [Description("The DataCube that is to be shown on the map. Its style is mat[0][0][:]")]
+        public string DataCube
         {
             get;
             set;
@@ -127,12 +127,12 @@ namespace Heiflow.Tools.Visualization
 
         public override void Initialize()
         {
-            this.Initialized = Validate(Matrix) && _FeatureSet != null && !TypeConverterEx.IsNull(_ValueField);
+            this.Initialized = Validate(DataCube) && _FeatureSet != null && !TypeConverterEx.IsNull(_ValueField);
         }
 
         public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
         {
-            var vector = GetVector(Matrix);
+            var vector = GetVector(DataCube);
             if (vector != null)
             {
                 cancelProgressHandler.Progress("Package_Tool", 10, "Calculating...");

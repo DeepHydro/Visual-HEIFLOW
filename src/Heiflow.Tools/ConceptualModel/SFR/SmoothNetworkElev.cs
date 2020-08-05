@@ -308,7 +308,6 @@ namespace Heiflow.Tools.ConceptualModel
                 {
                     var drnode = (from DataRow dr in _junction_layer.DataTable.Rows where int.Parse(dr[RiverIDField].ToString()) == node.River.ID && int.Parse(dr[NodeTypeField].ToString()) > 0 select dr).First();
                     node.BedElevation = double.Parse(drnode[BedElevField].ToString());
-                    node.Slope = double.Parse(drnode[BedElevField].ToString());
                     node.Slope = double.Parse(drnode[SlopeField].ToString());
                     node.Length = double.Parse(drnode[LengthField].ToString());
                     node.SurfaceElevation = double.Parse(drnode[SurfaceElevField].ToString());
