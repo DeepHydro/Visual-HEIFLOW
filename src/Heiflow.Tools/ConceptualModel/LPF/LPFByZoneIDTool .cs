@@ -153,8 +153,7 @@ namespace Heiflow.Tools.ConceptualModel
             }
          
         }
-        private bool 
-            LoadLookupTable(ICancelProgressHandler cancelProgressHandler)
+        private bool LoadLookupTable(ICancelProgressHandler cancelProgressHandler)
         {
             StreamReader sr = new StreamReader(LookupTableFile);
             bool result = false;

@@ -124,7 +124,7 @@ namespace Heiflow.Plugins.ProjectExplorer
                 Width = 145,
                 AllowEditingText = false,
                 ToolTipText = "Select current subsurface layer",
-                GroupCaption = "Display",
+                GroupCaption = "Grid",
                 DisplayText = "Select a layer",
                 Caption = "Current Layer",
             };

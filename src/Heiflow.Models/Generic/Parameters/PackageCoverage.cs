@@ -47,6 +47,9 @@ namespace Heiflow.Models.Generic.Parameters
     [Serializable]
     public abstract class PackageCoverage:IPackageCoverage
     {
+        public static  string HRUID_NAME = "HRU_ID";
+        public static  string ZONEID_NAME = "ZONE_ID";
+        public static  string LAYERID_NAME = "LAYER_ID";
         private const string _ID_COL_NAME = "ID";
         public event EventHandler<int> Processing;
         public event EventHandler<string> Processed;
@@ -354,6 +357,114 @@ namespace Heiflow.Models.Generic.Parameters
         }
 
         public abstract void Map();
+        /// <summary>
+        /// map parameters by zone id and lookup table
+        /// </summary>
+        /// <param name="zone_tb"> [Layer ID, HRU ID, Zone ID]</param>
+        /// <param name="lookup_table">[Para Name][Layer ID, Zone ID, Para Value]</param>
+        public void MapByZone(Tuple<int,int,int>[] zone_tb, Dictionary<string, Tuple<int, int, float>[]> lookup_table)
+        {
+            int progress = 0;
+            int index_ap = 0;
+            try
+            {
+                OnProcessing(progress);
+                var ncell = zone_tb.Length;
+                foreach (var ap in ArealProperties)
+                {
+                    if (ap.IsParameter )
+                    {
+                        if (lookup_table.Keys.Contains(ap.ParameterName))
+                        {
+                            for (int i = 0; i < ncell; i++)
+                            {
+                                var vv = GetMappedValue(lookup_table, zone_tb[i].Item1, zone_tb[i].Item3, ap.ParameterName);
+                                if (vv != ZonalStatastics.NoDataValue)
+                                    ap.Parameter.SetValue(0, zone_tb[i].Item2 - 1, 0, vv);
+                                else
+                                    ap.Parameter.SetValue(0, zone_tb[i].Item2 - 1, 0, ap.DefaultValue);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (lookup_table.Keys.Contains(ap.PropertyName))
+                        {
+                            var mat = Package.GetType().GetProperty(ap.PropertyName).GetValue(Package) as DataCube<float>;
+                            if (mat != null)
+                            {
+                                for (int i = 0; i < ncell; i++)
+                                {
+                                    var vv = GetMappedValue(lookup_table, zone_tb[i].Item1, zone_tb[i].Item3, ap.PropertyName);
+                                    if (vv != ZonalStatastics.NoDataValue && mat.IsAllocated(zone_tb[i].Item1 - 1))
+                                        mat[zone_tb[i].Item1 - 1, 0, zone_tb[i].Item2 - 1] = vv;
+                                    else
+                                        mat[zone_tb[i].Item1 - 1, 0, zone_tb[i].Item2 - 1] = (float)ap.DefaultValue;
+                                }
+                            }
+                        }
+                    }
+                    progress = (int)(index_ap * 100.0 / ArealProperties.Count);
+                    OnProcessing(progress);
+                    index_ap++;
+                }
+                OnProcessing(100);
+                OnProcessed(ConstantWords.Successful);
+            }
+            catch (Exception ex)
+            {
+                OnProcessing(100);
+                OnProcessed("Failed. Error message: " + ex.Message);
+            }
+        }
+      
+        public float GetMappedValue(Dictionary<string, Tuple<int, int, float>[]> lookup_table, int layer_id,int zone_id,string paraname)
+        {
+            var buf = from rc in lookup_table[paraname] where rc.Item1 == layer_id && rc.Item2 == zone_id select rc;
+            if (buf.Any())
+                return buf.First().Item3;
+            else
+                return ZonalStatastics.NoDataValue;
+        }
+        /// <summary>
+        /// Zone Table is converted as Tuple array. A tuple has three items: [Layer ID, HRU ID, Zone ID]
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public Tuple<int,int,int>[] ConvertZoneTable(DataTable dt)
+        {
+            var nrow= dt.Rows.Count;
+            var records = new Tuple<int, int, int>[nrow];
+            for (int i = 0; i < nrow;i++ )
+            {
+                var dr= dt.Rows[i];
+                records[i] = new Tuple<int, int, int>(int.Parse(dr[LAYERID_NAME].ToString()), int.Parse(dr[HRUID_NAME].ToString()), int.Parse(dr[ZONEID_NAME].ToString()));
+            }
+            return records;
+        }
+        /// <summary>
+        /// Lookup table is converted as a dictionary. The key is Parameter Name, the value is a Tuple[Layer ID, Zone ID, Para Value]
+        /// </summary>
+        /// <param name="dt">The first and second columns of the datatable are Layer ID and Zone ID</param>
+        /// <returns></returns>
+        public Dictionary<string, Tuple<int, int, float>[]> ConvertLookupTable(DataTable dt)
+        {
+            var nrow = dt.Rows.Count;
+            var npara = dt.Columns.Count - 2;
+            var nrecord = nrow * npara;
+            var records = new Dictionary<string, Tuple<int, int, float>[]>();
+            for (int i = 2; i < dt.Columns.Count; i++)
+            {
+                var paraname = dt.Columns[i].ColumnName;
+                records.Add(paraname, new Tuple<int, int, float>[nrow]);
+                for (int j = 0; j < nrow; j++)
+                {
+                    var dr = dt.Rows[j];
+                    records[paraname][j] = new Tuple<int, int, float>(int.Parse(dr[LAYERID_NAME].ToString()), int.Parse(dr[ZONEID_NAME].ToString()), float.Parse(dr[paraname].ToString()));
+                }
+            }
+            return records;
+        }
 
         public virtual void Clear()
         {
@@ -363,4 +474,6 @@ namespace Heiflow.Models.Generic.Parameters
             }
         }
     }
+
+ 
 }

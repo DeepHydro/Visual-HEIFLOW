@@ -46,5 +46,29 @@ namespace Heiflow.Controls.WinForm.Properties {
                 this["HOBSQL"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\Application Extensions\\VHF\\Template\\Lookup_Table.csv")]
+        public string LookupTableTemplateFile {
+            get {
+                return ((string)(this["LookupTableTemplateFile"]));
+            }
+            set {
+                this["LookupTableTemplateFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\Application Extensions\\VHF\\Template\\Zone_Map.csv")]
+        public string ZoneMapTemplateFile {
+            get {
+                return ((string)(this["ZoneMapTemplateFile"]));
+            }
+            set {
+                this["ZoneMapTemplateFile"] = value;
+            }
+        }
     }
 }

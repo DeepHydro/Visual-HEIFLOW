@@ -192,6 +192,12 @@
     <Compile Include="Controls\AnimationPlayer.Designer.cs">
       <DependentUpon>AnimationPlayer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Display\ParaMapping.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Display\ParaMapping.Designer.cs">
+      <DependentUpon>ParaMapping.cs</DependentUpon>
+    </Compile>
     <Compile Include="Display\FeatureMapLayer.cs" />
     <Compile Include="Controls\DataGridEx.cs">
       <SubType>UserControl</SubType>
@@ -696,6 +702,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\DataGridEx.resx">
       <DependentUpon>DataGridEx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Display\ParaMapping.resx">
+      <DependentUpon>ParaMapping.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Display\ExportDataForm.resx">
       <DependentUpon>ExportDataForm.cs</DependentUpon>

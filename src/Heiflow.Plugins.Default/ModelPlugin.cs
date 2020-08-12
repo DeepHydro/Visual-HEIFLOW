@@ -51,6 +51,7 @@ namespace Heiflow.Plugins.Default
         private SimpleActionItem _runCascade;
         private SimpleActionItem _GlobalSet;
         private SimpleActionItem _ParaViewer;
+        private SimpleActionItem _ParaMapping;
 
         public ModelPlugin()
         {
@@ -120,6 +121,17 @@ namespace Heiflow.Plugins.Default
             };
             App.HeaderControl.Add(_ParaViewer);
 
+            _ParaMapping = new SimpleActionItem("kModel", "Parameter Mapping Tool", ParaMapping_Clicked)
+            {
+                Key = "kParaMapping",
+                ToolTipText = "Parameter Mapping Tool",
+                GroupCaption = "Tool",
+                LargeImage = Properties.Resources.hyper_link,
+                Enabled = true,
+                SortOrder = 0
+            };
+            App.HeaderControl.Add(_ParaMapping);
+
             ProjectManager.ShellService.ParameterExplorerView = new ParameterExplorer();
         }
 
@@ -185,6 +197,15 @@ namespace Heiflow.Plugins.Default
             if (ProjectManager.Project != null && ProjectManager.Project.Model != null)
             {
                 ProjectManager.ShellService.ParameterExplorerView.ShowView(ProjectManager.ShellService.MainForm);
+            }
+        }
+
+        private void ParaMapping_Clicked(object sender, EventArgs e)
+        {
+            if (ProjectManager.Project != null && ProjectManager.Project.Model != null)
+            {
+                ParaMapping dlg = new ParaMapping();
+                dlg.ShowDialog();
             }
         }
     }

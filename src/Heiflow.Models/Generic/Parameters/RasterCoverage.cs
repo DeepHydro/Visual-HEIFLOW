@@ -53,7 +53,6 @@ namespace Heiflow.Models.Generic.Parameters
         }
         public override void Map()
         {
-            var fea_target = TargetFeatureSet.Features;
             int progress = 0;
             int index_ap = 0;
             if (Source is IRaster)
