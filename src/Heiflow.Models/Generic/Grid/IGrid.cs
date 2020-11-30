@@ -57,12 +57,20 @@ namespace Heiflow.Models.Generic
             set;
             get;
         }
+        int ActiveCellCount
+        {
+            get;
+            set;
+        }
         IBasicModel Owner
         {
             get;
             set;
         }
-
+        /// <summary>
+        /// Starting from 0
+        /// </summary>
+        int SelectedLayerToShown { get; set; }
         IFeatureSet FeatureSet
         {
             get;

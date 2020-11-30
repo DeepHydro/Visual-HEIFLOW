@@ -285,7 +285,11 @@ namespace Heiflow.Models.Subsurface
                         stepoption.PrintBudget = true;
                 }
             }
-            Inteval = _Dic_SP[1].StepOptions[1].Step - _Dic_SP[1].StepOptions[0].Step;
+            int index = _Dic_SP.Count - 1;
+            if (_Dic_SP[index].StepOptions.Count > 1)
+                Inteval = _Dic_SP[index].StepOptions[1].Step - _Dic_SP[index].StepOptions[0].Step;
+            else
+                Inteval = 1;
             sr.Close();
             Owner.TimeService.UpdateStressPeriodTimeLine();
             OnLoaded(progresshandler, new LoadingObjectState() { Message = Message, Object = this, State = result });

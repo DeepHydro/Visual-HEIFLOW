@@ -136,10 +136,10 @@ namespace Heiflow.Controls.WinForm.MenuItems
             var item = ExplorerItem as StaticVariableItem;
             var dc = _Package.GetType().GetProperty(_Item.PropertyInfo.Name).GetValue(_Package) as IDataCubeObject;
             dc.SelectedVariableIndex = item.VariableIndex;
-            if (dc.Flags[dc.SelectedVariableIndex] == TimeVarientFlag.Constant || dc.Flags[dc.SelectedVariableIndex] == TimeVarientFlag.Constant)
-            {
-                return;
-            }
+            //if (dc.Flags[dc.SelectedVariableIndex] == TimeVarientFlag.Constant || dc.Flags[dc.SelectedVariableIndex] == TimeVarientFlag.Constant)
+            //{
+            //    return;
+            //}
             if (MyAppManager.Instance.AppMode == AppMode.VHF)
             {
                 if (_ShellService.SurfacePlot != null && dc.Topology != null)

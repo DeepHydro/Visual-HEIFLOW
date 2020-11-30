@@ -125,11 +125,12 @@ namespace Heiflow.Controls.WinForm.Controls
             ds.Tables.Add(dt);
             this.olvDataCubeTree.DataMember = "DataCubes";
             this.olvDataCubeTree.DataSource = new DataViewManager(ds);
-            olvDataCubeTree.ExpandAll();
+           // olvDataCubeTree.ExpandAll();
         }
         private void map_CurrentChanged(object sender, int e)
         {
-            listBox_timeline.SelectedIndex = e;
+            if (e <= (listBox_timeline.Items.Count - 1))
+                listBox_timeline.SelectedIndex = e;
         }
 
         private void olvDataCubeTree_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
@@ -215,6 +216,12 @@ namespace Heiflow.Controls.WinForm.Controls
             {
                 _SelectedAnimator.DataSource = _selectedDc;
                 _SelectedAnimator.Go(listBox_timeline.SelectedIndex);
+                if(listBox_timeline.SelectedIndex == (listBox_timeline.Items.Count-1))
+                {
+                    isPlay = false;
+                    btnPlay.Image = Resources.GenericBlueRightArrowNoTail32;
+                    btnPlay.ToolTipText = "Play";
+                }
             }
         }
 

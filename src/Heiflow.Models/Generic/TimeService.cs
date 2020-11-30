@@ -491,7 +491,8 @@ namespace Heiflow.Models.Generic
             {
                 foreach (var op in sp.StepOptions)
                 {
-                    IOTimeline.Add(sp.Dates[op.Step - 1]);
+                    if (op.Step <= sp.Dates.Count)
+                        IOTimeline.Add(sp.Dates[op.Step - 1]);
                 }
             }
         }

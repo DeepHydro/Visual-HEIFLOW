@@ -132,11 +132,11 @@ namespace Heiflow.Controls.WinForm.MenuItems
                     mat.Name = buf.Replace(' ', '_');
                 mat.OwnerName = dp.Name;
                 mat.DataOwner = _Package;
+                mat.SelectedLayerToShown = dp.SelectedLayerToShown;
                 if (mat.Size[2] > 1)
                 {
                     _ShellService.SelectPanel(DockPanelNames.AnimationPlayerPanel);
-                    _ShellService.AnimationPlayer.DataCubeWorkspace.Add(mat);
-                  
+                    _ShellService.AnimationPlayer.DataCubeWorkspace.Add(mat);              
                 }
             }
         }

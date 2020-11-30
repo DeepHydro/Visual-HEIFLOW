@@ -72,7 +72,31 @@ namespace Heiflow.Controls.WinForm.Controls
 
         public void PlotSurface(ILArray<float> array)
         {
-            //float max=array.Max();
+            var size = array.Size.ToIntArray();
+            ILSurface sf = null;
+            if (size[0] == 1)
+            {
+                ILArray<float> newarray = ILMath.zeros<float>(2, size[1]);
+                for (int i = 0; i < 2; i++)
+                {
+                    for (int j = 0; j < size[1]; j++)
+                    {
+                        newarray[i, j] = array.GetValue(0, j);
+                    }
+                }
+                sf = new ILSurface(newarray)
+                {
+                    Colormap = EnumHelper.FromString<Colormaps>(cmbColorMap.ComboBox.SelectedItem.ToString())
+                };
+            }
+            else
+            {
+                sf = new ILSurface(array)
+                {
+                    Colormap = EnumHelper.FromString<Colormaps>(cmbColorMap.ComboBox.SelectedItem.ToString())
+                };
+            }
+
             float scale = 1;
             float.TryParse(cmbZScale.Text, out scale);
       
@@ -81,11 +105,10 @@ namespace Heiflow.Controls.WinForm.Controls
                 _PlotCube.Children.Clear();
             }
          
-         //   _PlotCube.Axes.ZAxis.Scale(1, 1, scale);
-            var sf = new ILSurface(array)
-            {
-                Colormap = EnumHelper.FromString<Colormaps>(cmbColorMap.ComboBox.SelectedItem.ToString())
-            }; 
+            //sf = new ILSurface(array)
+            //{
+            //    Colormap = EnumHelper.FromString<Colormaps>(cmbColorMap.ComboBox.SelectedItem.ToString())
+            //}; 
              
             sf.Fill.Markable = false;
             sf.Wireframe.Markable = false;

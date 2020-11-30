@@ -197,8 +197,8 @@ namespace Heiflow.Tools.ConceptualModel
             var sfr = prj.Project.Model.GetPackage(SFRPackage.PackageName) as SFRPackage;
             var dis = prj.Project.Model.GetPackage(DISPackage.PackageName) as DISPackage;
             if (sfr != null)
-            {         
-                if(!_junction_layer.DataTable.Columns.Contains("ElevError"))
+            {
+                if (!_junction_layer.DataTable.Columns.Contains("ElevError"))
                 {
                     _junction_layer.DataTable.Columns.Add(new DataColumn("ElevError", Type.GetType("System.Int32")));
                 }
@@ -208,7 +208,7 @@ namespace Heiflow.Tools.ConceptualModel
                 int progress = 0;
                 int i = 1;
 
-                foreach(var tree in net.HydroTrees)
+                foreach (var tree in net.HydroTrees)
                 {
                     msg = string.Format("Processing the tree {0}", tree.ID);
                     progress = i / net.HydroTrees.Count * 100;
@@ -224,7 +224,7 @@ namespace Heiflow.Tools.ConceptualModel
                     SmoothReach(tree.Root, net);
                     i++;
                 }
- 
+
                 sfr.NetworkToMat();
                 _junction_layer.Save();
                 return true;
@@ -248,12 +248,12 @@ namespace Heiflow.Tools.ConceptualModel
             {
                 return;
             }
-           
+
             foreach (var node in curent.Children)
             {
                 var elevs = node.Parent.BedElevation + node.Slope * node.Length;
                 var temp = System.Math.Min(elevs, node.BedElevation);
-                var minelev= node.SurfaceElevation - MaxDepth;
+                var minelev = node.SurfaceElevation - MaxDepth;
                 if (temp < minelev)
                     temp = minelev;
 
@@ -269,7 +269,7 @@ namespace Heiflow.Tools.ConceptualModel
         }
         private void Check(HydroTreeNode parent)
         {
-            if(parent.Parent == null)
+            if (parent.Parent == null)
             {
                 var drnode = (from DataRow dr in _junction_layer.DataTable.Rows where int.Parse(dr[RiverIDField].ToString()) == parent.River.ID && int.Parse(dr[NodeTypeField].ToString()) > 0 select dr).First();
                 drnode[ElevErrorField] = 0;
@@ -304,7 +304,7 @@ namespace Heiflow.Tools.ConceptualModel
                 return;
             else
             {
-                foreach(var node in parent.Children)
+                foreach (var node in parent.Children)
                 {
                     var drnode = (from DataRow dr in _junction_layer.DataTable.Rows where int.Parse(dr[RiverIDField].ToString()) == node.River.ID && int.Parse(dr[NodeTypeField].ToString()) > 0 select dr).First();
                     node.BedElevation = double.Parse(drnode[BedElevField].ToString());
@@ -324,7 +324,7 @@ namespace Heiflow.Tools.ConceptualModel
                 //curent.River.OutletNode.Elevation = curent.River.LastReach.TopElevation;
                 foreach (var node in curent.Children)
                 {
-                    SmoothReach(node,net);
+                    SmoothReach(node, net);
                 }
             }
             else if (curent.ChildrenCount == 0)
@@ -344,8 +344,8 @@ namespace Heiflow.Tools.ConceptualModel
         {
             var river = node.River;
             var nrch = river.Reaches.Count;
-                            var lengths = (from rch in river.Reaches select rch.Length).ToArray();
-                var totallen = lengths.Sum() - river.Reaches[nrch - 1].Length;
+            var lengths = (from rch in river.Reaches select rch.Length).ToArray();
+            var totallen = lengths.Sum() - river.Reaches[nrch - 1].Length;
             if (node.Parent != null)
             {
                 var dh = node.BedElevation - node.Parent.BedElevation;
@@ -389,7 +389,7 @@ namespace Heiflow.Tools.ConceptualModel
                 }
                 //if (nrch > 2)
                 //{
-                    river.LastReach.OutletNode.Elevation = river.LastReach.InletNode.Elevation - river.LastReach.Slope * river.LastReach.Length;  
+                river.LastReach.OutletNode.Elevation = river.LastReach.InletNode.Elevation - river.LastReach.Slope * river.LastReach.Length;
                 //}
                 //else
                 //{

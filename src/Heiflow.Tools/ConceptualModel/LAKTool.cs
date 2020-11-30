@@ -134,55 +134,69 @@ namespace Heiflow.Tools.ConceptualModel
                     var fhb = mf.Select(LakePackage.PackageName);
                     mf.Add(fhb);
                 }
-                var pck = mf.GetPackage(LakePackage.PackageName) as LakePackage;
+                var lak_pck = mf.GetPackage(LakePackage.PackageName) as LakePackage;
+                var sfr = mf.GetPackage(SFRPackage.PackageName) as SFRPackage;
+                var bas = mf.GetPackage(BASPackage.PackageName) as BASPackage;
+                var uzf = mf.GetPackage(UZFPackage.PackageName) as UZFPackage;
                 int nlake = _sourcefs.Features.Count;
-                pck.LakeSerialIndex.Clear();
+                lak_pck.LakeCellID.Clear();
                 Coordinate[][] lake_bund = new Coordinate[nlake][];
                 var lak_leakance = new float[nlake];
                 for (int i = 0; i < nlake; i++)
                 {
                     lake_bund[i] = _sourcefs.Features[i].Geometry.Coordinates;
                     var lake_id = int.Parse(_sourcefs.DataTable.Rows[i][LakeIDField].ToString());
-                    pck.LakeSerialIndex.Add(lake_id, new List<int>());
+                    lak_pck.LakeCellID.Add(lake_id, new List<int>());
                     lak_leakance[i] = float.Parse(_sourcefs.DataTable.Rows[i][BDLKNCField].ToString());
-                }
-                for (int i = 0; i < _grid_layer.Features.Count; i++)
-                {
-                    var cell = _grid_layer.Features[i].Geometry.Centroid;
-                    var centroid = new Coordinate(cell.X, cell.Y);
 
-                    for (int j = 0; j < nlake; j++)
+                    foreach (var seg in sfr.RiverNetwork.Rivers)
                     {
-                        if (SpatialRelationship.PointInPolygon(lake_bund[j], centroid))
+                        if (seg.OutRiverID == 0)
+                            seg.OutRiverID = -lake_id;
+                    }
+                }
+                sfr.NetworkToMat();
+
+                for (int i = 0; i < grid.RowCount; i++)
+                {
+                    for (int j = 0; j < grid.ColumnCount; j++)
+                    {
+                        var centroid = grid.LocateCentroid(j + 1, i + 1);
+                        for (int k = 0; k < nlake; k++)
                         {
-                            var hru_id = int.Parse(_grid_layer.DataTable.Rows[i]["HRU_ID"].ToString());
-                            var lake_id = int.Parse(_sourcefs.DataTable.Rows[j][LakeIDField].ToString());
-                            pck.LakeSerialIndex[lake_id].Add(hru_id - 1);
-                            break;
+                            if (SpatialRelationship.PointInPolygon(lake_bund[k], centroid))
+                            {
+                                var cell_id = grid.Topology.GetID(i, j);
+                                var lake_id = int.Parse(_sourcefs.DataTable.Rows[k][LakeIDField].ToString());
+                                lak_pck.LakeCellID[lake_id].Add(cell_id);
+                                break;
+                            }
                         }
                     }
-                    progress = i * 100 / _grid_layer.Features.Count;
+                    progress = i * 100 / grid.RowCount;
                     if (progress > count)
                     {
-                        cancelProgressHandler.Progress("Package_Tool", progress, "Processing cell: " + i);
+                        cancelProgressHandler.Progress("Package_Tool", progress, "Processing row: " + i);
                         count++;
                     }
                 }
-                pck.NLAKES = nlake;
-                pck.STAGES = new DataCube2DLayout<float>(1, nlake, 3)
+
+
+                lak_pck.NLAKES = nlake;
+                lak_pck.STAGES = new DataCube2DLayout<float>(1, nlake, 3)
                 {
                     ColumnNames = new string[] { "STAGES", "SSMN", "SSMX", "IUNITTAB", "CLAKE" }
                 };
                 for (int i = 0; i < nlake; i++)
                 {
-                    pck.STAGES[0][i, ":"] = new float[] { 100, 90, 110, 0, 0 };
+                    lak_pck.STAGES[0][i, ":"] = new float[] { 100, 90, 110, 0, 0 };
                 }
 
-                pck.ITMP = new DataCube2DLayout<int>(1, nsp, 3)
+                lak_pck.ITMP = new DataCube2DLayout<int>(1, nsp, 3)
                 {
                     ColumnNames = new string[] { "ITMP", "ITMP1", "LWRT" }
                 };
-                pck.LKARR = new DataCube<int>(nlayer, 1, grid.ActiveCellCount)
+                lak_pck.LKARR = new DataCube<int>(nlayer, 1, grid.ActiveCellCount)
                 {
                     Name = "Lake ID",
                     Variables = new string[nlayer],
@@ -190,9 +204,9 @@ namespace Heiflow.Tools.ConceptualModel
                 };
                 for (int l = 0; l < nlayer; l++)
                 {
-                    pck.LKARR.Variables[l] = "Lake ID of " + " Layer " + (l + 1);
+                    lak_pck.LKARR.Variables[l] = "Lake ID of " + " Layer " + (l + 1);
                 }
-                pck.BDLKNC = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
+                lak_pck.BDLKNC = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
                 {
                     Name = "Leakance",
                     Variables = new string[nlayer],
@@ -200,9 +214,9 @@ namespace Heiflow.Tools.ConceptualModel
                 };
                 for (int l = 0; l < nlayer; l++)
                 {
-                    pck.BDLKNC.Variables[l] = " Layer " + (l + 1);
+                    lak_pck.BDLKNC.Variables[l] = " Layer " + (l + 1);
                 }
-                pck.NSLMS = new DataCube2DLayout<int>(1, nsp, 1)
+                lak_pck.NSLMS = new DataCube2DLayout<int>(1, nsp, 1)
                 {
                     Name = "Num of Sublakes",
                     Variables = new string[nsp],
@@ -210,9 +224,9 @@ namespace Heiflow.Tools.ConceptualModel
                 };
                 for (int l = 0; l < nsp; l++)
                 {
-                    pck.NSLMS.Variables[l] = "Stress Period " + (l + 1);
+                    lak_pck.NSLMS.Variables[l] = "Stress Period " + (l + 1);
                 }
-                pck.WSOUR = new DataCube2DLayout<float>(nsp, nlake, 6)
+                lak_pck.WSOUR = new DataCube2DLayout<float>(nsp, nlake, 6)
                 {
                     Name = "Recharge Discharge",
                     Variables = new string[nsp],
@@ -221,30 +235,78 @@ namespace Heiflow.Tools.ConceptualModel
                 };
                 for (int l = 0; l < nsp; l++)
                 {
-                    pck.WSOUR.Variables[l] = "Stress Period " + (l + 1);
+                    lak_pck.WSOUR.Variables[l] = "Stress Period " + (l + 1);
                 }
 
-                pck.ITMP[0][0, ":"] = new int[] { 1, 1, 0 };
+                lak_pck.ITMP[0][0, ":"] = new int[] { 1, 1, 0 };
                 for (int i = 1; i < nsp; i++)
                 {
-                    pck.ITMP[0][i, ":"] = new int[] { -1, 1, 0 };
+                    lak_pck.ITMP[0][i, ":"] = new int[] { -1, 1, 0 };
                 }
-
-                for (int i = 0; i < pck.LakeSerialIndex.Keys.Count; i++)
+                bool flowpck_changed = false;
+                bool uzf_changed = false;
+                for (int i = 0; i < lak_pck.LakeCellID.Keys.Count; i++)
                 {
-                    var id = pck.LakeSerialIndex.Keys.ElementAt(i);
-                    foreach (var hru_index in pck.LakeSerialIndex[id])
+                    var id = lak_pck.LakeCellID.Keys.ElementAt(i);
+                    foreach (var cell_id in lak_pck.LakeCellID[id])
                     {
-                        pck.LKARR[0, 0, hru_index] = id;
-                        pck.BDLKNC[0, 0, hru_index] = lak_leakance[i];
+                        var hru_index = grid.Topology.CellID2CellIndex[cell_id];
+                        lak_pck.LKARR[0, 0, hru_index] = id;
+                        lak_pck.BDLKNC[0, 0, hru_index] = lak_leakance[i];
+                        if (mf.FlowPropertyPackage.WETDRY[0, 0, hru_index] != 0)
+                        {
+                            mf.FlowPropertyPackage.WETDRY[0, 0, hru_index] = 0;
+                            flowpck_changed = true;
+                        }
+                        if(uzf.IUZFBND[0,0,hru_index] != 0)
+                        {
+                            uzf.IUZFBND[0, 0, hru_index] = 0;
+                            uzf_changed = true;
+                        }
                     }
                 }
+
                 cancelProgressHandler.Progress("Package_Tool", progress, "Saving feature file");
-                pck.CreateFeature(shell.MapAppManager.Map.Projection, prj.Project.GeoSpatialDirectory);
-                pck.BuildTopology();
-                pck.IsDirty = true;
-                pck.Save(null);
-                pck.ChangeState(Models.Generic.ModelObjectState.Ready);
+                lak_pck.CreateFeature(shell.MapAppManager.Map.Projection, prj.Project.GeoSpatialDirectory);
+                lak_pck.BuildTopology();
+                lak_pck.IsDirty = true;
+                cancelProgressHandler.Progress("Package_Tool", progress, "Saving LAK file");
+                lak_pck.Save(null);
+
+                if (flowpck_changed && (mf.FlowPropertyPackage is LPFPackage))
+                {
+                    cancelProgressHandler.Progress("Package_Tool", progress, "Saving Flow Property file");
+                    mf.FlowPropertyPackage.Save(null);
+                }
+
+                if (uzf_changed)
+                {
+                    cancelProgressHandler.Progress("Package_Tool", progress, "Saving UZF file");
+                    uzf.Save(null);
+                }
+
+               var  bas_changed = false;
+                for (int i = 0; i < lak_pck.LakeCellID.Keys.Count; i++)
+                {
+                    var id = lak_pck.LakeCellID.Keys.ElementAt(i);
+                    foreach (var cell_id in lak_pck.LakeCellID[id])
+                    {
+                        var pt = grid.Topology.CellID2MatLocation[cell_id];
+
+                        if (grid.MFIBound[0, pt[0], pt[1]] == 1)
+                        {
+                            grid.MFIBound[0, pt[0], pt[1]] = 0;
+                            bas_changed = true;
+                        }
+                    }
+                }
+                if (bas_changed)
+                {
+                    cancelProgressHandler.Progress("Package_Tool", progress, "Saving BAS file");
+                    bas.Save(null);
+                }
+
+                lak_pck.ChangeState(Models.Generic.ModelObjectState.Ready);
                 return true;
             }
             else
@@ -260,19 +322,27 @@ namespace Heiflow.Tools.ConceptualModel
             var shell = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
             var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
             var model = prj.Project.Model as Heiflow.Models.Integration.HeiflowModel;
+            Modflow mf = model.ModflowModel;
 
             if (model != null)
             {
                 var pck = model.GetPackage(LakePackage.PackageName) as LakePackage;
                 var hru_type = model.PRMSModel.MMSPackage.Parameters["hru_type"];
+                var cov_type = model.PRMSModel.MMSPackage.Parameters["cov_type"];
                 var lake_hru_id = model.PRMSModel.MMSPackage.Parameters["lake_hru_id"];
-                for (int i = 0; i < pck.LakeSerialIndex.Keys.Count; i++)
+                var grid = mf.Grid as MFGrid;
+
+                int nlakehru = 0;
+                for (int i = 0; i < pck.LakeCellID.Keys.Count; i++)
                 {
-                    var id = pck.LakeSerialIndex.Keys.ElementAt(i);
-                    foreach (var hru_index in pck.LakeSerialIndex[id])
+                    var id = pck.LakeCellID.Keys.ElementAt(i);
+                    foreach (var cell_id in pck.LakeCellID[id])
                     {
+                        var hru_index = grid.Topology.CellID2CellIndex[cell_id];
                         lake_hru_id.SetValue(0, hru_index, 0, id);
                         hru_type.SetValue(0, hru_index, 0, 2);
+                        cov_type.SetValue(0, hru_index, 0, 0);
+                        nlakehru++;
                     }
                 }
                 var nlake = model.PRMSModel.MMSPackage.Select("nlake");
@@ -294,10 +364,14 @@ namespace Heiflow.Tools.ConceptualModel
                         Minimum = para.Minimum,
                         Units = para.Units
                     };
-                    gv[0, 0, 0] = pck.NLAKES;
+                    gv[0, 0, 0] = nlakehru;
                     model.PRMSModel.MMSPackage.Parameters.Add(gv.Name, gv);
                 }
-                model.PRMSModel.MMSPackage.AlterLength("nlake", pck.NLAKES);
+                else
+                {
+                    nlake.SetValue(0, 0, 0, nlakehru);
+                }
+                model.PRMSModel.MMSPackage.AlterLength("nlake", nlakehru);
                 var lake_evap_adj = model.PRMSModel.MMSPackage.Select("lake_evap_adj");
                 if (lake_evap_adj != null)
                 {
@@ -337,7 +411,7 @@ namespace Heiflow.Tools.ConceptualModel
                 }
 
                 model.PRMSModel.MMSPackage.IsDirty = true;
-                model.PRMSModel.MMSPackage.Save(null);
+             //   model.PRMSModel.MMSPackage.Save(null);
 
                 var lak = prj.Project.Model.GetPackage(LakePackage.PackageName) as LakePackage;
                 lak.Attach(shell.MapAppManager.Map, prj.Project.GeoSpatialDirectory);

@@ -256,7 +256,7 @@ namespace Heiflow.Controls.WinForm.Display
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Invalid lookup. Error message: " + ex.Message, "Import", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Invalid Lookup Table. Error message: " + ex.Message, "Import", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             if (dtzone == null)
@@ -270,7 +270,7 @@ namespace Heiflow.Controls.WinForm.Display
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Invalid lookup. Error message: " + ex.Message, "Import", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Invalid Zone ID Table . Error message: " + ex.Message, "Import", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 

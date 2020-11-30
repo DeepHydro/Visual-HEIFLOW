@@ -375,7 +375,7 @@ namespace Heiflow.Core.Hydrology
             {
                 if (junc != null)
                 {
-                    line = string.Format("{0}\t{1}\t{2}", junc.ID, junc.Elevation.ToString("0.00"), " 15.0\t0 .00\t0\t0");
+                    line = string.Format("{0}\t{1}\t{2}", junc.ID, junc.Elevation.ToString("0.000"), " 30.0\t0 .00\t0\t0");
                     sw.WriteLine(line);
                 }
             }
@@ -388,7 +388,7 @@ namespace Heiflow.Core.Hydrology
             {
                 if (junc != null)
                 {
-                    line = junc.ID + " " + junc.Elevation.ToString("0.00") + "     FREE                        NO    ";
+                    line = junc.ID + " " + junc.Elevation.ToString("0.000") + "     FREE                        NO    ";
                     sw.WriteLine(line);
                 }
             }
@@ -416,7 +416,7 @@ namespace Heiflow.Core.Hydrology
             {
                 foreach (var rch in r.Reaches)
                 {
-                    line = rch.ID + " RECT_OPEN  10.0  " + rch.Width + "     1        1          1    ";
+                    line = rch.ID + " RECT_OPEN  30.0  " + rch.Width + "     1        1          1    ";
                     sw.WriteLine(line);
                 }
             }

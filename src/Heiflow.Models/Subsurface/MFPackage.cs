@@ -152,7 +152,7 @@ namespace Heiflow.Models.Subsurface
                 }
                 else
                 {
-                    int colLine = (int)Math.Ceiling(col / 10.0);
+                    int colLine = (int)Math.Ceiling(col / (float)values.Length);
                     for (int r = 0; r < row; r++)
                     {
                         int i = 0;
@@ -358,6 +358,97 @@ namespace Heiflow.Models.Subsurface
                 mat.IPRN[var_index] = iprn;
             }
         }
+        public void ReadRegularArray<T>(StreamReader sr, DataCube<T> mat, int var_index)
+        {
+            string line = sr.ReadLine().ToUpper();
+            var strs = TypeConverterEx.Split<string>(line);
+            var grid = Owner.Grid as IRegularGrid;
+
+            // Read constant matrix
+            if (strs[0].ToUpper() == "CONSTANT")
+            {
+                var ar = TypeConverterEx.Split<string>(line);
+                T conv = TypeConverterEx.ChangeType<T>(ar[1]);
+                mat.Flags[var_index] = TimeVarientFlag.Constant;
+                mat.Constants[var_index] = TypeConverterEx.ChangeType<float>(conv);
+                mat.ILArrays[var_index][":", ":"] = conv;
+            }
+            // Read internal matrix
+            else
+            {
+                int row = grid.RowCount;
+                int col = grid.ColumnCount;
+                int activeCount = grid.ActiveCellCount;
+                T multiplier = TypeConverterEx.ChangeType<T>(strs[1]);
+                int iprn = -1;
+                int.TryParse(strs[3], out iprn);
+                line = sr.ReadLine();
+                var values = TypeConverterEx.Split<T>(line);
+                int r = 1;
+                if (values.Length == col)
+                {
+                    for (int c = 0; c < col; c++)
+                    {
+                        mat[var_index][0, c] = values[c];
+                    }
+                    try
+                    {
+                        for (r = 1; r < row; r++)
+                        {
+                            line = sr.ReadLine();
+                            values = TypeConverterEx.Split<T>(line);
+                            for (int c = 0; c < col; c++)
+                            {
+                                mat[var_index][r, c] = values[c];
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Message = string.Format("Failed to read Array when reading Line {0}. Error: {1}", r, ex.Message);
+                    }
+                }
+                else
+                {
+                    int colLine = (int)Math.Ceiling(col / 10.0);
+                    try
+                    {
+                        line += "\t";
+                        for (int c = 1; c < colLine; c++)
+                        {
+                            line += sr.ReadLine() + "\t";
+                        }
+                        values = TypeConverterEx.Split<T>(line);
+                        for (int c = 0; c < col; c++)
+                        {
+                            mat[var_index][0, c] = values[c];
+                        }
+
+                        for (r = 1; r < row; r++)
+                        {
+                            line = "";
+                            for (int c = 0; c < colLine; c++)
+                            {
+                                line += sr.ReadLine() + "\t";
+                            }
+
+                            values = TypeConverterEx.Split<T>(line);
+                            for (int c = 0; c < col; c++)
+                            {
+                                mat[var_index][r, c] = values[c];
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Message = string.Format("Failed to read Array when reading Line {0}. Error: {1}", r, ex.Message);
+                    }
+                }
+                mat.Flags[var_index] = TimeVarientFlag.Individual;
+                mat.Multipliers[var_index] = TypeConverterEx.ChangeType<float>(multiplier);
+                mat.IPRN[var_index] = iprn;
+            }
+        }
         public void WriteSerialArray<T>(StreamWriter sw, DataCube<T> mat, int var_index, int time_index, string format, string comment)
         {
             if (mat.Flags[var_index] == TimeVarientFlag.Constant)
@@ -436,6 +527,7 @@ namespace Heiflow.Models.Subsurface
                 }
             }
         }
+        
         /// <summary>
         /// write 3d mat for given variable
         /// </summary>

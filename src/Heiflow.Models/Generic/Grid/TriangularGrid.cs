@@ -46,6 +46,10 @@ namespace Heiflow.Models.Generic
         public event EventHandler SizeChanged;
         public event GridUpdate Updated;
 
+        public TriangularGrid()
+        {
+            SelectedLayerToShown = 0;
+        }
         public Coordinate Origin
         {
             get;
@@ -74,8 +78,7 @@ namespace Heiflow.Models.Generic
             get;
             set;
         }
-
-        public int CellCount
+        public int ActiveCellCount
         {
             get;
             set;
@@ -166,7 +169,11 @@ namespace Heiflow.Models.Generic
             get;
             set;
         }
-
+        public int SelectedLayerToShown
+        {
+            get;
+            set;
+        }
         public bool Validate()
         {
             return true;

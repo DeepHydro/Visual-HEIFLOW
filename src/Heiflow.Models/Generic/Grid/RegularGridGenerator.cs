@@ -152,6 +152,10 @@ namespace Heiflow.Models.Generic.Grid
                 {
                     ZeroDimension = DimensionFlag.Spatial
                 };
+                Source.MFIBound = new DataCube<float>(this.LayerCount, RowCount, ColumnCount)
+                {
+                    ZeroDimension = DimensionFlag.Spatial
+                };
                 Source.DELC = new DataCube<float>(1, 1, RowCount);
                 Source.DELR = new DataCube<float>(1, 1, ColumnCount);
                 Source.DELC.Flags[0] = TimeVarientFlag.Constant;
@@ -175,7 +179,10 @@ namespace Heiflow.Models.Generic.Grid
                         if (SpatialRelationship.PointInPolygon(geo, cor))
                         {
                             for (int l = 0; l < Source.ActualLayerCount; l++)
+                            {
                                 Source.IBound[l, r, c] = 1;
+                                Source.MFIBound[l, r, c] = 1;
+                            }
                             active++;
                             centroids.Add(cor);
                         }

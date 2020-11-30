@@ -165,6 +165,15 @@
     <Compile Include="Integration\ExtensionManPackage.cs" />
     <Compile Include="IO\BilFile.cs" />
     <Compile Include="IO\SecurityFile.cs" />
+    <Compile Include="Subsurface\MT3D\VDFPackage.cs" />
+    <Compile Include="Subsurface\MT3D\GCGPackage.cs" />
+    <Compile Include="Subsurface\MT3D\SSMPackage.cs" />
+    <Compile Include="Subsurface\MT3D\DSPPackage.cs" />
+    <Compile Include="Subsurface\MT3D\ADVPackage.cs" />
+    <Compile Include="Subsurface\MT3D\MT3DPackFileNameProvider.cs" />
+    <Compile Include="Subsurface\MT3D\MT3DModel.cs" />
+    <Compile Include="Subsurface\MT3D\UCNPackage.cs" />
+    <Compile Include="Subsurface\MT3D\BTNPackage.cs" />
     <Compile Include="Subsurface\OpenModflowProjectFileProvider.cs" />
     <Compile Include="Generic\TimeService.cs" />
     <Compile Include="Generic\ModelService.cs" />
@@ -201,6 +210,8 @@
     <Compile Include="Subsurface\Packages\SUBPackage.cs" />
     <Compile Include="Subsurface\Packages\PCGPackage.cs" />
     <Compile Include="Subsurface\Packages\UPWPackage.cs" />
+    <Compile Include="Subsurface\PHT3D\ACNPackage.cs" />
+    <Compile Include="Subsurface\PHT3D\PHCPackage.cs" />
     <Compile Include="Surface\PRMS\PRMSDataPackage.cs" />
     <Compile Include="Running\Watcher\TxtWatcher.cs" />
     <Compile Include="Running\Watcher\CSVWatcher.cs" />
@@ -438,6 +449,7 @@
   <ItemGroup>
     <None Include="Resources\MapPackageTiledTPKFile16.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

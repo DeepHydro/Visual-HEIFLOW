@@ -61,6 +61,7 @@ namespace Heiflow.Models.Generic
         public RegularGrid()
         {
             _UTMZone = 40;
+            SelectedLayerToShown = 0;
         }
 
         public static string ParaValueField
@@ -192,7 +193,14 @@ namespace Heiflow.Models.Generic
             get;
             set;
         }
-
+        /// <summary>
+        /// mat[ActualLayerCount, Row, Col]
+        /// </summary>
+        public DataCube<float> MFIBound
+        {
+            get;
+            set;
+        }
         public IBasicModel Owner
         {
             get;
@@ -255,7 +263,11 @@ namespace Heiflow.Models.Generic
                 _UTMZone = value;
             }
         }
-
+        public int SelectedLayerToShown
+        {
+            get;
+            set;
+        }
         public bool Validate()
         {
             if (FeatureSet != null)
@@ -718,5 +730,8 @@ namespace Heiflow.Models.Generic
             var cellarea = DELR.Constants[0] * DELC.Constants[0];
             return cellarea;
         }
+
+
+
     }
 }

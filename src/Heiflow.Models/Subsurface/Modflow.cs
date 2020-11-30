@@ -58,6 +58,7 @@ namespace Heiflow.Models.Subsurface
         public Modflow()
         {
             Name = "Modflow";
+            //Name = "VFT3D";
             PackageFileNameProvider = new MFPackFileNameProvider(this);
             this.Icon = Resources.mf16;
             this.TimeService = new TimeService("Subsurface Timeline")
@@ -532,6 +533,7 @@ namespace Heiflow.Models.Subsurface
                 foreach(var pck in ModflowService.SupportedPackages)
                 {
                     if(pck.Name == UPWPackage.PackageName)
+
                     {
                         pck.IsMandatory = true;
                     }
@@ -545,7 +547,7 @@ namespace Heiflow.Models.Subsurface
                     }
                     if (pck.Name == PCGPackage.PackageName)
                     {
-                        pck.IsMandatory = true;
+                        pck.IsMandatory = false;
                     }
                 }
             }

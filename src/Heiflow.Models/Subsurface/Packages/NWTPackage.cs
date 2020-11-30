@@ -53,18 +53,23 @@ namespace Heiflow.Models.Subsurface
         public NWTPackage()
         {
             Name = "NWT";
-            _FullName = "Upstream Weighting Package";
+            _FullName = "Newton-Raphson Solver";
             _PackageInfo.Format = FileFormat.Text;
             _PackageInfo.IOState = IOState.OLD;
             _PackageInfo.FileExtension = ".nwt";
             _PackageInfo.ModuleName = "NWT";
-            Description = @" The UPW Package treats nonlinearities of cell drying and rewetting by use of a continuous function of groundwater head,
-            rather than the discrete approach of drying and rewetting that is used by the BCF, LPF, 
-                and HUF Packages. This further enables application of the Newton formulation for unconfined groundwater-flow problems
-                because conductance derivatives required by the Newton method are smooth over the full range of head for a model cell.";
-            Version = "UPW";
+            Description = @"The USGS MODFLOW-NWT is a Newton-Raphson formulation for MODFLOW-2005 to improve solution of unconfined groundwater-flow problems. ";
+            Version = "NWT";
             IsMandatory = false;
-
+//0.001	1	100	0.0001	1	1	0	SIMPLE	CONTINUE	# Data Set 1, HEADTOL FLUXTOL MAXITEROUT THICKFACT LINMETH IPRNWT IBOTAV OPTIONS
+            HEADTOL = 0.001f;
+            FLUXTOL = 1;
+            MAXITEROUT = 100;
+            THICKFACT = 0.0001f;
+            LINMETH = 1;
+            IPRNWT = 1;
+            IBOTAV = 0;
+            Options = "SIMPLE";
         }
         /// <summary>
         /// The maximum head change between outer iterations for solution of the nonlinear problem.
@@ -237,7 +242,7 @@ namespace Heiflow.Models.Subsurface
             WriteDefaultComment(sw, this.Name);
 
             //0.01 1 400 1E-004 2 1 0 simple CONTINUE   # Data Set 1, HEADTOL FLUXTOL MAXITEROUT THICKFACT LINMETH IPRNWT IBOTAV OPTIONS
-            string line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\tCONTINUE\t# Data Set 1, HEADTOL FLUXTOL MAXITEROUT THICKFACT LINMETH IPRNWT IBOTAV OPTIONS",
+            string line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\tCONTINUE\t # Data Set 1, HEADTOL FLUXTOL MAXITEROUT THICKFACT LINMETH IPRNWT IBOTAV OPTIONS",
                 HEADTOL, FLUXTOL, MAXITEROUT, THICKFACT, LINMETH, IPRNWT, IBOTAV, OPTIONS);
             sw.WriteLine(line);
             sw.Close();

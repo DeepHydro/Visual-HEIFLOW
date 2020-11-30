@@ -142,6 +142,7 @@ namespace Heiflow.Plugins.ProjectExplorer
             {
                 combo.Items.Add(i.ToString());
             }
+           // _layerDropDown.SelectedItem = "0";
             //ProjectManager.ShellService.AnimationPlayer.TimeServices = ProjectManager.ProjectService.Project.Model.TimeServiceList.Values.ToList();
         }
 
@@ -158,6 +159,7 @@ namespace Heiflow.Plugins.ProjectExplorer
             {
                 ts.CurrentGridLayer = int.Parse(e.SelectedItem.ToString()) - 1;
             }
+            ProjectManager.Project.Model.Grid.SelectedLayerToShown = int.Parse(e.SelectedItem.ToString()) - 1;
         }
 
         private void Option_Click(object sender, EventArgs e)

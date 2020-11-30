@@ -98,6 +98,32 @@ namespace Heiflow.Models.Subsurface
             set;
         }
 
+
+        /// <summary>
+        /// 3DMat [ ActualLayerCount, 1, ActiveCellCount]
+        /// </summary>
+        [StaticVariableItem("Layer")]
+        [Browsable(false)]
+        [ArealProperty(typeof(float), 1)]
+        public DataCube<float> IBound
+        {
+            get
+            {
+                var grid = (Owner.Grid as MFGrid);
+                return grid.IBound;
+            }
+        }
+        [StaticVariableItem("Layer")]
+        [Browsable(false)]
+        [ArealProperty(typeof(float), 1)]
+        public DataCube<float> MFIBound
+        {
+            get
+            {
+                var grid = (Owner.Grid as MFGrid);
+                return grid.MFIBound;
+            }
+        }
         public override void Initialize()
         {
             this.Grid = Owner.Grid;
@@ -124,6 +150,7 @@ namespace Heiflow.Models.Subsurface
 
                     var grid = (Owner.Grid as MFGrid);
                     grid.IBound = new DataCube<float>(grid.ActualLayerCount, grid.RowCount, grid.ColumnCount) { ZeroDimension = DimensionFlag.Spatial };
+                    grid.MFIBound = new DataCube<float>(grid.ActualLayerCount, grid.RowCount, grid.ColumnCount) { ZeroDimension = DimensionFlag.Spatial };
                     grid.ActiveCellCount = 0;
                     for (int l = 0; l < grid.ActualLayerCount; l++)
                     {
@@ -133,9 +160,18 @@ namespace Heiflow.Models.Subsurface
                             for (int c = 0; c < array.Size[2]; c++)
                             {
                                 grid.IBound[l, r, c] = array[0, r, c];
+                                grid.MFIBound[l, r, c] = array[0, r, c];
                                 if (grid.IBound[l, r, c] != 0)
                                     grid.ActiveCellCount++;
                             }
+                        }
+                    }
+
+                    if (Owner.Packages.ContainsKey(LakePackage.PackageName))
+                    {
+                        var lak = (Owner.Packages[LakePackage.PackageName] as LakePackage);
+                        {
+                            lak.ChangeIBound();
                         }
                     }
 
@@ -148,6 +184,7 @@ namespace Heiflow.Models.Subsurface
                                 grid.ActiveCellCount++;
                         }
                     }
+
                     newline = sr.ReadLine();
                     //Data Set 3: # HNOFLO the value of head to be assigned to all inactive 
                     this.HNOFLO = TypeConverterEx.Split<float>(newline, 1)[0];
@@ -199,7 +236,7 @@ namespace Heiflow.Models.Subsurface
             for (int k = 0; k < grid.ActualLayerCount; k++)
             {
                 cmt = " # IBOUND of Layer " + (k + 1);
-                WriteRegularArray<float>(sw, grid.IBound, k, "F0", cmt);
+                WriteRegularArray<float>(sw, grid.MFIBound, k, "F0", cmt);
             }
             sw.WriteLine( HNOFLO + "  #  HNOFLO");
             for (int k = 0; k < grid.ActualLayerCount; k++)

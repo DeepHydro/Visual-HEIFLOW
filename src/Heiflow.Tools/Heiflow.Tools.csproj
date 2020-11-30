@@ -100,7 +100,9 @@
   <ItemGroup>
     <Compile Include="ConceptualModel\BAS\CalibrateIBoundTool.cs" />
     <Compile Include="ConceptualModel\DIS\CalibrateElevTool.cs" />
+    <Compile Include="ConceptualModel\LPF\UPW2LPF.cs" />
     <Compile Include="ConceptualModel\SFR\CorrectReachVKTool .cs" />
+    <Compile Include="ConceptualModel\SFR\ExportSFROutlets.cs" />
     <Compile Include="ConceptualModel\SFR\ProcessDuplRch.cs" />
     <Compile Include="ConceptualModel\SFR\SetParaByFeatureLayer.cs" />
     <Compile Include="ConceptualModel\SFR\ExportHydroTreeNodesFeature.cs" />
@@ -109,6 +111,7 @@
     <Compile Include="ConceptualModel\SFR\RemoveDuplRch.cs" />
     <Compile Include="ConceptualModel\SFR\CorrectReachElevTool.cs" />
     <Compile Include="ConceptualModel\SFR\ExportSFRAsSWMM.cs" />
+    <Compile Include="ConceptualModel\SFR\SmoothSWMMJuncElev.cs" />
     <Compile Include="ConceptualModel\SFR\SmoothNetworkElev.cs" />
     <Compile Include="ConceptualModel\SFR\SetReachByCSV.cs" />
     <Compile Include="ConceptualModel\SFR\SetReachElevTool.cs" />
@@ -240,6 +243,9 @@
   <ItemGroup>
     <None Include="Heiflow.Tools.licenseheader" />
     <None Include="vhf.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ConceptualModel\LAK\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

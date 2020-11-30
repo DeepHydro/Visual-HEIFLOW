@@ -197,7 +197,7 @@ namespace Heiflow.Models.Subsurface
             get;
             set;
         }
-
+        [Browsable(false)]
         [StaticVariableItem]
         public DataCube<float> Segments
         {

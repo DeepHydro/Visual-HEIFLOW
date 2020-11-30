@@ -118,6 +118,13 @@ namespace Heiflow.Models.Subsurface
                     _StartLoading = TimeService.Start;
                     MaxTimeStep = list.Count;
                 }
+                else
+                {
+                    cbc.Scan();
+                    NumTimeStep = cbc.NumTimeStep;
+                    _StartLoading = TimeService.Start;
+                    MaxTimeStep = cbc.MaxTimeStep;
+                }
                 return true;
             }
             else

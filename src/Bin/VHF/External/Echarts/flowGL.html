@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">    
+    <title>Groundwater Flow Field</title>
+   </head>
+   <body style="height: 100%; margin: 0; background-color:black">
+       <div id="container" style="height: 800pt;width: 1120pt"></div>
+       <script type="text/javascript" src="./echarts.min.js"></script>
+       <script type="text/javascript" src="./echarts-gl.min.js"></script>
+       <script type="text/javascript" src="./ecStat.min.js"></script>
+       <script type="text/javascript" src="./dataTool.min.js"></script>
+       <script type="text/javascript" src="./china.js"></script>
+       <script type="text/javascript" src="./world.js"></script>
+       <script type="text/javascript" src="./bmap.min.js"></script>
+       <script type="text/javascript">	
+var dom = document.getElementById("container");
+var myChart = echarts.init(dom);
+var app = {};
+option = null;
+
+//generateData
+
+myChart.setOption({
+    visualMap: {
+        show: true,
+        min: valMin,
+        max: valMax,
+        dimension: 4,
+        inRange: {
+            color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
+        }
+    },
+    xAxis: {
+        type: 'value',
+        axisLine: {
+            lineStyle: {
+                color: '#fff'
+            }
+        },
+        splitLine: {
+            show: false,
+            lineStyle: {
+                color: 'rgba(255,255,255,0.2)'
+            }
+        }
+    },
+    yAxis: {
+        type: 'value',
+        axisLine: {
+            lineStyle: {
+                color: '#fff'
+            }
+        },
+        splitLine: {
+            show: false,
+            lineStyle: {
+                color: 'rgba(255,255,255,0.2)'
+            }
+        }
+    },
+    series: [{
+        type: 'flowGL',
+        data: data,
+        particleDensity: 1024,
+        particleSize: 4,
+        itemStyle: {
+            opacity: 1
+        }
+    }, {
+        type: 'custom',
+        data: data,
+        encode: {
+            x: 0,
+            y: 0
+        },
+        renderItem: function (params, api) {
+            var x = api.value(0), y = api.value(1), dx = api.value(2), dy = api.value(3);
+            var start = api.coord([x - dx / 2, y - dy / 2]);
+            var end = api.coord([x + dx / 2, y + dy / 2]);
+            return {
+                type: 'line',
+                shape: {
+                    x1: start[0], y1: start[1],
+                    x2: end[0], y2: end[1]
+                },
+                style: {
+                    lineWidth: 2,
+                    stroke:'#fff',
+                    opacity: 0.2
+                }
+            }
+        }
+    }]
+});
+       </script>
+</body>
+</html>

@@ -93,12 +93,12 @@ namespace Heiflow.Models.Surface.MIKE
 
                 line = sr.ReadLine();
                 cstr = TypeConverterEx.Split<string>(line);
-                grid.CellCount = int.Parse(cstr[0]);
-                grid.Centroids = new Coordinate[grid.CellCount];
-                topology.VertexIndices = new uint[grid.CellCount][];
+                grid.ActiveCellCount = int.Parse(cstr[0]);
+                grid.Centroids = new Coordinate[grid.ActiveCellCount];
+                topology.VertexIndices = new uint[grid.ActiveCellCount][];
                 topology.NodeConnectedCells = new uint[grid.VertexCount][];
 
-                for (uint i = 0; i < grid.CellCount; i++)
+                for (uint i = 0; i < grid.ActiveCellCount; i++)
                 {
                     double bathymetry = 0;
                     topology.VertexIndices[i] = new uint[3];

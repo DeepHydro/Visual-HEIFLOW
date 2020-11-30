@@ -46,9 +46,7 @@ namespace Heiflow.Plugins.DataGridPanel
         public DataGridPanel()
         {
             DeactivationAllowed = false;
-
-          //  _DataGridEx = new DataGridEx();
-           
+          //  _DataGridEx = new DataGridEx();          
         }
     
 

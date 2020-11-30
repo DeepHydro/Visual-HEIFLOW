@@ -48,7 +48,7 @@ namespace Heiflow.Models.Subsurface
         /// <param name="mg"></param>
         public RegularGridTopology()
         {
- 
+
         }
 
         private RegularGrid _Grid;
@@ -105,15 +105,19 @@ namespace Heiflow.Models.Subsurface
         /// [serial index][row,col] cell index starts from 0.  存储活动网格位置(行列索引，从0开始)
         /// </summary>
         //public Dictionary<int, int[]> ActiveCellLocation { get; private set; }
-        public int[][] ActiveCellLocation { get;  set; }
+        public int[][] ActiveCellLocation { get; set; }
         /// <summary>
         /// Active Cell ID (starting from 1)
         /// </summary>
-        public int[] ActiveCellID { get;  set; }
+        public int[] ActiveCellID { get; set; }
         /// <summary>
         /// mapping between Cell ID  (starts from 1) and Cell Serial Index (starts from 0)
         /// </summary>
         public Dictionary<int, int> CellID2CellIndex { get; private set; }
+        /// <summary>
+        /// mapping between Cell ID  (starts from 1) and Cell Row Column Index (starts from 0)
+        /// </summary>
+        public Dictionary<int, int[]> CellID2MatLocation { get; private set; }
 
         public void Build()
         {
@@ -144,21 +148,30 @@ namespace Heiflow.Models.Subsurface
             ActiveVertexIndex = new Dictionary<int, int>();
             //ActiveCellIndex = new Dictionary<int, int>();
             //ActiveCellID = new Dictionary<int, int>();
+            CellID2MatLocation = new Dictionary<int, int[]>();
 
             for (int r = 0; r < row + 1; r++)
             {
                 for (int c = 0; c < col + 1; c++)
                 {
+                    var cid = GetID(r, c);
+                    if (CellID2MatLocation.Keys.Contains(cid))
+                    {
+                        cid = GetID(r, c);
+                    }
+                    else
+                    {
+                        CellID2MatLocation.Add(cid, new int[] { r, c });
+                    }
                     if (isActVer[r, c])
                     {
                         VertexAtActiveCells[i, 4] = r;
                         VertexAtActiveCells[i, 5] = c;
-                        var cid = GetID(r, c);
                         if (!ActiveVertexIndex.ContainsKey(cid))
                             ActiveVertexIndex.Add(cid, i);
                         bool isside = false;
                         float[] isactive = null;
-                        int [] cids = null;
+                        int[] cids = null;
 
                         if (r == 0 || r == row || c == 0 || c == col)
                         {
@@ -172,13 +185,13 @@ namespace Heiflow.Models.Subsurface
 
                             var xx = new int[] { r - 1, c - 1, r - 1, c, r, c, r, c - 1 };
 
-                            for (int n = 0; n < 4; n++ )
+                            for (int n = 0; n < 4; n++)
                             {
-                                if (xx[2 * n] >= 0 && xx[2 * n] <= row - 1 && xx[2 * n + 1] >= 0 && xx[2 * n + 1] <= col - 1 && ibound[0, xx[2 * n], xx[2 * n+1]] > 0)
+                                if (xx[2 * n] >= 0 && xx[2 * n] <= row - 1 && xx[2 * n + 1] >= 0 && xx[2 * n + 1] <= col - 1 && ibound[0, xx[2 * n], xx[2 * n + 1]] > 0)
                                 {
                                     isactive = new float[] { 1, 1, 1, 1 };
                                     var temp = GetID(xx[2 * n], xx[2 * n + 1]);
-                                    cids = new int[] { temp, temp, temp, temp };                 
+                                    cids = new int[] { temp, temp, temp, temp };
                                     break;
                                 }
                             }
@@ -187,21 +200,21 @@ namespace Heiflow.Models.Subsurface
                         {
                             isactive = new float[] { ibound[0, r - 1, c - 1], ibound[0, r - 1, c], ibound[0, r, c], ibound[0, r, c - 1] };
                             cids = new int[4] { GetID(r - 1, c - 1), GetID(r - 1, c), GetID(r, c), GetID(r, c - 1) };
-                            foreach(var act in isactive)
+                            foreach (var act in isactive)
                             {
-                                if(act == 0)
+                                if (act == 0)
                                 {
                                     isside = true;
                                     break;
                                 }
-                            }              
+                            }
                         }
 
                         if (isside)
                         {
                             for (int n = 0; n < 4; n++)
                             {
-                                if (isactive[n] != 0)
+                                if (isactive != null && isactive[n] != 0)
                                 {
                                     VertexAtActiveCells[i, 0] = cids[n];
                                     VertexAtActiveCells[i, 1] = cids[n];
@@ -219,38 +232,38 @@ namespace Heiflow.Models.Subsurface
                             }
                         }
                         i++;
-                    }       
+                    }
                 }
             }
 
             i = 0;
             CellVertex = new int[Grid.ActiveCellCount, 5];
             //ActiveCellLocation = new Dictionary<int, int[]>();
-            ActiveCellLocation=new int[Grid.ActiveCellCount][];
+            ActiveCellLocation = new int[Grid.ActiveCellCount][];
             ActiveCellID = new int[Grid.ActiveCellCount];
             CellID2CellIndex = new Dictionary<int, int>();
 
-                for (int r = 0; r < row; r++)
+            for (int r = 0; r < row; r++)
+            {
+                for (int c = 0; c < col; c++)
                 {
-                    for (int c = 0; c < col; c++)
+                    if (ibound[0, r, c] != 0)
                     {
-                        if (ibound[0, r, c] != 0)
-                        {
-                            CellVertex[i, 0] = GetID(r, c);
-                            CellVertex[i, 1] = ActiveVertexIndex[GetID(r, c)];
-                            CellVertex[i, 2] = ActiveVertexIndex[GetID(r, c + 1)];
-                            CellVertex[i, 3] = ActiveVertexIndex[GetID(r + 1, c + 1)];
-                            CellVertex[i, 4] = ActiveVertexIndex[GetID(r + 1, c)];
-                            //ActiveCellLocation.Add(CellVertex[i, 0], new int[] { r, c });
-                            //ActiveCellIndex.Add(CellVertex[i, 0], i);
-                            //ActiveCellID.Add(i, CellVertex[i, 0]);
-                            ActiveCellLocation[i] = new int[] { r, c };
-                            ActiveCellID[i] = GetID(r, c);
-                            CellID2CellIndex.Add(ActiveCellID[i], i);
-                            i++;
-                        }
+                        CellVertex[i, 0] = GetID(r, c);
+                        CellVertex[i, 1] = ActiveVertexIndex[GetID(r, c)];
+                        CellVertex[i, 2] = ActiveVertexIndex[GetID(r, c + 1)];
+                        CellVertex[i, 3] = ActiveVertexIndex[GetID(r + 1, c + 1)];
+                        CellVertex[i, 4] = ActiveVertexIndex[GetID(r + 1, c)];
+                        //ActiveCellLocation.Add(CellVertex[i, 0], new int[] { r, c });
+                        //ActiveCellIndex.Add(CellVertex[i, 0], i);
+                        //ActiveCellID.Add(i, CellVertex[i, 0]);
+                        ActiveCellLocation[i] = new int[] { r, c };
+                        ActiveCellID[i] = GetID(r, c);
+                        CellID2CellIndex.Add(ActiveCellID[i], i);
+                        i++;
                     }
                 }
+            }
         }
         /// <summary>
         /// The generated ID starts from 1 rather than 0
@@ -260,15 +273,14 @@ namespace Heiflow.Models.Subsurface
         /// <returns></returns>
         public int GetID(int row, int col)
         {
-            return row * Grid.ColumnCount + (col + 1);
+            return row * (Grid.ColumnCount + 1) + (col + 1);
         }
-
         /// <summary>
         /// get serial index which starts from 0
         /// </summary>
         /// <param name="row">row index starting from 0</param>
         /// <param name="col">col index starting from 0</param>
-        /// <returns></returns>
+        /// <returns>return -1 at inactive cell</returns>
         public int GetSerialIndex(int row, int col)
         {
             var id = GetID(row, col);
@@ -301,7 +313,7 @@ namespace Heiflow.Models.Subsurface
             int id = VertexAtActiveCells[index, 0];
             if (id != 0)
             {
-                var lc = CellID2CellIndex[id];  
+                var lc = CellID2CellIndex[id];
                 return vecotr[lc];
             }
             else
@@ -458,6 +470,25 @@ namespace Heiflow.Models.Subsurface
             range[1] = matrix.Min();
             return range;
         }
-    }
 
+        public int[] GetIndexIn2DMat()
+        {
+            int[] index = new int[Grid.ActiveCellCount];
+            var cell_index = 0;
+            var act_index = 0;
+            for (int r = 0; r < Grid.RowCount; r++)
+            {
+                for (int c = 0; c < Grid.ColumnCount; c++)
+                {
+                    if (GetSerialIndex(r, c) >= 0)
+                    {
+                        index[act_index] = cell_index;
+                        act_index++;
+                    }
+                    cell_index++;
+                }
+            }
+            return index;
+        }
+    }
 }

@@ -44,6 +44,7 @@ namespace Heiflow.Models.Generic
         string[] Variables { get; }
         int Layer { get; set; }
         int NumTimeStep { get; }
+        int SelectedLayerToShown { get; set; }
         DateTime EndOfLoading { get; set; }
         DateTime StartOfLoading { get; set; }
         DataCube<float> DataCube { get; }

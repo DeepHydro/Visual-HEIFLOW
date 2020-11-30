@@ -52,6 +52,7 @@ namespace Heiflow.Core.Data
         protected string[] _Variables;
         protected bool _isLazy;
         protected DataCubeLayout _DataCubeLayout;
+        public T NoData;
         public DataCube()
         {
 
@@ -64,6 +65,7 @@ namespace Heiflow.Core.Data
             _ncell = ncell;
             _size = new int[] { nvar, ntime, ncell };
             _arrays = new ILArray<T>[nvar];
+            SelectedLayerToShown =0;
             if (!islazy)
             {
                 for (int i = 0; i < nvar; i++)
@@ -90,6 +92,7 @@ namespace Heiflow.Core.Data
             Name = "Time Series";
             PopulateVariables();
             InitFlags(Size[0]);
+            SelectedLayerToShown = 0;
             _DataCubeLayout = DataCubeLayout.ThreeD;
             ZeroDimension = DimensionFlag.Variable;
         }
@@ -117,7 +120,10 @@ namespace Heiflow.Core.Data
         {
             get
             {
-                return _arrays[var_index].GetValue(time_index, cell_index);
+                if (_arrays[var_index] != null)
+                    return _arrays[var_index].GetValue(time_index, cell_index);
+                else
+                    return NoData;
             }
             set
             {
@@ -206,6 +212,13 @@ namespace Heiflow.Core.Data
         [XmlIgnore]
         [Browsable(false)]
         public int SelectedSpaceIndex
+        {
+            get;
+            set;
+        }
+        [XmlIgnore]
+        [Browsable(false)]
+        public int SelectedLayerToShown
         {
             get;
             set;
@@ -537,12 +550,24 @@ namespace Heiflow.Core.Data
                 int nrow = Topology.RowCount;
                 int ncol = Topology.ColumnCount;
                 ILArray<T> array = ILMath.zeros<T>(nrow, ncol);
-
-                for (int i = 0; i < Topology.ActiveCellCount; i++)
+                var len = (SelectedLayerToShown + 1) * Topology.ActiveCellCount;
+                if (Size[2] < len)
                 {
-                    var loc = Topology.ActiveCellLocation[i];
-                    //flip the matrix
-                    array[nrow - 1 - loc[0], loc[1]] = this[var_index, time_index, i];
+                    for (int i = 0; i < Topology.ActiveCellCount; i++)
+                    {
+                        var loc = Topology.ActiveCellLocation[i];
+                        //flip the matrix
+                        array[nrow - 1 - loc[0], loc[1]] = this[var_index, time_index, i];
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < Topology.ActiveCellCount; i++)
+                    {
+                        var loc = Topology.ActiveCellLocation[i];
+                        //flip the matrix
+                        array[nrow - 1 - loc[0], loc[1]] = this[var_index, time_index, i + SelectedLayerToShown * Topology.ActiveCellCount];
+                    }
                 }
                 return array;
             }

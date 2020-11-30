@@ -43,9 +43,11 @@ namespace Heiflow.Models.Subsurface
     public class MFOutputPackage : DataPackageCollection
     {
         public static string PackageName="ModFlow Output";
+        //public static string PackageName = "VFT3D Output";
         public MFOutputPackage()
         {
             _Name = "ModFlow Output";
+            //_Name = "VFT3D Output";
         }
 
         public override void Initialize()

@@ -49,7 +49,7 @@ using NetTopologySuite.Geometries;
 namespace Heiflow.Models.Subsurface
 {
     [PackageItem]
-    [PackageCategory("Boundary Conditions,Head Dependent Flux",false)]
+    [PackageCategory("Boundary Conditions,Head Dependent Flux", false)]
     [CoverageItem]
     [Export(typeof(IMFPackage))]
     public class LakePackage : MFPackage
@@ -73,7 +73,7 @@ namespace Heiflow.Models.Subsurface
             SURFDEPTH = 0.1f;
             Version = "Lak3";
 
-            LakeSerialIndex = new Dictionary<int, List<int>>();
+            LakeCellID = new Dictionary<int, List<int>>();
         }
 
         #region Properties
@@ -112,8 +112,8 @@ namespace Heiflow.Models.Subsurface
         /// [1,NLAKES,5] (STAGES,SSMN,SSMX,IUNITTAB,CLAKE)
         /// </summary>
         /// 
-       [StaticVariableItem]
-       [Browsable(false)]
+        [StaticVariableItem]
+        [Browsable(false)]
         public DataCube2DLayout<float> STAGES { get; set; }
 
         //*****DataSet4
@@ -121,47 +121,55 @@ namespace Heiflow.Models.Subsurface
         /// [1,nperiod,3] (ITMP,ITMP1, LWRT )
         /// </summary>
         /// 
-       [StaticVariableItem]
-       [Browsable(false)]
-       public DataCube<int> ITMP { get; set; }
+        [StaticVariableItem]
+        [Browsable(false)]
+        public DataCube<int> ITMP { get; set; }
 
         //*****DataSet5
         /// <summary>
         ///[nlayer,1,nactcell]   0, the grid cell is not a lake volume cell. > 0, its value is the identification number of the lake occupying the grid cell. 
         /// </summary>
-       [StaticVariableItem]
-       [Browsable(false)]
-       public DataCube<int> LKARR { get; set; }
+        [StaticVariableItem]
+        [Browsable(false)]
+        public DataCube<int> LKARR { get; set; }
+
+        // /// <summary>
+        ///// /[nlayer,nrow,ncol]   0, the grid cell is not a lake volume cell. > 0, its value is the identification number of the lake occupying the grid cell. 
+        // /// </summary>
+        // /// 
+        //[StaticVariableItem]
+        //[Browsable(false)]
+        //public DataCube2DLayout<int> LKARR { get; set; }
 
         //*****DataSet6
         /// <summary>
-       /// [nlayer,1,nactcell]. the lakebed leakance that will be assigned to lake/aquifer interfaces that occur in the corresponding grid cell.
-        /// </summary>
-        /// 
-       [StaticVariableItem]
-       [Browsable(false)]
-       public DataCube<float> BDLKNC { get; set; }
-
-        /// <summary>
-       /// [nsp,1,1] The number of sublake systems if coalescing/dividing lakes are to be simulated (only in transient runs). Enter 0 if no sublake systems are to be simulated.
+        /// [nlayer,1,nactcell]. the lakebed leakance that will be assigned to lake/aquifer interfaces that occur in the corresponding grid cell.
         /// </summary>
         /// 
         [StaticVariableItem]
         [Browsable(false)]
-       public DataCube2DLayout<int> NSLMS { get; set; }
+        public DataCube<float> BDLKNC { get; set; }
+
+        /// <summary>
+        /// [nsp,1,1] The number of sublake systems if coalescing/dividing lakes are to be simulated (only in transient runs). Enter 0 if no sublake systems are to be simulated.
+        /// </summary>
+        /// 
+        [StaticVariableItem]
+        [Browsable(false)]
+        public DataCube2DLayout<int> NSLMS { get; set; }
 
         /// <summary>
         /// [np,nlake,6]: PRCPLK EVAPLK RNF WTHDRW [SSMN] [SSMX]
         /// </summary>
         /// 
-       [StaticVariableItem]
-       [Browsable(false)]
+        [StaticVariableItem]
+        [Browsable(false)]
         public DataCube2DLayout<float> WSOUR { get; set; }
         [Browsable(false)]
         /// <summary>
         /// [nlake][num_lake_cell]. 
         /// </summary>
-       public Dictionary<int,List<int>> LakeSerialIndex { get; set; }
+        public Dictionary<int, List<int>> LakeCellID { get; set; }
         #endregion
 
         public override void Initialize()
@@ -177,16 +185,42 @@ namespace Heiflow.Models.Subsurface
         {
             base.New();
         }
+        public void ChangeIBound()
+        {
+            var mf = (Owner as Modflow);
+            var grid = (Owner.Grid as MFGrid);
+            if (File.Exists(FileName))
+            {
+                StreamReader sr = new StreamReader(FileName);
+                string line = sr.ReadLine();
+                for (int i = 0; i < 4; i++)
+                {
+                    line = sr.ReadLine();
+                }
+                var mat = ReadInternalMatrix<int>(sr);
+                for (int i = 0; i < grid.RowCount; i++)
+                {
+                    for (int j = 0; j < grid.ColumnCount; j++)
+                    {
+                        if (mat[0, i, j] != 0)
+                        {
+                            grid.IBound[0, i, j] = 1;
+                        }
+                    }
+                }
+                sr.Close();
+            }
+        }
         public override LoadingState Load(ICancelProgressHandler progresshandler)
         {
             var mf = (Owner as Modflow);
-             var grid = (Owner.Grid as MFGrid);
+            var grid = (Owner.Grid as MFGrid);
             int nsp = TimeService.StressPeriods.Count;
-            int nlayer= grid.ActualLayerCount;
+            int nlayer = grid.ActualLayerCount;
             var result = LoadingState.Normal;
             if (File.Exists(FileName))
             {
-                LakeSerialIndex.Clear();
+                LakeCellID.Clear();
                 StreamReader sr = new StreamReader(FileName);
                 try
                 {
@@ -223,7 +257,7 @@ namespace Heiflow.Models.Subsurface
                     {
                         Name = "Lake ID",
                         Variables = new string[nlayer],
-                        ZeroDimension = DimensionFlag.Spatial
+                        ZeroDimension = DimensionFlag.Variable
                     };
                     for (int l = 0; l < nlayer; l++)
                     {
@@ -234,7 +268,7 @@ namespace Heiflow.Models.Subsurface
                     {
                         Name = "Leakance",
                         Variables = new string[nlayer],
-                        ZeroDimension = DimensionFlag.Spatial
+                        ZeroDimension = DimensionFlag.Variable
                     };
                     for (int l = 0; l < nlayer; l++)
                     {
@@ -298,16 +332,20 @@ namespace Heiflow.Models.Subsurface
                             }
                         }
                     }
-                    var vec = LKARR.GetVector(0, "0", ":");
-                    foreach (var id in vec.Distinct())
+                    var vec = LKARR.ILArrays[0][0, ":"];
+                    var lake_id_list = vec.Distinct();
+                    foreach (var id in lake_id_list)
                     {
-                        LakeSerialIndex.Add(id, new List<int>());
+                        if(id != 0)
+                            LakeCellID.Add(id, new List<int>());
                     }
-                    for (int i = 0; i < vec.Count(); i++)
+
+                    for (int i = 0; i < grid.ActiveCellCount; i++)
                     {
-                        if (vec[i] != 0)
+                        if (LKARR[0, 0, i] != 0)
                         {
-                            LakeSerialIndex[vec[i]].Add(i);
+                            var id = grid.Topology.ActiveCellID[i];
+                            LakeCellID[LKARR[0, 0, i]].Add(id);
                         }
                     }
                     result = LoadingState.Normal;
@@ -359,7 +397,7 @@ namespace Heiflow.Models.Subsurface
                     for (int j = 0; j < grid.ActualLayerCount; j++)
                     {
                         cmt = " # LKARR  of Layer " + (j + 1);
-                        WriteSerialArray<int>(sw, LKARR, j,0, "F0", cmt);
+                        WriteSerialArray<int>(sw, LKARR, j, 0, "F0", cmt);
                     }
                     for (int j = 0; j < grid.ActualLayerCount; j++)
                     {
@@ -395,19 +433,19 @@ namespace Heiflow.Models.Subsurface
             fs.DataTable.Columns.Add(new DataColumn("COL", typeof(int)));
             fs.DataTable.Columns.Add(new DataColumn(RegularGrid.ParaValueField, typeof(double)));
 
-            foreach(var id in LakeSerialIndex.Keys)
+            foreach (var id in LakeCellID.Keys)
             {
-                foreach(var hru_index in LakeSerialIndex[id])
+                foreach (var cell_id in LakeCellID[id])
                 {
-                    var loc = grid.Topology.ActiveCellLocation[hru_index];
-                    var vertices = grid.LocateNodes(loc[1],loc[0]);
+                    var loc = grid.Topology.CellID2MatLocation[cell_id];
+                    var vertices = grid.LocateNodes(loc[1], loc[0]);
                     ILinearRing ring = new LinearRing(vertices);
                     Polygon geom = new Polygon(ring);
                     IFeature feature = fs.AddFeature(geom);
                     feature.DataRow.BeginEdit();
                     feature.DataRow["CELL_ID"] = grid.Topology.GetID(loc[1], loc[0]);
-                    feature.DataRow["HRU_ID"] = hru_index+1;
-                    feature.DataRow["ROW"] = loc[0]+1;
+                    feature.DataRow["HRU_ID"] = grid.Topology.CellID2CellIndex[cell_id] + 1;
+                    feature.DataRow["ROW"] = loc[0] + 1;
                     feature.DataRow["COL"] = loc[1] + 1;
                     feature.DataRow[RegularGrid.ParaValueField] = 0;
                     feature.DataRow.EndEdit();
@@ -440,22 +478,22 @@ namespace Heiflow.Models.Subsurface
 
         public void BuildTopology()
         {
-            var grid = Grid as RegularGrid;
-            _LakeTopo = new RegularGridTopology();
-            _LakeTopo.ActiveCellLocation = new int[NLAKES][];
-            _LakeTopo.ActiveCellID = new int[NLAKES];
-            _LakeTopo.RowCount = grid.RowCount;
-            _LakeTopo.ColumnCount = grid.ColumnCount;
-            _LakeTopo.ActiveCellCount = NLAKES;
+            //var grid = Grid as RegularGrid;
+            //_LakeTopo = new RegularGridTopology();
+            //_LakeTopo.ActiveCellLocation = new int[NLAKES][];
+            //_LakeTopo.ActiveCellID = new int[NLAKES];
+            //_LakeTopo.RowCount = grid.RowCount;
+            //_LakeTopo.ColumnCount = grid.ColumnCount;
+            //_LakeTopo.ActiveCellCount = NLAKES;
 
-            int i = 0;
-            foreach (var newreach in LakeSerialIndex.Values)
-            {
-                var loc = grid.Topology.ActiveCellLocation[newreach[0]];
-                _LakeTopo.ActiveCellLocation[i] = loc;
-                _LakeTopo.ActiveCellID[i] = grid.Topology.GetID(loc[0], loc[1]);
-                i++;
-            }
+            //int i = 0;
+            //foreach (var newreach in LakeCellID.Values)
+            //{
+            //    var loc = grid.Topology.ActiveCellLocation[newreach[0]];
+            //    _LakeTopo.ActiveCellLocation[i] = loc;
+            //    _LakeTopo.ActiveCellID[i] = grid.Topology.GetID(loc[0], loc[1]);
+            //    i++;
+            //}
 
         }
     }

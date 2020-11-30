@@ -24,3 +24,4 @@ src/Bin/Debug/Heiflow.AI.dll
 src/Heiflow.AI/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 *.dll
 src/Heiflow.Models/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+src/Bin/Debug/External/Echarts/Echarts.zip

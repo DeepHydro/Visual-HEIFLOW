@@ -57,7 +57,7 @@ namespace Heiflow.Applications.Spatial
             Configure();
         }
 
-        public IFeatureSet Grid
+        public IFeatureSet GridFeature
         {
             get;
             set;
@@ -86,20 +86,36 @@ namespace Heiflow.Applications.Spatial
             var _chart = _vhf.ShellService.WinChart;
             var data_service = _vhf.ProjectController.ActiveDataService;
 
-            if (Grid != null && _chart != null && data_service.Source != null)
+            if (GridFeature != null && _chart != null && data_service.Source != null)
             {
-                var selected = Grid.Select(strict, out tolerant);
+                var grid = _vhf.ProjectController.Project.Model.Grid;
+                var selected = GridFeature.Select(strict, out tolerant);
                 if (selected.Count > 0)
                 {
                     var fea = selected[0];
                     var hru = int.Parse(fea.DataRow["HRU_ID"].ToString());
                     int ntime = data_service.Source.Size[1];
+                    int ncell = data_service.Source.Size[2];
+                    int nhru = GridFeature.NumRows();
                     float[] yy = new float[ntime];
-                    for (int i = 0; i < ntime; i++)
+                    var sery_title = "";
+                    if (ncell >= nhru * (grid.SelectedLayerToShown+1))
                     {
-                        yy[i] = data_service.Source[data_service.Source.SelectedVariableIndex, i, hru - 1];
+                        for (int i = 0; i < ntime; i++)
+                        {
+                            yy[i] = data_service.Source[data_service.Source.SelectedVariableIndex, i, (hru - 1) + grid.SelectedLayerToShown * nhru];
+                        }
+                        sery_title = string.Format("CELL {0} in Layer {1}", hru, grid.SelectedLayerToShown + 1);
                     }
-                    _chart.Plot<float>(data_service.Source.DateTimes, yy, "HRU_" + hru.ToString(), SeriesChartType.FastLine);
+                    else
+                    {
+                        for (int i = 0; i < ntime; i++)
+                        {
+                            yy[i] = data_service.Source[data_service.Source.SelectedVariableIndex, i, hru - 1];
+                        }
+                        sery_title = string.Format("CELL {0} ", hru);
+                    }
+                    _chart.Plot<float>(data_service.Source.DateTimes, yy, sery_title, SeriesChartType.FastLine);
                 }
             }
         }

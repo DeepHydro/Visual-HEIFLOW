@@ -127,7 +127,7 @@ namespace Heiflow.Models.Subsurface
 
         public override string CreateFeature(ProjectionInfo proj_info, string directory)
         {
-            if (FluxRates != null)
+            if (FluxRates != null && this.State== ModelObjectState.Ready)
             {
                 string filename = Path.Combine(directory, this.Name + ".shp");
                 var grid = (Owner as Modflow).Grid as MFGrid;

@@ -99,6 +99,10 @@ namespace Heiflow.Models.Subsurface
                 model.TimeService.PopulateIOTimelineFromSP();
                 model.Grid.Projection = property.Projection;
             }
+            else
+            {
+                OnLoadFailed("Fatal error.");
+            }
         }
 
         public LoadingState Load(IProject project, ICancelProgressHandler progress)
@@ -152,7 +156,7 @@ namespace Heiflow.Models.Subsurface
 
         public void Clear()
         {
-            throw new NotImplementedException();
+           // throw new NotImplementedException();
         }
     }
 }

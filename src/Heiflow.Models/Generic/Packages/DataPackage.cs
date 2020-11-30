@@ -68,6 +68,9 @@ namespace Heiflow.Models.Generic
             ScaleFactor = 1.0;
             Description = "This is a data package";
             UseSpecifiedFile = false;
+            LoadAllLayers = false;
+            LoadSpecifiedLayer = 0;
+            SelectedLayerToShown = 0;
         }
 
         [Category("General")]
@@ -249,22 +252,42 @@ namespace Heiflow.Models.Generic
             set;
         }
 
-       [Category("File")]
-        public string  LocalFileName
-        {
-            get
-            {
-                if(UseSpecifiedFile)
-                {
-                    return SpecifiedFileName;
-                }
-                else
-                {
-                    return FileName;
-                }
-            }
-        }
+           [Category("File")]
+           public string LocalFileName
+           {
+               get
+               {
+                   if (UseSpecifiedFile)
+                   {
+                       return SpecifiedFileName;
+                   }
+                   else
+                   {
+                       return FileName;
+                   }
+               }
+           }
 
+           [Category("Layer")]
+           public bool LoadAllLayers
+           {
+               get;
+               set;
+           }
+           [Category("Layer")]
+           [Description("Selected layer index to be showen")]
+           public int SelectedLayerToShown
+           {
+               get;
+               set;
+           }
+           [Category("Layer")]
+           [Description("Load data for a specfied layer. The layer index starts from 0")]
+           public int LoadSpecifiedLayer
+           {
+               get;
+               set;
+           }
         public abstract  bool Scan();
 
         public abstract LoadingState Load(int var_index, ICancelProgressHandler progess);

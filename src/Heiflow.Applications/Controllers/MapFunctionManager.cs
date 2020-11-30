@@ -49,7 +49,7 @@ namespace Heiflow.Applications.Controllers
         {
             var func = from ff in Map.MapFunctions where ff.Name == "MapFunctionActiveIdentify" select ff;
             if (func.Count() == 1)
-                (func.First() as MapFunctionActiveIdentify).Grid = project.GridLayer.FeatureSet;
+                (func.First() as MapFunctionActiveIdentify).GridFeature = project.GridLayer.FeatureSet;
         }
     }
 }

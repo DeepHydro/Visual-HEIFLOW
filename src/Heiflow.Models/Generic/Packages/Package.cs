@@ -479,7 +479,10 @@ namespace Heiflow.Models.Generic
         {
             IsDirty = false;
             _IsUsed = true;
-            State = ModelObjectState.Ready;
+            if (state.State == LoadingState.Normal)
+                State = ModelObjectState.Ready;
+            else
+                State = ModelObjectState.Error;
           //  string msg = string.Format("{0} loaded", this.Name);
             if (Loaded != null)
             {

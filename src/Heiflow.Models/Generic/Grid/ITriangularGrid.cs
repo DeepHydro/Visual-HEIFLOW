@@ -41,7 +41,7 @@ namespace Heiflow.Models.Generic
     {
         int VertexCount { get; set; }
 
-        int CellCount { get; set; }
+       // int CellCount { get; set; }
 
         DataCube<float> Elevations { get; set; }
 

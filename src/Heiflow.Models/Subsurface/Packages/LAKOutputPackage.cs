@@ -74,7 +74,7 @@ namespace Heiflow.Models.Subsurface
             NumTimeStep = TimeService.GetIOTimeLength(this.Owner.WorkDirectory);
             _StartLoading = TimeService.Start;
             MaxTimeStep = NumTimeStep; 
-            if (File.Exists(OutputFilesInfo[0].FileName))
+            if (OutputFilesInfo.Count>0 && File.Exists(OutputFilesInfo[0].FileName))
             {
                 Sites.Clear();
                 for (int i = 0; i < nsite; i++)

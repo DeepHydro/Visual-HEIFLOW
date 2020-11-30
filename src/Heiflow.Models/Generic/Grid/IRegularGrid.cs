@@ -50,14 +50,6 @@ namespace Heiflow.Models.Generic
             set;
             get;
         }
-
-
-        int ActiveCellCount
-        {
-            set;
-            get;
-        }
-
         /// <summary>
         /// 3DMat[LayerCount,1,ActiveCellCount]
         /// </summary>
@@ -70,6 +62,14 @@ namespace Heiflow.Models.Generic
         /// 3DMat[ ActualLayerCount,RowCount, ColumnCount,]:
         /// </summary>
         DataCube<float> IBound
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// 3DMat[ ActualLayerCount,RowCount, ColumnCount,]:
+        /// </summary>
+        DataCube<float> MFIBound
         {
             get;
             set;

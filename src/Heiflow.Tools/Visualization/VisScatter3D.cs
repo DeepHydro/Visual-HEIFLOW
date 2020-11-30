@@ -62,16 +62,19 @@ namespace Heiflow.Tools.Visualization
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
             TimeStep = 0;
-            NoDataValue = 9999;
+            NoDataValue = 0;
             FileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "scatter3d.html");
             MinHeight = 600;
             MinWidth = 800;
-            MaxSymbolSize = 5;
-            MinSymbolSize = 0.5f;
+            MaxSymbolSize = 25;
+            MinSymbolSize = 5;
+            Beta = 80;
+            MaxDistance = 130;
+            MinDistance = 90;
         }
         [Category("Data")]
-        [Description("The input data cube. Its sytle should be mat[0][0][:]")]
-        public string InputVector
+        [Description("The input data cube. Its sytle should be mat[:][0][:]")]
+        public string InputDataCube
         {
             get;
             set;
@@ -83,13 +86,7 @@ namespace Heiflow.Tools.Visualization
             get;
             set;
         }
-        [Description("The grid layer starting from 0")]
-        [Category("Data")]
-        public int Layer
-        {
-            get;
-            set;
-        }
+
         [Description("The time intel in the unit of seconds.")]
         [Category("Data")]
         public double NoDataValue
@@ -118,13 +115,6 @@ namespace Heiflow.Tools.Visualization
             get;
             set;
         }
-        [Description("The min size of symbol")]
-        [Category("Symbol Effect")]
-        public bool UseGridElevation
-        {
-            get;
-            set;
-        }
 
         [Description("The max size of symbol")]
         [Category("Symbol Effect")]
@@ -140,7 +130,27 @@ namespace Heiflow.Tools.Visualization
             get;
             set;
         }
- 
+        [Description("")]
+        [Category("View")]
+        public float Beta
+        {
+            get;
+            set;
+        }
+        [Description("")]
+        [Category("View")]
+        public float MaxDistance
+        {
+            get;
+            set;
+        }
+        [Description("")]
+        [Category("View")]
+        public float MinDistance
+        {
+            get;
+            set;
+        }
         [Category("File")]
         [Description("The output file name")]
         [EditorAttribute(typeof(SaveFileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
@@ -152,7 +162,7 @@ namespace Heiflow.Tools.Visualization
         }
         public override void Initialize()
         {
-            this.Initialized = Validate(InputVector);
+            this.Initialized = Validate(InputDataCube);
         }
 
         public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
@@ -167,7 +177,8 @@ namespace Heiflow.Tools.Visualization
             template.Initialize(echart);
 
             string newline = "";
-            var vecx = GetVector(InputVector);
+            var var_index = 0;
+            var vecx = Get3DMat(InputDataCube, ref var_index);
             StreamWriter sw = new StreamWriter(FileName);
             try
             {
@@ -189,52 +200,40 @@ namespace Heiflow.Tools.Visualization
 
                 double valMax = float.MinValue;
                 double valMin = float.MaxValue;
+                float cellv = 0;
                 //int k = 0;
                 //var mat_x = grid.ToMatrix<float>(vecx, 0);
 
-                if (UseGridElevation)
+                for (int j = 0; j < grid.ColumnCount; j++)
                 {
-                    for (int i = 0; i < vecx.Length; i++)
+                    for (int i = 0; i < grid.RowCount; i++)
                     {
-                        var loc = grid.Topology.ActiveCellLocation[i];
-                        newline = string.Format("data[{0}] = [{1},{2},{3},{4}];", i, loc[0], loc[1], grid.Elevations[Layer,0,i], vecx[i]);
-                        valMax = System.Math.Max(valMax, vecx[i]);
-                        valMin = System.Math.Min(valMin, vecx[i]);
-                        sw.WriteLine(newline);
-                        progress = i * 100 / grid.ColumnCount;
-                        //cancelProgressHandler.Progress("Package_Tool", progress, "Processing column: " + (i + 1));
+                        var hruid = grid.Topology.GetSerialIndex(i, j);
+                        if (hruid < 0)
+                        {
+                            for (int k = 0; k < grid.ActualLayerCount; k++)
+                            {
+                                newline = string.Format("data.push([{0}, {1}, {2}, {3}]);", i, j, k, NoDataValue);
+                                sw.WriteLine(newline);
+                            }
+                        }
+                        else
+                        {
+                            for (int k = 0; k < grid.ActualLayerCount; k++)
+                            {
+                                cellv = vecx[var_index, TimeStep, hruid + (grid.ActualLayerCount - k - 1) * grid.ActiveCellCount];
+                                valMax = System.Math.Max(valMax, cellv);
+                                valMin = System.Math.Min(valMin, cellv);
+                                newline = string.Format("data.push([{0}, {1}, {2}, {3}]);", i, j, k, cellv);
+                                sw.WriteLine(newline);
+                            }
+                        }
                     }
+                    progress = j * 100 / grid.RowCount;
+                    cancelProgressHandler.Progress("Package_Tool", progress, "Processing column: " + (j + 1));
                 }
-                else
-                {
-                    for (int i = 0; i < vecx.Length; i++)
-                    {
-                        var loc = grid.Topology.ActiveCellLocation[i];
-                        newline = string.Format("data[{0}] = [{1},{2},{3},{4}];", i, loc[0], loc[1], 1, vecx[i]);
-                        valMax = System.Math.Max(valMax, vecx[i]);
-                        valMin = System.Math.Min(valMin, vecx[i]);
-                        sw.WriteLine(newline);
-                        progress = i * 100 / grid.ColumnCount;
-                        //cancelProgressHandler.Progress("Package_Tool", progress, "Processing column: " + (i + 1));
-                    }
-                }
-                //for (int i = 0; i < grid.ColumnCount; i++)
-                //{
-                //    for (int j = 0; j < grid.RowCount; j++)
-                //    {
-                //        var mag = System.Math.Round(mat_x[j][i], 4);
-                //        if (mag != NoDataValue)
-                //        {
-                //            newline = string.Format("data[{0}] = [{1},{2},{3},{4}];", k, i, grid.RowCount - 1 - j, grid.GetElevationAt(j, i, Layer), mag);
-                //            valMax = System.Math.Max(valMax, mag);
-                //            valMin = System.Math.Min(valMin, mag);
-                //            sw.WriteLine(newline);
-                //            k++;
-                //        }
-                //    }
-                //    progress = i * 100 / grid.ColumnCount;
-                //    cancelProgressHandler.Progress("Package_Tool", progress, "Processing column: " + (i + 1));
-                //}
+
+
                 sw.WriteLine("return data;");
                 sw.WriteLine("}");
                 newline = string.Format("var valMax = {0};", valMax);
@@ -253,13 +252,33 @@ namespace Heiflow.Tools.Visualization
                     newline = line;
                     if (line.Contains("symbolSize"))
                     {
-                        newline = string.Format("symbolSize: [{0}, {1}],", MinSymbolSize, MaxSymbolSize);
+                        newline = string.Format("\t\t\t\tsymbolSize: [{0}, {1}],", MinSymbolSize, MaxSymbolSize);
+                    }
+                    if (line.Contains("min:"))
+                    {
+                        newline = string.Format("\t\t\t\tmin: {0},", valMin);
+                    }
+                    if (line.Contains("max:"))
+                    {
+                        newline = string.Format("\t\t\t\tmax: {0},", valMax);
+                    }
+                    if (line.Contains("beta:"))
+                    {
+                        newline = string.Format("\t\t\tbeta: {0},", Beta);
+                    }
+                    if (line.Contains("maxDistance:"))
+                    {
+                        newline = string.Format("\t\t\tmaxDistance: {0},", MaxDistance);
+                    }
+                    if (line.Contains("minDistance:"))
+                    {
+                        newline = string.Format("\t\t\tminDistance: {0},", MinDistance);
                     }
                     sw.WriteLine(newline);
                 }
                 isgenerated = true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 isgenerated = false;
                 cancelProgressHandler.Progress("Package_Tool", 100, "Faile. Error message: " + ex.Message);
@@ -267,7 +286,7 @@ namespace Heiflow.Tools.Visualization
             finally
             {
                 sw.Close();
-            }      
+            }
             return true;
         }
 

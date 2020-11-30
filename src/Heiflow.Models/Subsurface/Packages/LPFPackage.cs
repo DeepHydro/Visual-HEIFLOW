@@ -306,7 +306,8 @@ namespace Heiflow.Models.Subsurface
                     for (int l = 0; l < grid.ActualLayerCount; l++)
                     {
                         ReadSerialArray(sr, HK, l, 0);
-                        ReadSerialArray(sr, HANI, l, 0);
+                        if (CHANI[l] < 0)
+                            ReadSerialArray(sr, HANI, l, 0);
                         ReadSerialArray(sr, VKA, l, 0);
                         ReadSerialArray(sr, SS, l, 0);
 

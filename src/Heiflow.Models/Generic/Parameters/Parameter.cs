@@ -321,6 +321,13 @@ namespace Heiflow.Models.Generic.Parameters
             get;
             set;
         }
+        [XmlIgnore]
+        [Browsable(false)]
+        public int SelectedLayerToShown
+        {
+            get;
+            set;
+        }
         protected virtual void Init()
         {
             VariableType = ParameterType.Parameter;

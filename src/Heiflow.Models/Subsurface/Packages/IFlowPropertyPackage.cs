@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DotSpatial.Data;
+using System;
 namespace Heiflow.Models.Subsurface
 {
     public interface IFlowPropertyPackage
@@ -17,5 +18,6 @@ namespace Heiflow.Models.Subsurface
         Heiflow.Core.Data.DataCube<float> SY { get; set; }
         Heiflow.Core.Data.DataCube<float> VKA { get; set; }
         Heiflow.Core.Data.DataCube<float> WETDRY { get; set; }
+        void Save(ICancelProgressHandler progress);
     }
 }

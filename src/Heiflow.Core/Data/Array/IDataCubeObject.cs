@@ -52,6 +52,7 @@ namespace Heiflow.Core.Data
         /// index for the second dimension. Selecting all space cells by setting to -1
         /// </summary>
         int SelectedSpaceIndex { get; set; }
+        int SelectedLayerToShown { get; set; }
         DateTime[] DateTimes { get; set; }
         int[] Size { get; }
         string[] Variables { get; set; }
