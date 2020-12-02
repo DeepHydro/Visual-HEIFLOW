@@ -38,6 +38,7 @@ using Heiflow.Models.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -77,18 +78,21 @@ namespace Heiflow.Models.Generic.Project
 
 
         [XmlElement]
+        [Browsable(false)]
         public string Name
         {
             get;
             set;
         }
         [XmlIgnore]
+        [Browsable(false)]
         public string NameToShown
         {
             get;
             protected set;
         }
         [XmlElement]
+        [Category("General")]
         public string Description
         {
             get;
@@ -96,18 +100,21 @@ namespace Heiflow.Models.Generic.Project
         }
 
         [XmlIgnore]
+        [Browsable(false)]
         public System.Drawing.Image Icon
         {
             get;
             set;
         }
         [XmlIgnore]
+        [Browsable(false)]
         public System.Drawing.Image LargeIcon
         {
             get;
             set;
         }
         [XmlIgnore]
+        [Browsable(false)]
         public IBasicModel Model
         {
             get
@@ -122,12 +129,14 @@ namespace Heiflow.Models.Generic.Project
             }
         }
         [XmlIgnore]
+        [Browsable(false)]
         public IMap Map
         {
             get;
             set;
         }
         [XmlIgnore]
+        [Browsable(false)]
         public string Token
         {
             get;
@@ -137,7 +146,8 @@ namespace Heiflow.Models.Generic.Project
         /// <summary>
         /// Full project file path without project file name
         /// </summary>
-          [XmlIgnore]
+        [XmlIgnore]
+        [Browsable(false)]
         public string AbsolutePathToProjectFile
         {
             get;
@@ -148,6 +158,7 @@ namespace Heiflow.Models.Generic.Project
         /// Full map file name
         /// </summary>
         [XmlElement]
+        [Browsable(false)]
         public string RelativeMapFileName
         {
             get
@@ -163,6 +174,7 @@ namespace Heiflow.Models.Generic.Project
         /// Full map file name
         /// </summary>
         [XmlIgnore]
+        [Browsable(false)]
         public string FullMapFileName
         {
             get
@@ -177,6 +189,7 @@ namespace Heiflow.Models.Generic.Project
         /// Relative control file name.
         /// </summary>
         [XmlElement]
+        [Browsable(false)]
         public string RelativeControlFileName
         {
             get
@@ -193,6 +206,7 @@ namespace Heiflow.Models.Generic.Project
         /// Full control file name. This includes path, file name and extension
         /// </summary>
         [XmlIgnore]
+        [Browsable(false)]
         public string FullControlFileName
         {
             get
@@ -207,6 +221,7 @@ namespace Heiflow.Models.Generic.Project
         /// Full project File name
         /// </summary>
         [XmlIgnore]
+        [Browsable(false)]
         public string FullProjectFileName
         {
             get;
@@ -216,6 +231,7 @@ namespace Heiflow.Models.Generic.Project
         /// Root directory for the project
         /// </summary>
         [XmlElement]
+        [Browsable(false)]
         public string RelativeModelWorkDirectory
         {
             get
@@ -230,7 +246,8 @@ namespace Heiflow.Models.Generic.Project
         /// <summary>
         /// Root directory for the project
         /// </summary>
-         [XmlIgnore]
+        [XmlIgnore]
+        [Browsable(false)]
         public string FullModelWorkDirectory
         {
             get
@@ -242,6 +259,7 @@ namespace Heiflow.Models.Generic.Project
             }
         }
         [XmlIgnore]
+        [Browsable(false)]
         public string ModelExeFileName
         {
             get
@@ -256,6 +274,7 @@ namespace Heiflow.Models.Generic.Project
         /// </summary>
         /// 
         [XmlElement]
+        [Browsable(false)]
         public string GridFeatureFilePath
         {
             get;
@@ -265,6 +284,7 @@ namespace Heiflow.Models.Generic.Project
         /// Relative file name of the grid centroid shapefile
         /// </summary>
         [XmlElement]
+        [Browsable(false)]
         public string CentroidFeatureFilePath
         {
             get;
@@ -272,6 +292,7 @@ namespace Heiflow.Models.Generic.Project
         }
 
         [XmlArrayItem]
+        [Browsable(false)]
         public ObservableCollection<FeatureCoverage> FeatureCoverages
         {
             get;
@@ -279,20 +300,15 @@ namespace Heiflow.Models.Generic.Project
         }
 
         [XmlArrayItem]
+        [Browsable(false)]
         public ObservableCollection<RasterCoverage> RasterLayerCoverages
         {
             get;
             set;
         }
-   
-        //[XmlArrayItem]
-        //public ObservableCollection<FeatureElement> PackageFeatures
-        //{
-        //    get;
-        //    set;
-        //}
 
         [XmlElement]
+        [Browsable(false)]
         public ODMSource ODMSource
         {
             get;
@@ -300,6 +316,7 @@ namespace Heiflow.Models.Generic.Project
         }
 
         [XmlIgnore]
+        [Browsable(false)]
         public string GeoSpatialDirectory
         {
             get
@@ -309,6 +326,7 @@ namespace Heiflow.Models.Generic.Project
         }
 
         [XmlIgnore]
+        [Browsable(false)]
         public string ProcessingDirectory
         {
             get
@@ -318,6 +336,7 @@ namespace Heiflow.Models.Generic.Project
         }
 
         [XmlIgnore]
+        [Browsable(false)]
         public string InputDirectory
         {
             get
@@ -326,6 +345,7 @@ namespace Heiflow.Models.Generic.Project
             }
         }
         [XmlIgnore]
+        [Browsable(false)]
         public string MFInputDirectory
         {
             get
@@ -334,6 +354,7 @@ namespace Heiflow.Models.Generic.Project
             }
         }
         [XmlIgnore]
+        [Browsable(false)]
         public string PRMSInputDirectory
         {
             get
@@ -342,6 +363,7 @@ namespace Heiflow.Models.Generic.Project
             }
         }
         [XmlIgnore]
+        [Browsable(false)]
         public string ExtensionInputDirectory
         {
             get
@@ -350,6 +372,7 @@ namespace Heiflow.Models.Generic.Project
             }
         }
         [XmlIgnore]
+        [Browsable(false)]
         public string DatabaseDirectory
         {
             get
@@ -358,6 +381,7 @@ namespace Heiflow.Models.Generic.Project
             }
         }
         [XmlIgnore]
+        [Browsable(false)]
         public string OutputDirectory
         {
             get
@@ -367,6 +391,7 @@ namespace Heiflow.Models.Generic.Project
         }
 
         [XmlIgnore]
+        [Browsable(false)]
         public MapPolygonLayer GridLayer
         {
             get
@@ -376,6 +401,7 @@ namespace Heiflow.Models.Generic.Project
         }
 
         [XmlIgnore]
+        [Browsable(false)]
         public MapPointLayer CentroidLayer
         {
             get
@@ -384,6 +410,7 @@ namespace Heiflow.Models.Generic.Project
             }
         }
         [XmlIgnore]
+        [Browsable(false)]
         public List<ITimeService> TimeServices
         {
             get
@@ -392,6 +419,7 @@ namespace Heiflow.Models.Generic.Project
             }
         }
         [XmlIgnore]
+        [Browsable(false)]
         public bool IsDirty
         {
             get
@@ -410,6 +438,7 @@ namespace Heiflow.Models.Generic.Project
             protected set;
         }
         [XmlElement]
+        [Browsable(false)]
         public string SelectedVersion
         {
             get
@@ -427,13 +456,13 @@ namespace Heiflow.Models.Generic.Project
             if (ModelChanged != null)
                 ModelChanged(this, EventArgs.Empty);
         }
- 
+
         public virtual void Initialize()
         {
             _IsDirty = false;
         }
 
-        public abstract bool New(ICancelProgressHandler progress,bool ImportFromExistingModel);
+        public abstract bool New(ICancelProgressHandler progress, bool ImportFromExistingModel);
         public abstract void Clear();
         public abstract void AttachFeatures();
         public abstract void CreateGridFeature();
@@ -443,13 +472,13 @@ namespace Heiflow.Models.Generic.Project
             var buf = from fea in FeatureCoverages where fea.LegendText == legendtext select fea;
             if (buf.Any())
             {
-                return   true;
+                return true;
             }
             else
             {
                 var rasc = from ras in this.RasterLayerCoverages where ras.LegendText == legendtext select ras;
                 return rasc.Any();
-            }       
+            }
         }
     }
 }

@@ -36,6 +36,7 @@ using Heiflow.Models.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Drawing;
 using System.Linq;
@@ -50,64 +51,95 @@ namespace Heiflow.Models.Generic.Project
         /// <summary>
         /// Relative path of the map file which will be saved in the project file
         /// </summary>
+        /// 
+        [Browsable(false)]
         string RelativeMapFileName { get; set; }
         /// <summary>
         /// Full path  of the map file
         /// </summary>
-        string FullMapFileName { get;}
+        string FullMapFileName { get; }
         /// <summary>
         /// Relative path of the control file which will be saved in the project file
         /// </summary>
+        /// 
+        [Browsable(false)]
         string RelativeControlFileName { get; set; }
-        ///// <summary>
-        ///// Full path  of the control file
-        ///// </summary>
-        //string ControlFileName { get; set; }
         /// <summary>
         /// Full path of the project file
         /// </summary>
+        /// 
+        [Browsable(false)]
         string FullProjectFileName { get; set; }
         /// <summary>
         /// The project name 
         /// </summary>
+        /// 
+        [Browsable(false)]
         string Name { get; set; }
         /// <summary>
         /// the  name to be shown in the project explorer
         /// </summary>
+        /// 
+        [Browsable(false)]
         string NameToShown { get; }
         /// <summary>
         /// Gets the description of the project
         /// </summary>
+        /// 
+        [Category("General")]
         string Description { get; set; }
         /// <summary>
         /// Gets the absolute path to project file.
         /// </summary>
+        /// 
+        [Browsable(false)]
         string AbsolutePathToProjectFile { get; set; }
         /// <summary>
         /// the directory for running a model
         /// </summary>
         /// 
-        string [] SupportedVersions { get; }
+        [Browsable(false)]
+        string[] SupportedVersions { get; }
+        [Browsable(false)]
         string SelectedVersion { get; set; }
+        [Browsable(false)]
         string FullModelWorkDirectory { get; }
+        [Browsable(false)]
         string RelativeModelWorkDirectory { get; set; }
+        [Browsable(false)]
         string ModelExeFileName { get; }
+        [Browsable(false)]
         string Token { get; set; }
+        [Browsable(false)]
         string GeoSpatialDirectory { get; }
+        [Browsable(false)]
         string ProcessingDirectory { get; }
+        [Browsable(false)]
         string DatabaseDirectory { get; }
+        [Browsable(false)]
         string GridFeatureFilePath { get; set; }
+        [Browsable(false)]
         string CentroidFeatureFilePath { get; set; }
+        [Browsable(false)]
         bool IsDirty { get; set; }
+        [Browsable(false)]
         Image Icon { get; set; }
+        [Browsable(false)]
         Image LargeIcon { get; set; }
+        [Browsable(false)]
         IBasicModel Model { get; set; }
+        [Browsable(false)]
         IMap Map { get; set; }
+        [Browsable(false)]
         MapPolygonLayer GridLayer { get; }
+        [Browsable(false)]
         MapPointLayer CentroidLayer { get; }
+        [Browsable(false)]
         ObservableCollection<FeatureCoverage> FeatureCoverages { get; set; }
-        ObservableCollection<RasterCoverage> RasterLayerCoverages {get; set; } 
-        ODMSource ODMSource {get; set; }
+        [Browsable(false)]
+        ObservableCollection<RasterCoverage> RasterLayerCoverages { get; set; }
+        [Browsable(false)]
+        ODMSource ODMSource { get; set; }
         void Initialize();
         bool New(ICancelProgressHandler progress, bool ImportFromExistingModel);
         void Clear();

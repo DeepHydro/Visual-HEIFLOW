@@ -51,7 +51,7 @@
             this.labelControl1.Name = "labelControl1";
             this.labelControl1.Size = new System.Drawing.Size(109, 13);
             this.labelControl1.TabIndex = 6;
-            this.labelControl1.Text = "Copyright ©2016-2020 SUSTech. All Rights Reserved. Version 1.0.5";
+            this.labelControl1.Text = "Copyright ©2016-2020 SUSTech. All Rights Reserved. Version 1.1.0";
             // 
             // uxMessage
             // 

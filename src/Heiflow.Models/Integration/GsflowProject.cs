@@ -42,7 +42,7 @@ using System.Xml.Serialization;
 namespace Heiflow.Models.Integration
 {
      [Serializable]
-     [Export(typeof(IProject))]
+     //[Export(typeof(IProject))]
     public class GsflowProject:HeiflowProject
     {
         public GsflowProject()

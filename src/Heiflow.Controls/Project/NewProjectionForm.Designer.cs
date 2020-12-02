@@ -30,8 +30,6 @@ namespace Heiflow.Presentation.Controls.Project
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewProjectionForm));
-            this.lstPrjTemplate = new Heiflow.Controls.WinForm.Controls.MyListView();
-            this.tbModelDes = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtPrjName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -44,32 +42,10 @@ namespace Heiflow.Presentation.Controls.Project
             this.chbImprot = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.cmbVersion = new System.Windows.Forms.ComboBox();
-            this.cmbMFVersions = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
+            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            this.lstPrjTemplate = new Heiflow.Controls.WinForm.Controls.MyListView();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // lstPrjTemplate
-            // 
-            this.lstPrjTemplate.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lstPrjTemplate.HideSelection = false;
-            this.lstPrjTemplate.Location = new System.Drawing.Point(12, 8);
-            this.lstPrjTemplate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.lstPrjTemplate.Name = "lstPrjTemplate";
-            this.lstPrjTemplate.Size = new System.Drawing.Size(428, 310);
-            this.lstPrjTemplate.TabIndex = 0;
-            this.lstPrjTemplate.UseCompatibleStateImageBehavior = false;
-            this.lstPrjTemplate.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lstPrjTemplate_ItemSelectionChanged);
-            // 
-            // tbModelDes
-            // 
-            this.tbModelDes.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.tbModelDes.Location = new System.Drawing.Point(447, 8);
-            this.tbModelDes.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tbModelDes.Multiline = true;
-            this.tbModelDes.Name = "tbModelDes";
-            this.tbModelDes.Size = new System.Drawing.Size(203, 310);
-            this.tbModelDes.TabIndex = 1;
             // 
             // label1
             // 
@@ -144,8 +120,8 @@ namespace Heiflow.Presentation.Controls.Project
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.panel1.Controls.Add(this.propertyGrid1);
             this.panel1.Controls.Add(this.lstPrjTemplate);
-            this.panel1.Controls.Add(this.tbModelDes);
             this.panel1.Location = new System.Drawing.Point(-2, 0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(659, 327);
@@ -173,32 +149,29 @@ namespace Heiflow.Presentation.Controls.Project
             // cmbVersion
             // 
             this.cmbVersion.FormattingEnabled = true;
-            this.cmbVersion.Location = new System.Drawing.Point(103, 331);
+            this.cmbVersion.Location = new System.Drawing.Point(101, 333);
             this.cmbVersion.Name = "cmbVersion";
             this.cmbVersion.Size = new System.Drawing.Size(163, 28);
             this.cmbVersion.TabIndex = 6;
             // 
-            // cmbMFVersions
+            // propertyGrid1
             // 
-            this.cmbMFVersions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbMFVersions.FormattingEnabled = true;
-            this.cmbMFVersions.Items.AddRange(new object[] {
-            "MODFLOW-NWT",
-            "MODFLOW-2005"});
-            this.cmbMFVersions.Location = new System.Drawing.Point(483, 331);
-            this.cmbMFVersions.Name = "cmbMFVersions";
-            this.cmbMFVersions.Size = new System.Drawing.Size(163, 28);
-            this.cmbMFVersions.TabIndex = 6;
-            this.cmbMFVersions.SelectedIndexChanged += new System.EventHandler(this.cmbMFVersions_SelectedIndexChanged);
+            this.propertyGrid1.Location = new System.Drawing.Point(446, 8);
+            this.propertyGrid1.Name = "propertyGrid1";
+            this.propertyGrid1.Size = new System.Drawing.Size(210, 310);
+            this.propertyGrid1.TabIndex = 1;
             // 
-            // label4
+            // lstPrjTemplate
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(330, 334);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(137, 20);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "MODFLOW Version:";
+            this.lstPrjTemplate.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lstPrjTemplate.HideSelection = false;
+            this.lstPrjTemplate.Location = new System.Drawing.Point(12, 8);
+            this.lstPrjTemplate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.lstPrjTemplate.Name = "lstPrjTemplate";
+            this.lstPrjTemplate.Size = new System.Drawing.Size(428, 310);
+            this.lstPrjTemplate.TabIndex = 0;
+            this.lstPrjTemplate.UseCompatibleStateImageBehavior = false;
+            this.lstPrjTemplate.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lstPrjTemplate_ItemSelectionChanged);
             // 
             // NewProjectionForm
             // 
@@ -208,7 +181,6 @@ namespace Heiflow.Presentation.Controls.Project
             this.BackColor = System.Drawing.SystemColors.Control;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(658, 479);
-            this.Controls.Add(this.cmbMFVersions);
             this.Controls.Add(this.cmbVersion);
             this.Controls.Add(this.chbImprot);
             this.Controls.Add(this.panel1);
@@ -216,7 +188,6 @@ namespace Heiflow.Presentation.Controls.Project
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnBrowse);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtPrjDir);
@@ -231,7 +202,6 @@ namespace Heiflow.Presentation.Controls.Project
             this.Text = "New Project";
             this.Load += new System.EventHandler(this.NewPrjForm_Load);
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -240,7 +210,6 @@ namespace Heiflow.Presentation.Controls.Project
         #endregion
 
         private MyListView lstPrjTemplate;
-        private System.Windows.Forms.TextBox tbModelDes;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtPrjName;
         private System.Windows.Forms.Label label2;
@@ -253,7 +222,6 @@ namespace Heiflow.Presentation.Controls.Project
         private System.Windows.Forms.CheckBox chbImprot;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cmbVersion;
-        private System.Windows.Forms.ComboBox cmbMFVersions;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.PropertyGrid propertyGrid1;
     }
 }

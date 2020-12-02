@@ -126,7 +126,7 @@
     <Compile Include="ConceptualModel\UZF\UZFByZoneIDTool.cs" />
     <Compile Include="ConceptualModel\LPF\LPFByZoneIDTool .cs" />
     <Compile Include="ConceptualModel\LPF\LPFTool.cs" />
-    <Compile Include="ConceptualModel\LAKTool.cs" />
+    <Compile Include="ConceptualModel\LAK\LAKTool.cs" />
     <Compile Include="ConceptualModel\UZF\UZFTool.cs" />
     <Compile Include="ConceptualModel\FHBTool.cs" />
     <Compile Include="ConceptualModel\HOBTool.cs" />
@@ -244,9 +244,7 @@
     <None Include="Heiflow.Tools.licenseheader" />
     <None Include="vhf.pfx" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ConceptualModel\LAK\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

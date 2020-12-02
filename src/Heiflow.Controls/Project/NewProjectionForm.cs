@@ -54,7 +54,6 @@ namespace Heiflow.Presentation.Controls.Project
             lstPrjTemplate.DrawItem += lstPrjTemplate_DrawItem;
             lstPrjTemplate.Leave += lstPrjTemplate_Leave;
             lstPrjTemplate.HideSelection = false;
-            cmbMFVersions.SelectedIndex = 1;
         }
 
         public string ProjectName
@@ -143,9 +142,10 @@ namespace Heiflow.Presentation.Controls.Project
         private void lstPrjTemplate_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             var prj = (e.Item.Tag as IProject);
-            tbModelDes.Text = prj.Description;
+            //tbModelDes.Text = prj.Description;
             cmbVersion.DataSource = prj.SupportedVersions;
             cmbVersion.SelectedIndex = 0;
+            propertyGrid1.SelectedObject = prj;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -177,6 +177,11 @@ namespace Heiflow.Presentation.Controls.Project
                         shell.ProjectExplorer.AddProject(project_service.Project);
                     }
                 }
+                var prop = prj.GetType().GetProperty("MODFLOWVersion");
+                if(prop != null)
+                {
+                    ModflowService.SelectedMFVersion = (MODFLOWVersion)prop.GetValue(prj);
+                }
             }
             catch (Exception ex)
             {
@@ -200,12 +205,5 @@ namespace Heiflow.Presentation.Controls.Project
             txtPrjName.TextChanged += txtPrjName_TextChanged;
         }
 
-        private void cmbMFVersions_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cmbMFVersions.SelectedIndex == 0)
-                ModflowService.SelectedMFVersion = MODFLOWVersion.MFNWT;
-            else if (cmbMFVersions.SelectedIndex == 1)
-                ModflowService.SelectedMFVersion = MODFLOWVersion.MF2005;
-        }
     }
 }

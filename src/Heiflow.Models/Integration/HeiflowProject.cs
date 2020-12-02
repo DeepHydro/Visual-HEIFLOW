@@ -36,6 +36,7 @@ using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Project;
 using Heiflow.Models.GeoSpatial;
 using Heiflow.Models.Properties;
+using Heiflow.Models.Subsurface;
 using Heiflow.Models.UI;
 using System;
 using System.Collections.ObjectModel;
@@ -44,6 +45,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using System.ComponentModel;
 
 namespace Heiflow.Models.Integration
 {
@@ -61,6 +63,13 @@ namespace Heiflow.Models.Integration
             Token = "HEIFLOW";
             SupportedVersions = new string[] { "v1.0.0", "v1.1.0" };
             SelectedVersion = SupportedVersions[0];
+            MODFLOWVersion = Subsurface.MODFLOWVersion.MF2005;
+        }
+       [Category("Model")]
+        public MODFLOWVersion MODFLOWVersion
+        {
+            get;
+            set;
         }
 
         public override bool New(ICancelProgressHandler progress, bool ImportFromExistingModel)

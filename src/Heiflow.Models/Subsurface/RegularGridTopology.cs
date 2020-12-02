@@ -273,7 +273,8 @@ namespace Heiflow.Models.Subsurface
         /// <returns></returns>
         public int GetID(int row, int col)
         {
-            return row * (Grid.ColumnCount + 1) + (col + 1);
+            //return row * (Grid.ColumnCount + 1) + (col + 1);
+            return row * (Grid.ColumnCount) + (col + 1);
         }
         /// <summary>
         /// get serial index which starts from 0

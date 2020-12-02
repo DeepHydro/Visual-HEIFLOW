@@ -29,19 +29,13 @@
 
 using DotSpatial.Controls;
 using DotSpatial.Data;
-using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Project;
 using Heiflow.Models.GeoSpatial;
 using Heiflow.Models.Properties;
-using Heiflow.Models.UI;
 using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 namespace Heiflow.Models.Subsurface
 {
@@ -59,8 +53,14 @@ namespace Heiflow.Models.Subsurface
             Token = "Modflow2005";
             SupportedVersions = new string[] { "v2005" };
             SelectedVersion = "v2005";
+            MODFLOWVersion = Subsurface.MODFLOWVersion.MF2005;
         }
-
+       [Category("Model")]
+        public MODFLOWVersion MODFLOWVersion
+        {
+            get;
+            set;
+        }
         public override bool New(ICancelProgressHandler progress, bool ImportFromExistingModel)
         {
             var succ = true;

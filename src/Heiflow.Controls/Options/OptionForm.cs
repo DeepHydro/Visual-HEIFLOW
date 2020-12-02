@@ -75,8 +75,12 @@ namespace Heiflow.Controls.Options
                 }
                 treeView1.Nodes.Add(tn);
             }
-            cmbVersion.ComboBox.DataSource = prj.Project.SupportedVersions;
-            cmbVersion.SelectedIndex = 0;
+
+            if (prj.Project != null)
+            {
+                cmbVersion.ComboBox.DataSource = prj.Project.SupportedVersions;
+                cmbVersion.SelectedIndex = 0;
+            }
 
             cmbExportSource.ComboBox.DataSource = new string[] { "Default"};
         }
