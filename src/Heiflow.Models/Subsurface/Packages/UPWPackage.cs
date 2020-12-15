@@ -367,6 +367,10 @@ namespace Heiflow.Models.Subsurface
             line = TypeConverterEx.Vector2String<int>(LAYVKA) + "\t# LAYVKA";
             sw.WriteLine(line);
 
+            for (int i = 0; i < LAYWET.Length; i++)
+            {
+                LAYWET[i] = 0;
+            }
             line = TypeConverterEx.Vector2String<int>(LAYWET) + "\t# LAYWET";
             sw.WriteLine(line);
 

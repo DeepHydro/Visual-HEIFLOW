@@ -126,6 +126,7 @@ namespace Heiflow.Models.Integration
             }
 
             Model.Attach(this.Map, this.GeoSpatialDirectory);
+            CheckBatchRunFile();
         }
 
         public override void CreateGridFeature()
@@ -167,6 +168,37 @@ namespace Heiflow.Models.Integration
            sw.WriteLine(line);
            sw.WriteLine("Pause");
            sw.Close();
+        }
+
+        private void CheckBatchRunFile()
+        {
+            var filename = Path.Combine(AbsolutePathToProjectFile, "run.bat");
+            if(File.Exists(filename))
+            {
+                StreamReader sr = new StreamReader(filename);
+                var line = sr.ReadLine();
+                var strs = TypeConverterEx.Split<string>(line);
+                bool need_fix = false;
+                if(strs.Length == 2)
+                {
+                    if(!File.Exists(strs[0]))
+                    {
+                        need_fix = true;
+                    }
+                    
+                }
+               else
+                {
+                    need_fix = true;
+                }
+                sr.Close();
+                if (need_fix)
+                    SaveBatchRunFile();
+            }
+            else
+            {
+                SaveBatchRunFile();
+            }
         }
     }
 }

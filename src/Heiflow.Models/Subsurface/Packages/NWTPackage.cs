@@ -49,7 +49,7 @@ namespace Heiflow.Models.Subsurface
     public class NWTPackage : MFPackage
     {
         public static string PackageName = "NWT";
-        public enum NWTOPTIONS { SPECIFIED, SIMPLE, MODERATE, COMPLEX };
+        public enum NWTOPTIONS { SIMPLE, MODERATE, COMPLEX, SPECIFIED };
         public NWTPackage()
         {
             Name = "NWT";
@@ -70,6 +70,7 @@ namespace Heiflow.Models.Subsurface
             IPRNWT = 1;
             IBOTAV = 0;
             Options = "SIMPLE";
+            OPTIONS = NWTOPTIONS.SIMPLE;
         }
         /// <summary>
         /// The maximum head change between outer iterations for solution of the nonlinear problem.

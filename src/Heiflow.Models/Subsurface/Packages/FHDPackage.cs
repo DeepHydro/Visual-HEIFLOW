@@ -135,14 +135,19 @@ namespace Heiflow.Models.Subsurface
                     vv[ll + 1] = string.Format("Layer {0} Head", ll + 1);
             }
             Variables = vv;
-            var list = TimeService.GetIOTimeFromFile((Owner as Modflow).IOLogFile);
-            if (list.Count > 0)
-            {
-                TimeService.IOTimeline = list;
-                NumTimeStep = list.Count;
-                _StartLoading = TimeService.Start;
-                MaxTimeStep = list.Count;
-            }
+            //var list = TimeService.GetIOTimeFromFile((Owner as Modflow).IOLogFile);
+            //if (list.Count > 0)
+            //{
+            //    TimeService.IOTimeline = list;
+            //    NumTimeStep = list.Count;
+            //    _StartLoading = TimeService.Start;
+            //    MaxTimeStep = list.Count;
+            //}
+            FHDFile fhd = new FHDFile(LocalFileName, grid);
+            fhd.Scan();
+            NumTimeStep = fhd.NumTimeStep;
+            _StartLoading = TimeService.Start;
+            MaxTimeStep = fhd.MaxTimeStep;
             return true;
         }
 
@@ -150,12 +155,12 @@ namespace Heiflow.Models.Subsurface
         {
             var result = LoadingState.Normal;
             _ProgressHandler = progress;
-            var list = TimeService.GetIOTimeFromFile((Owner as Modflow).IOLogFile);
-            if (list.Count > 0)
-            {
-                TimeService.IOTimeline = list;
-                NumTimeStep = list.Count;
-            }
+            //var list = TimeService.GetIOTimeFromFile((Owner as Modflow).IOLogFile);
+            //if (list.Count > 0)
+            //{
+            //    TimeService.IOTimeline = list;
+            //    NumTimeStep = list.Count;
+            //}
             if (File.Exists(LocalFileName))
             {
                 try

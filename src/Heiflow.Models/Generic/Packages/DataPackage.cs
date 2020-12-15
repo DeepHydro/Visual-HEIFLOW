@@ -74,6 +74,7 @@ namespace Heiflow.Models.Generic
         }
 
         [Category("General")]
+        [Browsable(false)]
         public virtual string[] Variables
         {
             get

@@ -50,6 +50,7 @@ namespace Heiflow.Tools.Conversion
         {
             Name = "To Raster Sets";
             Category = "Conversion";
+            SubCategory = "Raster";
             Description = "Convert data cube  to tif data sets";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";

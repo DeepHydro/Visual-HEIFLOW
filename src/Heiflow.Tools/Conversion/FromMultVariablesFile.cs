@@ -114,16 +114,17 @@ namespace Heiflow.Tools.Conversion
             if (ContainsHeader)
             {
                 line = sr.ReadLine();
-                vars = TypeConverterEx.Split<string>(line.Trim());
+                if (ContainsDateTime)
+                {
+                    vars = TypeConverterEx.SkipSplit<string>(line.Trim(), 1);
+                }
+                else
+                {
+                    vars = TypeConverterEx.Split<string>(line.Trim());
+                }
             }
-            line = sr.ReadLine();
-            var buf = TypeConverterEx.Split<string>(line.Trim());
-            if (ContainsDateTime)
-            {
-                buf = TypeConverterEx.SkipSplit<string>(line.Trim(), 1);
-            }
-            int nvar = buf.Length;
-            int nstep = 1;
+            int nvar = vars.Length;
+            int nstep = 0;
             while (!sr.EndOfStream)
             {
                 line = sr.ReadLine();

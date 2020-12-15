@@ -56,6 +56,7 @@ namespace Heiflow.Models.Integration
 
     public class MasterPackage : Package
     {
+        public static string PackageName = "Master Package";
         DateTime _StartTime;
         DateTime _EndTime;
         int _MaxSoilZoneIter = 15;
@@ -136,6 +137,7 @@ namespace Heiflow.Models.Integration
             TimeService.Updated += OnTimeServiceUpdated;
             IsMandatory = true;
             FullName = "Master Package";
+            Name = "Master Package";
         }
 
         #region Properties
@@ -1368,7 +1370,6 @@ namespace Heiflow.Models.Integration
                 if (Owner.Project.SelectedVersion != "v1.0.0")
                     SaveSoilWaterFile = true;
 
-                GridClimateFile = string.Format(".\\input\\prms\\{0}_climate.map", Owner.Project.Name);
                 DataFile = string.Format(".\\input\\prms\\{0}.data", Owner.Project.Name);
                 ParameterFilePath = string.Format(".\\input\\prms\\{0}.param", Owner.Project.Name);
                 ModflowFilePath = string.Format(".\\input\\modflow\\{0}.nam", Owner.Project.Name);

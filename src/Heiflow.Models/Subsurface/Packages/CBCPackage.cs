@@ -110,21 +110,22 @@ namespace Heiflow.Models.Subsurface
                 CBCFile cbc = new CBCFile(LocalFileName, grid);
                 this.Variables = cbc.GetVariables();
 
-                var list = TimeService.GetIOTimeFromFile((Owner as Modflow).IOLogFile);
-                if (list.Count > 0)
-                {
-                    TimeService.IOTimeline = list;
-                    NumTimeStep = list.Count;
-                    _StartLoading = TimeService.Start;
-                    MaxTimeStep = list.Count;
-                }
-                else
-                {
+                //var list = TimeService.GetIOTimeFromFile((Owner as Modflow).IOLogFile);
+                //if (list.Count > 0)
+                //{
+                //    TimeService.IOTimeline = list;
+                //    NumTimeStep = list.Count;
+                //    _StartLoading = TimeService.Start;
+                //    MaxTimeStep = list.Count;
+                //}
+                //else
+                //{
                     cbc.Scan();
                     NumTimeStep = cbc.NumTimeStep;
                     _StartLoading = TimeService.Start;
                     MaxTimeStep = cbc.MaxTimeStep;
-                }
+                    
+                //}
                 return true;
             }
             else
@@ -142,12 +143,12 @@ namespace Heiflow.Models.Subsurface
             {
                 try
                 {
-                    var list = TimeService.GetIOTimeFromFile((Owner as Modflow).IOLogFile);
-                    if (list.Count > 0)
-                    {
-                        TimeService.IOTimeline = list;
-                        NumTimeStep = list.Count;
-                    }
+                    //var list = TimeService.GetIOTimeFromFile((Owner as Modflow).IOLogFile);
+                    //if (list.Count > 0)
+                    //{
+                    //    TimeService.IOTimeline = list;
+                    //    NumTimeStep = list.Count;
+                    //}
 
                     var grid = Owner.Grid as MFGrid;
                     int nstep = StepsToLoad;

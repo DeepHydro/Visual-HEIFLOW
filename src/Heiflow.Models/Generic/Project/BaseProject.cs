@@ -432,6 +432,7 @@ namespace Heiflow.Models.Generic.Project
             }
         }
         [XmlIgnore]
+        [Browsable(false)]
         public string[] SupportedVersions
         {
             get;

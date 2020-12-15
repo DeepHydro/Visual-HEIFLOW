@@ -143,6 +143,7 @@ namespace Heiflow.Models.Generic
         }
         [XmlElement]
         [Category("General")]
+        [Browsable(false)]
         public string Version
         {
             get;
@@ -356,6 +357,7 @@ namespace Heiflow.Models.Generic
         }
         [XmlIgnore]
         [Category("General")]
+        [Browsable(false)]
         public bool IsMandatory
         {
             get;

@@ -56,7 +56,7 @@ namespace Heiflow.Tools.Conversion
         {
             Name = "To raster list by spatial map";
             Category = "Conversion";
-            SubCategory = "To Raster";
+            SubCategory = "Raster";
             Description = @"Convert data cube to raster file with format of TIF by considering HRU spatial mapping table.
             The mapping table relates CellID in the data cube to HRUID. The data cube has coarser spatial resolution than the Model Grid feature layer.";
             Version = "1.0.0.0";

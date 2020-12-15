@@ -78,28 +78,37 @@ namespace Heiflow.Models.IO
             long layerbyte = _Grid.RowCount * _Grid.ColumnCount * 4;
             NumTimeStep = 0;
 
-            while (fs.Position != fs.Length)
+            try
             {
-                fs.Seek(4 * 2, SeekOrigin.Current);
-                var vn = new string(br.ReadChars(16)).Trim();
-                fs.Seek(4 * 3, SeekOrigin.Current);
-                if (vnLst.Contains(vn))
+                while (fs.Position != fs.Length)
                 {
-                    NumTimeStep++;
-                     fs.Seek(layerbyte * _Grid.ActualLayerCount, SeekOrigin.Current);
-                }
-                else
-                {
-                    fs.Seek(layerbyte * _Grid.ActualLayerCount, SeekOrigin.Current);
-                    vnLst.Add(vn);
+                    fs.Seek(4 * 2, SeekOrigin.Current);
+                    var vn = new string(br.ReadChars(16)).Trim();
+                    fs.Seek(4 * 3, SeekOrigin.Current);
+                    if (vnLst.Contains(vn))
+                    {
+                        NumTimeStep++;
+                        fs.Seek(layerbyte * _Grid.ActualLayerCount, SeekOrigin.Current);
+                    }
+                    else
+                    {
+                        fs.Seek(layerbyte * _Grid.ActualLayerCount, SeekOrigin.Current);
+                        vnLst.Add(vn);
+                    }
                 }
             }
+            catch
+            {
 
-            NumTimeStep = NumTimeStep / vnLst.Count;
-            Variables = vnLst.ToArray();
+            }
+            finally
+            {
+                NumTimeStep = NumTimeStep / vnLst.Count;
+                Variables = vnLst.ToArray();
 
-            br.Close();
-            fs.Close();
+                br.Close();
+                fs.Close();
+            }
         }
 
         public string [] GetVariables()

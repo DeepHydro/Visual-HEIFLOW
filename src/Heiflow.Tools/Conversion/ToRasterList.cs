@@ -55,7 +55,7 @@ namespace Heiflow.Tools.Conversion
         {
             Name = "To raster list";
             Category = "Conversion";
-            SubCategory = "To Raster";
+            SubCategory = "Raster";
             Description = "Convert data cube  to raster file with format of TIF";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";

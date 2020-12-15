@@ -56,7 +56,7 @@ namespace Heiflow.Models.Subsurface
             IsSaveHead = true;
             IsPrintBudget = true;
             IsMandatory = true;
-            Inteval = 1;
+            SaveBudgetInteval = 1;
 
             HEAD_PRINT_FORMAT = 10;
             HEAD_SAVE_FORMAT = "10(1X1PE13.5)";
@@ -106,7 +106,7 @@ namespace Heiflow.Models.Subsurface
         [Category("File Option")]
         public bool IsBanary { get; set; }
         [Category("Time")]
-        public int Inteval { get; set; }
+        public int SaveBudgetInteval { get; set; }
 
         [Category("Head")]
         public bool IsSaveHead { get; set; }
@@ -287,9 +287,9 @@ namespace Heiflow.Models.Subsurface
             }
             int index = _Dic_SP.Count - 1;
             if (_Dic_SP[index].StepOptions.Count > 1)
-                Inteval = _Dic_SP[index].StepOptions[1].Step - _Dic_SP[index].StepOptions[0].Step;
+                SaveBudgetInteval = _Dic_SP[index].StepOptions[1].Step - _Dic_SP[index].StepOptions[0].Step;
             else
-                Inteval = 1;
+                SaveBudgetInteval = 1;
             sr.Close();
             Owner.TimeService.UpdateStressPeriodTimeLine();
             OnLoaded(progresshandler, new LoadingObjectState() { Message = Message, Object = this, State = result });
@@ -326,15 +326,16 @@ namespace Heiflow.Models.Subsurface
             for (int n = 0; n < sp.Count; n++)
             {
                 int step = 1;
-                foreach(var op in sp[n].StepOptions)
+                for (int i = 0; i < sp[n].Length; i++)
                 {
-                    if (op.Step >= step)
+                    line = string.Format("PERIOD {0} STEP {1}  ", n + 1, i + 1);
+                    sw.WriteLine(line);
+                    if ((i + 1) >= step)
                     {
-                        line = string.Format("PERIOD {0} STEP {1}  ", n + 1, op.Step);
-                        sw.WriteLine(line);
                         WriteCmds(sw);
-                        step += Inteval;
+                        step += SaveBudgetInteval;
                     }
+                    sw.WriteLine("\t    PRINT BUDGET");
                 }
             }
             sw.Close();
@@ -499,8 +500,6 @@ namespace Heiflow.Models.Subsurface
                 sw.WriteLine("\t    SAVE DRAWDOWN");
             if (IsSaveBudget)
                 sw.WriteLine("\t    SAVE BUDGET");
-            if (IsPrintBudget)
-                sw.WriteLine("\t    PRINT BUDGET");
         }
     }
 }

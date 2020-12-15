@@ -96,6 +96,102 @@ namespace Heiflow.Controls.WinForm.Display
 
         private void CoverageSetup_Load(object sender, EventArgs e)
         {
+            var pc = viewModel.Value.ProjectController;
+            _SelectedCoverage = viewModel.Value.Coverage;
+            var pcks = pc.Project.Model.GetPackages();
+            int layer_count = pc.Project.Model.Grid.ActualLayerCount;
+            int[] grid_layers = new int[layer_count];
+            var cov_pcks = new List<IPackage>();
+            var buf = from layer in pc.MapAppManager.Map.Layers select new MapLayerDescriptor { LegendText = layer.LegendText, DataSet = layer.DataSet };
+            var map_layers = buf.ToList();
+            labelStatus.Text = "Ready";
+            for (int i = 0; i < layer_count; i++)
+            {
+                grid_layers[i] = i + 1;
+            }
+            foreach (var pck in pcks)
+            {
+                var atr = pck.GetType().GetCustomAttributes(typeof(CoverageItem), false);
+                if (atr.Length == 1)
+                {
+                    cov_pcks.Add(pck);
+                }
+            }
+            cmbGridLayer.SelectedIndexChanged -= cmbGridLayer_SelectedIndexChanged;
+            cmbMapLayers.SelectedIndexChanged -= cmbMapLayers_SelectedIndexChanged;
+
+            cmbMapLayers.DataSource = map_layers;
+            cmbGridLayer.DataSource = grid_layers;
+            cmbPackages.DataSource = cov_pcks;
+            chbProp.Items.Clear();
+
+            if (_SelectedCoverage != null)
+            {
+                tbCoverageName.Text = _SelectedCoverage.LegendText;
+                _SelectedCoverage.LoadLookTable();
+                dataGridEx1.Bind(_SelectedCoverage.LookupTable);
+
+                //restore cmbMapLayers
+
+                for (int i = 0; i < map_layers.Count; i++)
+                {
+                    string fn = map_layers[i].DataSet.Filename;
+                    if (DirectoryHelper.IsRelativePath(fn))
+                    {
+                        fn = Path.Combine(pc.Project.AbsolutePathToProjectFile, fn);
+                    }
+                    if (DirectoryHelper.Compare(fn, _SelectedCoverage.FullCoverageFileName))
+                    {
+                        cmbMapLayers.SelectedIndex = i;
+                        var layer = map_layers[i];
+                        if (layer.DataSet is FeatureSet)
+                        {
+                            var fs = layer.DataSet as FeatureSet;
+                            var fields = (from DataColumn dc in fs.DataTable.Columns select dc.ColumnName).ToList();
+                            cmbFields.DataSource = fields;
+                            cmbFields.SelectedIndex = fields.IndexOf(_SelectedCoverage.FieldName);
+                        }
+                        else
+                        {
+                            cmbFields.DataSource = new string[] { "Raster Value" };
+                            cmbFields.SelectedIndex = 0;
+                        }
+                        break;
+                    }
+                }
+                for (int i = 0; i < cov_pcks.Count; i++)
+                {
+                    if (cov_pcks[i].Name == _SelectedCoverage.PackageName)
+                    {
+                        cmbPackages.SelectedIndex = i;
+                        break;
+                    }
+                }
+            }
+
+            if (_SelectedCoverage != null)
+            {
+                cmbGridLayer.SelectedIndex = _SelectedCoverage.GridLayer;
+                tbCoverageName.ReadOnly = true;
+                btnCreateLookupTable.Enabled = false;
+            }
+            else
+            {
+                tbCoverageName.Text = "new_coverage";
+                cmbGridLayer.SelectedIndex = 0;
+                dataGridEx1.ClearContent();
+
+                tbCoverageName.ReadOnly = false;
+                btnCreateLookupTable.Enabled = true;
+                //cmbGridLayer.Enabled = true;
+                //cmbFields.Enabled = true;
+                //cmbGridLayer.Enabled = true;
+                //cmbPackages.Enabled = true;
+                //chbProp.Enabled = true;
+            }
+
+            cmbMapLayers.SelectedIndexChanged += cmbMapLayers_SelectedIndexChanged;
+            cmbGridLayer.SelectedIndexChanged += cmbGridLayer_SelectedIndexChanged;
         }
         private void cmbPackages_SelectedIndexChanged(object sender, EventArgs e)
         {

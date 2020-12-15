@@ -42,11 +42,11 @@ namespace Heiflow.Models.Subsurface
             SPID = spid;
             Step = step;
 
-            SaveBudget = true;
+            SaveBudget = false;
             SaveDarwdown = false;
-            SaveHead = true;
+            SaveHead = false;
             SaveIbound = false;
-            PrintBudget = true;
+            PrintBudget = false;
             PrintDarwdown = false;
             PrintHead = false;
         }

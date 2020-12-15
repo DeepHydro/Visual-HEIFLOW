@@ -160,7 +160,8 @@ namespace Heiflow.Controls.WinForm.Toolbox
                 {
                     if (subkey == "None")
                     {
-                        foreach (var tool in cat.items)
+                        var subcat = (from gp in subgroups where gp.cat == subkey select gp).First();
+                        foreach (var tool in subcat.items)
                         {
                             tool.Workspace = this.Workspace;
                             tool.WorkspaceView = this;
