@@ -31,6 +31,7 @@ using DotSpatial.Controls;
 using Heiflow.Applications.Views;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Project;
+using Heiflow.Models.Integration;
 using Heiflow.Models.Running;
 using System;
 using System.Collections.Generic;
@@ -90,7 +91,7 @@ namespace Heiflow.Applications.ViewModels
         }
         public void OnProjectOpened(IMap map, IProject Project)
         {
-            var master = Project.Model.GetPackage(Heiflow.Models.Integration.HeiflowModel.MasterPackageName);
+            var master = Project.Model.GetPackage(MasterPackage.PackageName);
             if (master != null)
             {
                 var props = master.GetType().GetProperties();

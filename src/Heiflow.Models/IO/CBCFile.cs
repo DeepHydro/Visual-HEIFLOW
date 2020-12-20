@@ -103,9 +103,16 @@ namespace Heiflow.Models.IO
             }
             finally
             {
-                NumTimeStep = NumTimeStep / vnLst.Count;
-                Variables = vnLst.ToArray();
-
+                if (vnLst.Count > 0)
+                {
+                    NumTimeStep = NumTimeStep / vnLst.Count;
+                    Variables = vnLst.ToArray();
+                }
+                else
+                {
+                    NumTimeStep = 0;
+                    Variables = new string[] { "None"};
+                }
                 br.Close();
                 fs.Close();
             }

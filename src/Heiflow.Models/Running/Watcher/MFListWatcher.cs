@@ -227,32 +227,32 @@ namespace Heiflow.Models.Running
             if (this.State == RunningState.Busy)
                 return;
 
-            _cache_file = filename + ".csv";
-            if (File.Exists(_cache_file) && File.Exists(filename))
-            {
-                InitMonitor(filename);
-                _DataSource = new ListTimeSeries<double>(_MFMonitor.Root[0].Children.Count);
-                var fs = new FileStream(_cache_file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                var sr = new StreamReader(fs, Encoding.Default);
+            //_cache_file = filename + ".csv";
+            //if (File.Exists(_cache_file) && File.Exists(filename))
+            //{
+            //    InitMonitor(filename);
+            //    _DataSource = new ListTimeSeries<double>(_MFMonitor.Root[0].Children.Count);
+            //    var fs = new FileStream(_cache_file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            //    var sr = new StreamReader(fs, Encoding.Default);
 
-                string line = sr.ReadLine();
-                int t = 0;
-                while(!sr.EndOfStream)
-                {
-                    line = sr.ReadLine();
-                    if (!string.IsNullOrEmpty(line))
-                    {
-                        var buf = TypeConverterEx.SkipSplit<double>(line, 1);
-                        var date = ModelService.Start.AddDays(t);
-                        _DataSource.Add(date, buf);
-                        t++;
-                    }
-                }
-                fs.Close();
-                sr.Close();
-            }
-            else
-            {
+            //    string line = sr.ReadLine();
+            //    int t = 0;
+            //    while(!sr.EndOfStream)
+            //    {
+            //        line = sr.ReadLine();
+            //        if (!string.IsNullOrEmpty(line))
+            //        {
+            //            var buf = TypeConverterEx.SkipSplit<double>(line, 1);
+            //            var date = ModelService.Start.AddDays(t);
+            //            _DataSource.Add(date, buf);
+            //            t++;
+            //        }
+            //    }
+            //    fs.Close();
+            //    sr.Close();
+            //}
+            //else
+            //{
                 if (File.Exists(filename))
                 {
                     InitMonitor(filename);
@@ -365,7 +365,7 @@ namespace Heiflow.Models.Running
                     }
                     sw.Close();
                 }
-            }
+            //}
         }
 
         public override void Clear()

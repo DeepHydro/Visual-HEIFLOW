@@ -51,7 +51,6 @@ namespace Heiflow.Models.Integration
     [ModelItem]
     public class HeiflowModel : IntegratedModel
     {
-        public const string MasterPackageName = "MASTER";
         private PRMS _PRMS;
         private Modflow _Modflow;
         private WaterManagementModel _WaterManagementModel;
@@ -66,8 +65,8 @@ namespace Heiflow.Models.Integration
             this.Icon = Resources.RasterImageAnalysisPanSharpen16;
             this.LargeIcon = Resources.RasterImageAnalysisPanSharpen32;
             _IsDirty = false;
-            
-            _MasterPackage = new MasterPackage(MasterPackageName);
+
+            _MasterPackage = new MasterPackage(MasterPackage.PackageName);
             _MasterPackage.Owner = this;
             _ExtensionManPackage = new ExtensionManPackage();
             _ExtensionManPackage.Owner = this;

@@ -68,7 +68,6 @@ namespace Heiflow.Controls.WinForm.Display
             _NodeCreator = new StateMonitorNodeCreators();
             _NodeCreator.Chart = winChart1;
             _NodeCreator.DataGrid = this.olvDataTree;
-            //_NodeCreator.ReportBox = this.textBox1;
             _NodeCreator.ZonalBudgetClicked += NodeCreator_ZonalBudgetClicked;
             this.treeView1.MouseUp += treeView1_MouseUp;
             olvDataTree.RootKeyValue = 9999;
@@ -76,8 +75,6 @@ namespace Heiflow.Controls.WinForm.Display
             treeView1.NodeMouseDoubleClick += treeView1_NodeMouseDoubleClick;
             this.Load += StateMonitor_Load;
         }
-
-
 
         public object DataContext
         {
@@ -210,8 +207,10 @@ namespace Heiflow.Controls.WinForm.Display
             var uzf_discrepancy = Math.Round((uzferror) / (uzfin + uzfout + Math.Abs(uzfds)) * 2 * 100, 2);
 
             var satin = e[FileMonitor.UZF_RECHARGE] + e[FileMonitor.Groundwater_Inflow] + e[FileMonitor.STREAM_LEAKAGE_IN];
+            //var satout = e[FileMonitor.GW_ET_OUT] + e[FileMonitor.STREAM_LEAKAGE_OUT]
+            //    + e[FileMonitor.IR_PUMP] + e[FileMonitor.SURFACE_LEAKAGE_OUT] + e[FileMonitor.Groundwater_Outflow];
             var satout = e[FileMonitor.GW_ET_OUT] + e[FileMonitor.STREAM_LEAKAGE_OUT]
-                + e[FileMonitor.IR_PUMP] + e[FileMonitor.SURFACE_LEAKAGE_OUT] + e[FileMonitor.Groundwater_Outflow];
+    + e[FileMonitor.WRA_WELLS_OUT] + e[FileMonitor.SURFACE_LEAKAGE_OUT] + e[FileMonitor.Groundwater_Outflow];
             var satds = e[FileMonitor.Saturated_Zone_DS];
             var saterror = satin - satout - satds;
             var sat_discrepancy = Math.Round((saterror) / (satin + satout + Math.Abs(satds)) * 2 * 100, 2);
@@ -241,7 +240,8 @@ namespace Heiflow.Controls.WinForm.Display
             canal_ds.Text = (e[FileMonitor.Canal_DS]).ToString("0.00");
 
             div.Text = e[FileMonitor.IR_DIV].ToString("0.00");
-            sat_pr.Text = e[FileMonitor.IR_PUMP].ToString("0.00");
+      //      sat_pr.Text = e[FileMonitor.IR_PUMP].ToString("0.00");
+            sat_pr.Text = e[FileMonitor.WRA_WELLS_OUT].ToString("0.00");
 
             sz_Percolation.Text = e[FileMonitor.UZF_INFIL].ToString("0.00");
             sz_et.Text = e[FileMonitor.BASINPERVET_HRU].ToString("0.00");

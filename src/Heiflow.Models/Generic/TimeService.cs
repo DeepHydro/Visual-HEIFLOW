@@ -335,7 +335,7 @@ namespace Heiflow.Models.Generic
                     {
                         var current = sp_start;
                         current = current.AddSeconds((sp.StepOptions[t].Step - 1) * TimeInteval);
-                        if (sp.StepOptions[t].SaveBudget)
+                        if (sp.StepOptions[t].SaveBudget || sp.StepOptions[t].SaveHead)
                         {
                             IOTimeline.Add(current);
                             sp.Dates.Add(current);

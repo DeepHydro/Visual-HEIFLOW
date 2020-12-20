@@ -252,6 +252,10 @@ namespace Heiflow.Models.Subsurface
             {
                 line = sr.ReadLine();
             }
+            foreach(var sp in _Dic_SP)
+            {
+                sp.StepOptions.Clear();
+            }
             while (!sr.EndOfStream)
             {
                 line = sr.ReadLine().Trim().ToUpper();

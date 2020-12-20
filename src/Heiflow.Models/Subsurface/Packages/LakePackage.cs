@@ -193,10 +193,15 @@ namespace Heiflow.Models.Subsurface
             {
                 StreamReader sr = new StreamReader(FileName);
                 string line = sr.ReadLine();
-                for (int i = 0; i < 4; i++)
+                line = sr.ReadLine();
+                var buf = TypeConverterEx.Split<int>(line, 1);
+                var nlake = buf[0];
+                line = sr.ReadLine();
+                for(int i=0;i<nlake;i++)
                 {
                     line = sr.ReadLine();
                 }
+                line = sr.ReadLine();
                 var mat = ReadInternalMatrix<int>(sr);
                 for (int i = 0; i < grid.RowCount; i++)
                 {

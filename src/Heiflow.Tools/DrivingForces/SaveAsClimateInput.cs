@@ -188,9 +188,15 @@ namespace Heiflow.Tools.Conversion
                     }
                     else
                     {
+                        var mat_tar = new DataCube<float>(1, nstep, ncell);
+                        for (int t = 0; t < nstep; t++)
+                        {
+                            var scalar = mat[var_index, t, 0];
+                            mat_tar.ILArrays[0][t, ":"] = scalar;
+                        }
                         cancelProgressHandler.Progress("Package_Tool", 1, "Saving DataCube to: " + OutputFileName + ". Please wait....");
                         DataCubeStreamWriter dc = new DataCubeStreamWriter(OutputFileName);
-                        dc.WriteAll(mat);
+                        dc.WriteAll(mat_tar);
                         cancelProgressHandler.Progress("Package_Tool", 100, "Finished");
                     }
                 }
