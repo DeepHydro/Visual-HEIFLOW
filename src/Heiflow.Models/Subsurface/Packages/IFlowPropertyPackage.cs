@@ -4,6 +4,7 @@ namespace Heiflow.Models.Subsurface
 {
     public interface IFlowPropertyPackage
     {
+        bool IsDirty { get; set; }
         float[] CHANI { get; set; }
         Heiflow.Core.Data.DataCube<float> HANI { get; set; }
         float HDRY { get; set; }

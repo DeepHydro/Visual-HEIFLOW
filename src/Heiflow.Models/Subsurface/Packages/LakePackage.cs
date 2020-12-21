@@ -146,6 +146,7 @@ namespace Heiflow.Models.Subsurface
         /// [nlayer,1,nactcell]. the lakebed leakance that will be assigned to lake/aquifer interfaces that occur in the corresponding grid cell.
         /// </summary>
         /// 
+        [ArealProperty(typeof(float), 1)]
         [StaticVariableItem]
         [Browsable(false)]
         public DataCube<float> BDLKNC { get; set; }

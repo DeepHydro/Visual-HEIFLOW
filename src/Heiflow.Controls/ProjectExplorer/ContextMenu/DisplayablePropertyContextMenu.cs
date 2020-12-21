@@ -193,7 +193,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
                 dp.Layer = Package.TimeService.CurrentGridLayer;
                 dp.Loading += dp_Loading;
                 dp.Loaded += dp_Loaded;
-              //  dp.LoadFailed += dp_LoadFailed;
+                dp.ScanFailed += dp_ScanFailed;
                 _ShellService.ProgressWindow.DoWork += ProgressPanel_DoWork;
                 foreach (var item in _sub_menus)
                 {
@@ -248,9 +248,9 @@ namespace Heiflow.Controls.WinForm.MenuItems
             _ShellService.ProgressWindow.DoWork -= ProgressPanel_DoWork;
             dp.Loading -= dp_Loading;
             dp.Loaded -= dp_Loaded;
-           // dp.LoadFailed -= dp_LoadFailed;
+            dp.ScanFailed -= dp_ScanFailed;
         }
-        protected void dp_LoadFailed(object sender, string e)
+        protected void dp_ScanFailed(object sender, string e)
         {
             var dp = _Package as IDataPackage;
             foreach (var item in _sub_menus)
@@ -266,7 +266,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
             _ShellService.ProgressWindow.DoWork -= ProgressPanel_DoWork;
             dp.Loading -= dp_Loading;
             dp.Loaded -= dp_Loaded;
-           // dp.LoadFailed -= dp_LoadFailed;
+            dp.ScanFailed -= dp_ScanFailed;
         }
 
         protected virtual void AttributeTable_Clicked(object sender, EventArgs e)

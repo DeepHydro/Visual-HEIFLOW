@@ -473,7 +473,6 @@ namespace Heiflow.Models.Generic
                 if (sp.State == ModelState.SS)
                 {
                     Timeline.Add(start);
-
                 }
                 else
                 {

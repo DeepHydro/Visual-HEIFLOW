@@ -161,8 +161,17 @@ namespace Heiflow.Models.Subsurface
                             {
                                 grid.IBound[l, r, c] = array[0, r, c];
                                 grid.MFIBound[l, r, c] = array[0, r, c];
-                                if (grid.IBound[l, r, c] != 0)
-                                    grid.ActiveCellCount++;
+                            }
+                        }
+                        if (l == 1)
+                        {
+                            for (int r = 0; r < array.Size[1]; r++)
+                            {
+                                for (int c = 0; c < array.Size[2]; c++)
+                                {
+                                    grid.IBound[0, r, c] = array[0, r, c];
+                                    //grid.MFIBound[0, r, c] = array[0, r, c];
+                                }
                             }
                         }
                     }

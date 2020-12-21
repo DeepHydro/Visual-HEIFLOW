@@ -94,6 +94,7 @@ namespace Heiflow.Models.Generic.Parameters
                             if (ap.TypeName == typeof(float).FullName)
                             {
                                 var fl = vv as DataCube<float>;
+                                var defaultvalue = float.Parse(ap.DefaultValue.ToString());
                                 if (fl[GridLayer] != null)
                                 {
                                     for (int i = 0; i < nfea_target; i++)
@@ -101,13 +102,14 @@ namespace Heiflow.Models.Generic.Parameters
                                         if (target_index[i] >= 0)
                                             fl[GridLayer,0,i] = float.Parse(GetValue(ap.AliasName, target_index[i]));
                                         else
-                                            fl[GridLayer,0,i] = (float)ap.DefaultValue;
+                                            fl[GridLayer, 0, i] = defaultvalue;
                                     }
                                 }
                             }
                             else if (ap.TypeName == typeof(short).FullName)
                             {
                                 var fl = vv as DataCube<short>;
+                                var defaultvalue = short.Parse(ap.DefaultValue.ToString());
                                 if (fl[GridLayer] != null)
                                 {
                                     for (int i = 0; i < nfea_target; i++)
@@ -115,7 +117,7 @@ namespace Heiflow.Models.Generic.Parameters
                                         if (target_index[i] >= 0)
                                             fl[GridLayer,0,i] = short.Parse(GetValue(ap.AliasName, target_index[i]));
                                         else
-                                            fl[GridLayer, 0, i] = (short)ap.DefaultValue;
+                                            fl[GridLayer, 0, i] = defaultvalue;
                                     }
                                 }
                             }

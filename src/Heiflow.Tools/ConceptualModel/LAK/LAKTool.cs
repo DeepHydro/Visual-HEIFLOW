@@ -45,7 +45,7 @@ namespace Heiflow.Tools.ConceptualModel
         }
 
         [Category("Input")]
-        [Description("Stream layer")]
+        [Description("Lake layer")]
         [EditorAttribute(typeof(MapLayerDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         public IMapLayerDescriptor LakeFeatureLayer
         {
@@ -256,11 +256,13 @@ namespace Heiflow.Tools.ConceptualModel
                         if (mf.FlowPropertyPackage.WETDRY[0, 0, hru_index] != 0)
                         {
                             mf.FlowPropertyPackage.WETDRY[0, 0, hru_index] = 0;
+                            mf.FlowPropertyPackage.IsDirty = true;
                             flowpck_changed = true;
                         }
                         if(uzf.IUZFBND[0,0,hru_index] != 0)
                         {
                             uzf.IUZFBND[0, 0, hru_index] = 0;
+                            uzf.IsDirty = true;
                             uzf_changed = true;
                         }
                     }
@@ -275,14 +277,14 @@ namespace Heiflow.Tools.ConceptualModel
 
                 if (flowpck_changed && (mf.FlowPropertyPackage is LPFPackage))
                 {
-                    cancelProgressHandler.Progress("Package_Tool", progress, "Saving Flow Property file");
-                    mf.FlowPropertyPackage.Save(null);
+                    cancelProgressHandler.Progress("Package_Tool", progress, "LPF Package has been modified. Please save.");
+                    //mf.FlowPropertyPackage.Save(null);
                 }
 
                 if (uzf_changed)
                 {
-                    cancelProgressHandler.Progress("Package_Tool", progress, "Saving UZF file");
-                    uzf.Save(null);
+                    cancelProgressHandler.Progress("Package_Tool", progress, "UZF Package has been modified. Please save.");
+                    //uzf.Save(null);
                 }
 
                var  bas_changed = false;
@@ -302,8 +304,8 @@ namespace Heiflow.Tools.ConceptualModel
                 }
                 if (bas_changed)
                 {
-                    cancelProgressHandler.Progress("Package_Tool", progress, "Saving BAS file");
-                    bas.Save(null);
+                    cancelProgressHandler.Progress("Package_Tool", progress, "BAS Package has been modified. Please save.");
+                    //bas.Save(null);
                 }
 
                 lak_pck.ChangeState(Models.Generic.ModelObjectState.Ready);
