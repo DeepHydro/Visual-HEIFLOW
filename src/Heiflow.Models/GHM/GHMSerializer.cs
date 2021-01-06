@@ -71,7 +71,12 @@ namespace Heiflow.Models.GHM
             get;
             set;
         }
-
+        [XmlArrayItem]
+        public List<GHMPackage> Packages
+        {
+            get;
+            set;
+        }
         [XmlIgnore]
         public string FileName
         {

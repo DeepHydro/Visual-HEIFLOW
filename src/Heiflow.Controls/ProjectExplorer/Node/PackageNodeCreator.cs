@@ -84,8 +84,11 @@ namespace Heiflow.Controls.WinForm.Project
                     var dp_item = atr[0] as DisplayablePropertyItem;
                     dp_item.PropertyInfo = pr;
                     var prop_nodecreator = this.NodeFactory.Select(dp_item);
-                    Node prop_node = prop_nodecreator.Creat(pck, dp_item) as Node;
-                    pck_node.Nodes.Add(prop_node);
+                    if (prop_nodecreator != null)
+                    {
+                        Node prop_node = prop_nodecreator.Creat(pck, dp_item) as Node;
+                        pck_node.Nodes.Add(prop_node);
+                    }
                 }
             }
             return pck_node;

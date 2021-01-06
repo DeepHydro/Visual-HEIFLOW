@@ -37,7 +37,7 @@ using System.IO;
 
 namespace Heiflow.Models.Generic
 {
-    [Export(typeof(GridFileFactory))]
+    [Export(typeof(IGridFileFactory))]
     public class GridFileFactory : IGridFileFactory
     {
         public GridFileFactory()

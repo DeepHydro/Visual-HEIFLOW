@@ -451,7 +451,13 @@ namespace Heiflow.Models.Generic.Project
                 _SelectedVersion = value;
             }
         }
-
+        [XmlIgnore]
+        [Browsable(false)]
+        public IGridFileFactory GridFileFactory
+        {
+            get;
+            set;
+        }
         protected void OnModelChanged()
         {
             if (ModelChanged != null)

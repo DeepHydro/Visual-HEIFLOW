@@ -52,11 +52,6 @@ namespace Heiflow.Tools.Math
 {
     public class PMPETByRadiationBatch : ModelTool
     {
-        private string _ValueField = "";
-        private int _SelectedVarAlbedoIndex = -1;
-        private string _FeatureFileName;
-        private IFeatureSet _FeatureSet;
-
         public PMPETByRadiationBatch()
         {
             Name = "Penman Monteith PET Batch By Radiation";

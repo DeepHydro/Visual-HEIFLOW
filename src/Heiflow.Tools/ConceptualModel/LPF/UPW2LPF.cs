@@ -58,7 +58,6 @@ namespace Heiflow.Tools.ConceptualModel
 {
     public class UPW2LPF : MapLayerRequiredTool
     {
-        private string[] _RasterFileList;
         public UPW2LPF()
         {
             Name = "Convert UPW To LPF";

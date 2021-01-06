@@ -124,7 +124,7 @@ namespace Heiflow.Tools.ConceptualModel
                             var index = grid.Topology.GetSerialIndex(reach.IRCH - 1, reach.JRCH - 1);
                             if ((reach.TopElevation - reach.BedThick) < dis.Elevation[1, 0, index])
                             {
-                                for (int j = 0; j < grid.ActualLayerCount;j++ )
+                                for (int j = 0; j < grid.ActualLayerCount; j++)
                                 {
                                     thickness[j] = dis.Elevation[j, 0, index] - dis.Elevation[j + 1, 0, index];
                                 }

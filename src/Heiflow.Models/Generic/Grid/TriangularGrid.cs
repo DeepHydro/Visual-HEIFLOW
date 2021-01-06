@@ -226,10 +226,6 @@ namespace Heiflow.Models.Generic
                 Updated(this);
         }
 
-
-
-
-
         public double GetTotalArea()
         {
             return 0;

@@ -234,12 +234,24 @@ namespace Heiflow.Tools.Postprocessing
                                 } 
                             }
                             obs[i] = head;
-                            _sourcefs.DataTable.Rows[i]["SimHead"] = sim[i];
-                            _sourcefs.DataTable.Rows[i]["SimDepth"] = elev - sim[i];
-                            sim_dep[i] = elev - sim[i];
                             obs_dep[i] = obsdep;
-                            _sourcefs.DataTable.Rows[i]["HeadDIF"] = System.Math.Round((sim[i] - head), 2);
-                            _sourcefs.DataTable.Rows[i]["DepDIF"] = System.Math.Round((elev - sim[i] - obsdep), 2);
+                            if (CompareMode == CompareMode.Head)
+                            {
+                                sim_dep[i] = elev - sim[i];
+                                _sourcefs.DataTable.Rows[i]["SimHead"] = sim[i];
+                                _sourcefs.DataTable.Rows[i]["SimDepth"] = sim_dep[i];
+                                _sourcefs.DataTable.Rows[i]["HeadDIF"] = System.Math.Round((sim[i] - head), 2);
+                                _sourcefs.DataTable.Rows[i]["DepDIF"] = System.Math.Round((sim_dep[i] - obsdep), 2);
+                            }
+                            else
+                            {
+                                sim_dep[i] =  sim[i];
+                                _sourcefs.DataTable.Rows[i]["SimHead"] = elev - sim[i];
+                                _sourcefs.DataTable.Rows[i]["SimDepth"] = sim_dep[i];
+                                _sourcefs.DataTable.Rows[i]["HeadDIF"] = System.Math.Round((elev - sim_dep[i] - head), 2);
+                                _sourcefs.DataTable.Rows[i]["DepDIF"] = System.Math.Round((sim_dep[i] - obsdep), 2);
+                            }
+
                             progress = i * 100 / nwel;
                             cancelProgressHandler.Progress("Package_Tool", progress, "Process observation well: " + (i + 1));
                         }

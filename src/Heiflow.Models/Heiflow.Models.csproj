@@ -162,6 +162,8 @@
     <Compile Include="Generic\LoadingObjectState.cs" />
     <Compile Include="Generic\Parameters\DataCubeParameter.cs" />
     <Compile Include="Generic\Parameters\SerializableParameter.cs" />
+    <Compile Include="GHM\DynamicVariable.cs" />
+    <Compile Include="GHM\StaticVariable.cs" />
     <Compile Include="Integration\ExtensionManPackage.cs" />
     <Compile Include="IO\BilFile.cs" />
     <Compile Include="IO\SecurityFile.cs" />

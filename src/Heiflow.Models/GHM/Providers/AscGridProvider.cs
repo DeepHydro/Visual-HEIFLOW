@@ -33,12 +33,14 @@ using Heiflow.Models.IO;
 using Heiflow.Models.Subsurface;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Heiflow.Models.GHM
 {
+    [Export(typeof(IGridFileProvider))]
     public class AscGridProvider :IGridFileProvider
     {
         public AscGridProvider()

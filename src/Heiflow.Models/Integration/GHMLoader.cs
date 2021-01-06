@@ -76,8 +76,12 @@ namespace Heiflow.Models.Integration
         {
             var succ = LoadingState.Normal;
             GHModel model = new GHModel();
+            ModelService.WorkDirectory = project.FullModelWorkDirectory;
+            model.ControlFileName = project.RelativeControlFileName;
+            model.GridFileFactory = project.GridFileFactory;
             succ= model.Load( progress);
             succ = model.LoadGrid(progress) ? LoadingState.Normal : LoadingState.FatalError;
+            project.Model = model;
             return succ;
         }
 

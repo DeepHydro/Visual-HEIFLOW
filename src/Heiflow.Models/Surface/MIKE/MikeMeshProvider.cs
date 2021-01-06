@@ -33,6 +33,7 @@ using Heiflow.Models.Generic;
 using NetTopologySuite.Geometries;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -40,6 +41,7 @@ using System.Threading.Tasks;
 
 namespace Heiflow.Models.Surface.MIKE
 {
+    [Export(typeof(IGridFileProvider))]
     public class MikeMeshProvider : IGridFileProvider
     {
         public MikeMeshProvider()
@@ -83,13 +85,20 @@ namespace Heiflow.Models.Surface.MIKE
                 grid.Vertex = new Coordinate[grid.VertexCount];
                 Dictionary<uint, List<uint>> map = new Dictionary<uint, List<uint>>();
 
+
                 for (uint i = 0; i < grid.VertexCount; i++)
                 {
                     line = sr.ReadLine();
                     cstr = TypeConverterEx.Split<string>(line);
                     grid.Vertex[i] = new Coordinate(double.Parse(cstr[1]), double.Parse(cstr[2]), double.Parse(cstr[3]));
                     map[i] = new List<uint>();
+                
                 }
+
+                double xxmin = (from vert in grid.Vertex select vert.X).Min();
+                double xxmax = (from vert in grid.Vertex select vert.X).Max();
+                double yymin = (from vert in grid.Vertex select vert.Y).Min();
+                double yymax = (from vert in grid.Vertex select vert.Y).Max();
 
                 line = sr.ReadLine();
                 cstr = TypeConverterEx.Split<string>(line);
@@ -133,6 +142,9 @@ namespace Heiflow.Models.Surface.MIKE
                 grid.Elevations[0, "0",":"] = elev;
                 topology.Grid = grid;
                 grid.Topology = topology;
+
+                grid.BBox = new Envelope(xxmin,xxmax,yymin,yymax);
+                grid.BBoxCentroid = new Coordinate((xxmin + xxmax) * 0.5, (yymin + yymax) * 0.5);
                 sr.Close();
                 map.Clear();
             }

@@ -52,8 +52,6 @@ namespace Heiflow.Tools.ConceptualModel
 {
     public class ExportSFROutlets : MapLayerRequiredTool
     {
-        private IMapLayerDescriptor _IntersectionLayerDescriptor;
-        private IFeatureSet _intersection_layer;
         public ExportSFROutlets()
         {
             Name = "Export SFR As SWMM";

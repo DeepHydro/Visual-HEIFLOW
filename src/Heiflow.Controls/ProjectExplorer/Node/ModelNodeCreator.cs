@@ -29,11 +29,13 @@
 
 using Heiflow.Controls.Tree;
 using Heiflow.Models.Generic;
+using Heiflow.Models.GHM;
 using Heiflow.Presentation.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -115,8 +117,23 @@ namespace Heiflow.Controls.WinForm.Project
                     {
                         var pck_atr = buf[0] as IExplorerItem;
                         var pck_node_creator = NodeFactory.Select(pck_atr);
-                        Node node_pck = pck_node_creator.Creat(pck, pck_atr) as Node;
-                        node_model.Nodes.Add(node_pck);
+                        if (pck_node_creator != null)
+                        {
+                            Node node_pck = pck_node_creator.Creat(pck, pck_atr) as Node;
+                            node_model.Nodes.Add(node_pck);
+                            if (pck is GHMPackage)
+                            {
+                                var ghmpck = pck as GHMPackage;
+                                StaticVariableNodeCreator scrt = new StaticVariableNodeCreator();
+                                foreach (var svar in ghmpck.StaticVariables)
+                                {
+                                    StaticVariableItem item = new StaticVariableItem();
+                                 //  PropertyInfo pinfo= 
+                                    var node_var = scrt.Creat(pck, item) as Node;
+                                    node_pck.Nodes.Add(node_var);
+                                }
+                            }
+                        }   
                     }
                 }
                 return node_model;

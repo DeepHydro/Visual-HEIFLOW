@@ -35,39 +35,53 @@ using Heiflow.Models.UI;
 using Heiflow.Models.Visualization;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Heiflow.Models.GHM
 {
-    [GHMPackageItem]
+    [PackageItem]
+    [Serializable]
     public class GHMPackage : Package
     {
         public GHMPackage()
         {
-            _Name = "Master";
+            _Name = "GHM Package";
+            StaticVariables = new List<StaticVariable>();
+            DynamicVariables = new List<DynamicVariable>();
         }
 
+        [Browsable(false)]
+        [XmlIgnore]
         public GHMSerializer Serializer
         {
             get;
             set;
         }
-
-        public DataCube<float> DataSource
-        {
-            get;
-            protected set;
-        }
-
-
+         [Browsable(false)]
+         [XmlIgnore]
         public GHModel GHModel
         {
             get;
             set;
         }
-
+        [Browsable(false)]
+        [XmlArrayItem]
+         public List<StaticVariable> StaticVariables
+         {
+             get;
+             set;
+         }
+        [Browsable(false)]
+        [XmlArrayItem]
+        public List<DynamicVariable> DynamicVariables
+        {
+            get;
+            set;
+        }
 
         public override void Save(ICancelProgressHandler progress)
         {

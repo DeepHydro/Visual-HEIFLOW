@@ -102,7 +102,12 @@ namespace Heiflow.Models.Generic.Project
                 _CurrentProject = value;
             }
         }
-
+        [Import]
+        public IGridFileFactory GridFileFactory
+        {
+            get;
+            set;
+        }
         public bool HasError
         {
             get;
@@ -182,10 +187,12 @@ namespace Heiflow.Models.Generic.Project
                       {
                           if (mod.Extension.ToLower() == ext.ToLower())
                           {
+                              
                               _CurrentModelLoader = mod;
                               // mod.LoadFailed += OnOpenFailed;
                               try
                               {
+                                  CurrentProject.GridFileFactory = this.GridFileFactory;
                                   loaded = mod.Load(CurrentProject, progress);
                               }
                               catch (Exception ex)

@@ -140,6 +140,8 @@ namespace Heiflow.Models.Generic.Project
         ObservableCollection<RasterCoverage> RasterLayerCoverages { get; set; }
         [Browsable(false)]
         ODMSource ODMSource { get; set; }
+        [Browsable(false)]
+        IGridFileFactory GridFileFactory { get; set; }
         void Initialize();
         bool New(ICancelProgressHandler progress, bool ImportFromExistingModel);
         void Clear();

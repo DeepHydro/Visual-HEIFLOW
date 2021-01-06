@@ -43,7 +43,7 @@ using System.Threading.Tasks;
 
 namespace Heiflow.Models.Generic
 {
-     [Export(typeof(GridFileFactory))]
+     [Export(typeof(IGridRenderFactory))]
     public class GridRenderFactory : IGridRenderFactory
     {
          public GridRenderFactory()
