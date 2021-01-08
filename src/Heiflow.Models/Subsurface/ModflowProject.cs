@@ -85,6 +85,7 @@ namespace Heiflow.Models.Subsurface
                 };
                 model.Initialize();
                 succ = model.New(progress);
+                model.Version = this.SelectedVersion;
                 this.Model = model;
             }
             _IsDirty = true;

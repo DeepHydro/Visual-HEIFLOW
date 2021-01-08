@@ -51,7 +51,7 @@ namespace Heiflow.Models.Generic
         Dictionary<string, IPackage> Packages { get; }
         string Name { get; }
         string Description { get;}
-        string Version { get; }
+        string Version { get; set; }
         //string WorkDirectory { get; set; }
         IGrid Grid { get; set; }
         Image Icon { get; set; }

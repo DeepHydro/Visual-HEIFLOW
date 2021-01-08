@@ -104,6 +104,7 @@ namespace Heiflow.Models.Integration
             model.ControlFileName = project.RelativeControlFileName;
             model.WorkDirectory = project.FullModelWorkDirectory;
             model.Project = project;
+            model.Version = project.SelectedVersion;
             model.LoadFailed += delegate (object sender, string e) { OnLoadFailed(e); };
             model.Initialize();
             _model = model;

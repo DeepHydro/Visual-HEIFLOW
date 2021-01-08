@@ -110,6 +110,30 @@ namespace Heiflow.Core.IO
             return mat;
         }
 
+        public DataCubeFileInfo GetFileInfo()
+        {
+            DataCubeFileInfo info = new DataCubeFileInfo();
+            FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            BinaryReader br = new BinaryReader(fs);
+            int head_len = 4;
+            info.VariableNum = br.ReadInt32();
+            info.VariableNames = new string[info.VariableNum];
+            for (int i = 0; i < info.VariableNum; i++)
+            {
+                int varname_len = br.ReadInt32();
+                head_len += 4;
+                info.VariableNames[i] = new string(br.ReadChars(varname_len)).Trim();
+                head_len += varname_len;
+                info.CellNum = br.ReadInt32();
+                head_len += 4;
+            }
+            long stepbyte = info.VariableNum * info.CellNum * 4;
+            info.TotalTimeSteps = (int)((fs.Length - head_len) / stepbyte);
+            br.Close();
+            fs.Close();
+
+            return info;
+        }
         public string[] GetVariables()
         {
             FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
@@ -121,12 +145,32 @@ namespace Heiflow.Core.IO
             {
                 int varname_len = br.ReadInt32();
                 variables[i] = new string(br.ReadChars(varname_len)).Trim();
-                FeatureCount = br.ReadInt32();
+                var featureCount = br.ReadInt32();
             }
             br.Close();
             fs.Close();
 
             return variables;
+        }
+        public long GetTotalTimeSteps()
+        {
+            FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            BinaryReader br = new BinaryReader(fs);
+            int varnum = br.ReadInt32();
+            var variables = new string[varnum];
+            var feacount = 0;
+            for (int i = 0; i < varnum; i++)
+            {
+                int varname_len = br.ReadInt32();
+                variables[i] = new string(br.ReadChars(varname_len)).Trim();
+                var featureCount = br.ReadInt32();
+            }
+            long stepbyte = varnum * feacount * 4;
+            long num = fs.Length / stepbyte;
+            br.Close();
+            fs.Close();
+
+            return num;
         }
         public override void Scan()
         {

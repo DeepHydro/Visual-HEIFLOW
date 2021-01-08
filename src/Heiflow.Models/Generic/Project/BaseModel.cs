@@ -141,7 +141,7 @@ namespace Heiflow.Models.Generic
         public string Version
         {
             get;
-            protected set;
+            set;
         }
         [XmlIgnore]
         [Browsable(false)]

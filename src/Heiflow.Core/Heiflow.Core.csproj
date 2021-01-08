@@ -148,6 +148,7 @@
     <Compile Include="Hydrology\HydroTreeNode.cs" />
     <Compile Include="IO\DataCubeDescriptor.cs" />
     <Compile Include="IO\BaseDataCubeStream.cs" />
+    <Compile Include="IO\DataCubeFileInfo.cs" />
     <Compile Include="IO\DataCubeStreamWriter.cs" />
     <Compile Include="IO\MatrixBinaryStream.cs" />
     <Compile Include="IO\TxtFileStream.cs" />

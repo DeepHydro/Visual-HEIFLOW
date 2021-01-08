@@ -98,6 +98,7 @@ namespace Heiflow.Models.Integration
                 };
                 model.Initialize();
                 succ = model.New(progress);
+                model.Version = this.SelectedVersion;
                 this.Model = model;
             }
             SaveBatchRunFile();

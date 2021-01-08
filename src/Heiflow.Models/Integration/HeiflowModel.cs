@@ -323,7 +323,7 @@ namespace Heiflow.Models.Integration
                 if (progress != null)
                     progress.Progress(this.Name, 1, msg);
             }
-
+ 
             NewDatabase();
             _IsDirty = true;
             return succ;

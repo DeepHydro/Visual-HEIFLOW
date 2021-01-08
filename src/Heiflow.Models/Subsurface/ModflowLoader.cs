@@ -113,6 +113,7 @@ namespace Heiflow.Models.Subsurface
             model.WorkDirectory = project.FullModelWorkDirectory;
             model.Project = project;
             project.Model = model;
+            model.Version = project.SelectedVersion;
             model.Initialize();
             var succ = model.Load(progress);
             if(succ != LoadingState.FatalError)
