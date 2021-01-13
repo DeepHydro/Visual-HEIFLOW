@@ -29,6 +29,7 @@
 
 using DotSpatial.Controls;
 using DotSpatial.Data;
+using Heiflow.Core.Data;
 using Heiflow.Core.Data.ODM;
 using Heiflow.Core.Utility;
 using Heiflow.Models.Generic.Packages;
@@ -454,6 +455,13 @@ namespace Heiflow.Models.Generic.Project
         [XmlIgnore]
         [Browsable(false)]
         public IGridFileFactory GridFileFactory
+        {
+            get;
+            set;
+        }
+        [XmlIgnore]
+        [Browsable(false)]
+        public IDataCubeFileFactory DataCubeFileFactory
         {
             get;
             set;

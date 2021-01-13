@@ -48,6 +48,7 @@ namespace Heiflow.Models.Running
         private ArrayWatchObject<double> _WatchObject;
         private MFMonitor _MFMonitor;
         private string _cache_file;
+
         public MFListWatcher(WatchDirectory directory)
         {
             _WatchObject = new ArrayWatchObject<double>();
@@ -227,7 +228,7 @@ namespace Heiflow.Models.Running
             if (this.State == RunningState.Busy)
                 return;
 
-            //_cache_file = filename + ".csv";
+            _cache_file = filename + ".csv";
             //if (File.Exists(_cache_file) && File.Exists(filename))
             //{
             //    InitMonitor(filename);

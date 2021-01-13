@@ -31,6 +31,7 @@ using Heiflow.Controls.Tree;
 using Heiflow.Controls.WinForm.MenuItems;
 using Heiflow.Controls.WinForm.Properties;
 using Heiflow.Models.Generic;
+using Heiflow.Models.GHM;
 using Heiflow.Presentation.Controls;
 using Heiflow.Presentation.Controls.Project;
 using System;
@@ -76,18 +77,49 @@ namespace Heiflow.Controls.WinForm.Project
             };
             if (pck.State == ModelObjectState.Standby || pck.State == ModelObjectState.Error)
                 pck_node.Image = Resources.PkgInfo_File16;
-            foreach (var pr in propinfos)
+
+            if (pck is GHMPackage)
             {
-                var atr = pr.GetCustomAttributes(typeof(DisplayablePropertyItem), true);
-                if (atr.Length > 0)
+                var ghmpck = pck as GHMPackage;
+                foreach (var pr in ghmpck.StaticVariables)
                 {
-                    var dp_item = atr[0] as DisplayablePropertyItem;
-                    dp_item.PropertyInfo = pr;
+                    var dp_item = new StaticVariableItem();
+                    dp_item.Tag = pr;
+                    dp_item.VariableName = pr.Name;
                     var prop_nodecreator = this.NodeFactory.Select(dp_item);
                     if (prop_nodecreator != null)
                     {
                         Node prop_node = prop_nodecreator.Creat(pck, dp_item) as Node;
                         pck_node.Nodes.Add(prop_node);
+                    }
+                }
+                foreach (var pr in ghmpck.DynamicVariables)
+                {
+                    var dp_item = new VariablesFolderItem();
+                    dp_item.Tag = pr;
+                    var prop_nodecreator = this.NodeFactory.Select(dp_item);
+                    if (prop_nodecreator != null)
+                    {
+                        Node prop_node = prop_nodecreator.Creat(pck, dp_item) as Node;
+                        pck_node.Nodes.Add(prop_node);
+                    }
+                }
+            }
+            else
+            {
+                foreach (var pr in propinfos)
+                {
+                    var atr = pr.GetCustomAttributes(typeof(DisplayablePropertyItem), true);
+                    if (atr.Length > 0)
+                    {
+                        var dp_item = atr[0] as DisplayablePropertyItem;
+                        dp_item.PropertyInfo = pr;
+                        var prop_nodecreator = this.NodeFactory.Select(dp_item);
+                        if (prop_nodecreator != null)
+                        {
+                            Node prop_node = prop_nodecreator.Creat(pck, dp_item) as Node;
+                            pck_node.Nodes.Add(prop_node);
+                        }
                     }
                 }
             }

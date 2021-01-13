@@ -29,6 +29,7 @@
 
 using DotSpatial.Controls;
 using DotSpatial.Data;
+using Heiflow.Core.Data;
 using Heiflow.Core.Data.ODM;
 using Heiflow.Models.Generic.Packages;
 using Heiflow.Models.Generic.Parameters;
@@ -142,6 +143,7 @@ namespace Heiflow.Models.Generic.Project
         ODMSource ODMSource { get; set; }
         [Browsable(false)]
         IGridFileFactory GridFileFactory { get; set; }
+        IDataCubeFileFactory DataCubeFileFactory { get; set; }
         void Initialize();
         bool New(ICancelProgressHandler progress, bool ImportFromExistingModel);
         void Clear();

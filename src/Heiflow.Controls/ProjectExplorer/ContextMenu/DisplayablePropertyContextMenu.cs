@@ -32,6 +32,7 @@ using Heiflow.Controls.Tree;
 using Heiflow.Controls.WinForm.Properties;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
+using Heiflow.Models.GHM;
 using Heiflow.Models.Subsurface;
 using Heiflow.Presentation;
 using Heiflow.Presentation.Controls;
@@ -187,13 +188,23 @@ namespace Heiflow.Controls.WinForm.MenuItems
             if (_Package is IDataPackage)
             {
                 _SelectedNode = (sender as ToolStripMenuItem).Tag as Node;
-                var dp = _Package as IDataPackage;
+                IDataPackage dp = null;
+                if (Package is GHMPackage)
+                {
+                    dp = (from vv in (Package as GHMPackage).DynamicVariables where vv.Name == _SelectedNode.Parent.Text select vv).First();
+                }
+                else
+                {
+                    dp = Package as IDataPackage;
+                }
 
                 _SelectedNode.Image = Resources.LayerRaster_B_16;
-                dp.Layer = Package.TimeService.CurrentGridLayer;
+                if(Package.TimeService != null)
+                    dp.Layer = Package.TimeService.CurrentGridLayer;
                 dp.Loading += dp_Loading;
                 dp.Loaded += dp_Loaded;
                 dp.ScanFailed += dp_ScanFailed;
+                
                 _ShellService.ProgressWindow.DoWork += ProgressPanel_DoWork;
                 foreach (var item in _sub_menus)
                 {
@@ -222,7 +233,15 @@ namespace Heiflow.Controls.WinForm.MenuItems
 
         protected virtual void dp_Loaded(object sender, LoadingObjectState e)
         {
-            var dp = _Package as IDataPackage;
+            IDataPackage dp = null;
+            if (Package is GHMPackage)
+            {
+                dp = (from vv in (Package as GHMPackage).DynamicVariables where vv.Name == _SelectedNode.Parent.Text select vv).First();
+            }
+            else
+            {
+                dp = Package as IDataPackage;
+            }
             foreach (var item in _sub_menus)
             {
                 item.Enabled = true;

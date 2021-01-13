@@ -30,6 +30,7 @@
 using Heiflow.Controls.Tree;
 using Heiflow.Controls.WinForm.Properties;
 using Heiflow.Models.Generic;
+using Heiflow.Models.GHM;
 using Heiflow.Presentation.Controls;
 using System;
 using System.Collections.Generic;
@@ -62,10 +63,21 @@ namespace Heiflow.Controls.WinForm.Project
             var pck = sender as IPackage;
             var mat_menu = ContextMenuFactory.Creat(item_attribute) as IPackageContextMemu;
             mat_menu.Package=pck;
-            var name = item_attribute.PropertyInfo.Name;
+            var name = "none";
             if (item_attribute.PropertyInfo != null)
                 name = item_attribute.PropertyInfo.Name;
+            else if(item_attribute.Tag != null )
+            {
+               if(item_attribute.Tag is StaticVariable)
+               {
+                   name = (item_attribute.Tag as StaticVariable).Name;
+               }
+               else if (item_attribute.Tag is DynamicVariable)
+               {
+                   name = (item_attribute.Tag as DynamicVariable).Name;
+               }
 
+            }
             Node node_mat = new Node(name)
             {
                 Image = Resources.LayerRaster_B_16,

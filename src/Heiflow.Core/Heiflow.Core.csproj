@@ -111,7 +111,9 @@
     <Compile Include="Data\Array\DataCube.cs" />
     <Compile Include="Data\Array\DataCube1DTS.cs" />
     <Compile Include="Data\Array\DataCube2DLayout.cs" />
+    <Compile Include="Data\Array\IDataCubeFileFactory.cs" />
     <Compile Include="Data\Array\IDataCubeObject.cs" />
+    <Compile Include="Data\Array\IDataCubeProvider.cs" />
     <Compile Include="Data\Array\IDataTableConvertable.cs" />
     <Compile Include="Data\Array\IGridTopology.cs" />
     <Compile Include="Data\Array\MyLazy3DMat.cs" />

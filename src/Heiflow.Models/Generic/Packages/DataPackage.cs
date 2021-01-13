@@ -39,13 +39,13 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Heiflow.Models.Generic
 {
     public abstract class DataPackage : Package, IDataPackage
     {
-        protected string[] _Variables;
-      
+        protected string[] _Variables;  
         protected TimeUnits mTimeUnit;
         protected DateTime _StartLoading;
         protected DateTime _EndLoading;
@@ -75,6 +75,7 @@ namespace Heiflow.Models.Generic
 
         [Category("General")]
         [Browsable(false)]
+        [XmlIgnore]
         public virtual string[] Variables
         {
             get
@@ -89,6 +90,7 @@ namespace Heiflow.Models.Generic
         }
 
         [Category("Time")]
+        [XmlIgnore]
         public int NumTimeStep
         {
             get
@@ -105,6 +107,7 @@ namespace Heiflow.Models.Generic
         /// </summary>
         /// 
          [Category("Time")]
+         [XmlIgnore]
         public int StepsToLoad
         {
             get
@@ -114,6 +117,7 @@ namespace Heiflow.Models.Generic
             }
         }
         [Category("Spatial Behavior")]
+        [XmlIgnore]
         public int Layer
         {
             get;
@@ -122,6 +126,7 @@ namespace Heiflow.Models.Generic
 
         [Category("Time")]
         [Browsable(false)]
+        [XmlIgnore]
         public int SkippedSteps
         {
             get;
@@ -129,6 +134,7 @@ namespace Heiflow.Models.Generic
         }
 
         [Category("Time")]
+        [XmlIgnore]
         public int MaxTimeStep
         {
             get
@@ -153,6 +159,7 @@ namespace Heiflow.Models.Generic
 
         [Category("Time")]
         [Browsable(true)]
+        [XmlIgnore]
         public TimeUnits TimeUnits
         {
             get
@@ -166,6 +173,7 @@ namespace Heiflow.Models.Generic
         }
 
         [Category("Time")]
+        [XmlIgnore]
         public DateTime StartOfLoading
         {
             get
@@ -179,6 +187,7 @@ namespace Heiflow.Models.Generic
         }
 
         [Category("Time")]
+        [XmlIgnore]
         public DateTime EndOfLoading
         {
             get
@@ -204,9 +213,11 @@ namespace Heiflow.Models.Generic
 
         [Category("Numerical")]
         [Browsable(false)]
+        [XmlIgnore]
         public DataViewMode DataViewMode { get; set; }
 
         [Category("Numerical")]
+        [XmlIgnore]
         public NumericalDataType NumericalDataType
         {
             get
@@ -220,6 +231,7 @@ namespace Heiflow.Models.Generic
         }
 
         [Category("Numerical")]
+        [XmlIgnore]
         public double ScaleFactor
         {
             get;
@@ -227,6 +239,7 @@ namespace Heiflow.Models.Generic
         }
         [Category("Database")]
         [Description("Specify the variable ID used to retrived observation time series from the ODM database")]
+        [XmlIgnore]
         public int ODMVariableID
         {
             get;
@@ -234,19 +247,22 @@ namespace Heiflow.Models.Generic
         }
 
         [Browsable(false)]
+        [XmlIgnore]
         public DataCube<float> DataCube
         {
             get;
-            protected set;
+            set;
         }
 
         [Category("File")]
+        [XmlIgnore]
         public bool UseSpecifiedFile
         {
             get;
             set;
         }
            [Category("File")]
+           [XmlIgnore]
         public string  SpecifiedFileName
         {
             get;
@@ -254,6 +270,7 @@ namespace Heiflow.Models.Generic
         }
 
            [Category("File")]
+           [XmlIgnore]
            public string LocalFileName
            {
                get
@@ -270,6 +287,7 @@ namespace Heiflow.Models.Generic
            }
 
            [Category("Layer")]
+           [XmlIgnore]
            public bool LoadAllLayers
            {
                get;
@@ -277,6 +295,7 @@ namespace Heiflow.Models.Generic
            }
            [Category("Layer")]
            [Description("Selected layer index to be showen")]
+           [XmlIgnore]
            public int SelectedLayerToShown
            {
                get;
@@ -284,6 +303,7 @@ namespace Heiflow.Models.Generic
            }
            [Category("Layer")]
            [Description("Load data for a specfied layer. The layer index starts from 0")]
+           [XmlIgnore]
            public int LoadSpecifiedLayer
            {
                get;

@@ -57,6 +57,8 @@ namespace Heiflow.Models.Visualization
 
         void Initilize();
 
+        void LoadDataSource(string path);
+
         float GetCellValue(int row, int col);
 
         I3DLayer LayerObject { get; set; }

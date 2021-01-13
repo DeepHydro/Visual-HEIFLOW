@@ -27,8 +27,10 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using Heiflow.Models.Generic;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,11 +43,11 @@ namespace Heiflow.Models.GHM
     {
         public RenderableModelLayer()
         {
-            Members = new List<Member>();
+            //  Members = new List<Member>();
         }
 
-        [XmlArrayItem]
-        public List<Member> Members { get; set; }
+        //[XmlArrayItem]
+        //public List<Member> Members { get; set; }
 
 
         [XmlAttribute]
@@ -54,7 +56,12 @@ namespace Heiflow.Models.GHM
             get;
             set;
         }
-
+        [XmlAttribute]
+        public bool IsOn
+        {
+            get;
+            set;
+        }
         [XmlAttribute]
         public string RenderName
         {
@@ -67,17 +74,31 @@ namespace Heiflow.Models.GHM
             get;
             set;
         }
-            [XmlElement]
+        [XmlElement]
         public double MaxDisplayAltitude
         {
             get;
             set;
         }
-            [XmlElement]
+        [XmlElement]
         public double MinDisplayAltitude
         {
             get;
             set;
+        }
+        [XmlElement]
+        public string DataSource
+        {
+            get;
+            set;
+        }
+        [XmlIgnore]
+        public string FullDataSource
+        {
+            get
+            {
+                return Path.Combine(ModelService.WorkDirectory, DataSource);
+            }
         }
     }
 }

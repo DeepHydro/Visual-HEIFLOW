@@ -33,6 +33,7 @@ using Heiflow.Controls.WinForm.Properties;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
+using Heiflow.Models.GHM;
 using Heiflow.Presentation.Controls;
 using System;
 using System.Collections.Generic;
@@ -63,14 +64,25 @@ namespace Heiflow.Controls.WinForm.Project
                 PropertyInfo = item_attribute.PropertyInfo
             };
             var folder_menu = ContextMenuFactory.Creat(folder_item);
-            var value = pck.GetType().GetProperty(item_attribute.PropertyInfo.Name).GetValue(pck);
-            var dc = value as IDataCubeObject;
+            var node_name = "";
+            IDataCubeObject dc = null;
+            if (item_attribute.PropertyInfo != null)
+            {
+                dc = pck.GetType().GetProperty(item_attribute.PropertyInfo.Name).GetValue(pck) as IDataCubeObject;
+                node_name = item_attribute.PropertyInfo.Name;
+            }
+            else if (item_attribute.Tag != null && item_attribute.Tag is GHMVariable)
+            {
+                var ghmvar = (item_attribute.Tag as GHMVariable);
+                dc = ghmvar.DataCube;
+                node_name = ghmvar.Name;
+            }
             folder_menu.EneableAll(false);
             folder_menu.Enable(VariablesFolderContextMenu._AT, true);
             folder_menu.Enable(VariablesFolderContextMenu._OP, false);          
             (folder_menu as IPackageContextMemu).Package = pck;
            
-            Node node_folder = new Node(item_attribute.PropertyInfo.Name)
+            Node node_folder = new Node(node_name)
             {
                 Image = Resources.FolderWithGISData16,
                 Tag = folder_menu
@@ -84,7 +96,8 @@ namespace Heiflow.Controls.WinForm.Project
                     {
                         VariableIndex = i,
                         VariableName = dc.Variables[i],  //string.Format("{0} {1}{2}", item_attribute.PropertyInfo.Name, mat_atr.Prefix, i + 1),
-                        PropertyInfo = item_attribute.PropertyInfo
+                        PropertyInfo = item_attribute.PropertyInfo,
+                        Tag = item_attribute.Tag
                     };
                     folder_item.Variables[i] = item.VariableName;
                     StaticVariableContextMenu elei = new StaticVariableContextMenu()

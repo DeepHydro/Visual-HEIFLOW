@@ -160,14 +160,17 @@ namespace Heiflow.Core.Animation
 
         protected virtual void _Timer_Tick(object sender, EventArgs e)
         {
-            Plot(Current);
-            OnCurrentChanged();
-            if (Current == Maximum)
+            if (Current >= Maximum)
             {
                 _Timer.Stop();
                 OnStopped();
             }
-            _Current++;
+            else
+            {
+                Plot(Current);
+                OnCurrentChanged();
+                _Current++;
+            }
         }
 
         public virtual void Initialize()

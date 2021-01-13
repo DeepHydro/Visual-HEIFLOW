@@ -36,6 +36,7 @@ using Heiflow.Applications;
 using Heiflow.Controls.WinForm.Properties;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
+using Heiflow.Models.GHM;
 using Heiflow.Models.Subsurface;
 using Heiflow.Presentation.Controls;
 using ILNumerics;
@@ -80,7 +81,11 @@ namespace Heiflow.Controls.WinForm.MenuItems
         {
             var item = ExplorerItem as StaticVariableItem;
             _ShellService.SelectPanel(DockPanelNames.DataGridPanel);
-            IDataCubeObject binding = _Package.GetType().GetProperty(_Item.PropertyInfo.Name).GetValue(_Package) as IDataCubeObject;
+            IDataCubeObject binding = null;
+            if (_Item.PropertyInfo != null)
+                binding = _Package.GetType().GetProperty(_Item.PropertyInfo.Name).GetValue(_Package) as IDataCubeObject;
+            else if (_Item.Tag is GHMVariable)
+                binding = (_Item.Tag as GHMVariable).DataCube;
             binding.SelectedVariableIndex = item.VariableIndex;
             _ShellService.SelectPanel(DockPanelNames.DataGridPanel);
             _ShellService.DataGridView.Bind(binding);
@@ -134,12 +139,13 @@ namespace Heiflow.Controls.WinForm.MenuItems
         protected override void ShowOn3D_Clicked(object sender, EventArgs e)
         {
             var item = ExplorerItem as StaticVariableItem;
-            var dc = _Package.GetType().GetProperty(_Item.PropertyInfo.Name).GetValue(_Package) as IDataCubeObject;
+            IDataCubeObject dc = null;
+            if (item.PropertyInfo != null)
+                dc = _Package.GetType().GetProperty(_Item.PropertyInfo.Name).GetValue(_Package) as IDataCubeObject;
+            else if (item.Tag is GHMVariable)
+                dc = (item.Tag as GHMVariable).DataCube;
+
             dc.SelectedVariableIndex = item.VariableIndex;
-            //if (dc.Flags[dc.SelectedVariableIndex] == TimeVarientFlag.Constant || dc.Flags[dc.SelectedVariableIndex] == TimeVarientFlag.Constant)
-            //{
-            //    return;
-            //}
             if (MyAppManager.Instance.AppMode == AppMode.VHF)
             {
                 if (_ShellService.SurfacePlot != null && dc.Topology != null)
@@ -152,10 +158,11 @@ namespace Heiflow.Controls.WinForm.MenuItems
             }
             else
             {
+                var ghmv = (item.Tag as GHMVariable);
                 var vector = dc.GetVectorAsArray(dc.SelectedVariableIndex, "0", ":");
-                if (vector != null && _Package.Layer3D.RenderObject != null)
+                if (vector != null && ghmv.RenderableModelObject != null)
                 {
-                    _Package.Layer3D.RenderObject.Render(vector.Cast<float>().ToArray());
+                    ghmv.RenderableModelObject.RenderObject.Render(vector.Cast<float>().ToArray());
                 }
             }
         }

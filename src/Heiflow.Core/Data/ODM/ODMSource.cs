@@ -218,8 +218,8 @@ namespace Heiflow.Core.Data.ODM
                                     Latitude = r.Field<double>("Latitude"),
                                     Longitude = r.Field<double>("Longitude"),
                                     SiteType = r.Field<string>("SiteType"),
-                                    State = r.Field<string>("State")
-                                   // Variables = GetVariables(r.Field<int>("SiteID"))
+                                    State = r.Field<string>("State"),
+                                    VariableNames = GetVariableNames(r.Field<int>("SiteID"))
                                 };
                     return sites.ToArray();
                 }
@@ -280,8 +280,8 @@ namespace Heiflow.Core.Data.ODM
                                 Latitude = r.Field<double>("Latitude"),
                                 Longitude = r.Field<double>("Longitude"),
                                 SiteType = r.Field<string>("SiteType"),
-                                State = r.Field<string>("State")
-                                // Variables = GetVariables(r.Field<int>("SiteID"))
+                                State = r.Field<string>("State"),
+                                VariableNames = GetVariableNames(r.Field<int>("SiteID"))
                             };
                 return sites.ToArray();
             }
@@ -355,6 +355,28 @@ namespace Heiflow.Core.Data.ODM
                     vars[i] = GetVariable(vv[i]);
                 }
                 return vars;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public string[] GetVariableNames(int siteid)
+        {
+            string sql = string.Format("select * from SeriesCatalog where SiteID={0}", siteid);
+            var dt = ODMDB.QueryDataTable(sql);
+            if (dt != null)
+            {
+                var vv = (from r in dt.AsEnumerable() select r.Field<int>("variableID")).ToArray();
+               // Variable[] vars = new Variable[vv.Length];
+                var names = new string[vv.Length];
+                for (int i = 0; i < vv.Length; i++)
+                {
+                    //vars[i] = GetVariable(vv[i]);
+                    names[i] = GetVariable(vv[i]).Name;
+                }
+
+                return names;
             }
             else
             {

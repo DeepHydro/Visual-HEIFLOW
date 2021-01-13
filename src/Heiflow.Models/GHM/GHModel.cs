@@ -50,7 +50,7 @@ namespace Heiflow.Models.GHM
     public class GHModel : BaseModel
     {
         private GHMSerializer _GHMSerializer;
-        private GHMPackage _GHMPackage;
+        private RenderableModelLayer _GridLayer;
 
         public GHModel()
         {
@@ -65,14 +65,21 @@ namespace Heiflow.Models.GHM
             set;
         }
 
-        public GHMPackage MasterPackage
+        public GHMSerializer Serializer
         {
             get
             {
-                return _GHMPackage;
+                return _GHMSerializer;
             }
         }
 
+        public RenderableModelLayer GridLayer
+        {
+            get
+            {
+                return _GridLayer;
+            }
+        }
         public override bool New(ICancelProgressHandler progress)
         {
             _GHMSerializer = new GHMSerializer();
@@ -132,38 +139,24 @@ namespace Heiflow.Models.GHM
         public override LoadingState Load(ICancelProgressHandler progress)
         {
             string masterfile = ControlFileName;
+            var state = LoadingState.Normal;
             if (File.Exists(masterfile))
             {
                 ControlFileName = masterfile;
                 _GHMSerializer = GHMSerializer.Open(masterfile);
-                foreach(var pck in _GHMSerializer.Packages)
+                foreach (var pck in _GHMSerializer.Packages)
                 {
                     pck.GHModel = this;
                     pck.Serializer = _GHMSerializer;
-                    foreach(var svar in pck.StaticVariables)
+                    state = pck.Load(progress);
+
+                    if (state == LoadingState.Normal)
                     {
-
-                    }
-                    AddInSilence(pck);
-                }
-
-
-                foreach (var layer in _GHMSerializer.Layers)
-                {
-                    foreach (var mem in layer.Members)
-                    {
-                        foreach (var item in mem.Spatial)
-                        {
-                            item.FullPath = Path.Combine(ModelService.WorkDirectory, item.Path);
-                        }
-                        foreach (var item in mem.Spatiotemporal)
-                        {
-                            item.FullPath = Path.Combine(ModelService.WorkDirectory, item.Path);
-                        }
-                        foreach (var item in mem.TimeSeries)
-                        {
-                            item.FullPath = Path.Combine(ModelService.WorkDirectory, item.Path);
-                        }
+                        foreach (var svar in pck.StaticVariables)
+                            svar.Parent = pck;
+                        foreach (var svar in pck.DynamicVariables)
+                            svar.Parent = pck;
+                        AddInSilence(pck);
                     }
                 }
                 return LoadingState.Normal;
@@ -177,42 +170,15 @@ namespace Heiflow.Models.GHM
 
         public override bool LoadGrid(ICancelProgressHandler progress)
         {
-            var gridnode = (from fl in
-                                ((from layer in _GHMSerializer.Layers where layer.Name == "Grid" select layer).First().Members)
-                            where fl.Name == "Base"
-                            select fl).FirstOrDefault();
-            var ele = (from gd in gridnode.Spatial where gd.Name == "Elevation" select gd).FirstOrDefault();
-
-            var provider = this.GridFileFactory.Select(ele.FullPath);
-            var grid = provider.Provide(ele.FullPath);
-
+            _GridLayer = (from layer in _GHMSerializer.Layers where layer.Name == "Grid" select layer).First();
+            var provider = this.GridFileFactory.Select(_GridLayer.FullDataSource);
+            var grid = provider.Provide(_GridLayer.FullDataSource);
             grid.Extent(_GHMSerializer.SpatialReference);
             grid.BuildTopology();
-
             this.Grid = grid;
-            foreach (var layer in _GHMSerializer.Layers)
-            {
-                foreach (var mem in layer.Members)
-                {
-                    foreach (var item in mem.Spatial)
-                    {
-                        item.FullPath = Path.Combine(ModelService.WorkDirectory, item.Path);
-                        item.Grid = this.Grid;
-                    }
-                    foreach (var item in mem.Spatiotemporal)
-                    {
-                        item.FullPath = Path.Combine(ModelService.WorkDirectory, item.Path);
-                        item.Grid = this.Grid;
-                    }
-                    foreach (var item in mem.TimeSeries)
-                    {
-                        item.FullPath = Path.Combine(ModelService.WorkDirectory, item.Path);
-                        item.Grid = this.Grid;
-                    }
-                }
-            }
             return true;
         }
+
         public override void Clear()
         {
             

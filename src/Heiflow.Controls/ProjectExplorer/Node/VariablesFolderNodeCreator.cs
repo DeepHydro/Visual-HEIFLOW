@@ -28,8 +28,10 @@
 //
 
 using Heiflow.Controls.Tree;
+using Heiflow.Controls.WinForm.MenuItems;
 using Heiflow.Controls.WinForm.Properties;
 using Heiflow.Models.Generic;
+using Heiflow.Models.GHM;
 using Heiflow.Presentation.Controls;
 using System;
 using System.Collections.Generic;
@@ -55,16 +57,33 @@ namespace Heiflow.Controls.WinForm.Project
         public override IExplorerNode Creat(object sender, Models.Generic.IExplorerItem item_attribute)
         {
             var pck = sender as IPackage;
-            var pck_prop = pck.GetType().GetProperty(item_attribute.PropertyInfo.Name).GetValue(pck) as IDataPackage;
-            var mat_menu = ContextMenuFactory.Creat(item_attribute) as IPackageContextMemu;
-            mat_menu.Package = pck_prop;
-
-            Node node_mat = new Node(item_attribute.PropertyInfo.Name)
+            if (item_attribute.PropertyInfo != null)
             {
-                Image = Resources.LayoutDataDrivenPagesChangeToPage16,
-                Tag = mat_menu
-            };
-            return node_mat;
+                var pck_prop = pck.GetType().GetProperty(item_attribute.PropertyInfo.Name).GetValue(pck) as IDataPackage;
+                var mat_menu = ContextMenuFactory.Creat(item_attribute) as IPackageContextMemu;
+                mat_menu.Package = pck_prop;
+                Node node_mat = new Node(item_attribute.PropertyInfo.Name)
+                {
+                    Image = Resources.LayoutDataDrivenPagesChangeToPage16,
+                    Tag = mat_menu
+                };
+                return node_mat;
+            }
+            else if (item_attribute.Tag is DynamicVariable)
+            {
+                var dp = item_attribute.Tag as DynamicVariable;
+                var mat_menu = new VariablesFolderContextMenu();
+                mat_menu.Initialize();
+                mat_menu.Package = dp.Parent;
+                Node node_mat = new Node(dp.Name)
+                {
+                    Image = Resources.LayoutDataDrivenPagesChangeToPage16,
+                    Tag = mat_menu
+                };
+                return node_mat;
+            }
+            else
+                return null;
         }
     }
 }

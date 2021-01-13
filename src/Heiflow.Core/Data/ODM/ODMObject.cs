@@ -51,6 +51,7 @@ namespace Heiflow.Core.Data.ODM
         public int ID { get; set; }
         [DataMember]
         public Variable[] Variables { get; set; }
+        public string[] VariableNames { get; set; }
         [DataMember]
         public double Latitude { get; set; }
         [DataMember]

@@ -50,5 +50,10 @@ namespace Heiflow.Models.Generic
             get;
             set;
         }
+        public object Tag
+        {
+            get;
+            set;
+        }
     }
 }

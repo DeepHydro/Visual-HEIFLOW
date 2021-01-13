@@ -35,6 +35,7 @@ using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
 using Heiflow.Models.Generic.Packages;
 using Heiflow.Models.Generic.Parameters;
+using Heiflow.Models.GHM;
 using Heiflow.Presentation.Controls;
 using System;
 using System.Collections.Generic;
@@ -90,16 +91,26 @@ namespace Heiflow.Controls.WinForm.MenuItems
             if (Package is IDataPackage)
             {
                 _SelectedNode = (sender as ToolStripMenuItem).Tag as Node;
-                var dp = Package as IDataPackage;
+                IDataPackage dp = null;
+                if (Package is GHMPackage)
+                {
+                    dp = (from vv in (Package as GHMPackage).DynamicVariables where vv.Name == _SelectedNode.Text select vv).First();
+                }
+                else
+                {
+                    dp = Package as IDataPackage;
+                }
                 dp.PropertyChanged += dp_PropertyChanged;
                 dp.ScanFailed += dp_ScanFailed;
-                dp.Layer = Package.TimeService.CurrentGridLayer;
+                if (Package.TimeService != null)
+                    dp.Layer = Package.TimeService.CurrentGridLayer;
                 Cursor.Current = Cursors.WaitCursor;
                 dp.Scan();
                 dp.PropertyChanged -= dp_PropertyChanged;
                 dp.ScanFailed -= dp_ScanFailed;
                 Cursor.Current = Cursors.Default;
             }
+
         }
         protected virtual void LoaddAllData_Clicked(object sender, EventArgs e)
         {
@@ -158,7 +169,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
                 {
                     DynamicVariableItem item = new DynamicVariableItem(i)
                     {
-                        PropertyInfo = new SimplePropertyInfo(dp.Variables[i], Type.GetType("System.String"))
+                        PropertyInfo = new SimplePropertyInfo(dp.Variables[i], Type.GetType("System.String")),
                     };
 
                     var creator = _ProjectService.NodeFactory.Select(item);

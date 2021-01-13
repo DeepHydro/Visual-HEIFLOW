@@ -30,12 +30,14 @@
 using DotSpatial.Data;
 using Heiflow.Core.Animation;
 using Heiflow.Core.Data;
+using Heiflow.Core.IO;
 using Heiflow.Models.Generic;
 using Heiflow.Models.UI;
 using Heiflow.Models.Visualization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,7 +47,7 @@ namespace Heiflow.Models.GHM
 {
     [PackageItem]
     [Serializable]
-    public class GHMPackage : Package
+    public class GHMPackage : Package,IDataPackage
     {
         public GHMPackage()
         {
@@ -83,14 +85,100 @@ namespace Heiflow.Models.GHM
             set;
         }
 
+        #region IDataPackage Properties
+        [Browsable(false)]
+        [XmlIgnore]
+        public int MaxTimeStep
+        {
+            get;
+            set;
+        }
+        [Browsable(false)]
+        [XmlIgnore]
+        public string[] Variables
+        {
+            get;
+            set;
+        }
+        [Browsable(false)]
+        [XmlIgnore]
+        public int Layer
+        {
+            get;
+            set;
+        }
+        [Browsable(false)]
+        [XmlIgnore]
+        public int NumTimeStep
+        {
+            get;
+            set;
+        }
+        [Browsable(false)]
+        [XmlIgnore]
+        public int SelectedLayerToShown
+        {
+            get;
+            set;
+        }
+        [Browsable(false)]
+        [XmlIgnore]
+        public DateTime EndOfLoading
+        {
+            get;
+            set;
+        }
+        [Browsable(false)]
+        [XmlIgnore]
+        public DateTime StartOfLoading
+        {
+            get;
+            set;
+        }
+        [Browsable(false)]
+        [XmlIgnore]
+        public DataCube<float> DataCube
+        {
+            get;
+            set;
+        }
+        [Browsable(false)]
+        [XmlIgnore]
+        public IO.DataViewMode DataViewMode
+        {
+            get;
+            set;
+        }
+        [Browsable(false)]
+        [XmlIgnore]
+        public Core.NumericalDataType NumericalDataType
+        {
+            get;
+            set;
+        }
+        [Browsable(false)]
+        [XmlIgnore]
+        public Core.TimeUnits TimeUnits
+        {
+            get;
+            set;
+        }
+        [Browsable(false)]
+        [XmlIgnore]
+        public int ODMVariableID
+        {
+            get;
+            set;
+        }
+        #endregion
         public override void Save(ICancelProgressHandler progress)
         {
-            throw new NotImplementedException();
+
         }
 
         public override void SaveAs(string filename, ICancelProgressHandler progress)
         {
-            throw new NotImplementedException();
+            
         }
 
         public override void New()
@@ -108,8 +196,26 @@ namespace Heiflow.Models.GHM
             
         }
 
-
         public override LoadingState Load(ICancelProgressHandler progess)
+        {
+            this.State = ModelObjectState.Ready;
+            foreach(var svar in StaticVariables)
+            {
+                DataCubeStreamReader dc=new DataCubeStreamReader(svar.FullPath);
+                dc.LoadDataCubeSingleStep();
+                progess.Progress("IHM3D", 50, "Data cube loaded from: " + svar.FullPath);
+                svar.DataCube = dc.DataCube;
+            }
+            return LoadingState.Normal;
+        }
+  
+
+        public bool Scan()
+        {
+            return true;
+        }
+
+        public LoadingState Load(int var_index, ICancelProgressHandler progess)
         {
             return LoadingState.Normal;
         }

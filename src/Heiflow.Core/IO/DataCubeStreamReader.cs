@@ -35,10 +35,12 @@ using System.Threading.Tasks;
 using Heiflow.Core.Data;
 using System.IO;
 using System.Xml.Serialization;
+using System.ComponentModel.Composition;
 
 namespace Heiflow.Core.IO
 {
-    public class DataCubeStreamReader : BaseDataCubeStream
+    [Export(typeof(IDataCubeProvider))]
+    public class DataCubeStreamReader : BaseDataCubeStream, IDataCubeProvider
     {
         private string _FileName;
         private DataCubeDescriptor _Descriptor;
@@ -54,7 +56,13 @@ namespace Heiflow.Core.IO
             NumTimeStep = 0;
             MaxTimeStep = 0;
         }
-
+        public DataCubeStreamReader()
+        {
+            Scale = 1;
+            _Descriptor = new DataCubeDescriptor();
+            NumTimeStep = 0;
+            MaxTimeStep = 0;
+        }
         public int FeatureCount
         {
             get;
@@ -65,6 +73,33 @@ namespace Heiflow.Core.IO
         {
             get;
             set;
+        }
+        public string FileTypeDescription
+        {
+            get
+            {
+                return "data cube file";
+            }
+        }
+
+        public string Extension
+        {
+            get
+            {
+                return ".dcx";
+            }
+        }
+
+        public string FileName
+        {
+            get
+            {
+                return _FileName;
+            }
+            set
+            {
+                _FileName = value;
+            }
         }
 
         public void Open()
@@ -152,7 +187,7 @@ namespace Heiflow.Core.IO
 
             return variables;
         }
-        public long GetTotalTimeSteps()
+        public int GetTotalTimeSteps()
         {
             FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             BinaryReader br = new BinaryReader(fs);
@@ -163,14 +198,14 @@ namespace Heiflow.Core.IO
             {
                 int varname_len = br.ReadInt32();
                 variables[i] = new string(br.ReadChars(varname_len)).Trim();
-                var featureCount = br.ReadInt32();
+                feacount = br.ReadInt32();
             }
             long stepbyte = varnum * feacount * 4;
             long num = fs.Length / stepbyte;
             br.Close();
             fs.Close();
 
-            return num;
+            return (int) num;
         }
         public override void Scan()
         {
@@ -210,7 +245,72 @@ namespace Heiflow.Core.IO
                 _ErrorMessage = string.Format("The {0} doesn't exist.", _FileName);
             }
         }
+        public  void LoadDataCubeSingleStep()
+        {
+            var xml = _FileName + ".xml";
+            if (File.Exists(xml))
+            {
+                _Descriptor = DataCubeDescriptor.Deserialize(xml);
+            }
+            int feaNum = 0;
+            int varnum = 0;
+            int nstep = 1;
+            FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            BinaryReader br = new BinaryReader(fs);
 
+            try
+            {
+                varnum = br.ReadInt32();
+                Variables = new string[varnum];
+                for (int i = 0; i < varnum; i++)
+                {
+                    int varname_len = br.ReadInt32();
+                    Variables[i] = new string(br.ReadChars(varname_len)).Trim();
+                    feaNum = br.ReadInt32();
+                }
+                if (DataCube == null)
+                    DataCube = new DataCube<float>(varnum, nstep, feaNum);
+                OnLoading(0);
+                for (int t = 0; t < nstep; t++)
+                {
+                    float[][] buf = new float[varnum][];
+                    for (int i = 0; i < varnum; i++)
+                    {
+                        buf[i] = new float[feaNum];
+                    }
+                    for (int s = 0; s < feaNum; s++)
+                    {
+                        for (int v = 0; v < varnum; v++)
+                        {
+                            buf[v][s] = br.ReadSingle() * Scale;
+                        }
+                    }
+                    for (int i = 0; i < varnum; i++)
+                    {
+                        DataCube.ILArrays[i][t, ":"] = buf[i];
+                    }
+                    int progress = Convert.ToInt32(t * 100 / NumTimeStep);
+                    OnLoading(progress);
+                }
+                if (_Descriptor.TimeStamps != null)
+                {
+                    DataCube.DateTimes = new DateTime[nstep];
+                    for (int t = 0; t < nstep; t++)
+                    {
+                        DataCube.DateTimes[t] = _Descriptor.TimeStamps[t];
+                    }
+                }
+                br.Close();
+                fs.Close();
+                OnDataCubedLoaded(DataCube);
+            }
+            catch (Exception ex)
+            {
+                br.Close();
+                fs.Close();
+                OnLoadFailed("Failed to load. Error message: " + ex.Message);
+            }
+        }
         public override void LoadDataCube()
         {
             var xml = _FileName + ".xml";
@@ -240,16 +340,26 @@ namespace Heiflow.Core.IO
                     feaNum = br.ReadInt32();
                 }
                 if (DataCube == null)
-                    DataCube = new DataCube<float>(varnum, nstep, FeatureCount);
+                    DataCube = new DataCube<float>(varnum, nstep, feaNum);
                 OnLoading(0);
                 for (int t = 0; t < nstep; t++)
                 {
+                    float[][] buf = new float[varnum][];
+                    for (int i = 0; i < varnum; i++)
+                    {
+                        buf[i] = new float[feaNum];
+                    }
                     for (int s = 0; s < feaNum; s++)
                     {
                         for (int v = 0; v < varnum; v++)
                         {
-                            DataCube[v, t, s] = br.ReadSingle() * Scale;
+                            //DataCube[v, t, s] = br.ReadSingle() * Scale;
+                            buf[v][s] = br.ReadSingle() * Scale;
                         }
+                    }
+                    for (int i = 0; i < varnum; i++)
+                    {
+                        DataCube.ILArrays[i][t, ":"] = buf[i];
                     }
                     int progress = Convert.ToInt32(t * 100 / NumTimeStep);
                     OnLoading(progress);
@@ -487,5 +597,19 @@ namespace Heiflow.Core.IO
                 OnLoadFailed("Failed to load. Error message: " + ex.Message);
             }
         }
+
+        public DataCube<float> Provide(string filename)
+        {
+            DataCubeStreamReader sr = new DataCubeStreamReader(filename);
+            sr.LoadDataCube();
+            return sr.DataCube;
+        }
+        public DataCube<float> ProvideSingleStep(string filename)
+        {
+            DataCubeStreamReader sr = new DataCubeStreamReader(filename);
+            sr.LoadDataCubeSingleStep();
+            return sr.DataCube;
+        }
+ 
     }
 }

@@ -44,5 +44,7 @@ namespace Heiflow.Models.Generic
         //    set;
         //}
         PropertyInfo PropertyInfo { get; set; }
+
+        object Tag { get; set; }
     }
 }

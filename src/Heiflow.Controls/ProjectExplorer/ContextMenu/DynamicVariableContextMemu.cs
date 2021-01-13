@@ -30,6 +30,7 @@
 using Heiflow.Controls.WinForm.Properties;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
+using Heiflow.Models.GHM;
 using Heiflow.Presentation.Controls;
 using System;
 using System.Collections.Generic;
@@ -56,6 +57,12 @@ namespace Heiflow.Controls.WinForm.MenuItems
             }
         }
 
+        public GHMVariable GHMVariable
+        {
+            get;
+            set;
+        }
+
         public override void Initialize()
         {
             base.Initialize();
@@ -72,7 +79,11 @@ namespace Heiflow.Controls.WinForm.MenuItems
             if (CheckDataSource())
             {
                 _ShellService.SelectPanel(DockPanelNames.DataGridPanel);
-                var dp = _Package as IDataPackage;
+                IDataPackage dp = null;
+                if (_Package is GHMPackage)
+                    dp = (_Package as GHMPackage).DynamicVariables[VariableIndex];
+                else
+                    dp = _Package as IDataPackage;
                 var dc = dp.DataCube;
                 dc.SelectedVariableIndex = VariableIndex;
                 dc.SelectedTimeIndex = 0;
@@ -108,7 +119,11 @@ namespace Heiflow.Controls.WinForm.MenuItems
 
         protected override void Add2Toolbox_Clicked(object sender, EventArgs e)
         {
-            var dp = _Package as IDataPackage;
+            IDataPackage dp = null;
+            if (_Package is GHMPackage)
+                dp = (from vv in (Package as GHMPackage).DynamicVariables where vv.Name == _SelectedNode.Parent.Text select vv).First();
+            else
+                dp = _Package as IDataPackage;
             var mat = dp.DataCube;
             if (mat != null)
             {
@@ -123,7 +138,11 @@ namespace Heiflow.Controls.WinForm.MenuItems
 
         protected override void Animate_Clicked(object sender, EventArgs e)
         {
-            var dp = _Package as IDataPackage;
+            IDataPackage dp = null;
+            if (_Package is GHMPackage)
+                dp = (from vv in (Package as GHMPackage).DynamicVariables where vv.Name == _SelectedNode.Parent.Text select vv).First();
+            else
+                dp = _Package as IDataPackage;
             var mat = dp.DataCube;
             if (mat != null)
             {
@@ -131,7 +150,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
                 if(mat.Name == "Default")
                     mat.Name = buf.Replace(' ', '_');
                 mat.OwnerName = dp.Name;
-                mat.DataOwner = _Package;
+                mat.DataOwner = dp;
                 mat.SelectedLayerToShown = dp.SelectedLayerToShown;
                 if (mat.Size[2] > 1)
                 {
@@ -140,9 +159,14 @@ namespace Heiflow.Controls.WinForm.MenuItems
                 }
             }
         }
+
         protected override void SetAsActiveSource_Clicked(object sender, EventArgs e)
         {
-            var dp = _Package as IDataPackage;
+            IDataPackage dp = null;
+            if (_Package is GHMPackage)
+                dp = (from vv in (Package as GHMPackage).DynamicVariables where vv.Name == _SelectedNode.Parent.Text select vv).First();
+            else
+                dp = _Package as IDataPackage;
             if (dp.DataCube != null)
             {
                 _ActiveDataService.Source = dp.DataCube;
@@ -152,7 +176,11 @@ namespace Heiflow.Controls.WinForm.MenuItems
         }
         protected override void ReleaseData_Clicked(object sender, EventArgs e)
         {
-            var dp = _Package as IDataPackage;
+            IDataPackage dp = null;
+            if (_Package is GHMPackage)
+                dp = (from vv in (Package as GHMPackage).DynamicVariables where vv.Name == _SelectedNode.Parent.Text select vv).First();
+            else
+                dp = _Package as IDataPackage;
             var mat = dp.DataCube;
             if (mat != null && _SelectedNode != null)
             {

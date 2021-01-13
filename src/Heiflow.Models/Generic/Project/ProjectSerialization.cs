@@ -45,6 +45,7 @@ using System.Collections.ObjectModel;
 using Heiflow.Models.Properties;
 using Heiflow.Models.UI;
 using DotSpatial.Data;
+using Heiflow.Core.Data;
 
 namespace Heiflow.Models.Generic.Project
 {
@@ -104,6 +105,12 @@ namespace Heiflow.Models.Generic.Project
         }
         [Import]
         public IGridFileFactory GridFileFactory
+        {
+            get;
+            set;
+        }
+        [Import]
+        public IDataCubeFileFactory DataCubeFileFactory
         {
             get;
             set;
@@ -193,6 +200,7 @@ namespace Heiflow.Models.Generic.Project
                               try
                               {
                                   CurrentProject.GridFileFactory = this.GridFileFactory;
+                                  CurrentProject.DataCubeFileFactory = this.DataCubeFileFactory;
                                   loaded = mod.Load(CurrentProject, progress);
                               }
                               catch (Exception ex)

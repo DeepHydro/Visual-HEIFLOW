@@ -28,7 +28,9 @@
 //
 
 using Heiflow.Controls.Tree;
+using Heiflow.Controls.WinForm.MenuItems;
 using Heiflow.Models.Generic;
+using Heiflow.Models.Generic.Attributes;
 using Heiflow.Models.GHM;
 using Heiflow.Presentation.Controls;
 using System;
@@ -121,18 +123,6 @@ namespace Heiflow.Controls.WinForm.Project
                         {
                             Node node_pck = pck_node_creator.Creat(pck, pck_atr) as Node;
                             node_model.Nodes.Add(node_pck);
-                            if (pck is GHMPackage)
-                            {
-                                var ghmpck = pck as GHMPackage;
-                                StaticVariableNodeCreator scrt = new StaticVariableNodeCreator();
-                                foreach (var svar in ghmpck.StaticVariables)
-                                {
-                                    StaticVariableItem item = new StaticVariableItem();
-                                 //  PropertyInfo pinfo= 
-                                    var node_var = scrt.Creat(pck, item) as Node;
-                                    node_pck.Nodes.Add(node_var);
-                                }
-                            }
                         }   
                     }
                 }
