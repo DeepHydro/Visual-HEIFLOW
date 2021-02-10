@@ -138,7 +138,7 @@
     <Compile Include="ConceptualModel\HOBTool.cs" />
     <Compile Include="ConceptualModel\ReachFeatureCollection.cs" />
     <Compile Include="ConceptualModel\SFR\SFR2Tool.cs" />
-    <Compile Include="ConceptualModel\CHDTool.cs" />
+    <Compile Include="ConceptualModel\CHD\CHDTool.cs" />
     <Compile Include="ConceptualModel\WellTool.cs" />
     <Compile Include="Conversion\FromExcel.cs" />
     <Compile Include="Conversion\FromMultVariablesFile.cs" />

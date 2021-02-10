@@ -43,12 +43,7 @@ namespace Heiflow.Models.GHM
     {
         public RenderableModelLayer()
         {
-            //  Members = new List<Member>();
         }
-
-        //[XmlArrayItem]
-        //public List<Member> Members { get; set; }
-
 
         [XmlAttribute]
         public string Name

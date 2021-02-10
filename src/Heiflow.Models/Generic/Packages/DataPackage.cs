@@ -152,7 +152,6 @@ namespace Heiflow.Models.Generic
                     else
                         _MaxTimeStep = value;
                 }
-
                 _EndLoading = TimeService.IOTimeline[_MaxTimeStep - 1];
             }
         }

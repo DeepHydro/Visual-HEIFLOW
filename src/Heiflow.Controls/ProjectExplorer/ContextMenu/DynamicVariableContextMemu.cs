@@ -191,6 +191,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
                 }
                 this.Enable(_LD, true);
                 _SelectedNode.Image = Resources.LayerRaster_B_16_gray;
+                GC.Collect();
             }
         }
 

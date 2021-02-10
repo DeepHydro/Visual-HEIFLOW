@@ -163,6 +163,7 @@ namespace Heiflow.Core.Animation
             if (Current >= Maximum)
             {
                 _Timer.Stop();
+                Current = 0;
                 OnStopped();
             }
             else

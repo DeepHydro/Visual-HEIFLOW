@@ -96,10 +96,13 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         {
             if (!this.Visible)
             {
-                var control = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectController>();
-                var map_layers = from layer in control.MapAppManager.Map.Layers where layer is IFeatureLayer select new FeatureMapLayer { LegendText = layer.LegendText, DataSet = (layer as IFeatureLayer).DataSet };
-                sfrExplorer1.FeatureLayers = map_layers.ToArray();
-                this.Show(pararent);
+                if (MyAppManager.Instance.AppMode == Presentation.Controls.AppMode.VHF)
+                {
+                    var control = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectController>();
+                    var map_layers = from layer in control.MapAppManager.Map.Layers where layer is IFeatureLayer select new FeatureMapLayer { LegendText = layer.LegendText, DataSet = (layer as IFeatureLayer).DataSet };
+                    sfrExplorer1.FeatureLayers = map_layers.ToArray();
+                    this.Show(pararent);
+                }
             }
         }
         private  void SFRExplorerView_FormClosing(object sender, FormClosingEventArgs e)

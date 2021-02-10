@@ -84,13 +84,13 @@ namespace Heiflow.Models.GHM
             }
         }
 
-        [Browsable(false)]
-        [XmlIgnore]
-        public I3DLayer RenderableModelObject
-        {
-            get;
-            set;
-        }
+        //[Browsable(false)]
+        //[XmlIgnore]
+        //public I3DLayer RenderableModelObject
+        //{
+        //    get;
+        //    set;
+        //}
 
         public override bool Scan()
         {

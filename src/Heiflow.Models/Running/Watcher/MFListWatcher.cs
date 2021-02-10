@@ -279,72 +279,65 @@ namespace Heiflow.Models.Running
                     while (!sr.EndOfStream)
                     {
                         line = sr.ReadLine();
-                        if (!string.IsNullOrEmpty(line))
+                        //if (!string.IsNullOrEmpty(line))
+                        //{
+                        if (line.Contains("VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP"))
                         {
-                            //if (line.Contains("VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  2828"))
-                            //{
-                            //    var a = 0;
-                            //}
-                            if (line.Contains("VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP"))
+                            var vector = new double[total_var];
+                            double total_in = 0, total_out = 0, ds = 0, error = 0;
+                            for (int i = 0; i < 7; i++)
                             {
-                                var vector = new double[total_var];
-                                double total_in = 0, total_out = 0, ds = 0, error = 0;
-                                for (int i = 0; i < 7; i++)
-                                {
-                                    sr.ReadLine();
-                                }
-
-                                for (int i = 0; i < nvar; i++)
-                                {
-                                    line = sr.ReadLine();
-                                    line = line.Replace("=", " ");
-                                    var buf = TypeConverterEx.Split<string>(line);
-                                    if (buf.Length == 4)
-                                    {
-                                        vector[i] = double.Parse(buf[3]);
-                                    }
-                                    else if (buf.Length == 6)
-                                    {
-                                        vector[i] = double.Parse(buf[5]);
-                                    }
-                                    total_in += vector[i];
-                                }
-                                for (int i = 0; i < 5; i++)
-                                {
-                                    sr.ReadLine();
-                                }
-                                for (int i = nvar; i < nvar * 2; i++)
-                                {
-                                    line = sr.ReadLine();
-                                    line = line.Replace("=", " ");
-                                    var buf = TypeConverterEx.Split<string>(line);
-                                    if (buf.Length == 4)
-                                    {
-                                        vector[i] = double.Parse(buf[3]);
-                                    }
-                                    else if (buf.Length == 6)
-                                    {
-                                        vector[i] = double.Parse(buf[5]);
-                                    }
-                                    total_out += vector[i];
-                                }
-
-                                ds = vector[2 * nvar] - vector[0];
-                                error = total_in - total_out;
-
-                                vector[2 * nvar] = total_in;
-                                vector[2 * nvar + 1] = total_out;
-                                vector[2 * nvar + 2] = ds;
-                                vector[2 * nvar + 3] = error;
-             
-                                //if (t > 0)
-                                //{
-                                    var date = ModelService.Start.AddDays(t - 1);
-                                    _DataSource.Add(date, vector);      
-                                //}
-                                t++;
+                                sr.ReadLine();
                             }
+
+                            for (int i = 0; i < nvar; i++)
+                            {
+                                line = sr.ReadLine();
+                                line = line.Replace("=", " ");
+                                var buf = TypeConverterEx.Split<string>(line);
+                                if (buf.Length == 4)
+                                {
+                                    vector[i] = double.Parse(buf[3]);
+                                }
+                                else if (buf.Length == 6)
+                                {
+                                    vector[i] = double.Parse(buf[5]);
+                                }
+                                total_in += vector[i];
+                            }
+                            for (int i = 0; i < 5; i++)
+                            {
+                                sr.ReadLine();
+                            }
+                            for (int i = nvar; i < nvar * 2; i++)
+                            {
+                                line = sr.ReadLine();
+                                line = line.Replace("=", " ");
+                                var buf = TypeConverterEx.Split<string>(line);
+                                if (buf.Length == 4)
+                                {
+                                    vector[i] = double.Parse(buf[3]);
+                                }
+                                else if (buf.Length == 6)
+                                {
+                                    vector[i] = double.Parse(buf[5]);
+                                }
+                                total_out += vector[i];
+                            }
+
+                            ds = vector[2 * nvar] - vector[0];
+                            error = total_in - total_out;
+
+                            vector[2 * nvar] = total_in;
+                            vector[2 * nvar + 1] = total_out;
+                            vector[2 * nvar + 2] = ds;
+                            vector[2 * nvar + 3] = error;
+
+                            var date = ModelService.Start.AddDays(t - 1);
+                            _DataSource.Add(date, vector);
+                            t++;
                         }
+                        //}
                     }
                     fs.Close();
                     sr.Close();

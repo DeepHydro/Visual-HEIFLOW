@@ -69,6 +69,8 @@ namespace Heiflow.Tools.ConceptualModel
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
+            ModifyElevation = false;
+            CHDCellElev = -2;
         }
 
 
@@ -159,6 +161,20 @@ namespace Heiflow.Tools.ConceptualModel
             }
         }
 
+        [Category("Parameter")]
+        [Description("If yes, elevations for the CHD cells will be modfied.")]
+        public bool ModifyElevation
+        {
+            get;
+            set;
+        }
+        [Category("Parameter")]
+        [Description("")]
+        public float CHDCellElev
+        {
+            get;
+            set;
+        }
         [Browsable(false)]
         public string[] Fields
         {
@@ -271,6 +287,35 @@ namespace Heiflow.Tools.ConceptualModel
                     for (int i = 1; i < nsp; i++)
                     {
                         FlowRate.Flags[i] = TimeVarientFlag.Repeat;
+                    }
+                    if(ModifyElevation)
+                    {
+                        var mfgrid=  (mf.Grid as MFGrid);
+                        var elev =mfgrid.Elevations;
+                        for (int i = 0; i < pck.MXACTC; i++)
+                        {
+                            var bound = list[i];
+                            FlowRate[0, i, 0] = bound.Layer;
+                            FlowRate[0, i, 1] = bound.Row;
+                            FlowRate[0, i, 2] = bound.Col;
+                            FlowRate[0, i, 3] = bound.SHead;
+                            FlowRate[0, i, 4] = bound.EHead;
+                            var index = mfgrid.Topology.GetSerialIndex(bound.Row - 1, bound.Col - 1);
+                            if (elev[0, 0, index] > 0)
+                            {
+                                var heights = new float[mfgrid.ActualLayerCount];
+                                for (int j = 0; j < mfgrid.ActualLayerCount; j++)
+                                {
+                                    heights[j] = elev[j, 0, index] - elev[j + 1, 0, index];
+                                }
+                                elev[0, 0, index] = CHDCellElev;
+                                for (int j = 0; j < mfgrid.ActualLayerCount; j++)
+                                {
+                                    elev[j + 1, 0, index] = elev[j, 0, index] - heights[j];
+                                }
+                            }
+                        }
+                        cancelProgressHandler.Progress("Package_Tool", 100, "DIS pachage need to be saved.");
                     }
                     pck.SHEAD = FlowRate;
                     pck.CreateFeature(shell.MapAppManager.Map.Projection, prj.Project.GeoSpatialDirectory);

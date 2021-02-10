@@ -159,10 +159,19 @@ namespace Heiflow.Controls.WinForm.MenuItems
             else
             {
                 var ghmv = (item.Tag as GHMVariable);
-                var vector = dc.GetVectorAsArray(dc.SelectedVariableIndex, "0", ":");
-                if (vector != null && ghmv.RenderableModelObject != null)
+                var buf = dc.GetVectorAsArray(dc.SelectedVariableIndex, "0", ":");
+                if (buf == null)
+                    return;
+                var vector = buf.Cast<float>().ToArray();
+                if (vector == null)
+                    return;
+                if (ghmv != null)
                 {
-                    ghmv.RenderableModelObject.RenderObject.Render(vector.Cast<float>().ToArray());
+                    ghmv.Layer3D.RenderObject.Render(vector);
+                }
+                else if (_Package.Layer3D.RenderObject != null)
+                {
+                    _Package.Layer3D.RenderObject.Render(vector);
                 }
             }
         }

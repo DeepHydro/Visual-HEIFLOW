@@ -60,7 +60,7 @@ namespace Heiflow.Models.Subsurface
               _MaxTimeStep = -1;
 #endif
             SkippedSteps = 0;
-            _Layer3DToken = "RegularGrid";
+            _Layer3DToken = "Velocity Field";
         }
 
         [Description("The dimension representing X component. It starts from 0.")]

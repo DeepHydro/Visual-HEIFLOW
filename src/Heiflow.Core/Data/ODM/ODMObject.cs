@@ -29,6 +29,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -39,43 +40,78 @@ using System.Threading.Tasks;
 namespace Heiflow.Core.Data.ODM
 {
     [ServiceContract]
-    public class Site:IObservationsSite
+    public class Site : IObservationsSite
     {
         public Site()
         {
             Name = "site";
         }
         [DataMember]
+        [Category("General")]
         public string Name { get; set; }
+
         [DataMember]
+        [Category("General")]
         public int ID { get; set; }
+
         [DataMember]
+        [Browsable(false)]
         public Variable[] Variables { get; set; }
+
+        [Browsable(false)]
         public string[] VariableNames { get; set; }
+
         [DataMember]
+        [Category("Spatial")]
         public double Latitude { get; set; }
+
+        [Category("Spatial")]
         [DataMember]
         public double Longitude { get; set; }
+
+        [Browsable(false)]
         public int SpatialIndex { get; set; }
+
+        [Category("General")]
         public string Code { get; set; }
 
+        [Category("Spatial")]
         public double Elevation { get; set; }
 
+        [Category("Spatial")]
         public double Cell_Elevation { get; set; }
 
+        [Category("General")]
         public string Comments { get; set; }
 
+        [Category("Spatial")]
         public string State { get; set; }
 
+        [Category("General")]
         public int MonitorType { get; set; }
+
+        [Category("Spatial")]
         public string Country { get; set; }
+
+        [Category("Spatial")]
         public double LocalX { get; set; }
+
+        [Category("Spatial")]
         public double LocalY { get; set; }
+
+        [Category("Spatial")]
         public double Distance { get; set; }
+
+        [Category("General")]
         public string SiteType { get; set; }
+
+        [Browsable(false)]
         public DataCube<double> TimeSeries { get; set; }
 
+        [Browsable(false)]
         public List<DataCube<double>> TimeSeriesCollection { get; set; }
+
+        [Browsable(false)]
         public double[] Values { get; set; }
 
     }

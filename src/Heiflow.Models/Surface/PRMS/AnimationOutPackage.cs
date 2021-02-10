@@ -89,9 +89,11 @@ namespace Heiflow.Models.Surface.PRMS
             if (!FileName.Contains(".nhru"))
                 FileName += ".nhru";
             DataCubeStreamReader stream = new DataCubeStreamReader(FileName);
-            Variables = stream.GetVariables();
-            FeatureCount = stream.FeatureCount;
-            NumTimeStep = TimeService.GetIOTimeLength(this.Owner.WorkDirectory);
+            var info = stream.GetFileInfo();
+            Variables = info.VariableNames;
+            FeatureCount = info.CellNum;
+            //NumTimeStep = TimeService.GetIOTimeLength(this.Owner.WorkDirectory);
+            NumTimeStep = info.TotalTimeSteps;
             _StartLoading = TimeService.Start;
             MaxTimeStep = NumTimeStep; 
             return true;

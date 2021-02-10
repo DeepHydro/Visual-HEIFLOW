@@ -66,7 +66,7 @@ namespace Heiflow.Models.Subsurface
             Description = "The CHD is used to simulate specified head boundaries that can change within or between stress periods.";
             Version = "CHD";
             IsMandatory = false;
-            _Layer3DToken = "RegularGrid";
+            _Layer3DToken = "CHD";
         }
         [Description("The maximum number of constant-head boundary cells in use during any stress period, including those that are defined using parameters.")]
         /// <summary>

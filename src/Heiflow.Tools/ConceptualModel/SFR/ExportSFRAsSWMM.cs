@@ -66,6 +66,11 @@ namespace Heiflow.Tools.ConceptualModel
             RowField = "ROW";
             ColumnField = "COLUMN";
             MultiThreadRequired = true;
+            LengthFactor = 1;
+            WidthFactor = 1;
+            RECT_Max_Height = 30;
+            RnFactor = 1;
+            NodeMaxDepth = 30;
         }
         [Category("GIS Layer")]
         [Description("Junction layer")]
@@ -131,6 +136,46 @@ namespace Heiflow.Tools.ConceptualModel
         [Description("The SWMM inp filename")]
         [EditorAttribute(typeof(SaveFileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public string DataFileName
+        {
+            get;
+            set;
+        }
+
+        [Category("Optional")]
+        [Description("The scale factor applied to the reach length")]
+        public double LengthFactor
+        {
+            get;
+            set;
+        }
+        [Category("Optional")]
+        [Description("The scale factor applied to the reach width")]
+        public double WidthFactor
+        {
+            get;
+            set;
+        }
+
+        [Category("Optional")]
+        [Description("Maximum height for the RECT_OPEN")]
+        public double RECT_Max_Height
+        {
+            get;
+            set;
+        }
+
+
+        [Category("Optional")]
+        [Description("The scale factor applied to the roughness")]
+        public double RnFactor
+        {
+            get;
+            set;
+        }
+
+        [Category("Optional")]
+        [Description("")]
+        public double NodeMaxDepth
         {
             get;
             set;
@@ -229,7 +274,7 @@ namespace Heiflow.Tools.ConceptualModel
             {
                 if (junc != null)
                 {
-                    line = string.Format("{0}\t{1}\t{2}", junc.ID, junc.Elevation.ToString("0.0000"), " 15.0\t0 .00\t0\t0");
+                    line = string.Format("{0}\t{1}\t{2}\t{3}", junc.ID, junc.Elevation.ToString("0.0000"), NodeMaxDepth, " \t0 .00\t0\t0");
                     sw.WriteLine(line);
                 }
             }
@@ -257,7 +302,7 @@ namespace Heiflow.Tools.ConceptualModel
             {
                 foreach (var rch in r.Reaches)
                 {
-                    line = rch.ID + " " + rch.InletNode.ID + " " + rch.OutletNode.ID + " " + rch.Length.ToString("0.000") + " " + rch.ROUGHCH + "  0      0        0          0    ";
+                    line = rch.ID + " " + rch.InletNode.ID + " " + rch.OutletNode.ID + " " + (rch.Length * this.LengthFactor).ToString("0.000") + " " + rch.ROUGHCH * RnFactor + "  0      0        0          0    ";
                     sw.WriteLine(line);
                 }
             }
@@ -270,7 +315,7 @@ namespace Heiflow.Tools.ConceptualModel
             {
                 foreach (var rch in r.Reaches)
                 {
-                    line = rch.ID + " RECT_OPEN  10.0  " + rch.Width + "     1        1          1    ";
+                    line = string.Format("{0} RECT_OPEN  {1}  {2}      1        1          1    ", rch.ID, RECT_Max_Height, rch.Width * WidthFactor);
                     sw.WriteLine(line);
                 }
             }

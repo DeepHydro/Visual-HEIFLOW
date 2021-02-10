@@ -59,7 +59,7 @@ namespace Heiflow.Tools.ConceptualModel
             Name = "Smooth Junction Elevations For SWMM";
             Category = Cat_CMG;
             SubCategory = "SFR";
-            Description = "Smooth stream networkd elevations based on river feature";
+            Description = "Smooth stream network elevations based on river feature";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             NodeTypeField = "NodeType";
@@ -339,7 +339,6 @@ namespace Heiflow.Tools.ConceptualModel
                 SmoothReach(node, net);
             }
         }
-
         private void SetReachElev(HydroTreeNode node)
         {
             var river = node.River;
@@ -357,10 +356,6 @@ namespace Heiflow.Tools.ConceptualModel
                 double aclen = 0;
                 river.Reaches[0].TopElevation = node.BedElevation;
                 river.Reaches[0].InletNode.Elevation = node.BedElevation;
-                //for (int i = 0; i < nrch; i++)
-                //{
-                //    river.Reaches[i].Slope = node.Slope;
-                //}
                 for (int i = 1; i < nrch; i++)
                 {
                     aclen += lengths[i - 1];
@@ -377,23 +372,54 @@ namespace Heiflow.Tools.ConceptualModel
             {
                 river.Reaches[0].TopElevation = node.BedElevation;
                 river.Reaches[0].InletNode.Elevation = node.BedElevation;
-                //for (int i = 0; i < nrch; i++)
-                //{
-                //    river.Reaches[i].Slope = node.Slope;
-                //}
                 for (int i = 1; i < nrch; i++)
                 {
                     river.Reaches[i].TopElevation = river.Reaches[i - 1].TopElevation - node.Slope * river.Reaches[i - 1].Length;
                     river.Reaches[i].InletNode.Elevation = river.Reaches[i].TopElevation;
                 }
-                //if (nrch > 2)
-                //{
                 river.LastReach.OutletNode.Elevation = river.LastReach.InletNode.Elevation - river.LastReach.Slope * river.LastReach.Length;
-                //}
-                //else
-                //{
-                //    river.LastReach.OutletNode.Elevation = node.BedElevation - lengths.Sum() * node.Slope;
-                //}
+                river.OutletNode.Elevation = river.LastReach.OutletNode.Elevation;
+            }
+        }
+        private void SetReachElev0(HydroTreeNode node)
+        {
+            var river = node.River;
+            var nrch = river.Reaches.Count;
+            var lengths = (from rch in river.Reaches select rch.Length).ToArray();
+            var totallen = lengths.Sum() - river.Reaches[nrch - 1].Length;
+            if (node.Parent != null)
+            {
+                var dh = node.BedElevation - node.Parent.BedElevation;
+                if (dh < 0)
+                {
+                    throw new Exception("invalid bed elevation");
+                }
+
+                double aclen = 0;
+                river.Reaches[0].TopElevation = node.BedElevation;
+                river.Reaches[0].InletNode.Elevation = node.BedElevation;
+                for (int i = 1; i < nrch; i++)
+                {
+                    aclen += lengths[i - 1];
+                    river.Reaches[i].TopElevation = node.BedElevation - aclen / totallen * dh;
+                    river.Reaches[i].InletNode.Elevation = river.Reaches[i].TopElevation;
+                }
+                river.LastReach.OutletNode.Elevation = node.Parent.BedElevation;
+                if (nrch > 2)
+                    river.LastReach.InletNode.Elevation = (river.Reaches[nrch - 2].InletNode.Elevation + river.LastReach.OutletNode.Elevation) * 0.5;
+                else if (nrch == 2)
+                    river.LastReach.InletNode.Elevation = (node.BedElevation + river.LastReach.OutletNode.Elevation) * 0.5;
+            }
+            else
+            {
+                river.Reaches[0].TopElevation = node.BedElevation;
+                river.Reaches[0].InletNode.Elevation = node.BedElevation;
+                for (int i = 1; i < nrch; i++)
+                {
+                    river.Reaches[i].TopElevation = river.Reaches[i - 1].TopElevation - node.Slope * river.Reaches[i - 1].Length;
+                    river.Reaches[i].InletNode.Elevation = river.Reaches[i].TopElevation;
+                }
+                river.LastReach.OutletNode.Elevation = river.LastReach.InletNode.Elevation - river.LastReach.Slope * river.LastReach.Length;
                 river.OutletNode.Elevation = river.LastReach.OutletNode.Elevation;
             }
         }

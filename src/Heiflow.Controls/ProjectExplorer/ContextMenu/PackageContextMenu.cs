@@ -72,13 +72,13 @@ namespace Heiflow.Controls.WinForm.MenuItems
 
         public override void AddMenuItems()
         {
-            ContextMenuItems.Add(new ExplorerMenuItem(_Save, null, Save_Clicked));
-            ContextMenuItems.Add(new ExplorerMenuItem(_SaveAs, Resources.GenericSave_B_16, SaveAs_Clicked));
-            ContextMenuItems.Add(new ExplorerMenuItem(_FS, null, UpdateFeature_Clicked));
-            ContextMenuItems.Add(new ExplorerMenuItem(_UAT, null, UpdateAttributeTable_Clicked));
-            ContextMenuItems.Add(new ExplorerMenuItem(_EX, null, Export_Clicked));
             if (MyAppManager.Instance.AppMode == AppMode.VHF)
             {
+                ContextMenuItems.Add(new ExplorerMenuItem(_Save, null, Save_Clicked));
+                ContextMenuItems.Add(new ExplorerMenuItem(_SaveAs, Resources.GenericSave_B_16, SaveAs_Clicked));
+                ContextMenuItems.Add(new ExplorerMenuItem(_FS, null, UpdateFeature_Clicked));
+                ContextMenuItems.Add(new ExplorerMenuItem(_UAT, null, UpdateAttributeTable_Clicked));
+                ContextMenuItems.Add(new ExplorerMenuItem(_EX, null, Export_Clicked));
                 ContextMenuItems.Add(new ExplorerMenuItem(PEContextMenu.MenuSeparator, null, null));
                 ContextMenuItems.Add(new ExplorerMenuItem(_CS, Resources.MapPackageTiledTPKFile16, CoverageSetup_Clicked));
                 //ContextMenuItems.Add(new ExplorerMenuItem(_FS, null, FeatureSet_Clicked));
