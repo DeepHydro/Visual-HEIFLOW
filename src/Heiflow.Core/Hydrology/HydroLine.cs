@@ -36,6 +36,7 @@ namespace Heiflow.Core.Hydrology
 {
     public class HydroLine : HydroFeature
     {
+        private double _width;
         public HydroLine(int id)
             : base(id)
         {
@@ -48,23 +49,29 @@ namespace Heiflow.Core.Hydrology
         }
 
         public double Slope { get; set; }
-        public double Width { get; set; }
+        public double Width 
+        {
+            get
+            {
+                return _width;
+            }
+            set
+            {
+                _width = value;
+                Width1 = _width;
+                Width2 = _width;
+            }
+        }
         public double Length { get; set; }
         public double TopElevation { get; set; }
         public double BedThick { get; set; }
-
-        //public int InletNodeIndex { get; set; }
-        //public int OutletNodeIndex { get; set; }
-
         public HydroPoint InletNode { get; set; }
         public HydroPoint OutletNode { get; set; }
-
         public double ETSW { get; set; }
         public double PPTSW { get; set; }
         public double ROUGHCH { get; set; }
         public double Width1 { get; set; }
         public double Width2 { get; set; }
-
         /// <summary>
         /// Row * Column = Variable * Time Step
         /// </summary>

@@ -40,36 +40,28 @@ using System.Linq;
 
 namespace Heiflow.Tools.ConceptualModel
 {
-    public enum SFRParameter
-    {
-        STRHC1, Slope, Width, TopElevation, ROUGHCH, Runoff,
-        PPTSW, ETSW, BedThick, IPrior, UpRiverID, Flow
-    };
-    public enum ReachParameter
-    {
-        STRHC1, Slope, Width, TopElevation, ROUGHCH, Runoff,
-        PPTSW, ETSW, BedThick, IPrior, UpRiverID, Flow
-    };
-    public class SetParaByFeatureLayer : MapLayerRequiredTool
+    public enum ReachParameter {  BedThick, TopElev, Slope, Length, STRHC1, THTS, THTI, EPS };
+    public class SetReachParaByFeatureLayer : MapLayerRequiredTool
     {
         private IMapLayerDescriptor _StreamFeatureLayerDescriptor;
         private IFeatureSet _stream_layer;
-        public SetParaByFeatureLayer()
+        public SetReachParaByFeatureLayer()
         {
-            Name = "Set Single Parameter by Feature Layer";
+            Name = "Set Reach Parameter by Feature Layer";
             Category = Cat_CMG;
             SubCategory = "SFR";
-            Description = "Set Segment Parameters by Feature Layer";
+            Description = "Set Reach Parameter by Feature Layer";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
             SegmentIDField = "GRID_CODE";
+            ParameterName = ReachParameter.BedThick;
         }
 
         #region GIS Layers
 
         [Category("GIS Layer")]
-        [Description("Stream layer")]
+        [Description("Reach layer")]
         [EditorAttribute(typeof(MapLayerDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         public IMapLayerDescriptor StreamFeatureLayer
         {
@@ -128,9 +120,9 @@ namespace Heiflow.Tools.ConceptualModel
             set;
         }
         [Category("SFR Parameter")]
-        [Description("The name segment parameter")]
+        [Description("The name of reach parameter")]
 
-        public SFRParameter ParameterName
+        public ReachParameter ParameterName
         {
             get;
             set;
@@ -175,33 +167,6 @@ namespace Heiflow.Tools.ConceptualModel
                     else
                     {
                         cancelProgressHandler.Progress("Package_Tool", 1, "Warning: the GIS layer must contain Segment ID field and Reach ID field");
-                        return false;
-                    }
-                }
-                else if (SFRPackage.SegmentPara.Contains(ParameterName.ToString()))
-                {
-                    if (sfr.RiverNetwork.RiverCount != dt.Rows.Count)
-                    {
-                        cancelProgressHandler.Progress("Package_Tool", 1, "Warning: Segment count in SFR package is not equal to the row count of the GIS layer");
-                        return false;
-                    }
-                    if (dt.Columns.Contains(SegmentIDField))
-                    {
-                        foreach (DataRow dr in dt.Rows)
-                        {
-                            var segid = int.Parse(dr[SegmentIDField].ToString());
-                            var river = sfr.RiverNetwork.GetRiver(segid);
-                            if (river != null)
-                            {
-                                river.GetType().GetProperty(ParameterName.ToString()).SetValue(river, dr[ParameterField]);
-                            }
-                        }
-                        sfr.NetworkToMat();
-                        return true;
-                    }
-                    else
-                    {
-                        cancelProgressHandler.Progress("Package_Tool", 1, "Warning: the GIS layer must contain Segment ID field");
                         return false;
                     }
                 }

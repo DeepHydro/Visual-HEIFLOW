@@ -302,7 +302,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
-            BindSites();
+            BindSites(); 
         }
 
         private void chbReadComplData_CheckedChanged(object sender, EventArgs e)
@@ -338,24 +338,13 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                 var river_start = (int)cmbStartID.SelectedItem;
                 var river_end = (int)cmbEndID.SelectedItem;
 
-                if (radioPlotVar.Checked)
-                {
-                    _ProfileRivers = SFROutput.RiverNetwork.BuildProfile(river_start, river_end);
-                    _ProfileMat = SFROutput.ProfileTimeSeries(_ProfileRivers, cmbSFRVars.SelectedIndex, 0,
-                        chbReadComplData.Checked, chbUnifiedByLength.Checked);
-                    colorSlider1.Maximum = SFROutput.DataCube.Size[1] - 1;
-                    colorSlider1.Value = 0;
-                    string series = string.Format("{0} from {1} to {2}", cmbSFRVars.SelectedItem.ToString(), river_start, river_end);
-                    winChart_proflie.Plot(_ProfileMat[0, "0", ":"], _ProfileMat[1, "0", ":"], series);
-                }
-                else if (radioPlotProp.Checked)
-                {
-                    if (cmbPropertyName.SelectedIndex < 0)
-                        return;
-                    var prof = SFROutput.RiverNetwork.GetProfileProperty(river_start, river_end, cmbPropertyName.SelectedItem.ToString());
-                    string series = string.Format("{0} from {1} to {2}", cmbPropertyName.SelectedItem.ToString(), river_start, river_end);
-                    winChart_proflie.Plot(prof, series);
-                }
+                _ProfileRivers = SFROutput.RiverNetwork.BuildProfile(river_start, river_end);
+                _ProfileMat = SFROutput.ProfileTimeSeries(_ProfileRivers, cmbSFRVars.SelectedIndex, 0,
+                    chbReadComplData.Checked, chbUnifiedByLength.Checked);
+                colorSlider1.Maximum = SFROutput.DataCube.Size[1] - 1;
+                colorSlider1.Value = 0;
+                string series = string.Format("{0} from {1} to {2}", cmbSFRVars.SelectedItem.ToString(), river_start, river_end);
+                winChart_proflie.Plot(_ProfileMat[0, "0", ":"], _ProfileMat[1, "0", ":"], series);
             }
         }
 
@@ -515,14 +504,6 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                 _LoadAllVars = false;
         }
 
-        private void radioPlotVar_CheckedChanged(object sender, EventArgs e)
-        {
-            groupPlotVar.Enabled = radioPlotVar.Checked;
-            groupPlotProp.Enabled = radioPlotProp.Checked;
-            if (cmbPropertyName.SelectedIndex < 0)
-                cmbPropertyName.SelectedIndex = 0;
-        }
-
         private void btnShowLayer_Click(object sender, EventArgs e)
         {
             if (cmbLayers.SelectedItem == null)
@@ -555,7 +536,8 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                     {
                         dt.Rows[i][varname] = vec[i];
                     }
-                    _SelectedFeatureMapLayer.DataSet.Save();
+                    if(checkBoxSaveLayer.Checked)
+                        _SelectedFeatureMapLayer.DataSet.Save();
                     Cursor.Current = Cursors.Default;
                 }
                 else
@@ -591,6 +573,11 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             {
                 SFROutput.SFRPackage.SaveJunctionsAsShp(dlg.FileName);
             }
+        }
+
+        private void chbReadComplData_CheckedChanged_1(object sender, EventArgs e)
+        {
+            cmbRchID.Enabled = chbReadComplData.Checked;
         }
 
  

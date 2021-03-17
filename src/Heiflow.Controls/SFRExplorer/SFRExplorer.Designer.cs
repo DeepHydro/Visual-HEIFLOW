@@ -63,7 +63,6 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabControlLeft = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.btnAddSfrMat2Toolbox = new System.Windows.Forms.Button();
-            this.chbReadComplData = new System.Windows.Forms.CheckBox();
             this.cmbObsVars = new System.Windows.Forms.ComboBox();
             this.cmbSite = new System.Windows.Forms.ComboBox();
             this.cmbRchID = new System.Windows.Forms.ComboBox();
@@ -73,21 +72,13 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.groupPlotProp = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.cmbPropertyName = new System.Windows.Forms.ComboBox();
-            this.groupPlotVar = new System.Windows.Forms.GroupBox();
             this.chbUnifiedByLength = new System.Windows.Forms.CheckBox();
             this.btnAdd2Toolbox = new System.Windows.Forms.Button();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.radioPlotProp = new System.Windows.Forms.RadioButton();
-            this.radioPlotVar = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.cmbEndID = new System.Windows.Forms.ComboBox();
             this.cmbStartID = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.btnRefreshLayer = new System.Windows.Forms.Button();
             this.btnShowLayer = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
@@ -98,10 +89,16 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.tabControl_Chart = new System.Windows.Forms.TabControl();
             this.tabPageTimeSeries = new System.Windows.Forms.TabPage();
-            this.winChart_timeseries = new Heiflow.Controls.WinForm.Controls.WinChart();
             this.tabPageProfile = new System.Windows.Forms.TabPage();
+            this.tabPageFeatureLayer = new System.Windows.Forms.TabPage();
+            this.radioButtonSegFeature = new System.Windows.Forms.RadioButton();
+            this.radioButtonReachFeature = new System.Windows.Forms.RadioButton();
+            this.label2 = new System.Windows.Forms.Label();
+            this.chbReadComplData = new System.Windows.Forms.ToolStripButton();
+            this.winChart_timeseries = new Heiflow.Controls.WinForm.Controls.WinChart();
             this.winChart_proflie = new Heiflow.Controls.WinForm.Controls.WinChart();
             this.colorSlider1 = new Heiflow.Controls.WinForm.ColorSlider();
+            this.checkBoxSaveLayer = new System.Windows.Forms.CheckBox();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -110,15 +107,12 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabControlLeft.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
-            this.groupPlotProp.SuspendLayout();
-            this.groupPlotVar.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.tabPage2.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabControl_Chart.SuspendLayout();
             this.tabPageTimeSeries.SuspendLayout();
             this.tabPageProfile.SuspendLayout();
+            this.tabPageFeatureLayer.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -129,6 +123,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.btnScan,
             this.toolStripButton2,
             this.cmbLoadVar,
+            this.chbReadComplData,
             this.btnLoad,
             this.toolStripLabel1,
             this.cmbSFRVars,
@@ -382,11 +377,11 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // 
             // tabControlLeft
             // 
+            this.tabControlLeft.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControlLeft.Controls.Add(this.tabPage3);
             this.tabControlLeft.Controls.Add(this.tabPage4);
-            this.tabControlLeft.Controls.Add(this.tabPage2);
             this.tabControlLeft.Controls.Add(this.tabPage1);
-            this.tabControlLeft.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControlLeft.Location = new System.Drawing.Point(0, 0);
             this.tabControlLeft.Name = "tabControlLeft";
             this.tabControlLeft.SelectedIndex = 0;
@@ -396,7 +391,6 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.btnAddSfrMat2Toolbox);
-            this.tabPage3.Controls.Add(this.chbReadComplData);
             this.tabPage3.Controls.Add(this.cmbObsVars);
             this.tabPage3.Controls.Add(this.cmbSite);
             this.tabPage3.Controls.Add(this.cmbRchID);
@@ -415,24 +409,15 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // 
             // btnAddSfrMat2Toolbox
             // 
-            this.btnAddSfrMat2Toolbox.Location = new System.Drawing.Point(9, 307);
+            this.btnAddSfrMat2Toolbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAddSfrMat2Toolbox.Location = new System.Drawing.Point(10, 274);
             this.btnAddSfrMat2Toolbox.Name = "btnAddSfrMat2Toolbox";
-            this.btnAddSfrMat2Toolbox.Size = new System.Drawing.Size(201, 31);
+            this.btnAddSfrMat2Toolbox.Size = new System.Drawing.Size(231, 31);
             this.btnAddSfrMat2Toolbox.TabIndex = 13;
-            this.btnAddSfrMat2Toolbox.Text = "Add to Toolbox";
+            this.btnAddSfrMat2Toolbox.Text = "Add Time Series To Toolbox";
             this.btnAddSfrMat2Toolbox.UseVisualStyleBackColor = true;
             this.btnAddSfrMat2Toolbox.Click += new System.EventHandler(this.btnAddSfrMat2Toolbox_Click);
-            // 
-            // chbReadComplData
-            // 
-            this.chbReadComplData.AutoSize = true;
-            this.chbReadComplData.Location = new System.Drawing.Point(10, 264);
-            this.chbReadComplData.Name = "chbReadComplData";
-            this.chbReadComplData.Size = new System.Drawing.Size(159, 23);
-            this.chbReadComplData.TabIndex = 10;
-            this.chbReadComplData.Text = "Load complete data";
-            this.chbReadComplData.UseVisualStyleBackColor = true;
-            this.chbReadComplData.CheckedChanged += new System.EventHandler(this.chbReadComplData_CheckedChanged);
             // 
             // cmbObsVars
             // 
@@ -442,7 +427,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.cmbObsVars.FormattingEnabled = true;
             this.cmbObsVars.Location = new System.Drawing.Point(6, 222);
             this.cmbObsVars.Name = "cmbObsVars";
-            this.cmbObsVars.Size = new System.Drawing.Size(204, 27);
+            this.cmbObsVars.Size = new System.Drawing.Size(245, 27);
             this.cmbObsVars.TabIndex = 6;
             this.cmbObsVars.SelectedIndexChanged += new System.EventHandler(this.cmbObsVars_SelectedIndexChanged);
             // 
@@ -454,7 +439,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.cmbSite.FormattingEnabled = true;
             this.cmbSite.Location = new System.Drawing.Point(6, 162);
             this.cmbSite.Name = "cmbSite";
-            this.cmbSite.Size = new System.Drawing.Size(204, 27);
+            this.cmbSite.Size = new System.Drawing.Size(245, 27);
             this.cmbSite.TabIndex = 7;
             this.cmbSite.SelectedIndexChanged += new System.EventHandler(this.cmbSite_SelectedIndexChanged);
             // 
@@ -466,7 +451,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.cmbRchID.FormattingEnabled = true;
             this.cmbRchID.Location = new System.Drawing.Point(6, 102);
             this.cmbRchID.Name = "cmbRchID";
-            this.cmbRchID.Size = new System.Drawing.Size(204, 27);
+            this.cmbRchID.Size = new System.Drawing.Size(245, 27);
             this.cmbRchID.TabIndex = 8;
             this.cmbRchID.SelectedIndexChanged += new System.EventHandler(this.cmbRchID_SelectedIndexChanged);
             // 
@@ -478,7 +463,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.cmbSegsID.FormattingEnabled = true;
             this.cmbSegsID.Location = new System.Drawing.Point(6, 42);
             this.cmbSegsID.Name = "cmbSegsID";
-            this.cmbSegsID.Size = new System.Drawing.Size(204, 27);
+            this.cmbSegsID.Size = new System.Drawing.Size(245, 27);
             this.cmbSegsID.TabIndex = 9;
             this.cmbSegsID.SelectedIndexChanged += new System.EventHandler(this.cmbSegsID_SelectedIndexChanged);
             // 
@@ -520,71 +505,20 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // 
             // tabPage4
             // 
-            this.tabPage4.Controls.Add(this.groupPlotProp);
-            this.tabPage4.Controls.Add(this.groupPlotVar);
-            this.tabPage4.Controls.Add(this.groupBox3);
+            this.tabPage4.Controls.Add(this.btnAdd2Toolbox);
             this.tabPage4.Controls.Add(this.groupBox2);
-            this.tabPage4.Location = new System.Drawing.Point(4, 25);
+            this.tabPage4.Location = new System.Drawing.Point(4, 28);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(257, 596);
+            this.tabPage4.Size = new System.Drawing.Size(257, 593);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "Profile";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
-            // groupPlotProp
-            // 
-            this.groupPlotProp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupPlotProp.Controls.Add(this.label2);
-            this.groupPlotProp.Controls.Add(this.cmbPropertyName);
-            this.groupPlotProp.Location = new System.Drawing.Point(9, 400);
-            this.groupPlotProp.Name = "groupPlotProp";
-            this.groupPlotProp.Size = new System.Drawing.Size(215, 134);
-            this.groupPlotProp.TabIndex = 15;
-            this.groupPlotProp.TabStop = false;
-            this.groupPlotProp.Text = "Plot Reach Properties";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 27);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(146, 19);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Select property name";
-            // 
-            // cmbPropertyName
-            // 
-            this.cmbPropertyName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbPropertyName.FormattingEnabled = true;
-            this.cmbPropertyName.Items.AddRange(new object[] {
-            "TopElevation",
-            "Slope",
-            "Length",
-            "Width"});
-            this.cmbPropertyName.Location = new System.Drawing.Point(6, 55);
-            this.cmbPropertyName.Name = "cmbPropertyName";
-            this.cmbPropertyName.Size = new System.Drawing.Size(188, 27);
-            this.cmbPropertyName.TabIndex = 0;
-            // 
-            // groupPlotVar
-            // 
-            this.groupPlotVar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupPlotVar.Controls.Add(this.chbUnifiedByLength);
-            this.groupPlotVar.Controls.Add(this.btnAdd2Toolbox);
-            this.groupPlotVar.Location = new System.Drawing.Point(9, 274);
-            this.groupPlotVar.Name = "groupPlotVar";
-            this.groupPlotVar.Size = new System.Drawing.Size(215, 120);
-            this.groupPlotVar.TabIndex = 13;
-            this.groupPlotVar.TabStop = false;
-            this.groupPlotVar.Text = "Plot Simulated Variables";
-            // 
             // chbUnifiedByLength
             // 
             this.chbUnifiedByLength.AutoSize = true;
-            this.chbUnifiedByLength.Location = new System.Drawing.Point(7, 38);
+            this.chbUnifiedByLength.Location = new System.Drawing.Point(10, 158);
             this.chbUnifiedByLength.Name = "chbUnifiedByLength";
             this.chbUnifiedByLength.Size = new System.Drawing.Size(141, 23);
             this.chbUnifiedByLength.TabIndex = 11;
@@ -593,62 +527,26 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // 
             // btnAdd2Toolbox
             // 
-            this.btnAdd2Toolbox.Location = new System.Drawing.Point(6, 71);
+            this.btnAdd2Toolbox.Location = new System.Drawing.Point(16, 219);
             this.btnAdd2Toolbox.Name = "btnAdd2Toolbox";
-            this.btnAdd2Toolbox.Size = new System.Drawing.Size(188, 31);
+            this.btnAdd2Toolbox.Size = new System.Drawing.Size(229, 31);
             this.btnAdd2Toolbox.TabIndex = 12;
-            this.btnAdd2Toolbox.Text = "Add to Toolbox";
+            this.btnAdd2Toolbox.Text = "Add Profile To Toolbox";
             this.btnAdd2Toolbox.UseVisualStyleBackColor = true;
             this.btnAdd2Toolbox.Click += new System.EventHandler(this.btnAdd2Toolbox_Click);
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox3.Controls.Add(this.radioPlotProp);
-            this.groupBox3.Controls.Add(this.radioPlotVar);
-            this.groupBox3.Location = new System.Drawing.Point(6, 172);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(218, 96);
-            this.groupBox3.TabIndex = 14;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Setting Plot";
-            // 
-            // radioPlotProp
-            // 
-            this.radioPlotProp.AutoSize = true;
-            this.radioPlotProp.Location = new System.Drawing.Point(10, 55);
-            this.radioPlotProp.Name = "radioPlotProp";
-            this.radioPlotProp.Size = new System.Drawing.Size(169, 23);
-            this.radioPlotProp.TabIndex = 0;
-            this.radioPlotProp.Text = "Plot Reach Properties";
-            this.radioPlotProp.UseVisualStyleBackColor = true;
-            this.radioPlotProp.CheckedChanged += new System.EventHandler(this.radioPlotVar_CheckedChanged);
-            // 
-            // radioPlotVar
-            // 
-            this.radioPlotVar.AutoSize = true;
-            this.radioPlotVar.Checked = true;
-            this.radioPlotVar.Location = new System.Drawing.Point(10, 26);
-            this.radioPlotVar.Name = "radioPlotVar";
-            this.radioPlotVar.Size = new System.Drawing.Size(187, 23);
-            this.radioPlotVar.TabIndex = 0;
-            this.radioPlotVar.TabStop = true;
-            this.radioPlotVar.Text = "Plot Simulated Variables";
-            this.radioPlotVar.UseVisualStyleBackColor = true;
-            this.radioPlotVar.CheckedChanged += new System.EventHandler(this.radioPlotVar_CheckedChanged);
             // 
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.chbUnifiedByLength);
             this.groupBox2.Controls.Add(this.cmbEndID);
             this.groupBox2.Controls.Add(this.cmbStartID);
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Location = new System.Drawing.Point(6, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(218, 163);
+            this.groupBox2.Size = new System.Drawing.Size(245, 196);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Setting Profile ";
@@ -660,7 +558,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.cmbEndID.FormattingEnabled = true;
             this.cmbEndID.Location = new System.Drawing.Point(10, 110);
             this.cmbEndID.Name = "cmbEndID";
-            this.cmbEndID.Size = new System.Drawing.Size(187, 27);
+            this.cmbEndID.Size = new System.Drawing.Size(229, 27);
             this.cmbEndID.TabIndex = 4;
             this.cmbEndID.SelectedIndexChanged += new System.EventHandler(this.cmbEndID_SelectedIndexChanged);
             // 
@@ -671,7 +569,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.cmbStartID.FormattingEnabled = true;
             this.cmbStartID.Location = new System.Drawing.Point(10, 50);
             this.cmbStartID.Name = "cmbStartID";
-            this.cmbStartID.Size = new System.Drawing.Size(187, 27);
+            this.cmbStartID.Size = new System.Drawing.Size(229, 27);
             this.cmbStartID.TabIndex = 5;
             this.cmbStartID.SelectedIndexChanged += new System.EventHandler(this.cmbStartID_SelectedIndexChanged);
             // 
@@ -693,26 +591,10 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.label7.TabIndex = 3;
             this.label7.Text = "Start Segment ID";
             // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.btnRefreshLayer);
-            this.tabPage2.Controls.Add(this.btnShowLayer);
-            this.tabPage2.Controls.Add(this.label9);
-            this.tabPage2.Controls.Add(this.cmbDates);
-            this.tabPage2.Controls.Add(this.label8);
-            this.tabPage2.Controls.Add(this.cmbLayers);
-            this.tabPage2.Location = new System.Drawing.Point(4, 28);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(257, 593);
-            this.tabPage2.TabIndex = 3;
-            this.tabPage2.Text = "Feature Layer";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
             // btnRefreshLayer
             // 
             this.btnRefreshLayer.Image = global::Heiflow.Controls.WinForm.Properties.Resources.LayerRasterOptimized16;
-            this.btnRefreshLayer.Location = new System.Drawing.Point(223, 43);
+            this.btnRefreshLayer.Location = new System.Drawing.Point(341, 139);
             this.btnRefreshLayer.Name = "btnRefreshLayer";
             this.btnRefreshLayer.Size = new System.Drawing.Size(28, 27);
             this.btnRefreshLayer.TabIndex = 5;
@@ -722,9 +604,9 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // 
             // btnShowLayer
             // 
-            this.btnShowLayer.Location = new System.Drawing.Point(6, 168);
+            this.btnShowLayer.Location = new System.Drawing.Point(33, 306);
             this.btnShowLayer.Name = "btnShowLayer";
-            this.btnShowLayer.Size = new System.Drawing.Size(211, 36);
+            this.btnShowLayer.Size = new System.Drawing.Size(302, 36);
             this.btnShowLayer.TabIndex = 4;
             this.btnShowLayer.Text = "Show on Layer";
             this.btnShowLayer.UseVisualStyleBackColor = true;
@@ -733,7 +615,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(7, 86);
+            this.label9.Location = new System.Drawing.Point(6, 220);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(110, 19);
             this.label9.TabIndex = 3;
@@ -742,15 +624,15 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // cmbDates
             // 
             this.cmbDates.FormattingEnabled = true;
-            this.cmbDates.Location = new System.Drawing.Point(6, 115);
+            this.cmbDates.Location = new System.Drawing.Point(33, 255);
             this.cmbDates.Name = "cmbDates";
-            this.cmbDates.Size = new System.Drawing.Size(211, 27);
+            this.cmbDates.Size = new System.Drawing.Size(302, 27);
             this.cmbDates.TabIndex = 2;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(7, 14);
+            this.label8.Location = new System.Drawing.Point(6, 110);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(135, 19);
             this.label8.TabIndex = 1;
@@ -760,9 +642,9 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // cmbLayers
             // 
             this.cmbLayers.FormattingEnabled = true;
-            this.cmbLayers.Location = new System.Drawing.Point(6, 43);
+            this.cmbLayers.Location = new System.Drawing.Point(33, 139);
             this.cmbLayers.Name = "cmbLayers";
-            this.cmbLayers.Size = new System.Drawing.Size(211, 27);
+            this.cmbLayers.Size = new System.Drawing.Size(302, 27);
             this.cmbLayers.TabIndex = 0;
             // 
             // tabPage1
@@ -782,7 +664,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertyGrid1.Location = new System.Drawing.Point(3, 3);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(251, 587);
+            this.propertyGrid1.Size = new System.Drawing.Size(251, 590);
             this.propertyGrid1.TabIndex = 1;
             // 
             // tabControl_Chart
@@ -790,6 +672,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabControl_Chart.Alignment = System.Windows.Forms.TabAlignment.Bottom;
             this.tabControl_Chart.Controls.Add(this.tabPageTimeSeries);
             this.tabControl_Chart.Controls.Add(this.tabPageProfile);
+            this.tabControl_Chart.Controls.Add(this.tabPageFeatureLayer);
             this.tabControl_Chart.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl_Chart.Location = new System.Drawing.Point(0, 0);
             this.tabControl_Chart.Name = "tabControl_Chart";
@@ -808,6 +691,82 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabPageTimeSeries.Text = "Time Series View";
             this.tabPageTimeSeries.UseVisualStyleBackColor = true;
             // 
+            // tabPageProfile
+            // 
+            this.tabPageProfile.Controls.Add(this.winChart_proflie);
+            this.tabPageProfile.Controls.Add(this.colorSlider1);
+            this.tabPageProfile.Location = new System.Drawing.Point(4, 4);
+            this.tabPageProfile.Name = "tabPageProfile";
+            this.tabPageProfile.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageProfile.Size = new System.Drawing.Size(856, 593);
+            this.tabPageProfile.TabIndex = 1;
+            this.tabPageProfile.Text = "Profile View";
+            this.tabPageProfile.UseVisualStyleBackColor = true;
+            // 
+            // tabPageFeatureLayer
+            // 
+            this.tabPageFeatureLayer.Controls.Add(this.checkBoxSaveLayer);
+            this.tabPageFeatureLayer.Controls.Add(this.btnShowLayer);
+            this.tabPageFeatureLayer.Controls.Add(this.btnRefreshLayer);
+            this.tabPageFeatureLayer.Controls.Add(this.cmbDates);
+            this.tabPageFeatureLayer.Controls.Add(this.label9);
+            this.tabPageFeatureLayer.Controls.Add(this.radioButtonReachFeature);
+            this.tabPageFeatureLayer.Controls.Add(this.radioButtonSegFeature);
+            this.tabPageFeatureLayer.Controls.Add(this.label2);
+            this.tabPageFeatureLayer.Controls.Add(this.label8);
+            this.tabPageFeatureLayer.Controls.Add(this.cmbLayers);
+            this.tabPageFeatureLayer.Location = new System.Drawing.Point(4, 4);
+            this.tabPageFeatureLayer.Name = "tabPageFeatureLayer";
+            this.tabPageFeatureLayer.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageFeatureLayer.Size = new System.Drawing.Size(856, 593);
+            this.tabPageFeatureLayer.TabIndex = 2;
+            this.tabPageFeatureLayer.Text = "Feature Layer View";
+            this.tabPageFeatureLayer.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonSegFeature
+            // 
+            this.radioButtonSegFeature.AutoSize = true;
+            this.radioButtonSegFeature.Checked = true;
+            this.radioButtonSegFeature.Location = new System.Drawing.Point(33, 49);
+            this.radioButtonSegFeature.Name = "radioButtonSegFeature";
+            this.radioButtonSegFeature.Size = new System.Drawing.Size(239, 23);
+            this.radioButtonSegFeature.TabIndex = 0;
+            this.radioButtonSegFeature.TabStop = true;
+            this.radioButtonSegFeature.Text = "Show On Segment Feature Layer";
+            this.radioButtonSegFeature.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonReachFeature
+            // 
+            this.radioButtonReachFeature.AutoSize = true;
+            this.radioButtonReachFeature.Location = new System.Drawing.Point(33, 78);
+            this.radioButtonReachFeature.Name = "radioButtonReachFeature";
+            this.radioButtonReachFeature.Size = new System.Drawing.Size(223, 23);
+            this.radioButtonReachFeature.TabIndex = 0;
+            this.radioButtonReachFeature.Text = "Show On Reach Feature Layer";
+            this.radioButtonReachFeature.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 14);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(570, 19);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Select which layer to be shown. If Reach layer selected, complete data must be lo" +
+    "aded";
+            // 
+            // chbReadComplData
+            // 
+            this.chbReadComplData.CheckOnClick = true;
+            this.chbReadComplData.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.chbReadComplData.Image = global::Heiflow.Controls.WinForm.Properties.Resources.TmClearSelection16;
+            this.chbReadComplData.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.chbReadComplData.Name = "chbReadComplData";
+            this.chbReadComplData.Size = new System.Drawing.Size(24, 25);
+            this.chbReadComplData.Text = "toolStripButton3";
+            this.chbReadComplData.ToolTipText = "Load complete data. If not, only data for the last reach of segment is load";
+            this.chbReadComplData.CheckedChanged += new System.EventHandler(this.chbReadComplData_CheckedChanged_1);
+            // 
             // winChart_timeseries
             // 
             this.winChart_timeseries.BackColor = System.Drawing.SystemColors.Control;
@@ -819,18 +778,6 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.winChart_timeseries.ShowStatPanel = true;
             this.winChart_timeseries.Size = new System.Drawing.Size(850, 587);
             this.winChart_timeseries.TabIndex = 7;
-            // 
-            // tabPageProfile
-            // 
-            this.tabPageProfile.Controls.Add(this.winChart_proflie);
-            this.tabPageProfile.Controls.Add(this.colorSlider1);
-            this.tabPageProfile.Location = new System.Drawing.Point(4, 4);
-            this.tabPageProfile.Name = "tabPageProfile";
-            this.tabPageProfile.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageProfile.Size = new System.Drawing.Size(856, 596);
-            this.tabPageProfile.TabIndex = 1;
-            this.tabPageProfile.Text = "Profile View";
-            this.tabPageProfile.UseVisualStyleBackColor = true;
             // 
             // winChart_proflie
             // 
@@ -865,6 +812,16 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.colorSlider1.Value = 0;
             this.colorSlider1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.colorSlider1_Scroll);
             // 
+            // checkBoxSaveLayer
+            // 
+            this.checkBoxSaveLayer.AutoSize = true;
+            this.checkBoxSaveLayer.Location = new System.Drawing.Point(33, 186);
+            this.checkBoxSaveLayer.Name = "checkBoxSaveLayer";
+            this.checkBoxSaveLayer.Size = new System.Drawing.Size(153, 23);
+            this.checkBoxSaveLayer.TabIndex = 6;
+            this.checkBoxSaveLayer.Text = "Save Feature Layer";
+            this.checkBoxSaveLayer.UseVisualStyleBackColor = true;
+            // 
             // SFRExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
@@ -884,20 +841,14 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.tabPage4.ResumeLayout(false);
-            this.groupPlotProp.ResumeLayout(false);
-            this.groupPlotProp.PerformLayout();
-            this.groupPlotVar.ResumeLayout(false);
-            this.groupPlotVar.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
             this.tabPage1.ResumeLayout(false);
             this.tabControl_Chart.ResumeLayout(false);
             this.tabPageTimeSeries.ResumeLayout(false);
             this.tabPageProfile.ResumeLayout(false);
+            this.tabPageFeatureLayer.ResumeLayout(false);
+            this.tabPageFeatureLayer.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -945,7 +896,6 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         private ColorSlider colorSlider1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripButton btnRefresh;
-        private System.Windows.Forms.CheckBox chbReadComplData;
         private System.Windows.Forms.CheckBox chbUnifiedByLength;
         private System.Windows.Forms.ToolStripButton tbnSlctDataSource;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
@@ -961,15 +911,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         private System.Windows.Forms.ToolStripButton btnClear;
         private System.Windows.Forms.ToolStripComboBox cmbLoadVar;
         private System.Windows.Forms.ToolStripLabel toolStripButton2;
-        private System.Windows.Forms.GroupBox groupPlotVar;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.RadioButton radioPlotProp;
-        private System.Windows.Forms.RadioButton radioPlotVar;
-        private System.Windows.Forms.GroupBox groupPlotProp;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox cmbPropertyName;
-        private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Button btnShowLayer;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox cmbDates;
@@ -978,5 +920,11 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         private System.Windows.Forms.Button btnRefreshLayer;
         private System.Windows.Forms.ToolStripMenuItem exportToSWMMInpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem riverJunctionsToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabPageFeatureLayer;
+        private System.Windows.Forms.RadioButton radioButtonReachFeature;
+        private System.Windows.Forms.RadioButton radioButtonSegFeature;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ToolStripButton chbReadComplData;
+        private System.Windows.Forms.CheckBox checkBoxSaveLayer;
     }
 }

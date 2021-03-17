@@ -51,7 +51,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         {
             InitializeComponent();
             this.FormClosing += SFRCreator_FormClosing;
-            
+
         }
         public string ChildName
         {
@@ -59,7 +59,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         }
         public string PackageName
         {
-            get 
+            get
             {
                 return SFRPackage.PackageName;
             }
@@ -69,7 +69,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         {
             get
             {
-                return _SFRPackage ;
+                return _SFRPackage;
             }
             set
             {
@@ -88,14 +88,6 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                 this.Show(pararent);
         }
 
-        private void btnApplyEleOffset_Click(object sender, EventArgs e)
-        {
-            float offset = 0;
-            float.TryParse(tbEleOffset.Text, out offset);
-
-            _SFRPackage.CorrectElevation(offset);
-            lbState.Text = "Streambed elevations are modified successfully";
-        }
 
         private void SFRCreator_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -111,11 +103,44 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         }
         public void ClearContent()
         {
-            
+
         }
         public void InitService()
         {
 
+        }
+
+        private void SFRCreator_Load(object sender, EventArgs e)
+        {
+            var riv_ids = from rv in _SFRPackage.RiverNetwork.Rivers select rv.ID;
+            cmbStartID.DataSource = riv_ids.ToArray();
+        }
+
+        private void cmbStartID_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbStartID.SelectedItem != null)
+            {
+                var river = (int)cmbStartID.SelectedItem;
+                var profiles = _SFRPackage.RiverNetwork.BuildProfile(river);
+                var riv_ids = (from rv in profiles select rv.ID).ToArray();
+                cmbEndID.DataSource = riv_ids;
+            }
+        }
+
+        private void cmbPropertyName_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbEndID.SelectedItem != null)
+            {
+                tabControl_Chart.SelectedTab = this.tabPageProfile;
+                var river_start = (int)cmbStartID.SelectedItem;
+                var river_end = (int)cmbEndID.SelectedItem;
+
+                if (cmbPropertyName.SelectedIndex < 0)
+                    return;
+                var prof = _SFRPackage.RiverNetwork.GetProfileProperty(river_start, river_end, cmbPropertyName.SelectedItem.ToString());
+                string series = string.Format("{0} from {1} to {2}", cmbPropertyName.SelectedItem.ToString(), river_start, river_end);
+                winChart_proflie.Plot(prof, series);
+            }
         }
     }
 }

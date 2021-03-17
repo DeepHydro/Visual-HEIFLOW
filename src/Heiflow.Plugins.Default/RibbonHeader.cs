@@ -418,7 +418,8 @@ namespace DotSpatial
         {
 
             var guiItem = this.GetItem(item.Key);
-
+            if (guiItem == null)
+                return;
             switch (e.PropertyName)
             {
                 case "Caption":

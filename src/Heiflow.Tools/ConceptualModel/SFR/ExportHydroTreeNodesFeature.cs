@@ -105,11 +105,29 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             protected set;
         }
-        [Category("GIS Layer")]
+        [Category("Field Binding")]
         [Description("The segment ID field")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
         public string SegmentIDField
+        {
+            get;
+            set;
+        }
+        [Category("Field Binding")]
+        [Description("The slope field")]
+        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
+        [DropdownListSource("Fields")]
+        public string SlopeField
+        {
+            get;
+            set;
+        }
+        [Category("Field Binding")]
+        [Description("The length field")]
+        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
+        [DropdownListSource("Fields")]
+        public string LengthField
         {
             get;
             set;
@@ -163,15 +181,17 @@ namespace Heiflow.Tools.ConceptualModel
                 fs.DataTable.Columns.Add(new DataColumn("NodeID", Type.GetType("System.Int32")));
                 fs.DataTable.Columns.Add(new DataColumn("RiverID", Type.GetType("System.Int32")));
                 fs.DataTable.Columns.Add(new DataColumn("NodeType", Type.GetType("System.Int32")));
-                fs.DataTable.Columns.Add(new DataColumn("Elev", typeof(double)));
-                fs.DataTable.Columns.Add(new DataColumn("Depth", typeof(double)));
+                fs.DataTable.Columns.Add(new DataColumn("ElevError", Type.GetType("System.Int32")));
+                fs.DataTable.Columns.Add(new DataColumn("BedElev", typeof(double)));
                 fs.DataTable.Columns.Add(new DataColumn("Slope", typeof(double)));
-                fs.DataTable.Columns.Add(new DataColumn("Width", typeof(double)));
+                fs.DataTable.Columns.Add(new DataColumn("Length", typeof(double)));
+                fs.DataTable.Columns.Add(new DataColumn("NewBedElev", typeof(double)));
                 var nodeid = 0;
                 foreach(var tree in sfr.RiverNetwork.HydroTrees)
                 {
                     nodeid++;
                     var riv = (from fea in _stream_layer.Features where int.Parse(fea.DataRow[SegmentIDField].ToString()) == tree.Outlet.River.ID select fea).First();
+                  //  riv.DataRow[]
                     Coordinate pt = null;
                     if(ReversePointOrder)
                     {
@@ -188,10 +208,11 @@ namespace Heiflow.Tools.ConceptualModel
                     ft.DataRow["NodeID"] = tree.Outlet.ID;
                     ft.DataRow["RiverID"] = tree.Outlet.River.ID;
                     ft.DataRow["NodeType"] = 0;
-                    ft.DataRow["Elev"] = 0;
-                    ft.DataRow["Depth"] = 0;
-                    ft.DataRow["Slope"] = 0;
-                    ft.DataRow["Width"] = 0;
+                    ft.DataRow["BedElev"] = tree.Outlet.River.LastReach.TopElevation - tree.Outlet.River.LastReach.BedThick;
+                    ft.DataRow["NewBedElev"] = 0;
+                    ft.DataRow["Slope"] = double.Parse(riv.DataRow[SlopeField].ToString());
+                    ft.DataRow["Length"] = double.Parse(riv.DataRow[LengthField].ToString());
+                    ft.DataRow["ElevError"] = 0;
                     foreach(var node in tree.Nodes)
                     {
                         nodeid++;
@@ -214,10 +235,11 @@ namespace Heiflow.Tools.ConceptualModel
                         else
                             ft.DataRow["NodeType"] = node.IsLeaf ? 2 : 1;
                         ft.DataRow["RiverID"] = node.River.ID;
-                        ft.DataRow["Elev"] = 0;
-                        ft.DataRow["Depth"] = 0;
-                        ft.DataRow["Slope"] = 0;
-                        ft.DataRow["Width"] = 0;
+                        ft.DataRow["BedElev"] = node.River.LastReach.TopElevation - node.River.LastReach.BedThick;
+                        ft.DataRow["NewBedElev"] = 0;
+                        ft.DataRow["Slope"] = double.Parse(riv.DataRow[SlopeField].ToString());
+                        ft.DataRow["Length"] = double.Parse(riv.DataRow[LengthField].ToString());
+                        ft.DataRow["ElevError"] = 0;
                     }
                 }
 

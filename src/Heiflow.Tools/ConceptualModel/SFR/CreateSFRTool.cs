@@ -52,7 +52,7 @@ using System.Linq;
 namespace Heiflow.Tools.ConceptualModel
 {
     public enum StreamGenerator { VHF,SWAT, Other};
-    public class SFR2Tool : MapLayerRequiredTool
+    public class CreateSFRTool : MapLayerRequiredTool
     {
         private IFeatureSet _stream_layer;
         private IFeatureSet _grid_layer;
@@ -63,7 +63,7 @@ namespace Heiflow.Tools.ConceptualModel
         private IMapLayerDescriptor _StreamFeatureLayerDescriptor;
         private StreamGenerator _StreamGenerator;
         private bool issucuess = false;
-        public SFR2Tool()
+        public CreateSFRTool()
         {
             Name = "Create SFR Package";
             Category = Cat_CMG;
@@ -90,7 +90,7 @@ namespace Heiflow.Tools.ConceptualModel
 
             MinReachLength = 10;
     
-            IgnoreMinorReach = true;
+            IgnoreMinorReach = false;
             UseLPFVK = true;
             StreamGenerator = ConceptualModel.StreamGenerator.VHF;
         }

@@ -161,7 +161,8 @@ namespace Heiflow.Controls.WinForm.Toolbox
                     if (subkey == "None")
                     {
                         var subcat = (from gp in subgroups where gp.cat == subkey select gp).First();
-                        foreach (var tool in subcat.items)
+                        var sort_items = subcat.items.OrderBy(item => item.Name);
+                        foreach (var tool in sort_items)
                         {
                             tool.Workspace = this.Workspace;
                             tool.WorkspaceView = this;
@@ -182,7 +183,8 @@ namespace Heiflow.Controls.WinForm.Toolbox
                             Image = Resources.toolbox16,
                             Tag = key
                         };
-                        foreach (var tool in subcat.items)
+                        var sort_items = subcat.items.OrderBy(item => item.Name);
+                        foreach (var tool in sort_items)
                         {
                             tool.Workspace = this.Workspace;
                             tool.WorkspaceView = this;
