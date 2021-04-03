@@ -68,13 +68,20 @@ namespace Heiflow.Controls.WinForm.Modflow
             if (raster_layers != null)
                 cmbRasterLayer.DataSource = raster_layers.ToArray();
             cmbAvMethod.SelectedIndex = 1;
+            Models.Subsurface.Modflow mf = null;
+            if (_Controller.Project.Model is Heiflow.Models.Integration.HeiflowModel)
+            {
+                mf = ( _Controller.Project.Model as Heiflow.Models.Integration.HeiflowModel).ModflowModel;
+            }
+            else if (_Controller.Project.Model is Heiflow.Models.Subsurface.Modflow)
+            {
+                mf = _Controller.Project.Model as Heiflow.Models.Subsurface.Modflow;
+            }
 
-            var mm = _Controller.Project.Model as Heiflow.Models.Integration.HeiflowModel;
-            var mf = mm.ModflowModel;
             numericUpDown1.Value = mf.LayerGroupManager.LayerGroups.Count;
             numericUpDown2.Value = 4;
 
-            if (mm.Project.SelectedVersion == "v1.0.0")
+            if (_Controller.Project.SelectedVersion == "v1.0.0" || _Controller.Project.Model is Heiflow.Models.Subsurface.Modflow)
             {
                 tabControl1.TabPages.Remove(tabPageSoil);
             }
@@ -129,13 +136,25 @@ namespace Heiflow.Controls.WinForm.Modflow
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            var _GlobalTimeService = _Controller.Project.Model.TimeServiceList["Base Timeline"] as TimeService;
+            TimeService _GlobalTimeService = null;
+            Models.Subsurface.Modflow mf = null;
+            if (_Controller.Project.Model is Heiflow.Models.Integration.HeiflowModel)
+            {
+                _GlobalTimeService = _Controller.Project.Model.TimeServiceList["Base Timeline"] as TimeService;
+                mf = (_Controller.Project.Model as Heiflow.Models.Integration.HeiflowModel).ModflowModel;
+            }
+            else if (_Controller.Project.Model is Heiflow.Models.Subsurface.Modflow)
+            {
+                _GlobalTimeService = _Controller.Project.Model.TimeServiceList["Subsurface Timeline"] as TimeService;
+                mf = _Controller.Project.Model as Heiflow.Models.Subsurface.Modflow;
+            }
+          
             if (_GlobalTimeService.Timeline.Count == 0)
             {
                 MessageBox.Show("Need to generate stress periods at first", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            var mf = (_Controller.Project.Model as Heiflow.Models.Integration.HeiflowModel).ModflowModel;
+         
             double originx=0;
             double originy=0;
             Coordinate origin = null;
@@ -249,10 +268,13 @@ namespace Heiflow.Controls.WinForm.Modflow
 
         private void numericUpDown2_ValueChanged(object sender, EventArgs e)
         {
-            var mm = _Controller.Project.Model as Heiflow.Models.Integration.HeiflowModel;
-            var prms = mm.PRMSModel;
-            prms.SoilLayerManager.Generate((int)numericUpDown2.Value);
-            olvSoilLayers.SetObjects(prms.SoilLayerManager.Layers);
+            if (_Controller.Project.Model is Heiflow.Models.Integration.HeiflowModel)
+            {
+                var mm = _Controller.Project.Model as Heiflow.Models.Integration.HeiflowModel;
+                var prms = mm.PRMSModel;
+                prms.SoilLayerManager.Generate((int)numericUpDown2.Value);
+                olvSoilLayers.SetObjects(prms.SoilLayerManager.Layers);
+            }
         }
     }
 }

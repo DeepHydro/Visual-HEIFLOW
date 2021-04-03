@@ -79,9 +79,17 @@ namespace Heiflow.Plugins.Default
         {
             if (ProjectManager.Project != null)
             {
-                HeiflowTimeControl form = new HeiflowTimeControl(ProjectManager.Project.Model.TimeServiceList["Base Timeline"] as TimeService,
+                if (ProjectManager.Project.Model is Heiflow.Models.Integration.HeiflowModel)
+                {
+                    HeiflowTimeControl form = new HeiflowTimeControl(ProjectManager.Project.Model.TimeServiceList["Base Timeline"] as TimeService,
                     ProjectManager.Project.Model.TimeServiceList["Subsurface Timeline"] as TimeService);
-                form.ShowDialog();
+                    form.ShowDialog();
+                }
+               else if (ProjectManager.Project.Model is Heiflow.Models.Subsurface.Modflow)
+                {
+                    MFTimeControl form = new MFTimeControl(ProjectManager.Project.Model.TimeServiceList["Subsurface Timeline"] as TimeService);
+                    form.ShowDialog();
+                }
             }
             else
             {

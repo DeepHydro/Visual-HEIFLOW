@@ -281,8 +281,11 @@ namespace Heiflow.Models.Subsurface
                     ITER1 = buf;
                     int.TryParse(strs[2], out buf);
                     NPCOND = buf;
-                    int.TryParse(strs[3], out buf);
-                    IHCOFADD = buf;
+                    if (strs.Length > 3)
+                    {
+                        int.TryParse(strs[3], out buf);
+                        IHCOFADD = buf;
+                    }
 
                     line = sr.ReadLine();
                     strs = TypeConverterEx.Split<string>(line);
@@ -300,8 +303,11 @@ namespace Heiflow.Models.Subsurface
                     MUTPCG = buf;
                     float.TryParse(strs[6], out ff);
                     DAMPPCG = ff;
-                    float.TryParse(strs[7], out ff);
-                    DAMPPCGT = ff;
+                    if (DAMPPCG < 0)
+                    {
+                        float.TryParse(strs[7], out ff);
+                        DAMPPCGT = ff;
+                    }
 
                     result = LoadingState.Normal;
                 }

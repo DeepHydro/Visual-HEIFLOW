@@ -343,6 +343,16 @@ namespace Heiflow.Plugins.Default.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap progess64 {
+            get {
+                object obj = ResourceManager.GetObject("progess64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap river {
             get {
                 object obj = ResourceManager.GetObject("river", resourceCulture);
@@ -397,6 +407,15 @@ namespace Heiflow.Plugins.Default.Properties {
             get {
                 object obj = ResourceManager.GetObject("stack", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 F:\System\HEIFLOW\VHF_GIT\VHF\src\Resources 的本地化字符串。
+        /// </summary>
+        internal static string String {
+            get {
+                return ResourceManager.GetString("String", resourceCulture);
             }
         }
         

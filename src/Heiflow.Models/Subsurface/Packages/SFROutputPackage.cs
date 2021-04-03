@@ -126,7 +126,10 @@ namespace Heiflow.Models.Subsurface
         public override void Initialize()
         {
             this.Grid = Owner.Grid;
-            this.TimeService = Owner.Owner.TimeServiceList["Base Timeline"];
+            if(this.Owner.Owner != null)
+                this.TimeService = Owner.Owner.TimeServiceList["Base Timeline"];
+            else
+                this.TimeService = Owner.TimeServiceList["Subsurface Timeline"];
             this.TimeService.Updated += this.OnTimeServiceUpdated;
             State = ModelObjectState.Ready;
             StartOfLoading = TimeService.Start;

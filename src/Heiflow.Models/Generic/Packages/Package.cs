@@ -52,7 +52,7 @@ namespace Heiflow.Models.Generic
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<int> Loading;
         public event EventHandler<LoadingObjectState> Loaded;
-        //public event EventHandler<string> LoadFailed;
+        public event EventHandler<string> LoadFailed;
         public event EventHandler<string> ScanFailed;
         public event EventHandler<int> Saving;
         public event EventHandler Saved;
@@ -515,6 +515,13 @@ namespace Heiflow.Models.Generic
             if (ScanFailed != null)
             {
                 ScanFailed(this, msg);
+            }
+        }
+        protected void OnLoadFailed(string msg)
+        {
+            if (LoadFailed != null)
+            {
+                LoadFailed(this, msg);
             }
         }
         protected void OnSaving(int percent)

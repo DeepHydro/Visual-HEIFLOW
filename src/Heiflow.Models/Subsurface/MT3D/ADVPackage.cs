@@ -133,7 +133,9 @@ namespace Heiflow.Models.Subsurface.MT3D
                     var bufs = TypeConverterEx.Split<string>(line);
                     SolveOption = EnumHelper.FromString<SolveOptionEnum>(bufs[0]);
                     PERCEL = float.Parse(bufs[1]);
-                    MXPART = int.Parse(bufs[2]);
+                    if(bufs.Length > 2)
+                        MXPART = int.Parse(bufs[2]);
+                    if (bufs.Length > 3)
                     WeightingScheme = EnumHelper.FromString<WeightingSchemeEnum>(bufs[3]);
                     result = LoadingState.Normal;
                 }

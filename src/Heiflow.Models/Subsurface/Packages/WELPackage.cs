@@ -223,6 +223,8 @@ namespace Heiflow.Models.Subsurface
                         ZeroDimension = DimensionFlag.Time,
                         Variables = new string[4] { "Layer", "Row", "Column", "Q" }
                     };
+                    //need to rest flags length
+                    FluxRates.InitFlags(np);
 
                     for (int n = 0; n < np; n++)
                     {

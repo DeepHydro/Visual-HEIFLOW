@@ -422,6 +422,33 @@ namespace Heiflow.Models.Generic
             InitSP(steps, has_steady_state);
         }
 
+        public void CreateSP(int nsp, bool has_steady_state,DateTime start)
+        {
+            DateTime current = start;
+            for (int i = 0; i < nsp; i++)
+            {
+                StressPeriod sp = new StressPeriod()
+                {
+                    Length =1,
+                    Multiplier = 1,
+                    State = ModelState.TR,
+                    NSTP = 1
+                };
+                if (has_steady_state)
+                    sp.ID = i + 2;
+                else
+                    sp.ID = i + 1;
+                sp.Dates.Add(current);
+                current = current.AddDays(1);
+                for (int n = 0; n < 1; n++)
+                {
+                    var op = new StepOption(sp.ID, n + 1);
+                    sp.StepOptions.Add(op);
+                }
+                AddSP(sp);
+            }
+        }
+
         public void UpdateSPDates(int[] steps)
         {
             int start_index = 0;

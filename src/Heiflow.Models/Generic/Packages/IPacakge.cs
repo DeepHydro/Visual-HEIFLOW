@@ -49,7 +49,7 @@ namespace Heiflow.Models.Generic
     {
         event EventHandler<int> Loading;
         event EventHandler<LoadingObjectState> Loaded;
-       // event EventHandler<string> LoadFailed;
+        event EventHandler<string> LoadFailed;
         event EventHandler<string> ScanFailed;
         event EventHandler<int> Saving;
         event EventHandler Saved;

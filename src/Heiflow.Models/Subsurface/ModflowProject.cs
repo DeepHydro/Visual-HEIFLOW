@@ -68,7 +68,6 @@ namespace Heiflow.Models.Subsurface
             System.IO.Directory.CreateDirectory(ProcessingDirectory);
             System.IO.Directory.CreateDirectory(InputDirectory);
             System.IO.Directory.CreateDirectory(MFInputDirectory);
-            System.IO.Directory.CreateDirectory(PRMSInputDirectory);
             System.IO.Directory.CreateDirectory(OutputDirectory);
 
             RelativeMapFileName = Name + ".dspx";    

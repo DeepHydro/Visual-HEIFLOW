@@ -285,6 +285,12 @@
     <Compile Include="Project\GlobalOptionForm.Designer.cs">
       <DependentUpon>GlobalOptionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Project\MFTimeControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Project\MFTimeControl.Designer.cs">
+      <DependentUpon>MFTimeControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Project\ImportModflowProperty.cs" />
     <Compile Include="Toolbox\DataCubeEditor.cs">
       <SubType>UserControl</SubType>
@@ -424,11 +430,11 @@
     <Compile Include="Project\HeiflowTimeControl.Designer.cs">
       <DependentUpon>HeiflowTimeControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Modflow\MFTimeControl.cs">
+    <Compile Include="Modflow\ModflowTimeControl.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Modflow\MFTimeControl.Designer.cs">
-      <DependentUpon>MFTimeControl.cs</DependentUpon>
+    <Compile Include="Modflow\ModflowTimeControl.Designer.cs">
+      <DependentUpon>ModflowTimeControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Options\MMSOptionPanel.cs">
       <SubType>UserControl</SubType>
@@ -745,6 +751,9 @@
     <EmbeddedResource Include="Project\GlobalOptionForm.resx">
       <DependentUpon>GlobalOptionForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Project\MFTimeControl.resx">
+      <DependentUpon>MFTimeControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Toolbox\DataCubeEditor.resx">
       <DependentUpon>DataCubeEditor.cs</DependentUpon>
     </EmbeddedResource>
@@ -791,8 +800,8 @@
     <EmbeddedResource Include="Project\HeiflowTimeControl.resx">
       <DependentUpon>HeiflowTimeControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Modflow\MFTimeControl.resx">
-      <DependentUpon>MFTimeControl.cs</DependentUpon>
+    <EmbeddedResource Include="Modflow\ModflowTimeControl.resx">
+      <DependentUpon>ModflowTimeControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Options\MMSOptionPanel.resx">
       <DependentUpon>MMSOptionPanel.cs</DependentUpon>

@@ -216,6 +216,7 @@
     <Compile Include="Subsurface\Packages\PCGPackage.cs" />
     <Compile Include="Subsurface\Packages\UPWPackage.cs" />
     <Compile Include="Subsurface\PHT3D\ACNPackage.cs" />
+    <Compile Include="Subsurface\PHT3D\VFT3DProject.cs" />
     <Compile Include="Subsurface\PHT3D\PHCPackage.cs" />
     <Compile Include="Surface\PRMS\PRMSDataPackage.cs" />
     <Compile Include="Running\Watcher\TxtWatcher.cs" />
@@ -454,7 +455,9 @@
   <ItemGroup>
     <None Include="Resources\MapPackageTiledTPKFile16.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\vft3d.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -58,13 +58,13 @@ namespace Heiflow.Models.Subsurface
         public Modflow()
         {
             Name = "Modflow";
-            //Name = "VFT3D";
             PackageFileNameProvider = new MFPackFileNameProvider(this);
             this.Icon = Resources.mf16;
             this.TimeService = new TimeService("Subsurface Timeline")
             {
                 UseStressPeriods = true
             };
+            TimeService.Model = this;
             this.TimeService.Updated += this.OnTimeServiceUpdated;
             _MFGrid = new MFGrid();
             Grid = _MFGrid;

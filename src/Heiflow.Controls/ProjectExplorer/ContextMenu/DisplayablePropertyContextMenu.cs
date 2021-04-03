@@ -204,12 +204,14 @@ namespace Heiflow.Controls.WinForm.MenuItems
                 dp.Loading += dp_Loading;
                 dp.Loaded += dp_Loaded;
                 dp.ScanFailed += dp_ScanFailed;
+                dp.LoadFailed += dp_LoadFailed;
                 
                 _ShellService.ProgressWindow.DoWork += ProgressPanel_DoWork;
                 foreach (var item in _sub_menus)
                 {
                     item.Enabled = false;
                 }
+                _ShellService.ProgressWindow.Reset();
                 _ShellService.ProgressWindow.DefaultStatusText = "Loading " + _Package.FileName;
                 _ShellService.ProgressWindow.WorkCompleted += ProgressWindow_WorkCompleted;
                 _ShellService.ProgressWindow.Run(dp);
@@ -268,6 +270,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
             dp.Loading -= dp_Loading;
             dp.Loaded -= dp_Loaded;
             dp.ScanFailed -= dp_ScanFailed;
+            dp.LoadFailed -= dp_LoadFailed;
         }
         protected void dp_ScanFailed(object sender, string e)
         {
@@ -281,11 +284,27 @@ namespace Heiflow.Controls.WinForm.MenuItems
             Enable(_VI3, false);
             Enable(_A2DC, false);
 
+            dp.Loading -= dp_Loading;
+            dp.Loaded -= dp_Loaded;
+            dp.ScanFailed -= dp_ScanFailed;
+            dp.LoadFailed -= dp_LoadFailed;
             MessageBox.Show("Failed to load. Error message: " + e, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            _ShellService.ProgressWindow.DoWork -= ProgressPanel_DoWork;
+        }
+
+        protected virtual void dp_LoadFailed(object sender, string e)
+        {
+            var dp = _Package as IDataPackage;
+            foreach (var item in _sub_menus)
+            {
+                item.Enabled = false;
+            }
             _ShellService.ProgressWindow.DoWork -= ProgressPanel_DoWork;
             dp.Loading -= dp_Loading;
             dp.Loaded -= dp_Loaded;
             dp.ScanFailed -= dp_ScanFailed;
+            dp.LoadFailed -= dp_LoadFailed;
+            MessageBox.Show("Failed to load. Error message: " + e, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         protected virtual void AttributeTable_Clicked(object sender, EventArgs e)

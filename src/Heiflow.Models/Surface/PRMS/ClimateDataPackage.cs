@@ -379,6 +379,7 @@ namespace Heiflow.Models.Surface.PRMS
         private void stream_LoadFailed(object sender, string e)
         {
             ShowWarning(e, _ProgressHandler);
+            OnLoadFailed(e);
         }
 
         public override void SaveAs(string filename, ICancelProgressHandler progress)

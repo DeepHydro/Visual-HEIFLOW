@@ -142,6 +142,9 @@ namespace Heiflow.Models.Generic.Grid
         {
             if (Source == null)
                 Source = new RegularGrid();
+            if (this.LayerCount == 0)
+                this.LayerCount = 3;
+
             if (Domain != null)
             {
                 Source.Origin = this.Origin;

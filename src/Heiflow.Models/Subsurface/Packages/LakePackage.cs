@@ -55,7 +55,7 @@ namespace Heiflow.Models.Subsurface
     public class LakePackage : MFPackage
     {
         public static string PackageName = "LAK";
-        private RegularGridTopology _LakeTopo;
+       // private RegularGridTopology _LakeTopo;
         public LakePackage()
         {
             Name = "LAK";

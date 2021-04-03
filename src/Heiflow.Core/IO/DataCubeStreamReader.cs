@@ -563,7 +563,7 @@ namespace Heiflow.Core.IO
                     var buf = new float[nhru];
                     for (int i = 0; i < feaNum; i++)
                     {
-                        vv[i] = br.ReadSingle() * Scale;                  
+                        vv[i] = br.ReadSingle() * Scale;
                     }
                     for (int i = 0; i < nhru; i++)
                     {
@@ -578,6 +578,7 @@ namespace Heiflow.Core.IO
                     progress = Convert.ToInt32(t * 100 / nstep);
                     OnLoading(progress);
                 }
+
                 br.Close();
                 fs.Close();
                 if (_Descriptor.TimeStamps != null)

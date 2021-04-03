@@ -56,7 +56,7 @@ namespace Heiflow.Models.Subsurface
             NoDataValue = 0;
         }
 
-       
+       [Category("Data")]
         public float NoDataValue { get; set; }
 
         /// <summary>
@@ -68,6 +68,7 @@ namespace Heiflow.Models.Subsurface
             get;
             set;
         }
+        [Category("Option")]
         public string Options { get; set; }
 
          [Browsable(false)]

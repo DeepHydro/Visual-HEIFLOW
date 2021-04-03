@@ -51,7 +51,12 @@ namespace Heiflow.Plugins.Default
             get;
             set;
         }
-
+        [Import("ProjectController", typeof(IProjectController))]
+        public IProjectController ProjectManager
+        {
+            get;
+            set;
+        }
         public ViewPlugin()
         {
 
@@ -72,6 +77,15 @@ namespace Heiflow.Plugins.Default
                    LargeImage = Properties.Resources.Map32
                };
             App.HeaderControl.Add(showMap);
+
+            var showProgress = new SimpleActionItem("kView", "Progress", ShowProgress_Clicked)
+            {
+                Key = "kShowProgress",
+                ToolTipText = "Show Progress Window",
+                GroupCaption = "Map",
+                LargeImage = Properties.Resources.progess64
+            };
+            App.HeaderControl.Add(showProgress);
             base.Activate();
         }
 
@@ -81,7 +95,10 @@ namespace Heiflow.Plugins.Default
         {
             App.DockManager.ShowPanel("kMap");
         }
-
+        private void ShowProgress_Clicked(object sender, EventArgs e)
+        {
+            ProjectManager.ShellService.ProgressWindow.ShowView(ProjectManager.ShellService.MainForm);
+        }
         public override void Deactivate()
         {
             App.HeaderControl.RemoveAll();
