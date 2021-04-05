@@ -121,7 +121,6 @@ namespace Heiflow.Models.Subsurface.MT3D
             set;
         }
 
-        //TUNIT, LUNIT, MUNIT
         [Category("Units")]
         public string TUNIT
         {
@@ -212,6 +211,71 @@ namespace Heiflow.Models.Subsurface.MT3D
             get;
             set;
         }
+        [Category("Inactive Option")]
+        [Description("Indicating an inactive concentration cell")]
+        public float CINACT
+        {
+            get;
+            set;
+        }
+        [Category("Grid")]
+        [Description("the minimum saturated thickness in a cell, expressed as the decimal fraction of the model layer thickness (DZ) below which the cell is considered inactive. The default value is 0.01")]
+        public float THKMIN
+        {
+            get;
+            set;
+        }
+        [Category("Output")]
+        [Description("a flag indicating whether the calculated concentration should be printed to the standard output text file and also serves as a printing-format code if it is printed")]
+        public int IFMTCN
+        {
+            get;set;
+        }
+        [Category("Output")]
+        [Description("a flag indicating whether the number of particles in each cell should be printed to the standard output text file and also serves as a printing-format code if it is printed")]
+        public int IFMTNP
+        {
+            get;
+            set;
+        }
+        [Category("Output")]
+        [Description("a flag indicating whether the model-calculated retardation factor should be printed to the standard output text file and also serves as a printing-format code if it is printed")]
+        public int IFMTRF
+        {
+            get;
+            set;
+        }
+        [Category("Output")]
+        [Description("a flag indicating whether the distance-weighted dispersion coefficient should be printed to the standard output text file and also serves as a printing-format code if it is printed")]
+        public int IFMTDP
+        {
+            get;
+            set;
+        }
+        [Category("Output")]
+        [Description("indicating whether the concentration solution should be saved in a default unformatted (binary) file named MT3Dnnn.UCN, where nnn is the species index number, for post-processing purposes or for use as the initial condition in a continuation run.")]
+        public bool SAVUCN
+        {
+            get;
+            set;
+        }
+
+        [Category("Output")]
+        [Description("indicating the frequency of the output and also indicating whether the output frequency is specified in terms of total elapsed simulation time or the transport step number.")]
+        public int NPRS
+        {
+            get;
+            set;
+        }
+        [Category("Output")]
+        [Description("The total elapsed time at which the simulation results are printed to the standard output text file or saved in the default unformatted (binary) concentration file")]
+        public float[] TIMPRS
+        {
+            get;
+            set;
+        }
+
+
         public override void Initialize()
         {
             this.Grid = Owner.Grid;
@@ -279,12 +343,25 @@ namespace Heiflow.Models.Subsurface.MT3D
 
                     HTOP = new DataCube<float>(1, 1, grid.ActiveCellCount)
                     {
-                        Variables = new string[] {"Top Elevation"}
+                        Variables = new string[] { "Top Elevation" },
+                        Topology = grid.Topology
                     };
-                    DZ = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount);
-                    PRSITY = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount);
-                    ICBUND = new DataCube<int>(grid.ActualLayerCount , 1, grid.ActiveCellCount);
-                    SCONC = new DataCube<float>(grid.ActualLayerCount * NCOMP, 1, grid.ActiveCellCount);
+                    DZ = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
+                    {
+                        Topology = grid.Topology
+                    };
+                    PRSITY = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
+                                      {
+                                          Topology = grid.Topology
+                                      };
+                    ICBUND = new DataCube<int>(grid.ActualLayerCount , 1, grid.ActiveCellCount)
+                    {
+                        Topology = grid.Topology
+                    };
+                    SCONC = new DataCube<float>(grid.ActualLayerCount * NCOMP, 1, grid.ActiveCellCount)
+                    {
+                        Topology = grid.Topology
+                    };
                     for (int i = 0; i < NLAY; i++)
                     {
                         DZ.Variables[i] = "Thickness of Layer " + (i + 1);
@@ -322,6 +399,31 @@ namespace Heiflow.Models.Subsurface.MT3D
                             k++;
                         }
                     }
+                    line = sr.ReadLine();
+                    strbufs = TypeConverterEx.Split<string>(line);
+                    CINACT = float.Parse(strbufs[0]);
+                    if(strbufs.Length ==2)
+                    {
+                        THKMIN = float.Parse(strbufs[1]);
+                    }
+                    line = sr.ReadLine();
+                    strbufs = TypeConverterEx.Split<string>(line);
+                    IFMTCN=int.Parse(strbufs[0]);
+                     IFMTNP=int.Parse(strbufs[1]);
+                     IFMTRF=int.Parse(strbufs[2]);
+                     IFMTDP=int.Parse(strbufs[3]);
+                     SAVUCN = strbufs[4].ToUpper() == "T";
+                     line = sr.ReadLine().Trim();
+                     NPRS = int.Parse(line);
+                     int nline = (int)Math.Ceiling(NPRS / 8.0);
+                     line = sr.ReadLine();
+                     line += "\t";
+                     for (int c = 1; c < nline; c++)
+                     {
+                         line += sr.ReadLine() + "\t";
+                     }
+                     TIMPRS = TypeConverterEx.Split<float>(line);
+
 
                     result = LoadingState.Normal;
                 }

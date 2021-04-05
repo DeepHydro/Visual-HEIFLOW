@@ -45,7 +45,6 @@ F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.AI\obj\Debug\Heiflow.AI.pdb
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\bin\Debug\Heiflow.AI.dll.config
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\bin\Debug\Heiflow.AI.dll
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\bin\Debug\Heiflow.AI.pdb
-E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.AI\obj\Debug\Heiflow.AI.csprojResolveAssemblyReference.cache
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.AI\obj\Debug\Heiflow.AI.dll
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.AI\obj\Debug\Heiflow.AI.pdb
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.AI\obj\Debug\Heiflow.AI.csprojResolveAssemblyReference.cache

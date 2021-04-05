@@ -179,10 +179,27 @@ namespace Heiflow.Models.Subsurface
             }
         }
 
-        public int GetFormatLen()
+        public int GetFormatLen(string forstr, int ncol)
         {
-            int len = 10;
-
+            int len = 0;
+            var chars= new char[] {'(','}',' '};
+            var format = forstr.Trim(chars);
+            format=format.ToLower();
+            if (format.Contains("free"))
+                len = ncol;
+            else
+            {
+                if(format.Contains("i"))
+                {
+                    var strs = TypeConverterEx.Split<string>(format, new char[] { 'i' });
+                    len = int.Parse(strs[0]);
+                }
+                else if (format.Contains("f"))
+                {
+                    var strs = TypeConverterEx.Split<string>(format, new char[] { 'f' });
+                    len = int.Parse(strs[0]);
+                }
+            }
             return len;
         }
 
@@ -207,17 +224,9 @@ namespace Heiflow.Models.Subsurface
                 int row = grid.RowCount;
                 int col = grid.ColumnCount;
                 int activeCount = grid.ActiveCellCount;
-//                mat.Value[var_index][time_index] = new T[activeCount];
                 T multiplier = TypeConverterEx.ChangeType<T>(strs[1]);
                 int iprn = -1;
 
-                var format= strs[2].Replace('(',' ');
-                format= format.Replace(')',' ');
-                format = format.Trim();
-
-                var collen=10;
-                var pos =strs[2].IndexOfAny(integerform, 0);
-                var format = strs[2].Substring(1, );
                 int.TryParse(strs[3], out iprn);
                 line = sr.ReadLine();
                 var values = TypeConverterEx.Split<T>(line);
@@ -261,7 +270,7 @@ namespace Heiflow.Models.Subsurface
                 else
                 {
                     int index = 0;
-                    int colLine = (int)Math.Ceiling(col / 10.0);
+                    int colLine = (int)Math.Ceiling(col / ((float)values.Length));
                     try
                     {
                         line += "\t";

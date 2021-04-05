@@ -35,3 +35,5 @@ E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Tools\obj\Debug\Heiflow.Tools.
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Tools\obj\Debug\Heiflow.Tools.csprojResolveAssemblyReference.cache
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Tools\obj\Debug\Heiflow.Tools.Resource.resources
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Tools\obj\Debug\Heiflow.Tools.csproj.GenerateResource.Cache
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Tools\obj\Debug\Heiflow.Tools.Resource.resources
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Tools\obj\Debug\Heiflow.Tools.csproj.GenerateResource.Cache
