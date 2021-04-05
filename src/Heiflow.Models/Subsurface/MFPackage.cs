@@ -178,14 +178,22 @@ namespace Heiflow.Models.Subsurface
                 return matrix;
             }
         }
+
+        public int GetFormatLen()
+        {
+            int len = 10;
+
+            return len;
+        }
+
         public void ReadSerialArray<T>(StreamReader sr, DataCube<T> mat, int var_index, int time_index)
         {
             string line = sr.ReadLine().ToUpper();
             var strs = TypeConverterEx.Split<string>(line);
             var grid = Owner.Grid as IRegularGrid;
-
+            var integerform = new char[] {'i','I'};
             // Read constant matrix
-            if (strs[0].ToUpper() == "CONSTANT")
+            if (strs[0].ToUpper() == "CONSTANT" || strs[0]=="0")
             {
                 var ar = TypeConverterEx.Split<string>(line);
                 T conv = TypeConverterEx.ChangeType<T>(ar[1]);
@@ -202,6 +210,14 @@ namespace Heiflow.Models.Subsurface
 //                mat.Value[var_index][time_index] = new T[activeCount];
                 T multiplier = TypeConverterEx.ChangeType<T>(strs[1]);
                 int iprn = -1;
+
+                var format= strs[2].Replace('(',' ');
+                format= format.Replace(')',' ');
+                format = format.Trim();
+
+                var collen=10;
+                var pos =strs[2].IndexOfAny(integerform, 0);
+                var format = strs[2].Substring(1, );
                 int.TryParse(strs[3], out iprn);
                 line = sr.ReadLine();
                 var values = TypeConverterEx.Split<T>(line);

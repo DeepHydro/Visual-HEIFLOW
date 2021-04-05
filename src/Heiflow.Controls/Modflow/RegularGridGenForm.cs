@@ -181,6 +181,12 @@ namespace Heiflow.Controls.WinForm.Modflow
                 MessageBox.Show("You should select the DEM layer");
                 return;
             }
+            if (mf.LayerGroupManager.LayerGroups.Count == 0)
+            {
+                MessageBox.Show("You should set the layer group");
+                return;
+            }
+
             if (cmbAvMethod.SelectedIndex == 0)
                 _GridGenerator.AveragingMethod = Core.MyMath.AveragingMethod.Mean;
             else
@@ -257,8 +263,11 @@ namespace Heiflow.Controls.WinForm.Modflow
         }
         private void btnLayerGroup_Click(object sender, EventArgs e)
         {
-            var mm = _Controller.Project.Model as Heiflow.Models.Integration.HeiflowModel;
-            var mf = mm.ModflowModel;
+            Heiflow.Models.Subsurface.Modflow mf = null;
+            if( _Controller.Project.Model is Heiflow.Models.Integration.HeiflowModel)
+                mf = ( _Controller.Project.Model as Heiflow.Models.Integration.HeiflowModel).ModflowModel;
+            else if (_Controller.Project.Model is Heiflow.Models.Subsurface.Modflow)
+                mf = _Controller.Project.Model as Heiflow.Models.Subsurface.Modflow;
             LayerGroupForm form = new LayerGroupForm(mf.LayerGroupManager);
             if(form.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {

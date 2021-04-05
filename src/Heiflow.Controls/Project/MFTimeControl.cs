@@ -95,6 +95,7 @@ namespace Heiflow.Controls.WinForm.Project
             int nsp = (int)numericUpDownMF.Value;
             _MFTimeService.CreateSP(nsp, true, dateTimePickerStart.Value);
             _MFTimeService.PopulateTimelineFromSP(dateTimePickerStart.Value);
+            _MFTimeService.IOTimeline = _MFTimeService.Timeline;
             olvMF.SetObjects(_MFTimeService.StressPeriods);
         }
 

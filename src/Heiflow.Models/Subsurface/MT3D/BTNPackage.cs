@@ -61,10 +61,47 @@ namespace Heiflow.Models.Subsurface.MT3D
             _PackageInfo.FileExtension = ".btn";
             _PackageInfo.ModuleName = "BTN";
             Description = "The BTN Package consists of nine primary modules";
+            TUNIT = "d";
+            LUNIT = "m";
+            MUNIT = "kg";
             Version = "BTN";
+            NCOMP = 7;
+            MCOMP = 5;
             IsMandatory = false;
+            TRNOP = "T T T F T F F F F F";
             _Layer3DToken = "RegularGrid";
+
+            NLAY = 3;
+            NPER = 1;
+            NROW = 100;
+            NCOL = 100;
         }
+
+        [Category("Grid")]
+        public int NLAY
+        {
+            get;
+            set;
+        }
+        [Category("Grid")]
+        public int NROW
+        {
+            get;
+            set;
+        }
+        [Category("Grid")]
+        public int NCOL
+        {
+            get;
+            set;
+        }
+        [Category("Grid")]
+        public int NPER
+        {
+            get;
+            set;
+        }
+
         [Category("Chemical")]
         /// <summary>
         /// NCOMP is the total number of chemical species included in the current simulation. For single-species simulation, set NCOMP = 1;
@@ -104,6 +141,7 @@ namespace Heiflow.Models.Subsurface.MT3D
             set;
         }
         [Category("Packages")]
+        [Description("TRNOP are logical flags for major transport and solution options. TRNOP(1) to (5) correspond to Advection, Dispersion, Sink & Source Mixing, Chemical Reaction, and Generalized Conjugate Gradient Solver packages, respectively")]
         /// <summary>
         /// TRNOP are logical flags for major transport and solution options. TRNOP(1) to (5) correspond to Advection, Dispersion, Sink & Source Mixing, Chemical Reaction, and Generalized Conjugate Gradient Solver packages, respectively.
         /// </summary>
@@ -112,10 +150,8 @@ namespace Heiflow.Models.Subsurface.MT3D
             get;
             set;
         }
-        [Category("Layers")]
-        [Browsable(false)]
-        [StaticVariableItem]
-        public DataCube<int> LAYCON
+        [Category("Grid")]
+        public int[] LAYCON
         {
             get;
             set;
@@ -195,12 +231,17 @@ namespace Heiflow.Models.Subsurface.MT3D
                 StreamReader sr = new StreamReader(FileName);
                 try
                 {
+                    int k = 0;
                     var grid = Owner.Grid as MFGrid;
                     var mf = Owner as Modflow;
                     string line = sr.ReadLine();
                     line = sr.ReadLine();
                     line = sr.ReadLine();
                     var intbufs = TypeConverterEx.Split<int>(line);
+                    NLAY= intbufs[0];
+                    NROW= intbufs[1];
+                    NCOL = intbufs[2];
+                    NPER = intbufs[3];
                     NCOMP = intbufs[4];
                     MCOMP = intbufs[5];
                     line = sr.ReadLine();
@@ -210,14 +251,77 @@ namespace Heiflow.Models.Subsurface.MT3D
                     MUNIT = strbufs[2];
                     line = sr.ReadLine();
                     TRNOP = line;
-                    LAYCON = new DataCube<int>(1, 1, grid.ActualLayerCount);
-                    DELR = new DataCube2DLayout<float>(1, grid.RowCount,grid.ColumnCount);
-                    DELC= new DataCube2DLayout<float>(1, grid.RowCount, grid.ColumnCount);
-                    HTOP = new DataCube2DLayout<float>(1, grid.RowCount, grid.ColumnCount);
+                    line = sr.ReadLine();
+                    
+                    LAYCON = TypeConverterEx.Split<int>(line, NLAY);
+                    DELR = new DataCube2DLayout<float>(1, 1,NCOL);
+                    DELC= new DataCube2DLayout<float>(1,1, NROW);
+                    line = sr.ReadLine();
+                    var ffbufs = TypeConverterEx.Split<float>(line);
+                    if(ffbufs.Length == 2)
+                    {
+                        DELR.ILArrays[0][0, ":"] = ffbufs[1];
+                    }
+                    else
+                    {
+                        DELR.ILArrays[0][0, ":"] = ffbufs;
+                    }
+                    line = sr.ReadLine();
+                    ffbufs = TypeConverterEx.Split<float>(line);
+                    if (ffbufs.Length == 2)
+                    {
+                        DELC.ILArrays[0][0, ":"] = ffbufs[1];
+                    }
+                    else
+                    {
+                        DELC.ILArrays[0][0, ":"] = ffbufs;
+                    }
+
+                    HTOP = new DataCube<float>(1, 1, grid.ActiveCellCount)
+                    {
+                        Variables = new string[] {"Top Elevation"}
+                    };
                     DZ = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount);
                     PRSITY = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount);
-                    ICBUND = new DataCube<int>(grid.ActualLayerCount, 1, grid.ActiveCellCount);
-                    SCONC = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount);
+                    ICBUND = new DataCube<int>(grid.ActualLayerCount , 1, grid.ActiveCellCount);
+                    SCONC = new DataCube<float>(grid.ActualLayerCount * NCOMP, 1, grid.ActiveCellCount);
+                    for (int i = 0; i < NLAY; i++)
+                    {
+                        DZ.Variables[i] = "Thickness of Layer " + (i + 1);
+                        PRSITY.Variables[i] = "Porosity of Layer " + (i + 1);
+                        ICBUND.Variables[i] = "Boundary condition of Layer " + (i + 1);
+                    } 
+                    for (int i = 0; i < NCOMP; i++)
+                    {
+                        for (int j = 0; j < NLAY; j++)
+                        {
+                            SCONC.Variables[k] = string.Format("Starting concentration of Specie {0} in Layer {1}", (i + 1),j+1);
+                            k++;
+                        }
+                    }
+
+                    ReadSerialArray<float>(sr, HTOP, 0, 0);
+                    for (int l = 0; l < NLAY; l++)
+                    {
+                        ReadSerialArray<float>(sr, DZ, l, 0);
+                    }
+                    for (int l = 0; l < NLAY; l++)
+                    {
+                        ReadSerialArray<float>(sr, PRSITY, l, 0);
+                    }
+                    for (int l = 0; l < NLAY; l++)
+                    {
+                        ReadSerialArray<int>(sr, ICBUND, l, 0);
+                    }
+                    k = 0;
+                    for (int i = 0; i < NCOMP; i++)
+                    {
+                        for (int j = 0; j < NLAY; j++)
+                        {
+                            ReadSerialArray<float>(sr, SCONC, k, 0);
+                            k++;
+                        }
+                    }
 
                     result = LoadingState.Normal;
                 }
