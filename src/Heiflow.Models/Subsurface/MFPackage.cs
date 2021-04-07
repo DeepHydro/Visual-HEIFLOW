@@ -350,10 +350,6 @@ namespace Heiflow.Models.Subsurface
                 
                 if (values.Length == ncell)
                 {
-                    //for(int i=0;i<ncell;i++)
-                    //{
-                    //    mat[var_index,time_index,i] = values[i];
-                    //}
                     mat[var_index, time_index.ToString(), ":"] = values;
                 }
                 else
@@ -367,11 +363,6 @@ namespace Heiflow.Models.Subsurface
                             line += sr.ReadLine() + "\t";
                         }
                         values = TypeConverterEx.Split<T>(line);
-
-                        //for (int i = 0; i < ncell; i++)
-                        //{
-                        //    mat[var_index,time_index,i] = values[i];
-                        //}
                         mat[var_index, time_index.ToString(), ":"] = values;
                     }
                     catch (Exception ex)

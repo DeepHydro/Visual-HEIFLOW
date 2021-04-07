@@ -80,7 +80,7 @@ namespace Heiflow.Models.Subsurface.MT3D
         [Category("Layer")]
         [Browsable(false)]
         [StaticVariableItem]
-        public DataCube<float> TRPT
+        public DataCube2DLayout<float> TRPT
         {
             get;
             set;
@@ -88,7 +88,7 @@ namespace Heiflow.Models.Subsurface.MT3D
         [Category("Layer")]
         [Browsable(false)]
         [StaticVariableItem]
-        public DataCube<float> TRPV
+        public DataCube2DLayout<float> TRPV
         {
             get;
             set;
@@ -96,7 +96,7 @@ namespace Heiflow.Models.Subsurface.MT3D
         [Category("Layer")]
         [Browsable(false)]
         [StaticVariableItem]
-        public DataCube<float> DMCOEF
+        public DataCube2DLayout<float> DMCOEF
         {
             get;
             set;
@@ -123,12 +123,32 @@ namespace Heiflow.Models.Subsurface.MT3D
                 {
                     var grid = Owner.Grid as MFGrid;
                     var mf = Owner as Modflow;
-                    string line = sr.ReadLine();
-                    var bufs = TypeConverterEx.Split<string>(line);
-                    AL = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount);
-                    TRPT = new DataCube<float>(1, 1, grid.ActualLayerCount);
-                    TRPV = new DataCube<float>(1, 1, grid.ActualLayerCount);
-                    DMCOEF = new DataCube<float>(1, 1, grid.ActualLayerCount);
+                    AL = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
+                    {
+                        ZeroDimension = DimensionFlag.Spatial
+                    };
+                    TRPT = new DataCube2DLayout<float>(1, 1, grid.ActualLayerCount);
+                    TRPV = new DataCube2DLayout<float>(1, 1, grid.ActualLayerCount);
+                    DMCOEF = new DataCube2DLayout<float>(1, 1, grid.ActualLayerCount);
+                    
+                    for (int i = 0; i < grid.ActualLayerCount; i++)
+                    {
+                        AL.Variables[i] = "Longitudinal Dispersivity of Layer " + (i + 1);
+                        ReadSerialArray<float>(sr, AL, i, 0);
+                    }
+                    TRPT.Variables[0] = "Ratio of TH to AL";                  
+                    TRPV.Variables[0] = "Ratio of TV to AL";
+                    DMCOEF.Variables[0] = "Effective Molecular Diffusion Coefficient";
+                    for (int i = 0; i < grid.ActualLayerCount; i++)
+                    {
+                        TRPT.ColumnNames[i] = "Layer " + (i + 1);
+                        TRPV.ColumnNames[i] = "Layer " + (i + 1);
+                        DMCOEF.ColumnNames[i] = "Layer " + (i + 1);
+                    }
+                    ReadSerialArray<float>(sr, TRPT, 0, 0);
+                    ReadSerialArray<float>(sr, TRPV, 0, 0);
+                    ReadSerialArray<float>(sr, DMCOEF, 0, 0);
+
                     result = LoadingState.Normal;
                 }
                 catch (Exception ex)

@@ -60,7 +60,9 @@ namespace Heiflow.Controls.WinForm.Project
 
             if (_MFTimeService.StressPeriods.Count > 0)
             {
+                numericUpDownMF.ValueChanged -= this.numericUpDownMF_ValueChanged;
                 numericUpDownMF.Value = _MFTimeService.StressPeriods.Count;
+                numericUpDownMF.ValueChanged += this.numericUpDownMF_ValueChanged;
             }
             else
             {

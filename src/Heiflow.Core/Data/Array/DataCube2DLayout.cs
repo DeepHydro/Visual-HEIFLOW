@@ -70,16 +70,16 @@ namespace Heiflow.Core.Data
                 SelectedVariableIndex = 0;
             if (Flags[SelectedVariableIndex] == TimeVarientFlag.Constant)
             {
-                var dc = new DataColumn("C0", typeof(T));
-                dt.Rows.Add(dc);
+                var dc = new DataColumn(ColumnNames[0], typeof(T));
+                dt.Columns.Add(dc);
                 var dr = dt.NewRow();
                 dr[0] = Constants[SelectedVariableIndex];
                 dt.Rows.Add(dr);
             }
             else if (Flags[SelectedVariableIndex] == TimeVarientFlag.Repeat)
             {
-                var dc = new DataColumn("C0", typeof(T));
-                dt.Rows.Add(dc);
+                var dc = new DataColumn(ColumnNames[0], typeof(T));
+                dt.Columns.Add(dc);
                 var dr = dt.NewRow();
                 dr[0] = -1;
                 dt.Rows.Add(dr);

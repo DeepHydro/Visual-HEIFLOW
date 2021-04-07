@@ -95,7 +95,7 @@ namespace Heiflow.Models.Subsurface.MT3D
             get;
             set;
         }
-        [Category("Grid")]
+        [Category("Time")]
         public int NPER
         {
             get;
@@ -229,7 +229,8 @@ namespace Heiflow.Models.Subsurface.MT3D
         [Description("a flag indicating whether the calculated concentration should be printed to the standard output text file and also serves as a printing-format code if it is printed")]
         public int IFMTCN
         {
-            get;set;
+            get;
+            set;
         }
         [Category("Output")]
         [Description("a flag indicating whether the number of particles in each cell should be printed to the standard output text file and also serves as a printing-format code if it is printed")]
@@ -274,15 +275,59 @@ namespace Heiflow.Models.Subsurface.MT3D
             get;
             set;
         }
-
-
-        public override void Initialize()
+        [Category("Observation Output")]
+        [Description("the number of observation points at which the concentration of each species will be saved")]
+        public int NOBS
         {
-            this.Grid = Owner.Grid;
-            this.Grid.Updated += this.OnGridUpdated;
-            this.TimeService = Owner.TimeService;
-            base.Initialize();
+            get;
+            set;
         }
+        [Category("Observation Output")]
+        [Description("an integer indicating how frequently the concentration at the specified observation points should be saved")]
+        public int NPROBS
+        {
+            get;
+            set;
+        }
+          [Category("Observation Output")]
+        public int KOBS
+        {
+            get;
+            set;
+        }
+          [Category("Observation Output")]
+        public int IOBS
+        {
+            get;
+            set;
+        }
+          [Category("Observation Output")]
+        public int JOBS
+        {
+            get;
+            set;
+        }
+          [Category("a logical flag indicating whether a one-line summary of mass balance information should be printed")]
+          public bool CHKMAS
+          {
+              get;
+              set;
+          }
+          [Category("an integer indicating how frequently the mass budget information should be saved in the mass balance summary file MT3Dnnn.MAS")]
+          public int NPRMAS
+          {
+              get;
+              set;
+          }
+
+
+          public override void Initialize()
+          {
+              this.Grid = Owner.Grid;
+              this.Grid.Updated += this.OnGridUpdated;
+              this.TimeService = Owner.TimeService;
+              base.Initialize();
+          }
         public override void New()
         {
             base.New();
@@ -302,8 +347,8 @@ namespace Heiflow.Models.Subsurface.MT3D
                     line = sr.ReadLine();
                     line = sr.ReadLine();
                     var intbufs = TypeConverterEx.Split<int>(line);
-                    NLAY= intbufs[0];
-                    NROW= intbufs[1];
+                    NLAY = intbufs[0];
+                    NROW = intbufs[1];
                     NCOL = intbufs[2];
                     NPER = intbufs[3];
                     NCOMP = intbufs[4];
@@ -316,13 +361,13 @@ namespace Heiflow.Models.Subsurface.MT3D
                     line = sr.ReadLine();
                     TRNOP = line;
                     line = sr.ReadLine();
-                    
+
                     LAYCON = TypeConverterEx.Split<int>(line, NLAY);
-                    DELR = new DataCube2DLayout<float>(1, 1,NCOL);
-                    DELC= new DataCube2DLayout<float>(1,1, NROW);
+                    DELR = new DataCube2DLayout<float>(1, 1, NCOL);
+                    DELC = new DataCube2DLayout<float>(1, 1, NROW);
                     line = sr.ReadLine();
                     var ffbufs = TypeConverterEx.Split<float>(line);
-                    if(ffbufs.Length == 2)
+                    if (ffbufs.Length == 2)
                     {
                         DELR.ILArrays[0][0, ":"] = ffbufs[1];
                     }
@@ -344,35 +389,40 @@ namespace Heiflow.Models.Subsurface.MT3D
                     HTOP = new DataCube<float>(1, 1, grid.ActiveCellCount)
                     {
                         Variables = new string[] { "Top Elevation" },
-                        Topology = grid.Topology
+                        Topology = grid.Topology,
+                        ZeroDimension = DimensionFlag.Spatial
                     };
                     DZ = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
                     {
-                        Topology = grid.Topology
+                        Topology = grid.Topology,
+                        ZeroDimension = DimensionFlag.Spatial
                     };
                     PRSITY = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
                                       {
-                                          Topology = grid.Topology
+                                          Topology = grid.Topology,
+                                          ZeroDimension = DimensionFlag.Spatial
                                       };
-                    ICBUND = new DataCube<int>(grid.ActualLayerCount , 1, grid.ActiveCellCount)
+                    ICBUND = new DataCube<int>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
                     {
-                        Topology = grid.Topology
+                        Topology = grid.Topology,
+                        ZeroDimension = DimensionFlag.Spatial
                     };
                     SCONC = new DataCube<float>(grid.ActualLayerCount * NCOMP, 1, grid.ActiveCellCount)
                     {
-                        Topology = grid.Topology
+                        Topology = grid.Topology,
+                        ZeroDimension = DimensionFlag.Spatial
                     };
                     for (int i = 0; i < NLAY; i++)
                     {
                         DZ.Variables[i] = "Thickness of Layer " + (i + 1);
                         PRSITY.Variables[i] = "Porosity of Layer " + (i + 1);
                         ICBUND.Variables[i] = "Boundary condition of Layer " + (i + 1);
-                    } 
+                    }
                     for (int i = 0; i < NCOMP; i++)
                     {
                         for (int j = 0; j < NLAY; j++)
                         {
-                            SCONC.Variables[k] = string.Format("Starting concentration of Specie {0} in Layer {1}", (i + 1),j+1);
+                            SCONC.Variables[k] = string.Format("Starting concentration of Specie {0} in Layer {1}", (i + 1), j + 1);
                             k++;
                         }
                     }
@@ -402,29 +452,77 @@ namespace Heiflow.Models.Subsurface.MT3D
                     line = sr.ReadLine();
                     strbufs = TypeConverterEx.Split<string>(line);
                     CINACT = float.Parse(strbufs[0]);
-                    if(strbufs.Length ==2)
+                    if (strbufs.Length == 2)
                     {
                         THKMIN = float.Parse(strbufs[1]);
                     }
                     line = sr.ReadLine();
                     strbufs = TypeConverterEx.Split<string>(line);
-                    IFMTCN=int.Parse(strbufs[0]);
-                     IFMTNP=int.Parse(strbufs[1]);
-                     IFMTRF=int.Parse(strbufs[2]);
-                     IFMTDP=int.Parse(strbufs[3]);
-                     SAVUCN = strbufs[4].ToUpper() == "T";
-                     line = sr.ReadLine().Trim();
-                     NPRS = int.Parse(line);
-                     int nline = (int)Math.Ceiling(NPRS / 8.0);
-                     line = sr.ReadLine();
-                     line += "\t";
-                     for (int c = 1; c < nline; c++)
-                     {
-                         line += sr.ReadLine() + "\t";
-                     }
-                     TIMPRS = TypeConverterEx.Split<float>(line);
+                    IFMTCN = int.Parse(strbufs[0]);
+                    IFMTNP = int.Parse(strbufs[1]);
+                    IFMTRF = int.Parse(strbufs[2]);
+                    IFMTDP = int.Parse(strbufs[3]);
+                    SAVUCN = strbufs[4].ToUpper() == "T";
+                    line = sr.ReadLine().Trim();
+                    NPRS = int.Parse(line);
+                    int nline = (int)Math.Ceiling(NPRS / 8.0);
+                    line = sr.ReadLine();
+                    line += "\t";
+                    for (int c = 1; c < nline; c++)
+                    {
+                        line += sr.ReadLine() + "\t";
+                    }
+                    TIMPRS = TypeConverterEx.Split<float>(line);
 
+                    line = sr.ReadLine();
+                    strbufs = TypeConverterEx.Split<string>(line);
+                    NOBS = int.Parse(strbufs[0]);
+                    if (strbufs.Length == 2)
+                    {
+                        NPROBS = int.Parse(strbufs[1]);
+                    }
+                    if (NOBS > 0)
+                    {
+                        line = sr.ReadLine();
+                        intbufs = TypeConverterEx.Split<int>(line);
+                        KOBS = intbufs[0];
+                        IOBS = intbufs[1];
+                        JOBS = intbufs[2];
+                    }
 
+                    line = sr.ReadLine();
+                    strbufs = TypeConverterEx.Split<string>(line);
+                    CHKMAS = strbufs[0].ToUpper() == "T";
+                    if (strbufs.Length == 2)
+                    {
+                        NPRMAS = int.Parse(strbufs[1]);
+                    }
+                    for (int i = 0; i < NPER; i++)
+                    {
+                        line = sr.ReadLine();
+                        ffbufs = TypeConverterEx.Split<float>(line);
+                        if (ffbufs[2] <= 0)
+                        {
+                            nline = (int)Math.Ceiling(NPER / 8.0);
+                            line = sr.ReadLine();
+                            line += "\t";
+                            for (int c = 1; c < nline; c++)
+                            {
+                                line += sr.ReadLine() + "\t";
+                            }
+                            TimeService.StressPeriods[i].TSLNGH = TypeConverterEx.Split<float>(line);
+                        }
+                        line = sr.ReadLine();
+                        strbufs = TypeConverterEx.Split<string>(line);
+                        TimeService.StressPeriods[i].DT0 = float.Parse(strbufs[0]);
+                        TimeService.StressPeriods[i].MXSTRN = int.Parse(strbufs[1]);
+                        if (strbufs.Length >= 3)
+                            TimeService.StressPeriods[i].TTSMULT = float.Parse(strbufs[2]);
+                        if (strbufs.Length >= 4)
+                            TimeService.StressPeriods[i].TTSMAX = float.Parse(strbufs[3]);
+                    }
+
+                    //TimeService.StressPeriods
                     result = LoadingState.Normal;
                 }
                 catch (Exception ex)
@@ -450,12 +548,12 @@ namespace Heiflow.Models.Subsurface.MT3D
         public override void CompositeOutput(MFOutputPackage mfout)
         {
             var mf = Owner as Modflow;
-           UCNPackage acn = new UCNPackage()
-            {
-                Owner = mf,
-                Parent = this,
-                FileName = this.FileName
-            };
+            UCNPackage acn = new UCNPackage()
+             {
+                 Owner = mf,
+                 Parent = this,
+                 FileName = this.FileName
+             };
             mfout.AddChild(acn);
         }
         public override void SaveAs(string filename, ICancelProgressHandler progress)

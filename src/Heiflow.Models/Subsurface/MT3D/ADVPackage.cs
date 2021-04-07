@@ -175,6 +175,7 @@ namespace Heiflow.Models.Subsurface.MT3D
             var grid = (Owner.Grid as IRegularGrid);
             StreamWriter sw = new StreamWriter(filename);
             WriteDefaultComment(sw, this.Name);
+
             sw.Close();
             OnSaved(progress);
         }

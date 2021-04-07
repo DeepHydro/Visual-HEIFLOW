@@ -69,15 +69,100 @@ namespace Heiflow.Models.Subsurface.MT3D
             _Layer3DToken = "RegularGrid";
 
         }
-        [Category("Layer")]
-        [Browsable(false)]
-        [StaticVariableItem]
+
+        [Category("Sink & Source Package")]
         public bool FWEL
         {
             get;
             set;
         }
-         
+        [Category("Sink & Source Package")]
+        public bool FDRN
+        {
+            get;
+            set;
+        }
+        [Category("Sink & Source Package")]
+        public bool FRCH
+        {
+            get;
+            set;
+        }
+        [Category("Sink & Source Package")]
+        public bool FEVT
+        {
+            get;
+            set;
+        }
+        [Category("Sink & Source Package")]
+        public bool FRIV
+        {
+            get;
+            set;
+        }
+        [Category("Sink & Source Package")]
+        public bool FGHB
+        {
+            get;
+            set;
+        }
+        [Category("Sink & Source Package")]
+        public int MXSS
+        {
+            get;
+            set;
+        }
+        [Category("RCH Package")]
+        public int INCRCH
+        {
+            get;
+            set;
+        }
+        [Category("RCH Package")]
+        [Browsable(false)]
+        [StaticVariableItem]
+        public DataCube<float> CRCH
+        {
+            get;
+            set;
+        }
+
+        [Category("EVT Package")]
+        public int INCEVT
+        {
+            get;
+            set;
+        }
+        [Category("EVT Package")]
+        [Browsable(false)]
+        [StaticVariableItem]
+        public DataCube<float> CEVT
+        {
+            get;
+            set;
+        }
+        [Category("Point Sources")]
+        [Description("the number of point sources whose concentrations need to be specified")]
+        public int NSS
+        {
+            get;
+            set;
+        }
+        [Category("Point Sources")]
+        [Description("the number of point sources whose concentrations need to be specified")]
+        public int NSS
+        {
+            get;
+            set;
+        }
+        [Category("Point Sources")]
+        [Description("KSS, ISS, JSS, CSS, ITYPE, (CSSMS(n), n=1,NCOMP)")]
+        public DataCube2DLayout<float> PointSources
+        {
+            get;
+            set;
+        }
+
 
         public override void Initialize()
         {
@@ -102,6 +187,19 @@ namespace Heiflow.Models.Subsurface.MT3D
                     var mf = Owner as Modflow;
                     string line = sr.ReadLine();
                     var bufs = TypeConverterEx.Split<string>(line);
+                    FWEL = bufs[0].ToUpper() == "T";
+                    FDRN = bufs[1].ToUpper() == "T";
+                    FRCH = bufs[2].ToUpper() == "T";
+                    FEVT = bufs[3].ToUpper() == "T";
+                    FRIV = bufs[4].ToUpper() == "T";
+                    FGHB = bufs[5].ToUpper() == "T";
+                    line = sr.ReadLine();
+                    MXSS = int.Parse(line.Trim());
+
+                    for (int i = 0; i < TimeService.StressPeriods.Count; i++)
+                    {
+
+                    }
                     result = LoadingState.Normal;
                 }
                 catch (Exception ex)

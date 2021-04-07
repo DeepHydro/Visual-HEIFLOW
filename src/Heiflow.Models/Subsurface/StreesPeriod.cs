@@ -43,6 +43,11 @@ namespace Heiflow.Models.Subsurface
             Dates = new List<DateTime>();
             State = Subsurface.ModelState.TR;
             ParameterFile = "";
+
+            DT0 = 0;
+            MXSTRN = 1000;
+            TTSMULT = 1;
+            TTSMAX = 0;
         }
         public int ID { get; set; }
         /// <summary>
@@ -94,6 +99,14 @@ namespace Heiflow.Models.Subsurface
         }
         public List<StepOption> StepOptions { get; set; }
         public List<DateTime> Dates { get; set; }
+
+        #region MT3D
+        public float[] TSLNGH { get; set; }
+        public float DT0 { get; set; }
+        public int MXSTRN { get; set; }
+        public float TTSMULT { get; set; }
+        public float TTSMAX { get; set; }
+        #endregion
 
         public override string ToString()
         {
