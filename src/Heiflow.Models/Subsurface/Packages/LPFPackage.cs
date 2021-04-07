@@ -377,8 +377,11 @@ namespace Heiflow.Models.Subsurface
             line = TypeConverterEx.Vector2String<int>(LAYWET) + "\t# LAYWET";
             sw.WriteLine(line);
 
-            line = string.Format("{0}\t{1}\t{2}\t# WETFCT, IWETIT, IHDWET", WETFCT, IWETIT, IHDWET);
-            sw.WriteLine(line);
+            if (LAYWET.Sum() != 0)
+            {
+                line = string.Format("{0}\t{1}\t{2}\t# WETFCT, IWETIT, IHDWET", WETFCT, IWETIT, IHDWET);
+                sw.WriteLine(line);
+            }
 
             for (int l = 0; l < grid.ActualLayerCount; l++)
             {

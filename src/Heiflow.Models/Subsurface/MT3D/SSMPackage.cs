@@ -112,12 +112,12 @@ namespace Heiflow.Models.Subsurface.MT3D
             get;
             set;
         }
-        [Category("RCH Package")]
-        public int INCRCH
-        {
-            get;
-            set;
-        }
+        //[Category("RCH Package")]
+        //public int INCRCH
+        //{
+        //    get;
+        //    set;
+        //}
         [Category("RCH Package")]
         [Browsable(false)]
         [StaticVariableArrayItem]
@@ -127,15 +127,15 @@ namespace Heiflow.Models.Subsurface.MT3D
             set;
         }
 
-        [Category("EVT Package")]
-        public int INCEVT
-        {
-            get;
-            set;
-        }
+        //[Category("EVT Package")]
+        //public int INCEVT
+        //{
+        //    get;
+        //    set;
+        //}
         [Category("EVT Package")]
         [Browsable(false)]
-        [StaticVariableItem]
+        [StaticVariableArrayItem]
         public DataCube<float>[] CEVT
         {
             get;
@@ -143,21 +143,17 @@ namespace Heiflow.Models.Subsurface.MT3D
         }
         [Category("Point Sources")]
         [Description("the number of point sources whose concentrations need to be specified")]
-        public int NSS
+        [Browsable(false)]
+        public int[] NSS
         {
             get;
             set;
         }
-        //[Category("Point Sources")]
-        //[Description("the number of point sources whose concentrations need to be specified")]
-        //public int NSS
-        //{
-        //    get;
-        //    set;
-        //}
         [Category("Point Sources")]
         [Description("KSS, ISS, JSS, CSS, ITYPE, (CSSMS(n), n=1,NCOMP)")]
-        public DataCube2DLayout<float> PointSources
+        [Browsable(false)]
+        [StaticVariableArrayItem]
+        public DataCube2DLayout<float>[] PointSources
         {
             get;
             set;
@@ -189,6 +185,7 @@ namespace Heiflow.Models.Subsurface.MT3D
                     var bufs = TypeConverterEx.Split<string>(line);
                     var nsp= TimeService.StressPeriods.Count;
                     var btnpck =  mf.GetPackage(BTNPackage.PackageName) as BTNPackage;
+                    int[] intbuf = null;
                     FWEL = bufs[0].ToUpper() == "T";
                     FDRN = bufs[1].ToUpper() == "T";
                     FRCH = bufs[2].ToUpper() == "T";
@@ -198,8 +195,10 @@ namespace Heiflow.Models.Subsurface.MT3D
                     line = sr.ReadLine();
                     MXSS = int.Parse(line.Trim());
 
-                    CRCH = new DataCube<float>[btnpck.NCOMP]
+                    CRCH = new DataCube<float>[btnpck.NCOMP];
                     CEVT = new DataCube<float>[btnpck.NCOMP];
+                    PointSources = new DataCube2DLayout<float>[nsp];
+                    NSS= new int[nsp];
 
                     for (int i = 0; i < btnpck.NCOMP; i++)
                     {
@@ -225,40 +224,96 @@ namespace Heiflow.Models.Subsurface.MT3D
 
                     for (int i = 0; i < nsp; i++)
                     {
+                        if (FRCH)
+                        {
+                            line = sr.ReadLine();
+                            intbuf = TypeConverterEx.Split<int>(line);
+
+                            if (intbuf[0] >= 0)
+                            {
+                                for (int j = 0; j < btnpck.NCOMP; j++)
+                                {
+                                    ReadSerialArray<float>(sr, CRCH[j], i, 0);
+                                }
+                            }
+                            else
+                            {
+                                for (int j = 0; j < btnpck.NCOMP; j++)
+                                {
+                                    CRCH[j].Flags[i] = TimeVarientFlag.Repeat;
+                                    CRCH[j].Multipliers[i] = 1;
+                                    CRCH[j].IPRN[i] = -1;
+                                }
+                            }
+                        }
+
+                        if (FEVT)
+                        {
+                            line = sr.ReadLine();
+                           intbuf = TypeConverterEx.Split<int>(line);
+
+                            if (intbuf[0] >= 0)
+                            {
+                                for (int j = 0; j < btnpck.NCOMP; j++)
+                                {
+                                    ReadSerialArray<float>(sr, CEVT[j], i, 0);
+                                }
+                            }
+                            else
+                            {
+                                for (int j = 0; j < btnpck.NCOMP; j++)
+                                {
+                                    CEVT[j].Flags[i] = TimeVarientFlag.Repeat;
+                                    CEVT[j].Multipliers[i] = 1;
+                                    CEVT[j].IPRN[i] = -1;
+                                }
+                            }
+                        }
+
                         line = sr.ReadLine();
-                        var intbuf = TypeConverterEx.Split<int>(line);
-
-                        if(intbuf[0]>=0)
-                        {
-                            for (int j = 0; j < btnpck.NCOMP; j++)
-                            {
-                                ReadSerialArray<float>(sr, CRCH[j], i, 0);
-                            }
-                        }
-                        else
-                        {
-                            CRCH[i].Flags[i] = TimeVarientFlag.Repeat;
-                            CRCH[i].Multipliers[i] = 1;
-                            CRCH[i].IPRN[i] = -1;
-                        }
-
-                           line = sr.ReadLine();
                         intbuf = TypeConverterEx.Split<int>(line);
-
-                        if(intbuf[0]>=0)
+                        NSS[i] = intbuf[0];
+                        var ncol = 5 + btnpck.NCOMP;
+                      
+                        if (NSS[i] > 0)
                         {
+                            PointSources[i] = new DataCube2DLayout<float>(1, NSS[i], ncol);
+                            PointSources[i].Name = "Point Source in Stress Period " + (i + 1);
+                            PointSources[i].ColumnNames[0]= "Layer";
+                            PointSources[i].ColumnNames[1]= "Row";
+                            PointSources[i].ColumnNames[2] = "Column";
+                            PointSources[i].ColumnNames[3] = "Source Conc.";
+                            PointSources[i].ColumnNames[4] = "Type";
                             for (int j = 0; j < btnpck.NCOMP; j++)
                             {
-                                ReadSerialArray<float>(sr, CEVT[j], i, 0);
+                                PointSources[i].ColumnNames[j + 5] = "Conc. " + (j + 1);
+                            }
+                            for (int j = 0; j < NSS[i]; j++)
+                            {
+                                line = sr.ReadLine();
+                                var ffbuf = TypeConverterEx.Split<float>(line);
+                                if(ffbuf.Length == 5)
+                                {
+                                    for (int k = 0; k < 5; k++)
+                                    {
+                                        PointSources[i].ILArrays[0][j, k] = ffbuf[k];
+                                    }
+                                }
+                                else if (ffbuf.Length == ncol)
+                                {
+                                    PointSources[i].ILArrays[0][j, ":"] = ffbuf;
+                                }
                             }
                         }
                         else
                         {
-                            CEVT[i].Flags[i] = TimeVarientFlag.Repeat;
-                            CEVT[i].Multipliers[i] = 1;
-                            CEVT[i].IPRN[i] = -1;
+                            PointSources[i] = new DataCube2DLayout<float>(1, 1, 1);
+                            PointSources[i][0, 0, 0] = -999;
+                            PointSources[i].Name = "Point Source in Stress Period " + (i + 1);
                         }
                     }
+
+
                     result = LoadingState.Normal;
                 }
                 catch (Exception ex)

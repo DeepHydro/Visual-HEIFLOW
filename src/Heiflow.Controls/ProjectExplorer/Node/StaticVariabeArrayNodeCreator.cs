@@ -78,24 +78,25 @@ namespace Heiflow.Controls.WinForm.Project
                 for (int j = 0; j < dcarray.Length; j++)
                 {
                     var dc = dcarray[j];
-                    var folder_item = new VariablesFolderItem()
-                    {
-                        PropertyInfo = item_attribute.PropertyInfo
-                    };
-                    var folder_menu = ContextMenuFactory.Creat(folder_item);
-                    node_name = dc.Name;
-                    folder_menu.EneableAll(false);
-                    folder_menu.Enable(VariablesFolderContextMenu._AT, true);
-                    folder_menu.Enable(VariablesFolderContextMenu._OP, false);
-                    (folder_menu as IPackageContextMemu).Package = pck;
-
-                    Node node_folder = new Node(node_name)
-                    {
-                        Image = Resources.FolderWithGISData16,
-                        Tag = folder_menu
-                    };
                     if (dc != null)
                     {
+                        var folder_item = new VariablesFolderItem()
+                        {
+                            PropertyInfo = item_attribute.PropertyInfo
+                        };
+                        var folder_menu = ContextMenuFactory.Creat(folder_item);
+                        node_name = dc.Name;
+                        folder_menu.EneableAll(false);
+                        folder_menu.Enable(VariablesFolderContextMenu._AT, true);
+                        folder_menu.Enable(VariablesFolderContextMenu._OP, false);
+                        (folder_menu as IPackageContextMemu).Package = pck;
+
+                        Node node_folder = new Node(node_name)
+                        {
+                            Image = Resources.FolderWithGISData16,
+                            Tag = folder_menu
+                        };
+
                         folder_item.Variables = new string[dc.Size[0]];
                         for (int i = 0; i < dc.Size[0]; i++)
                         {
@@ -122,8 +123,8 @@ namespace Heiflow.Controls.WinForm.Project
                             };
                             node_folder.Nodes.Add(ndmat);
                         }
+                        root_node_folder.Nodes.Add(node_folder);
                     }
-                    root_node_folder.Nodes.Add(node_folder);
                 }
             }
             return root_node_folder;

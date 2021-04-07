@@ -264,8 +264,8 @@ namespace Heiflow.Models.Subsurface
             sw.WriteLine(line);
             line = string.Join("\t", LAYCBD) + "\t#LAYCBD";
             sw.WriteLine(line);
-            WriteSerialFloatArray(sw, grid.DELR, 0, 0, "E6", "DELR");
-            WriteSerialFloatArray(sw, grid.DELC, 0, 0, "E6", "DELC");
+            WriteRegularArray(sw, grid.DELR, 0, "E6", "DELR");
+            WriteRegularArray(sw, grid.DELC, 0, "E6", "DELC");
 
             string cmt = " #TOP";
             for (int k = 0; k < grid.LayerCount; k++)

@@ -568,15 +568,27 @@ namespace Heiflow.Models.Subsurface
             {
                 string line = string.Format("INTERNAL\t{0}\t(FREE)\t{1}\t{2}", mat.Multipliers[var_index], mat.IPRN[var_index], comment);
                 var grid = Owner.Grid as MFGrid;
-                int row = grid.RowCount;
-                int col = grid.ColumnCount;
-
                 sw.WriteLine(line);
-                for (int r = 0; r < row; r++)
+                for (int r = 0; r < mat.Size[1]; r++)
                 {
                     line = string.Join(StreamReaderSequence.stab, mat[var_index, r.ToString(), ":"]);
                     sw.WriteLine(line);
                 }
+            }
+        }
+
+        public void Write2DLayoutArray<T>(StreamWriter sw, DataCube2DLayout<T> mat, string format, string comment)
+        {
+            string line = string.Format("INTERNAL\t{0}\t(FREE)\t{1}\t{2}", mat.Multipliers[0], mat.IPRN[0], comment);
+            var grid = Owner.Grid as MFGrid;
+            int row = grid.RowCount;
+            int col = grid.ColumnCount;
+
+            sw.WriteLine(line);
+            for (int r = 0; r < row; r++)
+            {
+                line = string.Join(StreamReaderSequence.stab, mat[0, r.ToString(), ":"]);
+                sw.WriteLine(line);
             }
         }
         public void WriteDefaultComment(StreamWriter sw, string package)

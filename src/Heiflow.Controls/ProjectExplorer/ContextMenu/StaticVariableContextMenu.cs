@@ -94,8 +94,9 @@ namespace Heiflow.Controls.WinForm.MenuItems
 
         protected override void Add2Toolbox_Clicked(object sender, EventArgs e)
         {
-            var buf = _Package.GetType().GetProperty(_Item.PropertyInfo.Name).GetValue(_Package);
-            var mat = buf as DataCube<float>;
+            //var buf = _Package.GetType().GetProperty(_Item.PropertyInfo.Name).GetValue(_Package);
+            //var mat = buf as DataCube<float>;
+            var mat = (_Item as StaticVariableItem).DataCubeObject as DataCube<float>;
             if (mat != null)
             {
                 //mat.Name = _Package.Name + "_" + _Item.PropertyInfo.Name;
@@ -106,8 +107,9 @@ namespace Heiflow.Controls.WinForm.MenuItems
         protected override void Add2DCEditor_Clicked(object sender, EventArgs e)
         {
             _ShellService.SelectPanel(DockPanelNames.DCEditorPanel);
-            var buf = _Package.GetType().GetProperty(_Item.PropertyInfo.Name).GetValue(_Package);
-            var mat = buf as IDataCubeObject;
+            //var buf = _Package.GetType().GetProperty(_Item.PropertyInfo.Name).GetValue(_Package);
+            //var mat = buf as IDataCubeObject;
+            var mat = (_Item as StaticVariableItem).DataCubeObject;
             if (mat != null)
             {
                 mat.Name = _Item.PropertyInfo.Name;
@@ -120,7 +122,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
         {
             var item = ExplorerItem as StaticVariableItem;
             var grid = _ProjectService.Project.Model.Grid as MFGrid;
-            var convertor = _Package.GetType().GetProperty(_Item.PropertyInfo.Name).GetValue(_Package) as IDataCubeObject;
+            var convertor = item.DataCubeObject;// _Package.GetType().GetProperty(_Item.PropertyInfo.Name).GetValue(_Package) as IDataCubeObject;
             convertor.SelectedVariableIndex = item.VariableIndex;
             var vector = convertor.GetVectorAsArray(convertor.SelectedVariableIndex, "0", ":");
             if (vector != null && _Package.Feature != null)
