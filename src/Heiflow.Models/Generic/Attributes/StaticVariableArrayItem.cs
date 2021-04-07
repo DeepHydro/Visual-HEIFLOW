@@ -27,7 +27,6 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
-using Heiflow.Core.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,13 +38,13 @@ namespace Heiflow.Models.Generic
     /// <summary>
     ///  Indicates a property (which is a DataCube) needs to be shown
     /// </summary>
-    public class StaticVariableItem : DisplayablePropertyItem
+    public class StaticVariableArrayItem : DisplayablePropertyItem
     {
-        public StaticVariableItem( string prefix)
+        public StaticVariableArrayItem(string prefix)
         {
             Prefix = prefix;
         }
-        public StaticVariableItem()
+        public StaticVariableArrayItem()
         {
 
         }
@@ -62,12 +61,6 @@ namespace Heiflow.Models.Generic
         }
 
         public int VariableIndex
-        {
-            get;
-            set;
-        }
-
-        public IDataCubeObject DataCubeObject
         {
             get;
             set;

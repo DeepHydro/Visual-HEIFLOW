@@ -127,6 +127,7 @@
     <Compile Include="Generic\Attributes\CoverageItem.cs" />
     <Compile Include="Generic\Attributes\PackageCategory.cs" />
     <Compile Include="Generic\Attributes\SimplePropertyInfo.cs" />
+    <Compile Include="Generic\Attributes\StaticVariableArrayItem.cs" />
     <Compile Include="Generic\Attributes\VariablesFolderItem.cs" />
     <Compile Include="Generic\Attributes\DynamicVariableItem.cs" />
     <Compile Include="Generic\Attributes\DisplayablePropertyItem.cs" />

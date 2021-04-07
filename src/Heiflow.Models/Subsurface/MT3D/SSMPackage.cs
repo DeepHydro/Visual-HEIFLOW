@@ -120,8 +120,8 @@ namespace Heiflow.Models.Subsurface.MT3D
         }
         [Category("RCH Package")]
         [Browsable(false)]
-        [StaticVariableItem]
-        public DataCube<float> CRCH
+        [StaticVariableArrayItem]
+        public DataCube<float>[] CRCH
         {
             get;
             set;
@@ -136,7 +136,7 @@ namespace Heiflow.Models.Subsurface.MT3D
         [Category("EVT Package")]
         [Browsable(false)]
         [StaticVariableItem]
-        public DataCube<float> CEVT
+        public DataCube<float>[] CEVT
         {
             get;
             set;
@@ -148,13 +148,13 @@ namespace Heiflow.Models.Subsurface.MT3D
             get;
             set;
         }
-        [Category("Point Sources")]
-        [Description("the number of point sources whose concentrations need to be specified")]
-        public int NSS
-        {
-            get;
-            set;
-        }
+        //[Category("Point Sources")]
+        //[Description("the number of point sources whose concentrations need to be specified")]
+        //public int NSS
+        //{
+        //    get;
+        //    set;
+        //}
         [Category("Point Sources")]
         [Description("KSS, ISS, JSS, CSS, ITYPE, (CSSMS(n), n=1,NCOMP)")]
         public DataCube2DLayout<float> PointSources
@@ -187,6 +187,8 @@ namespace Heiflow.Models.Subsurface.MT3D
                     var mf = Owner as Modflow;
                     string line = sr.ReadLine();
                     var bufs = TypeConverterEx.Split<string>(line);
+                    var nsp= TimeService.StressPeriods.Count;
+                    var btnpck =  mf.GetPackage(BTNPackage.PackageName) as BTNPackage;
                     FWEL = bufs[0].ToUpper() == "T";
                     FDRN = bufs[1].ToUpper() == "T";
                     FRCH = bufs[2].ToUpper() == "T";
@@ -196,9 +198,66 @@ namespace Heiflow.Models.Subsurface.MT3D
                     line = sr.ReadLine();
                     MXSS = int.Parse(line.Trim());
 
-                    for (int i = 0; i < TimeService.StressPeriods.Count; i++)
-                    {
+                    CRCH = new DataCube<float>[btnpck.NCOMP]
+                    CEVT = new DataCube<float>[btnpck.NCOMP];
 
+                    for (int i = 0; i < btnpck.NCOMP; i++)
+                    {
+                        CRCH[i] = new DataCube<float>(nsp, 1, grid.ActiveCellCount)
+                        {
+                            Name = "Spiece " + (i + 1),
+                            ZeroDimension = DimensionFlag.Time
+                        };
+                        for (int j = 0; j < nsp; j++)
+                        {
+                            CRCH[i].Variables[j] = "Concentration in Stress Period " + (j + 1);
+                        }
+                          CEVT[i] = new DataCube<float>(nsp, 1, grid.ActiveCellCount)
+                        {
+                            Name = "Spiece " + (i + 1),
+                            ZeroDimension = DimensionFlag.Time
+                        };
+                        for (int j = 0; j < nsp; j++)
+                        {
+                            CEVT[i].Variables[j] = "Concentration in Stress Period " + (j + 1);
+                        }
+                    }
+
+                    for (int i = 0; i < nsp; i++)
+                    {
+                        line = sr.ReadLine();
+                        var intbuf = TypeConverterEx.Split<int>(line);
+
+                        if(intbuf[0]>=0)
+                        {
+                            for (int j = 0; j < btnpck.NCOMP; j++)
+                            {
+                                ReadSerialArray<float>(sr, CRCH[j], i, 0);
+                            }
+                        }
+                        else
+                        {
+                            CRCH[i].Flags[i] = TimeVarientFlag.Repeat;
+                            CRCH[i].Multipliers[i] = 1;
+                            CRCH[i].IPRN[i] = -1;
+                        }
+
+                           line = sr.ReadLine();
+                        intbuf = TypeConverterEx.Split<int>(line);
+
+                        if(intbuf[0]>=0)
+                        {
+                            for (int j = 0; j < btnpck.NCOMP; j++)
+                            {
+                                ReadSerialArray<float>(sr, CEVT[j], i, 0);
+                            }
+                        }
+                        else
+                        {
+                            CEVT[i].Flags[i] = TimeVarientFlag.Repeat;
+                            CEVT[i].Multipliers[i] = 1;
+                            CEVT[i].IPRN[i] = -1;
+                        }
                     }
                     result = LoadingState.Normal;
                 }

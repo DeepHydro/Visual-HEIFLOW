@@ -53,7 +53,6 @@ namespace Heiflow.Models.Subsurface
     [Export(typeof(IMFPackage))]
     public class RCHPackage : MFPackage
     {
-        private RegularGridTopology _WellTopo;
         public static string PackageName = "CHD";
         public RCHPackage()
         {

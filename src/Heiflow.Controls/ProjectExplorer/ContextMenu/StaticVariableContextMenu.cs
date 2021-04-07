@@ -81,11 +81,12 @@ namespace Heiflow.Controls.WinForm.MenuItems
         {
             var item = ExplorerItem as StaticVariableItem;
             _ShellService.SelectPanel(DockPanelNames.DataGridPanel);
-            IDataCubeObject binding = null;
-            if (_Item.PropertyInfo != null)
-                binding = _Package.GetType().GetProperty(_Item.PropertyInfo.Name).GetValue(_Package) as IDataCubeObject;
-            else if (_Item.Tag is GHMVariable)
-                binding = (_Item.Tag as GHMVariable).DataCube;
+            IDataCubeObject binding = item.DataCubeObject;
+            //IDataCubeObject binding = null;
+            //if (_Item.PropertyInfo != null)
+            //    binding = _Package.GetType().GetProperty(_Item.PropertyInfo.Name).GetValue(_Package) as IDataCubeObject;
+            //else if (_Item.Tag is GHMVariable)
+            //    binding = (_Item.Tag as GHMVariable).DataCube;
             binding.SelectedVariableIndex = item.VariableIndex;
             _ShellService.SelectPanel(DockPanelNames.DataGridPanel);
             _ShellService.DataGridView.Bind(binding);
@@ -139,11 +140,11 @@ namespace Heiflow.Controls.WinForm.MenuItems
         protected override void ShowOn3D_Clicked(object sender, EventArgs e)
         {
             var item = ExplorerItem as StaticVariableItem;
-            IDataCubeObject dc = null;
-            if (item.PropertyInfo != null)
-                dc = _Package.GetType().GetProperty(_Item.PropertyInfo.Name).GetValue(_Package) as IDataCubeObject;
-            else if (item.Tag is GHMVariable)
-                dc = (item.Tag as GHMVariable).DataCube;
+            IDataCubeObject dc = item.DataCubeObject;
+            //if (item.PropertyInfo != null)
+            //    dc = _Package.GetType().GetProperty(_Item.PropertyInfo.Name).GetValue(_Package) as IDataCubeObject;
+            //else if (item.Tag is GHMVariable)
+            //    dc = (item.Tag as GHMVariable).DataCube;
 
             dc.SelectedVariableIndex = item.VariableIndex;
             if (MyAppManager.Instance.AppMode == AppMode.VHF)

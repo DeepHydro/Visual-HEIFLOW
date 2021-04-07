@@ -77,6 +77,7 @@ namespace Heiflow.Controls.WinForm.Project
                 dc = ghmvar.DataCube;
                 node_name = ghmvar.Name;
             }
+
             folder_menu.EneableAll(false);
             folder_menu.Enable(VariablesFolderContextMenu._AT, true);
             folder_menu.Enable(VariablesFolderContextMenu._OP, false);          
@@ -90,6 +91,7 @@ namespace Heiflow.Controls.WinForm.Project
             if (dc != null)
             {  
                 folder_item.Variables = new string[dc.Size[0]];
+                mat_atr.DataCubeObject = dc;
                 for (int i = 0; i < dc.Size[0]; i++)
                 {
                     StaticVariableItem item = new StaticVariableItem("")
@@ -97,7 +99,8 @@ namespace Heiflow.Controls.WinForm.Project
                         VariableIndex = i,
                         VariableName = dc.Variables[i],  //string.Format("{0} {1}{2}", item_attribute.PropertyInfo.Name, mat_atr.Prefix, i + 1),
                         PropertyInfo = item_attribute.PropertyInfo,
-                        Tag = item_attribute.Tag
+                        Tag = item_attribute.Tag,
+                        DataCubeObject = dc
                     };
                     folder_item.Variables[i] = item.VariableName;
                     StaticVariableContextMenu elei = new StaticVariableContextMenu()
