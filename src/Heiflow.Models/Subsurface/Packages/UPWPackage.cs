@@ -67,6 +67,7 @@ namespace Heiflow.Models.Subsurface
             IsMandatory = false;
             Version = "UPW";
             _Layer3DToken = "RegularGrid";
+            Category = Modflow.FlowCategory;
         }
 
         #region Properties

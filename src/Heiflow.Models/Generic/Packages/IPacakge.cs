@@ -71,6 +71,7 @@ namespace Heiflow.Models.Generic
         bool IsMandatory { get; set; }
         IBasicModel Owner { get; set; }
         IPackage Parent { get; set; }
+        string Category { get; set; }
         List<IPackage> Children { get; set; }
         Image Icon { get; set; }
         Image LargeIcon { get; set; }

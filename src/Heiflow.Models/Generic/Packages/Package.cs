@@ -88,6 +88,7 @@ namespace Heiflow.Models.Generic
             _IsDirty = false;
             _Initialized = false;
             _State = ModelObjectState.Ready;
+            Category = "Basic";
         }
         public Package()
         {
@@ -99,6 +100,7 @@ namespace Heiflow.Models.Generic
             LargeIcon = Properties.Resources.MapPackageTiledTPKFile16;
             Fields = new List<PackageFeatureField>();
             Version = "1.0.0";
+            Category = "Basic";
         }
 
         [XmlElement]
@@ -153,6 +155,15 @@ namespace Heiflow.Models.Generic
         [XmlIgnore]
         [Browsable(false)]
         public IBasicModel Owner
+        {
+            get;
+            set;
+        }
+        [XmlIgnore]
+        [Browsable(false)]
+        [Category("General")]
+        [Description("The package category")]
+        public string Category
         {
             get;
             set;

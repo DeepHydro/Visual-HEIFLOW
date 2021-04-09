@@ -63,6 +63,7 @@ namespace Heiflow.Models.Subsurface
             IsMandatory = true;
             Version = "VD1";
             _Layer3DToken = "RegularGrid";
+            Category = Modflow.OutputCategory;
         }
 
         public override void Initialize()

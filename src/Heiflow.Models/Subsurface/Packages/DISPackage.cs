@@ -78,6 +78,7 @@ namespace Heiflow.Models.Subsurface
             Version = "DIS";
             IsMandatory = true;
             _Layer3DToken = "RegularGrid";
+            Category = Modflow.BasicCategory;
 
         }
         /// <summary>
@@ -275,7 +276,6 @@ namespace Heiflow.Models.Subsurface
                     cmt = " #BOTTOM OF LAYER " + k;
                 }
                 WriteSerialFloatArray(sw, grid.Elevations, k, 0, "E6", cmt);
-                //WriteSerialFloatInternalMatrix(sw, grid.Elevations.Value[k][0], 1.0f, "F2", -1, cmt);
             }
 
             foreach (var sp in mf.TimeService.StressPeriods)

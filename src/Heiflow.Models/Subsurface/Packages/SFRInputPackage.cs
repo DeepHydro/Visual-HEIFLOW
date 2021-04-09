@@ -52,6 +52,7 @@ namespace Heiflow.Models.Subsurface
         {
             _SFRPackage = sfr;
             Sites= new List<Core.IObservationsSite>();
+            Category = Modflow.HeadDependentCategory;
         }
 
         public override string[] Variables

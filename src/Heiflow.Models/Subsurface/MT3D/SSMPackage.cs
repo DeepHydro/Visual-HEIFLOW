@@ -51,9 +51,6 @@ namespace Heiflow.Models.Subsurface.MT3D
     [Export(typeof(IMFPackage))]
     public class SSMPackage : MFPackage
     {
-        public enum SolveOptionEnum { Third_Order_TVD = -1, Method_Of_Characteristics = 1, Modified_Method_Of_Characteristics = 2, Hybrid_Method_Of_Characteristics = 3 };
-        public enum WeightingSchemeEnum { Upstream = 1, Central_In_Space = 2 };
-
         public static string PackageName = "SSM";
         public SSMPackage()
         {
@@ -67,7 +64,7 @@ namespace Heiflow.Models.Subsurface.MT3D
             Version = "SSM";
             IsMandatory = false;
             _Layer3DToken = "RegularGrid";
-
+            Category = Modflow.MT3DCategory;
         }
 
         [Category("Sink & Source Package")]

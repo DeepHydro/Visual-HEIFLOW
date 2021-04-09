@@ -61,22 +61,13 @@ namespace Heiflow.Models.Subsurface.MT3D
             _PackageInfo.FileExtension = ".btn";
             _PackageInfo.ModuleName = "BTN";
             Description = "The BTN Package consists of nine primary modules";
-            TUNIT = "d";
-            LUNIT = "m";
-            MUNIT = "kg";
-            Version = "BTN";
-            NCOMP = 7;
-            MCOMP = 5;
-            IsMandatory = false;
-            TRNOP = "T T T F T F F F F F";
             _Layer3DToken = "RegularGrid";
+            Category = Modflow.MT3DCategory;
 
-            NLAY = 3;
-            NPER = 1;
-            NROW = 100;
-            NCOL = 100;
+            InitValues();
         }
 
+        #region
         [Category("Grid")]
         public int NLAY
         {
@@ -141,6 +132,7 @@ namespace Heiflow.Models.Subsurface.MT3D
         }
         [Category("Packages")]
         [Description("TRNOP are logical flags for major transport and solution options. TRNOP(1) to (5) correspond to Advection, Dispersion, Sink & Source Mixing, Chemical Reaction, and Generalized Conjugate Gradient Solver packages, respectively")]
+        [Browsable(false)]
         /// <summary>
         /// TRNOP are logical flags for major transport and solution options. TRNOP(1) to (5) correspond to Advection, Dispersion, Sink & Source Mixing, Chemical Reaction, and Generalized Conjugate Gradient Solver packages, respectively.
         /// </summary>
@@ -149,6 +141,37 @@ namespace Heiflow.Models.Subsurface.MT3D
             get;
             set;
         }
+          [Category("Packages")]
+        public bool EnableADV
+        {
+            get;
+            set;
+        }
+          [Category("Packages")]
+        public bool EnableDSP
+        {
+            get;
+            set;
+        }
+          [Category("Packages")]
+        public bool EnableSSM
+        {
+            get;
+            set;
+        }
+          [Category("Packages")]
+        public bool EnableRCT
+        {
+            get;
+            set;
+        }
+          [Category("Packages")]
+        public bool EnableGCG
+        {
+            get;
+            set;
+        }
+
         [Category("Grid")]
         public int[] LAYCON
         {
@@ -211,6 +234,13 @@ namespace Heiflow.Models.Subsurface.MT3D
             get;
             set;
         }
+        [Browsable(false)]
+        public float[] InitialConcentraion
+        {
+            get;
+            set;
+        }
+
         [Category("Inactive Option")]
         [Description("Indicating an inactive concentration cell")]
         public float CINACT
@@ -290,36 +320,73 @@ namespace Heiflow.Models.Subsurface.MT3D
             set;
         }
           [Category("Observation Output")]
-        public int KOBS
+        [Description("cell indices (layer, row, column) in which the observation point or monitoring well is located")]
+        [StaticVariableItem]
+        public DataCube2DLayout<int> OBS
         {
             get;
             set;
         }
-          [Category("Observation Output")]
-        public int IOBS
-        {
-            get;
-            set;
-        }
-          [Category("Observation Output")]
-        public int JOBS
-        {
-            get;
-            set;
-        }
-          [Category("a logical flag indicating whether a one-line summary of mass balance information should be printed")]
+
+                  [Category("Output")]
+          [Description("a logical flag indicating whether a one-line summary of mass balance information should be printed")]
           public bool CHKMAS
           {
               get;
               set;
           }
-          [Category("an integer indicating how frequently the mass budget information should be saved in the mass balance summary file MT3Dnnn.MAS")]
+                  [Category("Output")]
+          [Description("an integer indicating how frequently the mass budget information should be saved in the mass balance summary file MT3Dnnn.MAS")]
           public int NPRMAS
           {
               get;
               set;
           }
+            [Category("Header")]
+          public string Head1
+          {
+              get;
+              set;
+          }
+             [Category("Header")]
+          public string Head2
+          {
+              get;
+              set;
+          }
+        #endregion
 
+             private void InitValues()
+          {
+              TUNIT = "d";
+              LUNIT = "m";
+              MUNIT = "kg";
+              Version = "BTN";
+              NCOMP = 7;
+              MCOMP = 5;
+              IsMandatory = false;
+              TRNOP = "T T T F T F F F F F";
+              NLAY = 3;
+              NPER = 1;
+              NROW = 100;
+              NCOL = 100;
+              EnableADV = true;
+              EnableDSP = true;
+              EnableGCG = true;
+              EnableRCT = false;
+              EnableSSM = true;
+              CINACT = -999;
+              THKMIN = 0.0f;
+              IFMTCN = 0;
+              IFMTNP = 0;
+              IFMTRF = 0;
+              IFMTDP = 0;
+              SAVUCN = true;
+              NOBS = 0;
+              NPROBS = 1;
+              CHKMAS = true;
+              NPRMAS = 1;
+          }
 
           public override void Initialize()
           {
@@ -343,10 +410,11 @@ namespace Heiflow.Models.Subsurface.MT3D
                     int k = 0;
                     var grid = Owner.Grid as MFGrid;
                     var mf = Owner as Modflow;
-                    string line = sr.ReadLine();
-                    line = sr.ReadLine();
-                    line = sr.ReadLine();
+                    Head1= sr.ReadLine();
+                    Head2 = sr.ReadLine();
+                    var line = sr.ReadLine();
                     var intbufs = TypeConverterEx.Split<int>(line);
+                    float[] ffbufs = null;
                     NLAY = intbufs[0];
                     NROW = intbufs[1];
                     NCOL = intbufs[2];
@@ -360,73 +428,21 @@ namespace Heiflow.Models.Subsurface.MT3D
                     MUNIT = strbufs[2];
                     line = sr.ReadLine();
                     TRNOP = line;
-                    line = sr.ReadLine();
+                    strbufs = TypeConverterEx.Split<string>(line);
+                    EnableADV = strbufs[0].ToUpper() == "T";
+                    EnableDSP = strbufs[1].ToUpper() == "T";
+                    EnableSSM = strbufs[2].ToUpper() == "T";
+                    EnableRCT = strbufs[3].ToUpper() == "T";
+                    EnableGCG = strbufs[4].ToUpper() == "T";
 
+                    line = sr.ReadLine();
                     LAYCON = TypeConverterEx.Split<int>(line, NLAY);
                     DELR = new DataCube2DLayout<float>(1, 1, NCOL);
                     DELC = new DataCube2DLayout<float>(1, 1, NROW);
-                    line = sr.ReadLine();
-                    var ffbufs = TypeConverterEx.Split<float>(line);
-                    if (ffbufs.Length == 2)
-                    {
-                        DELR.ILArrays[0][0, ":"] = ffbufs[1];
-                    }
-                    else
-                    {
-                        DELR.ILArrays[0][0, ":"] = ffbufs;
-                    }
-                    line = sr.ReadLine();
-                    ffbufs = TypeConverterEx.Split<float>(line);
-                    if (ffbufs.Length == 2)
-                    {
-                        DELC.ILArrays[0][0, ":"] = ffbufs[1];
-                    }
-                    else
-                    {
-                        DELC.ILArrays[0][0, ":"] = ffbufs;
-                    }
+                    InitArrays(grid);
 
-                    HTOP = new DataCube<float>(1, 1, grid.ActiveCellCount)
-                    {
-                        Variables = new string[] { "Top Elevation" },
-                        Topology = grid.Topology,
-                        ZeroDimension = DimensionFlag.Spatial
-                    };
-                    DZ = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
-                    {
-                        Topology = grid.Topology,
-                        ZeroDimension = DimensionFlag.Spatial
-                    };
-                    PRSITY = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
-                                      {
-                                          Topology = grid.Topology,
-                                          ZeroDimension = DimensionFlag.Spatial
-                                      };
-                    ICBUND = new DataCube<int>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
-                    {
-                        Topology = grid.Topology,
-                        ZeroDimension = DimensionFlag.Spatial
-                    };
-                    SCONC = new DataCube<float>(grid.ActualLayerCount * NCOMP, 1, grid.ActiveCellCount)
-                    {
-                        Topology = grid.Topology,
-                        ZeroDimension = DimensionFlag.Spatial
-                    };
-                    for (int i = 0; i < NLAY; i++)
-                    {
-                        DZ.Variables[i] = "Thickness of Layer " + (i + 1);
-                        PRSITY.Variables[i] = "Porosity of Layer " + (i + 1);
-                        ICBUND.Variables[i] = "Boundary condition of Layer " + (i + 1);
-                    }
-                    for (int i = 0; i < NCOMP; i++)
-                    {
-                        for (int j = 0; j < NLAY; j++)
-                        {
-                            SCONC.Variables[k] = string.Format("Starting concentration of Specie {0} in Layer {1}", (i + 1), j + 1);
-                            k++;
-                        }
-                    }
-
+                    ReadSerialArray(sr, DELR, 0, 0, NCOL);
+                    ReadSerialArray(sr, DELC, 0, 0, NROW);
                     ReadSerialArray<float>(sr, HTOP, 0, 0);
                     for (int l = 0; l < NLAY; l++)
                     {
@@ -452,7 +468,7 @@ namespace Heiflow.Models.Subsurface.MT3D
                     line = sr.ReadLine();
                     strbufs = TypeConverterEx.Split<string>(line);
                     CINACT = float.Parse(strbufs[0]);
-                    if (strbufs.Length == 2)
+                    if (strbufs.Length > 1)
                     {
                         THKMIN = float.Parse(strbufs[1]);
                     }
@@ -464,7 +480,8 @@ namespace Heiflow.Models.Subsurface.MT3D
                     IFMTDP = int.Parse(strbufs[3]);
                     SAVUCN = strbufs[4].ToUpper() == "T";
                     line = sr.ReadLine().Trim();
-                    NPRS = int.Parse(line);
+                    intbufs = TypeConverterEx.Split<int>(line);
+                    NPRS = intbufs[0];
                     int nline = (int)Math.Ceiling(NPRS / 8.0);
                     line = sr.ReadLine();
                     line += "\t";
@@ -477,23 +494,28 @@ namespace Heiflow.Models.Subsurface.MT3D
                     line = sr.ReadLine();
                     strbufs = TypeConverterEx.Split<string>(line);
                     NOBS = int.Parse(strbufs[0]);
-                    if (strbufs.Length == 2)
+                    if (strbufs.Length > 1)
                     {
                         NPROBS = int.Parse(strbufs[1]);
                     }
                     if (NOBS > 0)
                     {
-                        line = sr.ReadLine();
-                        intbufs = TypeConverterEx.Split<int>(line);
-                        KOBS = intbufs[0];
-                        IOBS = intbufs[1];
-                        JOBS = intbufs[2];
+                        OBS = new DataCube2DLayout<int>(1, NOBS, 3);
+                        OBS.ColumnNames[0] = "Layer";
+                        OBS.ColumnNames[1] = "Row";
+                        OBS.ColumnNames[2] = "Column";
+                        for (int i = 0; i < NOBS; i++)
+                        {
+                            line = sr.ReadLine();
+                            intbufs = TypeConverterEx.Split<int>(line);
+                            OBS.ILArrays[0][i, ":"] = intbufs;
+                        }
                     }
 
                     line = sr.ReadLine();
                     strbufs = TypeConverterEx.Split<string>(line);
                     CHKMAS = strbufs[0].ToUpper() == "T";
-                    if (strbufs.Length == 2)
+                    if (strbufs.Length > 1)
                     {
                         NPRMAS = int.Parse(strbufs[1]);
                     }
@@ -560,10 +582,355 @@ namespace Heiflow.Models.Subsurface.MT3D
         {
             var grid = (Owner.Grid as IRegularGrid);
             StreamWriter sw = new StreamWriter(filename);
-            WriteDefaultComment(sw, this.Name);
+            string line = "";
+            sw.WriteLine(Head1);
+            sw.WriteLine(Head2);
+
+            line = string.Format("{0}{1}{2}{3}{4}{5}", NLAY.ToString().PadLeft(10, ' '), NROW.ToString().PadLeft(10, ' '), NCOL.ToString().PadLeft(10, ' '), NPER.ToString().PadLeft(10, ' '), NCOMP.ToString().PadLeft(10, ' '), MCOMP.ToString().PadLeft(10, ' '));
+            sw.WriteLine(line);
+
+            line = string.Format("{0}{1}{2}", TUNIT.PadLeft(4, ' '), LUNIT.PadLeft(4, ' '), MUNIT.PadLeft(4, ' '));
+            sw.WriteLine(line);
+
+            line = string.Format("{0} {1} {2} {3} {4} F F F F F", EnableADV ? "T" : "F", EnableDSP ? "T" : "F", EnableSSM ? "T" : "F", EnableRCT ? "T" : "F", EnableGCG ? "T" : "F");
+            sw.WriteLine(line);
+
+            line = " " + string.Join(" ", LAYCON);
+            sw.WriteLine(line);
+
+            WriteRegularArrayMT3D(sw, DELR, 0, "F6", 15, "G15.6");
+            WriteRegularArrayMT3D(sw, DELC, 0, "F6", 15, "G15.6");
+            WriteSerialFloatArrayMT3D(sw, HTOP, 0, 0, "F6", 15, "10G15.6");
+
+            for (int i = 0; i < NLAY; i++)
+            {
+               // WriteSerialFloatArray(sw, DZ, i, 0, "E6", "Thickness of Layer " + (i + 1));
+                WriteSerialFloatArrayMT3D(sw, DZ, i, 0, "F6", 15, "10G15.6");
+            }
+            for (int i = 0; i < NLAY; i++)
+            {
+                //WriteSerialFloatArray(sw, PRSITY, i, 0, "E6", "PRSITY of Layer " + (i + 1));
+                WriteSerialFloatArrayMT3D(sw, PRSITY, i, 0, "F6", 15, "10G15.6");
+            }
+            var max_col = 30;
+            for (int i = 0; i < NLAY; i++)
+            {
+                //WriteSerialArray<int>(sw, ICBUND, i, 0, "F0", "Boundary Condition Type of Layer " + (i + 1));
+                WriteSerialIntegerArrayMT3D(sw, ICBUND, i, 0, "F0", 3, max_col.ToString() + "I3", max_col);
+            }
+
+            var k = 0;
+        //    var cmt = "";
+            for (int i = 0; i < NCOMP; i++)
+            {
+                for (int j = 0; j < NLAY; j++)
+                {
+                   // cmt = string.Format("Starting Concentration of Species {0} in Layer {1}", i + 1, j + 1);
+                    //WriteSerialFloatArray(sw, SCONC, k, 0, "E6", cmt);
+                    WriteSerialFloatArrayMT3D(sw, SCONC, k, 0, "F6", 15, "10G15.6");
+                    k++;
+                }
+            }
+
+            line = string.Format("{0}{1}", CINACT.ToString().PadLeft(10, ' '), THKMIN.ToString().PadLeft(10, ' '));
+            sw.WriteLine(line);
+
+            line = string.Format("{0}{1}{2}{3}{4}", IFMTCN.ToString().PadLeft(10, ' '), IFMTNP.ToString().PadLeft(10, ' '), IFMTRF.ToString().PadLeft(10, ' '), IFMTDP.ToString().PadLeft(10, ' '), (SAVUCN ? "T" : "F").PadLeft(10, ' '));
+            sw.WriteLine(line);
+
+            line = string.Format("{0}", NPRS.ToString().PadLeft(10, ' '));
+            sw.WriteLine(line);
+
+            if (NPRS > 0)
+            {
+                int nline = (int)Math.Ceiling(NPRS / 8.0);
+                k = 8;
+                var t = 0;
+                while (k <= NPRS)
+                {
+                    line = "";
+                    for (int i = 0; i < 8; i++)
+                    {
+                        line += TIMPRS[t].ToString("F0").PadLeft(10, ' ');
+                        t++;
+                    }
+                    sw.WriteLine(line);
+                    k = k + 8;
+                }
+                line = "";
+                for (; t < NPRS; t++)
+                {
+                    line += TIMPRS[t].ToString("F0").PadLeft(10, ' ');
+                }
+                sw.WriteLine(line);
+            }
+
+            line = string.Format("{0}{1}", NOBS.ToString().PadLeft(10, ' '), NPROBS.ToString().PadLeft(10, ' '));
+            sw.WriteLine(line);
+
+            if (NOBS > 0)
+            {
+                for (int i = 0; i < NOBS; i++)
+                {
+                    line = string.Format("{0}{1}{2}", OBS[0, i, 0].ToString().PadLeft(10, ' '), OBS[0, i, 1].ToString().PadLeft(10, ' '), OBS[0, i, 2].ToString().PadLeft(10, ' '));
+                    sw.WriteLine(line);
+                }
+            }
+
+            line = string.Format("{0}{1}", (CHKMAS ? "T" : "F").PadLeft(10, ' '), NPRMAS.ToString().PadLeft(10, ' '));
+            sw.WriteLine(line);
+
+            for (int i = 0; i < NPER; i++)
+            {
+                line = string.Format("{0}{1}{2}", TimeService.StressPeriods[i].NumTimeSteps.ToString().PadLeft(10, ' '), TimeService.StressPeriods[i].NSTP.ToString().PadLeft(10, ' '), TimeService.StressPeriods[i].Multiplier.ToString().PadLeft(10, ' '));
+                sw.WriteLine(line);
+                line = string.Format("{0}{1}{2}{3}", TimeService.StressPeriods[i].DT0.ToString().PadLeft(10, ' '), TimeService.StressPeriods[i].MXSTRN.ToString().PadLeft(10, ' '), TimeService.StressPeriods[i].TTSMULT.ToString().PadLeft(10, ' '), TimeService.StressPeriods[i].TTSMAX.ToString().PadLeft(10, ' '));
+                sw.WriteLine(line);
+            }
+
             sw.Close();
             OnSaved(progress);
         }
+        public void SaveAs1(string filename, ICancelProgressHandler progress)
+        {
+            var grid = (Owner.Grid as IRegularGrid);
+            StreamWriter sw = new StreamWriter(filename);
+            string line = "";
+            sw.WriteLine(Head1);
+            sw.WriteLine(Head2);
+
+            line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t# NLAY, NROW, NCOL, NPER, NCOMP, MCOMP", NLAY, NROW, NCOL, NPER, NCOMP, MCOMP);
+            sw.WriteLine(line);
+
+            line = string.Format("{0}\t{1}\t{2}\t# TUNIT, LUNIT, MUNIT", TUNIT, LUNIT, MUNIT);
+            sw.WriteLine(line);
+
+            line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\tF F F F F\t# ADV DSP SSM RCT GCG", EnableADV ? "T" : "F", EnableDSP ? "T" : "F", EnableSSM ? "T" : "F", EnableRCT ? "T" : "F", EnableGCG ? "T" : "F");
+            sw.WriteLine(line);
+
+            line = string.Join("\t", LAYCON) + "\t# LAYCON";
+            sw.WriteLine(line);
+
+            WriteRegularArray(sw, DELR, 0, "E6", "DELR");
+            WriteRegularArray(sw, DELC, 0, "E6", "DELC");
+            WriteSerialFloatArray(sw, HTOP, 0, 0, "E6", "HTOP");
+
+            for (int i = 0; i < NLAY; i++)
+            {
+                WriteSerialFloatArray(sw, DZ, i, 0, "E6", "Thickness of Layer " + (i + 1));
+            }
+            for (int i = 0; i < NLAY; i++)
+            {
+                WriteSerialFloatArray(sw, PRSITY, i, 0, "E6", "PRSITY of Layer " + (i + 1));
+            }
+            for (int i = 0; i < NLAY; i++)
+            {
+                WriteSerialArray<int>(sw, ICBUND, i, 0, "F0", "Boundary Condition Type of Layer " + (i + 1));
+            }
+
+             var  k = 0;
+             var cmt = "";
+            for (int i = 0; i < NCOMP; i++)
+            {
+                for (int j = 0; j < NLAY; j++)
+                {
+                    cmt = string.Format("Starting Concentration of Species {0} in Layer {1}", i + 1, j + 1);
+                    WriteSerialFloatArray(sw, SCONC, k, 0, "E6", cmt);
+                    k++;
+                }
+            }
+
+            line = string.Format("{0}\t{1}\t# CINACT, THKMIN", CINACT, THKMIN);
+            sw.WriteLine(line);
+
+            line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t# IFMTCN, IFMTNP, IFMTRF, IFMTDP, SAVUCN", IFMTCN, IFMTNP, IFMTRF, IFMTDP, SAVUCN?"T":"F");
+            sw.WriteLine(line);
+
+            line = string.Format("{0}\t# NPRS", NPRS);
+            sw.WriteLine(line);
+
+            if(NPRS > 0)
+            {
+                int nline = (int)Math.Ceiling(NPRS / 8.0);
+                k = 8;
+                var t = 0;
+                while (k <= NPRS)
+                {
+                    line = "";
+                    for (int i = 0; i < 8; i++)
+                    {
+                        line += TIMPRS[t] + "\t";
+                        t++;
+                    }
+                    sw.WriteLine(line);
+                    k = k + 8;
+                }
+                line = "";
+                for (; t < NPRS; t++)
+                {
+                    line += TIMPRS[t] + "\t";
+                }
+                sw.WriteLine(line);
+            }
+
+            line = string.Format("{0}\t{1}\t# NOBS, NPROBS", NOBS, NPROBS);
+            sw.WriteLine(line);
+
+            line = string.Format("{0}\t{1}\t# CHKMAS, NPRMAS", CHKMAS ? "T" : "F", NPRMAS);
+            sw.WriteLine(line);
+
+            if(NOBS >0)
+            {
+                for (int i = 0; i < NOBS; i++)
+                {
+                    line = string.Format("{0}\t{1}\t{2}\t# KOBS, IOBS, and JOBS", OBS[0, i, 0], OBS[0, i, 1], OBS[0, i, 2]);
+                    sw.WriteLine(line);
+                }
+            }
+
+            for (int i = 0; i < NPER; i++)
+            {
+                line = string.Format("{0}\t{1}\t{2}\t# PERLEN, NSTP, TSMULT for Period {3}", TimeService.StressPeriods[i].NumTimeSteps, TimeService.StressPeriods[i].NSTP, TimeService.StressPeriods[i].Multiplier, (i + 1));
+                sw.WriteLine(line);
+                line = string.Format("{0}\t{1}\t{2}\t{3}\t# DT0, MXSTRN, TTSMULT, TTSMAX", TimeService.StressPeriods[i].DT0, TimeService.StressPeriods[i].MXSTRN, TimeService.StressPeriods[i].TTSMULT, TimeService.StressPeriods[i].TTSMAX);
+                sw.WriteLine(line);
+            }
+
+            sw.Close();
+            OnSaved(progress);
+        }
+
+        public override void OnGridUpdated(IGrid sender)
+        {
+            if (this.TimeService.StressPeriods.Count == 0)
+                return;
+            InitValues();
+
+            var mf = Owner as Modflow;
+            var grid = sender as RegularGrid;
+            var dis = Owner.GetPackage(DISPackage.PackageName) as DISPackage;
+            this.FeatureLayer = this.Grid.FeatureLayer;
+            this.Feature = this.Grid.FeatureSet;
+            var k = 0;
+
+            NLAY = grid.ActualLayerCount;
+            NCOL = grid.ColumnCount;
+            NROW = grid.RowCount;
+
+            LAYCON = dis.LAYCBD;
+            DELR = new DataCube2DLayout<float>(1, 1, NCOL);
+            DELC = new DataCube2DLayout<float>(1, 1, NROW);
+
+            for (int i = 0; i < NCOL; i++)
+            {
+                DELR[0, 0, i] = grid.DELR[0, 0, i];
+            }
+            for (int i = 0; i < NROW; i++)
+            {
+                DELC[0, 0, i] = grid.DELC[0, 0, i];
+            }
+
+            InitArrays(grid);
+
+            for (int i = 0; i < grid.ActiveCellCount; i++)
+            {
+                this.HTOP[0, 0, i] = grid.Elevations[0, 0, i];
+            }
+            for (int i = 0; i < grid.ActiveCellCount; i++)
+            {
+                for (int j = 1; j < grid.LayerCount; j++)
+                {
+                    this.DZ[j - 1, 0, i] = grid.Elevations[j, 0, i] - grid.Elevations[j - 1, 0, i];
+                }
+            }
+            for (int j = 0; j < grid.ActualLayerCount; j++)
+            {
+                PRSITY.ILArrays[j][0, ":"] = 0.15f;
+                ICBUND.ILArrays[j][0, ":"] = 1;
+            }
+
+            for (int i = 0; i < NCOMP; i++)
+            {
+                for (int j = 0; j < NLAY; j++)
+                {
+                    SCONC.ILArrays[k][0, ":"] = InitialConcentraion[k];
+                    k++;
+                }
+            }
+            base.OnGridUpdated(sender);
+        }
+
+        public override void OnTimeServiceUpdated(ITimeService time)
+        {
+            if (ModflowInstance.Grid == null)
+                return;
+
+            NPER = TimeService.StressPeriods.Count;
+            NPRS = TimeService.StressPeriods.Count;
+            TIMPRS = new float[NPRS];
+            var acctime = TimeService.StressPeriods[0].NumTimeSteps;
+            TIMPRS[0] = acctime;
+            for (int i = 1; i < NPRS; i++)
+            {
+                acctime += TimeService.StressPeriods[i].NumTimeSteps;
+                TIMPRS[i] = acctime;
+            }
+            for (int i = 0; i < NPER; i++)
+            {
+                TimeService.StressPeriods[i].DT0 = 0;
+                TimeService.StressPeriods[i].MXSTRN = 1000;
+                TimeService.StressPeriods[i].TTSMULT = 1;
+                TimeService.StressPeriods[i].TTSMAX = 0;
+            }
+
+            base.OnTimeServiceUpdated(time);
+        }
+
+        private void InitArrays(RegularGrid grid)
+        {
+            var k = 0;
+            HTOP = new DataCube<float>(1, 1, grid.ActiveCellCount)
+            {
+                Variables = new string[] { "Top Elevation" },
+                Topology = grid.Topology,
+                ZeroDimension = DimensionFlag.Spatial
+            };
+            DZ = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
+            {
+                Topology = grid.Topology,
+                ZeroDimension = DimensionFlag.Spatial
+            };
+            PRSITY = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
+            {
+                Topology = grid.Topology,
+                ZeroDimension = DimensionFlag.Spatial
+            };
+            ICBUND = new DataCube<int>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
+            {
+                Topology = grid.Topology,
+                ZeroDimension = DimensionFlag.Spatial
+            };
+            SCONC = new DataCube<float>(grid.ActualLayerCount * NCOMP, 1, grid.ActiveCellCount)
+            {
+                Topology = grid.Topology,
+                ZeroDimension = DimensionFlag.Spatial
+            };
+            for (int i = 0; i < NLAY; i++)
+            {
+                DZ.Variables[i] = "Thickness of Layer " + (i + 1);
+                PRSITY.Variables[i] = "Porosity of Layer " + (i + 1);
+                ICBUND.Variables[i] = "Boundary condition of Layer " + (i + 1);
+            }
+            for (int i = 0; i < NCOMP; i++)
+            {
+                for (int j = 0; j < NLAY; j++)
+                {
+                    SCONC.Variables[k] = string.Format("Starting concentration of Specie {0} in Layer {1}", (i + 1), j + 1);
+                    k++;
+                }
+            }
+        }
+
         public override void Clear()
         {
             if (_Initialized)

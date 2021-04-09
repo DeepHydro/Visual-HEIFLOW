@@ -46,6 +46,18 @@ namespace Heiflow.Models.Subsurface
         private LayerGroupManager _LayerGroupManager;
         private string _IOLogFile;
         protected MFGrid _MFGrid;
+        public static string BasicCategory = "Basic";
+        public static string FlowCategory = "Groundwater Flow";
+        public static string HeadCategory = "Specified Head Boundaries";
+        public static string FluxCategory = "Specified Flux Boundaries";
+        public static string HeadDependentCategory = "Head-Dependent Flux Boundaries";
+        public static string SolverCategory = "Solver";
+        public static string SubsidenceCategory = "Subsidence";
+        public static string OutputCategory = "Outputs";
+        public static string ObsCategory = "Observations";
+        public static string PHTCategory = "Reactive";
+        public static string MT3DCategory = "Multicomponent Transport";
+        public static string SEAWATCategory = "Variable-Density Flow";
         /// <summary>
         /// .\Input\MODFLOW\
         /// </summary>

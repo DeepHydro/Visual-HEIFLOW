@@ -57,6 +57,7 @@ namespace Heiflow.Models.Subsurface
             TimeUnits = TimeUnits.Month;
             IsMandatory = false;
             _Layer3DToken = "Well";
+            Category = Modflow.ObsCategory;
         }
 
         [Browsable(false)]

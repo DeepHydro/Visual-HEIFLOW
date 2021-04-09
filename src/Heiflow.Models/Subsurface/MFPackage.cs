@@ -330,7 +330,7 @@ namespace Heiflow.Models.Subsurface
             int activeCount = grid.ActiveCellCount;
 
             // Read constant matrix
-            if (strs[0].ToUpper() == "CONSTANT")
+            if (strs[0].ToUpper() == "CONSTANT" || strs[0].ToUpper() == "0")
             {
                 var ar = TypeConverterEx.Split<string>(line);
                 T conv = TypeConverterEx.ChangeType<T>(ar[1]);
@@ -544,7 +544,123 @@ namespace Heiflow.Models.Subsurface
                 }
             }
         }
-        
+
+        public void WriteSerialFloatArrayMT3D(StreamWriter sw, DataCube<float> mat, int var_index, int time_index, string format, int width, string format_mt3d)
+        {
+            if (mat.Flags[var_index] == TimeVarientFlag.Constant)
+            {
+                string line = string.Format("         0{0}", mat.Constants[var_index].ToString().PadLeft(10, ' '));
+                sw.WriteLine(line);
+            }
+            else if (mat.Flags[var_index] == TimeVarientFlag.Repeat)
+            {
+
+            }
+            else if (mat.Flags[var_index] == TimeVarientFlag.Individual)
+            {
+                string line = string.Format("       100{0}{1}{2}", mat.Multipliers[var_index].ToString().PadLeft(10, ' '), ("(" + format_mt3d + ")").PadLeft(10, ' '), mat.IPRN[var_index].ToString().PadLeft(10, ' '));
+                var grid = Owner.Grid as MFGrid;
+                int row = grid.RowCount;
+                int col = grid.ColumnCount;
+                int index = 0;
+
+                sw.WriteLine(line);
+                var colvv = new float[col];
+                int nline = (int)Math.Ceiling(col / 10.0);
+                for (int r = 0; r < row; r++)
+                {
+                    line = "";
+                    for (int c = 0; c < col; c++)
+                    {
+                        colvv[c] = NoDataValue;
+                        if (grid.IBound[0, r, c] != 0)
+                        {
+                            colvv[c] = mat[var_index, time_index, index];
+                            index++;
+                        }
+                    }
+
+                    var k = 10;
+                    var t = 0;
+                    while (k <= col)
+                    {
+                        line = "";
+                        for (int i = 0; i < 10; i++)
+                        {
+                            line += colvv[t].ToString(format).PadLeft(width, ' ');
+                            t++;
+                        }
+                        sw.WriteLine(line);
+                        k = k + 10;
+                    }
+                    line = "";
+                    for (; t < col; t++)
+                    {
+                        line += colvv[t].ToString(format).PadLeft(width, ' ');
+                    }
+                    line = line.Trim(StreamReaderSequence.ctab);
+                    sw.WriteLine(line);
+                }
+            }
+        }
+        public void WriteSerialIntegerArrayMT3D(StreamWriter sw, DataCube<int> mat, int var_index, int time_index, string format, int width, string format_mt3d,int max_col)
+        {
+            if (mat.Flags[var_index] == TimeVarientFlag.Constant)
+            {
+                string line = string.Format("         0{0}", mat.Constants[var_index].ToString().PadLeft(10, ' '));
+                sw.WriteLine(line);
+            }
+            else if (mat.Flags[var_index] == TimeVarientFlag.Repeat)
+            {
+
+            }
+            else if (mat.Flags[var_index] == TimeVarientFlag.Individual)
+            {
+                string line = string.Format("       100{0}{1}{2}", mat.Multipliers[var_index].ToString().PadLeft(10, ' '), ("(" + format_mt3d + ")").PadLeft(10, ' '), mat.IPRN[var_index].ToString().PadLeft(10, ' '));
+                var grid = Owner.Grid as MFGrid;
+                int row = grid.RowCount;
+                int col = grid.ColumnCount;
+                int index = 0;
+
+                sw.WriteLine(line);
+                var colvv = new int[col];
+                int nline = (int)Math.Ceiling(col / (float)max_col);
+                for (int r = 0; r < row; r++)
+                {
+                    line = "";
+                    for (int c = 0; c < col; c++)
+                    {
+                        colvv[c] = (int)NoDataValue;
+                        if (grid.IBound[0, r, c] != 0)
+                        {
+                            colvv[c] = mat[var_index, time_index, index];
+                            index++;
+                        }
+                    }
+
+                    var k = max_col;
+                    var t = 0;
+                    while (k <= col)
+                    {
+                        line = "";
+                        for (int i = 0; i < max_col; i++)
+                        {
+                            line += colvv[t].ToString(format).PadLeft(width, ' ');
+                            t++;
+                        }
+                        sw.WriteLine(line);
+                        k = k + max_col;
+                    }
+                    line = "";
+                    for (; t < col; t++)
+                    {
+                        line += colvv[t].ToString(format).PadLeft(width, ' ');
+                    }
+                    line = line.Trim(StreamReaderSequence.ctab);
+                    sw.WriteLine(line);
+                }
+            }
+        }
         /// <summary>
         /// write 3d mat for given variable
         /// </summary>
@@ -572,6 +688,34 @@ namespace Heiflow.Models.Subsurface
                 for (int r = 0; r < mat.Size[1]; r++)
                 {
                     line = string.Join(StreamReaderSequence.stab, mat[var_index, r.ToString(), ":"]);
+                    sw.WriteLine(line);
+                }
+            }
+        }
+
+        public void WriteRegularArrayMT3D(StreamWriter sw, DataCube<float> mat, int var_index, string format, int width, string format_mt3d)
+        {
+            if (mat.Flags[var_index] == TimeVarientFlag.Constant)
+            {
+                string line = string.Format("         0{0}", mat.Constants[var_index].ToString().PadLeft(10, ' '));
+                sw.WriteLine(line);
+            }
+            else if (mat.Flags[var_index] == TimeVarientFlag.Repeat)
+            {
+
+            }
+            else if (mat.Flags[var_index] == TimeVarientFlag.Individual)
+            {
+                string line = string.Format("       100{0}{1}{2}", mat.Multipliers[var_index].ToString().PadLeft(10, ' '), ("(" + format_mt3d + ")").PadLeft(10, ' '), mat.IPRN[var_index].ToString().PadLeft(10, ' '));
+                var grid = Owner.Grid as MFGrid;
+                sw.WriteLine(line);
+                for (int r = 0; r < mat.Size[1]; r++)
+                {
+                    line = "";
+                    for (int c = 0; c < mat.Size[2]; c++)
+                    {
+                        line += mat[var_index, r, c].ToString(format).PadLeft(width, ' ');
+                    }
                     sw.WriteLine(line);
                 }
             }

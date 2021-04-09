@@ -51,7 +51,7 @@ namespace Heiflow.Models.Subsurface.MT3D
     [Export(typeof(IMFPackage))]
     public class GCGPackage : MFPackage
     {
-        public enum SolveOptionEnum { Third_Order_TVD = -1, Method_Of_Characteristics = 1, Modified_Method_Of_Characteristics = 2, Hybrid_Method_Of_Characteristics = 3 };
+        public enum PreconditionersEnum { Jacobi = 1, SSOR = 2, Modified_Incomplete_Cholesky = 3 };
         public enum WeightingSchemeEnum { Upstream = 1, Central_In_Space = 2 };
 
         public static string PackageName = "GCG";
@@ -69,20 +69,58 @@ namespace Heiflow.Models.Subsurface.MT3D
             _Layer3DToken = "RegularGrid";
             MXITER = 100;
             ITER1 = 10;
-
+            Preconditioner = PreconditionersEnum.Jacobi;
+            NCRS = false;
+            ACCL = 1;
+            CCLOSE = 0.0001f;
+            IPRGCG = 0;
+            Category = Modflow.MT3DCategory;
         }
         [Category("Solver")]
-        [Browsable(false)]
-        [StaticVariableItem]
+        [Description("The maximum number of outer iterations.")]
         public int MXITER
         {
             get;
             set;
         }
         [Category("Solver")]
-        [Browsable(false)]
-        [StaticVariableItem]
+        [Description("The maximum number of outer iterations.")]
         public int ITER1
+        {
+            get;
+            set;
+        }
+        [Category("Solver")]
+        [Description("The maximum number of outer iterations.")]
+        public PreconditionersEnum Preconditioner
+        {
+            get;
+            set;
+        }
+        [Category("Solver")]
+        [Description("Treatment of dispersion tensor cross terms. False: lump all dispersion cross terms to the righthand-side (approximate but highly efficient). True: include full dispersion tensor (memory intensive")]
+        public bool NCRS
+        {
+            get;
+            set;
+        }
+        [Category("Solver")]
+        [Description("The relaxation factor for the SSOR option; a value of 1.0 is generally adequate")]
+        public float ACCL
+        {
+            get;
+            set;
+        }
+        [Category("Solver")]
+        [Description("the convergence criterion in terms of relative concentration; a real value between 10-4 and 10-6 is generally adequate.")]
+        public float CCLOSE
+        {
+            get;
+            set;
+        }
+        [Category("Solver")]
+        [Description("The interval for printing the maximum concentration changes of each iteration. Set IPRGCG to zero as default for printing at the end of each stress period")]
+        public int IPRGCG
         {
             get;
             set;
@@ -111,6 +149,15 @@ namespace Heiflow.Models.Subsurface.MT3D
                     var mf = Owner as Modflow;
                     string line = sr.ReadLine();
                     var bufs = TypeConverterEx.Split<string>(line);
+                    MXITER = int.Parse(bufs[0]);
+                    ITER1 = int.Parse(bufs[1]);
+                    Preconditioner = (PreconditionersEnum)(int.Parse(bufs[2]));
+                    NCRS = int.Parse(bufs[1]) > 0;
+                    line = sr.ReadLine(); 
+                    bufs = TypeConverterEx.Split<string>(line);
+                    ACCL = float.Parse(bufs[0]);
+                    CCLOSE = float.Parse(bufs[1]);
+                    IPRGCG = int.Parse(bufs[2]);
                     result = LoadingState.Normal;
                 }
                 catch (Exception ex)
@@ -148,7 +195,11 @@ namespace Heiflow.Models.Subsurface.MT3D
         {
             var grid = (Owner.Grid as IRegularGrid);
             StreamWriter sw = new StreamWriter(filename);
-            WriteDefaultComment(sw, this.Name);
+            //WriteDefaultComment(sw, this.Name);
+            string line = string.Format("{0}\t{1}\t{2}\t{3}\t#MXITER, ITER1, ISOLVE, NCRS", MXITER, ITER1, (int)Preconditioner, NCRS ? 1 : 0);
+            sw.WriteLine(line);
+            line = string.Format("{0}\t{1}\t{2}\t#ACCL, CCLOSE, IPRGCG", ACCL, CCLOSE, IPRGCG);
+            sw.WriteLine(line);
             sw.Close();
             OnSaved(progress);
         }

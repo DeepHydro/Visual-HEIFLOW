@@ -66,6 +66,7 @@ namespace Heiflow.Models.Subsurface
             Version = "SUB1";
             IsMandatory = false;
             _Layer3DToken = "RegularGrid";
+            Category = Modflow.SubsidenceCategory;
         }
 
 

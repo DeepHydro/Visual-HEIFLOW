@@ -71,6 +71,7 @@ namespace Heiflow.Models.Subsurface
             _SFRPackage = sfr;
             _Layer3DToken = "SFR";
             Variables = DefaultAttachedVariables;
+            Category = Modflow.OutputCategory;
         }
         [Browsable(false)]
         public SFRPackage SFRPackage

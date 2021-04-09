@@ -117,6 +117,7 @@ namespace Heiflow.Models.Subsurface
             Fields.Add(field);
 
             _Layer3DToken = "HOB";
+            Category = Modflow.ObsCategory;
         }
         /// <summary>
         /// the number of head (or change in head) observations.

@@ -48,6 +48,7 @@ namespace Heiflow.Models.Subsurface
         {
             _Name = "ModFlow Output";
             //_Name = "VFT3D Output";
+            Category = Modflow.OutputCategory;
         }
 
         public override void Initialize()

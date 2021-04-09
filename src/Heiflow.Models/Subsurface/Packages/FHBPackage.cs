@@ -71,6 +71,7 @@ namespace Heiflow.Models.Subsurface
             Version = "FHB1";
             _Layer3DToken = "FHB";
             IsMandatory = false;
+            Category = Modflow.FluxCategory;
         }
         public int NBDTIM { get; set; }
         /// <summary>

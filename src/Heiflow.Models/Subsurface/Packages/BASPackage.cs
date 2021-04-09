@@ -70,6 +70,7 @@ namespace Heiflow.Models.Subsurface
             Version = "BAS6";
             IsMandatory = true;
             _Layer3DToken = "RegularGrid";
+            Category = Modflow.BasicCategory;
         }
         /// <summary>
         /// the value of head to be assigned to all inactive

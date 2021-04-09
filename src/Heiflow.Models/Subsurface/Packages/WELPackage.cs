@@ -63,6 +63,7 @@ namespace Heiflow.Models.Subsurface
             IsMandatory = false;
             Version = "WEL1";
             _Layer3DToken = "Well";
+            Category = Modflow.FluxCategory;
         }
         /// <summary>
         /// The maximum number of wells in use during any stress period

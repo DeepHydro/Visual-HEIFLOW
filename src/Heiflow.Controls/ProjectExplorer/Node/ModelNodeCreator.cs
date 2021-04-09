@@ -46,7 +46,11 @@ namespace Heiflow.Controls.WinForm.Project
     [Export(typeof(IExplorerNodeCreator))]
     public class ModelNodeCreator : ExplorerNodeCreator
     {
-
+        public class PckCat
+        {
+            public string Category { get; set; }
+            public List<IPackage> Packages { get; set; }
+        }
         public ModelNodeCreator()
         {
 
@@ -85,18 +89,52 @@ namespace Heiflow.Controls.WinForm.Project
                         Tag = model_menu
                     };
 
-                    foreach (var pck in mm.Packages.Values)
+                    var pckcats = from par in mm.Packages.Values
+                                  group par by par.Category into pp
+                                  select new PckCat
+                               {
+                                   Category = pp.Key.ToString(),
+                                   Packages = pp.ToList()
+                               };
+
+                    if (pckcats.Count() == 1)
                     {
-                        var buf = pck.GetType().GetCustomAttributes(typeof(PackageItem), true);
-                        if (buf.Length != 0)
+                        foreach (var pck in mm.Packages.Values)
                         {
-                            var pck_atr = buf[0] as IExplorerItem;
-                            var pck_node_creator = NodeFactory.Select(pck_atr);
-                            Node node_pck = pck_node_creator.Creat(pck, pck_atr) as Node;
-                            node_child.Nodes.Add(node_pck);
+                            var buf = pck.GetType().GetCustomAttributes(typeof(PackageItem), true);
+                            if (buf.Length != 0)
+                            {
+                                var pck_atr = buf[0] as IExplorerItem;
+                                var pck_node_creator = NodeFactory.Select(pck_atr);
+                                Node node_pck = pck_node_creator.Creat(pck, pck_atr) as Node;
+                                node_child.Nodes.Add(node_pck);
+                            }
                         }
                     }
-
+                    else
+                    {
+                        var ordered = pckcats.OrderBy(key => key.Category);
+                        foreach (var cat in ordered)
+                        {
+                            Node node_cat = new Node(cat.Category)
+                            {
+                                Image = mm.Icon,
+                                Tag = null
+                            };
+                            foreach (var pck in cat.Packages)
+                            {
+                                var buf = pck.GetType().GetCustomAttributes(typeof(PackageItem), true);
+                                if (buf.Length != 0)
+                                {
+                                    var pck_atr = buf[0] as IExplorerItem;
+                                    var pck_node_creator = NodeFactory.Select(pck_atr);
+                                    Node node_pck = pck_node_creator.Creat(pck, pck_atr) as Node;
+                                    node_cat.Nodes.Add(node_pck);
+                                }
+                            }
+                            node_child.Nodes.Add(node_cat);
+                        }
+                    }
                     node_ihm.Nodes.Add(node_child);
                 }
                 return node_ihm;
@@ -112,20 +150,53 @@ namespace Heiflow.Controls.WinForm.Project
                     Image = ihm.Icon,
                     Tag = model_menu
                 };
-                foreach (var pck in ihm.Packages.Values)
+                var pckcats = from par in ihm.Packages.Values
+                              group par by par.Category into pp
+                              select new PckCat
+                              {
+                                  Category = pp.Key.ToString(),
+                                  Packages = pp.ToList()
+                              };
+
+                if (pckcats.Count() == 1)
                 {
-                    var buf = pck.GetType().GetCustomAttributes(typeof(PackageItem), true);
-                    if (buf.Length != 0)
+                    foreach (var pck in ihm.Packages.Values)
                     {
-                        var pck_atr = buf[0] as IExplorerItem;
-                        var pck_node_creator = NodeFactory.Select(pck_atr);
-                        if (pck_node_creator != null)
+                        var buf = pck.GetType().GetCustomAttributes(typeof(PackageItem), true);
+                        if (buf.Length != 0)
                         {
+                            var pck_atr = buf[0] as IExplorerItem;
+                            var pck_node_creator = NodeFactory.Select(pck_atr);
                             Node node_pck = pck_node_creator.Creat(pck, pck_atr) as Node;
                             node_model.Nodes.Add(node_pck);
-                        }   
+                        }
                     }
                 }
+                else
+                {
+                    var ordered = pckcats.OrderBy(key => key.Category);
+                    foreach (var cat in ordered)
+                    {
+                        Node node_cat = new Node(cat.Category)
+                        {
+                            Image = ihm.Icon,
+                            Tag = null
+                        };
+                        foreach (var pck in cat.Packages)
+                        {
+                            var buf = pck.GetType().GetCustomAttributes(typeof(PackageItem), true);
+                            if (buf.Length != 0)
+                            {
+                                var pck_atr = buf[0] as IExplorerItem;
+                                var pck_node_creator = NodeFactory.Select(pck_atr);
+                                Node node_pck = pck_node_creator.Creat(pck, pck_atr) as Node;
+                                node_cat.Nodes.Add(node_pck);
+                            }
+                        }
+                        node_model.Nodes.Add(node_cat);
+                    }
+                }
+
                 return node_model;
             }
             else

@@ -97,6 +97,7 @@ namespace Heiflow.Models.Subsurface
             _SegTopo = new RegularGridTopology();
             _ReachTopo = new RegularGridTopology();
             _Layer3DToken = "SFR";
+            Category = Modflow.HeadDependentCategory;
         }
 
         #region Properties

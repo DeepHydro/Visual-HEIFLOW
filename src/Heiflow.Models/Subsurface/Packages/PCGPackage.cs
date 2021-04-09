@@ -75,7 +75,7 @@ namespace Heiflow.Models.Subsurface
             MUTPCG = 1;
             DAMPPCG = 0;
             DAMPPCGT = 0.98f;
-
+            Category = Modflow.SolverCategory;
         }
         /// <summary>
         /// the maximum number of outer iterations

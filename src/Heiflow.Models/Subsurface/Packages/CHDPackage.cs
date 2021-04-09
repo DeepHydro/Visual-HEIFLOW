@@ -67,6 +67,7 @@ namespace Heiflow.Models.Subsurface
             Version = "CHD";
             IsMandatory = false;
             _Layer3DToken = "CHD";
+            Category = Modflow.HeadDependentCategory;
         }
         [Description("The maximum number of constant-head boundary cells in use during any stress period, including those that are defined using parameters.")]
         /// <summary>

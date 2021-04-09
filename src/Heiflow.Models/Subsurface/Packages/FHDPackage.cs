@@ -67,6 +67,7 @@ namespace Heiflow.Models.Subsurface
             Version = "FHD";
             _Layer3DToken = "RegularGrid";
             Description = "Groundwater head output";
+            Category = Modflow.OutputCategory;
         }
         [Category("File")]
         public bool LoadAsDepth

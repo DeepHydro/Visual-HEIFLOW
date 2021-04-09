@@ -67,6 +67,7 @@ namespace Heiflow.Models.Subsurface
             IsMandatory = false;
             _Layer3DToken = "RCH";
             NRCHOP = 3;
+            Category = Modflow.FluxCategory;
         }
         [Category("General")]
         [Description("the recharge option code. Recharge fluxes are defined in a layer variable.  1—Recharge is only to the top grid layer. 2—Vertical distribution of recharge is specified in layer variable IRCH. 3—Recharge is applied to the highest active cell in each vertical column. A constant-head node intercepts recharge and prevents deeper infiltration.")]
@@ -188,12 +189,29 @@ namespace Heiflow.Models.Subsurface
             var grid = (Owner.Grid as IRegularGrid);
             StreamWriter sw = new StreamWriter(filename);
             WriteDefaultComment(sw, this.Name);
-            //string line = string.Format("{0}  # MXACTC", MXACTC);
-            //sw.WriteLine(line);
- 
-            for (int i = 0; i < nsp; i++)
+            string line = string.Format("{0}  {1} # NRCHOP, IRCHCB", NRCHOP, IRCHCB);
+            sw.WriteLine(line);
+            sw.WriteLine("1 1 # INRECH, INIRCH for Stress Period 1");
+            WriteSerialFloatArray(sw, RECH, 0, 0, "F6", " # RECH");
+            if (NRCHOP == 2)
             {
-              
+                WriteSerialArray<int>(sw, IRCH, 0, 0, "F0", " # IRCH");
+            }
+
+            for (int i = 1; i < nsp; i++)
+            {
+                line = RECH.Flags[i] == TimeVarientFlag.Repeat ? "-1 " : "1 ";
+                line += IRCH.Flags[i] == TimeVarientFlag.Repeat ? "-1 " : "1 ";
+                line += " # INRECH, INIRCH for Stress Period " + (i + 1);
+                sw.WriteLine(line);
+                if (RECH.Flags[i] != TimeVarientFlag.Repeat)
+                {
+                    WriteSerialFloatArray(sw, RECH, i, 0, "F6", " # RECH");
+                }
+                if (IRCH.Flags[i] != TimeVarientFlag.Repeat)
+                {
+                    WriteSerialArray<int>(sw, IRCH, i, 0, "F0", " # IRCH");
+                }
             }
 
             sw.Close();

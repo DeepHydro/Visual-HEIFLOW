@@ -69,6 +69,7 @@ namespace Heiflow.Models.Subsurface
             IsMandatory = true;
             Version = "UZF1";
             _Layer3DToken = "RegularGrid";
+            Category = Modflow.FlowCategory;
 
         }
 

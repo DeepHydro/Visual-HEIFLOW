@@ -67,6 +67,9 @@ namespace Heiflow.Models.Subsurface.PHT3D
             _Layer3DToken = "RegularGrid";
             TEMP = 25;
             OS = 2;
+            ASBIN = 1;
+            NumAquComponents = 7;
+            Category = Modflow.PHTCategory;
         }
 
         [Category("Scheme")]
@@ -83,9 +86,31 @@ namespace Heiflow.Models.Subsurface.PHT3D
             get;
             set;
         }
+        [Category("Scheme")]
+        [Description("the activation/deactivation criterion. If the value is set to 0, PHREEQC-2 will be executed for all grid-cells")]
+        public float EPS_AQU
+        {
+            get;
+            set;
+        }
+        [Category("Scheme")]
+        [Description("")]
+        public float EPS_PH
+        {
+            get;
+            set;
+        }
         [Category("Output")]
         [Description("A flag that determines if ASCII output files (extension .ACN) that contain the computed concentrations for all grid-cells and for all output times that were defined in the BTN file; 0 = Output to binary files only; 1 = Output to both binary and ASCII files")]
         public int ASBIN
+        {
+            get;
+            set;
+        }
+
+        [Category("Solve")]
+        [Description("a number that acts as a flag to indicate if the charge imbalance carried by a solution is to be transported. If CB OFFSET = 0, which is the recommended setting, then the charge imbalance is not transported")]
+        public int CB_OFFSET
         {
             get;
             set;
@@ -99,12 +124,58 @@ namespace Heiflow.Models.Subsurface.PHT3D
             set;
         }
         [Category("Components")]
+        [Description("the number of minerals included in the simulation and for which the local equilibrium assumption (LEA) is assumed to be valid")]
+        public int NR_MIN_EQU
+        {
+            get;
+            set;
+        }
+        [Category("Components")]
+        [Description("the number of surface master species")]
+        public int NR_SURF
+        {
+            get;
+            set;
+        }
+     
+        [Category("Components")]
+        [Description("the number of ")]
+        public int NR_MOB_KIN
+        {
+            get;
+            set;
+        }
+        [Category("Components")]
+        [Description("the number of ")]
+        public int NR_MIN_KIN
+        {
+            get;
+            set;
+        }
+        [Category("Components")]
+        [Description("the number of ")]
+        public int NR_SURF_KIN
+        {
+            get;
+            set;
+        }
+        [Category("Components")]
+        [Description("the number of ")]
+        public int NR_IMOB_KIN
+        {
+            get;
+            set;
+        }
+
+        [Category("Components")]
         [Description("EXCHANGE_SPECIES: Defines the number of exchaning components")]
         public int NumExchSpecies
         {
             get;
             set;
         }
+
+
         [Category("Components")]
         [Description("EXCHANGE_SPECIES: Defines the number of exchaning components")]
         public int TotalNumComponents
@@ -159,21 +230,40 @@ namespace Heiflow.Models.Subsurface.PHT3D
                 try
                 {
                     string line = sr.ReadLine();
-                  var  strs = TypeConverterEx.Split<string>(line);
+                    var strs = TypeConverterEx.Split<string>(line);
                     OS = int.Parse(strs[0]);
                     TEMP = float.Parse(strs[1]);
                     ASBIN = int.Parse(strs[2]);
+                    EPS_AQU = float.Parse(strs[3]);
+                    EPS_PH = float.Parse(strs[4]);
 
                     line = sr.ReadLine();
+                    strs = TypeConverterEx.Split<string>(line);
+                    CB_OFFSET = int.Parse(strs[0]);
+
                     line = sr.ReadLine();
-                     strs = TypeConverterEx.Split<string>(line);
+                    strs = TypeConverterEx.Split<string>(line);
                     NumAquComponents = int.Parse(strs[0]);
+
                     line = sr.ReadLine();
+                    strs = TypeConverterEx.Split<string>(line);
+                    NR_MIN_EQU = int.Parse(strs[0]);
+
                     line = sr.ReadLine();
                     strs = TypeConverterEx.Split<string>(line);
                     NumExchSpecies = int.Parse(strs[0]);
+
                     line = sr.ReadLine();
+                    strs = TypeConverterEx.Split<string>(line);
+                    NR_SURF = int.Parse(strs[0]);
+
                     line = sr.ReadLine();
+                    strs = TypeConverterEx.Split<string>(line);
+                    NR_MOB_KIN = int.Parse(strs[0]);
+                    NR_MIN_KIN = int.Parse(strs[1]);
+                    NR_SURF_KIN = int.Parse(strs[2]);
+                    NR_IMOB_KIN = int.Parse(strs[3]);
+
                     AquComponentsNames = new string[NumAquComponents];
                     ExchSpeciesNames = new string[NumExchSpecies];
                     _AllComponentsNames = new string[TotalNumComponents];
@@ -191,7 +281,7 @@ namespace Heiflow.Models.Subsurface.PHT3D
                         ExchSpeciesNames[i] = strs[0] + "-X";
                         _AllComponentsNames[NumAquComponents + i] = ExchSpeciesNames[i];
                     }
-                  
+
                     result = LoadingState.Normal;
                 }
                 catch (Exception ex)
@@ -218,9 +308,30 @@ namespace Heiflow.Models.Subsurface.PHT3D
         public override void SaveAs(string filename,ICancelProgressHandler progress)
         {
             var grid = (Owner.Grid as IRegularGrid);
-            //StreamWriter sw = new StreamWriter(filename);
-            //WriteDefaultComment(sw, this.Name);         
-            //sw.Close();
+            StreamWriter sw = new StreamWriter(filename);
+            string line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t# OS, TEMP, ASBIN, EPS_AQU, EPS_PH", OS, TEMP, ASBIN, EPS_AQU, EPS_PH);
+            sw.WriteLine(line);
+
+            line = string.Format("{0}\t# CB_OFFSET", CB_OFFSET);
+            sw.WriteLine(line);
+
+            line = string.Format("{0}\t# NR_SOL_MST_SPEC_EQU", NumAquComponents);
+            sw.WriteLine(line);
+
+            line = string.Format("{0}\t# NR_MIN_EQU", NR_MIN_EQU);
+            sw.WriteLine(line);
+
+            line = string.Format("{0}\t# NR_ION_EX", NumExchSpecies);
+            sw.WriteLine(line);
+
+            line = string.Format("{0}\t# NR_SURF", NR_SURF);
+            sw.WriteLine(line);
+
+            line = string.Format("{0}\t{1}\t{2}\t{3}\t# NR_MOB_KIN, NR_MIN_KIN, NR_SURF_KIN, NR_IMOB_KIN", NR_MOB_KIN, NR_MIN_KIN, NR_SURF_KIN, NR_IMOB_KIN);
+            sw.WriteLine(line);
+
+            sw.WriteLine("Ca\nCl\nK\nNa\nN(5)\npH\npe");
+            sw.Close();
             OnSaved(progress);
         }
 

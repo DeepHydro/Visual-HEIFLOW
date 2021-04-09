@@ -69,9 +69,10 @@ namespace Heiflow.Models.Subsurface.MT3D
             MFNADVFD = 1;
             NSWTCPL = 0;
             IWTABLE = 0;
+            Category = Modflow.SEAWATCategory;
         }
 
-        [Category("Solve")]
+        [Category("Option")]
         [Description("")]
         /// <summary>
         /// 
@@ -82,8 +83,8 @@ namespace Heiflow.Models.Subsurface.MT3D
             set;
         }
 
-        [Category("Solve")]
-        [Description("")]
+        [Category("Option")]
+        [Description("2, internodal conductance values used to conserve fluid mass are calculated using a central-in-space algorithm; not 2, using an upstream-weighted algorithm")]
         /// <summary>
         /// 
         /// </summary>
@@ -93,27 +94,112 @@ namespace Heiflow.Models.Subsurface.MT3D
             set;
         }
 
-        [Category("Solve")]
-        [Description("")]
+        [Category("Option")]
+        [Description("A flag used to determine the flow and transport coupling procedure")]
         /// <summary>
-        /// 
+        /// A flag used to determine the flow and transport coupling procedure
         /// </summary>
         public int NSWTCPL
         {
             get;
             set;
         }
-        [Category("Solve")]
-        [Description("")]
+        [Category("Option")]
+        [Description("a flag used to activate the variable-density water-table corrections")]
         /// <summary>
-        /// 
+        /// A flag used to activate the variable-density water-table corrections
         /// </summary>
         public int IWTABLE
         {
             get;
             set;
         }
-              
+
+        [Category("Option")]
+        [Description("The minimum fluid density. If DENSEMIN = 0, the computed fluid density is not limited by DENSEMIN (this is the option to use for most simulations")]
+        /// <summary>
+        /// The minimum fluid density. If DENSEMIN = 0, the computed fluid density is not limited by DENSEMIN (this is the option to use for most simulations
+        /// </summary>
+        public float DENSEMIN
+        {
+            get;
+            set;
+        }
+
+        [Category("Option")]
+        [Description("The maximum fluid density. If DENSEMAX = 0, the computed fluid density is not limited by DENSEMAX (this is the option to use for most simulations")]
+        /// <summary>
+        /// 
+        /// </summary>
+        public float DENSEMAX
+        {
+            get;
+            set;
+        }
+        [Category("Option")]
+        [Description("a user-specified density value.")]
+        public float DNSCRIT
+        {
+            get;
+            set;
+        }
+
+        [Category("Option")]
+        [Description("The fluid density at the reference concentration, temperature, and pressure")]
+        public float DENSEREF
+        {
+            get;
+            set;
+        }
+
+        [Category("Option")]
+        [Description("the slope of the linear equation of state that relates fluid density to solute concentration")]
+        public float DRHODC
+        {
+            get;
+            set;
+        }
+
+        [Category("Option")]
+        [Description("the slope of the linear equation of state that relates fluid density to the height of the pressure head. A value of zero, which is typically used for most problems, inactivates the dependence of fluid density on pressure")]
+        public float DRHODPRHD
+        {
+            get;
+            set;
+        }
+
+        [Category("Option")]
+        [Description("the reference pressure head. This value should normally be set to zero")]
+        public float PRHDREF
+        {
+            get;
+            set;
+        }
+
+        [Category("Option")]
+        [Description("the number of MT3DMS species to be used in the equation of state for fluid density. This value is read only if MT3DRHOFLG = -1.")]
+        public int NSRHOEOS
+        {
+            get;
+            set;
+        }
+        [Category("Option")]
+        [Description("MT3DMS species properties")]
+        [StaticVariableItem]
+        [Browsable(false)]
+        public DataCube2DLayout<float> SPEC
+        {
+            get;
+            set;
+        }
+        [Category("Option")]
+        [Description("the length of the first transport timestep used to start the simulation")]
+        public float FIRSTDT
+        {
+            get;
+            set;
+        }
+
         public override void Initialize()
         {
             this.Grid = Owner.Grid;
@@ -133,10 +219,46 @@ namespace Heiflow.Models.Subsurface.MT3D
                 StreamReader sr = new StreamReader(FileName);
                 try
                 {
-                    var grid = Owner.Grid as MFGrid;
                     var mf = Owner as Modflow;
-                    string line = sr.ReadLine();
-                    var bufs = TypeConverterEx.Split<string>(line);
+                    var line = ReadComment(sr);
+                    var grid = Owner.Grid as MFGrid;
+                    var intbufs = TypeConverterEx.Split<int>(line);
+                    MT3DRHOFLG = intbufs[0];
+                    MFNADVFD = intbufs[1];
+                    NSWTCPL = intbufs[2];
+                    IWTABLE = intbufs[3];
+
+                    line = sr.ReadLine();
+                    var ffbufs = TypeConverterEx.Split<float>(line);
+                    DENSEMIN = ffbufs[0];
+                    DENSEMAX = ffbufs[1];
+
+                    line = sr.ReadLine();
+                    ffbufs = TypeConverterEx.Split<float>(line);
+                    DENSEREF = ffbufs[0];
+                    DRHODPRHD = ffbufs[1];
+                    PRHDREF = ffbufs[2];
+
+                    line = sr.ReadLine();
+                    intbufs = TypeConverterEx.Split<int>(line);
+                    NSRHOEOS = intbufs[0];
+                    SPEC = new DataCube2DLayout<float>(1, NSRHOEOS, 3);
+                    SPEC.Name = "MT3DMS Species";
+                    SPEC.ColumnNames[0] = "MTRHOSPEC";
+                    SPEC.ColumnNames[1] = "DRHODC";
+                    SPEC.ColumnNames[2] = "CRHOREF";
+
+                    for (int i = 0; i < NSRHOEOS; i++)
+                    {
+                        line = sr.ReadLine();
+                        ffbufs = TypeConverterEx.Split<float>(line);
+                        SPEC.ILArrays[0][i, ":"] = ffbufs;
+                    }
+
+                    line = sr.ReadLine();
+                    ffbufs = TypeConverterEx.Split<float>(line);
+                    FIRSTDT = ffbufs[0];
+
                     result = LoadingState.Normal;
                 }
                 catch (Exception ex)
@@ -175,6 +297,22 @@ namespace Heiflow.Models.Subsurface.MT3D
             var grid = (Owner.Grid as IRegularGrid);
             StreamWriter sw = new StreamWriter(filename);
             WriteDefaultComment(sw, this.Name);
+            string line = string.Format("{0}\t{1}\t{2}\t{3}\t#MT3DRHOFLG MFNADVFD NSWTCPL IWTABLE", MT3DRHOFLG, MFNADVFD, NSWTCPL, IWTABLE);
+            sw.WriteLine(line);
+            line = string.Format("{0}\t{1}\t#DENSEMIN DENSEMAX", DENSEMIN, DENSEMAX);
+            sw.WriteLine(line);
+            line = string.Format("{0}\t{1}\t{2}\t#DENSEMIN DENSEMAX", DENSEREF, DRHODPRHD, PRHDREF);
+            sw.WriteLine(line);
+            line = string.Format("{0}\t#NSRHOEOS", NSRHOEOS);
+            sw.WriteLine(line);
+            for (int i = 0; i < NSRHOEOS; i++)
+            {
+                line = string.Format("{0}\t{1}\t{2}\t#MTRHOSPEC({3}) DRHODC({3}) CRHOREF({3})", SPEC[0, i, 0], SPEC[0, i, 1], SPEC[0, i, 2], (i + 1));
+                sw.WriteLine(line);
+            }
+            line = string.Format("{0}\t#FIRSTDT", FIRSTDT);
+            sw.WriteLine(line);
+
             sw.Close();
             OnSaved(progress);
         }

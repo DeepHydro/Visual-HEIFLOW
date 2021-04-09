@@ -66,6 +66,7 @@ namespace Heiflow.Models.Subsurface.PHT3D
             Version = "ACN";
             _Layer3DToken = "RegularGrid";
             Description = "";
+            Category = Modflow.PHTCategory;
         }
 
         public override void Initialize()

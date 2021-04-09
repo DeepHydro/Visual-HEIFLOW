@@ -67,6 +67,7 @@ namespace Heiflow.Models.Subsurface.MT3D
             Version = "UCN";
             _Layer3DToken = "RegularGrid";
             Description = "";
+            Category = Modflow.MT3DCategory;
         }
 
         public override void Initialize()

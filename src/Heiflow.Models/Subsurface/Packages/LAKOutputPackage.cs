@@ -49,6 +49,7 @@ namespace Heiflow.Models.Subsurface
             Name = "LAK Output";
             Sites = new List<Core.IObservationsSite>();
             OutputFilesInfo = new List<PackageInfo>();
+            Category = Modflow.OutputCategory;
         }
  
         [Browsable(false)]

@@ -74,6 +74,7 @@ namespace Heiflow.Models.Subsurface
             Version = "Lak3";
 
             LakeCellID = new Dictionary<int, List<int>>();
+            Category = Modflow.HeadDependentCategory;
         }
 
         #region Properties

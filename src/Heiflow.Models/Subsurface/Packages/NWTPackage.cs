@@ -71,6 +71,7 @@ namespace Heiflow.Models.Subsurface
             IBOTAV = 0;
             Options = "SIMPLE";
             OPTIONS = NWTOPTIONS.SIMPLE;
+            Category = Modflow.SolverCategory;
         }
         /// <summary>
         /// The maximum head change between outer iterations for solution of the nonlinear problem.

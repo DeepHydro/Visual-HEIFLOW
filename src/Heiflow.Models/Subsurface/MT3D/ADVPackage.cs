@@ -67,11 +67,13 @@ namespace Heiflow.Models.Subsurface.MT3D
             Version = "ADV";
             IsMandatory = false;
             _Layer3DToken = "RegularGrid";
+            
 
             SolveOption = SolveOptionEnum.Third_Order_TVD;
             PERCEL = 1.0f;
             MXPART = 9999;
             WeightingScheme = WeightingSchemeEnum.Upstream;
+            Category = Modflow.MT3DCategory;
         }
         [Category("Solve")]
         [Description("The advection solution option")]
