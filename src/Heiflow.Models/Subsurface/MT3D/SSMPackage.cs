@@ -364,6 +364,7 @@ namespace Heiflow.Models.Subsurface.MT3D
                     }
                     else
                     {
+                        sw.WriteLine("         1");
                         for (int j = 0; j < btnpck.NCOMP; j++)
                         {
                             WriteSerialFloatArrayMT3D(sw, CRCH[j], i, 0, "F6", 15, 10, "G15.6");
@@ -378,6 +379,7 @@ namespace Heiflow.Models.Subsurface.MT3D
                     }
                     else
                     {
+                        sw.WriteLine("         1");
                         for (int j = 0; j < btnpck.NCOMP; j++)
                         {
                             WriteSerialFloatArrayMT3D(sw, CEVT[j], i, 0, "F6", 15, 10, "G15.6");

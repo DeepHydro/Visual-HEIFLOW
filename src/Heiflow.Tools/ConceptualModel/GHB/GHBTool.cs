@@ -51,42 +51,40 @@ using System.Threading.Tasks;
 
 namespace Heiflow.Tools.ConceptualModel
 {
-    public class CHDTool : MapLayerRequiredTool
+    public class GHBTool : MapLayerRequiredTool
     {
         private IFeatureSet _sourcefs;
         private IFeatureSet _grid_layer;
-        private string _SheadField;
+        private string _BheadField;
         private string _EheadField;
         private string _LayerField;
         private int _SelectedLayerIndex = 0;
-        private IMapLayerDescriptor _FHBSourceLayer;
-        public CHDTool()
+        private IMapLayerDescriptor _ghbSourceLayer;
+        public GHBTool()
         {
-            Name = "Create CHD Package ";
+            Name = "Create GHB Package ";
             Category = Cat_CMG;
-            SubCategory = "CHD";
-            Description = "Create Time-Variant Specified-Head (CHD) package from point shapefile";
+            SubCategory = "GHB";
+            Description = "Create General-Head Boundary Package from point shapefile";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
-            ModifyElevation = false;
-            CHDCellElev = -2;
         }
 
 
         [Category("Input")]
-        [Description("CHD point source layer")]
+        [Description("GHB point source layer")]
         [EditorAttribute(typeof(MapLayerDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
-        public IMapLayerDescriptor CHDSourceLayer
+        public IMapLayerDescriptor GHBSourceLayer
         {
             get
             {
-                return _FHBSourceLayer;
+                return _ghbSourceLayer;
             }
             set
             {
-                _FHBSourceLayer = value;
-                _sourcefs = _FHBSourceLayer.DataSet as IFeatureSet;
+                _ghbSourceLayer = value;
+                _sourcefs = _ghbSourceLayer.DataSet as IFeatureSet;
                 if (_sourcefs != null)
                 {
                     var buf = from DataColumn dc in _sourcefs.DataTable.Columns select dc.ColumnName;
@@ -105,25 +103,25 @@ namespace Heiflow.Tools.ConceptualModel
         }
 
         [Category("Parameter")]
-        [Description("Field of the start head")]
+        [Description("Field of the boundary head")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
-        public string SHeadField
+        public string BHeadField
         {
             get
             {
-                return _SheadField;
+                return _BheadField;
             }
             set
             {
-                _SheadField = value;
+                _BheadField = value;
             }
         }
         [Category("Parameter")]
-        [Description("Field of the end head")]
+        [Description("Field of the conductance")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
-        public string EHeadField
+        public string CondField
         {
             get
             {
@@ -160,21 +158,6 @@ namespace Heiflow.Tools.ConceptualModel
                 }
             }
         }
-
-        [Category("Parameter")]
-        [Description("If yes, elevations for the CHD cells will be modfied.")]
-        public bool ModifyElevation
-        {
-            get;
-            set;
-        }
-        [Category("Parameter")]
-        [Description("")]
-        public float CHDCellElev
-        {
-            get;
-            set;
-        }
         [Browsable(false)]
         public string[] Fields
         {
@@ -209,32 +192,32 @@ namespace Heiflow.Tools.ConceptualModel
                 mf = model as Modflow;
             if (mf != null)
             {
-                if (!mf.Packages.ContainsKey(CHDPackage.PackageName))
+                if (!mf.Packages.ContainsKey(GHBPackage.PackageName))
                 {
-                    var fhb = mf.Select(CHDPackage.PackageName);
+                    var fhb = mf.Select(GHBPackage.PackageName);
                     mf.Add(fhb);
                 }
                 var nsp = mf.TimeService.StressPeriods.Count;
-                var pck = mf.GetPackage(CHDPackage.PackageName) as CHDPackage;
+                var pck = mf.GetPackage(GHBPackage.PackageName) as GHBPackage;
                 List<CellHead> list = new List<CellHead>();
                 int npt = _sourcefs.Features.Count;
                 for (int i = 0; i < npt; i++)
                 {
                     var pt = _sourcefs.Features[i].Geometry.Coordinate;
                     int layer = 1;
-                    float shead = 0;
-                    float ehead = 0;
+                    float bhead = 0;
+                    float cond = 0;
                     if (!string.IsNullOrEmpty(LayerField))
                     {
                         int.TryParse(_sourcefs.DataTable.Rows[i][LayerField].ToString(), out layer);
                     }
-                    if (!string.IsNullOrEmpty(SHeadField))
+                    if (!string.IsNullOrEmpty(BHeadField))
                     {
-                        float.TryParse(_sourcefs.DataTable.Rows[i][SHeadField].ToString(), out shead);
+                        float.TryParse(_sourcefs.DataTable.Rows[i][BHeadField].ToString(), out bhead);
                     }
-                    if (!string.IsNullOrEmpty(EHeadField))
+                    if (!string.IsNullOrEmpty(CondField))
                     {
-                        float.TryParse(_sourcefs.DataTable.Rows[i][EHeadField].ToString(), out ehead);
+                        float.TryParse(_sourcefs.DataTable.Rows[i][CondField].ToString(), out cond);
                     }
                     for (int j = 0; j < _grid_layer.Features.Count; j++)
                     {
@@ -244,8 +227,8 @@ namespace Heiflow.Tools.ConceptualModel
                             CellHead bound = new CellHead()
                             {
                                 Layer = layer,
-                                SHead = shead,
-                                EHead=ehead,
+                                SHead = bhead,
+                                EHead=cond,
                                 Row = int.Parse(_grid_layer.DataTable.Rows[j]["ROW"].ToString()),
                                 Col = int.Parse(_grid_layer.DataTable.Rows[j]["COLUMN"].ToString()),
                             };
@@ -262,10 +245,10 @@ namespace Heiflow.Tools.ConceptualModel
                 }
                 if (list.Count > 0)
                 {
-                    pck.MXACTC = list.Count;
-                    var FlowRate = new DataCube<float>(mf.TimeService.StressPeriods.Count, pck.MXACTC, 5, true)
+                    pck.MXACTB = list.Count;
+                    var FlowRate = new DataCube<float>(mf.TimeService.StressPeriods.Count, pck.MXACTB, 5, true)
                     {
-                        Name = "GHD_Head"
+                        Name = "GHB_Head"
                     };
                     FlowRate.ColumnNames = new string[] { "LAYER", "ROW", "COL", "SHEAD", "EHEAD" };
                     FlowRate.Variables = new string[nsp];
@@ -273,9 +256,9 @@ namespace Heiflow.Tools.ConceptualModel
                     {
                         FlowRate.Variables[i] = "Stress Period " + (i + 1);
                     }
-                    FlowRate.Allocate(0, pck.MXACTC, 5);
+                    FlowRate.Allocate(0, pck.MXACTB, 5);
                     FlowRate.Flags[0] = TimeVarientFlag.Individual;
-                    for (int i = 0; i < pck.MXACTC; i++)
+                    for (int i = 0; i < pck.MXACTB; i++)
                     {
                         var bound = list[i];
                         FlowRate[0, i, 0] = bound.Layer;
@@ -288,36 +271,8 @@ namespace Heiflow.Tools.ConceptualModel
                     {
                         FlowRate.Flags[i] = TimeVarientFlag.Repeat;
                     }
-                    if(ModifyElevation)
-                    {
-                        var mfgrid=  (mf.Grid as MFGrid);
-                        var elev =mfgrid.Elevations;
-                        for (int i = 0; i < pck.MXACTC; i++)
-                        {
-                            var bound = list[i];
-                            FlowRate[0, i, 0] = bound.Layer;
-                            FlowRate[0, i, 1] = bound.Row;
-                            FlowRate[0, i, 2] = bound.Col;
-                            FlowRate[0, i, 3] = bound.SHead;
-                            FlowRate[0, i, 4] = bound.EHead;
-                            var index = mfgrid.Topology.GetSerialIndex(bound.Row - 1, bound.Col - 1);
-                            if (elev[0, 0, index] > 0)
-                            {
-                                var heights = new float[mfgrid.ActualLayerCount];
-                                for (int j = 0; j < mfgrid.ActualLayerCount; j++)
-                                {
-                                    heights[j] = elev[j, 0, index] - elev[j + 1, 0, index];
-                                }
-                                elev[0, 0, index] = CHDCellElev;
-                                for (int j = 0; j < mfgrid.ActualLayerCount; j++)
-                                {
-                                    elev[j + 1, 0, index] = elev[j, 0, index] - heights[j];
-                                }
-                            }
-                        }
-                        cancelProgressHandler.Progress("Package_Tool", 100, "DIS pachage need to be saved.");
-                    }
-                    pck.SHEAD = FlowRate;
+                
+                    pck.ITMP = FlowRate;
                     pck.CreateFeature(shell.MapAppManager.Map.Projection, prj.Project.GeoSpatialDirectory);
                     pck.BuildTopology();
                     pck.IsDirty = true;
@@ -347,14 +302,14 @@ namespace Heiflow.Tools.ConceptualModel
             if (model != null)
             {
                 var uzf = prj.Project.Model.GetPackage(UZFPackage.PackageName) as UZFPackage;
-                var chd = prj.Project.Model.GetPackage(CHDPackage.PackageName) as CHDPackage;
+                var chd = prj.Project.Model.GetPackage(GHBPackage.PackageName) as GHBPackage;
                 for (int i = 0; i < chd.MFGridInstance.ActiveCellCount; i++)
                 {
                     uzf.IUZFBND[0, 0, i] = 1;
                 }
-                for (int i = 0; i < chd.MXACTC; i++)
+                for (int i = 0; i < chd.MXACTB; i++)
                 {
-                    var index = chd.MFGridInstance.Topology.GetSerialIndex((int)(chd.SHEAD[0, i, 1] - 1), (int)(chd.SHEAD[0, i, 2] - 1));
+                    var index = chd.MFGridInstance.Topology.GetSerialIndex((int)(chd.ITMP[0, i, 1] - 1), (int)(chd.ITMP[0, i, 2] - 1));
                     uzf.IUZFBND[0, 0, index] = 0;
                 }
                  
@@ -363,17 +318,5 @@ namespace Heiflow.Tools.ConceptualModel
                 shell.ProjectExplorer.AddProject(prj.Project);
             }
         }
-    }
-    public class CellHead
-    {
-        public CellHead()
-        {
-
-        }
-        public int Layer { get; set; }
-        public int Row { get; set; }
-        public int Col { get; set; }
-        public float SHead { get; set; }
-        public float EHead { get; set; }
     }
 }

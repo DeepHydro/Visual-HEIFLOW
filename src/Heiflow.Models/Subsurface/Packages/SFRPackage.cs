@@ -83,8 +83,8 @@ namespace Heiflow.Models.Subsurface
             NPARSEG = 0;
             CONST = 86400;
             DLEAK = 0.01f;
-            ISTCB1 = 9;
-            ISTCB2 = 58;
+            ISTCB1 = 0;
+            ISTCB2 = 0;
             ISFROPT = 2;
             NSTRAIL = 5;
             ISUZN = 1;

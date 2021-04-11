@@ -108,7 +108,9 @@ namespace Heiflow.Models.Subsurface
         }
         public override void New()
         {
+            var mf = Owner as Modflow;
             NRCHOP = 3;
+            this.IRCHCB = mf.NameManager.GetFID(".cbc");
             base.New();
         }
         public override void Attach(DotSpatial.Controls.IMap map, string directory)
@@ -118,8 +120,7 @@ namespace Heiflow.Models.Subsurface
         }
         public override void CompositeOutput(MFOutputPackage mfout)
         {
-            var cbc = mfout.SelectChild(CBCPackage.PackageName);
-            this.IRCHCB = cbc.PackageInfo.FID;
+
         }
         public override LoadingState Load(ICancelProgressHandler progress)
         {

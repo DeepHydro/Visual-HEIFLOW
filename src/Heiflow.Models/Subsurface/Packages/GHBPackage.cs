@@ -48,40 +48,44 @@ using System.Threading.Tasks;
 namespace Heiflow.Models.Subsurface
 {
     [PackageItem]
-    [PackageCategory("Boundary Conditions,Specified Head", true)]
+    [PackageCategory("Boundary Conditions,Head Dependent Flux", false)]
     [CoverageItem]
     [Export(typeof(IMFPackage))]
-    public class CHDPackage : MFPackage
+    public class GHBPackage : MFPackage
     {
-        private RegularGridTopology _topo;
-        public static string PackageName = "CHD";
-        public CHDPackage()
+        private RegularGridTopology _CellTopo;
+        public static string PackageName = "GHB";
+        public GHBPackage()
         {
-            Name = "CHD";
-            _FullName = "Time-Variant Specified-Head Package";
+            Name = "GHB";
+            _FullName = "General-Head Boundary Package";
             _PackageInfo.Format = FileFormat.Text;
             _PackageInfo.IOState = IOState.OLD;
-            _PackageInfo.FileExtension = ".chd";
-            _PackageInfo.ModuleName = "CHD";
-            Description = "The CHD is used to simulate specified head boundaries that can change within or between stress periods.";
-            Version = "CHD";
+            _PackageInfo.FileExtension = ".ghb";
+            _PackageInfo.ModuleName = "GHB";
+            Description = "The General-Head Boundary package is used to simulate head-dependent flux boundaries.  In the General-Head Boundary package the flux is always proportional to the difference in head.";
+            Version = "GHB";
             IsMandatory = false;
             _Layer3DToken = "CHD";
             Category = Modflow.HeadDependentCategory;
         }
-        [Description("The maximum number of constant-head boundary cells in use during any stress period, including those that are defined using parameters.")]
+        [Category("Basic")]
+        [Description("The maximum number of general-head boundary cells in use during any stress period. MXACTB includes cells that are defined using parameters as well as cells that are defined without using parameters.")]
         /// <summary>
-        /// The maximum number of constant-head boundary cells in use during any stress period, including those that are defined using parameters.
+        /// the maximum number of general-head boundary cells in use during any stress period
         /// </summary>
-        public int MXACTC { get; set; }
+        public int MXACTB { get; set; }    
+        [Category("Output")]
+        [Description("a flag and a unit number.")]
+        public int IGHBCB { get; set; }
         //*****DataSet6
         /// <summary>
-        /// [NSP,MXACTC,5] (LAYER,ROW,COL,SHEAD,EHEAD)
+        /// [NSP,MXACTC,5] (LAYER,ROW,COL,Bhead,Conductance )
         /// </summary>
         /// 
         [StaticVariableItem]
         [Browsable(false)]
-        public DataCube<float> SHEAD { get; set; }
+        public DataCube<float> ITMP { get; set; }
 
         public override void Initialize()
         {
@@ -92,6 +96,8 @@ namespace Heiflow.Models.Subsurface
         }
         public override void New()
         {
+            var mf = (Owner as Modflow);
+            this.IGHBCB = mf.NameManager.GetFID(".cbc");
             base.New();
         }
         public override LoadingState Load(ICancelProgressHandler progress)
@@ -107,33 +113,33 @@ namespace Heiflow.Models.Subsurface
                     //Data Set 1: # OPTIONS
                     string newline = ReadComment(sr);
                     var intbuf = TypeConverterEx.Split<int>(newline, 1);
-                    MXACTC = intbuf[0];
-                    SHEAD = new DataCube<float>(nsp, MXACTC, 5, true);
-                    SHEAD.ColumnNames = new string[] { "LAYER", "ROW", "COL", "SHEAD", "EHEAD" };
-                    SHEAD.Variables = new string[nsp];
+                    MXACTB = intbuf[0];
+                    ITMP = new DataCube<float>(nsp, MXACTB, 5, true);
+                    ITMP.ColumnNames = new string[] { "LAYER", "ROW", "COL", "Boundary Head", "Conductance" };
+                    ITMP.Variables = new string[nsp];
 
                     for (int i = 0; i < nsp; i++)
                     {
-                        SHEAD.Variables[i] = "Stress Period " + (i + 1);
+                        ITMP.Variables[i] = "Stress Period " + (i + 1);
                         newline = sr.ReadLine();
                         intbuf = TypeConverterEx.Split<int>(newline, 3);
                         if (intbuf[0] > 0)
                         {
-                            SHEAD.Flags[i] = TimeVarientFlag.Individual;
-                            SHEAD.Allocate(i);
+                            ITMP.Flags[i] = TimeVarientFlag.Individual;
+                            ITMP.Allocate(i);
                             for (int j = 0; j < intbuf[0]; j++)
                             {
                                 newline = sr.ReadLine();
                                 var floatbuf = TypeConverterEx.Split<float>(newline, 5);
                                 for (int k = 0; k < 5; k++)
                                 {
-                                    SHEAD[i, j, k] = floatbuf[k];
+                                    ITMP[i, j, k] = floatbuf[k];
                                 }
                             }
                         }
                         else
                         {
-                            SHEAD.Flags[i] = TimeVarientFlag.Repeat;
+                            ITMP.Flags[i] = TimeVarientFlag.Repeat;
                         }
                     }
                     BuildTopology();
@@ -167,19 +173,19 @@ namespace Heiflow.Models.Subsurface
             var grid = (Owner.Grid as IRegularGrid);
             StreamWriter sw = new StreamWriter(filename);
             WriteDefaultComment(sw, this.Name);
-            string line = string.Format("{0}  # MXACTC", MXACTC);
+            string line = string.Format("{0}  {1}  # MXACTB IGHBCB", MXACTB, IGHBCB);
             sw.WriteLine(line);
  
             for (int i = 0; i < nsp; i++)
             {
-                if (SHEAD.Flags[i] == TimeVarientFlag.Individual)
+                if (ITMP.Flags[i] == TimeVarientFlag.Individual)
                 {
-                    line = string.Format("{0} 0 0 # ITMP NP ", MXACTC);
+                    line = string.Format("{0} 0 0 # ITMP NP ", MXACTB, IGHBCB);
                     sw.WriteLine(line);
-                    for (int j = 0; j < MXACTC; j++)
+                    for (int j = 0; j < MXACTB; j++)
                     {
-                        line = string.Format("{0}\t{1}\t{2}\t{3}\t{4} # LAYER,ROW,COL,SHEAD,EHEAD", SHEAD[i, j, 0].ToString("F0"),
-                            SHEAD[i, j, 1].ToString("F0"), SHEAD[i, j, 2].ToString("F0"), SHEAD[i, j, 3], SHEAD[i, j, 4]);
+                        line = string.Format("{0}\t{1}\t{2}\t{3}\t{4} # LAYER,ROW,COL,BHead, Cond", ITMP[i, j, 0].ToString("F0"),
+                            ITMP[i, j, 1].ToString("F0"), ITMP[i, j, 2].ToString("F0"), ITMP[i, j, 3], ITMP[i, j, 4]);
                         sw.WriteLine(line);
                     }
                 }
@@ -205,15 +211,15 @@ namespace Heiflow.Models.Subsurface
             fs.DataTable.Columns.Add(new DataColumn("Row", typeof(int)));
             fs.DataTable.Columns.Add(new DataColumn("Column", typeof(int)));
             fs.DataTable.Columns.Add(new DataColumn("ID", typeof(int)));
-            fs.DataTable.Columns.Add(new DataColumn("SHEAD", typeof(double)));
-            fs.DataTable.Columns.Add(new DataColumn("EHEAD", typeof(string)));
+            fs.DataTable.Columns.Add(new DataColumn("Bhead", typeof(double)));
+            fs.DataTable.Columns.Add(new DataColumn("Cond", typeof(string)));
             fs.DataTable.Columns.Add(new DataColumn(RegularGrid.ParaValueField, typeof(double)));
 
-            for (int i = 0; i < MXACTC; i++)
+            for (int i = 0; i < MXACTB; i++)
             {
-                int layer = (int)SHEAD[0, i, 0];
-                int row = (int)SHEAD[0, i, 1];
-                int col = (int)SHEAD[0, i, 2];
+                int layer = (int)ITMP[0, i, 0];
+                int row = (int)ITMP[0, i, 1];
+                int col = (int)ITMP[0, i, 2];
                 var coor = grid.LocateCentroid(col, row);
                 Point geom = new Point(coor);
                 IFeature feature = fs.AddFeature(geom);
@@ -223,8 +229,8 @@ namespace Heiflow.Models.Subsurface
                 feature.DataRow["Row"] = row;
                 feature.DataRow["Column"] = col;
                 feature.DataRow["ID"] = i + 1;
-                feature.DataRow["SHEAD"] = SHEAD[0, i, 3];
-                feature.DataRow["EHEAD"] = SHEAD[0, i, 4];
+                feature.DataRow["Bhead"] = ITMP[0, i, 3];
+                feature.DataRow["Cond"] = ITMP[0, i, 4];
                 feature.DataRow[RegularGrid.ParaValueField] = 0;
                 feature.DataRow.EndEdit();
             }
@@ -236,27 +242,27 @@ namespace Heiflow.Models.Subsurface
         {
             if (_Initialized)
                 this.Grid.Updated -= this.OnGridUpdated;
-            SHEAD = null;
+            ITMP = null;
             base.Clear();
         }
         public void BuildTopology()
         {
             var grid = Grid as RegularGrid;
-            _topo = new RegularGridTopology();
+            _CellTopo = new RegularGridTopology();
             int sp = 0;
-            _topo.ActiveCellLocation = new int[MXACTC][];
-            _topo.ActiveCellID = new int[MXACTC];
-            _topo.RowCount = grid.RowCount;
-            _topo.ColumnCount = grid.ColumnCount;
-            _topo.ActiveCellCount = MXACTC;
-            for (int i = 0; i < MXACTC; i++)
+            _CellTopo.ActiveCellLocation = new int[MXACTB][];
+            _CellTopo.ActiveCellID = new int[MXACTB];
+            _CellTopo.RowCount = grid.RowCount;
+            _CellTopo.ColumnCount = grid.ColumnCount;
+            _CellTopo.ActiveCellCount = MXACTB;
+            for (int i = 0; i < MXACTB; i++)
             {
-                int row = (int)SHEAD[sp, i, 1];
-                int col = (int)SHEAD[sp, i, 2];
-                _topo.ActiveCellLocation[i] = new int[] { row - 1, col - 1 };
-                _topo.ActiveCellID[i] = grid.Topology.GetID(row - 1, col - 1);
+                int row = (int)ITMP[sp, i, 1];
+                int col = (int)ITMP[sp, i, 2];
+                _CellTopo.ActiveCellLocation[i] = new int[] { row - 1, col - 1 };
+                _CellTopo.ActiveCellID[i] = grid.Topology.GetID(row - 1, col - 1);
             }
-            SHEAD.Topology = _topo;
+            ITMP.Topology = _CellTopo;
         }
     }
 }

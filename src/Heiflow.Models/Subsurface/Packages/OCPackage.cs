@@ -75,7 +75,7 @@ namespace Heiflow.Models.Subsurface
             _PackageInfo.FileExtension = ".oc";
             _PackageInfo.ModuleName = PackageName;
             Version = "OC1";
-            Category = Modflow.OutputCategory;
+            Category = Modflow.OutputControlCategory;
         }
 
         private string[] cmds = new string[] 
