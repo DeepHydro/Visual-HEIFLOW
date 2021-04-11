@@ -159,7 +159,7 @@ namespace Heiflow.Models.Subsurface.MT3D
             StreamWriter sw = new StreamWriter(filename);
             for (int i = 0; i < grid.ActualLayerCount; i++)
             {
-                WriteSerialFloatArrayMT3D(sw, AL, i, 0, "F6", 15, "10G15.6");
+                WriteSerialFloatArrayMT3D(sw, AL, i, 0, "F6", 15,10, "G15.6");
             }
             WriteRegularArrayMT3D(sw, TRPT, 0, "F6", 15, "G15.6");
             WriteRegularArrayMT3D(sw, TRPV, 0, "F6", 15, "G15.6");
@@ -205,6 +205,11 @@ namespace Heiflow.Models.Subsurface.MT3D
         {
             if (_Initialized)
                 this.Grid.Updated -= this.OnGridUpdated;
+
+            AL = null;
+            TRPT = null;
+            TRPV = null;
+            DMCOEF = null;
             base.Clear();
         }
 

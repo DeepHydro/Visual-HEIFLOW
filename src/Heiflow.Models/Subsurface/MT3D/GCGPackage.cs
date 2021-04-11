@@ -67,13 +67,7 @@ namespace Heiflow.Models.Subsurface.MT3D
             Version = "GCG";
             IsMandatory = false;
             _Layer3DToken = "RegularGrid";
-            MXITER = 100;
-            ITER1 = 10;
-            Preconditioner = PreconditionersEnum.Jacobi;
-            NCRS = false;
-            ACCL = 1;
-            CCLOSE = 0.0001f;
-            IPRGCG = 0;
+            ResetToDefault();
             Category = Modflow.MT3DCategory;
         }
         [Category("Solver")]
@@ -133,8 +127,19 @@ namespace Heiflow.Models.Subsurface.MT3D
             this.TimeService = Owner.TimeService;
             base.Initialize();
         }
+        public override void ResetToDefault()
+        {
+            MXITER = 100;
+            ITER1 = 10;
+            Preconditioner = PreconditionersEnum.Jacobi;
+            NCRS = false;
+            ACCL = 1;
+            CCLOSE = 0.0001f;
+            IPRGCG = 0;
+        }
         public override void New()
         {
+            ResetToDefault();
             base.New();
         }
         public override LoadingState Load(ICancelProgressHandler progress)
@@ -164,7 +169,7 @@ namespace Heiflow.Models.Subsurface.MT3D
                 {
                     Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
                     ShowWarning(Message, progress);
-                    result = LoadingState.FatalError;
+                    result = LoadingState.Warning;
                 }
                 finally
                 {
@@ -175,7 +180,7 @@ namespace Heiflow.Models.Subsurface.MT3D
             {
                 Message = string.Format("Failed to load {0}. The package file does not exist: {1}", Name, FileName);
                 ShowWarning(Message, progress);
-                result = LoadingState.FatalError;
+                result = LoadingState.Warning;
             }
             OnLoaded(progress, new LoadingObjectState() { Message = Message, Object = this, State = result });
             return result;

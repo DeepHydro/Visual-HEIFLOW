@@ -68,11 +68,7 @@ namespace Heiflow.Models.Subsurface.MT3D
             IsMandatory = false;
             _Layer3DToken = "RegularGrid";
             
-
-            MIXELM = SolveOptionEnum.Third_Order_TVD;
-            PERCEL = 1.0f;
-            MXPART = 9999;
-            NADVFD = WeightingSchemeEnum.Upstream;
+            ResetToDefault();
             Category = Modflow.MT3DCategory;
         }
         [Category("Solve")]
@@ -117,10 +113,16 @@ namespace Heiflow.Models.Subsurface.MT3D
             this.TimeService = Owner.TimeService;
             base.Initialize();
         }
-        public override void New()
+        public override void ResetToDefault()
         {
             MIXELM = SolveOptionEnum.Third_Order_TVD;
-            PERCEL = 1;
+            PERCEL = 1.0f;
+            MXPART = 9999;
+            NADVFD = WeightingSchemeEnum.Upstream;
+        }
+        public override void New()
+        {
+            ResetToDefault();
             base.New();
         }
         public override LoadingState Load(ICancelProgressHandler progress)
@@ -147,7 +149,7 @@ namespace Heiflow.Models.Subsurface.MT3D
                 {
                     Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
                     ShowWarning(Message, progress);
-                    result = LoadingState.FatalError;
+                    result = LoadingState.Warning;
                 }
                 finally
                 {
@@ -158,7 +160,7 @@ namespace Heiflow.Models.Subsurface.MT3D
             {
                 Message = string.Format("Failed to load {0}. The package file does not exist: {1}", Name, FileName);
                 ShowWarning(Message, progress);
-                result = LoadingState.FatalError;
+                result = LoadingState.Warning;
             }
             OnLoaded(progress, new LoadingObjectState() { Message = Message, Object = this, State = result });
             return result;
@@ -170,10 +172,10 @@ namespace Heiflow.Models.Subsurface.MT3D
             StreamWriter sw = new StreamWriter(filename);
             string line = string.Format("{0}{1}", ((int)MIXELM).ToString().PadLeft(10, ' '), PERCEL.ToString().PadLeft(10, ' '));
 
-            if(MIXELM == SolveOptionEnum.Method_Of_Characteristics || MIXELM== SolveOptionEnum.Third_Order_TVD)
-            {
-                line += MXPART.ToString().PadLeft(10, ' ');
-            }
+            //if(MIXELM == SolveOptionEnum.Method_Of_Characteristics || MIXELM== SolveOptionEnum.Third_Order_TVD)
+            //{
+            //    line += MXPART.ToString().PadLeft(10, ' ');
+            //}
             sw.WriteLine(line);
             sw.Close();
             OnSaved(progress);

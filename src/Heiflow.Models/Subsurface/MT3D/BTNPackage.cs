@@ -64,7 +64,7 @@ namespace Heiflow.Models.Subsurface.MT3D
             _Layer3DToken = "RegularGrid";
             Category = Modflow.MT3DCategory;
 
-            InitValues();
+            ResetToDefault();
         }
 
         #region
@@ -141,31 +141,31 @@ namespace Heiflow.Models.Subsurface.MT3D
             get;
             set;
         }
-          [Category("Packages")]
+        [Category("Packages")]
         public bool EnableADV
         {
             get;
             set;
         }
-          [Category("Packages")]
+        [Category("Packages")]
         public bool EnableDSP
         {
             get;
             set;
         }
-          [Category("Packages")]
+        [Category("Packages")]
         public bool EnableSSM
         {
             get;
             set;
         }
-          [Category("Packages")]
+        [Category("Packages")]
         public bool EnableRCT
         {
             get;
             set;
         }
-          [Category("Packages")]
+        [Category("Packages")]
         public bool EnableGCG
         {
             get;
@@ -319,7 +319,7 @@ namespace Heiflow.Models.Subsurface.MT3D
             get;
             set;
         }
-          [Category("Observation Output")]
+        [Category("Observation Output")]
         [Description("cell indices (layer, row, column) in which the observation point or monitoring well is located")]
         [StaticVariableItem]
         public DataCube2DLayout<int> OBS
@@ -328,75 +328,76 @@ namespace Heiflow.Models.Subsurface.MT3D
             set;
         }
 
-                  [Category("Output")]
-          [Description("a logical flag indicating whether a one-line summary of mass balance information should be printed")]
-          public bool CHKMAS
-          {
-              get;
-              set;
-          }
-                  [Category("Output")]
-          [Description("an integer indicating how frequently the mass budget information should be saved in the mass balance summary file MT3Dnnn.MAS")]
-          public int NPRMAS
-          {
-              get;
-              set;
-          }
-            [Category("Header")]
-          public string Head1
-          {
-              get;
-              set;
-          }
-             [Category("Header")]
-          public string Head2
-          {
-              get;
-              set;
-          }
+        [Category("Output")]
+        [Description("a logical flag indicating whether a one-line summary of mass balance information should be printed")]
+        public bool CHKMAS
+        {
+            get;
+            set;
+        }
+        [Category("Output")]
+        [Description("an integer indicating how frequently the mass budget information should be saved in the mass balance summary file MT3Dnnn.MAS")]
+        public int NPRMAS
+        {
+            get;
+            set;
+        }
+        [Category("Header")]
+        public string Head1
+        {
+            get;
+            set;
+        }
+        [Category("Header")]
+        public string Head2
+        {
+            get;
+            set;
+        }
         #endregion
 
-             private void InitValues()
-          {
-              TUNIT = "d";
-              LUNIT = "m";
-              MUNIT = "kg";
-              Version = "BTN";
-              NCOMP = 7;
-              MCOMP = 5;
-              IsMandatory = false;
-              TRNOP = "T T T F T F F F F F";
-              NLAY = 3;
-              NPER = 1;
-              NROW = 100;
-              NCOL = 100;
-              EnableADV = true;
-              EnableDSP = true;
-              EnableGCG = true;
-              EnableRCT = false;
-              EnableSSM = true;
-              CINACT = -999;
-              THKMIN = 0.0f;
-              IFMTCN = 0;
-              IFMTNP = 0;
-              IFMTRF = 0;
-              IFMTDP = 0;
-              SAVUCN = true;
-              NOBS = 0;
-              NPROBS = 1;
-              CHKMAS = true;
-              NPRMAS = 1;
-          }
+        public override void ResetToDefault()
+        {
+            TUNIT = "d";
+            LUNIT = "m";
+            MUNIT = "kg";
+            Version = "BTN";
+            NCOMP = 7;
+            MCOMP = 5;
+            IsMandatory = false;
+            TRNOP = "T T T F T F F F F F";
+            NLAY = 3;
+            NPER = 1;
+            NROW = 100;
+            NCOL = 100;
+            EnableADV = true;
+            EnableDSP = true;
+            EnableGCG = true;
+            EnableRCT = false;
+            EnableSSM = true;
+            CINACT = -999;
+            THKMIN = 0.0f;
+            IFMTCN = 0;
+            IFMTNP = 0;
+            IFMTRF = 0;
+            IFMTDP = 0;
+            SAVUCN = true;
+            NOBS = 0;
+            NPROBS = 1;
+            CHKMAS = true;
+            NPRMAS = 1;
+        }
 
-          public override void Initialize()
-          {
-              this.Grid = Owner.Grid;
-              this.Grid.Updated += this.OnGridUpdated;
-              this.TimeService = Owner.TimeService;
-              base.Initialize();
-          }
+        public override void Initialize()
+        {
+            this.Grid = Owner.Grid;
+            this.Grid.Updated += this.OnGridUpdated;
+            this.TimeService = Owner.TimeService;
+            base.Initialize();
+        }
         public override void New()
         {
+            ResetToDefault();
             base.New();
         }
         public override LoadingState Load(ICancelProgressHandler progress)
@@ -410,7 +411,7 @@ namespace Heiflow.Models.Subsurface.MT3D
                     int k = 0;
                     var grid = Owner.Grid as MFGrid;
                     var mf = Owner as Modflow;
-                    Head1= sr.ReadLine();
+                    Head1 = sr.ReadLine();
                     Head2 = sr.ReadLine();
                     var line = sr.ReadLine();
                     var intbufs = TypeConverterEx.Split<int>(line);
@@ -551,7 +552,7 @@ namespace Heiflow.Models.Subsurface.MT3D
                 {
                     Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
                     ShowWarning(Message, progress);
-                    result = LoadingState.FatalError;
+                    result = LoadingState.Warning;
                 }
                 finally
                 {
@@ -562,7 +563,7 @@ namespace Heiflow.Models.Subsurface.MT3D
             {
                 Message = string.Format("Failed to load {0}. The package file does not exist: {1}", Name, FileName);
                 ShowWarning(Message, progress);
-                result = LoadingState.FatalError;
+                result = LoadingState.Warning;
             }
             OnLoaded(progress, new LoadingObjectState() { Message = Message, Object = this, State = result });
             return result;
@@ -600,34 +601,34 @@ namespace Heiflow.Models.Subsurface.MT3D
 
             WriteRegularArrayMT3D(sw, DELR, 0, "F6", 15, "G15.6");
             WriteRegularArrayMT3D(sw, DELC, 0, "F6", 15, "G15.6");
-            WriteSerialFloatArrayMT3D(sw, HTOP, 0, 0, "F6", 15, "10G15.6");
+            WriteSerialFloatArrayMT3D(sw, HTOP, 0, 0, "F6", 15, 10, "G15.6");
 
             for (int i = 0; i < NLAY; i++)
             {
-               // WriteSerialFloatArray(sw, DZ, i, 0, "E6", "Thickness of Layer " + (i + 1));
-                WriteSerialFloatArrayMT3D(sw, DZ, i, 0, "F6", 15, "10G15.6");
+                // WriteSerialFloatArray(sw, DZ, i, 0, "E6", "Thickness of Layer " + (i + 1));
+                WriteSerialFloatArrayMT3D(sw, DZ, i, 0, "F6", 15, 10, "G15.6");
             }
             for (int i = 0; i < NLAY; i++)
             {
                 //WriteSerialFloatArray(sw, PRSITY, i, 0, "E6", "PRSITY of Layer " + (i + 1));
-                WriteSerialFloatArrayMT3D(sw, PRSITY, i, 0, "F6", 15, "10G15.6");
+                WriteSerialFloatArrayMT3D(sw, PRSITY, i, 0, "F6", 15, 10, "G15.6");
             }
             var max_col = 30;
             for (int i = 0; i < NLAY; i++)
             {
                 //WriteSerialArray<int>(sw, ICBUND, i, 0, "F0", "Boundary Condition Type of Layer " + (i + 1));
-                WriteSerialIntegerArrayMT3D(sw, ICBUND, i, 0, "F0", 3, max_col.ToString() + "I3", max_col);
+                WriteSerialIntegerArrayMT3D(sw, ICBUND, i, 0, "F0", 3, max_col, "I3");
             }
 
             var k = 0;
-        //    var cmt = "";
+            //    var cmt = "";
             for (int i = 0; i < NCOMP; i++)
             {
                 for (int j = 0; j < NLAY; j++)
                 {
-                   // cmt = string.Format("Starting Concentration of Species {0} in Layer {1}", i + 1, j + 1);
+                    // cmt = string.Format("Starting Concentration of Species {0} in Layer {1}", i + 1, j + 1);
                     //WriteSerialFloatArray(sw, SCONC, k, 0, "E6", cmt);
-                    WriteSerialFloatArrayMT3D(sw, SCONC, k, 0, "F6", 15, "10G15.6");
+                    WriteSerialFloatArrayMT3D(sw, SCONC, k, 0, "F6", 15, 10, "G15.6");
                     k++;
                 }
             }
@@ -728,8 +729,8 @@ namespace Heiflow.Models.Subsurface.MT3D
                 WriteSerialArray<int>(sw, ICBUND, i, 0, "F0", "Boundary Condition Type of Layer " + (i + 1));
             }
 
-             var  k = 0;
-             var cmt = "";
+            var k = 0;
+            var cmt = "";
             for (int i = 0; i < NCOMP; i++)
             {
                 for (int j = 0; j < NLAY; j++)
@@ -743,13 +744,13 @@ namespace Heiflow.Models.Subsurface.MT3D
             line = string.Format("{0}\t{1}\t# CINACT, THKMIN", CINACT, THKMIN);
             sw.WriteLine(line);
 
-            line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t# IFMTCN, IFMTNP, IFMTRF, IFMTDP, SAVUCN", IFMTCN, IFMTNP, IFMTRF, IFMTDP, SAVUCN?"T":"F");
+            line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t# IFMTCN, IFMTNP, IFMTRF, IFMTDP, SAVUCN", IFMTCN, IFMTNP, IFMTRF, IFMTDP, SAVUCN ? "T" : "F");
             sw.WriteLine(line);
 
             line = string.Format("{0}\t# NPRS", NPRS);
             sw.WriteLine(line);
 
-            if(NPRS > 0)
+            if (NPRS > 0)
             {
                 int nline = (int)Math.Ceiling(NPRS / 8.0);
                 k = 8;
@@ -779,7 +780,7 @@ namespace Heiflow.Models.Subsurface.MT3D
             line = string.Format("{0}\t{1}\t# CHKMAS, NPRMAS", CHKMAS ? "T" : "F", NPRMAS);
             sw.WriteLine(line);
 
-            if(NOBS >0)
+            if (NOBS > 0)
             {
                 for (int i = 0; i < NOBS; i++)
                 {
@@ -804,7 +805,7 @@ namespace Heiflow.Models.Subsurface.MT3D
         {
             if (this.TimeService.StressPeriods.Count == 0)
                 return;
-            InitValues();
+            ResetToDefault();
 
             var mf = Owner as Modflow;
             var grid = sender as RegularGrid;

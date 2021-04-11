@@ -65,6 +65,7 @@ namespace Heiflow.Models.Subsurface.MT3D
             IsMandatory = false;
             _Layer3DToken = "RegularGrid";
             Category = Modflow.MT3DCategory;
+            ResetToDefault();
         }
 
         [Category("Sink & Source Package")]
@@ -109,12 +110,6 @@ namespace Heiflow.Models.Subsurface.MT3D
             get;
             set;
         }
-        //[Category("RCH Package")]
-        //public int INCRCH
-        //{
-        //    get;
-        //    set;
-        //}
         [Category("RCH Package")]
         [Browsable(false)]
         [StaticVariableArrayItem]
@@ -124,12 +119,6 @@ namespace Heiflow.Models.Subsurface.MT3D
             set;
         }
 
-        //[Category("EVT Package")]
-        //public int INCEVT
-        //{
-        //    get;
-        //    set;
-        //}
         [Category("EVT Package")]
         [Browsable(false)]
         [StaticVariableArrayItem]
@@ -164,10 +153,55 @@ namespace Heiflow.Models.Subsurface.MT3D
             this.TimeService = Owner.TimeService;
             base.Initialize();
         }
+        public override void ResetToDefault()
+        {
+            FWEL = false;
+            FDRN = false;
+            FRCH = true;
+            FEVT = false;
+            FRIV = false;
+            FGHB = false;
+        }
+
         public override void New()
         {
+            ResetToDefault();
             base.New();
         }
+        private void InitArrays()
+        {
+            var grid = Owner.Grid as MFGrid;
+            var mf = Owner as Modflow;
+            var nsp = TimeService.StressPeriods.Count;
+            var btnpck = mf.GetPackage(BTNPackage.PackageName) as BTNPackage;
+            CRCH = new DataCube<float>[btnpck.NCOMP];
+            CEVT = new DataCube<float>[btnpck.NCOMP];
+            PointSources = new DataCube2DLayout<float>[nsp];
+            NSS = new int[nsp];
+
+            for (int i = 0; i < btnpck.NCOMP; i++)
+            {
+                CRCH[i] = new DataCube<float>(nsp, 1, grid.ActiveCellCount)
+                {
+                    Name = "Spiece " + (i + 1),
+                    ZeroDimension = DimensionFlag.Time
+                };
+                for (int j = 0; j < nsp; j++)
+                {
+                    CRCH[i].Variables[j] = "Concentration in Stress Period " + (j + 1);
+                }
+                CEVT[i] = new DataCube<float>(nsp, 1, grid.ActiveCellCount)
+                {
+                    Name = "Spiece " + (i + 1),
+                    ZeroDimension = DimensionFlag.Time
+                };
+                for (int j = 0; j < nsp; j++)
+                {
+                    CEVT[i].Variables[j] = "Concentration in Stress Period " + (j + 1);
+                }
+            }
+        }
+        
         public override LoadingState Load(ICancelProgressHandler progress)
         {
             var result = LoadingState.Normal;
@@ -183,6 +217,8 @@ namespace Heiflow.Models.Subsurface.MT3D
                     var nsp= TimeService.StressPeriods.Count;
                     var btnpck =  mf.GetPackage(BTNPackage.PackageName) as BTNPackage;
                     int[] intbuf = null;
+
+                    InitArrays();
                     FWEL = bufs[0].ToUpper() == "T";
                     FDRN = bufs[1].ToUpper() == "T";
                     FRCH = bufs[2].ToUpper() == "T";
@@ -191,33 +227,6 @@ namespace Heiflow.Models.Subsurface.MT3D
                     FGHB = bufs[5].ToUpper() == "T";
                     line = sr.ReadLine();
                     MXSS = int.Parse(line.Trim());
-
-                    CRCH = new DataCube<float>[btnpck.NCOMP];
-                    CEVT = new DataCube<float>[btnpck.NCOMP];
-                    PointSources = new DataCube2DLayout<float>[nsp];
-                    NSS= new int[nsp];
-
-                    for (int i = 0; i < btnpck.NCOMP; i++)
-                    {
-                        CRCH[i] = new DataCube<float>(nsp, 1, grid.ActiveCellCount)
-                        {
-                            Name = "Spiece " + (i + 1),
-                            ZeroDimension = DimensionFlag.Time
-                        };
-                        for (int j = 0; j < nsp; j++)
-                        {
-                            CRCH[i].Variables[j] = "Concentration in Stress Period " + (j + 1);
-                        }
-                          CEVT[i] = new DataCube<float>(nsp, 1, grid.ActiveCellCount)
-                        {
-                            Name = "Spiece " + (i + 1),
-                            ZeroDimension = DimensionFlag.Time
-                        };
-                        for (int j = 0; j < nsp; j++)
-                        {
-                            CEVT[i].Variables[j] = "Concentration in Stress Period " + (j + 1);
-                        }
-                    }
 
                     for (int i = 0; i < nsp; i++)
                     {
@@ -317,7 +326,7 @@ namespace Heiflow.Models.Subsurface.MT3D
                 {
                     Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
                     ShowWarning(Message, progress);
-                    result = LoadingState.FatalError;
+                    result = LoadingState.Warning;
                 }
                 finally
                 {
@@ -328,7 +337,7 @@ namespace Heiflow.Models.Subsurface.MT3D
             {
                 Message = string.Format("Failed to load {0}. The package file does not exist: {1}", Name, FileName);
                 ShowWarning(Message, progress);
-                result = LoadingState.FatalError;
+                result = LoadingState.Warning;
             }
             OnLoaded(progress, new LoadingObjectState() { Message = Message, Object = this, State = result });
             return result;
@@ -337,10 +346,71 @@ namespace Heiflow.Models.Subsurface.MT3D
         public override void SaveAs(string filename, ICancelProgressHandler progress)
         {
             var grid = (Owner.Grid as IRegularGrid);
+            var nsp = TimeService.StressPeriods.Count;
+            var mf = Owner as Modflow;
+            var btnpck = mf.GetPackage(BTNPackage.PackageName) as BTNPackage;
+
             StreamWriter sw = new StreamWriter(filename);
-            WriteDefaultComment(sw, this.Name);
+            string line = string.Format("{0}{1}{2}{3}{4}{5} F F F F", FWEL ? " T" : " F", FDRN ? " T" : " F", FRCH ? " T" : " F", FEVT ? " T" : " F", FRIV ? " T" : " F", FGHB ? " T" : " F");
+            sw.WriteLine(line);
+            sw.WriteLine(MXSS.ToString().PadLeft(10, ' '));
+            for (int i = 0; i < nsp; i++)
+            {
+                if (FRCH)
+                {
+                    if (CRCH[0].Flags[i] == TimeVarientFlag.Repeat)
+                    {
+                        sw.WriteLine("        -1");
+                    }
+                    else
+                    {
+                        for (int j = 0; j < btnpck.NCOMP; j++)
+                        {
+                            WriteSerialFloatArrayMT3D(sw, CRCH[j], i, 0, "F6", 15, 10, "G15.6");
+                        }
+                    }
+                }
+                if (FEVT)
+                {
+                    if (CEVT[0].Flags[i] == TimeVarientFlag.Repeat)
+                    {
+                        sw.WriteLine("        -1");
+                    }
+                    else
+                    {
+                        for (int j = 0; j < btnpck.NCOMP; j++)
+                        {
+                            WriteSerialFloatArrayMT3D(sw, CEVT[j], i, 0, "F6", 15, 10, "G15.6");
+                        }
+                    }
+                }
+                sw.WriteLine(NSS[i].ToString().PadLeft(10, ' '));
+                if (NSS[i] > 0)
+                {
+                    for (int k = 0; k < NSS[i]; k++)
+                    {
+                        line = string.Format("{0}{1}{2}{3}{4}", PointSources[i][0, k, 0].ToString("F0").PadLeft(10, ' '), PointSources[i][0, k, 1].ToString("F0").PadLeft(10, ' '), PointSources[i][0, k, 2].ToString("F0").PadLeft(10, ' '),
+                            PointSources[i][0, k, 3].ToString("F6").PadLeft(10, ' '), PointSources[i][0, k, 0].ToString("F0").PadLeft(4, ' '));
+
+                        for (int j = 0; j < btnpck.NCOMP; j++)
+                        {
+                            line += PointSources[i][0, k, 5+j].ToString("F6").PadLeft(10, ' ');
+                        }
+                        sw.WriteLine(line);
+                    }
+                }
+            }
             sw.Close();
             OnSaved(progress);
+        }
+
+        public override void OnTimeServiceUpdated(ITimeService time)
+        {
+            if (ModflowInstance.Grid == null)
+                return;
+            InitArrays();
+       
+            base.OnTimeServiceUpdated(time);
         }
         public override void Clear()
         {

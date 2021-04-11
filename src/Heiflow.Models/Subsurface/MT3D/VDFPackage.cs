@@ -64,12 +64,8 @@ namespace Heiflow.Models.Subsurface.MT3D
             Version = "VDF";
             IsMandatory = false;
             _Layer3DToken = "RegularGrid";
-            //-1         1         0         0  MT3DRHOFLG   MFNADVFD   NSWTCPL   IWTABLE
-            MT3DRHOFLG = -1;
-            MFNADVFD = 1;
-            NSWTCPL = 0;
-            IWTABLE = 0;
             Category = Modflow.SEAWATCategory;
+            ResetToDefault();
         }
 
         [Category("Option")]
@@ -209,8 +205,42 @@ namespace Heiflow.Models.Subsurface.MT3D
         }
         public override void New()
         {
+            ResetToDefault();
             base.New();
         }
+
+        public override void ResetToDefault()
+        {
+            MT3DRHOFLG = -1;
+            MFNADVFD = 1;
+            NSWTCPL = 0;
+            IWTABLE = 0;
+
+            DENSEMIN = 0;
+            DENSEMAX =0;
+
+            DENSEREF = 1000;
+            DRHODPRHD = 0;
+            PRHDREF =0;
+
+
+            NSRHOEOS = 2;
+            SPEC = new DataCube2DLayout<float>(1, NSRHOEOS, 3);
+            SPEC.Name = "MT3DMS Species";
+            SPEC.ColumnNames[0] = "MTRHOSPEC";
+            SPEC.ColumnNames[1] = "DRHODC";
+            SPEC.ColumnNames[2] = "CRHOREF";
+
+            for (int i = 0; i < NSRHOEOS; i++)
+            {
+                SPEC.ILArrays[0][i, 0] = i+1;
+                SPEC.ILArrays[0][i, 1] = 7;
+                SPEC.ILArrays[0][i, 2] = 0;
+            }
+
+            FIRSTDT = 1;
+        }
+
         public override LoadingState Load(ICancelProgressHandler progress)
         {
             var result = LoadingState.Normal;
@@ -265,7 +295,7 @@ namespace Heiflow.Models.Subsurface.MT3D
                 {
                     Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
                     ShowWarning(Message, progress);
-                    result = LoadingState.FatalError;
+                    result = LoadingState.Warning;
                 }
                 finally
                 {
@@ -276,7 +306,7 @@ namespace Heiflow.Models.Subsurface.MT3D
             {
                 Message = string.Format("Failed to load {0}. The package file does not exist: {1}", Name, FileName);
                 ShowWarning(Message, progress);
-                result = LoadingState.FatalError;
+                result = LoadingState.Warning;
             }
             OnLoaded(progress, new LoadingObjectState() { Message = Message, Object = this, State = result });
             return result;
