@@ -121,27 +121,10 @@ namespace Heiflow.Models.Subsurface.MT3D
                 {
                     var grid = Owner.Grid as MFGrid;
                     var mf = Owner as Modflow;
-                    AL = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
-                    {
-                        ZeroDimension = DimensionFlag.Spatial
-                    };
-                    TRPT = new DataCube2DLayout<float>(1, 1, grid.ActualLayerCount);
-                    TRPV = new DataCube2DLayout<float>(1, 1, grid.ActualLayerCount);
-                    DMCOEF = new DataCube2DLayout<float>(1, 1, grid.ActualLayerCount);
-                    
+                    InitArrays(grid);
                     for (int i = 0; i < grid.ActualLayerCount; i++)
                     {
-                        AL.Variables[i] = "Longitudinal Dispersivity of Layer " + (i + 1);
                         ReadSerialArray<float>(sr, AL, i, 0);
-                    }
-                    TRPT.Variables[0] = "Ratio of TH to AL";                  
-                    TRPV.Variables[0] = "Ratio of TV to AL";
-                    DMCOEF.Variables[0] = "Effective Molecular Diffusion Coefficient";
-                    for (int i = 0; i < grid.ActualLayerCount; i++)
-                    {
-                        TRPT.ColumnNames[i] = "Layer " + (i + 1);
-                        TRPV.ColumnNames[i] = "Layer " + (i + 1);
-                        DMCOEF.ColumnNames[i] = "Layer " + (i + 1);
                     }
                     ReadSerialArray<float>(sr, TRPT, 0, 0);
                     ReadSerialArray<float>(sr, TRPV, 0, 0);
@@ -169,24 +152,54 @@ namespace Heiflow.Models.Subsurface.MT3D
             OnLoaded(progress, new LoadingObjectState() { Message = Message, Object = this, State = result });
             return result;
         }
-        public override void CompositeOutput(MFOutputPackage mfout)
-        {
-            var mf = Owner as Modflow;
-           UCNPackage acn = new UCNPackage()
-            {
-                Owner = mf,
-                Parent = this,
-                FileName = this.FileName
-            };
-            mfout.AddChild(acn);
-        }
+
         public override void SaveAs(string filename, ICancelProgressHandler progress)
         {
             var grid = (Owner.Grid as IRegularGrid);
             StreamWriter sw = new StreamWriter(filename);
-            WriteDefaultComment(sw, this.Name);
+            for (int i = 0; i < grid.ActualLayerCount; i++)
+            {
+                WriteSerialFloatArrayMT3D(sw, AL, i, 0, "F6", 15, "10G15.6");
+            }
+            WriteRegularArrayMT3D(sw, TRPT, 0, "F6", 15, "G15.6");
+            WriteRegularArrayMT3D(sw, TRPV, 0, "F6", 15, "G15.6");
+            WriteRegularArrayMT3D(sw, DMCOEF, 0, "F6", 15, "G15.6");
             sw.Close();
             OnSaved(progress);
+        }
+
+        private void InitArrays(MFGrid grid)
+        {
+            AL = new DataCube<float>(grid.ActualLayerCount, 1, grid.ActiveCellCount)
+            {
+                ZeroDimension = DimensionFlag.Spatial
+            };
+            TRPT = new DataCube2DLayout<float>(1, 1, grid.ActualLayerCount);
+            TRPV = new DataCube2DLayout<float>(1, 1, grid.ActualLayerCount);
+            DMCOEF = new DataCube2DLayout<float>(1, 1, grid.ActualLayerCount);
+
+            for (int i = 0; i < grid.ActualLayerCount; i++)
+            {
+                AL.Variables[i] = "Longitudinal Dispersivity of Layer " + (i + 1);
+            }
+            TRPT.Variables[0] = "Ratio of TH to AL";
+            TRPV.Variables[0] = "Ratio of TV to AL";
+            DMCOEF.Variables[0] = "Effective Molecular Diffusion Coefficient";
+            for (int i = 0; i < grid.ActualLayerCount; i++)
+            {
+                TRPT.ColumnNames[i] = "Layer " + (i + 1);
+                TRPV.ColumnNames[i] = "Layer " + (i + 1);
+                DMCOEF.ColumnNames[i] = "Layer " + (i + 1);
+            }
+        }
+        public override void OnGridUpdated(IGrid sender)
+        {
+            if (this.TimeService.StressPeriods.Count == 0)
+                return;
+            var mf = Owner as Modflow;
+            var grid = sender as MFGrid;
+            InitArrays(grid);
+            base.OnGridUpdated(sender);
         }
         public override void Clear()
         {

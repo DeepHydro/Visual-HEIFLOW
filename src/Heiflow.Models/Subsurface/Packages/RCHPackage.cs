@@ -108,12 +108,18 @@ namespace Heiflow.Models.Subsurface
         }
         public override void New()
         {
+            NRCHOP = 3;
             base.New();
         }
         public override void Attach(DotSpatial.Controls.IMap map, string directory)
         {
             this.Feature = Owner.Grid.FeatureSet;
             this.FeatureLayer = Owner.Grid.FeatureLayer;
+        }
+        public override void CompositeOutput(MFOutputPackage mfout)
+        {
+            var cbc = mfout.SelectChild(CBCPackage.PackageName);
+            this.IRCHCB = cbc.PackageInfo.FID;
         }
         public override LoadingState Load(ICancelProgressHandler progress)
         {
@@ -208,7 +214,7 @@ namespace Heiflow.Models.Subsurface
                 {
                     WriteSerialFloatArray(sw, RECH, i, 0, "F6", " # RECH");
                 }
-                if (IRCH.Flags[i] != TimeVarientFlag.Repeat)
+                if (NRCHOP == 2 && IRCH.Flags[i] != TimeVarientFlag.Repeat)
                 {
                     WriteSerialArray<int>(sw, IRCH, i, 0, "F0", " # IRCH");
                 }
@@ -217,12 +223,52 @@ namespace Heiflow.Models.Subsurface
             sw.Close();
             OnSaved(progress);
         }
-    
+        public override void OnTimeServiceUpdated(ITimeService time)
+        {
+            if (ModflowInstance.Grid == null)
+                return;
+            int nsp = TimeService.StressPeriods.Count;
+            RECH = new DataCube<float>(nsp, 1, this.Grid.ActiveCellCount)
+            {
+                ZeroDimension = DimensionFlag.Time
+            };
+            IRCH = new DataCube<int>(nsp, 1, this.Grid.ActiveCellCount)
+            {
+                ZeroDimension = DimensionFlag.Time
+            };
+            for (int i = 0; i < nsp; i++)
+            {
+                RECH.Variables[i] = "Recharge in Stress Period " + (i + 1);
+                IRCH.Variables[i] = "Layer numbers in Stress Period " + (i + 1);
+                if (i > 0)
+                {
+                    RECH.Flags[i] = TimeVarientFlag.Repeat;
+                    RECH.Multipliers[i] = 1;
+                    RECH.IPRN[i] = -1;
+
+                    IRCH.Flags[i] = TimeVarientFlag.Repeat;
+                    IRCH.Multipliers[i] = 1;
+                    IRCH.IPRN[i] = -1;
+                }
+                else
+                {
+                    RECH.Flags[i] = TimeVarientFlag.Individual;
+                    RECH.Multipliers[i] = 1;
+                    RECH.IPRN[i] = -1;
+
+                    IRCH.Flags[i] = TimeVarientFlag.Individual;
+                    IRCH.Multipliers[i] = 1;
+                    IRCH.IPRN[i] = -1;
+                }
+            }
+            base.OnTimeServiceUpdated(time);
+        }
         public override void Clear()
         {
             if (_Initialized)
                 this.Grid.Updated -= this.OnGridUpdated;
             RECH = null;
+            IRCH = null;
             base.Clear();
         }
      

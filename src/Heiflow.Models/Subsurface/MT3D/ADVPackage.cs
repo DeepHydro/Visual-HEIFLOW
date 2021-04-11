@@ -69,10 +69,10 @@ namespace Heiflow.Models.Subsurface.MT3D
             _Layer3DToken = "RegularGrid";
             
 
-            SolveOption = SolveOptionEnum.Third_Order_TVD;
+            MIXELM = SolveOptionEnum.Third_Order_TVD;
             PERCEL = 1.0f;
             MXPART = 9999;
-            WeightingScheme = WeightingSchemeEnum.Upstream;
+            NADVFD = WeightingSchemeEnum.Upstream;
             Category = Modflow.MT3DCategory;
         }
         [Category("Solve")]
@@ -80,7 +80,7 @@ namespace Heiflow.Models.Subsurface.MT3D
         /// <summary>
         /// The advection solution option
         /// </summary>
-        public SolveOptionEnum SolveOption
+        public SolveOptionEnum MIXELM
         {
             get;
             set;
@@ -104,7 +104,7 @@ namespace Heiflow.Models.Subsurface.MT3D
          }
          [Category("Solve")]
          [Description("An integer flag indicating which weighting scheme should be used; it is needed only when the advection term is solved using the implicit finitedifference method. 1: upstream weighting (default); 2: central-in-space weighting")]
-         public WeightingSchemeEnum WeightingScheme
+         public WeightingSchemeEnum NADVFD
          {
              get;
              set;
@@ -119,6 +119,8 @@ namespace Heiflow.Models.Subsurface.MT3D
         }
         public override void New()
         {
+            MIXELM = SolveOptionEnum.Third_Order_TVD;
+            PERCEL = 1;
             base.New();
         }
         public override LoadingState Load(ICancelProgressHandler progress)
@@ -133,12 +135,12 @@ namespace Heiflow.Models.Subsurface.MT3D
                     var mf = Owner as Modflow;
                     string line = sr.ReadLine();
                     var bufs = TypeConverterEx.Split<string>(line);
-                    SolveOption = EnumHelper.FromString<SolveOptionEnum>(bufs[0]);
+                    MIXELM = EnumHelper.FromString<SolveOptionEnum>(bufs[0]);
                     PERCEL = float.Parse(bufs[1]);
                     if(bufs.Length > 2)
                         MXPART = int.Parse(bufs[2]);
                     if (bufs.Length > 3)
-                    WeightingScheme = EnumHelper.FromString<WeightingSchemeEnum>(bufs[3]);
+                        NADVFD = EnumHelper.FromString<WeightingSchemeEnum>(bufs[3]);
                     result = LoadingState.Normal;
                 }
                 catch (Exception ex)
@@ -161,23 +163,18 @@ namespace Heiflow.Models.Subsurface.MT3D
             OnLoaded(progress, new LoadingObjectState() { Message = Message, Object = this, State = result });
             return result;
         }
-        public override void CompositeOutput(MFOutputPackage mfout)
-        {
-            var mf = Owner as Modflow;
-           UCNPackage acn = new UCNPackage()
-            {
-                Owner = mf,
-                Parent = this,
-                FileName = this.FileName
-            };
-            mfout.AddChild(acn);
-        }
+
         public override void SaveAs(string filename, ICancelProgressHandler progress)
         {
             var grid = (Owner.Grid as IRegularGrid);
             StreamWriter sw = new StreamWriter(filename);
-            WriteDefaultComment(sw, this.Name);
+            string line = string.Format("{0}{1}", ((int)MIXELM).ToString().PadLeft(10, ' '), PERCEL.ToString().PadLeft(10, ' '));
 
+            if(MIXELM == SolveOptionEnum.Method_Of_Characteristics || MIXELM== SolveOptionEnum.Third_Order_TVD)
+            {
+                line += MXPART.ToString().PadLeft(10, ' ');
+            }
+            sw.WriteLine(line);
             sw.Close();
             OnSaved(progress);
         }

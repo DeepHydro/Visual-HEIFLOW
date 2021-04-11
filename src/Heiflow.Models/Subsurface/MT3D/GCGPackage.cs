@@ -180,17 +180,7 @@ namespace Heiflow.Models.Subsurface.MT3D
             OnLoaded(progress, new LoadingObjectState() { Message = Message, Object = this, State = result });
             return result;
         }
-        public override void CompositeOutput(MFOutputPackage mfout)
-        {
-            var mf = Owner as Modflow;
-           UCNPackage acn = new UCNPackage()
-            {
-                Owner = mf,
-                Parent = this,
-                FileName = this.FileName
-            };
-            mfout.AddChild(acn);
-        }
+
         public override void SaveAs(string filename, ICancelProgressHandler progress)
         {
             var grid = (Owner.Grid as IRegularGrid);
