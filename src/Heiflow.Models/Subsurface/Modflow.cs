@@ -67,7 +67,7 @@ namespace Heiflow.Models.Subsurface
         /// .\Output\
         /// </summary>
         public const string OutputDic = ".\\Output\\";
-        private MFNameManager _MFNameManager;
+        protected MFNameManager _MFNameManager;
         public Modflow()
         {
             Name = "Modflow";
@@ -132,7 +132,7 @@ namespace Heiflow.Models.Subsurface
         public IFlowPropertyPackage FlowPropertyPackage
         {
             get;
-            private set;
+            protected set;
         }
 
         public override void Initialize()
@@ -537,7 +537,7 @@ namespace Heiflow.Models.Subsurface
             _MFNameManager.Save(ControlFileName);
         }
 
-        private void SelectVersion()
+        protected virtual void SelectVersion()
         {
             this.MFVersion = ModflowService.SelectedMFVersion;
             if (this.MFVersion == MODFLOWVersion.MFNWT)
@@ -546,7 +546,6 @@ namespace Heiflow.Models.Subsurface
                 foreach(var pck in ModflowService.SupportedPackages)
                 {
                     if(pck.Name == UPWPackage.PackageName)
-
                     {
                         pck.IsMandatory = true;
                     }

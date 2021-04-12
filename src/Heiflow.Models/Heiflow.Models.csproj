@@ -219,7 +219,7 @@
     <Compile Include="Subsurface\Packages\PCGPackage.cs" />
     <Compile Include="Subsurface\Packages\UPWPackage.cs" />
     <Compile Include="Subsurface\PHT3D\ACNPackage.cs" />
-    <Compile Include="Subsurface\PHT3D\VFT3DProject.cs" />
+    <Compile Include="Subsurface\MT3D\MT3DProject.cs" />
     <Compile Include="Subsurface\PHT3D\PHCPackage.cs" />
     <Compile Include="Surface\PRMS\PRMSDataPackage.cs" />
     <Compile Include="Running\Watcher\TxtWatcher.cs" />

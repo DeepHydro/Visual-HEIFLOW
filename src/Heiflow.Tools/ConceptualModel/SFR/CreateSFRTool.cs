@@ -516,20 +516,33 @@ namespace Heiflow.Tools.ConceptualModel
         {
             var shell = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
             var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
-            var model = prj.Project.Model as Heiflow.Models.Integration.HeiflowModel;
-
-            if (model != null && issucuess)
+            if (issucuess)
             {
-                var sfr = prj.Project.Model.GetPackage(SFRPackage.PackageName) as SFRPackage;
-                model.PRMSModel.MMSPackage.Parameters["nreach"].SetValue(0, 0, 0, sfr.NSTRM);
-                model.PRMSModel.MMSPackage.Parameters["nsegment"].SetValue(0, 0, 0, sfr.NSS);
-                model.PRMSModel.MMSPackage.IsDirty = true;
-                model.PRMSModel.MMSPackage.Save(null);
-                sfr.Attach(shell.MapAppManager.Map, prj.Project.GeoSpatialDirectory);
-                shell.ProjectExplorer.ClearContent();
-                shell.ProjectExplorer.AddProject(prj.Project);
-                sfr.UpdateFeature(shell.MapAppManager.Map, prj.Project.GeoSpatialDirectory);
+                if (prj.Project.Model is HeiflowModel)
+                {
+                    var model = prj.Project.Model as HeiflowModel;
+                    var sfr = prj.Project.Model.GetPackage(SFRPackage.PackageName) as SFRPackage;
+                    model.PRMSModel.MMSPackage.Parameters["nreach"].SetValue(0, 0, 0, sfr.NSTRM);
+                    model.PRMSModel.MMSPackage.Parameters["nsegment"].SetValue(0, 0, 0, sfr.NSS);
+                    model.PRMSModel.MMSPackage.IsDirty = true;
+                    model.PRMSModel.MMSPackage.Save(null);
+                    sfr.Attach(shell.MapAppManager.Map, prj.Project.GeoSpatialDirectory);
+                    shell.ProjectExplorer.ClearContent();
+                    shell.ProjectExplorer.AddProject(prj.Project);
+                    sfr.UpdateFeature(shell.MapAppManager.Map, prj.Project.GeoSpatialDirectory);
+                }
+                else if (prj.Project.Model is Modflow )
+                {
+                    var model = prj.Project.Model as Modflow;
+                    var sfr = prj.Project.Model.GetPackage(SFRPackage.PackageName) as SFRPackage;
+                    sfr.Attach(shell.MapAppManager.Map, prj.Project.GeoSpatialDirectory);
+                    shell.ProjectExplorer.ClearContent();
+                    shell.ProjectExplorer.AddProject(prj.Project);
+                    sfr.UpdateFeature(shell.MapAppManager.Map, prj.Project.GeoSpatialDirectory);
+                }
+
             }
+
         }
 
         private double FindNearestPointIndex(Coordinate[] path, Coordinate target)

@@ -850,12 +850,15 @@ namespace Heiflow.Models.Subsurface.MT3D
                 ICBUND.ILArrays[j][0, ":"] = 1;
             }
 
-            for (int i = 0; i < NCOMP; i++)
+            if (InitialConcentraion != null)
             {
-                for (int j = 0; j < NLAY; j++)
+                for (int i = 0; i < NCOMP; i++)
                 {
-                    SCONC.ILArrays[k][0, ":"] = InitialConcentraion[k];
-                    k++;
+                    for (int j = 0; j < NLAY; j++)
+                    {
+                        SCONC.ILArrays[k][0, ":"] = InitialConcentraion[k];
+                        k++;
+                    }
                 }
             }
             base.OnGridUpdated(sender);

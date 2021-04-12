@@ -32,6 +32,7 @@ using DotSpatial.Data;
 using Heiflow.Models.Generic.Project;
 using Heiflow.Models.GeoSpatial;
 using Heiflow.Models.Properties;
+using Heiflow.Models.Subsurface.MT3D;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
@@ -41,26 +42,19 @@ namespace Heiflow.Models.Subsurface
 {
      [Serializable]
     [Export(typeof(IProject))]
-    public class VFT3DProject : BaseProject
+    public class MT3DMSProject : BaseProject
     {
-         public VFT3DProject()
+         public MT3DMSProject()
         {
-            this.Name = "VFT3D Project";
-            this.NameToShown = "VFT3D";
+            this.Name = "MT3DMS Project";
+            this.NameToShown = "MT3DMS";
             this.Icon = Resources.mf16;
             this.LargeIcon = Resources.vft3d;
             Description = "Variable Flow Three-Dimensional Transporation Model";
-            Token = "Modflow2005";
+            Token = "MT3DMS";
             SupportedVersions = new string[] { "v2005" };
             SelectedVersion = "v2005";
-            //MODFLOWVersion = Subsurface.MODFLOWVersion.MF2005;
         }
-       //[Category("Model")]
-       // public MODFLOWVersion MODFLOWVersion
-       // {
-       //     get;
-       //     set;
-       // }
         public override bool New(ICancelProgressHandler progress, bool ImportFromExistingModel)
         {
             var succ = true;
@@ -76,7 +70,7 @@ namespace Heiflow.Models.Subsurface
             if (!ImportFromExistingModel)
             {
                 RelativeControlFileName = Name + ".nam";
-                var model = new Modflow()
+                var model = new MT3DModel()
                 {
                     Project = this,
                     WorkDirectory = FullModelWorkDirectory,
