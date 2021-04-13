@@ -153,7 +153,9 @@ namespace Heiflow.Models.Subsurface
                 }
                 else
                 {
-                    int colLine = (int)Math.Ceiling(col / (float)values.Length);
+                    int colLine = 1;
+                    if (col > values.Length)
+                        colLine = (int)Math.Ceiling(col / (float)values.Length);
                     for (int r = 0; r < row; r++)
                     {
                         int i = 0;
@@ -270,7 +272,9 @@ namespace Heiflow.Models.Subsurface
                 else
                 {
                     int index = 0;
-                    int colLine = (int)Math.Ceiling(col / ((float)values.Length));
+                    int colLine = 1;
+                    if (col > values.Length)
+                        colLine = (int)Math.Ceiling(col / (float)values.Length);
                     try
                     {
                         line += "\t";
@@ -354,7 +358,8 @@ namespace Heiflow.Models.Subsurface
                 }
                 else
                 {
-                    int colLine = (int)Math.Ceiling(col / 10.0);
+                 //   int colLine = (int)Math.Ceiling(col / 10.0);
+                    int colLine = (int)Math.Ceiling(col / (float)values.Length);
                     try
                     {
                         line += "\t";
@@ -375,14 +380,14 @@ namespace Heiflow.Models.Subsurface
                 mat.IPRN[var_index] = iprn;
             }
         }
-        public void ReadRegularArray<T>(StreamReader sr, DataCube<T> mat, int var_index)
+        public void ReadRegularArrayMT3D<T>(StreamReader sr, DataCube<T> mat, int var_index)
         {
             string line = sr.ReadLine().ToUpper();
             var strs = TypeConverterEx.Split<string>(line);
             var grid = Owner.Grid as IRegularGrid;
 
             // Read constant matrix
-            if (strs[0].ToUpper() == "CONSTANT")
+            if (strs[0].ToUpper() == "CONSTANT" || strs[0].ToUpper() == "0")
             {
                 var ar = TypeConverterEx.Split<string>(line);
                 T conv = TypeConverterEx.ChangeType<T>(ar[1]);
@@ -393,8 +398,8 @@ namespace Heiflow.Models.Subsurface
             // Read internal matrix
             else
             {
-                int row = grid.RowCount;
-                int col = grid.ColumnCount;
+                int row = mat.Size[1];
+                int col  = mat.Size[2];
                 int activeCount = grid.ActiveCellCount;
                 T multiplier = TypeConverterEx.ChangeType<T>(strs[1]);
                 int iprn = -1;
@@ -427,7 +432,9 @@ namespace Heiflow.Models.Subsurface
                 }
                 else
                 {
-                    int colLine = (int)Math.Ceiling(col / 10.0);
+                     int colLine = 1;
+                     if (col > values.Length)
+                         colLine = (int)Math.Ceiling(col / (float)values.Length);
                     try
                     {
                         line += "\t";
@@ -718,21 +725,6 @@ namespace Heiflow.Models.Subsurface
                     }
                     sw.WriteLine(line);
                 }
-            }
-        }
-
-        public void Write2DLayoutArray<T>(StreamWriter sw, DataCube2DLayout<T> mat, string format, string comment)
-        {
-            string line = string.Format("INTERNAL\t{0}\t(FREE)\t{1}\t{2}", mat.Multipliers[0], mat.IPRN[0], comment);
-            var grid = Owner.Grid as MFGrid;
-            int row = grid.RowCount;
-            int col = grid.ColumnCount;
-
-            sw.WriteLine(line);
-            for (int r = 0; r < row; r++)
-            {
-                line = string.Join(StreamReaderSequence.stab, mat[0, r.ToString(), ":"]);
-                sw.WriteLine(line);
             }
         }
         public void WriteDefaultComment(StreamWriter sw, string package)

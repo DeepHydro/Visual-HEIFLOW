@@ -81,5 +81,10 @@ namespace Heiflow.Models.Generic
         public IOState IOState { get; set; }
         public FileFormat Format { get; set; }
 
+        public void SetRelativeFileName(string name)
+        {
+            _FileName = name;
+        }
+
     }
 }

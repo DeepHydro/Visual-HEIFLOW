@@ -153,6 +153,7 @@ namespace Heiflow.Models.Running
         public static string STREAM_LEAKAGE_IN = "STREAM LEAKAGE IN";
         public static string LAKE_SEEPAGE_IN = "LAKE SEEPAGE IN";
         public static string STORAGE_IN = "STORAGE IN";
+        public static string HEAD_DEP_BOUNDS_IN = "HEAD DEP BOUNDS IN";
 
         public static string CONSTANT_HEAD_OUT = "CONSTANT HEAD OUT";
         public static string WELLS_OUT = "WELLS OUT";
@@ -164,6 +165,7 @@ namespace Heiflow.Models.Running
         public static string STREAM_LEAKAGE_OUT = "STREAM LEAKAGE OUT";
         public static string LAKE_SEEPAGE_OUT = "LAKE SEEPAGE OUT";
         public static string STORAGE_OUT = "STORAGE OUT";
+        public static string HEAD_DEP_BOUNDS_OUT = "HEAD DEP BOUNDS OUT";
 
         public static string SAT_IN = "Total SAT IN";
         public static string SAT_OUT = "Total SAT OUT";

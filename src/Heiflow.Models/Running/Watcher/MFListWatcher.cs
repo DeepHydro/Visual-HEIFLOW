@@ -150,6 +150,11 @@ namespace Heiflow.Models.Running
                                     {
                                         var_nm = buf[0] + " " + buf[1] + " IN";
                                     }
+                                    else if (buf.Length ==10)
+                                    {
+                                        var_nm = buf[0] + " " + buf[1] + " " + buf[2] + " IN";
+                                    }
+
                                     MonitorItem item = new MonitorItem(var_nm)
                                     {
                                         VariableIndex = i,
@@ -303,6 +308,10 @@ namespace Heiflow.Models.Running
                                 {
                                     vector[i] = double.Parse(buf[5]);
                                 }
+                                else if (buf.Length == 8)
+                                {
+                                    vector[i] = double.Parse(buf[7]);
+                                }
                                 total_in += vector[i];
                             }
                             for (int i = 0; i < 5; i++)
@@ -321,6 +330,10 @@ namespace Heiflow.Models.Running
                                 else if (buf.Length == 6)
                                 {
                                     vector[i] = double.Parse(buf[5]);
+                                }
+                                else if (buf.Length == 8)
+                                {
+                                    vector[i] = double.Parse(buf[7]);
                                 }
                                 total_out += vector[i];
                             }

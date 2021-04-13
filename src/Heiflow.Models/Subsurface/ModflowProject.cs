@@ -39,7 +39,7 @@ using System.IO;
 
 namespace Heiflow.Models.Subsurface
 {
-     [Serializable]
+    [Serializable]
     [Export(typeof(IProject))]
     public class ModflowProject : BaseProject
     {
@@ -55,7 +55,7 @@ namespace Heiflow.Models.Subsurface
             SelectedVersion = "v2005";
             MODFLOWVersion = Subsurface.MODFLOWVersion.MF2005;
         }
-       [Category("Model")]
+        [Category("Model")]
         public MODFLOWVersion MODFLOWVersion
         {
             get;
@@ -70,7 +70,7 @@ namespace Heiflow.Models.Subsurface
             System.IO.Directory.CreateDirectory(MFInputDirectory);
             System.IO.Directory.CreateDirectory(OutputDirectory);
 
-            RelativeMapFileName = Name + ".dspx";    
+            RelativeMapFileName = Name + ".dspx";
             FullProjectFileName = Path.Combine(AbsolutePathToProjectFile, Name + ".vhfx");
 
             if (!ImportFromExistingModel)
@@ -87,6 +87,7 @@ namespace Heiflow.Models.Subsurface
                 model.Version = this.SelectedVersion;
                 this.Model = model;
             }
+            SaveBatchRunFile();
             _IsDirty = true;
             return true;
         }
@@ -112,6 +113,7 @@ namespace Heiflow.Models.Subsurface
             }
 
             Model.Attach(this.Map, this.GeoSpatialDirectory);
+            CheckBatchRunFile();
         }
 
         public override void CreateGridFeature()
@@ -138,10 +140,14 @@ namespace Heiflow.Models.Subsurface
 
             this.Map.Invalidate();
         }
-
-        public override void Clear()
+        protected override void SaveBatchRunFile()
         {
-           
+            var filename = Path.Combine(AbsolutePathToProjectFile, "run.bat");
+            StreamWriter sw = new StreamWriter(filename);
+            var line = string.Format("{0} {1}", ModelExeFileName, Name + ".nam");
+            sw.WriteLine(line);
+            sw.WriteLine("Pause");
+            sw.Close();
         }
     }
 }

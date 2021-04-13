@@ -53,7 +53,7 @@ namespace Heiflow.Models.Subsurface
     [Export(typeof(IMFPackage))]
     public class RCHPackage : MFPackage
     {
-        public static string PackageName = "CHD";
+        public static string PackageName = "RCH";
         public RCHPackage()
         {
             Name = "RCH";
@@ -104,6 +104,7 @@ namespace Heiflow.Models.Subsurface
             this.Grid = Owner.Grid;
             this.Grid.Updated += this.OnGridUpdated;
             this.TimeService = Owner.TimeService;
+            this.TimeService.Updated += this.OnTimeServiceUpdated;
             base.Initialize();
         }
         public override void New()
@@ -122,6 +123,46 @@ namespace Heiflow.Models.Subsurface
         {
 
         }
+
+        private void InitArrays()
+        {
+            int nsp = TimeService.StressPeriods.Count;
+            RECH = new DataCube<float>(nsp, 1, this.Grid.ActiveCellCount)
+            {
+                ZeroDimension = DimensionFlag.Time
+            };
+            IRCH = new DataCube<int>(nsp, 1, this.Grid.ActiveCellCount)
+            {
+                ZeroDimension = DimensionFlag.Time
+            };
+            for (int i = 0; i < nsp; i++)
+            {
+                RECH.Variables[i] = "Recharge in Stress Period " + (i + 1);
+                IRCH.Variables[i] = "Layer numbers in Stress Period " + (i + 1);
+                if (i > 0)
+                {
+                    RECH.Flags[i] = TimeVarientFlag.Repeat;
+                    RECH.Multipliers[i] = 1;
+                    RECH.IPRN[i] = -1;
+
+                    IRCH.Flags[i] = TimeVarientFlag.Repeat;
+                    IRCH.Multipliers[i] = 1;
+                    IRCH.IPRN[i] = -1;
+                }
+                else
+                {
+                    RECH.Flags[i] = TimeVarientFlag.Individual;
+                    RECH.Multipliers[i] = 1;
+                    RECH.IPRN[i] = -1;
+                    RECH.ILArrays[0][0, ":"] = 0.001f;
+
+                    IRCH.Flags[i] = TimeVarientFlag.Individual;
+                    IRCH.Multipliers[i] = 1;
+                    IRCH.IPRN[i] = -1;
+                }
+            }
+        }
+
         public override LoadingState Load(ICancelProgressHandler progress)
         {
             var result = LoadingState.Normal;
@@ -228,41 +269,15 @@ namespace Heiflow.Models.Subsurface
         {
             if (ModflowInstance.Grid == null)
                 return;
-            int nsp = TimeService.StressPeriods.Count;
-            RECH = new DataCube<float>(nsp, 1, this.Grid.ActiveCellCount)
-            {
-                ZeroDimension = DimensionFlag.Time
-            };
-            IRCH = new DataCube<int>(nsp, 1, this.Grid.ActiveCellCount)
-            {
-                ZeroDimension = DimensionFlag.Time
-            };
-            for (int i = 0; i < nsp; i++)
-            {
-                RECH.Variables[i] = "Recharge in Stress Period " + (i + 1);
-                IRCH.Variables[i] = "Layer numbers in Stress Period " + (i + 1);
-                if (i > 0)
-                {
-                    RECH.Flags[i] = TimeVarientFlag.Repeat;
-                    RECH.Multipliers[i] = 1;
-                    RECH.IPRN[i] = -1;
-
-                    IRCH.Flags[i] = TimeVarientFlag.Repeat;
-                    IRCH.Multipliers[i] = 1;
-                    IRCH.IPRN[i] = -1;
-                }
-                else
-                {
-                    RECH.Flags[i] = TimeVarientFlag.Individual;
-                    RECH.Multipliers[i] = 1;
-                    RECH.IPRN[i] = -1;
-
-                    IRCH.Flags[i] = TimeVarientFlag.Individual;
-                    IRCH.Multipliers[i] = 1;
-                    IRCH.IPRN[i] = -1;
-                }
-            }
+            InitArrays();
             base.OnTimeServiceUpdated(time);
+        }
+        public override void OnGridUpdated(IGrid sender)
+        {
+            if (this.TimeService.StressPeriods.Count == 0)
+                return;
+            InitArrays();
+            base.OnGridUpdated(sender);
         }
         public override void Clear()
         {

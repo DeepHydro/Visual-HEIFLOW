@@ -154,14 +154,7 @@ namespace Heiflow.Models.Integration
 
             this.Map.Invalidate();
         }
-
-        public override void Clear()
-        {
-            if(this.Model != null)
-                this.Model.Clear();
-        }
-
-        private void SaveBatchRunFile()
+        protected override void SaveBatchRunFile()
         {
            var  filename = Path.Combine(AbsolutePathToProjectFile, "run.bat");
            StreamWriter sw = new StreamWriter(filename);
@@ -171,35 +164,5 @@ namespace Heiflow.Models.Integration
            sw.Close();
         }
 
-        private void CheckBatchRunFile()
-        {
-            var filename = Path.Combine(AbsolutePathToProjectFile, "run.bat");
-            if(File.Exists(filename))
-            {
-                StreamReader sr = new StreamReader(filename);
-                var line = sr.ReadLine();
-                var strs = TypeConverterEx.Split<string>(line);
-                bool need_fix = false;
-                if(strs.Length == 2)
-                {
-                    if(!File.Exists(strs[0]))
-                    {
-                        need_fix = true;
-                    }
-                    
-                }
-               else
-                {
-                    need_fix = true;
-                }
-                sr.Close();
-                if (need_fix)
-                    SaveBatchRunFile();
-            }
-            else
-            {
-                SaveBatchRunFile();
-            }
-        }
     }
 }

@@ -68,7 +68,7 @@ namespace Heiflow.Models.Subsurface
             NPCOND = 1;
             IHCOFADD = 0;
             HCLOSE = 0.01f;
-            RCLOSE = 0.01f;
+            RCLOSE = 100;
             RELAX = 0.99f;
             NBPOL = 1;
             IPRPCG = 1;

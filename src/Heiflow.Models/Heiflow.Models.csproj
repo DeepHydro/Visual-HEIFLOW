@@ -171,15 +171,16 @@
     <Compile Include="IO\BilFile.cs" />
     <Compile Include="IO\DcxFileProvider.cs" />
     <Compile Include="IO\SecurityFile.cs" />
-    <Compile Include="Subsurface\MT3D\VDFPackage.cs" />
-    <Compile Include="Subsurface\MT3D\GCGPackage.cs" />
-    <Compile Include="Subsurface\MT3D\SSMPackage.cs" />
-    <Compile Include="Subsurface\MT3D\DSPPackage.cs" />
-    <Compile Include="Subsurface\MT3D\ADVPackage.cs" />
-    <Compile Include="Subsurface\MT3D\MT3DPackFileNameProvider.cs" />
-    <Compile Include="Subsurface\MT3D\MT3DModel.cs" />
-    <Compile Include="Subsurface\MT3D\UCNPackage.cs" />
-    <Compile Include="Subsurface\MT3D\BTNPackage.cs" />
+    <Compile Include="Subsurface\MT3DMS\OpenMT3DMSProjectFileProvider.cs" />
+    <Compile Include="Subsurface\MT3DMS\VDFPackage.cs" />
+    <Compile Include="Subsurface\MT3DMS\GCGPackage.cs" />
+    <Compile Include="Subsurface\MT3DMS\SSMPackage.cs" />
+    <Compile Include="Subsurface\MT3DMS\DSPPackage.cs" />
+    <Compile Include="Subsurface\MT3DMS\ADVPackage.cs" />
+    <Compile Include="Subsurface\MT3DMS\MT3DPackFileNameProvider.cs" />
+    <Compile Include="Subsurface\MT3DMS\MT3DMSModel.cs" />
+    <Compile Include="Subsurface\MT3DMS\UCNPackage.cs" />
+    <Compile Include="Subsurface\MT3DMS\BTNPackage.cs" />
     <Compile Include="Subsurface\OpenModflowProjectFileProvider.cs" />
     <Compile Include="Generic\TimeService.cs" />
     <Compile Include="Generic\ModelService.cs" />
@@ -218,9 +219,13 @@
     <Compile Include="Subsurface\Packages\SUBPackage.cs" />
     <Compile Include="Subsurface\Packages\PCGPackage.cs" />
     <Compile Include="Subsurface\Packages\UPWPackage.cs" />
-    <Compile Include="Subsurface\PHT3D\ACNPackage.cs" />
-    <Compile Include="Subsurface\MT3D\MT3DProject.cs" />
-    <Compile Include="Subsurface\PHT3D\PHCPackage.cs" />
+    <Compile Include="Subsurface\VFT3D\ACNPackage.cs" />
+    <Compile Include="Subsurface\MT3DMS\MT3DMSProject.cs" />
+    <Compile Include="Subsurface\VFT3D\OpenVFT3DProjectFileProvider.cs" />
+    <Compile Include="Subsurface\VFT3D\VFT3DPackFileNameProvider.cs" />
+    <Compile Include="Subsurface\VFT3D\VFT3DModel.cs" />
+    <Compile Include="Subsurface\VFT3D\VFT3DProject.cs" />
+    <Compile Include="Subsurface\VFT3D\PHCPackage.cs" />
     <Compile Include="Surface\PRMS\PRMSDataPackage.cs" />
     <Compile Include="Running\Watcher\TxtWatcher.cs" />
     <Compile Include="Running\Watcher\CSVWatcher.cs" />
@@ -460,6 +465,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\vft3d.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\vft3dms.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

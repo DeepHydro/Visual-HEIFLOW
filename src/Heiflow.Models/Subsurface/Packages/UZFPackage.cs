@@ -663,19 +663,23 @@ namespace Heiflow.Models.Subsurface
             int np = TimeService.StressPeriods.Count;
             this.FINF = new DataCube<float>(np, 1, grid.ActiveCellCount)
             {
-                Name = "FINF",ZeroDimension = DimensionFlag.Spatial
+                Name = "FINF",
+                ZeroDimension = DimensionFlag.Time
             };
             this.PET = new DataCube<float>(np, 1, grid.ActiveCellCount)
             {
-                Name = "PET",ZeroDimension = DimensionFlag.Spatial
+                Name = "PET",
+                ZeroDimension = DimensionFlag.Time
             };
             this.EXTDP = new DataCube<float>(np, 1, grid.ActiveCellCount)
             {
-                Name = "EXTDP",ZeroDimension = DimensionFlag.Spatial
+                Name = "EXTDP",
+                ZeroDimension = DimensionFlag.Time
             };
             this.EXTWC = new DataCube<float>(np, 1, grid.ActiveCellCount)
             {
-                Name = "EXTWC",ZeroDimension = DimensionFlag.Spatial
+                Name = "EXTWC",
+                ZeroDimension = DimensionFlag.Time
             };
 
             this.FINF.Topology = grid.Topology;

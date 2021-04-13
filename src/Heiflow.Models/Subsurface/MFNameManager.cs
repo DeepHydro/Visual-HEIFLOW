@@ -129,6 +129,15 @@ namespace Heiflow.Models.Subsurface
                 return -1;
         }
 
+        public PackageInfo GetPckInfo(string pck_name)
+        {
+            var buf = from pck in MasterList where pck.ModuleName == pck_name select pck;
+            if (buf.Any())
+                return buf.First();
+            else
+                return null;
+        }
+
         public void Clear()
         {
             MasterList.Clear();
@@ -151,7 +160,7 @@ namespace Heiflow.Models.Subsurface
             }
             foreach (var pckinfo in MasterList)
             {
-                if (pckinfo.IOState == IOState.OLD && pckinfo.ModuleName != "DATA")
+                if (pckinfo.IOState == IOState.OLD && pckinfo.ModuleName != "DATA" && pckinfo.ModuleName != "LIST")
                 {
                     line = string.Format("{0}\t\t{1}\t\t{2}\t\t{3}", pckinfo.ModuleName, pckinfo.FID, pckinfo.RelativeFileName, pckinfo.IOState.ToString());
                     sw.WriteLine(line);

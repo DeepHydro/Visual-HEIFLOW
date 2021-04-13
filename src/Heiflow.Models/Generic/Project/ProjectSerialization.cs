@@ -163,7 +163,7 @@ namespace Heiflow.Models.Generic.Project
               string pname = GetProviderName(fileName);
               string errormsg = "";
               SetCurrentProjectDirectory(dic);
-
+              bool provider_found = false;
               foreach (var provider in OpenProjectFileProviders)
               {
                   if (String.Equals(provider.ProviderName, pname, StringComparison.OrdinalIgnoreCase))
@@ -202,6 +202,7 @@ namespace Heiflow.Models.Generic.Project
                                   CurrentProject.GridFileFactory = this.GridFileFactory;
                                   CurrentProject.DataCubeFileFactory = this.DataCubeFileFactory;
                                   loaded = mod.Load(CurrentProject, progress);
+                                  provider_found = true;
                               }
                               catch (Exception ex)
                               {
@@ -217,6 +218,11 @@ namespace Heiflow.Models.Generic.Project
                       }
                       break;
                   }
+              }
+              if (!provider_found)
+              {
+                  loaded = LoadingState.FatalError;
+                  errormsg = "The project can't be opened because no project provider found";
               }
               if (loaded != LoadingState.FatalError)
               {

@@ -1,0 +1,114 @@
+SOLUTION_MASTER_SPECIES
+#
+#element species        alk     gfw_formula     element_gfw
+#
+H        H+             -1.     H               1.008
+H(0)     H2             0.0     H
+H(1)     H+             -1.     0.0
+E        e-             0.0     0.0             0.0
+O        H2O            0.0     O               16.00
+O(0)     O2             0.0     O
+O(-2)    H2O            0.0     0.0
+Ca       Ca+2           0.0     Ca              40.08
+Na       Na+            0.0     Na              22.9898
+K        K+             0.0     K               39.102
+Cl       Cl-            0.0     Cl              35.453
+N        NO3-           0.0     N               14.0067
+N(+5)    NO3-           0.0     N
+
+SOLUTION_SPECIES
+
+H+ = H+
+        log_k           0.000
+        -gamma          9.0000    0.0000
+
+e- = e-
+        log_k           0.000
+
+H2O = H2O
+        log_k           0.000
+
+Ca+2 = Ca+2
+        log_k           0.000
+        -gamma    5.0000    0.1650
+
+Na+ = Na+
+        log_k           0.000
+        -gamma    4.0000    0.0750
+
+K+ = K+
+        log_k           0.000
+        -gamma    3.5000    0.0150
+
+Cl- = Cl-
+        log_k           0.000
+        -gamma    3.5000    0.0150
+
+NO3- = NO3-
+        log_k           0.000
+        -gamma    3.0000    0.0000
+
+H2O = OH- + H+
+        log_k           -14.000
+        delta_h 13.362  kcal
+        -analytic       -283.971       -0.05069842  13323.0    102.24447      -1119669.0
+        -gamma    3.5000    0.0000
+
+2 H2O = O2 + 4 H+ + 4 e-
+        log_k           -86.08
+        delta_h 134.79 kcal
+
+2 H+ + 2 e- = H2
+        log_k           -3.15
+        delta_h -1.759
+
+Ca+2 + H2O = CaOH+ + H+
+        log_k           -12.780
+
+Na+ + H2O = NaOH + H+
+        log_k           -14.180
+
+K+ + H2O = KOH + H+
+        log_k           -14.460
+
+PHASES
+
+O2(g)
+        O2 = O2
+        log_k           -2.960
+        delta_h -1.844  kcal
+
+H2(g)
+        H2 = H2
+        log_k           -3.150
+        delta_h -1.759  kcal
+
+EXCHANGE_MASTER_SPECIES
+        X       X-
+EXCHANGE_SPECIES
+        X- = X-
+        log_k           0.0
+
+        Na+ + X- = NaX
+        log_k           0.0
+	
+K+ + X- = KX
+	log_k	0.7
+	-gamma	3.5	0.015
+	delta_h  -4.3	# Jardine & Sparks, 1984
+
+
+
+#        K+ + X- = KX
+#        log_k           0.7
+
+
+	Ca+2 + 2X- = CaX2
+	log_k	0.8
+	-gamma	5.0	0.165
+	delta_h  7.2    # Van Bladel & Gheyl, 1980
+
+#        Ca+2 + 2X- = CaX2
+#        log_k           0.8
+
+END

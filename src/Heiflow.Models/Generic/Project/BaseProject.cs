@@ -478,9 +478,14 @@ namespace Heiflow.Models.Generic.Project
         }
 
         public abstract bool New(ICancelProgressHandler progress, bool ImportFromExistingModel);
-        public abstract void Clear();
+        public virtual void Clear()
+        {
+            if (this.Model != null)
+                this.Model.Clear();
+        }
         public abstract void AttachFeatures();
         public abstract void CreateGridFeature();
+        protected abstract void SaveBatchRunFile();
 
         public bool ContainsCoverage(string legendtext)
         {
@@ -493,6 +498,37 @@ namespace Heiflow.Models.Generic.Project
             {
                 var rasc = from ras in this.RasterLayerCoverages where ras.LegendText == legendtext select ras;
                 return rasc.Any();
+            }
+        }
+
+        protected virtual void CheckBatchRunFile()
+        {
+            var filename = Path.Combine(AbsolutePathToProjectFile, "run.bat");
+            if (File.Exists(filename))
+            {
+                StreamReader sr = new StreamReader(filename);
+                var line = sr.ReadLine();
+                var strs = TypeConverterEx.Split<string>(line);
+                bool need_fix = false;
+                if (strs.Length == 2)
+                {
+                    if (!File.Exists(strs[0]))
+                    {
+                        need_fix = true;
+                    }
+
+                }
+                else
+                {
+                    need_fix = true;
+                }
+                sr.Close();
+                if (need_fix)
+                    SaveBatchRunFile();
+            }
+            else
+            {
+                SaveBatchRunFile();
             }
         }
     }
