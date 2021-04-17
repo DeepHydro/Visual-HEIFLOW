@@ -57,10 +57,10 @@ namespace Heiflow.Plugins.Default
         }
         public override void Activate()
         {
-            _heiflow_time = new SimpleActionItem("kModel", "HEIFLOW Time", HeiflowTime_Clicked)
+            _heiflow_time = new SimpleActionItem("kModel", "Model Time", HeiflowTime_Clicked)
             {
                 Key = "kHeiflowTime",
-                ToolTipText = "Set HEIFLOW Time",
+                ToolTipText = "Set Model Time",
                 GroupCaption = "Time",
                 LargeImage = Properties.Resources.calendar_32,
                 SortOrder = 1
@@ -71,7 +71,6 @@ namespace Heiflow.Plugins.Default
         public override void Deactivate()
         {
             App.HeaderControl.Remove("kHeiflowTime");
-            App.HeaderControl.Remove("_mf_time");
             base.Deactivate();
         }
 

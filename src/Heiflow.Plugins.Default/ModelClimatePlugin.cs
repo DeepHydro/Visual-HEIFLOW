@@ -59,7 +59,6 @@ namespace Heiflow.Plugins.Default
 
         public override void Activate()
         {
-
             _Weather = new SimpleActionItem("kModel", "Weather Generator", WeatherGenerator_Clicked)
             {
                 Key = "kWeatherGenerator",

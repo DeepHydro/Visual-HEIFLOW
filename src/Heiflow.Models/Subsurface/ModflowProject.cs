@@ -54,6 +54,8 @@ namespace Heiflow.Models.Subsurface
             SupportedVersions = new string[] { "v2005" };
             SelectedVersion = "v2005";
             MODFLOWVersion = Subsurface.MODFLOWVersion.MF2005;
+
+            _removedHeaderItemKeys = new string[] { "kGlobalSet", "kParaViewer", "kParaMapping", "kRunCascade", "kGlobalSet" };
         }
         [Category("Model")]
         public MODFLOWVersion MODFLOWVersion

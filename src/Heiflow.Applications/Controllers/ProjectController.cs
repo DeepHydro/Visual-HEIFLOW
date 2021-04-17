@@ -263,6 +263,13 @@ namespace Heiflow.Applications.Controllers
                     _ProjectService.Project.ODMSource.Open();
                 }
                 _ProjectService.RaiseProjectOpenedOrCreated(MapAppManager.Map, this.Project);
+
+                if (_ProjectService.Project.RemovedHeaderItemKeys != null)
+                {
+                    foreach (var key in _ProjectService.Project.RemovedHeaderItemKeys)
+                        MapAppManager.HeaderControl.Remove(key);
+                    //MapAppManager.HeaderControl.
+                }
             }
             else
             {

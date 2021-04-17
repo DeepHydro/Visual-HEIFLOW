@@ -32,6 +32,7 @@ using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Project;
 using Heiflow.Models.Subsurface;
+using Heiflow.Models.Subsurface.MT3DMS;
 using Heiflow.Models.UI;
 using System;
 using System.Collections.Generic;
@@ -76,16 +77,24 @@ namespace Heiflow.Models.Subsurface
         {
             var succ = LoadingState.Normal;
             ModelService.WorkDirectory = project.FullModelWorkDirectory;
+            Modflow model = null;
             if (project.Model == null)
             {
-                project.Model = new Modflow();
+                if (project is ModflowProject)
+                    model = new Modflow();
+                else if (project is MT3DMSProject)
+                    model = new MT3DMSModel();
+                else if (project is VFT3D.VFT3DProject)
+                    model = new VFT3D.VFT3DModel();
+
+                project.Model = model;
                 project.Model.Project = project;
             }
             else
             {
                 project.Model.Clear();
             }
-            var model = project.Model as Modflow;
+            model = project.Model as Modflow;
             model.Project = project;
             model.WorkDirectory = project.FullModelWorkDirectory;
             model.ControlFileName = project.RelativeControlFileName;
@@ -108,7 +117,14 @@ namespace Heiflow.Models.Subsurface
         public LoadingState Load(IProject project, ICancelProgressHandler progress)
         {
             ModelService.WorkDirectory = project.FullModelWorkDirectory;
-            Modflow model = new Modflow();
+            Modflow model = null;
+            if (project is MT3DMSProject)
+                model = new MT3DMSModel();
+            else if (project is VFT3D.VFT3DProject)
+                model = new VFT3D.VFT3DModel();
+            else if (project is ModflowProject)
+                model = new Modflow();
+
             model.ControlFileName = project.RelativeControlFileName;
             model.WorkDirectory = project.FullModelWorkDirectory;
             model.Project = project;

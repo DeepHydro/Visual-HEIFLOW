@@ -75,7 +75,7 @@ namespace Heiflow.Models.Subsurface.VFT3D
             ModflowService.SelectedMFVersion = MODFLOWVersion.MF2005;
             var need_change_mfpcks = new string[] { SFRPackage.PackageName, UZFPackage.PackageName};
             var need_change_mt3dpcks = new string[] { BTNPackage.PackageName, ADVPackage.PackageName,  DSPPackage.PackageName,
-              GCGPackage.PackageName,SSMPackage.PackageName, PHCPackage.PackageName, RCHPackage.PackageName,VDFPackage.PackageName };
+              GCGPackage.PackageName,SSMPackage.PackageName, PHCPackage.PackageName, RCHPackage.PackageName,VDFPackage.PackageName,LMTPackage.PackageName };
             foreach (var pck in ModflowService.SupportedPackages)
             {                
                 if ( need_change_mfpcks.Contains( pck.Name))

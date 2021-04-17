@@ -145,7 +145,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             DataCube.Topology = (this.Grid as RegularGrid).Topology;
             DataCube.DateTimes = this.TimeService.Timeline.Take(StepsToLoad).ToArray();
             var fn = string.Format("PHT3D{0}.UCN", (var_index + 4).ToString().PadLeft(3, '0'));
-            var file = Path.Combine(Path.GetDirectoryName(this.FileName), fn);
+            var file = Path.Combine(Owner.Project.AbsolutePathToProjectFile, fn);
             if (File.Exists(file))
             {
                 FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);

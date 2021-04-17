@@ -62,6 +62,7 @@ namespace Heiflow.Models.Generic.Project
         protected List<ITimeService> _TimeServices = new List<ITimeService>();
         protected bool _IsDirty;
         protected string _SelectedVersion;
+        protected string[] _removedHeaderItemKeys;
         public BaseProject()
         {
             this.Name = "Project";
@@ -142,6 +143,19 @@ namespace Heiflow.Models.Generic.Project
         {
             get;
             set;
+        }
+        [XmlIgnore]
+        [Browsable(false)]
+        public string[] RemovedHeaderItemKeys
+        {
+            get
+            {
+                return _removedHeaderItemKeys;
+            }
+            set
+            {
+                _removedHeaderItemKeys = value;
+            }
         }
 
         /// <summary>

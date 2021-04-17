@@ -171,6 +171,7 @@
     <Compile Include="IO\BilFile.cs" />
     <Compile Include="IO\DcxFileProvider.cs" />
     <Compile Include="IO\SecurityFile.cs" />
+    <Compile Include="Subsurface\MT3DMS\LMTPackage.cs" />
     <Compile Include="Subsurface\MT3DMS\OpenMT3DMSProjectFileProvider.cs" />
     <Compile Include="Subsurface\MT3DMS\VDFPackage.cs" />
     <Compile Include="Subsurface\MT3DMS\GCGPackage.cs" />

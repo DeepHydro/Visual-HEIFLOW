@@ -144,7 +144,8 @@ namespace Heiflow.Models.Subsurface.VFT3D
             DataCube.Topology = (this.Grid as RegularGrid).Topology;
             DataCube.DateTimes = this.TimeService.Timeline.Take(StepsToLoad).ToArray();
             var fn = string.Format("PHT3D{0}.ACN", (var_index + 1).ToString().PadLeft(3, '0'));
-            var file = Path.Combine(Path.GetDirectoryName(this.FileName), fn);
+            //   var file = Path.Combine(Path.GetDirectoryName(this.FileName), fn);
+            var file = Path.Combine(Owner.Project.AbsolutePathToProjectFile, fn);
             if (File.Exists(file))
             {
                 StreamReader sr = null;
@@ -152,38 +153,32 @@ namespace Heiflow.Models.Subsurface.VFT3D
                 {
                     sr = new StreamReader(file);
                     var cell_index = grid.Topology.GetIndexIn2DMat();
-                    //if (LoadAllLayers)
-                    //{
-                        string line = "";
-                        float[] cells = new float[grid.RowCount * grid.ColumnCount];
-                        int prog = 0;
-                        for (int t = 0; t < StepsToLoad; t++)
+
+                    string line = "";
+                    float[] cells = new float[grid.RowCount * grid.ColumnCount];
+                    int prog = 0;
+                    for (int t = 0; t < StepsToLoad; t++)
+                    {
+                        for (int k = 0; k < grid.ActualLayerCount; k++)
                         {
-                            for (int k = 0; k < grid.ActualLayerCount; k++)
+                            int c = 0;
+                            for (int i = 0; i < grid.RowCount; i++)
                             {
-                                int c = 0;
-                                for (int i = 0; i < grid.RowCount; i++)
+                                for (int j = 0; j < grid.ColumnCount; j++)
                                 {
-                                    for (int j = 0; j < grid.ColumnCount; j++)
-                                    {
-                                        line = sr.ReadLine();
-                                        cells[c] = float.Parse(line.Trim());
-                                        c++;
-                                    }
-                                }
-                                for (int a = 0; a < grid.ActiveCellCount; a++)
-                                {
-                                    DataCube[var_index, t, k * grid.ActiveCellCount + a] = cells[cell_index[a]];
+                                    line = sr.ReadLine();
+                                    cells[c] = float.Parse(line.Trim());
+                                    c++;
                                 }
                             }
-                            prog = Convert.ToInt32(t * 100 / StepsToLoad);
-                            OnLoading(prog);
+                            for (int a = 0; a < grid.ActiveCellCount; a++)
+                            {
+                                DataCube[var_index, t, k * grid.ActiveCellCount + a] = cells[cell_index[a]];
+                            }
                         }
-                    //}
-                    //else
-                    //{
-
-                    //}
+                        prog = Convert.ToInt32(t * 100 / StepsToLoad);
+                        OnLoading(prog);
+                    }
                     result = LoadingState.Normal;
                     OnLoaded(progress, new LoadingObjectState() { Message = Message, Object = this, State = result });
                 }
@@ -207,7 +202,6 @@ namespace Heiflow.Models.Subsurface.VFT3D
             }
             return result;
         }
-
 
         public override void Clear()
         {

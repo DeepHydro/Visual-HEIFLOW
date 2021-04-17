@@ -85,7 +85,7 @@ namespace Heiflow.Models.Subsurface.VFT3D
             string phc_dbfile = Path.Combine(Application.StartupPath, "data\\pht3d_datab.dat");
             if(File.Exists(phc_dbfile))
             {
-                var dest = Path.Combine(Application.StartupPath, "pht3d_datab.dat");
+                var dest = Path.Combine(AbsolutePathToProjectFile, "pht3d_datab.dat");
                 File.Copy(phc_dbfile, dest, true);
             }
             SaveBatchRunFile();

@@ -141,6 +141,8 @@ namespace Heiflow.Models.Generic.Project
         ObservableCollection<RasterCoverage> RasterLayerCoverages { get; set; }
         [Browsable(false)]
         ODMSource ODMSource { get; set; }
+         [Browsable(false)]
+        string[] RemovedHeaderItemKeys { get; }
         [Browsable(false)]
         IGridFileFactory GridFileFactory { get; set; }
         IDataCubeFileFactory DataCubeFileFactory { get; set; }
