@@ -273,6 +273,12 @@
     <Compile Include="Editors\PropertyForm.Designer.cs">
       <DependentUpon>PropertyForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MT3DMS\SetSpeciesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MT3DMS\SetSpeciesForm.Designer.cs">
+      <DependentUpon>SetSpeciesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Processing\SoilModuleForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -745,6 +751,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Editors\PropertyForm.resx">
       <DependentUpon>PropertyForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MT3DMS\SetSpeciesForm.resx">
+      <DependentUpon>SetSpeciesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Processing\SoilModuleForm.resx">
       <DependentUpon>SoilModuleForm.cs</DependentUpon>

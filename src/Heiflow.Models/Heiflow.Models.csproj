@@ -173,6 +173,8 @@
     <Compile Include="IO\SecurityFile.cs" />
     <Compile Include="Subsurface\MT3DMS\LMTPackage.cs" />
     <Compile Include="Subsurface\MT3DMS\OpenMT3DMSProjectFileProvider.cs" />
+    <Compile Include="Subsurface\MT3DMS\Species.cs" />
+    <Compile Include="Subsurface\MT3DMS\SpeciesManager.cs" />
     <Compile Include="Subsurface\MT3DMS\VDFPackage.cs" />
     <Compile Include="Subsurface\MT3DMS\GCGPackage.cs" />
     <Compile Include="Subsurface\MT3DMS\SSMPackage.cs" />
