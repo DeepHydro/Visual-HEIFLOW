@@ -281,7 +281,8 @@ namespace Heiflow.Models.WRM
             }
             else
             {
-                ShowWarning("Failed to load " + this.Name, progresshandler);
+                Message = string.Format("Failed to load {0}. Error message: {1} does not exist.", Name, FileName);
+                ShowWarning(Message, progresshandler);
                 result =  LoadingState.Warning;
             }
             OnLoaded(progresshandler, new LoadingObjectState() { Message = Message, Object = this, State = result });

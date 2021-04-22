@@ -138,6 +138,8 @@ namespace Heiflow.Controls.WinForm.MenuItems
 
         protected override void Animate_Clicked(object sender, EventArgs e)
         {
+            if (_SelectedNode == null)
+                return;
             IDataPackage dp = null;
             if (_Package is GHMPackage)
                 dp = (from vv in (Package as GHMPackage).DynamicVariables where vv.Name == _SelectedNode.Parent.Text select vv).First();
@@ -197,8 +199,14 @@ namespace Heiflow.Controls.WinForm.MenuItems
 
         protected bool CheckDataSource()
         {
-            var dp = _Package as IDataPackage;
-            if (dp != null && dp.DataCube != null)
+            IDataPackage dp = null;
+            if (_Package is GHMPackage)
+                dp = (from vv in (Package as GHMPackage).DynamicVariables where vv.Name == _SelectedNode.Parent.Text select vv).First();
+            else
+                dp = _Package as IDataPackage;
+            var mat = dp.DataCube;
+
+            if (mat != null)
             {
                 return true;
             }

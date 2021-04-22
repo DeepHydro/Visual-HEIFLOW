@@ -67,7 +67,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             ResetToDefault();
         }
 
-        #region
+        #region Properties
         [Category("Grid")]
         public int NLAY
         {
@@ -197,6 +197,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
         [Category("Layer")]
         [Browsable(false)]
         [StaticVariableItem]
+        [ArealProperty(typeof(float), 100)]
         public DataCube<float> HTOP
         {
             get;
@@ -205,6 +206,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
         [Category("Layer")]
         [Browsable(false)]
         [StaticVariableItem]
+        [ArealProperty(typeof(float), 10)]
         public DataCube<float> DZ
         {
             get;
@@ -213,6 +215,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
         [Category("Layer")]
         [Browsable(false)]
         [StaticVariableItem]
+        [ArealProperty(typeof(float), 0.01f)]
         public DataCube<float> PRSITY
         {
             get;
@@ -229,6 +232,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
         [Category("Layer")]
         [Browsable(false)]
         [StaticVariableItem]
+        [ArealProperty(typeof(float), 0.01f)]
         public DataCube<float> SCONC
         {
             get;

@@ -66,11 +66,10 @@ namespace Heiflow.Models.Generic.Parameters
                     {
                         vec = ZonalStatastics.ZonalByPoint(ras, TargetFeatureSet);
                     }
-                    else
-                        if (TargetFeatureSet.FeatureType == FeatureType.Polygon)
-                        {
-                            vec = ZonalStatastics.ZonalByGrid(ras, TargetFeatureSet, AveragingMethod);
-                        }
+                    else if (TargetFeatureSet.FeatureType == FeatureType.Polygon)
+                    {
+                        vec = ZonalStatastics.ZonalByGrid(ras, TargetFeatureSet, AveragingMethod);
+                    }
                     foreach (var ap in ArealProperties)
                     {
                         if (ap.IsParameter)
@@ -79,7 +78,7 @@ namespace Heiflow.Models.Generic.Parameters
                             {
                                 var vv = GetValue(ap.ParameterName, vec[i]);
                                 if (vv != ZonalStatastics.NoDataValue)
-                                    ap.Parameter.SetValue(0, i, 0,vv);
+                                    ap.Parameter.SetValue(0, i, 0, vv);
                                 else
                                     ap.Parameter.SetValue(0, i, 0, ap.DefaultValue);
                             }
@@ -87,6 +86,7 @@ namespace Heiflow.Models.Generic.Parameters
                         else
                         {
                             var mat = Package.GetType().GetProperty(ap.PropertyName).GetValue(Package) as DataCube<float>;
+                            var defaultval = float.Parse(ap.DefaultValue.ToString());
                             if (mat != null)
                             {
                                 if (mat[GridLayer] != null)
@@ -95,9 +95,9 @@ namespace Heiflow.Models.Generic.Parameters
                                     {
                                         var vv = GetValue(ap.PropertyName, vec[i]);
                                         if (vv != ZonalStatastics.NoDataValue)
-                                            mat[GridLayer,0,i] = vv;
+                                            mat[GridLayer, 0, i] = vv;
                                         else
-                                            mat[GridLayer, 0, i] = (float)ap.DefaultValue;
+                                            mat[GridLayer, 0, i] = defaultval;
                                     }
                                 }
                             }

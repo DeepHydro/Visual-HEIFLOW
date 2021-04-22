@@ -70,6 +70,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
         [Category("Layer")]
         [Browsable(false)]
         [StaticVariableItem]
+        [ArealProperty(typeof(float), 1)]
         public DataCube<float> AL
         {
             get;
@@ -78,6 +79,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
         [Category("Layer")]
         [Browsable(false)]
         [StaticVariableItem]
+        [ArealProperty(typeof(float), 1)]
         public DataCube2DLayout<float> TRPT
         {
             get;
@@ -86,6 +88,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
         [Category("Layer")]
         [Browsable(false)]
         [StaticVariableItem]
+        [ArealProperty(typeof(float), 1)]
         public DataCube2DLayout<float> TRPV
         {
             get;
@@ -94,6 +97,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
         [Category("Layer")]
         [Browsable(false)]
         [StaticVariableItem]
+        [ArealProperty(typeof(float), 1)]
         public DataCube2DLayout<float> DMCOEF
         {
             get;
