@@ -31,6 +31,7 @@ using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Properties;
+using Heiflow.Models.Subsurface.MT3DMS;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
@@ -68,6 +69,7 @@ namespace Heiflow.Models.Subsurface
         /// </summary>
         public const string OutputDic = ".\\Output\\";
         protected MFNameManager _MFNameManager;
+        private SpeciesManager _SpeciesManager;
         public Modflow()
         {
             Name = "Modflow";
@@ -89,6 +91,8 @@ namespace Heiflow.Models.Subsurface
             LengthUnit = 2;
             MFVersion = MODFLOWVersion.MFNWT;
             Description = "The U.S. Geological Survey modular finite-difference flow model, which is a computer code that solves the groundwater flow equation.";
+
+            _SpeciesManager = new SpeciesManager();
         }
         [Category("Units")]
         public int TimeUnit { get; set; }
@@ -128,11 +132,19 @@ namespace Heiflow.Models.Subsurface
             get;
             set;
         }
-
+        [Browsable(false)]
         public IFlowPropertyPackage FlowPropertyPackage
         {
             get;
             protected set;
+        }
+        [Browsable(false)]
+        public SpeciesManager SpeciesManager
+        {
+            get
+            {
+                return _SpeciesManager;
+            }
         }
 
         public override void Initialize()

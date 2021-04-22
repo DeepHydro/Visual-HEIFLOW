@@ -31,6 +31,7 @@ using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
+using Heiflow.Models.Subsurface.VFT3D;
 using Heiflow.Models.UI;
 using ILNumerics;
 using System;
@@ -66,6 +67,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
 
             ResetToDefault();
         }
+        private int _NCOMP;
 
         #region Properties
         [Category("Grid")]
@@ -99,8 +101,14 @@ namespace Heiflow.Models.Subsurface.MT3DMS
         /// </summary>
         public int NCOMP
         {
-            get;
-            set;
+            get
+            {
+                return _NCOMP;
+            }
+            set
+            {
+                _NCOMP = value;
+            }
         }
         [Category("Chemical")]
         /// <summary>
@@ -366,7 +374,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             LUNIT = "m";
             MUNIT = "kg";
             Version = "BTN";
-            NCOMP = 7;
+            _NCOMP = 7;
             MCOMP = 5;
             IsMandatory = false;
             TRNOP = "T T T F T F F F F F";
@@ -700,115 +708,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             sw.Close();
             OnSaved(progress);
         }
-        public void SaveAs1(string filename, ICancelProgressHandler progress)
-        {
-            var grid = (Owner.Grid as IRegularGrid);
-            StreamWriter sw = new StreamWriter(filename);
-            string line = "";
-            sw.WriteLine(Head1);
-            sw.WriteLine(Head2);
-
-            line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t# NLAY, NROW, NCOL, NPER, NCOMP, MCOMP", NLAY, NROW, NCOL, NPER, NCOMP, MCOMP);
-            sw.WriteLine(line);
-
-            line = string.Format("{0}\t{1}\t{2}\t# TUNIT, LUNIT, MUNIT", TUNIT, LUNIT, MUNIT);
-            sw.WriteLine(line);
-
-            line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\tF F F F F\t# ADV DSP SSM RCT GCG", EnableADV ? "T" : "F", EnableDSP ? "T" : "F", EnableSSM ? "T" : "F", EnableRCT ? "T" : "F", EnableGCG ? "T" : "F");
-            sw.WriteLine(line);
-
-            line = string.Join("\t", LAYCON) + "\t# LAYCON";
-            sw.WriteLine(line);
-
-            WriteRegularArray(sw, DELR, 0, "E6", "DELR");
-            WriteRegularArray(sw, DELC, 0, "E6", "DELC");
-            WriteSerialFloatArray(sw, HTOP, 0, 0, "E6", "HTOP");
-
-            for (int i = 0; i < NLAY; i++)
-            {
-                WriteSerialFloatArray(sw, DZ, i, 0, "E6", "Thickness of Layer " + (i + 1));
-            }
-            for (int i = 0; i < NLAY; i++)
-            {
-                WriteSerialFloatArray(sw, PRSITY, i, 0, "E6", "PRSITY of Layer " + (i + 1));
-            }
-            for (int i = 0; i < NLAY; i++)
-            {
-                WriteSerialArray<int>(sw, ICBUND, i, 0, "F0", "Boundary Condition Type of Layer " + (i + 1));
-            }
-
-            var k = 0;
-            var cmt = "";
-            for (int i = 0; i < NCOMP; i++)
-            {
-                for (int j = 0; j < NLAY; j++)
-                {
-                    cmt = string.Format("Starting Concentration of Species {0} in Layer {1}", i + 1, j + 1);
-                    WriteSerialFloatArray(sw, SCONC, k, 0, "E6", cmt);
-                    k++;
-                }
-            }
-
-            line = string.Format("{0}\t{1}\t# CINACT, THKMIN", CINACT, THKMIN);
-            sw.WriteLine(line);
-
-            line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t# IFMTCN, IFMTNP, IFMTRF, IFMTDP, SAVUCN", IFMTCN, IFMTNP, IFMTRF, IFMTDP, SAVUCN ? "T" : "F");
-            sw.WriteLine(line);
-
-            line = string.Format("{0}\t# NPRS", NPRS);
-            sw.WriteLine(line);
-
-            if (NPRS > 0)
-            {
-                int nline = (int)Math.Ceiling(NPRS / 8.0);
-                k = 8;
-                var t = 0;
-                while (k <= NPRS)
-                {
-                    line = "";
-                    for (int i = 0; i < 8; i++)
-                    {
-                        line += TIMPRS[t] + "\t";
-                        t++;
-                    }
-                    sw.WriteLine(line);
-                    k = k + 8;
-                }
-                line = "";
-                for (; t < NPRS; t++)
-                {
-                    line += TIMPRS[t] + "\t";
-                }
-                sw.WriteLine(line);
-            }
-
-            line = string.Format("{0}\t{1}\t# NOBS, NPROBS", NOBS, NPROBS);
-            sw.WriteLine(line);
-
-            line = string.Format("{0}\t{1}\t# CHKMAS, NPRMAS", CHKMAS ? "T" : "F", NPRMAS);
-            sw.WriteLine(line);
-
-            if (NOBS > 0)
-            {
-                for (int i = 0; i < NOBS; i++)
-                {
-                    line = string.Format("{0}\t{1}\t{2}\t# KOBS, IOBS, and JOBS", OBS[0, i, 0], OBS[0, i, 1], OBS[0, i, 2]);
-                    sw.WriteLine(line);
-                }
-            }
-
-            for (int i = 0; i < NPER; i++)
-            {
-                line = string.Format("{0}\t{1}\t{2}\t# PERLEN, NSTP, TSMULT for Period {3}", TimeService.StressPeriods[i].NumTimeSteps, TimeService.StressPeriods[i].NSTP, TimeService.StressPeriods[i].Multiplier, (i + 1));
-                sw.WriteLine(line);
-                line = string.Format("{0}\t{1}\t{2}\t{3}\t# DT0, MXSTRN, TTSMULT, TTSMAX", TimeService.StressPeriods[i].DT0, TimeService.StressPeriods[i].MXSTRN, TimeService.StressPeriods[i].TTSMULT, TimeService.StressPeriods[i].TTSMAX);
-                sw.WriteLine(line);
-            }
-
-            sw.Close();
-            OnSaved(progress);
-        }
-
+      
         public override void OnGridUpdated(IGrid sender)
         {
             if (this.TimeService.StressPeriods.Count == 0)
@@ -956,6 +856,21 @@ namespace Heiflow.Models.Subsurface.MT3DMS
         {
             this.Feature = Owner.Grid.FeatureSet;
             this.FeatureLayer = Owner.Grid.FeatureLayer;
+        }
+
+        public void OnNCOMPChanged()
+        {
+            if (NCOMP < 1)
+                NCOMP = 1;
+            if (MCOMP > NCOMP)
+                MCOMP = NCOMP;
+
+            var phcpck = Owner.GetPackage(PHCPackage.PackageName) as PHCPackage;
+            if(phcpck != null)
+            {
+                phcpck.NumAquComponents = NCOMP;
+
+            }
         }
     }
 }
