@@ -102,6 +102,7 @@ namespace Heiflow.Models.Integration
                 this.Model = model;
             }
             SaveBatchRunFile();
+            SaveIHMProjectFile();
             _IsDirty = true;
             return succ;
         }

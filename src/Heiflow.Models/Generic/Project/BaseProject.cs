@@ -545,5 +545,67 @@ namespace Heiflow.Models.Generic.Project
                 SaveBatchRunFile();
             }
         }
+
+        protected virtual void SaveIHMProjectFile()
+        {
+            var filename = Path.Combine(AbsolutePathToProjectFile, this.Name+ ".ihmx");
+            if (!File.Exists(filename))
+            {
+                StreamWriter sw = new StreamWriter(filename);
+                string line = "<?xml version=\"1.0\"?>";
+                sw.WriteLine(line);
+                line = "<Heiflow3DProject xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">";
+                sw.WriteLine(line);
+  //                <Name>HEIFLOW</Name>
+  //<Description>HEIFLOW model version 1.0.0</Description>
+  //<RelativeMapFileName>ghm.dspx</RelativeMapFileName>
+  //<RelativeControlFileName>ghm.control</RelativeControlFileName>
+  //<RelativeModelWorkDirectory>.\</RelativeModelWorkDirectory>
+  //<GridFeatureFilePath>GeoSpatial\Grid.shp</GridFeatureFilePath>
+  //<CentroidFeatureFilePath>GeoSpatial\Centroid.shp</CentroidFeatureFilePath>
+  //<RelativeModelGeoPrjFile>GeoSpatial\Centroid.prj</RelativeModelGeoPrjFile> 
+                line = string.Format("\t<Name>{0}</Name>", this.Name);
+                sw.WriteLine(line);
+                line = string.Format("\t<Description>{0}</Description>", "IHM3D");
+                sw.WriteLine(line);
+                line = string.Format("\t<RelativeControlFileName>{0}.control</RelativeControlFileName>", this.Name);
+                sw.WriteLine(line);
+                line = "\t<RelativeModelWorkDirectory>.\\</RelativeModelWorkDirectory>";
+                sw.WriteLine(line);
+                line = "\t<RelativeModelGeoPrjFile>GeoSpatial\\Centroid.prj</RelativeModelGeoPrjFile> ";
+                sw.WriteLine(line);
+
+                sw.WriteLine("<ODMProvider>");
+                sw.WriteLine("\t<Name>IHM ODM</Name>");
+                sw.WriteLine("\t<Opacity>255</Opacity>");
+                sw.WriteLine("\t<DistanceAboveSurface>10</DistanceAboveSurface>");
+                sw.WriteLine("\t<MinimumDisplayAltitude>0</MinimumDisplayAltitude>");
+                sw.WriteLine("\t<MaximumDisplayAltitude>1000000</MaximumDisplayAltitude>");
+                sw.WriteLine("\t<RenderPriority>LinePaths</RenderPriority>");
+                sw.WriteLine("\t<IsOn>false</IsOn>");
+                sw.WriteLine("\t<IsSelectable>false</IsSelectable>");
+                sw.WriteLine("\t<RelativeFileName>.\\database\\odm.accdb</RelativeFileName>");
+                sw.WriteLine("\t<ShowAtStartup>false</ShowAtStartup>");
+                sw.WriteLine("</ODMProvider>");
+
+                sw.WriteLine("<ShapeFeatureProvider>");
+                sw.WriteLine("\t<Name>Grid Layer</Name>");
+                sw.WriteLine("\t<Opacity>255</Opacity>");
+                sw.WriteLine("\t<DistanceAboveSurface>10</DistanceAboveSurface>");
+                sw.WriteLine("\t<MinimumDisplayAltitude>0</MinimumDisplayAltitude>");
+                sw.WriteLine("\t<MaximumDisplayAltitude>1000000</MaximumDisplayAltitude>");
+                sw.WriteLine("\t<RenderPriority>LinePaths</RenderPriority>");
+                sw.WriteLine("\t<IsOn>true</IsOn>");
+                sw.WriteLine("\t<IsSelectable>false</IsSelectable>");
+                sw.WriteLine("\t<RelativeFileName>.\\Geospatial\\grid.shp</RelativeFileName>");
+                sw.WriteLine("\t<ShowAtStartup>true</ShowAtStartup>");
+                sw.WriteLine("\t<CoordinateSystem>WGS84</CoordinateSystem>");
+                sw.WriteLine("\t<LabelField>ID</LabelField>");
+                sw.WriteLine("</ShapeFeatureProvider>");
+
+                sw.Write("</Heiflow3DProject>");
+                sw.Close();
+            }
+        }
     }
 }
