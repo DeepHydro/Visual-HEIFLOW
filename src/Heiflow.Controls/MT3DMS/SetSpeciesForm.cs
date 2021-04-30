@@ -25,7 +25,7 @@ namespace Heiflow.Controls.WinForm.MT3DMS
         private void SetSpeciesForm_Load(object sender, EventArgs e)
         {
             string dbfile = Path.Combine(Application.StartupPath, "data\\pht3d_datab.dat");
-            _mf.SpeciesManager.LoadCollectionFromDB(dbfile);
+           // _mf.SpeciesManager.LoadCollectionFromDB(dbfile);
         }
 
         private void btnOk_Click(object sender, EventArgs e)

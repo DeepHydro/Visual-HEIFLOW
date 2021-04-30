@@ -566,7 +566,7 @@ namespace Heiflow.Models.Generic.Project
   //<RelativeModelGeoPrjFile>GeoSpatial\Centroid.prj</RelativeModelGeoPrjFile> 
                 line = string.Format("\t<Name>{0}</Name>", this.Name);
                 sw.WriteLine(line);
-                line = string.Format("\t<Description>{0}</Description>", "IHM3D");
+                line = string.Format("\t<Description>{0}</Description>", "HydroEarth");
                 sw.WriteLine(line);
                 line = string.Format("\t<RelativeControlFileName>{0}.control</RelativeControlFileName>", this.Name);
                 sw.WriteLine(line);
@@ -601,6 +601,7 @@ namespace Heiflow.Models.Generic.Project
                 sw.WriteLine("\t<ShowAtStartup>true</ShowAtStartup>");
                 sw.WriteLine("\t<CoordinateSystem>WGS84</CoordinateSystem>");
                 sw.WriteLine("\t<LabelField>ID</LabelField>");
+                sw.WriteLine("\t<FeatureColor>Blue</FeatureColor>");
                 sw.WriteLine("</ShapeFeatureProvider>");
 
                 sw.Write("</Heiflow3DProject>");

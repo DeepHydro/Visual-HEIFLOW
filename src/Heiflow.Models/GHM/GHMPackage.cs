@@ -203,7 +203,7 @@ namespace Heiflow.Models.GHM
             {
                 DataCubeStreamReader dc=new DataCubeStreamReader(svar.FullPath);
                 dc.LoadDataCubeSingleStep();
-                progess.Progress("IHM3D", 50, "Data cube loaded from: " + svar.FullPath);
+                progess.Progress("HydroEarth", 50, "Data cube loaded from: " + svar.FullPath);
                 svar.DataCube = dc.DataCube;
             }
             return LoadingState.Normal;

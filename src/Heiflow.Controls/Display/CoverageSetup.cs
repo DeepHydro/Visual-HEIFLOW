@@ -357,10 +357,9 @@ namespace Heiflow.Controls.WinForm.Display
 
                 }
             }
-
-            catch
+            catch(Exception  ex)
             {
-                MessageBox.Show("Failed to creat lookup table", "Creation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Failed to creat lookup table. Error message: " + ex.Message, "Creation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
         }

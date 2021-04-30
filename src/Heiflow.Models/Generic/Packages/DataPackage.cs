@@ -148,10 +148,12 @@ namespace Heiflow.Models.Generic
                 else
                 {
                     if (value > NumTimeStep || _MaxTimeStep > TimeService.IOTimeline.Count)
-                        _MaxTimeStep = NumTimeStep;
+                        _MaxTimeStep = TimeService.IOTimeline.Count;
                     else
                         _MaxTimeStep = value;
                 }
+                if (_MaxTimeStep > TimeService.IOTimeline.Count)
+                    _MaxTimeStep = TimeService.IOTimeline.Count;
                 _EndLoading = TimeService.IOTimeline[_MaxTimeStep - 1];
             }
         }

@@ -63,23 +63,11 @@ namespace Heiflow.Models.IO
         {
             if (File.Exists(_FileName))
             {
-                int step = 0;
-                FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                BinaryReader br = new BinaryReader(fs);
-
-                long layerbyte = 32 + 4 * 3 + _Grid.RowCount * _Grid.ColumnCount * 4;
-
-                while (fs.Position < fs.Length)
-                {
-                    for (int l = 0; l < _Grid.ActualLayerCount; l++)
-                    {
-                        fs.Seek(layerbyte, SeekOrigin.Current);
-                    }
-                    step++;
-                }
-                br.Close();
-                fs.Close();
-                NumTimeStep = step;
+                long step = 0;
+                FileInfo info = new FileInfo(_FileName);        
+                long layerbyte = (32 + 4 * 3 + _Grid.RowCount * _Grid.ColumnCount * 4)*_Grid.ActualLayerCount;
+                step = info.Length / layerbyte;
+                NumTimeStep = (int)step;
             }
         }
 

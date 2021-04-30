@@ -62,7 +62,7 @@ namespace Heiflow.Models.GHM
 
         private void dr_LoadFailed(object sender, string e)
         {
-            _progess.Progress("IHM3D", 100, "Failed to load. Error message: " + e);
+            _progess.Progress("HydroEarth", 100, "Failed to load. Error message: " + e);
             LoadingObjectState state = new LoadingObjectState()
             {
                 State = LoadingState.FatalError,

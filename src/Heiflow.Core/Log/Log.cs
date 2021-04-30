@@ -151,7 +151,7 @@ namespace Heiflow.Core
 
 #if DEBUG
                         System.Diagnostics.Debug.WriteLine(
-                            string.Format("IHM3D"+
+                            string.Format("HydroEarth" +
                             //".{0} [{1}]"+
                             ": {2} {3} {4}", 
                                 System.Threading.Thread.CurrentThread.Name,

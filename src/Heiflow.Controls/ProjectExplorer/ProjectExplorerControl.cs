@@ -71,6 +71,7 @@ namespace Heiflow.Presentation.Controls.Project
             this.BackColor = ColorTranslator.FromHtml("#FF2D2D30");
             this.treeView1.BackColor = Color.White; //ColorTranslator.FromHtml("#FF2D2D30");
             this.treeView1.BorderStyle = BorderStyle.None;
+            this.SetAutoSizeMode(AutoSizeMode.GrowAndShrink);
         }
 
         public IExplorerNodeFactory NodeFactory

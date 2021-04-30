@@ -28,7 +28,7 @@ namespace Heiflow.Tools.Postprocessing
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
-
+            TimeStep = 1;
             CompareMode = CompareMode.Head;
         }
 
@@ -115,6 +115,14 @@ namespace Heiflow.Tools.Postprocessing
             }
         }
         [Category("Parameter")]
+        [Description("The time step when the comparison is done")]
+        public int TimeStep
+        {
+            get;
+            set;
+        }
+
+        [Category("Parameter")]
         [Description("Comparision mode")]
         public CompareMode CompareMode
         {
@@ -194,14 +202,14 @@ namespace Heiflow.Tools.Postprocessing
                         DataColumn dc = new DataColumn("SimDepth", Type.GetType("System.Double"));
                         _sourcefs.DataTable.Columns.Add(dc);
                     }
-                    if(!_sourcefs.DataTable.Columns.Contains("HeadDIF"))
+                    if(!_sourcefs.DataTable.Columns.Contains("HeadDiff"))
                     {
-                        DataColumn dc = new DataColumn("HeadDIF", Type.GetType("System.Double"));
+                        DataColumn dc = new DataColumn("HeadDiff", Type.GetType("System.Double"));
                         _sourcefs.DataTable.Columns.Add(dc);
                     }
-                    if (!_sourcefs.DataTable.Columns.Contains("DepDIF"))
+                    if (!_sourcefs.DataTable.Columns.Contains("DepthDiff"))
                     {
-                        DataColumn dc = new DataColumn("DepDIF", Type.GetType("System.Double"));
+                        DataColumn dc = new DataColumn("DepthDiff", Type.GetType("System.Double"));
                         _sourcefs.DataTable.Columns.Add(dc);
                     }
 
@@ -215,6 +223,9 @@ namespace Heiflow.Tools.Postprocessing
                         float[] obs = new float[nwel];
                         float[] sim_dep = new float[nwel];
                         float[] obs_dep = new float[nwel];
+
+                        if (TimeStep <= 0 || TimeStep > fhd.DataCube.Size[1])
+                            TimeStep = fhd.DataCube.Size[1];
                         for (int i = 0; i < nwel; i++)
                         {
                             float.TryParse(_sourcefs.DataTable.Rows[i][ObservedHeadField].ToString(), out head);
@@ -228,7 +239,7 @@ namespace Heiflow.Tools.Postprocessing
                                     var Row = int.Parse(_grid_layer.DataTable.Rows[j]["ROW"].ToString());
                                     var Column = int.Parse(_grid_layer.DataTable.Rows[j]["COLUMN"].ToString());
                                     var index = grid.Topology.GetSerialIndex(Row - 1, Column - 1);
-                                    sim[i] = fhd.DataCube[layer, 0, index];
+                                    sim[i] = fhd.DataCube[layer, TimeStep - 1, index];
                                     elev = grid.Elevations[0, 0, index];
                                     break;
                                 } 
@@ -240,16 +251,16 @@ namespace Heiflow.Tools.Postprocessing
                                 sim_dep[i] = elev - sim[i];
                                 _sourcefs.DataTable.Rows[i]["SimHead"] = sim[i];
                                 _sourcefs.DataTable.Rows[i]["SimDepth"] = sim_dep[i];
-                                _sourcefs.DataTable.Rows[i]["HeadDIF"] = System.Math.Round((sim[i] - head), 2);
-                                _sourcefs.DataTable.Rows[i]["DepDIF"] = System.Math.Round((sim_dep[i] - obsdep), 2);
+                                _sourcefs.DataTable.Rows[i]["HeadDiff"] = System.Math.Round((sim[i] - head), 2);
+                                _sourcefs.DataTable.Rows[i]["DepthDiff"] = System.Math.Round((sim_dep[i] - obsdep), 2);
                             }
                             else
                             {
                                 sim_dep[i] =  sim[i];
                                 _sourcefs.DataTable.Rows[i]["SimHead"] = elev - sim[i];
                                 _sourcefs.DataTable.Rows[i]["SimDepth"] = sim_dep[i];
-                                _sourcefs.DataTable.Rows[i]["HeadDIF"] = System.Math.Round((elev - sim_dep[i] - head), 2);
-                                _sourcefs.DataTable.Rows[i]["DepDIF"] = System.Math.Round((sim_dep[i] - obsdep), 2);
+                                _sourcefs.DataTable.Rows[i]["HeadDiff"] = System.Math.Round((elev - sim_dep[i] - head), 2);
+                                _sourcefs.DataTable.Rows[i]["DepthDiff"] = System.Math.Round((sim_dep[i] - obsdep), 2);
                             }
 
                             progress = i * 100 / nwel;
