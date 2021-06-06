@@ -145,8 +145,9 @@ namespace Heiflow.Tools.ConceptualModel
                     var hru_id = 1;
                     for (int j = 0; j < nzone; j++)
                     {
-                        var zone_bund = _sourcefs.Features[j].Geometry.Coordinates;
-                        if (SpatialRelationship.PointInPolygon(zone_bund, _centroid_layer.Features[i].Geometry.Coordinate))
+                        //var zone_bund = _sourcefs.Features[j].Geometry.Coordinates;
+                        //if (SpatialRelationship.PointInPolygon(zone_bund, _centroid_layer.Features[i].Geometry.Coordinate))
+                        if (_centroid_layer.Features[i].Geometry.Within(_sourcefs.Features[j].Geometry))
                         {
                             zone_id = int.Parse(_sourcefs.Features[j].DataRow[ZoneIDField].ToString());
                             hru_id = int.Parse(_centroid_layer.Features[i].DataRow["HRU_ID"].ToString());

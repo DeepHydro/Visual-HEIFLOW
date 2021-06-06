@@ -33,6 +33,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.btnScan = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripLabel();
             this.cmbLoadVar = new System.Windows.Forms.ToolStripComboBox();
+            this.chbReadComplData = new System.Windows.Forms.ToolStripButton();
             this.btnLoad = new System.Windows.Forms.ToolStripButton();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.cmbSFRVars = new System.Windows.Forms.ToolStripComboBox();
@@ -72,33 +73,35 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.chbUnifiedByLength = new System.Windows.Forms.CheckBox();
             this.btnAdd2Toolbox = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.chbUnifiedByLength = new System.Windows.Forms.CheckBox();
             this.cmbEndID = new System.Windows.Forms.ComboBox();
             this.cmbStartID = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.btnRefreshLayer = new System.Windows.Forms.Button();
-            this.btnShowLayer = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
-            this.cmbDates = new System.Windows.Forms.ComboBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.cmbLayers = new System.Windows.Forms.ComboBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.tabControl_Chart = new System.Windows.Forms.TabControl();
             this.tabPageTimeSeries = new System.Windows.Forms.TabPage();
-            this.tabPageProfile = new System.Windows.Forms.TabPage();
-            this.tabPageFeatureLayer = new System.Windows.Forms.TabPage();
-            this.radioButtonSegFeature = new System.Windows.Forms.RadioButton();
-            this.radioButtonReachFeature = new System.Windows.Forms.RadioButton();
-            this.label2 = new System.Windows.Forms.Label();
-            this.chbReadComplData = new System.Windows.Forms.ToolStripButton();
             this.winChart_timeseries = new Heiflow.Controls.WinForm.Controls.WinChart();
+            this.tabPageProfile = new System.Windows.Forms.TabPage();
             this.winChart_proflie = new Heiflow.Controls.WinForm.Controls.WinChart();
             this.colorSlider1 = new Heiflow.Controls.WinForm.ColorSlider();
+            this.tabPageFeatureLayer = new System.Windows.Forms.TabPage();
             this.checkBoxSaveLayer = new System.Windows.Forms.CheckBox();
+            this.btnShowLayer = new System.Windows.Forms.Button();
+            this.btnRefreshLayer = new System.Windows.Forms.Button();
+            this.cmbDates = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.cmbLayers = new System.Windows.Forms.ComboBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.cmbSegFields = new System.Windows.Forms.ComboBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.cmbReachFields = new System.Windows.Forms.ComboBox();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -113,6 +116,8 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabPageTimeSeries.SuspendLayout();
             this.tabPageProfile.SuspendLayout();
             this.tabPageFeatureLayer.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -169,6 +174,18 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.cmbLoadVar.Name = "cmbLoadVar";
             this.cmbLoadVar.Size = new System.Drawing.Size(121, 28);
             this.cmbLoadVar.SelectedIndexChanged += new System.EventHandler(this.cmbLoadVar_SelectedIndexChanged);
+            // 
+            // chbReadComplData
+            // 
+            this.chbReadComplData.CheckOnClick = true;
+            this.chbReadComplData.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.chbReadComplData.Image = global::Heiflow.Controls.WinForm.Properties.Resources.TmClearSelection16;
+            this.chbReadComplData.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.chbReadComplData.Name = "chbReadComplData";
+            this.chbReadComplData.Size = new System.Drawing.Size(24, 25);
+            this.chbReadComplData.Text = "toolStripButton3";
+            this.chbReadComplData.ToolTipText = "Load complete data. If not, only data for the last reach of segment is load";
+            this.chbReadComplData.CheckedChanged += new System.EventHandler(this.chbReadComplData_CheckedChanged_1);
             // 
             // btnLoad
             // 
@@ -507,23 +524,13 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // 
             this.tabPage4.Controls.Add(this.btnAdd2Toolbox);
             this.tabPage4.Controls.Add(this.groupBox2);
-            this.tabPage4.Location = new System.Drawing.Point(4, 28);
+            this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(257, 593);
+            this.tabPage4.Size = new System.Drawing.Size(257, 596);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "Profile";
             this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // chbUnifiedByLength
-            // 
-            this.chbUnifiedByLength.AutoSize = true;
-            this.chbUnifiedByLength.Location = new System.Drawing.Point(10, 158);
-            this.chbUnifiedByLength.Name = "chbUnifiedByLength";
-            this.chbUnifiedByLength.Size = new System.Drawing.Size(141, 23);
-            this.chbUnifiedByLength.TabIndex = 11;
-            this.chbUnifiedByLength.Text = "Unified by length";
-            this.chbUnifiedByLength.UseVisualStyleBackColor = true;
             // 
             // btnAdd2Toolbox
             // 
@@ -550,6 +557,16 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Setting Profile ";
+            // 
+            // chbUnifiedByLength
+            // 
+            this.chbUnifiedByLength.AutoSize = true;
+            this.chbUnifiedByLength.Location = new System.Drawing.Point(10, 158);
+            this.chbUnifiedByLength.Name = "chbUnifiedByLength";
+            this.chbUnifiedByLength.Size = new System.Drawing.Size(141, 23);
+            this.chbUnifiedByLength.TabIndex = 11;
+            this.chbUnifiedByLength.Text = "Unified by length";
+            this.chbUnifiedByLength.UseVisualStyleBackColor = true;
             // 
             // cmbEndID
             // 
@@ -591,69 +608,13 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.label7.TabIndex = 3;
             this.label7.Text = "Start Segment ID";
             // 
-            // btnRefreshLayer
-            // 
-            this.btnRefreshLayer.Image = global::Heiflow.Controls.WinForm.Properties.Resources.LayerRasterOptimized16;
-            this.btnRefreshLayer.Location = new System.Drawing.Point(341, 139);
-            this.btnRefreshLayer.Name = "btnRefreshLayer";
-            this.btnRefreshLayer.Size = new System.Drawing.Size(28, 27);
-            this.btnRefreshLayer.TabIndex = 5;
-            this.btnRefreshLayer.Text = "button1";
-            this.btnRefreshLayer.UseVisualStyleBackColor = true;
-            this.btnRefreshLayer.Click += new System.EventHandler(this.btnRefreshLayer_Click);
-            // 
-            // btnShowLayer
-            // 
-            this.btnShowLayer.Location = new System.Drawing.Point(33, 306);
-            this.btnShowLayer.Name = "btnShowLayer";
-            this.btnShowLayer.Size = new System.Drawing.Size(302, 36);
-            this.btnShowLayer.TabIndex = 4;
-            this.btnShowLayer.Text = "Show on Layer";
-            this.btnShowLayer.UseVisualStyleBackColor = true;
-            this.btnShowLayer.Click += new System.EventHandler(this.btnShowLayer_Click);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 220);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(110, 19);
-            this.label9.TabIndex = 3;
-            this.label9.Text = "Select datetime";
-            // 
-            // cmbDates
-            // 
-            this.cmbDates.FormattingEnabled = true;
-            this.cmbDates.Location = new System.Drawing.Point(33, 255);
-            this.cmbDates.Name = "cmbDates";
-            this.cmbDates.Size = new System.Drawing.Size(302, 27);
-            this.cmbDates.TabIndex = 2;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 110);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(135, 19);
-            this.label8.TabIndex = 1;
-            this.label8.Text = "Select feature layer";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // cmbLayers
-            // 
-            this.cmbLayers.FormattingEnabled = true;
-            this.cmbLayers.Location = new System.Drawing.Point(33, 139);
-            this.cmbLayers.Name = "cmbLayers";
-            this.cmbLayers.Size = new System.Drawing.Size(302, 27);
-            this.cmbLayers.TabIndex = 0;
-            // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.propertyGrid1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 28);
+            this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(257, 593);
+            this.tabPage1.Size = new System.Drawing.Size(257, 596);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "Config";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -691,82 +652,6 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabPageTimeSeries.Text = "Time Series View";
             this.tabPageTimeSeries.UseVisualStyleBackColor = true;
             // 
-            // tabPageProfile
-            // 
-            this.tabPageProfile.Controls.Add(this.winChart_proflie);
-            this.tabPageProfile.Controls.Add(this.colorSlider1);
-            this.tabPageProfile.Location = new System.Drawing.Point(4, 4);
-            this.tabPageProfile.Name = "tabPageProfile";
-            this.tabPageProfile.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageProfile.Size = new System.Drawing.Size(856, 593);
-            this.tabPageProfile.TabIndex = 1;
-            this.tabPageProfile.Text = "Profile View";
-            this.tabPageProfile.UseVisualStyleBackColor = true;
-            // 
-            // tabPageFeatureLayer
-            // 
-            this.tabPageFeatureLayer.Controls.Add(this.checkBoxSaveLayer);
-            this.tabPageFeatureLayer.Controls.Add(this.btnShowLayer);
-            this.tabPageFeatureLayer.Controls.Add(this.btnRefreshLayer);
-            this.tabPageFeatureLayer.Controls.Add(this.cmbDates);
-            this.tabPageFeatureLayer.Controls.Add(this.label9);
-            this.tabPageFeatureLayer.Controls.Add(this.radioButtonReachFeature);
-            this.tabPageFeatureLayer.Controls.Add(this.radioButtonSegFeature);
-            this.tabPageFeatureLayer.Controls.Add(this.label2);
-            this.tabPageFeatureLayer.Controls.Add(this.label8);
-            this.tabPageFeatureLayer.Controls.Add(this.cmbLayers);
-            this.tabPageFeatureLayer.Location = new System.Drawing.Point(4, 4);
-            this.tabPageFeatureLayer.Name = "tabPageFeatureLayer";
-            this.tabPageFeatureLayer.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFeatureLayer.Size = new System.Drawing.Size(856, 593);
-            this.tabPageFeatureLayer.TabIndex = 2;
-            this.tabPageFeatureLayer.Text = "Feature Layer View";
-            this.tabPageFeatureLayer.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonSegFeature
-            // 
-            this.radioButtonSegFeature.AutoSize = true;
-            this.radioButtonSegFeature.Checked = true;
-            this.radioButtonSegFeature.Location = new System.Drawing.Point(33, 49);
-            this.radioButtonSegFeature.Name = "radioButtonSegFeature";
-            this.radioButtonSegFeature.Size = new System.Drawing.Size(239, 23);
-            this.radioButtonSegFeature.TabIndex = 0;
-            this.radioButtonSegFeature.TabStop = true;
-            this.radioButtonSegFeature.Text = "Show On Segment Feature Layer";
-            this.radioButtonSegFeature.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonReachFeature
-            // 
-            this.radioButtonReachFeature.AutoSize = true;
-            this.radioButtonReachFeature.Location = new System.Drawing.Point(33, 78);
-            this.radioButtonReachFeature.Name = "radioButtonReachFeature";
-            this.radioButtonReachFeature.Size = new System.Drawing.Size(223, 23);
-            this.radioButtonReachFeature.TabIndex = 0;
-            this.radioButtonReachFeature.Text = "Show On Reach Feature Layer";
-            this.radioButtonReachFeature.UseVisualStyleBackColor = true;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 14);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(570, 19);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Select which layer to be shown. If Reach layer selected, complete data must be lo" +
-    "aded";
-            // 
-            // chbReadComplData
-            // 
-            this.chbReadComplData.CheckOnClick = true;
-            this.chbReadComplData.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.chbReadComplData.Image = global::Heiflow.Controls.WinForm.Properties.Resources.TmClearSelection16;
-            this.chbReadComplData.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.chbReadComplData.Name = "chbReadComplData";
-            this.chbReadComplData.Size = new System.Drawing.Size(24, 25);
-            this.chbReadComplData.Text = "toolStripButton3";
-            this.chbReadComplData.ToolTipText = "Load complete data. If not, only data for the last reach of segment is load";
-            this.chbReadComplData.CheckedChanged += new System.EventHandler(this.chbReadComplData_CheckedChanged_1);
-            // 
             // winChart_timeseries
             // 
             this.winChart_timeseries.BackColor = System.Drawing.SystemColors.Control;
@@ -778,6 +663,18 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.winChart_timeseries.ShowStatPanel = true;
             this.winChart_timeseries.Size = new System.Drawing.Size(850, 587);
             this.winChart_timeseries.TabIndex = 7;
+            // 
+            // tabPageProfile
+            // 
+            this.tabPageProfile.Controls.Add(this.winChart_proflie);
+            this.tabPageProfile.Controls.Add(this.colorSlider1);
+            this.tabPageProfile.Location = new System.Drawing.Point(4, 4);
+            this.tabPageProfile.Name = "tabPageProfile";
+            this.tabPageProfile.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageProfile.Size = new System.Drawing.Size(856, 596);
+            this.tabPageProfile.TabIndex = 1;
+            this.tabPageProfile.Text = "Profile View";
+            this.tabPageProfile.UseVisualStyleBackColor = true;
             // 
             // winChart_proflie
             // 
@@ -812,15 +709,153 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.colorSlider1.Value = 0;
             this.colorSlider1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.colorSlider1_Scroll);
             // 
+            // tabPageFeatureLayer
+            // 
+            this.tabPageFeatureLayer.Controls.Add(this.groupBox3);
+            this.tabPageFeatureLayer.Controls.Add(this.groupBox1);
+            this.tabPageFeatureLayer.Controls.Add(this.btnShowLayer);
+            this.tabPageFeatureLayer.Location = new System.Drawing.Point(4, 4);
+            this.tabPageFeatureLayer.Name = "tabPageFeatureLayer";
+            this.tabPageFeatureLayer.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageFeatureLayer.Size = new System.Drawing.Size(856, 593);
+            this.tabPageFeatureLayer.TabIndex = 2;
+            this.tabPageFeatureLayer.Text = "Feature Layer View";
+            this.tabPageFeatureLayer.UseVisualStyleBackColor = true;
+            // 
             // checkBoxSaveLayer
             // 
             this.checkBoxSaveLayer.AutoSize = true;
-            this.checkBoxSaveLayer.Location = new System.Drawing.Point(33, 186);
+            this.checkBoxSaveLayer.Location = new System.Drawing.Point(29, 166);
             this.checkBoxSaveLayer.Name = "checkBoxSaveLayer";
-            this.checkBoxSaveLayer.Size = new System.Drawing.Size(153, 23);
+            this.checkBoxSaveLayer.Size = new System.Drawing.Size(282, 23);
             this.checkBoxSaveLayer.TabIndex = 6;
-            this.checkBoxSaveLayer.Text = "Save Feature Layer";
+            this.checkBoxSaveLayer.Text = "Save data to the selected feature layer";
             this.checkBoxSaveLayer.UseVisualStyleBackColor = true;
+            // 
+            // btnShowLayer
+            // 
+            this.btnShowLayer.Location = new System.Drawing.Point(39, 337);
+            this.btnShowLayer.Name = "btnShowLayer";
+            this.btnShowLayer.Size = new System.Drawing.Size(302, 36);
+            this.btnShowLayer.TabIndex = 4;
+            this.btnShowLayer.Text = "Show on GIS Layer";
+            this.btnShowLayer.UseVisualStyleBackColor = true;
+            this.btnShowLayer.Click += new System.EventHandler(this.btnShowLayer_Click);
+            // 
+            // btnRefreshLayer
+            // 
+            this.btnRefreshLayer.Image = global::Heiflow.Controls.WinForm.Properties.Resources.LayerRasterOptimized16;
+            this.btnRefreshLayer.Location = new System.Drawing.Point(490, 22);
+            this.btnRefreshLayer.Name = "btnRefreshLayer";
+            this.btnRefreshLayer.Size = new System.Drawing.Size(171, 28);
+            this.btnRefreshLayer.TabIndex = 5;
+            this.btnRefreshLayer.Text = "Refresh layer list";
+            this.btnRefreshLayer.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnRefreshLayer.UseVisualStyleBackColor = true;
+            this.btnRefreshLayer.Click += new System.EventHandler(this.btnRefreshLayer_Click);
+            // 
+            // cmbDates
+            // 
+            this.cmbDates.FormattingEnabled = true;
+            this.cmbDates.Location = new System.Drawing.Point(170, 26);
+            this.cmbDates.Name = "cmbDates";
+            this.cmbDates.Size = new System.Drawing.Size(302, 27);
+            this.cmbDates.TabIndex = 2;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(79, 33);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(85, 19);
+            this.label9.TabIndex = 3;
+            this.label9.Text = "Select date:";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(25, 27);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(139, 19);
+            this.label8.TabIndex = 1;
+            this.label8.Text = "Select feature layer:";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // cmbLayers
+            // 
+            this.cmbLayers.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbLayers.FormattingEnabled = true;
+            this.cmbLayers.Location = new System.Drawing.Point(170, 24);
+            this.cmbLayers.Name = "cmbLayers";
+            this.cmbLayers.Size = new System.Drawing.Size(302, 27);
+            this.cmbLayers.TabIndex = 0;
+            this.cmbLayers.SelectedIndexChanged += new System.EventHandler(this.cmbLayers_SelectedIndexChanged);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.cmbReachFields);
+            this.groupBox1.Controls.Add(this.cmbSegFields);
+            this.groupBox1.Controls.Add(this.cmbLayers);
+            this.groupBox1.Controls.Add(this.label11);
+            this.groupBox1.Controls.Add(this.label10);
+            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Controls.Add(this.checkBoxSaveLayer);
+            this.groupBox1.Controls.Add(this.btnRefreshLayer);
+            this.groupBox1.Location = new System.Drawing.Point(10, 24);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(827, 210);
+            this.groupBox1.TabIndex = 7;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Feature Layer";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.cmbDates);
+            this.groupBox3.Controls.Add(this.label9);
+            this.groupBox3.Location = new System.Drawing.Point(10, 246);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(827, 70);
+            this.groupBox3.TabIndex = 8;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Date";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(45, 67);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(119, 19);
+            this.label10.TabIndex = 1;
+            this.label10.Text = "Segment ID field:";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // cmbSegFields
+            // 
+            this.cmbSegFields.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSegFields.FormattingEnabled = true;
+            this.cmbSegFields.Location = new System.Drawing.Point(170, 69);
+            this.cmbSegFields.Name = "cmbSegFields";
+            this.cmbSegFields.Size = new System.Drawing.Size(302, 27);
+            this.cmbSegFields.TabIndex = 0;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(61, 114);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(103, 19);
+            this.label11.TabIndex = 1;
+            this.label11.Text = "Reach ID field:";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // cmbReachFields
+            // 
+            this.cmbReachFields.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbReachFields.FormattingEnabled = true;
+            this.cmbReachFields.Location = new System.Drawing.Point(170, 114);
+            this.cmbReachFields.Name = "cmbReachFields";
+            this.cmbReachFields.Size = new System.Drawing.Size(302, 27);
+            this.cmbReachFields.TabIndex = 0;
             // 
             // SFRExplorer
             // 
@@ -848,7 +883,10 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabPageTimeSeries.ResumeLayout(false);
             this.tabPageProfile.ResumeLayout(false);
             this.tabPageFeatureLayer.ResumeLayout(false);
-            this.tabPageFeatureLayer.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -921,10 +959,13 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         private System.Windows.Forms.ToolStripMenuItem exportToSWMMInpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem riverJunctionsToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPageFeatureLayer;
-        private System.Windows.Forms.RadioButton radioButtonReachFeature;
-        private System.Windows.Forms.RadioButton radioButtonSegFeature;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ToolStripButton chbReadComplData;
         private System.Windows.Forms.CheckBox checkBoxSaveLayer;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ComboBox cmbReachFields;
+        private System.Windows.Forms.ComboBox cmbSegFields;
+        private System.Windows.Forms.Label label11;
     }
 }

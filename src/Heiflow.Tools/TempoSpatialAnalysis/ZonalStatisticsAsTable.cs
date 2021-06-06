@@ -176,7 +176,8 @@ namespace Heiflow.Tools.Statisitcs
                 int t = 0;
                 foreach (var fea in polygon)
                 {
-                    if (SpatialRelationship.PointInPolygon(fea.Geometry.Coordinates, geo_pt.Coordinates[0]))
+                   // if (SpatialRelationship.PointInPolygon(fea.Geometry.Coordinates, geo_pt.Coordinates[0]))
+                    if (geo_pt.Within(fea.Geometry))
                     {
                         dic[list_id[t]].Add(i);
                         break;

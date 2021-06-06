@@ -34,7 +34,9 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             while (!sr.EndOfStream)
             {
                 line = sr.ReadLine();
-                if (TypeConverterEx.IsNotNull(line) && !line.Contains("SOLUTION_SPECIES"))
+                if (line.Contains("SOLUTION_SPECIES"))
+                    break;
+                if (TypeConverterEx.IsNotNull(line))
                 {
                     var buf = TypeConverterEx.Split<string>(line);
                     var species = new Species()

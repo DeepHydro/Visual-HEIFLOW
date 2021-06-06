@@ -216,6 +216,10 @@ namespace Heiflow.Controls.WinForm.Controls
             this.DataTable = dt;
             EnableControls(false, false, false, true, true, false);
         }
+        public void Bind()
+        { 
+        }
+
         public void Bind(DataTable table)
         {
             _DataTable = table;

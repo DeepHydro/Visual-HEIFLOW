@@ -1,4 +1,4 @@
-//
+﻿//
 // The Visual HEIFLOW License
 //
 // Copyright (c) 2015-2018 Yong Tian, SUSTech, Shenzhen, China. All rights reserved.
@@ -50,6 +50,7 @@ namespace DotSpatial.Plugins.SplashScreenManager
         {
             InitializeComponent();
             LoadCustomBranding(Settings.Default);
+            this.labelControl1.Text = "Copyright ©2016-2021 SUSTech. All Rights Reserved. Version 1.2.2";
         }
 
         private void LoadCustomBranding(Settings settings)

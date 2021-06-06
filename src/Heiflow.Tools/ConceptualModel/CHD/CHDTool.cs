@@ -71,6 +71,7 @@ namespace Heiflow.Tools.ConceptualModel
             MultiThreadRequired = true;
             ModifyElevation = false;
             CHDCellElev = -2;
+            AdaptingLayer = false;
         }
 
 
@@ -162,8 +163,16 @@ namespace Heiflow.Tools.ConceptualModel
         }
 
         [Category("Parameter")]
-        [Description("If yes, elevations for the CHD cells will be modfied.")]
+        [Description("If yes, elevations for the MODFLOW cells will be modfied.")]
         public bool ModifyElevation
+        {
+            get;
+            set;
+        }
+
+        [Category("Parameter")]
+        [Description("If yes, layer will be aumatacially changed to make sure that the starting and ending head is higher thant the layer's bottom elevation.")]
+        public bool AdaptingLayer
         {
             get;
             set;
@@ -195,6 +204,20 @@ namespace Heiflow.Tools.ConceptualModel
             this.Initialized = !(_sourcefs == null || _sourcefs.FeatureType != FeatureType.Point);
         }
 
+        private int FindHighestLayer(int layer_index, int cell_index, DataCube<float> elevs, float chd_head)
+        {
+            if (layer_index >= (elevs.Size[0]-1))
+                return -1;
+            if(chd_head > elevs[layer_index,0,cell_index])
+            {
+                return layer_index;
+            }
+            else
+            {
+                return FindHighestLayer(layer_index + 1, cell_index, elevs, chd_head);
+            }
+        }
+
         public override bool Execute(ICancelProgressHandler cancelProgressHandler)
         {
             var shell = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
@@ -218,9 +241,12 @@ namespace Heiflow.Tools.ConceptualModel
                 var pck = mf.GetPackage(CHDPackage.PackageName) as CHDPackage;
                 List<CellHead> list = new List<CellHead>();
                 int npt = _sourcefs.Features.Count;
+                var mfgrid = (mf.Grid as MFGrid);
+                var elev = mfgrid.Elevations;
+
                 for (int i = 0; i < npt; i++)
                 {
-                    var pt = _sourcefs.Features[i].Geometry.Coordinate;
+                    //var pt = _sourcefs.Features[i].Geometry.Coordinate;
                     int layer = 1;
                     float shead = 0;
                     float ehead = 0;
@@ -238,18 +264,26 @@ namespace Heiflow.Tools.ConceptualModel
                     }
                     for (int j = 0; j < _grid_layer.Features.Count; j++)
                     {
-                        var cell = _grid_layer.Features[j].Geometry.Coordinates;
-                        if (SpatialRelationship.PointInPolygon(cell, pt))
+                        //var cell = _grid_layer.Features[j].Geometry.Coordinates;
+                        //if (SpatialRelationship.PointInPolygon(cell, pt))
+                        if (_sourcefs.Features[i].Geometry.Within(_grid_layer.Features[j].Geometry))
                         {
                             CellHead bound = new CellHead()
                             {
                                 Layer = layer,
                                 SHead = shead,
-                                EHead=ehead,
+                                EHead = ehead,
                                 Row = int.Parse(_grid_layer.DataTable.Rows[j]["ROW"].ToString()),
                                 Col = int.Parse(_grid_layer.DataTable.Rows[j]["COLUMN"].ToString()),
                             };
-                            list.Add(bound);
+                            if (AdaptingLayer)
+                            {
+                                var index = mfgrid.Topology.GetSerialIndex(bound.Row - 1, bound.Col - 1);
+                                var newlayer = FindHighestLayer(bound.Layer, index, elev, bound.SHead);
+                                bound.Layer = newlayer;
+                            }
+                            if(bound.Layer != -1)
+                                list.Add(bound);
                             break;
                         }
                     }
@@ -283,15 +317,28 @@ namespace Heiflow.Tools.ConceptualModel
                         FlowRate[0, i, 2] = bound.Col;
                         FlowRate[0, i, 3] = bound.SHead;
                         FlowRate[0, i, 4] = bound.EHead;
+                        //var index = mfgrid.Topology.GetSerialIndex(bound.Row - 1, bound.Col - 1);
+                        //if (AdaptingLayer)
+                        //{
+                        //    if (bound.SHead < elev[bound.Layer, 0, index])
+                        //    {
+                        //        var newlayer = FindHighestLayer(bound.Layer, index, elev, bound.SHead);
+                        //        if (newlayer != -1)
+                        //        {
+                        //            FlowRate[0, i, 0] = newlayer;
+                        //            bound.Layer = newlayer;
+                        //        }
+                        //    }
+                        //}
                     }
                     for (int i = 1; i < nsp; i++)
                     {
                         FlowRate.Flags[i] = TimeVarientFlag.Repeat;
                     }
-                    if(ModifyElevation)
+                    if (ModifyElevation)
                     {
-                        var mfgrid=  (mf.Grid as MFGrid);
-                        var elev =mfgrid.Elevations;
+
+
                         for (int i = 0; i < pck.MXACTC; i++)
                         {
                             var bound = list[i];
@@ -315,7 +362,7 @@ namespace Heiflow.Tools.ConceptualModel
                                 }
                             }
                         }
-                        cancelProgressHandler.Progress("Package_Tool", 100, "DIS pachage need to be saved.");
+                        cancelProgressHandler.Progress("Package_Tool", 100, "DIS package need to be saved.");
                     }
                     pck.SHEAD = FlowRate;
                     pck.CreateFeature(shell.MapAppManager.Map.Projection, prj.Project.GeoSpatialDirectory);

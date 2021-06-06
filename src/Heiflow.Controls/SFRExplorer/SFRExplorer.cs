@@ -302,7 +302,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
-            BindSites(); 
+            BindSites();
         }
 
         private void chbReadComplData_CheckedChanged(object sender, EventArgs e)
@@ -418,7 +418,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                 foreach (var river in _ProfileRivers)
                 {
                     string line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}", river.ID, river.ICALC, river.OutRiverID,
-                        river.UpRiverID, river.Flow, river.Runoff, river.ETSW, river.PPTSW, river.ROUGHCH, river.Width1, river.Width2,river.IPrior);
+                        river.UpRiverID, river.Flow, river.Runoff, river.ETSW, river.PPTSW, river.ROUGHCH, river.Width1, river.Width2, river.IPrior);
                     sw.WriteLine(line);
 
                 }
@@ -487,7 +487,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             if (SFROutput.NumTimeStep > 0)
             {
                 tabControlLeft.Enabled = true;
-              
+
             }
         }
 
@@ -512,6 +512,17 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                 return;
             if (cmbSFRVars.SelectedIndex < 0)
                 return;
+            if (cmbSegFields.SelectedIndex < 0)
+            {
+                MessageBox.Show("Field that represents Segment ID must be selected", "SFR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (chbReadComplData.Checked && cmbReachFields.SelectedIndex < 0)
+            {
+                MessageBox.Show("Field that represents Reach ID must be selected", "SFR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (!SFROutput.DataCube.IsAllocated(cmbSFRVars.SelectedIndex))
             {
                 MessageBox.Show("The selected variable is not loaded.", "SFR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -522,29 +533,66 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             if (_SelectedFeatureMapLayer != null)
             {
                 var dt = _SelectedFeatureMapLayer.DataSet.DataTable;
-                if (SFROutput.DataCube.Size[2] == dt.Rows.Count)
+                Cursor.Current = Cursors.WaitCursor;
+                int segid = 0;
+                int reachid = 0;
+                int failurecount = 0;
+                var varname = SFROutput.DefaultVariablesAbbrv[cmbSFRVars.SelectedIndex];
+                if (!dt.Columns.Contains(varname))
                 {
-                    Cursor.Current = Cursors.WaitCursor;
-                    var varname = SFROutput.DefaultVariablesAbbrv[cmbSFRVars.SelectedIndex];
-                    if (!dt.Columns.Contains(varname))
-                    {
-                        DataColumn col = new DataColumn(varname, typeof(float));
-                        dt.Columns.Add(col);
-                    }
-                    var vec = SFROutput.DataCube.GetVector(cmbSFRVars.SelectedIndex, cmbDates.SelectedIndex.ToString(), ":");
+                    DataColumn col = new DataColumn(varname, typeof(float));
+                    dt.Columns.Add(col);
+                }
+                var vec = SFROutput.DataCube.GetVector(cmbSFRVars.SelectedIndex, cmbDates.SelectedIndex.ToString(), ":");
+
+                if (chbReadComplData.Checked)
+                {
+                    var segfield = cmbSegFields.SelectedItem.ToString();
+                    var reachfield = cmbReachFields.SelectedItem.ToString();
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {
-                        dt.Rows[i][varname] = vec[i];
+                        var dr = dt.Rows[i];
+                        segid = 0;
+                        reachid = 0;
+                        int.TryParse(dr[segfield].ToString(), out segid);
+                        int.TryParse(dr[reachfield].ToString(), out reachid);
+                        if (segid != 0 && reachid != 0)
+                        {
+                            var index = SFROutput.GetReachSerialIndex(segid, reachid);
+                            if (index >= 0)
+                                dt.Rows[i][varname] = vec[index];
+                            else
+                                failurecount++;
+                        }
                     }
-                    if(checkBoxSaveLayer.Checked)
-                        _SelectedFeatureMapLayer.DataSet.Save();
-                    Cursor.Current = Cursors.Default;
                 }
                 else
                 {
-                    MessageBox.Show("The selected Feature Layer is invalid.", "SFR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
+                    var segfield = cmbSegFields.SelectedItem.ToString();
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        var dr = dt.Rows[i];
+                        segid = 0;
+                        int.TryParse(dr[segfield].ToString(), out segid);
+                        if (segid != 0)
+                        {
+                            dt.Rows[i][varname] = vec[segid - 1];
+                        }
+                        else
+                            failurecount++;
+                    }
                 }
+
+                if (failurecount > 0)
+                {
+                    MessageBox.Show("The number of failed rows is: " + failurecount, "SFR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    if (checkBoxSaveLayer.Checked)
+                        _SelectedFeatureMapLayer.DataSet.Save();
+                }
+                Cursor.Current = Cursors.Default;
             }
         }
 
@@ -578,8 +626,33 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         private void chbReadComplData_CheckedChanged_1(object sender, EventArgs e)
         {
             cmbRchID.Enabled = chbReadComplData.Checked;
+
         }
 
- 
+        private void cmbLayers_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _SelectedFeatureMapLayer = cmbLayers.SelectedItem as FeatureMapLayer;
+            if (_SelectedFeatureMapLayer != null)
+            {
+                var buf = from DataColumn dc in _SelectedFeatureMapLayer.DataSet.DataTable.Columns select dc.ColumnName;
+                var fields = buf.ToArray();
+                cmbSegFields.DataSource = fields;
+
+                var buf1 = from DataColumn dc in _SelectedFeatureMapLayer.DataSet.DataTable.Columns select dc.ColumnName;
+                var fields1 = buf1.ToArray();
+                cmbReachFields.DataSource = fields1;
+
+                if (chbReadComplData.Checked)
+                {
+                    cmbSegFields.Enabled = true;
+                    cmbReachFields.Enabled = true;
+                }
+                else
+                {
+                    cmbSegFields.Enabled = true;
+                    cmbReachFields.Enabled = false;
+                }
+            }
+        }
     }
 }

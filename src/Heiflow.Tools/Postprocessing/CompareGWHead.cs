@@ -230,11 +230,12 @@ namespace Heiflow.Tools.Postprocessing
                         {
                             float.TryParse(_sourcefs.DataTable.Rows[i][ObservedHeadField].ToString(), out head);
                             float.TryParse(_sourcefs.DataTable.Rows[i][ObservedDepthField].ToString(), out obsdep);
-                            var pt = _sourcefs.Features[i].Geometry.Coordinate;
+                            //var pt = _sourcefs.Features[i].Geometry.Coordinate;
                             for (int j = 0; j < _grid_layer.Features.Count; j++)
                             {
-                                var cell = _grid_layer.Features[j].Geometry.Coordinates;
-                                if (SpatialRelationship.PointInPolygon(cell, pt))
+                                //var cell = _grid_layer.Features[j].Geometry.Coordinates;
+                                //if (SpatialRelationship.PointInPolygon(cell, pt))
+                                if (_sourcefs.Features[i].Geometry.Within(_grid_layer.Features[j].Geometry))
                                 {
                                     var Row = int.Parse(_grid_layer.DataTable.Rows[j]["ROW"].ToString());
                                     var Column = int.Parse(_grid_layer.DataTable.Rows[j]["COLUMN"].ToString());

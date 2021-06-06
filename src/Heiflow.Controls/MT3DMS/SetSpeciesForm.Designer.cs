@@ -28,19 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SetSpeciesForm));
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.olvLayerGroup = new BrightIdeasSoftware.DataListView();
+            this.olvSpeciesList = new BrightIdeasSoftware.DataListView();
             this.colName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.colSelected = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.olvLayerGroup)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.olvSpeciesList)).BeginInit();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -48,7 +49,7 @@
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnCancel.Location = new System.Drawing.Point(689, 12);
+            this.btnCancel.Location = new System.Drawing.Point(716, 12);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(3, 8, 3, 8);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(90, 30);
@@ -60,7 +61,7 @@
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOk.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnOk.Location = new System.Drawing.Point(575, 12);
+            this.btnOk.Location = new System.Drawing.Point(602, 12);
             this.btnOk.Margin = new System.Windows.Forms.Padding(3, 8, 3, 8);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(90, 30);
@@ -74,10 +75,10 @@
             this.panel1.Controls.Add(this.btnOk);
             this.panel1.Controls.Add(this.btnCancel);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 376);
+            this.panel1.Location = new System.Drawing.Point(0, 404);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(806, 59);
+            this.panel1.Size = new System.Drawing.Size(833, 59);
             this.panel1.TabIndex = 34;
             // 
             // tabControl1
@@ -88,63 +89,63 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(806, 376);
+            this.tabControl1.Size = new System.Drawing.Size(833, 404);
             this.tabControl1.TabIndex = 35;
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.olvLayerGroup);
+            this.tabPage1.Controls.Add(this.olvSpeciesList);
             this.tabPage1.Location = new System.Drawing.Point(4, 29);
             this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage1.Size = new System.Drawing.Size(798, 343);
+            this.tabPage1.Size = new System.Drawing.Size(825, 371);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Species List";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // olvLayerGroup
+            // olvSpeciesList
             // 
-            this.olvLayerGroup.AllColumns.Add(this.colName);
-            this.olvLayerGroup.AllColumns.Add(this.colSelected);
-            this.olvLayerGroup.AllColumns.Add(this.olvColumn2);
-            this.olvLayerGroup.AllowColumnReorder = true;
-            this.olvLayerGroup.AllowDrop = true;
-            this.olvLayerGroup.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
-            this.olvLayerGroup.CellEditUseWholeCell = false;
-            this.olvLayerGroup.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvSpeciesList.AllColumns.Add(this.colName);
+            this.olvSpeciesList.AllColumns.Add(this.colSelected);
+            this.olvSpeciesList.AllColumns.Add(this.olvColumn2);
+            this.olvSpeciesList.AllowColumnReorder = true;
+            this.olvSpeciesList.AllowDrop = true;
+            this.olvSpeciesList.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
+            this.olvSpeciesList.CellEditUseWholeCell = false;
+            this.olvSpeciesList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colName,
             this.colSelected,
             this.olvColumn2});
-            this.olvLayerGroup.Cursor = System.Windows.Forms.Cursors.Default;
-            this.olvLayerGroup.DataSource = null;
-            this.olvLayerGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.olvLayerGroup.EmptyListMsg = "";
-            this.olvLayerGroup.EmptyListMsgFont = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.olvLayerGroup.FullRowSelect = true;
-            this.olvLayerGroup.GridLines = true;
-            this.olvLayerGroup.GroupWithItemCountFormat = "";
-            this.olvLayerGroup.GroupWithItemCountSingularFormat = "";
-            this.olvLayerGroup.HideSelection = false;
-            this.olvLayerGroup.Location = new System.Drawing.Point(3, 4);
-            this.olvLayerGroup.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.olvLayerGroup.Name = "olvLayerGroup";
-            this.olvLayerGroup.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
-            this.olvLayerGroup.SelectedBackColor = System.Drawing.Color.Pink;
-            this.olvLayerGroup.SelectedForeColor = System.Drawing.Color.MidnightBlue;
-            this.olvLayerGroup.ShowCommandMenuOnRightClick = true;
-            this.olvLayerGroup.ShowGroups = false;
-            this.olvLayerGroup.ShowImagesOnSubItems = true;
-            this.olvLayerGroup.ShowItemToolTips = true;
-            this.olvLayerGroup.Size = new System.Drawing.Size(792, 335);
-            this.olvLayerGroup.TabIndex = 21;
-            this.olvLayerGroup.UseCellFormatEvents = true;
-            this.olvLayerGroup.UseCompatibleStateImageBehavior = false;
-            this.olvLayerGroup.UseFilterIndicator = true;
-            this.olvLayerGroup.UseFiltering = true;
-            this.olvLayerGroup.UseHotItem = true;
-            this.olvLayerGroup.UseTranslucentHotItem = true;
-            this.olvLayerGroup.View = System.Windows.Forms.View.Details;
+            this.olvSpeciesList.Cursor = System.Windows.Forms.Cursors.Default;
+            this.olvSpeciesList.DataSource = null;
+            this.olvSpeciesList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.olvSpeciesList.EmptyListMsg = "";
+            this.olvSpeciesList.EmptyListMsgFont = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.olvSpeciesList.FullRowSelect = true;
+            this.olvSpeciesList.GridLines = true;
+            this.olvSpeciesList.GroupWithItemCountFormat = "";
+            this.olvSpeciesList.GroupWithItemCountSingularFormat = "";
+            this.olvSpeciesList.HideSelection = false;
+            this.olvSpeciesList.Location = new System.Drawing.Point(3, 4);
+            this.olvSpeciesList.Margin = new System.Windows.Forms.Padding(4);
+            this.olvSpeciesList.Name = "olvSpeciesList";
+            this.olvSpeciesList.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
+            this.olvSpeciesList.SelectedBackColor = System.Drawing.Color.Pink;
+            this.olvSpeciesList.SelectedForeColor = System.Drawing.Color.MidnightBlue;
+            this.olvSpeciesList.ShowCommandMenuOnRightClick = true;
+            this.olvSpeciesList.ShowGroups = false;
+            this.olvSpeciesList.ShowImagesOnSubItems = true;
+            this.olvSpeciesList.ShowItemToolTips = true;
+            this.olvSpeciesList.Size = new System.Drawing.Size(819, 363);
+            this.olvSpeciesList.TabIndex = 21;
+            this.olvSpeciesList.UseCellFormatEvents = true;
+            this.olvSpeciesList.UseCompatibleStateImageBehavior = false;
+            this.olvSpeciesList.UseFilterIndicator = true;
+            this.olvSpeciesList.UseFiltering = true;
+            this.olvSpeciesList.UseHotItem = true;
+            this.olvSpeciesList.UseTranslucentHotItem = true;
+            this.olvSpeciesList.View = System.Windows.Forms.View.Details;
             // 
             // colName
             // 
@@ -152,7 +153,7 @@
             this.colName.ButtonPadding = new System.Drawing.Size(10, 10);
             this.colName.CellEditUseWholeCell = true;
             this.colName.IsTileViewColumn = true;
-            this.colName.Text = "Layer Name";
+            this.colName.Text = "Species Name";
             this.colName.UseInitialLetterForGroup = true;
             this.colName.Width = 115;
             // 
@@ -175,10 +176,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(806, 435);
+            this.ClientSize = new System.Drawing.Size(833, 463);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "SetSpeciesForm";
             this.Text = "Set Species";
@@ -186,7 +189,7 @@
             this.panel1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.olvLayerGroup)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.olvSpeciesList)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -198,7 +201,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
-        private BrightIdeasSoftware.DataListView olvLayerGroup;
+        private BrightIdeasSoftware.DataListView olvSpeciesList;
         private BrightIdeasSoftware.OLVColumn colName;
         private BrightIdeasSoftware.OLVColumn colSelected;
         private BrightIdeasSoftware.OLVColumn olvColumn2;

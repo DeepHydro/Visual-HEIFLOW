@@ -51,7 +51,7 @@ namespace Heiflow.Models.Integration
          private string _MF_IOLOG_File;
          private string _PET_CONSTRAINT_File;
          private string _ABM_MODEL_File;
-         private string _LP_MODEL_File;
+         private string _CHDEX_File;
 
         public ExtensionManPackage()
         {
@@ -249,9 +249,9 @@ namespace Heiflow.Models.Integration
             get;
             set;
         }
-        [Category("Linear Programming Model Extension")]
+        [Category("CHD Package Extension")]
         [Description("")]
-        public bool EnableLP
+        public bool EnableCHDEx
         {
             get;
             set;
@@ -269,17 +269,17 @@ namespace Heiflow.Models.Integration
                 _ABM_MODEL_File = value;
             }
         }
-        [Category("Agent Based Model Extension")]
+        [Category("CHD Package Extension")]
         [Description("")]
-        public string LP_MODEL_File
+        public string CHD_EX_File
         {
             get
             {
-                return Path.Combine(Owner.WorkDirectory, _LP_MODEL_File);
+                return Path.Combine(Owner.WorkDirectory, _CHDEX_File);
             }
             set
             {
-                _LP_MODEL_File = value;
+                _CHDEX_File = value;
             }
         }
         public override void Initialize()
@@ -339,6 +339,11 @@ namespace Heiflow.Models.Integration
                     newline = sr.ReadLine();
                     EnableABM = TypeConverterEx.String2Bool(newline.Trim());
                     ABM_MODEL_File = sr.ReadLine().Trim();
+                    newline = sr.ReadLine();
+                    newline = sr.ReadLine();
+                    EnableCHDEx = TypeConverterEx.String2Bool(newline.Trim());
+                    CHD_EX_File = sr.ReadLine().Trim();
+
                     State = ModelObjectState.Ready;
                     result = LoadingState.Normal;
                 }
@@ -410,9 +415,9 @@ namespace Heiflow.Models.Integration
             sw.WriteLine("## ABM Model");
             sw.WriteLine(TypeConverterEx.Bool2String(EnableABM));
             sw.WriteLine(_ABM_MODEL_File);
-            sw.WriteLine("## LP Model");
-            sw.WriteLine(TypeConverterEx.Bool2String(EnableLP));
-            sw.WriteLine(_LP_MODEL_File);
+            sw.WriteLine("## CHD Extension");
+            sw.WriteLine(TypeConverterEx.Bool2String(EnableCHDEx));
+            sw.WriteLine(_CHDEX_File);
             sw.Close();
             OnSaved(progress);
         }
@@ -432,7 +437,7 @@ namespace Heiflow.Models.Integration
             EnableSFRReport = false;
             EnableLakeEx = false;
             EnableAllocCurveEx = false;
-            EnableLP = false;
+            EnableCHDEx = false;
             _MFOutputExFile = ".\\Input\\Extension\\mfoutput.ex";
             _SFRExFile = ".\\Input\\Extension\\sfr.ex";
             _SFRReportFile = ".\\Output\\sfr_report.txt";
@@ -442,7 +447,7 @@ namespace Heiflow.Models.Integration
             _MF_IOLOG_File = ".\\Output\\mf_io_log.csv";
             _PET_CONSTRAINT_File = ".\\Input\\Extension\\pet_constraint.ex";
             _ABM_MODEL_File = ".\\Input\\Extension\\abm.ex";
-            _LP_MODEL_File = ".\\Input\\Extension\\lp.ex";
+            _CHDEX_File = ".\\Input\\Extension\\chd.ex";
         }
     }
 }

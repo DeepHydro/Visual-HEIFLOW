@@ -62,12 +62,15 @@ namespace Heiflow.Applications.Controllers
                 if (pck.Count() == 1)
                     lp.Package = pck.First();
 
-                var paras = lp.Package.GetParameters();
-                foreach (var ap in lp.ArealProperties)
+                if (lp.Package != null)
                 {
-                    if (ap.IsParameter)
+                    var paras = lp.Package.GetParameters();
+                    foreach (var ap in lp.ArealProperties)
                     {
-                        ap.Parameter = (from pp in paras where pp.Name == ap.ParameterName select pp).First();
+                        if (ap.IsParameter)
+                        {
+                            ap.Parameter = (from pp in paras where pp.Name == ap.ParameterName select pp).First();
+                        }
                     }
                 }
             }

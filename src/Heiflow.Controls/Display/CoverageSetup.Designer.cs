@@ -44,6 +44,7 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnMap = new System.Windows.Forms.ToolStripButton();
             this.btnImport = new System.Windows.Forms.ToolStripButton();
+            this.btnUseDefault = new System.Windows.Forms.ToolStripButton();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.labelStatus = new System.Windows.Forms.ToolStripLabel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -60,6 +61,7 @@
             this.cmbGridLayer = new System.Windows.Forms.ComboBox();
             this.cmbPackages = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnSaveAsCsv = new System.Windows.Forms.ToolStripButton();
             this.contextMenuStripAreal.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -126,10 +128,12 @@
             this.tbCoverageName,
             this.toolStripSeparator1,
             this.btnCreateLookupTable,
-            this.btnSave,
-            this.toolStripSeparator2,
+            this.btnUseDefault,
             this.btnMap,
+            this.toolStripSeparator2,
+            this.btnSave,
             this.btnImport,
+            this.btnSaveAsCsv,
             this.toolStripProgressBar1,
             this.labelStatus});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
@@ -200,6 +204,18 @@
             this.btnImport.Size = new System.Drawing.Size(24, 24);
             this.btnImport.ToolTipText = "Import a lookup table from a csv file";
             this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
+            // 
+            // btnUseDefault
+            // 
+            this.btnUseDefault.Checked = true;
+            this.btnUseDefault.CheckOnClick = true;
+            this.btnUseDefault.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.btnUseDefault.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnUseDefault.Image = global::Heiflow.Controls.WinForm.Properties.Resources.defaultv;
+            this.btnUseDefault.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnUseDefault.Name = "btnUseDefault";
+            this.btnUseDefault.Size = new System.Drawing.Size(24, 24);
+            this.btnUseDefault.Text = "Use default value";
             // 
             // toolStripProgressBar1
             // 
@@ -379,6 +395,16 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "* Packages";
             // 
+            // btnSaveAsCsv
+            // 
+            this.btnSaveAsCsv.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnSaveAsCsv.Image = global::Heiflow.Controls.WinForm.Properties.Resources.excel_32;
+            this.btnSaveAsCsv.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSaveAsCsv.Name = "btnSaveAsCsv";
+            this.btnSaveAsCsv.Size = new System.Drawing.Size(24, 24);
+            this.btnSaveAsCsv.Text = "Save lookup table as CSV file";
+            this.btnSaveAsCsv.Click += new System.EventHandler(this.btnSaveAsCsv_Click);
+            // 
             // CoverageSetup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -443,5 +469,7 @@
         private System.Windows.Forms.ToolStripMenuItem selectAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
         private System.Windows.Forms.ToolStripLabel labelStatus;
+        private System.Windows.Forms.ToolStripButton btnUseDefault;
+        private System.Windows.Forms.ToolStripButton btnSaveAsCsv;
     }
 }

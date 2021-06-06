@@ -74,7 +74,12 @@ namespace Heiflow.Models.Generic.Parameters
                         int j = 0;
                         foreach (var fea in fea_source.Features)
                         {
-                            if (SpatialRelationship.PointInPolygon(fea.Geometry.Coordinates, fea_target[i].Geometry.Coordinates[0]))
+                            //if (SpatialRelationship.PointInPolygon(fea.Geometry.Coordinates, fea_target[i].Geometry.Coordinates[0]))
+                            //{
+                            //    target_index[i] = j;
+                            //    break;
+                            //}
+                            if (fea_target[i].Geometry.Within(fea.Geometry))
                             {
                                 target_index[i] = j;
                                 break;
@@ -97,12 +102,23 @@ namespace Heiflow.Models.Generic.Parameters
                                 var defaultvalue = float.Parse(ap.DefaultValue.ToString());
                                 if (fl[GridLayer] != null)
                                 {
-                                    for (int i = 0; i < nfea_target; i++)
+                                    if (UseDefaultValue)
                                     {
-                                        if (target_index[i] >= 0)
-                                            fl[GridLayer,0,i] = float.Parse(GetValue(ap.AliasName, target_index[i]));
-                                        else
-                                            fl[GridLayer, 0, i] = defaultvalue;
+                                        for (int i = 0; i < nfea_target; i++)
+                                        {
+                                            if (target_index[i] >= 0)
+                                                fl[GridLayer, 0, i] = float.Parse(GetValue(ap.AliasName, target_index[i]));
+                                            else
+                                                fl[GridLayer, 0, i] = defaultvalue;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        for (int i = 0; i < nfea_target; i++)
+                                        {
+                                            if (target_index[i] >= 0)
+                                                fl[GridLayer, 0, i] = float.Parse(GetValue(ap.AliasName, target_index[i]));
+                                        }
                                     }
                                 }
                             }
@@ -112,12 +128,23 @@ namespace Heiflow.Models.Generic.Parameters
                                 var defaultvalue = short.Parse(ap.DefaultValue.ToString());
                                 if (fl[GridLayer] != null)
                                 {
-                                    for (int i = 0; i < nfea_target; i++)
+                                    if (UseDefaultValue)
                                     {
-                                        if (target_index[i] >= 0)
-                                            fl[GridLayer,0,i] = short.Parse(GetValue(ap.AliasName, target_index[i]));
-                                        else
-                                            fl[GridLayer, 0, i] = defaultvalue;
+                                        for (int i = 0; i < nfea_target; i++)
+                                        {
+                                            if (target_index[i] >= 0)
+                                                fl[GridLayer, 0, i] = short.Parse(GetValue(ap.AliasName, target_index[i]));
+                                            else
+                                                fl[GridLayer, 0, i] = defaultvalue;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        for (int i = 0; i < nfea_target; i++)
+                                        {
+                                            if (target_index[i] >= 0)
+                                                fl[GridLayer, 0, i] = short.Parse(GetValue(ap.AliasName, target_index[i]));
+                                        }
                                     }
                                 }
                             }

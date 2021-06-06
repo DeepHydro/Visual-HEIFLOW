@@ -60,7 +60,7 @@ namespace Heiflow.Models.Subsurface
         /// <summary>
         /// "CellElev","BedThick","TopElev","Slope","Length","Offset"，"STRHC1","THTS", "THTI","EPS"
         /// </summary>
-        public static string[] ReachPara = new string[] { "CellElev", "BedThick", "TopElev", "Slope", "Length", "Offset", "STRHC1", "THTS", "THTI", "EPS" };
+        public static string[] ReachPara = new string[] { "CellElev", "BedThick", "TopElevation", "Slope", "Length", "Offset", "STRHC1", "THTS", "THTI", "EPS" };
         private RegularGridTopology _SegTopo;
         private RegularGridTopology _ReachTopo;
         public SFRPackage()

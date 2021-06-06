@@ -403,6 +403,7 @@ namespace Heiflow.Controls.WinForm.Display
                 toolStripProgressBar1.Visible = true;
                 toolStrip1.Enabled = false;
                 tabControlLeft.Enabled = false;
+                _SelectedCoverage.UseDefaultValue = btnUseDefault.Checked;
                 _SelectedCoverage.Processing += SelectedCoverage_Processing;
                 _SelectedCoverage.Processed += SelectedCoverage_Processed;
                 worker.RunWorkerAsync();
@@ -442,6 +443,20 @@ namespace Heiflow.Controls.WinForm.Display
                 toolStripProgressBar1.Value = e.ProgressPercentage;
             //do not update the text if a cancellation request is pending
             labelStatus.Text = string.Format("Processing  {0}%", e.ProgressPercentage);
+        }
+
+        private void btnSaveAsCsv_Click(object sender, EventArgs e)
+        {
+            if (_SelectedCoverage != null && _SelectedCoverage.LookupTable != null)
+            {
+              SaveFileDialog sd = new SaveFileDialog();
+                sd.Filter = "csv file|*.csv";
+                sd.FileName = tbCoverageName.Text + ".csv";
+                if (sd.ShowDialog() == DialogResult.OK)
+                {
+                    _SelectedCoverage.SaveLookupTable(sd.FileName);
+                }
+            }
         }
     }
 }

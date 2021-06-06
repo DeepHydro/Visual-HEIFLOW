@@ -113,14 +113,16 @@ namespace Heiflow.Tools.ConceptualModel
             {
                 var pck = mf.GetPackage(UZFPackage.PackageName) as UZFPackage;
                 var mfgrid = mf.Grid as RegularGrid;
-                Coordinate centroid = null;
+                //Coordinate centroid = null;
                 for (int i = 0; i < mfgrid.ActiveCellCount; i++)
                 {
-                    centroid = mfgrid.LocateCentroid(mfgrid.Topology.ActiveCellLocation[i][1] + 1, mfgrid.Topology.ActiveCellLocation[i][0] + 1);
+                    //centroid = mfgrid.LocateCentroid(mfgrid.Topology.ActiveCellLocation[i][1] + 1, mfgrid.Topology.ActiveCellLocation[i][0] + 1);
+                    var centroid = mfgrid.LocateCentroidPoint(mfgrid.Topology.ActiveCellLocation[i][1] + 1, mfgrid.Topology.ActiveCellLocation[i][0] + 1);
                     for (int j = 0; j < _watershedfs.Features.Count; j++)
                     {
                         var cell = _watershedfs.Features[j].Geometry.Coordinates;
-                        if (SpatialRelationship.PointInPolygon(cell, centroid))
+                        //if (SpatialRelationship.PointInPolygon(cell, centroid))
+                        if (centroid.Within(_watershedfs.Features[j].Geometry))
                         {
                             pck.IRUNBND[0, 0, i] = int.Parse(_watershedfs.Features[j].DataRow["BasinID"].ToString()) + 1;
                             break;

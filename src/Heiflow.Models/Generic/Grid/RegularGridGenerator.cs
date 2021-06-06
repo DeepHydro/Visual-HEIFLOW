@@ -178,16 +178,19 @@ namespace Heiflow.Models.Generic.Grid
                 {
                     for (int c = 0; c < ColumnCount; c++)
                     {
-                        var cor = Source.LocateCentroid(c + 1, r + 1);
-                        if (SpatialRelationship.PointInPolygon(geo, cor))
+                        //var cor = Source.LocateCentroid(c + 1, r + 1);
+                        var pt = Source.LocateCentroidPoint(c + 1, r + 1);
+                        // if (SpatialRelationship.PointInPolygon(geo, cor))
+                        if (pt.Within(Domain.Features[0].Geometry))
                         {
+
                             for (int l = 0; l < Source.ActualLayerCount; l++)
                             {
                                 Source.IBound[l, r, c] = 1;
                                 Source.MFIBound[l, r, c] = 1;
                             }
                             active++;
-                            centroids.Add(cor);
+                            centroids.Add(pt.Coordinate);
                         }
                     }
                 }

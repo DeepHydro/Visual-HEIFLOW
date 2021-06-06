@@ -201,7 +201,8 @@ namespace Heiflow.Tools.ConceptualModel
                     for (int j = 0; j < _grid_layer.Features.Count; j++)
                     {
                         var cell = _grid_layer.Features[j].Geometry.Coordinates;
-                        if (SpatialRelationship.PointInPolygon(cell, pt))
+                        //if (SpatialRelationship.PointInPolygon(cell, pt))
+                        if (_sourcefs.Features[i].Geometry.Within(_grid_layer.Features[j].Geometry))
                         {
                             HeadObservation obs = new HeadObservation(i)
                             {

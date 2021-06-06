@@ -200,6 +200,11 @@ namespace Heiflow.Models.Generic.Parameters
              get;
              set;
          }
+          public bool UseDefaultValue
+          {
+              get;
+              set;
+          }
 
         protected virtual void OnProcessing(int percent)
         {
@@ -318,7 +323,12 @@ namespace Heiflow.Models.Generic.Parameters
         }
         public void SaveLookupTable()
         {
-            StreamWriter sw = new StreamWriter(FullLookupTableFileName);
+            SaveLookupTable(FullLookupTableFileName);
+        }
+
+        public void SaveLookupTable(string filename)
+        {
+            StreamWriter sw = new StreamWriter(filename);
             var buf = from DataColumn dc in LookupTable.Columns select dc.ColumnName;
             string cols = string.Join(",", buf);
             string line = "";

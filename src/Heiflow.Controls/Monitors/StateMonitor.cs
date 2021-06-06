@@ -196,6 +196,7 @@ namespace Heiflow.Controls.WinForm.Display
                  + e[FileMonitor.BASINIMPERVEVAP_HRU] + e[FileMonitor.BASININTCPEVAP_HRU] + e[FileMonitor.BASINSNOWEVAP_HRU]
                  + e[FileMonitor.UZF_INFIL]
                  + e[FileMonitor.CANAL_ET] + e[FileMonitor.SFRET] + e[FileMonitor.LAKET];
+            var soilet = e[FileMonitor.BASINPERVET_HRU]  + e[FileMonitor.CANAL_ET] + e[FileMonitor.SFRET] + e[FileMonitor.LAKET];
             var soilds = e[FileMonitor.Soil_Zone_DS] + e[FileMonitor.LAND_SURFACE_Zone_DS];
             var soilerror = soilin - soilout - soilds;
             var soildisp = Math.Round((soilerror) / (soilin + soilout + Math.Abs(soilds)) * 2 * 100, 2);
@@ -217,7 +218,9 @@ namespace Heiflow.Controls.WinForm.Display
    
             ppt.Text = e[FileMonitor.PPT].ToString();
             ds.Text = e[FileMonitor.Total_Storage_Change].ToString();
-            et.Text = (e[FileMonitor.Evapotranspiration] + e[FileMonitor.Evaporation]).ToString();
+           // et.Text = (e[FileMonitor.Evapotranspiration] + e[FileMonitor.Evaporation]).ToString();
+            et.Text = (surface_et + soilet + e[FileMonitor.UZF_ET] + e[FileMonitor.SAT_ET] + e[FileMonitor.Evaporation]).ToString();
+
             sw_in.Text = e[FileMonitor.Streams_Inflow].ToString();
             sw_out.Text = e[FileMonitor.Streams_Outflow].ToString();
             sat_in.Text = e[FileMonitor.Groundwater_Inflow].ToString();

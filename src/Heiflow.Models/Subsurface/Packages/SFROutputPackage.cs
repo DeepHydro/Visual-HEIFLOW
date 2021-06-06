@@ -747,5 +747,23 @@ namespace Heiflow.Models.Subsurface
             this.Feature = this._SFRPackage.Feature;
             this.FeatureLayer = this._SFRPackage.FeatureLayer;
         }
+        /// <summary>
+        /// get reach serial index
+        /// </summary>
+        /// <param name="segid"></param>
+        /// <param name="reachid"></param>
+        /// <returns>serial index starting from 0</returns>
+        public int GetReachSerialIndex(int segid, int reachid)
+        {
+            var buf = from rch in ReachIndex where rch.Item1 == (segid - 1) && rch.Item2 == (reachid - 1) select rch;
+            if(buf.Any())
+            {
+                return buf.First().Item3;
+            }
+            else
+            {
+                return -1;
+            }
+        }
     }
 }

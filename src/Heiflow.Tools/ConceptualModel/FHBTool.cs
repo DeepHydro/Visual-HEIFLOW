@@ -205,7 +205,7 @@ namespace Heiflow.Tools.ConceptualModel
                 int npt = _sourcefs.Features.Count;
                 for (int i = 0; i < npt; i++)
                 {
-                    var pt = _sourcefs.Features[i].Geometry.Coordinate;
+                    //var pt = _sourcefs.Features[i].Geometry.Coordinate;
                     int layer = 1;
                     float rate = 0;
                     if (!string.IsNullOrEmpty(LayerField))
@@ -219,8 +219,9 @@ namespace Heiflow.Tools.ConceptualModel
                     }
                     for (int j = 0; j < _grid_layer.Features.Count; j++)
                     {
-                        var cell = _grid_layer.Features[j].Geometry.Coordinates;
-                        if(SpatialRelationship.PointInPolygon(cell,pt))
+                        //var cell = _grid_layer.Features[j].Geometry.Coordinates;
+                        //if (SpatialRelationship.PointInPolygon(cell, pt))
+                        if (_sourcefs.Features[i].Geometry.Within(_grid_layer.Features[j].Geometry))
                         {
                             FlowBound bound = new FlowBound()
                             {

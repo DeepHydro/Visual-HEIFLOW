@@ -219,7 +219,7 @@ namespace Heiflow.Tools.ConceptualModel
                     };
                     int layer = 1;
                     float rate = 0;
-                    Coordinate pt = null;
+                    //Coordinate pt = null;
                     for (int n = 0; n < np; n++)
                     {
                         if (welnum_list[n] > 0)
@@ -232,11 +232,12 @@ namespace Heiflow.Tools.ConceptualModel
                             {
                                 int.TryParse(_sourcefs.DataTable.Rows[i][LayerField].ToString(), out layer);
                                 float.TryParse(_sourcefs.DataTable.Rows[i][rate_fileds_list[n]].ToString(), out rate);
-                                pt = _sourcefs.Features[i].Geometry.Coordinate;
+                                //pt = _sourcefs.Features[i].Geometry.Coordinate;
                                 for (int j = 0; j < _grid_layer.Features.Count; j++)
                                 {
-                                    var cell = _grid_layer.Features[j].Geometry.Coordinates;
-                                    if (SpatialRelationship.PointInPolygon(cell, pt))
+                                    //var cell = _grid_layer.Features[j].Geometry.Coordinates;
+                                   // if (SpatialRelationship.PointInPolygon(cell, pt))
+                                    if (_sourcefs.Features[i].Geometry.Within(_grid_layer.Features[j].Geometry))
                                     {
                                         pck.FluxRates[0, n, i] = layer;
                                         pck.FluxRates[1, n, i] = int.Parse(_grid_layer.DataTable.Rows[j]["ROW"].ToString());

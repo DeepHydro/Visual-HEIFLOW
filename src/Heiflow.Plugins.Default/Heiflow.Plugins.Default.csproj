@@ -131,6 +131,7 @@
     <Compile Include="ModelClimatePlugin.cs" />
     <Compile Include="DatabaseExplorerPlugin.cs" />
     <Compile Include="DataGridPanel.cs" />
+    <Compile Include="MT3DMSPlugin.cs" />
     <Compile Include="ModelTimePlugin.cs" />
     <Compile Include="ModelToolManagerPlugin.cs" />
     <Compile Include="ModelPlugin.cs" />
@@ -342,6 +343,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\progess64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\species.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

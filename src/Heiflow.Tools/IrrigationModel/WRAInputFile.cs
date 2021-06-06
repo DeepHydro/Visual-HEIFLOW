@@ -417,17 +417,19 @@ namespace Heiflow.Tools.DataManagement
             var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
             var model = prj.Project.Model;
             var mfgrid = model.Grid as RegularGrid;
-            Coordinate centroid = null;
+            //Coordinate centroid = null;
             string code = "";
             var cellarea = mfgrid.GetCellArea(); 
             for (int i = 0; i < mfgrid.ActiveCellCount; i++)
             {
-                centroid = mfgrid.LocateCentroid(mfgrid.Topology.ActiveCellLocation[i][1] + 1, mfgrid.Topology.ActiveCellLocation[i][0] + 1);
+                //centroid = mfgrid.LocateCentroid(mfgrid.Topology.ActiveCellLocation[i][1] + 1, mfgrid.Topology.ActiveCellLocation[i][0] + 1);
+                var centroid = mfgrid.LocateCentroidPoint(mfgrid.Topology.ActiveCellLocation[i][1] + 1, mfgrid.Topology.ActiveCellLocation[i][0] + 1);
                 for (int j = 0; j < _farm_fs.Features.Count; j++)
                 {
-                    if (SpatialRelationship.PointInPolygon(_farm_fs.Features[j].Geometry.Coordinates, centroid))
+                    //if (SpatialRelationship.PointInPolygon(_farm_fs.Features[j].Geometry.Coordinates, centroid))
+                    if (centroid.Within(_farm_fs.Features[j].Geometry))
                     {
-                        var cell = _lu_raster.ProjToCell(centroid);
+                        var cell = _lu_raster.ProjToCell(centroid.Coordinate);
                         if (cell.Column > -1 && cell.Row > -1)
                         {
                             code = _lu_raster.Value[cell.Row, cell.Column].ToString();

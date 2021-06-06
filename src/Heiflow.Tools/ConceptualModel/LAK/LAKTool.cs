@@ -140,11 +140,11 @@ namespace Heiflow.Tools.ConceptualModel
                 var uzf = mf.GetPackage(UZFPackage.PackageName) as UZFPackage;
                 int nlake = _sourcefs.Features.Count;
                 lak_pck.LakeCellID.Clear();
-                Coordinate[][] lake_bund = new Coordinate[nlake][];
+                //Coordinate[][] lake_bund = new Coordinate[nlake][];
                 var lak_leakance = new float[nlake];
                 for (int i = 0; i < nlake; i++)
                 {
-                    lake_bund[i] = _sourcefs.Features[i].Geometry.Coordinates;
+                    //lake_bund[i] = _sourcefs.Features[i].Geometry.Coordinates;
                     var lake_id = int.Parse(_sourcefs.DataTable.Rows[i][LakeIDField].ToString());
                     lak_pck.LakeCellID.Add(lake_id, new List<int>());
                     lak_leakance[i] = float.Parse(_sourcefs.DataTable.Rows[i][BDLKNCField].ToString());
@@ -161,10 +161,12 @@ namespace Heiflow.Tools.ConceptualModel
                 {
                     for (int j = 0; j < grid.ColumnCount; j++)
                     {
-                        var centroid = grid.LocateCentroid(j + 1, i + 1);
+                        //var centroid = grid.LocateCentroid(j + 1, i + 1);
+                        var centroid = grid.LocateCentroidPoint(j + 1, i + 1);
                         for (int k = 0; k < nlake; k++)
                         {
-                            if (SpatialRelationship.PointInPolygon(lake_bund[k], centroid))
+                            //if (SpatialRelationship.PointInPolygon(lake_bund[k], centroid))
+                            if (centroid.Within(_sourcefs.Features[k].Geometry))
                             {
                                 var cell_id = grid.Topology.GetID(i, j);
                                 var lake_id = int.Parse(_sourcefs.DataTable.Rows[k][LakeIDField].ToString());
@@ -259,12 +261,12 @@ namespace Heiflow.Tools.ConceptualModel
                             mf.FlowPropertyPackage.IsDirty = true;
                             flowpck_changed = true;
                         }
-                        if(uzf.IUZFBND[0,0,hru_index] != 0)
-                        {
-                            uzf.IUZFBND[0, 0, hru_index] = 0;
-                            uzf.IsDirty = true;
-                            uzf_changed = true;
-                        }
+                        //if(uzf.IUZFBND[0,0,hru_index] != 0)
+                        //{
+                        //    uzf.IUZFBND[0, 0, hru_index] = 0;
+                        //    uzf.IsDirty = true;
+                        //    uzf_changed = true;
+                        //}
                     }
                 }
 

@@ -40,7 +40,7 @@ using System.Linq;
 
 namespace Heiflow.Tools.ConceptualModel
 {
-    public enum ReachParameter {  BedThick, TopElev, Slope, Length, STRHC1, THTS, THTI, EPS };
+    public enum ReachParameter {  BedThick, TopElevation, Slope, Length, STRHC1, THTS, THTI, EPS };
     public class SetReachParaByFeatureLayer : MapLayerRequiredTool
     {
         private IMapLayerDescriptor _StreamFeatureLayerDescriptor;
@@ -92,7 +92,7 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             protected set;
         }
-        [Category("GIS Layer")]
+        [Category("Field Binding")]
         [Description("The segment ID field")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
@@ -101,16 +101,16 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             set;
         }
-        [Category("GIS Layer")]
+        [Category("Field Binding")]
         [Description("The reach ID field.")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
-        public string ReachDField
+        public string ReachIDField
         {
             get;
             set;
         }
-        [Category("GIS Layer")]
+        [Category("Field Binding")]
         [Description("The field of the feature layer used to set the segment parameter")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("Fields")]
@@ -144,17 +144,17 @@ namespace Heiflow.Tools.ConceptualModel
             {
                 if (SFRPackage.ReachPara.Contains(ParameterName.ToString()))
                 {
-                    if (sfr.RiverNetwork.ReachCount != dt.Rows.Count)
-                    {
-                        cancelProgressHandler.Progress("Package_Tool", 1, "Warning: Reach count in SFR package is not equal to the row count of the GIS layer");
-                        return false;
-                    }
-                    if (dt.Columns.Contains(SegmentIDField) && dt.Columns.Contains(ReachDField))
+                    //if (sfr.RiverNetwork.ReachCount != dt.Rows.Count)
+                    //{
+                    //    cancelProgressHandler.Progress("Package_Tool", 1, "Warning: Reach count in SFR package is not equal to the row count of the GIS layer");
+                    //    return false;
+                    //}
+                    if (dt.Columns.Contains(SegmentIDField) && dt.Columns.Contains(ReachIDField))
                     {
                         foreach (DataRow dr in dt.Rows)
                         {
                             var segid = int.Parse(dr[SegmentIDField].ToString());
-                            var rchid = int.Parse(dr[ReachDField].ToString());
+                            var rchid = int.Parse(dr[ReachIDField].ToString());
                             var reach = sfr.RiverNetwork.GetReach(segid, rchid);
                             if (reach != null)
                             {
