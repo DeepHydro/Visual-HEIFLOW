@@ -67,6 +67,10 @@ namespace Heiflow.Controls.WinForm.MenuItems
         /// </summary>
         public const string _VI3 = "3D View...";
         /// <summary>
+        /// 3D View
+        /// </summary>
+        public const string _VERTPROF = "Vertical Profile View...";
+        /// <summary>
         /// Animate
         /// </summary>
         public const string _AN = "Animate...";
@@ -141,6 +145,9 @@ namespace Heiflow.Controls.WinForm.MenuItems
                 item = new ExplorerMenuItem(_SOM, Resources.LayerRasterOptimized16, ShowOnMap_Clicked);
                 _sub_menus.Add(item);
                 item = new ExplorerMenuItem(_VI3, Resources._3dplot16, ShowOn3D_Clicked);
+                _sub_menus.Add(item);
+                item = new ExplorerMenuItem(_VERTPROF, Resources.LasRGB32, VertProfileView_Clicked);
+                item.Enabled = false;
                 _sub_menus.Add(item);
 
                 var animate = new ExplorerMenuItem(_AN, Resources.AnimationVideo16, Animate_Clicked);
@@ -386,6 +393,10 @@ namespace Heiflow.Controls.WinForm.MenuItems
                     }
                 }
             }
+        }
+
+        protected virtual void VertProfileView_Clicked(object sender, EventArgs e)
+        {
         }
 
         protected virtual void AnimationMap_Clicked(object sender, EventArgs e)

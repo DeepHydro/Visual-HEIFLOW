@@ -89,19 +89,22 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.winChart_proflie = new Heiflow.Controls.WinForm.Controls.WinChart();
             this.colorSlider1 = new Heiflow.Controls.WinForm.ColorSlider();
             this.tabPageFeatureLayer = new System.Windows.Forms.TabPage();
-            this.checkBoxSaveLayer = new System.Windows.Forms.CheckBox();
-            this.btnShowLayer = new System.Windows.Forms.Button();
-            this.btnRefreshLayer = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.cmbDates = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.cmbLayers = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.cmbSegFields = new System.Windows.Forms.ComboBox();
-            this.label11 = new System.Windows.Forms.Label();
             this.cmbReachFields = new System.Windows.Forms.ComboBox();
+            this.cmbSegFields = new System.Windows.Forms.ComboBox();
+            this.cmbLayers = new System.Windows.Forms.ComboBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.checkBoxSaveLayer = new System.Windows.Forms.CheckBox();
+            this.btnRefreshLayer = new System.Windows.Forms.Button();
+            this.btnShowLayer = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.tbCurDate = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -116,8 +119,9 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabPageTimeSeries.SuspendLayout();
             this.tabPageProfile.SuspendLayout();
             this.tabPageFeatureLayer.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -522,19 +526,20 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.groupBox4);
             this.tabPage4.Controls.Add(this.btnAdd2Toolbox);
             this.tabPage4.Controls.Add(this.groupBox2);
-            this.tabPage4.Location = new System.Drawing.Point(4, 25);
+            this.tabPage4.Location = new System.Drawing.Point(4, 28);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(257, 596);
+            this.tabPage4.Size = new System.Drawing.Size(257, 593);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "Profile";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // btnAdd2Toolbox
             // 
-            this.btnAdd2Toolbox.Location = new System.Drawing.Point(16, 219);
+            this.btnAdd2Toolbox.Location = new System.Drawing.Point(6, 401);
             this.btnAdd2Toolbox.Name = "btnAdd2Toolbox";
             this.btnAdd2Toolbox.Size = new System.Drawing.Size(229, 31);
             this.btnAdd2Toolbox.TabIndex = 12;
@@ -671,7 +676,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabPageProfile.Location = new System.Drawing.Point(4, 4);
             this.tabPageProfile.Name = "tabPageProfile";
             this.tabPageProfile.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageProfile.Size = new System.Drawing.Size(856, 596);
+            this.tabPageProfile.Size = new System.Drawing.Size(856, 593);
             this.tabPageProfile.TabIndex = 1;
             this.tabPageProfile.Text = "Profile View";
             this.tabPageProfile.UseVisualStyleBackColor = true;
@@ -685,7 +690,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.winChart_proflie.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.winChart_proflie.Name = "winChart_proflie";
             this.winChart_proflie.ShowStatPanel = true;
-            this.winChart_proflie.Size = new System.Drawing.Size(850, 567);
+            this.winChart_proflie.Size = new System.Drawing.Size(850, 564);
             this.winChart_proflie.TabIndex = 8;
             // 
             // colorSlider1
@@ -698,7 +703,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.colorSlider1.ElapsedInnerColor = System.Drawing.Color.DeepSkyBlue;
             this.colorSlider1.ElapsedOuterColor = System.Drawing.Color.White;
             this.colorSlider1.LargeChange = ((uint)(5u));
-            this.colorSlider1.Location = new System.Drawing.Point(3, 570);
+            this.colorSlider1.Location = new System.Drawing.Point(3, 567);
             this.colorSlider1.Name = "colorSlider1";
             this.colorSlider1.Size = new System.Drawing.Size(850, 23);
             this.colorSlider1.SmallChange = ((uint)(1u));
@@ -717,42 +722,21 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabPageFeatureLayer.Location = new System.Drawing.Point(4, 4);
             this.tabPageFeatureLayer.Name = "tabPageFeatureLayer";
             this.tabPageFeatureLayer.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFeatureLayer.Size = new System.Drawing.Size(856, 593);
+            this.tabPageFeatureLayer.Size = new System.Drawing.Size(856, 596);
             this.tabPageFeatureLayer.TabIndex = 2;
             this.tabPageFeatureLayer.Text = "Feature Layer View";
             this.tabPageFeatureLayer.UseVisualStyleBackColor = true;
             // 
-            // checkBoxSaveLayer
+            // groupBox3
             // 
-            this.checkBoxSaveLayer.AutoSize = true;
-            this.checkBoxSaveLayer.Location = new System.Drawing.Point(29, 166);
-            this.checkBoxSaveLayer.Name = "checkBoxSaveLayer";
-            this.checkBoxSaveLayer.Size = new System.Drawing.Size(282, 23);
-            this.checkBoxSaveLayer.TabIndex = 6;
-            this.checkBoxSaveLayer.Text = "Save data to the selected feature layer";
-            this.checkBoxSaveLayer.UseVisualStyleBackColor = true;
-            // 
-            // btnShowLayer
-            // 
-            this.btnShowLayer.Location = new System.Drawing.Point(39, 337);
-            this.btnShowLayer.Name = "btnShowLayer";
-            this.btnShowLayer.Size = new System.Drawing.Size(302, 36);
-            this.btnShowLayer.TabIndex = 4;
-            this.btnShowLayer.Text = "Show on GIS Layer";
-            this.btnShowLayer.UseVisualStyleBackColor = true;
-            this.btnShowLayer.Click += new System.EventHandler(this.btnShowLayer_Click);
-            // 
-            // btnRefreshLayer
-            // 
-            this.btnRefreshLayer.Image = global::Heiflow.Controls.WinForm.Properties.Resources.LayerRasterOptimized16;
-            this.btnRefreshLayer.Location = new System.Drawing.Point(490, 22);
-            this.btnRefreshLayer.Name = "btnRefreshLayer";
-            this.btnRefreshLayer.Size = new System.Drawing.Size(171, 28);
-            this.btnRefreshLayer.TabIndex = 5;
-            this.btnRefreshLayer.Text = "Refresh layer list";
-            this.btnRefreshLayer.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnRefreshLayer.UseVisualStyleBackColor = true;
-            this.btnRefreshLayer.Click += new System.EventHandler(this.btnRefreshLayer_Click);
+            this.groupBox3.Controls.Add(this.cmbDates);
+            this.groupBox3.Controls.Add(this.label9);
+            this.groupBox3.Location = new System.Drawing.Point(10, 246);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(827, 70);
+            this.groupBox3.TabIndex = 8;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Date";
             // 
             // cmbDates
             // 
@@ -771,26 +755,6 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.label9.TabIndex = 3;
             this.label9.Text = "Select date:";
             // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(25, 27);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(139, 19);
-            this.label8.TabIndex = 1;
-            this.label8.Text = "Select feature layer:";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // cmbLayers
-            // 
-            this.cmbLayers.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbLayers.FormattingEnabled = true;
-            this.cmbLayers.Location = new System.Drawing.Point(170, 24);
-            this.cmbLayers.Name = "cmbLayers";
-            this.cmbLayers.Size = new System.Drawing.Size(302, 27);
-            this.cmbLayers.TabIndex = 0;
-            this.cmbLayers.SelectedIndexChanged += new System.EventHandler(this.cmbLayers_SelectedIndexChanged);
-            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.cmbReachFields);
@@ -808,26 +772,14 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Feature Layer";
             // 
-            // groupBox3
+            // cmbReachFields
             // 
-            this.groupBox3.Controls.Add(this.cmbDates);
-            this.groupBox3.Controls.Add(this.label9);
-            this.groupBox3.Location = new System.Drawing.Point(10, 246);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(827, 70);
-            this.groupBox3.TabIndex = 8;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Date";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(45, 67);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(119, 19);
-            this.label10.TabIndex = 1;
-            this.label10.Text = "Segment ID field:";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.cmbReachFields.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbReachFields.FormattingEnabled = true;
+            this.cmbReachFields.Location = new System.Drawing.Point(170, 114);
+            this.cmbReachFields.Name = "cmbReachFields";
+            this.cmbReachFields.Size = new System.Drawing.Size(302, 27);
+            this.cmbReachFields.TabIndex = 0;
             // 
             // cmbSegFields
             // 
@@ -837,6 +789,16 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.cmbSegFields.Name = "cmbSegFields";
             this.cmbSegFields.Size = new System.Drawing.Size(302, 27);
             this.cmbSegFields.TabIndex = 0;
+            // 
+            // cmbLayers
+            // 
+            this.cmbLayers.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbLayers.FormattingEnabled = true;
+            this.cmbLayers.Location = new System.Drawing.Point(170, 24);
+            this.cmbLayers.Name = "cmbLayers";
+            this.cmbLayers.Size = new System.Drawing.Size(302, 27);
+            this.cmbLayers.TabIndex = 0;
+            this.cmbLayers.SelectedIndexChanged += new System.EventHandler(this.cmbLayers_SelectedIndexChanged);
             // 
             // label11
             // 
@@ -848,14 +810,86 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.label11.Text = "Reach ID field:";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // cmbReachFields
+            // label10
             // 
-            this.cmbReachFields.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbReachFields.FormattingEnabled = true;
-            this.cmbReachFields.Location = new System.Drawing.Point(170, 114);
-            this.cmbReachFields.Name = "cmbReachFields";
-            this.cmbReachFields.Size = new System.Drawing.Size(302, 27);
-            this.cmbReachFields.TabIndex = 0;
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(45, 67);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(119, 19);
+            this.label10.TabIndex = 1;
+            this.label10.Text = "Segment ID field:";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(25, 27);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(139, 19);
+            this.label8.TabIndex = 1;
+            this.label8.Text = "Select feature layer:";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // checkBoxSaveLayer
+            // 
+            this.checkBoxSaveLayer.AutoSize = true;
+            this.checkBoxSaveLayer.Location = new System.Drawing.Point(29, 166);
+            this.checkBoxSaveLayer.Name = "checkBoxSaveLayer";
+            this.checkBoxSaveLayer.Size = new System.Drawing.Size(282, 23);
+            this.checkBoxSaveLayer.TabIndex = 6;
+            this.checkBoxSaveLayer.Text = "Save data to the selected feature layer";
+            this.checkBoxSaveLayer.UseVisualStyleBackColor = true;
+            // 
+            // btnRefreshLayer
+            // 
+            this.btnRefreshLayer.Image = global::Heiflow.Controls.WinForm.Properties.Resources.LayerRasterOptimized16;
+            this.btnRefreshLayer.Location = new System.Drawing.Point(490, 22);
+            this.btnRefreshLayer.Name = "btnRefreshLayer";
+            this.btnRefreshLayer.Size = new System.Drawing.Size(171, 28);
+            this.btnRefreshLayer.TabIndex = 5;
+            this.btnRefreshLayer.Text = "Refresh layer list";
+            this.btnRefreshLayer.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnRefreshLayer.UseVisualStyleBackColor = true;
+            this.btnRefreshLayer.Click += new System.EventHandler(this.btnRefreshLayer_Click);
+            // 
+            // btnShowLayer
+            // 
+            this.btnShowLayer.Location = new System.Drawing.Point(39, 337);
+            this.btnShowLayer.Name = "btnShowLayer";
+            this.btnShowLayer.Size = new System.Drawing.Size(302, 36);
+            this.btnShowLayer.TabIndex = 4;
+            this.btnShowLayer.Text = "Show on GIS Layer";
+            this.btnShowLayer.UseVisualStyleBackColor = true;
+            this.btnShowLayer.Click += new System.EventHandler(this.btnShowLayer_Click);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.tbCurDate);
+            this.groupBox4.Controls.Add(this.label2);
+            this.groupBox4.Location = new System.Drawing.Point(6, 215);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(245, 104);
+            this.groupBox4.TabIndex = 13;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Information";
+            // 
+            // tbCurDate
+            // 
+            this.tbCurDate.BackColor = System.Drawing.SystemColors.Info;
+            this.tbCurDate.Location = new System.Drawing.Point(10, 58);
+            this.tbCurDate.Name = "tbCurDate";
+            this.tbCurDate.ReadOnly = true;
+            this.tbCurDate.Size = new System.Drawing.Size(229, 27);
+            this.tbCurDate.TabIndex = 5;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(10, 31);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(94, 19);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Current time:";
             // 
             // SFRExplorer
             // 
@@ -883,10 +917,12 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabPageTimeSeries.ResumeLayout(false);
             this.tabPageProfile.ResumeLayout(false);
             this.tabPageFeatureLayer.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -967,5 +1003,8 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         private System.Windows.Forms.ComboBox cmbReachFields;
         private System.Windows.Forms.ComboBox cmbSegFields;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.TextBox tbCurDate;
+        private System.Windows.Forms.Label label2;
     }
 }

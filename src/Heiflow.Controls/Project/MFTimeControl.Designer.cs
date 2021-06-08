@@ -151,7 +151,7 @@
             0,
             0});
             this.numericUpDownMF.Minimum = new decimal(new int[] {
-            2,
+            1,
             0,
             0,
             0});

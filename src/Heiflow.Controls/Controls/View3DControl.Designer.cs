@@ -39,6 +39,7 @@
             this.btnShowSeries = new System.Windows.Forms.ToolStripButton();
             this.cmbColorMap = new System.Windows.Forms.ToolStripComboBox();
             this.cmbZScale = new System.Windows.Forms.ToolStripComboBox();
+            this.chbColorbar = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControlRight = new System.Windows.Forms.TabControl();
             this.tabPageSeries = new System.Windows.Forms.TabPage();
@@ -74,6 +75,7 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnLengend,
             this.btnRemoveExisted,
+            this.chbColorbar,
             this.btnClear,
             this.toolStripSeparator1,
             this.btnShowSeries,
@@ -172,6 +174,16 @@
             this.cmbZScale.Name = "cmbZScale";
             this.cmbZScale.Size = new System.Drawing.Size(160, 28);
             this.cmbZScale.Text = "1.0";
+            // 
+            // chbColorbar
+            // 
+            this.chbColorbar.CheckOnClick = true;
+            this.chbColorbar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.chbColorbar.Image = global::Heiflow.Controls.WinForm.Properties.Resources.colorbar;
+            this.chbColorbar.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.chbColorbar.Name = "chbColorbar";
+            this.chbColorbar.Size = new System.Drawing.Size(24, 25);
+            this.chbColorbar.Text = "Show colorbar";
             // 
             // splitContainer1
             // 
@@ -277,5 +289,6 @@
         private System.Windows.Forms.ToolStripComboBox cmbColorMap;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.ToolStripComboBox cmbZScale;
+        private System.Windows.Forms.ToolStripButton chbColorbar;
     }
 }

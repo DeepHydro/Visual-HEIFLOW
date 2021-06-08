@@ -223,6 +223,16 @@ namespace Heiflow.Plugins.Default.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap LasRGB32 {
+            get {
+                object obj = ResourceManager.GetObject("LasRGB32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap Legend16 {
             get {
                 object obj = ResourceManager.GetObject("Legend16", resourceCulture);

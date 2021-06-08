@@ -54,6 +54,7 @@ namespace Heiflow.Controls.WinForm.Controls
     {
         private ILScene _ILScene;
         private ILPlotCube _PlotCube;
+        private ILColorbar _colorbar;
         public View3DControl()
         {
             InitializeComponent();
@@ -61,6 +62,7 @@ namespace Heiflow.Controls.WinForm.Controls
             cm.MenuItems.Add(new MenuItem("Clear", Clear_Clicked));
             this.ilPanel1.ContextMenu = cm;
             _ILScene = new ILScene();
+
             _PlotCube = new ILPlotCube(twoDMode: false);
             _ILScene.Add(_PlotCube);
             ilPanel1.Scene = _ILScene;
@@ -68,12 +70,16 @@ namespace Heiflow.Controls.WinForm.Controls
             checkedListBox1.Items.Clear();
             ((ListBox)this.checkedListBox1).DisplayMember = "ID";
             cmbColorMap.SelectedIndexChanged += cmbColorMap_SelectedIndexChanged;
+
+
+
         }
 
         public void PlotSurface(ILArray<float> array)
         {
             var size = array.Size.ToIntArray();
             ILSurface sf = null;
+    
             if (size[0] == 1)
             {
                 ILArray<float> newarray = ILMath.zeros<float>(2, size[1]);
@@ -104,14 +110,20 @@ namespace Heiflow.Controls.WinForm.Controls
             {
                 _PlotCube.Children.Clear();
             }
-         
-            //sf = new ILSurface(array)
-            //{
-            //    Colormap = EnumHelper.FromString<Colormaps>(cmbColorMap.ComboBox.SelectedItem.ToString())
-            //}; 
-             
+
+            //ILLegend legend = new ILLegend("one", "two", "three", "four");
+            //legend.Location = new PointF(.99f, 0f);
+
             sf.Fill.Markable = false;
             sf.Wireframe.Markable = false;
+
+            if (chbColorbar.Checked)
+            {
+                _colorbar = new ILColorbar();
+                _colorbar.Location = new PointF(0.99f, 0.5f);
+                sf.Add(_colorbar);
+            }
+
             if (scale != 1)
             {
                 var newsf = sf.Scale(1, 1, scale);
@@ -121,6 +133,7 @@ namespace Heiflow.Controls.WinForm.Controls
             {
                 _PlotCube.Add(sf);
             }
+             
            // _PlotCube.Axes.ZAxis.Max = max;
             PopulateLegend();
             ilPanel1.Refresh();

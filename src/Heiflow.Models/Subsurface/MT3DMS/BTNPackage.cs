@@ -108,6 +108,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             set
             {
                 _NCOMP = value;
+                MCOMP = _NCOMP;
             }
         }
         [Category("Chemical")]
@@ -375,7 +376,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             MUNIT = "kg";
             Version = "BTN";
             _NCOMP = 7;
-            MCOMP = 5;
+            MCOMP = 7;
             IsMandatory = false;
             TRNOP = "T T T F T F F F F F";
             NLAY = 3;
@@ -452,7 +453,20 @@ namespace Heiflow.Models.Subsurface.MT3DMS
                     EnableRCT = strbufs[3].ToUpper() == "T";
                     EnableGCG = strbufs[4].ToUpper() == "T";
 
-                    line = sr.ReadLine();
+                    if (NLAY > 40)
+                    {
+                        int nlines = (int)Math.Ceiling(NLAY / 40.0);
+                        line = sr.ReadLine();
+                        line += "\t";
+                        for (int c = 1; c < nlines; c++)
+                        {
+                            line += sr.ReadLine() + "\t";
+                        }
+                    }
+                    else
+                    {
+                        line = sr.ReadLine();
+                    }
                     LAYCON = TypeConverterEx.Split<int>(line, NLAY);
                     DELR = new DataCube2DLayout<float>(1, 1, NCOL);
                     DELC = new DataCube2DLayout<float>(1, 1, NROW);
@@ -837,6 +851,31 @@ namespace Heiflow.Models.Subsurface.MT3DMS
                 {
                     SCONC.Variables[k] = string.Format("Starting concentration of Specie {0} in Layer {1}", (i + 1), j + 1);
                     SCONC.ILArrays[k][0, ":"] = 0.01f;
+                    k++;
+                }
+            }
+        }
+
+        public void InitComponents(float[] initconc)
+        {
+            var mf = Owner as Modflow;
+            var grid = mf.Grid as RegularGrid;
+            var k = 0;
+            if (initconc.Length != NCOMP)
+            {
+                NCOMP = initconc.Length;
+                SCONC = new DataCube<float>(grid.ActualLayerCount * NCOMP, 1, grid.ActiveCellCount)
+                {
+                    Topology = grid.Topology,
+                    ZeroDimension = DimensionFlag.Spatial
+                };
+            }
+            for (int i = 0; i < NCOMP; i++)
+            {
+                for (int j = 0; j < NLAY; j++)
+                {
+                    SCONC.Variables[k] = string.Format("Starting concentration of Specie {0} in Layer {1}", (i + 1), j + 1);
+                    SCONC.ILArrays[k][0, ":"] = initconc[i];
                     k++;
                 }
             }

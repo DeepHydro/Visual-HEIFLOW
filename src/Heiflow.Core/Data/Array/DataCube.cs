@@ -576,6 +576,67 @@ namespace Heiflow.Core.Data
                 return null;
             }
         }
+
+        public virtual ILBaseArray ToRowVerticalProfileArray(int var_index, int time_index,int row_index)
+        { 
+            if (Topology != null)
+            {
+                
+                int nrow = Topology.RowCount;
+                int ncol = Topology.ColumnCount;
+                ILArray<T> array = ILMath.zeros<T>(Topology.LayerCount, ncol);
+                var index = 0;
+                var curindex = 0;
+
+                for (int i = 0; i < Topology.ColumnCount; i++)
+                {
+                    index = Topology.GetSerialIndex(row_index, i);
+                    for (int j = 0; j < Topology.LayerCount; j++)
+                    {
+                        curindex = index + j * Topology.ActiveCellCount;
+                        if (curindex >= 0)
+                            array[j, i] = this[var_index, time_index, curindex];
+                        else
+                            array[j, i] = NoData;
+                    }
+                }
+                return array;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public virtual ILBaseArray ToColumnVerticalProfileArray(int var_index, int time_index, int col_index)
+        {
+            if (Topology != null)
+            {
+                int nrow = Topology.RowCount;
+                int ncol = Topology.ColumnCount;
+                ILArray<T> array = ILMath.zeros<T>(Topology.LayerCount, nrow);
+                var index = 0;
+                var curindex = 0;
+
+                for (int i = 0; i < Topology.RowCount; i++)
+                {
+                    index = Topology.GetSerialIndex(i, col_index);
+                    for (int j = 0; j < Topology.LayerCount; j++)
+                    {
+                        curindex = index + j * Topology.ActiveCellCount;
+                        if (curindex >= 0)
+                            array[j, i] = this[var_index, time_index, curindex];
+                        else
+                            array[j, i] = NoData;
+                    }
+                }
+                return array;
+            }
+            else
+            {
+                return null;
+            }
+        }
         public virtual System.Data.DataTable ToDataTable()
         {
             DataTable dt = new DataTable();

@@ -140,18 +140,22 @@ namespace Heiflow.Models.Subsurface.MT3DMS
                 StreamReader sr = new StreamReader(FileName);
                 try
                 {
-                    var line= ReadComment(sr);
+                    var line = ReadComment(sr);
                     var bufs = TypeConverterEx.Split<string>(line);
-                    OUTPUT_FILE_NAME = bufs[1];
+                    if (bufs.Length == 2)
+                        OUTPUT_FILE_NAME = bufs[1];
                     line = sr.ReadLine();
                     bufs = TypeConverterEx.Split<string>(line);
-                    OUTPUT_FILE_UNIT = int.Parse(bufs[1]);
+                    if (bufs.Length == 2)
+                        OUTPUT_FILE_UNIT = int.Parse(bufs[1]);
                     line = sr.ReadLine();
                     bufs = TypeConverterEx.Split<string>(line);
-                    OUTPUT_FILE_HEADER = bufs[1];
+                    if (bufs.Length == 2)
+                        OUTPUT_FILE_HEADER = bufs[1];
                     line = sr.ReadLine();
                     bufs = TypeConverterEx.Split<string>(line);
-                    OUTPUT_FILE_FORMAT = bufs[1];
+                    if (bufs.Length == 2)
+                        OUTPUT_FILE_FORMAT = bufs[1];
 
                     result = LoadingState.Normal;
                 }

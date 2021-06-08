@@ -138,11 +138,20 @@ namespace Heiflow.Models.Subsurface.VFT3D
                         Name = "ACN"
                     };
                 }
-                DataCube.Variables = this.Variables;
             }
+            if (LoadAllLayers && DataCube.Size[2] != grid.ActiveCellCount * grid.ActualLayerCount)
+            {
+                DataCube = new DataCube<float>(Variables.Length, StepsToLoad, grid.ActiveCellCount * grid.ActualLayerCount, true)
+                {
+                    Name = "ACN"
+                };
+            }
+
+
             DataCube.Allocate(var_index, StepsToLoad, grid.ActiveCellCount * grid.ActualLayerCount);
             DataCube.Topology = (this.Grid as RegularGrid).Topology;
             DataCube.DateTimes = this.TimeService.Timeline.Take(StepsToLoad).ToArray();
+            DataCube.Variables = this.Variables;
             var fn = string.Format("PHT3D{0}.ACN", (var_index + 1).ToString().PadLeft(3, '0'));
             //   var file = Path.Combine(Path.GetDirectoryName(this.FileName), fn);
             var file = Path.Combine(Owner.Project.AbsolutePathToProjectFile, fn);

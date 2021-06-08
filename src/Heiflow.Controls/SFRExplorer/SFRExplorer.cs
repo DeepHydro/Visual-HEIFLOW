@@ -358,6 +358,8 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                 chbReadComplData.Checked, chbUnifiedByLength.Checked);
             string series = string.Format("{0} from {1} to {2}", cmbSFRVars.SelectedItem.ToString(), cmbStartID.SelectedItem, cmbEndID.SelectedItem);
             winChart_proflie.Plot(_ProfileMat[0, "0", ":"], _ProfileMat[1, "0", ":"], series);
+            if (colorSlider1.Value < SFROutput.TimeService.IOTimeline.Count)
+                tbCurDate.Text = SFROutput.TimeService.IOTimeline[colorSlider1.Value].ToString();
         }
 
         private void BindSites()

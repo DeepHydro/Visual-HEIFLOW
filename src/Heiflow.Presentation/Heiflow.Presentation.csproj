@@ -100,6 +100,7 @@
     <Compile Include="Controls\ILookupTableView.cs" />
     <Compile Include="Controls\Explorer\IPEContextMenu.cs" />
     <Compile Include="Controls\IDataCubeEditor.cs" />
+    <Compile Include="Controls\IVerticalProfileView.cs" />
     <Compile Include="Controls\IWinChartView.cs" />
     <Compile Include="IConfigManager.cs" />
     <Compile Include="Controls\IDataGridView.cs" />

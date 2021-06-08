@@ -53,7 +53,7 @@ namespace Heiflow.Plugins.Default
     public class MT3DMSPlugin : Extension
     {
         private SimpleActionItem setSpecies;
-        private SimpleActionItem stopmodel;
+        //private SimpleActionItem stopmodel;
 
         [Import("VHFManager", typeof(VHFAppManager))]
         public VHFAppManager Manager

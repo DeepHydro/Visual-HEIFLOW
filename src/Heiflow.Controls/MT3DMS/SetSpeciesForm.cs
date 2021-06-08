@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Heiflow.Models.Subsurface;
 using System.IO;
 using Heiflow.Models.Subsurface.MT3DMS;
+using Heiflow.Models.Subsurface.VFT3D;
 
 namespace Heiflow.Controls.WinForm.MT3DMS
 {
@@ -36,6 +37,16 @@ namespace Heiflow.Controls.WinForm.MT3DMS
           if (selected.Count() > 0)
           {
               btnpck.NCOMP = selected.Count();
+              var initcomp = from comp in selected select comp.InitialConcentration;
+              btnpck.InitComponents(initcomp.ToArray());
+              if(_mf.Packages.Keys.Contains(PHCPackage.PackageName ))
+              {
+                  var phcpck = _mf.GetPackage(PHCPackage.PackageName) as PHCPackage;
+                  phcpck.NumAquComponents = btnpck.NCOMP;
+                  var compname = from comp in selected select comp.Name;
+                  phcpck.AllComponentsNames = compname.ToArray();
+
+              }
               this.Close();
           }
           else

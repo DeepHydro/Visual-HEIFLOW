@@ -38,6 +38,7 @@
             this.colName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.colSelected = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -49,7 +50,7 @@
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnCancel.Location = new System.Drawing.Point(716, 12);
+            this.btnCancel.Location = new System.Drawing.Point(1108, 12);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(3, 8, 3, 8);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(90, 30);
@@ -61,7 +62,7 @@
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOk.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnOk.Location = new System.Drawing.Point(602, 12);
+            this.btnOk.Location = new System.Drawing.Point(994, 12);
             this.btnOk.Margin = new System.Windows.Forms.Padding(3, 8, 3, 8);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(90, 30);
@@ -75,21 +76,22 @@
             this.panel1.Controls.Add(this.btnOk);
             this.panel1.Controls.Add(this.btnCancel);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 404);
+            this.panel1.Location = new System.Drawing.Point(0, 656);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(833, 59);
+            this.panel1.Size = new System.Drawing.Size(1225, 59);
             this.panel1.TabIndex = 34;
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(833, 404);
+            this.tabControl1.Size = new System.Drawing.Size(1225, 656);
             this.tabControl1.TabIndex = 35;
             // 
             // tabPage1
@@ -99,9 +101,9 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage1.Size = new System.Drawing.Size(825, 371);
+            this.tabPage1.Size = new System.Drawing.Size(1217, 623);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Species List";
+            this.tabPage1.Text = "Mobile Species";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // olvSpeciesList
@@ -137,7 +139,7 @@
             this.olvSpeciesList.ShowGroups = false;
             this.olvSpeciesList.ShowImagesOnSubItems = true;
             this.olvSpeciesList.ShowItemToolTips = true;
-            this.olvSpeciesList.Size = new System.Drawing.Size(819, 363);
+            this.olvSpeciesList.Size = new System.Drawing.Size(1211, 615);
             this.olvSpeciesList.TabIndex = 21;
             this.olvSpeciesList.UseCellFormatEvents = true;
             this.olvSpeciesList.UseCompatibleStateImageBehavior = false;
@@ -172,11 +174,21 @@
             this.olvColumn2.Text = "Initial Concentration (mol/L)";
             this.olvColumn2.Width = 400;
             // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 29);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1217, 623);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Minal Species";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
             // SetSpeciesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(833, 463);
+            this.ClientSize = new System.Drawing.Size(1225, 715);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Segoe UI", 9F);
@@ -205,5 +217,6 @@
         private BrightIdeasSoftware.OLVColumn colName;
         private BrightIdeasSoftware.OLVColumn colSelected;
         private BrightIdeasSoftware.OLVColumn olvColumn2;
+        private System.Windows.Forms.TabPage tabPage2;
     }
 }

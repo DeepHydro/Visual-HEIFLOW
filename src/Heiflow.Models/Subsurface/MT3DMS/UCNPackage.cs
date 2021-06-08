@@ -139,11 +139,21 @@ namespace Heiflow.Models.Subsurface.MT3DMS
                         Name = "UCN"
                     };
                 }
-                DataCube.Variables = this.Variables;
             }
+
+            if (LoadAllLayers && DataCube.Size[2] != grid.ActiveCellCount * grid.ActualLayerCount)
+            {
+                DataCube = new DataCube<float>(Variables.Length, StepsToLoad, grid.ActiveCellCount * grid.ActualLayerCount, true)
+                {
+                    Name = "UCN"
+                };
+            }
+
             DataCube.Allocate(var_index, StepsToLoad, grid.ActiveCellCount * grid.ActualLayerCount);
             DataCube.Topology = (this.Grid as RegularGrid).Topology;
             DataCube.DateTimes = this.TimeService.Timeline.Take(StepsToLoad).ToArray();
+            DataCube.Variables = this.Variables;
+
             var fn = string.Format("PHT3D{0}.UCN", (var_index + 4).ToString().PadLeft(3, '0'));
             var file = Path.Combine(Owner.Project.AbsolutePathToProjectFile, fn);
             if (File.Exists(file))

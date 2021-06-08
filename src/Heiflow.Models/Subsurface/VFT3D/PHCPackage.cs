@@ -205,6 +205,10 @@ namespace Heiflow.Models.Subsurface.VFT3D
             {
                 return _AllComponentsNames;
             }
+            set
+            {
+                _AllComponentsNames = value;
+            }
         }
         #endregion
 

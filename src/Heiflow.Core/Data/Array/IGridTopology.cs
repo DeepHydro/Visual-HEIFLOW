@@ -39,6 +39,7 @@ namespace Heiflow.Core.Data
     {
         int RowCount { get; }
         int ColumnCount { get; }
+        int LayerCount { get; }
         int ActiveCellCount { get; }
         /// <summary>
         /// a 2d mat[num_act_cell][2]. the second dimension stores row and column indexes that start from 0
@@ -52,5 +53,7 @@ namespace Heiflow.Core.Data
         /// mapping between Cell ID  (starts from 1) and Cell Serial Index (starts from 0)
         /// </summary>
         Dictionary<int, int> CellID2CellIndex { get;}
+
+        int GetSerialIndex(int row, int col);
     }
 }

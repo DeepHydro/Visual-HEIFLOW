@@ -62,6 +62,7 @@ namespace Heiflow.Applications.Services
         protected IModelToolManager _PackageToolManager;
         protected IDataCubeEditor _TV3DMatEditor;
         protected IParameterExplorerView _IParameterExplorerView;
+        protected IVerticalProfileView _IVerticalProfileView;
         protected List<IChildView> _ChildViews = new List<IChildView>();
         public object ShellView
         {
@@ -120,6 +121,13 @@ namespace Heiflow.Applications.Services
             get { return _WinChart; }
             set { SetProperty(ref _WinChart, value); }
         }
+
+        public IVerticalProfileView VerticalProfileView
+        {
+            get { return _IVerticalProfileView; }
+            set { SetProperty(ref _IVerticalProfileView, value); }
+        }
+
         public IModelToolManager PackageToolManager
         {
             get { return _PackageToolManager; }

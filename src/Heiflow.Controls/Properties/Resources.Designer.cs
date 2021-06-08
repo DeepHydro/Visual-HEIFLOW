@@ -213,6 +213,16 @@ namespace Heiflow.Controls.WinForm.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap colorbar {
+            get {
+                object obj = ResourceManager.GetObject("colorbar", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap compare_24p {
             get {
                 object obj = ResourceManager.GetObject("compare_24p", resourceCulture);
@@ -743,6 +753,16 @@ namespace Heiflow.Controls.WinForm.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap LasRGB32 {
+            get {
+                object obj = ResourceManager.GetObject("LasRGB32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap LayerBasemapNew16 {
             get {
                 object obj = ResourceManager.GetObject("LayerBasemapNew16", resourceCulture);
@@ -896,6 +916,16 @@ namespace Heiflow.Controls.WinForm.Properties {
         internal static System.Drawing.Bitmap PkgInfo_File16 {
             get {
                 object obj = ResourceManager.GetObject("PkgInfo_File16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap play64 {
+            get {
+                object obj = ResourceManager.GetObject("play64", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1096,6 +1126,16 @@ namespace Heiflow.Controls.WinForm.Properties {
         internal static System.Drawing.Bitmap star32 {
             get {
                 object obj = ResourceManager.GetObject("star32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap stop64 {
+            get {
+                object obj = ResourceManager.GetObject("stop64", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

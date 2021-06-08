@@ -54,6 +54,7 @@ namespace Heiflow.Controls.WinForm.Display
         private int _line_count;
         private Series _Series;
         public static string _ChildName = "RunningMonitorView";
+        private string[] filtedstrs;
 
         public RunningMonitor()
         {
@@ -64,6 +65,11 @@ namespace Heiflow.Controls.WinForm.Display
             progressBar1.Maximum = 365;
             _line_count = 0;
             progressBar1.Visible = false;
+            filtedstrs = new string[]
+            {
+                "SEAWAT",                "U.S. GEOLOGICAL",                                "Version",                                "This program is",
+                "condition",  "the United","damages resulting","use."
+            };
         }
 
         public object DataContext
@@ -122,6 +128,17 @@ namespace Heiflow.Controls.WinForm.Display
         {
             this.Invoke((MethodInvoker)delegate
             {
+                bool found = false;
+                foreach(var str in filtedstrs)
+                {
+                    if(e.Contains(str))
+                    {
+                        e = "";
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) return;
                 _line_count++;
                 if (_line_count > 500)
                 {

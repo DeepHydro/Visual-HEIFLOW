@@ -74,6 +74,11 @@ namespace Heiflow.Models.Subsurface
             get;
             set;
         }
+        public int LayerCount
+        {
+            get;
+            set;
+        }
         public int ActiveCellCount
         {
             get;
@@ -124,6 +129,7 @@ namespace Heiflow.Models.Subsurface
             RowCount = Grid.RowCount;
             ColumnCount = Grid.ColumnCount;
             ActiveCellCount = Grid.ActiveCellCount;
+            LayerCount = Grid.ActualLayerCount;
             int row = Grid.RowCount;
             int col = Grid.ColumnCount;
             bool[,] isActVer = new bool[row + 1, col + 1];

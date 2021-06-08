@@ -165,6 +165,12 @@
     <Compile Include="Controls\DataCubeGrid.Designer.cs">
       <DependentUpon>DataCubeGrid.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\GridProfileViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\GridProfileViewer.Designer.cs">
+      <DependentUpon>GridProfileViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ILSurfaceMeta.cs" />
     <Compile Include="Controls\StatisticsForm.cs">
       <SubType>Form</SubType>
@@ -292,6 +298,8 @@
     <Compile Include="Project\GlobalOptionForm.Designer.cs">
       <DependentUpon>GlobalOptionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Project\ImportMT3DMSProperty.cs" />
+    <Compile Include="Project\ImportVFT3DProperty.cs" />
     <Compile Include="Project\MFTimeControl.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -700,6 +708,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\DataCubeGrid.resx">
       <DependentUpon>DataCubeGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\GridProfileViewer.resx">
+      <DependentUpon>GridProfileViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\StatisticsForm.resx">
       <DependentUpon>StatisticsForm.cs</DependentUpon>
@@ -1326,6 +1337,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\defaultv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LasRGB32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stop64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\play64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\colorbar.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

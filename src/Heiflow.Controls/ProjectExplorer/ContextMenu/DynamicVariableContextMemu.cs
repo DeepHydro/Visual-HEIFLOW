@@ -72,6 +72,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
             this.Enable(_SETAS_ACTSource, true);
             this.Enable(_SOM, false);
             this.Enable(_VI3, false);
+            this.Enable(_VERTPROF, true);
         }
 
         protected override void AttributeTable_Clicked(object sender, EventArgs e)
@@ -158,6 +159,38 @@ namespace Heiflow.Controls.WinForm.MenuItems
                 {
                     _ShellService.SelectPanel(DockPanelNames.AnimationPlayerPanel);
                     _ShellService.AnimationPlayer.DataCubeWorkspace.Add(mat);              
+                }
+            }
+        }
+
+        protected override void VertProfileView_Clicked(object sender, EventArgs e)
+        {
+            if (_SelectedNode == null)
+                return;
+            IDataPackage dp = null;
+            if (_Package is GHMPackage)
+                dp = (from vv in (Package as GHMPackage).DynamicVariables where vv.Name == _SelectedNode.Parent.Text select vv).First();
+            else
+                dp = _Package as IDataPackage;
+            var mat = dp.DataCube;
+            if (mat != null)
+            {
+                var buf = _Package.Name;
+                if (mat.Name == "Default")
+                    mat.Name = buf.Replace(' ', '_');
+                mat.OwnerName = dp.Name;
+                mat.DataOwner = dp;
+                mat.SelectedLayerToShown = dp.SelectedLayerToShown;
+                var grid = (dp.Owner as Heiflow.Models.Subsurface.Modflow).Grid as IRegularGrid;
+                if (mat.Size[2] == grid.ActiveCellCount*grid.ActualLayerCount)
+                {
+                    _ShellService.VerticalProfileView.DataSource = mat;
+                    _ShellService.VerticalProfileView.Grid = grid;
+                    _ShellService.VerticalProfileView.ShowView(_ShellService.MainForm);
+                }
+                else
+                {
+                    _ShellService.MessageService.ShowWarning(null, "You need to load data for all layers.");
                 }
             }
         }

@@ -45,10 +45,12 @@ namespace Heiflow.Plugins.View3DPanel
     public class View3DPlugin : Extension
     {
         private Win3DView _Win3DView;
+        private GridProfileViewer _GridProfileViewer;
         public View3DPlugin()
         {
             DeactivationAllowed = false;
             _Win3DView = new Win3DView();
+            _GridProfileViewer = new GridProfileViewer();
         }
 
 
@@ -80,9 +82,22 @@ namespace Heiflow.Plugins.View3DPanel
             };
             App.HeaderControl.Add(terrainViewer);
 
+            var gridprofileViewer = new SimpleActionItem("kView", "Vertical Profile Viewer", delegate(object sender, EventArgs e)
+            { ProjectManager.ShellService.VerticalProfileView.ShowView(ProjectManager.ShellService.MainForm); })
+            {
+                Key = "kGridProfileViewer",
+                ToolTipText = "Show Vertical Profile Viewer",
+                GroupCaption = "Data",
+                LargeImage = Resources.LasRGB32
+            };
+            App.HeaderControl.Add(gridprofileViewer);
+
             base.Activate();
             ProjectManager.ShellService.SurfacePlot = _Win3DView;
             ProjectManager.ShellService.AddChild(_Win3DView);
+
+            ProjectManager.ShellService.VerticalProfileView = _GridProfileViewer;
+            ProjectManager.ShellService.AddChild(_GridProfileViewer);
 
         }
 
@@ -90,6 +105,7 @@ namespace Heiflow.Plugins.View3DPanel
         {
             App.HeaderControl.Remove("kShowView3D");
             App.HeaderControl.Remove("kTerrainViewer");
+            App.HeaderControl.Remove("kGridProfileViewer");
             base.Deactivate();
         }
 

@@ -92,7 +92,6 @@ namespace Heiflow.Models.Surface.MIKE
                     cstr = TypeConverterEx.Split<string>(line);
                     grid.Vertex[i] = new Coordinate(double.Parse(cstr[1]), double.Parse(cstr[2]), double.Parse(cstr[3]));
                     map[i] = new List<uint>();
-                
                 }
 
                 double xxmin = (from vert in grid.Vertex select vert.X).Min();
