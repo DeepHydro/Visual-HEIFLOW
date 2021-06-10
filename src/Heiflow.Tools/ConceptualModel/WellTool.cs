@@ -34,6 +34,8 @@ using Heiflow.Controls.WinForm.Editors;
 using Heiflow.Core.Data;
 using Heiflow.Models.Integration;
 using Heiflow.Models.Subsurface;
+using Heiflow.Models.Subsurface.MT3DMS;
+using Heiflow.Models.Subsurface.VFT3D;
 using Heiflow.Models.Tools;
 using Heiflow.Presentation.Services;
 using Heiflow.Spatial.SpatialRelation;
@@ -236,7 +238,7 @@ namespace Heiflow.Tools.ConceptualModel
                                 for (int j = 0; j < _grid_layer.Features.Count; j++)
                                 {
                                     //var cell = _grid_layer.Features[j].Geometry.Coordinates;
-                                   // if (SpatialRelationship.PointInPolygon(cell, pt))
+                                    // if (SpatialRelationship.PointInPolygon(cell, pt))
                                     if (_sourcefs.Features[i].Geometry.Within(_grid_layer.Features[j].Geometry))
                                     {
                                         pck.FluxRates[0, n, i] = layer;
@@ -247,6 +249,7 @@ namespace Heiflow.Tools.ConceptualModel
                                     }
                                 }
                             }
+                    
                         }
                         else if (welnum_list[n] == 0)
                         {
@@ -274,6 +277,7 @@ namespace Heiflow.Tools.ConceptualModel
                     pck.IsDirty = true;
                     pck.Save(null);
                     pck.ChangeState(Models.Generic.ModelObjectState.Ready);
+
                     _issuccess = true;
                     return true;
                 }

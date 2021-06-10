@@ -157,7 +157,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
         {
             FWEL = false;
             FDRN = false;
-            FRCH = true;
+            FRCH = false;
             FEVT = false;
             FRIV = false;
             FGHB = false;
@@ -392,7 +392,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
                     for (int k = 0; k < NSS[i]; k++)
                     {
                         line = string.Format("{0}{1}{2}{3}{4}", PointSources[i][0, k, 0].ToString("F0").PadLeft(10, ' '), PointSources[i][0, k, 1].ToString("F0").PadLeft(10, ' '), PointSources[i][0, k, 2].ToString("F0").PadLeft(10, ' '),
-                            PointSources[i][0, k, 3].ToString("F6").PadLeft(10, ' '), PointSources[i][0, k, 0].ToString("F0").PadLeft(4, ' '));
+                            PointSources[i][0, k, 3].ToString("F6").PadLeft(10, ' '), PointSources[i][0, k, 4].ToString("F0").PadLeft(10, ' '));
 
                         for (int j = 0; j < btnpck.NCOMP; j++)
                         {

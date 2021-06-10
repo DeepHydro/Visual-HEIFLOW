@@ -68,6 +68,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             _Layer3DToken = "RegularGrid";
             Description = "";
             Category = Modflow.MT3DCategory;
+            LoadAllLayers = true;
         }
 
         public override void Initialize()

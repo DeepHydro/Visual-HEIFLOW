@@ -185,7 +185,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             for (int i = 0; i < grid.ActualLayerCount; i++)
             {
                 AL.Variables[i] = "Longitudinal Dispersivity of Layer " + (i + 1);
-                AL.ILArrays[i][0, ":"] = 0;
+                AL.ILArrays[i][0, ":"] = 1.0f;
             }
             TRPT.Variables[0] = "Ratio of TH to AL";
             TRPV.Variables[0] = "Ratio of TV to AL";
@@ -198,7 +198,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             }
             TRPT.ILArrays[0][0, ":"] = 0.1f;
             TRPV.ILArrays[0][0, ":"] = 0.01f;
-            DMCOEF.ILArrays[0][0, ":"] = 0;
+            DMCOEF.ILArrays[0][0, ":"] = 0.0000000001f;
         }
         public override void OnGridUpdated(IGrid sender)
         {

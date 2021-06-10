@@ -63,7 +63,7 @@
             // 
             // uxSplashImage
             // 
-            this.uxSplashImage.EditValue = global::Heiflow.Plugins.SplashScreen.Properties.Resources.splash_vhf;
+            this.uxSplashImage.EditValue = global::Heiflow.Plugins.SplashScreen.Properties.Resources.splash_vft3d;
             this.uxSplashImage.Location = new System.Drawing.Point(12, 12);
             this.uxSplashImage.Name = "uxSplashImage";
             this.uxSplashImage.Properties.AllowFocused = false;

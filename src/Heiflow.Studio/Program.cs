@@ -50,6 +50,8 @@ namespace Heiflow.Models.Studio
         [STAThread]
         private static void Main()
         {
+            //int a = 60;
+            //var b = a.ToString("0.000").PadLeft(10, ' ');
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());

@@ -108,7 +108,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             set
             {
                 _NCOMP = value;
-                MCOMP = _NCOMP;
+                //MCOMP = _NCOMP;
             }
         }
         [Category("Chemical")]
@@ -375,7 +375,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             LUNIT = "m";
             MUNIT = "kg";
             Version = "BTN";
-            _NCOMP = 7;
+            _NCOMP = 12;
             MCOMP = 7;
             IsMandatory = false;
             TRNOP = "T T T F T F F F F F";
@@ -389,7 +389,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             EnableRCT = false;
             EnableSSM = true;
             CINACT = -999;
-            THKMIN = 0.0f;
+            THKMIN = 0.01f;
             IFMTCN = 0;
             IFMTNP = 0;
             IFMTRF = 0;
@@ -611,6 +611,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
         }
         public override void SaveAs(string filename, ICancelProgressHandler progress)
         {
+            int k = 0;
             var grid = (Owner.Grid as IRegularGrid);
             StreamWriter sw = new StreamWriter(filename);
             string line = "";
@@ -626,8 +627,35 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             line = string.Format("{0} {1} {2} {3} {4} F F F F F", EnableADV ? "T" : "F", EnableDSP ? "T" : "F", EnableSSM ? "T" : "F", EnableRCT ? "T" : "F", EnableGCG ? "T" : "F");
             sw.WriteLine(line);
 
-            line = " " + string.Join(" ", LAYCON);
-            sw.WriteLine(line);
+            if (NLAY > 40)
+            {
+                int nlines = (int)Math.Ceiling(NLAY / 40.0);
+                
+                for (int i = 0; i < nlines; i++)
+                {
+                    line = "";
+                    for (int j = 0; j < 40; j++)
+                    {
+                        line += LAYCON[j] + " ";
+                        k++;
+                    }
+                    sw.WriteLine(line);
+                }
+                if (k < NLAY)
+                {
+                    line = "";
+                    for (int i = k; i < NLAY; i++)
+                    {
+                        line += LAYCON[i] + " ";
+                    }
+                    sw.WriteLine(line);
+                }
+            }
+            else
+            {
+                line = " " + string.Join(" ", LAYCON);
+                sw.WriteLine(line);
+            }
 
             WriteRegularArrayMT3D(sw, DELR, 0, "F6", 15, "G15.6");
             WriteRegularArrayMT3D(sw, DELC, 0, "F6", 15, "G15.6");
@@ -650,7 +678,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
                 WriteSerialIntegerArrayMT3D(sw, ICBUND, i, 0, "F0", 3, max_col, "I3");
             }
 
-            var k = 0;
+            k = 0;
             //    var cmt = "";
             for (int i = 0; i < NCOMP; i++)
             {
@@ -682,7 +710,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
                     line = "";
                     for (int i = 0; i < 8; i++)
                     {
-                        line += TIMPRS[t].ToString("F0").PadLeft(10, ' ');
+                        line += TIMPRS[t].ToString("0.000").PadLeft(10, ' ');
                         t++;
                     }
                     sw.WriteLine(line);
@@ -691,9 +719,10 @@ namespace Heiflow.Models.Subsurface.MT3DMS
                 line = "";
                 for (; t < NPRS; t++)
                 {
-                    line += TIMPRS[t].ToString("F0").PadLeft(10, ' ');
+                    line += TIMPRS[t].ToString("0.000").PadLeft(10, ' ');
                 }
-                sw.WriteLine(line);
+                if(line != "")
+                    sw.WriteLine(line);
             }
 
             line = string.Format("{0}{1}", NOBS.ToString().PadLeft(10, ' '), NPROBS.ToString().PadLeft(10, ' '));
@@ -713,7 +742,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
 
             for (int i = 0; i < NPER; i++)
             {
-                line = string.Format("{0}{1}{2}", TimeService.StressPeriods[i].NumTimeSteps.ToString().PadLeft(10, ' '), TimeService.StressPeriods[i].NSTP.ToString().PadLeft(10, ' '), TimeService.StressPeriods[i].Multiplier.ToString().PadLeft(10, ' '));
+                line = string.Format("{0}{1}{2}", TimeService.StressPeriods[i].Length.ToString().PadLeft(10, ' '), TimeService.StressPeriods[i].NSTP.ToString().PadLeft(10, ' '), TimeService.StressPeriods[i].Multiplier.ToString().PadLeft(10, ' '));
                 sw.WriteLine(line);
                 line = string.Format("{0}{1}{2}{3}", TimeService.StressPeriods[i].DT0.ToString().PadLeft(10, ' '), TimeService.StressPeriods[i].MXSTRN.ToString().PadLeft(10, ' '), TimeService.StressPeriods[i].TTSMULT.ToString().PadLeft(10, ' '), TimeService.StressPeriods[i].TTSMAX.ToString().PadLeft(10, ' '));
                 sw.WriteLine(line);
@@ -768,7 +797,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             }
             for (int j = 0; j < grid.ActualLayerCount; j++)
             {
-                PRSITY.ILArrays[j][0, ":"] = 0.15f;
+                PRSITY.ILArrays[j][0, ":"] = 0.35f;
                 ICBUND.ILArrays[j][0, ":"] = 1;
             }
 
@@ -789,13 +818,14 @@ namespace Heiflow.Models.Subsurface.MT3DMS
         public override void OnTimeServiceUpdated(ITimeService time)
         {
             NPER = TimeService.StressPeriods.Count;
-            NPRS = TimeService.StressPeriods.Count;
+            NPRS = TimeService.StressPeriods[0].Length / TimeService.StressPeriods[0].NSTP;
+          //  NPRS = TimeService.StressPeriods.Count;
             TIMPRS = new float[NPRS];
-            var acctime = TimeService.StressPeriods[0].NumTimeSteps;
+            var acctime = TimeService.StressPeriods[0].NSTP;
             TIMPRS[0] = acctime;
             for (int i = 1; i < NPRS; i++)
             {
-                acctime += TimeService.StressPeriods[i].NumTimeSteps;
+                acctime += TimeService.StressPeriods[0].NSTP;
                 TIMPRS[i] = acctime;
             }
             for (int i = 0; i < NPER; i++)
@@ -907,7 +937,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             var phcpck = Owner.GetPackage(PHCPackage.PackageName) as PHCPackage;
             if(phcpck != null)
             {
-                phcpck.NumAquComponents = NCOMP;
+                //phcpck.NumAquComponents = NCOMP;
 
             }
         }

@@ -154,7 +154,8 @@ namespace Heiflow.Models.Generic
                 }
                 if (_MaxTimeStep > TimeService.IOTimeline.Count)
                     _MaxTimeStep = TimeService.IOTimeline.Count;
-                _EndLoading = TimeService.IOTimeline[_MaxTimeStep - 1];
+                if(_MaxTimeStep > 0)
+                    _EndLoading = TimeService.IOTimeline[_MaxTimeStep - 1];
             }
         }
 

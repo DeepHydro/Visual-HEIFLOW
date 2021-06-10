@@ -210,6 +210,7 @@
     <Compile Include="Statisitcs\SpatialSimpleStatistics.cs" />
     <Compile Include="TempoSpatialAnalysis\ZonalStatisticsAsTable.cs" />
     <Compile Include="Time\CreatMonthTimeInteval.cs" />
+    <Compile Include="VFT3D\WellSourceTool.cs" />
     <Compile Include="Visualization\VisScatter3D.cs" />
     <Compile Include="Visualization\VisFlowField.cs" />
     <Compile Include="Visualization\VisGWFlowField.cs" />

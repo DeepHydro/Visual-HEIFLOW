@@ -13,6 +13,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             Selected = false;
             Name = "Species";
             InitialConcentration = 0.001f;
+            LonNum = 2;
         }
 
         public string Name
@@ -28,6 +29,12 @@ namespace Heiflow.Models.Subsurface.MT3DMS
         }
 
         public float InitialConcentration
+        {
+            get;
+            set;
+        }
+
+        public int LonNum
         {
             get;
             set;

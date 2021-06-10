@@ -26,35 +26,56 @@ namespace Heiflow.Controls.WinForm.MT3DMS
         private void SetSpeciesForm_Load(object sender, EventArgs e)
         {
             string dbfile = Path.Combine(Application.StartupPath, "data\\pht3d_datab.dat");
-            _mf.SpeciesManager.LoadCollectionFromDB(dbfile);
-            olvSpeciesList.DataSource = _mf.SpeciesManager.SpeciesCollection;
+
+            if (_mf.Packages.Keys.Contains(PHCPackage.PackageName))
+            {
+                var phcpck = _mf.GetPackage(PHCPackage.PackageName) as PHCPackage;
+                if (phcpck.NumAquComponents == 0)
+                {
+                    _mf.MobileSpeciesManager.LoadCollectionFromDB(dbfile);
+                    _mf.MobileSpeciesManager.SetDefaultMobileSpecies();
+                }
+                olvMobileSpeciesList.DataSource = _mf.MobileSpeciesManager.SpeciesCollection;
+
+                if (phcpck.NumExchSpecies == 0)
+                {
+                    _mf.ExchangeSpeciesManager.LoadCollectionFromDB(dbfile);
+                    _mf.ExchangeSpeciesManager.SetDefaultExchangeSpecies();
+                }
+                olvExchangeSpeciesList.DataSource = _mf.ExchangeSpeciesManager.SpeciesCollection;
+                olvMineralSpeciesList.DataSource = _mf.MineralSpeciesManager.SpeciesCollection;
+            }
         }
 
         private void btnOk_Click(object sender, EventArgs e)
         {
             var btnpck = _mf.GetPackage(BTNPackage.PackageName) as BTNPackage;
-          var selected = from sp in _mf.SpeciesManager.SpeciesCollection where sp.Selected select sp;
-          if (selected.Count() > 0)
-          {
-              btnpck.NCOMP = selected.Count();
-              var initcomp = from comp in selected select comp.InitialConcentration;
-              btnpck.InitComponents(initcomp.ToArray());
-              if(_mf.Packages.Keys.Contains(PHCPackage.PackageName ))
-              {
-                  var phcpck = _mf.GetPackage(PHCPackage.PackageName) as PHCPackage;
-                  phcpck.NumAquComponents = btnpck.NCOMP;
-                  var compname = from comp in selected select comp.Name;
-                  phcpck.AllComponentsNames = compname.ToArray();
+            _mf.MobileSpeciesManager.CheckMandaryMobileSpecies();
 
-              }
-              this.Close();
-          }
-          else
-          {
-              MessageBox.Show("No species selected. At least one species must be selected.", "Species Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-          }
+            var selected_mobile = from sp in _mf.MobileSpeciesManager.SpeciesCollection where sp.Selected select sp;
+            var selected_ex = from sp in _mf.ExchangeSpeciesManager.SpeciesCollection where sp.Selected select sp;
+            if (selected_mobile.Count() < 2)
+            {
+                MessageBox.Show("No species selected. At least two species must be selected.", "Species Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var nmobie = selected_mobile.Count();
+            var nex = selected_ex.Count();
+            btnpck.NCOMP = nmobie + nex;
+            btnpck.MCOMP = nmobie - 2;
+
+            var initcomp_mob = (from comp in selected_mobile select comp.InitialConcentration).ToList();
+            var initcomp_ex = (from comp in selected_ex select comp.InitialConcentration).ToList();
+            initcomp_mob.AddRange(initcomp_ex);
+            var _default_mobile_species_con = new float[] { 0.009f, 0.03f, 0.0017f, 0.02f, 0.0067f, 0.0003f, 0.0007f, 7.9f, 8, 0.0001f, 0.0001f, 0.0001f };
+
+            //btnpck.InitComponents(initcomp_mob.ToArray());
+            btnpck.InitComponents(_default_mobile_species_con);
+
+            this.Close();
+
         }
-
 
     }
 }

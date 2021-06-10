@@ -424,6 +424,7 @@ namespace Heiflow.Models.Generic
 
         public void CreateSP(int nsp, bool has_steady_state, DateTime start)
         {
+            StressPeriods.Clear();
             DateTime current = start;
             for (int i = 0; i < nsp; i++)
             {
@@ -500,21 +501,27 @@ namespace Heiflow.Models.Generic
             var current = new DateTime(start.Year, start.Month, start.Day, start.Hour, start.Minute, start.Second);
             foreach (var sp in StressPeriods)
             {
+                sp.Dates.Clear();
                 if (sp.State == ModelState.SS)
                 {
                     Timeline.Add(start);
                 }
                 else
                 {
-                    var dts = sp.Length * this.TimeInteval / sp.NSTP;
-                    for (int i = 0; i < sp.NSTP; i++)
+                    var dts = this.TimeInteval * sp.NSTP;
+                    var step = sp.Length / sp.NSTP;
+                    sp.StepOptions.Clear();
+                    for (int i = 0; i < step; i++)
                     {
                         current = current.AddSeconds(dts);
                         sp.Dates.Add(current);
                         Timeline.Add(current);
+                        var op = new StepOption(sp.ID, i+ 1);
+                        sp.StepOptions.Add(op);
                     }
                 }
             }
+            Initialized = true;
         }
         public void PopulateIOTimelineFromSP()
         {

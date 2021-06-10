@@ -212,54 +212,61 @@ namespace Heiflow.Controls.WinForm.Modflow
 
         private void tbCellSize_TextChanged(object sender, EventArgs e)
         {
-            var tb = sender as TextBox;
-            TextBox target = null;
-            float tb_value = 50;
             try
             {
-                tb_value = float.Parse(tb.Text);
-            }
-            catch
-            {
-                MessageBox.Show("Invalid number");
-                return;
-            }
-            tb.TextChanged -= tbCellSize_TextChanged;
+                var tb = sender as TextBox;
+                TextBox target = null;
+                float tb_value = 50;
+                try
+                {
+                    tb_value = float.Parse(tb.Text);
+                }
+                catch
+                {
+                    MessageBox.Show("Invalid number");
+                    return;
+                }
+                tb.TextChanged -= tbCellSize_TextChanged;
 
-            if(sender.Equals(tbXNum))
-            {
-                _GridGenerator.ColumnCount = (int) Math.Floor(tb_value);
-                _GridGenerator.XSize = (float)(_GridGenerator.Domain.Extent.Width / _GridGenerator.ColumnCount);
-                target = tbXSize;
-                target.TextChanged -= tbCellSize_TextChanged;
-                tbXSize.Text = _GridGenerator.XSize.ToString();
+                if (sender.Equals(tbXNum))
+                {
+                    _GridGenerator.ColumnCount = (int)Math.Floor(tb_value);
+                    _GridGenerator.XSize = (float)(_GridGenerator.Domain.Extent.Width / _GridGenerator.ColumnCount);
+                    target = tbXSize;
+                    target.TextChanged -= tbCellSize_TextChanged;
+                    tbXSize.Text = _GridGenerator.XSize.ToString();
+                }
+                else if (sender.Equals(tbYNum))
+                {
+                    _GridGenerator.RowCount = (int)Math.Floor(tb_value);
+                    _GridGenerator.YSize = (float)(_GridGenerator.Domain.Extent.Height / _GridGenerator.RowCount);
+                    target = tbYSize;
+                    target.TextChanged -= tbCellSize_TextChanged;
+                    tbYSize.Text = _GridGenerator.YSize.ToString();
+                }
+                else if (sender.Equals(tbXSize))
+                {
+                    _GridGenerator.XSize = tb_value;
+                    _GridGenerator.ColumnCount = (int)Math.Floor(_GridGenerator.Domain.Extent.Width / _GridGenerator.XSize);
+                    target = tbXNum;
+                    target.TextChanged -= tbCellSize_TextChanged;
+                    tbXNum.Text = _GridGenerator.ColumnCount.ToString();
+                }
+                else if (sender.Equals(tbYSize))
+                {
+                    _GridGenerator.YSize = tb_value;
+                    _GridGenerator.RowCount = (int)Math.Floor(_GridGenerator.Domain.Extent.Height / _GridGenerator.YSize);
+                    target = tbYNum;
+                    target.TextChanged -= tbCellSize_TextChanged;
+                    tbYNum.Text = _GridGenerator.RowCount.ToString();
+                }
+                tb.TextChanged += tbCellSize_TextChanged;
+                target.TextChanged += tbCellSize_TextChanged;
             }
-            else if (sender.Equals(tbYNum))
+            catch(Exception ex)
             {
-                _GridGenerator.RowCount = (int)Math.Floor(tb_value);
-                _GridGenerator.YSize = (float)(_GridGenerator.Domain.Extent.Height / _GridGenerator.RowCount);
-                target = tbYSize;
-                target.TextChanged -= tbCellSize_TextChanged;
-                tbYSize.Text = _GridGenerator.YSize.ToString();
+                MessageBox.Show("Invalid layer setting. Error message: " + ex.Message);
             }
-            else if (sender.Equals(tbXSize))
-            {
-                _GridGenerator.XSize = tb_value;
-                _GridGenerator.ColumnCount = (int) Math.Floor(_GridGenerator.Domain.Extent.Width / _GridGenerator.XSize);
-                target = tbXNum;
-                target.TextChanged -= tbCellSize_TextChanged;
-                tbXNum.Text = _GridGenerator.ColumnCount.ToString();
-            }
-            else if (sender.Equals(tbYSize))
-            {
-                _GridGenerator.YSize = tb_value;
-                _GridGenerator.RowCount = (int)Math.Floor(_GridGenerator.Domain.Extent.Height / _GridGenerator.YSize);
-                target = tbYNum;
-                target.TextChanged -= tbCellSize_TextChanged;
-                tbYNum.Text = _GridGenerator.RowCount.ToString();
-            }
-            tb.TextChanged += tbCellSize_TextChanged;
-            target.TextChanged += tbCellSize_TextChanged;
         }
         private void btnLayerGroup_Click(object sender, EventArgs e)
         {

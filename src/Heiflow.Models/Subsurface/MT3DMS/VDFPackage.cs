@@ -224,17 +224,17 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             PRHDREF =0;
 
 
-            NSRHOEOS = 2;
+            NSRHOEOS = 7;
             SPEC = new DataCube2DLayout<float>(1, NSRHOEOS, 3);
             SPEC.Name = "MT3DMS Species";
             SPEC.ColumnNames[0] = "MTRHOSPEC";
             SPEC.ColumnNames[1] = "DRHODC";
             SPEC.ColumnNames[2] = "CRHOREF";
-
+            var conc = new float[] { 21.7f, 35.1f, 9.6f, 6f, 116.8f, 54.4f, 12.2f };
             for (int i = 0; i < NSRHOEOS; i++)
             {
                 SPEC.ILArrays[0][i, 0] = i+1;
-                SPEC.ILArrays[0][i, 1] = 7;
+                SPEC.ILArrays[0][i, 1] = conc[i];
                 SPEC.ILArrays[0][i, 2] = 0;
             }
 

@@ -713,7 +713,7 @@ namespace Heiflow.Models.Generic
 
         public void Extent(SpatialReference srf)
         {
-            this.BBox = new Envelope(srf.X, srf.X + ColumnCount * DELR[0, 0, 0], srf.Y - RowCount * DELR[0, 0, 0], srf.Y);
+            this.BBox = new Envelope(srf.X, srf.X + ColumnCount * DELR[0, 0, 0], srf.Y - RowCount * DELC[0, 0, 0], srf.Y);
             this.Origin = new Coordinate(srf.X, srf.Y);
         }
 

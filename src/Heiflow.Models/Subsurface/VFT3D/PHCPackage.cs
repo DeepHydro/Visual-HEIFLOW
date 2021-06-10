@@ -31,6 +31,7 @@ using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
+using Heiflow.Models.Subsurface.MT3DMS;
 using Heiflow.Models.UI;
 using ILNumerics;
 using System;
@@ -42,6 +43,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Heiflow.Models.Subsurface.VFT3D
 {
@@ -118,8 +120,11 @@ namespace Heiflow.Models.Subsurface.VFT3D
         [Description("NR_SOL_MST_SPEC_EQU: Defines the number of aqueous components that are assumed to be in chemical equilibrium and included in the simulation")]
         public int NumAquComponents
         {
-            get;
-            set;
+            get
+            {
+                var mf = Owner as Modflow;
+                return mf.MobileSpeciesManager.NumSelectedSpecies;
+            }
         }
         [Category("Components")]
         [Description("the number of minerals included in the simulation and for which the local equilibrium assumption (LEA) is assumed to be valid")]
@@ -169,10 +174,12 @@ namespace Heiflow.Models.Subsurface.VFT3D
         [Description("EXCHANGE_SPECIES: Defines the number of exchaning components")]
         public int NumExchSpecies
         {
-            get;
-            set;
+            get
+            {
+                var mf = Owner as Modflow;
+                return mf.ExchangeSpeciesManager.NumSelectedSpecies;
+            }
         }
-
 
         [Category("Components")]
         [Description("EXCHANGE_SPECIES: Defines the number of exchaning components")]
@@ -187,15 +194,23 @@ namespace Heiflow.Models.Subsurface.VFT3D
         [Description("")]
         public string[] AquComponentsNames
         {
-            get;
-            private set;
+            get
+            {
+                var mf = Owner as Modflow;
+                var buf = from sp in mf.MobileSpeciesManager.SpeciesCollection where sp.Selected select sp.Name;
+                return buf.ToArray();
+            }
         }
         [Category("Components")]
         [Description("")]
         public string[] ExchSpeciesNames
         {
-            get;
-            private set;
+            get
+            {
+                var mf = Owner as Modflow;
+                var buf = from sp in mf.ExchangeSpeciesManager.SpeciesCollection where sp.Selected select sp.Name;
+                return buf.ToArray();
+            }
         }
         [Category("Components")]
         [Description("")]
@@ -203,11 +218,17 @@ namespace Heiflow.Models.Subsurface.VFT3D
         {
             get
             {
+                var mf = Owner as Modflow;
+                _AllComponentsNames = new string[TotalNumComponents];
+                for (int i = 0; i < NumAquComponents; i++)
+                {
+                    _AllComponentsNames[i] = AquComponentsNames[i];
+                }
+                for (int i = 0; i < NumExchSpecies; i++)
+                {
+                    _AllComponentsNames[NumAquComponents + i] = ExchSpeciesNames[i];
+                }
                 return _AllComponentsNames;
-            }
-            set
-            {
-                _AllComponentsNames = value;
             }
         }
         #endregion
@@ -217,7 +238,32 @@ namespace Heiflow.Models.Subsurface.VFT3D
             TEMP = 25;
             OS = 2;
             ASBIN = 1;
-            NumAquComponents = 7;
+        
+            //AquComponentsNames = new string[9];
+            //for (int i = 0; i < 7; i++)
+            //    AquComponentsNames[i] = SpeciesManager._default_mobile_species[i];
+            //AquComponentsNames[7] = "pH";
+            //AquComponentsNames[8] = "pe";
+
+            
+            //ExchSpeciesNames = new string[3];
+            //SpeciesManager._default_exchange_species.CopyTo(ExchSpeciesNames, 0);
+
+            string dbfile = Path.Combine(Application.StartupPath, "data\\pht3d_datab.dat");
+            var mf = Owner as Modflow;
+            if (mf != null)
+            {
+                mf.MobileSpeciesManager.LoadCollectionFromDB(dbfile);
+                mf.ExchangeSpeciesManager.LoadCollectionFromDB(dbfile);
+                mf.MineralSpeciesManager.LoadCollectionFromDB(dbfile);
+                mf.MobileSpeciesManager.SetDefaultMobileSpecies();
+                mf.MobileSpeciesManager.CheckMandaryMobileSpecies();
+                mf.ExchangeSpeciesManager.SetDefaultExchangeSpecies();
+            }
+        }
+
+        private void SelectSpecies()
+        {
         }
 
         public override void Initialize()
@@ -241,9 +287,16 @@ namespace Heiflow.Models.Subsurface.VFT3D
             var result = LoadingState.Normal;
             if (File.Exists(FileName))
             {
+                string dbfile = Path.Combine(Application.StartupPath, "data\\pht3d_datab.dat");
+
                 StreamReader sr = new StreamReader(FileName);
                 try
                 {
+                    var mf = Owner as Modflow;
+                    mf.MobileSpeciesManager.LoadCollectionFromDB(dbfile);
+                    mf.ExchangeSpeciesManager.LoadCollectionFromDB(dbfile);
+                    mf.MineralSpeciesManager.LoadCollectionFromDB(dbfile);
+
                     string line = sr.ReadLine();
                     var strs = TypeConverterEx.Split<string>(line);
                     OS = int.Parse(strs[0]);
@@ -258,7 +311,7 @@ namespace Heiflow.Models.Subsurface.VFT3D
 
                     line = sr.ReadLine();
                     strs = TypeConverterEx.Split<string>(line);
-                    NumAquComponents = int.Parse(strs[0]);
+                   var  numAquComponents = int.Parse(strs[0]);
 
                     line = sr.ReadLine();
                     strs = TypeConverterEx.Split<string>(line);
@@ -266,7 +319,7 @@ namespace Heiflow.Models.Subsurface.VFT3D
 
                     line = sr.ReadLine();
                     strs = TypeConverterEx.Split<string>(line);
-                    NumExchSpecies = int.Parse(strs[0]);
+                  var  numExchSpecies = int.Parse(strs[0]);
 
                     line = sr.ReadLine();
                     strs = TypeConverterEx.Split<string>(line);
@@ -279,22 +332,34 @@ namespace Heiflow.Models.Subsurface.VFT3D
                     NR_SURF_KIN = int.Parse(strs[2]);
                     NR_IMOB_KIN = int.Parse(strs[3]);
 
-                    AquComponentsNames = new string[NumAquComponents];
-                    ExchSpeciesNames = new string[NumExchSpecies];
-                    _AllComponentsNames = new string[TotalNumComponents];
-                    for (int i = 0; i < NumAquComponents; i++)
+                    //AquComponentsNames = new string[NumAquComponents];
+                    //ExchSpeciesNames = new string[NumExchSpecies];
+
+                    for (int i = 0; i < numAquComponents; i++)
                     {
                         line = sr.ReadLine();
                         strs = TypeConverterEx.Split<string>(line);
-                        AquComponentsNames[i] = strs[0];
-                        _AllComponentsNames[i] = strs[0];
+                        //AquComponentsNames[i] = strs[0];
+
+                        var sp = mf.MobileSpeciesManager.Select(strs[0]);
+                        if (sp != null)
+                            sp.Selected = true;
                     }
-                    for (int i = 0; i < NumExchSpecies; i++)
+                    mf.MobileSpeciesManager.CheckMandaryMobileSpecies();
+
+                    for (int i = 0; i < numExchSpecies; i++)
                     {
                         line = sr.ReadLine();
                         strs = TypeConverterEx.Split<string>(line);
-                        ExchSpeciesNames[i] = strs[0] + "-X";
-                        _AllComponentsNames[NumAquComponents + i] = ExchSpeciesNames[i];
+                        //ExchSpeciesNames[i] = strs[0];
+                        var sp = mf.ExchangeSpeciesManager.Select(strs[0]);
+                        if (sp != null)
+                        {
+                            sp.Selected = true;
+                            var ion = 1;
+                            int.TryParse(strs[1], out ion); 
+                            sp.LonNum = ion;
+                        }
                     }
 
                     result = LoadingState.Normal;
@@ -322,6 +387,7 @@ namespace Heiflow.Models.Subsurface.VFT3D
 
         public override void SaveAs(string filename,ICancelProgressHandler progress)
         {
+            var mf = Owner as Modflow;
             var grid = (Owner.Grid as IRegularGrid);
             StreamWriter sw = new StreamWriter(filename);
             string line = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t# OS, TEMP, ASBIN, EPS_AQU, EPS_PH", OS, TEMP, ASBIN, EPS_AQU, EPS_PH);
@@ -345,7 +411,33 @@ namespace Heiflow.Models.Subsurface.VFT3D
             line = string.Format("{0}\t{1}\t{2}\t{3}\t# NR_MOB_KIN, NR_MIN_KIN, NR_SURF_KIN, NR_IMOB_KIN", NR_MOB_KIN, NR_MIN_KIN, NR_SURF_KIN, NR_IMOB_KIN);
             sw.WriteLine(line);
 
-            sw.WriteLine("Ca\nCl\nK\nNa\nN(5)\npH\npe");
+            //foreach (var sp in mf.MobileSpeciesManager.SpeciesCollection)
+            //{
+            //    if (sp.Selected)
+            //        sw.WriteLine(sp.Name);
+            //}
+            //foreach (var sp in mf.ExchangeSpeciesManager.SpeciesCollection)
+            //{
+            //    if (sp.Selected)
+            //        sw.WriteLine(sp.Name + " " + sp.LonNum);
+            //}
+            var lines = new string[] { 
+"Ca",
+"Cl",
+"Mg",
+"Na", 
+"S(6)",
+"C(4)",
+"K", 
+"pH", 
+"pe", 
+"Ca             2",  
+"Na             1",  
+"Mg             2" 
+            };
+            foreach (var str in lines)
+                sw.WriteLine(str);
+
             sw.Close();
             OnSaved(progress);
         }
@@ -374,5 +466,7 @@ namespace Heiflow.Models.Subsurface.VFT3D
             this.Feature = Owner.Grid.FeatureSet;
             this.FeatureLayer = Owner.Grid.FeatureLayer;
         }
+
+     
     }
 }

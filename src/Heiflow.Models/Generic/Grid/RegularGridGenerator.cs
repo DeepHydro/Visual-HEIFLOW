@@ -162,11 +162,17 @@ namespace Heiflow.Models.Generic.Grid
                 Source.DELC = new DataCube<float>(1, 1, RowCount);
                 Source.DELR = new DataCube<float>(1, 1, ColumnCount);
                 Source.DELC.Flags[0] = TimeVarientFlag.Constant;
-                Source.DELR.Flags[0] = TimeVarientFlag.Constant;
-                Source.DELC.Constants[0] = this.XSize;
-                Source.DELR.Constants[0] = this.YSize;
-                Source.DELC.ILArrays[0]["0", ":"] = this.XSize;
-                Source.DELR.ILArrays[0]["0", ":"] = this.YSize;
+                //Source.DELR.Flags[0] = TimeVarientFlag.Constant;
+                //Source.DELC.Constants[0] = this.XSize;
+                //Source.DELR.Constants[0] = this.YSize;
+                //Source.DELC.ILArrays[0]["0", ":"] = this.XSize;
+                //Source.DELR.ILArrays[0]["0", ":"] = this.YSize;
+
+                Source.DELC.Constants[0] = this.YSize;
+                Source.DELR.Constants[0] = this.XSize;
+                Source.DELC.ILArrays[0]["0", ":"] = this.YSize;
+                Source.DELR.ILArrays[0]["0", ":"] = this.XSize;
+
                 Source.Projection = Domain.Projection;
                 Source.BBox = new Envelope(Domain.Extent.MinX, Domain.Extent.MaxX, Domain.Extent.MinY, Domain.Extent.MaxY);
 

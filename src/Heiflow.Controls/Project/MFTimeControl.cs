@@ -73,7 +73,7 @@ namespace Heiflow.Controls.WinForm.Project
         {
             (_MFTimeService.Model as Heiflow.Models.Subsurface.Modflow).TimeUnit = cmbTimeUnit.SelectedIndex + 1;
             _MFTimeService.Start = dateTimePickerStart.Value;
-                numericUpDownMF_ValueChanged(null, null);
+            numericUpDownMF_ValueChanged(null, null);
         }
 
         private void dateTimePickerStart_ValueChanged(object sender, EventArgs e)
@@ -95,10 +95,9 @@ namespace Heiflow.Controls.WinForm.Project
         private void numericUpDownMF_ValueChanged(object sender, EventArgs e)
         {
             int nsp = (int)numericUpDownMF.Value;
-            _MFTimeService.CreateSP(nsp, true, dateTimePickerStart.Value);
+            _MFTimeService.CreateSP(nsp, chbHasSteadystate.Checked, dateTimePickerStart.Value);
             _MFTimeService.PopulateTimelineFromSP(dateTimePickerStart.Value);
             _MFTimeService.PopulateIOTimelineFromSP();
-            //_MFTimeService.IOTimeline = _MFTimeService.Timeline;
             olvMF.SetObjects(_MFTimeService.StressPeriods);
         }
 
@@ -106,10 +105,16 @@ namespace Heiflow.Controls.WinForm.Project
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            _MFTimeService.UpdateTimeLine();
-            _MFTimeService.RaiseUpdated();
             this.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.Close();
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            _MFTimeService.PopulateTimelineFromSP(dateTimePickerStart.Value);
+            //_MFTimeService.PopulateIOTimelineFromSP();
+            //_MFTimeService.UpdateTimeLine();
+            _MFTimeService.RaiseUpdated();
         }
     }
 }

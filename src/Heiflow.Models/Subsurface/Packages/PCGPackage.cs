@@ -64,11 +64,11 @@ namespace Heiflow.Models.Subsurface
             IsMandatory = false;
 
             MXITER = 200;
-            ITER1 = 500;
+            ITER1 = 10;
             NPCOND = 1;
             IHCOFADD = 0;
-            HCLOSE = 0.01f;
-            RCLOSE = 100;
+            HCLOSE = 0.0001f;
+            RCLOSE = 1;
             RELAX = 0.99f;
             NBPOL = 1;
             IPRPCG = 1;

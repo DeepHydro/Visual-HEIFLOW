@@ -171,7 +171,7 @@ namespace Heiflow.Models.Subsurface
                     feature.DataRow["Row"] = row;
                     feature.DataRow["Column"] = col;
                     feature.DataRow["ID"] = i + 1;
-                    feature.DataRow["Elevation"] = grid.GetElevationAt(row - 1, col - 1, layer - 1);
+                    feature.DataRow["Elevation"] = 0;// grid.GetElevationAt(row - 1, col - 1, layer - 1);
                     feature.DataRow["Name"] = "Well" + (i + 1);
                     feature.DataRow[RegularGrid.ParaValueField] = 0;
                     for (int j = 0; j < np; j++)

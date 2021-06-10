@@ -51,6 +51,7 @@ namespace Heiflow.Tools
         /// Conceptual Modelling for Groundwater
         /// </summary>
         protected const string Cat_CMG = "Conceptual Modelling for Groundwater";
+        protected const string Cat_VFT3D = "Conceptual Modelling for VFT3D";
         public ModelTool()
         {
             Description = "This is a modeling tool";

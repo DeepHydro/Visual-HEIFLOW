@@ -69,7 +69,10 @@ namespace Heiflow.Models.Subsurface
         /// </summary>
         public const string OutputDic = ".\\Output\\";
         protected MFNameManager _MFNameManager;
-        private SpeciesManager _SpeciesManager;
+        private SpeciesManager _MobileSpeciesManager;
+        private SpeciesManager _MineralSpeciesManager;
+        private SpeciesManager _ExchangeSpeciesManager;
+
         public Modflow()
         {
             Name = "Modflow";
@@ -92,7 +95,9 @@ namespace Heiflow.Models.Subsurface
             MFVersion = MODFLOWVersion.MFNWT;
             Description = "The U.S. Geological Survey modular finite-difference flow model, which is a computer code that solves the groundwater flow equation.";
 
-            _SpeciesManager = new SpeciesManager();
+            _MobileSpeciesManager = new SpeciesManager();
+            _MineralSpeciesManager = new SpeciesManager();
+            _ExchangeSpeciesManager = new SpeciesManager();
         }
         [Category("Units")]
         public int TimeUnit { get; set; }
@@ -139,14 +144,30 @@ namespace Heiflow.Models.Subsurface
             protected set;
         }
         [Browsable(false)]
-        public SpeciesManager SpeciesManager
+        public SpeciesManager MobileSpeciesManager
         {
             get
             {
-                return _SpeciesManager;
+                return _MobileSpeciesManager;
+            }
+        }
+        [Browsable(false)]
+        public SpeciesManager MineralSpeciesManager
+        {
+            get
+            {
+                return _MineralSpeciesManager;
             }
         }
 
+        [Browsable(false)]
+        public SpeciesManager ExchangeSpeciesManager
+        {
+            get
+            {
+                return _ExchangeSpeciesManager;
+            }
+        }
         public override void Initialize()
         {
             TimeServiceList.Add(this.TimeService.Name, this.TimeService);

@@ -68,7 +68,7 @@ namespace Heiflow.Controls.WinForm.Display
             filtedstrs = new string[]
             {
                 "SEAWAT",                "U.S. GEOLOGICAL",                                "Version",                                "This program is",
-                "condition",  "the United","damages resulting","use."
+                "condition",  "the United","damages resulting","use.", "PHREEQC "
             };
         }
 

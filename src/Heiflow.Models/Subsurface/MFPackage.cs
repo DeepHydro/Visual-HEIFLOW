@@ -606,7 +606,8 @@ namespace Heiflow.Models.Subsurface
                         line += colvv[t].ToString(format).PadLeft(width, ' ');
                     }
                     line = line.Trim(StreamReaderSequence.ctab);
-                    sw.WriteLine(line);
+                    if(line != "")
+                        sw.WriteLine(line);
                 }
             }
         }
@@ -713,7 +714,7 @@ namespace Heiflow.Models.Subsurface
             }
             else if (mat.Flags[var_index] == TimeVarientFlag.Individual)
             {
-                string line = string.Format("       100{0}{1}{2}", mat.Multipliers[var_index].ToString().PadLeft(10, ' '), ("(" + mat.Size[2]+format_mt3d + ")").PadLeft(10, ' '), mat.IPRN[var_index].ToString().PadLeft(10, ' '));
+                string line = string.Format("       100{0}{1}{2}", mat.Multipliers[var_index].ToString().PadLeft(10, ' '), (" (" + mat.Size[2]+format_mt3d + ")").PadLeft(10, ' '), mat.IPRN[var_index].ToString().PadLeft(10, ' '));
                 var grid = Owner.Grid as MFGrid;
                 sw.WriteLine(line);
                 for (int r = 0; r < mat.Size[1]; r++)

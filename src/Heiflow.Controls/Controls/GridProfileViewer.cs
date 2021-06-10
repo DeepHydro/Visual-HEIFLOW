@@ -45,12 +45,15 @@ namespace Heiflow.Controls.WinForm.Controls
             {
                 _datasource = value;
                 comboBoxVariable.DataSource = _datasource.Variables;
-                colorSlider1.Maximum = _datasource.Size[1] - 1;
-                colorSlider1.Enabled = false;
-                btnPlay.Enabled = false;
-                btnStop.Enabled = false;
-                tbCurDate.Text = "";
-                radioButtonRow.Checked = true;
+                if (_datasource.Size[1]  > 1)
+                {
+                    colorSlider1.Maximum = _datasource.Size[1] - 1;
+                    colorSlider1.Enabled = false;
+                    btnPlay.Enabled = false;
+                    btnStop.Enabled = false;
+                    tbCurDate.Text = "";
+                    radioButtonRow.Checked = true;
+                }
             }
         }
 
@@ -152,14 +155,14 @@ namespace Heiflow.Controls.WinForm.Controls
                 btnPlay.Enabled = true;
                 btnStop.Enabled = false;
                 comboBoxVariable.Enabled = true;
-                for (int i = 0; i < DataSource.Size[0]; i++)
-                {
-                    if (DataSource.IsAllocated(i))
-                    {
-                        comboBoxVariable.SelectedIndex = i;
-                        break;
-                    }
-                }
+                //for (int i = 0; i < DataSource.Size[0]; i++)
+                //{
+                //    if (DataSource.IsAllocated(i))
+                //    {
+                //        comboBoxVariable.SelectedIndex = i;
+                //        break;
+                //    }
+                //}
             }
         }
 

@@ -63,6 +63,7 @@ namespace Heiflow.Models.Subsurface.VFT3D
             _PackageInfo.FileExtension = ".acn";
             _PackageInfo.ModuleName = "ACN";
             IsMandatory = true;
+            LoadAllLayers = true;
             Version = "ACN";
             _Layer3DToken = "RegularGrid";
             Description = "";
@@ -77,6 +78,7 @@ namespace Heiflow.Models.Subsurface.VFT3D
             StartOfLoading = TimeService.Start;
             EndOfLoading = TimeService.End;
             NumTimeStep = TimeService.IOTimeline.Count;
+          
             base.Initialize();
         }
 
@@ -158,9 +160,11 @@ namespace Heiflow.Models.Subsurface.VFT3D
             if (File.Exists(file))
             {
                 StreamReader sr = null;
+                   FileStream fs =null;
                 try
                 {
-                    sr = new StreamReader(file);
+                    fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                    sr = new StreamReader(fs);
                     var cell_index = grid.Topology.GetIndexIn2DMat();
 
                     string line = "";
@@ -199,6 +203,7 @@ namespace Heiflow.Models.Subsurface.VFT3D
                 }
                 finally
                 {
+                    fs.Close();
                     sr.Close();
                 }
             }

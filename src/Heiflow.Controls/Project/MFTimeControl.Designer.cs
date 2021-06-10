@@ -47,9 +47,11 @@
             this.dateTimePickerStart = new System.Windows.Forms.DateTimePicker();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chbHasSteadystate = new System.Windows.Forms.CheckBox();
             this.btnRefreshGlobalTime = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.cmbTimeUnit = new System.Windows.Forms.ComboBox();
+            this.btnUpdate = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPageMF.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -90,10 +92,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPageMF);
-            this.tabControl1.Location = new System.Drawing.Point(4, 83);
+            this.tabControl1.Location = new System.Drawing.Point(4, 119);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(742, 461);
+            this.tabControl1.Size = new System.Drawing.Size(742, 425);
             this.tabControl1.TabIndex = 23;
             // 
             // tabPageMF
@@ -103,7 +105,7 @@
             this.tabPageMF.Location = new System.Drawing.Point(4, 29);
             this.tabPageMF.Name = "tabPageMF";
             this.tabPageMF.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageMF.Size = new System.Drawing.Size(734, 428);
+            this.tabPageMF.Size = new System.Drawing.Size(734, 392);
             this.tabPageMF.TabIndex = 1;
             this.tabPageMF.Text = "Modflow Stress Periods   ";
             this.tabPageMF.UseVisualStyleBackColor = true;
@@ -159,7 +161,7 @@
             this.numericUpDownMF.Size = new System.Drawing.Size(70, 27);
             this.numericUpDownMF.TabIndex = 24;
             this.numericUpDownMF.Value = new decimal(new int[] {
-            2,
+            1,
             0,
             0,
             0});
@@ -206,7 +208,7 @@
             this.olvMF.ShowGroups = false;
             this.olvMF.ShowImagesOnSubItems = true;
             this.olvMF.ShowItemToolTips = true;
-            this.olvMF.Size = new System.Drawing.Size(723, 372);
+            this.olvMF.Size = new System.Drawing.Size(723, 336);
             this.olvMF.TabIndex = 25;
             this.olvMF.UseCellFormatEvents = true;
             this.olvMF.UseCompatibleStateImageBehavior = false;
@@ -265,7 +267,7 @@
             // 
             // dateTimePickerStart
             // 
-            this.dateTimePickerStart.Location = new System.Drawing.Point(54, 26);
+            this.dateTimePickerStart.Location = new System.Drawing.Point(63, 25);
             this.dateTimePickerStart.Name = "dateTimePickerStart";
             this.dateTimePickerStart.Size = new System.Drawing.Size(169, 27);
             this.dateTimePickerStart.TabIndex = 15;
@@ -284,6 +286,8 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.chbHasSteadystate);
+            this.groupBox1.Controls.Add(this.btnUpdate);
             this.groupBox1.Controls.Add(this.btnRefreshGlobalTime);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.cmbTimeUnit);
@@ -291,10 +295,20 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Location = new System.Drawing.Point(4, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(740, 71);
+            this.groupBox1.Size = new System.Drawing.Size(740, 107);
             this.groupBox1.TabIndex = 24;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Global Time";
+            // 
+            // chbHasSteadystate
+            // 
+            this.chbHasSteadystate.AutoSize = true;
+            this.chbHasSteadystate.Location = new System.Drawing.Point(21, 67);
+            this.chbHasSteadystate.Name = "chbHasSteadystate";
+            this.chbHasSteadystate.Size = new System.Drawing.Size(203, 24);
+            this.chbHasSteadystate.TabIndex = 18;
+            this.chbHasSteadystate.Text = "First period is steady state";
+            this.chbHasSteadystate.UseVisualStyleBackColor = true;
             // 
             // btnRefreshGlobalTime
             // 
@@ -302,7 +316,7 @@
             this.btnRefreshGlobalTime.Location = new System.Drawing.Point(622, 24);
             this.btnRefreshGlobalTime.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnRefreshGlobalTime.Name = "btnRefreshGlobalTime";
-            this.btnRefreshGlobalTime.Size = new System.Drawing.Size(92, 29);
+            this.btnRefreshGlobalTime.Size = new System.Drawing.Size(92, 30);
             this.btnRefreshGlobalTime.TabIndex = 17;
             this.btnRefreshGlobalTime.Text = "Generate";
             this.btnRefreshGlobalTime.UseVisualStyleBackColor = true;
@@ -332,6 +346,18 @@
             this.cmbTimeUnit.Size = new System.Drawing.Size(137, 28);
             this.cmbTimeUnit.TabIndex = 2;
             this.cmbTimeUnit.SelectedIndexChanged += new System.EventHandler(this.cmbTimeUnit_SelectedIndexChanged);
+            // 
+            // btnUpdate
+            // 
+            this.btnUpdate.Font = new System.Drawing.Font("Calibri", 10.5F);
+            this.btnUpdate.Location = new System.Drawing.Point(622, 67);
+            this.btnUpdate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(92, 30);
+            this.btnUpdate.TabIndex = 17;
+            this.btnUpdate.Text = "Update";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
             // MFTimeControl
             // 
@@ -386,5 +412,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cmbTimeUnit;
+        private System.Windows.Forms.CheckBox chbHasSteadystate;
+        private System.Windows.Forms.Button btnUpdate;
     }
 }
