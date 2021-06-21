@@ -102,8 +102,8 @@ namespace Heiflow.Controls.WinForm.MenuItems
                 }
                 dp.PropertyChanged += dp_PropertyChanged;
                 dp.ScanFailed += dp_ScanFailed;
-                if (Package.TimeService != null)
-                    dp.Layer = Package.TimeService.CurrentGridLayer;
+                //if (Package.TimeService != null)
+                //    dp.Layer = Package.TimeService.CurrentGridLayer;
                 Cursor.Current = Cursors.WaitCursor;
                 dp.Scan();
                 dp.PropertyChanged -= dp_PropertyChanged;

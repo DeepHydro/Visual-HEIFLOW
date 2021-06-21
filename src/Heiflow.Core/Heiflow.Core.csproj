@@ -143,6 +143,9 @@
     <Compile Include="Data\ODM\VariablesTable.cs" />
     <Compile Include="Data\RasterEx.cs" />
     <Compile Include="Data\TimeSeries\TimeSeriesPair.cs" />
+    <Compile Include="Drawing\ClassificationMethod.cs" />
+    <Compile Include="Drawing\JenksFisherFloat.cs" />
+    <Compile Include="Drawing\JenksFisherDouble.cs" />
     <Compile Include="Extensions\ReferenceExt.cs" />
     <Compile Include="Extensions\TimeRelated\DateTimeBasedExt.cs" />
     <Compile Include="Extensions\TimeRelated\TimeSpanBasedExt.cs" />

@@ -85,7 +85,6 @@ namespace Heiflow.Models.Surface.MIKE
                 grid.Vertex = new Coordinate[grid.VertexCount];
                 Dictionary<uint, List<uint>> map = new Dictionary<uint, List<uint>>();
 
-
                 for (uint i = 0; i < grid.VertexCount; i++)
                 {
                     line = sr.ReadLine();

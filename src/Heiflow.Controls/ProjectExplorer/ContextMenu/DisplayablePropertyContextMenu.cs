@@ -206,8 +206,8 @@ namespace Heiflow.Controls.WinForm.MenuItems
                 }
 
                 _SelectedNode.Image = Resources.LayerRaster_B_16;
-                if(Package.TimeService != null)
-                    dp.Layer = Package.TimeService.CurrentGridLayer;
+                //if(Package.TimeService != null)
+                //    dp.Layer = Package.TimeService.CurrentGridLayer;
                 dp.Loading += dp_Loading;
                 dp.Loaded += dp_Loaded;
                 dp.ScanFailed += dp_ScanFailed;

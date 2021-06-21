@@ -39,6 +39,8 @@ namespace Heiflow.Models.Visualization
 {
     public interface I3DLayerRender
     {
+        event EventHandler<int> CachingColorProgressChanged;
+        event EventHandler CachingColorFinished;
         IGrid Grid { get; set; }
         string Name { get; set; }
         void Render(float [] vector);
@@ -51,7 +53,12 @@ namespace Heiflow.Models.Visualization
 
         float VerticalExaggeration { get; set; }
 
+        int CurrentTimeStep { get; set; }
+
+        bool UseCache { get; set; }
+
         void CacheColor();
+        void ClearCachedColor();
 
         void UpdateCachedColor();
 
