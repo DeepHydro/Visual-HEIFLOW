@@ -243,6 +243,7 @@ namespace Heiflow.Tools.ConceptualModel
                 int npt = _sourcefs.Features.Count;
                 var mfgrid = (mf.Grid as MFGrid);
                 var elev = mfgrid.Elevations;
+                var actcell_changed_num = 0;
 
                 for (int i = 0; i < npt; i++)
                 {
@@ -264,8 +265,6 @@ namespace Heiflow.Tools.ConceptualModel
                     }
                     for (int j = 0; j < _grid_layer.Features.Count; j++)
                     {
-                        //var cell = _grid_layer.Features[j].Geometry.Coordinates;
-                        //if (SpatialRelationship.PointInPolygon(cell, pt))
                         if (_sourcefs.Features[i].Geometry.Within(_grid_layer.Features[j].Geometry))
                         {
                             CellHead bound = new CellHead()
@@ -317,19 +316,12 @@ namespace Heiflow.Tools.ConceptualModel
                         FlowRate[0, i, 2] = bound.Col;
                         FlowRate[0, i, 3] = bound.SHead;
                         FlowRate[0, i, 4] = bound.EHead;
-                        //var index = mfgrid.Topology.GetSerialIndex(bound.Row - 1, bound.Col - 1);
-                        //if (AdaptingLayer)
-                        //{
-                        //    if (bound.SHead < elev[bound.Layer, 0, index])
-                        //    {
-                        //        var newlayer = FindHighestLayer(bound.Layer, index, elev, bound.SHead);
-                        //        if (newlayer != -1)
-                        //        {
-                        //            FlowRate[0, i, 0] = newlayer;
-                        //            bound.Layer = newlayer;
-                        //        }
-                        //    }
-                        //}
+
+                        if (mfgrid.MFIBound[bound.Layer - 1, bound.Row - 1, bound.Col - 1] == 0)
+                        {
+                            mfgrid.MFIBound[bound.Layer - 1, bound.Row - 1, bound.Col - 1] = 1;
+                            actcell_changed_num++;
+                        }
                     }
                     for (int i = 1; i < nsp; i++)
                     {
@@ -337,8 +329,6 @@ namespace Heiflow.Tools.ConceptualModel
                     }
                     if (ModifyElevation)
                     {
-
-
                         for (int i = 0; i < pck.MXACTC; i++)
                         {
                             var bound = list[i];
@@ -370,6 +360,12 @@ namespace Heiflow.Tools.ConceptualModel
                     pck.IsDirty = true;
                     pck.Save(null);
                     pck.ChangeState(Models.Generic.ModelObjectState.Ready);
+
+                    if (actcell_changed_num > 0)
+                    {
+                        string msg = string.Format("BAS Package has been modified. {0} inactive cells are changed to active cells. Please save BAS", actcell_changed_num);
+                        cancelProgressHandler.Progress("Package_Tool", progress, msg);
+                    }
                 }
                 else
                 {

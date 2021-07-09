@@ -813,6 +813,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
                 }
             }
             base.OnGridUpdated(sender);
+            this.OnTimeServiceUpdated(this.TimeService);
         }
 
         public override void OnTimeServiceUpdated(ITimeService time)
