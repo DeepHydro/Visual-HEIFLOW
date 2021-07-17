@@ -60,17 +60,17 @@ namespace Heiflow.Plugins.DataGridPanel
         public override void Activate()
         {
             _DataGridEx = new DataCubeGrid();
-            App.DockManager.Add(new DockablePanel("kDataGridPanel", "Table View",
+            App.DockManager.Add(new DockablePanel("kDataGridPanel", Resources.Table_View,
                 _DataGridEx, DockStyle.None) { SmallImage = Resources.table_green_48 });
 
-            var showDataGrid = new SimpleActionItem("kView", "Table View", 
+            var showDataGrid = new SimpleActionItem("kView", Resources.Table_View, 
                      delegate(object sender, EventArgs e)
            { App.DockManager.ShowPanel("kDataGridPanel"); }
                 )
             {
                 Key = "kShowDataGridPanel",
-                ToolTipText = "Show Table View",
-                GroupCaption = "Data",
+                ToolTipText = Resources.Table_View_tips,
+                GroupCaption = Resources.Data_Group,
                 LargeImage = Resources.table_green_48
             };
             App.HeaderControl.Add(showDataGrid);

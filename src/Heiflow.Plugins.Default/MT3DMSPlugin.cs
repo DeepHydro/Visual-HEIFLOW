@@ -69,11 +69,11 @@ namespace Heiflow.Plugins.Default
 
         public override void Activate()
         {
-            setSpecies = new SimpleActionItem("kModel", "Set Species", RunModel_Clicked)
+            setSpecies = new SimpleActionItem("kModel", Properties.Resources.Set_Species, RunModel_Clicked)
             {
                 Key = "kSetSpecies",
-                ToolTipText = "Set Species",
-                GroupCaption = "MT3DMS",
+                ToolTipText = Properties.Resources.Set_Species,
+                GroupCaption = Properties.Resources.MT3DMS,
                 LargeImage = Properties.Resources.element,
                 SortOrder = 1
             };

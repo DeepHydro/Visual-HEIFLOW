@@ -31,6 +31,7 @@ using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
+using Heiflow.Models.Properties;
 using Heiflow.Models.UI;
 using ILNumerics;
 using System;
@@ -64,7 +65,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             Version = "VDF";
             IsMandatory = false;
             _Layer3DToken = "RegularGrid";
-            Category = Modflow.SEAWATCategory;
+            Category = Resources.SEAWATCategory;
             ResetToDefault();
         }
 

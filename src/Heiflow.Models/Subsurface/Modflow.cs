@@ -98,6 +98,20 @@ namespace Heiflow.Models.Subsurface
             _MobileSpeciesManager = new SpeciesManager();
             _MineralSpeciesManager = new SpeciesManager();
             _ExchangeSpeciesManager = new SpeciesManager();
+
+            BasicCategory = Resources.BasicCategory;
+            FlowCategory = Resources.FlowCategory;
+            HeadCategory = Resources.HeadCategory;
+            FluxCategory = Resources.FluxCategory;
+            HeadDependentCategory = Resources.HeadDependentCategory;
+            SolverCategory = Resources.SolverCategory;
+            SubsidenceCategory = Resources.SubsidenceCategory;
+            OutputControlCategory = Resources.OutputControlCategory;
+            OutputCategory = Resources.OutputCategory;
+            ObsCategory = Resources.ObsCategory;
+            PHTCategory = Resources.PHTCategory;
+            MT3DCategory = Resources.MT3DCategory;
+            SEAWATCategory = Resources.SEAWATCategory;
         }
         [Category("Units")]
         public int TimeUnit { get; set; }

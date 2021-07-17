@@ -32,6 +32,7 @@ using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
 using Heiflow.Models.Integration;
+using Heiflow.Models.Properties;
 using Heiflow.Models.UI;
 using ILNumerics;
 using NetTopologySuite.Geometries;
@@ -67,7 +68,7 @@ namespace Heiflow.Models.Subsurface
             Version = "GHB";
             IsMandatory = false;
             _Layer3DToken = "CHD";
-            Category = Modflow.HeadDependentCategory;
+            Category = Resources.HeadDependentCategory; 
         }
         [Category("Basic")]
         [Description("The maximum number of general-head boundary cells in use during any stress period. MXACTB includes cells that are defined using parameters as well as cells that are defined without using parameters.")]

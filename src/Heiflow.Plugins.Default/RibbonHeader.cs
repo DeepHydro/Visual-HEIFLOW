@@ -47,6 +47,7 @@ namespace DotSpatial
     using System.IO;
     using System.Collections;
     using System.Diagnostics;
+    using Heiflow.Plugins.Default.Properties;
 
     /// <summary>
     /// The ribbon header.
@@ -834,7 +835,7 @@ namespace DotSpatial
 
             if (!exists)
             {
-                this.Add(new RootItem(HeaderControl.ExtensionsRootKey, "Extensions"));
+                this.Add(new RootItem(HeaderControl.ExtensionsRootKey, Resources.Extensions_root));
             }
         }
 
@@ -950,7 +951,7 @@ namespace DotSpatial
             // ribbon
             // 
             this._ribbon.ApplicationButtonDropDownControl = this.backstageMenu;
-            this._ribbon.ApplicationButtonText = "File";
+            this._ribbon.ApplicationButtonText = Resources.File_root;
             this._ribbon.ExpandCollapseItem.Id = 0;
             this._ribbon.ExpandCollapseItem.Name = "";
             this._ribbon.Items.AddRange(new DevExpress.XtraBars.BarItem[] {

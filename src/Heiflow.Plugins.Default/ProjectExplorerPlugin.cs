@@ -76,17 +76,17 @@ namespace Heiflow.Plugins.ProjectExplorer
         {
             _ProjectExplorer = ProjectManager.ShellService.ProjectExplorer as Control;
             _ProjectExplorer.Dock = DockStyle.Fill;
-            App.DockManager.Add(new DockablePanel("kProjectExplorer", "Project",
+            App.DockManager.Add(new DockablePanel("kProjectExplorer", Resources.Project_panel,
                 _ProjectExplorer, DockStyle.Left) { SmallImage = Heiflow.Plugins.Default.Properties.Resources.CatalogShowTree16 });
 
-            var showPE = new SimpleActionItem("kView", "Project Explorer",
+            var showPE = new SimpleActionItem("kView", Resources.Project_Explorer,
                 delegate(object sender, EventArgs e)
                 { App.DockManager.ShowPanel("kProjectExplorer"); }
            )
             {
                 Key = "kShowProjectExplorer",
-                ToolTipText = "Show Project Explorer",
-                GroupCaption = "Model",
+                ToolTipText = Resources.Project_Explorer,
+                GroupCaption = Resources.Model_Group,
                 LargeImage = Resources.CatalogShowTree32
             };
             App.HeaderControl.Add(showPE);
@@ -108,7 +108,7 @@ namespace Heiflow.Plugins.ProjectExplorer
         {
             IHeaderControl header = App.HeaderControl;
 
-            header.Add(new SimpleActionItem("kOptions", "Options", Option_Click)
+            header.Add(new SimpleActionItem("kOptions", Resources.Options, Option_Click)
             {
                 GroupCaption = HeaderControl.ApplicationMenuKey,
                 SortOrder = 100,
@@ -124,9 +124,9 @@ namespace Heiflow.Plugins.ProjectExplorer
                 Width = 145,
                 AllowEditingText = false,
                 ToolTipText = "Select current subsurface layer",
-                GroupCaption = "Grid",
+                GroupCaption = Resources.Grid_group,
                 DisplayText = "Select a layer",
-                Caption = "Current Layer",
+                Caption = Resources.current_layer,
             };
             _layerDropDown.SelectedValueChanged += _layerDropDown_SelectedValueChanged;
             App.HeaderControl.Add(_layerDropDown);

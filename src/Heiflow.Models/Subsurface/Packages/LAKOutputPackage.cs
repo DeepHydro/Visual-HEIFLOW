@@ -32,6 +32,7 @@ using Heiflow.Core.Data;
 using Heiflow.Core.Data.ODM;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Packages;
+using Heiflow.Models.Properties;
 using Heiflow.Models.UI;
 using System;
 using System.Collections.Generic;
@@ -49,7 +50,7 @@ namespace Heiflow.Models.Subsurface
             Name = "LAK Output";
             Sites = new List<Core.IObservationsSite>();
             OutputFilesInfo = new List<PackageInfo>();
-            Category = Modflow.OutputCategory;
+            Category = Resources.OutputCategory; 
         }
  
         [Browsable(false)]

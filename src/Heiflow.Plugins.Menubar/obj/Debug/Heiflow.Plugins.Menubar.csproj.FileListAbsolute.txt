@@ -59,3 +59,9 @@ E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Plugins.Menubar\obj\Debug\Heif
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Plugins.Menubar\obj\Debug\Heiflow.Plugins.Menubar.csproj.GenerateResource.Cache
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Plugins.Menubar\obj\Debug\Heiflow.Plugins.Menubar.dll
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Plugins.Menubar\obj\Debug\Heiflow.Plugins.Menubar.csprojResolveAssemblyReference.cache
+F:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Application Extensions\VHF\zh-CN\Heiflow.Plugins.Menubar.resources.dll
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Plugins.Menubar\obj\Debug\zh-CN\Heiflow.Plugins.Menubar.resources.dll
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Plugins.Menubar\obj\Debug\Heiflow.Plugins.Menubar.Properties.Resources.zh-CN.resources
+F:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Application Extensions\VHF\Properties\Resources.resx
+F:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Application Extensions\VHF\Properties\Resources.zh-CN.resx
+F:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Application Extensions\VHF\Properties\Resources.Designer.cs

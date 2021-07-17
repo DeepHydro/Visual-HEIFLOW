@@ -48,6 +48,7 @@ using Heiflow.Models.UI;
 using DotSpatial.Projections;
 using Heiflow.Models.IO;
 using Heiflow.Models.Visualization;
+using Heiflow.Models.Properties;
 
 namespace Heiflow.Models.Subsurface
 {
@@ -78,7 +79,7 @@ namespace Heiflow.Models.Subsurface
             Version = "DIS";
             IsMandatory = true;
             _Layer3DToken = "RegularGrid";
-            Category = Modflow.BasicCategory;
+            Category = Resources.BasicCategory; ;
 
         }
         /// <summary>

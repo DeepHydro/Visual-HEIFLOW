@@ -44,6 +44,7 @@ using Heiflow.Core.Data.ODM;
 using Heiflow.Core;
 using System.Windows.Forms;
 using DotSpatial.Data;
+using Heiflow.Models.Properties;
 
 namespace Heiflow.Models.Subsurface
 {
@@ -67,7 +68,7 @@ namespace Heiflow.Models.Subsurface
             Version = "FHD";
             _Layer3DToken = "RegularGrid";
             Description = "Groundwater head output";
-            Category = Modflow.OutputCategory;
+            Category = Resources.OutputCategory; 
         }
         [Category("File")]
         public bool LoadAsDepth

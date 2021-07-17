@@ -33,6 +33,7 @@ using Heiflow.Core.Data;
 using Heiflow.Core.Data.ODM;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Packages;
+using Heiflow.Models.Properties;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -52,7 +53,7 @@ namespace Heiflow.Models.Subsurface
         {
             _SFRPackage = sfr;
             Sites= new List<Core.IObservationsSite>();
-            Category = Modflow.HeadDependentCategory;
+            Category = Resources.HeadDependentCategory; 
         }
 
         public override string[] Variables

@@ -31,6 +31,7 @@ using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
+using Heiflow.Models.Properties;
 using Heiflow.Models.UI;
 using System;
 using System.Collections.Generic;
@@ -71,7 +72,7 @@ namespace Heiflow.Models.Subsurface
             IBOTAV = 0;
             Options = "SIMPLE";
             OPTIONS = NWTOPTIONS.SIMPLE;
-            Category = Modflow.SolverCategory;
+            Category = Resources.SolverCategory; 
         }
         /// <summary>
         /// The maximum head change between outer iterations for solution of the nonlinear problem.

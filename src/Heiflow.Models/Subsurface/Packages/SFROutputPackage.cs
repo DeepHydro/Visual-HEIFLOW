@@ -45,6 +45,7 @@ using Heiflow.Core.Hydrology;
 using Heiflow.Models.UI;
 using Heiflow.Models.IO;
 using DotSpatial.Data;
+using Heiflow.Models.Properties;
 
 namespace Heiflow.Models.Subsurface
 {
@@ -71,7 +72,8 @@ namespace Heiflow.Models.Subsurface
             _SFRPackage = sfr;
             _Layer3DToken = "SFR";
             Variables = DefaultAttachedVariables;
-            Category = Modflow.OutputCategory;
+            Category = Resources.OutputCategory; 
+            Offset = 0;
         }
         [Browsable(false)]
         public SFRPackage SFRPackage
@@ -94,6 +96,12 @@ namespace Heiflow.Models.Subsurface
             private set;
         }
         public bool IsReadSSData
+        {
+            get;
+            set;
+        }
+
+        public float Offset
         {
             get;
             set;
@@ -515,7 +523,8 @@ namespace Heiflow.Models.Subsurface
                     {
                         dates[t] = start.AddDays(t);
                     }
-                    MatrixOperation.Mulitple(vector, (float)scaleFactor);
+                    MatrixOperation.Mulitple(vector, (float)scaleFactor,Offset);
+                   
                     ts = new DataCube<float>(vector, dates);
                 }
             }
@@ -534,7 +543,7 @@ namespace Heiflow.Models.Subsurface
                 {
                     dates[t] = DataCube.DateTimes[t];
                 }
-                MatrixOperation.Mulitple(vector, (float)scaleFactor);
+                MatrixOperation.Mulitple(vector, (float)scaleFactor,Offset);
                 ts = new DataCube<float>(vector, dates);
                 if (TimeUnits != Core.TimeUnits.Day)
                 {

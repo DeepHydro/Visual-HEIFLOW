@@ -34,6 +34,7 @@ using Heiflow.Applications;
 using Heiflow.Controls.WinForm.Modflow;
 using Heiflow.Controls.WinForm.Project;
 using Heiflow.Models.Generic;
+using Heiflow.Plugins.Default.Properties;
 using Heiflow.Presentation;
 using System;
 using System.ComponentModel.Composition;
@@ -57,12 +58,12 @@ namespace Heiflow.Plugins.Default
         }
         public override void Activate()
         {
-            _heiflow_time = new SimpleActionItem("kModel", "Model Time", HeiflowTime_Clicked)
+            _heiflow_time = new SimpleActionItem("kModel", Resources.Model_Time, HeiflowTime_Clicked)
             {
                 Key = "kHeiflowTime",
-                ToolTipText = "Set Model Time",
-                GroupCaption = "Time",
-                LargeImage = Properties.Resources.calendar_32,
+                ToolTipText = Resources.Model_Time,
+                GroupCaption = Resources.Time_group,
+                LargeImage = Resources.calendar_32,
                 SortOrder = 1
             };
             App.HeaderControl.Add(_heiflow_time);

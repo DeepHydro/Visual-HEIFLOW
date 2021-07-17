@@ -63,14 +63,14 @@ namespace Heiflow.Plugins.Default
                 (new DockablePanel("kPropGrid", 
                     "Property", _PropertyGrid, DockStyle.Right) { SmallImage = Properties.Resources.MetadataProperties16 });
 
-            var showPropertyGrid = new SimpleActionItem("kView", "Property",
+            var showPropertyGrid = new SimpleActionItem("kView", Resources.Property,
                delegate(object sender, EventArgs e)
                { App.DockManager.ShowPanel("kPropGrid"); }
           )
             {
                 Key = "kShowProperty",
-                ToolTipText = "Show Project Explorer",
-                GroupCaption = "Common",
+                ToolTipText = Resources.Property,
+                GroupCaption = Resources.Common_Group,
                 LargeImage = Resources.MetadataProperties32
             };
             App.HeaderControl.Add(showPropertyGrid);

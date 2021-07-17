@@ -32,6 +32,7 @@ using Heiflow.Core;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Packages;
+using Heiflow.Models.Properties;
 using Heiflow.Models.UI;
 using System;
 using System.Collections.Generic;
@@ -57,7 +58,7 @@ namespace Heiflow.Models.Subsurface
             TimeUnits = TimeUnits.Month;
             IsMandatory = false;
             _Layer3DToken = "Well";
-            Category = Modflow.ObsCategory;
+            Category = Resources.ObsCategory; 
         }
 
         [Browsable(false)]

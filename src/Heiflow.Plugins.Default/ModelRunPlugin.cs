@@ -68,32 +68,32 @@ namespace Heiflow.Plugins.Default
 
         public override void Activate()
         {
-            runmodel = new SimpleActionItem("kModel", "Start", RunModel_Clicked)
+            runmodel = new SimpleActionItem("kModel", Resources.Start, RunModel_Clicked)
             {
                 Key = "kRunModel",
-                ToolTipText = "Start running a model",
-                GroupCaption = "Running",
+                ToolTipText = Resources.Start,
+                GroupCaption = Resources.Running_group,
                 LargeImage = Properties.Resources.GenericBlackRightArrowNoTail32,
                 SortOrder = 4
             };
             App.HeaderControl.Add(runmodel);
 
-            stopmodel = new SimpleActionItem("kModel", "Stop", StopModel_Clicked)
+            stopmodel = new SimpleActionItem("kModel", Resources.Stop, StopModel_Clicked)
             {
                 Key = "kStopModel",
-                ToolTipText = "Stop running",
-                GroupCaption = "Running",
+                ToolTipText = Resources.Stop,
+                GroupCaption = Resources.Running_group,
                 LargeImage = Properties.Resources.GenericBlackStop32,
                 Enabled = false,
                 SortOrder = 4
             };
             App.HeaderControl.Add(stopmodel);
 
-            var showRunningMonitor = new SimpleActionItem("kView", "Model Running", Show_Monitor)
+            var showRunningMonitor = new SimpleActionItem("kView", Resources.Model_Running, Show_Monitor)
             {
                 Key = "kShowRunningMonitor",
-                ToolTipText = "Show Model Running",
-                GroupCaption = "Model",
+                ToolTipText = Resources.Model_Running,
+                GroupCaption = Resources.Model_Group,
                 LargeImage = Resources.ModelBuilderAutoLayout32
             };
             App.HeaderControl.Add(showRunningMonitor);

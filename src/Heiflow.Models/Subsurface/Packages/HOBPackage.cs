@@ -44,6 +44,7 @@ using Heiflow.Models.UI;
 using Heiflow.Core;
 using DotSpatial.Projections;
 using NetTopologySuite.Geometries;
+using Heiflow.Models.Properties;
 
 namespace Heiflow.Models.Subsurface
 {
@@ -117,7 +118,7 @@ namespace Heiflow.Models.Subsurface
             Fields.Add(field);
 
             _Layer3DToken = "HOB";
-            Category = Modflow.ObsCategory;
+            Category = Resources.ObsCategory; 
         }
         /// <summary>
         /// the number of head (or change in head) observations.

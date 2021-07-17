@@ -1,0 +1,297 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Active_Datasets" xml:space="preserve">
+    <value>活动数据</value>
+  </data>
+  <data name="Active_Datasets_tips" xml:space="preserve">
+    <value>绘制活动数据时间序列</value>
+  </data>
+  <data name="Analysis_group" xml:space="preserve">
+    <value>分析</value>
+  </data>
+  <data name="Animation" xml:space="preserve">
+    <value>动画</value>
+  </data>
+  <data name="Budget_Analysis" xml:space="preserve">
+    <value>水平衡分析</value>
+  </data>
+  <data name="Cascade" xml:space="preserve">
+    <value>汇流关系</value>
+  </data>
+  <data name="Common_Group" xml:space="preserve">
+    <value>通用</value>
+  </data>
+  <data name="current_layer" xml:space="preserve">
+    <value>当前地层</value>
+  </data>
+  <data name="Database_Panel" xml:space="preserve">
+    <value>数据库</value>
+  </data>
+  <data name="Data_Cube_Editor" xml:space="preserve">
+    <value>数据立方体编辑器</value>
+  </data>
+  <data name="Data_Cube_Editor_tips" xml:space="preserve">
+    <value>显示数据立方体编辑器</value>
+  </data>
+  <data name="Data_Group" xml:space="preserve">
+    <value>数据</value>
+  </data>
+  <data name="Driving_Forces_group" xml:space="preserve">
+    <value>驱动数据</value>
+  </data>
+  <data name="Extensions_root" xml:space="preserve">
+    <value>插件</value>
+  </data>
+  <data name="File_root" xml:space="preserve">
+    <value>文件</value>
+  </data>
+  <data name="Finite_Difference_Grid" xml:space="preserve">
+    <value>有限差分网格</value>
+  </data>
+  <data name="Global" xml:space="preserve">
+    <value>全局</value>
+  </data>
+  <data name="Grid_group" xml:space="preserve">
+    <value>网格</value>
+  </data>
+  <data name="Layer_Group" xml:space="preserve">
+    <value>含水层设置</value>
+  </data>
+  <data name="Legend" xml:space="preserve">
+    <value>图例</value>
+  </data>
+  <data name="Map_control" xml:space="preserve">
+    <value>地图窗口</value>
+  </data>
+  <data name="Map_control_tips" xml:space="preserve">
+    <value>显示进度窗口</value>
+  </data>
+  <data name="Map_Group" xml:space="preserve">
+    <value>地图</value>
+  </data>
+  <data name="ModelTool_Group" xml:space="preserve">
+    <value>模型工具</value>
+  </data>
+  <data name="Model_Group" xml:space="preserve">
+    <value>模型</value>
+  </data>
+  <data name="Model_root" xml:space="preserve">
+    <value>模型</value>
+  </data>
+  <data name="Model_Running" xml:space="preserve">
+    <value>模型运行</value>
+  </data>
+  <data name="Model_Time" xml:space="preserve">
+    <value>模型时间</value>
+  </data>
+  <data name="Model_Toolbox" xml:space="preserve">
+    <value>模型工具箱</value>
+  </data>
+  <data name="Model_Toolbox_tips" xml:space="preserve">
+    <value>显示模型工具箱</value>
+  </data>
+  <data name="MT3DMS" xml:space="preserve">
+    <value>MT3DMS</value>
+  </data>
+  <data name="ODM_Database" xml:space="preserve">
+    <value>ODM数据库</value>
+  </data>
+  <data name="ODM_Database_Tips" xml:space="preserve">
+    <value>显示ODM数据库浏览器</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>选项</value>
+  </data>
+  <data name="Parameter_Mapping_Tool" xml:space="preserve">
+    <value>参数映射工具</value>
+  </data>
+  <data name="ProgressWindow" xml:space="preserve">
+    <value>进度窗口</value>
+  </data>
+  <data name="Project_Explorer" xml:space="preserve">
+    <value>工程浏览器</value>
+  </data>
+  <data name="Project_panel" xml:space="preserve">
+    <value>工程</value>
+  </data>
+  <data name="Property" xml:space="preserve">
+    <value>属性</value>
+  </data>
+  <data name="Running_group" xml:space="preserve">
+    <value>运行</value>
+  </data>
+  <data name="Setting_group" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="Set_Species" xml:space="preserve">
+    <value>组分设置</value>
+  </data>
+  <data name="Spatial_Tools" xml:space="preserve">
+    <value>空间分析工具</value>
+  </data>
+  <data name="Spatial_Tools_tips" xml:space="preserve">
+    <value>显示空间分析工具</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>开始</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>停止</value>
+  </data>
+  <data name="Surface_Parameter" xml:space="preserve">
+    <value>地表参数</value>
+  </data>
+  <data name="Table_View" xml:space="preserve">
+    <value>数据表视图</value>
+  </data>
+  <data name="Table_View_tips" xml:space="preserve">
+    <value>显示数据表视图</value>
+  </data>
+  <data name="Terrain_Viewer" xml:space="preserve">
+    <value>地形可视化</value>
+  </data>
+  <data name="Terrain_Viewer_tips" xml:space="preserve">
+    <value>显示地形可视化</value>
+  </data>
+  <data name="Time_group" xml:space="preserve">
+    <value>时间</value>
+  </data>
+  <data name="Tool_group" xml:space="preserve">
+    <value>工具</value>
+  </data>
+  <data name="Vertical_Profile_Viewer" xml:space="preserve">
+    <value>垂向剖面可视化</value>
+  </data>
+  <data name="Vertical_Profile_Viewer_tips" xml:space="preserve">
+    <value>显示垂向剖面可视化</value>
+  </data>
+  <data name="View_3d" xml:space="preserve">
+    <value>三维视图</value>
+  </data>
+  <data name="View_3d_tips" xml:space="preserve">
+    <value>显示三维视图</value>
+  </data>
+  <data name="View_root" xml:space="preserve">
+    <value>视图</value>
+  </data>
+  <data name="Weather_Generator" xml:space="preserve">
+    <value>天气发生器</value>
+  </data>
+</root>

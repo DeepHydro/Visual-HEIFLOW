@@ -58,13 +58,13 @@ namespace DotSpatial.Plugins.ToolManager
         public override void Activate()
         {
             ShowEditorPanel();
-            var showMatEditor = new SimpleActionItem("kView", "Data Cube Editor",
+            var showMatEditor = new SimpleActionItem("kView", Resources.Data_Cube_Editor,
             delegate(object sender, EventArgs e)
             { App.DockManager.ShowPanel("kMatEditor"); })
             {
                 Key = "kShowMatEditor",
-                ToolTipText = "Show Data Cube Editor",
-                GroupCaption = "Model Tool",
+                ToolTipText =  Resources.Data_Cube_Editor_tips,
+                GroupCaption = Resources.Model_Group,
                 LargeImage = Resources.matrix
             };
             App.HeaderControl.Add(showMatEditor);

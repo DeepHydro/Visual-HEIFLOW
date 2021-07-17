@@ -30,6 +30,7 @@
 using DotSpatial.Controls;
 using DotSpatial.Controls.Docking;
 using DotSpatial.Controls.Header;
+using Heiflow.Plugins.Default.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,13 +48,13 @@ namespace DotSpatial.Plugins.SplashScreenManager
         {
             ShowLegend();
 
-            var showLengend = new SimpleActionItem("kView", "Legend",
+            var showLengend = new SimpleActionItem("kView", Resources.Legend,
                 delegate(object sender, EventArgs e)
                 { App.DockManager.ShowPanel("kLegend"); })
             {
                 Key = "kShowLegend",
-                ToolTipText = "Show Legend",
-                GroupCaption = "Map",
+                ToolTipText = Resources.Legend,
+                GroupCaption = Resources.Map_Group,
                 LargeImage = Heiflow.Plugins.Default.Properties.Resources.Legend32
             };
             App.HeaderControl.Add(showLengend);
@@ -90,12 +91,12 @@ namespace DotSpatial.Plugins.SplashScreenManager
             this.legend1.SelectionHighlight = System.Drawing.Color.FromArgb(((int)(((byte)(215)))), ((int)(((byte)(238)))), ((int)(((byte)(252)))));
             this.legend1.Size = new System.Drawing.Size(176, 128);
             this.legend1.TabIndex = 0;
-            this.legend1.Text = "Legend";
+            this.legend1.Text = Resources.Legend;
             this.legend1.VerticalScrollEnabled = true;
 
             App.Map.Legend = legend1;
             App.Legend = this.legend1;
-            App.DockManager.Add(new DockablePanel("kLegend", "Legend", legend1, DockStyle.Left) { SmallImage = Heiflow.Plugins.Default.Properties.Resources.Legend16 });
+            App.DockManager.Add(new DockablePanel("kLegend",Resources.Legend, legend1, DockStyle.Left) { SmallImage = Heiflow.Plugins.Default.Properties.Resources.Legend16 });
 
         }
 

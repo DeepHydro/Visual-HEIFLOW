@@ -61,6 +61,51 @@ namespace Heiflow.Models.Properties {
         }
         
         /// <summary>
+        ///   查找类似 Basic 的本地化字符串。
+        /// </summary>
+        internal static string BasicCategory {
+            get {
+                return ResourceManager.GetString("BasicCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Groundwater Flow 的本地化字符串。
+        /// </summary>
+        internal static string FlowCategory {
+            get {
+                return ResourceManager.GetString("FlowCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Specified Flux Boundaries 的本地化字符串。
+        /// </summary>
+        internal static string FluxCategory {
+            get {
+                return ResourceManager.GetString("FluxCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Specified Head Boundaries 的本地化字符串。
+        /// </summary>
+        internal static string HeadCategory {
+            get {
+                return ResourceManager.GetString("HeadCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Head-Dependent Flux Boundaries 的本地化字符串。
+        /// </summary>
+        internal static string HeadDependentCategory {
+            get {
+                return ResourceManager.GetString("HeadDependentCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Bitmap MapPackageTiledTPKFile16 {
@@ -87,6 +132,51 @@ namespace Heiflow.Models.Properties {
             get {
                 object obj = ResourceManager.GetObject("mf32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Multicomponent Transport 的本地化字符串。
+        /// </summary>
+        internal static string MT3DCategory {
+            get {
+                return ResourceManager.GetString("MT3DCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Observations 的本地化字符串。
+        /// </summary>
+        internal static string ObsCategory {
+            get {
+                return ResourceManager.GetString("ObsCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Output 的本地化字符串。
+        /// </summary>
+        internal static string OutputCategory {
+            get {
+                return ResourceManager.GetString("OutputCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Output Control 的本地化字符串。
+        /// </summary>
+        internal static string OutputControlCategory {
+            get {
+                return ResourceManager.GetString("OutputControlCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Chemical Reaction 的本地化字符串。
+        /// </summary>
+        internal static string PHTCategory {
+            get {
+                return ResourceManager.GetString("PHTCategory", resourceCulture);
             }
         }
         
@@ -141,6 +231,15 @@ namespace Heiflow.Models.Properties {
         }
         
         /// <summary>
+        ///   查找类似 Variable-Density Flow 的本地化字符串。
+        /// </summary>
+        internal static string SEAWATCategory {
+            get {
+                return ResourceManager.GetString("SEAWATCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Bitmap ServiceWMSGroup16 {
@@ -157,6 +256,24 @@ namespace Heiflow.Models.Properties {
             get {
                 object obj = ResourceManager.GetObject("ServiceWMSGroup32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Solver 的本地化字符串。
+        /// </summary>
+        internal static string SolverCategory {
+            get {
+                return ResourceManager.GetString("SolverCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Subsidence 的本地化字符串。
+        /// </summary>
+        internal static string SubsidenceCategory {
+            get {
+                return ResourceManager.GetString("SubsidenceCategory", resourceCulture);
             }
         }
         

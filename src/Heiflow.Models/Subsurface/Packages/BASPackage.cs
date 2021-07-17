@@ -31,6 +31,7 @@ using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
+using Heiflow.Models.Properties;
 using Heiflow.Models.UI;
 using ILNumerics;
 using System;
@@ -70,7 +71,7 @@ namespace Heiflow.Models.Subsurface
             Version = "BAS6";
             IsMandatory = true;
             _Layer3DToken = "RegularGrid";
-            Category = Modflow.BasicCategory;
+            Category = Resources.BasicCategory;
         }
         /// <summary>
         /// the value of head to be assigned to all inactive

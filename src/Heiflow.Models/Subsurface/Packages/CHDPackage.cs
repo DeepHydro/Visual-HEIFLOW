@@ -32,6 +32,7 @@ using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
 using Heiflow.Models.Integration;
+using Heiflow.Models.Properties;
 using Heiflow.Models.UI;
 using ILNumerics;
 using NetTopologySuite.Geometries;
@@ -67,7 +68,7 @@ namespace Heiflow.Models.Subsurface
             Version = "CHD";
             IsMandatory = false;
             _Layer3DToken = "CHD";
-            Category = Modflow.HeadDependentCategory;
+            Category = Resources.HeadCategory; 
         }
         [Description("The maximum number of constant-head boundary cells in use during any stress period, including those that are defined using parameters.")]
         /// <summary>

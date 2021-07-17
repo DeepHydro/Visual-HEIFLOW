@@ -44,6 +44,13 @@ namespace Heiflow.Core.Data
                 source[i] *= scale;
             }
         }
+        public static void Mulitple(float[] source, float scale, float offset)
+        {
+            for (int i = 0; i < source.Length; i++)
+            {
+                source[i] = source[i] * scale + offset;
+            }
+        }
         public static void Mulitple(float[][] source, float scale)
         {
             int row = source.Length;

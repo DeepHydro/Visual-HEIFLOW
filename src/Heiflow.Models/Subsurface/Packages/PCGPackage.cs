@@ -31,6 +31,7 @@ using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
+using Heiflow.Models.Properties;
 using Heiflow.Models.UI;
 using System;
 using System.Collections.Generic;
@@ -75,7 +76,7 @@ namespace Heiflow.Models.Subsurface
             MUTPCG = 1;
             DAMPPCG = 0;
             DAMPPCGT = 0.98f;
-            Category = Modflow.SolverCategory;
+            Category = Resources.SolverCategory; 
         }
         /// <summary>
         /// the maximum number of outer iterations

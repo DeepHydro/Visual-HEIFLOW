@@ -43,6 +43,7 @@ using Heiflow.Models.IO;
 using Heiflow.Core.Data.ODM;
 using Heiflow.Core;
 using DotSpatial.Data;
+using Heiflow.Models.Properties;
 
 namespace Heiflow.Models.Subsurface
 {
@@ -63,7 +64,7 @@ namespace Heiflow.Models.Subsurface
             IsMandatory = true;
             Version = "VD1";
             _Layer3DToken = "RegularGrid";
-            Category = Modflow.OutputCategory;
+            Category = Resources.OutputCategory; 
         }
 
         public override void Initialize()

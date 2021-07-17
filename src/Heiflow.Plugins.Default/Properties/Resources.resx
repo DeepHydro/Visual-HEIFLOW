@@ -241,9 +241,6 @@
   <data name="progess64" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\progess64.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="String" xml:space="preserve">
-    <value>F:\System\HEIFLOW\VHF_GIT\VHF\src\Resources</value>
-  </data>
   <data name="species" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\species.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -252,5 +249,182 @@
   </data>
   <data name="element" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\element.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Common_Group" xml:space="preserve">
+    <value>Common</value>
+  </data>
+  <data name="Database_Panel" xml:space="preserve">
+    <value>Database</value>
+  </data>
+  <data name="Data_Group" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="Legend" xml:space="preserve">
+    <value>Legend</value>
+  </data>
+  <data name="Map_Group" xml:space="preserve">
+    <value>Map</value>
+  </data>
+  <data name="ModelTool_Group" xml:space="preserve">
+    <value>Model Tool</value>
+  </data>
+  <data name="Model_Group" xml:space="preserve">
+    <value>Model</value>
+  </data>
+  <data name="ODM_Database" xml:space="preserve">
+    <value>ODM Database</value>
+  </data>
+  <data name="ODM_Database_Tips" xml:space="preserve">
+    <value>Show ODM Database Explorer</value>
+  </data>
+  <data name="Table_View" xml:space="preserve">
+    <value>Table View</value>
+  </data>
+  <data name="Table_View_tips" xml:space="preserve">
+    <value>Show Table View</value>
+  </data>
+  <data name="Terrain_Viewer" xml:space="preserve">
+    <value>Terrain Viewer</value>
+  </data>
+  <data name="Terrain_Viewer_tips" xml:space="preserve">
+    <value>Show Terrain Viewer</value>
+  </data>
+  <data name="Vertical_Profile_Viewer" xml:space="preserve">
+    <value>Vertical Profile Viewer</value>
+  </data>
+  <data name="Vertical_Profile_Viewer_tips" xml:space="preserve">
+    <value>Show Vertical Profile Viewer</value>
+  </data>
+  <data name="View_3d" xml:space="preserve">
+    <value>3D View</value>
+  </data>
+  <data name="View_3d_tips" xml:space="preserve">
+    <value>Show 3D View</value>
+  </data>
+  <data name="Active_Datasets" xml:space="preserve">
+    <value>Active Datasets</value>
+  </data>
+  <data name="Active_Datasets_tips" xml:space="preserve">
+    <value>Plot active data set time series</value>
+  </data>
+  <data name="Analysis_group" xml:space="preserve">
+    <value>Analysis</value>
+  </data>
+  <data name="Animation" xml:space="preserve">
+    <value>Animation</value>
+  </data>
+  <data name="Budget_Analysis" xml:space="preserve">
+    <value>Budget Analysis</value>
+  </data>
+  <data name="Cascade" xml:space="preserve">
+    <value>Cascade</value>
+  </data>
+  <data name="current_layer" xml:space="preserve">
+    <value>current layer</value>
+  </data>
+  <data name="Data_Cube_Editor" xml:space="preserve">
+    <value>Data Cube Editor</value>
+  </data>
+  <data name="Data_Cube_Editor_tips" xml:space="preserve">
+    <value>Show Data Cube Editor</value>
+  </data>
+  <data name="Driving_Forces_group" xml:space="preserve">
+    <value>Driving Forces</value>
+  </data>
+  <data name="Extensions_root" xml:space="preserve">
+    <value>Extensions</value>
+  </data>
+  <data name="File_root" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="Finite_Difference_Grid" xml:space="preserve">
+    <value>Finite Difference Grid</value>
+  </data>
+  <data name="Global" xml:space="preserve">
+    <value>Global</value>
+  </data>
+  <data name="Grid_group" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="Layer_Group" xml:space="preserve">
+    <value>Layer Group</value>
+  </data>
+  <data name="Map_control" xml:space="preserve">
+    <value>Map Window</value>
+  </data>
+  <data name="Map_control_tips" xml:space="preserve">
+    <value>Show Map Window</value>
+  </data>
+  <data name="Model_root" xml:space="preserve">
+    <value>Model</value>
+  </data>
+  <data name="Model_Running" xml:space="preserve">
+    <value>Model Running</value>
+  </data>
+  <data name="Model_Time" xml:space="preserve">
+    <value>Model Time</value>
+  </data>
+  <data name="Model_Toolbox" xml:space="preserve">
+    <value>Model Toolbox</value>
+  </data>
+  <data name="Model_Toolbox_tips" xml:space="preserve">
+    <value>Show Model Toolbox</value>
+  </data>
+  <data name="MT3DMS" xml:space="preserve">
+    <value>MT3DMS</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="Parameter_Mapping_Tool" xml:space="preserve">
+    <value>Parameter Mapping Tool</value>
+  </data>
+  <data name="ProgressWindow" xml:space="preserve">
+    <value>Progress Window</value>
+  </data>
+  <data name="Project_Explorer" xml:space="preserve">
+    <value>Project Explorer</value>
+  </data>
+  <data name="Project_panel" xml:space="preserve">
+    <value>Project</value>
+  </data>
+  <data name="Property" xml:space="preserve">
+    <value>Property</value>
+  </data>
+  <data name="Running_group" xml:space="preserve">
+    <value>Running</value>
+  </data>
+  <data name="Setting_group" xml:space="preserve">
+    <value>Setting</value>
+  </data>
+  <data name="Set_Species" xml:space="preserve">
+    <value>Set Species</value>
+  </data>
+  <data name="Spatial_Tools" xml:space="preserve">
+    <value>Spatial Tools</value>
+  </data>
+  <data name="Spatial_Tools_tips" xml:space="preserve">
+    <value>Show Spatial Tools</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="Surface_Parameter" xml:space="preserve">
+    <value>Surface Parameter</value>
+  </data>
+  <data name="Time_group" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="Tool_group" xml:space="preserve">
+    <value>Tool</value>
+  </data>
+  <data name="View_root" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="Weather_Generator" xml:space="preserve">
+    <value>Weather Generator</value>
   </data>
 </root>

@@ -31,6 +31,7 @@ using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
+using Heiflow.Models.Properties;
 using Heiflow.Models.UI;
 using ILNumerics;
 using System;
@@ -67,7 +68,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             _Layer3DToken = "RegularGrid";
             
             ResetToDefault();
-            Category = Modflow.MT3DCategory;
+            Category = Resources.MT3DCategory; 
         }
         [Category("File")]
         [Description("")]

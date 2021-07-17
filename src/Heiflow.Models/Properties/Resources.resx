@@ -157,4 +157,43 @@
   <data name="vft3dms" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\vft3dms.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="BasicCategory" xml:space="preserve">
+    <value>Basic</value>
+  </data>
+  <data name="FlowCategory" xml:space="preserve">
+    <value>Groundwater Flow</value>
+  </data>
+  <data name="FluxCategory" xml:space="preserve">
+    <value>Specified Flux Boundaries</value>
+  </data>
+  <data name="HeadCategory" xml:space="preserve">
+    <value>Specified Head Boundaries</value>
+  </data>
+  <data name="HeadDependentCategory" xml:space="preserve">
+    <value>Head-Dependent Flux Boundaries</value>
+  </data>
+  <data name="MT3DCategory" xml:space="preserve">
+    <value>Multicomponent Transport</value>
+  </data>
+  <data name="ObsCategory" xml:space="preserve">
+    <value>Observations</value>
+  </data>
+  <data name="OutputCategory" xml:space="preserve">
+    <value>Output</value>
+  </data>
+  <data name="OutputControlCategory" xml:space="preserve">
+    <value>Output Control</value>
+  </data>
+  <data name="PHTCategory" xml:space="preserve">
+    <value>Chemical Reaction</value>
+  </data>
+  <data name="SEAWATCategory" xml:space="preserve">
+    <value>Variable-Density Flow</value>
+  </data>
+  <data name="SolverCategory" xml:space="preserve">
+    <value>Solver</value>
+  </data>
+  <data name="SubsidenceCategory" xml:space="preserve">
+    <value>Subsidence</value>
+  </data>
 </root>

@@ -30,6 +30,7 @@
 using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
+using Heiflow.Models.Properties;
 using Heiflow.Models.UI;
 using System;
 using System.Collections.Generic;
@@ -75,7 +76,7 @@ namespace Heiflow.Models.Subsurface
             _PackageInfo.FileExtension = ".oc";
             _PackageInfo.ModuleName = PackageName;
             Version = "OC1";
-            Category = Modflow.OutputControlCategory;
+            Category = Resources.OutputControlCategory; 
         }
 
         private string[] cmds = new string[] 

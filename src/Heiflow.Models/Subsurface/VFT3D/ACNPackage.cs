@@ -45,6 +45,8 @@ using Heiflow.Core;
 using System.Windows.Forms;
 using DotSpatial.Data;
 using Heiflow.Models.Subsurface;
+using Heiflow.Models.Subsurface.MT3DMS;
+using Heiflow.Models.Properties;
 
 namespace Heiflow.Models.Subsurface.VFT3D
 {
@@ -67,8 +69,11 @@ namespace Heiflow.Models.Subsurface.VFT3D
             Version = "ACN";
             _Layer3DToken = "RegularGrid";
             Description = "";
-            Category = Modflow.PHTCategory;
+            Category = Resources.PHTCategory; 
+            NoDataValue = 0;
         }
+
+        public float NoDataValue { get; set; }
 
         public override void Initialize()
         {
@@ -88,9 +93,9 @@ namespace Heiflow.Models.Subsurface.VFT3D
             var mf = Owner as Modflow;
             var phc = Owner.GetPackage(PHCPackage.PackageName) as PHCPackage;
             Variables = phc.AllComponentsNames;
-            NumTimeStep = TimeService.Timeline.Count;
+            NumTimeStep = TimeService.IOTimeline.Count;
             _StartLoading = TimeService.Start;
-            MaxTimeStep = TimeService.Timeline.Count;
+            MaxTimeStep = TimeService.IOTimeline.Count;
             _StartLoading = TimeService.Start;
             return true;
         }
@@ -124,6 +129,7 @@ namespace Heiflow.Models.Subsurface.VFT3D
             TimeService.IOTimeline = list;
             NumTimeStep = list.Count;
             var grid = Owner.Grid as MFGrid;
+            var btn = Owner.GetPackage(BTNPackage.PackageName) as BTNPackage;
             if (DataCube == null || DataCube.Size[1] != StepsToLoad)
             {
                 if (LoadAllLayers)
@@ -186,7 +192,10 @@ namespace Heiflow.Models.Subsurface.VFT3D
                             }
                             for (int a = 0; a < grid.ActiveCellCount; a++)
                             {
-                                DataCube[var_index, t, k * grid.ActiveCellCount + a] = cells[cell_index[a]];
+                                if (cells[cell_index[a]] <= btn.CINACT)
+                                    DataCube[var_index, t, k * grid.ActiveCellCount + a] = this.NoDataValue;
+                                else
+                                    DataCube[var_index, t, k * grid.ActiveCellCount + a] = cells[cell_index[a]];
                             }
                         }
                         prog = Convert.ToInt32(t * 100 / StepsToLoad);
@@ -245,5 +254,7 @@ namespace Heiflow.Models.Subsurface.VFT3D
         {
             OnLoaded(_ProgressHandler, new LoadingObjectState() { Message = e, State = LoadingState.Warning });
         }
+
+    
     }
 }

@@ -224,9 +224,13 @@
     <Compile Include="Subsurface\Packages\UPWPackage.cs" />
     <Compile Include="Subsurface\VFT3D\ACNPackage.cs" />
     <Compile Include="Subsurface\MT3DMS\MT3DMSProject.cs" />
+    <Compile Include="Subsurface\VFT3D\OpenSEAWATProjectFileProvider.cs" />
     <Compile Include="Subsurface\VFT3D\OpenVFT3DProjectFileProvider.cs" />
+    <Compile Include="Subsurface\VFT3D\SEAWATModel.cs" />
+    <Compile Include="Subsurface\VFT3D\SEAWATPackFileNameProvider.cs" />
     <Compile Include="Subsurface\VFT3D\VFT3DPackFileNameProvider.cs" />
     <Compile Include="Subsurface\VFT3D\VFT3DModel.cs" />
+    <Compile Include="Subsurface\VFT3D\SEAWATProject.cs" />
     <Compile Include="Subsurface\VFT3D\VFT3DProject.cs" />
     <Compile Include="Subsurface\VFT3D\PHCPackage.cs" />
     <Compile Include="Surface\PRMS\PRMSDataPackage.cs" />
@@ -403,6 +407,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.zh-CN.resx" />
     <None Include="Heiflow.Models.licenseheader" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

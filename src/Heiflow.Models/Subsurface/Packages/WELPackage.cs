@@ -32,6 +32,7 @@ using DotSpatial.Projections;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
+using Heiflow.Models.Properties;
 using NetTopologySuite.Geometries;
 using System;
 using System.ComponentModel;
@@ -63,7 +64,7 @@ namespace Heiflow.Models.Subsurface
             IsMandatory = false;
             Version = "WEL1";
             _Layer3DToken = "Well";
-            Category = Modflow.FluxCategory;
+            Category = Resources.FluxCategory; 
         }
         /// <summary>
         /// The maximum number of wells in use during any stress period

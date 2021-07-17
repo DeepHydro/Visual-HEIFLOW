@@ -34,6 +34,7 @@ using Heiflow.Core.Data;
 using Heiflow.Core.Hydrology;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
+using Heiflow.Models.Properties;
 using Heiflow.Models.UI;
 using NetTopologySuite.Geometries;
 using System;
@@ -97,7 +98,7 @@ namespace Heiflow.Models.Subsurface
             _SegTopo = new RegularGridTopology();
             _ReachTopo = new RegularGridTopology();
             _Layer3DToken = "SFR";
-            Category = Modflow.HeadDependentCategory;
+            Category = Resources.HeadDependentCategory; 
         }
 
         #region Properties

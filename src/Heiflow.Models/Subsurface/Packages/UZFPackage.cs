@@ -31,6 +31,7 @@ using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
+using Heiflow.Models.Properties;
 using Heiflow.Models.UI;
 using System;
 using System.ComponentModel;
@@ -69,7 +70,7 @@ namespace Heiflow.Models.Subsurface
             IsMandatory = true;
             Version = "UZF1";
             _Layer3DToken = "RegularGrid";
-            Category = Modflow.FlowCategory;
+            Category = Resources.FlowCategory; 
 
         }
 

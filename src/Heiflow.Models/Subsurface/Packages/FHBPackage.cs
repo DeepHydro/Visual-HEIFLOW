@@ -32,6 +32,7 @@ using DotSpatial.Projections;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
+using Heiflow.Models.Properties;
 using Heiflow.Models.UI;
 using NetTopologySuite.Geometries;
 using System;
@@ -71,7 +72,7 @@ namespace Heiflow.Models.Subsurface
             Version = "FHB1";
             _Layer3DToken = "FHB";
             IsMandatory = false;
-            Category = Modflow.FluxCategory;
+            Category = Resources.FluxCategory; 
         }
         public int NBDTIM { get; set; }
         /// <summary>

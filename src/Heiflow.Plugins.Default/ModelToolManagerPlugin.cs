@@ -83,13 +83,13 @@ namespace DotSpatial.Plugins.ToolManager
         public override void Activate()
         {
             ShowToolsPanel();
-            var showTools = new SimpleActionItem("kView", "Model Toolbox",
+            var showTools = new SimpleActionItem("kView", Resources.Model_Toolbox,
               delegate(object sender, EventArgs e)
               { App.DockManager.ShowPanel("kModelToolbox"); })
             {
                 Key = "kShowModelToolbox",
-                ToolTipText = "Show Model Toolbox",
-                GroupCaption = "Model Tool",
+                ToolTipText = Resources.Model_Toolbox_tips,
+                GroupCaption = Resources.ModelTool_Group,
                 LargeImage = toolManager.ImageList.Images[1]
             };
             App.HeaderControl.Add(showTools);
@@ -120,7 +120,7 @@ namespace DotSpatial.Plugins.ToolManager
                 ProjectManager.ShellService.PackageToolManager = toolManager;
                 ProjectManager.ShellService.AddChild(toolManager);
                 App.CompositionContainer.ComposeParts(toolManager);
-                App.DockManager.Add(new DockablePanel("kModelToolbox", "Model Toolbox", toolManager, DockStyle.Fill)
+                App.DockManager.Add(new DockablePanel("kModelToolbox",Resources.Model_Toolbox, toolManager, DockStyle.Fill)
                 {
                     SmallImage = toolManager.ImageList.Images[0]
                 });

@@ -31,6 +31,7 @@ using DotSpatial.Controls;
 using DotSpatial.Controls.Header;
 using Heiflow.Applications;
 using Heiflow.Applications.Spatial;
+using Heiflow.Plugins.Default.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -60,11 +61,11 @@ namespace Heiflow.Plugins.Default
 
         public override void Activate()
         {
-            _plot_ts = new SimpleActionItem("kModel", "Active Datasets", PlotActiveData_Clicked)
+            _plot_ts = new SimpleActionItem("kModel", Resources.Active_Datasets, PlotActiveData_Clicked)
             {
                 Key = "kActivePlot",
-                ToolTipText = "Plot active data set time series",
-                GroupCaption = "Analysis",
+                ToolTipText = Resources.Active_Datasets_tips,
+                GroupCaption = Resources.Analysis_group,
                 LargeImage = Properties.Resources.curve_chart
             };
             App.HeaderControl.Add(_plot_ts);

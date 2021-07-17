@@ -31,6 +31,7 @@ using DotSpatial.Controls;
 using DotSpatial.Controls.Docking;
 using DotSpatial.Controls.Header;
 using Heiflow.Applications;
+using Heiflow.Plugins.Default.Properties;
 using System;
 using System.ComponentModel.Composition;
 using System.Windows.Forms;
@@ -58,17 +59,17 @@ namespace Heiflow.Plugins.Default
             this._Explorer = Manager.DatabaseExplorerController.ViewModel.View as UserControl;
             this._Explorer.Name = "dbexplorer";
 
-            var dock = new DockablePanel("kDatabaseExplorer", "Database",
+            var dock = new DockablePanel("kDatabaseExplorer", Resources.Database_Panel,
                 _Explorer, DockStyle.Right) { SmallImage = Properties.Resources.DatabaseServer16 };
             App.DockManager.Add(dock);
 
-            var showDatabase = new SimpleActionItem("kView", "ODM Database",
+            var showDatabase = new SimpleActionItem("kView", Resources.ODM_Database,
            delegate(object sender, EventArgs e)
            { App.DockManager.ShowPanel("kDatabaseExplorer"); })
             {
                 Key = "kShowDatabaseExplorer",
-                ToolTipText = "Show ODM Database Explorer",
-                GroupCaption = "Data",
+                ToolTipText = Resources.ODM_Database_Tips,
+                GroupCaption =Resources.Data_Group,
                 LargeImage = Heiflow.Plugins.Default.Properties.Resources.DatabaseServer32
             };
 

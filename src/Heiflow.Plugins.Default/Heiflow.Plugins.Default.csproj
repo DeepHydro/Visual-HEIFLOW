@@ -172,6 +172,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.zh-CN.resx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

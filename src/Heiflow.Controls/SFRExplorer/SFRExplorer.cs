@@ -481,6 +481,10 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         private void cmbSFRVars_SelectedIndexChanged(object sender, EventArgs e)
         {
             _Selected_Sfr_var = cmbSFRVars.SelectedIndex;
+            if (_Selected_Sfr_var == 0 || _Selected_Sfr_var == 2)
+                _SFROutputPackage.Offset = 10;
+            else
+                _SFROutputPackage.Offset = 0;
         }
 
         private void btnScan_Click(object sender, EventArgs e)

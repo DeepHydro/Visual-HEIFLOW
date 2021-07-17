@@ -31,6 +31,7 @@ using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
+using Heiflow.Models.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -60,7 +61,7 @@ namespace Heiflow.Models.Subsurface
             Description = "Lakes and streams can be designated as having gaging stations located on them. For each such designated lake or stream, the time and a variety of other information will be written to a separate output file after each time step (and each transport time increment)  to facilitate graphical postprocessing of the calculated data.";
             Version = "GAGE";
             _Layer3DToken = "Well";
-            Category = Modflow.ObsCategory;
+            Category = Resources.ObsCategory; 
         }
 
         [DisplayablePropertyItem]

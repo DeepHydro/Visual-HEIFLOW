@@ -73,6 +73,9 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.tbCurDate = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.btnAdd2Toolbox = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.chbUnifiedByLength = new System.Windows.Forms.CheckBox();
@@ -102,9 +105,6 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.checkBoxSaveLayer = new System.Windows.Forms.CheckBox();
             this.btnRefreshLayer = new System.Windows.Forms.Button();
             this.btnShowLayer = new System.Windows.Forms.Button();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.tbCurDate = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -113,6 +113,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabControlLeft.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabControl_Chart.SuspendLayout();
@@ -121,7 +122,6 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabPageFeatureLayer.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -529,13 +529,42 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabPage4.Controls.Add(this.groupBox4);
             this.tabPage4.Controls.Add(this.btnAdd2Toolbox);
             this.tabPage4.Controls.Add(this.groupBox2);
-            this.tabPage4.Location = new System.Drawing.Point(4, 28);
+            this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(257, 593);
+            this.tabPage4.Size = new System.Drawing.Size(257, 596);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "Profile";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.tbCurDate);
+            this.groupBox4.Controls.Add(this.label2);
+            this.groupBox4.Location = new System.Drawing.Point(6, 215);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(245, 104);
+            this.groupBox4.TabIndex = 13;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Information";
+            // 
+            // tbCurDate
+            // 
+            this.tbCurDate.BackColor = System.Drawing.SystemColors.Info;
+            this.tbCurDate.Location = new System.Drawing.Point(10, 58);
+            this.tbCurDate.Name = "tbCurDate";
+            this.tbCurDate.ReadOnly = true;
+            this.tbCurDate.Size = new System.Drawing.Size(229, 27);
+            this.tbCurDate.TabIndex = 5;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(10, 31);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(94, 19);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Current time:";
             // 
             // btnAdd2Toolbox
             // 
@@ -616,10 +645,10 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.propertyGrid1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 25);
+            this.tabPage1.Location = new System.Drawing.Point(4, 28);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(257, 596);
+            this.tabPage1.Size = new System.Drawing.Size(257, 593);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "Config";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -630,7 +659,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertyGrid1.Location = new System.Drawing.Point(3, 3);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(251, 590);
+            this.propertyGrid1.Size = new System.Drawing.Size(251, 587);
             this.propertyGrid1.TabIndex = 1;
             // 
             // tabControl_Chart
@@ -676,7 +705,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabPageProfile.Location = new System.Drawing.Point(4, 4);
             this.tabPageProfile.Name = "tabPageProfile";
             this.tabPageProfile.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageProfile.Size = new System.Drawing.Size(856, 593);
+            this.tabPageProfile.Size = new System.Drawing.Size(856, 596);
             this.tabPageProfile.TabIndex = 1;
             this.tabPageProfile.Text = "Profile View";
             this.tabPageProfile.UseVisualStyleBackColor = true;
@@ -690,7 +719,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.winChart_proflie.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.winChart_proflie.Name = "winChart_proflie";
             this.winChart_proflie.ShowStatPanel = true;
-            this.winChart_proflie.Size = new System.Drawing.Size(850, 564);
+            this.winChart_proflie.Size = new System.Drawing.Size(850, 567);
             this.winChart_proflie.TabIndex = 8;
             // 
             // colorSlider1
@@ -703,7 +732,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.colorSlider1.ElapsedInnerColor = System.Drawing.Color.DeepSkyBlue;
             this.colorSlider1.ElapsedOuterColor = System.Drawing.Color.White;
             this.colorSlider1.LargeChange = ((uint)(5u));
-            this.colorSlider1.Location = new System.Drawing.Point(3, 567);
+            this.colorSlider1.Location = new System.Drawing.Point(3, 570);
             this.colorSlider1.Name = "colorSlider1";
             this.colorSlider1.Size = new System.Drawing.Size(850, 23);
             this.colorSlider1.SmallChange = ((uint)(1u));
@@ -862,35 +891,6 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.btnShowLayer.UseVisualStyleBackColor = true;
             this.btnShowLayer.Click += new System.EventHandler(this.btnShowLayer_Click);
             // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.tbCurDate);
-            this.groupBox4.Controls.Add(this.label2);
-            this.groupBox4.Location = new System.Drawing.Point(6, 215);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(245, 104);
-            this.groupBox4.TabIndex = 13;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Information";
-            // 
-            // tbCurDate
-            // 
-            this.tbCurDate.BackColor = System.Drawing.SystemColors.Info;
-            this.tbCurDate.Location = new System.Drawing.Point(10, 58);
-            this.tbCurDate.Name = "tbCurDate";
-            this.tbCurDate.ReadOnly = true;
-            this.tbCurDate.Size = new System.Drawing.Size(229, 27);
-            this.tbCurDate.TabIndex = 5;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(10, 31);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(94, 19);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Current time:";
-            // 
             // SFRExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
@@ -910,6 +910,8 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.tabPage4.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.tabPage1.ResumeLayout(false);
@@ -921,8 +923,6 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.groupBox3.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

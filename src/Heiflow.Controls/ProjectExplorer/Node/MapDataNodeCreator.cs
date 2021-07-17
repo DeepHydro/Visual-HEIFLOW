@@ -66,7 +66,7 @@ namespace Heiflow.Controls.WinForm.Project
             var model = sender as IBasicModel;
             var root_menu = ContextMenuFactory.Creat(item_attribute);
 
-            root_mapdata = new Node("Map Coverage")
+            root_mapdata = new Node("Conceptual Model")
             {
                 Image = Resources.DataFrame16,
                 Tag = root_menu

@@ -41,6 +41,7 @@ using Heiflow.Core.Data;
 using Heiflow.Models.IO;
 using System.ComponentModel.Composition;
 using DotSpatial.Data;
+using Heiflow.Models.Properties;
 
 namespace Heiflow.Models.Subsurface
 {
@@ -63,7 +64,7 @@ namespace Heiflow.Models.Subsurface
             IsMandatory = true;
             _Layer3DToken = "RegularGrid";
             LoadingBehavior =  MFLoadingLayersBehavior.None;
-            Category = Modflow.OutputCategory;
+            Category = Resources.OutputCategory; 
         }
 
         public MFLoadingLayersBehavior LoadingBehavior

@@ -101,12 +101,66 @@ namespace Heiflow.Plugins.Default.Properties {
         }
         
         /// <summary>
+        ///   查找类似 Active Datasets 的本地化字符串。
+        /// </summary>
+        internal static string Active_Datasets {
+            get {
+                return ResourceManager.GetString("Active_Datasets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Plot active data set time series 的本地化字符串。
+        /// </summary>
+        internal static string Active_Datasets_tips {
+            get {
+                return ResourceManager.GetString("Active_Datasets_tips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Analysis 的本地化字符串。
+        /// </summary>
+        internal static string Analysis_group {
+            get {
+                return ResourceManager.GetString("Analysis_group", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Animation 的本地化字符串。
+        /// </summary>
+        internal static string Animation {
+            get {
+                return ResourceManager.GetString("Animation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Budget Analysis 的本地化字符串。
+        /// </summary>
+        internal static string Budget_Analysis {
+            get {
+                return ResourceManager.GetString("Budget_Analysis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Bitmap calendar_32 {
             get {
                 object obj = ResourceManager.GetObject("calendar_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Cascade 的本地化字符串。
+        /// </summary>
+        internal static string Cascade {
+            get {
+                return ResourceManager.GetString("Cascade", resourceCulture);
             }
         }
         
@@ -131,6 +185,15 @@ namespace Heiflow.Plugins.Default.Properties {
         }
         
         /// <summary>
+        ///   查找类似 Common 的本地化字符串。
+        /// </summary>
+        internal static string Common_Group {
+            get {
+                return ResourceManager.GetString("Common_Group", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Bitmap convert_to_mesh {
@@ -141,12 +204,57 @@ namespace Heiflow.Plugins.Default.Properties {
         }
         
         /// <summary>
+        ///   查找类似 current layer 的本地化字符串。
+        /// </summary>
+        internal static string current_layer {
+            get {
+                return ResourceManager.GetString("current_layer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Bitmap curve_chart {
             get {
                 object obj = ResourceManager.GetObject("curve_chart", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Data Cube Editor 的本地化字符串。
+        /// </summary>
+        internal static string Data_Cube_Editor {
+            get {
+                return ResourceManager.GetString("Data_Cube_Editor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Show Data Cube Editor 的本地化字符串。
+        /// </summary>
+        internal static string Data_Cube_Editor_tips {
+            get {
+                return ResourceManager.GetString("Data_Cube_Editor_tips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Data 的本地化字符串。
+        /// </summary>
+        internal static string Data_Group {
+            get {
+                return ResourceManager.GetString("Data_Group", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Database 的本地化字符串。
+        /// </summary>
+        internal static string Database_Panel {
+            get {
+                return ResourceManager.GetString("Database_Panel", resourceCulture);
             }
         }
         
@@ -171,6 +279,15 @@ namespace Heiflow.Plugins.Default.Properties {
         }
         
         /// <summary>
+        ///   查找类似 Driving Forces 的本地化字符串。
+        /// </summary>
+        internal static string Driving_Forces_group {
+            get {
+                return ResourceManager.GetString("Driving_Forces_group", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Bitmap element {
@@ -191,12 +308,39 @@ namespace Heiflow.Plugins.Default.Properties {
         }
         
         /// <summary>
+        ///   查找类似 Extensions 的本地化字符串。
+        /// </summary>
+        internal static string Extensions_root {
+            get {
+                return ResourceManager.GetString("Extensions_root", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 File 的本地化字符串。
+        /// </summary>
+        internal static string File_root {
+            get {
+                return ResourceManager.GetString("File_root", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Bitmap FileNetworkDataset32 {
             get {
                 object obj = ResourceManager.GetObject("FileNetworkDataset32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Finite Difference Grid 的本地化字符串。
+        /// </summary>
+        internal static string Finite_Difference_Grid {
+            get {
+                return ResourceManager.GetString("Finite_Difference_Grid", resourceCulture);
             }
         }
         
@@ -221,6 +365,24 @@ namespace Heiflow.Plugins.Default.Properties {
         }
         
         /// <summary>
+        ///   查找类似 Global 的本地化字符串。
+        /// </summary>
+        internal static string Global {
+            get {
+                return ResourceManager.GetString("Global", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Grid 的本地化字符串。
+        /// </summary>
+        internal static string Grid_group {
+            get {
+                return ResourceManager.GetString("Grid_group", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Bitmap hyper_link {
@@ -241,6 +403,24 @@ namespace Heiflow.Plugins.Default.Properties {
         }
         
         /// <summary>
+        ///   查找类似 Layer Group 的本地化字符串。
+        /// </summary>
+        internal static string Layer_Group {
+            get {
+                return ResourceManager.GetString("Layer_Group", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Legend 的本地化字符串。
+        /// </summary>
+        internal static string Legend {
+            get {
+                return ResourceManager.GetString("Legend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Bitmap Legend16 {
@@ -257,6 +437,33 @@ namespace Heiflow.Plugins.Default.Properties {
             get {
                 object obj = ResourceManager.GetObject("Legend32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Map Window 的本地化字符串。
+        /// </summary>
+        internal static string Map_control {
+            get {
+                return ResourceManager.GetString("Map_control", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Show Map Window 的本地化字符串。
+        /// </summary>
+        internal static string Map_control_tips {
+            get {
+                return ResourceManager.GetString("Map_control_tips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Map 的本地化字符串。
+        /// </summary>
+        internal static string Map_Group {
+            get {
+                return ResourceManager.GetString("Map_Group", resourceCulture);
             }
         }
         
@@ -341,6 +548,60 @@ namespace Heiflow.Plugins.Default.Properties {
         }
         
         /// <summary>
+        ///   查找类似 Model 的本地化字符串。
+        /// </summary>
+        internal static string Model_Group {
+            get {
+                return ResourceManager.GetString("Model_Group", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Model 的本地化字符串。
+        /// </summary>
+        internal static string Model_root {
+            get {
+                return ResourceManager.GetString("Model_root", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Model Running 的本地化字符串。
+        /// </summary>
+        internal static string Model_Running {
+            get {
+                return ResourceManager.GetString("Model_Running", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Model Time 的本地化字符串。
+        /// </summary>
+        internal static string Model_Time {
+            get {
+                return ResourceManager.GetString("Model_Time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Model Toolbox 的本地化字符串。
+        /// </summary>
+        internal static string Model_Toolbox {
+            get {
+                return ResourceManager.GetString("Model_Toolbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Show Model Toolbox 的本地化字符串。
+        /// </summary>
+        internal static string Model_Toolbox_tips {
+            get {
+                return ResourceManager.GetString("Model_Toolbox_tips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Bitmap ModelBuilderAutoLayout16 {
@@ -361,12 +622,102 @@ namespace Heiflow.Plugins.Default.Properties {
         }
         
         /// <summary>
+        ///   查找类似 Model Tool 的本地化字符串。
+        /// </summary>
+        internal static string ModelTool_Group {
+            get {
+                return ResourceManager.GetString("ModelTool_Group", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 MT3DMS 的本地化字符串。
+        /// </summary>
+        internal static string MT3DMS {
+            get {
+                return ResourceManager.GetString("MT3DMS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 ODM Database 的本地化字符串。
+        /// </summary>
+        internal static string ODM_Database {
+            get {
+                return ResourceManager.GetString("ODM_Database", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Show ODM Database Explorer 的本地化字符串。
+        /// </summary>
+        internal static string ODM_Database_Tips {
+            get {
+                return ResourceManager.GetString("ODM_Database_Tips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Options 的本地化字符串。
+        /// </summary>
+        internal static string Options {
+            get {
+                return ResourceManager.GetString("Options", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Parameter Mapping Tool 的本地化字符串。
+        /// </summary>
+        internal static string Parameter_Mapping_Tool {
+            get {
+                return ResourceManager.GetString("Parameter_Mapping_Tool", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Bitmap progess64 {
             get {
                 object obj = ResourceManager.GetObject("progess64", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Progress Window 的本地化字符串。
+        /// </summary>
+        internal static string ProgressWindow {
+            get {
+                return ResourceManager.GetString("ProgressWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Project Explorer 的本地化字符串。
+        /// </summary>
+        internal static string Project_Explorer {
+            get {
+                return ResourceManager.GetString("Project_Explorer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Project 的本地化字符串。
+        /// </summary>
+        internal static string Project_panel {
+            get {
+                return ResourceManager.GetString("Project_panel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Property 的本地化字符串。
+        /// </summary>
+        internal static string Property {
+            get {
+                return ResourceManager.GetString("Property", resourceCulture);
             }
         }
         
@@ -397,6 +748,51 @@ namespace Heiflow.Plugins.Default.Properties {
             get {
                 object obj = ResourceManager.GetObject("rotation3d32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Running 的本地化字符串。
+        /// </summary>
+        internal static string Running_group {
+            get {
+                return ResourceManager.GetString("Running_group", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Set Species 的本地化字符串。
+        /// </summary>
+        internal static string Set_Species {
+            get {
+                return ResourceManager.GetString("Set_Species", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Setting 的本地化字符串。
+        /// </summary>
+        internal static string Setting_group {
+            get {
+                return ResourceManager.GetString("Setting_group", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Spatial Tools 的本地化字符串。
+        /// </summary>
+        internal static string Spatial_Tools {
+            get {
+                return ResourceManager.GetString("Spatial_Tools", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Show Spatial Tools 的本地化字符串。
+        /// </summary>
+        internal static string Spatial_Tools_tips {
+            get {
+                return ResourceManager.GetString("Spatial_Tools_tips", resourceCulture);
             }
         }
         
@@ -441,11 +837,29 @@ namespace Heiflow.Plugins.Default.Properties {
         }
         
         /// <summary>
-        ///   查找类似 F:\System\HEIFLOW\VHF_GIT\VHF\src\Resources 的本地化字符串。
+        ///   查找类似 Start 的本地化字符串。
         /// </summary>
-        internal static string String {
+        internal static string Start {
             get {
-                return ResourceManager.GetString("String", resourceCulture);
+                return ResourceManager.GetString("Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Stop 的本地化字符串。
+        /// </summary>
+        internal static string Stop {
+            get {
+                return ResourceManager.GetString("Stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Surface Parameter 的本地化字符串。
+        /// </summary>
+        internal static string Surface_Parameter {
+            get {
+                return ResourceManager.GetString("Surface_Parameter", resourceCulture);
             }
         }
         
@@ -460,12 +874,48 @@ namespace Heiflow.Plugins.Default.Properties {
         }
         
         /// <summary>
+        ///   查找类似 Table View 的本地化字符串。
+        /// </summary>
+        internal static string Table_View {
+            get {
+                return ResourceManager.GetString("Table_View", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Show Table View 的本地化字符串。
+        /// </summary>
+        internal static string Table_View_tips {
+            get {
+                return ResourceManager.GetString("Table_View_tips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Bitmap TableFields32 {
             get {
                 object obj = ResourceManager.GetObject("TableFields32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Terrain Viewer 的本地化字符串。
+        /// </summary>
+        internal static string Terrain_Viewer {
+            get {
+                return ResourceManager.GetString("Terrain_Viewer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Show Terrain Viewer 的本地化字符串。
+        /// </summary>
+        internal static string Terrain_Viewer_tips {
+            get {
+                return ResourceManager.GetString("Terrain_Viewer_tips", resourceCulture);
             }
         }
         
@@ -490,6 +940,24 @@ namespace Heiflow.Plugins.Default.Properties {
         }
         
         /// <summary>
+        ///   查找类似 Time 的本地化字符串。
+        /// </summary>
+        internal static string Time_group {
+            get {
+                return ResourceManager.GetString("Time_group", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Tool 的本地化字符串。
+        /// </summary>
+        internal static string Tool_group {
+            get {
+                return ResourceManager.GetString("Tool_group", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
         internal static System.Drawing.Bitmap TrackingDataAnimationTool16 {
@@ -506,6 +974,60 @@ namespace Heiflow.Plugins.Default.Properties {
             get {
                 object obj = ResourceManager.GetObject("TrackingDataAnimationTool32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Vertical Profile Viewer 的本地化字符串。
+        /// </summary>
+        internal static string Vertical_Profile_Viewer {
+            get {
+                return ResourceManager.GetString("Vertical_Profile_Viewer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Show Vertical Profile Viewer 的本地化字符串。
+        /// </summary>
+        internal static string Vertical_Profile_Viewer_tips {
+            get {
+                return ResourceManager.GetString("Vertical_Profile_Viewer_tips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 3D View 的本地化字符串。
+        /// </summary>
+        internal static string View_3d {
+            get {
+                return ResourceManager.GetString("View_3d", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Show 3D View 的本地化字符串。
+        /// </summary>
+        internal static string View_3d_tips {
+            get {
+                return ResourceManager.GetString("View_3d_tips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 View 的本地化字符串。
+        /// </summary>
+        internal static string View_root {
+            get {
+                return ResourceManager.GetString("View_root", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Weather Generator 的本地化字符串。
+        /// </summary>
+        internal static string Weather_Generator {
+            get {
+                return ResourceManager.GetString("Weather_Generator", resourceCulture);
             }
         }
     }

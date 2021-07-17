@@ -37,6 +37,7 @@ using Heiflow.Controls.WinForm.Modflow;
 using Heiflow.Controls.WinForm.Processing;
 using Heiflow.Controls.WinForm.Project;
 using Heiflow.Models.Surface.PRMS;
+using Heiflow.Plugins.Default.Properties;
 using Heiflow.Presentation;
 using System;
 using System.ComponentModel.Composition;
@@ -67,65 +68,65 @@ namespace Heiflow.Plugins.Default
         public override void Activate()
         {
 
-            _layer_group = new SimpleActionItem("kModel", "Layer Group", LayerGroup_Clicked)
+            _layer_group = new SimpleActionItem("kModel", Resources.Layer_Group, LayerGroup_Clicked)
             {
                 Key = "kLayerGroup",
-                ToolTipText = "Set Layer Group",
-                GroupCaption = "Grid",
-                LargeImage = Properties.Resources.stack,
+                ToolTipText = Resources.Layer_Group,
+                GroupCaption = Resources.Grid_group,
+                LargeImage = Resources.stack,
                 SortOrder = 0
             };
             App.HeaderControl.Add(_layer_group);
 
-            _fd_grid = new SimpleActionItem("kModel", "Finite Difference Grid", FDGrid_Clicked)
+            _fd_grid = new SimpleActionItem("kModel", Resources.Finite_Difference_Grid, FDGrid_Clicked)
             {
                 Key = "kFDGrid",
-                ToolTipText = "Create Finite Difference Grid",
-                GroupCaption = "Grid",
+                ToolTipText = Resources.Finite_Difference_Grid,
+                GroupCaption = Resources.Grid_group,
                 LargeImage = Properties.Resources.convert_to_mesh,
                 SortOrder = 1
             };
             App.HeaderControl.Add(_fd_grid);
 
 
-            _runCascade = new SimpleActionItem("kModel", "Cascade", RunCascade_Clicked)
+            _runCascade = new SimpleActionItem("kModel",Resources.Cascade, RunCascade_Clicked)
             {
                 Key = "kRunCascade",
-                ToolTipText = "Calculate Cascade",
-                GroupCaption = "Grid",
+                ToolTipText = Resources.Cascade,
+                GroupCaption = Resources.Grid_group,
                 LargeImage = Properties.Resources.FileNetworkDataset32,
                 Enabled = true,
                 SortOrder = 2
             };
             App.HeaderControl.Add(_runCascade);
 
-            _GlobalSet = new SimpleActionItem("kModel", "Global", GlobalSet_Clicked)
+            _GlobalSet = new SimpleActionItem("kModel", Resources.Global, GlobalSet_Clicked)
             {
                 Key = "kGlobalSet",
-                ToolTipText = "Global Setting",
-                GroupCaption = "Setting",
+                ToolTipText = Resources.Global,
+                GroupCaption = Resources.Setting_group,
                 LargeImage = Properties.Resources.equilizer_48,
                 Enabled = true,
                 SortOrder = 3
             };
             App.HeaderControl.Add(_GlobalSet);
 
-            _ParaViewer = new SimpleActionItem("kModel", "Surface Parameter", ParaViewer_Clicked)
+            _ParaViewer = new SimpleActionItem("kModel", Resources.Surface_Parameter, ParaViewer_Clicked)
             {
                 Key = "kParaViewer",
-                ToolTipText = "Surface Parameter Viewer",
-                GroupCaption = "Setting",
+                ToolTipText = Resources.Surface_Parameter,
+                GroupCaption = Resources.Setting_group,
                 LargeImage = Properties.Resources.TableFields32,
                 Enabled = true,
                 SortOrder = 4
             };
             App.HeaderControl.Add(_ParaViewer);
 
-            _ParaMapping = new SimpleActionItem("kModel", "Parameter Mapping Tool", ParaMapping_Clicked)
+            _ParaMapping = new SimpleActionItem("kModel", Resources.Parameter_Mapping_Tool, ParaMapping_Clicked)
             {
                 Key = "kParaMapping",
-                ToolTipText = "Parameter Mapping Tool",
-                GroupCaption = "Tool",
+                ToolTipText = Resources.Parameter_Mapping_Tool,
+                GroupCaption = Resources.Tool_group,
                 LargeImage = Properties.Resources.hyper_link,
                 Enabled = true,
                 SortOrder = 0

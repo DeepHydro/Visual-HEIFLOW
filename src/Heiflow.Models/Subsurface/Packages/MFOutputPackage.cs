@@ -29,6 +29,7 @@
 
 using DotSpatial.Data;
 using Heiflow.Models.Generic;
+using Heiflow.Models.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -48,7 +49,7 @@ namespace Heiflow.Models.Subsurface
         {
             _Name = "ModFlow Output";
             //_Name = "VFT3D Output";
-            Category = Modflow.OutputCategory;
+            Category = Resources.OutputCategory; 
         }
 
         public override void Initialize()

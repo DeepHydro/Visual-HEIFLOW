@@ -63,31 +63,31 @@ namespace Heiflow.Plugins.View3DPanel
 
         public override void Activate()
         {
-            var showView3D = new SimpleActionItem("kView", "3D View", delegate(object sender, EventArgs e)
+            var showView3D = new SimpleActionItem("kView", Resources.View_3d, delegate(object sender, EventArgs e)
             { ProjectManager.ShellService.SurfacePlot.ShowView(ProjectManager.ShellService.MainForm); })
             {
                 Key = "kShowView3D",
-                ToolTipText = "Show 3D View",
-                GroupCaption = "Data",
+                ToolTipText = Resources.View_3d_tips,
+                GroupCaption = Resources.Data_Group,
                 LargeImage = Resources._3d_plot_printing_printer
             };
             App.HeaderControl.Add(showView3D);
 
-            var terrainViewer = new SimpleActionItem("kView", "Terrain Viewer", ShowTerrainViewer)
+            var terrainViewer = new SimpleActionItem("kView", Resources.Terrain_Viewer, ShowTerrainViewer)
             {
                 Key = "kTerrainViewer",
-                ToolTipText = "Show 3D Terrain Viewe",
-                GroupCaption = "Data",
+                ToolTipText = Resources.Terrain_Viewer_tips,
+                GroupCaption = Resources.Data_Group,
                 LargeImage = Resources.rotation3d32
             };
             App.HeaderControl.Add(terrainViewer);
 
-            var gridprofileViewer = new SimpleActionItem("kView", "Vertical Profile Viewer", delegate(object sender, EventArgs e)
+            var gridprofileViewer = new SimpleActionItem("kView", Resources.Vertical_Profile_Viewer, delegate(object sender, EventArgs e)
             { ProjectManager.ShellService.VerticalProfileView.ShowView(ProjectManager.ShellService.MainForm); })
             {
                 Key = "kGridProfileViewer",
-                ToolTipText = "Show Vertical Profile Viewer",
-                GroupCaption = "Data",
+                ToolTipText =  Resources.Vertical_Profile_Viewer_tips,
+                GroupCaption = Resources.Data_Group,
                 LargeImage = Resources.LasRGB32
             };
             App.HeaderControl.Add(gridprofileViewer);

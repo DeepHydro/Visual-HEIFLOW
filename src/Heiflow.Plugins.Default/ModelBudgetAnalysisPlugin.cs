@@ -61,16 +61,16 @@ namespace Heiflow.Plugins.Default
         {
             this._StateMonitor = Manager.StateMonitor.ViewModel.View as UserControl;
             this._StateMonitor.Name = "stateMonitor1";
-            App.DockManager.Add(new DockablePanel(PanelKey, "Budget Analysis",
+            App.DockManager.Add(new DockablePanel(PanelKey, Resources.Budget_Analysis,
                 _StateMonitor, DockStyle.None) { SmallImage = Properties.Resources.SpatialAnalystTrainingSampleHistograms16 });
             App.DockManager.HidePanel(PanelKey);
 
-            var showStateMonitor = new SimpleActionItem("kModel", "Budget Analysis", delegate(object sender, EventArgs e)
+            var showStateMonitor = new SimpleActionItem("kModel", Resources.Budget_Analysis, delegate(object sender, EventArgs e)
             { App.DockManager.ShowPanel(PanelKey); })
             {
                 Key = "kShowRStateMonitor",
-                ToolTipText = "Show Budget Analysis",
-                GroupCaption = "Analysis",
+                ToolTipText = Resources.Budget_Analysis,
+                GroupCaption = Resources.Analysis_group,
                 LargeImage = Resources.Abacus
             };
             App.HeaderControl.Add(showStateMonitor);

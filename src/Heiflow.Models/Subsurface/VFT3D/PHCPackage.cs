@@ -31,6 +31,7 @@ using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
+using Heiflow.Models.Properties;
 using Heiflow.Models.Subsurface.MT3DMS;
 using Heiflow.Models.UI;
 using ILNumerics;
@@ -68,7 +69,7 @@ namespace Heiflow.Models.Subsurface.VFT3D
             IsMandatory = false;
             _Layer3DToken = "RegularGrid";
             ResetToDefault();
-            Category = Modflow.PHTCategory;
+            Category = Resources.PHTCategory; 
         }
 
         #region 

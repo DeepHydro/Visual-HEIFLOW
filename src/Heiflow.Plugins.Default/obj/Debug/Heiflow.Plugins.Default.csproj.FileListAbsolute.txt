@@ -77,3 +77,6 @@ E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Plugins.Default\obj\Debug\Heif
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Plugins.Default\obj\Debug\Heiflow.Plugins.Default.dll.licenses
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Plugins.Default\obj\Debug\Heiflow.Plugins.Default.dll
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Plugins.Default\obj\Debug\Heiflow.Plugins.Default.csprojResolveAssemblyReference.cache
+F:\System\HEIFLOW\VHF_GIT\VHF\src\bin\debug\Application Extensions\VHF\zh-CN\Heiflow.Plugins.Default.resources.dll
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Plugins.Default\obj\Debug\Heiflow.Plugins.Default.Properties.Resources.zh-CN.resources
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Plugins.Default\obj\Debug\zh-CN\Heiflow.Plugins.Default.resources.dll

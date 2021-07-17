@@ -68,3 +68,4 @@ E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Deb
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.vbproj.GenerateResource.Cache
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.dll
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.pdb
+F:\System\HEIFLOW\VHF_GIT\VHF\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.vbprojResolveAssemblyReference.cache

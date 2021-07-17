@@ -31,6 +31,7 @@ using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
+using Heiflow.Models.Properties;
 using Heiflow.Models.Subsurface.VFT3D;
 using Heiflow.Models.UI;
 using ILNumerics;
@@ -63,7 +64,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             _PackageInfo.ModuleName = "BTN";
             Description = "The BTN Package consists of nine primary modules";
             _Layer3DToken = "RegularGrid";
-            Category = Modflow.MT3DCategory;
+            Category = Resources.MT3DCategory; 
 
             ResetToDefault();
         }

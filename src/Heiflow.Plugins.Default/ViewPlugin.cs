@@ -31,6 +31,7 @@ using DotSpatial.Controls;
 using DotSpatial.Controls.Docking;
 using DotSpatial.Controls.Header;
 using Heiflow.Applications;
+using Heiflow.Plugins.Default.Properties;
 using Heiflow.Presentation;
 using System;
 using System.Collections.Generic;
@@ -64,25 +65,25 @@ namespace Heiflow.Plugins.Default
 
         public override void Activate()
         {
-            RootItem view = new RootItem("kView", "View");
+            RootItem view = new RootItem("kView",Resources.View_root);
             App.HeaderControl.Add(view);
-            RootItem model = new RootItem("kModel", "Model");
+            RootItem model = new RootItem("kModel", Resources.Model_root);
             App.HeaderControl.Add(model);
 
-            var showMap = new SimpleActionItem("kView", "Map", ShowMap_Clicked)
+            var showMap = new SimpleActionItem("kView", Resources.Map_control, ShowMap_Clicked)
                {
                    Key = "kShowMap",
-                   ToolTipText = "Show Map Control",
-                   GroupCaption = "Map",
+                   ToolTipText = Resources.Map_control,
+                   GroupCaption = Resources.Map_Group,
                    LargeImage = Properties.Resources.Map32
                };
             App.HeaderControl.Add(showMap);
 
-            var showProgress = new SimpleActionItem("kView", "Progress", ShowProgress_Clicked)
+            var showProgress = new SimpleActionItem("kView", Resources.ProgressWindow, ShowProgress_Clicked)
             {
                 Key = "kShowProgress",
-                ToolTipText = "Show Progress Window",
-                GroupCaption = "Map",
+                ToolTipText = Resources.ProgressWindow,
+                GroupCaption = Resources.Common_Group,
                 LargeImage = Properties.Resources.progess64
             };
             App.HeaderControl.Add(showProgress);

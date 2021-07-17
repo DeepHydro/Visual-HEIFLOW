@@ -60,19 +60,18 @@ namespace Heiflow.Plugins.Animation
         {
             _Player = new AnimationPlayer(); 
 
-            var panel = new DockablePanel("kAnimation", "Animation",  _Player, DockStyle.Right) 
+            var panel = new DockablePanel("kAnimation", Resources.Animation,  _Player, DockStyle.Right) 
                 {
                     SmallImage = Resources.TrackingDataAnimationTool16
                 };
             App.DockManager.Add(panel);
 
-
-            var showAnimation = new SimpleActionItem("kModel", "Animation",
+            var showAnimation = new SimpleActionItem("kModel", Resources.Animation,
                    ShowPanel)
             {
                 Key = "kShowAnimation",
-                ToolTipText = "Show Animation Player",
-                GroupCaption = "Analysis",
+                ToolTipText = Resources.Animation,
+                GroupCaption = Resources.Analysis_group,
                 LargeImage = Resources.TrackingDataAnimationTool32,
                 SortOrder = 5
             };

@@ -32,6 +32,7 @@ using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
 using Heiflow.Models.Integration;
+using Heiflow.Models.Properties;
 using Heiflow.Models.UI;
 using ILNumerics;
 using NetTopologySuite.Geometries;
@@ -67,7 +68,7 @@ namespace Heiflow.Models.Subsurface
             IsMandatory = false;
             _Layer3DToken = "RCH";
             NRCHOP = 3;
-            Category = Modflow.FluxCategory;
+            Category = Resources.FluxCategory; 
         }
         [Category("General")]
         [Description("the recharge option code. Recharge fluxes are defined in a layer variable.  1—Recharge is only to the top grid layer. 2—Vertical distribution of recharge is specified in layer variable IRCH. 3—Recharge is applied to the highest active cell in each vertical column. A constant-head node intercepts recharge and prevents deeper infiltration.")]

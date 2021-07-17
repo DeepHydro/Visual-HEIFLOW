@@ -46,6 +46,7 @@ using System.Windows.Forms;
 using DotSpatial.Data;
 using Heiflow.Models.Subsurface;
 using Heiflow.Models.Subsurface.VFT3D;
+using Heiflow.Models.Properties;
 
 namespace Heiflow.Models.Subsurface.MT3DMS
 {
@@ -67,10 +68,12 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             Version = "UCN";
             _Layer3DToken = "RegularGrid";
             Description = "";
-            Category = Modflow.MT3DCategory;
+            Category = Resources.MT3DCategory; 
             LoadAllLayers = true;
-        }
+            NoDataValue = 0;
 
+        }
+        public float NoDataValue { get; set; }
         public override void Initialize()
         {
             this.Grid = Owner.Grid;
@@ -88,9 +91,9 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             var mf = Owner as Modflow;
             var phc = Owner.GetPackage(PHCPackage.PackageName) as PHCPackage;
             Variables = phc.AllComponentsNames;
-            NumTimeStep = TimeService.Timeline.Count;
+            NumTimeStep = TimeService.IOTimeline.Count;
             _StartLoading = TimeService.Start;
-            MaxTimeStep = TimeService.Timeline.Count;
+            MaxTimeStep = TimeService.IOTimeline.Count;
             _StartLoading = TimeService.Start;
             return true;
         }
@@ -124,6 +127,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             TimeService.IOTimeline = list;
             NumTimeStep = list.Count;
             var grid = Owner.Grid as MFGrid;
+            var btn = Owner.GetPackage(BTNPackage.PackageName) as BTNPackage;
             if (DataCube == null || DataCube.Size[1] != StepsToLoad)
             {
                 if (LoadAllLayers)
@@ -178,7 +182,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
                             }
                             //fs.Seek(4 * 2, SeekOrigin.Current);
                             var vn = new string(br.ReadChars(16)).Trim();
-                           // fs.Seek(4 * 3, SeekOrigin.Current);
+                            // fs.Seek(4 * 3, SeekOrigin.Current);
                             for (int b = 0; b < 3; b++)
                             {
                                 var buf = br.ReadInt32();
@@ -194,7 +198,11 @@ namespace Heiflow.Models.Subsurface.MT3DMS
                             }
                             for (int a = 0; a < grid.ActiveCellCount; a++)
                             {
-                                DataCube[var_index, t, k * grid.ActiveCellCount + a] = cells[cell_index[a]];
+                                if (cells[cell_index[a]] <= btn.CINACT)
+                                    DataCube[var_index, t, k * grid.ActiveCellCount + a] = this.NoDataValue;
+                                else
+                                    DataCube[var_index, t, k * grid.ActiveCellCount + a] = cells[cell_index[a]];
+
                             }
                         }
                         prog = Convert.ToInt32(t * 100 / StepsToLoad);

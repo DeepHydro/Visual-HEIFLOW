@@ -8,10 +8,10 @@ using System.Windows;
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("DeepGIS")]
-[assembly: AssemblyCopyright("Copyright © SUSTech 2015-2017")]
+[assembly: AssemblyCompany("DeepHydro")]
+[assembly: AssemblyCopyright("Copyright © SUSTech 2015-2021")]
 [assembly: AssemblyTrademark("HEIFLOW")]
-[assembly: AssemblyCulture("")]
+//[assembly: AssemblyCulture("zh-CN")]
 
 // 将 ComVisible 设置为 false 使此程序集中的类型
 // 对 COM 组件不可见。  如果需要从 COM 访问此程序集中的类型，

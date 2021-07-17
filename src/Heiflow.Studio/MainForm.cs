@@ -42,6 +42,8 @@ namespace Heiflow.Models.Studio
     using System.ComponentModel;
     using Heiflow.AI;
     using Heiflow.Models.IO;
+    using System.Globalization;
+    using System.Threading;
 
     /// <summary>
     /// The main form.
@@ -64,7 +66,9 @@ namespace Heiflow.Models.Studio
         /// </summary>
         public MainForm()
         {
-          //  SecurityFile.Generate("e:\\vgs.dll", "cfgt-2lp5-cwp3-drkm", "VHF");
+         // SecurityFile.Generate("e:\\vgs.dll", "cfgt-2lp5-cwp3-drkm", "VHF");
+            //Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("zh-CN");
             this.InitializeComponent();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 
@@ -83,7 +87,7 @@ namespace Heiflow.Models.Studio
             appManager1.Catalog.Catalogs.Add(new AssemblyCatalog(toolDll));
 
             _VHFAppManager = new VHFAppManager();
-          //  _VHFAppManager.AppName = "Visual HEIFLOW";
+           // _VHFAppManager.AppName = "Visual HEIFLOW";
             _VHFAppManager.AppName = "Visual VFT3D";
            // _VHFAppManager.Icon = ((System.Drawing.Icon)(resources.GetObject("heiflow")));
 
@@ -102,7 +106,7 @@ namespace Heiflow.Models.Studio
             _VHFAppManager.Initialize();
 
             this.appManager1.LoadExtensions();
-            this.appManager1.DockManager.Add(new DockablePanel("kMap", "Map", map1, DockStyle.Fill));
+            this.appManager1.DockManager.Add(new DockablePanel("kMap",Resources.Map_panel, map1, DockStyle.Fill));
 
             // Add default buttons
             new DotSpatial.Controls.DefaultMenuBars(appManager1).Initialize(appManager1.HeaderControl);

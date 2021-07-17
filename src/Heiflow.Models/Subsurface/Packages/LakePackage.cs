@@ -45,6 +45,7 @@ using System.Threading.Tasks;
 using Heiflow.Models.Subsurface.Packages;
 using GeoAPI.Geometries;
 using NetTopologySuite.Geometries;
+using Heiflow.Models.Properties;
 
 namespace Heiflow.Models.Subsurface
 {
@@ -74,7 +75,7 @@ namespace Heiflow.Models.Subsurface
             Version = "Lak3";
 
             LakeCellID = new Dictionary<int, List<int>>();
-            Category = Modflow.HeadDependentCategory;
+            Category = Resources.HeadDependentCategory; 
         }
 
         #region Properties

@@ -43,6 +43,9 @@ using Heiflow.Presentation.Controls.Project;
 using Heiflow.Applications.Controllers;
 using Heiflow.Presentation;
 using Heiflow.Controls.WinForm.Project;
+using System.Resources;
+using System.Threading;
+using System.Globalization;
 
 namespace Heiflow.Plugins.Menubar
 {
@@ -77,68 +80,52 @@ namespace Heiflow.Plugins.Menubar
         private void AddMenuItems()
         {
             IHeaderControl header = App.HeaderControl;
-
-            header.Add(new SimpleActionItem(FileMenuKey, "Open Project", OpenProject_Click)
+            ResourceManager rm = Resources.ResourceManager;
+            var str = rm.GetString("OpenProject");
+            header.Add(new SimpleActionItem(FileMenuKey, str, OpenProject_Click)
             {
                 GroupCaption = HeaderControl.ApplicationMenuKey,
                 SortOrder = 0,
                 SmallImage = Resources.ReportLoad16,
                 LargeImage = Resources.ReportLoad32,
-                ToolTipText = "Open project"
+                ToolTipText = str
             });
-
-            header.Add(new SimpleActionItem(FileMenuKey, "New Project", NewProject_Click)
+            str = rm.GetString("NewProject");
+            header.Add(new SimpleActionItem(FileMenuKey, str, NewProject_Click)
             {
                 GroupCaption = HeaderControl.ApplicationMenuKey,
                 SortOrder = 1,
                 SmallImage = Resources.MapWindowNew16,
                 LargeImage = Resources.MapWindowNew32,
-                ToolTipText = "Create a new project"
+                ToolTipText = str
             });
-
-            header.Add(new SimpleActionItem(FileMenuKey, "Save Project", SaveProject_Click)
+            str = rm.GetString("SaveProject");
+            header.Add(new SimpleActionItem(FileMenuKey, str, SaveProject_Click)
             {
                 GroupCaption = HeaderControl.ApplicationMenuKey,
                 SortOrder = 2,
                 SmallImage = Resources.GenericSave_B_16,
                 LargeImage = Resources.GenericSave_B_32,
-                ToolTipText = "Save current project"
+                ToolTipText = str
             });
 
-            //header.Add(new SimpleActionItem(FileMenuKey, "Import Model", ImportModel_Click)
-            //{
-            //    GroupCaption = HeaderControl.ApplicationMenuKey,
-            //    SortOrder = 3,
-            //    SmallImage = Resources.MapServiceDefinitionSave16,
-            //    LargeImage = Resources.MapServiceDefinitionSave32,
-            //    ToolTipText = "Import a model"
-            //});
-
-            //header.Add(new SimpleActionItem(FileMenuKey, "Open Dotspatial Map Project", OpenDspProject_Click)
-            //{
-            //    GroupCaption = HeaderControl.ApplicationMenuKey,
-            //    SortOrder = 2,
-            //    SmallImage = Resources.MapWindowNew16,
-            //    LargeImage = Resources.MapWindowNew32,
-            //    ToolTipText = "Open Dotspatial Map Project"
-            //});
-
-            header.Add(new SimpleActionItem(FileMenuKey, "About", About_Click)
+            str = rm.GetString("About");
+            header.Add(new SimpleActionItem(FileMenuKey, str, About_Click)
             {
                 GroupCaption = HeaderControl.ApplicationMenuKey,
                 SortOrder = 4,
                 SmallImage = Resources.information32,
                 LargeImage = Resources.information32,
-                ToolTipText = "About this system"
+                ToolTipText = str
             });
-
+            str = rm.GetString("Exit");
             header.Add(new SimpleActionItem(FileMenuKey, "Exit", Exit_Click)
             {
                 GroupCaption = HeaderControl.ApplicationMenuKey,
                 SortOrder = 1000,
                 SmallImage = Resources.exit32,
                 LargeImage = Resources.exit32,
-                ToolTipText = "Exit"
+                ToolTipText = str
             });
 
         }
