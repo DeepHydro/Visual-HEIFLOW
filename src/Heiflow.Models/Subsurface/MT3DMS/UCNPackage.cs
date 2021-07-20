@@ -90,7 +90,15 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             var grid = Owner.Grid as MFGrid;
             var mf = Owner as Modflow;
             var phc = Owner.GetPackage(PHCPackage.PackageName) as PHCPackage;
-            Variables = phc.AllComponentsNames;
+            if (phc != null)
+            {
+                Variables = phc.AllComponentsNames;
+            }
+            else
+            {
+                var btn = Owner.GetPackage(BTNPackage.PackageName) as BTNPackage;
+                Variables = btn.SpeciesNames;
+            }
             NumTimeStep = TimeService.IOTimeline.Count;
             _StartLoading = TimeService.Start;
             MaxTimeStep = TimeService.IOTimeline.Count;
@@ -123,9 +131,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
         {
             var result = LoadingState.Normal;
             _ProgressHandler = progress;
-            var list = TimeService.Timeline;
-            TimeService.IOTimeline = list;
-            NumTimeStep = list.Count;
+            NumTimeStep = TimeService.IOTimeline.Count;
             var grid = Owner.Grid as MFGrid;
             var btn = Owner.GetPackage(BTNPackage.PackageName) as BTNPackage;
             if (DataCube == null || DataCube.Size[1] != StepsToLoad)
@@ -156,12 +162,28 @@ namespace Heiflow.Models.Subsurface.MT3DMS
 
             DataCube.Allocate(var_index, StepsToLoad, grid.ActiveCellCount * grid.ActualLayerCount);
             DataCube.Topology = (this.Grid as RegularGrid).Topology;
-            DataCube.DateTimes = this.TimeService.Timeline.Take(StepsToLoad).ToArray();
+            DataCube.DateTimes = this.TimeService.IOTimeline.Take(StepsToLoad).ToArray();
             DataCube.Variables = this.Variables;
+            DataCube.Layers = grid.ActualLayerCount;
 
-            var fn = string.Format("PHT3D{0}.UCN", (var_index + 4).ToString().PadLeft(3, '0'));
+            var fn = string.Format("PHT3D{0}.UCN", (var_index + 1).ToString().PadLeft(3, '0'));
             var file = Path.Combine(Owner.Project.AbsolutePathToProjectFile, fn);
+            bool filefound = false;
+
             if (File.Exists(file))
+            {
+                filefound = true;
+            }
+            else
+            {
+                file = Path.Combine(Owner.Project.AbsolutePathToProjectFile, string.Format("MT3D{0}.UCN", (var_index + 1).ToString().PadLeft(3, '0')));
+                if (File.Exists(file))
+                {
+                    filefound = true;
+                }
+            }
+
+            if (filefound)
             {
                 FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 try

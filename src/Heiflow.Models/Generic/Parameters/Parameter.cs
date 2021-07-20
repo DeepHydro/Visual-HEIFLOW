@@ -328,6 +328,13 @@ namespace Heiflow.Models.Generic.Parameters
             get;
             set;
         }
+        [XmlIgnore]
+        [Browsable(false)]
+        public int Layers
+        {
+            get;
+            set;
+        }
         protected virtual void Init()
         {
             VariableType = ParameterType.Parameter;

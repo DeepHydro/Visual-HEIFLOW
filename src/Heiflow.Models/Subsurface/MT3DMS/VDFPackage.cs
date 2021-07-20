@@ -294,8 +294,8 @@ namespace Heiflow.Models.Subsurface.MT3DMS
                 }
                 catch (Exception ex)
                 {
-                    Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
-                    ShowWarning(Message, progress);
+                    //Message = string.Format("Failed to load {0}. Error message: {1}", Name, ex.Message);
+                    //ShowWarning(Message, progress);
                     result = LoadingState.Warning;
                 }
                 finally

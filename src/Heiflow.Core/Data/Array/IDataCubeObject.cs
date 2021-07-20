@@ -53,6 +53,7 @@ namespace Heiflow.Core.Data
         /// </summary>
         int SelectedSpaceIndex { get; set; }
         int SelectedLayerToShown { get; set; }
+        int Layers { get; set; }
         DateTime[] DateTimes { get; set; }
         int[] Size { get; }
         string[] Variables { get; set; }

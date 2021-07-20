@@ -272,7 +272,7 @@ namespace Heiflow.Models.Subsurface.VFT3D
             this.Grid = Owner.Grid;
             this.Grid.Updated += this.OnGridUpdated;
             this.TimeService = Owner.TimeService;
-            this.TimeService.PopulateTimelineFromSP(DateTime.Now);
+            //this.TimeService.PopulateTimelineFromSP(DateTime.Now);
             base.Initialize();
         }
         public override void New()

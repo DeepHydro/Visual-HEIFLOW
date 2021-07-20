@@ -105,7 +105,7 @@ namespace Heiflow.Models.Subsurface
             if (succ != LoadingState.FatalError)
             {
                 model.TimeService.PopulateTimelineFromSP(property.Start);
-                model.TimeService.PopulateIOTimelineFromSP();
+                //model.TimeService.PopulateIOTimelineFromSP();
                 model.Grid.Projection = property.Projection;
             }
             else
@@ -141,7 +141,7 @@ namespace Heiflow.Models.Subsurface
                     DateTime.TryParse(dic["Start"],out start);
                 }
                 model.TimeService.PopulateTimelineFromSP(start);
-                model.TimeService.PopulateIOTimelineFromSP();
+                //model.TimeService.PopulateIOTimelineFromSP();
             }
             return succ;
         }

@@ -34,17 +34,18 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnLengend = new System.Windows.Forms.ToolStripButton();
             this.btnRemoveExisted = new System.Windows.Forms.ToolStripButton();
+            this.chbColorbar = new System.Windows.Forms.ToolStripButton();
             this.btnClear = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnShowSeries = new System.Windows.Forms.ToolStripButton();
             this.cmbColorMap = new System.Windows.Forms.ToolStripComboBox();
             this.cmbZScale = new System.Windows.Forms.ToolStripComboBox();
-            this.chbColorbar = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControlRight = new System.Windows.Forms.TabControl();
             this.tabPageSeries = new System.Windows.Forms.TabPage();
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.cmbTransform = new System.Windows.Forms.ToolStripComboBox();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -80,7 +81,8 @@
             this.toolStripSeparator1,
             this.btnShowSeries,
             this.cmbColorMap,
-            this.cmbZScale});
+            this.cmbZScale,
+            this.cmbTransform});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1054, 28);
@@ -107,6 +109,16 @@
             this.btnRemoveExisted.Name = "btnRemoveExisted";
             this.btnRemoveExisted.Size = new System.Drawing.Size(24, 25);
             this.btnRemoveExisted.Text = "Remove existed graphy";
+            // 
+            // chbColorbar
+            // 
+            this.chbColorbar.CheckOnClick = true;
+            this.chbColorbar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.chbColorbar.Image = global::Heiflow.Controls.WinForm.Properties.Resources.colorbar;
+            this.chbColorbar.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.chbColorbar.Name = "chbColorbar";
+            this.chbColorbar.Size = new System.Drawing.Size(24, 25);
+            this.chbColorbar.Text = "Show colorbar";
             // 
             // btnClear
             // 
@@ -175,16 +187,6 @@
             this.cmbZScale.Size = new System.Drawing.Size(160, 28);
             this.cmbZScale.Text = "1.0";
             // 
-            // chbColorbar
-            // 
-            this.chbColorbar.CheckOnClick = true;
-            this.chbColorbar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.chbColorbar.Image = global::Heiflow.Controls.WinForm.Properties.Resources.colorbar;
-            this.chbColorbar.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.chbColorbar.Name = "chbColorbar";
-            this.chbColorbar.Size = new System.Drawing.Size(24, 25);
-            this.chbColorbar.Text = "Show colorbar";
-            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -250,6 +252,15 @@
             this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
+            // cmbTransform
+            // 
+            this.cmbTransform.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbTransform.Items.AddRange(new object[] {
+            "None",
+            "Log"});
+            this.cmbTransform.Name = "cmbTransform";
+            this.cmbTransform.Size = new System.Drawing.Size(121, 28);
+            // 
             // View3DControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -290,5 +301,6 @@
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.ToolStripComboBox cmbZScale;
         private System.Windows.Forms.ToolStripButton chbColorbar;
+        private System.Windows.Forms.ToolStripComboBox cmbTransform;
     }
 }

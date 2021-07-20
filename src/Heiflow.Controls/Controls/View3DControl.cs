@@ -70,9 +70,7 @@ namespace Heiflow.Controls.WinForm.Controls
             checkedListBox1.Items.Clear();
             ((ListBox)this.checkedListBox1).DisplayMember = "ID";
             cmbColorMap.SelectedIndexChanged += cmbColorMap_SelectedIndexChanged;
-
-
-
+            cmbTransform.SelectedIndex = 0;
         }
 
         public void PlotSurface(ILArray<float> array)
@@ -97,10 +95,35 @@ namespace Heiflow.Controls.WinForm.Controls
             }
             else
             {
-                sf = new ILSurface(array)
+                if (cmbTransform.SelectedIndex == 1)
                 {
-                    Colormap = EnumHelper.FromString<Colormaps>(cmbColorMap.ComboBox.SelectedItem.ToString())
-                };
+                    ILArray<float> newarray = ILMath.zeros<float>(size[0], size[1]);
+                    for (int i = 0; i < size[0]; i++)
+                    {
+                        for (int j = 0; j < size[1]; j++)
+                        {
+                            if (array[i, j] > 0)
+                            {
+                                newarray[i, j] = (float)Math.Log((float)array[i, j]);
+                            }
+                            else
+                            {
+                                newarray[i, j] = 0;
+                            }
+                        }
+                    }
+                    sf = new ILSurface(newarray)
+                    {
+                        Colormap = EnumHelper.FromString<Colormaps>(cmbColorMap.ComboBox.SelectedItem.ToString())
+                    };
+                }
+                else
+                {
+                    sf = new ILSurface(array)
+                    {
+                        Colormap = EnumHelper.FromString<Colormaps>(cmbColorMap.ComboBox.SelectedItem.ToString())
+                    };
+                }
             }
 
             float scale = 1;

@@ -334,7 +334,7 @@ namespace Heiflow.Models.Generic
                     for (int t = 0; t < sp.StepOptions.Count; t++)
                     {
                         var current = sp_start;
-                        current = current.AddSeconds((sp.StepOptions[t].Step - 1) * TimeInteval);
+                        current = current.AddSeconds(sp.StepOptions[t].Step * TimeInteval);
                         if (sp.StepOptions[t].SaveBudget || sp.StepOptions[t].SaveHead)
                         {
                             IOTimeline.Add(current);
@@ -347,7 +347,7 @@ namespace Heiflow.Models.Generic
                     }
                 }
             }
-
+            End = IOTimeline.Last();
         }
 
         public void Clear()
@@ -505,19 +505,20 @@ namespace Heiflow.Models.Generic
                 if (sp.State == ModelState.SS)
                 {
                     Timeline.Add(start);
+                    sp.Dates.Add(start);
                 }
                 else
                 {
-                    var dts = this.TimeInteval * sp.NSTP;
-                    var step = sp.Length / sp.NSTP;
-                    sp.StepOptions.Clear();
+                    //var dts = this.TimeInteval * sp.NSTP;
+                    var step = sp.Length;// sp.NSTP;
+                    //sp.StepOptions.Clear();
                     for (int i = 0; i < step; i++)
                     {
-                        current = current.AddSeconds(dts);
+                        current = current.AddSeconds(this.TimeInteval);
                         sp.Dates.Add(current);
                         Timeline.Add(current);
-                        var op = new StepOption(sp.ID, i+ 1);
-                        sp.StepOptions.Add(op);
+                        //var op = new StepOption(sp.ID, i+ 1);
+                        //sp.StepOptions.Add(op);
                     }
                 }
             }

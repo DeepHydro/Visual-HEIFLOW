@@ -69,6 +69,16 @@ namespace Heiflow.Presentation.Animation
                             dt.Rows[i][RegularGrid.ParaValueField] = vector.GetValue(i);
                         }
                     }
+                    else
+                    {
+                        if(vector.Length == dt.Rows.Count* _DataSource.Layers)
+                        {
+                            for (int i = 0; i < dt.Rows.Count; i++)
+                            {
+                                dt.Rows[i][RegularGrid.ParaValueField] = vector.GetValue(i + dt.Rows.Count * _DataSource.SelectedLayerToShown);
+                            }
+                        }
+                    }
                     ApplyScheme(pck.FeatureLayer, RegularGrid.ParaValueField);
                 }
             }

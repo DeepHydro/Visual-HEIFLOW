@@ -160,6 +160,7 @@ namespace Heiflow.Models.Subsurface.VFT3D
             DataCube.Topology = (this.Grid as RegularGrid).Topology;
             DataCube.DateTimes = this.TimeService.Timeline.Take(StepsToLoad).ToArray();
             DataCube.Variables = this.Variables;
+            DataCube.Layers = grid.ActualLayerCount;
             var fn = string.Format("PHT3D{0}.ACN", (var_index + 1).ToString().PadLeft(3, '0'));
             //   var file = Path.Combine(Path.GetDirectoryName(this.FileName), fn);
             var file = Path.Combine(Owner.Project.AbsolutePathToProjectFile, fn);

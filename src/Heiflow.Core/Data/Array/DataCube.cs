@@ -241,6 +241,13 @@ namespace Heiflow.Core.Data
         }
         [XmlIgnore]
         [Browsable(false)]
+        public int Layers
+        {
+            get;
+            set;
+        }
+        [XmlIgnore]
+        [Browsable(false)]
         public TimeVarientFlag[] Flags
         {
             get;
@@ -1181,5 +1188,7 @@ namespace Heiflow.Core.Data
         //        }
         //    }
         //}
+
+
     }
 }

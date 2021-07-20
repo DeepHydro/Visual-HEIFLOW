@@ -298,6 +298,7 @@
     <Compile Include="Project\GlobalOptionForm.Designer.cs">
       <DependentUpon>GlobalOptionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Project\ImportSEAWATProperty.cs" />
     <Compile Include="Project\ImportMT3DMSProperty.cs" />
     <Compile Include="Project\ImportVFT3DProperty.cs" />
     <Compile Include="Project\MFTimeControl.cs">

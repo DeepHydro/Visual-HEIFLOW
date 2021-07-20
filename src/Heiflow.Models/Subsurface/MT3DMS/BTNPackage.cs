@@ -254,7 +254,19 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             get;
             set;
         }
-
+        [Browsable(false)]
+        public string[] SpeciesNames
+        {
+            get
+            {
+                var strs = new string[NCOMP];
+                for(int i=0;i<NCOMP;i++)
+                {
+                    strs[i] = "Species " + (i + 1);
+                }
+                return strs;
+            }
+        }
         [Category("Inactive Option")]
         [Description("Indicating an inactive concentration cell")]
         public float CINACT
