@@ -44,6 +44,7 @@ namespace Heiflow.Presentation.Controls
         public static string DCEditorPanel = "kDCEditor";
         public static string ProjectExplorerPanel = "kProjectExplorer";
         public static string AnimationPlayerPanel = "kAnimation";
+        public static string RunModelPanel = "kRunModel";
         public static string SymbologyPanel = "kSymbology";
         public static string WinChartPanel = "kWinChart";
         public static string SitePanel = "kSiteWindow";

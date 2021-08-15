@@ -165,13 +165,19 @@
     <Compile Include="Controls\DataCubeGrid.Designer.cs">
       <DependentUpon>DataCubeGrid.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\GridProfileViewer.cs">
+    <Compile Include="Controls\GridProfileAnimator.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Controls\GridProfileViewer.Designer.cs">
-      <DependentUpon>GridProfileViewer.cs</DependentUpon>
+    <Compile Include="Controls\GridProfileAnimator.Designer.cs">
+      <DependentUpon>GridProfileAnimator.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\ILSurfaceMeta.cs" />
+    <Compile Include="Controls\ProfileViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\ProfileViewer.Designer.cs">
+      <DependentUpon>ProfileViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\StatisticsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -292,6 +298,12 @@
       <DependentUpon>SoilModuleForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ProjectExplorer\Node\StaticVariabeArrayNodeCreator.cs" />
+    <Compile Include="Project\CreatHeiflowFromMFForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Project\CreatHeiflowFromMFForm.Designer.cs">
+      <DependentUpon>CreatHeiflowFromMFForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Project\GlobalOptionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -710,8 +722,11 @@
     <EmbeddedResource Include="Controls\DataCubeGrid.resx">
       <DependentUpon>DataCubeGrid.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\GridProfileViewer.resx">
-      <DependentUpon>GridProfileViewer.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\GridProfileAnimator.resx">
+      <DependentUpon>GridProfileAnimator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ProfileViewer.resx">
+      <DependentUpon>ProfileViewer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\StatisticsForm.resx">
       <DependentUpon>StatisticsForm.cs</DependentUpon>
@@ -769,6 +784,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Processing\SoilModuleForm.resx">
       <DependentUpon>SoilModuleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Project\CreatHeiflowFromMFForm.resx">
+      <DependentUpon>CreatHeiflowFromMFForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Project\GlobalOptionForm.resx">
       <DependentUpon>GlobalOptionForm.cs</DependentUpon>
@@ -938,6 +956,10 @@
     <ProjectReference Include="..\Heiflow.Processing\Heiflow.Plugins.Tools.csproj">
       <Project>{e5f99333-3e66-4a22-a519-07b78370f322}</Project>
       <Name>Heiflow.Plugins.Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Spatial\Heiflow.Spatial.csproj">
+      <Project>{2a3c4415-b678-4826-97d8-e25e6e63b088}</Project>
+      <Name>Heiflow.Spatial</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

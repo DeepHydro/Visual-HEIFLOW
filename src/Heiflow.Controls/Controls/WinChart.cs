@@ -83,6 +83,18 @@ namespace Heiflow.Controls.WinForm.Controls
             }
         }
 
+        public bool ClearExistesSeries
+        {
+            get
+            {
+                return btnClearExist.Checked;
+            }
+            set
+            {
+                btnClearExist.Checked = value;
+            }
+        }
+
         private void WinChart_Load(object sender, EventArgs e)
         {
             checkedListBox1.DisplayMember = "Name";

@@ -144,6 +144,7 @@
     <Compile Include="Generic\Attributes\TimeSeriesPackageItem.cs" />
     <Compile Include="Generic\Attributes\FileMonitorItem.cs" />
     <Compile Include="Generic\Attributes\VariableItem.cs" />
+    <Compile Include="GeoSpatial\GCSConverter.cs" />
     <Compile Include="IO\DataCubeFileFactory.cs" />
     <Compile Include="Generic\Delegates.cs" />
     <Compile Include="Generic\Enums.cs" />
@@ -407,7 +408,9 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.zh-CN.resx" />
+    <EmbeddedResource Include="Properties\Resources.zh-CN.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <None Include="Heiflow.Models.licenseheader" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

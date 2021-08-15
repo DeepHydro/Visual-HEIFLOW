@@ -204,6 +204,25 @@ namespace Heiflow.Plugins.Default.Properties {
         }
         
         /// <summary>
+        ///   查找类似 Create Grid From Modflow File 的本地化字符串。
+        /// </summary>
+        internal static string CreateGridFromMF {
+            get {
+                return ResourceManager.GetString("CreateGridFromMF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap cube128 {
+            get {
+                object obj = ResourceManager.GetObject("cube128", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 current layer 的本地化字符串。
         /// </summary>
         internal static string current_layer {
@@ -379,6 +398,26 @@ namespace Heiflow.Plugins.Default.Properties {
         internal static string Grid_group {
             get {
                 return ResourceManager.GetString("Grid_group", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap grid128 {
+            get {
+                object obj = ResourceManager.GetObject("grid128", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap grid48 {
+            get {
+                object obj = ResourceManager.GetObject("grid48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -672,6 +711,15 @@ namespace Heiflow.Plugins.Default.Properties {
         internal static string Parameter_Mapping_Tool {
             get {
                 return ResourceManager.GetString("Parameter_Mapping_Tool", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Profile Viewer 的本地化字符串。
+        /// </summary>
+        internal static string Profile_Viewer {
+            get {
+                return ResourceManager.GetString("Profile_Viewer", resourceCulture);
             }
         }
         

@@ -51,7 +51,8 @@ namespace Heiflow.Presentation.Services
         IProjectExplorer ProjectExplorer { get; set; }
         IPropertyView PropertyView { get; set; } 
         ISurfacePlotView SurfacePlot { get; set; }
-        IVerticalProfileView VerticalProfileView { get; set; }     
+        IVerticalProfileView VerticalProfileView { get; set; }
+        IProfileView ProfileView { get; set; }     
         INewProject NewProjectWindow { get; set; }
         IModelToolManager PackageToolManager { get; set; }
         IWin32Window MainForm { get; set; }

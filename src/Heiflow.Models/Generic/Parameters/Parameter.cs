@@ -651,5 +651,16 @@ namespace Heiflow.Models.Generic.Parameters
         {
             throw new NotImplementedException();
         }
+
+
+        public float[][] GetRowProfile(int row_index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public float[][] GetComunProfile(int col_index)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

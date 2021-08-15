@@ -26,7 +26,7 @@
 // copyright notices. If not, the GNU General Public License holds for them, too, 
 // but so that the author(s) of the file have the Copyright.
 //
-
+#define VHF
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -39,8 +39,10 @@ using System.Reflection;
 using System.Configuration;
 using Heiflow.Plugins.SplashScreen.Properties;
 
+
 namespace DotSpatial.Plugins.SplashScreenManager
 {
+
     public partial class BrandedSplashScreen : DevExpress.XtraSplashScreen.SplashScreen
     {
         [System.Runtime.InteropServices.DllImport("user32.dll")]
@@ -51,6 +53,11 @@ namespace DotSpatial.Plugins.SplashScreenManager
             InitializeComponent();
             LoadCustomBranding(Settings.Default);
             this.labelControl1.Text = "Copyright ©2016-2021 SUSTech. All Rights Reserved. Version 1.2.2";
+#if VHF
+            this.uxSplashImage.EditValue = global::Heiflow.Plugins.SplashScreen.Properties.Resources.splash_vhf;           
+#elif VFT3D
+             this.uxSplashImage.EditValue = global::Heiflow.Plugins.SplashScreen.Properties.Resources.splash_vft3d;
+#endif
         }
 
         private void LoadCustomBranding(Settings settings)

@@ -9,10 +9,10 @@
       <Value Profile="(Default)">select * from Sites</Value>
     </Setting>
     <Setting Name="LookupTableTemplateFile" Type="System.String" Scope="User">
-      <Value Profile="(Default)">.\Application Extensions\VHF\Config\Lookup_Table.csv</Value>
+      <Value Profile="(Default)">.\Application Extensions\VHF\Template\Lookup_Table.csv</Value>
     </Setting>
     <Setting Name="ZoneMapTemplateFile" Type="System.String" Scope="User">
-      <Value Profile="(Default)">.\Application Extensions\VHF\Config\Zone_Map.csv</Value>
+      <Value Profile="(Default)">.\Application Extensions\VHF\Template\Zone_Map.csv</Value>
     </Setting>
   </Settings>
 </SettingsFile>

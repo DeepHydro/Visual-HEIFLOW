@@ -503,35 +503,32 @@ namespace Heiflow.Models.Subsurface
             var sy = mf.LayerGroupManager.ConvertToFloat("SY");
             var wetdry = mf.LayerGroupManager.ConvertToFloat("WETDRY");
 
-            for (int l = 0; l < grid.ActualLayerCount; l++)
+            if (hk.Length == grid.ActualLayerCount)
             {
-                //if (LAYTYP[l] != 0)
-                //{
-                //    SY.Value[l][0] = new float[ncell];
-                //    if(LAYWET[l] != 0)
-                //        WETDRY.Value[l][0] = new float[ncell];
-                //}
-                for (int i = 0; i < ncell; i++)
+                for (int l = 0; l < grid.ActualLayerCount; l++)
                 {
-                    HK[l, 0, i] = hk[l];
-                    HANI[l, 0, i] = 1;
-                    VKA[l, 0, i] = vka[l];
-                    SS[l, 0, i] = ss[l];
-                    if (LAYTYP[l] != 0)
+                    for (int i = 0; i < ncell; i++)
                     {
-                        SY[l, 0, i] = sy[l];
+                        HK[l, 0, i] = hk[l];
+                        HANI[l, 0, i] = 1;
+                        VKA[l, 0, i] = vka[l];
+                        SS[l, 0, i] = ss[l];
+                        if (LAYTYP[l] != 0)
+                        {
+                            SY[l, 0, i] = sy[l];
+                        }
+                        if (LAYTYP[l] != 0 && LAYWET[l] != 0)
+                        {
+                            WETDRY[l, 0, i] = wetdry[l];
+                        }
                     }
-                    if (LAYTYP[l] != 0 && LAYWET[l] != 0)
-                    {
-                        WETDRY[l, 0, i] = wetdry[l];
-                    }
+                    HK.Variables[l] = "HK Layer" + (l + 1);
+                    HANI.Variables[l] = "HANI Layer" + (l + 1);
+                    VKA.Variables[l] = "VKA Layer" + (l + 1);
+                    SS.Variables[l] = "SS Layer" + (l + 1);
+                    SY.Variables[l] = "SY Layer" + (l + 1);
+                    WETDRY.Variables[l] = "WETDRY Layer" + (l + 1);
                 }
-                HK.Variables[l] = "HK Layer" + (l + 1);
-                HANI.Variables[l] = "HANI Layer" + (l + 1);
-                VKA.Variables[l] = "VKA Layer" + (l + 1);
-                SS.Variables[l] = "SS Layer" + (l + 1);
-                SY.Variables[l] = "SY Layer" + (l + 1);
-                WETDRY.Variables[l] = "WETDRY Layer" + (l + 1);
             }
             base.OnGridUpdated(sender);
         }

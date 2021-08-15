@@ -63,15 +63,9 @@ F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.Mai
 F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.csproj.GenerateResource.Cache
 F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.Studio\obj\Debug\Visual Heiflow.exe.licenses
 F:\System\HEIFLOW\VHF_GIT\VHF\Heiflow.Studio\obj\Debug\Visual Heiflow.pdb
-F:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Visual Heiflow.exe.config
-F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Visual Heiflow.exe
-F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Visual Heiflow.pdb
-F:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Visual Heiflow.exe
-F:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Visual Heiflow.pdb
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.LicenseForm.resources
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.MainForm.resources
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.csproj.GenerateResource.Cache
-F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Visual Heiflow.exe.licenses
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\bin\Debug\Visual Heiflow.exe.config
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Studio\obj\Debug\Visual Heiflow.exe
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Studio\obj\Debug\Visual Heiflow.pdb
@@ -83,7 +77,13 @@ E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Studio\obj\Debug\Heiflow.Model
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.csproj.GenerateResource.Cache
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Studio\obj\Debug\Visual Heiflow.exe.licenses
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.csprojResolveAssemblyReference.cache
-F:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\zh-CN\Visual Heiflow.resources.dll
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.Resources.resources
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.Resources.zh-CN.resources
-F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\zh-CN\Visual Heiflow.resources.dll
+F:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Visual HEIFLOW.exe.config
+F:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Visual HEIFLOW.exe
+F:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Visual HEIFLOW.pdb
+F:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\zh-CN\Visual HEIFLOW.resources.dll
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Visual HEIFLOW.exe.licenses
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\zh-CN\Visual HEIFLOW.resources.dll
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Visual HEIFLOW.exe
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Visual HEIFLOW.pdb

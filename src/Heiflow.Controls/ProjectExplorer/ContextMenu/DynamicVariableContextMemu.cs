@@ -181,16 +181,23 @@ namespace Heiflow.Controls.WinForm.MenuItems
                 mat.OwnerName = dp.Name;
                 mat.DataOwner = dp;
                 mat.SelectedLayerToShown = dp.SelectedLayerToShown;
-                var grid = (dp.Owner as Heiflow.Models.Subsurface.Modflow).Grid as IRegularGrid;
-                if (mat.Size[2] == grid.ActiveCellCount*grid.ActualLayerCount)
+                if (dp.Owner is Heiflow.Models.Subsurface.Modflow)
                 {
-                    _ShellService.VerticalProfileView.DataSource = mat;
-                    _ShellService.VerticalProfileView.Grid = grid;
-                    _ShellService.VerticalProfileView.ShowView(_ShellService.MainForm);
+                    var grid = (dp.Owner as Heiflow.Models.Subsurface.Modflow).Grid as IRegularGrid;
+                    if (mat.Size[2] == grid.ActiveCellCount * grid.ActualLayerCount)
+                    {
+                        _ShellService.VerticalProfileView.DataSource = mat;
+                        _ShellService.VerticalProfileView.Grid = grid;
+                        _ShellService.VerticalProfileView.ShowView(_ShellService.MainForm);
+                    }
+                    else
+                    {
+                        _ShellService.MessageService.ShowWarning(null, "You need to load data for all layers.");
+                    }
                 }
                 else
                 {
-                    _ShellService.MessageService.ShowWarning(null, "You need to load data for all layers.");
+                    _ShellService.MessageService.ShowWarning(null, "Not available.");
                 }
             }
         }

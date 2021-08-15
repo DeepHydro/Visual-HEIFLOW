@@ -32,6 +32,7 @@ using DotSpatial.Controls.Docking;
 using DotSpatial.Controls.Header;
 using Heiflow.Applications;
 using Heiflow.Controls.WinForm.Climate;
+using Heiflow.Controls.WinForm.Controls;
 using Heiflow.Controls.WinForm.Display;
 using Heiflow.Controls.WinForm.Modflow;
 using Heiflow.Controls.WinForm.Processing;
@@ -53,6 +54,7 @@ namespace Heiflow.Plugins.Default
         private SimpleActionItem _GlobalSet;
         private SimpleActionItem _ParaViewer;
         private SimpleActionItem _ParaMapping;
+        private SimpleActionItem _Create_GridFromMF;
 
         public ModelPlugin()
         {
@@ -89,7 +91,7 @@ namespace Heiflow.Plugins.Default
             App.HeaderControl.Add(_fd_grid);
 
 
-            _runCascade = new SimpleActionItem("kModel",Resources.Cascade, RunCascade_Clicked)
+            _runCascade = new SimpleActionItem("kModel", Resources.Cascade, RunCascade_Clicked)
             {
                 Key = "kRunCascade",
                 ToolTipText = Resources.Cascade,
@@ -132,6 +134,17 @@ namespace Heiflow.Plugins.Default
                 SortOrder = 0
             };
             App.HeaderControl.Add(_ParaMapping);
+
+            _Create_GridFromMF = new SimpleActionItem("kModel", Resources.CreateGridFromMF, CreateGridFromMF_Clicked)
+            {
+                Key = "kCreateGridFromMF",
+                ToolTipText = Resources.CreateGridFromMF,
+                GroupCaption = Resources.Tool_group,
+                LargeImage = Properties.Resources.grid128,
+                Enabled = true,
+                SortOrder = 0
+            };
+            App.HeaderControl.Add(_Create_GridFromMF);
 
             ProjectManager.ShellService.ParameterExplorerView = new ParameterExplorer();
         }
@@ -209,5 +222,26 @@ namespace Heiflow.Plugins.Default
                 dlg.ShowDialog();
             }
         }
+
+        private void CreateGridFromMF_Clicked(object sender, EventArgs e)
+        {
+            if (ProjectManager.Project != null)
+            {
+                if (ProjectManager.Project.Model.TimeService.Initialized)
+                {
+                    CreatHeiflowFromMFForm form = new CreatHeiflowFromMFForm(ProjectManager);
+                    form.ShowDialog();
+                }
+                else
+                {
+                    ProjectManager.ShellService.MessageService.ShowError(null, "The model time has not been set!");
+                }
+            }
+            else
+            {
+                ProjectManager.ShellService.MessageService.ShowError(null, "You need to open or creat a project at first");
+            }
+        }
+
     }
 }

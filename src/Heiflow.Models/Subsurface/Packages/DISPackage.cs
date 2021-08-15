@@ -79,7 +79,8 @@ namespace Heiflow.Models.Subsurface
             Version = "DIS";
             IsMandatory = true;
             _Layer3DToken = "RegularGrid";
-            Category = Resources.BasicCategory; ;
+            Category = Resources.BasicCategory;
+            ReadSP = true;
 
         }
         /// <summary>
@@ -102,6 +103,13 @@ namespace Heiflow.Models.Subsurface
         [Browsable(false)]
         [PackageOptionalViewItem("DIS")]
         public override UI.IPackageOptionalView OptionalView
+        {
+            get;
+            set;
+        }
+
+        [Browsable(false)]
+        public  bool ReadSP
         {
             get;
             set;
@@ -210,19 +218,23 @@ namespace Heiflow.Models.Subsurface
                     {
                         ReadSerialArray<float>(sr, grid.Elevations, l, 0);
                     }
-                    mf.TimeService.StressPeriods.Clear();
-                    for (int i = 0; i < np; i++)
+
+                    if (ReadSP)
                     {
-                        line = sr.ReadLine();
-                        var ss = TypeConverterEx.Split<string>(line);
-                        mf.TimeService.StressPeriods.Add(new StressPeriod()
+                        mf.TimeService.StressPeriods.Clear();
+                        for (int i = 0; i < np; i++)
                         {
-                            Length = (int)double.Parse(ss[0]),
-                            NSTP = (int)double.Parse(ss[1]),
-                            Multiplier = (int)double.Parse(ss[2]),
-                            State = ConvertFrom(ss[3]),
-                            ID = i + 1
-                        });
+                            line = sr.ReadLine();
+                            var ss = TypeConverterEx.Split<string>(line);
+                            mf.TimeService.StressPeriods.Add(new StressPeriod()
+                            {
+                                Length = (int)double.Parse(ss[0]),
+                                NSTP = (int)double.Parse(ss[1]),
+                                Multiplier = (int)double.Parse(ss[2]),
+                                State = ConvertFrom(ss[3]),
+                                ID = i + 1
+                            });
+                        }
                     }
                     result = LoadingState.Normal;
                     

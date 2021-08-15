@@ -507,6 +507,65 @@ namespace Heiflow.Core.Data
             return array;
         }
         /// <summary>
+        /// get a 2d array[nvar][num_col]
+        /// </summary>
+        /// <param name="var_index"></param>
+        /// <param name="row_index"></param>
+        /// <returns></returns>
+        public float[][] GetRowProfile( int row_index)
+        {
+            float[][] mat = new float[Size[0]][];
+            if (Topology != null)
+            {
+                for (int i = 0; i < Size[0]; i++)
+                {
+                    mat[i] = new float[Topology.ColumnCount];
+                    var vec = GetVector(i, "0", ":");
+                   var array = new T[Topology.RowCount, Topology.ColumnCount];
+                    for (int j = 0; j < vec.Length; j++)
+                    {
+                        var lc = Topology.ActiveCellLocation[j];
+                        array[lc[0], lc[1]] = vec[j];
+                    }
+                    for (int j = 0; j < Topology.ColumnCount; j++)
+                    {
+                        mat[i][j] = float.Parse(array[row_index, j].ToString());
+                    }
+                }
+            }
+            return mat;
+        }
+        /// <summary>
+        /// get a 2d array[nvar][num_row]
+        /// </summary>
+        /// <param name="var_index"></param>
+        /// <param name="col_index"></param>
+        /// <returns></returns>
+        public float[][] GetComunProfile(int col_index)
+        {
+            float[][] mat = new float[Size[0]][];
+            if (Topology != null)
+            {
+                for (int i = 0; i < Size[0]; i++)
+                {
+                    mat[i] = new float[Topology.RowCount];
+                    var vec = GetVector(i, "0", ":");
+                    var array = new T[Topology.RowCount, Topology.ColumnCount];
+                    for (int j = 0; j < vec.Length; j++)
+                    {
+                        var lc = Topology.ActiveCellLocation[j];
+                        array[lc[0], lc[1]] = vec[j];
+                    }
+                    for (int j = 0; j < Topology.RowCount; j++)
+                    {
+                        mat[i][j] = float.Parse(array[j, col_index].ToString());
+                    }
+                }
+            }
+            return mat;
+        }
+
+        /// <summary>
         /// retrieve value a given array. The array size must be [Topology.RowCount, Topology.ColumnCount]
         /// </summary>
         /// <param name="var_index"></param>

@@ -343,7 +343,7 @@ namespace Heiflow.Controls.WinForm.Display
         {
             var file = Path.Combine(Application.StartupPath, Heiflow.Controls.WinForm.Properties.Settings.Default.LookupTableTemplateFile);
             if (File.Exists(file))
-                System.Diagnostics.Process.Start("Explorer", "/select," + file);
+                System.Diagnostics.Process.Start("Explorer", "/e,/select," + file);
             else
                 MessageBox.Show("The template file is misssing: " + file, "Template File", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }

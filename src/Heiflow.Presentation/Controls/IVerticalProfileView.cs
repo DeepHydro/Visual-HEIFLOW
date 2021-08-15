@@ -49,4 +49,9 @@ namespace Heiflow.Presentation.Controls
         DataCube<float> DataSource { get; set; }
         IRegularGrid Grid { get; set; }
     }
+
+    public interface IProfileView : IChildView
+    {
+      
+    }
 }

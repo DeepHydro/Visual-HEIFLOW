@@ -294,4 +294,7 @@
   <data name="Weather_Generator" xml:space="preserve">
     <value>天气发生器</value>
   </data>
+  <data name="Profile_Viewer" xml:space="preserve">
+    <value>剖面浏览</value>
+  </data>
 </root>

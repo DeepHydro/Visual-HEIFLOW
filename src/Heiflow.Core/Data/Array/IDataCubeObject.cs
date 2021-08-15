@@ -82,6 +82,18 @@ namespace Heiflow.Core.Data
         bool IsAllocated(int var_index);
         ILBaseArray ToSpatialILBaseArray(int var_index, int time_index);
         string SizeString();
+        /// <summary>
+        /// get a 2d array[nvar][num_col]
+        /// </summary>
+        /// <param name="row_index"></param>
+        /// <returns></returns>
+        float[][] GetRowProfile(int row_index);
+        /// <summary>
+        ///  get a 2d array[nvar][num_row]
+        /// </summary>
+        /// <param name="col_index"></param>
+        /// <returns></returns>
+        float[][] GetComunProfile(int col_index);
     }
 
     public enum DataCubeType { General, Varient,Vector}

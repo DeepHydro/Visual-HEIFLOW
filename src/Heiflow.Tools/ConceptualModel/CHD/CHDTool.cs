@@ -69,7 +69,6 @@ namespace Heiflow.Tools.ConceptualModel
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
-            ModifyElevation = false;
             CHDCellElev = -2;
             AdaptingLayer = false;
         }
@@ -162,9 +161,17 @@ namespace Heiflow.Tools.ConceptualModel
             }
         }
 
+        //[Category("Parameter")]
+        //[Description("If yes, elevations for the MODFLOW cells will be modfied.")]
+        //public bool ModifyElevation
+        //{
+        //    get;
+        //    set;
+        //}
+
         [Category("Parameter")]
-        [Description("If yes, elevations for the MODFLOW cells will be modfied.")]
-        public bool ModifyElevation
+        [Description("If yes, extend CHD layers to the bottom rock")]
+        public bool ExtendToBottomRock
         {
             get;
             set;
@@ -281,8 +288,33 @@ namespace Heiflow.Tools.ConceptualModel
                                 var newlayer = FindHighestLayer(bound.Layer, index, elev, bound.SHead);
                                 bound.Layer = newlayer;
                             }
-                            if(bound.Layer != -1)
+                            if (bound.Layer != -1)
+                            {
                                 list.Add(bound);
+                                if(ExtendToBottomRock)
+                                {
+                                    if((bound.Layer+1) <= mfgrid.ActualLayerCount)
+                                    {
+                                        for (int k = bound.Layer + 1; k <= mfgrid.ActualLayerCount; k++)
+                                        {
+                                            CellHead bound1 = new CellHead()
+                                            {
+                                                Layer = k,
+                                                SHead = shead,
+                                                EHead = ehead,
+                                                Row = int.Parse(_grid_layer.DataTable.Rows[j]["ROW"].ToString()),
+                                                Col = int.Parse(_grid_layer.DataTable.Rows[j]["COLUMN"].ToString()),
+                                            };
+                                            list.Add(bound1);
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                var msg = string.Format("cell ({0},{1},{2}) is excluded", bound.Layer, bound.Row, bound.Col);
+                                cancelProgressHandler.Progress("Package_Tool", progress, msg);
+                            }
                             break;
                         }
                     }
@@ -327,33 +359,33 @@ namespace Heiflow.Tools.ConceptualModel
                     {
                         FlowRate.Flags[i] = TimeVarientFlag.Repeat;
                     }
-                    if (ModifyElevation)
-                    {
-                        for (int i = 0; i < pck.MXACTC; i++)
-                        {
-                            var bound = list[i];
-                            FlowRate[0, i, 0] = bound.Layer;
-                            FlowRate[0, i, 1] = bound.Row;
-                            FlowRate[0, i, 2] = bound.Col;
-                            FlowRate[0, i, 3] = bound.SHead;
-                            FlowRate[0, i, 4] = bound.EHead;
-                            var index = mfgrid.Topology.GetSerialIndex(bound.Row - 1, bound.Col - 1);
-                            if (elev[0, 0, index] > 0)
-                            {
-                                var heights = new float[mfgrid.ActualLayerCount];
-                                for (int j = 0; j < mfgrid.ActualLayerCount; j++)
-                                {
-                                    heights[j] = elev[j, 0, index] - elev[j + 1, 0, index];
-                                }
-                                elev[0, 0, index] = CHDCellElev;
-                                for (int j = 0; j < mfgrid.ActualLayerCount; j++)
-                                {
-                                    elev[j + 1, 0, index] = elev[j, 0, index] - heights[j];
-                                }
-                            }
-                        }
-                        cancelProgressHandler.Progress("Package_Tool", 100, "DIS package need to be saved.");
-                    }
+                    //if (ModifyElevation)
+                    //{
+                    //    for (int i = 0; i < pck.MXACTC; i++)
+                    //    {
+                    //        var bound = list[i];
+                    //        FlowRate[0, i, 0] = bound.Layer;
+                    //        FlowRate[0, i, 1] = bound.Row;
+                    //        FlowRate[0, i, 2] = bound.Col;
+                    //        FlowRate[0, i, 3] = bound.SHead;
+                    //        FlowRate[0, i, 4] = bound.EHead;
+                    //        var index = mfgrid.Topology.GetSerialIndex(bound.Row - 1, bound.Col - 1);
+                    //        if (elev[0, 0, index] > 0)
+                    //        {
+                    //            var heights = new float[mfgrid.ActualLayerCount];
+                    //            for (int j = 0; j < mfgrid.ActualLayerCount; j++)
+                    //            {
+                    //                heights[j] = elev[j, 0, index] - elev[j + 1, 0, index];
+                    //            }
+                    //            elev[0, 0, index] = CHDCellElev;
+                    //            for (int j = 0; j < mfgrid.ActualLayerCount; j++)
+                    //            {
+                    //                elev[j + 1, 0, index] = elev[j, 0, index] - heights[j];
+                    //            }
+                    //        }
+                    //    }
+                    //    cancelProgressHandler.Progress("Package_Tool", 100, "DIS package need to be saved.");
+                    //}
                     pck.SHEAD = FlowRate;
                     pck.CreateFeature(shell.MapAppManager.Map.Projection, prj.Project.GeoSpatialDirectory);
                     pck.BuildTopology();

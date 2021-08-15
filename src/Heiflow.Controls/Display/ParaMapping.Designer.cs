@@ -47,6 +47,7 @@
             this.bindingSourceLookup = new System.Windows.Forms.BindingSource(this.components);
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.btnImportLookup = new System.Windows.Forms.ToolStripButton();
+            this.bntExportLook = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
@@ -55,7 +56,6 @@
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.bntExportLook = new System.Windows.Forms.ToolStripButton();
             this.btnLocateLookTemplate = new System.Windows.Forms.ToolStripButton();
             this.btnLocateDic = new System.Windows.Forms.ToolStripButton();
             this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -64,6 +64,7 @@
             this.bindingSourceZone = new System.Windows.Forms.BindingSource(this.components);
             this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
             this.btnImportZone = new System.Windows.Forms.ToolStripButton();
+            this.btnExportZone = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMovePreviousItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator = new System.Windows.Forms.ToolStripSeparator();
@@ -72,7 +73,6 @@
             this.bindingNavigatorMoveNextItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
             this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnExportZone = new System.Windows.Forms.ToolStripButton();
             this.btnZoneTemplateFile = new System.Windows.Forms.ToolStripButton();
             this.btnLocateZoneDic = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -107,6 +107,7 @@
             this.chbProp.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.chbProp.CheckOnClick = true;
             this.chbProp.ContextMenuStrip = this.contextMenuStripAreal;
             this.chbProp.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.chbProp.FormattingEnabled = true;
@@ -236,6 +237,7 @@
             this.bindingNavigatorLookup.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.bindingNavigatorLookup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnImportLookup,
+            this.bntExportLook,
             this.toolStripButton3,
             this.toolStripButton4,
             this.toolStripSeparator3,
@@ -245,7 +247,6 @@
             this.toolStripButton5,
             this.toolStripButton6,
             this.toolStripSeparator5,
-            this.bntExportLook,
             this.btnLocateLookTemplate,
             this.btnLocateDic});
             this.bindingNavigatorLookup.Location = new System.Drawing.Point(3, 3);
@@ -273,9 +274,19 @@
             this.btnImportLookup.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnImportLookup.Name = "btnImportLookup";
             this.btnImportLookup.Size = new System.Drawing.Size(24, 24);
-            this.btnImportLookup.Text = "Import lookup table from a csv file. The first column is  ID. The second column i" +
-    "s Layer. The rest columns are names of areal properties";
+            this.btnImportLookup.Text = "Import lookup table from a csv file. The column names must contain LAYER_ID and Z" +
+    "ONE_ID. The rest column names are areal properties.";
             this.btnImportLookup.Click += new System.EventHandler(this.btnImportLookup_Click);
+            // 
+            // bntExportLook
+            // 
+            this.bntExportLook.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.bntExportLook.Image = global::Heiflow.Controls.WinForm.Properties.Resources.excel_32;
+            this.bntExportLook.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.bntExportLook.Name = "bntExportLook";
+            this.bntExportLook.Size = new System.Drawing.Size(24, 24);
+            this.bntExportLook.Text = "Export template file";
+            this.bntExportLook.Click += new System.EventHandler(this.bntExportLook_Click);
             // 
             // toolStripButton3
             // 
@@ -337,20 +348,10 @@
             this.toolStripSeparator5.Name = "toolStripSeparator5";
             this.toolStripSeparator5.Size = new System.Drawing.Size(6, 27);
             // 
-            // bntExportLook
-            // 
-            this.bntExportLook.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.bntExportLook.Image = global::Heiflow.Controls.WinForm.Properties.Resources.csv_3_24;
-            this.bntExportLook.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.bntExportLook.Name = "bntExportLook";
-            this.bntExportLook.Size = new System.Drawing.Size(24, 24);
-            this.bntExportLook.Text = "Export template file";
-            this.bntExportLook.Click += new System.EventHandler(this.bntExportLook_Click);
-            // 
             // btnLocateLookTemplate
             // 
             this.btnLocateLookTemplate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnLocateLookTemplate.Image = global::Heiflow.Controls.WinForm.Properties.Resources.excel_32;
+            this.btnLocateLookTemplate.Image = global::Heiflow.Controls.WinForm.Properties.Resources.csv_3_24;
             this.btnLocateLookTemplate.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLocateLookTemplate.Name = "btnLocateLookTemplate";
             this.btnLocateLookTemplate.Size = new System.Drawing.Size(24, 24);
@@ -411,6 +412,7 @@
             this.bindingNavigatorZone.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.bindingNavigatorZone.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnImportZone,
+            this.btnExportZone,
             this.bindingNavigatorMoveFirstItem,
             this.bindingNavigatorMovePreviousItem,
             this.bindingNavigatorSeparator,
@@ -420,7 +422,6 @@
             this.bindingNavigatorMoveNextItem,
             this.bindingNavigatorMoveLastItem,
             this.bindingNavigatorSeparator2,
-            this.btnExportZone,
             this.btnZoneTemplateFile,
             this.btnLocateZoneDic});
             this.bindingNavigatorZone.Location = new System.Drawing.Point(3, 3);
@@ -448,9 +449,19 @@
             this.btnImportZone.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnImportZone.Name = "btnImportZone";
             this.btnImportZone.Size = new System.Drawing.Size(24, 24);
-            this.btnImportZone.Text = "Import Zone ID table from a csv file. The column names must be HRU_ID, Layer, Zon" +
-    "e_ID";
+            this.btnImportZone.Text = "Import Zone ID table from a csv file. The column names must be HRU_ID, LAYER_ID a" +
+    "nd Zone_ID";
             this.btnImportZone.Click += new System.EventHandler(this.btnImportZone_Click);
+            // 
+            // btnExportZone
+            // 
+            this.btnExportZone.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnExportZone.Image = global::Heiflow.Controls.WinForm.Properties.Resources.excel_32;
+            this.btnExportZone.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnExportZone.Name = "btnExportZone";
+            this.btnExportZone.Size = new System.Drawing.Size(24, 24);
+            this.btnExportZone.Text = "Export template file";
+            this.btnExportZone.Click += new System.EventHandler(this.btnExportZone_Click);
             // 
             // bindingNavigatorMoveFirstItem
             // 
@@ -512,20 +523,10 @@
             this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
             this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 27);
             // 
-            // btnExportZone
-            // 
-            this.btnExportZone.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnExportZone.Image = global::Heiflow.Controls.WinForm.Properties.Resources.csv_3_24;
-            this.btnExportZone.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnExportZone.Name = "btnExportZone";
-            this.btnExportZone.Size = new System.Drawing.Size(24, 24);
-            this.btnExportZone.Text = "Export template file";
-            this.btnExportZone.Click += new System.EventHandler(this.btnExportZone_Click);
-            // 
             // btnZoneTemplateFile
             // 
             this.btnZoneTemplateFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnZoneTemplateFile.Image = global::Heiflow.Controls.WinForm.Properties.Resources.excel_32;
+            this.btnZoneTemplateFile.Image = global::Heiflow.Controls.WinForm.Properties.Resources.csv_3_24;
             this.btnZoneTemplateFile.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnZoneTemplateFile.Name = "btnZoneTemplateFile";
             this.btnZoneTemplateFile.Size = new System.Drawing.Size(24, 24);

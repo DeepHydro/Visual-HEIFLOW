@@ -38,8 +38,8 @@ namespace Heiflow.Models.Generic
 {
      public interface IGridFileProvider:IFileProvider
     {
+         SpatialReference SpatialReference { get; set; }
           IGrid Provide(string filename);
-
           void Save(string filename, IGrid grid);
     }
 }

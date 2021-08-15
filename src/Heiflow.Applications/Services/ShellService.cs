@@ -63,6 +63,7 @@ namespace Heiflow.Applications.Services
         protected IDataCubeEditor _TV3DMatEditor;
         protected IParameterExplorerView _IParameterExplorerView;
         protected IVerticalProfileView _IVerticalProfileView;
+        protected IProfileView _IProfileView;
         protected List<IChildView> _ChildViews = new List<IChildView>();
         public object ShellView
         {
@@ -126,6 +127,12 @@ namespace Heiflow.Applications.Services
         {
             get { return _IVerticalProfileView; }
             set { SetProperty(ref _IVerticalProfileView, value); }
+        }
+
+        public IProfileView ProfileView
+        {
+            get { return _IProfileView; }
+            set { SetProperty(ref _IProfileView, value); }
         }
 
         public IModelToolManager PackageToolManager

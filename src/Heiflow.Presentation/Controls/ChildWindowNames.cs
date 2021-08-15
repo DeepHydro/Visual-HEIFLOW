@@ -40,5 +40,6 @@ namespace Heiflow.Presentation.Controls
         public static string Win3DView = "Win3DView";
         public static string WinChartView = "WinChartView";
         public static string GridProfileView = "GridProfileView";
+        public static string ProfileViewer = "ProfileViewer";
     }
 }

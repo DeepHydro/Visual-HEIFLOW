@@ -1,6 +1,6 @@
 ﻿namespace Heiflow.Controls.WinForm.Controls
 {
-    partial class GridProfileViewer
+    partial class GridProfileAnimator
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridProfileViewer));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridProfileAnimator));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -48,10 +48,10 @@
             this.comboBoxRows = new System.Windows.Forms.ComboBox();
             this.radioButtonRow = new System.Windows.Forms.RadioButton();
             this.radioButtonCol = new System.Windows.Forms.RadioButton();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.view3DControl1 = new Heiflow.Controls.WinForm.Controls.View3DControl();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.colorSlider1 = new Heiflow.Controls.WinForm.ColorSlider();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -289,19 +289,6 @@
             this.radioButtonCol.UseVisualStyleBackColor = true;
             this.radioButtonCol.CheckedChanged += new System.EventHandler(this.radioButtonCol_CheckedChanged);
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.colorSlider1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 595);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(850, 30);
-            this.panel1.TabIndex = 0;
-            // 
-            // timer1
-            // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
             // view3DControl1
             // 
             this.view3DControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -311,6 +298,15 @@
             this.view3DControl1.Name = "view3DControl1";
             this.view3DControl1.Size = new System.Drawing.Size(850, 595);
             this.view3DControl1.TabIndex = 1;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.colorSlider1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(0, 595);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(850, 30);
+            this.panel1.TabIndex = 0;
             // 
             // colorSlider1
             // 
@@ -334,7 +330,11 @@
             this.colorSlider1.ValueChanged += new System.EventHandler(this.colorSlider1_ValueChanged);
             this.colorSlider1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.colorSlider1_Scroll);
             // 
-            // GridProfileViewer
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // GridProfileAnimator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -343,8 +343,8 @@
             this.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.Name = "GridProfileViewer";
-            this.Text = "Grid Profile Viewer";
+            this.Name = "GridProfileAnimator";
+            this.Text = "Grid Profile Animator";
             this.Load += new System.EventHandler(this.GridProfileViewer_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();

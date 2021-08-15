@@ -39,11 +39,11 @@ namespace Heiflow.Presentation.Controls.Project
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
+            this.lstPrjTemplate = new Heiflow.Controls.WinForm.Controls.MyListView();
             this.chbImprot = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.cmbVersion = new System.Windows.Forms.ComboBox();
-            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
-            this.lstPrjTemplate = new Heiflow.Controls.WinForm.Controls.MyListView();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -61,9 +61,8 @@ namespace Heiflow.Presentation.Controls.Project
             this.txtPrjName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtPrjName.Location = new System.Drawing.Point(101, 368);
             this.txtPrjName.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.txtPrjName.Multiline = true;
             this.txtPrjName.Name = "txtPrjName";
-            this.txtPrjName.Size = new System.Drawing.Size(435, 24);
+            this.txtPrjName.Size = new System.Drawing.Size(435, 27);
             this.txtPrjName.TabIndex = 1;
             this.txtPrjName.TextChanged += new System.EventHandler(this.txtPrjName_TextChanged);
             // 
@@ -81,9 +80,8 @@ namespace Heiflow.Presentation.Controls.Project
             this.txtPrjDir.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtPrjDir.Location = new System.Drawing.Point(101, 401);
             this.txtPrjDir.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.txtPrjDir.Multiline = true;
             this.txtPrjDir.Name = "txtPrjDir";
-            this.txtPrjDir.Size = new System.Drawing.Size(435, 24);
+            this.txtPrjDir.Size = new System.Drawing.Size(435, 27);
             this.txtPrjDir.TabIndex = 1;
             // 
             // btnBrowse
@@ -127,6 +125,25 @@ namespace Heiflow.Presentation.Controls.Project
             this.panel1.Size = new System.Drawing.Size(659, 327);
             this.panel1.TabIndex = 4;
             // 
+            // propertyGrid1
+            // 
+            this.propertyGrid1.Location = new System.Drawing.Point(446, 8);
+            this.propertyGrid1.Name = "propertyGrid1";
+            this.propertyGrid1.Size = new System.Drawing.Size(210, 310);
+            this.propertyGrid1.TabIndex = 1;
+            // 
+            // lstPrjTemplate
+            // 
+            this.lstPrjTemplate.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lstPrjTemplate.HideSelection = false;
+            this.lstPrjTemplate.Location = new System.Drawing.Point(12, 8);
+            this.lstPrjTemplate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.lstPrjTemplate.Name = "lstPrjTemplate";
+            this.lstPrjTemplate.Size = new System.Drawing.Size(428, 310);
+            this.lstPrjTemplate.TabIndex = 0;
+            this.lstPrjTemplate.UseCompatibleStateImageBehavior = false;
+            this.lstPrjTemplate.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lstPrjTemplate_ItemSelectionChanged);
+            // 
             // chbImprot
             // 
             this.chbImprot.AutoSize = true;
@@ -153,25 +170,6 @@ namespace Heiflow.Presentation.Controls.Project
             this.cmbVersion.Name = "cmbVersion";
             this.cmbVersion.Size = new System.Drawing.Size(163, 28);
             this.cmbVersion.TabIndex = 6;
-            // 
-            // propertyGrid1
-            // 
-            this.propertyGrid1.Location = new System.Drawing.Point(446, 8);
-            this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(210, 310);
-            this.propertyGrid1.TabIndex = 1;
-            // 
-            // lstPrjTemplate
-            // 
-            this.lstPrjTemplate.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lstPrjTemplate.HideSelection = false;
-            this.lstPrjTemplate.Location = new System.Drawing.Point(12, 8);
-            this.lstPrjTemplate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.lstPrjTemplate.Name = "lstPrjTemplate";
-            this.lstPrjTemplate.Size = new System.Drawing.Size(428, 310);
-            this.lstPrjTemplate.TabIndex = 0;
-            this.lstPrjTemplate.UseCompatibleStateImageBehavior = false;
-            this.lstPrjTemplate.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lstPrjTemplate_ItemSelectionChanged);
             // 
             // NewProjectionForm
             // 

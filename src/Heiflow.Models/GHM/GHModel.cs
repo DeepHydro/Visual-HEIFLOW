@@ -28,6 +28,7 @@
 //
 
 using DotSpatial.Data;
+using DotSpatial.Projections;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Packages;
@@ -172,6 +173,8 @@ namespace Heiflow.Models.GHM
         {
             _GridLayer = (from layer in _GHMSerializer.Layers where layer.Name == "Grid" select layer).First();
             var provider = this.GridFileFactory.Select(_GridLayer.FullDataSource);
+            provider.SpatialReference = _GHMSerializer.SpatialReference;
+            provider.SpatialReference.sr = Path.Combine(Path.GetDirectoryName(ControlFileName), provider.SpatialReference.sr);
             var grid = provider.Provide(_GridLayer.FullDataSource);
             grid.Extent(_GHMSerializer.SpatialReference);
             grid.BuildTopology();
@@ -194,5 +197,7 @@ namespace Heiflow.Models.GHM
         {
             throw new NotImplementedException();
         }
+
+        
     }
 }

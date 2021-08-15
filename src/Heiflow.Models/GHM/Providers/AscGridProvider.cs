@@ -47,7 +47,11 @@ namespace Heiflow.Models.GHM
         {
 
         }
-
+        public SpatialReference SpatialReference
+        {
+            get;
+            set;
+        }
 
         public string FileTypeDescription
         {
@@ -110,5 +114,7 @@ namespace Heiflow.Models.GHM
         {
             throw new NotImplementedException();
         }
+
+
     }
 }

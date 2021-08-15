@@ -313,8 +313,6 @@ namespace Heiflow.Models.IO
                 progress = Convert.ToInt32(t * 100 / nstep);
                 OnLoading(progress);
             }
-            if (progress < 100)
-                OnLoading(100);
             br.Close();
             fs.Close();
             OnDataCubedLoaded(DataCube);

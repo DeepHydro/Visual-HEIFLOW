@@ -27,9 +27,11 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using DotSpatial.Projections;
 using GeoAPI.Geometries;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
+using Heiflow.Models.GeoSpatial;
 using NetTopologySuite.Geometries;
 using System;
 using System.Collections.Generic;
@@ -48,7 +50,11 @@ namespace Heiflow.Models.Surface.MIKE
         {
       
         }
-
+        public SpatialReference SpatialReference
+        {
+            get;
+            set;
+        }
         public string FileTypeDescription
         {
             get
@@ -70,6 +76,23 @@ namespace Heiflow.Models.Surface.MIKE
             get;
             set;
         }
+        private GCSConverter GetGSCConverter(string prjfile)
+        {
+            ProjectionInfo srcinfo = KnownCoordinateSystems.Geographic.World.WGS1984;
+            if (File.Exists(prjfile))
+            {
+                StreamReader sr = new StreamReader(prjfile);
+                var esristr = sr.ReadLine();
+                srcinfo = ProjectionInfo.FromEsriString(esristr);
+                sr.Close();
+            }
+            GCSConverter gcs = new GCSConverter()
+            {
+                SourceProjection = srcinfo,
+                Hemi = GCSConverter.Hemisphere.Northern
+            };
+            return gcs;
+        }
 
         public IGrid Provide(string filename)
         {
@@ -85,12 +108,27 @@ namespace Heiflow.Models.Surface.MIKE
                 grid.Vertex = new Coordinate[grid.VertexCount];
                 Dictionary<uint, List<uint>> map = new Dictionary<uint, List<uint>>();
 
-                for (uint i = 0; i < grid.VertexCount; i++)
+                if (SpatialReference != null)
                 {
-                    line = sr.ReadLine();
-                    cstr = TypeConverterEx.Split<string>(line);
-                    grid.Vertex[i] = new Coordinate(double.Parse(cstr[1]), double.Parse(cstr[2]), double.Parse(cstr[3]));
-                    map[i] = new List<uint>();
+                    var gcs = GetGSCConverter(SpatialReference.sr);
+                    for (uint i = 0; i < grid.VertexCount; i++)
+                    {
+                        line = sr.ReadLine();
+                        cstr = TypeConverterEx.Split<string>(line);
+                        gcs.ToLatLon(double.Parse(cstr[1]), double.Parse(cstr[2]));
+                        grid.Vertex[i] = new Coordinate(gcs.Longitude,gcs.Latitude, double.Parse(cstr[3]));
+                        map[i] = new List<uint>();
+                    }
+                }
+                else
+                {
+                    for (uint i = 0; i < grid.VertexCount; i++)
+                    {
+                        line = sr.ReadLine();
+                        cstr = TypeConverterEx.Split<string>(line);
+                        grid.Vertex[i] = new Coordinate(double.Parse(cstr[1]), double.Parse(cstr[2]), double.Parse(cstr[3]));
+                        map[i] = new List<uint>();
+                    }
                 }
 
                 double xxmin = (from vert in grid.Vertex select vert.X).Min();
@@ -153,5 +191,7 @@ namespace Heiflow.Models.Surface.MIKE
         {
 
         }
+
+
     }
 }

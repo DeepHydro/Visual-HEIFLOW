@@ -61,7 +61,7 @@ namespace Heiflow.Models.Studio {
         }
         
         /// <summary>
-        ///   查找类似  的本地化字符串。
+        ///   查找类似 Map View 的本地化字符串。
         /// </summary>
         internal static string Map_panel {
             get {

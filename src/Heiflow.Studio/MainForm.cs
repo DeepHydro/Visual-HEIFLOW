@@ -26,7 +26,7 @@
 // copyright notices. If not, the GNU General Public License holds for them, too, 
 // but so that the author(s) of the file have the Copyright.
 //
-
+#define VHF
 namespace Heiflow.Models.Studio
 {
     using System.Windows.Forms;
@@ -67,8 +67,8 @@ namespace Heiflow.Models.Studio
         public MainForm()
         {
          // SecurityFile.Generate("e:\\vgs.dll", "cfgt-2lp5-cwp3-drkm", "VHF");
-            //Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("zh-CN");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
+            //Thread.CurrentThread.CurrentUICulture = new CultureInfo("zh-CN");
             this.InitializeComponent();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 
@@ -87,10 +87,12 @@ namespace Heiflow.Models.Studio
             appManager1.Catalog.Catalogs.Add(new AssemblyCatalog(toolDll));
 
             _VHFAppManager = new VHFAppManager();
-           // _VHFAppManager.AppName = "Visual HEIFLOW";
+#if VHF
+            _VHFAppManager.AppName = "Visual HEIFLOW";
+            
+#elif VFT3D
             _VHFAppManager.AppName = "Visual VFT3D";
-           // _VHFAppManager.Icon = ((System.Drawing.Icon)(resources.GetObject("heiflow")));
-
+#endif
             //_VHFAppManager.AppName = "山洪模拟及水情预报系统";
             //_VHFAppManager.Icon = ((System.Drawing.Icon)(resources.GetObject("heiflow")));
 

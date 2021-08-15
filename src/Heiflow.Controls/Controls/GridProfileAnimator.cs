@@ -6,6 +6,7 @@ using ILNumerics;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.Composition;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -15,14 +16,15 @@ using System.Windows.Forms;
 
 namespace Heiflow.Controls.WinForm.Controls
 {
-    public partial class GridProfileViewer : Form, IVerticalProfileView
+        [Export(typeof(IVerticalProfileView))]
+    public partial class GridProfileAnimator : Form, IVerticalProfileView
     {
         private DataCube<float> _datasource;
         private IRegularGrid _MFGrid;
         private int _curStep = 0;
         private bool _isPlaying = false;
 
-        public GridProfileViewer()
+        public GridProfileAnimator()
         {
             InitializeComponent();
             this.FormClosing += GridProfileViewer_FormClosing;
@@ -171,7 +173,7 @@ namespace Heiflow.Controls.WinForm.Controls
             var var_index = comboBoxVariable.SelectedIndex;
             if (var_index < 0)
             {
-                MessageBox.Show("Selecte an variable please.", "Variable", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Selecte an variable please.", "Variable", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 

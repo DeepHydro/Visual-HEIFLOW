@@ -45,12 +45,14 @@ namespace Heiflow.Plugins.View3DPanel
     public class View3DPlugin : Extension
     {
         private Win3DView _Win3DView;
-        private GridProfileViewer _GridProfileViewer;
+        private GridProfileAnimator _GridProfileViewer;
+        private Profile_Viewer _Profile_Viewer;
         public View3DPlugin()
         {
             DeactivationAllowed = false;
             _Win3DView = new Win3DView();
-            _GridProfileViewer = new GridProfileViewer();
+            _GridProfileViewer = new GridProfileAnimator();
+            _Profile_Viewer = new Profile_Viewer();
         }
 
 
@@ -92,12 +94,25 @@ namespace Heiflow.Plugins.View3DPanel
             };
             App.HeaderControl.Add(gridprofileViewer);
 
+            var profileViewer = new SimpleActionItem("kView", Resources.Profile_Viewer, delegate(object sender, EventArgs e)
+            { ProjectManager.ShellService.ProfileView.ShowView(ProjectManager.ShellService.MainForm); })
+            {
+                Key = "kProfileViewer",
+                ToolTipText = Resources.Profile_Viewer,
+                GroupCaption = Resources.Data_Group,
+                LargeImage = Resources.cube128
+            };
+            App.HeaderControl.Add(profileViewer);
+
             base.Activate();
             ProjectManager.ShellService.SurfacePlot = _Win3DView;
             ProjectManager.ShellService.AddChild(_Win3DView);
 
             ProjectManager.ShellService.VerticalProfileView = _GridProfileViewer;
             ProjectManager.ShellService.AddChild(_GridProfileViewer);
+
+            ProjectManager.ShellService.ProfileView = _Profile_Viewer;
+            ProjectManager.ShellService.AddChild(_Profile_Viewer);
 
         }
 
