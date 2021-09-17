@@ -17,11 +17,13 @@ namespace Heiflow.Models.GHM
     public class GHMVariable : DataPackage, INotifyPropertyChanged
     {
         private bool _LoadAllVars;
+        private bool _ValueAsDepth;
         public GHMVariable()
         {
             Start = DateTime.Now;
             TimeInteval = 86400;
             LoadAllVars = false;
+            _ValueAsDepth = false;
         }
 
         [Browsable(false)]
@@ -53,6 +55,13 @@ namespace Heiflow.Models.GHM
             set;
         }
 
+        [XmlElement]
+        public string AsDepth
+        {
+            get;
+            set;
+        }
+
         [XmlIgnore]
         public bool LoadAllVars
         {
@@ -64,6 +73,20 @@ namespace Heiflow.Models.GHM
             private set
             {
                 _LoadAllVars = value;
+            }
+        }
+
+        [XmlIgnore]
+        public bool ValueAsDepth
+        {
+            get
+            {
+                _ValueAsDepth = AsDepth.ToUpper() == "TRUE"; 
+                return _ValueAsDepth;
+            }
+            private set
+            {
+                _ValueAsDepth = value;
             }
         }
 

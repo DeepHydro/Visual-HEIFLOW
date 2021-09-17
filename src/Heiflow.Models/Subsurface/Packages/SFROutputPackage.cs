@@ -72,7 +72,7 @@ namespace Heiflow.Models.Subsurface
             _SFRPackage = sfr;
             _Layer3DToken = "SFR";
             Variables = DefaultAttachedVariables;
-            Category = Resources.OutputCategory; 
+            Category = Resources.ModelOutput; 
             Offset = 0;
             OutputFormat = FileFormat.Text;
         }

@@ -62,6 +62,8 @@ namespace Heiflow.Controls.WinForm.Processing
             this.dataGridView1.DataSource = bindingSource1;
             if(_ProjectService != null)
                 _Cascade.Initialize(_ProjectService.Project);
+
+            propertyGrid1.SelectedObject = _Cascade.Property;
         }
 
         private void btnRun_Click(object sender, EventArgs e)
@@ -123,7 +125,7 @@ namespace Heiflow.Controls.WinForm.Processing
                 this.bindingSource1.DataSource = dt;
                 this.dataGridView1.DataSource = bindingSource1;
             }
-       
+
         }
     }
 }

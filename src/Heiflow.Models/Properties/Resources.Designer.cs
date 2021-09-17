@@ -136,6 +136,15 @@ namespace Heiflow.Models.Properties {
         }
         
         /// <summary>
+        ///   查找类似 Outputs 的本地化字符串。
+        /// </summary>
+        internal static string ModelOutput {
+            get {
+                return ResourceManager.GetString("ModelOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Multicomponent Transport 的本地化字符串。
         /// </summary>
         internal static string MT3DCategory {

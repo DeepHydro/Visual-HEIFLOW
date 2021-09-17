@@ -47,6 +47,8 @@ namespace Heiflow.Tools.ConceptualModel
         public ReachFeatureCollection(int segid)
         {
             SegmentID = segid;
+            DistanceToOutlet = 0;
+            TotalLength = 0;
            // Reaches = new SortedList<double, ReachFeature>();
         }
 
@@ -55,6 +57,12 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             set;
         }
+        public int OrderedSegmentID
+        {
+            get;
+            set;
+        }
+
         public int OutSegmentID
         {
             get;
@@ -72,6 +80,17 @@ namespace Heiflow.Tools.ConceptualModel
             {
                 return Reaches.Keys.Count;
             }
+        }
+
+        public double TotalLength
+        {
+            get;
+            set;
+        }
+        public double DistanceToOutlet
+        {
+            get;
+            set;
         }
     }
 

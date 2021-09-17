@@ -57,7 +57,6 @@ namespace Heiflow.Models.IO
             Dictionary<string, IParameter> parameters = new Dictionary<string, IParameter>();
             if (File.Exists(_FileName))
             {
-            
                 StreamReader sr = new StreamReader(_FileName);
                 var txt = sr.ReadToEnd().Trim();
                 var lines = txt.Split(new char[] { '\n' });

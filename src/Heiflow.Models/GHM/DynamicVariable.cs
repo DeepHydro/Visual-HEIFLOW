@@ -57,6 +57,25 @@ namespace Heiflow.Models.GHM
                 this.DataCube.DateTimes[i] = current;
                 current = current.AddSeconds(TimeInteval);
             }
+            if (ValueAsDepth)
+            {
+                var elev = (this.Owner.Grid as TriangularGrid).Elevations.GetVector(0, "0", ":");
+                for (int i = 0; i < this.DataCube.Size[0]; i++)
+                {
+                    if (this.DataCube[i] != null)
+                    {
+                        for (int j = 0; j < this.DataCube.Size[1]; j++)
+                        {
+                            var buf = this.DataCube.GetVector(0, j.ToString(), ":");
+                            for (int k = 0; k < buf.Length; k++)
+                            {
+                                buf[k] = -elev[k] + buf[k];
+                            }
+                            this.DataCube[i][j, ":"] = buf;
+                        }
+                    }
+                }
+            }
             OnLoaded(_progess, sate);
         }
 

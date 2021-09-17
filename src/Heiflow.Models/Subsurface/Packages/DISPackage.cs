@@ -59,6 +59,7 @@ namespace Heiflow.Models.Subsurface
     /// 
     [PackageItem]
     [Export(typeof(IMFPackage))]
+    [CoverageItem]
     [PackageCategory("Basic", true)]
     public class DISPackage : MFPackage
     {

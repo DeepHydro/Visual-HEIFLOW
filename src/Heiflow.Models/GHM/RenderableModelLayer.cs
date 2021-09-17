@@ -43,7 +43,9 @@ namespace Heiflow.Models.GHM
     {
         public RenderableModelLayer()
         {
+            LayerIsOn = true;
         }
+        private bool _LayerIsOn = true;
 
         [XmlAttribute]
         public string Name
@@ -51,11 +53,18 @@ namespace Heiflow.Models.GHM
             get;
             set;
         }
-        [XmlAttribute]
-        public bool IsOn
+        [XmlIgnore]
+        public bool LayerIsOn
         {
-            get;
-            set;
+            get
+            {
+                _LayerIsOn = IsOn.ToUpper() == "TRUE";
+                return _LayerIsOn;
+            }
+            set
+            {
+                _LayerIsOn = value;
+            }
         }
         [XmlAttribute]
         public string RenderName
@@ -71,6 +80,12 @@ namespace Heiflow.Models.GHM
         }
         [XmlElement]
         public double MaxDisplayAltitude
+        {
+            get;
+            set;
+        }
+        [XmlElement]
+        public string IsOn
         {
             get;
             set;

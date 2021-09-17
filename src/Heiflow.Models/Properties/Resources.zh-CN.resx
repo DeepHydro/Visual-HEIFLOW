@@ -132,6 +132,9 @@
   <data name="HeadDependentCategory" xml:space="preserve">
     <value>水头依赖流量边界</value>
   </data>
+  <data name="ModelOutput" xml:space="preserve">
+    <value>模型输出</value>
+  </data>
   <data name="MT3DCategory" xml:space="preserve">
     <value>多组分输运</value>
   </data>

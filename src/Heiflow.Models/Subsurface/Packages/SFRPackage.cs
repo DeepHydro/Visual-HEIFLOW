@@ -477,6 +477,8 @@ namespace Heiflow.Models.Subsurface
             {
                 format += "{" + i + "}\t";
             }
+
+            rvnet.Rivers.Sort();
             foreach (var river in rvnet.Rivers)
             {
                 foreach (var reach in river.Reaches)

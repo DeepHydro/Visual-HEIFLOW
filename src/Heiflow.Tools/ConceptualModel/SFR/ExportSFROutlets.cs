@@ -54,10 +54,10 @@ namespace Heiflow.Tools.ConceptualModel
     {
         public ExportSFROutlets()
         {
-            Name = "Export SFR Outlets As Shp";
+            Name = "Export SFR Outlets As Csv";
             Category = Cat_CMG;
             SubCategory = "SFR";
-            Description = "Export SFR Outlets As Shp";
+            Description = "Export SFR Outlets As Csv";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;

@@ -64,7 +64,7 @@ namespace Heiflow.Models.Subsurface
             IsMandatory = true;
             Version = "VD1";
             _Layer3DToken = "RegularGrid";
-            Category = Resources.OutputCategory; 
+            Category = Resources.ModelOutput; 
         }
 
         public override void Initialize()

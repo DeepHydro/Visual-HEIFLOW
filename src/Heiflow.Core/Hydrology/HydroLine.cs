@@ -62,7 +62,9 @@ namespace Heiflow.Core.Hydrology
                 Width2 = _width;
             }
         }
+        public int OrderedID { get; set; }
         public double Length { get; set; }
+        public double DistanceToOutlet { get; set; }
         public double TopElevation { get; set; }
         public double BedThick { get; set; }
         public HydroPoint InletNode { get; set; }

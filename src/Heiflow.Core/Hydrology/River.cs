@@ -36,7 +36,7 @@ using System.Text;
 namespace Heiflow.Core.Hydrology
 {
 
-    public class River : HydroLine
+    public class River : HydroLine, IComparable
     {
         public River(int id)
             : base(id)
@@ -131,6 +131,14 @@ namespace Heiflow.Core.Hydrology
                 return reach.First();
             else
                 return null;
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (this.ID > ((River)obj).ID)
+                return 1;
+            else
+                return -1;
         }
     }
 }

@@ -154,9 +154,16 @@ namespace Heiflow.Models.GHM
                     if (state == LoadingState.Normal)
                     {
                         foreach (var svar in pck.StaticVariables)
+                        {
                             svar.Parent = pck;
+                            svar.Owner = this;
+                        }
                         foreach (var svar in pck.DynamicVariables)
+                        {
                             svar.Parent = pck;
+                            svar.Owner = this;
+                        }
+                      
                         AddInSilence(pck);
                     }
                 }

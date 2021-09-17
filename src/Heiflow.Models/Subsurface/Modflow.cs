@@ -107,7 +107,7 @@ namespace Heiflow.Models.Subsurface
             SolverCategory = Resources.SolverCategory;
             SubsidenceCategory = Resources.SubsidenceCategory;
             OutputControlCategory = Resources.OutputControlCategory;
-            OutputCategory = Resources.OutputCategory;
+            OutputCategory = Resources.ModelOutput; 
             ObsCategory = Resources.ObsCategory;
             PHTCategory = Resources.PHTCategory;
             MT3DCategory = Resources.MT3DCategory;

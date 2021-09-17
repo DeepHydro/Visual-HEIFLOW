@@ -266,6 +266,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
                 {
                     _ActiveDataService.Source = dp.DataCube;
                     _ActiveDataService.Source.SelectedVariableIndex = this.VariableIndex;
+                    var grid = dp.Owner.Grid;
                     // _ActiveDataService.SourceStatistics = dp.DataCube.SpatialMean(this.VariableIndex);
                 }
             }

@@ -64,7 +64,7 @@ namespace Heiflow.Models.Subsurface
             IsMandatory = true;
             _Layer3DToken = "RegularGrid";
             LoadingBehavior =  MFLoadingLayersBehavior.None;
-            Category = Resources.OutputCategory; 
+            Category = Resources.ModelOutput; 
         }
 
         public MFLoadingLayersBehavior LoadingBehavior

@@ -69,8 +69,8 @@ namespace Heiflow.Tools.Statisitcs
         }
 
         [Category("Input")]
-        [Description("Input matrix. The matrix name should be written as A[0][-1][-1]")]
-        public string Matrix { get; set; }
+        [Description("Input datacube. The matrix name should be written as A[0][:][:]")]
+        public string DataCube { get; set; }
   
         [Category("Input")]
         [Description("Zone field")]
@@ -105,32 +105,6 @@ namespace Heiflow.Tools.Statisitcs
         }
 
         [Category("Parameter")]
-        public NumericalDataType NumericalDataType
-        {
-            get
-            {
-                return mNumericalDataType;
-            }
-            set
-            {
-                mNumericalDataType = value;
-            }
-        }
-
-        [Category("Parameter")]
-        public TimeUnits TimeUnits
-        {
-            get
-            {
-                return mTimeUnit;
-            }
-            set
-            {
-                mTimeUnit = value;
-            }
-        }
-
-        [Category("Parameter")]
         [Description("Values equal to NoDataValue will be excluded during statistics")]
         public float NoDataValue { get; set; }
 
@@ -142,11 +116,9 @@ namespace Heiflow.Tools.Statisitcs
         [Description("The name of  output statistics table")]
         public string Output { get; set; }
 
-
-
         public override void Initialize()
         {
-            var mat = Get3DMat(Matrix);
+            var mat = Get3DMat(DataCube);
             Initialized = mat != null && FeatureLayer != null && !TypeConverterEx.IsNull(ZoneField);
             Initialized = true;
         }
@@ -192,7 +164,7 @@ namespace Heiflow.Tools.Statisitcs
         public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
         {
             int var_indexA = 0;
-            var mat = Get3DMat(Matrix, ref var_indexA);
+            var mat = Get3DMat(DataCube, ref var_indexA);
             double prg = 0;
             var dic = GetZone();
             int nzone = dic.Keys.Count;

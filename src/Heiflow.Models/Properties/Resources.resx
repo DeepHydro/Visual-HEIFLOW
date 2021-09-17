@@ -196,4 +196,7 @@
   <data name="SubsidenceCategory" xml:space="preserve">
     <value>Subsidence</value>
   </data>
+  <data name="ModelOutput" xml:space="preserve">
+    <value>Outputs</value>
+  </data>
 </root>

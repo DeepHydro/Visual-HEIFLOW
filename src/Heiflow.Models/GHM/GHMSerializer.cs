@@ -89,6 +89,10 @@ namespace Heiflow.Models.GHM
             XmlSerializer xs = new XmlSerializer(typeof(GHMSerializer));
             Stream stream = new FileStream(filename, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
             var ghm = (GHMSerializer)xs.Deserialize(stream);
+            foreach (var pck in ghm.Packages)
+            {
+                //pck.Owner=
+            }
             return ghm;
         }
 

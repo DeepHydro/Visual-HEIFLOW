@@ -482,8 +482,9 @@ namespace Heiflow.Tools.ConceptualModel
 
             cancelProgressHandler.Progress("Package_Tool", 30, "Calculation of intersectons between Grid and Stream finished");
             PreProByOrder(fea_list, cancelProgressHandler);
+            var renumbered= RenumerByLength(fea_list);
             cancelProgressHandler.Progress("Package_Tool", 70, "Calculation of reach parameters finished");
-            Save2SFRFile(fea_list, cancelProgressHandler);
+            Save2SFRFile(renumbered, cancelProgressHandler);
             issucuess = true;
             cancelProgressHandler.Progress("Package_Tool", 90, "SFR file saved");
             return true;
@@ -768,6 +769,7 @@ namespace Heiflow.Tools.ConceptualModel
             foreach (var segid in newfealist.Keys)
             {
                 fealist.Add(segid, newfealist[segid]);
+                newfealist[segid].TotalLength = (from rch in newfealist[segid].Reaches select rch.Value.Length).Sum();
             }
 
             if(ignored_rch > 0)
@@ -777,6 +779,53 @@ namespace Heiflow.Tools.ConceptualModel
             if (duplicated_rch > 0)
             {
                 cancelProgressHandler.Progress("Package_Tool", 70, "The number of duplicated reaches is: " + duplicated_rch);
+            }
+        }
+
+        private Dictionary<int, ReachFeatureCollection> RenumerByLength(Dictionary<int, ReachFeatureCollection> fea_list)
+        {
+            for (int i = 0; i < fea_list.Count(); i++)
+            {
+                var fea = fea_list.ElementAt(i).Value;
+                double length = 0;
+                CalcLengthToOutlet(fea_list, fea, ref length);
+                fea.DistanceToOutlet = length;
+            }
+            var ordered = fea_list.OrderByDescending(x => x.Value.DistanceToOutlet);
+            Dictionary<int, int> idmap = new Dictionary<int, int>();
+            for (int i = 0; i < ordered.Count(); i++)
+            {
+                var fea = ordered.ElementAt(i).Value;
+                fea.OrderedSegmentID = i + 1;
+                idmap.Add(fea.SegmentID, fea.OrderedSegmentID);
+            }
+            for (int i = 0; i < ordered.Count(); i++)
+            {
+                var fea = ordered.ElementAt(i).Value;
+                fea.SegmentID = i + 1;
+                if (fea.OutSegmentID > 0)
+                    fea.OutSegmentID = idmap[fea.OutSegmentID];
+            }
+            Dictionary<int, ReachFeatureCollection> result = new Dictionary<int, ReachFeatureCollection>();
+            for (int i = 0; i < ordered.Count(); i++)
+            {
+                var fea = ordered.ElementAt(i);
+                result.Add(i + 1, fea.Value);
+            }
+            return result;
+        }
+
+        private double CalcLengthToOutlet(Dictionary<int, ReachFeatureCollection> fea_list,ReachFeatureCollection seg, ref double len)
+        {
+            if(seg.OutSegmentID > 0)
+            {
+                len = len + seg.TotalLength;
+                return CalcLengthToOutlet(fea_list, fea_list[seg.OutSegmentID], ref len);
+            }
+            else
+            {
+                len = len + seg.TotalLength;
+                return len;
             }
         }
        
