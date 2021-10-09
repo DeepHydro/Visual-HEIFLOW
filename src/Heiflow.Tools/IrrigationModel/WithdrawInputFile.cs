@@ -304,26 +304,29 @@ namespace Heiflow.Tools.DataManagement
                     irrg_obj_list[i].ID);
                 sw_out.WriteLine(newline);
             }
-            sw_out.WriteLine("# industrial objects");
-            for (int i = 0; i < num_indust_obj; i++)
+            if (num_indust_obj > 0)
             {
-                var obj = indust_obj_list[i];
-                newline = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t#	oid, hrunum, iseg, ireach, num_well_layer, inlet_type {6}", obj.ID, obj.HRU_Num, obj.SegID, obj.ReachID, num_well_layer,
-                 obj.Inlet_Type, obj.Name);
-                sw_out.WriteLine(newline);
-                newline = string.Format("{0}\t#	hru_id_list", string.Join(" ", obj.HRU_List));
-                sw_out.WriteLine(newline);
-                for (int j = 0; j < num_well_layer; j++)
+                sw_out.WriteLine("# industrial objects");
+                for (int i = 0; i < num_indust_obj; i++)
                 {
-                    newline = well_layer[j] + "\t" + layer_ratio[j] + " # well_layer layer_ratio";
+                    var obj = indust_obj_list[i];
+                    newline = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t#	oid, hrunum, iseg, ireach, num_well_layer, inlet_type {6}", obj.ID, obj.HRU_Num, obj.SegID, obj.ReachID, num_well_layer,
+                     obj.Inlet_Type, obj.Name);
+                    sw_out.WriteLine(newline);
+                    newline = string.Format("{0}\t#	hru_id_list", string.Join(" ", obj.HRU_List));
+                    sw_out.WriteLine(newline);
+                    for (int j = 0; j < num_well_layer; j++)
+                    {
+                        newline = well_layer[j] + "\t" + layer_ratio[j] + " # well_layer layer_ratio";
+                        sw_out.WriteLine(newline);
+                    }
+                    newline = string.Format("{0}\t#	drawdown constaint of object {1}", obj.Drawdown, obj.ID);
+                    sw_out.WriteLine(newline);
+                    newline = string.Format("{0}\t{1}\t{2}\t#  inlet	min flow,  max flow and flow ratio for object {3}", obj.Inlet_MinFlow, obj.Inlet_MaxFlow, obj.Inlet_Flow_Ratio, obj.ID);
+                    sw_out.WriteLine(newline);
+                    newline = string.Format("{0}\t#	return_ratio", 0);
                     sw_out.WriteLine(newline);
                 }
-                newline = string.Format("{0}\t#	drawdown constaint of object {1}", obj.Drawdown, obj.ID);
-                sw_out.WriteLine(newline);
-                newline = string.Format("{0}\t{1}\t{2}\t#  inlet	min flow,  max flow and flow ratio for object {3}", obj.Inlet_MinFlow, obj.Inlet_MaxFlow, obj.Inlet_Flow_Ratio, obj.ID);
-                sw_out.WriteLine(newline);
-                newline = string.Format("{0}\t#	return_ratio", 0);
-                sw_out.WriteLine(newline);
             }
 
             sw_out.WriteLine(StartCycle + " # cycle index");
@@ -409,43 +412,46 @@ namespace Heiflow.Tools.DataManagement
                 sw_out.WriteLine(newline);
             }
 
-            newline = "# industrial objects";
-            sw_out.WriteLine(newline);
-            newline = "1 1	1	1	1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag";
-            sw_out.WriteLine(newline);
-
-            for (int i = 0; i < num_indust_obj; i++)
+            if (num_indust_obj > 0)
             {
-                newline = "";
-                var control = 1;
-                for (int j = 0; j < 366; j++)
+                newline = "# industrial objects";
+                sw_out.WriteLine(newline);
+                newline = "1 1	1	1	1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag";
+                sw_out.WriteLine(newline);
+
+                for (int i = 0; i < num_indust_obj; i++)
                 {
-                    newline += control + "\t";
+                    newline = "";
+                    var control = 1;
+                    for (int j = 0; j < 366; j++)
+                    {
+                        newline += control + "\t";
+                    }
+                    newline += "# SW ratio of object " + (indust_obj_list[i].ID);
+                    sw_out.WriteLine(newline);
                 }
-                newline += "# SW ratio of object " + (indust_obj_list[i].ID);
-                sw_out.WriteLine(newline);
-            }
 
-            //地表引水控制系数
-            for (int i = 0; i < num_indust_obj; i++)
-            {
-                newline = string.Format("{0}\t#SW control factor of object {1}", indust_obj_list[i].SW_Cntl_Factor, indust_obj_list[i].ID);
-                sw_out.WriteLine(newline);
-            }
+                //地表引水控制系数
+                for (int i = 0; i < num_indust_obj; i++)
+                {
+                    newline = string.Format("{0}\t#SW control factor of object {1}", indust_obj_list[i].SW_Cntl_Factor, indust_obj_list[i].ID);
+                    sw_out.WriteLine(newline);
+                }
 
-            //地下引水控制系数
-            for (int i = 0; i < num_indust_obj; i++)
-            {
-                newline = string.Format("{0}\t#GW control factor of object {1}", indust_obj_list[i].GW_Cntl_Factor, indust_obj_list[i].ID);
-                sw_out.WriteLine(newline);
-            }
+                //地下引水控制系数
+                for (int i = 0; i < num_indust_obj; i++)
+                {
+                    newline = string.Format("{0}\t#GW control factor of object {1}", indust_obj_list[i].GW_Cntl_Factor, indust_obj_list[i].ID);
+                    sw_out.WriteLine(newline);
+                }
 
-            //用水类型
-            for (int i = 0; i < num_indust_obj; i++)
-            {
-                var obj = indust_obj_list[i];
-                newline = string.Format("{0} # Withdraw type of object {1}", obj.ObjType_Fram, obj.ID);
-                sw_out.WriteLine(newline);
+                //用水类型
+                for (int i = 0; i < num_indust_obj; i++)
+                {
+                    var obj = indust_obj_list[i];
+                    newline = string.Format("{0} # Withdraw type of object {1}", obj.ObjType_Fram, obj.ID);
+                    sw_out.WriteLine(newline);
+                }
             }
 
             for (int i = StartCycle + 1; i <= EndCycle; i++)
@@ -457,8 +463,12 @@ namespace Heiflow.Tools.DataManagement
                     sw_out.WriteLine("-1 -1	-1 -1 -1 -1 -1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag,plantarea_flag,max_pump_rate_flag,max_total_pump_flag");
                 else
                     sw_out.WriteLine("-1 -1	-1 -1 -1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag,plantarea_flag");
-                sw_out.WriteLine("# industrial objects");
-                sw_out.WriteLine("-1 -1	-1	-1	 # 	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag");
+
+                if (num_indust_obj > 0)
+                {
+                    sw_out.WriteLine("# industrial objects");
+                    sw_out.WriteLine("-1 -1	-1	-1	 # 	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag");
+                }
             }
 
             sr_quota.Close();
