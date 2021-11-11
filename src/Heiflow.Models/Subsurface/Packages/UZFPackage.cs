@@ -249,17 +249,26 @@ namespace Heiflow.Models.Subsurface
                         SPECIFYTHTI = false;
                     }
 
-                    float[] fv = TypeConverterEx.Split<float>(newline, 10);
+                    float[] fv = TypeConverterEx.Split<float>(newline);
                     this.NUZTOP = (int)fv[0];
                     this.IUZFOPT = (int)fv[1];
                     this.IRUNFLG = (int)fv[2];
                     this.IETFLG = (int)fv[3];
                     this.IUZFCB1 = (int)fv[4];
                     this.IUZFCB2 = (int)fv[5];
-                    this.NTRAIL2 = (int)fv[6];
-                    this.NSETS2 = (int)fv[7];
-                    this.NUZGAG = (int)fv[8];
-                    this.SURFDEP = fv[9];
+
+                    if (IUZFOPT > 0)
+                    {
+                        this.NTRAIL2 = (int)fv[6];
+                        this.NSETS2 = (int)fv[7];
+                        this.NUZGAG = (int)fv[8];
+                        this.SURFDEP = fv[9];
+                    }
+                    else
+                    {
+                        this.NUZGAG = (int)fv[6];
+                        this.SURFDEP = fv[7];
+                    }
 
                     this.IUZFBND = new DataCube<float>(1, 1, grid.ActiveCellCount)
                     {
@@ -485,16 +494,31 @@ namespace Heiflow.Models.Subsurface
             //# Data Set 1b: NUZTOP IUZFOPT IRUNFLG IETFLG IUZFCB1 IUZFCB2 NTRAIL2 NSETS2 NUZGAG SURFDEP
 
             WriteDefaultComment(sw, "UZF");
-            if (SPECIFYTHTI)
+            if (SPECIFYTHTI && IUZFOPT > 0)
                 sw.WriteLine("SPECIFYTHTI");
             string format = "";
-            for (int i = 0; i < 10; i++)
+          
+            string newline = "";
+            if (IUZFOPT > 0)
             {
-                format += "{" + string.Format("{0}", i) + "}\t";
+                for (int i = 0; i < 10; i++)
+                {
+                    format += "{" + string.Format("{0}", i) + "}\t";
+                }
+                newline = string.Format(format + " # Data Set 1b: NUZTOP IUZFOPT IRUNFLG IETFLG IUZFCB1 IUZFCB2 NTRAIL2 NSETS2 NUZGAG SURFDEP",
+            this.NUZTOP, this.IUZFOPT, this.IRUNFLG, this.IETFLG, this.IUZFCB1, this.IUZFCB2,
+             this.NTRAIL2, this.NSETS2, this.NUZGAG, this.SURFDEP);
             }
-            string newline = string.Format(format + " # Data Set 1b: NUZTOP IUZFOPT IRUNFLG IETFLG IUZFCB1 IUZFCB2 NTRAIL2 NSETS2 NUZGAG SURFDEP",
-                this.NUZTOP, this.IUZFOPT, this.IRUNFLG, this.IETFLG, this.IUZFCB1, this.IUZFCB2,
-                 this.NTRAIL2, this.NSETS2, this.NUZGAG, this.SURFDEP);
+            else
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    format += "{" + string.Format("{0}", i) + "}\t";
+                }
+                newline = string.Format(format + " # Data Set 1b: NUZTOP IUZFOPT IRUNFLG IETFLG IUZFCB1 IUZFCB2 NUZGAG SURFDEP",
+         this.NUZTOP, this.IUZFOPT, this.IRUNFLG, this.IETFLG, this.IUZFCB1, this.IUZFCB2, this.NUZGAG, this.SURFDEP);
+            }
+
             sw.WriteLine(newline);
 
             WriteSerialFloatArray(sw, this.IUZFBND, 0, 0, "F0", " # Data Set 2: IUZFBND");
@@ -502,15 +526,18 @@ namespace Heiflow.Models.Subsurface
             {
                 WriteSerialFloatArray(sw, this.IRUNBND, 0, 0, "F0", " # Data Set 3: IRUNBND ");
             }
-            if (IUZFOPT == 1)
+            if (IUZFOPT == 1 || IUZFOPT == 0)
             {
                 WriteSerialFloatArray(sw, this.VKS, 0, 0, "E6", " # Data Set 4: VKS");
             }
-            WriteSerialFloatArray(sw, this.EPS, 0, 0, "E6", " # Data Set 5: EPS for Stress Period 0");
-            WriteSerialFloatArray(sw, this.THTS, 0, 0, "E6", " # Data Set 6: THTS for Stress Period 0");
+            if (IUZFOPT >= 1)
+            {
+                WriteSerialFloatArray(sw, this.EPS, 0, 0, "E6", " # Data Set 5: EPS for Stress Period 1");
+                WriteSerialFloatArray(sw, this.THTS, 0, 0, "E6", " # Data Set 6: THTS for Stress Period 1");
+            }
 
-            if (SPECIFYTHTI)
-                WriteSerialFloatArray(sw, this.THTI, 0, 0, "E6", " # Data Set 7: THTI for Stress Period 0");
+            if (SPECIFYTHTI && IUZFOPT > 0)
+                WriteSerialFloatArray(sw, this.THTI, 0, 0, "E6", " # Data Set 7: THTI for Stress Period 1");
 
             //todo
             if (NUZGAG > 0)

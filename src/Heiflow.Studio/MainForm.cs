@@ -26,7 +26,7 @@
 // copyright notices. If not, the GNU General Public License holds for them, too, 
 // but so that the author(s) of the file have the Copyright.
 //
-#define VHF
+#define VFT3D
 namespace Heiflow.Models.Studio
 {
     using System.Windows.Forms;
