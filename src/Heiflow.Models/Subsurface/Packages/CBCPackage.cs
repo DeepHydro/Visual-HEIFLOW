@@ -42,6 +42,7 @@ using Heiflow.Models.IO;
 using System.ComponentModel.Composition;
 using DotSpatial.Data;
 using Heiflow.Models.Properties;
+using System.Xml.Serialization;
 
 namespace Heiflow.Models.Subsurface
 {
@@ -64,15 +65,31 @@ namespace Heiflow.Models.Subsurface
             IsMandatory = true;
             _Layer3DToken = "RegularGrid";
             LoadingBehavior =  MFLoadingLayersBehavior.None;
-            Category = Resources.ModelOutput; 
+            Category = Resources.ModelOutput;
+            Filter = Subsurface.Filter.None;
+            FilterThreshold = 0;
         }
-
+        [Category("Layer")]
+        [XmlIgnore]
         public MFLoadingLayersBehavior LoadingBehavior
         {
             get;
             set;
         }
-
+        [Category("Filter")]
+        [XmlIgnore]
+        public Filter Filter
+        {
+            get;
+            set;
+        }
+        [Category("Filter")]
+        [XmlIgnore]
+        public float FilterThreshold
+        {
+            get;
+            set;
+        }
 
         public override void Initialize()
         {
@@ -95,6 +112,8 @@ namespace Heiflow.Models.Subsurface
                 cbc.Loading += cbc_Loading;
                 cbc.DataCubeLoaded += cbc_DataCubeLoaded;
                 cbc.LoadingBehavior = this.LoadingBehavior;
+                cbc.Filter = this.Filter;
+                cbc.FilterThreshold = this.FilterThreshold;
                 cbc.LoadDataCube();
                 return  LoadingState.Normal;
             }
@@ -168,6 +187,8 @@ namespace Heiflow.Models.Subsurface
                     CBCFile cbc = new CBCFile(LocalFileName, grid);
                     cbc.Layer = this.Layer;
                     cbc.LoadingBehavior = this.LoadingBehavior;
+                    cbc.Filter = this.Filter;
+                    cbc.FilterThreshold = this.FilterThreshold;
                     cbc.Variables = this.Variables;
                     cbc.Scale = (float)this.ScaleFactor;
                     cbc.MaxTimeStep = nstep;

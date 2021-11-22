@@ -51,9 +51,28 @@ namespace Heiflow.Models.IO
             _FileName = filename;
             _Grid = grid;
             IsLoadDepth = false;
+            NoDataValue = -9999;
         }
 
         public bool IsLoadDepth
+        {
+            get;
+            set;
+        }
+
+        public float[] TemporalMean
+        {
+            get;
+            set;
+        }
+
+        public float[] SpatialMean
+        {
+            get;
+            set;
+        }
+
+        public float NoDataValue
         {
             get;
             set;
@@ -173,36 +192,33 @@ namespace Heiflow.Models.IO
             }
         }
         /// <summary>
-        /// read layer head 
+        /// layer starts from 0
         /// </summary>
-        /// <param name="layer">index starting from 1</param>
-        /// <returns></returns>
-        public void ReadBinLayerHead(int layer)
+        /// <param name="layer"></param>
+        public void StatBinLayerHead(int layer)
         {
             if (File.Exists(_FileName))
             {
                 OnLoading(0);
-                if (MaxTimeStep <= 0 || NumTimeStep == 0)
-                {
-                    Scan();
-                    MaxTimeStep = NumTimeStep;
-                }
+                 Scan();
                 var grid = _Grid as MFGrid;
+            
                 FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 BinaryReader br = new BinaryReader(fs);
                 // KSTP,KPER,PERTIM,TOTIM,TEXT,NCOL,NROW,ILAY
                 long layerbyte = 32 + 4 * 3 + grid.RowCount * grid.ColumnCount * 4;
+                if (MaxTimeStep == 0 || MaxTimeStep > NumTimeStep)
+                    MaxTimeStep = NumTimeStep;
                 int nstep = StepsToLoad;
                 float head = 0;
                 int progress = 0;
-
-                layer = layer - 1;
-                if (layer < 0)
+                if (layer < 0 || layer >= grid.ActualLayerCount)
                     layer = 0;
-                // MyLazy3DMat<float> mat = new MyLazy3DMat<float>(Variables.Length, nstep, grid.ActiveCellCount);
-                if (DataCube == null)
-                    DataCube = new DataCube<float>(Variables.Length, nstep, grid.ActualLayerCount, true);
-                DataCube.Allocate(layer + 1);
+
+                TemporalMean = new float[nstep];
+                SpatialMean = new float[grid.ActiveCellCount];
+                var timesteplist = new List<float>();
+
                 for (int t = 0; t < nstep; t++)
                 {
                     for (int l = 0; l < layer; l++)
@@ -226,6 +242,184 @@ namespace Heiflow.Models.IO
                                 index++;
                             }
                         }
+                    }
+                    var temp = buf.Where(a => a != NoDataValue);
+                    TemporalMean[t] = temp.Average();
+                    for (int i = 0; i < grid.ActiveCellCount; i++)
+                    {
+                        SpatialMean[i] += buf[i];
+                    }
+
+                    for (int l = layer + 1; l < grid.ActualLayerCount; l++)
+                    {
+                        fs.Seek(layerbyte, SeekOrigin.Current);
+                    }
+                    progress = Convert.ToInt32(t * 100 / nstep);
+                    OnLoading(progress);
+                }
+
+                for (int i = 0; i < grid.ActiveCellCount; i++)
+                {
+                    SpatialMean[i] /= nstep;
+                }
+
+                OnLoading(100);
+                br.Close();
+                fs.Close();
+                OnDataCubedLoaded(DataCube);
+            }
+            else
+            {
+                OnLoadFailed("The FHD file dose not exist: " + _FileName);
+            }
+        }
+        /// <summary>
+        /// layer starts from 0
+        /// </summary>
+        /// <param name="layer"></param>
+        public void StatBinWaterTable(int layer)
+        {
+            if (File.Exists(_FileName))
+            {
+                OnLoading(0);
+                Scan();
+                var grid = _Grid as MFGrid;
+
+                FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                BinaryReader br = new BinaryReader(fs);
+                // KSTP,KPER,PERTIM,TOTIM,TEXT,NCOL,NROW,ILAY
+                long layerbyte = 32 + 4 * 3 + grid.RowCount * grid.ColumnCount * 4;
+                if (MaxTimeStep == 0 || MaxTimeStep > NumTimeStep)
+                    MaxTimeStep = NumTimeStep;
+                int nstep = StepsToLoad;
+                int progress = 0;
+
+                if (layer < 0 || layer >= grid.ActualLayerCount)
+                    layer = 0;
+
+                TemporalMean = new float[nstep];
+                SpatialMean = new float[grid.ActiveCellCount];
+                var timesteplist = new List<float>();
+                float[] layermat = new float[grid.RowCount * grid.ColumnCount];
+                float[][] heads = new float[grid.ActualLayerCount][];
+                for (int l = 0; l < grid.ActualLayerCount; l++)
+                {
+                    heads[l] = new float[grid.ActiveCellCount];
+                }
+
+                float[] lwt = new float[grid.ActualLayerCount];
+                var buf = new float[grid.ActiveCellCount];
+                for (int t = 0; t < nstep; t++)
+                {
+                    for (int l = 0; l < grid.ActualLayerCount; l++)
+                    {
+                        fs.Seek(32, SeekOrigin.Current);
+                        var vv = br.ReadInt32();
+                        vv = br.ReadInt32();
+                        vv = br.ReadInt32();
+                        int k = 0;
+                        for (int r = 0; r < grid.RowCount; r++)
+                        {
+                            for (int c = 0; c < grid.ColumnCount; c++)
+                            {
+                                layermat[k] = br.ReadSingle();
+                                k++;
+                            }
+                        }
+                        for (int i = 0; i < grid.ActiveCellCount; i++)
+                        {
+                            heads[l][i] = layermat[grid.Topology.ActiveCellMatrixIndex[i]];
+                        }
+                    }
+                    for (int i = 0; i < grid.ActiveCellCount; i++)
+                    {
+                        for (int ll = 0; ll < grid.ActualLayerCount; ll++)
+                        {
+                            lwt[ll] = heads[ll][i];
+                        }
+                        buf[i] = lwt.Max();
+                    }
+                    var temp = buf.Where(a => a != NoDataValue);
+                    TemporalMean[t] = temp.Average();
+                    for (int i = 0; i < grid.ActiveCellCount; i++)
+                    {
+                        SpatialMean[i] += buf[i];
+                    }
+                    progress = Convert.ToInt32(t * 100 / nstep);
+                    OnLoading(progress);
+                }
+
+                for (int i = 0; i < grid.ActiveCellCount; i++)
+                {
+                    SpatialMean[i] /= nstep;
+                }
+
+                OnLoading(100);
+                br.Close();
+                fs.Close();
+                OnDataCubedLoaded(DataCube);
+            }
+            else
+            {
+                OnLoadFailed("The FHD file dose not exist: " + _FileName);
+            }
+        }
+
+        /// <summary>
+        /// read layer head 
+        /// </summary>
+        /// <param name="layer">index starting from 1</param>
+        /// <returns></returns>
+        public void ReadBinLayerHead(int layer)
+        {
+            if (File.Exists(_FileName))
+            {
+                OnLoading(0);
+                if (MaxTimeStep <= 0 || NumTimeStep == 0)
+                {
+                    Scan();
+                    MaxTimeStep = NumTimeStep;
+                }
+                var grid = _Grid as MFGrid;
+                FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                BinaryReader br = new BinaryReader(fs);
+                // KSTP,KPER,PERTIM,TOTIM,TEXT,NCOL,NROW,ILAY
+                long layerbyte = 32 + 4 * 3 + grid.RowCount * grid.ColumnCount * 4;
+                int nstep = StepsToLoad;
+                int progress = 0;
+
+                layer = layer - 1;
+                if (layer < 0)
+                    layer = 0;
+                // MyLazy3DMat<float> mat = new MyLazy3DMat<float>(Variables.Length, nstep, grid.ActiveCellCount);
+                if (DataCube == null)
+                    DataCube = new DataCube<float>(Variables.Length, nstep, grid.ActualLayerCount, true);
+                DataCube.Allocate(layer + 1);
+                float[] layermat = new float[grid.RowCount * grid.ColumnCount];
+
+                for (int t = 0; t < nstep; t++)
+                {
+                    for (int l = 0; l < layer; l++)
+                    {
+                        fs.Seek(layerbyte, SeekOrigin.Current);
+                    }
+                    fs.Seek(32, SeekOrigin.Current);
+                    var vv = br.ReadInt32();
+                    vv = br.ReadInt32();
+                    vv = br.ReadInt32();
+                    int k = 0;
+                    for (int r = 0; r < grid.RowCount; r++)
+                    {
+                        for (int c = 0; c < grid.ColumnCount; c++)
+                        {
+                            layermat[k] = br.ReadSingle();
+                            k++;
+                        }
+                    }
+                    var buf = new float[grid.ActiveCellCount];
+                    for (int i = 0; i < grid.ActiveCellCount; i++)
+                    {
+                        buf[i] = layermat[grid.Topology.ActiveCellMatrixIndex[i]];
                     }
                     DataCube.ILArrays[layer + 1][t, ":"] = buf;
                     for (int l = layer + 1; l < grid.ActualLayerCount; l++)
@@ -265,8 +459,7 @@ namespace Heiflow.Models.IO
                 BinaryReader br = new BinaryReader(fs);
                 long layerbyte = 32 + 4 * 3 + grid.RowCount * grid.ColumnCount * 4;
                 int nstep = StepsToLoad;
-                float head = 0;
-                int progress = 0;
+                  int progress = 0;
 
                 layer = layer - 1;
                 if (layer < 0)
@@ -274,6 +467,7 @@ namespace Heiflow.Models.IO
                 if (DataCube == null)
                     DataCube = new DataCube<float>(Variables.Length, nstep, grid.ActualLayerCount, true);
                 DataCube.Allocate(layer + 1);
+                float[] layermat = new float[grid.RowCount * grid.ColumnCount];
                 for (int t = 0; t < nstep; t++)
                 {
                     for (int l = 0; l < layer; l++)
@@ -284,19 +478,20 @@ namespace Heiflow.Models.IO
                     var vv = br.ReadInt32();
                     vv = br.ReadInt32();
                     vv = br.ReadInt32();
-                    int index = 0;
-                    var buf = new float[grid.ActiveCellCount];
+                    int k = 0;
+                    
                     for (int r = 0; r < grid.RowCount; r++)
                     {
                         for (int c = 0; c < grid.ColumnCount; c++)
                         {
-                            head = br.ReadSingle();
-                            if (grid.IBound[0, r, c] != 0)
-                            {
-                                buf[index] = grid.Elevations[0, 0, index] - head;
-                                index++;
-                            }
+                            layermat[k] = br.ReadSingle();
+                            k++;
                         }
+                    }
+                    var buf = new float[grid.ActiveCellCount];
+                    for (int l = layer + 1; l < grid.ActualLayerCount; l++)
+                    {
+                        fs.Seek(layerbyte, SeekOrigin.Current);
                     }
                     DataCube.ILArrays[layer + 1][t, ":"] = buf;
                     for (int l = layer + 1; l < grid.ActualLayerCount; l++)
@@ -408,7 +603,6 @@ namespace Heiflow.Models.IO
                 BinaryReader br = new BinaryReader(fs);
                 long layerbyte = 32 + 4 * 3 + grid.RowCount * grid.ColumnCount * 4;
                 int nstep = StepsToLoad;
-                float head = 0;
                 int progress = 0;
                 float[][] heads = new float[grid.ActualLayerCount][];
 
@@ -420,7 +614,10 @@ namespace Heiflow.Models.IO
                 if (DataCube == null)
                     DataCube = new DataCube<float>(Variables.Length, nstep, grid.ActualLayerCount, true);
                 DataCube.Allocate(0);
+
+                float[] layermat = new float[grid.RowCount * grid.ColumnCount];
                 float[] lwt = new float[grid.ActualLayerCount];
+              
                 for (int t = 0; t < nstep; t++)
                 {
                     for (int l = 0; l < grid.ActualLayerCount; l++)
@@ -429,35 +626,34 @@ namespace Heiflow.Models.IO
                         var vv = br.ReadInt32();
                         vv = br.ReadInt32();
                         vv = br.ReadInt32();
-                        int index = 0;
+                        int k = 0;
+
                         for (int r = 0; r < grid.RowCount; r++)
                         {
                             for (int c = 0; c < grid.ColumnCount; c++)
                             {
-                                head = br.ReadSingle();
-                                if (grid.IBound[0, r, c] != 0)
-                                {
-                                    heads[l][index] = head;
-                                    index++;
-                                }
+                                layermat[k] = br.ReadSingle();
+                                k++;
                             }
                         }
-                        var buf = new float[grid.ActiveCellCount];
                         for (int i = 0; i < grid.ActiveCellCount; i++)
                         {
-                            for (int ll = 0; ll < grid.ActualLayerCount; ll++)
-                            {
-                                lwt[ll] = heads[ll][i];
-                            }
-                            buf[i] = lwt.Max();
+                            heads[l][i] = layermat[grid.Topology.ActiveCellMatrixIndex[i]];
                         }
-                        DataCube.ILArrays[0][t, ":"] = buf;
                     }
+                    var buf = new float[grid.ActiveCellCount];
+                    for (int i = 0; i < grid.ActiveCellCount; i++)
+                    {
+                        for (int ll = 0; ll < grid.ActualLayerCount; ll++)
+                        {
+                            lwt[ll] = heads[ll][i];
+                        }
+                        buf[i] = lwt.Max();
+                    }
+                    DataCube.ILArrays[0][t, ":"] = buf;
                     progress = Convert.ToInt32(t * 100 / nstep);
                     OnLoading(progress);
                 }
-                if (progress < 100)
-                    OnLoading(100);
                 br.Close();
                 fs.Close();
                 OnDataCubedLoaded(DataCube);      
@@ -483,7 +679,6 @@ namespace Heiflow.Models.IO
                 BinaryReader br = new BinaryReader(fs);
                 long layerbyte = 32 + 4 * 3 + grid.RowCount * grid.ColumnCount * 4;
                 int nstep = StepsToLoad;
-                float head = 0;
                 int progress = 0;
                 float[][] heads = new float[grid.ActualLayerCount][];
 
@@ -496,6 +691,7 @@ namespace Heiflow.Models.IO
                     DataCube = new DataCube<float>(Variables.Length, nstep, grid.ActualLayerCount,true);
                 DataCube.Allocate(0);
                 float[] lwt = new float[grid.ActualLayerCount];
+                float[] layermat = new float[grid.RowCount * grid.ColumnCount];
                 for (int t = 0; t < nstep; t++)
                 {
                     for (int l = 0; l < grid.ActualLayerCount; l++)
@@ -504,18 +700,18 @@ namespace Heiflow.Models.IO
                         var vv = br.ReadInt32();
                         vv = br.ReadInt32();
                         vv = br.ReadInt32();
-                        int index = 0;
+                        int k = 0;
                         for (int r = 0; r < grid.RowCount; r++)
                         {
                             for (int c = 0; c < grid.ColumnCount; c++)
                             {
-                                head = br.ReadSingle();
-                                if (grid.IBound[0, r, c] != 0)
-                                {
-                                    heads[l][index] = head;
-                                    index++;
-                                }
+                                layermat[k] = br.ReadSingle();
+                                k++;
                             }
+                        }
+                        for (int i = 0; i < grid.ActiveCellCount; i++)
+                        {
+                            heads[l][i] = layermat[grid.Topology.ActiveCellMatrixIndex[i]];
                         }
                     }
                     var buf = new float[grid.ActiveCellCount];
@@ -531,8 +727,6 @@ namespace Heiflow.Models.IO
                     progress = Convert.ToInt32(t * 100 / nstep);
                     OnLoading(progress);
                 }
-                if (progress < 100)
-                    OnLoading(100);
                 br.Close();
                 fs.Close();
                 OnDataCubedLoaded(DataCube);

@@ -42,4 +42,5 @@ namespace Heiflow.Models.Subsurface
     public enum LAYWET { Inactive =0, Active=1};
     public enum CHANI { Define = -1, NotDefine =1};
     public enum MFLoadingLayersBehavior { Sum = 0, Average = 1, None=2 };
+    public enum Filter { None, GreaterThan, Lowerthan}
 }

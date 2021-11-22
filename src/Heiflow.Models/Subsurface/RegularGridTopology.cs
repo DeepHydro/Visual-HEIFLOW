@@ -116,6 +116,12 @@ namespace Heiflow.Models.Subsurface
         /// </summary>
         public int[] ActiveCellID { get; set; }
         /// <summary>
+        /// row 
+        ///   col
+        ///     i=i+1
+        /// </summary>
+        public int[] ActiveCellMatrixIndex { get; set; }
+        /// <summary>
         /// mapping between Cell ID  (starts from 1) and Cell Serial Index (starts from 0)
         /// </summary>
         public Dictionary<int, int> CellID2CellIndex { get; private set; }
@@ -242,12 +248,15 @@ namespace Heiflow.Models.Subsurface
                 }
             }
 
-            i = 0;
+           
             CellVertex = new int[Grid.ActiveCellCount, 5];
             //ActiveCellLocation = new Dictionary<int, int[]>();
             ActiveCellLocation = new int[Grid.ActiveCellCount][];
             ActiveCellID = new int[Grid.ActiveCellCount];
+            ActiveCellMatrixIndex = new int[Grid.ActiveCellCount];
             CellID2CellIndex = new Dictionary<int, int>();
+            int k = 0;
+            i = 0;
 
             for (int r = 0; r < row; r++)
             {
@@ -265,10 +274,12 @@ namespace Heiflow.Models.Subsurface
                         //ActiveCellID.Add(i, CellVertex[i, 0]);
                         ActiveCellLocation[i] = new int[] { r, c };
                         ActiveCellID[i] = GetID(r, c);
+                        ActiveCellMatrixIndex[i] = k;
                         CellID2CellIndex.Add(ActiveCellID[i], i);
                         i++;
                     }
-                }
+                    k++;
+                } 
             }
         }
         /// <summary>

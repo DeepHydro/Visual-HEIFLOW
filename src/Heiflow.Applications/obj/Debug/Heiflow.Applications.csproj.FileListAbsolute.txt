@@ -45,4 +45,6 @@ E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Applications\obj\Debug\Heiflow
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Applications\obj\Debug\Heiflow.Applications.csproj.GenerateResource.Cache
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Applications\obj\Debug\Heiflow.Applications.dll
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Applications\obj\Debug\Heiflow.Applications.pdb
-F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Applications\obj\Debug\Heiflow.Applications.csprojResolveAssemblyReference.cache
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Applications\obj\Debug\Heiflow.Applications.csprojAssemblyReference.cache
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Applications\obj\Debug\Heiflow.Applications.csproj.CoreCompileInputs.cache
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Applications\obj\Debug\Heiflow.Applications.csproj.CopyComplete

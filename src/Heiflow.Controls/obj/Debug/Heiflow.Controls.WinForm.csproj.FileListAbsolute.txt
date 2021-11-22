@@ -393,7 +393,9 @@ E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Controls\obj\Debug\Heiflow.Con
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.Project.MFTimeControl.resources
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.Modflow.ModflowTimeControl.resources
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.MT3DMS.SetSpeciesForm.resources
-F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csprojResolveAssemblyReference.cache
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.Project.CreatHeiflowFromMFForm.resources
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.Controls.GridProfileAnimator.resources
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.Controls.Profile_Viewer.resources
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csprojAssemblyReference.cache
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csproj.CoreCompileInputs.cache
+F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csproj.CopyComplete

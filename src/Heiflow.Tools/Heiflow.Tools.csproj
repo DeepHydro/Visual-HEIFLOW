@@ -130,6 +130,8 @@
     <Compile Include="DrivingForces\CreateClimateMappingTable.cs" />
     <Compile Include="Hydrology\PMPETByRadiationBatch.cs" />
     <Compile Include="Math\Repmat.cs" />
+    <Compile Include="Postprocessing\TemporospatialCBC.cs" />
+    <Compile Include="Postprocessing\TemporospatialFHD.cs" />
     <Compile Include="Postprocessing\CompareTimeRangeGWHead.cs" />
     <Compile Include="Postprocessing\CompareGWHead.cs" />
     <Compile Include="ConceptualModel\BoreholeToAquiferSturcutre.cs" />
