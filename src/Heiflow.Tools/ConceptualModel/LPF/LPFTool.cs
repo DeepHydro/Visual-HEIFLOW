@@ -56,20 +56,20 @@ using Heiflow.Spatial.SpatialAnalyst;
 
 namespace Heiflow.Tools.ConceptualModel
 {
-    public class LPFTool  : MapLayerRequiredTool
+    public class LPFTool  //: MapLayerRequiredTool
     {
 
         private List<LookupTableRecord> _LookupTable = new List<LookupTableRecord>();
         private string[] _RasterFileList;
         public LPFTool()
         {
-            Name = "Set LPF Values By Raster List";
-            Category = Cat_CMG;
-            SubCategory = "LPF/UPW";
-            Description = "Set LPF/UPW values from raster list";
-            Version = "1.0.0.0";
-            this.Author = "Yong Tian";
-            MultiThreadRequired = true;
+            //Name = "Set LPF Values By Raster List";
+            //Category = Cat_CMG;
+            //SubCategory = "LPF/UPW";
+            //Description = "Set LPF/UPW values from raster list";
+            //Version = "1.0.0.0";
+            //this.Author = "Yong Tian";
+            //MultiThreadRequired = true;
         }
 
         [Category("Input")]
@@ -91,13 +91,13 @@ namespace Heiflow.Tools.ConceptualModel
             set;
         }
 
-        public override void Initialize()
+        public  void Initialize()
         {    
-            this.Initialized = TypeConverterEx.IsNotNull(LookupTableFile);
-            this.Initialized = TypeConverterEx.IsNotNull(RasterFileList);
+            //this.Initialized = TypeConverterEx.IsNotNull(LookupTableFile);
+            //this.Initialized = TypeConverterEx.IsNotNull(RasterFileList);
         }
 
-        public override bool Execute(ICancelProgressHandler cancelProgressHandler)
+        public  bool Execute(ICancelProgressHandler cancelProgressHandler)
         {
             var shell = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
             var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();

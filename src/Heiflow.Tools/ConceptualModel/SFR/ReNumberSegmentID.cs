@@ -1,13 +1,13 @@
 ﻿using Heiflow.Applications;
+using Heiflow.Controls.WinForm.Editors;
 using Heiflow.Core.Hydrology;
 using Heiflow.Models.Subsurface;
 using Heiflow.Presentation.Services;
-using System;
+using Heiflow.Core.Data;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace Heiflow.Tools.ConceptualModel.SFR
 {
@@ -23,6 +23,16 @@ namespace Heiflow.Tools.ConceptualModel.SFR
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
         }
+        bool filesaved = false;
+
+        [Category("Output")]
+        [Description("The inp filename")]
+        [EditorAttribute(typeof(SaveFileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
+        public string SegIDMapFileName
+        {
+            get;
+            set;
+        }
 
         public override void Initialize()
         {
@@ -37,9 +47,14 @@ namespace Heiflow.Tools.ConceptualModel.SFR
 
             if (sfr != null)
             {
+                filesaved = false;
                 var rvnet = sfr.RiverNetwork;
                 sfr.NetworkToMat();
                 Renumber(rvnet);
+                if(filesaved)
+                {
+                    cancelProgressHandler.Progress("Package_Tool", 100, "The old and sorted segment ID is saved to the file: " + SegIDMapFileName);
+                }
                 return true;
             }
             else
@@ -64,6 +79,19 @@ namespace Heiflow.Tools.ConceptualModel.SFR
                 var river = ordered.ElementAt(i);
                 river.OrderedID = i + 1;
                 idmap.Add(river.ID, river.OrderedID);
+            }
+            filesaved = true;
+            if (TypeConverterEx.IsNotNull(SegIDMapFileName))
+            {
+                StreamWriter sw = new StreamWriter(SegIDMapFileName);
+                string line = "Old ID,New ID"; 
+                sw.WriteLine(line);
+                foreach(var oid in idmap.Keys)
+                {
+                    line = string.Format("{0},{1}", oid,idmap[oid]);
+                    sw.WriteLine(line);
+                }
+                sw.Close();
             }
             for (int i = 0; i < ordered.Count(); i++)
             {

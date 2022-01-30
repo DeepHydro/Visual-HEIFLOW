@@ -50,7 +50,7 @@ namespace Heiflow.Tools.Conversion
 {
     public class ToRasterList : MapLayerRequiredTool
     {
-        public enum FilterMode { Maximum, Minimum, None }
+        public enum TimeIntevalunits { Second, Hour, Day, Month,Year }
         public ToRasterList()
         {
             Name = "To raster list";
@@ -64,6 +64,7 @@ namespace Heiflow.Tools.Conversion
             Direcotry = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             TimeInteval = 86400;
             Start = new DateTime(2000, 1, 1);
+            TimeIntevalunit = TimeIntevalunits.Day;
         }
         private IFeatureSet _grid_layer;
 
@@ -119,8 +120,16 @@ namespace Heiflow.Tools.Conversion
         }
 
         [Category("Optional")]
-        [Description("Specify the time inteval in the unit of seconds.")]
+        [Description("Specify the time inteval in the coresponding time unit.")]
         public int TimeInteval
+        {
+            get;
+            set;
+        }
+
+        [Category("Optional")]
+        [Description("The time inteval unit")]
+        public TimeIntevalunits TimeIntevalunit
         {
             get;
             set;
@@ -162,9 +171,29 @@ namespace Heiflow.Tools.Conversion
                 if(mat.DateTimes == null)
                 {
                     mat.DateTimes = new DateTime[ntime];
-                    for (int t = 0; t < ntime; t++)
+                    mat.DateTimes[0] = Start;
+                    for (int t = 1; t < ntime; t++)
                     {
-                        mat.DateTimes[t] = Start.AddSeconds(TimeInteval);
+                        if (TimeIntevalunit == TimeIntevalunits.Second)
+                        {
+                            mat.DateTimes[t] = mat.DateTimes[t-1].AddSeconds(TimeInteval);
+                        }
+                        else if (TimeIntevalunit == TimeIntevalunits.Hour)
+                        {
+                            mat.DateTimes[t] = mat.DateTimes[t - 1].AddHours(TimeInteval);
+                        }
+                        else if (TimeIntevalunit == TimeIntevalunits.Day)
+                        {
+                            mat.DateTimes[t] = mat.DateTimes[t - 1].AddDays(TimeInteval);
+                        }
+                        else if (TimeIntevalunit == TimeIntevalunits.Month)
+                        {
+                            mat.DateTimes[t] = mat.DateTimes[t - 1].AddMonths(TimeInteval);
+                        }
+                        else if (TimeIntevalunit == TimeIntevalunits.Year)
+                        {
+                            mat.DateTimes[t] = mat.DateTimes[t - 1].AddYears(TimeInteval);
+                        }
                     }
                 }
                 for (int t = 0; t < ntime; t++)

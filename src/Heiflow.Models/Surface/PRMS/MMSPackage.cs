@@ -737,37 +737,6 @@ namespace Heiflow.Models.Surface.PRMS
                 }
             }
 
-            ResetToDefault();
-
-            var hru_elev = Select("hru_elev");
-            if(hru_elev != null)
-            {
-                var para = hru_elev as DataCubeParameter<float>;
-                for (int i = 0; i < numhru; i++)
-                {
-                    para[0, i, 0] = grid.Elevations[0, 0, i];
-                }
-            }
-
-            var hru_slope = Select("hru_slope");
-            if(hru_elev != null && grid.Slope != null)
-            {
-                var para = hru_slope as DataCubeParameter<float>;
-                for (int i = 0; i < numhru; i++)
-                {
-                    para[0, i, 0] = grid.Slope[0, 0, i];
-                }
-            }
-            var hru_aspect = Select("hru_aspect");
-            if (hru_aspect != null && grid.Aspect != null)
-            {
-                var para = hru_aspect as DataCubeParameter<float>;
-                for (int i = 0; i < numhru; i++)
-                {
-                    para[0, i, 0] = grid.Aspect[0, 0, i];
-                }
-            }
-
             var soil_depth = Select("soil_depth");
             if (soil_depth != null)
             {
@@ -804,6 +773,38 @@ namespace Heiflow.Models.Surface.PRMS
                     para[0][":", i] = prms.SoilLayerManager.Layers[i].InitPFR;
                 }
             }
+
+            ResetToDefault();
+
+            var hru_elev = Select("hru_elev");
+            if (hru_elev != null)
+            {
+                var para = hru_elev as DataCubeParameter<float>;
+                for (int i = 0; i < numhru; i++)
+                {
+                    para[0, i, 0] = grid.Elevations[0, 0, i];
+                }
+            }
+
+            var hru_slope = Select("hru_slope");
+            if (hru_elev != null && grid.Slope != null)
+            {
+                var para = hru_slope as DataCubeParameter<float>;
+                for (int i = 0; i < numhru; i++)
+                {
+                    para[0, i, 0] = grid.Slope[0, 0, i];
+                }
+            }
+            var hru_aspect = Select("hru_aspect");
+            if (hru_aspect != null && grid.Aspect != null)
+            {
+                var para = hru_aspect as DataCubeParameter<float>;
+                for (int i = 0; i < numhru; i++)
+                {
+                    para[0, i, 0] = grid.Aspect[0, 0, i];
+                }
+            }
+
 
             ModelService.NHRU = numhru;
             var topo = grid.Topology;
@@ -846,9 +847,16 @@ namespace Heiflow.Models.Surface.PRMS
              {
                 if (pr.ValueType < 4)
                 {
-                    buf = float.Parse(pr.GetValue(0, 0, 0).ToString());
-                    if(buf == 0)
-                        pr.SetToDefault();
+                    try
+                    {
+                        buf = float.Parse(pr.GetValue(0, 0, 0).ToString());
+                        if (buf == 0)
+                            pr.SetToDefault();
+                    }
+                    catch
+                    {
+                        Debug.WriteLine(pr.Name);
+                    }
                 }   
              }
         }

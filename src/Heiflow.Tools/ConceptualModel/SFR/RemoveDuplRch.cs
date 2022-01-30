@@ -145,8 +145,8 @@ namespace Heiflow.Tools.ConceptualModel
                 var model = prj.Project.Model as Heiflow.Models.Integration.HeiflowModel;
                 if (model != null)
                 {
-                    model.PRMSModel.MMSPackage.Parameters["nreach"].SetValue(0, 0, 0, sfr.NSTRM);
-                    model.PRMSModel.MMSPackage.Parameters["nsegment"].SetValue(0, 0, 0, sfr.NSS);
+                    model.PRMSModel.MMSPackage.Parameters["nreach"].SetValue(0, 0, 0, sfr.NSS);
+                    model.PRMSModel.MMSPackage.Parameters["nsegment"].SetValue(0, 0, 0, sfr.NSTRM);
                     model.PRMSModel.MMSPackage.IsDirty = true;
                     model.PRMSModel.MMSPackage.Save(null);
                 }

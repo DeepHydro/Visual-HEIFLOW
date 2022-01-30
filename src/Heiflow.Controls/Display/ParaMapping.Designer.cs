@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ParaMapping));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.chbProp = new System.Windows.Forms.CheckedListBox();
             this.contextMenuStripAreal = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,6 +81,7 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.cmbPackages = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnCheckColLayer = new System.Windows.Forms.ToolStripButton();
             this.contextMenuStripAreal.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -212,14 +213,14 @@
             this.dataGridViewLookup.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dataGridViewLookup.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridViewLookup.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.LightGreen;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewLookup.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.LightGreen;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewLookup.DefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridViewLookup.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewLookup.Location = new System.Drawing.Point(3, 30);
             this.dataGridViewLookup.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -387,14 +388,14 @@
             this.dataGridViewZone.BackgroundColor = System.Drawing.SystemColors.Control;
             this.dataGridViewZone.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridViewZone.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.LightGreen;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewZone.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.Color.LightGreen;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewZone.DefaultCellStyle = dataGridViewCellStyle5;
             this.dataGridViewZone.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewZone.Location = new System.Drawing.Point(3, 30);
             this.dataGridViewZone.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -411,6 +412,7 @@
             this.bindingNavigatorZone.DeleteItem = null;
             this.bindingNavigatorZone.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.bindingNavigatorZone.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnCheckColLayer,
             this.btnImportZone,
             this.btnExportZone,
             this.bindingNavigatorMoveFirstItem,
@@ -450,7 +452,8 @@
             this.btnImportZone.Name = "btnImportZone";
             this.btnImportZone.Size = new System.Drawing.Size(24, 24);
             this.btnImportZone.Text = "Import Zone ID table from a csv file. The column names must be HRU_ID, LAYER_ID a" +
-    "nd Zone_ID";
+    "nd Zone_ID; If use colmun as layer checked, the columns must be HUR_ID, LAYER1,L" +
+    "YAER2...";
             this.btnImportZone.Click += new System.EventHandler(this.btnImportZone_Click);
             // 
             // btnExportZone
@@ -626,6 +629,17 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "* Packages";
             // 
+            // btnCheckColLayer
+            // 
+            this.btnCheckColLayer.CheckOnClick = true;
+            this.btnCheckColLayer.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnCheckColLayer.Image = global::Heiflow.Controls.WinForm.Properties.Resources.datasheet16;
+            this.btnCheckColLayer.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnCheckColLayer.Name = "btnCheckColLayer";
+            this.btnCheckColLayer.Size = new System.Drawing.Size(24, 24);
+            this.btnCheckColLayer.Text = "toolStripButton1";
+            this.btnCheckColLayer.ToolTipText = "Use columns as layers";
+            // 
             // ParaMapping
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
@@ -722,5 +736,6 @@
         private System.Windows.Forms.ToolStripButton btnLocateZoneDic;
         private System.Windows.Forms.ToolStripButton bntExportLook;
         private System.Windows.Forms.ToolStripButton btnExportZone;
+        private System.Windows.Forms.ToolStripButton btnCheckColLayer;
     }
 }

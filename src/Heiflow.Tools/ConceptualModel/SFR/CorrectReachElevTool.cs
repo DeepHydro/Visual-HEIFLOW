@@ -48,7 +48,7 @@ using System.Linq;
 
 namespace Heiflow.Tools.ConceptualModel
 {
-    public enum CorrectionMethod { ModifyBottom, Offset2Bottom }
+    public enum CorrectionMethod { ModifyBottom, Offset2Bottom, Offset2Surface }
     public class CorrectReachElevTool : MapLayerRequiredTool
     {
         public CorrectReachElevTool()
@@ -64,7 +64,7 @@ namespace Heiflow.Tools.ConceptualModel
             CorrectionMethod = CorrectionMethod.ModifyBottom;
         }
         [Category("Parameter")]
-        [Description("The offset applied to the original value.")]
+        [Description("The offset applied to the original value. It must be greater than 0.")]
         public float Offset
         {
             get;
@@ -72,7 +72,7 @@ namespace Heiflow.Tools.ConceptualModel
         }
 
         [Category("Parameter")]
-        [Description("The offset applied to the original value. If ModifyBottom is selected, Offset is not used.")]
+        [Description("The offset applied to the original value.")]
         public CorrectionMethod CorrectionMethod
         {
             get;
@@ -106,8 +106,44 @@ namespace Heiflow.Tools.ConceptualModel
                             if ((reach.TopElevation - reach.BedThick) < dis.Elevation[1, 0, index])
                             {
                                 reach.TopElevation = dis.Elevation[1, 0, index] + Offset + reach.BedThick;
-                                msg = string.Format("The reach at {0},{1} is modified.", river.ID, reach.ID);
+                                msg = string.Format("The elevation of reach ({0},{1}) is modified.", river.ID, reach.ID);
                                 cancelProgressHandler.Progress("tool", i / rvnet.RiverCount * 100, msg);
+                                count++;
+                            }
+                        }
+                        i++;
+                    }
+                }
+                else if (CorrectionMethod == CorrectionMethod.Offset2Surface)
+                {
+                    Offset = System.Math.Abs(Offset);
+                    foreach (var river in rvnet.Rivers)
+                    {
+                        foreach (Reach reach in river.Reaches)
+                        {
+                            var index = grid.Topology.GetSerialIndex(reach.IRCH - 1, reach.JRCH - 1);
+                            if ((reach.TopElevation - reach.BedThick) < dis.Elevation[1, 0, index])
+                            {
+                                var thick1 = dis.Elevation[0, 0, index] - dis.Elevation[1, 0, index];
+                                if(Offset < (thick1+ reach.BedThick))
+                                {
+                                    reach.TopElevation = dis.Elevation[0, 0, index] - Offset - reach.BedThick;
+                                }
+                                else
+                                {
+                                    msg = string.Format("Warning: the thickness of layer 1 at {0},{1} is smaller than the Offset: {2} < {3}", river.ID, reach.ID, thick1, Offset);
+                                    cancelProgressHandler.Progress("tool", i / rvnet.RiverCount * 100, msg);
+                                    reach.TopElevation = dis.Elevation[1, 0, index] + reach.BedThick + 1;
+                                }
+                                msg = string.Format("The elevation of reach ({0},{1}) is modified.", river.ID, reach.ID);
+                                cancelProgressHandler.Progress("tool", i / rvnet.RiverCount * 100, msg);
+                                count++;
+                            }
+                            if(reach.TopElevation > dis.Elevation[0, 0, index])
+                            {
+                                msg = string.Format("Warning: The elevation of reach ({0},{1}) is greater than land surface and is modified: {2} < {3}", river.ID, reach.ID, reach.TopElevation, dis.Elevation[0, 0, index]);
+                                cancelProgressHandler.Progress("tool", i / rvnet.RiverCount * 100, msg);
+                                reach.TopElevation = dis.Elevation[0, 0, index] - Offset - reach.BedThick;
                                 count++;
                             }
                         }
@@ -128,7 +164,7 @@ namespace Heiflow.Tools.ConceptualModel
                                 {
                                     thickness[j] = dis.Elevation[j, 0, index] - dis.Elevation[j + 1, 0, index];
                                 }
-                                dis.Elevation[1, 0, index] = (float)(reach.TopElevation - reach.BedThick - 1);
+                                dis.Elevation[1, 0, index] = (float)(reach.TopElevation - reach.BedThick - Offset);
                                 for (int j = 2; j < grid.LayerCount; j++)
                                 {
                                     dis.Elevation[j, 0, index] = dis.Elevation[j - 1, 0, index] - thickness[j - 1];

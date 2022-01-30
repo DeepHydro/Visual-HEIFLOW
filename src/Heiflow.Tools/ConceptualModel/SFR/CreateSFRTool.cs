@@ -152,6 +152,15 @@ namespace Heiflow.Tools.ConceptualModel
                 }
             }
         }
+        [Category("Output")]
+        [Description("The segment ID map filename")]
+        [EditorAttribute(typeof(SaveFileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
+        public string SegIDMapFileName
+        {
+            get;
+            set;
+        }
+
         #endregion
 
         #region Stream Network
@@ -440,6 +449,7 @@ namespace Heiflow.Tools.ConceptualModel
             issucuess = false;
             var dic = Path.GetDirectoryName(_stream_layer.FilePath);
             var out_fn = Path.Combine(dic, "sfr_cpm.shp");
+            SegIDMapFileName = Path.Combine(dic, "segid_map.csv");
             Dictionary<int, ReachFeatureCollection> fea_list = new Dictionary<int, ReachFeatureCollection>();
             cancelProgressHandler.Progress("Package_Tool", 10, "Calculating...");
             if (StreamGridIntersectionLayer != null)
@@ -482,11 +492,12 @@ namespace Heiflow.Tools.ConceptualModel
 
             cancelProgressHandler.Progress("Package_Tool", 30, "Calculation of intersectons between Grid and Stream finished");
             PreProByOrder(fea_list, cancelProgressHandler);
-            var renumbered= RenumerByLength(fea_list);
+            var renumbered = RenumerByLength(fea_list, cancelProgressHandler);
             cancelProgressHandler.Progress("Package_Tool", 70, "Calculation of reach parameters finished");
             Save2SFRFile(renumbered, cancelProgressHandler);
             issucuess = true;
             cancelProgressHandler.Progress("Package_Tool", 90, "SFR file saved");
+            cancelProgressHandler.Progress("Package_Tool", 100, "The old and sorted segment ID is saved to the file: " + SegIDMapFileName);
             return true;
         }
 
@@ -782,13 +793,19 @@ namespace Heiflow.Tools.ConceptualModel
             }
         }
 
-        private Dictionary<int, ReachFeatureCollection> RenumerByLength(Dictionary<int, ReachFeatureCollection> fea_list)
+        private Dictionary<int, ReachFeatureCollection> RenumerByLength(Dictionary<int, ReachFeatureCollection> fea_list, ICancelProgressHandler cancelProgressHandler)
         {
+            string msg = "";
             for (int i = 0; i < fea_list.Count(); i++)
             {
                 var fea = fea_list.ElementAt(i).Value;
                 double length = 0;
                 CalcLengthToOutlet(fea_list, fea, ref length);
+                if (length > 10000000)
+                {
+                    msg = string.Format("The cascade for the segment {0} is wrong." , fea.SegmentID);
+                    cancelProgressHandler.Progress("Package_Tool", 70, msg);
+                }
                 fea.DistanceToOutlet = length;
             }
             var ordered = fea_list.OrderByDescending(x => x.Value.DistanceToOutlet);
@@ -799,6 +816,7 @@ namespace Heiflow.Tools.ConceptualModel
                 fea.OrderedSegmentID = i + 1;
                 idmap.Add(fea.SegmentID, fea.OrderedSegmentID);
             }
+            SaveSegIDMapFile(idmap);
             for (int i = 0; i < ordered.Count(); i++)
             {
                 var fea = ordered.ElementAt(i).Value;
@@ -815,17 +833,40 @@ namespace Heiflow.Tools.ConceptualModel
             return result;
         }
 
+        private void SaveSegIDMapFile(Dictionary<int, int> idmap)
+        {
+            if (TypeConverterEx.IsNotNull(SegIDMapFileName))
+            {
+                StreamWriter sw = new StreamWriter(SegIDMapFileName);
+                string line = "Old ID,New ID";
+                sw.WriteLine(line);
+                foreach (var oid in idmap.Keys)
+                {
+                    line = string.Format("{0},{1}", oid, idmap[oid]);
+                    sw.WriteLine(line);
+                }
+                sw.Close();
+            }
+        }
+
         private double CalcLengthToOutlet(Dictionary<int, ReachFeatureCollection> fea_list,ReachFeatureCollection seg, ref double len)
         {
-            if(seg.OutSegmentID > 0)
+            if (len > 10000000)
             {
-                len = len + seg.TotalLength;
-                return CalcLengthToOutlet(fea_list, fea_list[seg.OutSegmentID], ref len);
+                return len;
             }
             else
             {
-                len = len + seg.TotalLength;
-                return len;
+                if (seg.OutSegmentID > 0)
+                {
+                    len = len + seg.TotalLength;
+                    return CalcLengthToOutlet(fea_list, fea_list[seg.OutSegmentID], ref len);
+                }
+                else
+                {
+                    len = len + seg.TotalLength;
+                    return len;
+                }
             }
         }
        

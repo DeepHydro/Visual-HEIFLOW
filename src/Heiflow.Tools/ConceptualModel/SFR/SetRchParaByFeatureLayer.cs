@@ -40,7 +40,7 @@ using System.Linq;
 
 namespace Heiflow.Tools.ConceptualModel
 {
-    public enum ReachParameter {  BedThick, TopElevation, Slope, Length, STRHC1, THTS, THTI, EPS };
+    public enum ReachParameter {  BedThick, TopElevation, Slope, Length, STRHC1, THTS, THTI, EPS, };
     public class SetReachParaByFeatureLayer : MapLayerRequiredTool
     {
         private IMapLayerDescriptor _StreamFeatureLayerDescriptor;
@@ -144,11 +144,6 @@ namespace Heiflow.Tools.ConceptualModel
             {
                 if (SFRPackage.ReachPara.Contains(ParameterName.ToString()))
                 {
-                    //if (sfr.RiverNetwork.ReachCount != dt.Rows.Count)
-                    //{
-                    //    cancelProgressHandler.Progress("Package_Tool", 1, "Warning: Reach count in SFR package is not equal to the row count of the GIS layer");
-                    //    return false;
-                    //}
                     if (dt.Columns.Contains(SegmentIDField) && dt.Columns.Contains(ReachIDField))
                     {
                         foreach (DataRow dr in dt.Rows)
@@ -158,7 +153,8 @@ namespace Heiflow.Tools.ConceptualModel
                             var reach = sfr.RiverNetwork.GetReach(segid, rchid);
                             if (reach != null)
                             {
-                                reach.GetType().GetProperty(ParameterName.ToString()).SetValue(reach, dr[ParameterField]);
+                                /// "CellElev","BedThick","TopElev","Slope","Length","Offset"，"STRHC1","THTS", "THTI","EPS"
+                                reach.GetType().GetProperty(ParameterName.ToString()).SetValue(reach, double.Parse(dr[ParameterField].ToString()));
                             }
                         }
                         sfr.NetworkToMat();

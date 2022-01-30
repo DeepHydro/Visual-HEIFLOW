@@ -283,7 +283,7 @@ namespace Heiflow.Models.Subsurface
             //if (_MFNameManager.IsDirty)
             //{
                 _MFNameManager.Save(ControlFileName);
-                progress.Progress("Modflow", 1, "\tNam file saved");
+                progress.Progress("Modflow", 1, "Nam file saved");
             //}
             foreach (var pck in Packages.Values)
             {

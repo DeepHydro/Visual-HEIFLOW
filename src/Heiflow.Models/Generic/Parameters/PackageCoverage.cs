@@ -453,6 +453,34 @@ namespace Heiflow.Models.Generic.Parameters
             return records;
         }
         /// <summary>
+        /// Zone Table is converted as Tuple array. A tuple has three items: [Layer ID, HRU ID, Zone ID]
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public Tuple<int, int, int>[] ConvertZoneTableByColumns(DataTable dt)
+        {
+            var nrow = dt.Rows.Count;
+            var nlayer = dt.Columns.Count-1;
+            var records = new Tuple<int, int, int>[nrow* nlayer];
+            var hru_id = new int[nrow];
+            int k = 0;
+            for (int i = 0; i < nrow; i++)
+            {
+                  hru_id[i] = int.Parse(dt.Rows[i][HRUID_NAME].ToString());
+            }
+            for (int c = 0; c < nlayer; c++)
+            {
+                var layer = int.Parse(dt.Columns[c + 1].ColumnName.Trim().Remove(0, 5)); // remove "layer"
+                for (int i = 0; i < nrow; i++)
+                {
+                    var dr = dt.Rows[i];
+                    records[k] = new Tuple<int, int, int>(layer, hru_id[i], int.Parse(dr[c+1].ToString()));
+                    k++;
+                }
+            }
+            return records;
+        }
+        /// <summary>
         /// Lookup table is converted as a dictionary. The key is Parameter Name, the value is a Tuple[Layer ID, Zone ID, Para Value]
         /// </summary>
         /// <param name="dt">The first and second columns of the datatable are Layer ID and Zone ID</param>

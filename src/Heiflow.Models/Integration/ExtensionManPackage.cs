@@ -70,7 +70,7 @@ namespace Heiflow.Models.Integration
         }
         [Category("Solver Extension")]
         [Description("Enable solver extension")]
-        public bool EnableSolverEx
+        public int SolverExFlag
         {
             get;
             set;
@@ -85,6 +85,13 @@ namespace Heiflow.Models.Integration
         [Category("Solver Extension")]
         [Description("HCLOSER in transit peroid")]
         public float HCLOSER
+        {
+            get;
+            set;
+        }
+        [Category("Solver Extension")]
+        [Description("HCLOSER in transit peroid")]
+        public float Prep_Frac
         {
             get;
             set;
@@ -303,7 +310,7 @@ namespace Heiflow.Models.Integration
                     StartInJulian = int.Parse(newline.Trim());
                     newline = sr.ReadLine();
                     newline = sr.ReadLine();
-                    EnableSolverEx = TypeConverterEx.String2Bool(newline.Trim());
+                    SolverExFlag = int.Parse(newline.Trim());
                     newline = sr.ReadLine();
                     var buf = TypeConverterEx.Split<int>(newline, 2);
                     Max_TS_ITER = buf[0];
@@ -389,8 +396,11 @@ namespace Heiflow.Models.Integration
             sw.WriteLine("## Julian Start");
             sw.WriteLine(StartInJulian.ToString());
             sw.WriteLine("## SolverEx");
-            sw.WriteLine(TypeConverterEx.Bool2String(EnableSolverEx));
-            newline = string.Format("{0}  {1} #Max_TS_ITER, HCLOSER", Max_TS_ITER, HCLOSER);
+            sw.WriteLine(SolverExFlag);
+            if (SolverExFlag < 2)
+                newline = string.Format("{0}  {1} #Max_TS_ITER, HCLOSER", Max_TS_ITER, HCLOSER);
+            else
+                newline = string.Format("{0}  {1} {2} #Max_TS_ITER, HCLOSER, Precp_Frac", Max_TS_ITER, HCLOSER,Prep_Frac);
             sw.WriteLine(newline);
             sw.WriteLine("## MFOutputEx");
             sw.WriteLine(TypeConverterEx.Bool2String(EnableMFOutputEx));
@@ -428,7 +438,7 @@ namespace Heiflow.Models.Integration
         private void InitValues()
         {
             StartInJulian = 36526;
-            EnableSolverEx = true;
+            SolverExFlag = 1;
             Max_TS_ITER = 20;
             HCLOSER = 10;
             EnableMFOutputEx = false;
@@ -438,6 +448,7 @@ namespace Heiflow.Models.Integration
             EnableLakeEx = false;
             EnableAllocCurveEx = false;
             EnableCHDEx = false;
+            Prep_Frac = 0.1f;
             _MFOutputExFile = ".\\Input\\Extension\\mfoutput.ex";
             _SFRExFile = ".\\Input\\Extension\\sfr.ex";
             _SFRReportFile = ".\\Output\\sfr_report.txt";

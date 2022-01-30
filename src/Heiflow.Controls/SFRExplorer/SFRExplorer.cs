@@ -543,7 +543,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                 int segid = 0;
                 int reachid = 0;
                 int failurecount = 0;
-                var varname = SFROutput.DefaultVariablesAbbrv[cmbSFRVars.SelectedIndex];
+                var varname = SFROutput.GetVarAbv(cmbSFRVars.SelectedItem.ToString());
                 if (!dt.Columns.Contains(varname))
                 {
                     DataColumn col = new DataColumn(varname, typeof(float));

@@ -266,7 +266,10 @@ namespace Heiflow.Controls.WinForm.Display
             }
             try
             {
-                zone_dt = _coverage.ConvertZoneTable(dtzone);
+                if(btnCheckColLayer.Checked)
+                    zone_dt = _coverage.ConvertZoneTableByColumns(dtzone);
+                else
+                    zone_dt = _coverage.ConvertZoneTable(dtzone);
             }
             catch (Exception ex)
             {

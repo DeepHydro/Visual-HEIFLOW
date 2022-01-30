@@ -53,10 +53,11 @@ namespace Heiflow.Models.Subsurface
     {
         public static string PackageName = "SFR Output";
         private SFRPackage _SFRPackage;
+        private Dictionary<string, string> _defaul_var_abv;
         public SFROutputPackage(SFRPackage sfr)
         {
             Name = PackageName;
-            IsReadSSData = false;
+            IsReadSSData = true;
             IsLoadCompleteData = false;
 #if DEBUG
             _MaxTimeStep = 100;
@@ -68,7 +69,12 @@ namespace Heiflow.Models.Subsurface
             ,"Stream head", "Stream depth","Stream width", "Stream conductance", "Flow to water table", "Change of unsat. stor.", "Groundwater head"};
             DefaultVariablesAbbrv = new string[] { "FlowIn", "FlowLoss", "FlowOut", "Runoff","RiverRain", "RiverET"
             ,"RiverHead", "RiverDepth","RiverWidth", "RivConduct", "FlowToGW", "UnsatStor", "GWHead"};
-            ReachIndex = new List<Tuple<int, int, int>>();
+            _defaul_var_abv = new Dictionary<string, string>();
+            for (int i = 0; i < DefaultAttachedVariables.Length;i++ )
+            {
+                _defaul_var_abv.Add(DefaultAttachedVariables[i], DefaultVariablesAbbrv[i]);
+            }
+                ReachIndex = new List<Tuple<int, int, int>>();
             _SFRPackage = sfr;
             _Layer3DToken = "SFR";
             Variables = DefaultAttachedVariables;
@@ -816,6 +822,18 @@ namespace Heiflow.Models.Subsurface
             //    }
             //}
             return ts;
+        }
+
+        public string GetVarAbv(string sfrvar)
+        {
+            if(_defaul_var_abv.Keys.Contains(sfrvar))
+            {
+                return _defaul_var_abv[sfrvar];
+            }
+            else
+            {
+                return "para";
+            }
         }
 
         public int GetReachIndex(int segIndex, int rchIndex)

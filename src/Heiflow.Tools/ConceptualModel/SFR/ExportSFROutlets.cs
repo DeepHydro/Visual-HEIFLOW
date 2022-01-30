@@ -27,26 +27,13 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
-using DotSpatial.Data;
-using GeoAPI.Geometries;
 using Heiflow.Applications;
 using Heiflow.Controls.WinForm.Editors;
-using Heiflow.Controls.WinForm.Toolbox;
 using Heiflow.Core.Data;
-using Heiflow.Core.Hydrology;
-using Heiflow.Core.IO;
-using Heiflow.Core.MyMath;
 using Heiflow.Models.Subsurface;
-using Heiflow.Models.Tools;
 using Heiflow.Presentation.Services;
-using Heiflow.Spatial.SpatialRelation;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.IO;
-using System.Linq;
-using System.Windows.Forms.Design;
 
 namespace Heiflow.Tools.ConceptualModel
 {
@@ -65,7 +52,6 @@ namespace Heiflow.Tools.ConceptualModel
 
         [Category("Input")]
         [Description("The ID of outlets")]
-        [EditorAttribute(typeof(SaveFileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public int OutletID
         {
             get;
@@ -74,7 +60,7 @@ namespace Heiflow.Tools.ConceptualModel
      
 
         [Category("Output")]
-        [Description("The SWMM inp filename")]
+        [Description("The ")]
         [EditorAttribute(typeof(SaveFileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public string OutputFileName
         {
