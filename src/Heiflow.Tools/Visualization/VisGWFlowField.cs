@@ -52,6 +52,7 @@ namespace Heiflow.Tools.Visualization
 {
     public class VisGWFlowField : ModelTool
     {
+        public enum CSType {PCG,GCS,RANK}
         public VisGWFlowField()
         {
             Name = "Visualize Groundwater Flow Field";
@@ -71,6 +72,7 @@ namespace Heiflow.Tools.Visualization
             ParticleDensity = 256;
             ParticleOpacity = 1;
             ParticleSize = 2;
+            CoordinateType = VisGWFlowField.CSType.RANK;
         }
 
  
@@ -98,6 +100,13 @@ namespace Heiflow.Tools.Visualization
         [Description("The time intel in the unit of seconds.")]
         [Category("Data")]
         public int TimeInteval
+        {
+            get;
+            set;
+        }
+        [Description("The coordinate type")]
+        [Category("Data")]
+        public CSType CoordinateType 
         {
             get;
             set;
@@ -212,25 +221,57 @@ namespace Heiflow.Tools.Visualization
                 int k = 0;
                var mat_x = grid.ToMatrix<float>(vecx, 0);
                var mat_y = grid.ToMatrix<float>(vecy, 0);
-               for (int i = 0; i < grid.ColumnCount; i++)
+             
+
+               if (CoordinateType == CSType.RANK)
                {
-                   for (int j = 0; j < grid.RowCount; j++)
+                   for (int i = 0; i < grid.ColumnCount; i++)
                    {
-                       xx = System.Math.Round(mat_x[j][i] / TimeInteval, 4);
-                       yy = System.Math.Round(-mat_y[j][i] / TimeInteval, 4);
-                       mag = System.Math.Sqrt(xx * xx + yy *yy);
-                       mag = System.Math.Round(mag,4);
-                       if (mag != NoDataValue)
+                       for (int j = 0; j < grid.RowCount; j++)
                        {
-                           newline = string.Format("data[{0}] = [{1},{2},{3},{4},{5}];", k, i, grid.RowCount - 1 - j, xx, yy, mag);
-                           valMax = System.Math.Max(valMax, mag);
-                           valMin = System.Math.Min(valMin, mag);
-                           sw.WriteLine(newline);
-                           k++;
+                           xx = System.Math.Round(mat_x[j][i] / TimeInteval, 4);
+                           yy = System.Math.Round(-mat_y[j][i] / TimeInteval, 4);
+                           mag = System.Math.Sqrt(xx * xx + yy * yy);
+                           mag = System.Math.Round(mag, 4);
+                           //grid.LocateCentroid
+
+                           if (mag != NoDataValue)
+                           {
+                               newline = string.Format("data[{0}] = [{1},{2},{3},{4},{5}];", k, i, grid.RowCount - 1 - j, xx, yy, mag);
+                               valMax = System.Math.Max(valMax, mag);
+                               valMin = System.Math.Min(valMin, mag);
+                               sw.WriteLine(newline);
+                               k++;
+                           }
                        }
+                       progress = i * 100 / grid.ColumnCount;
+                       cancelProgressHandler.Progress("Package_Tool", progress, "Processing column: " + (i + 1));
                    }
-                   progress = i * 100 / grid.ColumnCount;
-                   cancelProgressHandler.Progress("Package_Tool", progress, "Processing column: " + (i + 1));
+               }
+               else if (CoordinateType == CSType.GCS)
+               {
+                   var axis = grid.GetLonLatAxis();
+                   for (int i = 0; i < grid.ColumnCount; i++)
+                   {
+                       for (int j = 0; j < grid.RowCount; j++)
+                       {
+                           xx = System.Math.Round(mat_x[j][i] / TimeInteval, 4);
+                           yy = System.Math.Round(-mat_y[j][i] / TimeInteval, 4);
+                           mag = System.Math.Sqrt(xx * xx + yy * yy);
+                           mag = System.Math.Round(mag, 4);
+
+                           if (mag != NoDataValue)
+                           {
+                               newline = string.Format("data[{0}] = [{1},{2},{3},{4},{5}];", k, axis[0][i], axis[1][grid.RowCount - 1 - j], xx, yy, mag);
+                               valMax = System.Math.Max(valMax, mag);
+                               valMin = System.Math.Min(valMin, mag);
+                               sw.WriteLine(newline);
+                               k++;
+                           }
+                       }
+                       progress = i * 100 / grid.ColumnCount;
+                       cancelProgressHandler.Progress("Package_Tool", progress, "Processing column: " + (i + 1));
+                   }
                }
                sw.WriteLine("return data;");
                sw.WriteLine("}");

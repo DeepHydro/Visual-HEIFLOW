@@ -275,7 +275,8 @@ namespace Heiflow.Models.IO
                             {
                                 buf[i] += heads[l][i];
                             }
-                            buf[i] /= grid.ActualLayerCount;
+                            if(LoadingBehavior == MFLoadingLayersBehavior.Average)
+                                buf[i] /= grid.ActualLayerCount;
                         }
                     }
                     else if (Filter == Filter.GreaterThan)
@@ -284,9 +285,10 @@ namespace Heiflow.Models.IO
                         {
                             for (int l = 0; l < _Grid.ActualLayerCount; l++)
                             {
-                                buf[i] += heads[l][i] > FilterThreshold ? 0 : heads[l][i];
+                                buf[i] += (heads[l][i] > FilterThreshold ? 0 : heads[l][i]);
                             }
-                            buf[i] /= grid.ActualLayerCount;
+                            if (LoadingBehavior == MFLoadingLayersBehavior.Average)
+                                buf[i] /= grid.ActualLayerCount;
                         }
                     }
                     else if (Filter == Filter.Lowerthan)
@@ -295,9 +297,10 @@ namespace Heiflow.Models.IO
                         {
                             for (int l = 0; l < _Grid.ActualLayerCount; l++)
                             {
-                                buf[i] += heads[l][i] < FilterThreshold ? 0 : heads[l][i];
+                                buf[i] += (heads[l][i] < FilterThreshold ? 0 : heads[l][i]);
                             }
-                            buf[i] /= grid.ActualLayerCount;
+                            if (LoadingBehavior == MFLoadingLayersBehavior.Average)
+                                buf[i] /= grid.ActualLayerCount;
                         }
                     }
                 }

@@ -200,7 +200,8 @@ namespace Heiflow.Models.WRM
             var result = LoadingState.Normal;
             if (File.Exists(FileName))
             {
-                StreamReader sr = new StreamReader(FileName);
+                FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                StreamReader sr = new StreamReader(fs, System.Text.Encoding.Default);
                 try
                 {
                     var line = sr.ReadLine();
@@ -276,6 +277,7 @@ namespace Heiflow.Models.WRM
                 }
                 finally
                 {
+                    fs.Close();
                     sr.Close();
                 }
             }

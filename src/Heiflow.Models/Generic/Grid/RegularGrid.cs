@@ -600,6 +600,26 @@ namespace Heiflow.Models.Generic
             
             return c;
         }
+
+        /// <summary>
+        /// Return the centroid location of a given cell in Longitude and Latitude. All the index starting from 1
+        /// </summary>
+        /// <param name="col">the col index starting from 1</param>
+        /// <param name="row">the row index starting from 1</param>
+        /// <returns>centroid location</returns>
+        public Coordinate LocateCentroidInGCS(int col, int row)
+        {
+            Coordinate c = new Coordinate();
+            double dx = 0;
+            double dy = 0;
+            dx = DELR[0, 0, col - 1];
+            dy = DELC[0, 0, row - 1];
+            c.X = Origin.X + col * dx - 0.5 * dx;
+            c.Y = Origin.Y - row * dy + 0.5 * dy;
+
+            return c;
+        }
+
         public Point LocateCentroidPoint(int col, int row)
         {
             Coordinate c = new Coordinate();

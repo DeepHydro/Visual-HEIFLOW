@@ -36,6 +36,8 @@ namespace Heiflow.Tools.Postprocessing
             TemporalMeanDataCube = "temproal_mean";
             SpatialMeanDataCube = "spatial_mean";
             StatAllLayer = false;
+            Filter = Models.Subsurface.Filter.None;
+            LoadingBehavior = MFLoadingLayersBehavior.None;
         }
          private ICancelProgressHandler _ICancelProgressHandler;
          private CBCFile _CBCFile;
@@ -68,6 +70,20 @@ namespace Heiflow.Tools.Postprocessing
              get;
              set;
          }
+        [Category("Parameter")]
+        [Description("")]
+        public Filter Filter
+        {
+            get;
+            set;
+        }
+        [Category("Parameter")]
+        [Description("")]
+        public MFLoadingLayersBehavior LoadingBehavior
+        {
+            get;
+            set;
+        }
          [Category("Parameter")]
          [Description("No Data Value")]
          public float NoDataValue
@@ -120,6 +136,8 @@ namespace Heiflow.Tools.Postprocessing
                     _CBCFile.Loading += fhd_Loading;
                     _CBCFile.DataCubeLoaded += fhd_DataCubeLoaded;
                     _CBCFile.Layer = this.Layer;
+                    _CBCFile.Filter = this.Filter;
+                    _CBCFile.LoadingBehavior = this.LoadingBehavior;
                     _CBCFile.StatDataCube(VariableIndex);
                 }
                 else
