@@ -228,7 +228,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                     cmbRchID.DataSource = river.Reaches;
                 else
                 {
-                    tabControl_Chart.SelectedTab = this.tabPageTimeSeries;
+                   // tabControl_Chart.SelectedTab = this.tabPageTimeSeries;
                     if (cmbSFRVars.SelectedIndex < 0)
                         return;
                     var fts = SFROutput.GetTimeSeries(river.ID - 1, cmbSFRVars.SelectedIndex);
@@ -252,7 +252,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
 
             if (cmbRchID.SelectedItem != null)
             {
-                tabControl_Chart.SelectedTab = this.tabPageTimeSeries;
+               // tabControl_Chart.SelectedTab = this.tabPageTimeSeries;
                 var reach = cmbRchID.SelectedItem as Reach;
                 var fts = SFROutput.GetTimeSeries(reach.Parent.SubIndex, reach.SubIndex, cmbSFRVars.SelectedIndex, _SFROutputPackage.StartOfLoading);
                 if (fts != null)
@@ -334,7 +334,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                     return;
                 }
 
-                tabControl_Chart.SelectedTab = this.tabPageProfile;
+                //tabControl_Chart.SelectedTab = this.tabPageProfile;
                 var river_start = (int)cmbStartID.SelectedItem;
                 var river_end = (int)cmbEndID.SelectedItem;
 

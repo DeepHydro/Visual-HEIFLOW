@@ -272,37 +272,40 @@ namespace Heiflow.Tools.DataManagement
             newline = string.Format("{0}\t{1}\t0\t0\t # Data Set 1 num_irrg_obj, num_indu_obj, num_doms_obj, num_ecos_obj ", num_irrg_obj, num_indust_obj);
             sw_out.WriteLine(newline);
 
-            sw_out.WriteLine("# Data Set 2 irrigation objects");
-            for (int i = 0; i < num_irrg_obj; i++)
+            if (num_irrg_obj > 0)
             {
-                var obj = irrg_obj_list[i];
-                int oid = i + 1;
-                newline = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t#	 Data Set 2a oid, hrunum, iseg, ireach, num_well_layer, inlet_type {6}", obj.ID, obj.HRU_Num, obj.SegID, obj.ReachID, num_well_layer, obj.Inlet_Type, obj.Name);
-                sw_out.WriteLine(newline);
-                newline = string.Join("\t", obj.HRU_List);
-                newline += "\t# Data Set 2b IHRU ID list for the object " + oid;
-                sw_out.WriteLine(newline);
-                var canal_eff = new double[obj.HRU_Num];
-                var canal_ratio = new double[obj.HRU_Num];
-                for (int j = 0; j < obj.HRU_Num; j++)
+                sw_out.WriteLine("# Data Set 2 irrigation objects");
+                for (int i = 0; i < num_irrg_obj; i++)
                 {
-                    canal_eff[j] = obj.Canal_Efficiency;
-                    canal_ratio[j] = obj.Canal_Ratio;
-                }
-                newline = string.Join("\t", canal_eff) + "\t# Data Set 2c canal efficiency for each IHRU in the object " + oid;
-                sw_out.WriteLine(newline);
-                newline = string.Join("\t", canal_ratio) + "\t# Data Set 2d canal area ratio for each IHRU in the object " + oid;
-                sw_out.WriteLine(newline);
-                for (int j = 0; j < num_well_layer; j++)
-                {
-                    newline = well_layer[j] + "\t" + layer_ratio[j] + "\t# Data Set 2e well_layer layer_ratio  in the object " + oid;
+                    var obj = irrg_obj_list[i];
+                    int oid = i + 1;
+                    newline = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t#	 Data Set 2a oid, hrunum, iseg, ireach, num_well_layer, inlet_type {6}", obj.ID, obj.HRU_Num, obj.SegID, obj.ReachID, num_well_layer, obj.Inlet_Type, obj.Name);
+                    sw_out.WriteLine(newline);
+                    newline = string.Join("\t", obj.HRU_List);
+                    newline += "\t# Data Set 2b IHRU ID list for the object " + oid;
+                    sw_out.WriteLine(newline);
+                    var canal_eff = new double[obj.HRU_Num];
+                    var canal_ratio = new double[obj.HRU_Num];
+                    for (int j = 0; j < obj.HRU_Num; j++)
+                    {
+                        canal_eff[j] = obj.Canal_Efficiency;
+                        canal_ratio[j] = obj.Canal_Ratio;
+                    }
+                    newline = string.Join("\t", canal_eff) + "\t# Data Set 2c canal efficiency for each IHRU in the object " + oid;
+                    sw_out.WriteLine(newline);
+                    newline = string.Join("\t", canal_ratio) + "\t# Data Set 2d canal area ratio for each IHRU in the object " + oid;
+                    sw_out.WriteLine(newline);
+                    for (int j = 0; j < num_well_layer; j++)
+                    {
+                        newline = well_layer[j] + "\t" + layer_ratio[j] + "\t# Data Set 2e well_layer layer_ratio  in the object " + oid;
+                        sw_out.WriteLine(newline);
+                    }
+                    newline = string.Format("{0}\t# Data Set 2f	drawdown constraint of object {1}", irrg_obj_list[i].Drawdown, oid);
+                    sw_out.WriteLine(newline);
+                    newline = string.Format("{0}\t{1}\t{2}\t#  inlet	min flow,  max flow and flow ratio  for object {3}", irrg_obj_list[i].Inlet_MinFlow, irrg_obj_list[i].Inlet_MaxFlow, irrg_obj_list[i].Inlet_Flow_Ratio,
+                        irrg_obj_list[i].ID);
                     sw_out.WriteLine(newline);
                 }
-                newline = string.Format("{0}\t# Data Set 2f	drawdown constraint of object {1}", irrg_obj_list[i].Drawdown, oid);
-                sw_out.WriteLine(newline);
-                newline = string.Format("{0}\t{1}\t{2}\t#  inlet	min flow,  max flow and flow ratio  for object {3}", irrg_obj_list[i].Inlet_MinFlow, irrg_obj_list[i].Inlet_MaxFlow, irrg_obj_list[i].Inlet_Flow_Ratio,
-                    irrg_obj_list[i].ID);
-                sw_out.WriteLine(newline);
             }
             if (num_indust_obj > 0)
             {
@@ -343,75 +346,77 @@ namespace Heiflow.Tools.DataManagement
                 sw_out.WriteLine(newline);
             }
 
-            newline = "# irrigation objects";
-            sw_out.WriteLine(newline);
-            if(GWCompensate)
-                newline = "1 1	1	1	1	1	1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, quota_id_flag,plantarea_flag,max_pump_rate_flag,max_total_pump_flag";
-            else
-                newline = "1 1	1	1	1	1	1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, quota_id_flag,plantarea_flag";
-            sw_out.WriteLine(newline);
-            //地表水比例
-            for (int i = 0; i < num_irrg_obj; i++)
+            if (num_irrg_obj > 0)
             {
-                var ratio = irrg_obj_list[i].SW_Ratio;
-                //if (mid_zone_id.Contains(irrg_obj_list[i].ID))
-                //{
-                //    ratio = ratio * sw_scale[k];
-                //}
-                newline = "";
-                for (int j = 0; j < 366; j++)
-                {
-                    newline += ratio.ToString("0.00") + "\t";
-                }
-                newline += "#SW ratio of object " + irrg_obj_list[i].ID;
+                newline = "# irrigation objects";
                 sw_out.WriteLine(newline);
-            }
-            //地表引水控制系数
-            for (int i = 0; i < num_irrg_obj; i++)
-            {
-                newline = string.Format("{0}\t#SW control factor of object {1}", irrg_obj_list[i].SW_Cntl_Factor, irrg_obj_list[i].ID);
+                if (GWCompensate)
+                    newline = "1 1	1	1	1	1	1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, quota_id_flag,plantarea_flag,max_pump_rate_flag,max_total_pump_flag";
+                else
+                    newline = "1 1	1	1	1	1	1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, quota_id_flag,plantarea_flag";
                 sw_out.WriteLine(newline);
-            }
-            //地下引水控制系数
-            for (int i = 0; i < num_irrg_obj; i++)
-            {
-                newline = string.Format("{0}\t#GW control factor of object {1}", irrg_obj_list[i].GW_Cntl_Factor, irrg_obj_list[i].ID);
-                sw_out.WriteLine(newline);
-            }
-            //作物类型
-            for (int i = 0; i < num_irrg_obj; i++)
-            {
-                newline = "";
-                for (int j = 0; j < irrg_obj_list[i].HRU_Num; j++)
-                {
-                    newline += irrg_obj_list[i].ObjType_Fram + "\t";
-                }
-                newline += "# Quota ID of object " + (i + 1);
-                sw_out.WriteLine(newline);
-            }
-            //种植面积
-            for (int i = 0; i < num_irrg_obj; i++)
-            {
-                newline = string.Join("\t", irrg_obj_list[i].HRU_Area);
-                newline += "\t" + "# Plant area of object " + irrg_obj_list[i].ID;
-                sw_out.WriteLine(newline);
-            }
-            if (GWCompensate)
-            {
-                //每个HRU的地下水抽水能力
+                //地表水比例
                 for (int i = 0; i < num_irrg_obj; i++)
                 {
-                    newline = string.Join("\t", irrg_obj_list[i].Max_Pump_Rate);
-                    newline += "\t" + "# Maximum pumping rate of object " + irrg_obj_list[i].ID;
+                    var ratio = irrg_obj_list[i].SW_Ratio;
+                    //if (mid_zone_id.Contains(irrg_obj_list[i].ID))
+                    //{
+                    //    ratio = ratio * sw_scale[k];
+                    //}
+                    newline = "";
+                    for (int j = 0; j < 366; j++)
+                    {
+                        newline += ratio.ToString("0.00") + "\t";
+                    }
+                    newline += "#SW ratio of object " + irrg_obj_list[i].ID;
                     sw_out.WriteLine(newline);
                 }
-                //每个HRU的最大地下水抽水量
-                var objbuf = from ir in irrg_obj_list select (ir.Max_Total_Pump);
-                newline = string.Join("\t", objbuf);
-                newline += "\t" + "# Total maximum pumping amonut";
-                sw_out.WriteLine(newline);
+                //地表引水控制系数
+                for (int i = 0; i < num_irrg_obj; i++)
+                {
+                    newline = string.Format("{0}\t#SW control factor of object {1}", irrg_obj_list[i].SW_Cntl_Factor, irrg_obj_list[i].ID);
+                    sw_out.WriteLine(newline);
+                }
+                //地下引水控制系数
+                for (int i = 0; i < num_irrg_obj; i++)
+                {
+                    newline = string.Format("{0}\t#GW control factor of object {1}", irrg_obj_list[i].GW_Cntl_Factor, irrg_obj_list[i].ID);
+                    sw_out.WriteLine(newline);
+                }
+                //作物类型
+                for (int i = 0; i < num_irrg_obj; i++)
+                {
+                    newline = "";
+                    for (int j = 0; j < irrg_obj_list[i].HRU_Num; j++)
+                    {
+                        newline += irrg_obj_list[i].ObjType_Fram + "\t";
+                    }
+                    newline += "# Quota ID of object " + (i + 1);
+                    sw_out.WriteLine(newline);
+                }
+                //种植面积
+                for (int i = 0; i < num_irrg_obj; i++)
+                {
+                    newline = string.Join("\t", irrg_obj_list[i].HRU_Area);
+                    newline += "\t" + "# Plant area of object " + irrg_obj_list[i].ID;
+                    sw_out.WriteLine(newline);
+                }
+                if (GWCompensate)
+                {
+                    //每个HRU的地下水抽水能力
+                    for (int i = 0; i < num_irrg_obj; i++)
+                    {
+                        newline = string.Join("\t", irrg_obj_list[i].Max_Pump_Rate);
+                        newline += "\t" + "# Maximum pumping rate of object " + irrg_obj_list[i].ID;
+                        sw_out.WriteLine(newline);
+                    }
+                    //每个HRU的最大地下水抽水量
+                    var objbuf = from ir in irrg_obj_list select (ir.Max_Total_Pump);
+                    newline = string.Join("\t", objbuf);
+                    newline += "\t" + "# Total maximum pumping amonut";
+                    sw_out.WriteLine(newline);
+                }
             }
-
             if (num_indust_obj > 0)
             {
                 newline = "# industrial objects";
@@ -458,11 +463,14 @@ namespace Heiflow.Tools.DataManagement
             {
                 sw_out.WriteLine(i + " # cycle index");
                 sw_out.WriteLine("-1 # quota_flag");
-                sw_out.WriteLine("# irrigation objects");
-                if(GWCompensate)
-                    sw_out.WriteLine("-1 -1	-1 -1 -1 -1 -1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag,plantarea_flag,max_pump_rate_flag,max_total_pump_flag");
-                else
-                    sw_out.WriteLine("-1 -1	-1 -1 -1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag,plantarea_flag");
+                if (num_irrg_obj > 0)
+                {
+                    sw_out.WriteLine("# irrigation objects");
+                    if (GWCompensate)
+                        sw_out.WriteLine("-1 -1	-1 -1 -1 -1 -1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag,plantarea_flag,max_pump_rate_flag,max_total_pump_flag");
+                    else
+                        sw_out.WriteLine("-1 -1	-1 -1 -1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag,plantarea_flag");
+                }
 
                 if (num_indust_obj > 0)
                 {

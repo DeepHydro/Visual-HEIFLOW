@@ -768,7 +768,7 @@ namespace Heiflow.Models.Subsurface
             DataCube<float> ts = null;
             if (DataCube != null)
             {
-                var scaleFactor = ScaleFactor;
+               // var scaleFactor = ScaleFactor;
                 var index = GetReachIndex(segIndex, rchIndex);
                 if (DataCube.IsAllocated(varid))
                 {
@@ -778,7 +778,7 @@ namespace Heiflow.Models.Subsurface
                     {
                         dates[t] = start.AddDays(t);
                     }
-                    MatrixOperation.Mulitple(vector, (float)scaleFactor,Offset);
+                   // MatrixOperation.Mulitple(vector, (float)scaleFactor,Offset);
                    
                     ts = new DataCube<float>(vector, dates);
                 }
@@ -791,14 +791,14 @@ namespace Heiflow.Models.Subsurface
             DataCube<float> ts = null;
             if (DataCube != null && DataCube.IsAllocated(varid))
             {
-                var scaleFactor = ScaleFactor;
+                //var scaleFactor =  ScaleFactor;
                 var vector = DataCube.GetVector(varid, ":", segIndex.ToString());
                 DateTime[] dates = new DateTime[DataCube.Size[1]];
                 for (int t = 0; t < DataCube.Size[1]; t++)
                 {
                     dates[t] = DataCube.DateTimes[t];
                 }
-                MatrixOperation.Mulitple(vector, (float)scaleFactor,Offset);
+                //MatrixOperation.Mulitple(vector, (float)scaleFactor,Offset);
                 ts = new DataCube<float>(vector, dates);
                 if (TimeUnits != Core.TimeUnits.Day)
                 {
@@ -855,7 +855,7 @@ namespace Heiflow.Models.Subsurface
         {
             DataCube<double> mat = null;
             int startday = 0;
-            var scaleFactor = ScaleFactor;
+            var scaleFactor = 1;// ScaleFactor;
 
             if (profile == null)
                 return mat;

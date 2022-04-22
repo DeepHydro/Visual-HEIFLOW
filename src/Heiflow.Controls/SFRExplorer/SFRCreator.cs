@@ -131,7 +131,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         {
             if (cmbEndID.SelectedItem != null)
             {
-                tabControl_Chart.SelectedTab = this.tabPageProfile;
+               // tabControl_Chart.SelectedTab = this.tabPageProfile;
                 var river_start = (int)cmbStartID.SelectedItem;
                 var river_end = (int)cmbEndID.SelectedItem;
 

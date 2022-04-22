@@ -645,10 +645,10 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.propertyGrid1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 28);
+            this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(257, 593);
+            this.tabPage1.Size = new System.Drawing.Size(257, 596);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "Config";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -659,7 +659,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertyGrid1.Location = new System.Drawing.Point(3, 3);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(251, 587);
+            this.propertyGrid1.Size = new System.Drawing.Size(251, 590);
             this.propertyGrid1.TabIndex = 1;
             // 
             // tabControl_Chart
@@ -689,6 +689,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // winChart_timeseries
             // 
             this.winChart_timeseries.BackColor = System.Drawing.SystemColors.Control;
+            this.winChart_timeseries.ClearExistesSeries = true;
             this.winChart_timeseries.Dock = System.Windows.Forms.DockStyle.Fill;
             this.winChart_timeseries.Font = new System.Drawing.Font("Calibri", 9.5F);
             this.winChart_timeseries.Location = new System.Drawing.Point(3, 3);
@@ -705,7 +706,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabPageProfile.Location = new System.Drawing.Point(4, 4);
             this.tabPageProfile.Name = "tabPageProfile";
             this.tabPageProfile.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageProfile.Size = new System.Drawing.Size(856, 596);
+            this.tabPageProfile.Size = new System.Drawing.Size(856, 593);
             this.tabPageProfile.TabIndex = 1;
             this.tabPageProfile.Text = "Profile View";
             this.tabPageProfile.UseVisualStyleBackColor = true;
@@ -713,13 +714,14 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // winChart_proflie
             // 
             this.winChart_proflie.BackColor = System.Drawing.SystemColors.Control;
+            this.winChart_proflie.ClearExistesSeries = true;
             this.winChart_proflie.Dock = System.Windows.Forms.DockStyle.Fill;
             this.winChart_proflie.Font = new System.Drawing.Font("Calibri", 9.5F);
             this.winChart_proflie.Location = new System.Drawing.Point(3, 3);
             this.winChart_proflie.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.winChart_proflie.Name = "winChart_proflie";
             this.winChart_proflie.ShowStatPanel = true;
-            this.winChart_proflie.Size = new System.Drawing.Size(850, 567);
+            this.winChart_proflie.Size = new System.Drawing.Size(850, 564);
             this.winChart_proflie.TabIndex = 8;
             // 
             // colorSlider1
@@ -732,7 +734,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.colorSlider1.ElapsedInnerColor = System.Drawing.Color.DeepSkyBlue;
             this.colorSlider1.ElapsedOuterColor = System.Drawing.Color.White;
             this.colorSlider1.LargeChange = ((uint)(5u));
-            this.colorSlider1.Location = new System.Drawing.Point(3, 570);
+            this.colorSlider1.Location = new System.Drawing.Point(3, 567);
             this.colorSlider1.Name = "colorSlider1";
             this.colorSlider1.Size = new System.Drawing.Size(850, 23);
             this.colorSlider1.SmallChange = ((uint)(1u));
