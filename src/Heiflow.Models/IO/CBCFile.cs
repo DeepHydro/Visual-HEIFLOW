@@ -160,7 +160,7 @@ namespace Heiflow.Models.IO
             FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             BinaryReader br = new BinaryReader(fs);
             int nstep = StepsToLoad;
-            float vv = 0;
+           // float vv = 0;
             long layerbyte = _Grid.RowCount * _Grid.ColumnCount * 4;
             fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             br = new BinaryReader(fs);

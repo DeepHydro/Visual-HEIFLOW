@@ -65,3 +65,6 @@ F:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\zh-CN\Heiflow.Models.resources.dll
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Models\obj\Debug\Heiflow.Models.Properties.Resources.zh-CN.resources
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Models\obj\Debug\zh-CN\Heiflow.Models.resources.dll
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Models\obj\Debug\Heiflow.Models.csprojResolveAssemblyReference.cache
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\bin\Debug\zh-CN\Heiflow.Models.resources.dll
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Models\obj\Debug\Heiflow.Models.Properties.Resources.zh-CN.resources
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Models\obj\Debug\zh-CN\Heiflow.Models.resources.dll

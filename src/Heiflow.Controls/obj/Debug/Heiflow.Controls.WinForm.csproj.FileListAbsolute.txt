@@ -397,3 +397,7 @@ F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.Wi
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.Controls.GridProfileAnimator.resources
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.Controls.Profile_Viewer.resources
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csprojResolveAssemblyReference.cache
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.Controls.GridProfileAnimator.resources
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.Controls.Profile_Viewer.resources
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.MT3DMS.SetSpeciesForm.resources
+E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.Project.CreatHeiflowFromMFForm.resources

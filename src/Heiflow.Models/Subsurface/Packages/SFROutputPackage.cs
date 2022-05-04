@@ -161,7 +161,7 @@ namespace Heiflow.Models.Subsurface
             {
                 this.OutputFormat = FileFormat.Binary;
                 DefaultAttachedVariables = new string[] { "Stream loss", "Flow out of stream", 
-                    "Overland runoff", "Stream head", "Groundwater head" };
+                    "Overland runoff", "Stream head", "Groundwater head", "Concentration", "Load" };
                 Variables = DefaultAttachedVariables;
             }
             else
