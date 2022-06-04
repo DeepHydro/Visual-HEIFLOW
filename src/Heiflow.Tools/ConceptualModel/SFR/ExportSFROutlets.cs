@@ -88,7 +88,7 @@ namespace Heiflow.Tools.ConceptualModel
                 sw.WriteLine(line);
                 foreach(var riv in net.Rivers)
                 {
-                    if(riv.OutRiverID == OutletID)
+                    if(riv.OutRiverID <= 0 )
                     {
                         var cellid = grid.Topology.GetID(riv.LastReach.IRCH - 1, riv.LastReach.JRCH - 1);
                         line = string.Format("{0},{1},{2}", cellid, riv.LastReach.IRCH, riv.LastReach.JRCH);

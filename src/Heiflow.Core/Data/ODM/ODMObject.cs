@@ -113,6 +113,12 @@ namespace Heiflow.Core.Data.ODM
 
         [Browsable(false)]
         public double[] Values { get; set; }
+        [Browsable(false)]
+        public int Row { get; set; }
+        [Browsable(false)]
+        public int Col { get; set; }
+        [Browsable(false)]
+        public double ParaValue { get; set; }        
 
     }
 

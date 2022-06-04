@@ -58,7 +58,8 @@ namespace Heiflow.Models.GHM
         {
             get
             {
-                _LayerIsOn = IsOn.ToUpper() == "TRUE";
+                if(IsOn != null)
+                    _LayerIsOn = IsOn.ToUpper() == "TRUE";
                 return _LayerIsOn;
             }
             set
