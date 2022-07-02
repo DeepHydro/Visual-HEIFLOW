@@ -45,7 +45,7 @@ namespace Heiflow.Models.Generic
         }
         public int Column { get; set; }
 
-        public int Row { get; set; }
+        //public int Row { get; set; }
 
         public int CellID { get; set; }
 

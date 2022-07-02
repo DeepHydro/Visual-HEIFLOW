@@ -69,6 +69,7 @@ namespace Heiflow.Models.Subsurface
             ,"Stream head", "Stream depth","Stream width", "Stream conductance", "Flow to water table", "Change of unsat. stor.", "Groundwater head"};
             DefaultVariablesAbbrv = new string[] { "FlowIn", "FlowLoss", "FlowOut", "Runoff","RiverRain", "RiverET"
             ,"RiverHead", "RiverDepth","RiverWidth", "RivConduct", "FlowToGW", "UnsatStor", "GWHead"};
+            DefaultWQVariables = new string[] { "NO3", "ON", "P", "OP", "SEDIMENT", "SO4", "FU" };
             _defaul_var_abv = new Dictionary<string, string>();
             for (int i = 0; i < DefaultAttachedVariables.Length;i++ )
             {
@@ -92,6 +93,12 @@ namespace Heiflow.Models.Subsurface
         }
         [Browsable(false)]
         public string[] DefaultAttachedVariables
+        {
+            get;
+            private set;
+        }
+        [Browsable(false)]
+        public string[] DefaultWQVariables
         {
             get;
             private set;
@@ -396,7 +403,7 @@ namespace Heiflow.Models.Subsurface
             int varnum = 0;
 
             OnLoading(0);
-            FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             BinaryReader br = new BinaryReader(fs);
 
             varnum = br.ReadInt32();

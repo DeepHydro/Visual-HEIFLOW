@@ -60,6 +60,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         private bool _LoadAllVars = true;
         private FeatureMapLayer[] _FeatureMapLayers;
         private FeatureMapLayer _SelectedFeatureMapLayer;
+        private string _sfroutfile;
 
         public SFRExplorer()
         {
@@ -95,6 +96,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                     propertyGrid1.SelectedObject = _SFROutputPackage;
                     cmbSFRVars.ComboBox.DataSource = _SFROutputPackage.Variables;
                     cmbSFRVars.SelectedIndex = 0;
+                    _sfroutfile = _SFROutputPackage.FileName;
                 }
             }
         }
@@ -659,6 +661,21 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                     cmbReachFields.Enabled = false;
                 }
             }
+        }
+
+        private void chk_datasource_Click(object sender, EventArgs e)
+        {
+            if (chk_datasource.Checked)
+            {
+                SFROutput.FileName = ".\\output\\sfrwq.dcx";
+                cmbSFRVars.ComboBox.DataSource = SFROutput.DefaultWQVariables;  
+            }
+            else
+            {
+                SFROutput.FileName = _sfroutfile;
+                cmbSFRVars.ComboBox.DataSource = SFROutput.DefaultAttachedVariables;  
+            }
+            cmbSFRVars.SelectedIndex = 0;
         }
     }
 }
