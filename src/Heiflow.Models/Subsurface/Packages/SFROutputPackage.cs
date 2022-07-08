@@ -69,7 +69,7 @@ namespace Heiflow.Models.Subsurface
             ,"Stream head", "Stream depth","Stream width", "Stream conductance", "Flow to water table", "Change of unsat. stor.", "Groundwater head"};
             DefaultVariablesAbbrv = new string[] { "FlowIn", "FlowLoss", "FlowOut", "Runoff","RiverRain", "RiverET"
             ,"RiverHead", "RiverDepth","RiverWidth", "RivConduct", "FlowToGW", "UnsatStor", "GWHead"};
-            DefaultWQVariables = new string[] { "NO3", "ON", "P", "OP", "SEDIMENT", "SO4", "FU" };
+            DefaultWQVariables = new string[] { "NO3", "ON", "P", "OP", "SEDIMENT","CHL","CBOD","DO","NH3", "SO4", "FU" };
             _defaul_var_abv = new Dictionary<string, string>();
             for (int i = 0; i < DefaultAttachedVariables.Length;i++ )
             {
