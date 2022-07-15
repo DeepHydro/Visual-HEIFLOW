@@ -494,8 +494,8 @@ namespace Heiflow.Models.Subsurface
                 DataCube.Topology = _SFRPackage.ReachTopology;
             else
                 DataCube.Topology = _SFRPackage.SegTopology;
-            DataCube.Variables = DefaultAttachedVariables;
-            Variables = DefaultAttachedVariables;
+            //DataCube.Variables = DefaultAttachedVariables;
+            //Variables = DefaultAttachedVariables;
             result = LoadingState.Normal;
 
             return result;
