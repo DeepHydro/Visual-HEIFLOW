@@ -259,8 +259,9 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                 var fts = SFROutput.GetTimeSeries(reach.Parent.SubIndex, reach.SubIndex, cmbSFRVars.SelectedIndex, _SFROutputPackage.StartOfLoading);
                 if (fts != null)
                 {
+                    var derieved_ts = TimeSeriesAnalyzer.Derieve(fts, _SFROutputPackage.NumericalDataType, _SFROutputPackage.TimeUnits);
                     string sereis = string.Format("{0} at Segment {1} Reach {2}", cmbSFRVars.SelectedItem.ToString(), reach.Parent.ID, reach.SubID);
-                    winChart_timeseries.Plot<float>(fts.DateTimes, fts[0, ":", "0"], sereis);
+                    winChart_timeseries.Plot<float>(derieved_ts.DateTimes, derieved_ts[0, ":", "0"], sereis);
                 }
                 else
                 {
