@@ -87,7 +87,10 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.tabControl_Chart = new System.Windows.Forms.TabControl();
             this.tabPageTimeSeries = new System.Windows.Forms.TabPage();
+            this.winChart_timeseries = new Heiflow.Controls.WinForm.Controls.WinChart();
             this.tabPageProfile = new System.Windows.Forms.TabPage();
+            this.winChart_proflie = new Heiflow.Controls.WinForm.Controls.WinChart();
+            this.colorSlider1 = new Heiflow.Controls.WinForm.ColorSlider();
             this.tabPageFeatureLayer = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.cmbDates = new System.Windows.Forms.ComboBox();
@@ -102,10 +105,11 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.checkBoxSaveLayer = new System.Windows.Forms.CheckBox();
             this.btnRefreshLayer = new System.Windows.Forms.Button();
             this.btnShowLayer = new System.Windows.Forms.Button();
-            this.chk_datasource = new System.Windows.Forms.ToolStripButton();
-            this.winChart_timeseries = new Heiflow.Controls.WinForm.Controls.WinChart();
-            this.winChart_proflie = new Heiflow.Controls.WinForm.Controls.WinChart();
-            this.colorSlider1 = new Heiflow.Controls.WinForm.ColorSlider();
+            this.chk_datasource = new System.Windows.Forms.ToolStripDropDownButton();
+            this.mi_conc = new System.Windows.Forms.ToolStripMenuItem();
+            this.mi_so4comp = new System.Windows.Forms.ToolStripMenuItem();
+            this.mi_fucomp = new System.Windows.Forms.ToolStripMenuItem();
+            this.mi_flow = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -531,10 +535,10 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabPage4.Controls.Add(this.groupBox4);
             this.tabPage4.Controls.Add(this.btnAdd2Toolbox);
             this.tabPage4.Controls.Add(this.groupBox2);
-            this.tabPage4.Location = new System.Drawing.Point(4, 28);
+            this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(257, 593);
+            this.tabPage4.Size = new System.Drawing.Size(257, 596);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "Profile";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -647,10 +651,10 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.propertyGrid1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 28);
+            this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(257, 593);
+            this.tabPage1.Size = new System.Drawing.Size(257, 596);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "Config";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -688,6 +692,19 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabPageTimeSeries.Text = "Time Series View";
             this.tabPageTimeSeries.UseVisualStyleBackColor = true;
             // 
+            // winChart_timeseries
+            // 
+            this.winChart_timeseries.BackColor = System.Drawing.SystemColors.Control;
+            this.winChart_timeseries.ClearExistesSeries = true;
+            this.winChart_timeseries.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.winChart_timeseries.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.winChart_timeseries.Location = new System.Drawing.Point(3, 3);
+            this.winChart_timeseries.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.winChart_timeseries.Name = "winChart_timeseries";
+            this.winChart_timeseries.ShowStatPanel = true;
+            this.winChart_timeseries.Size = new System.Drawing.Size(850, 587);
+            this.winChart_timeseries.TabIndex = 7;
+            // 
             // tabPageProfile
             // 
             this.tabPageProfile.Controls.Add(this.winChart_proflie);
@@ -695,10 +712,44 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabPageProfile.Location = new System.Drawing.Point(4, 4);
             this.tabPageProfile.Name = "tabPageProfile";
             this.tabPageProfile.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageProfile.Size = new System.Drawing.Size(856, 593);
+            this.tabPageProfile.Size = new System.Drawing.Size(856, 596);
             this.tabPageProfile.TabIndex = 1;
             this.tabPageProfile.Text = "Profile View";
             this.tabPageProfile.UseVisualStyleBackColor = true;
+            // 
+            // winChart_proflie
+            // 
+            this.winChart_proflie.BackColor = System.Drawing.SystemColors.Control;
+            this.winChart_proflie.ClearExistesSeries = true;
+            this.winChart_proflie.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.winChart_proflie.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.winChart_proflie.Location = new System.Drawing.Point(3, 3);
+            this.winChart_proflie.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.winChart_proflie.Name = "winChart_proflie";
+            this.winChart_proflie.ShowStatPanel = true;
+            this.winChart_proflie.Size = new System.Drawing.Size(850, 567);
+            this.winChart_proflie.TabIndex = 8;
+            // 
+            // colorSlider1
+            // 
+            this.colorSlider1.BackColor = System.Drawing.Color.Transparent;
+            this.colorSlider1.BarInnerColor = System.Drawing.Color.GhostWhite;
+            this.colorSlider1.BarOuterColor = System.Drawing.Color.White;
+            this.colorSlider1.BorderRoundRectSize = new System.Drawing.Size(8, 8);
+            this.colorSlider1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.colorSlider1.ElapsedInnerColor = System.Drawing.Color.DeepSkyBlue;
+            this.colorSlider1.ElapsedOuterColor = System.Drawing.Color.White;
+            this.colorSlider1.LargeChange = ((uint)(5u));
+            this.colorSlider1.Location = new System.Drawing.Point(3, 570);
+            this.colorSlider1.Name = "colorSlider1";
+            this.colorSlider1.Size = new System.Drawing.Size(850, 23);
+            this.colorSlider1.SmallChange = ((uint)(1u));
+            this.colorSlider1.TabIndex = 6;
+            this.colorSlider1.Text = "50";
+            this.colorSlider1.ThumbRoundRectSize = new System.Drawing.Size(8, 8);
+            this.colorSlider1.ThumbSize = 30;
+            this.colorSlider1.Value = 0;
+            this.colorSlider1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.colorSlider1_Scroll);
             // 
             // tabPageFeatureLayer
             // 
@@ -708,7 +759,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.tabPageFeatureLayer.Location = new System.Drawing.Point(4, 4);
             this.tabPageFeatureLayer.Name = "tabPageFeatureLayer";
             this.tabPageFeatureLayer.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFeatureLayer.Size = new System.Drawing.Size(856, 593);
+            this.tabPageFeatureLayer.Size = new System.Drawing.Size(856, 596);
             this.tabPageFeatureLayer.TabIndex = 2;
             this.tabPageFeatureLayer.Text = "Feature Layer View";
             this.tabPageFeatureLayer.UseVisualStyleBackColor = true;
@@ -850,62 +901,50 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // 
             // chk_datasource
             // 
-            this.chk_datasource.CheckOnClick = true;
             this.chk_datasource.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.chk_datasource.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mi_flow,
+            this.mi_conc,
+            this.mi_so4comp,
+            this.mi_fucomp});
             this.chk_datasource.Image = global::Heiflow.Controls.WinForm.Properties.Resources.compare_24p;
             this.chk_datasource.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.chk_datasource.Name = "chk_datasource";
-            this.chk_datasource.Size = new System.Drawing.Size(24, 25);
+            this.chk_datasource.Size = new System.Drawing.Size(34, 25);
             this.chk_datasource.Text = "toolStripButton3";
             this.chk_datasource.ToolTipText = "switch to water quality output";
-            this.chk_datasource.Click += new System.EventHandler(this.chk_datasource_Click);
             // 
-            // winChart_timeseries
+            // mi_conc
             // 
-            this.winChart_timeseries.BackColor = System.Drawing.SystemColors.Control;
-            this.winChart_timeseries.ClearExistesSeries = true;
-            this.winChart_timeseries.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.winChart_timeseries.Font = new System.Drawing.Font("Calibri", 9.5F);
-            this.winChart_timeseries.Location = new System.Drawing.Point(3, 3);
-            this.winChart_timeseries.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.winChart_timeseries.Name = "winChart_timeseries";
-            this.winChart_timeseries.ShowStatPanel = true;
-            this.winChart_timeseries.Size = new System.Drawing.Size(850, 587);
-            this.winChart_timeseries.TabIndex = 7;
+            this.mi_conc.CheckOnClick = true;
+            this.mi_conc.Name = "mi_conc";
+            this.mi_conc.Size = new System.Drawing.Size(235, 26);
+            this.mi_conc.Text = "Concentration";
+            this.mi_conc.Click += new System.EventHandler(this.mi_conc_Click);
             // 
-            // winChart_proflie
+            // mi_so4comp
             // 
-            this.winChart_proflie.BackColor = System.Drawing.SystemColors.Control;
-            this.winChart_proflie.ClearExistesSeries = true;
-            this.winChart_proflie.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.winChart_proflie.Font = new System.Drawing.Font("Calibri", 9.5F);
-            this.winChart_proflie.Location = new System.Drawing.Point(3, 3);
-            this.winChart_proflie.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.winChart_proflie.Name = "winChart_proflie";
-            this.winChart_proflie.ShowStatPanel = true;
-            this.winChart_proflie.Size = new System.Drawing.Size(850, 567);
-            this.winChart_proflie.TabIndex = 8;
+            this.mi_so4comp.CheckOnClick = true;
+            this.mi_so4comp.Name = "mi_so4comp";
+            this.mi_so4comp.Size = new System.Drawing.Size(235, 26);
+            this.mi_so4comp.Text = "SO4 Source Component";
+            this.mi_so4comp.Click += new System.EventHandler(this.mi_so4comp_Click);
             // 
-            // colorSlider1
+            // mi_fucomp
             // 
-            this.colorSlider1.BackColor = System.Drawing.Color.Transparent;
-            this.colorSlider1.BarInnerColor = System.Drawing.Color.GhostWhite;
-            this.colorSlider1.BarOuterColor = System.Drawing.Color.White;
-            this.colorSlider1.BorderRoundRectSize = new System.Drawing.Size(8, 8);
-            this.colorSlider1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.colorSlider1.ElapsedInnerColor = System.Drawing.Color.DeepSkyBlue;
-            this.colorSlider1.ElapsedOuterColor = System.Drawing.Color.White;
-            this.colorSlider1.LargeChange = ((uint)(5u));
-            this.colorSlider1.Location = new System.Drawing.Point(3, 570);
-            this.colorSlider1.Name = "colorSlider1";
-            this.colorSlider1.Size = new System.Drawing.Size(850, 23);
-            this.colorSlider1.SmallChange = ((uint)(1u));
-            this.colorSlider1.TabIndex = 6;
-            this.colorSlider1.Text = "50";
-            this.colorSlider1.ThumbRoundRectSize = new System.Drawing.Size(8, 8);
-            this.colorSlider1.ThumbSize = 30;
-            this.colorSlider1.Value = 0;
-            this.colorSlider1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.colorSlider1_Scroll);
+            this.mi_fucomp.CheckOnClick = true;
+            this.mi_fucomp.Name = "mi_fucomp";
+            this.mi_fucomp.Size = new System.Drawing.Size(235, 26);
+            this.mi_fucomp.Text = "FU Source Component";
+            this.mi_fucomp.Click += new System.EventHandler(this.mi_fucomp_Click);
+            // 
+            // mi_flow
+            // 
+            this.mi_flow.CheckOnClick = true;
+            this.mi_flow.Name = "mi_flow";
+            this.mi_flow.Size = new System.Drawing.Size(235, 26);
+            this.mi_flow.Text = "Flow";
+            this.mi_flow.Click += new System.EventHandler(this.mi_flow_Click);
             // 
             // SFRExplorer
             // 
@@ -1022,6 +1061,10 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.TextBox tbCurDate;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ToolStripButton chk_datasource;
+        private System.Windows.Forms.ToolStripDropDownButton chk_datasource;
+        private System.Windows.Forms.ToolStripMenuItem mi_conc;
+        private System.Windows.Forms.ToolStripMenuItem mi_so4comp;
+        private System.Windows.Forms.ToolStripMenuItem mi_fucomp;
+        private System.Windows.Forms.ToolStripMenuItem mi_flow;
     }
 }
