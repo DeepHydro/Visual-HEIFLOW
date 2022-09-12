@@ -44,6 +44,10 @@
             this.label6 = new System.Windows.Forms.Label();
             this.tbDIS = new System.Windows.Forms.TextBox();
             this.btnBrowseDIS = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.tbBTN = new System.Windows.Forms.TextBox();
+            this.btnBtnpck = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -68,7 +72,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(670, 167);
+            this.btnCancel.Location = new System.Drawing.Point(670, 207);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(100, 30);
             this.btnCancel.TabIndex = 4;
@@ -79,7 +83,7 @@
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(556, 167);
+            this.btnOK.Location = new System.Drawing.Point(556, 207);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(100, 30);
             this.btnOK.TabIndex = 5;
@@ -201,18 +205,63 @@
             this.btnBrowseDIS.UseVisualStyleBackColor = true;
             this.btnBrowseDIS.Click += new System.EventHandler(this.btnBrowseDIS_Click);
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(14, 165);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(127, 20);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "Modflow BAS File";
+            // 
+            // tbBTN
+            // 
+            this.tbBTN.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbBTN.Location = new System.Drawing.Point(170, 165);
+            this.tbBTN.Name = "tbBTN";
+            this.tbBTN.Size = new System.Drawing.Size(485, 27);
+            this.tbBTN.TabIndex = 1;
+            this.tbBTN.Text = "E:\\mf.btn";
+            // 
+            // btnBtnpck
+            // 
+            this.btnBtnpck.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnBtnpck.Location = new System.Drawing.Point(670, 160);
+            this.btnBtnpck.Name = "btnBtnpck";
+            this.btnBtnpck.Size = new System.Drawing.Size(100, 30);
+            this.btnBtnpck.TabIndex = 6;
+            this.btnBtnpck.Text = "Browse...";
+            this.btnBtnpck.UseVisualStyleBackColor = true;
+            this.btnBtnpck.Click += new System.EventHandler(this.btnBrowse_Click);
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.button1.Location = new System.Drawing.Point(434, 207);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(100, 30);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "MT3D";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.btnMT3D_Click);
+            // 
             // CreatHeiflowFromMFForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(782, 211);
+            this.ClientSize = new System.Drawing.Size(782, 251);
             this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnSelecProjection);
             this.Controls.Add(this.btnBrowseDIS);
+            this.Controls.Add(this.btnBtnpck);
             this.Controls.Add(this.btnBrowseBAS);
             this.Controls.Add(this.tbY);
             this.Controls.Add(this.tbX);
+            this.Controls.Add(this.tbBTN);
             this.Controls.Add(this.tbPrjName);
             this.Controls.Add(this.tbDIS);
             this.Controls.Add(this.tbBASfile);
@@ -221,6 +270,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label6);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
@@ -251,5 +301,9 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox tbDIS;
         private System.Windows.Forms.Button btnBrowseDIS;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox tbBTN;
+        private System.Windows.Forms.Button btnBtnpck;
+        private System.Windows.Forms.Button button1;
     }
 }

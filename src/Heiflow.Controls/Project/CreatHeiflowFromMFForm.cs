@@ -2,6 +2,7 @@
 using DotSpatial.Projections.Forms;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Subsurface;
+using Heiflow.Models.Subsurface.MT3DMS;
 using Heiflow.Presentation;
 using System;
 using System.Collections.Generic;
@@ -111,6 +112,50 @@ namespace Heiflow.Controls.WinForm.Project
             //{
             //    OnLoadFailed("Fatal error.");
             //}
+        }
+
+        private void btnMT3D_Click(object sender, EventArgs e)
+        {
+
+            var project = _Controller.Project;
+            var hfm = project.Model as Heiflow.Models.Integration.HeiflowModel;
+            var mfmodel = hfm.ModflowModel as Heiflow.Models.Subsurface.Modflow;
+
+            double x = 0;
+            double y = 0;
+            double.TryParse(tbX.Text, out x);
+            double.TryParse(tbY.Text, out y);
+
+            BASPackage bas = new BASPackage();
+            bas.FileName = _basfile;
+            bas.Owner = mfmodel;
+            DISPackage dis = new DISPackage();
+            dis.FileName = _disfile;
+            dis.Owner = mfmodel;
+            dis.ReadSP = false;
+
+            dis.GetGridInfo(mfmodel.Grid as MFGrid);
+            bas.Load(null);
+            dis.Load(null);
+
+            BTNPackage btn = new BTNPackage();
+            btn.NCOMP = 2;
+            btn.InitialConcentraion = new float[mfmodel.Grid.ActualLayerCount * btn.NCOMP];
+            var j=0;
+            for (int i = 0; i < mfmodel.Grid.ActualLayerCount; i++)
+            {
+                btn.InitialConcentraion[j] = 250;
+                j++;
+            }
+            for (int i = 0; i < mfmodel.Grid.ActualLayerCount; i++)
+            {
+                btn.InitialConcentraion[j] = 0.5f;
+                j++;
+            }
+            btn.OnGridUpdated(mfmodel.Grid);
+            btn.OnTimeServiceUpdated(mfmodel.TimeService);
+
+            btn.SaveAs(tbBTN.Text, null);
         }
 
 
