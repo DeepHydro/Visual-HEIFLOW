@@ -70,6 +70,7 @@ namespace Heiflow.Models.Integration
         string _WaterComponentFile="null";
         string _WaterBudgetFile = "null";
         string _MFListFile = "null";
+        string _NPS_PARA_FILE = "null";
         TemperatureModule _Temperature = TemperatureModule.climate_hru;
         PrecipitationModule _Precipitation = PrecipitationModule.climate_hru;
         SolarRadiationModule _SolarRadiation = SolarRadiationModule.ddsolrad_hru_prms;
@@ -88,6 +89,7 @@ namespace Heiflow.Models.Integration
         bool _SaveVarsToFile = false;
         string _VarSaveFile;
         bool _SubbasinFlag = false;
+        bool _EnableNPS = false;
         private string _PrecipitationFile="ppt.dcx";
         private string _TempMaxFile = "tmax.dcx";
         private string _TempMinFile = "tmin.dcx";
@@ -604,6 +606,39 @@ namespace Heiflow.Models.Integration
                 _MFListFile = value;
                 (Parameters["mflist_file"] as DataCubeParameter<string>)[0, 0, 0] = value;
                 OnPropertyChanged("MFListFile");
+            }
+        }
+
+        [Category("Model")]
+        [Description("")]
+        [Browsable(false)]
+        public bool EnableNPS
+        {
+            get
+            {
+                return _EnableNPS;
+            }
+            set
+            {
+                _EnableNPS = value;
+                var sf = _EnableNPS ? 1 : 0;
+                (Parameters["nps_module"] as DataCubeParameter<int>)[0, 0, 0] = sf;
+                OnPropertyChanged("EnableNPS");
+            }
+        }
+        [Category("Model")]
+        [Description("Master file for non-point-source module")]
+        public string NPS_PARA_FILE
+        {
+            get
+            {
+                return _NPS_PARA_FILE;
+            }
+            set
+            {
+                _NPS_PARA_FILE = value;
+                (Parameters["nps_param_file"] as DataCubeParameter<string>)[0, 0, 0] = value;
+                OnPropertyChanged("NPS_PARA_FILE");
             }
         }
 
@@ -1370,6 +1405,8 @@ namespace Heiflow.Models.Integration
                 if (Owner.Project.SelectedVersion != "v1.0.0")
                     SaveSoilWaterFile = true;
 
+                EnableNPS = false;
+                NPS_PARA_FILE = string.Format(".\\input\\prms\\{0}_nps.param", Owner.Project.Name);
                 DataFile = string.Format(".\\input\\prms\\{0}.data", Owner.Project.Name);
                 ParameterFilePath = string.Format(".\\input\\prms\\{0}.param", Owner.Project.Name);
                 ModflowFilePath = string.Format(".\\input\\modflow\\{0}.nam", Owner.Project.Name);

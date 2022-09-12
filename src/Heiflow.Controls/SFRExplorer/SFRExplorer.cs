@@ -663,20 +663,34 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                 }
             }
         }
-
-        private void chk_datasource_Click(object sender, EventArgs e)
+        private void mi_flow_Click(object sender, EventArgs e)
         {
-            if (chk_datasource.Checked)
-            {
-                SFROutput.FileName = ".\\output\\sfrwq.dcx";
-                cmbSFRVars.ComboBox.DataSource = SFROutput.DefaultWQVariables;  
-            }
-            else
-            {
-                SFROutput.FileName = _sfroutfile;
-                cmbSFRVars.ComboBox.DataSource = SFROutput.DefaultAttachedVariables;  
-            }
+            SFROutput.FileName = _sfroutfile;
+            cmbSFRVars.ComboBox.DataSource = SFROutput.DefaultAttachedVariables;
             cmbSFRVars.SelectedIndex = 0;
         }
+
+        private void mi_conc_Click(object sender, EventArgs e)
+        {
+            SFROutput.FileName = ".\\output\\sfrwq.dcx";
+            cmbSFRVars.ComboBox.DataSource = SFROutput.DefaultWQVariables;
+            cmbSFRVars.SelectedIndex = 0;
+        }
+
+        private void mi_so4comp_Click(object sender, EventArgs e)
+        {
+            SFROutput.FileName = ".\\output\\sfr_so4.dcx";
+            cmbSFRVars.ComboBox.DataSource = SFROutput.DefaultSO4Variables;
+            cmbSFRVars.SelectedIndex = 0;
+        }
+
+        private void mi_fucomp_Click(object sender, EventArgs e)
+        {
+            SFROutput.FileName = ".\\output\\sfr_fu.dcx";
+            cmbSFRVars.ComboBox.DataSource = SFROutput.DefaultFUVariables;
+            cmbSFRVars.SelectedIndex = 0;
+        }
+
+
     }
 }
