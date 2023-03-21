@@ -13,6 +13,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using Heiflow.Core.Data;
 
 namespace Heiflow.Controls.WinForm.Project
 {
@@ -140,20 +142,53 @@ namespace Heiflow.Controls.WinForm.Project
 
             BTNPackage btn = new BTNPackage();
             btn.NCOMP = 2;
-            btn.InitialConcentraion = new float[mfmodel.Grid.ActualLayerCount * btn.NCOMP];
-            var j=0;
-            for (int i = 0; i < mfmodel.Grid.ActualLayerCount; i++)
+            //btn.InitialConcentraion = new float[mfmodel.Grid.ActualLayerCount * btn.NCOMP];
+            //var j=0;
+            //for (int i = 0; i < mfmodel.Grid.ActualLayerCount; i++)
+            //{
+            //    btn.InitialConcentraion[j] = 250;
+            //    j++;
+            //}
+            //for (int i = 0; i < mfmodel.Grid.ActualLayerCount; i++)
+            //{
+            //    btn.InitialConcentraion[j] = 0.5f;
+            //    j++;
+            //}
+
+            string initfile = @"H:\南四湖\branch\model\mt3d\para\init_conc.csv";
+            StreamReader sr = new StreamReader(initfile);
+            string line = sr.ReadLine();
+            List<float> so4 = new List<float>();
+            List<float> fu = new List<float>();
+            while (!sr.EndOfStream)
             {
-                btn.InitialConcentraion[j] = 250;
-                j++;
+                line = sr.ReadLine();
+                var buf = TypeConverterEx.Split<float>(line, 2);
+                so4.Add(buf[0]);
+                fu.Add(buf[0]);
             }
-            for (int i = 0; i < mfmodel.Grid.ActualLayerCount; i++)
-            {
-                btn.InitialConcentraion[j] = 0.5f;
-                j++;
-            }
+
+            sr.Close();
+
+            btn.TimeService = mfmodel.TimeService;
+            btn.Owner = hfm;
+            btn.Grid = mfmodel.Grid;
             btn.OnGridUpdated(mfmodel.Grid);
             btn.OnTimeServiceUpdated(mfmodel.TimeService);
+
+            var k=0;
+            var so4list= so4.ToArray();
+            for (int i = 0; i < mfmodel.Grid.ActualLayerCount; i++)
+            {
+                btn.SCONC.ILArrays[k][0, ":"] = so4list.Copy();
+                k++;
+            }
+            var fulist = fu.ToArray();
+            for (int i = 0; i < mfmodel.Grid.ActualLayerCount; i++)
+            {
+                btn.SCONC.ILArrays[k][0, ":"] = fulist.Copy();
+                k++;
+            }
 
             btn.SaveAs(tbBTN.Text, null);
         }

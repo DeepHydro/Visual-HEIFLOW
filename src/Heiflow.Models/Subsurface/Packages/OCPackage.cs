@@ -356,17 +356,21 @@ namespace Heiflow.Models.Subsurface
             var mf = Owner as Modflow;
             if (this.HEAD_SAVE_UNIT > 0)
             {
-                var fhd_info = (from pck in mf.NameManager.MasterList where pck.FID == this.HEAD_SAVE_UNIT select pck).First();
-                fhd_info.Name = FHDPackage.PackageName;
+                var buf = from pck in mf.NameManager.MasterList where pck.FID == this.HEAD_SAVE_UNIT select pck;
+                if (buf.Any())
+                {
+                    var fhd_info = buf.First();
+                    fhd_info.Name = FHDPackage.PackageName;
 
-                var FHD = new FHDPackage()
-                  {
-                      Owner = mf,
-                      Parent = this,
-                      PackageInfo = fhd_info,
-                      FileName = fhd_info.FileName
-                  };
-                mfout.AddChild(FHD);
+                    var FHD = new FHDPackage()
+                      {
+                          Owner = mf,
+                          Parent = this,
+                          PackageInfo = fhd_info,
+                          FileName = fhd_info.FileName
+                      };
+                    mfout.AddChild(FHD);
+                }
             }
         }
         private int LoadRecords()

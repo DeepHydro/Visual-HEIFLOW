@@ -621,9 +621,9 @@ namespace Heiflow.Models.Integration
             set
             {
                 _EnableNPS = value;
-                var sf = _EnableNPS ? 1 : 0;
-                (Parameters["nps_module"] as DataCubeParameter<int>)[0, 0, 0] = sf;
-                OnPropertyChanged("EnableNPS");
+                //var sf = _EnableNPS ? 1 : 0;
+                //(Parameters["nps_module"] as DataCubeParameter<int>)[0, 0, 0] = sf;
+                //OnPropertyChanged("EnableNPS");
             }
         }
         [Category("Model")]
@@ -637,8 +637,8 @@ namespace Heiflow.Models.Integration
             set
             {
                 _NPS_PARA_FILE = value;
-                (Parameters["nps_param_file"] as DataCubeParameter<string>)[0, 0, 0] = value;
-                OnPropertyChanged("NPS_PARA_FILE");
+                //(Parameters["nps_param_file"] as DataCubeParameter<string>)[0, 0, 0] = value;
+                //OnPropertyChanged("NPS_PARA_FILE");
             }
         }
 

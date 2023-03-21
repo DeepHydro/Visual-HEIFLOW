@@ -388,8 +388,8 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             LUNIT = "m";
             MUNIT = "kg";
             Version = "BTN";
-            _NCOMP = 12;
-            MCOMP = 7;
+            //_NCOMP = 2;
+            //MCOMP = 2;
             IsMandatory = false;
             TRNOP = "T T T F T F F F F F";
             NLAY = 3;
@@ -400,7 +400,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             EnableDSP = true;
             EnableGCG = true;
             EnableRCT = false;
-            EnableSSM = true;
+            EnableSSM = false;
             CINACT = -999;
             THKMIN = 0.01f;
             IFMTCN = 0;
@@ -773,8 +773,8 @@ namespace Heiflow.Models.Subsurface.MT3DMS
 
             var mf = Owner as Modflow;
             var grid = sender as RegularGrid;
-            var lpf = Owner.GetPackage(LPFPackage.PackageName) as LPFPackage;
-            this.FeatureLayer = this.Grid.FeatureLayer;
+            var lpf = Owner.GetPackage(UPWPackage.PackageName) as UPWPackage;
+            this.FeatureLayer = this.Grid.FeatureLayer; 
             this.Feature = this.Grid.FeatureSet;
             var k = 0;
 

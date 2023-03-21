@@ -82,6 +82,7 @@ namespace Heiflow.Plugins.Menubar
             IHeaderControl header = App.HeaderControl;
             ResourceManager rm = Resources.ResourceManager;
             var str = rm.GetString("OpenProject");
+ 
             header.Add(new SimpleActionItem(FileMenuKey, str, OpenProject_Click)
             {
                 GroupCaption = HeaderControl.ApplicationMenuKey,

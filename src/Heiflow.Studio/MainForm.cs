@@ -26,7 +26,8 @@
 // copyright notices. If not, the GNU General Public License holds for them, too, 
 // but so that the author(s) of the file have the Copyright.
 //
-#define VHF
+//#define VHF
+#define WEM
 namespace Heiflow.Models.Studio
 {
     using System.Windows.Forms;
@@ -92,6 +93,8 @@ namespace Heiflow.Models.Studio
             
 #elif VFT3D
             _VHFAppManager.AppName = "Visual VFT3D";
+#elif WEM
+            _VHFAppManager.AppName = "Watershed Environment Modeling System";
 #endif
             //_VHFAppManager.AppName = "山洪模拟及水情预报系统";
             //_VHFAppManager.Icon = ((System.Drawing.Icon)(resources.GetObject("heiflow")));
@@ -145,7 +148,7 @@ namespace Heiflow.Models.Studio
             //    }
   
             //}
-         
+            this.LookAndFeel.SetSkinStyle("Visual Studio");
             this.Text = _VHFAppManager.AppName;
      
         }
