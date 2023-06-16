@@ -70,7 +70,6 @@ namespace Heiflow.Models.Integration
         string _WaterComponentFile="null";
         string _WaterBudgetFile = "null";
         string _MFListFile = "null";
-        string _NPS_PARA_FILE = "null";
         TemperatureModule _Temperature = TemperatureModule.climate_hru;
         PrecipitationModule _Precipitation = PrecipitationModule.climate_hru;
         SolarRadiationModule _SolarRadiation = SolarRadiationModule.ddsolrad_hru_prms;
@@ -89,7 +88,6 @@ namespace Heiflow.Models.Integration
         bool _SaveVarsToFile = false;
         string _VarSaveFile;
         bool _SubbasinFlag = false;
-        bool _EnableNPS = false;
         private string _PrecipitationFile="ppt.dcx";
         private string _TempMaxFile = "tmax.dcx";
         private string _TempMinFile = "tmin.dcx";
@@ -101,13 +99,16 @@ namespace Heiflow.Models.Integration
         bool _dynamic_para = false;
         int[] _dynamic_day;
         string[] _dynamic_param_file;
+       string[] _dynamic_wqparam_file;
         ModelMode _ModelMode = ModelMode.GSFLOW;
         int[] _StatVarElement;
         bool _UseGridClimate = false;
         string _GridClimateFile;
+        string _nps_param_file;
         int _GlobalTimeUnit = 4;
         FileFormat _ClimateInputFormat = FileFormat.Binary;
         private bool _AnimationOutOC = false;
+        private bool _nps_module = false;
         private string  _AnimationOutOCFile;
         private string _wra_module = "none";
         private string _wra_module_file;
@@ -497,6 +498,54 @@ namespace Heiflow.Models.Integration
             }
         }
 
+        [Category("Water Quality Model")]
+        [Description("")]
+        public string nps_param_file
+        {
+            get
+            {
+                return _nps_param_file;
+            }
+            set
+            {
+                _nps_param_file = value;
+                (Parameters["nps_param_file"] as DataCubeParameter<string>)[0, 0, 0] = value;
+                OnPropertyChanged("nps_param_file");
+            }
+        }
+        [Category("Water Quality Model")]
+        [Description("The list of dynamic wq parameter files")]
+        public string[] dynamic_nps_param_file
+        {
+            get
+            {
+                return _dynamic_wqparam_file;
+            }
+            set
+            {
+                _dynamic_wqparam_file = value;
+                (Parameters["dynamic_nps_param_file"] as DataCubeParameter<string>)[0][":", 0] = _dynamic_wqparam_file;
+                OnPropertyChanged("dynamic_nps_param_file");
+            }
+        }
+
+        [Category("Water Quality Model")]
+        [Description("")]
+        public bool nps_module
+        {
+            get
+            {
+                return _nps_module;
+            }
+            set
+            {
+                _nps_module = value;
+                var infs = _nps_module ? 1 : 0;
+                (Parameters["nps_module"] as DataCubeParameter<int>)[0, 0, 0] = infs;
+                OnPropertyChanged("nps_module");
+            }
+        }
+
 
         [Category("Summary")]
         [Description("Frequency that summary tables are written to Water-Budget File (0=none, >0 frequency in days, e.g., 1=daily, 7=every 7th day)")]
@@ -609,38 +658,6 @@ namespace Heiflow.Models.Integration
             }
         }
 
-        [Category("Model")]
-        [Description("")]
-        [Browsable(false)]
-        public bool EnableNPS
-        {
-            get
-            {
-                return _EnableNPS;
-            }
-            set
-            {
-                _EnableNPS = value;
-                //var sf = _EnableNPS ? 1 : 0;
-                //(Parameters["nps_module"] as DataCubeParameter<int>)[0, 0, 0] = sf;
-                //OnPropertyChanged("EnableNPS");
-            }
-        }
-        [Category("Model")]
-        [Description("Master file for non-point-source module")]
-        public string NPS_PARA_FILE
-        {
-            get
-            {
-                return _NPS_PARA_FILE;
-            }
-            set
-            {
-                _NPS_PARA_FILE = value;
-                //(Parameters["nps_param_file"] as DataCubeParameter<string>)[0, 0, 0] = value;
-                //OnPropertyChanged("NPS_PARA_FILE");
-            }
-        }
 
         [Category("Summary")]
         [Description("Path name for  Comma-Separated-Values (CSV) File of  water budget")]
@@ -1265,12 +1282,16 @@ namespace Heiflow.Models.Integration
                         _UseGridClimate = (Parameters["use_gridclimate"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
                     if ((Parameters.Keys.Contains("sub_climate_file")))
                         _GridClimateFile = (Parameters["sub_climate_file"] as DataCubeParameter<string>)[0, 0, 0];
+                    if ((Parameters.Keys.Contains("nps_param_file")))
+                        _nps_param_file = (Parameters["nps_param_file"] as DataCubeParameter<string>)[0, 0, 0];
                     if ((Parameters.Keys.Contains("var_init_file")))
                         _VarInitFile = (Parameters["var_init_file"] as DataCubeParameter<string>)[0, 0, 0];
                     if ((Parameters.Keys.Contains("save_vars_to_file")))
                         _SaveVarsToFile = (Parameters["save_vars_to_file"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
                     if ((Parameters.Keys.Contains("var_save_file")))
                         _VarSaveFile = (Parameters["var_save_file"] as DataCubeParameter<string>)[0, 0, 0];
+                    if ((Parameters.Keys.Contains("nps_module")))
+                        _nps_module = (Parameters["nps_module"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
                     _PrintDebug = (Parameters["print_debug"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
                     if ((Parameters.Keys.Contains("precip_day")))
                         _PrecipitationFile = (Parameters["precip_day"] as DataCubeParameter<string>)[0, 0, 0];
@@ -1300,6 +1321,8 @@ namespace Heiflow.Models.Integration
                         _dynamic_day = (Parameters["dynamic_day"] as DataCubeParameter<int>).ToVector();
                     if (Parameters.ContainsKey("dynamic_param_file"))
                         _dynamic_param_file = (Parameters["dynamic_param_file"] as DataCubeParameter<string>).ToVector();
+                    if (Parameters.ContainsKey("dynamic_nps_param_file"))
+                        _dynamic_wqparam_file = (Parameters["dynamic_nps_param_file"] as DataCubeParameter<string>).ToVector();
                     if (Parameters.ContainsKey("sub_climate_flag"))
                         _UseGridClimate = (Parameters["sub_climate_flag"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
                     else
@@ -1391,7 +1414,6 @@ namespace Heiflow.Models.Integration
                 //StatVarElement = new int[] { 1,2};
                 //StatVarNames = new string[] { "basin_cfs", "basin_reach_latflow" };
 
-
                 SubbasinFlag = false;
                 OutputWaterComponent = true;
                 UseGridClimate = true;
@@ -1401,16 +1423,16 @@ namespace Heiflow.Models.Integration
                 WRAModule = "none";
                 HydraulicsEngine = "SFR";
                 AnimationOutOC = false;
+                _nps_module = false;
                 GlobalTimeUnit = 4;
                 if (Owner.Project.SelectedVersion != "v1.0.0")
                     SaveSoilWaterFile = true;
 
-                EnableNPS = false;
-                NPS_PARA_FILE = string.Format(".\\input\\prms\\{0}_nps.param", Owner.Project.Name);
                 DataFile = string.Format(".\\input\\prms\\{0}.data", Owner.Project.Name);
                 ParameterFilePath = string.Format(".\\input\\prms\\{0}.param", Owner.Project.Name);
                 ModflowFilePath = string.Format(".\\input\\modflow\\{0}.nam", Owner.Project.Name);
                 GridClimateFile = string.Format(".\\input\\prms\\{0}.hru_clm", Owner.Project.Name);
+                nps_param_file = string.Format(".\\input\\prms\\{0}_nps.param", Owner.Project.Name);
                 VarInitFile = string.Format(".\\input\\prms\\{0}_prms_ic.in", Owner.Project.Name);
                 PrecipitationFile = string.Format(".\\input\\prms\\{0}_precip.dcx", Owner.Project.Name);
                 TempMaxFile = string.Format(".\\input\\prms\\{0}_tmax.dcx", Owner.Project.Name);

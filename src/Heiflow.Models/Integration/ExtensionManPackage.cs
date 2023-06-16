@@ -44,12 +44,12 @@ namespace Heiflow.Models.Integration
        // private string _BudgetsSumExFile;
         private string _MFOutputExFile;
         private string _SFRExFile;
-         private string   _SFRReportFile;
+         private string   _SFRWQFile;
          private string _SFROutEXFile;
          private string _LakeExFile;
-         private string _AllocCurveExFile;
+         private string _LAIDAExFile;
          private string _MF_IOLOG_File;
-         private string _PET_CONSTRAINT_File;
+         private string _GWHDA_File;
          private string _ABM_MODEL_File;
          private string _CHDEX_File;
 
@@ -136,9 +136,9 @@ namespace Heiflow.Models.Integration
             get;
             set;
         }
-        [Category("Modflow SFR Package Extension")]
+        [Category("SFR WQ Module")]
         [Description("")]
-        public bool EnableSFRReport
+        public bool EnableSFRWQ
         {
             get;
             set;
@@ -165,15 +165,15 @@ namespace Heiflow.Models.Integration
         }
         [Category("Modflow SFR Package Extension")]
         [Description("")]
-        public string  SFRReportFile
+        public string  SFRWQFile
         {
             get
             {
-                return Path.Combine(Owner.WorkDirectory, _SFRReportFile);
+                return Path.Combine(Owner.WorkDirectory, _SFRWQFile);
             }
             set
             {
-                _SFRReportFile = value;
+                _SFRWQFile = value;
             }
         }
         [Category("Modflow SFR Package Extension")]
@@ -209,44 +209,44 @@ namespace Heiflow.Models.Integration
                 _LakeExFile = value;
             }
         }
-        [Category("Allocation Curve Module Extension")]
+        [Category("LAI DA Module Extension")]
         [Description("")]
-        public bool EnableAllocCurveEx
+        public bool EnableLAIDAEx
         {
             get;
             set;
         }
-        [Category("Allocation Curve Module Extension")]
+        [Category("LAI DA Module Extension")]
         [Description("")]
-        public string AllocCurveExFile
+        public string LAIDAExFile
         {
             get
             {
-                return Path.Combine(Owner.WorkDirectory, _AllocCurveExFile);
+                return Path.Combine(Owner.WorkDirectory, _LAIDAExFile);
             }
             set
             {
-                _AllocCurveExFile = value;
+                _LAIDAExFile = value;
             }
         }
-        [Category("PET Extension")]
+        [Category("GWH DA Extension")]
         [Description("")]
-        public bool EnablePET_CONSTRAINT
+        public bool EnableGWHDA
         {
             get;
             set;
         }
-        [Category("PET Extension")]
+        [Category("GWH DA Extension")]
         [Description("")]
-        public string PET_CONSTRAINT_File
+        public string GWHDAFile
         {
             get
             {
-                return Path.Combine(Owner.WorkDirectory, _PET_CONSTRAINT_File);
+                return Path.Combine(Owner.WorkDirectory, _GWHDA_File);
             }
             set
             {
-                _PET_CONSTRAINT_File = value;
+                _GWHDA_File = value;
             }
         }
         [Category("Agent Based Model Extension")]
@@ -323,10 +323,10 @@ namespace Heiflow.Models.Integration
                     newline = sr.ReadLine();
                     buf = TypeConverterEx.Split<int>(newline, 3);
                     EnableSFREx = TypeConverterEx.Int2Bool(buf[0]);
-                    EnableSFRReport = TypeConverterEx.Int2Bool(buf[1]);
+                    EnableSFRWQ = TypeConverterEx.Int2Bool(buf[1]);
                     EnableSFROutEx = TypeConverterEx.Int2Bool(buf[2]);
                     SFRExFile = sr.ReadLine().Trim();
-                    SFRReportFile = sr.ReadLine().Trim();
+                    SFRWQFile = sr.ReadLine().Trim();
                     SFROutExFile = sr.ReadLine().Trim();
                     newline = sr.ReadLine();
                     newline = sr.ReadLine();
@@ -334,14 +334,14 @@ namespace Heiflow.Models.Integration
                     LakeExFile = sr.ReadLine().Trim();
                     newline = sr.ReadLine();
                     newline = sr.ReadLine();
-                    EnableAllocCurveEx = TypeConverterEx.String2Bool(newline.Trim());
-                    AllocCurveExFile = sr.ReadLine().Trim();
+                    EnableLAIDAEx = TypeConverterEx.String2Bool(newline.Trim());
+                    LAIDAExFile = sr.ReadLine().Trim();
                     newline = sr.ReadLine();
                     MF_IOLOG_File = sr.ReadLine().Trim();
                     newline = sr.ReadLine();
                     newline = sr.ReadLine();
-                    EnablePET_CONSTRAINT = TypeConverterEx.String2Bool(newline.Trim());
-                    PET_CONSTRAINT_File = sr.ReadLine().Trim();
+                    EnableGWHDA = TypeConverterEx.String2Bool(newline.Trim());
+                    GWHDAFile = sr.ReadLine().Trim();
                     newline = sr.ReadLine();
                     newline = sr.ReadLine();
                     EnableABM = TypeConverterEx.String2Bool(newline.Trim());
@@ -406,22 +406,22 @@ namespace Heiflow.Models.Integration
             sw.WriteLine(TypeConverterEx.Bool2String(EnableMFOutputEx));
             sw.WriteLine(_MFOutputExFile);
             sw.WriteLine("## SFREx");
-            newline = string.Format("{0}  {1}   {2}  #SFREx  SFRReport SFROutEX", TypeConverterEx.Bool2String(EnableSFREx), TypeConverterEx.Bool2String(EnableSFRReport), TypeConverterEx.Bool2String(EnableSFROutEx));
+            newline = string.Format("{0}  {1}   {2}  #SFREx  SFRWQ SFROutEX", TypeConverterEx.Bool2String(EnableSFREx), TypeConverterEx.Bool2String(EnableSFRWQ), TypeConverterEx.Bool2String(EnableSFROutEx));
             sw.WriteLine(newline);
             sw.WriteLine(_SFRExFile);
-            sw.WriteLine(_SFRReportFile);
+            sw.WriteLine(_SFRWQFile);
             sw.WriteLine(_SFROutEXFile);
             sw.WriteLine("## LakeEX");
             sw.WriteLine(TypeConverterEx.Bool2String(EnableLakeEx));
             sw.WriteLine(_LakeExFile);
-            sw.WriteLine("## AllocationCurveEX");
-            sw.WriteLine(TypeConverterEx.Bool2String(EnableAllocCurveEx));
-            sw.WriteLine(_AllocCurveExFile);
+            sw.WriteLine("## LAI DA");
+            sw.WriteLine(TypeConverterEx.Bool2String(EnableLAIDAEx));
+            sw.WriteLine(_LAIDAExFile);
             sw.WriteLine("## MF IO LOG FILE");
             sw.WriteLine(_MF_IOLOG_File);
             sw.WriteLine("## PET Constraint");
-            sw.WriteLine(TypeConverterEx.Bool2String(EnablePET_CONSTRAINT));
-            sw.WriteLine(_PET_CONSTRAINT_File);
+            sw.WriteLine(TypeConverterEx.Bool2String(EnableGWHDA));
+            sw.WriteLine(_GWHDA_File);
             sw.WriteLine("## ABM Model");
             sw.WriteLine(TypeConverterEx.Bool2String(EnableABM));
             sw.WriteLine(_ABM_MODEL_File);
@@ -444,19 +444,20 @@ namespace Heiflow.Models.Integration
             EnableMFOutputEx = false;
             EnableSFREx = false;
             EnableSFROutEx = false;
-            EnableSFRReport = false;
+            EnableSFRWQ = false;
             EnableLakeEx = false;
-            EnableAllocCurveEx = false;
+            EnableLAIDAEx = false;
             EnableCHDEx = false;
+            EnableGWHDA = false;
             Prep_Frac = 0.1f;
             _MFOutputExFile = ".\\Input\\Extension\\mfoutput.ex";
             _SFRExFile = ".\\Input\\Extension\\sfr.ex";
-            _SFRReportFile = ".\\Output\\sfr_report.txt";
+            _SFRWQFile = ".\\Input\\WQ\\sfrwq.ex";
             _SFROutEXFile = ".\\Input\\Extension\\sfrout_oc.ex";
             _LakeExFile = ".\\Input\\Extension\\lake.ex";
-            _AllocCurveExFile = ".\\Input\\Extension\\allocation_curve.ex";
+            _LAIDAExFile = ".\\Input\\Extension\\lai_da.ex";
             _MF_IOLOG_File = ".\\Output\\mf_io_log.csv";
-            _PET_CONSTRAINT_File = ".\\Input\\Extension\\pet_constraint.ex";
+            _GWHDA_File = ".\\Input\\Extension\\gwh_da.ex";
             _ABM_MODEL_File = ".\\Input\\Extension\\abm.ex";
             _CHDEX_File = ".\\Input\\Extension\\chd.ex";
         }

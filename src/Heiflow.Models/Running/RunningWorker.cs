@@ -129,7 +129,7 @@ namespace Heiflow.Models.Running
                 Arguments = e.Argument.ToString(),
             };
             workProcess = Process.Start(info);
- 
+            //workProcess.Exited += workProcess_Exited;
             //var automator = new ConsoleAutomator(workProcess.StandardInput, workProcess.StandardOutput);
             //// AutomatorStandardInputRead is the event handler
             //automator.StandardInputRead += new EventHandler<ConsoleInputReadEventArgs>(automator_StandardInputRead);
@@ -157,6 +157,11 @@ namespace Heiflow.Models.Running
             }
 
             workProcess.Close();
+        }
+
+        void workProcess_Exited(object sender, EventArgs e)
+        {
+            Console.WriteLine(workProcess.ExitCode);
         }
 
         private void automator_StandardInputRead(object sender, ConsoleInputReadEventArgs e)

@@ -361,6 +361,15 @@ namespace Heiflow.Models.Generic.Project
         }
         [XmlIgnore]
         [Browsable(false)]
+        public string WQDirectory
+        {
+            get
+            {
+                return Path.Combine(AbsolutePathToProjectFile, "Input\\WQ");
+            }
+        }
+        [XmlIgnore]
+        [Browsable(false)]
         public string MFInputDirectory
         {
             get

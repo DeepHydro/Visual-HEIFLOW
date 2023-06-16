@@ -81,6 +81,7 @@ namespace Heiflow.Models.Integration
             System.IO.Directory.CreateDirectory(MFInputDirectory);
             System.IO.Directory.CreateDirectory(PRMSInputDirectory);
             System.IO.Directory.CreateDirectory(ExtensionInputDirectory);
+            System.IO.Directory.CreateDirectory(WQDirectory);
             System.IO.Directory.CreateDirectory(OutputDirectory);
             System.IO.Directory.CreateDirectory(DatabaseDirectory);
 
