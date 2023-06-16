@@ -68,3 +68,14 @@ F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Models\obj\Debug\Heiflow.Models.csproj
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\bin\Debug\zh-CN\Heiflow.Models.resources.dll
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Models\obj\Debug\Heiflow.Models.Properties.Resources.zh-CN.resources
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Models\obj\Debug\zh-CN\Heiflow.Models.resources.dll
+D:\system\git\Visual-HEIFLOW\src\bin\Debug\Heiflow.Models.dll.config
+D:\system\git\Visual-HEIFLOW\src\bin\Debug\Heiflow.Models.dll
+D:\system\git\Visual-HEIFLOW\src\bin\Debug\Heiflow.Models.pdb
+D:\system\git\Visual-HEIFLOW\src\bin\Debug\zh-CN\Heiflow.Models.resources.dll
+D:\system\git\Visual-HEIFLOW\src\Heiflow.Models\obj\Debug\Heiflow.Models.csprojResolveAssemblyReference.cache
+D:\system\git\Visual-HEIFLOW\src\Heiflow.Models\obj\Debug\Heiflow.Models.Properties.Resources.resources
+D:\system\git\Visual-HEIFLOW\src\Heiflow.Models\obj\Debug\Heiflow.Models.Properties.Resources.zh-CN.resources
+D:\system\git\Visual-HEIFLOW\src\Heiflow.Models\obj\Debug\Heiflow.Models.csproj.GenerateResource.Cache
+D:\system\git\Visual-HEIFLOW\src\Heiflow.Models\obj\Debug\zh-CN\Heiflow.Models.resources.dll
+D:\system\git\Visual-HEIFLOW\src\Heiflow.Models\obj\Debug\Heiflow.Models.dll
+D:\system\git\Visual-HEIFLOW\src\Heiflow.Models\obj\Debug\Heiflow.Models.pdb

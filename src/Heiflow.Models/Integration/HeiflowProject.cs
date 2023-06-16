@@ -61,9 +61,9 @@ namespace Heiflow.Models.Integration
             this.LargeIcon = Resources.RasterImageAnalysisPanSharpen32;
             Description = "HEIFLOW model version 1.0.0 or version 1.1.0";
             Token = "HEIFLOW";
-            SupportedVersions = new string[] { "v1.0.0", "v1.1.0" };
+            SupportedVersions = new string[] { "v1.0.0", "v1.0.5", "v1.1.0" };
             SelectedVersion = SupportedVersions[0];
-            MODFLOWVersion = Subsurface.MODFLOWVersion.MF2005;
+            MODFLOWVersion = Subsurface.MODFLOWVersion.MFNWT;
         }
        [Category("Model")]
         public MODFLOWVersion MODFLOWVersion

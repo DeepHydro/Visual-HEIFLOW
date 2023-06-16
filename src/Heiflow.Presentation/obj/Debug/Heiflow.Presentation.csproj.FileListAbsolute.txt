@@ -40,3 +40,10 @@ E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.dll
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.pdb
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.csprojResolveAssemblyReference.cache
+D:\system\git\Visual-HEIFLOW\src\bin\Debug\Heiflow.Presentation.dll
+D:\system\git\Visual-HEIFLOW\src\bin\Debug\Heiflow.Presentation.pdb
+D:\system\git\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.csprojResolveAssemblyReference.cache
+D:\system\git\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.Properties.Resources.resources
+D:\system\git\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.csproj.GenerateResource.Cache
+D:\system\git\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.dll
+D:\system\git\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.pdb

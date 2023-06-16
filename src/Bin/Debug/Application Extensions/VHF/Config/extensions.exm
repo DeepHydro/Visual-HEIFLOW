@@ -8,24 +8,24 @@
 0
 .\input\mfoutput.ex
 ## SFREx
-0  1  0  #SFREx  SFRReport SFROutEX
+0  0  0  #SFREx  SFRWQ SFROutEX
 .\input\HRB_sfr.ex
 .\Output\SFR_Report.txt
 .\input\sftout.ex
 ## LakeEX
-1
-.\input\HRB_lake.ex
-## AllocationCurveEX
 0
-.\HRB\input\allocation_curve.ex
+.\Input\Extension\lake.ex
+## LAIex
+0
+.\Input\Extension\lai.ex
 ## MF IO LOG FILE
-.\output\mf_io.csv
-## PET Constraint
+.\Output\mf_io_log.csv
+## GW DA
 0
-.\input\pet_constraint.ex
+.\Input\Extension\gwh.ex
 ## ABM Model
 0
-.\input\abm.ex
-## LP Model
+.\Input\Extension\abm.ex
+## CHD Extension
 0
-.\Input\Extension\lp.ex
+.\Input\Extension\chd.ex
