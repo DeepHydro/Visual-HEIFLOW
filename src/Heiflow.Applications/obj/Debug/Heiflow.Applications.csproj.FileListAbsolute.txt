@@ -54,3 +54,11 @@ D:\system\git\Visual-HEIFLOW\src\Heiflow.Applications\obj\Debug\Heiflow.Applicat
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Applications\obj\Debug\Heiflow.Applications.csproj.GenerateResource.Cache
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Applications\obj\Debug\Heiflow.Applications.dll
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Applications\obj\Debug\Heiflow.Applications.pdb
+D:\GIT\Visual-HEIFLOW\src\bin\Debug\Heiflow.Applications.dll.config
+D:\GIT\Visual-HEIFLOW\src\bin\Debug\Heiflow.Applications.dll
+D:\GIT\Visual-HEIFLOW\src\bin\Debug\Heiflow.Applications.pdb
+D:\GIT\Visual-HEIFLOW\src\Heiflow.Applications\obj\Debug\Heiflow.Applications.csprojResolveAssemblyReference.cache
+D:\GIT\Visual-HEIFLOW\src\Heiflow.Applications\obj\Debug\Heiflow.Applications.Properties.Resources.resources
+D:\GIT\Visual-HEIFLOW\src\Heiflow.Applications\obj\Debug\Heiflow.Applications.csproj.GenerateResource.Cache
+D:\GIT\Visual-HEIFLOW\src\Heiflow.Applications\obj\Debug\Heiflow.Applications.dll
+D:\GIT\Visual-HEIFLOW\src\Heiflow.Applications\obj\Debug\Heiflow.Applications.pdb

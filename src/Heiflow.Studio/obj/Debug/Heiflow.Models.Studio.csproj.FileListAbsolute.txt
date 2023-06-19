@@ -105,3 +105,17 @@ D:\system\git\Visual-HEIFLOW\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Studio\obj\Debug\Visual HEIFLOW.exe.licenses
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Studio\obj\Debug\zh-CN\Visual HEIFLOW.resources.dll
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Studio\obj\Debug\Visual HEIFLOW.pdb
+D:\GIT\Visual-HEIFLOW\src\bin\Debug\Visual HEIFLOW.exe.config
+D:\GIT\Visual-HEIFLOW\src\Heiflow.Studio\obj\Debug\Visual HEIFLOW.exe
+D:\GIT\Visual-HEIFLOW\src\bin\Debug\Visual HEIFLOW.exe
+D:\GIT\Visual-HEIFLOW\src\bin\Debug\Visual HEIFLOW.pdb
+D:\GIT\Visual-HEIFLOW\src\bin\Debug\zh-CN\Visual HEIFLOW.resources.dll
+D:\GIT\Visual-HEIFLOW\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.csprojResolveAssemblyReference.cache
+D:\GIT\Visual-HEIFLOW\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.LicenseForm.resources
+D:\GIT\Visual-HEIFLOW\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.MainForm.resources
+D:\GIT\Visual-HEIFLOW\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.Resources.resources
+D:\GIT\Visual-HEIFLOW\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.Resources.zh-CN.resources
+D:\GIT\Visual-HEIFLOW\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.csproj.GenerateResource.Cache
+D:\GIT\Visual-HEIFLOW\src\Heiflow.Studio\obj\Debug\Visual HEIFLOW.exe.licenses
+D:\GIT\Visual-HEIFLOW\src\Heiflow.Studio\obj\Debug\zh-CN\Visual HEIFLOW.resources.dll
+D:\GIT\Visual-HEIFLOW\src\Heiflow.Studio\obj\Debug\Visual HEIFLOW.pdb

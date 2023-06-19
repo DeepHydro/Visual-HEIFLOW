@@ -61,3 +61,10 @@ D:\system\git\Visual-HEIFLOW\src\Heiflow.Processing\obj\Debug\Heiflow.Plugins.To
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Processing\obj\Debug\Heiflow.Plugins.Tools.csproj.GenerateResource.Cache
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Processing\obj\Debug\Heiflow.Plugins.Tools.dll
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Processing\obj\Debug\Heiflow.Plugins.Tools.pdb
+D:\GIT\Visual-HEIFLOW\src\bin\Debug\Application Extensions\VHF\Heiflow.Plugins.Tools.dll
+D:\GIT\Visual-HEIFLOW\src\bin\Debug\Application Extensions\VHF\Heiflow.Plugins.Tools.pdb
+D:\GIT\Visual-HEIFLOW\src\Heiflow.Processing\obj\Debug\Heiflow.Plugins.Tools.csprojResolveAssemblyReference.cache
+D:\GIT\Visual-HEIFLOW\src\Heiflow.Processing\obj\Debug\Heiflow.Plugins.Tools.Properties.Resources.resources
+D:\GIT\Visual-HEIFLOW\src\Heiflow.Processing\obj\Debug\Heiflow.Plugins.Tools.csproj.GenerateResource.Cache
+D:\GIT\Visual-HEIFLOW\src\Heiflow.Processing\obj\Debug\Heiflow.Plugins.Tools.dll
+D:\GIT\Visual-HEIFLOW\src\Heiflow.Processing\obj\Debug\Heiflow.Plugins.Tools.pdb
