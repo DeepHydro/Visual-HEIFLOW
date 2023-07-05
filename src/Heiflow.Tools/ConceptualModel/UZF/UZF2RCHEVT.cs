@@ -50,6 +50,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms.Design;
 
 namespace Heiflow.Tools.ConceptualModel
 {
@@ -58,25 +59,33 @@ namespace Heiflow.Tools.ConceptualModel
 
         public UZF2RCHEVT()
         {
-            Name = "Set IRUNBND Values";
+            Name = "Convert to RCH and EVT Packages";
             Category = Cat_CMG;
             SubCategory = "UZF";
-            Description = "IRUNBND define the stream segments within the Streamflow-Routing (SFR2) Package or lake numbers in the Lake (LAK3)" +
-           " Package to which overland runoff from excess infiltration and ground-water discharge to land surface will be added.";
+            Description = "";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
+            RchFilename = @"e:\uzf2rch.rch";
         }
-        [Category("Output")]
-        [Description("The difference data cube")]
-        public string EVTDataCube
+        [Category("Input")]
+        [Description("The input matrix which should be [0][0][:]")]
+        public string ETDataCube
+        {
+            get;
+            set;
+        }
+        [Category("Input")]
+        [Description("The input matrix which should be [0][0][:]")]
+        public string RCHDataCube
         {
             get;
             set;
         }
         [Category("Output")]
-        [Description("The difference data cube")]
-        public string RCHDataCube
+        [Description("The output file name")]
+        [EditorAttribute(typeof(FileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
+        public string RchFilename
         {
             get;
             set;
@@ -84,8 +93,10 @@ namespace Heiflow.Tools.ConceptualModel
 
         public override void Initialize()
         {
-     
-        
+            var m1 = Validate(ETDataCube);
+            var m2 = Validate(RCHDataCube);
+            this.Initialized = m1 && m2;
+
         }
 
         public override bool Execute(ICancelProgressHandler cancelProgressHandler)
@@ -104,18 +115,22 @@ namespace Heiflow.Tools.ConceptualModel
             {
                 var pck = mf.GetPackage(UZFPackage.PackageName) as UZFPackage;
                 var mfgrid = mf.Grid as RegularGrid;
-                //Coordinate centroid = null;
-                for (int i = 0; i < mfgrid.ActiveCellCount; i++)
-                {
-                 
-                    progress = i * 100 / mfgrid.ActiveCellCount;
-                    if (progress > count)
-                    {
-                        cancelProgressHandler.Progress("Package_Tool", progress, "Processing cell: " + i);
-                        count++;
-                    }
-                }
+                var var_index = 0;
+                var rchmat = Get3DMat(RCHDataCube, ref var_index);
+                var etmat = Get3DMat(ETDataCube, ref var_index);
+
+                var rchpck = new RCHPackage();
+                rchpck.NRCHOP = 1;
+                rchpck.RECH = new DataCube<float>(2, 1, mfgrid.ActiveCellCount);
+                rchpck.RECH[0][0, ":"] = rchmat[0][0, ":"];
+                rchpck.SaveAs(RchFilename, cancelProgressHandler);
+                cancelProgressHandler.Progress("Package_Tool", 50, "Finished to save RCH file");
+
+
+
+                progress = 100;
                 pck.Save(cancelProgressHandler);
+                cancelProgressHandler.Progress("Package_Tool", 100, "Finished");
                 return true;
             }
             else
@@ -126,8 +141,3 @@ namespace Heiflow.Tools.ConceptualModel
         }
     }
 }
-https://shangcheng.biddingoffice.sustech.edu.cn/newmall/newGoodDisplay.do?method=view&id=4814706
-
-https://shangcheng.biddingoffice.sustech.edu.cn/newmall/newGoodDisplay.do?method=view&id=4777994
-
-https://shangcheng.biddingoffice.sustech.edu.cn/newmall/newGoodDisplay.do?method=view&id=4814139

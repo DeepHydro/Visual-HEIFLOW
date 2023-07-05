@@ -71,7 +71,7 @@ namespace Heiflow.Tools.Conversion
             set;
         }
 
-        [Category("Input")]
+        [Category("Output")]
         [Description("The output file name")]
         [EditorAttribute(typeof(FileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public string Filename
