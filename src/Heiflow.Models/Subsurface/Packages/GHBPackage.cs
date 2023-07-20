@@ -123,7 +123,7 @@ namespace Heiflow.Models.Subsurface
                     {
                         ITMP.Variables[i] = "Stress Period " + (i + 1);
                         newline = sr.ReadLine();
-                        intbuf = TypeConverterEx.Split<int>(newline, 3);
+                        intbuf = TypeConverterEx.Split<int>(newline, 2);
                         if (intbuf[0] > 0)
                         {
                             ITMP.Flags[i] = TimeVarientFlag.Individual;

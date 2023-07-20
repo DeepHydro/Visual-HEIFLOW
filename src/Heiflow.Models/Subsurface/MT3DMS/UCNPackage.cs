@@ -167,7 +167,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             DataCube.Layers = grid.ActualLayerCount;
 
             var fn = string.Format("PHT3D{0}.UCN", (var_index + 1).ToString().PadLeft(3, '0'));
-            var file = Path.Combine(Owner.Project.AbsolutePathToProjectFile, fn);
+            var file = Path.Combine(Owner.Project.Model.WorkDirectory, fn);
             bool filefound = false;
 
             if (File.Exists(file))
@@ -176,7 +176,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             }
             else
             {
-                file = Path.Combine(Owner.Project.AbsolutePathToProjectFile, string.Format("MT3D{0}.UCN", (var_index + 1).ToString().PadLeft(3, '0')));
+                file = Path.Combine(Owner.Project.Model.WorkDirectory, string.Format("MT3D{0}.UCN", (var_index + 1).ToString().PadLeft(3, '0')));
                 if (File.Exists(file))
                 {
                     filefound = true;

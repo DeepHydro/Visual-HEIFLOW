@@ -135,7 +135,7 @@ namespace Heiflow.Models.Subsurface
 
         }
 
-        private void InitArrays()
+        public void InitArrays()
         {
             int nsp = TimeService.StressPeriods.Count;
             SURF = new DataCube<float>(nsp, 1, this.Grid.ActiveCellCount)
@@ -325,7 +325,6 @@ namespace Heiflow.Models.Subsurface
         public override void SaveAs(string filename, ICancelProgressHandler progress)
         {
             var nsp = GetNumSP();
-            var grid = (Owner.Grid as IRegularGrid);
             StreamWriter sw = new StreamWriter(filename);
             WriteDefaultComment(sw, this.Name);
             string line = string.Format("{0}  {1} # NEVTOP, IEVTCB", NEVTOP, IEVTCB);

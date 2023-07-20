@@ -169,7 +169,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             ResetToDefault();
             base.New();
         }
-        private void InitArrays()
+        public void InitArrays()
         {
             var grid = Owner.Grid as MFGrid;
             var mf = Owner as Modflow;
@@ -181,6 +181,37 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             NSS = new int[nsp];
 
             for (int i = 0; i < btnpck.NCOMP; i++)
+            {
+                CRCH[i] = new DataCube<float>(nsp, 1, grid.ActiveCellCount)
+                {
+                    Name = "Spiece " + (i + 1),
+                    ZeroDimension = DimensionFlag.Time
+                };
+                for (int j = 0; j < nsp; j++)
+                {
+                    CRCH[i].Variables[j] = "Concentration in Stress Period " + (j + 1);
+                }
+                CEVT[i] = new DataCube<float>(nsp, 1, grid.ActiveCellCount)
+                {
+                    Name = "Spiece " + (i + 1),
+                    ZeroDimension = DimensionFlag.Time
+                };
+                for (int j = 0; j < nsp; j++)
+                {
+                    CEVT[i].Variables[j] = "Concentration in Stress Period " + (j + 1);
+                }
+            }
+        }
+
+        public void InitArrays(int nsp, int ncomp)
+        {
+            var grid = Owner.Grid as MFGrid;
+            CRCH = new DataCube<float>[ncomp];
+            CEVT = new DataCube<float>[ncomp];
+            PointSources = new DataCube2DLayout<float>[nsp];
+            NSS = new int[nsp];
+
+            for (int i = 0; i < ncomp; i++)
             {
                 CRCH[i] = new DataCube<float>(nsp, 1, grid.ActiveCellCount)
                 {
@@ -405,6 +436,64 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             }
             sw.Close();
             OnSaved(progress);
+        }
+
+        public void SaveAsFile(string filename,int nsp, int ncomp)
+        {
+            var grid = (Owner.Grid as IRegularGrid);
+            StreamWriter sw = new StreamWriter(filename);
+            string line = string.Format("{0}{1}{2}{3}{4}{5} F F F F", FWEL ? " T" : " F", FDRN ? " T" : " F", FRCH ? " T" : " F", FEVT ? " T" : " F", FRIV ? " T" : " F", FGHB ? " T" : " F");
+            sw.WriteLine(line);
+            sw.WriteLine(MXSS.ToString().PadLeft(10, ' '));
+            for (int i = 0; i < nsp; i++)
+            {
+                if (FRCH)
+                {
+                    if (CRCH[0].Flags[i] == TimeVarientFlag.Repeat)
+                    {
+                        sw.WriteLine("        -1");
+                    }
+                    else
+                    {
+                        sw.WriteLine("         1");
+                        for (int j = 0; j < ncomp; j++)
+                        {
+                            WriteSerialFloatArrayMT3D(sw, CRCH[j], i, 0, "F6", 15, 10, "G15.6");
+                        }
+                    }
+                }
+                if (FEVT)
+                {
+                    if (CEVT[0].Flags[i] == TimeVarientFlag.Repeat)
+                    {
+                        sw.WriteLine("        -1");
+                    }
+                    else
+                    {
+                        sw.WriteLine("         1");
+                        for (int j = 0; j < ncomp; j++)
+                        {
+                            WriteSerialFloatArrayMT3D(sw, CEVT[j], i, 0, "F6", 15, 10, "G15.6");
+                        }
+                    }
+                }
+                sw.WriteLine(NSS[i].ToString().PadLeft(10, ' '));
+                if (NSS[i] > 0)
+                {
+                    for (int k = 0; k < NSS[i]; k++)
+                    {
+                        line = string.Format("{0}{1}{2}{3}{4}", PointSources[i][0, k, 0].ToString("F0").PadLeft(10, ' '), PointSources[i][0, k, 1].ToString("F0").PadLeft(10, ' '), PointSources[i][0, k, 2].ToString("F0").PadLeft(10, ' '),
+                            PointSources[i][0, k, 3].ToString("F6").PadLeft(10, ' '), PointSources[i][0, k, 4].ToString("F0").PadLeft(10, ' '));
+
+                        for (int j = 0; j < ncomp; j++)
+                        {
+                            line += PointSources[i][0, k, 5 + j].ToString("F6").PadLeft(10, ' ');
+                        }
+                        sw.WriteLine(line);
+                    }
+                }
+            }
+            sw.Close();
         }
         public override void OnGridUpdated(IGrid sender)
         {

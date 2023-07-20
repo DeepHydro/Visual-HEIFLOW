@@ -67,6 +67,8 @@ namespace Heiflow.Tools.ConceptualModel
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
             RchFilename = @"e:\uzf2rch.rch";
+            EVTFilename = @"e:\uzf2evt.evt";
+            EXDPValue = 2;
         }
         [Category("Input")]
         [Description("The input matrix which should be [0][0][:]")]
@@ -90,6 +92,22 @@ namespace Heiflow.Tools.ConceptualModel
             get;
             set;
         }
+        [Category("Output")]
+        [Description("The output file name")]
+        [EditorAttribute(typeof(FileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
+        public string EVTFilename
+        {
+            get;
+            set;
+        }
+        [Category("Parameter")]
+        [Description("The extinction depth value")]
+        public float EXDPValue
+        {
+            get;
+            set;
+        }
+
 
         public override void Initialize()
         {
@@ -104,8 +122,6 @@ namespace Heiflow.Tools.ConceptualModel
             var shell = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
             var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
             var model = prj.Project.Model;
-            int progress = 0;
-            int count = 1;
             Modflow mf = null;
             if (model is HeiflowModel)
                 mf = (model as HeiflowModel).ModflowModel;
@@ -113,23 +129,34 @@ namespace Heiflow.Tools.ConceptualModel
                 mf = model as Modflow;
             if (mf != null)
             {
-                var pck = mf.GetPackage(UZFPackage.PackageName) as UZFPackage;
                 var mfgrid = mf.Grid as RegularGrid;
                 var var_index = 0;
                 var rchmat = Get3DMat(RCHDataCube, ref var_index);
                 var etmat = Get3DMat(ETDataCube, ref var_index);
 
                 var rchpck = new RCHPackage();
+                rchpck.Owner = mf;
+                rchpck.TimeService = mf.TimeService;
+                rchpck.Grid = mfgrid;
                 rchpck.NRCHOP = 1;
-                rchpck.RECH = new DataCube<float>(2, 1, mfgrid.ActiveCellCount);
+                rchpck.InitArrays();
+
                 rchpck.RECH[0][0, ":"] = rchmat[0][0, ":"];
                 rchpck.SaveAs(RchFilename, cancelProgressHandler);
                 cancelProgressHandler.Progress("Package_Tool", 50, "Finished to save RCH file");
 
+                var evtpck = new EVTPackage();
+                evtpck.Owner = mf;
+                evtpck.Grid = mfgrid;
+                evtpck.NEVTOP = 1;
+                evtpck.TimeService = mf.TimeService;
+                evtpck.InitArrays();
 
+                evtpck.SURF[0][0, ":"] = mfgrid.Elevations[0][0, ":"];
+                evtpck.EVTR[0][0, ":"] = etmat[0][0, ":"];
+                evtpck.EXDP[0][0, ":"] = EXDPValue;
 
-                progress = 100;
-                pck.Save(cancelProgressHandler);
+                evtpck.SaveAs(EVTFilename, cancelProgressHandler);
                 cancelProgressHandler.Progress("Package_Tool", 100, "Finished");
                 return true;
             }

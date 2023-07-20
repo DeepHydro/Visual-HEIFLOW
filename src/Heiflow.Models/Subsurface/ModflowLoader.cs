@@ -80,13 +80,12 @@ namespace Heiflow.Models.Subsurface
             Modflow model = null;
             if (project.Model == null)
             {
-                if (project is ModflowProject)
-                    model = new Modflow();
-                else if (project is MT3DMSProject)
+                if (project is MT3DMSProject)
                     model = new MT3DMSModel();
                 else if (project is VFT3D.VFT3DProject)
                     model = new VFT3D.VFT3DModel();
-
+                 else if (project is ModflowProject)
+                    model = new Modflow();
                 project.Model = model;
                 project.Model.Project = project;
             }
