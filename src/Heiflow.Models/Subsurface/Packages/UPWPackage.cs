@@ -248,8 +248,11 @@ namespace Heiflow.Models.Subsurface
                     LAYVKA = TypeConverterEx.Split<int>(newline, nlayer);
 
                     //Data Set 6: # 
-                    newline = sr.ReadLine();
-                    LAYWET = TypeConverterEx.Split<int>(newline, nlayer);
+                    if (LAYTYP.Sum() > 0)
+                    {
+                        newline = sr.ReadLine();
+                        LAYWET = TypeConverterEx.Split<int>(newline, nlayer);
+                    }
 
                     mf.LayerGroupManager.LayerGroups.CollectionChanged -= this.LayerGroups_CollectionChanged;
                     mf.LayerGroupManager.Initialize(grid.ActualLayerCount);
@@ -257,7 +260,10 @@ namespace Heiflow.Models.Subsurface
                     mf.LayerGroupManager.ConvertFrom(LAYAVG, "LAYAVG");
                     mf.LayerGroupManager.ConvertFrom(CHANI, "CHANI");
                     mf.LayerGroupManager.ConvertFrom(LAYVKA, "LAYVKA");
-                    mf.LayerGroupManager.ConvertFrom(LAYWET, "LAYWET");
+                    if (LAYTYP.Sum() > 1)
+                    {
+                        mf.LayerGroupManager.ConvertFrom(LAYWET, "LAYWET");
+                    }
                     mf.LayerGroupManager.LayerGroups.CollectionChanged += this.LayerGroups_CollectionChanged;
 
                     HK = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
@@ -304,18 +310,19 @@ namespace Heiflow.Models.Subsurface
                         ReadSerialArray(sr, HK, l, 0);
                         ReadSerialArray(sr, HANI, l, 0);
                         ReadSerialArray(sr, VKA, l, 0);
-                        ReadSerialArray(sr, SS, l, 0);
-
-                        if (LAYTYP[l] != 0)
+                        if (TimeService.StressPeriods.Count > 1)
                         {
-                            ReadSerialArray(sr, SY, l, 0);
-                        }
+                            ReadSerialArray(sr, SS, l, 0);
 
+                            if (LAYTYP[l] != 0)
+                            {
+                                ReadSerialArray(sr, SY, l, 0);
+                            }
+                        }
                         if (LAYTYP[l] != 0 && LAYWET[l] != 0)
                         {
                             ReadSerialArray(sr, WETDRY, l, 0);
                         }
-
                         HK.Variables[l] = "HK Layer" + (l + 1);
                         HANI.Variables[l] = "HANI Layer" + (l + 1);
                         VKA.Variables[l] = "VKA Layer" + (l + 1);
@@ -369,12 +376,15 @@ namespace Heiflow.Models.Subsurface
             line = TypeConverterEx.Vector2String<int>(LAYVKA) + "\t# LAYVKA";
             sw.WriteLine(line);
 
-            for (int i = 0; i < LAYWET.Length; i++)
+            if (LAYTYP.Sum() > 0)
             {
-                LAYWET[i] = 0;
+                for (int i = 0; i < LAYWET.Length; i++)
+                {
+                    LAYWET[i] = 0;
+                }
+                line = TypeConverterEx.Vector2String<int>(LAYWET) + "\t# LAYWET";
+                sw.WriteLine(line);
             }
-            line = TypeConverterEx.Vector2String<int>(LAYWET) + "\t# LAYWET";
-            sw.WriteLine(line);
 
             //line = string.Format("{0}\t{1}\t{2}\t# WETFCT, IWETIT, IHDWET", WETFCT, IWETIT, IHDWET);
             //sw.WriteLine(line);
@@ -391,14 +401,16 @@ namespace Heiflow.Models.Subsurface
                 cmt = string.Format("#VKA Layer {0}", l + 1);
                 //WriteSerialFloatInternalMatrix(sw, VKA[l, 0], 1, "E5", -1, cmt);
                 WriteSerialFloatArray(sw, VKA, l, 0, "E6", cmt);
-                cmt = string.Format("#SS Layer {0}", l + 1);
-                //WriteSerialFloatInternalMatrix(sw, SS[l, 0], 1, "E5", -1, cmt);
-                WriteSerialFloatArray(sw, SS, l, 0, "E6", cmt);
-                if (LAYTYP[l] != 0)
+
+                if (TimeService.StressPeriods.Count > 1)
                 {
-                    cmt = string.Format("#SY Layer {0}", l + 1);
-                    //WriteSerialFloatInternalMatrix(sw, SY[l, 0], 1, "E5", -1, cmt);
-                    WriteSerialFloatArray(sw, SY, l, 0, "E6", cmt);
+                    cmt = string.Format("#SS Layer {0}", l + 1);
+                    WriteSerialFloatArray(sw, SS, l, 0, "E6", cmt);
+                    if (LAYTYP[l] != 0)
+                    {
+                        cmt = string.Format("#SY Layer {0}", l + 1);
+                        WriteSerialFloatArray(sw, SY, l, 0, "E6", cmt);
+                    }
                 }
             }
             sw.Close();

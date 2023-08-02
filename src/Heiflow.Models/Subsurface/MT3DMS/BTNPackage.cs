@@ -444,7 +444,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
                     Head1 = sr.ReadLine();
                     Head2 = sr.ReadLine();
                     var line = sr.ReadLine();
-                    var intbufs = TypeConverterEx.Split<int>(line);
+                    var intbufs = TypeConverterEx.Split<int>(line, 6);
                     float[] ffbufs = null;
                     NLAY = intbufs[0];
                     NROW = intbufs[1];
@@ -453,13 +453,13 @@ namespace Heiflow.Models.Subsurface.MT3DMS
                     NCOMP = intbufs[4];
                     MCOMP = intbufs[5];
                     line = sr.ReadLine();
-                    var strbufs = TypeConverterEx.Split<string>(line);
+                    var strbufs = TypeConverterEx.Split<string>(line, 3);
                     TUNIT = strbufs[0];
                     LUNIT = strbufs[1];
                     MUNIT = strbufs[2];
                     line = sr.ReadLine();
                     TRNOP = line;
-                    strbufs = TypeConverterEx.Split<string>(line);
+                    strbufs = TypeConverterEx.Split<string>(line, 5);
                     EnableADV = strbufs[0].ToUpper() == "T";
                     EnableDSP = strbufs[1].ToUpper() == "T";
                     EnableSSM = strbufs[2].ToUpper() == "T";
@@ -566,7 +566,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
                     for (int i = 0; i < NPER; i++)
                     {
                         line = sr.ReadLine();
-                        ffbufs = TypeConverterEx.Split<float>(line);
+                        ffbufs = TypeConverterEx.Split<float>(line,3);
                         if (ffbufs[2] <= 0)
                         {
                             nline = (int)Math.Ceiling(NPER / 8.0);

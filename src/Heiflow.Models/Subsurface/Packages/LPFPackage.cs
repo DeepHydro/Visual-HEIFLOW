@@ -243,18 +243,21 @@ namespace Heiflow.Models.Subsurface
                     newline = sr.ReadLine();
                     LAYVKA = TypeConverterEx.Split<int>(newline, nlayer);
 
-                    //Data Set 6: # 
-                    newline = sr.ReadLine();
-                    LAYWET = TypeConverterEx.Split<int>(newline, nlayer);
-
-                    if (LAYWET.Sum() != 0)
+                    if (LAYTYP.Sum() > 0)
                     {
-                        //Data Set 7: # 
+                        //Data Set 6: # 
                         newline = sr.ReadLine();
-                        fv = TypeConverterEx.Split<float>(newline, 3);
-                        WETFCT = fv[0];
-                        IWETIT = (int)fv[1];
-                        IHDWET = (int)fv[2];
+                        LAYWET = TypeConverterEx.Split<int>(newline, nlayer);
+
+                        if (LAYWET.Sum() != 0)
+                        {
+                            //Data Set 7: # 
+                            newline = sr.ReadLine();
+                            fv = TypeConverterEx.Split<float>(newline, 3);
+                            WETFCT = fv[0];
+                            IWETIT = (int)fv[1];
+                            IHDWET = (int)fv[2];
+                        }
                     }
 
                     mf.LayerGroupManager.LayerGroups.CollectionChanged -= this.LayerGroups_CollectionChanged;
@@ -263,7 +266,10 @@ namespace Heiflow.Models.Subsurface
                     mf.LayerGroupManager.ConvertFrom(LAYAVG, "LAYAVG");
                     mf.LayerGroupManager.ConvertFrom(CHANI, "CHANI");
                     mf.LayerGroupManager.ConvertFrom(LAYVKA, "LAYVKA");
-                    mf.LayerGroupManager.ConvertFrom(LAYWET, "LAYWET");
+                    if (LAYTYP.Sum() > 0)
+                    {
+                        mf.LayerGroupManager.ConvertFrom(LAYWET, "LAYWET");
+                    }
                     mf.LayerGroupManager.LayerGroups.CollectionChanged += this.LayerGroups_CollectionChanged;
 
                     HK = new DataCube<float>(nlayer, 1, grid.ActiveCellCount)
@@ -311,11 +317,14 @@ namespace Heiflow.Models.Subsurface
                         if (CHANI[l] < 0)
                             ReadSerialArray(sr, HANI, l, 0);
                         ReadSerialArray(sr, VKA, l, 0);
-                        ReadSerialArray(sr, SS, l, 0);
 
-                        if (LAYTYP[l] != 0)
+                        if (TimeService.StressPeriods.Count > 1)
                         {
-                            ReadSerialArray(sr, SY, l, 0);
+                            ReadSerialArray(sr, SS, l, 0);
+                            if (LAYTYP[l] != 0)
+                            {
+                                ReadSerialArray(sr, SY, l, 0);
+                            }
                         }
 
                         if (LAYTYP[l] != 0 && LAYWET[l] != 0)
@@ -397,15 +406,18 @@ namespace Heiflow.Models.Subsurface
                 cmt = string.Format("#VKA Layer {0}", l + 1);
                 //WriteSerialFloatInternalMatrix(sw, VKA[l, 0], 1, "E5", -1, cmt);
                 WriteSerialFloatArray(sw, VKA, l, 0, "E6", cmt);
-                cmt = string.Format("#SS Layer {0}", l + 1);
-                //WriteSerialFloatInternalMatrix(sw, SS[l, 0], 1, "E5", -1, cmt);
-                WriteSerialFloatArray(sw, SS, l, 0, "E6", cmt);
-                if (LAYTYP[l] != 0)
+
+                if (TimeService.StressPeriods.Count > 1)
                 {
-                    cmt = string.Format("#SY Layer {0}", l + 1);
-                    //WriteSerialFloatInternalMatrix(sw, SY[l, 0], 1, "E5", -1, cmt);
-                    WriteSerialFloatArray(sw, SY, l, 0, "E6", cmt);
+                    cmt = string.Format("#SS Layer {0}", l + 1);
+                    WriteSerialFloatArray(sw, SS, l, 0, "E6", cmt);
+                    if (LAYTYP[l] != 0)
+                    {
+                        cmt = string.Format("#SY Layer {0}", l + 1);
+                        WriteSerialFloatArray(sw, SY, l, 0, "E6", cmt);
+                    }
                 }
+
                 if (LAYTYP[l] != 0 && LAYWET[l] != 0)
                 {
                     cmt = string.Format("#WETDRY Layer {0}", l + 1);

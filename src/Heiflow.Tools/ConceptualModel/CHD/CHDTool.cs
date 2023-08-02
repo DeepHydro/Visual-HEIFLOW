@@ -349,11 +349,13 @@ namespace Heiflow.Tools.ConceptualModel
                         FlowRate[0, i, 3] = bound.SHead;
                         FlowRate[0, i, 4] = bound.EHead;
 
-                        if (mfgrid.MFIBound[bound.Layer - 1, bound.Row - 1, bound.Col - 1] == 0)
-                        {
-                            mfgrid.MFIBound[bound.Layer - 1, bound.Row - 1, bound.Col - 1] = 1;
-                            actcell_changed_num++;
-                        }
+                        //if (mfgrid.MFIBound[bound.Layer - 1, bound.Row - 1, bound.Col - 1] == 0)
+                        //{
+                        //    mfgrid.MFIBound[bound.Layer - 1, bound.Row - 1, bound.Col - 1] = 1;
+                        //    actcell_changed_num++;
+                        //}
+                        mfgrid.MFIBound[bound.Layer - 1, bound.Row - 1, bound.Col - 1] = -1;
+                        actcell_changed_num++;
                     }
                     for (int i = 1; i < nsp; i++)
                     {

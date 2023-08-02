@@ -457,17 +457,20 @@ namespace Heiflow.Models.IO
                 var grid = _Grid as MFGrid;
                 FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 BinaryReader br = new BinaryReader(fs);
+                // KSTP,KPER,PERTIM,TOTIM,TEXT,NCOL,NROW,ILAY
                 long layerbyte = 32 + 4 * 3 + grid.RowCount * grid.ColumnCount * 4;
                 int nstep = StepsToLoad;
-                  int progress = 0;
+                int progress = 0;
 
                 layer = layer - 1;
                 if (layer < 0)
                     layer = 0;
+                // MyLazy3DMat<float> mat = new MyLazy3DMat<float>(Variables.Length, nstep, grid.ActiveCellCount);
                 if (DataCube == null)
                     DataCube = new DataCube<float>(Variables.Length, nstep, grid.ActualLayerCount, true);
                 DataCube.Allocate(layer + 1);
                 float[] layermat = new float[grid.RowCount * grid.ColumnCount];
+
                 for (int t = 0; t < nstep; t++)
                 {
                     for (int l = 0; l < layer; l++)
@@ -479,7 +482,6 @@ namespace Heiflow.Models.IO
                     vv = br.ReadInt32();
                     vv = br.ReadInt32();
                     int k = 0;
-                    
                     for (int r = 0; r < grid.RowCount; r++)
                     {
                         for (int c = 0; c < grid.ColumnCount; c++)
@@ -489,9 +491,9 @@ namespace Heiflow.Models.IO
                         }
                     }
                     var buf = new float[grid.ActiveCellCount];
-                    for (int l = layer + 1; l < grid.ActualLayerCount; l++)
+                    for (int i = 0; i < grid.ActiveCellCount; i++)
                     {
-                        fs.Seek(layerbyte, SeekOrigin.Current);
+                        buf[i] = grid.Elevations[0, 0, i] - layermat[grid.Topology.ActiveCellMatrixIndex[i]];
                     }
                     DataCube.ILArrays[layer + 1][t, ":"] = buf;
                     for (int l = layer + 1; l < grid.ActualLayerCount; l++)
@@ -501,11 +503,9 @@ namespace Heiflow.Models.IO
                     progress = Convert.ToInt32(t * 100 / nstep);
                     OnLoading(progress);
                 }
-                if (progress < 100)
-                    OnLoading(100);
+                OnLoading(100);
                 br.Close();
                 fs.Close();
-
                 OnDataCubedLoaded(DataCube);
             }
             else
