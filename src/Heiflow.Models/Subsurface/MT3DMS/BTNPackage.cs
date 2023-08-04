@@ -259,10 +259,15 @@ namespace Heiflow.Models.Subsurface.MT3DMS
         {
             get
             {
-                var strs = new string[NCOMP];
-                for(int i=0;i<NCOMP;i++)
+                var strs = new string[NCOMP * NLAY];
+                int k = 0;
+                for (int i = 0; i < NCOMP; i++)
                 {
-                    strs[i] = "Species " + (i + 1);
+                    for (int j = 0; j < NLAY; j++)
+                    {
+                        strs[k] = string.Format("Species_{0}_Layer_{1}", i + 1, j + 1);// "Species " + (i + 1);
+                        k++;
+                    }
                 }
                 return strs;
             }

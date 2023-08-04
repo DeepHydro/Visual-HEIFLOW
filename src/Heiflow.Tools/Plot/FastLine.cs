@@ -56,7 +56,7 @@ namespace Heiflow.Tools.Plot
         }
 
         [Category("Input")]
-        [Description("The input matrix. The matrix style should be [-1][0][0] or [0][-1][0] or [0][0][:]")]
+        [Description("The input matrix. The matrix style should be [:][0][0] or [0][:][0] or [0][0][:]")]
         public string MatrixX
         {
             get;
