@@ -138,7 +138,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             {
                 if (LoadAllLayers)
                 {
-                    DataCube = new DataCube<float>(Variables.Length, StepsToLoad, grid.ActiveCellCount * grid.ActualLayerCount, true)
+                    DataCube = new DataCube<float>(Variables.Length, StepsToLoad, grid.ActiveCellCount, true)
                     {
                         Name = "UCN"
                     };
@@ -152,22 +152,23 @@ namespace Heiflow.Models.Subsurface.MT3DMS
                 }
             }
 
-            if (LoadAllLayers && DataCube.Size[2] != grid.ActiveCellCount * grid.ActualLayerCount)
+            if (LoadAllLayers && DataCube.Size[2] != grid.ActiveCellCount)
             {
-                DataCube = new DataCube<float>(Variables.Length, StepsToLoad, grid.ActiveCellCount * grid.ActualLayerCount, true)
+                DataCube = new DataCube<float>(Variables.Length, StepsToLoad, grid.ActiveCellCount, true)
                 {
                     Name = "UCN"
                 };
             }
 
-            DataCube.Allocate(var_index, StepsToLoad, grid.ActiveCellCount * grid.ActualLayerCount);
+            DataCube.Allocate(var_index, StepsToLoad, grid.ActiveCellCount);
             DataCube.Topology = (this.Grid as RegularGrid).Topology;
             DataCube.DateTimes = this.TimeService.IOTimeline.Take(StepsToLoad).ToArray();
             DataCube.Variables = this.Variables;
             DataCube.Layers = grid.ActualLayerCount;
-
-            var fn = string.Format("PHT3D{0}.UCN", (var_index + 1).ToString().PadLeft(3, '0'));
-            var file = Path.Combine(Owner.Project.AbsolutePathToProjectFile, fn);
+           
+            //TODO: 
+            var fn = string.Format("PHT3D{0}.UCN", (0 + 1).ToString().PadLeft(3, '0'));
+            var file = Path.Combine(Owner.Project.Model.WorkDirectory, fn);
             bool filefound = false;
 
             if (File.Exists(file))
@@ -176,7 +177,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             }
             else
             {
-                file = Path.Combine(Owner.Project.AbsolutePathToProjectFile, string.Format("MT3D{0}.UCN", (var_index + 1).ToString().PadLeft(3, '0')));
+                file = Path.Combine(Owner.Project.Model.WorkDirectory, string.Format("MT3D{0}.UCN", (0 + 1).ToString().PadLeft(3, '0')));
                 if (File.Exists(file))
                 {
                     filefound = true;
@@ -189,48 +190,55 @@ namespace Heiflow.Models.Subsurface.MT3DMS
                 try
                 {
                     var cell_index = grid.Topology.GetIndexIn2DMat();
-                 
+                    long layerbyte = 4 * 4 + 16 + 4 * 3 + grid.RowCount * grid.ColumnCount * 4;
+
                     BinaryReader br = new BinaryReader(fs);
 
                     float[] cells = new float[grid.RowCount * grid.ColumnCount];
                     int prog = 0;
+                    var layer = var_index;
                     for (int t = 0; t < StepsToLoad; t++)
                     {
-                        for (int k = 0; k < grid.ActualLayerCount; k++)
+                        for (int l = 0; l < layer; l++)
                         {
-                            for (int b = 0; b < 4; b++)
-                            {
-                                var buf = br.ReadInt32();
-                            }
-                            //fs.Seek(4 * 2, SeekOrigin.Current);
-                            var vn = new string(br.ReadChars(16)).Trim();
-                            // fs.Seek(4 * 3, SeekOrigin.Current);
-                            for (int b = 0; b < 3; b++)
-                            {
-                                var buf = br.ReadInt32();
-                            }
-                            int c = 0;
-                            for (int i = 0; i < grid.RowCount; i++)
-                            {
-                                for (int j = 0; j < grid.ColumnCount; j++)
-                                {
-                                    cells[c] = br.ReadSingle();
-                                    c++;
-                                }
-                            }
-                            for (int a = 0; a < grid.ActiveCellCount; a++)
-                            {
-                                if (cells[cell_index[a]] <= btn.CINACT)
-                                    DataCube[var_index, t, k * grid.ActiveCellCount + a] = this.NoDataValue;
-                                else
-                                    DataCube[var_index, t, k * grid.ActiveCellCount + a] = cells[cell_index[a]];
+                            fs.Seek(layerbyte, SeekOrigin.Current);
+                        }
 
+                        for (int b = 0; b < 4; b++)
+                        {
+                            var buf = br.ReadInt32();
+                        }
+                        var vn = new string(br.ReadChars(16)).Trim();
+                        for (int b = 0; b < 3; b++)
+                        {
+                            var buf = br.ReadInt32();
+                        }
+                        int c = 0;
+                        for (int i = 0; i < grid.RowCount; i++)
+                        {
+                            for (int j = 0; j < grid.ColumnCount; j++)
+                            {
+                                cells[c] = br.ReadSingle();
+                                c++;
                             }
                         }
+                        for (int a = 0; a < grid.ActiveCellCount; a++)
+                        {
+                            if (cells[cell_index[a]] <= btn.CINACT)
+                                DataCube[var_index, t, a] = this.NoDataValue;
+                            else
+                                DataCube[var_index, t, a] = cells[cell_index[a]];
+                        }
+
+                        for (int l = layer + 1; l < grid.ActualLayerCount; l++)
+                        {
+                            fs.Seek(layerbyte, SeekOrigin.Current);
+                        }
+
                         prog = Convert.ToInt32(t * 100 / StepsToLoad);
                         OnLoading(prog);
                     }
-         
+
                     result = LoadingState.Normal;
                     OnLoaded(progress, new LoadingObjectState() { Message = Message, Object = this, State = result });
                 }

@@ -24,6 +24,7 @@ namespace Heiflow.Controls.WinForm.Project
         private IProjectController _Controller;
         private string _disfile = "";
         private string _basfile = "";
+
         public CreatHeiflowFromMFForm(IProjectController contrl)
         {
             InitializeComponent();
@@ -140,8 +141,8 @@ namespace Heiflow.Controls.WinForm.Project
             bas.Load(null);
             dis.Load(null);
 
-            BTNPackage btn = new BTNPackage();
-            btn.NCOMP = 2;
+            BTNPackage btnpck = new BTNPackage();
+            btnpck.NCOMP = 1;
             //btn.InitialConcentraion = new float[mfmodel.Grid.ActualLayerCount * btn.NCOMP];
             //var j=0;
             //for (int i = 0; i < mfmodel.Grid.ActualLayerCount; i++)
@@ -155,42 +156,43 @@ namespace Heiflow.Controls.WinForm.Project
             //    j++;
             //}
 
-            string initfile = @"H:\南四湖\branch\model\mt3d\para\init_conc.csv";
+            string initfile = tbInitConcFile.Text;
             StreamReader sr = new StreamReader(initfile);
             string line = sr.ReadLine();
             List<float> so4 = new List<float>();
-            List<float> fu = new List<float>();
             while (!sr.EndOfStream)
             {
                 line = sr.ReadLine();
-                var buf = TypeConverterEx.Split<float>(line, 2);
+                var buf = TypeConverterEx.Split<float>(line, 1);
                 so4.Add(buf[0]);
-                fu.Add(buf[0]);
             }
 
             sr.Close();
 
-            btn.TimeService = mfmodel.TimeService;
-            btn.Owner = hfm;
-            btn.Grid = mfmodel.Grid;
-            btn.OnGridUpdated(mfmodel.Grid);
-            btn.OnTimeServiceUpdated(mfmodel.TimeService);
+            btnpck.TimeService = mfmodel.TimeService;
+            btnpck.Owner = hfm;
+            btnpck.Grid = mfmodel.Grid;
+            btnpck.OnGridUpdated(mfmodel.Grid);
+            btnpck.OnTimeServiceUpdated(mfmodel.TimeService);
 
             var k=0;
             var so4list= so4.ToArray();
             for (int i = 0; i < mfmodel.Grid.ActualLayerCount; i++)
             {
-                btn.SCONC.ILArrays[k][0, ":"] = so4list.Copy();
+                btnpck.SCONC.ILArrays[k][0, ":"] = so4list.Copy();
                 k++;
             }
-            var fulist = fu.ToArray();
-            for (int i = 0; i < mfmodel.Grid.ActualLayerCount; i++)
-            {
-                btn.SCONC.ILArrays[k][0, ":"] = fulist.Copy();
-                k++;
-            }
+            btnpck.SaveAs(tbBTN.Text, null);
+        }
 
-            btn.SaveAs(tbBTN.Text, null);
+        private void btnOpenInitConc_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "csv file|*.csv|All files|*.*";
+            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                tbInitConcFile.Text = openFileDialog.FileName;
+            }
         }
 
 
