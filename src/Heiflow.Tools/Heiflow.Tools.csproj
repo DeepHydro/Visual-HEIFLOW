@@ -83,6 +83,10 @@
       <HintPath>..\..\..\Library\Math\mathnet-numerics-master\out\lib-debug\Net40\MathNet.Numerics.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\BaiduSyncdisk\system\git\cgqpred\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="ScientificDataSet, Version=1.4.0.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\Software\GIS\SDSlite-master\ScientificDataSet\bin\Debug\ScientificDataSet.dll</HintPath>
@@ -127,6 +131,7 @@
     <Compile Include="Conversion\SMToRasterList.cs" />
     <Compile Include="Conversion\SFRToRasterList.cs" />
     <Compile Include="Conversion\DCXToRasterList.cs" />
+    <Compile Include="Conversion\ToJosn.cs" />
     <Compile Include="DataManagement\CreateStationLayer.cs" />
     <Compile Include="DataManagement\Resample.cs" />
     <Compile Include="DrivingForces\CreateClimateMappingTable.cs" />
