@@ -119,7 +119,10 @@
     <Compile Include="Data\Array\MyLazy3DMat.cs" />
     <Compile Include="Data\Array\MyVarient3DMat.cs" />
     <Compile Include="Data\Array\MyVarient4DMat.cs" />
+    <Compile Include="Data\Classification\JenksBreaksCalcuation.cs" />
     <Compile Include="Data\Classification\JenksFisher.cs" />
+    <Compile Include="Data\Classification\Schema.cs" />
+    <Compile Include="Data\Classification\Statistics.cs" />
     <Compile Include="Data\GenericTable.cs" />
     <Compile Include="Data\IDynamicTableBindable.cs" />
     <Compile Include="Data\ODM\DoubleTimeSeries.cs" />

@@ -111,9 +111,10 @@ namespace Heiflow.Core.Data.Classification
             var breaks = (tuples.Count > numBreaks) ? ClassifyByJenksFisher(numBreaks, tuples) : tuples.Select(x => x.Value).ToList();
             var list = new int[values.Count];
             var nbr = breaks.Count;
+            var len1 = nbr - 1;
             for (int i = 0; i < values.Count; i++)
             {
-                list[i] = 0;
+                list[i] = len1;
                 for (int j = 0; j < nbr - 1; j++)
                 {
                     if (values[i] >= breaks[j] && values[i] < breaks[j + 1])

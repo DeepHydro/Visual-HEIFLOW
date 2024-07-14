@@ -54,7 +54,7 @@ namespace Heiflow.Tools.Conversion
     public class ToJson : ModelTool
     {
         private string _OutputFileName;
- 
+
         public ToJson()
         {
             Name = "To Json File";
@@ -89,7 +89,7 @@ namespace Heiflow.Tools.Conversion
                 _OutputFileName = value;
             }
         }
- 
+
 
         public override void Initialize()
         {
@@ -104,42 +104,33 @@ namespace Heiflow.Tools.Conversion
             var mat = Get3DMat(Source, ref var_index);
             int progress = 0;
             int nsteps = mat.Size[1];
-            var grid = ProjectService.Project.Model.Grid as RegularGrid;
-            if (grid != null)
+            var times = new float[nsteps];
+            if (mat.DateTimes != null)
             {
-
-                var times = new float[nsteps];
-                if (mat.DateTimes != null)
-                {
-                    for (int t = 0; t < nsteps; t++)
-                    {
-                        times[t] = (float)mat.DateTimes[t].ToOADate();
-                    }
-                }
-                else
-                {
-                    for (int t = 0; t < nsteps; t++)
-                    {
-                        times[t] = (float)DateTime.Now.AddDays(t).ToOADate();
-                    }
-                }
-                List<int[]> lists = new List<int[]>();
                 for (int t = 0; t < nsteps; t++)
                 {
-                    var vec = mat[var_index, t.ToString(), ":"];
-                    var jki = JenksFisher.CreateJenksFisherIndex(vec.ToList(), NumBreaks);
-                    lists.Add(jki);
-                    progress = t * 100 / nsteps;
-                    cancelProgressHandler.Progress("Package_Tool", progress, "Processing step:" + t);
+                    times[t] = (float)mat.DateTimes[t].ToOADate();
                 }
-                string json = JsonConvert.SerializeObject(lists, Formatting.Indented);
-                File.WriteAllText(_OutputFileName, json);  
-                return true;
             }
             else
             {
-                return false;
+                for (int t = 0; t < nsteps; t++)
+                {
+                    times[t] = (float)DateTime.Now.AddDays(t).ToOADate();
+                }
             }
+            List<int[]> lists = new List<int[]>();
+            for (int t = 0; t < nsteps; t++)
+            {
+                var vec = mat[var_index, t.ToString(), ":"];
+                var jki = JenksFisher.CreateJenksFisherIndex(vec.ToList(), NumBreaks);
+                lists.Add(jki);
+                progress = t * 100 / nsteps;
+                cancelProgressHandler.Progress("Package_Tool", progress, "Processing step:" + t);
+            }
+            string json = JsonConvert.SerializeObject(lists, Formatting.Indented);
+            File.WriteAllText(_OutputFileName, json);
+            return true;
         }
     }
 }
