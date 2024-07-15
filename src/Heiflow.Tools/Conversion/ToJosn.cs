@@ -74,6 +74,11 @@ namespace Heiflow.Tools.Conversion
         [Category("Input")]
         [Description("The number of breaks")]
         public int NumBreaks { get; set; }
+        public IntervalMethod IntervalMethod
+        {
+            get;
+            set;
+        }
 
 
         [Category("Output")]
@@ -91,11 +96,6 @@ namespace Heiflow.Tools.Conversion
             }
         }
 
-        public IntervalMethod IntervalMethod
-        {
-            get;
-            set;
-        }
 
 
         public override void Initialize()
@@ -112,6 +112,8 @@ namespace Heiflow.Tools.Conversion
             int progress;
             int nsteps = mat.Size[1];
             var times = new float[nsteps];
+            List<int[]> lists = new List<int[]>();
+
             if (mat.DateTimes != null)
             {
                 for (int t = 0; t < nsteps; t++)
@@ -126,20 +128,36 @@ namespace Heiflow.Tools.Conversion
                     times[t] = (float)DateTime.Now.AddDays(t).ToOADate();
                 }
             }
-           var  scheme = new Scheme();
-           scheme.EditorSettings.NumBreaks = NumBreaks;
-           scheme.EditorSettings.IntervalMethod = IntervalMethod;
-  
-            List<int[]> lists = new List<int[]>();
-            for (int t = 0; t < nsteps; t++)
+            if (IntervalMethod == Core.Data.Classification.IntervalMethod.NaturalBreaks)
             {
-                var vec = mat[var_index, t.ToString(), ":"];
-                scheme.Values = Array.ConvertAll(vec, x => (double)x).ToList();
-                scheme.CreateBreakCategories();
-                var index= scheme.GetBreakIndex();
-                lists.Add(index);
-                progress = t * 100 / nsteps;
-                cancelProgressHandler.Progress("Package_Tool", progress, "Processing step:" + t);
+                for (int t = 0; t < nsteps; t++)
+                {
+                    var vec = mat[var_index, t.ToString(), ":"];
+                    var jki = JenksFisher.CreateJenksFisherIndex(vec.ToList(), NumBreaks);
+                    lists.Add(jki);
+                    progress = t * 100 / nsteps;
+                    cancelProgressHandler.Progress("Package_Tool", progress, "Processing step:" + t);
+                }
+            }
+            else
+            {
+                var scheme = new Scheme();
+                scheme.EditorSettings.NumBreaks = NumBreaks;
+                scheme.EditorSettings.IntervalMethod = IntervalMethod;
+         
+                for (int t = 0; t < nsteps; t++)
+                {
+                    var vec = mat[var_index, t.ToString(), ":"];
+                    var veccopy = Array.ConvertAll(vec, x => (double)x);
+                    Array.Sort(veccopy);
+                    scheme.Values = veccopy.ToList();
+                    scheme.CreateBreakCategories();
+                    var index = scheme.GetBreakIndex(vec);
+
+                    lists.Add(index);
+                    progress = t * 100 / nsteps;
+                    cancelProgressHandler.Progress("Package_Tool", progress, "Processing step:" + t);
+                }
             }
             string json = JsonConvert.SerializeObject(lists, Formatting.None);
             File.WriteAllText(_OutputFileName, json);

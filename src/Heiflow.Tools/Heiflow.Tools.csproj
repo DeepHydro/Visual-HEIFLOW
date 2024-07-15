@@ -75,6 +75,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Bin\Debug\HUST.WREIS.MathLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.5.452, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\BaiduSyncdisk\system\git\pngcs-master\Hjg.Pngcs\bin\Debug\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="ILNumerics, Version=3.2.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Bin\Debug\ILNumerics.dll</HintPath>
@@ -86,6 +90,9 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\BaiduSyncdisk\system\git\cgqpred\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Pngcs">
+      <HintPath>..\..\..\..\..\BaiduSyncdisk\system\git\pngcs-master\Hjg.Pngcs\bin\Debug\Pngcs.dll</HintPath>
     </Reference>
     <Reference Include="ScientificDataSet, Version=1.4.0.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
@@ -132,6 +139,7 @@
     <Compile Include="Conversion\SFRToRasterList.cs" />
     <Compile Include="Conversion\DCXToRasterList.cs" />
     <Compile Include="Conversion\ToJosn.cs" />
+    <Compile Include="Conversion\ToPngList.cs" />
     <Compile Include="DataManagement\CreateStationLayer.cs" />
     <Compile Include="DataManagement\Resample.cs" />
     <Compile Include="DrivingForces\CreateClimateMappingTable.cs" />

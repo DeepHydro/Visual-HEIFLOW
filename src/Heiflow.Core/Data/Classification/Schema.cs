@@ -109,17 +109,17 @@ namespace Heiflow.Core.Data.Classification
             //}
         }
 
-        public int[] GetBreakIndex()
+        public int[] GetBreakIndex(float[] vec)
         {
-            var list = new int[Values.Count];
+            var list = new int[vec.Length];
             var nbr = Breaks.Count;
             var len2 = nbr - 2;
-            for (int i = 0; i < Values.Count; i++)
+            for (int i = 0; i < vec.Length; i++)
             {
                 list[i] = 0;
                 for (int j = len2; j >= 0; j--)
                 {
-                    if(Values[i] > Breaks[j].Maximum)
+                    if (vec[i] > Breaks[j].Maximum)
                     {
                         list[i] = j+1;
                         break;
