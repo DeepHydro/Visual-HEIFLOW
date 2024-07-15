@@ -484,7 +484,6 @@ D:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Heiflow.Controls.WinForm.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Heiflow.Controls.WinForm.pdb
 D:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\zh-CN\Heiflow.Controls.WinForm.resources.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\cs\Heiflow.Controls.WinForm.resources.dll
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csproj.AssemblyReference.cache
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.Climate.WeatherGeneratorForm.resources
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.Controls.DataCubeGrid.resources
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.Controls.GridProfileAnimator.resources
@@ -553,9 +552,8 @@ D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.Wi
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.Spatial.TableEditorControl.zh-CN.resources
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csproj.GenerateResource.cache
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.dll.licenses
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csproj.CoreCompileInputs.cache
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\zh-CN\Heiflow.Controls.WinForm.resources.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\cs\Heiflow.Controls.WinForm.resources.dll
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csproj.CopyComplete
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.pdb
+D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csprojResolveAssemblyReference.cache

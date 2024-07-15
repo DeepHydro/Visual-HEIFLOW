@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Heiflow.Core.Data.Classification
 {
-    public abstract class Scheme  
+    public class Scheme  
     {
         #region Private Variables
 
@@ -62,10 +62,10 @@ namespace Heiflow.Core.Data.Classification
         /// <summary>
         /// Creates a new instance of DrawingScheme
         /// </summary>
-        protected Scheme()
+        public Scheme()
         {
-         
             _statistics = new Statistics();
+            _editorSettings = new EditorSettings();
         }
 
         #endregion
@@ -77,7 +77,7 @@ namespace Heiflow.Core.Data.Classification
         /// <summary>
         /// Generates the break categories for this scheme
         /// </summary>
-        protected void CreateBreakCategories()
+        public void CreateBreakCategories()
         {
             int count = EditorSettings.NumBreaks;
             switch (EditorSettings.IntervalMethod)
@@ -94,19 +94,39 @@ namespace Heiflow.Core.Data.Classification
             }
             ApplyBreakSnapping();
             SetBreakNames(Breaks);
-            List<Color> colorRamp = GetColorSet(count);
-            List<double> sizeRamp = GetSizeSet(count);
+            //List<Color> colorRamp = GetColorSet(count);
+            //List<double> sizeRamp = GetSizeSet(count);
            
-            int colorIndex = 0;
-            Break prevBreak = null;
-            foreach (Break brk in Breaks)
+            //int colorIndex = 0;
+            //Break prevBreak = null;
+            //foreach (Break brk in Breaks)
+            //{
+            //    //get the color for the category
+            //    Color randomColor = colorRamp[colorIndex];
+            //    double randomSize = sizeRamp[colorIndex];
+            //    prevBreak = brk;
+            //    colorIndex++;
+            //}
+        }
+
+        public int[] GetBreakIndex()
+        {
+            var list = new int[Values.Count];
+            var nbr = Breaks.Count;
+            var len2 = nbr - 2;
+            for (int i = 0; i < Values.Count; i++)
             {
-                //get the color for the category
-                Color randomColor = colorRamp[colorIndex];
-                double randomSize = sizeRamp[colorIndex];
-                prevBreak = brk;
-                colorIndex++;
+                list[i] = 0;
+                for (int j = len2; j >= 0; j--)
+                {
+                    if(Values[i] > Breaks[j].Maximum)
+                    {
+                        list[i] = j+1;
+                        break;
+                    }
+                }
             }
+            return list;
         }
 
         /// <summary>
@@ -417,7 +437,11 @@ namespace Heiflow.Core.Data.Classification
 
         #region Properties
 
- 
+        public EditorSettings EditorSettings
+        {
+            get { return _editorSettings; }
+            set { _editorSettings = value; }
+        }
  
         public Statistics Statistics
         {
@@ -444,7 +468,7 @@ namespace Heiflow.Core.Data.Classification
         public List<double> Values
         {
             get { return _values; }
-            protected set { _values = value; }
+            set { _values = value; }
         }
 
         #endregion

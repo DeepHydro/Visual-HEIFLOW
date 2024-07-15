@@ -64,6 +64,7 @@ namespace Heiflow.Tools.Conversion
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
             NumBreaks = 10;
+            IntervalMethod = Core.Data.Classification.IntervalMethod.EqualInterval;
         }
 
         [Category("Input")]
@@ -90,6 +91,12 @@ namespace Heiflow.Tools.Conversion
             }
         }
 
+        public IntervalMethod IntervalMethod
+        {
+            get;
+            set;
+        }
+
 
         public override void Initialize()
         {
@@ -102,13 +109,8 @@ namespace Heiflow.Tools.Conversion
         {
             var var_index = 0;
             var mat = Get3DMat(Source, ref var_index);
-            int progress = 0;
+            int progress;
             int nsteps = mat.Size[1];
-<<<<<<< Updated upstream
-=======
-
-
->>>>>>> Stashed changes
             var times = new float[nsteps];
             if (mat.DateTimes != null)
             {
@@ -124,16 +126,22 @@ namespace Heiflow.Tools.Conversion
                     times[t] = (float)DateTime.Now.AddDays(t).ToOADate();
                 }
             }
+           var  scheme = new Scheme();
+           scheme.EditorSettings.NumBreaks = NumBreaks;
+           scheme.EditorSettings.IntervalMethod = IntervalMethod;
+  
             List<int[]> lists = new List<int[]>();
             for (int t = 0; t < nsteps; t++)
             {
                 var vec = mat[var_index, t.ToString(), ":"];
-                var jki = JenksFisher.CreateJenksFisherIndex(vec.ToList(), NumBreaks);
-                lists.Add(jki);
+                scheme.Values = Array.ConvertAll(vec, x => (double)x).ToList();
+                scheme.CreateBreakCategories();
+                var index= scheme.GetBreakIndex();
+                lists.Add(index);
                 progress = t * 100 / nsteps;
                 cancelProgressHandler.Progress("Package_Tool", progress, "Processing step:" + t);
             }
-            string json = JsonConvert.SerializeObject(lists, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(lists, Formatting.None);
             File.WriteAllText(_OutputFileName, json);
             return true;
         }

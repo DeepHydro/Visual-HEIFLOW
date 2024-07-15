@@ -83,12 +83,10 @@ D:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Heiflow.Models.dll.config
 D:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Heiflow.Models.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Heiflow.Models.pdb
 D:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\zh-CN\Heiflow.Models.resources.dll
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Models\obj\Debug\Heiflow.Models.csproj.AssemblyReference.cache
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Models\obj\Debug\Heiflow.Models.Properties.Resources.resources
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Models\obj\Debug\Heiflow.Models.Properties.Resources.zh-CN.resources
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Models\obj\Debug\Heiflow.Models.csproj.GenerateResource.cache
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Models\obj\Debug\Heiflow.Models.csproj.CoreCompileInputs.cache
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Models\obj\Debug\zh-CN\Heiflow.Models.resources.dll
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Models\obj\Debug\Heiflow.Models.csproj.CopyComplete
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Models\obj\Debug\Heiflow.Models.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Models\obj\Debug\Heiflow.Models.pdb
+D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Models\obj\Debug\Heiflow.Models.csprojResolveAssemblyReference.cache
