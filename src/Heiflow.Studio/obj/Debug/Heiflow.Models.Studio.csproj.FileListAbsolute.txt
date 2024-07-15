@@ -111,13 +111,11 @@ D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Visual HEIFLOW.pdb
 D:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Visual HEIFLOW.exe
 D:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Visual HEIFLOW.pdb
 D:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\zh-CN\Visual HEIFLOW.resources.dll
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.csproj.AssemblyReference.cache
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.LicenseForm.resources
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.MainForm.resources
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.Resources.resources
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.Resources.zh-CN.resources
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.csproj.GenerateResource.cache
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Visual HEIFLOW.exe.licenses
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.csproj.CoreCompileInputs.cache
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\zh-CN\Visual HEIFLOW.resources.dll
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.csproj.CopyComplete
+D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Studio\obj\Debug\Heiflow.Models.Studio.csprojResolveAssemblyReference.cache

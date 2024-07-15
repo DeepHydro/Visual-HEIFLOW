@@ -115,7 +115,11 @@ namespace Heiflow.Core.Data.Classification
             for (int i = 0; i < values.Count; i++)
             {
                 list[i] = len1;
+<<<<<<< Updated upstream
                 for (int j = 0; j < nbr - 1; j++)
+=======
+                for (int j = 0; j < len1; j++)
+>>>>>>> Stashed changes
                 {
                     if (values[i] >= breaks[j] && values[i] < breaks[j + 1])
                     {

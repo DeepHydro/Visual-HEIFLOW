@@ -46,10 +46,8 @@ D:\system\git\Visual-HEIFLOW\src\Heiflow.Tools\obj\Debug\Heiflow.Tools.dll
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Tools\obj\Debug\Heiflow.Tools.pdb
 D:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Heiflow.Tools.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Heiflow.Tools.pdb
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Tools\obj\Debug\Heiflow.Tools.csproj.AssemblyReference.cache
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Tools\obj\Debug\Heiflow.Tools.Resource.resources
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Tools\obj\Debug\Heiflow.Tools.csproj.GenerateResource.cache
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Tools\obj\Debug\Heiflow.Tools.csproj.CoreCompileInputs.cache
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Tools\obj\Debug\Heiflow.Tools.csproj.CopyComplete
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Tools\obj\Debug\Heiflow.Tools.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Tools\obj\Debug\Heiflow.Tools.pdb
+D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Tools\obj\Debug\Heiflow.Tools.csprojResolveAssemblyReference.cache

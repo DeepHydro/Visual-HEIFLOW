@@ -810,14 +810,15 @@ namespace Heiflow.Tools.ConceptualModel
             }
             var ordered = fea_list.OrderByDescending(x => x.Value.DistanceToOutlet);
             Dictionary<int, int> idmap = new Dictionary<int, int>();
-            for (int i = 0; i < ordered.Count(); i++)
+            int ncount = ordered.Count();
+            for (int i = 0; i < ncount; i++)
             {
                 var fea = ordered.ElementAt(i).Value;
                 fea.OrderedSegmentID = i + 1;
                 idmap.Add(fea.SegmentID, fea.OrderedSegmentID);
             }
             SaveSegIDMapFile(idmap);
-            for (int i = 0; i < ordered.Count(); i++)
+            for (int i = 0; i < ncount; i++)
             {
                 var fea = ordered.ElementAt(i).Value;
                 fea.SegmentID = i + 1;
@@ -825,7 +826,7 @@ namespace Heiflow.Tools.ConceptualModel
                     fea.OutSegmentID = idmap[fea.OutSegmentID];
             }
             Dictionary<int, ReachFeatureCollection> result = new Dictionary<int, ReachFeatureCollection>();
-            for (int i = 0; i < ordered.Count(); i++)
+            for (int i = 0; i < ncount; i++)
             {
                 var fea = ordered.ElementAt(i);
                 result.Add(i + 1, fea.Value);

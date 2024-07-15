@@ -104,6 +104,11 @@ namespace Heiflow.Tools.Conversion
             var mat = Get3DMat(Source, ref var_index);
             int progress = 0;
             int nsteps = mat.Size[1];
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
             var times = new float[nsteps];
             if (mat.DateTimes != null)
             {
