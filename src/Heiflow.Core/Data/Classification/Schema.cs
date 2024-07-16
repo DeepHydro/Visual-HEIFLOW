@@ -134,7 +134,7 @@ namespace Heiflow.Core.Data.Classification
         /// </summary>
         /// <param name="count"></param>
         /// <returns></returns>
-        protected virtual List<double> GetSizeSet(int count)
+        public virtual List<double> GetSizeSet(int count)
         {
             List<double> result = new List<double>();
             for (int i = 0; i < count; i++)
@@ -150,7 +150,7 @@ namespace Heiflow.Core.Data.Classification
         /// </summary>
         /// <param name="count">The integer count of the number of colors to create.</param>
         /// <returns>The list of colors created.</returns>
-        protected List<Color> GetColorSet(int count)
+        public List<Color> GetColorSet(int count)
         {
             List<Color> colorRamp = null;
             if (EditorSettings.UseColorRange)
@@ -180,7 +180,7 @@ namespace Heiflow.Core.Data.Classification
             return colorRamp;
         }
 
-    
+
 
         /// <summary>
         /// Creates the colors in the case where the color range controls are not being used.
@@ -189,7 +189,7 @@ namespace Heiflow.Core.Data.Classification
         /// </summary>
         /// <param name="count">The integer count to use</param>
         /// <returns></returns>
-        protected virtual List<Color> GetDefaultColors(int count)
+        public virtual List<Color> GetDefaultColors(int count)
         {
             return EditorSettings.RampColors ? CreateUnboundedRampColors(count) : CreateUnboundedRandomColors(count);
         }
@@ -200,12 +200,12 @@ namespace Heiflow.Core.Data.Classification
         /// </summary>
         /// <param name="numColors"></param>
         /// <returns></returns>
-        private static List<Color> CreateUnboundedRampColors(int numColors)
+        public static List<Color> CreateUnboundedRampColors(int numColors)
         {
             return CreateRampColors(numColors, .25f, .25f, 0, .75f, .75f, 360, 0, 255, 255);
         }
 
-        private static List<Color> CreateUnboundedRandomColors(int numColors)
+        public static List<Color> CreateUnboundedRandomColors(int numColors)
         {
             Random rnd = new Random(DateTime.Now.Millisecond);
             List<Color> result = new List<Color>(numColors);
@@ -216,7 +216,7 @@ namespace Heiflow.Core.Data.Classification
             return result;
         }
 
-        private List<Color> CreateRandomColors(int numColors)
+        public List<Color> CreateRandomColors(int numColors)
         {
             List<Color> result = new List<Color>(numColors);
             Random rnd = new Random(DateTime.Now.Millisecond);
@@ -232,7 +232,7 @@ namespace Heiflow.Core.Data.Classification
         /// </summary>
         /// <param name="rnd"></param>
         /// <returns></returns>
-        protected Color CreateRandomColor(Random rnd)
+        public Color CreateRandomColor(Random rnd)
         {
             Color startColor = EditorSettings.StartColor;
             Color endColor = EditorSettings.EndColor;
@@ -260,7 +260,7 @@ namespace Heiflow.Core.Data.Classification
             return Color.FromArgb(rnd.Next(iaLow, aHigh), rnd.Next(rLow, rHigh), rnd.Next(gLow, gHigh), rnd.Next(bLow, bHigh));
         }
 
-        private static List<Color> CreateRampColors(int numColors, Color startColor, Color endColor)
+        public static List<Color> CreateRampColors(int numColors, Color startColor, Color endColor)
         {
             List<Color> result = new List<Color>(numColors);
             double dR = (endColor.R - (double)startColor.R) / numColors;

@@ -39,6 +39,10 @@
     <AssemblyOriginatorKeyFile>vhf.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ColorPalettes, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Debug\ColorPalettes.dll</HintPath>
+    </Reference>
     <Reference Include="DotSpatial.Controls, Version=2.0.0.0, Culture=neutral, PublicKeyToken=4d9e49339a7d240c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Controls.dll</HintPath>
@@ -92,7 +96,7 @@
       <HintPath>..\..\..\..\..\BaiduSyncdisk\system\git\cgqpred\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Pngcs">
-      <HintPath>..\..\..\..\..\BaiduSyncdisk\system\git\pngcs-master\Hjg.Pngcs\bin\Debug\Pngcs.dll</HintPath>
+      <HintPath>..\Bin\Debug\Pngcs.dll</HintPath>
     </Reference>
     <Reference Include="ScientificDataSet, Version=1.4.0.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>

@@ -27,27 +27,27 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using ColorPalettes.Colors;
+using ColorPalettes.PaletteGeneration;
 using DotSpatial.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Heiflow.Core.Data;
-using System.IO;
-using Heiflow.Models.Generic;
-using System.ComponentModel;
-using Heiflow.Controls.WinForm.Editors;
-using System.Windows.Forms.Design;
-using GeoAPI.Geometries;
 using Heiflow.Applications;
-using Heiflow.Presentation.Services;
-using Heiflow.Models.Subsurface;
+using Heiflow.Controls.WinForm.Editors;
+using Heiflow.Core.Data;
+using Heiflow.Core.Data.Classification;
+using Heiflow.Models.Generic;
 using Heiflow.Models.Integration;
+using Heiflow.Models.Subsurface;
 using Heiflow.Models.Tools;
+using Heiflow.Presentation.Services;
 using Hjg.Pngcs;
 using Hjg.Pngcs.Chunks;
-using Heiflow.Core.Data.Classification;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms.Design;
 
 namespace Heiflow.Tools.Conversion
 {
@@ -68,7 +68,16 @@ namespace Heiflow.Tools.Conversion
             TimeInteval = 86400;
             Start = new DateTime(2000, 1, 1);
             TimeIntevalunit = TimeIntevalunits.Day;
+            NumBreaks = 10;
+            IntervalMethod = Core.Data.Classification.IntervalMethod.EqualFrequency;
+
+            DPI = 300;
+            Hue = 150;
+            Contrast = 0.88;
+            Saturation = 0.6;
+            Brightness = 0.75;
         }
+
         private IFeatureSet _grid_layer;
 
         [Category("Input")]
@@ -138,14 +147,49 @@ namespace Heiflow.Tools.Conversion
             set;
         }
 
-        [Category("Input")]
+        [Category("Color")]
         [Description("The number of breaks")]
         public int NumBreaks { get; set; }
+        [Category("Color")]
+        [Description("The inteval method")]
         public IntervalMethod IntervalMethod
         {
             get;
             set;
         }
+
+        [Category("Color")]
+        [Description("The DPI of image")]
+        public double DPI
+        {
+            get;
+            set;
+        }
+        [Category("Color")]
+        public double Hue
+        {
+            get;
+            set;
+        }
+        [Category("Color")]
+        public double Saturation
+        {
+            get;
+            set;
+        }
+        [Category("Color")]
+        public double Brightness
+        {
+            get;
+            set;
+        }
+        [Category("Color")]
+        public double Contrast
+        {
+            get;
+            set;
+        }
+
 
         public override void Initialize()
         {
@@ -208,28 +252,16 @@ namespace Heiflow.Tools.Conversion
                         }
                     }
                 }
+
+                var colors = GetColors();
+
                 for (int t = 0; t < ntime; t++)
                 {
                     var Filename = "";
                     Filename = string.Format("{0}_{1}.png", VariableName, mat.DateTimes[t].ToString(DateFormat));
                     Filename = Path.Combine(Direcotry, Filename);
-                    for (int i = 0; i < grid.ActiveCellCount; i++)
-                    {
-                        var loc = grid.Topology.ActiveCellLocation[i];
-                        
-                    }
-
-                    var raster = Raster.CreateRaster(Filename, string.Empty, grid.Topology.ColumnCount, grid.Topology.RowCount, 1, typeof(float), new[] { string.Empty });
-                    raster.NoDataValue = -9999;
-                    raster.Bounds = new RasterBounds(grid.Topology.RowCount, grid.Topology.ColumnCount, new Extent(grid.BBox));
-                    raster.Projection = _grid_layer.Projection;
                     var vec = mat.GetVector(var_index, t.ToString(), ":");
-                    for (int i = 0; i < grid.ActiveCellCount; i++)
-                    {
-                        var loc = grid.Topology.ActiveCellLocation[i];
-                        raster.Value[loc[0], loc[1]] = vec[i];
-                    }
-                    raster.Save();
+                    CreateImage(Filename, vec, colors, grid);
                     progress = t * 100 / ntime;
                     if (progress > count)
                     {
@@ -247,33 +279,95 @@ namespace Heiflow.Tools.Conversion
             }
         }
 
-        public  void Create(string filename, int cols, int rows, float[] vec, MFGrid grid)
+        private List<Color> GetColors()
         {
-            ImageInfo imi = new ImageInfo(cols, rows, 8, false); // 8 bits per channel, no alpha 
+            var calculationParameters = new CalculationParameters(NumBreaks, Hue % 360.0, Contrast, Saturation, Brightness, RgbModel.AdobeRgbD65);
+            var paletteGeneratorFactory = new PaletteGeneratorFactory();
+            var paletteGenerator = paletteGeneratorFactory.CreatePaletteGenerator();
+            var palette = paletteGenerator.GeneratePalette(calculationParameters).ToList();
+
+            var count = palette.Count();
+            var colors = new List<Color>();
+            for (var i = 0; i < count; i++)
+            {
+                var vector3 = palette[i];
+                var color = System.Drawing.Color.FromArgb(255, ToColorByte(vector3.X), ToColorByte(vector3.Y), ToColorByte(vector3.Z));
+                colors.Add(color);
+            }
+            return colors;
+        }
+        private byte ToColorByte(double component)
+        {
+            var max = System.Math.Min(1.0, component);
+            return (byte)(max * 255);
+        }
+
+        private void CreateImage(string filename, float[] vec, List<Color> colors, RegularGrid grid)
+        {
+            int cols = grid.ColumnCount;
+            int rows = grid.RowCount;
+            ImageInfo imi = new ImageInfo(cols, rows, 8, true); // 8 bits per channel, no alpha 
             // open image for writing 
             PngWriter png = FileHelper.CreatePngWriter(filename, imi, true);
             // add some optional metadata (chunks)
-            png.GetMetadata().SetDpi(100.0);
+            png.GetMetadata().SetDpi(DPI);
             png.GetMetadata().SetTimeNow(0); // 0 seconds fron now = now
-            png.GetMetadata().SetText(PngChunkTextVar.KEY_Title, "Just a text image");
-            PngChunk chunk = png.GetMetadata().SetText("my key", "my text .. bla bla");
+            png.GetMetadata().SetText(PngChunkTextVar.KEY_Title, "HEIFLOW");
+            PngChunk chunk = png.GetMetadata().SetText("output", "output image");
             chunk.Priority = true; // this chunk will be written as soon as possible
-            ImageLine iline = new ImageLine(imi);
-            for (int col = 0; col < imi.Cols; col++)
-            { // this line will be written to all rows  
-                int r = 255;
-                int g = 127;
-                int b = 255 * col / imi.Cols;
-                ImageLineHelper.SetPixel(iline, col, r, g, b, 0); // orange-ish gradient
-            }
-            for (int row = 0; row < png.ImgInfo.Rows; row++)
+
+            var transpcolor = Color.Transparent;
+            var colorindex = GetColorIndex(vec);
+
+            for (int row = 0; row < imi.Rows; row++)
             {
-                png.WriteRow(iline, row);
+                byte[] rowint = new byte[cols * 4];
+                for (int col = 0; col < imi.Cols; col++)
+                {
+                    var cellindex = grid.Topology.GetSerialIndex(row, col);
+                    var col4 = col * 4;
+                    if (cellindex == -1)
+                    {
+                        rowint[col4] = transpcolor.R;
+                        rowint[col4 + 1] = transpcolor.G;
+                        rowint[col4 + 2] = transpcolor.B;
+                        rowint[col4 + 3] = transpcolor.A;
+                    }
+                    else
+                    {
+                        var color = colors[colorindex[cellindex]];
+                        rowint[col4] = color.R;
+                        rowint[col4 + 1] = color.G;
+                        rowint[col4 + 2] = color.B;
+                        rowint[col4 + 3] = color.A;
+                    }
+                }
+                png.WriteRowByte(rowint, row);
             }
+
             png.End();
 
         }
 
-
+        private int[] GetColorIndex(float[] vec)
+        {
+            int[] index;
+            if (IntervalMethod == IntervalMethod.NaturalBreaks)
+            {
+                index = JenksFisher.CreateJenksFisherIndex(vec.ToList(), NumBreaks);
+            }
+            else
+            {
+                var scheme = new Scheme();
+                scheme.EditorSettings.NumBreaks = NumBreaks;
+                scheme.EditorSettings.IntervalMethod = IntervalMethod;
+                var veccopy = Array.ConvertAll(vec, x => (double)x);
+                Array.Sort(veccopy);
+                scheme.Values = veccopy.ToList();
+                scheme.CreateBreakCategories();
+                index = scheme.GetBreakIndex(vec);
+            }
+            return index;
+        }
     }
 }
