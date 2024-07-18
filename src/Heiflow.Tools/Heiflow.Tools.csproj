@@ -22,6 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -87,6 +88,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Bin\Debug\ILNumerics.dll</HintPath>
     </Reference>
+    <Reference Include="ImageProcessor, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\BaiduSyncdisk\system\git\image\ImageProcessor-release-3.0.0\WindowsFormsApp1\bin\Debug\ImageProcessor.dll</HintPath>
+    </Reference>
     <Reference Include="MathNet.Numerics">
       <HintPath>..\..\..\Library\Math\mathnet-numerics-master\out\lib-debug\Net40\MathNet.Numerics.dll</HintPath>
       <Private>True</Private>
@@ -111,6 +116,10 @@
     <Reference Include="System.Drawing.Design" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WpfApplicationFramework, Version=3.2.0.450, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Debug\WpfApplicationFramework.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConceptualModel\BAS\SetInactiveCells.cs" />
@@ -139,6 +148,7 @@
     <Compile Include="ConceptualModel\SFR\SetReachElevTool.cs" />
     <Compile Include="ConceptualModel\SFR\SetReachVKTool.cs" />
     <Compile Include="ConceptualModel\UZF\UZF2RCHEVT.cs" />
+    <Compile Include="Conversion\ColorBandMapper.cs" />
     <Compile Include="Conversion\SMToRasterList.cs" />
     <Compile Include="Conversion\SFRToRasterList.cs" />
     <Compile Include="Conversion\DCXToRasterList.cs" />

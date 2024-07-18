@@ -89,6 +89,4 @@ D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Models\obj\Debug\Heiflow.Models.csproj
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Models\obj\Debug\zh-CN\Heiflow.Models.resources.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Models\obj\Debug\Heiflow.Models.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Models\obj\Debug\Heiflow.Models.pdb
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Models\obj\Debug\Heiflow.Models.csproj.AssemblyReference.cache
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Models\obj\Debug\Heiflow.Models.csproj.CoreCompileInputs.cache
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Models\obj\Debug\Heiflow.Models.csproj.CopyComplete
+D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Models\obj\Debug\Heiflow.Models.csprojResolveAssemblyReference.cache

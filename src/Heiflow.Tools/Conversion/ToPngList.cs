@@ -41,10 +41,13 @@ using Heiflow.Models.Tools;
 using Heiflow.Presentation.Services;
 using Hjg.Pngcs;
 using Hjg.Pngcs.Chunks;
+using ImageProcessor;
+using ImageProcessor.Processing;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms.Design;
@@ -76,6 +79,11 @@ namespace Heiflow.Tools.Conversion
             Contrast = 0.88;
             Saturation = 0.6;
             Brightness = 0.75;
+            ImageSizeScale = 1;
+            InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
+            ResizeMode = ImageProcessor.Processing.ResizeMode.Stretch;
+
+            ClassificationMethod = Core.Data.Classification.ClassificationMethod.Category;
         }
 
         private IFeatureSet _grid_layer;
@@ -97,6 +105,8 @@ namespace Heiflow.Tools.Conversion
             get;
             set;
         }
+
+
 
         [Category("Input")]
         [Description("The name of exported variable")]
@@ -189,12 +199,70 @@ namespace Heiflow.Tools.Conversion
             get;
             set;
         }
+        [Category("Color")]
+        public int ImageSizeScale
+        {
+            get;
+            set;
+        }
+        [Category("Color")]
+        public InterpolationMode InterpolationMode
+        {
+            get;
+            set;
+        }
+        [Category("Color")]
+        public ResizeMode ResizeMode
+        {
+            get;
+            set;
+        }
+        private ClassificationMethod _ClassificationMethod;
+      [Category("Color")]
+        public ClassificationMethod ClassificationMethod
+        {
+            get
+            {
+                return _ClassificationMethod;
+            }
+            set
+            {
+                _ClassificationMethod = value;
+                if(_ClassificationMethod== Core.Data.Classification.ClassificationMethod.Strech || _ClassificationMethod== Core.Data.Classification.ClassificationMethod.CatBand)
+                {
+                    ColorBandFiles = ColorBandMapper.GetColorBandFile();
+                }
+            }
+        }
+        [Browsable(false)]
+        [Category("Color")]
+        public string[] ColorBandFiles
+        {
+            get;
+            set;
+        }
+
+        [Category("Color")]
+        [Description("Color band file")]
+        [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
+        [DropdownListSource("ColorBandFiles")]
+        public string ColorBand
+        {
+            get;
+            set;
+        }
 
 
         public override void Initialize()
         {
             var mat = Get3DMat(Source);
             Initialized = mat != null;
+
+            if (GridFeatureLayer == null)
+            {
+                this.Initialized = false;
+                return;
+            }
 
             _grid_layer = GridFeatureLayer.DataSet as IFeatureSet;
             if (_grid_layer == null)
@@ -253,21 +321,61 @@ namespace Heiflow.Tools.Conversion
                     }
                 }
 
-                var colors = GetColors();
-
-                for (int t = 0; t < ntime; t++)
+                if (ClassificationMethod == Core.Data.Classification.ClassificationMethod.Category)
                 {
-                    var Filename = "";
-                    Filename = string.Format("{0}_{1}.png", VariableName, mat.DateTimes[t].ToString(DateFormat));
-                    Filename = Path.Combine(Direcotry, Filename);
-                    var vec = mat.GetVector(var_index, t.ToString(), ":");
-                    CreateImage(Filename, vec, colors, grid);
-                    progress = t * 100 / ntime;
-                    if (progress > count)
+                    var colors = CategoryColors();
+                    for (int t = 0; t < ntime; t++)
                     {
-                        cancelProgressHandler.Progress("Package_Tool", progress, "Processing step: " + t);
-                        count++;
+                        var Filename = Path.Combine(Direcotry, string.Format("{0}_{1}_buf.png", VariableName, mat.DateTimes[t].ToString(DateFormat)));
+                        var newFilename = Path.Combine(Direcotry, string.Format("{0}_{1}.png", VariableName, mat.DateTimes[t].ToString(DateFormat)));
+                        var vec = mat.GetVector(var_index, t.ToString(), ":");
+                        CreateImage(Filename, vec, colors, grid);
+                        ReSizeImage(Filename, newFilename);
+                        progress = t * 100 / ntime;
+                        if (progress > count)
+                        {
+                            cancelProgressHandler.Progress("Package_Tool", progress, "Processing step: " + t);
+                            count++;
+                        }
                     }
+                }
+                else if (ClassificationMethod == Core.Data.Classification.ClassificationMethod.CatBand)
+                {
+                    ColorBandMapper mapper = new ColorBandMapper(ColorBand);
+                    var colors = mapper.GetPalette(NumBreaks);
+                    for (int t = 0; t < ntime; t++)
+                    {
+                        var Filename = Path.Combine(Direcotry, string.Format("{0}_{1}_buf.png", VariableName, mat.DateTimes[t].ToString(DateFormat)));
+                        var newFilename = Path.Combine(Direcotry, string.Format("{0}_{1}.png", VariableName, mat.DateTimes[t].ToString(DateFormat)));
+                        var vec = mat.GetVector(var_index, t.ToString(), ":");
+                        CreateImage(Filename, vec, colors, grid);
+                        ReSizeImage(Filename, newFilename);
+                        progress = t * 100 / ntime;
+                        if (progress > count)
+                        {
+                            cancelProgressHandler.Progress("Package_Tool", progress, "Processing step: " + t);
+                            count++;
+                        }
+                    }
+                }
+                else if (ClassificationMethod == Core.Data.Classification.ClassificationMethod.Strech)
+                {
+                    for (int t = 0; t < ntime; t++)
+                    {
+                        var Filename = Path.Combine(Direcotry, string.Format("{0}_{1}_buf.png", VariableName, mat.DateTimes[t].ToString(DateFormat)));
+                        var newFilename = Path.Combine(Direcotry, string.Format("{0}_{1}.png", VariableName, mat.DateTimes[t].ToString(DateFormat)));
+                        var vec = mat.GetVector(var_index, t.ToString(), ":");
+                        var colors = StrechColor(vec);
+                        CreateImage(Filename, vec, colors, grid);
+                        ReSizeImage(Filename, newFilename);
+                        progress = t * 100 / ntime;
+                        if (progress > count)
+                        {
+                            cancelProgressHandler.Progress("Package_Tool", progress, "Processing step: " + t);
+                            count++;
+                        }
+                    }
+                 
                 }
 
                 return true;
@@ -279,7 +387,7 @@ namespace Heiflow.Tools.Conversion
             }
         }
 
-        private List<Color> GetColors()
+        private List<Color> CategoryColors()
         {
             var calculationParameters = new CalculationParameters(NumBreaks, Hue % 360.0, Contrast, Saturation, Brightness, RgbModel.AdobeRgbD65);
             var paletteGeneratorFactory = new PaletteGeneratorFactory();
@@ -300,6 +408,42 @@ namespace Heiflow.Tools.Conversion
         {
             var max = System.Math.Min(1.0, component);
             return (byte)(max * 255);
+        }
+
+        private void ReSizeImage(string file,string newfile)
+        {
+            using (var factory = new ImageFactory())
+            {
+                factory.Load(file)
+                       .Resize(new ResizeOptions
+                       {
+                           Size = new Size(factory.Image.Width * ImageSizeScale, (factory.Image.Height * ImageSizeScale) + 40),
+                           InterpolationMode = InterpolationMode,
+                           ResizeMode = ResizeMode,
+                       })
+                       .Save(newfile);
+            }
+            File.Delete(file);
+        }
+
+        private List<Color>  StrechColor(float[] vec)
+        {
+            Color[] colors=new Color[vec.Length];
+            if (!string.IsNullOrEmpty(ColorBand))
+            {
+                var max= vec.Max();
+                var min = vec.Min();
+                ColorBandMapper mapper = new ColorBandMapper(ColorBand);
+                for(int i=0;i<vec.Length;i++)
+                {
+                    if (max != min)
+                        colors[i] = mapper.MapValueToColor(vec[i], min, max);
+                    else
+                        colors[i] = SystemColors.ButtonFace;
+                }
+           
+            }
+            return colors.ToList();
         }
 
         private void CreateImage(string filename, float[] vec, List<Color> colors, RegularGrid grid)

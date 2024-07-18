@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Heiflow.Core.Data.Classification
 {
+    public enum ClassificationMethod { Category, Strech, CatBand}
     public static class SymbologyGlobal
     {
         /// <summary>
