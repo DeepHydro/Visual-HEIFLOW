@@ -251,6 +251,14 @@ namespace Heiflow.Tools.Conversion
             get;
             set;
         }
+        [Browsable(false)]
+        public string ColorBandFile
+        {
+            get
+            {
+                return Path.Combine(ColorBandMapper.GetColorBandFileFolder(), ColorBand);
+            }
+        }
 
 
         public override void Initialize()
@@ -341,7 +349,7 @@ namespace Heiflow.Tools.Conversion
                 }
                 else if (ClassificationMethod == Core.Data.Classification.ClassificationMethod.CatBand)
                 {
-                    ColorBandMapper mapper = new ColorBandMapper(ColorBand);
+                    ColorBandMapper mapper = new ColorBandMapper(ColorBandFile);
                     var colors = mapper.GetPalette(NumBreaks);
                     for (int t = 0; t < ntime; t++)
                     {
@@ -426,14 +434,14 @@ namespace Heiflow.Tools.Conversion
             File.Delete(file);
         }
 
-        private List<Color>  StrechColor(float[] vec)
+        private List<Color> StrechColor(float[] vec)
         {
             Color[] colors=new Color[vec.Length];
             if (!string.IsNullOrEmpty(ColorBand))
             {
                 var max= vec.Max();
                 var min = vec.Min();
-                ColorBandMapper mapper = new ColorBandMapper(ColorBand);
+                ColorBandMapper mapper = new ColorBandMapper(ColorBandFile);
                 for(int i=0;i<vec.Length;i++)
                 {
                     if (max != min)

@@ -12,15 +12,20 @@ namespace Heiflow.Core.Data.Classification
     {
         private Bitmap colorBandImage;
 
+        public static string GetColorBandFileFolder()
+        {
+            return Path.Combine(Applications.VHFAppManager.Instance.ApplicationPath, "colors");
+        }
+
         public static string[] GetColorBandFile()
         {
-            string dir = Path.Combine( Applications.VHFAppManager.Instance.ApplicationPath, "colors");
+            string dir = GetColorBandFileFolder();
             DirectoryInfo di = new DirectoryInfo(dir);
             FileInfo[] imgFiles = di.GetFiles("*.png");
             List<string> files = new List<string>();
             for (int i = 0; i < imgFiles.Length; i++)	
             {
-                files.Add( imgFiles[i].FullName);
+                files.Add( imgFiles[i].Name);
             }
             return files.ToArray();
         }
