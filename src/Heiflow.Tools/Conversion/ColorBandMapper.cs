@@ -11,23 +11,29 @@ namespace Heiflow.Core.Data.Classification
     public class ColorBandMapper
     {
         private Bitmap colorBandImage;
-
         public static string GetColorBandFileFolder()
         {
             return Path.Combine(Applications.VHFAppManager.Instance.ApplicationPath, "colors");
         }
-
         public static string[] GetColorBandFile()
         {
             string dir = GetColorBandFileFolder();
             DirectoryInfo di = new DirectoryInfo(dir);
             FileInfo[] imgFiles = di.GetFiles("*.png");
             List<string> files = new List<string>();
-            for (int i = 0; i < imgFiles.Length; i++)	
+            for (int i = 0; i < imgFiles.Length; i++)
             {
-                files.Add( imgFiles[i].Name);
+                files.Add(imgFiles[i].Name);
             }
             return files.ToArray();
+        }
+
+        public int ImageHeight
+        {
+            get
+            {
+                return colorBandImage.Height;
+            }
         }
 
         public ColorBandMapper(string filePath)
@@ -35,7 +41,7 @@ namespace Heiflow.Core.Data.Classification
             colorBandImage = new Bitmap(filePath);
         }
 
-        public List<Color> GetPalette(int count)
+        public List<Color> GetCatPalette(int count)
         {
             List<Color> list = new List<Color>();
             for (int i = 0; i < count; i++)
@@ -46,19 +52,21 @@ namespace Heiflow.Core.Data.Classification
             return list;
         }
 
+        public List<Color> GetFullPalette()
+        {
+            List<Color> list = new List<Color>();
+            for (int i = 0; i < colorBandImage.Height; i++)
+            {
+                Color color = colorBandImage.GetPixel(0, i);
+                list.Add(color);
+            }
+            return list;
+        }
+
         public Color MapValueToColor(double value, double minValue, double maxValue)
         {
-            // 计算色带中对应的像素位置  
-            // 假设色带宽度为bandWidth（在这个案例中，由于色带是PNG图像，bandWidth应该是图像的宽度）  
-            // 但这里我们直接根据图像宽度计算  
-            int pixelY = (int)((value - minValue) /(maxValue - minValue) * (colorBandImage.Height - 1));
-
-            // 由于PNG图像的高度可能远大于需要，我们只取顶部的一行  
-            int pixelX = 0;
-
-            // 获取该位置的颜色  
-            Color color = colorBandImage.GetPixel(pixelX, pixelY);
-
+            int pixelY = (int)((value - minValue) / (maxValue - minValue) * (colorBandImage.Height - 1));
+            Color color = colorBandImage.GetPixel(0, pixelY);
             return color;
         }
 

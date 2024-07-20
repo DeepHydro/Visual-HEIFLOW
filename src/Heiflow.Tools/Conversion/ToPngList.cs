@@ -87,6 +87,7 @@ namespace Heiflow.Tools.Conversion
         }
 
         private IFeatureSet _grid_layer;
+        private ClassificationMethod _ClassificationMethod;
 
         [Category("Input")]
         [Description("The name of the datacube being exported. The Source should be mat[0][0][:]")]
@@ -133,7 +134,7 @@ namespace Heiflow.Tools.Conversion
             set;
         }
 
-        [Category("Optional")]
+        [Category("Parameter")]
         [Description("Specify the start date time.")]
         public DateTime Start
         {
@@ -141,7 +142,7 @@ namespace Heiflow.Tools.Conversion
             set;
         }
 
-        [Category("Optional")]
+        [Category("Parameter")]
         [Description("Specify the time inteval in the coresponding time unit.")]
         public int TimeInteval
         {
@@ -149,7 +150,7 @@ namespace Heiflow.Tools.Conversion
             set;
         }
 
-        [Category("Optional")]
+        [Category("Parameter")]
         [Description("The time inteval unit")]
         public TimeIntevalunits TimeIntevalunit
         {
@@ -157,10 +158,53 @@ namespace Heiflow.Tools.Conversion
             set;
         }
 
-        [Category("Color")]
-        [Description("The number of breaks")]
-        public int NumBreaks { get; set; }
-        [Category("Color")]
+      [Category("Symbology")]
+        [Description("The DPI of image")]
+        public double DPI
+        {
+            get;
+            set;
+        }
+      [Category("Symbology")]
+      public int ImageSizeScale
+      {
+          get;
+          set;
+      }
+      [Category("Symbology")]
+      public InterpolationMode InterpolationMode
+      {
+          get;
+          set;
+      }
+      [Category("Symbology")]
+      public ResizeMode ResizeMode
+      {
+          get;
+          set;
+      }
+
+      [Category("Symbology")]
+      public ClassificationMethod ClassificationMethod
+      {
+          get
+          {
+              return _ClassificationMethod;
+          }
+          set
+          {
+              _ClassificationMethod = value;
+              if (_ClassificationMethod == Core.Data.Classification.ClassificationMethod.Strech || _ClassificationMethod == Core.Data.Classification.ClassificationMethod.CatBand)
+              {
+                  ColorBandFiles = ColorBandMapper.GetColorBandFile();
+              }
+          }
+      }
+      [Category("Cateogry Color")]
+      [Description("The number of breaks")]
+      public int NumBreaks { get; set; }
+
+        [Category("Cateogry Color")]
         [Description("The inteval method")]
         public IntervalMethod IntervalMethod
         {
@@ -168,101 +212,60 @@ namespace Heiflow.Tools.Conversion
             set;
         }
 
-        [Category("Color")]
-        [Description("The DPI of image")]
-        public double DPI
-        {
-            get;
-            set;
-        }
-        [Category("Color")]
+        [Category("Cateogry Color")]
         public double Hue
         {
             get;
             set;
         }
-        [Category("Color")]
+        [Category("Cateogry Color")]
         public double Saturation
         {
             get;
             set;
         }
-        [Category("Color")]
+        [Category("Cateogry Color")]
         public double Brightness
         {
             get;
             set;
         }
-        [Category("Color")]
+        [Category("Cateogry Color")]
         public double Contrast
         {
             get;
             set;
         }
-        [Category("Color")]
-        public int ImageSizeScale
-        {
-            get;
-            set;
-        }
-        [Category("Color")]
-        public InterpolationMode InterpolationMode
-        {
-            get;
-            set;
-        }
-        [Category("Color")]
-        public ResizeMode ResizeMode
-        {
-            get;
-            set;
-        }
-        private ClassificationMethod _ClassificationMethod;
-      [Category("Color")]
-        public ClassificationMethod ClassificationMethod
-        {
-            get
-            {
-                return _ClassificationMethod;
-            }
-            set
-            {
-                _ClassificationMethod = value;
-                if(_ClassificationMethod== Core.Data.Classification.ClassificationMethod.Strech || _ClassificationMethod== Core.Data.Classification.ClassificationMethod.CatBand)
-                {
-                    ColorBandFiles = ColorBandMapper.GetColorBandFile();
-                }
-            }
-        }
+        
         [Browsable(false)]
-        [Category("Color")]
+        [Category("Strech Color")]
         public string[] ColorBandFiles
         {
             get;
             set;
         }
+        private string _ColorBand;
 
-        [Category("Color")]
+        [Category("Strech Color")]
         [Description("Color band file")]
         [EditorAttribute(typeof(StringDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         [DropdownListSource("ColorBandFiles")]
         public string ColorBand
         {
-            get;
-            set;
-        }
-        [Browsable(false)]
-        public string ColorBandFile
-        {
             get
             {
-                return Path.Combine(ColorBandMapper.GetColorBandFileFolder(), ColorBand);
+                return _ColorBand;
+            }
+            set
+            {
+                _ColorBand = value;
             }
         }
 
 
         public override void Initialize()
         {
+            this.Initialized = true;
             var mat = Get3DMat(Source);
             Initialized = mat != null;
 
@@ -328,18 +331,21 @@ namespace Heiflow.Tools.Conversion
                         }
                     }
                 }
-
+          
+                List<int[]> colorindex_list = new List<int[]>();
+                List<Color> colors;
                 if (ClassificationMethod == Core.Data.Classification.ClassificationMethod.Category)
                 {
-                    var colors = CategoryColors();
+                    colors = GetCategoryColors();
                     for (int t = 0; t < ntime; t++)
                     {
                         var Filename = Path.Combine(Direcotry, string.Format("{0}_{1}_buf.png", VariableName, mat.DateTimes[t].ToString(DateFormat)));
                         var newFilename = Path.Combine(Direcotry, string.Format("{0}_{1}.png", VariableName, mat.DateTimes[t].ToString(DateFormat)));
                         var vec = mat.GetVector(var_index, t.ToString(), ":");
-                        CreateImage(Filename, vec, colors, grid);
+                        var ci = CreateCatImage(Filename, vec, colors, grid);
                         ReSizeImage(Filename, newFilename);
                         progress = t * 100 / ntime;
+                        colorindex_list.Add(ci);
                         if (progress > count)
                         {
                             cancelProgressHandler.Progress("Package_Tool", progress, "Processing step: " + t);
@@ -349,15 +355,17 @@ namespace Heiflow.Tools.Conversion
                 }
                 else if (ClassificationMethod == Core.Data.Classification.ClassificationMethod.CatBand)
                 {
-                    ColorBandMapper mapper = new ColorBandMapper(ColorBandFile);
-                    var colors = mapper.GetPalette(NumBreaks);
+                    var cbfile = Path.Combine(ColorBandMapper.GetColorBandFileFolder(), ColorBand);
+                    ColorBandMapper mapper = new ColorBandMapper(cbfile);
+                    colors = mapper.GetCatPalette(NumBreaks);
                     for (int t = 0; t < ntime; t++)
                     {
                         var Filename = Path.Combine(Direcotry, string.Format("{0}_{1}_buf.png", VariableName, mat.DateTimes[t].ToString(DateFormat)));
                         var newFilename = Path.Combine(Direcotry, string.Format("{0}_{1}.png", VariableName, mat.DateTimes[t].ToString(DateFormat)));
                         var vec = mat.GetVector(var_index, t.ToString(), ":");
-                        CreateImage(Filename, vec, colors, grid);
+                        var ci = CreateCatImage(Filename, vec, colors, grid);
                         ReSizeImage(Filename, newFilename);
+                        colorindex_list.Add(ci);
                         progress = t * 100 / ntime;
                         if (progress > count)
                         {
@@ -368,13 +376,16 @@ namespace Heiflow.Tools.Conversion
                 }
                 else if (ClassificationMethod == Core.Data.Classification.ClassificationMethod.Strech)
                 {
+                    var cbfile = Path.Combine(ColorBandMapper.GetColorBandFileFolder(), ColorBand);
+                    ColorBandMapper mapper = new ColorBandMapper(cbfile);
+                    colors = mapper.GetFullPalette();
                     for (int t = 0; t < ntime; t++)
                     {
                         var Filename = Path.Combine(Direcotry, string.Format("{0}_{1}_buf.png", VariableName, mat.DateTimes[t].ToString(DateFormat)));
                         var newFilename = Path.Combine(Direcotry, string.Format("{0}_{1}.png", VariableName, mat.DateTimes[t].ToString(DateFormat)));
                         var vec = mat.GetVector(var_index, t.ToString(), ":");
-                        var colors = StrechColor(vec);
-                        CreateImage(Filename, vec, colors, grid);
+                        var ci = GetStrechColorIndex(vec);
+                        CreateStrechImage(Filename, ci, colors, grid);
                         ReSizeImage(Filename, newFilename);
                         progress = t * 100 / ntime;
                         if (progress > count)
@@ -383,7 +394,7 @@ namespace Heiflow.Tools.Conversion
                             count++;
                         }
                     }
-                 
+
                 }
 
                 return true;
@@ -395,7 +406,7 @@ namespace Heiflow.Tools.Conversion
             }
         }
 
-        private List<Color> CategoryColors()
+        private List<Color> GetCategoryColors()
         {
             var calculationParameters = new CalculationParameters(NumBreaks, Hue % 360.0, Contrast, Saturation, Brightness, RgbModel.AdobeRgbD65);
             var paletteGeneratorFactory = new PaletteGeneratorFactory();
@@ -418,7 +429,7 @@ namespace Heiflow.Tools.Conversion
             return (byte)(max * 255);
         }
 
-        private void ReSizeImage(string file,string newfile)
+        private void ReSizeImage(string file, string newfile)
         {
             using (var factory = new ImageFactory())
             {
@@ -434,27 +445,50 @@ namespace Heiflow.Tools.Conversion
             File.Delete(file);
         }
 
-        private List<Color> StrechColor(float[] vec)
+        //private List<Color> GetStrechColorIndex(float[] vec)
+        //{
+        //    Color[] colors = new Color[vec.Length];
+        //    if (!string.IsNullOrEmpty(ColorBand))
+        //    {
+        //        var max = vec.Max();
+        //        var min = vec.Min();
+        //        ColorBandMapper mapper = new ColorBandMapper(ColorBand);
+        //        for (int i = 0; i < vec.Length; i++)
+        //        {
+        //            if (max != min)
+        //                colors[i] = mapper.MapValueToColor(vec[i], min, max);
+        //            else
+        //                colors[i] = SystemColors.ButtonFace;
+        //        }
+
+        //    }
+        //    return colors.ToList();
+        //}
+
+        private int[] GetStrechColorIndex(float[] vec)
         {
-            Color[] colors=new Color[vec.Length];
+            int[] colors = new int[vec.Length];
             if (!string.IsNullOrEmpty(ColorBand))
             {
-                var max= vec.Max();
+                var max = vec.Max();
                 var min = vec.Min();
-                ColorBandMapper mapper = new ColorBandMapper(ColorBandFile);
-                for(int i=0;i<vec.Length;i++)
+                var del = max - min;
+                var cbfile = Path.Combine(ColorBandMapper.GetColorBandFileFolder(), ColorBand);
+                ColorBandMapper mapper = new ColorBandMapper(cbfile);
+                for (int i = 0; i < vec.Length; i++)
                 {
-                    if (max != min)
-                        colors[i] = mapper.MapValueToColor(vec[i], min, max);
+                    int pixelY = (int)((vec[i] - min) / (del) * (mapper.ImageHeight - 1));
+                    if (del != 0)
+                        colors[i] = pixelY;
                     else
-                        colors[i] = SystemColors.ButtonFace;
+                        colors[i] = 0;
                 }
-           
+
             }
-            return colors.ToList();
+            return colors;
         }
 
-        private void CreateImage(string filename, float[] vec, List<Color> colors, RegularGrid grid)
+        private int[] CreateCatImage(string filename, float[] vec, List<Color> colors, RegularGrid grid)
         {
             int cols = grid.ColumnCount;
             int rows = grid.RowCount;
@@ -469,7 +503,7 @@ namespace Heiflow.Tools.Conversion
             chunk.Priority = true; // this chunk will be written as soon as possible
 
             var transpcolor = Color.Transparent;
-            var colorindex = GetColorIndex(vec);
+            var colorindex = GetCatColorIndex(vec);
 
             for (int row = 0; row < imi.Rows; row++)
             {
@@ -499,9 +533,57 @@ namespace Heiflow.Tools.Conversion
 
             png.End();
 
+            return colorindex;
         }
 
-        private int[] GetColorIndex(float[] vec)
+        private void CreateStrechImage(string filename, int[] color_index, List<Color> colors, RegularGrid grid)
+        {
+            int cols = grid.ColumnCount;
+            int rows = grid.RowCount;
+            ImageInfo imi = new ImageInfo(cols, rows, 8, true); // 8 bits per channel, no alpha 
+            // open image for writing 
+            PngWriter png = FileHelper.CreatePngWriter(filename, imi, true);
+            // add some optional metadata (chunks)
+            png.GetMetadata().SetDpi(DPI);
+            png.GetMetadata().SetTimeNow(0); // 0 seconds fron now = now
+            png.GetMetadata().SetText(PngChunkTextVar.KEY_Title, "HEIFLOW");
+            PngChunk chunk = png.GetMetadata().SetText("output", "output image");
+            chunk.Priority = true; // this chunk will be written as soon as possible
+
+            var transpcolor = Color.Transparent;
+            int k = 0;
+            for (int row = 0; row < imi.Rows; row++)
+            {
+                byte[] rowint = new byte[cols * 4];
+                for (int col = 0; col < imi.Cols; col++)
+                {
+                    var cellindex = grid.Topology.GetSerialIndex(row, col);
+                    var col4 = col * 4;
+                    if (cellindex == -1)
+                    {
+                        rowint[col4] = transpcolor.R;
+                        rowint[col4 + 1] = transpcolor.G;
+                        rowint[col4 + 2] = transpcolor.B;
+                        rowint[col4 + 3] = transpcolor.A;
+                    }
+                    else
+                    {
+                        var color = colors[color_index[k]];
+                        rowint[col4] = color.R;
+                        rowint[col4 + 1] = color.G;
+                        rowint[col4 + 2] = color.B;
+                        rowint[col4 + 3] = color.A;
+                        k++;
+                    }
+                }
+                png.WriteRowByte(rowint, row);
+            }
+
+            png.End();
+
+        }
+
+        private int[] GetCatColorIndex(float[] vec)
         {
             int[] index;
             if (IntervalMethod == IntervalMethod.NaturalBreaks)

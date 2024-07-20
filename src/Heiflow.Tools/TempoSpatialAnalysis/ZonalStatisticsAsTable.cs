@@ -49,11 +49,8 @@ namespace Heiflow.Tools.Statisitcs
 {
     public class ZonalStatisticsAsTable : MapLayerRequiredTool
     {
-        private NumericalDataType mNumericalDataType;
-        private TimeUnits mTimeUnit;
         private IMapLayerDescriptor _FeatureLayer;
     
-
         public ZonalStatisticsAsTable()
         {
             Name = "Zonal Statistics As Table";
@@ -62,8 +59,6 @@ namespace Heiflow.Tools.Statisitcs
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             Output = "zonal";
-            mNumericalDataType = Core.NumericalDataType.Average;
-            mTimeUnit = TimeUnits.Month;
             NoDataValue = -999;
             BaseTimeStep = 0;
         }
