@@ -23,7 +23,7 @@ namespace Heiflow.Core.Data.Classification
         /// <summary>
         /// Breaks for value ranges
         /// </summary>
-        protected class Break
+        public class Break
         {
             /// <summary>
             /// A double value for the maximum value for the break
@@ -458,7 +458,7 @@ namespace Heiflow.Core.Data.Classification
         /// <summary>
         /// Gets or sets the list of breaks for this scheme
         /// </summary>
-        protected List<Break> Breaks
+        public List<Break> Breaks
         {
             get { return _breaks; }
             set { _breaks = value; }

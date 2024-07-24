@@ -43,6 +43,7 @@ using Hjg.Pngcs;
 using Hjg.Pngcs.Chunks;
 using ImageProcessor;
 using ImageProcessor.Processing;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -84,10 +85,12 @@ namespace Heiflow.Tools.Conversion
             ResizeMode = ImageProcessor.Processing.ResizeMode.Stretch;
 
             ClassificationMethod = Core.Data.Classification.ClassificationMethod.Category;
+           
         }
 
         private IFeatureSet _grid_layer;
         private ClassificationMethod _ClassificationMethod;
+        private List<List<string>> _breaknames;
 
         [Category("Input")]
         [Description("The name of the datacube being exported. The Source should be mat[0][0][:]")]
@@ -331,9 +334,10 @@ namespace Heiflow.Tools.Conversion
                         }
                     }
                 }
-          
+                _breaknames = new List<List<string>>();
                 List<int[]> colorindex_list = new List<int[]>();
-                List<Color> colors;
+                List<Color> colors = new List<Color>();
+                int[] ci = null;
                 if (ClassificationMethod == Core.Data.Classification.ClassificationMethod.Category)
                 {
                     colors = GetCategoryColors();
@@ -342,7 +346,7 @@ namespace Heiflow.Tools.Conversion
                         var Filename = Path.Combine(Direcotry, string.Format("{0}_{1}_buf.png", VariableName, mat.DateTimes[t].ToString(DateFormat)));
                         var newFilename = Path.Combine(Direcotry, string.Format("{0}_{1}.png", VariableName, mat.DateTimes[t].ToString(DateFormat)));
                         var vec = mat.GetVector(var_index, t.ToString(), ":");
-                        var ci = CreateCatImage(Filename, vec, colors, grid);
+                        ci = CreateCatImage(Filename, vec, colors, grid);
                         ReSizeImage(Filename, newFilename);
                         progress = t * 100 / ntime;
                         colorindex_list.Add(ci);
@@ -363,7 +367,7 @@ namespace Heiflow.Tools.Conversion
                         var Filename = Path.Combine(Direcotry, string.Format("{0}_{1}_buf.png", VariableName, mat.DateTimes[t].ToString(DateFormat)));
                         var newFilename = Path.Combine(Direcotry, string.Format("{0}_{1}.png", VariableName, mat.DateTimes[t].ToString(DateFormat)));
                         var vec = mat.GetVector(var_index, t.ToString(), ":");
-                        var ci = CreateCatImage(Filename, vec, colors, grid);
+                        ci = CreateCatImage(Filename, vec, colors, grid);
                         ReSizeImage(Filename, newFilename);
                         colorindex_list.Add(ci);
                         progress = t * 100 / ntime;
@@ -384,7 +388,7 @@ namespace Heiflow.Tools.Conversion
                         var Filename = Path.Combine(Direcotry, string.Format("{0}_{1}_buf.png", VariableName, mat.DateTimes[t].ToString(DateFormat)));
                         var newFilename = Path.Combine(Direcotry, string.Format("{0}_{1}.png", VariableName, mat.DateTimes[t].ToString(DateFormat)));
                         var vec = mat.GetVector(var_index, t.ToString(), ":");
-                        var ci = GetStrechColorIndex(vec);
+                        ci = GetStrechColorIndex(vec);
                         CreateStrechImage(Filename, ci, colors, grid);
                         ReSizeImage(Filename, newFilename);
                         progress = t * 100 / ntime;
@@ -394,9 +398,16 @@ namespace Heiflow.Tools.Conversion
                             count++;
                         }
                     }
-
                 }
 
+                var colornames = (from c in colors select ("#" + c.Name)).ToList();
+                string cnjson = JsonConvert.SerializeObject(colornames, Formatting.None);
+                string cijosn = JsonConvert.SerializeObject(ci, Formatting.None);
+                string datesjson = JsonConvert.SerializeObject(mat.DateTimes, Formatting.None);
+                string breakjson = JsonConvert.SerializeObject(_breaknames, Formatting.None);
+                var respstr = "{" + string.Format("\"ncolor\":{0},\"ndata\":{1},\"dates\":{2},\"palette\":{3},\"breaks\":{4},\"data\":{5}", colornames.Count(), ci.Length, datesjson, cnjson, breakjson, cijosn) + "}";
+                var jsonfile = Path.Combine(Direcotry, VariableName + ".json");
+                File.WriteAllText(jsonfile, respstr);
                 return true;
             }
             else
@@ -445,26 +456,6 @@ namespace Heiflow.Tools.Conversion
             File.Delete(file);
         }
 
-        //private List<Color> GetStrechColorIndex(float[] vec)
-        //{
-        //    Color[] colors = new Color[vec.Length];
-        //    if (!string.IsNullOrEmpty(ColorBand))
-        //    {
-        //        var max = vec.Max();
-        //        var min = vec.Min();
-        //        ColorBandMapper mapper = new ColorBandMapper(ColorBand);
-        //        for (int i = 0; i < vec.Length; i++)
-        //        {
-        //            if (max != min)
-        //                colors[i] = mapper.MapValueToColor(vec[i], min, max);
-        //            else
-        //                colors[i] = SystemColors.ButtonFace;
-        //        }
-
-        //    }
-        //    return colors.ToList();
-        //}
-
         private int[] GetStrechColorIndex(float[] vec)
         {
             int[] colors = new int[vec.Length];
@@ -483,8 +474,14 @@ namespace Heiflow.Tools.Conversion
                     else
                         colors[i] = 0;
                 }
-
+                 var breakname = new List<string>();
+                var name = string.Format("最小值: {0}", min);
+                breakname.Add(name);
+                name = string.Format("最大值: {0}", max);
+                breakname.Add(name);
+                _breaknames.Add(breakname);
             }
+
             return colors;
         }
 
@@ -588,7 +585,10 @@ namespace Heiflow.Tools.Conversion
             int[] index;
             if (IntervalMethod == IntervalMethod.NaturalBreaks)
             {
-                index = JenksFisher.CreateJenksFisherIndex(vec.ToList(), NumBreaks);
+                List<float> breaks = new List<float>();
+                index = JenksFisher.CreateJenksFisherIndex(vec.ToList(), NumBreaks, ref breaks);
+               var bk = JenksFisher.GetBreakNames(breaks);
+               _breaknames.Add(bk);
             }
             else
             {
@@ -600,6 +600,8 @@ namespace Heiflow.Tools.Conversion
                 scheme.Values = veccopy.ToList();
                 scheme.CreateBreakCategories();
                 index = scheme.GetBreakIndex(vec);
+                var bk = (from br in scheme.Breaks select br.Name).ToList();
+                _breaknames.Add(bk);
             }
             return index;
         }

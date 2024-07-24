@@ -130,10 +130,11 @@ namespace Heiflow.Tools.Conversion
             }
             if (IntervalMethod == Core.Data.Classification.IntervalMethod.NaturalBreaks)
             {
+                var breaks=new List<float>();
                 for (int t = 0; t < nsteps; t++)
                 {
                     var vec = mat[var_index, t.ToString(), ":"];
-                    var jki = JenksFisher.CreateJenksFisherIndex(vec.ToList(), NumBreaks);
+                    var jki = JenksFisher.CreateJenksFisherIndex(vec.ToList(), NumBreaks,ref breaks);
                     lists.Add(jki);
                     progress = t * 100 / nsteps;
                     cancelProgressHandler.Progress("Package_Tool", progress, "Processing step:" + t);

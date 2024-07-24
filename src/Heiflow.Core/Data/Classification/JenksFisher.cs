@@ -105,15 +105,15 @@ namespace Heiflow.Core.Data.Classification
             var breaks = (tuples.Count > numBreaks) ? ClassifyByJenksFisher(numBreaks, tuples) : tuples.Select(x => x.Value).ToList();
             return breaks;
         }
-        public static int[] CreateJenksFisherIndex(List<float> values, int numBreaks)
+        public static int[] CreateJenksFisherIndex(List<float> values, int numBreaks, ref List<float> breaks)
         {
             var tuples = BuildValueCountTuples(values);
-            var breaks = (tuples.Count > numBreaks) ? ClassifyByJenksFisher(numBreaks, tuples) : tuples.Select(x => x.Value).ToList();
+            breaks = (tuples.Count > numBreaks) ? ClassifyByJenksFisher(numBreaks, tuples) : tuples.Select(x => x.Value).ToList();
             var list = new int[values.Count];
             var nbr = breaks.Count;
             var len1 = nbr - 1;
             for (int i = 0; i < values.Count; i++)
-            {
+            { 
                 list[i] = len1;
                 for (int j = 0; j < len1; j++)
                 {
@@ -125,6 +125,24 @@ namespace Heiflow.Core.Data.Classification
                 }
             }
             return list;
+        }
+
+        public static List<string> GetBreakNames(List<float> breaks)
+        {
+            List<string> names = new List<string>();
+            if (breaks.Count == 1)
+            {
+                names.Add("All Values");
+            }
+            else
+            {
+                for (int i = 0; i < breaks.Count - 1; i++)
+                {
+                    var name = breaks[i] + " - " + breaks[i + 1];
+                    names.Add(name);
+                }
+            }
+            return names;
         }
 
         /// <summary>
