@@ -338,6 +338,7 @@ namespace Heiflow.Tools.Conversion
                 List<int[]> colorindex_list = new List<int[]>();
                 List<Color> colors = new List<Color>();
                 int[] ci = null;
+                List<int[]> list_ci = new List<int[]>();
                 if (ClassificationMethod == Core.Data.Classification.ClassificationMethod.Category)
                 {
                     colors = GetCategoryColors();
@@ -347,6 +348,7 @@ namespace Heiflow.Tools.Conversion
                         var newFilename = Path.Combine(Direcotry, string.Format("{0}_{1}.png", VariableName, mat.DateTimes[t].ToString(DateFormat)));
                         var vec = mat.GetVector(var_index, t.ToString(), ":");
                         ci = CreateCatImage(Filename, vec, colors, grid);
+                        list_ci.Add(ci);
                         ReSizeImage(Filename, newFilename);
                         progress = t * 100 / ntime;
                         colorindex_list.Add(ci);
@@ -368,6 +370,7 @@ namespace Heiflow.Tools.Conversion
                         var newFilename = Path.Combine(Direcotry, string.Format("{0}_{1}.png", VariableName, mat.DateTimes[t].ToString(DateFormat)));
                         var vec = mat.GetVector(var_index, t.ToString(), ":");
                         ci = CreateCatImage(Filename, vec, colors, grid);
+                        list_ci.Add(ci);
                         ReSizeImage(Filename, newFilename);
                         colorindex_list.Add(ci);
                         progress = t * 100 / ntime;
@@ -389,6 +392,7 @@ namespace Heiflow.Tools.Conversion
                         var newFilename = Path.Combine(Direcotry, string.Format("{0}_{1}.png", VariableName, mat.DateTimes[t].ToString(DateFormat)));
                         var vec = mat.GetVector(var_index, t.ToString(), ":");
                         ci = GetStrechColorIndex(vec);
+                        list_ci.Add(ci);
                         CreateStrechImage(Filename, ci, colors, grid);
                         ReSizeImage(Filename, newFilename);
                         progress = t * 100 / ntime;
@@ -402,7 +406,7 @@ namespace Heiflow.Tools.Conversion
 
                 var colornames = (from c in colors select ("#" + c.Name)).ToList();
                 string cnjson = JsonConvert.SerializeObject(colornames, Formatting.None);
-                string cijosn = JsonConvert.SerializeObject(ci, Formatting.None);
+                string cijosn = JsonConvert.SerializeObject(list_ci, Formatting.None);
                 string datesjson = JsonConvert.SerializeObject(mat.DateTimes, Formatting.None);
                 string breakjson = JsonConvert.SerializeObject(_breaknames, Formatting.None);
                 var respstr = "{" + string.Format("\"ncolor\":{0},\"ndata\":{1},\"dates\":{2},\"palette\":{3},\"breaks\":{4},\"data\":{5}", colornames.Count(), ci.Length, datesjson, cnjson, breakjson, cijosn) + "}";
