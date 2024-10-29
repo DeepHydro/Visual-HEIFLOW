@@ -461,11 +461,14 @@ namespace Heiflow.Models.Running
                 {
                     var vector = buf.Monitor.DataSource.Values[buf.VariableIndex].Skip<double>(StartStep);
                     double dv = 0;
-                    if (buf.SequenceType == SequenceType.StepbyStep)
-                        dv = vector.Average() * scale;
-                    else
-                        dv = (vector.Last() - vector.ElementAt(StartStep - 1)) * factor;
-                    dv = Math.Round(dv, 1);
+                    if (vector != null && vector.Count() > 0)
+                    {
+                        if (buf.SequenceType == SequenceType.StepbyStep)
+                            dv = vector.Average() * scale;
+                        else
+                            dv = (vector.Last() - vector.ElementAt(StartStep - 1)) * factor;
+                        dv = Math.Round(dv, 1);
+                    }
                     items[nm] = dv;
                 }
             }

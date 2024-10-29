@@ -86,7 +86,7 @@ namespace Heiflow.Models.Subsurface
             DLEAK = 0.01f;
             ISTCB1 = 0;
             ISTCB2 = 0;
-            ISFROPT = 2;
+            ISFROPT = 1;
             NSTRAIL = 5;
             ISUZN = 1;
             NSFRSETS = 30;
@@ -239,10 +239,14 @@ namespace Heiflow.Models.Subsurface
             var pckinfo = new PackageInfo();
             pckinfo.ModuleName = "DATA";
             pckinfo.FID = this.ISTCB2;
-            pckinfo.Format = FileFormat.Text;
+            //pckinfo.Format = FileFormat.Text;
+            //pckinfo.IOState = IOState.REPLACE;
+            //pckinfo.FileName = Modflow.OutputDic + mf.Project.Name + ".sft_out";
+            //pckinfo.FileExtension = ".sft_out";
+            pckinfo.Format = FileFormat.Binary;
             pckinfo.IOState = IOState.REPLACE;
-            pckinfo.FileName = Modflow.OutputDic + mf.Project.Name + ".sft_out";
-            pckinfo.FileExtension = ".sft_out";
+            pckinfo.FileName = Modflow.OutputDic + mf.Project.Name + "_sfrout.dcx";
+            pckinfo.FileExtension = ".dcx";
             pckinfo.Name = Path.GetFileName(pckinfo.FileName);
             pckinfo.WorkDirectory = mf.WorkDirectory;
             mf.NameManager.AddInSilence(pckinfo);
@@ -461,15 +465,29 @@ namespace Heiflow.Models.Subsurface
 
             //# Data Set 1: NSTRM NSS NSFRPAR NPARSEG CONST DLEAK ISTCB1  ISTCB2 ISFROPT NSTRAIL ISUZN NSFRSETS IRTFLG NUMTIM WEIGHT FLWTOL
             string format = "";
-            for (int i = 0; i < 16; i++)
+            if (ISFROPT == 2)
             {
-                format += "{" + i + "}\t";
+                for (int i = 0; i < 16; i++)
+                {
+                    format += "{" + i + "}\t";
+                }
+                format += "# Data Set 1: NSTRM NSS NSFRPAR NPARSEG CONST DLEAK ISTCB1  ISTCB2 ISFROPT NSTRAIL ISUZN NSFRSETS IRTFLG NUMTIM WEIGHT FLWTOL";
+                newline = string.Format(format, NSTRM, NSS, NSFRPAR, NPARSEG,
+                  CONST, DLEAK, ISTCB1, ISTCB2, ISFROPT, NSTRAIL,
+                    ISUZN, NSFRSETS, IRTFLG, NUMTIM, WEIGHT, FLWTOL);
+                sw.WriteLine(newline);
             }
-            format += "# Data Set 1: NSTRM NSS NSFRPAR NPARSEG CONST DLEAK ISTCB1  ISTCB2 ISFROPT NSTRAIL ISUZN NSFRSETS IRTFLG NUMTIM WEIGHT FLWTOL";
-            newline = string.Format(format, NSTRM, NSS, NSFRPAR, NPARSEG,
-              CONST, DLEAK, ISTCB1, ISTCB2, ISFROPT, NSTRAIL,
-                ISUZN, NSFRSETS, IRTFLG, NUMTIM, WEIGHT, FLWTOL);
-            sw.WriteLine(newline);
+            else if (ISFROPT == 1)
+            {
+                for (int i = 0; i < 13; i++)
+                {
+                    format += "{" + i + "}\t";
+                }
+                format += "# Data Set 1: NSTRM NSS NSFRPAR NPARSEG CONST DLEAK ISTCB1  ISTCB2 ISFROPT IRTFLG NUMTIM WEIGHT FLWTOL";
+                newline = string.Format(format, NSTRM, NSS, NSFRPAR, NPARSEG,
+                  CONST, DLEAK, ISTCB1, ISTCB2, ISFROPT, IRTFLG, NUMTIM, WEIGHT, FLWTOL);
+                sw.WriteLine(newline);
+            }
 
             //# Data Set 2: KRCH IRCH JRCH ISEG IREACH RCHLEN STRTOP SLOPE STRTHICK STRHC1 THTS THTI EPS IFACE Defined by object: reach_1
             format = "";
@@ -511,7 +529,7 @@ namespace Heiflow.Models.Subsurface
                 format1 += "{" + i + "}\t";
             }
             format1 += "# Data Set 6a: NSEG ICALC OUTSEG IUPSEG FLOW RUNOFF ETSW PPTSW ROUGHCH";
-            for (int i = 0; i < np; i++)
+            for (int i = 0; i < 1; i++)
             {
                 var spi = MatrixExtension<int>.GetRow(i, SPInfo);
                 //if (spi[0] > 0)
@@ -554,6 +572,9 @@ namespace Heiflow.Models.Subsurface
                     }
                 }
             }
+            newline = string.Format("-1 0	0	# Data Set 5, Stress period 2: ITMP IRDFLG IPTFLG");
+            sw.WriteLine(newline);
+
             sw.Close();
             OnSaved(prg);
         }
@@ -642,7 +663,7 @@ namespace Heiflow.Models.Subsurface
                     line = sr.ReadLine();
                 }
             
-                var vv = TypeConverterEx.Split<float>(line, 16);
+                var vv = TypeConverterEx.Split<float>(line, 9);
 
                 net.ReachCount = (int)vv[0];
                 net.RiverCount = (int)vv[1];
@@ -664,14 +685,26 @@ namespace Heiflow.Models.Subsurface
                 }
 
                 ISFROPT = (int)vv[8];
-                NSTRAIL = (int)vv[9];
-                ISUZN = (int)vv[10];
-                NSFRSETS = (int)vv[11];
-                IRTFLG = (int)vv[12];
-                NUMTIM = (int)vv[13];
 
-                WEIGHT = vv[14];
-                FLWTOL = vv[15];
+                if(ISFROPT == 1)
+                {
+                    vv = TypeConverterEx.Split<float>(line, 13);
+                    IRTFLG = (int)vv[9];
+                    NUMTIM = (int)vv[10];
+                    WEIGHT = vv[11];
+                    FLWTOL = vv[12];
+                }
+                else if (ISFROPT == 2)
+                {
+                    vv = TypeConverterEx.Split<float>(line, 16);
+                    NSTRAIL = (int)vv[9];
+                    ISUZN = (int)vv[10];
+                    NSFRSETS = (int)vv[11];
+                    IRTFLG = (int)vv[12];
+                    NUMTIM = (int)vv[13];
+                    WEIGHT = vv[14];
+                    FLWTOL = vv[15];
+                }
 
                 int oldseg = 0;
                 line = sr.ReadLine();
@@ -700,7 +733,6 @@ namespace Heiflow.Models.Subsurface
                 int i = 1;
                 try
                 {
-              
                     for (i = 1; i < net.ReachCount; i++)
                     {
                         line = sr.ReadLine();

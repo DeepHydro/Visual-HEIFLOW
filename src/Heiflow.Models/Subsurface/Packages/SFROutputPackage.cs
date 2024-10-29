@@ -343,6 +343,7 @@ namespace Heiflow.Models.Subsurface
                 OnLoaded(progresshandler, new LoadingObjectState() { Message = Message, Object = this, State = result });
                 return result;
             }
+            var scale = (float)ScaleFactor;
             for (int t = 0; t < nstep; t++)
             {
                 for (int c = 0; c < 8; c++)
@@ -360,7 +361,7 @@ namespace Heiflow.Models.Subsurface
                                 var temp = TypeConverterEx.SkipSplit<float>(line, 5);
                                 //Values.Value[var_index][t][rch_index] = temp[var_index];
                                 // DataCube.ILArrays[var_index].SetValue(temp[var_index], t, rch_index);
-                                DataCube[var_index, t, rch_index] = temp[var_index];
+                                DataCube[var_index, t, rch_index] = temp[var_index] * scale;
                             }
                             else
                             {
@@ -378,7 +379,7 @@ namespace Heiflow.Models.Subsurface
                         }
                         line = sr.ReadLine().Trim();
                         var temp = TypeConverterEx.SkipSplit<float>(line, 5);
-                        DataCube[var_index, t, i] = temp[var_index];
+                        DataCube[var_index, t, i] = temp[var_index] * scale;
                     }
                 }
                 DataCube.DateTimes[t] = TimeService.Timeline[t];
@@ -475,7 +476,8 @@ namespace Heiflow.Models.Subsurface
                 for (int s = 0; s < feaNum; s++)
                 {
                     br.ReadBytes(4 * var_index);
-                    buf[s] = br.ReadSingle() * scale;
+                    buf[s] = br.ReadSingle();
+                    buf[s] = buf[s] * scale;
                     br.ReadBytes(4 * (varnum - var_index - 1));
                 }
 

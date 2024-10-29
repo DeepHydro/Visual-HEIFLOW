@@ -51,8 +51,8 @@ namespace Heiflow.Models.Subsurface
         {
             Name = PackageName;
             _FullName = "Unsaturated-Zone Flow Package";
-            NUZTOP = 1;
-            IUZFOPT = 2;
+            NUZTOP = 3;
+            IUZFOPT = -2;
             IRUNFLG = 1;
             IETFLG = 1;
             IUZFCB1 = 9;
@@ -375,6 +375,7 @@ namespace Heiflow.Models.Subsurface
                         Name = "EXTDP",
                         ZeroDimension = DimensionFlag.Time
                     };
+
                     this.EXTWC = new DataCube<float>(np, 1, grid.ActiveCellCount)
                     {
                         Name = "EXTWC",
@@ -431,19 +432,21 @@ namespace Heiflow.Models.Subsurface
                                 EXTDP[p - 1, "0", ":"].CopyTo(buf, 0);
                                 EXTDP[p, "0", ":"] = buf;
                             }
-
-                            newline = sr.ReadLine();
-                            iv = TypeConverterEx.Split<int>(newline, 1);
-                            if (iv[0] >= 0)
+                            if (IUZFOPT > 0)
                             {
-                                ReadSerialArray<float>(sr, EXTWC, p, 0);
-                            }
-                            else
-                            {
-                                EXTWC.Flags[p] = TimeVarientFlag.Repeat;
-                                var buf = new float[grid.ActiveCellCount];
-                                EXTWC[p - 1, "0", ":"].CopyTo(buf, 0);
-                                EXTWC[p, "0", ":"] = buf;
+                                newline = sr.ReadLine();
+                                iv = TypeConverterEx.Split<int>(newline, 1);
+                                if (iv[0] >= 0)
+                                {
+                                    ReadSerialArray<float>(sr, EXTWC, p, 0);
+                                }
+                                else
+                                {
+                                    EXTWC.Flags[p] = TimeVarientFlag.Repeat;
+                                    var buf = new float[grid.ActiveCellCount];
+                                    EXTWC[p - 1, "0", ":"].CopyTo(buf, 0);
+                                    EXTWC[p, "0", ":"] = buf;
+                                }
                             }
                         }
 
@@ -571,11 +574,14 @@ namespace Heiflow.Models.Subsurface
                     if (reuse  >= 0)
                         WriteSerialFloatArray(sw, this.EXTDP, p, 0, "E6", " # Data Set 14 EXTDP  for Stress Period " + (p + 1));
 
-                    reuse = this.EXTWC.Flags[p] == TimeVarientFlag.Repeat ? -1 : 0;
-                    newline = string.Format("{0}\t# Data Set 15: NUZF4", reuse);
-                    sw.WriteLine(newline);
-                    if (reuse >= 0)
-                        WriteSerialFloatArray(sw, this.EXTWC, p, 0, "E6", " # Data Set 16 EXTWC  for Stress Period " + (p + 1));
+                    if (IUZFOPT > 0)
+                    {
+                        reuse = this.EXTWC.Flags[p] == TimeVarientFlag.Repeat ? -1 : 0;
+                        newline = string.Format("{0}\t# Data Set 15: NUZF4", reuse);
+                        sw.WriteLine(newline);
+                        if (reuse >= 0)
+                            WriteSerialFloatArray(sw, this.EXTWC, p, 0, "E6", " # Data Set 16 EXTWC  for Stress Period " + (p + 1));
+                    }
                 }
             }
             sw.Close();
@@ -626,27 +632,33 @@ namespace Heiflow.Models.Subsurface
 
             this.IUZFBND = new DataCube<float>(1, 1, grid.ActiveCellCount)
             {
-                Name = "IUZFBND", ZeroDimension= DimensionFlag.Spatial
+                Name = "IUZFBND", 
+                ZeroDimension= DimensionFlag.Spatial
             };
             this.IRUNBND = new DataCube<float>(1, 1, grid.ActiveCellCount)
             {
-                Name = "IRUNBND",                ZeroDimension = DimensionFlag.Spatial
+                Name = "IRUNBND",                
+                ZeroDimension = DimensionFlag.Spatial
             };
             this.VKS = new DataCube<float>(1, 1, grid.ActiveCellCount)
             {
-                Name = "VKS",                ZeroDimension = DimensionFlag.Spatial
+                Name = "VKS",                
+                ZeroDimension = DimensionFlag.Spatial
             };
             this.EPS = new DataCube<float>(1, 1, grid.ActiveCellCount)
             {
-                Name = "EPS",ZeroDimension = DimensionFlag.Spatial
+                Name = "EPS",
+                ZeroDimension = DimensionFlag.Spatial
             };
             this.THTS = new DataCube<float>(1, 1, grid.ActiveCellCount)
             {
-                Name = "THTS",ZeroDimension = DimensionFlag.Spatial
+                Name = "THTS",
+                ZeroDimension = DimensionFlag.Spatial
             };
             this.THTI = new DataCube<float>(1, 1, grid.ActiveCellCount)
             {
-                Name = "THTI",ZeroDimension = DimensionFlag.Spatial
+                Name = "THTI",
+                ZeroDimension = DimensionFlag.Spatial
             };
 
             this.IUZFBND.Variables[0] = "IUZFBND Layer 1";
@@ -741,7 +753,7 @@ namespace Heiflow.Models.Subsurface
 
                 this.FINF.Constants[p] = 0;
                 this.PET.Constants[p] = 0;
-                this.EXTDP.Constants[p] = 3f;
+                this.EXTDP.Constants[p] = 2f;
                 this.EXTWC.Constants[p] = 0.15f;
 
                 this.FINF.Variables[p] = "FIN Stress Period " + (p+1);
