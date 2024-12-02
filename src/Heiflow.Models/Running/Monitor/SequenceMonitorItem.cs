@@ -59,6 +59,10 @@ namespace Heiflow.Models.Running
                 {
                     Source.DerivedValues = Source.Derive(sourcedata);
                 }
+                if(sourcedata.Dates.Count != Source.DerivedValues.Length)
+                {
+                    Source.DerivedValues = Source.Derive(sourcedata);
+                }
                 double[] values = new double[sourcedata.Dates.Count];
 
                 for (int i = 1; i < sourcedata.Dates.Count; i++)

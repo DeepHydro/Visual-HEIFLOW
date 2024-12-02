@@ -62,6 +62,8 @@ namespace Heiflow.Controls.WinForm.Display
             InitializeComponent();
             this.nodeStateIcon1.DataPropertyName = "Image";
             this.nodeTextBox1.DataPropertyName = "Text";
+            soil_error.Visible = false;
+            label3.Visible = false;
             _model = new TreeModel();
             treeView1.Model = _model;
             viewModel = new Lazy<StateMonitorViewModel>(() => ViewHelper.GetViewModel<StateMonitorViewModel>(this));
@@ -211,7 +213,7 @@ namespace Heiflow.Controls.WinForm.Display
             //var satout = e[FileMonitor.GW_ET_OUT] + e[FileMonitor.STREAM_LEAKAGE_OUT]
             //    + e[FileMonitor.IR_PUMP] + e[FileMonitor.SURFACE_LEAKAGE_OUT] + e[FileMonitor.Groundwater_Outflow];
             var satout = e[FileMonitor.GW_ET_OUT] + e[FileMonitor.STREAM_LEAKAGE_OUT]
-    + e[FileMonitor.WRA_WELLS_OUT] + e[FileMonitor.SURFACE_LEAKAGE_OUT] + e[FileMonitor.Groundwater_Outflow];
+    + e[FileMonitor.WELLS_OUT] + e[FileMonitor.SURFACE_LEAKAGE_OUT] + e[FileMonitor.Groundwater_Outflow];
             var satds = e[FileMonitor.Saturated_Zone_DS];
             var saterror = satin - satout - satds;
             var sat_discrepancy = Math.Round((saterror) / (satin + satout + Math.Abs(satds)) * 2 * 100, 2);
@@ -244,7 +246,8 @@ namespace Heiflow.Controls.WinForm.Display
 
             div.Text = e[FileMonitor.IR_DIV].ToString("0.00");
       //      sat_pr.Text = e[FileMonitor.IR_PUMP].ToString("0.00");
-            sat_pr.Text = e[FileMonitor.WRA_WELLS_OUT].ToString("0.00");
+           // sat_pr.Text = e[FileMonitor.WRA_WELLS_OUT].ToString("0.00");
+            sat_pr.Text = e[FileMonitor.WELLS_OUT].ToString("0.00");
 
             sz_Percolation.Text = e[FileMonitor.UZF_INFIL].ToString("0.00");
             sz_et.Text = e[FileMonitor.BASINPERVET_HRU].ToString("0.00");

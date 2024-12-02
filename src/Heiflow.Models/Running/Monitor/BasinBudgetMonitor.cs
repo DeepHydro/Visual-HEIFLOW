@@ -508,7 +508,7 @@ namespace Heiflow.Models.Running
                 //in 
                 CONSTANT_HEAD_IN, WELLS_IN, SPECIFIED_FLOWS_IN ,  STORAGE_IN, UZF_RECHARGE_IN,STREAM_LEAKAGE_IN,LAKE_SEEPAGE_IN, WRA_WELLS_IN,HEAD_DEP_BOUNDS_IN,
                 //out
-                CONSTANT_HEAD_OUT,WELLS_OUT, WRA_WELLS_OUT, SPECIFIED_FLOWS_OUT,SURFACE_LEAKAGE_OUT,GW_ET_OUT,STREAM_LEAKAGE_OUT,STORAGE_OUT,LAKE_SEEPAGE_OUT,HEAD_DEP_BOUNDS_OUT
+                CONSTANT_HEAD_OUT,WELLS_OUT,  SPECIFIED_FLOWS_OUT,SURFACE_LEAKAGE_OUT,GW_ET_OUT,STREAM_LEAKAGE_OUT,STORAGE_OUT,LAKE_SEEPAGE_OUT,HEAD_DEP_BOUNDS_OUT
             };
 
             foreach (var nm in sat_names)
@@ -533,7 +533,7 @@ namespace Heiflow.Models.Running
 
             var sat_in = items[CONSTANT_HEAD_IN] + items[WELLS_IN] + items[SPECIFIED_FLOWS_IN] + items[UZF_RECHARGE_IN] + items[WRA_WELLS_IN]
                 + items[STREAM_LEAKAGE_IN] + items[LAKE_SEEPAGE_IN] + items[STORAGE_IN] + items[HEAD_DEP_BOUNDS_IN];
-            var sat_out = items[CONSTANT_HEAD_OUT] + items[WELLS_OUT] + items[SPECIFIED_FLOWS_OUT] + items[GW_ET_OUT] + items[SURFACE_LEAKAGE_OUT] + items[WRA_WELLS_OUT]
+            var sat_out = items[CONSTANT_HEAD_OUT] + items[WELLS_OUT] + items[SPECIFIED_FLOWS_OUT] + items[GW_ET_OUT] + items[SURFACE_LEAKAGE_OUT] 
     + items[STREAM_LEAKAGE_OUT] + items[LAKE_SEEPAGE_OUT] + items[STORAGE_OUT] + items[HEAD_DEP_BOUNDS_OUT];
             var sat_ds = items[STORAGE_OUT] - items[STORAGE_IN];
             var sat_error = sat_in - sat_out - sat_ds;
