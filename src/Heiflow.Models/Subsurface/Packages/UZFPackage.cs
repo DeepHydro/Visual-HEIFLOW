@@ -51,7 +51,7 @@ namespace Heiflow.Models.Subsurface
         {
             Name = PackageName;
             _FullName = "Unsaturated-Zone Flow Package";
-            NUZTOP = 3;
+            NUZTOP = 1;
             IUZFOPT = -2;
             IRUNFLG = 1;
             IETFLG = 1;

@@ -419,16 +419,18 @@ namespace Heiflow.Models.Integration
             sw.WriteLine(_LAIDAExFile);
             sw.WriteLine("## MF IO LOG FILE");
             sw.WriteLine(_MF_IOLOG_File);
-            sw.WriteLine("## PET Constraint");
+            sw.WriteLine("## GWH DA");
             sw.WriteLine(TypeConverterEx.Bool2String(EnableGWHDA));
             sw.WriteLine(_GWHDA_File);
-            sw.WriteLine("## ABM Model");
+            sw.WriteLine("## PET DA");
             sw.WriteLine(TypeConverterEx.Bool2String(EnableABM));
             sw.WriteLine(_ABM_MODEL_File);
             sw.WriteLine("## CHD Extension");
             sw.WriteLine(TypeConverterEx.Bool2String(EnableCHDEx));
             sw.WriteLine(_CHDEX_File);
             sw.Close();
+
+            SaveSFROutEx();
             OnSaved(progress);
         }
         public override void OnTimeServiceUpdated(ITimeService time)
@@ -443,7 +445,7 @@ namespace Heiflow.Models.Integration
             HCLOSER = 10;
             EnableMFOutputEx = false;
             EnableSFREx = false;
-            EnableSFROutEx = false;
+            EnableSFROutEx = true;
             EnableSFRWQ = false;
             EnableLakeEx = false;
             EnableLAIDAEx = false;
@@ -461,5 +463,28 @@ namespace Heiflow.Models.Integration
             _ABM_MODEL_File = ".\\Input\\Extension\\abm.ex";
             _CHDEX_File = ".\\Input\\Extension\\chd.ex";
         }
+
+        private void SaveSFROutEx()
+        {
+            StreamWriter sw = new StreamWriter(SFROutExFile);
+            string line = "5 #num_sfrout_vars\n" +
+                                "2 3 4 7 13\n" +
+                                "sfr_out_vars(1) = 'flow in'\n" +
+                                "sfr_out_vars(2) = 'stream loss'\n" +
+                                "sfr_out_vars(3) = 'flow out'\n" +
+                                "sfr_out_vars(4) = 'overland flow'\n" +
+                                "sfr_out_vars(5) = 'precipitation'\n" +
+                                "sfr_out_vars(6) = 'et'\n" +
+                                "sfr_out_vars(7) = 'stream head'\n" +
+                                "sfr_out_vars(8) = 'stream depth'\n" +
+                                "sfr_out_vars(9) = 'stream width'\n" +
+                                "sfr_out_vars(10) = 'streambed conductance'\n" +
+                                "sfr_out_vars(11) = 'flow to water table'\n" +
+                                "sfr_out_vars(12) = 'change in unsat storage'\n" +
+                                "sfr_out_vars(13) = 'gw head'";
+            sw.WriteLine(line);
+            sw.Close();
+        }
+
     }
 }
