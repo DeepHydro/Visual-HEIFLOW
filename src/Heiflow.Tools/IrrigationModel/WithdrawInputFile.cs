@@ -28,9 +28,12 @@
 //
 
 using DotSpatial.Data;
+using Heiflow.Applications;
 using Heiflow.Core.Data;
 using Heiflow.Core.IO;
+using Heiflow.Models.Integration;
 using Heiflow.Models.WRM;
+using Heiflow.Presentation.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -60,7 +63,9 @@ namespace Heiflow.Tools.DataManagement
             EndCycle = 4;
             StartCycle = 1;
             PumpScale = 1.5;
-            GWCompensate = true;
+            PumpingLayers = "1,2,3";
+            PumpingLayerRatios = "0.6,0.2,0.2";
+            WelPackageUnitID = 108;
         }
 
         [Category("Input")]
@@ -97,7 +102,7 @@ namespace Heiflow.Tools.DataManagement
             set;
         }
 
-        public bool GWCompensate
+        public int WelPackageUnitID
         {
             get;
             set;
@@ -107,54 +112,23 @@ namespace Heiflow.Tools.DataManagement
             get;
             set;
         }
+        [Category("Farm Parameters")]
+        [Description("An integer array that specfies the layers from which pumping are applied. An example is: 1,2,3")]
+        public string PumpingLayers
+        {
+            get;
+            set;
+        }
+        [Category("Farm Parameters")]
+        [Description("An double array that specifies the ratio of pumping in each layer. An example is: 0.6,0.2,0.2")]
+        public string PumpingLayerRatios
+        {
+            get;
+            set;
+        }
         public override void Initialize()
         {
             this.Initialized = true;
-        }
-
-        private void SaveObj()
-        {
-            StreamReader sr_source = new StreamReader(QuotaFileName);
-            string obj_out = QuotaFileName + ".obj";
-            StreamWriter sw_obj = new StreamWriter(obj_out);
-
-            var newline = "";
-            var line = sr_source.ReadLine();
-            line = sr_source.ReadLine();
-
-            for (int i = 0; i < 47; i++)
-            {
-                string obj_line = "";
-                line = sr_source.ReadLine();
-                var buf = TypeConverterEx.Split<string>(line);
-                obj_line = buf[0] + "," + buf[2] + "," + buf[1];
-                var nhru = int.Parse(buf[1]);
-                //hru id
-                newline = sr_source.ReadLine(); ;
-                obj_line += "," + newline.Trim();
-                // hru area
-                line = sr_source.ReadLine();
-                var hru_area = new double[nhru];
-                var buf_num = TypeConverterEx.Split<double>(line);
-                for (int j = 0; j < nhru; j++)
-                {
-                    hru_area[j] = System.Math.Round(nhru * 1000000 * buf_num[j], 0);
-                    if (hru_area[j] > 1000000)
-                        hru_area[j] = 1000000;
-                }
-                obj_line += "," + string.Join("\t", hru_area);
-
-                //canal_effciency_rate
-                newline = sr_source.ReadLine();
-                var temp = TypeConverterEx.Split<double>(newline);
-                obj_line += "," + temp[0];
-                // canal_area_rate
-                newline = sr_source.ReadLine();
-                temp = TypeConverterEx.Split<double>(newline);
-                obj_line += "," + temp[0];
-                sw_obj.WriteLine(obj_line);
-            }
-            sw_obj.Close();
         }
 
         private void ReadObj(StreamReader sr, int numobj, List<ManagementObject> list)
@@ -218,14 +192,49 @@ namespace Heiflow.Tools.DataManagement
             }
         }
 
+        private void SavePumpWellFiles()
+        {
+            var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
+            var model = prj.Project.Model as HeiflowModel;
+
+            var dic = Path.GetDirectoryName(OutputFileName);
+            var wellfile = Path.Combine(dic, model.Name + ".wel");
+            var hru_wellfile = Path.Combine(dic, "hru_well_sp1.txt");
+
+            int[] well_layer = TypeConverterEx.Split<int>(PumpingLayers);
+            double[] layer_ratio = TypeConverterEx.Split<double>(PumpingLayerRatios);
+            var hru_well_num = 0;
+            for (int i = 0; i < irrg_obj_list.Count; i++)
+            {
+                var obj = irrg_obj_list[i];
+                hru_well_num += obj.HRU_List.Length;
+            }
+
+            StreamWriter sw_wel = new StreamWriter(wellfile);
+            StreamWriter sw_hruwel = new StreamWriter(hru_wellfile);
+
+            var welline = string.Format(" #WEL: created on {0} by Visual HEIFLOW", DateTime.Now);
+            sw_wel.WriteLine(wellfile);
+            welline = string.Format(" {0} {1} AUXILIARY IFACE NOPRINT # DataSet 2: MXACTW IWELCB Option", hru_well_num, WelPackageUnitID);
+            sw_wel.WriteLine(wellfile);
+
+            //5238 108 AUXILIARY IFACE NOPRINT # DataSet 2: MXACTW IWELCB Option
+            //5238 0 # Data Set 5: ITMP NP Stress period 1 
+
+            sw_wel.Close();
+            sw_hruwel.Close();
+        }
+
         public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
         {
-            int num_well_layer = 3;
-            int[] well_layer = new int[] { 1, 2, 3 };
-            double[] layer_ratio = new double[] { 0.6, 0.1, 0.3 };
-            int num_irrg_obj, num_indust_obj;
+            int[] well_layer = TypeConverterEx.Split<int>(PumpingLayers);
+            double[] layer_ratio = TypeConverterEx.Split<double>(PumpingLayerRatios);
+            int num_well_layer = well_layer.Length;
+
             StreamReader sr_quota = new StreamReader(QuotaFileName);
             StreamWriter sw_out = new StreamWriter(OutputFileName);
+
+            int num_irrg_obj, num_indust_obj;
             string newline = "";
             int nquota = 1;
             int ntime = 36;
@@ -305,6 +314,8 @@ namespace Heiflow.Tools.DataManagement
                     newline = string.Format("{0}\t{1}\t{2}\t#  inlet	min flow,  max flow and flow ratio  for object {3}", irrg_obj_list[i].Inlet_MinFlow, irrg_obj_list[i].Inlet_MaxFlow, irrg_obj_list[i].Inlet_Flow_Ratio,
                         irrg_obj_list[i].ID);
                     sw_out.WriteLine(newline);
+
+
                 }
             }
             if (num_indust_obj > 0)
@@ -350,10 +361,7 @@ namespace Heiflow.Tools.DataManagement
             {
                 newline = "# irrigation objects";
                 sw_out.WriteLine(newline);
-                if (GWCompensate)
-                    newline = "1 1	1	1	1	1	1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, quota_id_flag,plantarea_flag,max_pump_rate_flag,max_total_pump_flag";
-                else
-                    newline = "1 1	1	1	1	1	1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, quota_id_flag,plantarea_flag";
+                newline = "1 1	1	1	1	1	1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, quota_id_flag,plantarea_flag,max_pump_rate_flag,max_total_pump_flag";
                 sw_out.WriteLine(newline);
                 //地表水比例
                 for (int i = 0; i < num_irrg_obj; i++)
@@ -401,21 +409,20 @@ namespace Heiflow.Tools.DataManagement
                     newline += "\t" + "# Plant area of object " + irrg_obj_list[i].ID;
                     sw_out.WriteLine(newline);
                 }
-                if (GWCompensate)
+
+                //每个HRU的地下水抽水能力
+                for (int i = 0; i < num_irrg_obj; i++)
                 {
-                    //每个HRU的地下水抽水能力
-                    for (int i = 0; i < num_irrg_obj; i++)
-                    {
-                        newline = string.Join("\t", irrg_obj_list[i].Max_Pump_Rate);
-                        newline += "\t" + "# Maximum pumping rate of object " + irrg_obj_list[i].ID;
-                        sw_out.WriteLine(newline);
-                    }
-                    //每个HRU的最大地下水抽水量
-                    var objbuf = from ir in irrg_obj_list select (ir.Max_Total_Pump);
-                    newline = string.Join("\t", objbuf);
-                    newline += "\t" + "# Total maximum pumping amonut";
+                    newline = string.Join("\t", irrg_obj_list[i].Max_Pump_Rate);
+                    newline += "\t" + "# Maximum pumping rate of object " + irrg_obj_list[i].ID;
                     sw_out.WriteLine(newline);
                 }
+                //每个HRU的最大地下水抽水量
+                var objbuf = from ir in irrg_obj_list select (ir.Max_Total_Pump);
+                newline = string.Join("\t", objbuf);
+                newline += "\t" + "# Total maximum pumping amonut";
+                sw_out.WriteLine(newline);
+
             }
             if (num_indust_obj > 0)
             {
@@ -466,12 +473,8 @@ namespace Heiflow.Tools.DataManagement
                 if (num_irrg_obj > 0)
                 {
                     sw_out.WriteLine("# irrigation objects");
-                    if (GWCompensate)
-                        sw_out.WriteLine("-1 -1	-1 -1 -1 -1 -1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag,plantarea_flag,max_pump_rate_flag,max_total_pump_flag");
-                    else
-                        sw_out.WriteLine("-1 -1	-1 -1 -1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag,plantarea_flag");
+                    sw_out.WriteLine("-1 -1	-1 -1 -1 -1 -1 #	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag,plantarea_flag,max_pump_rate_flag,max_total_pump_flag");
                 }
-
                 if (num_indust_obj > 0)
                 {
                     sw_out.WriteLine("# industrial objects");
