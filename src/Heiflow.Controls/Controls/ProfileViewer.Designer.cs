@@ -101,7 +101,7 @@
             this.cmbPackages.FormattingEnabled = true;
             this.cmbPackages.Location = new System.Drawing.Point(6, 55);
             this.cmbPackages.Name = "cmbPackages";
-            this.cmbPackages.Size = new System.Drawing.Size(259, 29);
+            this.cmbPackages.Size = new System.Drawing.Size(259, 38);
             this.cmbPackages.TabIndex = 1;
             this.cmbPackages.SelectedIndexChanged += new System.EventHandler(this.cmbPackages_SelectedIndexChanged);
             // 
@@ -109,10 +109,10 @@
             // 
             this.tabPage3.Controls.Add(this.dataGridViewZone);
             this.tabPage3.Controls.Add(this.bindingNavigatorZone);
-            this.tabPage3.Location = new System.Drawing.Point(4, 25);
+            this.tabPage3.Location = new System.Drawing.Point(4, 31);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(924, 614);
+            this.tabPage3.Size = new System.Drawing.Size(924, 608);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Table View";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -133,11 +133,11 @@
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewZone.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewZone.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewZone.Location = new System.Drawing.Point(3, 30);
+            this.dataGridViewZone.Location = new System.Drawing.Point(3, 34);
             this.dataGridViewZone.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dataGridViewZone.Name = "dataGridViewZone";
             this.dataGridViewZone.RowTemplate.Height = 23;
-            this.dataGridViewZone.Size = new System.Drawing.Size(918, 581);
+            this.dataGridViewZone.Size = new System.Drawing.Size(918, 571);
             this.dataGridViewZone.TabIndex = 3;
             // 
             // bindingNavigatorZone
@@ -168,14 +168,14 @@
             this.bindingNavigatorZone.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.bindingNavigatorZone.Name = "bindingNavigatorZone";
             this.bindingNavigatorZone.PositionItem = this.bindingNavigatorPositionItem;
-            this.bindingNavigatorZone.Size = new System.Drawing.Size(918, 27);
+            this.bindingNavigatorZone.Size = new System.Drawing.Size(918, 31);
             this.bindingNavigatorZone.TabIndex = 0;
             this.bindingNavigatorZone.Text = "bindingNavigator1";
             // 
             // bindingNavigatorCountItem
             // 
             this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
-            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(38, 24);
+            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(53, 28);
             this.bindingNavigatorCountItem.Text = "/ {0}";
             this.bindingNavigatorCountItem.ToolTipText = "总项数";
             // 
@@ -185,7 +185,7 @@
             this.btnImportZone.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GeodatabaseXMLRecordSetImport32;
             this.btnImportZone.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnImportZone.Name = "btnImportZone";
-            this.btnImportZone.Size = new System.Drawing.Size(24, 24);
+            this.btnImportZone.Size = new System.Drawing.Size(24, 28);
             this.btnImportZone.Text = "Import Zone ID table from a csv file. The column names must be HRU_ID, Layer, Zon" +
     "e_ID";
             // 
@@ -195,7 +195,7 @@
             this.bindingNavigatorMoveFirstItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveFirstItem.Image")));
             this.bindingNavigatorMoveFirstItem.Name = "bindingNavigatorMoveFirstItem";
             this.bindingNavigatorMoveFirstItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(24, 24);
+            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(24, 28);
             this.bindingNavigatorMoveFirstItem.Text = "移到第一条记录";
             // 
             // bindingNavigatorMovePreviousItem
@@ -204,13 +204,13 @@
             this.bindingNavigatorMovePreviousItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMovePreviousItem.Image")));
             this.bindingNavigatorMovePreviousItem.Name = "bindingNavigatorMovePreviousItem";
             this.bindingNavigatorMovePreviousItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(24, 24);
+            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(24, 28);
             this.bindingNavigatorMovePreviousItem.Text = "移到上一条记录";
             // 
             // bindingNavigatorSeparator
             // 
             this.bindingNavigatorSeparator.Name = "bindingNavigatorSeparator";
-            this.bindingNavigatorSeparator.Size = new System.Drawing.Size(6, 27);
+            this.bindingNavigatorSeparator.Size = new System.Drawing.Size(6, 31);
             // 
             // bindingNavigatorPositionItem
             // 
@@ -224,7 +224,7 @@
             // bindingNavigatorSeparator1
             // 
             this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator1";
-            this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 27);
+            this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 31);
             // 
             // bindingNavigatorMoveNextItem
             // 
@@ -232,7 +232,7 @@
             this.bindingNavigatorMoveNextItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveNextItem.Image")));
             this.bindingNavigatorMoveNextItem.Name = "bindingNavigatorMoveNextItem";
             this.bindingNavigatorMoveNextItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(24, 24);
+            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(24, 28);
             this.bindingNavigatorMoveNextItem.Text = "移到下一条记录";
             // 
             // bindingNavigatorMoveLastItem
@@ -241,13 +241,13 @@
             this.bindingNavigatorMoveLastItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveLastItem.Image")));
             this.bindingNavigatorMoveLastItem.Name = "bindingNavigatorMoveLastItem";
             this.bindingNavigatorMoveLastItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(24, 24);
+            this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(24, 28);
             this.bindingNavigatorMoveLastItem.Text = "移到最后一条记录";
             // 
             // bindingNavigatorSeparator2
             // 
             this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
-            this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 27);
+            this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 31);
             // 
             // btnExportZone
             // 
@@ -255,7 +255,7 @@
             this.btnExportZone.Image = global::Heiflow.Controls.WinForm.Properties.Resources.csv_3_24;
             this.btnExportZone.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnExportZone.Name = "btnExportZone";
-            this.btnExportZone.Size = new System.Drawing.Size(24, 24);
+            this.btnExportZone.Size = new System.Drawing.Size(24, 28);
             this.btnExportZone.Text = "Export template file";
             // 
             // btnZoneTemplateFile
@@ -264,7 +264,7 @@
             this.btnZoneTemplateFile.Image = global::Heiflow.Controls.WinForm.Properties.Resources.excel_32;
             this.btnZoneTemplateFile.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnZoneTemplateFile.Name = "btnZoneTemplateFile";
-            this.btnZoneTemplateFile.Size = new System.Drawing.Size(24, 24);
+            this.btnZoneTemplateFile.Size = new System.Drawing.Size(24, 28);
             this.btnZoneTemplateFile.Text = "Open template file";
             // 
             // btnLocateZoneDic
@@ -273,7 +273,7 @@
             this.btnLocateZoneDic.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GenericOpen_B_32;
             this.btnLocateZoneDic.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLocateZoneDic.Name = "btnLocateZoneDic";
-            this.btnLocateZoneDic.Size = new System.Drawing.Size(24, 24);
+            this.btnLocateZoneDic.Size = new System.Drawing.Size(24, 28);
             this.btnLocateZoneDic.Text = "Locate template file directory";
             // 
             // splitContainer1
@@ -310,10 +310,10 @@
             this.tabPage1.Controls.Add(this.groupBox2);
             this.tabPage1.Controls.Add(this.groupBox1);
             this.tabPage1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.tabPage1.Location = new System.Drawing.Point(4, 30);
+            this.tabPage1.Location = new System.Drawing.Point(4, 39);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(283, 609);
+            this.tabPage1.Size = new System.Drawing.Size(283, 600);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Setting";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -329,7 +329,7 @@
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Location = new System.Drawing.Point(5, 221);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(271, 381);
+            this.groupBox2.Size = new System.Drawing.Size(271, 372);
             this.groupBox2.TabIndex = 17;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Property To View";
@@ -340,7 +340,7 @@
             this.label1.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.label1.Location = new System.Drawing.Point(6, 28);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(73, 21);
+            this.label1.Size = new System.Drawing.Size(108, 31);
             this.label1.TabIndex = 0;
             this.label1.Text = "Packages";
             // 
@@ -354,7 +354,7 @@
             this.listBox_Props.ItemHeight = 21;
             this.listBox_Props.Location = new System.Drawing.Point(5, 131);
             this.listBox_Props.Name = "listBox_Props";
-            this.listBox_Props.Size = new System.Drawing.Size(260, 214);
+            this.listBox_Props.Size = new System.Drawing.Size(260, 193);
             this.listBox_Props.TabIndex = 13;
             this.listBox_Props.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.listBox_Props_DrawItem);
             this.listBox_Props.SelectedIndexChanged += new System.EventHandler(this.listBox_Props_SelectedIndexChanged);
@@ -365,7 +365,7 @@
             this.label2.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.label2.Location = new System.Drawing.Point(2, 107);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(181, 21);
+            this.label2.Size = new System.Drawing.Size(266, 31);
             this.label2.TabIndex = 4;
             this.label2.Text = "Select a property to view";
             // 
@@ -391,7 +391,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(6, 135);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(185, 20);
+            this.label3.Size = new System.Drawing.Size(262, 30);
             this.label3.TabIndex = 2;
             this.label3.Text = "Select the column number:";
             // 
@@ -401,7 +401,7 @@
             this.radioButtonCol.Location = new System.Drawing.Point(125, 27);
             this.radioButtonCol.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.radioButtonCol.Name = "radioButtonCol";
-            this.radioButtonCol.Size = new System.Drawing.Size(117, 24);
+            this.radioButtonCol.Size = new System.Drawing.Size(160, 34);
             this.radioButtonCol.TabIndex = 15;
             this.radioButtonCol.Text = "Column View";
             this.radioButtonCol.UseVisualStyleBackColor = true;
@@ -414,7 +414,7 @@
             this.radioButtonRow.Location = new System.Drawing.Point(6, 27);
             this.radioButtonRow.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.radioButtonRow.Name = "radioButtonRow";
-            this.radioButtonRow.Size = new System.Drawing.Size(95, 24);
+            this.radioButtonRow.Size = new System.Drawing.Size(127, 34);
             this.radioButtonRow.TabIndex = 14;
             this.radioButtonRow.TabStop = true;
             this.radioButtonRow.Text = "Row View";
@@ -426,7 +426,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(6, 63);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(161, 20);
+            this.label4.Size = new System.Drawing.Size(227, 30);
             this.label4.TabIndex = 2;
             this.label4.Text = "Select the row number:";
             // 
@@ -438,7 +438,7 @@
             this.comboBoxCols.FormattingEnabled = true;
             this.comboBoxCols.Location = new System.Drawing.Point(6, 167);
             this.comboBoxCols.Name = "comboBoxCols";
-            this.comboBoxCols.Size = new System.Drawing.Size(260, 28);
+            this.comboBoxCols.Size = new System.Drawing.Size(260, 38);
             this.comboBoxCols.TabIndex = 1;
             // 
             // comboBoxRows
@@ -448,7 +448,7 @@
             this.comboBoxRows.FormattingEnabled = true;
             this.comboBoxRows.Location = new System.Drawing.Point(6, 95);
             this.comboBoxRows.Name = "comboBoxRows";
-            this.comboBoxRows.Size = new System.Drawing.Size(258, 28);
+            this.comboBoxRows.Size = new System.Drawing.Size(258, 38);
             this.comboBoxRows.TabIndex = 1;
             // 
             // tabControl1
@@ -465,10 +465,10 @@
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.winChart1);
-            this.tabPage2.Location = new System.Drawing.Point(4, 30);
+            this.tabPage2.Location = new System.Drawing.Point(4, 39);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(924, 609);
+            this.tabPage2.Size = new System.Drawing.Size(924, 600);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Chart View";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -476,13 +476,14 @@
             // winChart1
             // 
             this.winChart1.BackColor = System.Drawing.SystemColors.Control;
+            this.winChart1.ClearExistesSeries = true;
             this.winChart1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.winChart1.Font = new System.Drawing.Font("Calibri", 9.5F);
             this.winChart1.Location = new System.Drawing.Point(3, 3);
             this.winChart1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.winChart1.Name = "winChart1";
             this.winChart1.ShowStatPanel = false;
-            this.winChart1.Size = new System.Drawing.Size(918, 603);
+            this.winChart1.Size = new System.Drawing.Size(918, 594);
             this.winChart1.TabIndex = 1;
             // 
             // contextMenuStripAreal
@@ -492,18 +493,18 @@
             this.selectAllToolStripMenuItem,
             this.clearToolStripMenuItem});
             this.contextMenuStripAreal.Name = "contextMenuStripAreal";
-            this.contextMenuStripAreal.Size = new System.Drawing.Size(144, 52);
+            this.contextMenuStripAreal.Size = new System.Drawing.Size(176, 68);
             // 
             // selectAllToolStripMenuItem
             // 
             this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
-            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(143, 24);
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(175, 32);
             this.selectAllToolStripMenuItem.Text = "Select all";
             // 
             // clearToolStripMenuItem
             // 
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(143, 24);
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(175, 32);
             this.clearToolStripMenuItem.Text = "Clear";
             // 
             // toolStrip1
@@ -541,7 +542,7 @@
             // 
             // Profile_Viewer
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1227, 670);
             this.Controls.Add(this.splitContainer1);

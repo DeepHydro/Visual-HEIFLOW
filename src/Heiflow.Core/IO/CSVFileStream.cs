@@ -204,6 +204,19 @@ namespace Heiflow.Core.IO
             }
         }
 
+        public void Save(ILArray<float> mat)
+        {
+            StreamWriter sw = new StreamWriter(_Filename);
+            var dims = mat.Size.ToIntArray();
+            for (int r = 0; r < dims[0]; r++)
+            {
+                var vec = mat[r, ":"].ToArray();
+                var line = string.Join(",", vec);
+                sw.WriteLine(line);
+            }
+            sw.Close();
+        }
+
         /// <summary>
         /// load datatable from .csv file.
         /// </summary>

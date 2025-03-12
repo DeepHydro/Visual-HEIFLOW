@@ -184,7 +184,8 @@ namespace Heiflow.Controls.WinForm.MenuItems
                 if (dp.Owner is Heiflow.Models.Subsurface.Modflow)
                 {
                     var grid = (dp.Owner as Heiflow.Models.Subsurface.Modflow).Grid as IRegularGrid;
-                    if (mat.Size[2] == grid.ActiveCellCount * grid.ActualLayerCount)
+                    //if (mat.Size[2] == grid.ActiveCellCount * grid.ActualLayerCount)
+                    if (mat.Size[0] > 1)
                     {
                         _ShellService.VerticalProfileView.DataSource = mat;
                         _ShellService.VerticalProfileView.Grid = grid;

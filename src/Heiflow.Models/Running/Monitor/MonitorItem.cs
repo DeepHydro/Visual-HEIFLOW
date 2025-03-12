@@ -128,7 +128,7 @@ namespace Heiflow.Models.Running
 
         public virtual double [] Derive(ListTimeSeries<double> source)
         {
-            if (DerivedIndex != null)
+            if (DerivedIndex != null && source != null)
             {
                 double[] values = new double[source.Dates.Count];
                 for (int i = 0; i < source.Dates.Count; i++)

@@ -1,4 +1,5 @@
 ﻿using Heiflow.Core.Data;
+using Heiflow.Core.IO;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Subsurface;
 using Heiflow.Presentation.Controls;
@@ -16,13 +17,14 @@ using System.Windows.Forms;
 
 namespace Heiflow.Controls.WinForm.Controls
 {
-        [Export(typeof(IVerticalProfileView))]
+    [Export(typeof(IVerticalProfileView))]
     public partial class GridProfileAnimator : Form, IVerticalProfileView
     {
         private DataCube<float> _datasource;
         private IRegularGrid _MFGrid;
         private int _curStep = 0;
         private bool _isPlaying = false;
+        private ILArray<float> _slice;
 
         public GridProfileAnimator()
         {
@@ -47,18 +49,16 @@ namespace Heiflow.Controls.WinForm.Controls
             {
                 _datasource = value;
                 comboBoxVariable.DataSource = _datasource.Variables;
-                if (_datasource.Size[1]  > 1)
+                if (_datasource.Size[1] > 1)
                 {
                     colorSlider1.Maximum = _datasource.Size[1] - 1;
-                    colorSlider1.Enabled = false;
-                    btnPlay.Enabled = false;
-                    btnStop.Enabled = false;
                     tbCurDate.Text = "";
                     radioButtonRow.Checked = true;
+                    radioButtonMultiVar.Checked = true;
+                    cmbDate.DataSource = _datasource.DateTimes;
                 }
             }
         }
-
 
         public IRegularGrid Grid
         {
@@ -85,6 +85,7 @@ namespace Heiflow.Controls.WinForm.Controls
                 btnPlay.Enabled = false;
                 btnStop.Enabled = false;
                 radioButtonRow.Checked = true;
+
                 tbCurDate.Text = "";
             }
         }
@@ -120,24 +121,27 @@ namespace Heiflow.Controls.WinForm.Controls
 
         private void comboBoxRows_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var var_index = comboBoxVariable.SelectedIndex;
-            if (!_datasource.IsAllocated(var_index))
+            if (radioButtonSingleVar.Checked)
             {
-                colorSlider1.Enabled = false;
-                MessageBox.Show("Selected variable is not loaded.", "Variable", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            else
-            {
-                colorSlider1.Enabled = true;
-                btnPlay.Enabled = true;
-                btnStop.Enabled = false;
-                comboBoxVariable.Enabled = true;
-                for (int i = 0; i < DataSource.Size[0]; i++)
+                var var_index = comboBoxVariable.SelectedIndex;
+                if (!_datasource.IsAllocated(var_index))
                 {
-                    if (DataSource.IsAllocated(i))
+                    colorSlider1.Enabled = false;
+                    MessageBox.Show("Selected variable is not loaded.", "Variable", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    colorSlider1.Enabled = true;
+                    btnPlay.Enabled = true;
+                    btnStop.Enabled = false;
+                    comboBoxVariable.Enabled = true;
+                    for (int i = 0; i < DataSource.Size[0]; i++)
                     {
-                        comboBoxVariable.SelectedIndex = i;
-                        break;
+                        if (DataSource.IsAllocated(i))
+                        {
+                            comboBoxVariable.SelectedIndex = i;
+                            break;
+                        }
                     }
                 }
             }
@@ -145,50 +149,38 @@ namespace Heiflow.Controls.WinForm.Controls
 
         private void comboBoxCols_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var var_index = comboBoxVariable.SelectedIndex;
-            if (!_datasource.IsAllocated(var_index))
+            if (radioButtonSingleVar.Checked)
             {
-                colorSlider1.Enabled = false;
-                MessageBox.Show("Selected variable is not loaded.", "Variable", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                var var_index = comboBoxVariable.SelectedIndex;
+                if (!_datasource.IsAllocated(var_index))
+                {
+                    colorSlider1.Enabled = false;
+                    MessageBox.Show("Selected variable is not loaded.", "Variable", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                else
+                {
+                    comboBoxVariable.Enabled = true;
+                }
             }
-            else
-            {
-                colorSlider1.Enabled = true;
-                btnPlay.Enabled = true;
-                btnStop.Enabled = false;
-                comboBoxVariable.Enabled = true;
-                //for (int i = 0; i < DataSource.Size[0]; i++)
-                //{
-                //    if (DataSource.IsAllocated(i))
-                //    {
-                //        comboBoxVariable.SelectedIndex = i;
-                //        break;
-                //    }
-                //}
-            }
+
+            colorSlider1.Enabled = true;
+            btnPlay.Enabled = true;
+            btnStop.Enabled = false;
+
+            //for (int i = 0; i < DataSource.Size[0]; i++)
+            //{
+            //    if (DataSource.IsAllocated(i))
+            //    {
+            //        comboBoxVariable.SelectedIndex = i;
+            //        break;
+            //    }
+            //}
         }
 
         private void colorSlider1_Scroll(object sender, ScrollEventArgs e)
         {
-            var var_index = comboBoxVariable.SelectedIndex;
-            if (var_index < 0)
-            {
-                MessageBox.Show("Selecte an variable please.", "Variable", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (radioButtonRow.Checked)
-            {
-                var array = DataSource.ToRowVerticalProfileArray(var_index, colorSlider1.Value, comboBoxRows.SelectedIndex) as ILArray<float>;
-                view3DControl1.PlotSurface(array);
-            }
-            if (radioButtonCol.Checked)
-            {
-                var array = DataSource.ToColumnVerticalProfileArray(var_index, colorSlider1.Value, comboBoxCols.SelectedIndex) as ILArray<float>;
-                view3DControl1.PlotSurface(array);
-            }
-
-            tbCurDate.Text = DataSource.DateTimes[colorSlider1.Value].ToString();
+            UpdateChart(colorSlider1.Value);
         }
 
         public void ClearContent()
@@ -253,6 +245,80 @@ namespace Heiflow.Controls.WinForm.Controls
         private void colorSlider1_ValueChanged(object sender, EventArgs e)
         {
             colorSlider1_Scroll(null, null);
+        }
+
+        private void radioButtonSingleVar_CheckedChanged(object sender, EventArgs e)
+        {
+            if (sender.Equals(radioButtonSingleVar))
+            {
+                comboBoxVariable.Enabled = true;
+            }
+            else
+            {
+                colorSlider1.Enabled = true;
+                btnPlay.Enabled = true;
+                btnStop.Enabled = false;
+                comboBoxVariable.Enabled = true;
+            }
+        }
+
+        private void cmbDate_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateChart(cmbDate.SelectedIndex);
+        }
+
+        private void UpdateChart(int time_index)
+        {
+            if (radioButtonSingleVar.Checked)
+            {
+                var var_index = comboBoxVariable.SelectedIndex;
+                if (var_index < 0)
+                {
+                    MessageBox.Show("Selecte an variable please.", "Variable", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (radioButtonRow.Checked)
+                {
+                    _slice = DataSource.ToRowVerticalProfileArray(var_index, time_index, comboBoxRows.SelectedIndex) as ILArray<float>;
+                    view3DControl1.PlotSurface(_slice);
+                }
+                if (radioButtonCol.Checked)
+                {
+                    _slice = DataSource.ToColumnVerticalProfileArray(var_index, time_index, comboBoxCols.SelectedIndex) as ILArray<float>;
+                    view3DControl1.PlotSurface(_slice);
+                }
+            }
+
+            if (radioButtonMultiVar.Checked)
+            {
+                if (radioButtonRow.Checked)
+                {
+                    _slice = DataSource.ToRowVerticalProfileArray(time_index, comboBoxRows.SelectedIndex) as ILArray<float>;
+                    view3DControl1.PlotSurface(_slice);
+                }
+                if (radioButtonCol.Checked)
+                {
+                    _slice = DataSource.ToColumnVerticalProfileArray(time_index, comboBoxCols.SelectedIndex) as ILArray<float>;
+                    view3DControl1.PlotSurface(_slice);
+                }
+            }
+            tbCurDate.Text = DataSource.DateTimes[colorSlider1.Value].ToString();
+        }
+
+        private void btnExportData_Click(object sender, EventArgs e)
+        {
+            if (_slice != null)
+            {
+                SaveFileDialog dlg = new SaveFileDialog();
+                dlg.Filter = "csv file|*.csv";
+                dlg.FileName = "cross_section.csv";
+                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    var file = dlg.FileName;
+                    CSVFileStream csv = new CSVFileStream(file);
+                    csv.Save(_slice);
+                }
+            }
         }
     }
 }

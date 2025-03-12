@@ -642,6 +642,102 @@ namespace Heiflow.Core.Data
                 return null;
             }
         }
+        public virtual ILBaseArray ToRowVerticalProfileArray(int time_index, int row_index)
+        {
+            if (Topology != null)
+            {
+
+                int nrow = Topology.RowCount;
+                int ncol = Topology.ColumnCount;
+                int nvar = 0;
+                List<int> layers = new List<int>();
+                for (int i = 0; i < Size[0]; i++)
+                {
+                    if (IsAllocated(i))
+                    {
+                        layers.Add(i);
+                        nvar++;
+                    }
+                }
+                if (nvar > 0)
+                {
+                    ILArray<T> array = ILMath.zeros<T>(nvar, ncol);
+                    for (int k = 0; k < nvar; k++)
+                    {
+                        int layerindex = layers[k];
+                        if (IsAllocated(layerindex))
+                        {
+                            var index = 0;
+                            for (int i = 0; i < Topology.ColumnCount; i++)
+                            {
+                                index = Topology.GetSerialIndex(row_index, i);
+                                if (index >= 0)
+                                    array[k, i] = this[layerindex, time_index, index];
+                                else
+                                    array[k, i] = NoData;
+                            }
+                        }
+                    }
+                    return array;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public virtual ILBaseArray ToColumnVerticalProfileArray(int time_index, int col_index)
+        {
+            if (Topology != null)
+            {
+                int nrow = Topology.RowCount;
+                int ncol = Topology.ColumnCount;
+                int nvar = 0;
+                List<int> layers = new List<int>();
+                for (int i = 0; i < Size[0]; i++)
+                {
+                    if (IsAllocated(i))
+                    {
+                        layers.Add(i);
+                        nvar++;
+                    }
+                }
+                if (nvar > 0)
+                {
+                    ILArray<T> array = ILMath.zeros<T>(nvar, ncol);
+                    for (int k = 0; k < nvar; k++)
+                    {
+                        int layerindex = layers[k];
+                        if (IsAllocated(layerindex))
+                        {
+                            var index = 0;
+                            for (int i = 0; i < Topology.RowCount; i++)
+                            {
+                                index = Topology.GetSerialIndex(i, col_index);
+                                if (index >= 0)
+                                    array[k, i] = this[layerindex, time_index, index];
+                                else
+                                    array[k, i] = NoData;
+                            }
+                        }
+                    }
+                    return array;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         public virtual ILBaseArray ToRowVerticalProfileArray(int var_index, int time_index,int row_index)
         { 
