@@ -31,7 +31,9 @@ using DotSpatial.Data;
 using Heiflow.Applications;
 using Heiflow.Core.Data;
 using Heiflow.Core.IO;
+using Heiflow.Models.Generic;
 using Heiflow.Models.Integration;
+using Heiflow.Models.Subsurface;
 using Heiflow.Models.WRM;
 using Heiflow.Presentation.Services;
 using System;
@@ -192,39 +194,109 @@ namespace Heiflow.Tools.DataManagement
             }
         }
 
-        private void SavePumpWellFiles()
+        public bool SavePumpWellFiles()
         {
+            var shell = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
             var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
-            var model = prj.Project.Model as HeiflowModel;
 
-            var dic = Path.GetDirectoryName(OutputFileName);
-            var wellfile = Path.Combine(dic, model.Name + ".wel");
-            var hru_wellfile = Path.Combine(dic, "hru_well_sp1.txt");
+            var model = prj.Project.Model;
+            var mfgrid = model.Grid as RegularGrid;
+            Modflow mf = null;
+            if (model is HeiflowModel)
+                mf = (model as HeiflowModel).ModflowModel;
+            else if (model is Modflow)
+                mf = model as Modflow;
 
-            int[] well_layer = TypeConverterEx.Split<int>(PumpingLayers);
-            double[] layer_ratio = TypeConverterEx.Split<double>(PumpingLayerRatios);
-            var hru_well_num = 0;
-            for (int i = 0; i < irrg_obj_list.Count; i++)
+            if (mf != null)
             {
-                var obj = irrg_obj_list[i];
-                hru_well_num += obj.HRU_List.Length;
+                if (!mf.Packages.ContainsKey(WELPackage.PackageName))
+                {
+                    var wel = mf.Select(WELPackage.PackageName);
+                    mf.Add(wel);
+                }
+                var mfout = mf.GetPackage(MFOutputPackage.PackageName) as MFOutputPackage;
+                var pck = mf.GetPackage(WELPackage.PackageName) as WELPackage;
+
+                int[] well_layer = TypeConverterEx.Split<int>(PumpingLayers);
+                double[] layer_ratio = TypeConverterEx.Split<double>(PumpingLayerRatios);
+                var np = 2;
+                var nhru_well = 0; 
+                var nwel = 0;
+                var nlayer = well_layer.Length;
+
+                var dic = prj.Project.WRAInputDirectory;
+                var hru_wellfile = Path.Combine(dic, "hru_well_sp1.txt");
+                StreamWriter sw_hruwel = new StreamWriter(hru_wellfile);
+                var line = string.Format("{0} {1} # num_pumplayer, num_pumpwell", nlayer, nwel);
+                sw_hruwel.WriteLine(line);
+
+                for (int i = 0; i < irrg_obj_list.Count; i++)
+                {
+                    var obj = irrg_obj_list[i];
+                    nhru_well += obj.HRU_List.Length;
+                }
+
+                nwel = nhru_well * nlayer;
+                var welnum_list = new int[] { nwel, -1 };
+                pck.MXACTW = nwel;
+                pck.IWELCB = 0;
+                pck.FluxRates = new DataCube<float>(4, np, nwel)
+                {
+                    DateTimes = new System.DateTime[np],
+                    Variables = new string[4] { "Layer", "Row", "Column", "Q" }
+                };
+                pck.FluxRates.Flags[0] = TimeVarientFlag.Individual;
+                pck.FluxRates.Multipliers[0] = 1;
+                pck.FluxRates.IPRN[0] = -1;
+
+                int k = 0;
+                for (int i = 0; i < irrg_obj_list.Count; i++)
+                {
+                    var obj = irrg_obj_list[i];
+                    for (int j = 0; j < obj.HRU_List.Length; j++)
+                    {
+                        var hruid = obj.HRU_List[j];
+                        var loc = mfgrid.Topology.ActiveCellLocation[hruid - 1];
+                        for (int l = 0; l < nlayer; l++)
+                        {
+                            pck.FluxRates[0, 0, k] = well_layer[l];
+                            pck.FluxRates[1, 0, k] = loc[0] + 1;
+                            pck.FluxRates[2, 0, k] = loc[1] + 1;
+                            pck.FluxRates[3, 0, k] = 0;
+                            if (k == 0)
+                            {
+                                line = string.Format("{0} {1} {2} {3} {4} # hru_id layer row column ratio", hruid, well_layer[l], loc[0] + 1, loc[1] + 1, layer_ratio[l]);
+                            }
+                            else
+                            {
+                                line = string.Format("{0} {1} {2} {3} {4}", hruid, well_layer[l], loc[0] + 1, loc[1] + 1, layer_ratio[l]);
+                            }
+                            sw_hruwel.WriteLine(line);
+                            k++;
+                        }
+                    }
+                }
+
+                pck.FluxRates.Flags[1] = TimeVarientFlag.Repeat;
+                pck.FluxRates.Multipliers[1] = 1;
+                pck.FluxRates.IPRN[1] = -1;
+
+                pck.CompositeOutput(mfout);
+                pck.CreateFeature(shell.MapAppManager.Map.Projection, prj.Project.GeoSpatialDirectory);
+                pck.BuildTopology();
+                pck.IsDirty = true;
+                pck.Save(null);
+                pck.ChangeState(Models.Generic.ModelObjectState.Ready);
+
+                sw_hruwel.Close();
+                return true;
             }
-
-            StreamWriter sw_wel = new StreamWriter(wellfile);
-            StreamWriter sw_hruwel = new StreamWriter(hru_wellfile);
-
-            var welline = string.Format(" #WEL: created on {0} by Visual HEIFLOW", DateTime.Now);
-            sw_wel.WriteLine(wellfile);
-            welline = string.Format(" {0} {1} AUXILIARY IFACE NOPRINT # DataSet 2: MXACTW IWELCB Option", hru_well_num, WelPackageUnitID);
-            sw_wel.WriteLine(wellfile);
-
-            //5238 108 AUXILIARY IFACE NOPRINT # DataSet 2: MXACTW IWELCB Option
-            //5238 0 # Data Set 5: ITMP NP Stress period 1 
-
-            sw_wel.Close();
-            sw_hruwel.Close();
+            else
+            {
+                return false;
+            }
         }
-
+        
         public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
         {
             int[] well_layer = TypeConverterEx.Split<int>(PumpingLayers);

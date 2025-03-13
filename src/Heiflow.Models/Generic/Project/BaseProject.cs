@@ -388,6 +388,15 @@ namespace Heiflow.Models.Generic.Project
         }
         [XmlIgnore]
         [Browsable(false)]
+        public string WRAInputDirectory
+        {
+            get
+            {
+                return Path.Combine(AbsolutePathToProjectFile, "Input\\WRA");
+            }
+        }
+        [XmlIgnore]
+        [Browsable(false)]
         public string ExtensionInputDirectory
         {
             get

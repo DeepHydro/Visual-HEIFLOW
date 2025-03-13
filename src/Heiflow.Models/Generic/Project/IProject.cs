@@ -118,6 +118,8 @@ namespace Heiflow.Models.Generic.Project
         [Browsable(false)]
         string DatabaseDirectory { get; }
         [Browsable(false)]
+        string WRAInputDirectory { get; }
+        [Browsable(false)]
         string GridFeatureFilePath { get; set; }
         [Browsable(false)]
         string CentroidFeatureFilePath { get; set; }
