@@ -106,13 +106,14 @@ namespace Heiflow.Tools.DataManagement
             }
         }
         [Category("Input Layers")]
-        [Description("Landuse layer")]
+        [Description("Landuse layer in raster format")]
         [EditorAttribute(typeof(MapLayerDropdownList), typeof(System.Drawing.Design.UITypeEditor))]
         public IMapLayerDescriptor LanduseLayer
         {
             get;
             set;
         }
+
         #region Fields binding
         [Category("Farm Parameters")]
         [Description("Field name of the farm name")]

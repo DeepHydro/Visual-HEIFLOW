@@ -32,6 +32,7 @@ using Heiflow.Applications;
 using Heiflow.Core.Data;
 using Heiflow.Core.IO;
 using Heiflow.Models.Generic;
+using Heiflow.Models.Generic.Project;
 using Heiflow.Models.Integration;
 using Heiflow.Models.Subsurface;
 using Heiflow.Models.WRM;
@@ -194,18 +195,18 @@ namespace Heiflow.Tools.DataManagement
             }
         }
 
-        public bool SavePumpWellFiles()
+        public bool SavePumpWellFiles(IShellService shell, IProject prj, Modflow mf, RegularGrid mfgrid, int[] well_layer, double[] layer_ratio)
         {
-            var shell = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
-            var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
+            //var shell = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
+            //var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
 
-            var model = prj.Project.Model;
-            var mfgrid = model.Grid as RegularGrid;
-            Modflow mf = null;
-            if (model is HeiflowModel)
-                mf = (model as HeiflowModel).ModflowModel;
-            else if (model is Modflow)
-                mf = model as Modflow;
+            //var model = prj.Project.Model;
+            //var mfgrid = model.Grid as RegularGrid;
+            //Modflow mf = null;
+            //if (model is HeiflowModel)
+            //    mf = (model as HeiflowModel).ModflowModel;
+            //else if (model is Modflow)
+            //    mf = model as Modflow;
 
             if (mf != null)
             {
@@ -217,14 +218,12 @@ namespace Heiflow.Tools.DataManagement
                 var mfout = mf.GetPackage(MFOutputPackage.PackageName) as MFOutputPackage;
                 var pck = mf.GetPackage(WELPackage.PackageName) as WELPackage;
 
-                int[] well_layer = TypeConverterEx.Split<int>(PumpingLayers);
-                double[] layer_ratio = TypeConverterEx.Split<double>(PumpingLayerRatios);
                 var np = 2;
                 var nhru_well = 0; 
                 var nwel = 0;
                 var nlayer = well_layer.Length;
 
-                var dic = prj.Project.WRAInputDirectory;
+                var dic = prj.WRAInputDirectory;
                 var hru_wellfile = Path.Combine(dic, "hru_well_sp1.txt");
                 StreamWriter sw_hruwel = new StreamWriter(hru_wellfile);
                 var line = string.Format("{0} {1} # num_pumplayer, num_pumpwell", nlayer, nwel);
@@ -276,13 +275,12 @@ namespace Heiflow.Tools.DataManagement
                         }
                     }
                 }
-
                 pck.FluxRates.Flags[1] = TimeVarientFlag.Repeat;
                 pck.FluxRates.Multipliers[1] = 1;
                 pck.FluxRates.IPRN[1] = -1;
 
                 pck.CompositeOutput(mfout);
-                pck.CreateFeature(shell.MapAppManager.Map.Projection, prj.Project.GeoSpatialDirectory);
+                pck.CreateFeature(shell.MapAppManager.Map.Projection, prj.GeoSpatialDirectory);
                 pck.BuildTopology();
                 pck.IsDirty = true;
                 pck.Save(null);
@@ -296,58 +294,14 @@ namespace Heiflow.Tools.DataManagement
                 return false;
             }
         }
-        
-        public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
+
+        public void SaveWRAFile(string filename, List<ManagementObject> irrg_obj_list, List<ManagementObject> indust_obj_list, double[,] quota, int nquota, int[] well_layer, double[] layer_ratio )
         {
-            int[] well_layer = TypeConverterEx.Split<int>(PumpingLayers);
-            double[] layer_ratio = TypeConverterEx.Split<double>(PumpingLayerRatios);
-            int num_well_layer = well_layer.Length;
-
-            StreamReader sr_quota = new StreamReader(QuotaFileName);
-            StreamWriter sw_out = new StreamWriter(OutputFileName);
-
-            int num_irrg_obj, num_indust_obj;
             string newline = "";
-            int nquota = 1;
-            int ntime = 36;
-            var line = sr_quota.ReadLine();
-
-            var strs_buf = TypeConverterEx.Split<string>(line);
-            nquota = int.Parse(strs_buf[0]);
-            ntime = int.Parse(strs_buf[1]);
-            double[,] quota_src = new double[ntime, nquota];
-            double[,] quota = new double[366, nquota];
-            int day = 0;
-            var start = new DateTime(2000, 1, 1);
-            for (int i = 0; i < ntime; i++)
-            {
-                line = sr_quota.ReadLine().Trim();
-                var buf = TypeConverterEx.Split<string>(line);
-                var ss = DateTime.Parse(buf[0]);
-                var ee = DateTime.Parse(buf[1]);
-                var cur = ss;
-                var step = (ee - ss).Days + 1;
-                while (cur <= ee)
-                {
-                    for (int j = 0; j < nquota; j++)
-                        quota[day, j] = System.Math.Round(double.Parse(buf[2 + j]) / step, 2);
-                    day++;
-                    cur = cur.AddDays(1);
-                }
-            }
-
-            line = sr_quota.ReadLine().Trim();
-            var inttemp = TypeConverterEx.Split<int>(line.Trim());
-            num_irrg_obj = inttemp[0];
-            num_indust_obj = inttemp[1];
-            //ID	NAME	地表水比例  用水类型  允许降深
-            line = sr_quota.ReadLine();
-            irrg_obj_list.Clear();
-            indust_obj_list.Clear();
-            ReadObj(sr_quota, num_irrg_obj, irrg_obj_list);
-            ReadObj(sr_quota, num_indust_obj, indust_obj_list);
-            CalcObjPumpConstraint(irrg_obj_list, quota);
-
+            StreamWriter sw_out = new StreamWriter(filename);
+            int num_irrg_obj = irrg_obj_list.Count;
+            int num_indust_obj = indust_obj_list.Count;
+            int num_well_layer = well_layer.Length;
             newline = "# Water resources allocation package " + DateTime.Now;
             sw_out.WriteLine(newline);
             newline = string.Format("{0}\t{1}\t0\t0\t # Data Set 1 num_irrg_obj, num_indu_obj, num_doms_obj, num_ecos_obj ", num_irrg_obj, num_indust_obj);
@@ -554,9 +508,71 @@ namespace Heiflow.Tools.DataManagement
                 }
             }
 
-            sr_quota.Close();
-            sw_out.Close();
+        }
 
+        public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
+        {
+            var shell = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
+            var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
+                  var model = prj.Project.Model;
+            var mfgrid = model.Grid as RegularGrid;
+            Modflow mf = null;
+            if (model is HeiflowModel)
+                mf = (model as HeiflowModel).ModflowModel;
+            else if (model is Modflow)
+                mf = model as Modflow;
+
+            int[] well_layer = TypeConverterEx.Split<int>(PumpingLayers);
+            double[] layer_ratio = TypeConverterEx.Split<double>(PumpingLayerRatios);
+            int num_well_layer = well_layer.Length;
+
+            StreamReader sr_quota = new StreamReader(QuotaFileName);
+            int nquota = 1;
+            int ntime = 36;
+            var line = sr_quota.ReadLine();
+
+            var strs_buf = TypeConverterEx.Split<string>(line);
+            nquota = int.Parse(strs_buf[0]);
+            ntime = int.Parse(strs_buf[1]);
+            double[,] quota_src = new double[ntime, nquota];
+            double[,] quota = new double[366, nquota];
+            int day = 0;
+            var start = new DateTime(2000, 1, 1);
+            for (int i = 0; i < ntime; i++)
+            {
+                line = sr_quota.ReadLine().Trim();
+                var buf = TypeConverterEx.Split<string>(line);
+                var ss = DateTime.Parse(buf[0]);
+                var ee = DateTime.Parse(buf[1]);
+                var cur = ss;
+                var step = (ee - ss).Days + 1;
+                while (cur <= ee)
+                {
+                    for (int j = 0; j < nquota; j++)
+                        quota[day, j] = System.Math.Round(double.Parse(buf[2 + j]) / step, 2);
+                    day++;
+                    cur = cur.AddDays(1);
+                }
+            }
+
+            line = sr_quota.ReadLine().Trim();
+            var inttemp = TypeConverterEx.Split<int>(line.Trim());
+            var num_irrg_obj = inttemp[0];
+            var num_indust_obj = inttemp[1];
+            line = sr_quota.ReadLine();
+            irrg_obj_list.Clear();
+            indust_obj_list.Clear();
+            ReadObj(sr_quota, num_irrg_obj, irrg_obj_list);
+            ReadObj(sr_quota, num_indust_obj, indust_obj_list);
+            CalcObjPumpConstraint(irrg_obj_list, quota);
+            sr_quota.Close();
+
+            cancelProgressHandler.Progress("Package_Tool", 50, "Start to save withdraw input file");
+            SavePumpWellFiles(shell, prj.Project, mf, mfgrid, well_layer, layer_ratio);
+
+            SaveWRAFile(OutputFileName, irrg_obj_list, indust_obj_list, quota, nquota, well_layer, layer_ratio);
+
+            cancelProgressHandler.Progress("Package_Tool", 100, "Withdraw input file saved to: " + OutputFileName);
             return true;
         }
     }
