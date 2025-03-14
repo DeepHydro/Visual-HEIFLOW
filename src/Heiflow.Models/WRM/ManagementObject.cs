@@ -15,7 +15,11 @@ namespace Heiflow.Models.WRM
         public int ID { get; set; }
         public string Name { get; set; }
         public double SW_Ratio { get; set; }
-        public int ObjType_Fram { get; set; }
+        public int ObjType { get; set; }
+        /// <summary>
+        ///  0 is farm; 1 is industry
+        /// </summary>
+        public int FramType { get; set; }
         public int [] ObjType_HRU { get; set; }
         public double Drawdown { get; set; }
         public int SegID { get; set; }
@@ -53,7 +57,7 @@ namespace Heiflow.Models.WRM
                 canal_eff[i] = Canal_Efficiency;
                 canal_ratio[i] = Canal_Ratio;
             }
-            var str = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}", ID, Name, SW_Ratio, ObjType_Fram, Drawdown, SegID, ReachID, HRU_Num, string.Join("\t", HRU_List),
+            var str = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}", ID, Name, SW_Ratio, ObjType, Drawdown, SegID, ReachID, HRU_Num, string.Join("\t", HRU_List),
                 string.Join("\t", HRU_Area), string.Join("\t", canal_eff), string.Join("\t", canal_ratio));
             return str;
         }

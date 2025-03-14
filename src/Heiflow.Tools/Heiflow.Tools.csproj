@@ -162,6 +162,7 @@
     <Compile Include="DataManagement\Resample.cs" />
     <Compile Include="DrivingForces\CreateClimateMappingTable.cs" />
     <Compile Include="Hydrology\PMPETByRadiationBatch.cs" />
+    <Compile Include="IrrigationModel\WRASPFile.cs" />
     <Compile Include="Math\Repmat.cs" />
     <Compile Include="Plot\PlotProfile.cs" />
     <Compile Include="Postprocessing\TemporospatialCBC.cs" />
@@ -200,8 +201,8 @@
     <Compile Include="Hydrology\PMPET6Batch.cs" />
     <Compile Include="Hydrology\PMPETSingle.cs" />
     <Compile Include="Hydrology\TemperatureConversion.cs" />
-    <Compile Include="IrrigationModel\WRAInputFile.cs" />
-    <Compile Include="IrrigationModel\WithdrawInputFile.cs" />
+    <Compile Include="IrrigationModel\CreateWRAMaster.cs" />
+    <Compile Include="IrrigationModel\CreateWRASP.cs" />
     <Compile Include="MachineLearning\BPANN.cs" />
     <Compile Include="MachineLearning\CreateTrainingSets.cs" />
     <Compile Include="MachineLearning\enums.cs" />
