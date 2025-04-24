@@ -52,7 +52,7 @@ namespace Heiflow.Models.Surface.PRMS
         protected string[] _nlayer_dim_names = new string[] { "nlayer"};
         private Modules[] _IgnoredModules = new Modules[] { Modules.muskingum, Modules.potet_hamon, Modules.potet_hs,
             Modules.potet_jh, Modules.potet_pan, Modules.precip_dist2_prms, Modules.precip_laps_prms, Modules.precip_prms,
-            Modules.prms_only, Modules.temp_dist2_prms, Modules.xyz_dist};
+            Modules.prms_only, Modules.temp_dist2_prms, Modules.xyz_dist,Modules.ecopopulus};
 
         public MMSPackage(string name)
             : base(name)

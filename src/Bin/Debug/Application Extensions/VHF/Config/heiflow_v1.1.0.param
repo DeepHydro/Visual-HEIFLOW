@@ -1432,3 +1432,15 @@ one
 1
 2
 0.6
+smidx_coef     15
+1
+nhru
+1
+2
+0.002
+smidx_exp     15
+1
+nhru
+1
+2
+1.2

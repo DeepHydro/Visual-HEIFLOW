@@ -43,7 +43,7 @@ namespace Heiflow.Models.Generic
         frost_date, transp_tindex, intcp, snowcomp, srunoff_smidx, srunoff_carea, soilzone, gwflow, subbasin,
         routing, strmflow, muskingum, strmflow_lake, lake_route, strmflow_in_out, water_balance, nhru_summar,
         prms_summary, basin_sum, map_results, write_climate_hru, prms_only, xyz_dist, gsflow_prms2mf, precip_prms, precip_laps_prms,
-        precip_dist2_prms, hru_sum_prms, gsflow_setconv, temp_dist2_prms, gsflow_sum,ecology_general
+        precip_dist2_prms, hru_sum_prms, gsflow_setconv, temp_dist2_prms, gsflow_sum, ecology_general, ecopopulus
     }
 
     public interface IParameter
