@@ -33,6 +33,7 @@ using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
 using Heiflow.Models.Properties;
 using Heiflow.Models.UI;
+using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -133,6 +134,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [ArealProperty(typeof(float), 10f)]
         [Browsable(false)]
+        [JsonIgnore]
         public DataCube<float> HK { get; set; }
 
         /// <summary>
@@ -141,6 +143,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 1f)]
+        [JsonIgnore]
         public DataCube<float> HANI { get; set; }
 
         /// <summary>
@@ -149,6 +152,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 0.001f)]
+        [JsonIgnore]
         public DataCube<float> VKA { get; set; }
 
         /// <summary>
@@ -157,6 +161,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 0.0001f)]
+        [JsonIgnore]
         public DataCube<float> SS { get; set; }
 
         /// <summary>
@@ -165,6 +170,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 0.1f)]
+        [JsonIgnore]
         public DataCube<float> SY { get; set; }
 
         /// <summary>
@@ -173,6 +179,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 0.1f)]
+        [JsonIgnore]
         public DataCube<float> WETDRY { get; set; }
         #endregion
 

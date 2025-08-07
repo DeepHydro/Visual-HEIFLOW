@@ -57,8 +57,11 @@ namespace Heiflow.Models.Generic
 
         public DataPackage()
         {
-            Icon = Properties.Resources.TableFolder16;
-            LargeIcon = Properties.Resources.TableFolder16;
+            if (!ModelService.SafeMode)
+            {
+                Icon = Properties.Resources.TableFolder16;
+                LargeIcon = Properties.Resources.TableFolder16;
+            }
             _MaxTimeStep = Settings.Default.MaxTimeStep;
             _StartLoading = DateTime.Now.AddDays(-_MaxTimeStep);
             _EndLoading = DateTime.Now;

@@ -34,6 +34,7 @@ using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
 using Heiflow.Models.Properties;
 using NetTopologySuite.Geometries;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
@@ -99,6 +100,7 @@ namespace Heiflow.Models.Subsurface
         /// </summary>
         [StaticVariableItem("")]
         [Browsable(false)]
+        [JsonIgnore]
         public DataCube<float> FluxRates
         {
             get;

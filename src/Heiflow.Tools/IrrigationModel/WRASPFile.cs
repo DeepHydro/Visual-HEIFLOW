@@ -64,12 +64,6 @@ namespace Heiflow.Tools.DataManagement
                 var nwel = 0;
                 var nlayer = well_layer.Length;
 
-                var dic = prj.WRAInputDirectory;
-                var hru_wellfile = Path.Combine(dic, "hru_well_sp1.txt");
-                StreamWriter sw_hruwel = new StreamWriter(hru_wellfile);
-                var line = string.Format("{0} {1} # num_pumplayer, num_pumpwell", nlayer, nwel);
-                sw_hruwel.WriteLine(line);
-
                 for (int i = 0; i < irrg_obj_list.Count; i++)
                 {
                     var obj = irrg_obj_list[i];
@@ -88,6 +82,12 @@ namespace Heiflow.Tools.DataManagement
                 pck.FluxRates.Flags[0] = TimeVarientFlag.Individual;
                 pck.FluxRates.Multipliers[0] = 1;
                 pck.FluxRates.IPRN[0] = -1;
+
+                var dic = prj.WRAInputDirectory;
+                var hru_wellfile = Path.Combine(dic, "hru_well_sp1.txt");
+                StreamWriter sw_hruwel = new StreamWriter(hru_wellfile);
+                var line = string.Format("{0} {1} # num_pumplayer, num_pumpwell", nlayer, nwel);
+                sw_hruwel.WriteLine(line);
 
                 int k = 0;
                 for (int i = 0; i < irrg_obj_list.Count; i++)
@@ -348,6 +348,7 @@ namespace Heiflow.Tools.DataManagement
                     sw_out.WriteLine("-1 -1	-1	-1	 # 	sw_ratio_flag, swctrl_factor_flag , gwctrl_factor_flag, Withdraw_type_flag");
                 }
             }
+            sw_out.Close();
 
         }
     }

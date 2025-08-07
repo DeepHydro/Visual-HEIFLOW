@@ -32,6 +32,7 @@ using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Properties;
 using Heiflow.Models.Subsurface.MT3DMS;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
@@ -77,7 +78,7 @@ namespace Heiflow.Models.Subsurface
         {
             Name = "Modflow";
             PackageFileNameProvider = new MFPackFileNameProvider(this);
-            this.Icon = Resources.mf16;
+          //  this.Icon = Resources.mf16;
             this.TimeService = new TimeService("Subsurface Timeline")
             {
                 UseStressPeriods = true
@@ -118,6 +119,7 @@ namespace Heiflow.Models.Subsurface
         [Category("Units")]
         public int LengthUnit { get; set; }
         [Browsable(false)]
+        [JsonIgnore]
         public MFNameManager NameManager
         {
             get
@@ -126,6 +128,7 @@ namespace Heiflow.Models.Subsurface
             }
         }
         [Browsable(false)]
+        [JsonIgnore]
         public LayerGroupManager LayerGroupManager
         {
             get
@@ -134,6 +137,7 @@ namespace Heiflow.Models.Subsurface
             }
         }
         [Browsable(false)]
+        [JsonIgnore]
         public string IOLogFile
         {
             get
@@ -152,12 +156,14 @@ namespace Heiflow.Models.Subsurface
             set;
         }
         [Browsable(false)]
+        [JsonIgnore]
         public IFlowPropertyPackage FlowPropertyPackage
         {
             get;
             protected set;
         }
         [Browsable(false)]
+        [JsonIgnore]
         public SpeciesManager MobileSpeciesManager
         {
             get
@@ -166,6 +172,7 @@ namespace Heiflow.Models.Subsurface
             }
         }
         [Browsable(false)]
+        [JsonIgnore]
         public SpeciesManager MineralSpeciesManager
         {
             get
@@ -175,6 +182,7 @@ namespace Heiflow.Models.Subsurface
         }
 
         [Browsable(false)]
+        [JsonIgnore]
         public SpeciesManager ExchangeSpeciesManager
         {
             get
@@ -182,6 +190,7 @@ namespace Heiflow.Models.Subsurface
                 return _ExchangeSpeciesManager;
             }
         }
+
         public override void Initialize()
         {
             TimeServiceList.Add(this.TimeService.Name, this.TimeService);
@@ -262,6 +271,38 @@ namespace Heiflow.Models.Subsurface
                 return LoadingState.FatalError;
             }
         }
+
+        public LoadingState LoadExternal(ICancelProgressHandler progress)
+        {
+            string masterfile = ControlFileName;
+            string msg = "";
+            if (File.Exists(masterfile))
+            {
+                if (Subscribe(masterfile, ModelService.WorkDirectory, ref msg))
+                {
+                    if (LoadGrid(progress))
+                    {
+                        return LoadPackagesExternal(progress);
+                    }
+                    else
+                    {
+                        return LoadingState.FatalError;
+                    }
+                }
+                else
+                {
+                    OnLoadFailed(this, msg);
+                    return LoadingState.FatalError;
+                }
+            }
+            else
+            {
+                msg = "The modflow name file dose not exist: " + ControlFileName;
+                OnLoadFailed(this, msg);
+                return LoadingState.FatalError;
+            }
+        }
+
         public override void Clear()
         {
             foreach (var pck in Packages.Values)
@@ -323,6 +364,13 @@ namespace Heiflow.Models.Subsurface
                     {
                         _MFGrid.Topology = new RegularGridTopology();
                         _MFGrid.Topology.Build();
+                        _MFGrid.ActiveCellLocation = new int[_MFGrid.ActiveCellCount, 2];
+                        for (int i = 0; i < _MFGrid.ActiveCellCount; i++)
+                        {
+                            _MFGrid.ActiveCellLocation[i, 0] = _MFGrid.Topology.ActiveCellLocation[i][0];
+                            _MFGrid.ActiveCellLocation[i, 1] = _MFGrid.Topology.ActiveCellLocation[i][1];
+                        }
+ 
                         bas.STRT.Topology = _MFGrid.Topology;
                         dis.Elevation.Topology = _MFGrid.Topology;
                         return true;
@@ -512,8 +560,56 @@ namespace Heiflow.Models.Subsurface
                         {
                             (pck as IMFPackage).CompositeOutput(mfout);
                             pck.AfterLoad();
-                            progress.Progress("Modflow", 1, pck.Name + " loaded");
+                            if(progress!= null)
+                                progress.Progress("Modflow", 1, pck.Name + " loaded");
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        var msg = string.Format("Failed to load {0}. Error message: {1}", pck.Name, ex.Message);
+                        OnLoadFailed(this, msg);
+                        result = LoadingState.Warning;
+                    }
+                }
+            }
+            var oc = (Packages[OCPackage.PackageName] as OCPackage);
+            oc.CompositeOutput(mfout);
+            mfout.Initialize();
+
+            var lpf = GetPackage(LPFPackage.PackageName);
+            if (lpf != null)
+            {
+                this.MFVersion = MODFLOWVersion.MF2005;
+                FlowPropertyPackage = lpf as LPFPackage;
+            }
+            var upw = GetPackage(UPWPackage.PackageName);
+            if (upw != null)
+            {
+                this.MFVersion = MODFLOWVersion.MFNWT;
+                FlowPropertyPackage = upw as UPWPackage;
+            }
+            return result;
+        }
+
+        private LoadingState LoadPackagesExternal(ICancelProgressHandler progress)
+        {
+            var result = LoadingState.Normal;
+            MFOutputPackage mfout = new MFOutputPackage()
+            {
+                Owner = this
+            };
+            AddInSilence(mfout);
+
+            foreach (var pck in Packages.Values)
+            {
+                if (pck is IMFPackage)
+                {
+                    try
+                    {
+                            pck.Clear();
+                            pck.Initialize();
+                            result = pck.Load(progress);
+                      
                     }
                     catch (Exception ex)
                     {

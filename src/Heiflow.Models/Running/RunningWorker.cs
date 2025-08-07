@@ -129,27 +129,7 @@ namespace Heiflow.Models.Running
                 Arguments = e.Argument.ToString(),
             };
             workProcess = Process.Start(info);
-            //workProcess.Exited += workProcess_Exited;
-            //var automator = new ConsoleAutomator(workProcess.StandardInput, workProcess.StandardOutput);
-            //// AutomatorStandardInputRead is the event handler
-            //automator.StandardInputRead += new EventHandler<ConsoleInputReadEventArgs>(automator_StandardInputRead);
-            //automator.StartAutomate();
-            //// do whatever you want while that process is running
-            //workProcess.WaitForExit();
-            //automator.StandardInputRead -= automator_StandardInputRead;
 
-            //double elapsed = 0;
-            //while (!workProcess.StandardOutput.EndOfStream)
-            //{
-            //    OutputInfo = workProcess.StandardOutput.ReadLine();
-            //    if (OutputInfo.Contains("Elapsed run time"))
-            //    {
-            //      //  DataCubeService.TryParseDouble(OutputInfo, out elapsed);
-            //        ModelStarted(this, elapsed);
-            //        break;
-            //    }
-            //    OnEchoed(OutputInfo);
-            //}
             while (!workProcess.StandardOutput.EndOfStream)
             {
                 OutputInfo = workProcess.StandardOutput.ReadLine();

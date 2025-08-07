@@ -68,7 +68,7 @@ namespace Heiflow.Models.Subsurface.VFT3D
             Version = "PHC";
             IsMandatory = false;
             _Layer3DToken = "RegularGrid";
-            ResetToDefault();
+            //ResetToDefault();
             Category = Resources.PHTCategory; 
         }
 

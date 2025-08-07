@@ -59,5 +59,7 @@ namespace Heiflow.Models.Generic
         public static int CurrentStressPeriod { get; set; }
 
         public static int CurrentTimeStep { get; set; }
+        public static bool SafeMode { get; set; }
+
     }
 }

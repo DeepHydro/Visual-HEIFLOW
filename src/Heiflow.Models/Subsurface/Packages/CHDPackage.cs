@@ -36,6 +36,7 @@ using Heiflow.Models.Properties;
 using Heiflow.Models.UI;
 using ILNumerics;
 using NetTopologySuite.Geometries;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -82,6 +83,7 @@ namespace Heiflow.Models.Subsurface
         /// 
         [StaticVariableItem]
         [Browsable(false)]
+        //[JsonIgnore]
         public DataCube<float> SHEAD { get; set; }
 
         public override void Initialize()

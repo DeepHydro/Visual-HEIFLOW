@@ -36,6 +36,7 @@ using Heiflow.Core.Data.ODM;
 using System.Data;
 using System.Xml.Serialization;
 using System.ComponentModel;
+using Newtonsoft.Json;
 
 namespace Heiflow.Core.Data
 {
@@ -107,6 +108,7 @@ namespace Heiflow.Core.Data
         }
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public bool IsLazy
         {
             get
@@ -116,6 +118,7 @@ namespace Heiflow.Core.Data
         }
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public T this[int var_index, int time_index, int cell_index]
         {
             get
@@ -132,6 +135,7 @@ namespace Heiflow.Core.Data
         }
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public T[] this[int var_index, string time_index, string cell_index]
         {
             get
@@ -145,6 +149,7 @@ namespace Heiflow.Core.Data
         }
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public ILArray<T> this[int var_index]
         {
             get
@@ -164,12 +169,14 @@ namespace Heiflow.Core.Data
         }
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public object DataOwner
         {
             get;
             set;
         }
         [XmlIgnore]
+        [JsonIgnore]
         public string OwnerName
         {
             get;
@@ -190,6 +197,7 @@ namespace Heiflow.Core.Data
         /// </summary>
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public DimensionFlag ZeroDimension
         {
             get;
@@ -197,6 +205,7 @@ namespace Heiflow.Core.Data
         }
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public int SelectedVariableIndex
         {
             get;
@@ -204,6 +213,7 @@ namespace Heiflow.Core.Data
         }
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public int SelectedTimeIndex
         {
             get;
@@ -211,6 +221,7 @@ namespace Heiflow.Core.Data
         }
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public int SelectedSpaceIndex
         {
             get;
@@ -218,6 +229,7 @@ namespace Heiflow.Core.Data
         }
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public int SelectedLayerToShown
         {
             get;
@@ -225,6 +237,7 @@ namespace Heiflow.Core.Data
         }
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public DateTime[] DateTimes
         {
             get;
@@ -291,6 +304,8 @@ namespace Heiflow.Core.Data
         /// <summary>
         /// 1d array [nvar]. A flag that indicates if the array being read should be printed (written to the listing file) after it has been read. If IPRN is less than zero, the array will not be printed.
         /// </summary>
+        /// 
+        [JsonIgnore]
         public int[] IPRN
         {
             get;
@@ -298,6 +313,7 @@ namespace Heiflow.Core.Data
         }
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public DataCubeLayout Layout
         {
             get
@@ -311,6 +327,7 @@ namespace Heiflow.Core.Data
         }
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public IGridTopology Topology
         {
             get;

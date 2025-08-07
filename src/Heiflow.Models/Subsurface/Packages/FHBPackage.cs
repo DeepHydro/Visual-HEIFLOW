@@ -35,6 +35,7 @@ using Heiflow.Models.Generic.Attributes;
 using Heiflow.Models.Properties;
 using Heiflow.Models.UI;
 using NetTopologySuite.Geometries;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel.Composition;
 using System.Data;
@@ -130,6 +131,7 @@ namespace Heiflow.Models.Subsurface
         /// 3d mat [4 + NBDTIM][1][NFLW]. The variables are Layer Row Column IAUX  FLWRAT(NBDTIM)
         /// </summary>
       [StaticVariableItem]
+      [JsonIgnore]
       public DataCube<float> FlowRate { get; set; }
       public RegularGridTopology Topology { get; set; }
         public override void Initialize()

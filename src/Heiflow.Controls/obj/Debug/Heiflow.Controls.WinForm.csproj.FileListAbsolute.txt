@@ -406,7 +406,6 @@ D:\system\git\Visual-HEIFLOW\src\bin\Debug\Heiflow.Controls.WinForm.dll
 D:\system\git\Visual-HEIFLOW\src\bin\Debug\Heiflow.Controls.WinForm.pdb
 D:\system\git\Visual-HEIFLOW\src\bin\Debug\zh-CN\Heiflow.Controls.WinForm.resources.dll
 D:\system\git\Visual-HEIFLOW\src\bin\Debug\cs\Heiflow.Controls.WinForm.resources.dll
-D:\system\git\Visual-HEIFLOW\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csprojResolveAssemblyReference.cache
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.Climate.WeatherGeneratorForm.resources
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.Controls.DataCubeGrid.resources
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.Controls.GridProfileAnimator.resources
@@ -557,3 +556,4 @@ D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\cs\Heiflow.Controls
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.pdb
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csprojResolveAssemblyReference.cache
+D:\system\git\Visual-HEIFLOW\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csprojResolveAssemblyReference.cache

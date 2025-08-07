@@ -49,6 +49,7 @@ using DotSpatial.Projections;
 using Heiflow.Models.IO;
 using Heiflow.Models.Visualization;
 using Heiflow.Models.Properties;
+using Newtonsoft.Json;
 
 namespace Heiflow.Models.Subsurface
 {
@@ -93,6 +94,7 @@ namespace Heiflow.Models.Subsurface
         /// 
         /// </summary>
         [StaticVariableItem("Layer")]
+        //[JsonIgnore]
         public DataCube<float> Elevation
         {
             get

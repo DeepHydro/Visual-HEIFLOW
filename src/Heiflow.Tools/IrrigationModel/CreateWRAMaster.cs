@@ -69,6 +69,7 @@ namespace Heiflow.Tools.DataManagement
             StartCycle = 1;
             PumpingLayers = "1,2,3";
             PumpingLayerRatios = "0.6,0.2,0.2";
+            PumpScale = 1.5;
             CroplandCodes = "1";
             GWCompensate = true;
         }
@@ -232,6 +233,14 @@ namespace Heiflow.Tools.DataManagement
             get;
             set;
         }
+        [Category("Farm Parameters")]
+        [Description("")]
+        public double PumpScale
+        {
+            get;
+            set;
+        }
+
         [Browsable(false)]
         public string[] Fields
         {
@@ -482,7 +491,7 @@ namespace Heiflow.Tools.DataManagement
             int[] well_layer = TypeConverterEx.Split<int>(PumpingLayers);
             double[] layer_ratio = TypeConverterEx.Split<double>(PumpingLayerRatios);
             StreamReader sr_quota = null;
-            StreamWriter sw_out = null;
+  
             if (well_layer.Length != layer_ratio.Length)
             {
                 cancelProgressHandler.Progress("Package_Tool", 100, "Failed to run. Error messae: the format of PumpingLayers or PumpingLayerRatios is wrong.");
@@ -493,7 +502,7 @@ namespace Heiflow.Tools.DataManagement
             {
                 WRAPackage wra_pck = null;
                 wmm.MasterPackage.WRAModule = "auto_wra";
-                wmm.MasterPackage.WRAModuleFile = string.Format(".\\Input\\Extension\\{0}.wra", prj.Project.Name);
+                wmm.MasterPackage.WRAModuleFile = string.Format(".\\Input\\wra\\{0}.wra", prj.Project.Name);
 
                 if (wmm.Packages.ContainsKey(WRAPackage.PackageName))
                 {
@@ -580,6 +589,7 @@ namespace Heiflow.Tools.DataManagement
                 wmm.MasterPackage.Save(cancelProgressHandler);
 
                 WRASPFile spfile = new WRASPFile();
+                spfile.CalcObjPumpConstraint(irrg_obj_list, quota, PumpScale);
                 spfile.SavePumpWellFiles(shell, prj.Project, mf, mfgrid, irrg_obj_list, well_layer, layer_ratio);
                 cancelProgressHandler.Progress("Package_Tool", 80, "Modflow wel file saved.");
                 var spfilename = Path.Combine(prj.Project.WRAInputDirectory, "wra_sp1.txt");
@@ -593,7 +603,6 @@ namespace Heiflow.Tools.DataManagement
             finally
             {
                 sr_quota.Close();
-                sw_out.Close();
                 cancelProgressHandler.Progress("Package_Tool", 100, "File saved.");
             }
             return true;
@@ -606,10 +615,10 @@ namespace Heiflow.Tools.DataManagement
 
             if (model != null)
             {
-                var wra = prj.Project.Model.GetPackage(WRAPackage.PackageName) as WRAPackage;
-                wra.Attach(shell.MapAppManager.Map, prj.Project.GeoSpatialDirectory);
-                shell.ProjectExplorer.ClearContent();
-                shell.ProjectExplorer.AddProject(prj.Project);
+                //var wra = prj.Project.Model.GetPackage(WRAPackage.PackageName) as WRAPackage;
+                //wra.Attach(shell.MapAppManager.Map, prj.Project.GeoSpatialDirectory);
+                //shell.ProjectExplorer.ClearContent();
+                //shell.ProjectExplorer.AddProject(prj.Project);
             }
         }
     }

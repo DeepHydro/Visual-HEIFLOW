@@ -33,6 +33,7 @@ using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
 using Heiflow.Models.Properties;
 using Heiflow.Models.UI;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
@@ -132,6 +133,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 1)]
+        [JsonIgnore]
         public DataCube<float> IUZFBND { get; set; }
         /// <summary>
         /// [Serial] An array of integer values used to define the stream segments within the Streamflow-Routing (SFR2) Package or lake numbers in the Lake (LAK3) Package to which overland runoff from excess infiltration and ground-water discharge to land surface will be added. 
@@ -141,6 +143,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 0)]
+        [JsonIgnore]
         public DataCube<float> IRUNBND { get; set; }
         /// <summary>
         ///  the saturated vertical hydraulic conductivity of the unsaturated zone (LT-1).
@@ -149,6 +152,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 0.001f)]
+        [JsonIgnore]
         public DataCube<float> VKS { get; set; }
         /// <summary>
         ///  define the Brooks-Corey epsilon of the unsaturated zone
@@ -157,6 +161,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 0.3f)]
+        [JsonIgnore]
         public DataCube<float> EPS { get; set; }
         /// <summary>
         ///  define the saturated water content of the unsaturated zone in units of volume of water to total volume (L3L-3).
@@ -165,6 +170,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 0.3f)]
+        [JsonIgnore]
         public DataCube<float> THTS { get; set; }
         /// <summary>
         /// Initial water content
@@ -172,6 +178,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 0.2f)]
+        [JsonIgnore]
         public DataCube<float> THTI { get; set; }
 
         public DataCube<int> UZGAG { get; set; }
@@ -183,6 +190,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Stress Period")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 0.001f)]
+        [JsonIgnore]
         public DataCube<float> FINF { get; set; }
         /// <summary>
         /// An array of positive real values used to define the ET demand rates (L1T-1) within the ET extinction depth interval for each vertical column of cells.
@@ -191,6 +199,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Stress Period")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 0.001f)]
+        [JsonIgnore]
         public DataCube<float> PET { get; set; }
         /// <summary>
         /// An array of positive real values used to define the ET extinction depths.
@@ -199,6 +208,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Stress Period")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 2)]
+        [JsonIgnore]
         public DataCube<float> EXTDP { get; set; }
         /// <summary>
         /// An array of positive real values used to define the extinction water content below which ET cannot be removed from the unsaturated zone.
@@ -208,6 +218,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Stress Period")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 0.1f)]
+        [JsonIgnore]
         public DataCube<float> EXTWC { get; set; }
 
         public bool SPECIFYTHTI { get; set; }

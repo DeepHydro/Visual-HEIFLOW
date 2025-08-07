@@ -36,6 +36,7 @@ using Heiflow.Models.Properties;
 using Heiflow.Models.UI;
 using ILNumerics;
 using NetTopologySuite.Geometries;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -89,18 +90,21 @@ namespace Heiflow.Models.Subsurface
         /// </summary>
         [StaticVariableItem]
         [Browsable(false)]
+        [JsonIgnore]
         public DataCube<float> SURF { get; set; }
         /// <summary>
         /// The extinction depth; [NSP,1,ActCellCount]
         /// </summary>
         [StaticVariableItem]
         [Browsable(false)]
+        //[JsonIgnore]
         public DataCube<float> EXDP { get; set; }
         /// <summary>
         /// [NSP,1,ActCellCount]
         /// </summary>
         [StaticVariableItem]
         [Browsable(false)]
+        //[JsonIgnore]
         public DataCube<float> EVTR { get; set; }
 
         /// <summary>
@@ -108,6 +112,7 @@ namespace Heiflow.Models.Subsurface
         /// </summary>
         [StaticVariableItem]
         [Browsable(false)]
+        [JsonIgnore]
         public DataCube<int> IEVT { get; set; }
 
         public override void Initialize()

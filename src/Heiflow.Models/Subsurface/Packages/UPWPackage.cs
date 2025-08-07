@@ -33,6 +33,7 @@ using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Attributes;
 using Heiflow.Models.Properties;
 using Heiflow.Models.UI;
+using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -176,6 +177,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 0.1f)]
+        [JsonIgnore]
         public DataCube<float> WETDRY { get; set; }
         #endregion
 
@@ -308,7 +310,8 @@ namespace Heiflow.Models.Subsurface
                     for (int l = 0; l < grid.ActualLayerCount; l++)
                     {
                         ReadSerialArray(sr, HK, l, 0);
-                        ReadSerialArray(sr, HANI, l, 0);
+                        if(CHANI[l] < 0)
+                            ReadSerialArray(sr, HANI, l, 0);
                         ReadSerialArray(sr, VKA, l, 0);
                         if (TimeService.StressPeriods.Count > 1)
                         {

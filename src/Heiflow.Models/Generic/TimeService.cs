@@ -30,6 +30,7 @@
 using Heiflow.Core;
 using Heiflow.Core.Data;
 using Heiflow.Models.Subsurface;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -140,34 +141,37 @@ namespace Heiflow.Models.Generic
                 _NumTimeStep = value;
             }
         }
-
+        [JsonIgnore]
         public List<DateTime> Timeline
         {
             get;
             set;
         }
+        [JsonIgnore]
         public List<DateTime> IOTimeline
         {
             get;
             set;
         }
+       [JsonIgnore]
         public string IOTimeFile
         {
             get;
             set;
         }
+      [JsonIgnore]
         public List<StressPeriod> StressPeriods
         {
             get;
             protected set;
         }
-
+          [JsonIgnore]
         public IBasicModel Model
         {
             get;
             set;
         }
-
+         [JsonIgnore]
         public int CurrentTimeStep
         {
             get
@@ -179,7 +183,7 @@ namespace Heiflow.Models.Generic
                 _CurrentTimeStep = value;
             }
         }
-
+        [JsonIgnore]
         public int CurrentGridLayer
         {
             get
@@ -192,7 +196,7 @@ namespace Heiflow.Models.Generic
                 OnGridLayerChanged();
             }
         }
-
+        [JsonIgnore]
         public int CurrentStressPeriod
         {
             get
@@ -204,13 +208,13 @@ namespace Heiflow.Models.Generic
                 _CurrentStressPeriod = value;
             }
         }
-
+        [JsonIgnore]
         public bool Initialized
         {
             get;
             protected set;
         }
-
+        [JsonIgnore]
         public bool UseStressPeriods
         {
             get;
