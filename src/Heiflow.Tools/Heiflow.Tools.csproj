@@ -162,6 +162,7 @@
     <Compile Include="DataManagement\Resample.cs" />
     <Compile Include="DrivingForces\CreateClimateMappingTable.cs" />
     <Compile Include="Hydrology\PMPETByRadiationBatch.cs" />
+    <Compile Include="IrrigationModel\CreatIRZoneFile.cs" />
     <Compile Include="IrrigationModel\WRASPFile.cs" />
     <Compile Include="Math\Repmat.cs" />
     <Compile Include="Plot\PlotProfile.cs" />

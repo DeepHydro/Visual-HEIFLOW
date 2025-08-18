@@ -3,7 +3,47 @@
   "WorkspaceRootPath": "D:\\System\\git\\Visual-HEIFLOW\\src\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{28E79461-3161-4130-81B0-2C36CD3A3315}|Heiflow.Models\\Heiflow.Models.csproj|d:\\system\\git\\visual-heiflow\\src\\heiflow.models\\subsurface\\mt3dms\\ucnpackage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{A559DF9C-CEA8-4CAD-8D9B-7549370E5159}|Heiflow.Tools\\Heiflow.Tools.csproj|d:\\system\\git\\visual-heiflow\\src\\heiflow.tools\\conceptualmodel\\sfr\\removeduplrch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A559DF9C-CEA8-4CAD-8D9B-7549370E5159}|Heiflow.Tools\\Heiflow.Tools.csproj|solutionrelative:heiflow.tools\\conceptualmodel\\sfr\\removeduplrch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A559DF9C-CEA8-4CAD-8D9B-7549370E5159}|Heiflow.Tools\\Heiflow.Tools.csproj|d:\\system\\git\\visual-heiflow\\src\\heiflow.tools\\conceptualmodel\\sfr\\processduplrch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A559DF9C-CEA8-4CAD-8D9B-7549370E5159}|Heiflow.Tools\\Heiflow.Tools.csproj|solutionrelative:heiflow.tools\\conceptualmodel\\sfr\\processduplrch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A559DF9C-CEA8-4CAD-8D9B-7549370E5159}|Heiflow.Tools\\Heiflow.Tools.csproj|d:\\system\\git\\visual-heiflow\\src\\heiflow.tools\\conceptualmodel\\lak\\laktool.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A559DF9C-CEA8-4CAD-8D9B-7549370E5159}|Heiflow.Tools\\Heiflow.Tools.csproj|solutionrelative:heiflow.tools\\conceptualmodel\\lak\\laktool.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A559DF9C-CEA8-4CAD-8D9B-7549370E5159}|Heiflow.Tools\\Heiflow.Tools.csproj|D:\\System\\git\\Visual-HEIFLOW\\src\\heiflow.tools\\irrigationmodel\\wraspfile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A559DF9C-CEA8-4CAD-8D9B-7549370E5159}|Heiflow.Tools\\Heiflow.Tools.csproj|solutionrelative:heiflow.tools\\irrigationmodel\\wraspfile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A559DF9C-CEA8-4CAD-8D9B-7549370E5159}|Heiflow.Tools\\Heiflow.Tools.csproj|D:\\System\\git\\Visual-HEIFLOW\\src\\heiflow.tools\\irrigationmodel\\createwrasp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A559DF9C-CEA8-4CAD-8D9B-7549370E5159}|Heiflow.Tools\\Heiflow.Tools.csproj|solutionrelative:heiflow.tools\\irrigationmodel\\createwrasp.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A559DF9C-CEA8-4CAD-8D9B-7549370E5159}|Heiflow.Tools\\Heiflow.Tools.csproj|D:\\System\\git\\Visual-HEIFLOW\\src\\heiflow.tools\\irrigationmodel\\createwramaster.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A559DF9C-CEA8-4CAD-8D9B-7549370E5159}|Heiflow.Tools\\Heiflow.Tools.csproj|solutionrelative:heiflow.tools\\irrigationmodel\\createwramaster.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A559DF9C-CEA8-4CAD-8D9B-7549370E5159}|Heiflow.Tools\\Heiflow.Tools.csproj|D:\\System\\git\\Visual-HEIFLOW\\src\\heiflow.tools\\irrigationmodel\\creatirzonefile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A559DF9C-CEA8-4CAD-8D9B-7549370E5159}|Heiflow.Tools\\Heiflow.Tools.csproj|solutionrelative:heiflow.tools\\irrigationmodel\\creatirzonefile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A559DF9C-CEA8-4CAD-8D9B-7549370E5159}|Heiflow.Tools\\Heiflow.Tools.csproj|D:\\System\\git\\Visual-HEIFLOW\\src\\heiflow.tools\\irrigationmodel\\checkdiversionfile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A559DF9C-CEA8-4CAD-8D9B-7549370E5159}|Heiflow.Tools\\Heiflow.Tools.csproj|solutionrelative:heiflow.tools\\irrigationmodel\\checkdiversionfile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{28E79461-3161-4130-81B0-2C36CD3A3315}|Heiflow.Models\\Heiflow.Models.csproj|D:\\System\\git\\Visual-HEIFLOW\\src\\heiflow.models\\subsurface\\packages\\ocpackage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{28E79461-3161-4130-81B0-2C36CD3A3315}|Heiflow.Models\\Heiflow.Models.csproj|solutionrelative:heiflow.models\\subsurface\\packages\\ocpackage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{28E79461-3161-4130-81B0-2C36CD3A3315}|Heiflow.Models\\Heiflow.Models.csproj|D:\\System\\git\\Visual-HEIFLOW\\src\\heiflow.models\\subsurface\\modflow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{28E79461-3161-4130-81B0-2C36CD3A3315}|Heiflow.Models\\Heiflow.Models.csproj|solutionrelative:heiflow.models\\subsurface\\modflow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{28E79461-3161-4130-81B0-2C36CD3A3315}|Heiflow.Models\\Heiflow.Models.csproj|D:\\System\\git\\Visual-HEIFLOW\\src\\heiflow.models\\subsurface\\mt3dms\\ucnpackage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{28E79461-3161-4130-81B0-2C36CD3A3315}|Heiflow.Models\\Heiflow.Models.csproj|solutionrelative:heiflow.models\\subsurface\\mt3dms\\ucnpackage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -14,7 +54,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,7 +70,130 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ProcessDuplRch.cs",
+              "DocumentMoniker": "D:\\System\\git\\Visual-HEIFLOW\\src\\Heiflow.Tools\\ConceptualModel\\SFR\\ProcessDuplRch.cs",
+              "RelativeDocumentMoniker": "Heiflow.Tools\\ConceptualModel\\SFR\\ProcessDuplRch.cs",
+              "ToolTip": "D:\\System\\git\\Visual-HEIFLOW\\src\\Heiflow.Tools\\ConceptualModel\\SFR\\ProcessDuplRch.cs",
+              "RelativeToolTip": "Heiflow.Tools\\ConceptualModel\\SFR\\ProcessDuplRch.cs",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAmwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-16T15:18:12.754Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "RemoveDuplRch.cs",
+              "DocumentMoniker": "D:\\System\\git\\Visual-HEIFLOW\\src\\Heiflow.Tools\\ConceptualModel\\SFR\\RemoveDuplRch.cs",
+              "RelativeDocumentMoniker": "Heiflow.Tools\\ConceptualModel\\SFR\\RemoveDuplRch.cs",
+              "ToolTip": "D:\\System\\git\\Visual-HEIFLOW\\src\\Heiflow.Tools\\ConceptualModel\\SFR\\RemoveDuplRch.cs",
+              "RelativeToolTip": "Heiflow.Tools\\ConceptualModel\\SFR\\RemoveDuplRch.cs",
+              "ViewState": "AgIAAGAAAAAAAAAAAAAmwHIAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-16T15:18:08.253Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CreateWRAMaster.cs",
+              "DocumentMoniker": "D:\\System\\git\\Visual-HEIFLOW\\src\\Heiflow.Tools\\IrrigationModel\\CreateWRAMaster.cs",
+              "RelativeDocumentMoniker": "Heiflow.Tools\\IrrigationModel\\CreateWRAMaster.cs",
+              "ToolTip": "D:\\System\\git\\Visual-HEIFLOW\\src\\Heiflow.Tools\\IrrigationModel\\CreateWRAMaster.cs",
+              "RelativeToolTip": "Heiflow.Tools\\IrrigationModel\\CreateWRAMaster.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-16T14:53:36.303Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "WRASPFile.cs",
+              "DocumentMoniker": "D:\\System\\git\\Visual-HEIFLOW\\src\\Heiflow.Tools\\IrrigationModel\\WRASPFile.cs",
+              "RelativeDocumentMoniker": "Heiflow.Tools\\IrrigationModel\\WRASPFile.cs",
+              "ToolTip": "D:\\System\\git\\Visual-HEIFLOW\\src\\Heiflow.Tools\\IrrigationModel\\WRASPFile.cs",
+              "RelativeToolTip": "Heiflow.Tools\\IrrigationModel\\WRASPFile.cs",
+              "ViewState": "AgIAAFgAAAAAAAAAAAAwwIQAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-16T14:53:32.597Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "CreatIRZoneFile.cs",
+              "DocumentMoniker": "D:\\System\\git\\Visual-HEIFLOW\\src\\Heiflow.Tools\\IrrigationModel\\CreatIRZoneFile.cs",
+              "RelativeDocumentMoniker": "Heiflow.Tools\\IrrigationModel\\CreatIRZoneFile.cs",
+              "ToolTip": "D:\\System\\git\\Visual-HEIFLOW\\src\\Heiflow.Tools\\IrrigationModel\\CreatIRZoneFile.cs",
+              "RelativeToolTip": "Heiflow.Tools\\IrrigationModel\\CreatIRZoneFile.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-16T03:08:46.176Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CreateWRASP.cs",
+              "DocumentMoniker": "D:\\System\\git\\Visual-HEIFLOW\\src\\Heiflow.Tools\\IrrigationModel\\CreateWRASP.cs",
+              "RelativeDocumentMoniker": "Heiflow.Tools\\IrrigationModel\\CreateWRASP.cs",
+              "ToolTip": "D:\\System\\git\\Visual-HEIFLOW\\src\\Heiflow.Tools\\IrrigationModel\\CreateWRASP.cs",
+              "RelativeToolTip": "Heiflow.Tools\\IrrigationModel\\CreateWRASP.cs",
+              "ViewState": "AgIAAMgAAAAAAAAAAAAxwN0AAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-16T03:05:15.167Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CheckDiversionFile.cs",
+              "DocumentMoniker": "D:\\System\\git\\Visual-HEIFLOW\\src\\Heiflow.Tools\\IrrigationModel\\CheckDiversionFile.cs",
+              "RelativeDocumentMoniker": "Heiflow.Tools\\IrrigationModel\\CheckDiversionFile.cs",
+              "ToolTip": "D:\\System\\git\\Visual-HEIFLOW\\src\\Heiflow.Tools\\IrrigationModel\\CheckDiversionFile.cs",
+              "RelativeToolTip": "Heiflow.Tools\\IrrigationModel\\CheckDiversionFile.cs",
+              "ViewState": "AgIAADQAAAAAAAAAAAAgwEsAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-16T03:03:38.392Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Modflow.cs",
+              "DocumentMoniker": "D:\\System\\git\\Visual-HEIFLOW\\src\\Heiflow.Models\\Subsurface\\Modflow.cs",
+              "RelativeDocumentMoniker": "Heiflow.Models\\Subsurface\\Modflow.cs",
+              "ToolTip": "D:\\System\\git\\Visual-HEIFLOW\\src\\Heiflow.Models\\Subsurface\\Modflow.cs",
+              "RelativeToolTip": "Heiflow.Models\\Subsurface\\Modflow.cs",
+              "ViewState": "AgIAAP0AAAAAAAAAAAAowPQAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-14T15:47:08.953Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "OCPackage.cs",
+              "DocumentMoniker": "D:\\System\\git\\Visual-HEIFLOW\\src\\Heiflow.Models\\Subsurface\\Packages\\OCPackage.cs",
+              "RelativeDocumentMoniker": "Heiflow.Models\\Subsurface\\Packages\\OCPackage.cs",
+              "ToolTip": "D:\\System\\git\\Visual-HEIFLOW\\src\\Heiflow.Models\\Subsurface\\Packages\\OCPackage.cs",
+              "RelativeToolTip": "Heiflow.Models\\Subsurface\\Packages\\OCPackage.cs",
+              "ViewState": "AgIAAO8AAAAAAAAAAAAQwPcAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-14T15:47:08.96Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "LAKTool.cs",
+              "DocumentMoniker": "D:\\System\\git\\Visual-HEIFLOW\\src\\Heiflow.Tools\\ConceptualModel\\LAK\\LAKTool.cs",
+              "RelativeDocumentMoniker": "Heiflow.Tools\\ConceptualModel\\LAK\\LAKTool.cs",
+              "ToolTip": "D:\\System\\git\\Visual-HEIFLOW\\src\\Heiflow.Tools\\ConceptualModel\\LAK\\LAKTool.cs",
+              "RelativeToolTip": "Heiflow.Tools\\ConceptualModel\\LAK\\LAKTool.cs",
+              "ViewState": "AgIAAF0BAAAAAAAAAAAgwE0BAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-14T15:36:32.121Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
               "Title": "UCNPackage.cs",
               "DocumentMoniker": "D:\\System\\git\\Visual-HEIFLOW\\src\\Heiflow.Models\\Subsurface\\MT3DMS\\UCNPackage.cs",
               "RelativeDocumentMoniker": "Heiflow.Models\\Subsurface\\MT3DMS\\UCNPackage.cs",
@@ -38,8 +201,7 @@
               "RelativeToolTip": "Heiflow.Models\\Subsurface\\MT3DMS\\UCNPackage.cs",
               "ViewState": "AgIAAK8AAAAAAAAAAAAqwLoAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-11T16:29:13.803Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-11T16:29:13.803Z"
             }
           ]
         }

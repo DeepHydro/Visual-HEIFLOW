@@ -6,6 +6,7 @@ using Heiflow.Models.WRM;
 using Heiflow.Presentation.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -63,11 +64,16 @@ namespace Heiflow.Tools.DataManagement
                 var nhru_well = 0;
                 var nwel = 0;
                 var nlayer = well_layer.Length;
-
+                var nwel1 = 0;
                 for (int i = 0; i < irrg_obj_list.Count; i++)
                 {
                     var obj = irrg_obj_list[i];
                     nhru_well += obj.HRU_List.Length;
+                    if(obj.HRU_List.Length != obj.HRU_Num)
+                    {
+                        Debug.WriteLine(obj.Name);
+                    }
+                    nwel1 += obj.HRU_Num;
                 }
 
                 nwel = nhru_well * nlayer;

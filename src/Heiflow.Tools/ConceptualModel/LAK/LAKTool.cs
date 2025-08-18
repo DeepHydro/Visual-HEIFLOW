@@ -332,7 +332,7 @@ namespace Heiflow.Tools.ConceptualModel
             {
                 var pck = model.GetPackage(LakePackage.PackageName) as LakePackage;
                 var hru_type = model.PRMSModel.MMSPackage.Parameters["hru_type"];
-                var cov_type = model.PRMSModel.MMSPackage.Parameters["cov_type"];
+               // var cov_type = model.PRMSModel.MMSPackage.Parameters["cov_type"];
                 var lake_hru_id = model.PRMSModel.MMSPackage.Parameters["lake_hru_id"];
                 var grid = mf.Grid as MFGrid;
 
@@ -345,7 +345,7 @@ namespace Heiflow.Tools.ConceptualModel
                         var hru_index = grid.Topology.CellID2CellIndex[cell_id];
                         lake_hru_id.SetValue(0, hru_index, 0, id);
                         hru_type.SetValue(0, hru_index, 0, 2);
-                        cov_type.SetValue(0, hru_index, 0, 0);
+                        //cov_type.SetValue(0, hru_index, 0, 0);
                         nlakehru++;
                     }
                 }
