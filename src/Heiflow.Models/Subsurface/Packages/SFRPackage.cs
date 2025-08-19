@@ -91,7 +91,7 @@ namespace Heiflow.Models.Subsurface
             ISUZN = 1;
             NSFRSETS = 30;
             IRTFLG = 1;
-            NUMTIM = 24;
+            NUMTIM = 1;
             WEIGHT = 0.9f;
             FLWTOL = 0.01f;
 

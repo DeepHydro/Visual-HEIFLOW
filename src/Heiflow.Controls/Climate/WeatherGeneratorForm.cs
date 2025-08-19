@@ -92,7 +92,7 @@ namespace Heiflow.Controls.WinForm.Climate
             Cursor.Current = Cursors.WaitCursor;
             if (cmbClimateFormat.SelectedIndex == 0)
             {
-                _ClimateDataPackage.SaveAsDcxByConstant(ppt, tmax, tmin, pet, wind, hum, press);
+                _ClimateDataPackage.SaveAsDcxByConstant(ppt, tmax, tmin, pet, wind, hum, press, checkBoxOneGrid.Checked);
             }
             else
             {

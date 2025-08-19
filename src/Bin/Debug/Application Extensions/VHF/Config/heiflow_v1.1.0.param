@@ -76,6 +76,13 @@ nhrucell
 1
 0
 ####
+gvr_hru_id     15
+1
+nhrucell
+1
+1
+1
+####
 gvr_cell_pct     15
 1
 nhrucell
@@ -145,13 +152,6 @@ nhru
 1
 1
 0
-####
-gvr_hru_id     15
-1
-nhru
-1
-1
-1
 ####
 precip_units     15
 1
@@ -1432,15 +1432,3 @@ one
 1
 2
 0.6
-smidx_coef     15
-1
-nhru
-1
-2
-0.002
-smidx_exp     15
-1
-nhru
-1
-2
-1.2
