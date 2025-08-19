@@ -34,6 +34,7 @@ using Heiflow.Core.Utility;
 using Heiflow.Models.Generic.Packages;
 using Heiflow.Models.Generic.Project;
 using Heiflow.Models.UI;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -91,6 +92,7 @@ namespace Heiflow.Models.Generic
 
         [Browsable(false)]
         [XmlIgnore]
+        [JsonIgnore]
         public IPackageFileNameProvider PackageFileNameProvider
         {
             get;
@@ -145,6 +147,7 @@ namespace Heiflow.Models.Generic
         }
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public Image Icon
         {
             get;
@@ -152,6 +155,7 @@ namespace Heiflow.Models.Generic
         }
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public Image LargeIcon
         {
             get;
@@ -159,6 +163,7 @@ namespace Heiflow.Models.Generic
         }
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public IProject Project
         {
             get
@@ -172,6 +177,7 @@ namespace Heiflow.Models.Generic
         }
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public IBasicModel Owner
         {
             get;
@@ -179,6 +185,7 @@ namespace Heiflow.Models.Generic
         }
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public ITimeService TimeService
         {
             get;
@@ -186,6 +193,7 @@ namespace Heiflow.Models.Generic
         }
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public Dictionary<string, ITimeService> TimeServiceList
         {
             get;
@@ -194,6 +202,7 @@ namespace Heiflow.Models.Generic
 
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public bool IsDirty
         {
             get
@@ -207,6 +216,7 @@ namespace Heiflow.Models.Generic
         }
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public Dictionary<string, IBasicModel> Children
         {
             get;

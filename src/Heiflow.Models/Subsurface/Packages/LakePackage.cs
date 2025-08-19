@@ -46,6 +46,7 @@ using Heiflow.Models.Subsurface.Packages;
 using GeoAPI.Geometries;
 using NetTopologySuite.Geometries;
 using Heiflow.Models.Properties;
+using Newtonsoft.Json;
 
 namespace Heiflow.Models.Subsurface
 {
@@ -151,6 +152,7 @@ namespace Heiflow.Models.Subsurface
         [ArealProperty(typeof(float), 1)]
         [StaticVariableItem]
         [Browsable(false)]
+        [JsonIgnore]
         public DataCube<float> BDLKNC { get; set; }
 
         /// <summary>

@@ -30,6 +30,7 @@
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using ILNumerics;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -88,15 +89,21 @@ namespace Heiflow.Models.Subsurface
         /// <summary>
         /// [CellID, nw vertex Index,ne vertex Index, se vertex Index,sw vertex Index].
         /// </summary>
+        /// 
+        [JsonIgnore]
         public int[,] CellVertex { get; private set; }
         /// <summary>
         /// [nw cell ID,ne ID, se ID,sw ID, row, column].  存储所有网格节点的连接信息, 数组索引为节点的序列(逐行); cell ID索引从1开始 
         /// </summary>
+        /// 
+        [JsonIgnore]
         public int[,] VertexAtActiveCells { get; private set; }
 
         /// <summary>
         ///(Cell ID, Vertex Index) 
         /// </summary>
+        /// 
+        [JsonIgnore]
         public Dictionary<int, int> ActiveVertexIndex { get; set; }
         ///// <summary>
         ///// Cell ID, cell index in a array starting from 0
@@ -110,24 +117,33 @@ namespace Heiflow.Models.Subsurface
         /// [serial index][row,col] cell index starts from 0.  存储活动网格位置(行列索引，从0开始)
         /// </summary>
         //public Dictionary<int, int[]> ActiveCellLocation { get; private set; }
+        [JsonIgnore]
         public int[][] ActiveCellLocation { get; set; }
         /// <summary>
         /// Active Cell ID (starting from 1)
         /// </summary>
+        /// 
+        [JsonIgnore]
         public int[] ActiveCellID { get; set; }
         /// <summary>
         /// row 
         ///   col
         ///     i=i+1
         /// </summary>
+        /// 
+        [JsonIgnore]
         public int[] ActiveCellMatrixIndex { get; set; }
         /// <summary>
         /// mapping between Cell ID  (starts from 1) and Cell Serial Index (starts from 0)
         /// </summary>
+        /// 
+        [JsonIgnore]
         public Dictionary<int, int> CellID2CellIndex { get; private set; }
         /// <summary>
         /// mapping between Cell ID  (starts from 1) and Cell Row Column Index (starts from 0)
         /// </summary>
+        /// 
+        [JsonIgnore]
         public Dictionary<int, int[]> CellID2MatLocation { get; private set; }
 
         public void Build()

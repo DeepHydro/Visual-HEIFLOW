@@ -198,6 +198,7 @@ namespace Heiflow.Applications.Controllers
             _ShellService.ProjectExplorer.ContextMenuFactory = _ProjectService.ContextMenuFactory;
             _ShellService.ProjectExplorer.Initialize();
             ModflowService.SupportedPackages = _PackageService.SupportedMFPackages;
+            ModelService.SafeMode = false;
         }
 
         #region New

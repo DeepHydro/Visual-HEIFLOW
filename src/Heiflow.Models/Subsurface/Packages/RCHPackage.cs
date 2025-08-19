@@ -36,6 +36,7 @@ using Heiflow.Models.Properties;
 using Heiflow.Models.UI;
 using ILNumerics;
 using NetTopologySuite.Geometries;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -90,6 +91,7 @@ namespace Heiflow.Models.Subsurface
         /// 
         [StaticVariableItem]
         [Browsable(false)]
+        [JsonIgnore]
         public DataCube<float> RECH { get; set; }
 
         /// <summary>
@@ -98,6 +100,7 @@ namespace Heiflow.Models.Subsurface
         /// 
         [StaticVariableItem]
         [Browsable(false)]
+        [JsonIgnore]
         public DataCube<int> IRCH { get; set; }
 
         public override void Initialize()

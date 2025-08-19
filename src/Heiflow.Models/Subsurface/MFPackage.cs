@@ -34,6 +34,7 @@ using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Parameters;
 using Heiflow.Models.Visualization;
 using ILNumerics;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -63,6 +64,7 @@ namespace Heiflow.Models.Subsurface
         /// 2D array [np,3]
         /// </summary>
         [Browsable(false)]
+        [JsonIgnore]
         public int[,] SPInfo
         {
             get;
@@ -80,6 +82,7 @@ namespace Heiflow.Models.Subsurface
             }
         }
          [Browsable(false)]
+         [JsonIgnore]
          public MFGrid MFGridInstance
         {
             get

@@ -259,35 +259,38 @@ namespace Heiflow.Models.Subsurface
             }
             while (!sr.EndOfStream)
             {
-                line = sr.ReadLine().Trim().ToUpper();
-
-                if (line.Contains("PERIOD"))
+                line = sr.ReadLine();
+                if (TypeConverterEx.IsNotNull(line))
                 {
-                    var tt = ParseSP(line);
-                    if (Owner.TimeService.ContainsSP(tt.Item1))
+                    line = line.ToUpper();
+                    if (line.Contains("PERIOD"))
                     {
-                        var sp = _Dic_SP[tt.Item1 - 1];
-                        stepoption = new StepOption(tt.Item1, tt.Item2);
-                        sp.StepOptions.Add(stepoption);
+                        var tt = ParseSP(line);
+                        if (Owner.TimeService.ContainsSP(tt.Item1))
+                        {
+                            var sp = _Dic_SP[tt.Item1 - 1];
+                            stepoption = new StepOption(tt.Item1, tt.Item2);
+                            sp.StepOptions.Add(stepoption);
+                        }
                     }
-                }
-                else
-                {
-                    var cmd = ParseCommand(line);
-                    if (cmd == "SAVE HEAD")
-                        stepoption.SaveHead = true;
-                    else if (cmd == "SAVE DRAWDOWN")
-                        stepoption.SaveDarwdown = true;
-                    else if (cmd == "SAVE IBOUND")
-                        stepoption.SaveIbound = true;
-                    else if (cmd == "SAVE BUDGET")
-                        stepoption.SaveBudget = true;
-                    else if (cmd == "PRINT HEAD")
-                        stepoption.PrintHead = true;
-                    else if (cmd == "PRINT DRAWDOWN")
-                        stepoption.PrintDarwdown = true;
-                    else if (cmd == "PRINT BUDGET")
-                        stepoption.PrintBudget = true;
+                    else
+                    {
+                        var cmd = ParseCommand(line);
+                        if (cmd == "SAVE HEAD")
+                            stepoption.SaveHead = true;
+                        else if (cmd == "SAVE DRAWDOWN")
+                            stepoption.SaveDarwdown = true;
+                        else if (cmd == "SAVE IBOUND")
+                            stepoption.SaveIbound = true;
+                        else if (cmd == "SAVE BUDGET")
+                            stepoption.SaveBudget = true;
+                        else if (cmd == "PRINT HEAD")
+                            stepoption.PrintHead = true;
+                        else if (cmd == "PRINT DRAWDOWN")
+                            stepoption.PrintDarwdown = true;
+                        else if (cmd == "PRINT BUDGET")
+                            stepoption.PrintBudget = true;
+                    }
                 }
             }
             int index = _Dic_SP.Count - 1;
@@ -382,21 +385,25 @@ namespace Heiflow.Models.Subsurface
 
             while (!sr.EndOfStream)
             {
-                line = sr.ReadLine().Trim().ToUpper();
-                if (line.StartsWith("#"))
+                line = sr.ReadLine();
+                if (TypeConverterEx.IsNotNull(line))
                 {
-                    comment_line++;
-                    continue;
-                }
-                else
-                {
-                    if (line.Contains("PERIOD"))
+                    line = line.Trim().ToUpper();
+                    if (line.StartsWith("#"))
                     {
-                        break;
+                        comment_line++;
+                        continue;
                     }
                     else
                     {
-                        recods_line++;
+                        if (line.Contains("PERIOD"))
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            recods_line++;
+                        }
                     }
                 }
             }
@@ -408,8 +415,12 @@ namespace Heiflow.Models.Subsurface
 
             for (int i = 0; i < recods_line; i++)
             {
-                line = sr.ReadLine().Trim().ToUpper();
-                ParseRecord(line);
+                line = sr.ReadLine();
+                if (TypeConverterEx.IsNotNull(line))
+                {
+                    line = line.Trim().ToUpper();
+                    ParseRecord(line);
+                }
             }
 
             sr.Close();

@@ -27,6 +27,7 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -97,7 +98,9 @@ namespace Heiflow.Models.Subsurface
                 return Dates.Last();
             }
         }
+         [JsonIgnore]
         public List<StepOption> StepOptions { get; set; }
+         [JsonIgnore]
         public List<DateTime> Dates { get; set; }
 
         #region MT3D

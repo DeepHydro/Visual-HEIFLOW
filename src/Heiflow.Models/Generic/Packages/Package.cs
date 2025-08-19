@@ -36,6 +36,7 @@ using Heiflow.Models.Generic.Parameters;
 using Heiflow.Models.GeoSpatial;
 using Heiflow.Models.Properties;
 using Heiflow.Models.UI;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -80,8 +81,11 @@ namespace Heiflow.Models.Generic
             Parameters = new Dictionary<string, IParameter>();
             Description = "This is a package";
             IsDirty = false;
-            Icon = Resources.MapPackageTiledTPKFile16;
-            LargeIcon = Properties.Resources.MapPackageTiledTPKFile16;
+            if (!ModelService.SafeMode)
+            {
+                Icon = Resources.MapPackageTiledTPKFile16;
+                LargeIcon = Properties.Resources.MapPackageTiledTPKFile16;
+            }
             Fields = new List<PackageFeatureField>();
             Version = "1.0.0";
             IsMandatory = false;
@@ -96,8 +100,11 @@ namespace Heiflow.Models.Generic
             Parameters = new Dictionary<string, IParameter>();
             Description = "This is a package";
             IsDirty = false;
-            Icon = Resources.MapPackageTiledTPKFile16;
-            LargeIcon = Properties.Resources.MapPackageTiledTPKFile16;
+            if (!ModelService.SafeMode)
+            {
+                Icon = Resources.MapPackageTiledTPKFile16;
+                LargeIcon = Properties.Resources.MapPackageTiledTPKFile16;
+            }
             Fields = new List<PackageFeatureField>();
             Version = "1.0.0";
             Category = "Basic";
@@ -154,6 +161,7 @@ namespace Heiflow.Models.Generic
 
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public IBasicModel Owner
         {
             get;
@@ -170,6 +178,7 @@ namespace Heiflow.Models.Generic
         }
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public IGrid Grid
         { 
             get; 
@@ -202,6 +211,7 @@ namespace Heiflow.Models.Generic
 
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public Dictionary<string, IParameter> Parameters
         {
             get
@@ -217,6 +227,7 @@ namespace Heiflow.Models.Generic
 
         [XmlArrayItem]
         [Browsable(false)]
+        [JsonIgnore]
         public SerializableParameter[] DefaultParameters
         {
             get
@@ -232,6 +243,7 @@ namespace Heiflow.Models.Generic
 
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public bool IsDirty
         {
             get
@@ -258,6 +270,7 @@ namespace Heiflow.Models.Generic
         }
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public ModelObjectState State
         {
             get
@@ -274,6 +287,7 @@ namespace Heiflow.Models.Generic
         }
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public string Message
         {
             get;
@@ -282,6 +296,7 @@ namespace Heiflow.Models.Generic
 
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public virtual List<IPackage> Children
         {
             get
@@ -296,6 +311,7 @@ namespace Heiflow.Models.Generic
 
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public System.Drawing.Image Icon
         {
             get;
@@ -303,6 +319,7 @@ namespace Heiflow.Models.Generic
         }
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public System.Drawing.Image LargeIcon
         {
             get;
@@ -324,6 +341,7 @@ namespace Heiflow.Models.Generic
 
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public PackageCoverage Coverage
         {
             get;
@@ -332,6 +350,7 @@ namespace Heiflow.Models.Generic
 
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public virtual IPackageOptionalView OptionalView
         {
             get;
@@ -339,6 +358,7 @@ namespace Heiflow.Models.Generic
         }
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public virtual DotSpatial.Data.IFeatureSet Feature
         {
             get;
@@ -346,6 +366,7 @@ namespace Heiflow.Models.Generic
         }
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public IMapFeatureLayer FeatureLayer
         {
             get;
@@ -354,6 +375,7 @@ namespace Heiflow.Models.Generic
 
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public List<PackageFeatureField> Fields
         {
             get;
@@ -361,6 +383,7 @@ namespace Heiflow.Models.Generic
         }
         [XmlIgnore]
         [Browsable(false)]
+        [JsonIgnore]
         public ITimeService TimeService
         {
             get;
@@ -376,6 +399,7 @@ namespace Heiflow.Models.Generic
         }
         [Browsable(false)]
         [XmlIgnore]
+        [JsonIgnore]
         public IPackage Parent
         {
             get
@@ -389,12 +413,14 @@ namespace Heiflow.Models.Generic
         }
         [Browsable(false)]
         [XmlIgnore]
+        [JsonIgnore]
         public Visualization.I3DLayer Layer3D
         {
             get;
             set;
         }
          [Browsable(false)]
+         [JsonIgnore]
         public string Layer3DToken
         {
             get

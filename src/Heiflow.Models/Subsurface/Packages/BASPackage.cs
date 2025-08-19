@@ -34,6 +34,7 @@ using Heiflow.Models.Generic.Attributes;
 using Heiflow.Models.Properties;
 using Heiflow.Models.UI;
 using ILNumerics;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -94,6 +95,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 100)]
+        //[JsonIgnore]
         public DataCube<float> STRT
         {
             get;
@@ -107,6 +109,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 1)]
+        [JsonIgnore]
         public DataCube<float> IBound
         {
             get
@@ -118,6 +121,7 @@ namespace Heiflow.Models.Subsurface
         [StaticVariableItem("Layer")]
         [Browsable(false)]
         [ArealProperty(typeof(float), 1)]
+        [JsonIgnore]
         public DataCube<float> MFIBound
         {
             get

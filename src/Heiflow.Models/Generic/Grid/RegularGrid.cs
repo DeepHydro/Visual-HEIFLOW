@@ -44,6 +44,7 @@ using NetTopologySuite.Geometries;
 using DotSpatial.Projections.ProjectedCategories;
 using DotSpatial.Projections;
 using System.ComponentModel;
+using Newtonsoft.Json;
 
 namespace Heiflow.Models.Generic
 {
@@ -79,6 +80,7 @@ namespace Heiflow.Models.Generic
                 return -999;
             }
         }
+
         public int RowCount
         {
             get
@@ -133,6 +135,13 @@ namespace Heiflow.Models.Generic
             set;
         }
         [Browsable(false)]
+        public int[,] ActiveCellLocation
+        {
+            get;
+            set;
+        }
+        [Browsable(false)]
+        [JsonIgnore]
         public RegularGridTopology Topology
         {
             get
@@ -145,16 +154,22 @@ namespace Heiflow.Models.Generic
                 _GridTopo.Grid = this;
             }
         }
+        [Browsable(false)]
+        [JsonIgnore]
         public Coordinate Origin
         {
             get;
             set;
         }
+        [Browsable(false)]
+        [JsonIgnore]
         public Coordinate BBoxCentroid
         {
             get;
             set;
         }
+        [Browsable(false)]
+        [JsonIgnore]
         public DotSpatial.Projections.ProjectionInfo Projection
         {
             get;
@@ -164,6 +179,9 @@ namespace Heiflow.Models.Generic
         /// <summary>
         ///  3dmat[ LayerCount,1,ActiveCellCount]
         /// </summary>
+        /// 
+        [Browsable(false)]
+        [JsonIgnore]
         public DataCube<float> Elevations
         {
             get;
@@ -172,6 +190,9 @@ namespace Heiflow.Models.Generic
         /// <summary>
         /// dc[1,1,ActiveCellCount]. The values represent percent slope.
         /// </summary>
+        /// 
+        [Browsable(false)]
+        [JsonIgnore]
         public DataCube<float> Slope
         {
             get;
@@ -180,6 +201,9 @@ namespace Heiflow.Models.Generic
         /// <summary>
         ///   dc[1,1,ActiveCellCount]. The aspect value is in compass direction values (0-360 degrees). 
         /// </summary>
+        /// 
+        [Browsable(false)]
+        [JsonIgnore]
         public DataCube<float> Aspect
         {
             get;
@@ -188,6 +212,9 @@ namespace Heiflow.Models.Generic
         /// <summary>
         /// mat[ActualLayerCount, Row, Col]
         /// </summary>
+        /// 
+        [Browsable(false)]
+        [JsonIgnore]
         public DataCube<float> IBound
         {
             get;
@@ -196,40 +223,46 @@ namespace Heiflow.Models.Generic
         /// <summary>
         /// mat[ActualLayerCount, Row, Col]
         /// </summary>
+        /// 
+        [Browsable(false)]
+        [JsonIgnore]
         public DataCube<float> MFIBound
         {
             get;
             set;
         }
+        [Browsable(false)]
+        [JsonIgnore]
         public IBasicModel Owner
         {
             get;
             set;
         }
-
+        [JsonIgnore]
         public Envelope BBox
         {
             get;
             set;
         }
-
+        [JsonIgnore]
         public DotSpatial.Data.IFeatureSet FeatureSet
         {
             get;
             set;
         }
-
+        [JsonIgnore]
         public IFeatureSet CentroidFeature
         {
             get;
             set;
         }
+        [JsonIgnore]
         public IMapFeatureLayer FeatureLayer
         {
             get;
             set;
         }
-
+        [JsonIgnore]
         public IMapFeatureLayer CentroidFeatureLayer
         {
             get;
@@ -238,6 +271,8 @@ namespace Heiflow.Models.Generic
         /// <summary>
         ///  mat[0][0][NCOL]. The cell width along rows. Read one value for each of the NCOL columns.
         /// </summary>
+        /// 
+        [JsonIgnore]
         public DataCube<float> DELR
         {
             get;
@@ -246,12 +281,14 @@ namespace Heiflow.Models.Generic
         /// <summary>
         ///  mat[0][0][NROW]. the cell width along columns. Read one value for each of the NROW rows. 
         /// </summary>
+        /// 
+        [JsonIgnore]
         public DataCube<float> DELC
         {
             get;
             set;
         }
-
+        [JsonIgnore]
         public int UTMZone
         {
             get
@@ -263,6 +300,8 @@ namespace Heiflow.Models.Generic
                 _UTMZone = value;
             }
         }
+        [Browsable(false)]
+        [JsonIgnore]
         public int SelectedLayerToShown
         {
             get;
@@ -760,7 +799,7 @@ namespace Heiflow.Models.Generic
         /// <returns></returns>
         public double GetCellArea()
         {
-            var cellarea = DELR.Constants[0] * DELC.Constants[0];
+            var cellarea = DELR[0, 0, 0] * DELC[0, 0, 0];
             return cellarea;
         }
 

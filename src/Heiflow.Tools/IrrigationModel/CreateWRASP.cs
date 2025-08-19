@@ -27,12 +27,9 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
-using DotSpatial.Data;
 using Heiflow.Applications;
 using Heiflow.Core.Data;
-using Heiflow.Core.IO;
 using Heiflow.Models.Generic;
-using Heiflow.Models.Generic.Project;
 using Heiflow.Models.Integration;
 using Heiflow.Models.Subsurface;
 using Heiflow.Models.WRM;
@@ -40,23 +37,19 @@ using Heiflow.Presentation.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms.Design;
 
 namespace Heiflow.Tools.DataManagement
 {
-    public class WithdrawInputFile : ModelTool
+    public class CreateWRASP : ModelTool
     {
         //   private string _DiversionFileName;
         private string _QuotaFileName;
         private List<ManagementObject> irrg_obj_list = new List<ManagementObject>();
         private List<ManagementObject> indust_obj_list = new List<ManagementObject>();
-        public WithdrawInputFile()
+        public CreateWRASP()
         {
             Name = "Create WRA Stress Period Input File";
             Category = "Irrigation Model";
