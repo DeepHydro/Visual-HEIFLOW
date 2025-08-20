@@ -58,6 +58,4 @@ D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Core\obj\Debug\Heiflow.Core.csproj.Gen
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Core\obj\Debug\Heiflow.Core.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Core\obj\Debug\Heiflow.Core.pdb
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Core\obj\Debug\Heiflow.Core.csprojResolveAssemblyReference.cache
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Core\obj\Debug\Heiflow.Core.csproj.AssemblyReference.cache
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Core\obj\Debug\Heiflow.Core.csproj.CoreCompileInputs.cache
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Core\obj\Debug\Heiflow..FA69B15A.Up2Date
+D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Core\obj\Debug\Heiflow.Core.csprojResolveAssemblyReference.cache

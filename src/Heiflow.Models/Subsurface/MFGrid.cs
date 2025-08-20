@@ -128,5 +128,7 @@ namespace Heiflow.Models.Subsurface
             this.Topology = new RegularGridTopology();
             Topology.Build();
         }
+
+        public DataCube<float> CentralPoint { get; set; }
     }
 }

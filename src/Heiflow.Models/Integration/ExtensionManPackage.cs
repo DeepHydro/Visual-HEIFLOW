@@ -50,7 +50,7 @@ namespace Heiflow.Models.Integration
          private string _LAIDAExFile;
          private string _MF_IOLOG_File;
          private string _GWHDA_File;
-         private string _ABM_MODEL_File;
+         private string _PETEX_File;
          private string _CHDEX_File;
 
         public ExtensionManPackage()
@@ -249,9 +249,9 @@ namespace Heiflow.Models.Integration
                 _GWHDA_File = value;
             }
         }
-        [Category("Agent Based Model Extension")]
+        [Category("PET DA Extension")]
         [Description("")]
-        public bool EnableABM
+        public bool EnablePETDX
         {
             get;
             set;
@@ -263,17 +263,17 @@ namespace Heiflow.Models.Integration
             get;
             set;
         }
-        [Category("Agent Based Model Extension")]
+        [Category("PET EX File")]
         [Description("")]
-        public string ABM_MODEL_File
+        public string PETEX_File
         {
             get
             {
-                return Path.Combine(Owner.WorkDirectory, _ABM_MODEL_File);
+                return Path.Combine(Owner.WorkDirectory, _PETEX_File);
             }
             set
             {
-                _ABM_MODEL_File = value;
+                _PETEX_File = value;
             }
         }
         [Category("CHD Package Extension")]
@@ -344,8 +344,8 @@ namespace Heiflow.Models.Integration
                     GWHDAFile = sr.ReadLine().Trim();
                     newline = sr.ReadLine();
                     newline = sr.ReadLine();
-                    EnableABM = TypeConverterEx.String2Bool(newline.Trim());
-                    ABM_MODEL_File = sr.ReadLine().Trim();
+                    EnablePETDX = TypeConverterEx.String2Bool(newline.Trim());
+                    PETEX_File = sr.ReadLine().Trim();
                     newline = sr.ReadLine();
                     newline = sr.ReadLine();
                     EnableCHDEx = TypeConverterEx.String2Bool(newline.Trim());
@@ -423,8 +423,8 @@ namespace Heiflow.Models.Integration
             sw.WriteLine(TypeConverterEx.Bool2String(EnableGWHDA));
             sw.WriteLine(_GWHDA_File);
             sw.WriteLine("## PET DA");
-            sw.WriteLine(TypeConverterEx.Bool2String(EnableABM));
-            sw.WriteLine(_ABM_MODEL_File);
+            sw.WriteLine(TypeConverterEx.Bool2String(EnablePETDX));
+            sw.WriteLine(_PETEX_File);
             sw.WriteLine("## CHD Extension");
             sw.WriteLine(TypeConverterEx.Bool2String(EnableCHDEx));
             sw.WriteLine(_CHDEX_File);
@@ -460,7 +460,7 @@ namespace Heiflow.Models.Integration
             _LAIDAExFile = ".\\Input\\Extension\\lai_da.ex";
             _MF_IOLOG_File = ".\\Output\\mf_io_log.csv";
             _GWHDA_File = ".\\Input\\Extension\\gwh_da.ex";
-            _ABM_MODEL_File = ".\\Input\\Extension\\abm.ex";
+            _PETEX_File = ".\\Input\\Extension\\pet.ex";
             _CHDEX_File = ".\\Input\\Extension\\chd.ex";
         }
 

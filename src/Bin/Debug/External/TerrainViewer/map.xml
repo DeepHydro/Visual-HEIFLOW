@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding="ISO-8859-1" ?>
+<!-- List of 3D maps -->
+<maps>
+<map name="Top Elevation">
+<terrain demfile="Top_Elevation.bil" texturefile="colors\Geo_1.png" altscale="0.015"/>
+ <sky skyfile="skys\Sky_Gradian_Day1.jpg" visible="1"/>
+</map>
+<map name="Layer 1 Bottom Elevation">
+<terrain demfile="Layer_1_Bottom_Elevation.bil" texturefile="colors\Geo_1.png" altscale="0.015"/>
+ <sky skyfile="skys\Sky_Gradian_Day1.jpg" visible="1"/>
+</map>
+<map name="Layer 2 Bottom Elevation">
+<terrain demfile="Layer_2_Bottom_Elevation.bil" texturefile="colors\Geo_1.png" altscale="0.015"/>
+ <sky skyfile="skys\Sky_Gradian_Day1.jpg" visible="1"/>
+</map>
+<map name="Layer 3 Bottom Elevation">
+<terrain demfile="Layer_3_Bottom_Elevation.bil" texturefile="colors\Geo_1.png" altscale="0.015"/>
+ <sky skyfile="skys\Sky_Gradian_Day1.jpg" visible="1"/>
+</map>
+<map name="Layer 4 Bottom Elevation">
+<terrain demfile="Layer_4_Bottom_Elevation.bil" texturefile="colors\Geo_1.png" altscale="0.015"/>
+ <sky skyfile="skys\Sky_Gradian_Day1.jpg" visible="1"/>
+</map>
+</maps>

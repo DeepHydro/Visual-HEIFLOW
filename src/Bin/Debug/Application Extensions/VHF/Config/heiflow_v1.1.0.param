@@ -224,6 +224,13 @@ nmonths
 3
 3
 ####
+ppt_rad_adj     15
+1
+one
+1
+2
+0.05
+####
 radj_sppt     15
 1
 one
@@ -1432,3 +1439,73 @@ one
 1
 2
 0.6
+####
+den_init     15
+1
+one
+1
+2
+0.1
+####
+settle_const     15
+1
+one
+1
+2
+0.1
+####
+den_max     15
+1
+one
+1
+2
+0.6
+####
+albset_rnm     15
+1
+one
+1
+2
+0.6
+####
+albset_rna     15
+1
+one
+1
+2
+0.8
+####
+albset_sna     15
+1
+one
+1
+2
+0.05
+####
+albset_snm     15
+1
+one
+1
+2
+0.2
+####
+emis_noppt     15
+1
+one
+1
+2
+0.757
+####
+cecn_coef     15
+1
+one
+1
+2
+5.0
+####
+freeh2o_cap     15
+1
+one
+1
+2
+0.05

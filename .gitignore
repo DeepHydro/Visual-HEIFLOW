@@ -17,7 +17,6 @@
 /src/Visual Heiflow.v12.suo
 /src/Heiflow.v12.suo
 *.pdb
-*.xml
 *.dll
 *.cache
 src/Bin/Debug/Heiflow.AI.dll

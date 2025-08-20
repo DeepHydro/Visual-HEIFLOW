@@ -78,7 +78,9 @@ namespace Heiflow.Models.Subsurface
         {
             Name = "Modflow";
             PackageFileNameProvider = new MFPackFileNameProvider(this);
-          //  this.Icon = Resources.mf16;
+
+            this.Icon = Resources.mf16;
+            this.LargeIcon = Resources.mf32;
             this.TimeService = new TimeService("Subsurface Timeline")
             {
                 UseStressPeriods = true

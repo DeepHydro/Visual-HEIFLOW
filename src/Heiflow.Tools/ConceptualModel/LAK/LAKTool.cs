@@ -337,6 +337,7 @@ namespace Heiflow.Tools.ConceptualModel
                 var grid = mf.Grid as MFGrid;
 
                 int nlakehru = 0;
+                List<int> lakeid = new List<int>();
                 for (int i = 0; i < pck.LakeCellID.Keys.Count; i++)
                 {
                     var id = pck.LakeCellID.Keys.ElementAt(i);
@@ -346,9 +347,11 @@ namespace Heiflow.Tools.ConceptualModel
                         lake_hru_id.SetValue(0, hru_index, 0, id);
                         hru_type.SetValue(0, hru_index, 0, 2);
                         //cov_type.SetValue(0, hru_index, 0, 0);
-                        nlakehru++;
+                       // nlakehru++;
+                        
                     }
                 }
+                nlakehru = pck.LakeCellID.Keys.Count;
                 var nlake = model.PRMSModel.MMSPackage.Select("nlake");
                 if(nlake == null)
                 {
@@ -380,7 +383,7 @@ namespace Heiflow.Tools.ConceptualModel
                 if (lake_evap_adj != null)
                 {
                     var para = lake_evap_adj as DataCubeParameter<float>;
-                    for (int i = 0; i < pck.NLAKES; i++)
+                    for (int i = 0; i < nlakehru; i++)
                     {
                         para[0][":", i] = new float[] { 1, 1, 1.1f, 1.2f, 1.3f, 1.4f, 1.5f, 1.5f, 1.4f, 1.3f, 1.2f, 1.1f };
                     }
@@ -391,7 +394,7 @@ namespace Heiflow.Tools.ConceptualModel
                     if (buf.Any())
                     {
                         var para = buf.First();
-                        DataCubeParameter<float> gv = new DataCubeParameter<float>(1, 12, pck.NLAKES, false)
+                        DataCubeParameter<float> gv = new DataCubeParameter<float>(1, 12, nlakehru, false)
                         {
                             ValueType = para.ValueType,
                             VariableType = ParameterType.Parameter,
@@ -406,7 +409,7 @@ namespace Heiflow.Tools.ConceptualModel
                             Minimum = para.Minimum,
                             Units = para.Units
                         };
-                        for (int i = 0; i < pck.NLAKES; i++)
+                        for (int i = 0; i < nlakehru; i++)
                         {
                             gv[0][":", i] = new float[] { 1, 1, 1.1f, 1.2f, 1.3f, 1.4f, 1.5f, 1.5f, 1.4f, 1.3f, 1.2f, 1.1f };
                         }

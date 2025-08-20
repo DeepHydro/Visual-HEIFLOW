@@ -117,7 +117,7 @@ namespace Heiflow.Models.Integration
         private WindModule _WindModule;
         private HumidityModule _HumidityModule;
         private PressureModule _PressureModule;
-        private bool _SaveSoilwaterFile;
+        private bool _SaveSoilwaterFile = false;
         private string _SoilWaterFile;
         private string _SoilWaterBudgetFile;
 

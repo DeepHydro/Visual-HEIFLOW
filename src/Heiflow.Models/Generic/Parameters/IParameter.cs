@@ -42,8 +42,8 @@ namespace Heiflow.Models.Generic
         climate_hru, ddsolrad, ccsolrad, potet_jh, potet_hamon, potet_pan, potet_hs, potet_pt, potet_pm, transp_frost,
         frost_date, transp_tindex, intcp, snowcomp, srunoff_smidx, srunoff_carea, soilzone, gwflow, subbasin,
         routing, strmflow, muskingum, strmflow_lake, lake_route, strmflow_in_out, water_balance, nhru_summar,
-        prms_summary, basin_sum, map_results, write_climate_hru, prms_only, xyz_dist, gsflow_prms2mf, precip_prms, precip_laps_prms,
-        precip_dist2_prms, hru_sum_prms, gsflow_setconv, temp_dist2_prms, gsflow_sum, ecology_general, ecopopulus
+        prms_summary, basin_sum, map_results, write_climate_hru, prms_only, xyz_dist, sw2gw, precip_prms, precip_laps_prms,
+        precip_dist2_prms, hru_sum_prms, swgw_setconv, temp_dist2_prms, gsflow_sum, ecology_general, ecopopulus
     }
 
     public interface IParameter

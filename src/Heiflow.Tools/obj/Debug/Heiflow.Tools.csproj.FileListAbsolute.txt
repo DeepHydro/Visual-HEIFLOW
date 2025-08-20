@@ -50,6 +50,4 @@ D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Tools\obj\Debug\Heiflow.Tools.csproj.G
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Tools\obj\Debug\Heiflow.Tools.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Tools\obj\Debug\Heiflow.Tools.pdb
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Tools\obj\Debug\Heiflow.Tools.csprojResolveAssemblyReference.cache
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Tools\obj\Debug\Heiflow.Tools.csproj.AssemblyReference.cache
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Tools\obj\Debug\Heiflow.Tools.csproj.CoreCompileInputs.cache
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Tools\obj\Debug\Heiflow..51252FD6.Up2Date
+D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Tools\obj\Debug\Heiflow.Tools.csprojResolveAssemblyReference.cache
