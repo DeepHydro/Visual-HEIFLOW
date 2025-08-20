@@ -273,6 +273,10 @@ namespace Heiflow.Models.Surface.PRMS
             var ncell = 1;
             if (!onegrid)
                 ncell = grid.ActiveCellCount;
+            else
+            {
+                
+            }
             DataCube<float> mat = new DataCube<float>(1, this.TimeService.NumTimeStep, ncell);
             mat.Variables = new string[] { "hru_ppt" };
             mat.DateTimes = this.TimeService.Timeline.ToArray();

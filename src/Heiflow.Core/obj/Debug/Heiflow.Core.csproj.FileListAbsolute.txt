@@ -57,5 +57,7 @@ D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Core\obj\Debug\Heiflow.Core.Resource.r
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Core\obj\Debug\Heiflow.Core.csproj.GenerateResource.cache
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Core\obj\Debug\Heiflow.Core.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Core\obj\Debug\Heiflow.Core.pdb
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Core\obj\Debug\Heiflow.Core.csprojResolveAssemblyReference.cache
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Core\obj\Debug\Heiflow.Core.csprojResolveAssemblyReference.cache
+D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Core\obj\Debug\Heiflow.Core.csproj.AssemblyReference.cache
+D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Core\obj\Debug\Heiflow.Core.csproj.CoreCompileInputs.cache
+D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Core\obj\Debug\Heiflow..FA69B15A.Up2Date

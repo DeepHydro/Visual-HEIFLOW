@@ -1764,9 +1764,9 @@ namespace Heiflow.Models.Integration
         {
             string filename = Path.Combine(ModelService.WorkDirectory, _GridClimateFile);
             StreamWriter sw = new StreamWriter(filename);
-            string line = string.Format("# Clmate Grid ID, HRU ID");
+            string line = string.Format("# # Clmate_Grid_ID, HRU_ID");
             sw.WriteLine(line);
-            line = string.Format("{0} {1} # subbasin_count hru_count", nhru, nhru);
+            line = string.Format("{0} {1} # climate_grid_count hru_count", nhru, nhru);
             sw.WriteLine(line);
             for (int i = 1; i <= nhru; i++)
             {

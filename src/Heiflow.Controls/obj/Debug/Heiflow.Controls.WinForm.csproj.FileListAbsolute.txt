@@ -555,5 +555,7 @@ D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\zh-CN\Heiflow.Contr
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\cs\Heiflow.Controls.WinForm.resources.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.pdb
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csprojResolveAssemblyReference.cache
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csprojResolveAssemblyReference.cache
+D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csproj.AssemblyReference.cache
+D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow.Controls.WinForm.csproj.CoreCompileInputs.cache
+D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls\obj\Debug\Heiflow..9861AE8C.Up2Date

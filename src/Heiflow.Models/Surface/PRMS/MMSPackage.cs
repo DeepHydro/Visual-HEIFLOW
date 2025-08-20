@@ -833,7 +833,7 @@ namespace Heiflow.Models.Surface.PRMS
             var master = (this.Owner as PRMS).MasterPackage;
             if (master.UseGridClimate)
             {
-                master.WriteDefaultClimateMapFile(numhru);
+                master.WriteDefaultClimateMapFile(1);
             }
 
             base.OnGridUpdated(sender);
