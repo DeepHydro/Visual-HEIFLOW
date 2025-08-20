@@ -2050,6 +2050,136 @@
       <Minimum>0.01</Minimum>
       <Units>dimensionless</Units>
     </SerializableParameter>
+    <SerializableParameter>
+      <Name>fr_N_1</Name>
+      <Description>Normal fraction of nitrogen in the plant biomass at emergence</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>vegtotal</DimensionNames>
+      <DefaultValue>0.015</DefaultValue>
+      <ModuleName>ecology_general</ModuleName>
+      <Maximum>0.1</Maximum>
+      <Minimum>0.00001</Minimum>
+      <Units />
+    </SerializableParameter>
+    <SerializableParameter>
+      <Name>fr_N_2</Name>
+      <Description>Normal fraction of nitrogen in the plant biomass at 50% maturity</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>vegtotal</DimensionNames>
+      <DefaultValue>0.015</DefaultValue>
+      <ModuleName>ecology_general</ModuleName>
+      <Maximum>0.1</Maximum>
+      <Minimum>0.00001</Minimum>
+      <Units />
+    </SerializableParameter> 
+    <SerializableParameter>
+      <Name>fr_N_3</Name>
+      <Description>Normal fraction of nitrogen in the plant biomass at maturity</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>vegtotal</DimensionNames>
+      <DefaultValue>0.015</DefaultValue>
+      <ModuleName>ecology_general</ModuleName>
+      <Maximum>0.1</Maximum>
+      <Minimum>0.00001</Minimum>
+      <Units />
+    </SerializableParameter> 
+    <SerializableParameter>
+      <Name>fr_P_1</Name>
+      <Description>Normal fraction of phosphorus in the plant biomass at emergence</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>vegtotal</DimensionNames>
+      <DefaultValue>0.001</DefaultValue>
+      <ModuleName>ecology_general</ModuleName>
+      <Maximum>0.05</Maximum>
+      <Minimum>0.00001</Minimum>
+      <Units />
+    </SerializableParameter> 
+    <SerializableParameter>
+      <Name>fr_P_2</Name>
+      <Description>Normal fraction of phosphorus in the plant biomass at 50% maturity</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>vegtotal</DimensionNames>
+      <DefaultValue>0.001</DefaultValue>
+      <ModuleName>ecology_general</ModuleName>
+      <Maximum>0.05</Maximum>
+      <Minimum>0.00001</Minimum>
+      <Units />
+    </SerializableParameter> 
+    <SerializableParameter>
+      <Name>fr_P_3</Name>
+      <Description>Normal fraction of phosphorus in the plant biomass at maturity</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>vegtotal</DimensionNames>
+      <DefaultValue>0.001</DefaultValue>
+      <ModuleName>ecology_general</ModuleName>
+      <Maximum>0.05</Maximum>
+      <Minimum>0.00001</Minimum>
+      <Units />
+    </SerializableParameter> 
+    <SerializableParameter>
+      <Name>beta_n</Name>
+      <Description>Nitrogen uptake distribution parameter</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>vegtotal</DimensionNames>
+      <DefaultValue>20</DefaultValue>
+      <ModuleName>ecology_general</ModuleName>
+      <Maximum>100</Maximum>
+      <Minimum>1</Minimum>
+      <Units />
+    </SerializableParameter> 
+    <SerializableParameter>
+      <Name>beta_p</Name>
+      <Description>Phosphorus uptake distribution parameter</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>vegtotal</DimensionNames>
+      <DefaultValue>20</DefaultValue>
+      <ModuleName>ecology_general</ModuleName>
+      <Maximum>100</Maximum>
+      <Minimum>1</Minimum>
+      <Units />
+    </SerializableParameter> 
+    <SerializableParameter>
+      <Name>legume_flag</Name>
+      <Description>legume plant flag for nitrogen fixation</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>vegtotal</DimensionNames>
+      <DefaultValue>0.0</DefaultValue>
+      <ModuleName>ecology_general</ModuleName>
+      <Maximum>1.0</Maximum>
+      <Minimum>0.0</Minimum>
+      <Units />
+    </SerializableParameter> 
+    <SerializableParameter>
+      <Name>ratio_yield</Name>
+      <Description>plants yield ratio for harvest or dormant</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>vegtotal</DimensionNames>
+      <DefaultValue>0.0</DefaultValue>
+      <ModuleName>ecology_general</ModuleName>
+      <Maximum>1.0</Maximum>
+      <Minimum>0.0</Minimum>
+      <Units />
+    </SerializableParameter> 
   </DefaultParameters>
   <_nhru_dim_names>
     <string>nhru</string>

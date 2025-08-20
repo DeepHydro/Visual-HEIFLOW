@@ -1766,11 +1766,11 @@ namespace Heiflow.Models.Integration
             StreamWriter sw = new StreamWriter(filename);
             string line = string.Format("# # Clmate_Grid_ID, HRU_ID");
             sw.WriteLine(line);
-            line = string.Format("{0} {1} # climate_grid_count hru_count", nhru, nhru);
+            line = string.Format("{0} {1} # climate_grid_count hru_count", 1, nhru);
             sw.WriteLine(line);
             for (int i = 1; i <= nhru; i++)
             {
-                line = string.Format("{0}\t{1}", i, i);
+                line = string.Format("{0}\t{1}", 1, i);
                 sw.WriteLine(line);
             }
             sw.Close();

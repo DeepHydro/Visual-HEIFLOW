@@ -218,9 +218,9 @@ namespace Heiflow.Models.Surface.PRMS
             index = 0;
 
             var gvr_cell_id_para = _Prms.MMSPackage.Parameters["gvr_cell_id"] as DataCubeParameter<int>;
-            var gvr_hru_id_para = _Prms.MMSPackage.Parameters["gvr_hru_id"] as DataCubeParameter<int>;
+           // var gvr_hru_id_para = _Prms.MMSPackage.Parameters["gvr_hru_id"] as DataCubeParameter<int>;
             gvr_cell_id_para[0][":",0] = gvr_cell_id;
-            gvr_hru_id_para[0][":", 0] = gvr_hru_id;
+            //gvr_hru_id_para[0][":", 0] = gvr_hru_id;
         }
 
         public void MapHruID(IParameter para)
