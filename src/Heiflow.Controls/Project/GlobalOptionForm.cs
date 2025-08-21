@@ -45,14 +45,13 @@ namespace Heiflow.Controls.WinForm.Project
 
         private void GlobalOptionForm_Load(object sender, EventArgs e)
         {
-
             var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
             _Model = prj.Project.Model as HeiflowModel;
             propertyGrid1.SelectedObject = _Model.ExtensionManPackage;
             radioRunoffLinear.Checked = _Model.MasterPackage.SurfaceRunoff == SurfaceRunoffModule.srunoff_carea_casc;
             radioRunoffNonLinear.Checked = _Model.MasterPackage.SurfaceRunoff == SurfaceRunoffModule.srunoff_smidx_casc;
             radioSRTemp.Checked = _Model.MasterPackage.SolarRadiation == SolarRadiationModule.ddsolrad_hru_prms;
-            radioSRCloud.Checked = _Model.MasterPackage.SolarRadiation == SolarRadiationModule.ccsolrad_hru_prms;
+            radioSRClimate.Checked = _Model.MasterPackage.SolarRadiation == SolarRadiationModule.climate_hru;
             radioPETClimate.Checked = _Model.MasterPackage.PotentialET == PETModule.climate_hru;
             radioPETPM.Checked = _Model.MasterPackage.PotentialET == PETModule.potet_pm;
             cmbmxsziter.Text = _Model.MasterPackage.MaxSoilZoneIter.ToString();
@@ -124,8 +123,8 @@ namespace Heiflow.Controls.WinForm.Project
                 _Model.MasterPackage.SurfaceRunoff = SurfaceRunoffModule.srunoff_smidx_casc;
             if (radioSRTemp.Checked)
                 _Model.MasterPackage.SolarRadiation = SolarRadiationModule.ddsolrad_hru_prms;
-            else if (radioSRCloud.Checked)
-                _Model.MasterPackage.SolarRadiation = SolarRadiationModule.ccsolrad_hru_prms;
+            else if (radioSRClimate.Checked)
+                _Model.MasterPackage.SolarRadiation = SolarRadiationModule.climate_hru;
             if (radioPETClimate.Checked)
                 _Model.MasterPackage.PotentialET = PETModule.climate_hru;
             else if (radioPETPM.Checked)
@@ -166,11 +165,15 @@ namespace Heiflow.Controls.WinForm.Project
             tabControl1.SelectedTab = tabOutVars;
         }
 
-        private void listVars_SelectedIndexChanged(object sender, EventArgs e)
+        private void btnUpdateSfrunoff_Click(object sender, EventArgs e)
         {
-          
+            _Model.MasterPackage.OnSurfaceRunoffModuleChanged();
+            var shell = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
+            var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
+            var model = prj.Project.Model as Heiflow.Models.Integration.HeiflowModel;
+            shell.ProjectExplorer.ClearContent();
+            shell.ProjectExplorer.AddProject(prj.Project);
         }
-
     }
 
 }

@@ -223,6 +223,11 @@ press_day
 4
 .\input\clm\press.dcx
 ####
+swrad_day
+1
+4
+.\input\clm\swrad.dcx
+####
 subbasin_flag
 1
 1

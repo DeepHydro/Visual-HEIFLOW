@@ -160,6 +160,7 @@
       <Maximum>3</Maximum>
       <Minimum>0.005</Minimum>
       <Units />
+    </SerializableParameter>   
     <SerializableParameter>
       <Name>lake_hru_id</Name>
       <Description>MODFLOW lake number associated with an HRU</Description>
@@ -172,7 +173,6 @@
       <Maximum>1000000</Maximum>
       <Minimum>0</Minimum>
       <Units>dimensionless</Units>
-    </SerializableParameter>
     </SerializableParameter>
     <SerializableParameter>
       <Name>ndepl</Name>
@@ -559,7 +559,7 @@
       <Dimension>1</Dimension>
       <DimensionNames>one</DimensionNames>
       <DefaultValue>0.44</DefaultValue>
-      <ModuleName>climate_hru</ModuleName>
+      <ModuleName>ddsolrad</ModuleName>
       <Maximum>1</Maximum>
       <Minimum>0</Minimum>
       <Units>dimensionless</Units>
@@ -572,7 +572,7 @@
       <Dimension>1</Dimension>
       <DimensionNames>one</DimensionNames>
       <DefaultValue>0.5</DefaultValue>
-      <ModuleName>ccsolrad</ModuleName>
+      <ModuleName>ddsolrad</ModuleName>
       <Maximum>1</Maximum>
       <Minimum>0</Minimum>
       <Units>dimensionless</Units>
@@ -702,7 +702,7 @@
       <Dimension>1</Dimension>
       <DimensionNames>nhru</DimensionNames>
       <DefaultValue>0.6</DefaultValue>
-      <ModuleName>soilzone</ModuleName>
+      <ModuleName>srunoff_module</ModuleName>
       <Maximum>1</Maximum>
       <Minimum>0</Minimum>
       <Units>dimensionless</Units>
@@ -715,7 +715,7 @@
       <Dimension>1</Dimension>
       <DimensionNames>nhru</DimensionNames>
       <DefaultValue>0.0002</DefaultValue>
-      <ModuleName>soilzone</ModuleName>
+      <ModuleName>srunoff_module</ModuleName>
       <Maximum>1.0</Maximum>
       <Minimum>0.0001</Minimum>
       <Units>dimensionless</Units>
@@ -728,7 +728,7 @@
       <Dimension>1</Dimension>
       <DimensionNames>nhru</DimensionNames>
       <DefaultValue>0.6</DefaultValue>
-      <ModuleName>soilzone</ModuleName>
+      <ModuleName>srunoff_module</ModuleName>
       <Maximum>0.8</Maximum>
       <Minimum>0.2</Minimum>
       <Units>dimensionless</Units>
@@ -741,20 +741,20 @@
       <Dimension>1</Dimension>
       <DimensionNames>nhru</DimensionNames>
       <DefaultValue>2</DefaultValue>
-      <ModuleName>snowcomp</ModuleName>
+      <ModuleName>srunoff_module</ModuleName>
       <Maximum>20</Maximum>
       <Minimum>0</Minimum>
       <Units>inches</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>imperv_stor_max</Name>
-      <Description>Maximum retention storage for HRUimpervious area</Description>
+      <Description>Maximum retention storage for HRU impervious area</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>nhru</DimensionNames>
       <DefaultValue>0</DefaultValue>
-      <ModuleName>basin</ModuleName>
+      <ModuleName>srunoff_module</ModuleName>
       <Maximum>10</Maximum>
       <Minimum>0</Minimum>
       <Units>inches</Units>
@@ -767,7 +767,7 @@
       <Dimension>1</Dimension>
       <DimensionNames>nhru</DimensionNames>
       <DefaultValue>0.2</DefaultValue>
-      <ModuleName>soilzone</ModuleName>
+      <ModuleName>srunoff_module</ModuleName>
       <Maximum>1</Maximum>
       <Minimum>0</Minimum>
       <Units />

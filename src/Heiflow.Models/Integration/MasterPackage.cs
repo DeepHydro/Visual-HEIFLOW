@@ -32,6 +32,7 @@ using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Parameters;
 using Heiflow.Models.Subsurface;
+using Heiflow.Models.Surface.PRMS;
 using Heiflow.Models.UI;
 using System;
 using System.Collections.Generic;
@@ -45,13 +46,13 @@ namespace Heiflow.Models.Integration
 {
     public enum TemperatureModule { climate_hru = 0, temp_1sta_prms = 1, temp_2sta_prms = 2, xyz_dist = 3 }
     public enum PrecipitationModule { climate_hru = 0, precip_prms, precip_laps_prms, xyz_dist }
-    public enum WindModule { climate_hru = 0}
+    public enum WindModule { climate_hru = 0 }
     public enum HumidityModule { climate_hru = 0 }
     public enum PressureModule { climate_hru = 0 }
-    public enum SolarRadiationModule { ccsolrad_hru_prms = 0, ddsolrad_hru_prms }
+    public enum SolarRadiationModule { climate_hru = 0, ddsolrad_hru_prms = 1 }
     public enum PETModule { potet_hamon_prms = 0, potet_jh_prms, potet_pm, climate_hru }
     public enum SurfaceRunoffModule { srunoff_carea_casc = 0, srunoff_smidx_casc }
-    public enum ModelMode { GSFLOW,HEIFLOW }
+    public enum ModelMode { GSFLOW, HEIFLOW }
 
 
     public class MasterPackage : Package
@@ -67,7 +68,7 @@ namespace Heiflow.Models.Integration
         string _WaterBudgetCsvFile;
         string _PRMSBudgetFile;
         bool _OutputWaterComponent = true;
-        string _WaterComponentFile="null";
+        string _WaterComponentFile = "null";
         string _WaterBudgetFile = "null";
         string _MFListFile = "null";
         TemperatureModule _Temperature = TemperatureModule.climate_hru;
@@ -88,18 +89,19 @@ namespace Heiflow.Models.Integration
         bool _SaveVarsToFile = false;
         string _VarSaveFile;
         bool _SubbasinFlag = false;
-        private string _PrecipitationFile="ppt.dcx";
+        private string _PrecipitationFile = "ppt.dcx";
         private string _TempMaxFile = "tmax.dcx";
         private string _TempMinFile = "tmin.dcx";
         private string _PETFile = "pet.dcx";
         private string _WindFile = "wind.dcx";
+        private string _swradFile = "swrad.dcx";
         private string _HumidityFile = "hum.dcx";
         private string _PressureFile = "pressure.dcx";
         bool _PrintDebug = false;
         bool _dynamic_para = false;
         int[] _dynamic_day;
         string[] _dynamic_param_file;
-       string[] _dynamic_wqparam_file;
+        string[] _dynamic_wqparam_file;
         ModelMode _ModelMode = ModelMode.GSFLOW;
         int[] _StatVarElement;
         bool _UseGridClimate = false;
@@ -109,7 +111,7 @@ namespace Heiflow.Models.Integration
         FileFormat _ClimateInputFormat = FileFormat.Binary;
         private bool _AnimationOutOC = false;
         private bool _nps_module = false;
-        private string  _AnimationOutOCFile;
+        private string _AnimationOutOCFile;
         private string _wra_module = "none";
         private string _wra_module_file;
         private string _hydraulics_engine = "SFR";
@@ -172,7 +174,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _StartTime = value;
-                (Parameters["start_time"] as DataCubeParameter<int>)[0][":",0] = new int[] { value.Year, value.Month, value.Day, 0, 0, 0 };
+                (Parameters["start_time"] as DataCubeParameter<int>)[0][":", 0] = new int[] { value.Year, value.Month, value.Day, 0, 0, 0 };
                 OnPropertyChanged("StartTime");
             }
         }
@@ -352,7 +354,7 @@ namespace Heiflow.Models.Integration
         {
             get
             {
-                return Path.Combine(ModelService.WorkDirectory,_TempMaxFile);
+                return Path.Combine(ModelService.WorkDirectory, _TempMaxFile);
             }
             set
             {
@@ -368,7 +370,7 @@ namespace Heiflow.Models.Integration
         {
             get
             {
-                return Path.Combine(ModelService.WorkDirectory,_TempMinFile);
+                return Path.Combine(ModelService.WorkDirectory, _TempMinFile);
             }
             set
             {
@@ -383,7 +385,7 @@ namespace Heiflow.Models.Integration
         {
             get
             {
-                return Path.Combine(ModelService.WorkDirectory,_PETFile);
+                return Path.Combine(ModelService.WorkDirectory, _PETFile);
             }
             set
             {
@@ -401,7 +403,7 @@ namespace Heiflow.Models.Integration
         {
             get
             {
-                return Path.Combine(ModelService.WorkDirectory,_WindFile);
+                return Path.Combine(ModelService.WorkDirectory, _WindFile);
             }
             set
             {
@@ -414,12 +416,30 @@ namespace Heiflow.Models.Integration
             }
         }
         [Category("Input Files")]
+        [Description("Spatially-distributed wind file")]
+        public string SwradFile
+        {
+            get
+            {
+                return Path.Combine(ModelService.WorkDirectory, _swradFile);
+            }
+            set
+            {
+                _swradFile = value;
+                if (Parameters.Keys.Contains("swrad_day"))
+                {
+                    (Parameters["swrad_day"] as DataCubeParameter<string>)[0, 0, 0] = value;
+                    OnPropertyChanged("WindFile");
+                }
+            }
+        }
+        [Category("Input Files")]
         [Description("Spatially-distributed humidity file")]
         public string HumidityFile
         {
             get
             {
-                return Path.Combine(ModelService.WorkDirectory,_HumidityFile);
+                return Path.Combine(ModelService.WorkDirectory, _HumidityFile);
             }
             set
             {
@@ -437,7 +457,7 @@ namespace Heiflow.Models.Integration
         {
             get
             {
-                return Path.Combine(ModelService.WorkDirectory,_PressureFile);
+                return Path.Combine(ModelService.WorkDirectory, _PressureFile);
             }
             set
             {
@@ -750,6 +770,7 @@ namespace Heiflow.Models.Integration
                 OnPropertyChanged("PotentialET");
             }
         }
+
         /// <summary>
         /// wind module
         /// </summary>
@@ -1024,8 +1045,8 @@ namespace Heiflow.Models.Integration
             {
                 _SaveSoilwaterFile = value;
                 var infs = _SaveSoilwaterFile ? 1 : 0;
-                if(Parameters.Keys.Contains("save_soilwater_hru"))
-             {
+                if (Parameters.Keys.Contains("save_soilwater_hru"))
+                {
                     (Parameters["save_soilwater_hru"] as DataCubeParameter<int>)[0, 0, 0] = infs;
                     OnPropertyChanged("SaveSoilwaterFile");
                 }
@@ -1050,7 +1071,7 @@ namespace Heiflow.Models.Integration
         [Description("file name used to save soil water budget")]
         public string SoilWaterBudgetFile
         {
-            get 
+            get
             {
                 return _SoilWaterBudgetFile;
             }
@@ -1121,7 +1142,7 @@ namespace Heiflow.Models.Integration
             set
             {
                 _dynamic_param_file = value;
-                (Parameters["dynamic_param_file"] as DataCubeParameter<string>)[0][":",0] = _dynamic_param_file;
+                (Parameters["dynamic_param_file"] as DataCubeParameter<string>)[0][":", 0] = _dynamic_param_file;
                 OnPropertyChanged("DynamicParamFiles");
             }
         }
@@ -1437,6 +1458,7 @@ namespace Heiflow.Models.Integration
                 PrecipitationFile = string.Format(".\\input\\prms\\{0}_precip.dcx", Owner.Project.Name);
                 TempMaxFile = string.Format(".\\input\\prms\\{0}_tmax.dcx", Owner.Project.Name);
                 TempMinFile = string.Format(".\\input\\prms\\{0}_tmin.dcx", Owner.Project.Name);
+                SwradFile = string.Format(".\\input\\prms\\{0}_swrad.dcx", Owner.Project.Name);
                 if (Owner.Project.SelectedVersion == "v1.0.0")
                     PETFile = string.Format(".\\input\\prms\\{0}_pet.dcx", Owner.Project.Name);
                 else
@@ -1480,7 +1502,7 @@ namespace Heiflow.Models.Integration
                 IsDirty = false;
             }
         }
-      
+
 
         public override void Clear()
         {
@@ -1567,7 +1589,7 @@ namespace Heiflow.Models.Integration
                             VariableType = ParameterType.Control,
                             Dimension = nDimension,
                             Name = name,
-                            DimensionNames = new string[] {"control"},
+                            DimensionNames = new string[] { "control" },
                             Owner = this
                         };
                         gv[0][":", 0] = intbuf;
@@ -1689,7 +1711,7 @@ namespace Heiflow.Models.Integration
 
         public override void OnTimeServiceUpdated(ITimeService time)
         {
-            StartTime=TimeService.Start ;
+            StartTime = TimeService.Start;
             EndTime = TimeService.End;
         }
 
@@ -1726,6 +1748,10 @@ namespace Heiflow.Models.Integration
                 {
                     HumidityFile = HumidityFile.Replace(".txt", ".dcx");
                 }
+                if (SwradFile.Contains(".txt"))
+                {
+                    SwradFile = SwradFile.Replace(".txt", ".dcx");
+                }
             }
             else
             {
@@ -1757,6 +1783,10 @@ namespace Heiflow.Models.Integration
                 {
                     HumidityFile = HumidityFile.Replace(".dcx", ".txt");
                 }
+                if (SwradFile.Contains(".dcx"))
+                {
+                    SwradFile = SwradFile.Replace(".dcx", ".txt");
+                }
             }
         }
 
@@ -1774,6 +1804,104 @@ namespace Heiflow.Models.Integration
                 sw.WriteLine(line);
             }
             sw.Close();
+        }
+
+        public void OnSurfaceRunoffModuleChanged()
+        {
+            var prms = (Owner as HeiflowModel).PRMSModel;
+            if (SurfaceRunoff == SurfaceRunoffModule.srunoff_carea_casc)
+            {
+                var smidx_coef = prms.MMSPackage.Select("smidx_coef");
+                var smidx_exp = prms.MMSPackage.Select("smidx_exp");
+                var carea_min = prms.MMSPackage.Select("carea_min");
+                if (smidx_coef != null)
+                {
+                    prms.MMSPackage.Parameters.Remove("smidx_coef");
+                }
+                if (smidx_exp != null)
+                {
+                    prms.MMSPackage.Parameters.Remove("smidx_exp");
+                }
+                if (carea_min == null)
+                {
+                    DataCubeParameter<float> gv = new DataCubeParameter<float>(1, ModelService.NHRU, 1, false)
+                    {
+                        ValueType = 2,
+                        VariableType = ParameterType.Parameter,
+                        Dimension = 1,
+                        DimensionNames = new string[] { "nhru" },
+                        Owner = prms.MMSPackage,
+                        Name = "carea_min",
+                        ModuleName = Modules.srunoff_module,
+                        DefaultValue = 0.2,
+                        Description = "Minimum possible area contributing to surface runoff,expressed as a portion of the area for each HRU",
+                        Maximum = 1,
+                        Minimum = 0,
+                        Units = "dimensionless"
+                    };
+                    for (int i = 0; i < ModelService.NHRU; i++)
+                    {
+                        gv[0, i, 0] = 0.2f;
+                    }
+                    prms.MMSPackage.Parameters.Add(gv.Name, gv);
+                }
+            }
+            else if (SurfaceRunoff == SurfaceRunoffModule.srunoff_smidx_casc)
+            {
+                var smidx_coef = prms.MMSPackage.Select("smidx_coef");
+                var smidx_exp = prms.MMSPackage.Select("smidx_exp");
+                var carea_min = prms.MMSPackage.Select("carea_min");
+                if (smidx_coef == null)
+                {
+                    DataCubeParameter<float> gv = new DataCubeParameter<float>(1, ModelService.NHRU, 1, false)
+                    {
+                        ValueType = 2,
+                        VariableType = ParameterType.Parameter,
+                        Dimension = 1,
+                        DimensionNames = new string[] { "nhru" },
+                        Owner = prms.MMSPackage,
+                        Name = "smidx_coef",
+                        ModuleName = Modules.srunoff_module,
+                        DefaultValue = 0.0002,
+                        Description = "Coefficient in non-linear contributing area algorithm for each HRU",
+                        Maximum = 1,
+                        Minimum = 0.0001f,
+                        Units = "dimensionless"
+                    };
+                    for (int i = 0; i < ModelService.NHRU; i++)
+                    {
+                        gv[0, i, 0] = 0.0002f;
+                    }
+                    prms.MMSPackage.Parameters.Add(gv.Name, gv);
+                }
+                if (smidx_exp == null)
+                {
+                    DataCubeParameter<float> gv = new DataCubeParameter<float>(1, ModelService.NHRU, 1, false)
+                    {
+                        ValueType = 2,
+                        VariableType = ParameterType.Parameter,
+                        Dimension = 1,
+                        DimensionNames = new string[] { "nhru" },
+                        Owner = prms.MMSPackage,
+                        Name = "smidx_exp",
+                        ModuleName = Modules.srunoff_module,
+                        DefaultValue = 0.6,
+                        Description = "Exponent in non-linear contributing area algorithm for each HRU",
+                        Maximum = 0.8f,
+                        Minimum = 0.2f,
+                        Units = "dimensionless"
+                    };
+                    for (int i = 0; i < ModelService.NHRU; i++)
+                    {
+                        gv[0, i, 0] = 0.6f;
+                    }
+                    prms.MMSPackage.Parameters.Add(gv.Name, gv);
+                }
+                if (carea_min != null)
+                {
+                    prms.MMSPackage.Parameters.Remove("carea_min");
+                }
+            }
         }
     }
 }

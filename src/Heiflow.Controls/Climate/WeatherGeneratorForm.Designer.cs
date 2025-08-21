@@ -55,6 +55,7 @@
             this.tbTMax = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.tabUniform = new System.Windows.Forms.TabPage();
+            this.checkBoxOneGrid = new System.Windows.Forms.CheckBox();
             this.label16 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
@@ -80,7 +81,9 @@
             this.label24 = new System.Windows.Forms.Label();
             this.btnGenerate = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
-            this.checkBoxOneGrid = new System.Windows.Forms.CheckBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.tbRad = new System.Windows.Forms.TextBox();
+            this.label26 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabFile.SuspendLayout();
@@ -206,7 +209,7 @@
             this.tabControl1.Location = new System.Drawing.Point(7, 112);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(600, 352);
+            this.tabControl1.Size = new System.Drawing.Size(600, 408);
             this.tabControl1.TabIndex = 28;
             // 
             // tabFile
@@ -362,9 +365,11 @@
             // tabUniform
             // 
             this.tabUniform.Controls.Add(this.checkBoxOneGrid);
+            this.tabUniform.Controls.Add(this.label25);
             this.tabUniform.Controls.Add(this.label16);
             this.tabUniform.Controls.Add(this.label18);
             this.tabUniform.Controls.Add(this.label20);
+            this.tabUniform.Controls.Add(this.label26);
             this.tabUniform.Controls.Add(this.label21);
             this.tabUniform.Controls.Add(this.label19);
             this.tabUniform.Controls.Add(this.label17);
@@ -372,6 +377,7 @@
             this.tabUniform.Controls.Add(this.label12);
             this.tabUniform.Controls.Add(this.label13);
             this.tabUniform.Controls.Add(this.label14);
+            this.tabUniform.Controls.Add(this.tbRad);
             this.tabUniform.Controls.Add(this.textBox5);
             this.tabUniform.Controls.Add(this.textBox4);
             this.tabUniform.Controls.Add(this.textBox1);
@@ -386,10 +392,22 @@
             this.tabUniform.Location = new System.Drawing.Point(4, 39);
             this.tabUniform.Name = "tabUniform";
             this.tabUniform.Padding = new System.Windows.Forms.Padding(3);
-            this.tabUniform.Size = new System.Drawing.Size(592, 309);
+            this.tabUniform.Size = new System.Drawing.Size(592, 365);
             this.tabUniform.TabIndex = 1;
             this.tabUniform.Text = "Uniform Method";
             this.tabUniform.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxOneGrid
+            // 
+            this.checkBoxOneGrid.AutoSize = true;
+            this.checkBoxOneGrid.Checked = true;
+            this.checkBoxOneGrid.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxOneGrid.Location = new System.Drawing.Point(24, 311);
+            this.checkBoxOneGrid.Name = "checkBoxOneGrid";
+            this.checkBoxOneGrid.Size = new System.Drawing.Size(170, 35);
+            this.checkBoxOneGrid.TabIndex = 33;
+            this.checkBoxOneGrid.Text = "Use one grid";
+            this.checkBoxOneGrid.UseVisualStyleBackColor = true;
             // 
             // label16
             // 
@@ -607,7 +625,7 @@
             this.btnGenerate.BackColor = System.Drawing.SystemColors.Control;
             this.btnGenerate.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGenerate.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.btnGenerate.Location = new System.Drawing.Point(11, 471);
+            this.btnGenerate.Location = new System.Drawing.Point(11, 527);
             this.btnGenerate.Margin = new System.Windows.Forms.Padding(0);
             this.btnGenerate.Name = "btnGenerate";
             this.btnGenerate.Size = new System.Drawing.Size(146, 31);
@@ -621,7 +639,7 @@
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnOK.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnOK.Location = new System.Drawing.Point(488, 471);
+            this.btnOK.Location = new System.Drawing.Point(488, 527);
             this.btnOK.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(112, 31);
@@ -630,23 +648,38 @@
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
-            // checkBoxOneGrid
+            // label25
             // 
-            this.checkBoxOneGrid.AutoSize = true;
-            this.checkBoxOneGrid.Checked = true;
-            this.checkBoxOneGrid.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxOneGrid.Location = new System.Drawing.Point(23, 268);
-            this.checkBoxOneGrid.Name = "checkBoxOneGrid";
-            this.checkBoxOneGrid.Size = new System.Drawing.Size(170, 35);
-            this.checkBoxOneGrid.TabIndex = 33;
-            this.checkBoxOneGrid.Text = "Use one grid";
-            this.checkBoxOneGrid.UseVisualStyleBackColor = true;
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(18, 258);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(163, 31);
+            this.label25.TabIndex = 30;
+            this.label25.Text = "Solar Ridiation";
+            // 
+            // tbRad
+            // 
+            this.tbRad.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.tbRad.Location = new System.Drawing.Point(208, 258);
+            this.tbRad.Name = "tbRad";
+            this.tbRad.Size = new System.Drawing.Size(182, 37);
+            this.tbRad.TabIndex = 22;
+            this.tbRad.Text = "10";
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(397, 264);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(43, 31);
+            this.label26.TabIndex = 26;
+            this.label26.Text = "MJ";
             // 
             // WeatherGeneratorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 30F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(612, 515);
+            this.ClientSize = new System.Drawing.Size(612, 571);
             this.Controls.Add(this.btnGenerate);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.btnOK);
@@ -725,5 +758,8 @@
         private System.Windows.Forms.ComboBox cmbMethod;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.CheckBox checkBoxOneGrid;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.TextBox tbRad;
     }
 }

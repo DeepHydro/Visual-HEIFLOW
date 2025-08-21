@@ -131,6 +131,15 @@ namespace Heiflow.Models.Surface.PRMS
                     list_files.Add(press);
                 }
             }
+            if (MasterPackage.SolarRadiation ==  SolarRadiationModule.climate_hru)
+            {
+                var rad = MasterPackage.SwradFile;
+                if (TypeConverterEx.IsNotNull(rad))
+                {
+                    list_vars.Add("Solar Radiation");
+                    list_files.Add(rad);
+                }
+            }
 
             Variables = list_vars.ToArray();
             _FileNames = list_files.ToArray();
@@ -212,7 +221,7 @@ namespace Heiflow.Models.Surface.PRMS
             this.FeatureLayer = Owner.Grid.FeatureLayer;
         }
 
-        public void SaveAsTxtByConstant(float ppt = 0.15f, float tmax = 15, float tmin = 5, float pet = 0.1f, float wind = 4.0f, float hum = 0.7f, float press = 101.0f)
+        public void SaveAsTxtByConstant(float ppt = 0.15f, float tmax = 15, float tmin = 5, float pet = 0.1f, float wind = 4.0f, float hum = 0.7f, float press = 101.0f, float rad = 1.0f)
         {
             var grid = this.Grid as MFGrid;
             DataCube<float> mat = new DataCube<float>(1, this.TimeService.NumTimeStep, grid.ActiveCellCount);
@@ -265,9 +274,16 @@ namespace Heiflow.Models.Surface.PRMS
                     data.Save(mat);
                 }
             }
+          if (MasterPackage.SolarRadiation ==  SolarRadiationModule.climate_hru)
+          {
+              mat.Variables[0] = "swrad";
+              mat.ILArrays[0][":", ":"] =rad ;
+              data = new MMSDataFile(MasterPackage.SwradFile);
+              data.Save(mat);
+          }
         }
 
-        public void SaveAsDcxByConstant(float ppt = 0.15f, float tmax = 15, float tmin = 5, float pet = 0.1f, float wind = 4.0f, float hum = 0.7f, float press = 101.0f, bool onegrid = true)
+        public void SaveAsDcxByConstant(float ppt = 0.15f, float tmax = 15, float tmin = 5, float pet = 0.1f, float wind = 4.0f, float hum = 0.7f, float press = 101.0f, float rad = 1, bool onegrid = true)
         {
             var grid = this.Grid as MFGrid;
             var ncell = 1;
@@ -325,6 +341,13 @@ namespace Heiflow.Models.Surface.PRMS
                     sw = new DataCubeStreamWriter(MasterPackage.PressureFile);
                     sw.WriteAll(mat);
                 }
+            }
+            if(MasterPackage.SolarRadiation == SolarRadiationModule.climate_hru)
+            {
+                mat.Variables[0] = "swrad";
+                mat.ILArrays[0][":", ":"] = rad;
+                sw = new DataCubeStreamWriter(MasterPackage.SwradFile);
+                sw.WriteAll(mat);
             }
         }
 
