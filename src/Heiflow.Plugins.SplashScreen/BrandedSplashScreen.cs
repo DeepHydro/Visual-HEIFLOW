@@ -52,7 +52,7 @@ namespace DotSpatial.Plugins.SplashScreenManager
         {
             InitializeComponent();
             LoadCustomBranding(Settings.Default);
-            this.labelControl1.Text = "Copyright ©2016-2021 SUSTech. All Rights Reserved. Version 1.2.2";
+            this.labelControl1.Text = "Copyright ©2016-2025 SUSTech. All Rights Reserved. Version 1.2.4";
 #if VHF
             this.uxSplashImage.EditValue = global::Heiflow.Plugins.SplashScreen.Properties.Resources.splash_vhf;           
 #elif VFT3D
