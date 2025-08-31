@@ -69,6 +69,7 @@ namespace Heiflow.Models.Running
         public static string Groundwater_Inflow = "Groundwater Inflow";
         public static string Groundwater_Outflow = "Groundwater Outflow";
         public static string Wells_In = "Wells In";
+        public static string Wells_Out = "Wells Out";
         public static string Lakes_Inflow = "Lakes Inflow";
         public static string Lakes_Outflow = "Lakes Outflow";
         public static string Evapotranspiration = "Evapotranspiration";

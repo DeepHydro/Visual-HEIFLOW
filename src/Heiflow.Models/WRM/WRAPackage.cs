@@ -338,7 +338,8 @@ namespace Heiflow.Models.WRM
         private ManagemenSP LoadManSP(string filename, int sp, int ncycle)
         {
             ManagemenSP msp = new ManagemenSP(sp);
-            StreamReader sr = new StreamReader(filename);
+            FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            StreamReader sr = new StreamReader(fs, System.Text.Encoding.Default);
             int nfarm = 0;
             int nindustry = 0;
             double[] bufdouble = null;

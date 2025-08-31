@@ -128,11 +128,12 @@ namespace Heiflow.Models.Subsurface
                         Parent = mf.Packages[LakePackage.PackageName]
                     };
                     lake_out.Initialize();
-                    var uids = from vv in this.GagingInfo[0, "1", ":"] where vv < 0 select vv;
+                    var uids = this.GagingInfo.ILArrays[0][1, ":"];
                     foreach (var uid in uids)
                     {
-                        var finfo = (from info in mf.NameManager.MasterList where info.FID == -uid select info).First();
-                        lake_out.OutputFilesInfo.Add(finfo);
+                        var buf =  from info in mf.NameManager.MasterList where info.FID == uid select info;
+                        if(buf.Any())
+                            lake_out.OutputFilesInfo.Add( buf.First());
                     }
                     mfout.AddChild(lake_out);
                 }

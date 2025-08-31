@@ -182,8 +182,8 @@ namespace Heiflow.Controls.WinForm.Display
 
         private void NodeCreator_ZonalBudgetClicked(object sender, Dictionary<string, double> e)
         {
-            var totalin = e[FileMonitor.PPT] + e[FileMonitor.Streams_Inflow] + e[FileMonitor.Groundwater_Inflow];
-            var totalout = e[FileMonitor.Evapotranspiration] + e[FileMonitor.Evaporation] + e[FileMonitor.Streams_Outflow] + e[FileMonitor.Groundwater_Outflow];
+            var totalin = e[FileMonitor.PPT] + e[FileMonitor.Streams_Inflow] + e[FileMonitor.Groundwater_Inflow] + e[FileMonitor.WELLS_IN];
+            var totalout = e[FileMonitor.Evapotranspiration] + e[FileMonitor.Evaporation] + e[FileMonitor.Streams_Outflow] + e[FileMonitor.Groundwater_Outflow] + e[FileMonitor.WELLS_OUT];
             var totalds = e[FileMonitor.Total_Storage_Change];
             var totalerror = totalin - totalout - totalds;
             var totaldisp = Math.Round((totalerror) / (totalin + totalout + Math.Abs(totalds)) * 2 * 100, 2);

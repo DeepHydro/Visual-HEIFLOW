@@ -83,7 +83,8 @@ namespace Heiflow.Models.Running
             root.Children.Add(ppt);
             root.Children.Add(sr_in);
             root.Children.Add(gw_in);
-            root.Children.Add(lakes_in);
+            root.Children.Add(wells_in);
+          //  root.Children.Add(lakes_in);
 
             MonitorItem et_out = new MonitorItem(Evapotranspiration)
             {
@@ -109,17 +110,25 @@ namespace Heiflow.Models.Running
                 Group = _Out_Group
             };
 
-            MonitorItem lake_out = new MonitorItem(Lakes_Outflow)
+            //MonitorItem lake_out = new MonitorItem(Lakes_Outflow)
+            //{
+            //    VariableIndex = 9,
+            //    Group = _Out_Group
+            //};
+
+            MonitorItem wells_out = new MonitorItem(Wells_Out)
             {
                 VariableIndex = 9,
                 Group = _Out_Group
             };
 
+
             root.Children.Add(et_out);
             root.Children.Add(evap_out);
             root.Children.Add(sr_out);
             root.Children.Add(gw_out);
-            root.Children.Add(lake_out);
+           // root.Children.Add(lake_out);
+            root.Children.Add(wells_out);
 
             MonitorItem land_ds = new MonitorItem(LAND_SURFACE_Zone_DS)
             {
@@ -506,7 +515,7 @@ namespace Heiflow.Models.Running
             var sat_names = new string[] 
             { 
                 //in 
-                CONSTANT_HEAD_IN, WELLS_IN, SPECIFIED_FLOWS_IN ,  STORAGE_IN, UZF_RECHARGE_IN,STREAM_LEAKAGE_IN,LAKE_SEEPAGE_IN, WRA_WELLS_IN,HEAD_DEP_BOUNDS_IN,
+                CONSTANT_HEAD_IN, WELLS_IN, SPECIFIED_FLOWS_IN ,  STORAGE_IN, UZF_RECHARGE_IN,STREAM_LEAKAGE_IN,LAKE_SEEPAGE_IN, HEAD_DEP_BOUNDS_IN,
                 //out
                 CONSTANT_HEAD_OUT,WELLS_OUT,  SPECIFIED_FLOWS_OUT,SURFACE_LEAKAGE_OUT,GW_ET_OUT,STREAM_LEAKAGE_OUT,STORAGE_OUT,LAKE_SEEPAGE_OUT,HEAD_DEP_BOUNDS_OUT
             };
@@ -531,7 +540,7 @@ namespace Heiflow.Models.Running
                 }
             }
 
-            var sat_in = items[CONSTANT_HEAD_IN] + items[WELLS_IN] + items[SPECIFIED_FLOWS_IN] + items[UZF_RECHARGE_IN] + items[WRA_WELLS_IN]
+            var sat_in = items[CONSTANT_HEAD_IN] + items[WELLS_IN] + items[SPECIFIED_FLOWS_IN] + items[UZF_RECHARGE_IN] 
                 + items[STREAM_LEAKAGE_IN] + items[LAKE_SEEPAGE_IN] + items[STORAGE_IN] + items[HEAD_DEP_BOUNDS_IN];
             var sat_out = items[CONSTANT_HEAD_OUT] + items[WELLS_OUT] + items[SPECIFIED_FLOWS_OUT] + items[GW_ET_OUT] + items[SURFACE_LEAKAGE_OUT] 
     + items[STREAM_LEAKAGE_OUT] + items[LAKE_SEEPAGE_OUT] + items[STORAGE_OUT] + items[HEAD_DEP_BOUNDS_OUT];
