@@ -62,8 +62,8 @@ namespace Heiflow.Controls.WinForm.Display
             InitializeComponent();
             this.nodeStateIcon1.DataPropertyName = "Image";
             this.nodeTextBox1.DataPropertyName = "Text";
-            soil_error.Visible = false;
-            label3.Visible = false;
+            //soil_error.Visible = false;
+          //  label3.Visible = false;
             _model = new TreeModel();
             treeView1.Model = _model;
             viewModel = new Lazy<StateMonitorViewModel>(() => ViewHelper.GetViewModel<StateMonitorViewModel>(this));
@@ -182,23 +182,21 @@ namespace Heiflow.Controls.WinForm.Display
 
         private void NodeCreator_ZonalBudgetClicked(object sender, Dictionary<string, double> e)
         {
-            var totalin = e[FileMonitor.PPT] + e[FileMonitor.Streams_Inflow] + e[FileMonitor.Groundwater_Inflow] + e[FileMonitor.WELLS_IN];
-            var totalout = e[FileMonitor.Evapotranspiration] + e[FileMonitor.Evaporation] + e[FileMonitor.Streams_Outflow] + e[FileMonitor.Groundwater_Outflow] + e[FileMonitor.WELLS_OUT];
-            var totalds = e[FileMonitor.Total_Storage_Change];
-            var totalerror = totalin - totalout - totalds;
-            var totaldisp = Math.Round((totalerror) / (totalin + totalout + Math.Abs(totalds)) * 2 * 100, 2);
-
-            var surface_et= e[FileMonitor.BASINIMPERVEVAP_HRU] + e[FileMonitor.BASININTCPEVAP_HRU]
-                + e[FileMonitor.BASINSNOWEVAP_HRU] + e[FileMonitor.IR_Industry];
+            var surface_et = e[FileMonitor.BASINIMPERVEVAP_HRU] + e[FileMonitor.BASININTCPEVAP_HRU] + e[FileMonitor.BASINSNOWEVAP_HRU];
+            var surf_water_et  = e[FileMonitor.CANAL_ET] + e[FileMonitor.SFRET] + e[FileMonitor.LAKET]  +e[FileMonitor.IR_Industry];
+            var soil_et = e[FileMonitor.BASINPERVET_HRU];
+            var total_et = surface_et + surf_water_et + soil_et + e[FileMonitor.UZF_ET] + e[FileMonitor.SAT_ET];
+            ppt.Text = e[FileMonitor.PPT].ToString();
+            et.Text = total_et.ToString();
 
             var soilin = e[FileMonitor.IR_PUMP] + e[FileMonitor.SURFACE_LEAKAGE_OUT] + e[FileMonitor.PPT];
             var soilout = e[FileMonitor.BASININTERFLOW] + e[FileMonitor.BASINSROFF]
                 + e[FileMonitor.BASINLAKEINSZ] + e[FileMonitor.BASINHORTONIANLAKES]
                  + e[FileMonitor.BASINPERVET_HRU]
                  + e[FileMonitor.BASINIMPERVEVAP_HRU] + e[FileMonitor.BASININTCPEVAP_HRU] + e[FileMonitor.BASINSNOWEVAP_HRU]
-                 + e[FileMonitor.UZF_INFIL]
-                 + e[FileMonitor.CANAL_ET] + e[FileMonitor.SFRET] + e[FileMonitor.LAKET];
-            var soilet = e[FileMonitor.BASINPERVET_HRU]  + e[FileMonitor.CANAL_ET] + e[FileMonitor.SFRET] + e[FileMonitor.LAKET];
+                 + e[FileMonitor.UZF_INFIL];
+                 //+ e[FileMonitor.CANAL_ET] + e[FileMonitor.SFRET] + e[FileMonitor.LAKET];
+      
             var soilds = e[FileMonitor.Soil_Zone_DS] + e[FileMonitor.LAND_SURFACE_Zone_DS];
             var soilerror = soilin - soilout - soilds;
             var soildisp = Math.Round((soilerror) / (soilin + soilout + Math.Abs(soilds)) * 2 * 100, 2);
@@ -210,25 +208,18 @@ namespace Heiflow.Controls.WinForm.Display
             var uzf_discrepancy = Math.Round((uzferror) / (uzfin + uzfout + Math.Abs(uzfds)) * 2 * 100, 2);
 
             var satin = e[FileMonitor.UZF_RECHARGE] + e[FileMonitor.Groundwater_Inflow] + e[FileMonitor.STREAM_LEAKAGE_IN];
-            //var satout = e[FileMonitor.GW_ET_OUT] + e[FileMonitor.STREAM_LEAKAGE_OUT]
-            //    + e[FileMonitor.IR_PUMP] + e[FileMonitor.SURFACE_LEAKAGE_OUT] + e[FileMonitor.Groundwater_Outflow];
             var satout = e[FileMonitor.GW_ET_OUT] + e[FileMonitor.STREAM_LEAKAGE_OUT]
     + e[FileMonitor.WELLS_OUT] + e[FileMonitor.SURFACE_LEAKAGE_OUT] + e[FileMonitor.Groundwater_Outflow];
             var satds = e[FileMonitor.Saturated_Zone_DS];
             var saterror = satin - satout - satds;
             var sat_discrepancy = Math.Round((saterror) / (satin + satout + Math.Abs(satds)) * 2 * 100, 2);
-   
-            ppt.Text = e[FileMonitor.PPT].ToString();
-            ds.Text = e[FileMonitor.Total_Storage_Change].ToString();
-           // et.Text = (e[FileMonitor.Evapotranspiration] + e[FileMonitor.Evaporation]).ToString();
-            et.Text = (surface_et + soilet + e[FileMonitor.UZF_ET] + e[FileMonitor.SAT_ET] + e[FileMonitor.Evaporation]).ToString();
 
             sw_in.Text = e[FileMonitor.Streams_Inflow].ToString();
             sw_out.Text = e[FileMonitor.Streams_Outflow].ToString();
             sat_in.Text = e[FileMonitor.Groundwater_Inflow].ToString();
             sat_out.Text = e[FileMonitor.Groundwater_Outflow].ToString();
 
-            sf_et.Text = surface_et.ToString("0.0");
+            sf_et.Text = surface_et.ToString("0.00");
             sw_ds.Text = (e[FileMonitor.LAND_SURFACE_Zone_DS]).ToString("0.00");
 
             sfr_ds.Text = "0.00";
@@ -242,11 +233,10 @@ namespace Heiflow.Controls.WinForm.Display
             lak_dun.Text = (e[FileMonitor.BASINHORTONIANLAKES]).ToString("0.0");
 
             canal_et.Text = e[FileMonitor.CANAL_ET].ToString("0.00");
-            canal_ds.Text = (e[FileMonitor.Canal_DS]).ToString("0.00");
+            canal_ds.Text = e[FileMonitor.Canal_DS].ToString("0.00");
 
+            div_evap.Text = e[FileMonitor.IR_Industry].ToString("0.00");
             div.Text = e[FileMonitor.IR_DIV].ToString("0.00");
-      //      sat_pr.Text = e[FileMonitor.IR_PUMP].ToString("0.00");
-           // sat_pr.Text = e[FileMonitor.WRA_WELLS_OUT].ToString("0.00");
             sat_pr.Text = e[FileMonitor.WELLS_OUT].ToString("0.00");
 
             sz_Percolation.Text = e[FileMonitor.UZF_INFIL].ToString("0.00");
@@ -263,6 +253,16 @@ namespace Heiflow.Controls.WinForm.Display
             sat_g2s.Text = e[FileMonitor.STREAM_LEAKAGE_OUT].ToString("0.00");
             sat_ds.Text = e[FileMonitor.Saturated_Zone_DS].ToString("0.00");
 
+            var totalin = e[FileMonitor.PPT] + e[FileMonitor.Streams_Inflow] + e[FileMonitor.Groundwater_Inflow] + e[FileMonitor.WELLS_IN];
+            //  var totalout = e[FileMonitor.Evapotranspiration] + e[FileMonitor.Evaporation] + e[FileMonitor.Streams_Outflow] + e[FileMonitor.Groundwater_Outflow] + e[FileMonitor.WELLS_OUT];
+            var totalout = total_et + e[FileMonitor.Streams_Outflow] + e[FileMonitor.Groundwater_Outflow] + e[FileMonitor.WELLS_OUT];
+            var totalds = e[FileMonitor.LAND_SURFACE_Zone_DS] + e[FileMonitor.Soil_Zone_DS]
+                                + e[FileMonitor.Unsaturated_Zone_DS] + e[FileMonitor.Saturated_Zone_DS]
+                                + e[FileMonitor.Lakes_Zone_DS] + e[FileMonitor.Canal_DS];
+            var totalerror = totalin - totalout - totalds;
+            var totaldisp = Math.Round((totalerror) / (totalin + totalout + Math.Abs(totalds)) * 2 * 100, 2);
+
+            ds.Text = totalds.ToString();
             total_error.Text = totaldisp.ToString("0.00") + "%";
             soil_error.Text = soildisp.ToString("0.00") + "%";
             sat_error.Text = sat_discrepancy.ToString("0.00") + "%";
