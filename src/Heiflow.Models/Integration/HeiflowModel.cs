@@ -62,8 +62,11 @@ namespace Heiflow.Models.Integration
             Name = "HEIFLOW";
             Description = "HEIFLOW model version 1.0.0";
             Version = "1.0.0";
-            this.Icon = Resources.RasterImageAnalysisPanSharpen16;
-            this.LargeIcon = Resources.RasterImageAnalysisPanSharpen32;
+            if (!ModelService.SafeMode)
+            {
+                this.Icon = Resources.RasterImageAnalysisPanSharpen16;
+                this.LargeIcon = Resources.RasterImageAnalysisPanSharpen32;
+            }
             _IsDirty = false;
 
             _MasterPackage = new MasterPackage(MasterPackage.PackageName);

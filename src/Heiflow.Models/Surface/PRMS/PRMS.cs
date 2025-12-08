@@ -64,8 +64,11 @@ namespace Heiflow.Models.Surface.PRMS
         public PRMS()
         {
             Name = "Surface";
-            Icon = Resources.mf16;
-            LargeIcon = Resources.mf32;
+            if (!ModelService.SafeMode)
+            {
+                Icon = Resources.mf16;
+                LargeIcon = Resources.mf32;
+            }
             _mmsPackage = new MMSPackage("PRMS Package")
             {
                 Owner = this

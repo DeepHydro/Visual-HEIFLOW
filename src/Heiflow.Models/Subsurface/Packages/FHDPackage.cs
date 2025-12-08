@@ -68,10 +68,17 @@ namespace Heiflow.Models.Subsurface
             Version = "FHD";
             _Layer3DToken = "RegularGrid";
             Description = "Groundwater head output";
-            Category = Resources.ModelOutput; 
+            Category = Resources.ModelOutput;
+            WaterTableMethod = IO.WaterTableMethod.TopActive;
         }
         [Category("File")]
         public bool LoadAsDepth
+        {
+            get;
+            set;
+        }
+                [Category("File")]
+        public WaterTableMethod WaterTableMethod
         {
             get;
             set;
@@ -100,6 +107,7 @@ namespace Heiflow.Models.Subsurface
                     fhd.MaxTimeStep = this.MaxTimeStep;
                     fhd.NumTimeStep = this.NumTimeStep;
                     fhd.IsLoadDepth = LoadAsDepth;
+                    fhd.WaterTableMethod = this.WaterTableMethod;
                     fhd.Loading += fhd_Loading;
                     fhd.DataCubeLoaded += fhd_DataCubeLoaded;
                     //TODO: require modifcation
@@ -184,6 +192,7 @@ namespace Heiflow.Models.Subsurface
                     fhd.NumTimeStep = this.NumTimeStep;
                     fhd.DataCube = this.DataCube;
                     fhd.IsLoadDepth = LoadAsDepth;
+                    fhd.WaterTableMethod = this.WaterTableMethod;
                     fhd.Loading += fhd_Loading;
                     fhd.DataCubeLoaded += fhd_DataCubeLoaded;
                     fhd.LoadFailed += fhd_LoadFailed;

@@ -57,8 +57,11 @@ namespace Heiflow.Models.GHM
         {
             Name = "GHM";
             Icon = Resources.ServiceWMSGroup16;
-            LargeIcon = Resources.ServiceWMSGroup32;
-            Packages = new Dictionary<string, IPackage>();
+            if (!ModelService.SafeMode)
+            {
+                LargeIcon = Resources.ServiceWMSGroup32;
+                Packages = new Dictionary<string, IPackage>();
+            }
         }
         public IGridFileFactory GridFileFactory
         {

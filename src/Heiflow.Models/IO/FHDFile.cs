@@ -42,6 +42,7 @@ using System.Threading.Tasks;
 
 namespace Heiflow.Models.IO
 {
+    public enum WaterTableMethod {Max, TopActive}
     public class FHDFile : BaseDataCubeStream
     {
         private string _FileName;
@@ -52,9 +53,16 @@ namespace Heiflow.Models.IO
             _Grid = grid;
             IsLoadDepth = false;
             NoDataValue = -9999;
+            WaterTableMethod = IO.WaterTableMethod.TopActive;
         }
 
         public bool IsLoadDepth
+        {
+            get;
+            set;
+        }
+
+        public WaterTableMethod WaterTableMethod
         {
             get;
             set;
@@ -648,7 +656,19 @@ namespace Heiflow.Models.IO
                         {
                             lwt[ll] = heads[ll][i];
                         }
-                        buf[i] = lwt.Max();
+                        if(WaterTableMethod == IO.WaterTableMethod.Max)
+                            buf[i] = lwt.Max();
+                        else if (WaterTableMethod == IO.WaterTableMethod.TopActive)
+                        {
+                            for (int ll = 0; ll < grid.ActualLayerCount; ll++)
+                            {
+                                if(lwt[ll] != NoDataValue)
+                                {
+                                    buf[i] = lwt[ll];
+                                    break;
+                                }
+                            }
+                        }
                     }
                     DataCube.ILArrays[0][t, ":"] = buf;
                     progress = Convert.ToInt32(t * 100 / nstep);
@@ -721,7 +741,19 @@ namespace Heiflow.Models.IO
                         {
                             lwt[ll] = heads[ll][i];
                         }
-                       buf[i] = grid.Elevations[0, 0, i] - lwt.Max();
+                        if (WaterTableMethod == IO.WaterTableMethod.Max)
+                            buf[i] =  grid.Elevations[0, 0, i] - lwt.Max();
+                        else if (WaterTableMethod == IO.WaterTableMethod.TopActive)
+                        {
+                            for (int ll = 0; ll < grid.ActualLayerCount; ll++)
+                            {
+                                if (lwt[ll] != NoDataValue)
+                                {
+                                    buf[i] =  grid.Elevations[0, 0, i] - lwt[ll];
+                                    break;
+                                }
+                            }
+                        }
                     }
                     DataCube.ILArrays[0][t, ":"] = buf;
                     progress = Convert.ToInt32(t * 100 / nstep);
