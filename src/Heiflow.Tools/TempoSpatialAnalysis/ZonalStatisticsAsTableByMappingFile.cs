@@ -27,159 +27,6 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
-//using DotSpatial.Data;
-//using Heiflow.Applications;
-//using Heiflow.Controls.WinForm.Editors;
-//using Heiflow.Controls.WinForm.Toolbox;
-//using Heiflow.Core;
-//using Heiflow.Core.Data;
-//using Heiflow.Core.IO;
-//using Heiflow.Core.MyMath;
-//using Heiflow.Models.Tools;
-//using Heiflow.Presentation.Services;
-//using Heiflow.Spatial.SpatialRelation;
-//using System;
-//using System.Collections.Generic;
-//using System.ComponentModel;
-//using System.Data;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
-//using System.Windows.Forms.Design;
-
-//namespace Heiflow.Tools.TempoSpatialAnalysis
-//{
-
-//    public class ZonalStatisticsAsTableByMappingFile : ModelTool
-//    {
-//        private string _zoneFileName;
-//        public ZonalStatisticsAsTableByMappingFile()
-//        {
-//            Name = "Zonal Statistics As Table By Mapping File";
-//            Category = "Tempo-Spatial Analysis";
-//            Description = "Zonal As Table By Mapping File";
-//            Version = "1.0.0.0";
-//            this.Author = "Yong Tian";
-//            Output = "zonal";
-//            NoDataValue = -999;
-//        }
-
-//        [Category("Input")]
-//        [Description("Input datacube. The matrix name should be written as A[0][:][:]")]
-//        public string DataCube { get; set; }
- 
-//        [Category("Parameter")]
-//        [Description("Values equal to NoDataValue will be excluded during statistics")]
-//        public float NoDataValue { get; set; }
-
-//        [Category("Output")]
-//        [Description("The name of  output statistics table")]
-//        public string Output { get; set; }
-
-//        public override void Initialize()
-//        {
-//            var mat = Get3DMat(DataCube);
-//            Initialized = mat != null ;
-//        }
-
-//        [Category("Input")]
-//        [Description("The zone filename. It contains two columns: zone id and hru id")]
-//        [EditorAttribute(typeof(FileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
-//        public string ZoneFileName
-//        {
-//            get
-//            {
-//                return _zoneFileName;
-//            }
-//            set
-//            {
-//                _zoneFileName = value;
-//            }
-//        }
-
-//        public Dictionary<int, List<int>> GetZone()
-//        {
-//            Dictionary<int, List<int>> dic = new Dictionary<int, List<int>>();
-//            CSVFileStream csv = new CSVFileStream(ZoneFileName);
-//            int nrow = 0, ncol = 0;
-//            string header = "";
-//            csv.GetContentInfo(ref nrow, ref ncol, ref header);
-//            csv.Open();
-//            var vec1 = csv.ReadLine<string>();
-//            for (int i = 0; i < nrow-1; i++)
-//            {
-//                var vec = csv.ReadLine<int>();
-//                if (dic.ContainsKey(vec[0]))
-//                {
-//                    dic[vec[0]].Add(vec[1]);
-//                }
-//                else
-//                {
-//                    dic.Add(vec[0], new List<int>());
-//                    dic[vec[0]].Add(vec[1]);
-//                }
-//            }
-//            csv.Close();
-//            return dic;
-//        }
-
-//        public override bool Execute(DotSpatial.Data.ICancelProgressHandler cancelProgressHandler)
-//        {
-//            int var_indexA = 0;
-//            var mat = Get3DMat(DataCube, ref var_indexA);
-//            double prg = 0;
-//            var dic = GetZone();
-//            int nzone = dic.Keys.Count;
-//            int count = 1;
-//            if (mat != null)
-//            {
-//                int nstep = mat.Size[1];
-//                int ncell = mat.Size[2];
-
-//                var mat_out = new DataCube<float>(1, nstep, nzone);
-//                mat_out.Name = Output;
-//                mat_out.Variables = new string[] { "Mean" };
-//                for (int t = 0; t < nstep; t++)
-//                {
-//                    for (int c = 0; c < nzone; c++)
-//                    {
-//                        var sub_id = dic[dic.Keys.ElementAt(c)];
-//                        int nsub_id = sub_id.Count;
-//                        float sum = 0;
-//                        int len = 0;
-//                        for (int j = 0; j < nsub_id; j++)
-//                        {
-//                            if (mat[var_indexA, t, sub_id[j]] != NoDataValue)
-//                            {
-//                                sum += mat[var_indexA, t, sub_id[j]];
-//                                len++;
-//                            }
-//                        }
-//                        if (len > 0)
-//                            mat_out[0, t, c] = sum / len;
-//                        else
-//                            mat_out[0, t, c] = 0;
-//                    }
-//                    prg = (t + 1) * 100.0 / nstep;
-//                    if (prg > count)
-//                    {
-//                        cancelProgressHandler.Progress("Package_Tool", (int)prg, "Caculating Step: " + (t + 1));
-//                        count++;
-//                    }
-//                }
-//                Workspace.Add(mat_out);
-//                return true;
-//            }
-//            else
-//            {
-
-//                return false;
-//            }
-//        }
-//    }
-//}
-
-
 using DotSpatial.Data;
 using Heiflow.Applications;
 using Heiflow.Controls.WinForm.Editors;
@@ -418,7 +265,10 @@ namespace Heiflow.Tools.TempoSpatialAnalysis
             // 获取区域映射（使用优化版本）
             var dic = GetZoneOptimized();
             _zoneCache = dic; // 缓存映射关系
-            
+
+            var keys = string.Join(",", dic.Keys);
+            cancelProgressHandler.Progress("Package_Tool", 1, keys);
+
             int nzone = dic.Count;
             int nstep = mat.Size[1];
             
