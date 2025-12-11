@@ -167,7 +167,7 @@ namespace Heiflow.Tools.TempoSpatialAnalysis
         // 并行计算版本
         private void CalculateParallel(DataCube<float> mat, DataCube<float> mat_out, 
                                        Dictionary<int, int[]> dic, int nstep, int nzone,
-                                       ICancelProgressHandler cancelProgressHandler)
+                                       ICancelProgressHandler cancelProgressHandler, int var_indexA)
         {
             int batchSize = BatchSize > 0 ? BatchSize : System.Math.Max(1, nstep / Environment.ProcessorCount);
             var zoneKeys = dic.Keys.ToArray();
@@ -191,7 +191,7 @@ namespace Heiflow.Tools.TempoSpatialAnalysis
                     
                     for (int j = 0; j < subIdCount; j++)
                     {
-                        float value = mat[0, t, subIdsArray[j]-1];
+                        float value = mat[var_indexA, t, subIdsArray[j] - 1];
                         if (value != NoDataValue)
                         {
                             sum += value;
@@ -215,7 +215,7 @@ namespace Heiflow.Tools.TempoSpatialAnalysis
         // 串行计算版本（优化循环顺序）
         private void CalculateSerial(DataCube<float> mat, DataCube<float> mat_out,
                                      Dictionary<int, int[]> dic, int nstep, int nzone,
-                                     ICancelProgressHandler cancelProgressHandler)
+                                     ICancelProgressHandler cancelProgressHandler, int var_indexA)
         {
             var zoneKeys = dic.Keys.ToArray();
             
@@ -234,7 +234,7 @@ namespace Heiflow.Tools.TempoSpatialAnalysis
                     
                     for (int j = 0; j < subIdCount; j++)
                     {
-                        float value = mat[0, t, subIds[j] - 1];
+                        float value = mat[var_indexA, t, subIds[j] - 1];
                         if (value != NoDataValue)
                         {
                             sum += value;
@@ -282,11 +282,11 @@ namespace Heiflow.Tools.TempoSpatialAnalysis
             // 选择计算方法
             if (EnableParallel && nstep > 1000) // 只有数据量较大时并行才有优势
             {
-                CalculateParallel(mat, mat_out, dic, nstep, nzone, cancelProgressHandler);
+                CalculateParallel(mat, mat_out, dic, nstep, nzone, cancelProgressHandler, var_indexA);
             }
             else
             {
-                CalculateSerial(mat, mat_out, dic, nstep, nzone, cancelProgressHandler);
+                CalculateSerial(mat, mat_out, dic, nstep, nzone, cancelProgressHandler, var_indexA);
             }
             
             Workspace.Add(mat_out);
