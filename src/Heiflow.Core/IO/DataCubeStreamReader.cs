@@ -139,7 +139,7 @@ namespace Heiflow.Core.IO
             {
                 for (int v = 0; v < varnum; v++)
                 {
-                    mat[v,0,s] = _BinaryReader.ReadSingle() * Scale;
+                    mat[v, 0, s] = _BinaryReader.ReadSingle() * Scale;
                 }
             }
             return mat;
@@ -205,7 +205,7 @@ namespace Heiflow.Core.IO
             br.Close();
             fs.Close();
 
-            return (int) num;
+            return (int)num;
         }
         public override void Scan()
         {
@@ -245,7 +245,7 @@ namespace Heiflow.Core.IO
                 _ErrorMessage = string.Format("The {0} doesn't exist.", _FileName);
             }
         }
-        public  void LoadDataCubeSingleStep()
+        public void LoadDataCubeSingleStep()
         {
             var xml = _FileName + ".xml";
             if (File.Exists(xml))
@@ -420,7 +420,7 @@ namespace Heiflow.Core.IO
                 }
                 if (!DataCube.IsAllocated(var_index) || DataCube.Size[1] != nstep)
                     DataCube.Allocate(var_index);
-              
+
                 for (int t = 0; t < nstep; t++)
                 {
                     var buf = new float[feaNum];
@@ -611,6 +611,6 @@ namespace Heiflow.Core.IO
             sr.LoadDataCubeSingleStep();
             return sr.DataCube;
         }
- 
+
     }
 }
