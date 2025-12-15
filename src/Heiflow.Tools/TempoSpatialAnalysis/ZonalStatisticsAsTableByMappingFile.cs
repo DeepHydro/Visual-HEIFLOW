@@ -54,7 +54,8 @@ namespace Heiflow.Tools.TempoSpatialAnalysis
     {
         private string _zoneFileName;
         private Dictionary<int, int[]> _zoneCache; // 缓存映射关系
-        //private float[,,] _matDataCache; // 缓存矩阵数据
+        public enum DataFilters { GreaterThan, LessThan, NotEqualTo, EqualTo, None };
+        public enum DataOperations { Sum, Average}
         
         public ZonalStatisticsAsTableByMappingFile()
         {
@@ -64,9 +65,10 @@ namespace Heiflow.Tools.TempoSpatialAnalysis
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             Output = "zonal";
-            NoDataValue = -999;
+            ThreshholdValue = -999;
             BatchSize = 0;
             EnableParallel=true;
+            FilterOperation = ZonalStatisticsAsTableByMappingFile.DataFilters.None;
         }
 
         [Category("Input")]
@@ -74,8 +76,16 @@ namespace Heiflow.Tools.TempoSpatialAnalysis
         public string DataCube { get; set; }
  
         [Category("Parameter")]
-        [Description("Values equal to NoDataValue will be excluded during statistics")]
-        public float NoDataValue { get; set; }
+        [Description("Value used to applied on the Data Operation")]
+        public float ThreshholdValue { get; set; }
+
+        [Category("Parameter")]
+        [Description("Filter operation")]
+        public DataFilters FilterOperation { get; set; }
+
+        [Category("Parameter")]
+        [Description("Data operation")]
+        public DataOperations DataOperation { get; set; }
 
         [Category("Output")]
         [Description("The name of output statistics table")]
@@ -90,6 +100,8 @@ namespace Heiflow.Tools.TempoSpatialAnalysis
         [Description("Batch size for parallel processing (0 for auto)")]
         [DefaultValue(0)]
         public int BatchSize { get; set; }
+
+
 
         public override void Initialize()
         {
@@ -178,30 +190,139 @@ namespace Heiflow.Tools.TempoSpatialAnalysis
                 MaxDegreeOfParallelism = Environment.ProcessorCount 
             }, (t, state) =>
             {
-                for (int c = 0; c < nzone; c++)
+                if(FilterOperation == DataFilters.EqualTo)
                 {
-                    var zoneId = zoneKeys[c];
-                    var subIds = dic[zoneId];
-                    int len = 0;
-                    float sum = 0;
-                    
-                    // 使用本地变量提高性能
-                    var subIdsArray = subIds;
-                    int subIdCount = subIdsArray.Length;
-                    
-                    for (int j = 0; j < subIdCount; j++)
+                    for (int c = 0; c < nzone; c++)
                     {
                         float value = mat[var_indexA, t, subIdsArray[j] - 1];
                         if (value != NoDataValue)
                         {
+                            float value = mat[var_indexA, t, subIdsArray[j] - 1];
+                            if (value == ThreshholdValue)
+                            {
+                                sum += value;
+                                len++;
+                            }
+                        }
+                        if(DataOperation == DataOperations.Average)
+                            mat_out[0, t, c] = len > 0 ? sum / len : 0;
+                        else if (DataOperation == DataOperations.Sum)
+                            mat_out[0, t, c] = sum;
+                    }
+                }
+                else if (FilterOperation == DataFilters.GreaterThan)
+                {
+                    for (int c = 0; c < nzone; c++)
+                    {
+                        var zoneId = zoneKeys[c];
+                        var subIds = dic[zoneId];
+                        int len = 0;
+                        float sum = 0;
+
+                        // 使用本地变量提高性能
+                        var subIdsArray = subIds;
+                        int subIdCount = subIdsArray.Length;
+
+                        for (int j = 0; j < subIdCount; j++)
+                        {
+                            float value = mat[var_indexA, t, subIdsArray[j] - 1];
+                            if (value > ThreshholdValue)
+                            {
+                                sum += value;
+                                len++;
+                            }
+                        }
+
+                        if (DataOperation == DataOperations.Average)
+                            mat_out[0, t, c] = len > 0 ? sum / len : 0;
+                        else if (DataOperation == DataOperations.Sum)
+                            mat_out[0, t, c] = sum;
+                    }
+                }
+                else if (FilterOperation == DataFilters.LessThan)
+                {
+                    for (int c = 0; c < nzone; c++)
+                    {
+                        var zoneId = zoneKeys[c];
+                        var subIds = dic[zoneId];
+                        int len = 0;
+                        float sum = 0;
+
+                        // 使用本地变量提高性能
+                        var subIdsArray = subIds;
+                        int subIdCount = subIdsArray.Length;
+
+                        for (int j = 0; j < subIdCount; j++)
+                        {
+                            float value = mat[var_indexA, t, subIdsArray[j] - 1];
+                            if (value < ThreshholdValue)
+                            {
+                                sum += value;
+                                len++;
+                            }
+                        }
+
+                        if (DataOperation == DataOperations.Average)
+                            mat_out[0, t, c] = len > 0 ? sum / len : 0;
+                        else if (DataOperation == DataOperations.Sum)
+                            mat_out[0, t, c] = sum;
+                    }
+                }
+                else if (FilterOperation == DataFilters.None)
+                {
+                    for (int c = 0; c < nzone; c++)
+                    {
+                        var zoneId = zoneKeys[c];
+                        var subIds = dic[zoneId];
+                        int len = 0;
+                        float sum = 0;
+
+                        // 使用本地变量提高性能
+                        var subIdsArray = subIds;
+                        int subIdCount = subIdsArray.Length;
+
+                        for (int j = 0; j < subIdCount; j++)
+                        {
+                            float value = mat[var_indexA, t, subIdsArray[j] - 1];
                             sum += value;
                             len++;
                         }
+                        if (DataOperation == DataOperations.Average)
+                            mat_out[0, t, c] = len > 0 ? sum / len : 0;
+                        else if (DataOperation == DataOperations.Sum)
+                            mat_out[0, t, c] = sum;
                     }
-                    
-                    mat_out[0, t, c] = len > 0 ? sum / len : 0;
                 }
-                
+                else if (FilterOperation == DataFilters.NotEqualTo)
+                {
+                    for (int c = 0; c < nzone; c++)
+                    {
+                        var zoneId = zoneKeys[c];
+                        var subIds = dic[zoneId];
+                        int len = 0;
+                        float sum = 0;
+
+                        // 使用本地变量提高性能
+                        var subIdsArray = subIds;
+                        int subIdCount = subIdsArray.Length;
+
+                        for (int j = 0; j < subIdCount; j++)
+                        {
+                            float value = mat[var_indexA, t, subIdsArray[j] - 1];
+                            if (value != ThreshholdValue)
+                            {
+                                sum += value;
+                                len++;
+                            }
+                        }
+
+                        if (DataOperation == DataOperations.Average)
+                            mat_out[0, t, c] = len > 0 ? sum / len : 0;
+                        else if (DataOperation == DataOperations.Sum)
+                            mat_out[0, t, c] = sum;
+                    }
+                }
+
                 // 进度报告（减少报告频率）
                 if (t % 100 == 0)
                 {
@@ -221,34 +342,170 @@ namespace Heiflow.Tools.TempoSpatialAnalysis
             
             // 优化循环顺序：外层遍历zone，内层遍历time
             // 这样可以更好地利用CPU缓存
-            for (int c = 0; c < nzone; c++)
+            if (FilterOperation == DataFilters.EqualTo)
             {
-                var zoneId = zoneKeys[c];
-                var subIds = dic[zoneId];
-                int subIdCount = subIds.Length;
-                
-                for (int t = 0; t < nstep; t++)
+                for (int c = 0; c < nzone; c++)
                 {
-                    int len = 0;
-                    float sum = 0;
-                    
-                    for (int j = 0; j < subIdCount; j++)
+                    var zoneId = zoneKeys[c];
+                    var subIds = dic[zoneId];
+                    int subIdCount = subIds.Length;
+
+                    for (int t = 0; t < nstep; t++)
                     {
                         float value = mat[var_indexA, t, subIds[j] - 1];
                         if (value != NoDataValue)
                         {
+                            float value = mat[var_indexA, t, subIds[j] - 1];
+                            if (value == ThreshholdValue)
+                            {
+                                sum += value;
+                                len++;
+                            }
+                        }
+                        if (DataOperation == DataOperations.Average)
+                            mat_out[0, t, c] = len > 0 ? sum / len : 0;
+                        else if (DataOperation == DataOperations.Sum)
+                            mat_out[0, t, c] = sum;
+                    }
+
+                    // 进度报告
+                    cancelProgressHandler.Progress("Package_Tool",
+                        (int)((c + 1) * 100.0 / nzone),
+                      string.Format("Processing Zone: {0}/{1}", c + 1, nzone));
+                }
+            }
+            else if (FilterOperation == DataFilters.GreaterThan)
+            {
+                for (int c = 0; c < nzone; c++)
+                {
+                    var zoneId = zoneKeys[c];
+                    var subIds = dic[zoneId];
+                    int subIdCount = subIds.Length;
+
+                    for (int t = 0; t < nstep; t++)
+                    {
+                        int len = 0;
+                        float sum = 0;
+
+                        for (int j = 0; j < subIdCount; j++)
+                        {
+                            float value = mat[var_indexA, t, subIds[j] - 1];
+                            if (value > ThreshholdValue)
+                            {
+                                sum += value;
+                                len++;
+                            }
+                        }
+                        if (DataOperation == DataOperations.Average)
+                            mat_out[0, t, c] = len > 0 ? sum / len : 0;
+                        else if (DataOperation == DataOperations.Sum)
+                            mat_out[0, t, c] = sum;
+                    }
+
+                    // 进度报告
+                    cancelProgressHandler.Progress("Package_Tool",
+                        (int)((c + 1) * 100.0 / nzone),
+                      string.Format("Processing Zone: {0}/{1}", c + 1, nzone));
+                }
+            }
+            else if (FilterOperation == DataFilters.LessThan)
+            {
+                for (int c = 0; c < nzone; c++)
+                {
+                    var zoneId = zoneKeys[c];
+                    var subIds = dic[zoneId];
+                    int subIdCount = subIds.Length;
+
+                    for (int t = 0; t < nstep; t++)
+                    {
+                        int len = 0;
+                        float sum = 0;
+
+                        for (int j = 0; j < subIdCount; j++)
+                        {
+                            float value = mat[var_indexA, t, subIds[j] - 1];
+                            if (value < ThreshholdValue)
+                            {
+                                sum += value;
+                                len++;
+                            }
+                        }
+                        if (DataOperation == DataOperations.Average)
+                            mat_out[0, t, c] = len > 0 ? sum / len : 0;
+                        else if (DataOperation == DataOperations.Sum)
+                            mat_out[0, t, c] = sum;
+                    }
+
+                    // 进度报告
+                    cancelProgressHandler.Progress("Package_Tool",
+                        (int)((c + 1) * 100.0 / nzone),
+                      string.Format("Processing Zone: {0}/{1}", c + 1, nzone));
+                }
+            }
+            else if (FilterOperation == DataFilters.None)
+            {
+                for (int c = 0; c < nzone; c++)
+                {
+                    var zoneId = zoneKeys[c];
+                    var subIds = dic[zoneId];
+                    int subIdCount = subIds.Length;
+
+                    for (int t = 0; t < nstep; t++)
+                    {
+                        int len = 0;
+                        float sum = 0;
+
+                        for (int j = 0; j < subIdCount; j++)
+                        {
+                            float value = mat[var_indexA, t, subIds[j] - 1];
                             sum += value;
                             len++;
                         }
+                        if (DataOperation == DataOperations.Average)
+                            mat_out[0, t, c] = len > 0 ? sum / len : 0;
+                        else if (DataOperation == DataOperations.Sum)
+                            mat_out[0, t, c] = sum;
                     }
-                    
-                    mat_out[0, t, c] = len > 0 ? sum / len : 0;
+
+                    // 进度报告
+                    cancelProgressHandler.Progress("Package_Tool",
+                        (int)((c + 1) * 100.0 / nzone),
+                      string.Format("Processing Zone: {0}/{1}", c + 1, nzone));
                 }
-                
-                // 进度报告
-                cancelProgressHandler.Progress("Package_Tool", 
-                    (int)((c + 1) * 100.0 / nzone), 
-                  string.Format(  "Processing Zone: {0}/{1}", c+1, nzone));
+            }
+            else if (FilterOperation == DataFilters.NotEqualTo)
+            {
+                for (int c = 0; c < nzone; c++)
+                {
+                    var zoneId = zoneKeys[c];
+                    var subIds = dic[zoneId];
+                    int subIdCount = subIds.Length;
+
+                    for (int t = 0; t < nstep; t++)
+                    {
+                        int len = 0;
+                        float sum = 0;
+
+                        for (int j = 0; j < subIdCount; j++)
+                        {
+                            float value = mat[var_indexA, t, subIds[j] - 1];
+                            if (value != ThreshholdValue)
+                            {
+                                sum += value;
+                                len++;
+                            }
+                        }
+                        if (DataOperation == DataOperations.Average)
+                            mat_out[0, t, c] = len > 0 ? sum / len : 0;
+                        else if (DataOperation == DataOperations.Sum)
+                            mat_out[0, t, c] = sum;
+                    }
+
+                    // 进度报告
+                    cancelProgressHandler.Progress("Package_Tool",
+                        (int)((c + 1) * 100.0 / nzone),
+                      string.Format("Processing Zone: {0}/{1}", c + 1, nzone));
+                }
             }
         }
 
@@ -271,7 +528,8 @@ namespace Heiflow.Tools.TempoSpatialAnalysis
 
             int nzone = dic.Count;
             int nstep = mat.Size[1];
-            
+            var dickeys = string.Join(",", dic.Keys);
+            cancelProgressHandler.Progress("Package_Tool", 1, dickeys);
             // 预分配输出矩阵
             var mat_out = new DataCube<float>(1, nstep, nzone)
             {

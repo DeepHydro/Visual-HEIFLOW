@@ -25,6 +25,7 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -171,6 +172,7 @@
     <Compile Include="IO\BaseDataCubeStream.cs" />
     <Compile Include="IO\DataCubeFileInfo.cs" />
     <Compile Include="IO\DataCubeStreamWriter.cs" />
+    <Compile Include="IO\DataCubeStreamWriterOld.cs" />
     <Compile Include="IO\MatrixBinaryStream.cs" />
     <Compile Include="IO\TxtFileStream.cs" />
     <Compile Include="IO\CSVFileStream.cs" />
