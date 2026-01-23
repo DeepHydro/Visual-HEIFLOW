@@ -194,8 +194,16 @@ namespace Heiflow.Tools.TempoSpatialAnalysis
                 {
                     for (int c = 0; c < nzone; c++)
                     {
-                        float value = mat[var_indexA, t, subIdsArray[j] - 1];
-                        if (value != NoDataValue)
+                        var zoneId = zoneKeys[c];
+                        var subIds = dic[zoneId];
+                        int len = 0;
+                        float sum = 0;
+
+                        // 使用本地变量提高性能
+                        var subIdsArray = subIds;
+                        int subIdCount = subIdsArray.Length;
+
+                        for (int j = 0; j < subIdCount; j++)
                         {
                             float value = mat[var_indexA, t, subIdsArray[j] - 1];
                             if (value == ThreshholdValue)
@@ -204,7 +212,8 @@ namespace Heiflow.Tools.TempoSpatialAnalysis
                                 len++;
                             }
                         }
-                        if(DataOperation == DataOperations.Average)
+
+                        if (DataOperation == DataOperations.Average)
                             mat_out[0, t, c] = len > 0 ? sum / len : 0;
                         else if (DataOperation == DataOperations.Sum)
                             mat_out[0, t, c] = sum;
@@ -352,11 +361,13 @@ namespace Heiflow.Tools.TempoSpatialAnalysis
 
                     for (int t = 0; t < nstep; t++)
                     {
-                        float value = mat[var_indexA, t, subIds[j] - 1];
-                        if (value != NoDataValue)
+                        int len = 0;
+                        float sum = 0;
+
+                        for (int j = 0; j < subIdCount; j++)
                         {
                             float value = mat[var_indexA, t, subIds[j] - 1];
-                            if (value == ThreshholdValue)
+                            if (value > ThreshholdValue)
                             {
                                 sum += value;
                                 len++;

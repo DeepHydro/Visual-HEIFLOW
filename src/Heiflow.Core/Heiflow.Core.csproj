@@ -172,7 +172,6 @@
     <Compile Include="IO\BaseDataCubeStream.cs" />
     <Compile Include="IO\DataCubeFileInfo.cs" />
     <Compile Include="IO\DataCubeStreamWriter.cs" />
-    <Compile Include="IO\DataCubeStreamWriterOld.cs" />
     <Compile Include="IO\MatrixBinaryStream.cs" />
     <Compile Include="IO\TxtFileStream.cs" />
     <Compile Include="IO\CSVFileStream.cs" />
