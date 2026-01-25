@@ -45,7 +45,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Heiflow.Tools.Statisitcs
+namespace Heiflow.Tools.TempoSpatialAnalysis
 {
     public class ZonalStatisticsAsTable : MapLayerRequiredTool
     {
@@ -53,13 +53,14 @@ namespace Heiflow.Tools.Statisitcs
     
         public ZonalStatisticsAsTable()
         {
-            Name = "Zonal Statistics As Table";
+            Name = "Zonal Stats As Table";
             Category = "Tempo-Spatial Analysis";
-            Description = "Zonal As Table";
+            Description = "Zonal Stats As Table";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             Output = "zonal";
-            NoDataValue = -999;
+            FilterOperation = DataFilters.None;
+            DataOperation = DataOperations.Average;
             BaseTimeStep = 0;
         }
 
@@ -100,16 +101,23 @@ namespace Heiflow.Tools.Statisitcs
         }
 
         [Category("Parameter")]
-        [Description("Values equal to NoDataValue will be excluded during statistics")]
-        public float NoDataValue { get; set; }
-
-        [Category("Parameter")]
         [Description("if BaseTimeStep >=0, spatial cells will be fixed on the basis of NoDataValue. Otherwise, spatial cells may change at different time step")]
         public int BaseTimeStep { get; set; }
         
         [Category("Output")]
         [Description("The name of  output statistics table")]
         public string Output { get; set; }
+        [Category("Parameter")]
+        [Description("Value used to applied on the Data Operation")]
+        public float ThreshholdValue { get; set; }
+
+        [Category("Parameter")]
+        [Description("Filter operation")]
+        public DataFilters FilterOperation { get; set; }
+
+        [Category("Parameter")]
+        [Description("Data operation")]
+        public DataOperations DataOperation { get; set; }
 
         public override void Initialize()
         {
@@ -143,10 +151,9 @@ namespace Heiflow.Tools.Statisitcs
                 int t = 0;
                 foreach (var fea in polygon)
                 {
-                   // if (SpatialRelationship.PointInPolygon(fea.Geometry.Coordinates, geo_pt.Coordinates[0]))
                     if (geo_pt.Within(fea.Geometry))
                     {
-                        dic[list_id[t]].Add(i);
+                        dic[list_id[t]].Add(i + 1);
                         break;
                     }
                     t++;
@@ -165,57 +172,65 @@ namespace Heiflow.Tools.Statisitcs
             int nzone = dic.Keys.Count;
 
 
-            if (BaseTimeStep >= 0 && BaseTimeStep < mat.Size[0])
-            {
-                var vec = mat[var_indexA, BaseTimeStep.ToString(),":"];
-                for (int c = 0; c < nzone; c++)
-                {
-                    var key = dic.Keys.ElementAt(c);
-                    List<int> list_selected = new List<int>();
-                    for (int i = 0; i < dic[key].Count; i++)
-                    {
-                        if (vec[i] != NoDataValue)
-                            list_selected.Add(dic[key][i]);
-                    }
-                    dic[key] = list_selected;
-                }
-            }
-
             if (mat != null)
             {
-                //FeatureLayer.DataSet
                 int nstep = mat.Size[1];
                 int ncell = mat.Size[2];
 
-
                 var mat_out = new DataCube<float>(1, nstep, nzone);
                 mat_out.Name = Output;
-                mat_out.Variables = new string[] { "Mean"};
-                for (int t = 0; t < nstep; t++)
+                mat_out.Variables = new string[] { "Mean" };
+                var zonstrs = string.Join(",", dic.Keys);
+                cancelProgressHandler.Progress("Package_Tool", 1, "Zone ID List: " + zonstrs);
+
+                for (int c = 0; c < nzone; c++)
                 {
-                    for (int c = 0; c < nzone; c++)
+                    cancelProgressHandler.Progress("Package_Tool", (int)prg, "Calculating Zone: " + (c + 1));
+                    var sub_id = dic[dic.Keys.ElementAt(c)];
+                    int nsub_id = sub_id.Count;
+                    prg = (c + 1) * 100.0 / nzone;
+                    for (int t = 0; t < nstep; t++)
                     {
-                        var sub_id = dic[dic.Keys.ElementAt(c)];
-                        int nsub_id = sub_id.Count;
-                        float sum = 0;
-                        int len = 0;
-                        for (int j = 0; j < nsub_id; j++)
+                        var vec = mat.ILArrays[var_indexA][t, ":"].ToArray();
+                        var buf = sub_id.Select(pos => vec[pos - 1]);
+                        IEnumerable<float> selectedValues = null;
+                        switch (FilterOperation)
                         {
-                            if (mat[var_indexA,t,sub_id[j]] != NoDataValue)
-                            {
-                                sum += mat[var_indexA,t,sub_id[j]];
-                                len++;
-                            }
+                            case DataFilters.EqualTo:
+                                selectedValues = buf.Where(v => v == ThreshholdValue);
+                                break;
+                            case DataFilters.GreaterThan:
+                                selectedValues = buf.Where(v => v > ThreshholdValue);
+                                break;
+                            case DataFilters.LessThan:
+                                selectedValues = buf.Where(v => v < ThreshholdValue);
+                                break;
+                            case DataFilters.NotEqualTo:
+                                selectedValues = buf.Where(v => v != ThreshholdValue);
+                                break;
+                            case DataFilters.None:
+                                selectedValues = buf;
+                                break;
                         }
-                        if (len > 0)
-                            mat_out[0,t,c] = sum / len;
+
+                        if (selectedValues.Any())
+                        {
+                            if (DataOperation == DataOperations.Average)
+                                mat_out[0, t, c] = selectedValues.Average();
+                            else if (DataOperation == DataOperations.Sum)
+                                mat_out[0, t, c] = selectedValues.Sum();
+                        }
                         else
-                            mat_out[0,t,c] = 0;
+                        {
+                            mat_out[0, t, c] = 0;
+                        }
+                        var tprg = (int)((t + 1) * 100.0 / nstep);
+                        if (tprg % 10 == 0)
+                            cancelProgressHandler.Progress("Package_Tool", (int)prg, string.Format("Step: {0}", t + 1));
                     }
-                    prg = (t + 1) * 100.0 / nstep;
-                    if (prg % 10 == 0)
-                        cancelProgressHandler.Progress("Package_Tool", (int)prg, "Caculating Step: " + (t + 1));
+                    cancelProgressHandler.Progress("Package_Tool", (int)prg, "Zone: " + (c + 1) + " finished");
                 }
+                cancelProgressHandler.Progress("Package_Tool", 100, "All zones finished");
                 Workspace.Add(mat_out);
                 return true;
             }

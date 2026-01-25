@@ -251,8 +251,10 @@
     <Compile Include="TempoSpatialAnalysis\Trend.cs" />
     <Compile Include="TempoSpatialAnalysis\Correlation.cs" />
     <Compile Include="Statisitcs\SpatialSimpleStatistics.cs" />
+    <Compile Include="TempoSpatialAnalysis\SaveZoneMappingTable.cs" />
+    <Compile Include="TempoSpatialAnalysis\ZonalStatsByMapFile.cs" />
     <Compile Include="TempoSpatialAnalysis\ZonalStatisticsAsTable.cs" />
-    <Compile Include="TempoSpatialAnalysis\ZonalStatisticsAsTableByMappingFile.cs" />
+    <Compile Include="TempoSpatialAnalysis\BatchZonalStatsByMapFile.cs" />
     <Compile Include="Time\CreatMonthTimeInteval.cs" />
     <Compile Include="VFT3D\CreatSSMTool.cs" />
     <Compile Include="VFT3D\WellSourceTool.cs" />
