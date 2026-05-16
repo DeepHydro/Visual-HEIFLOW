@@ -1,0 +1,177 @@
+<?xml version="1.0"?>
+<WQPackage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>Parameter file</Name>
+  <Description>This is a package</Description>
+  <Version>1.0.0</Version>
+  <DefaultParameters>
+    <SerializableParameter>
+      <Name>nhru</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>nps</ModuleName>
+      <Maximum>1000000</Maximum>
+      <Minimum>1</Minimum>
+      <Units />
+    </SerializableParameter>
+    <SerializableParameter>
+      <Name>ndays</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>366</DefaultValue>
+      <ModuleName>nps</ModuleName>
+      <Maximum>366</Maximum>
+      <Minimum>366</Minimum>
+      <Units />
+    </SerializableParameter>
+    <SerializableParameter>
+      <Name>nmonths</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>12</DefaultValue>
+      <ModuleName>nps</ModuleName>
+      <Maximum>12</Maximum>
+      <Minimum>12</Minimum>
+      <Units />
+    </SerializableParameter>
+    <SerializableParameter>
+      <Name>nhours24</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>24</DefaultValue>
+      <ModuleName>nps</ModuleName>
+      <Maximum>24</Maximum>
+      <Minimum>24</Minimum>
+      <Units />
+    </SerializableParameter>
+    <SerializableParameter>
+      <Name>veg_man_factor</Name>
+      <Description>vegetation cover and management factor for soil erosion</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0.05</DefaultValue>
+      <ModuleName>nps</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </SerializableParameter>
+    <SerializableParameter>
+      <Name>soil_erodi_factor</Name>
+      <Description>soil erodibility factor calculated with soil data</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0.07</DefaultValue>
+      <ModuleName>nps</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </SerializableParameter>
+    <SerializableParameter>
+      <Name>mainten_factor</Name>
+      <Description>maintenance measure factor</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0.5</DefaultValue>
+      <ModuleName>nps</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </SerializableParameter>
+    <SerializableParameter>
+      <Name>topo_factor</Name>
+      <Description>topographic factor calculated with DEM and slope data</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>5</DefaultValue>
+      <ModuleName>nps</ModuleName>
+      <Maximum>20</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </SerializableParameter>
+    <SerializableParameter>
+      <Name>coarse_deb_factor</Name>
+      <Description>coarse_deb_factor calculated with soil data</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>nps</ModuleName>
+      <Maximum>1</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </SerializableParameter>
+    <SerializableParameter>
+      <Name>tconc</Name>
+      <Description>time of concentration for the subbasin</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>2.0</DefaultValue>
+      <ModuleName>nps</ModuleName>
+      <Maximum>24</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </SerializableParameter>
+    <SerializableParameter>
+      <Name>nutri_content_N</Name>
+      <Description>nitrogen nutrient content in the soil</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0.2</DefaultValue>
+      <ModuleName>nps</ModuleName>
+      <Maximum>5</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </SerializableParameter>
+    <SerializableParameter>
+      <Name>nutri_content_P</Name>
+      <Description>phosphorus nutrient content in the soil</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>0.4</DefaultValue>
+      <ModuleName>nps</ModuleName>
+      <Maximum>40</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </SerializableParameter>
+    <SerializableParameter>
+      <Name>nutri_content_OM</Name>
+      <Description>organic matters content in the soil</Description>
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>3.0</DefaultValue>
+      <ModuleName>nps</ModuleName>
+      <Maximum>80</Maximum>
+      <Minimum>0</Minimum>
+      <Units />
+    </SerializableParameter>
+  </DefaultParameters>
+</WQPackage>

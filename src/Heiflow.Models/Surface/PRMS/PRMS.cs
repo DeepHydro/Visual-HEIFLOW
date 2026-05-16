@@ -46,6 +46,7 @@ using Heiflow.Core.Data;
 using System.ComponentModel;
 using Heiflow.Core.Utility;
 using DotSpatial.Data;
+using Heiflow.Models.Surface.WQ;
 
 namespace Heiflow.Models.Surface.PRMS
 {
@@ -55,6 +56,7 @@ namespace Heiflow.Models.Surface.PRMS
     {
         public const string InputDic = ".\\Input\\";
         private MMSPackage _mmsPackage;
+        private WQPackage _wqPackage;
         private PRMSOutputDataPackage _outputPackage;
         private PRMSInputDataPackage _inputPackage;
         private PRMSDrivingDataPackage _drivingPackage;
@@ -85,7 +87,11 @@ namespace Heiflow.Models.Surface.PRMS
             {
                 Owner = this
             };
-            _mmsPackage.Owner = this;
+            _wqPackage = new WQ.WQPackage()
+            {
+                Owner = this
+            };
+
             AddInSilence(_inputPackage);
             AddInSilence(_outputPackage);
             AddInSilence(_drivingPackage);
@@ -108,6 +114,14 @@ namespace Heiflow.Models.Surface.PRMS
             }
         }
           [Browsable(false)]
+          public WQPackage WQPackage
+          {
+              get
+              {
+                  return _wqPackage;
+              }
+          }
+          [Browsable(false)]
         public MasterPackage MasterPackage
         {
             get
@@ -122,6 +136,7 @@ namespace Heiflow.Models.Surface.PRMS
                 _drivingPackage.MasterPackage = _master;
             }
         }
+
         [Browsable(false)]
         public SoilLayerManager SoilLayerManager
         {
@@ -133,11 +148,16 @@ namespace Heiflow.Models.Surface.PRMS
         public override void Initialize()
         {
             _mmsPackage.FileName = ControlFileName;
+
             var pcks = new Package[] { _mmsPackage, _inputPackage, _outputPackage, _drivingPackage };
             foreach (var pck in pcks)
             {
                 pck.Initialize();
-              //  pck.LoadFailed += this.OnLoadFailed;
+            }
+            if(_master.nps_module)
+            {
+                _wqPackage.FileName = _master.nps_param_file;
+                _wqPackage.Initialize();
             }
         }
 
@@ -149,6 +169,14 @@ namespace Heiflow.Models.Surface.PRMS
                 {
                     ResolveLoadedParameters(true);
                     ResolveModules();
+
+                    if (_master.nps_module)
+                    {
+                        _wqPackage.Load(progress);
+                        ResolveLoadedWQParameters();
+                        ResolveWQModules();
+                    }
+
                     foreach (var pck in Packages.Values)
                     {
                         pck.AfterLoad();
@@ -194,6 +222,17 @@ namespace Heiflow.Models.Surface.PRMS
                     _mmsPackage.FileName = this.ControlFileName;
                      _inputPackage.New();
                      _outputPackage.New();
+
+                     if (_master.nps_module)
+                     {
+                         string wqparafile = Path.Combine(BaseModel.ConfigPath, "wq_" + Owner.Project.SelectedVersion + ".param");
+                         File.Copy(wqparafile, _wqPackage.FileName, true);
+                         if (_wqPackage.Load(progress) == LoadingState.Normal)
+                         {
+                             ResolveLoadedWQParameters();
+                             ResolveWQModules();
+                         }
+                     }
                 }
                 else
                 {
@@ -237,6 +276,11 @@ namespace Heiflow.Models.Surface.PRMS
             _mmsPackage.Save(progress);
             _inputPackage.Save(progress);
             _drivingPackage.Save(progress);
+            if (_master.nps_module)
+            {
+                _wqPackage.Save(progress);
+            }
+
         }
 
         public override void OnTimeServiceUpdated(ITimeService sender)
@@ -322,6 +366,51 @@ namespace Heiflow.Models.Surface.PRMS
                 var basin_area = _mmsPackage.Select("basin_area");
                 var area = double.Parse(basin_area.GetValue(0, 0, 0).ToString()) * ConstantNumber.Acre2SqM;
                 ModelService.BasinArea = area;
+            }
+        }
+
+        public void ResolveLoadedWQParameters()
+        {
+            string _Configfile = Path.Combine(ConfigPath, "wq_config_" + this.Project.SelectedVersion + ".xml");
+            if (File.Exists(_Configfile))
+            {
+                _wqPackage.LoadParameterMetaFile(_Configfile);
+                foreach (var para in _wqPackage.Parameters)
+                {
+                    var pp = (from pr in _wqPackage.DefaultParameters where pr.Name == para.Key select pr).FirstOrDefault();
+                    if (pp != null)
+                    {
+                        para.Value.ModuleName = pp.ModuleName;
+                        para.Value.DefaultValue = pp.DefaultValue;
+                        para.Value.Description = pp.Description;
+                        para.Value.Maximum = pp.Maximum;
+                        para.Value.Minimum = pp.Minimum;
+                        para.Value.Units = pp.Units;
+                    }
+                }
+            }
+        }
+
+        public void ResolveWQModules()
+        {
+            var para = from par in _wqPackage.Parameters.Values
+                       group par by par.ModuleName into pp
+                       select new
+                       {
+                           Module = pp.Key,
+                           Paras = pp.ToArray()
+                       };
+
+            foreach (var p in para)
+            {
+                WQPackage pk = new WQPackage(p.Module.ToString());
+                pk.Owner = this;
+                pk.FileName = _wqPackage.FileName;
+                foreach (var ar in p.Paras)
+                {
+                    pk.Parameters.Add(ar.Name, ar);
+                }
+                AddInSilence(pk);
             }
         }
  

@@ -1,0 +1,1 @@
+20.0	0.5  #gw_wq_init(Num_otherwq)  mg/L

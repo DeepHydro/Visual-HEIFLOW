@@ -1947,19 +1947,6 @@
       <Units>dimensionless</Units>
     </SerializableParameter>   
     <SerializableParameter>
-      <Name>den_max</Name>
-      <Description>Average maximum snowpack density</Description>
-      <ValueType>2</ValueType>
-      <VariableType>Parameter</VariableType>
-      <Dimension>1</Dimension>
-      <DimensionNames>one</DimensionNames>
-      <DefaultValue>0.6</DefaultValue>
-      <ModuleName>snowcomp</ModuleName>
-      <Maximum>0.8</Maximum>
-      <Minimum>0.1</Minimum>
-      <Units>dimensionless</Units>
-    </SerializableParameter>  
-    <SerializableParameter>
       <Name>albset_rnm</Name>
       <Description>Albedo reset - rain, melt stage. Fraction of rain in a mixed precipitation event above which the snow albedo is not reset; applied during the snowpack melt stage</Description>
       <ValueType>2</ValueType>

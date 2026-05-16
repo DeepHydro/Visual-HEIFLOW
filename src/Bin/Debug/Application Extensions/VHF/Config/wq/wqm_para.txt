@@ -1,0 +1,76 @@
+#WASP water quality and river sediment parameters, used only with enable_sfrwq_wasp = 1
+1  #enable_sfrwq_sed   river sediment deposited and reentrained simulation (0/1)  (not well tested)
+1  #sed_eqn   sediment routine methods,0 = original SWAT method;1 = Bagnold"s;2 = Kodatie;3 = Molinas WU;4 = Yang;5 = AGNPS.
+1  #save_sed_reach  save river sediment variables to sed_reach.dcx (0/1)
+1  #BENWQM  benthos (sediment) source (0/1)
+2  #igropt  Three options for calculating the impacts of nutrients 1:multiplicative; 2:limiting; 3:harmonic mean
+1  #PHYT_temp_grow option  1:exponent type  2:optimal temperature
+25.0 #PHYT_temp_grow_optimal   Optimal PHYT grow temperature, used for PHYT_temp_grow=2.   25.0
+50.0 #ai0   ratio of chlorophyll-a to algal biomass (¦Ìg chla/mg alg)
+1.0 #lambda0  non-algal portion of the light extinction coefficient
+0.03 #lambda1  linear algal self shading coefficient   (m-1(¦Ìg-chla/L)-1)
+0.054 #lambda2  nonlinear algal self shading coefficient (m-1(¦Ìg-chla/L)-2/3)
+0.5  #k_l  half-saturation coefficient for light  (MJ/m2-hr) KL
+0.5  #tfact  fraction of solar radiation that is photosynthetically active
+0  #solar_constant  1: use given constant value, 0: use formula to calculate solar  (0/1)
+20.0 #solard  solar radiation reaching the water surface in a given day (MJ/m2), for solar_constant=1
+12.  #daylth daylength (hr),for solar_constant=1
+0.8  #rk2  reaeration rate at 20¡æ(day-1) 
+0.5  #p_n  preference factor for ammonia nitrogen
+0.0 #rs2  benthos (sediment) source rate for soluble P at 20¡æ(g P/m2-day) 0.01
+0.0 #rs3  benthos (sediment) source rate for ammonium nitrogen at 20¡æ(g N/m2-day)  0.02
+1.074   #thrs2  Temperature coefficient of rs2
+1.074  #thrs3  Temperature coefficient of rs3
+#SWAT water quality parameters
+0.10000000  #K_deox CBOD deoxygenation rate at 20 degree, 0.16-0.21, (day^-1); 0.20
+0.10000000  #K_nitr Nitrification rate at 20 degree, 0.09-0.13, (day^-1)
+0.01000000  #K_resp Phytoplankton respiration rate at 20 degree, (day^-1); 0.01
+0.00000000  #K_resp1 Bacterial respiration rate, 0.0 (uM/h)
+0.09000000  #K_deni Denitrification rate at 20 degree, (day^-1); 0.09
+2.00000000  #K_grow Optimum phytoplankton growth rate at 20 degree, (day^-1); 2.0
+0.04000000  #K_mort The Mortality rate of phytoplankton at 20 degree, (day^-1); 0.04
+0.07500000  #K_mine1 Organic nitrogen mineralization at 20 degree, (day^-1);0.075
+0.30000000  #K_mine2 Organic phosphorus mineralization at 20 degree, (day^-1);0.22
+1.02800000  #Temp_reae Temperature coefficient of reaeration; 1.028
+1.04700000  #Temp_deox Temperature coefficient of deoxygenation; 1.047
+1.08000000  #Temp_nitr Temperature coefficient of nitrification; 1.080
+1.04500000  #Temp_resp Temperature coefficient of phytoplankton respiration; 1.045
+1.08000000  #Temp_deni Temperature coefficient of denitrification, 1.08
+1.06600000  #Temp_grow Temperature coefficient of optimum growth; 1.066, used for PHYT_temp_grow=1.
+1.00000000  #Temp_mort Temperature coefficient of phytoplankton mortality; 1.0
+1.08000000  #Temp_mine1 Temperature coefficient of nitrogen mineralization; 1.080
+1.08000000  #Temp_mine2 Temperature coefficient of phosphorus mineralization; 1.080
+1.08000000  #Temp_sod Temperature coefficient of SOD; 1.080
+0.50000000  #KBOD  Half-saturation constant for oxygen limitation of CBOD oxidation, (mg O2/l); 0.5
+1.00000000  #KNITR Half-saturation constant for oxygen limitation of nitrification, (mg O2/l); 1.0
+25.00000000 #KmN  Half-saturation constant for uptake of inorganic nitrogen, (ug N/l); 25.0
+1.00000000  #KmP  Half-saturation constant for uptake of inorganic phosphorus, (ug P/l); 1.0
+0.10000000  #KNO3  Half-saturation constant for oxygen limitation of denitrification, (mg O2/l); 0.1
+1.00000000  #KmPC  Half-saturation constant of phytoplankton limitation of nutrient recycle, (mg C/l); 1.0
+0.50000000  #SOD  Sediment Oxygen Demand at 20 degree, 0.2-0.4, (g/m^2.day); 0.13-0.2
+1.00000000  #WSS2  Organic matter sinking velocity, (m/day); 0.5
+0.50000000  #WSS3  Phytoplankton settling velocity, (m/day); 0.5-1.0
+0.50000000  #FD2  Fraction of dissolved CBOD; 0.5
+0.20000000  #FD6  Fraction of dissolved organic nitrogen; 0.5
+0.20000000  #FD8  Fraction of dissolved organic phosphorus; 0.5
+0.65000000  #FON  Fraction of dead and respired phytoplankton recycled to organic nitorgen pool; 0.65
+0.65000000  #FOP  Fraction of dead and respired phytoplankton recycled to organic phosphorus pool; 0.65
+0.25000000  #Ratio_NC  Ratio of nitrogen to carbon in phytoplankton, 16/106 by Redfield ratio, (mg N/mg C); 0.25
+0.02500000  #Ratio_PC  Ratio of phosphorus to carbon in phytoplankton, 1/106 by Redfield ratio, (mg P/mg C); 0.025
+#sediment parameters, not well tested
+1.2   #fact_peak_adj   prf   peak rate adjustment factor
+0.000025 #csp   SPCON  coefficient defined by the user, for sed_eqn = 0 or 1
+1  #csp_adjust  Only for dynamic parameter. If it equals 1, adjust csp according to factor_csp, if it euqals 0, no adjustment
+0.0048  #factor_csp csp adjust factor according to mean erosion factor, if mean erosion factor equals factor_csp, no adjustment
+1.8  #spexp  spexp  an exponent defined by the user (1.0-2.0), for sed_eqn = 0 or 1
+0.170  #factor_ero_ch  CH_COV1 channel erodibility factor, for sed_eqn = 0 
+0.224  #factor_cov_ch  CH_COV2 channel cover factor, for sed_eqn = 0 
+0.5    #per_sc  percent silt and clay content, related to critical shear stress
+19.2  #coef_veg_channel  channel vegetation coefficient (range from 1.0 for bare soil to 19.20 for heavy vegetation) Table 7:2-1, related to critical shear stress
+2.65  #den_sed_bank  bulk density of channel bank sediment (g/cm3 or Metric tons/m3 or Mg/m3)
+2.65  #den_sed_bed  bulk density of channel bed sediment (g/cm3 or Metric tons/m3 or Mg/m3)
+0.5  #D50  median size particles mm
+2829.6  #a1  Table 7:2-2 Regression coefficient for Kodatie equation, only for sed_eqn = 2 (fine-bed rivers example)
+3.645   #b1  Table 7:2-2 Regression coefficient for Kodatie equation, only for sed_eqn = 2 (fine-bed rivers example)
+0.406   #c1  Table 7:2-2 Regression coefficient for Kodatie equation, only for sed_eqn = 2 (fine-bed rivers example)
+0.412   #d1  Table 7:2-2 Regression coefficient for Kodatie equation, only for sed_eqn = 2 (fine-bed rivers example)

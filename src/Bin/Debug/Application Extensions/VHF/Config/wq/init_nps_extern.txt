@@ -1,0 +1,1 @@
+7.0	1000.0  5.0	380.0	 0.0 #Soil_NO3_init(mg/kg),Soil_ON_init(mg/kg),Soil_PO4_solution_init(mg/kg),Soil_OP_init(mg/kg),Soil_residue_init(kg/ha)
