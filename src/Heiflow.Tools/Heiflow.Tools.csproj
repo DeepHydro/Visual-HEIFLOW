@@ -264,6 +264,7 @@
     <Compile Include="Visualization\ShowOnFeatureLayer.cs" />
     <Compile Include="Visualization\GridView.cs" />
     <Compile Include="RemoteSensing\WaterBodyMapping.cs" />
+    <Compile Include="WaterQuality\CreateNPSPackage.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Heiflow.AI\Heiflow.AI.csproj">
