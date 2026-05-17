@@ -44,6 +44,7 @@ namespace Heiflow.Tools.WaterQuality
                 var mf = model.ModflowModel;
                 var pck = mf.GetPackage(UZFPackage.PackageName) as UZFPackage;
                 var mfgrid = mf.Grid as RegularGrid;
+                //prj.Project.WQDirectory
                 //Coordinate centroid = null;
                 for (int i = 0; i < mfgrid.ActiveCellCount; i++)
                 {
