@@ -4,7 +4,7 @@
 .\output\sfr_wq.csv	#sfrwq_out_file
 .\Input\wq\sfrwq_div.ex  #sfr river diversion file
 .\Input\wq\sfrwq_ps.ex  #sfr point source file
-1.0	1.0#sfr2gw_conc_factor, gw2sfr_conc_factor, only for enable_gwsfr_scale=1
+1.0	1.0 #sfr2gw_conc_factor, gw2sfr_conc_factor, only for enable_gwsfr_scale=1
 1.0   #interflow_conc_scale(1,:) (numseg), only for enable_interflow_scale=1
 1.0   #interflow_conc_scale(2,:) (numseg), only for enable_interflow_scale=1
 1.0	1500	4 #div_wq_factor,maxso4,maxfu

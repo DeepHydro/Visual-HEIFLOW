@@ -225,13 +225,7 @@ namespace Heiflow.Models.Surface.PRMS
 
                      if (_master.nps_module)
                      {
-                         string wqparafile = Path.Combine(BaseModel.ConfigPath, "wq_" + Owner.Project.SelectedVersion + ".param");
-                         File.Copy(wqparafile, _wqPackage.FileName, true);
-                         if (_wqPackage.Load(progress) == LoadingState.Normal)
-                         {
-                             ResolveLoadedWQParameters();
-                             ResolveWQModules();
-                         }
+                         NewWQPackage(progress);
                      }
                 }
                 else
@@ -247,6 +241,18 @@ namespace Heiflow.Models.Surface.PRMS
                  progress.Progress(this.Name, 1, msg);
             }
             return succ;
+        }
+
+        public void NewWQPackage(ICancelProgressHandler progress)
+        {
+            _wqPackage.FileName = _master.nps_param_file;
+            string wqparafile = Path.Combine(BaseModel.ConfigPath, "wq_" + Owner.Project.SelectedVersion + ".param");
+            File.Copy(wqparafile, _wqPackage.FileName, true);
+            if (_wqPackage.Load(progress) == LoadingState.Normal)
+            {
+                ResolveLoadedWQParameters();
+                ResolveWQModules();
+            }
         }
 
         public override void Clear()

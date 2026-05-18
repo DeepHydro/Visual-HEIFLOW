@@ -108,7 +108,13 @@ namespace Heiflow.Models.Subsurface
         public bool EnableTRANSROUTE { get; set; }
         public int NUMTAB { get; set; }
         public int MAXVAL { get; set; }
+        /// <summary>
+        /// total number of reaches
+        /// </summary>
         public int NSTRM { get; set; }
+        /// <summary>
+        /// number of segments
+        /// </summary>
         public int NSS { get; set; }
         public int NSFRPAR { get; set; }
         public int NPARSEG { get; set; }
