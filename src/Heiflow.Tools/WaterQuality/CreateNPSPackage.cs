@@ -14,7 +14,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms.Design;
-
+// TODO: 
+//  (1) 修改extensions.exm 中的SFRWQ = 1
+// (2) 修改SFR边界入流，需要加入浓度
 namespace Heiflow.Tools.WaterQuality
 {
     public class CreateNPSTool : MapLayerRequiredTool

@@ -41,30 +41,6 @@ namespace Heiflow.Models.Surface.WaterQuality
             var npsex = Path.Combine(configpath, "wq\\nps.ex");
             var npsex_out = Path.Combine(wq_input_path, "nps.ex");
             File.Copy(npsex, npsex_out, true);
-            //StreamReader sr = new StreamReader(npsex);
-            //StreamWriter sw = new StreamWriter(npsex_out);
-            //StreamReader sr_fert = new StreamReader(fertfile);
-            //string line = "";
-            //for (int i = 0; i < 38; i++)
-            //{
-            //    line = sr.ReadLine();
-            //    sw.WriteLine(line);
-            //}
-            //line = sr_fert.ReadLine();
-            //sw.WriteLine(line);
-
-            //var bufs = TypeConverterEx.Split<int>(line);
-            //int fert_times = 1;
-            //int fert_hru = bufs[1];
-
-            //line = sr_fert.ReadLine();
-            //sw.WriteLine(line);
-            //line = sr_fert.ReadLine();
-            //sw.WriteLine(line);
-
-            //sr.Close();
-            //sr_fert.Close();
-            //sw.Close();
             var fert_times = 3;
             var fert_hru = 5;
             var fertN = Path.Combine(wq_input_path, "ferti_N.txt");
@@ -117,6 +93,10 @@ namespace Heiflow.Models.Surface.WaterQuality
             npsex_out = Path.Combine(wq_input_path, "init_gw_otherwq_extern.txt");
             File.Copy(npsex, npsex_out, true);
 
+            npsex = Path.Combine(configpath, "wq\\wqm_para.txt");
+            npsex_out = Path.Combine(wq_input_path, "wqm_para.txt");
+            File.Copy(npsex, npsex_out, true);
+
         }
 
         private void save_sfrwq(string configpath, string wq_input_path, int nseg, int nreach)
@@ -124,7 +104,7 @@ namespace Heiflow.Models.Surface.WaterQuality
             StreamReader sr = new StreamReader(Path.Combine(configpath, "wq\\sfrwq.ex"));
             StreamWriter sw = new StreamWriter(Path.Combine(wq_input_path, "sfrwq.ex"));
             var line = sr.ReadLine();
-            var newline = string.Format("9 {0} {1}	1	5 # npolut, numreach, numseg, output_polut_index1,output_polut_index2", nseg, nreach);
+            var newline = string.Format("9 {0} {1}	1	5 # npolut, numreach, numseg, output_polut_index1,output_polut_index2", nreach, nseg);
             sw.WriteLine(newline);
             while (!sr.EndOfStream)
             {
@@ -156,7 +136,7 @@ namespace Heiflow.Models.Surface.WaterQuality
             sw.WriteLine("1 2 # num_nps, ts_flag(1: constant; 2: time-varient)");
             sw.WriteLine("1 1 1 # iseg ireach reach_serial_id");
             sw.WriteLine("0 1 # time_step data_flag");
-            sw.WriteLine("0 0 0 0 0 0 0 0 0 # ps_q, NO3 ON P OP Sendiment chla CBOD DO NH3");
+            sw.WriteLine("0 0 0 0 0 0 0 0 0 0 # ps_q, NO3 ON P OP Sendiment chla CBOD DO NH3");
             for (int i = 1; i <= total_days; i++)
             {
                 sw.WriteLine(string.Format("{0} {1} # time_step data_flag", i, -1));
