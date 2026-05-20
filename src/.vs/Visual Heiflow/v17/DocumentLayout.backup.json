@@ -7,7 +7,7 @@
       "RelativeMoniker": "D:0:0:{1E3CB045-476B-45A4-964B-4EFFCFBCA755}|Heiflow.Plugins.SplashScreen\\Heiflow.Plugins.SplashScreen.csproj|solutionrelative:heiflow.plugins.splashscreen\\brandedsplashscreen.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{28E79461-3161-4130-81B0-2C36CD3A3315}|Heiflow.Models\\Heiflow.Models.csproj|d:\\system\\heiflow\\vhf_git\\vhf\\src\\heiflow.models\\integration\\masterpackage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{28E79461-3161-4130-81B0-2C36CD3A3315}|Heiflow.Models\\Heiflow.Models.csproj|D:\\System\\HEIFLOW\\VHF_GIT\\VHF\\src\\heiflow.models\\integration\\masterpackage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{28E79461-3161-4130-81B0-2C36CD3A3315}|Heiflow.Models\\Heiflow.Models.csproj|solutionrelative:heiflow.models\\integration\\masterpackage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -36,7 +36,7 @@
               "RelativeDocumentMoniker": "Heiflow.Plugins.SplashScreen\\BrandedSplashScreen.cs",
               "ToolTip": "D:\\System\\HEIFLOW\\VHF_GIT\\VHF\\src\\Heiflow.Plugins.SplashScreen\\BrandedSplashScreen.cs",
               "RelativeToolTip": "Heiflow.Plugins.SplashScreen\\BrandedSplashScreen.cs",
-              "ViewState": "AgIAAD8AAAAAAAAAAAAAAEUAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAADIAAAAAAAAAAAAowF0AAABJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-27T03:08:25.21Z",
               "EditorCaption": ""
@@ -51,8 +51,7 @@
               "RelativeToolTip": "Heiflow.Models\\Integration\\MasterPackage.cs",
               "ViewState": "AgIAANIGAAAAAAAAAAAAAOwGAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-20T02:03:30.113Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-20T02:03:30.113Z"
             }
           ]
         }

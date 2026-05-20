@@ -23,10 +23,10 @@ namespace Heiflow.Models.Surface.WaterQuality
 
         public float GW_Init_NO3 { get; set; }
 
-        public void New(string configpath, string wq_input_path, int nhru, int nseg, int nreach, DateTime startDate, DateTime endDate, string fertfile)
+        public void New(string configpath, string wq_input_path, int nhru, int nseg, int nreach, DateTime startDate, DateTime endDate)
         {
             int total_days = (endDate - startDate).Days + 1;
-            save_nps_ex(configpath, wq_input_path, fertfile);
+            save_nps_ex(configpath, wq_input_path);
             save_gwinit_file(wq_input_path, nhru);
             copy_extern_files(configpath, wq_input_path);
             save_sfrwq(configpath, wq_input_path, nseg, nreach);
@@ -36,7 +36,7 @@ namespace Heiflow.Models.Surface.WaterQuality
             save_year_cycle(startDate, endDate, wq_input_path);
         }
 
-        private void save_nps_ex(string configpath, string wq_input_path, string fertfile)
+        private void save_nps_ex(string configpath, string wq_input_path)
         {
             var npsex = Path.Combine(configpath, "wq\\nps.ex");
             var npsex_out = Path.Combine(wq_input_path, "nps.ex");
