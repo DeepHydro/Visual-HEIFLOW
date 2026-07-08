@@ -533,12 +533,14 @@ namespace Heiflow.Models.Subsurface.MT3DMS
                     NPRS = intbufs[0];
                     int nline = (int)Math.Ceiling(NPRS / 8.0);
                     line = sr.ReadLine();
-                    line += "\t";
+                    //line += "\t";
                     for (int c = 1; c < nline; c++)
                     {
-                        line += sr.ReadLine() + "\t";
+                        line += sr.ReadLine();
                     }
-                    TIMPRS = TypeConverterEx.Split<float>(line);
+                    //TIMPRS = TypeConverterEx.Split<float>(line);
+                    line = line.Trim(TypeConverterEx.DefualtSplitor);
+                    TIMPRS = ParseTimprs(line);
 
                     line = sr.ReadLine();
                     strbufs = TypeConverterEx.Split<string>(line);
@@ -768,6 +770,21 @@ namespace Heiflow.Models.Subsurface.MT3DMS
 
             sw.Close();
             OnSaved(progress);
+        }
+
+        private float [] ParseTimprs(string text)
+        {
+            int numberLength = 10;
+            int count = text.Length / numberLength;
+
+            float[] values = new float[count];
+
+            for (int i = 0; i < count; i++)
+            {
+                string token = text.Substring(i * numberLength, numberLength);
+                values[i] = float.Parse(token);
+            }
+            return values;
         }
       
         public override void OnGridUpdated(IGrid sender)
