@@ -19,48 +19,21 @@ using System.Windows.Forms.Design;
 // (2) 修改SFR边界入流，需要加入浓度
 namespace Heiflow.Tools.WaterQuality
 {
-    public class CreateNPSTool : MapLayerRequiredTool
+    public class CreateWQTool : MapLayerRequiredTool
     {
-        public CreateNPSTool()
+        public CreateWQTool()
         {
-            Name = "Create NPS Package";
+            Name = "Create WQ Package";
             Category = "Water Quality";
-            SubCategory = "NPS";
-            Description = "Create NPS Pacakge input files";
+            Description = "Create WQ Pacakge input files";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
         }
 
-        private string _fertFile;
-
-        [Category("Input")]
-        [Description("The fertilization filename. The file must contain three lines. The first line is: 5 3 #num_fert_count num_fert_cell; The second line is: 120 150 180 # fert time; The third line is: 1 2 3 4 5 # fert HRU IDs")]
-        [EditorAttribute(typeof(FileNameEditor), typeof(System.Drawing.Design.UITypeEditor))]
-        public string FertilizationFile
-        {
-            get
-            {
-                return _fertFile;
-            }
-            set
-            {
-                _fertFile = value;
-            }
-        }
-
         public override void Initialize()
         {
             this.Initialized = true;
-            if (TypeConverterEx.IsNotNull(FertilizationFile))
-            {
-                if (!File.Exists(FertilizationFile))
-                    this.Initialized = false;
-            }
-            else
-            {
-                this.Initialized = false;
-            }
         }
 
         public override bool Execute(ICancelProgressHandler cancelProgressHandler)
@@ -83,8 +56,8 @@ namespace Heiflow.Tools.WaterQuality
                 var wqinputpath = prj.Project.WQDirectory;
                 var configpath = BaseModel.ConfigPath;
                 WQFiles wqfile = new WQFiles();
-                wqfile.New(configpath, wqinputpath, nhru, nseg, nreach, starttime, endtime, FertilizationFile);
-                cancelProgressHandler.Progress("Package_Tool", 50, "wq files copied");
+                wqfile.New(configpath, wqinputpath, nhru, nseg, nreach, starttime, endtime);
+                cancelProgressHandler.Progress("Package_Tool", 50, "WQ files copied");
 
                 model.MasterPackage.nps_module = true;
 
@@ -93,10 +66,14 @@ namespace Heiflow.Tools.WaterQuality
                 wqpck.Grid = mfgrid;
                 wqpck.OnGridUpdated(mfgrid);
                 wqpck.Save(null);
-                cancelProgressHandler.Progress("Package_Tool", 90, "NPS parameter file created");
+                cancelProgressHandler.Progress("Package_Tool", 80, "WQ parameter file created");
+
+                model.ExtensionManPackage.EnableSFRWQ = true;
+                model.ExtensionManPackage.Save(null);
+                cancelProgressHandler.Progress("Package_Tool", 90, "Extension file modified");
 
                 model.MasterPackage.Save(null);
-                cancelProgressHandler.Progress("Package_Tool", 100, "contolr file created");
+                cancelProgressHandler.Progress("Package_Tool", 100, "Model control file modified");
 
 
                 return true;
