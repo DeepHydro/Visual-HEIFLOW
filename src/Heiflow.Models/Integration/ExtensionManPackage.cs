@@ -52,6 +52,8 @@ namespace Heiflow.Models.Integration
          private string _GWHDA_File;
          private string _PETEX_File;
          private string _CHDEX_File;
+         private string _NPSEX_File;
+         private string _NPSCEX_File;
 
         public ExtensionManPackage()
         {
@@ -187,6 +189,32 @@ namespace Heiflow.Models.Integration
             set
             {
                 _SFROutEXFile = value;
+            }
+        }
+        [Category("NPS Extension")]
+        [Description("")]
+        public string NPSExFile
+        {
+            get
+            {
+                return Path.Combine(Owner.WorkDirectory, _NPSEX_File);
+            }
+            set
+            {
+                _NPSEX_File = value;
+            }
+        }
+        [Category("NPS Extension")]
+        [Description("")]
+        public string NPSCExFile
+        {
+            get
+            {
+                return Path.Combine(Owner.WorkDirectory, _NPSCEX_File);
+            }
+            set
+            {
+                _NPSCEX_File = value;
             }
         }
         [Category("Modflow LAK Package Extension")]
@@ -328,6 +356,13 @@ namespace Heiflow.Models.Integration
                     SFRExFile = sr.ReadLine().Trim();
                     SFRWQFile = sr.ReadLine().Trim();
                     SFROutExFile = sr.ReadLine().Trim();
+                    newline = sr.ReadLine().ToUpper();
+                    if(newline.Contains("WQ"))
+                    {
+                        NPSExFile = newline;
+                        newline = sr.ReadLine().Trim();
+                        NPSCExFile = newline;
+                    }
                     newline = sr.ReadLine();
                     newline = sr.ReadLine();
                     EnableLakeEx = TypeConverterEx.String2Bool(newline.Trim());
@@ -411,6 +446,8 @@ namespace Heiflow.Models.Integration
             sw.WriteLine(_SFRExFile);
             sw.WriteLine(_SFRWQFile);
             sw.WriteLine(_SFROutEXFile);
+            sw.WriteLine(_NPSEX_File);
+            sw.WriteLine(_NPSCEX_File);
             sw.WriteLine("## LakeEX");
             sw.WriteLine(TypeConverterEx.Bool2String(EnableLakeEx));
             sw.WriteLine(_LakeExFile);
@@ -455,6 +492,8 @@ namespace Heiflow.Models.Integration
             _MFOutputExFile = ".\\Input\\Extension\\mfoutput.ex";
             _SFRExFile = ".\\Input\\Extension\\sfr.ex";
             _SFRWQFile = ".\\Input\\WQ\\sfrwq.ex";
+            _NPSEX_File = ".\\Input\\WQ\\nps.ex";
+            _NPSCEX_File = ".\\Input\\WQ\\nps_C.ex";
             _SFROutEXFile = ".\\Input\\Extension\\sfrout_oc.ex";
             _LakeExFile = ".\\Input\\Extension\\lake.ex";
             _LAIDAExFile = ".\\Input\\Extension\\lai_da.ex";
