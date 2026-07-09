@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <WQPackage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Name>Parameter file</Name>
-  <Description>This is a package</Description>
-  <Version>1.0.0</Version>
+  <Description>This is water quality package</Description>
+  <Version>1.1.0</Version>
   <DefaultParameters>
     <SerializableParameter>
       <Name>nhru</Name>

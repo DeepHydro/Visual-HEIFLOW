@@ -126,6 +126,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Carbon\CreateCarbonPackage.cs" />
     <Compile Include="ConceptualModel\BAS\SetInactiveCells.cs" />
     <Compile Include="ConceptualModel\BAS\AdjustIBoundTool.cs" />
     <Compile Include="ConceptualModel\DIS\CalibrateElevTool.cs" />

@@ -107,10 +107,12 @@ namespace Heiflow.Models.Integration
         bool _UseGridClimate = false;
         string _GridClimateFile;
         string _nps_param_file;
+        string _carbon_param_file;
         int _GlobalTimeUnit = 4;
         FileFormat _ClimateInputFormat = FileFormat.Binary;
         private bool _AnimationOutOC = false;
         private bool _nps_module = false;
+        private bool _carbon_module = false;
         private string _AnimationOutOCFile;
         private string _wra_module = "none";
         private string _wra_module_file;
@@ -534,6 +536,23 @@ namespace Heiflow.Models.Integration
                 OnPropertyChanged("nps_param_file");
             }
         }
+
+        [Category("Water Quality Model")]
+        [Description("")]
+        public string carbon_param_file
+        {
+            get
+            {
+                return _carbon_param_file;
+            }
+            set
+            {
+                _carbon_param_file = value;
+                (Parameters["carbon_param_file"] as DataCubeParameter<string>)[0, 0, 0] = value;
+                OnPropertyChanged("carbon_param_file");
+            }
+        }
+
         [Category("Water Quality Model")]
         [Description("The list of dynamic wq parameter files")]
         public string[] dynamic_nps_param_file
@@ -564,6 +583,23 @@ namespace Heiflow.Models.Integration
                 var infs = _nps_module ? 1 : 0;
                 (Parameters["nps_module"] as DataCubeParameter<int>)[0, 0, 0] = infs;
                 OnPropertyChanged("nps_module");
+            }
+        }
+
+        [Category("Carbon Model")]
+        [Description("")]
+        public bool carbon_module
+        {
+            get
+            {
+                return _carbon_module;
+            }
+            set
+            {
+                _carbon_module = value;
+                var infs = _carbon_module ? 1 : 0;
+                (Parameters["carbon_module"] as DataCubeParameter<int>)[0, 0, 0] = infs;
+                OnPropertyChanged("carbon_module");
             }
         }
 
@@ -1306,6 +1342,8 @@ namespace Heiflow.Models.Integration
                         _GridClimateFile = (Parameters["sub_climate_file"] as DataCubeParameter<string>)[0, 0, 0];
                     if ((Parameters.Keys.Contains("nps_param_file")))
                         _nps_param_file = (Parameters["nps_param_file"] as DataCubeParameter<string>)[0, 0, 0];
+                    if ((Parameters.Keys.Contains("carbon_param_file")))
+                        _carbon_param_file = (Parameters["carbon_param_file"] as DataCubeParameter<string>)[0, 0, 0];
                     if ((Parameters.Keys.Contains("var_init_file")))
                         _VarInitFile = (Parameters["var_init_file"] as DataCubeParameter<string>)[0, 0, 0];
                     if ((Parameters.Keys.Contains("save_vars_to_file")))
@@ -1314,6 +1352,8 @@ namespace Heiflow.Models.Integration
                         _VarSaveFile = (Parameters["var_save_file"] as DataCubeParameter<string>)[0, 0, 0];
                     if ((Parameters.Keys.Contains("nps_module")))
                         _nps_module = (Parameters["nps_module"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
+                    if ((Parameters.Keys.Contains("carbon_module")))
+                        _carbon_module = (Parameters["carbon_module"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
                     _PrintDebug = (Parameters["print_debug"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
                     if ((Parameters.Keys.Contains("precip_day")))
                         _PrecipitationFile = (Parameters["precip_day"] as DataCubeParameter<string>)[0, 0, 0];
@@ -1446,6 +1486,7 @@ namespace Heiflow.Models.Integration
                 HydraulicsEngine = "SFR";
                 AnimationOutOC = false;
                 _nps_module = false;
+                _carbon_module = false;
                 GlobalTimeUnit = 4;
                 if (Owner.Project.SelectedVersion != "v1.0.0")
                     SaveSoilWaterFile = true;
@@ -1455,6 +1496,7 @@ namespace Heiflow.Models.Integration
                 ModflowFilePath = string.Format(".\\input\\modflow\\{0}.nam", Owner.Project.Name);
                 GridClimateFile = string.Format(".\\input\\prms\\{0}.hru_clm", Owner.Project.Name);
                 nps_param_file = string.Format(".\\input\\prms\\{0}_nps.param", Owner.Project.Name);
+                carbon_param_file = string.Format(".\\input\\prms\\{0}_carbon.param", Owner.Project.Name);
                 VarInitFile = string.Format(".\\input\\prms\\{0}_prms_ic.in", Owner.Project.Name);
                 PrecipitationFile = string.Format(".\\input\\prms\\{0}_precip.dcx", Owner.Project.Name);
                 TempMaxFile = string.Format(".\\input\\prms\\{0}_tmax.dcx", Owner.Project.Name);

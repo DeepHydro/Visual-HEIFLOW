@@ -57,6 +57,7 @@ namespace Heiflow.Models.Surface.PRMS
         public const string InputDic = ".\\Input\\";
         private MMSPackage _mmsPackage;
         private WQPackage _wqPackage;
+        private CarbonPackage _CarbonPackage;
         private PRMSOutputDataPackage _outputPackage;
         private PRMSInputDataPackage _inputPackage;
         private PRMSDrivingDataPackage _drivingPackage;
@@ -91,6 +92,11 @@ namespace Heiflow.Models.Surface.PRMS
             {
                 Owner = this
             };
+            _CarbonPackage = new WQ.CarbonPackage()
+            {
+                Owner = this
+            };
+
 
             AddInSilence(_inputPackage);
             AddInSilence(_outputPackage);
@@ -119,6 +125,14 @@ namespace Heiflow.Models.Surface.PRMS
               get
               {
                   return _wqPackage;
+              }
+          }
+          [Browsable(false)]
+          public CarbonPackage CarbonPackage
+          {
+              get
+              {
+                  return _CarbonPackage;
               }
           }
           [Browsable(false)]
@@ -159,6 +173,11 @@ namespace Heiflow.Models.Surface.PRMS
                 _wqPackage.FileName = _master.nps_param_file;
                 _wqPackage.Initialize();
             }
+            if (_master.carbon_module)
+            {
+                _CarbonPackage.FileName = _master.carbon_param_file;
+                _CarbonPackage.Initialize();
+            }
         }
 
         public override LoadingState Load(ICancelProgressHandler progress)
@@ -175,6 +194,13 @@ namespace Heiflow.Models.Surface.PRMS
                         _wqPackage.Load(progress);
                         ResolveLoadedWQParameters();
                         ResolveWQModules();
+                    }
+
+                    if (_master.carbon_module)
+                    {
+                        _CarbonPackage.Load(progress); 
+                        ResolveLoadedCarbonParameters();
+                        ResolveCarbonModules();
                     }
 
                     foreach (var pck in Packages.Values)
@@ -227,6 +253,10 @@ namespace Heiflow.Models.Surface.PRMS
                      {
                          NewWQPackage(progress);
                      }
+                     if (_master.carbon_module)
+                     {
+                         NewCarbonPackage(progress);
+                     }
                 }
                 else
                 {
@@ -249,6 +279,18 @@ namespace Heiflow.Models.Surface.PRMS
             string wqparafile = Path.Combine(BaseModel.ConfigPath, "wq_" + Owner.Project.SelectedVersion + ".param");
             File.Copy(wqparafile, _wqPackage.FileName, true);
             if (_wqPackage.Load(progress) == LoadingState.Normal)
+            {
+                ResolveLoadedWQParameters();
+                ResolveWQModules();
+            }
+        }
+
+        public void NewCarbonPackage(ICancelProgressHandler progress)
+        {
+            _CarbonPackage.FileName = _master.nps_param_file; 
+            string wqparafile = Path.Combine(BaseModel.ConfigPath, "carbon_" + Owner.Project.SelectedVersion + ".param");
+            File.Copy(wqparafile, _CarbonPackage.FileName, true);
+            if (_CarbonPackage.Load(progress) == LoadingState.Normal)
             {
                 ResolveLoadedWQParameters();
                 ResolveWQModules();
@@ -286,7 +328,10 @@ namespace Heiflow.Models.Surface.PRMS
             {
                 _wqPackage.Save(progress);
             }
-
+            if (_master.carbon_module)
+            {
+                _CarbonPackage.Save(progress);
+            }
         }
 
         public override void OnTimeServiceUpdated(ITimeService sender)
@@ -412,6 +457,51 @@ namespace Heiflow.Models.Surface.PRMS
                 WQPackage pk = new WQPackage(p.Module.ToString());
                 pk.Owner = this;
                 pk.FileName = _wqPackage.FileName;
+                foreach (var ar in p.Paras)
+                {
+                    pk.Parameters.Add(ar.Name, ar);
+                }
+                AddInSilence(pk);
+            }
+        }
+
+        public void ResolveLoadedCarbonParameters()
+        {
+            string _Configfile = Path.Combine(ConfigPath, "carbon_config_" + this.Project.SelectedVersion + ".xml");
+            if (File.Exists(_Configfile))
+            {
+                _CarbonPackage.LoadParameterMetaFile(_Configfile);
+                foreach (var para in _CarbonPackage.Parameters)
+                {
+                    var pp = (from pr in _CarbonPackage.DefaultParameters where pr.Name == para.Key select pr).FirstOrDefault();
+                    if (pp != null)
+                    {
+                        para.Value.ModuleName = pp.ModuleName;
+                        para.Value.DefaultValue = pp.DefaultValue;
+                        para.Value.Description = pp.Description;
+                        para.Value.Maximum = pp.Maximum;
+                        para.Value.Minimum = pp.Minimum;
+                        para.Value.Units = pp.Units;
+                    }
+                }
+            }
+        }
+
+        public void ResolveCarbonModules()
+        {
+            var para = from par in _CarbonPackage.Parameters.Values
+                       group par by par.ModuleName into pp
+                       select new
+                       {
+                           Module = pp.Key,
+                           Paras = pp.ToArray()
+                       };
+
+            foreach (var p in para)
+            {
+                CarbonPackage pk = new CarbonPackage(p.Module.ToString());
+                pk.Owner = this;
+                pk.FileName = _CarbonPackage.FileName;
                 foreach (var ar in p.Paras)
                 {
                     pk.Parameters.Add(ar.Name, ar);

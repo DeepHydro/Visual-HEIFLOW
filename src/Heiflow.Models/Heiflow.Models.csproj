@@ -239,6 +239,7 @@
     <Compile Include="Subsurface\VFT3D\SEAWATProject.cs" />
     <Compile Include="Subsurface\VFT3D\VFT3DProject.cs" />
     <Compile Include="Subsurface\VFT3D\PHCPackage.cs" />
+    <Compile Include="Surface\Carbon\CarbonPackage.cs" />
     <Compile Include="Surface\PRMS\PRMSDataPackage.cs" />
     <Compile Include="Running\Watcher\TxtWatcher.cs" />
     <Compile Include="Running\Watcher\CSVWatcher.cs" />
