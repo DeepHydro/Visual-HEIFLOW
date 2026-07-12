@@ -43,32 +43,32 @@ namespace Heiflow.Tools.WaterQuality
             if (model != null)
             {
                 var mf = model.ModflowModel;
-                var sfrpck = mf.GetPackage(SFRPackage.PackageName) as SFRPackage;
+                //var sfrpck = mf.GetPackage(SFRPackage.PackageName) as SFRPackage;
                 var mfgrid = mf.Grid as RegularGrid;
-                var starttime = model.TimeService.Start;
-                var endtime = model.TimeService.End;
-                var nhru = mfgrid.ActiveCellCount;
-                var nseg = sfrpck.NSS;
-                var nreach = sfrpck.NSTRM;
+                //var starttime = model.TimeService.Start;
+                //var endtime = model.TimeService.End;
+                //var nhru = mfgrid.ActiveCellCount;
+                //var nseg = sfrpck.NSS;
+                //var nreach = sfrpck.NSTRM;
 
                 var wqinputpath = prj.Project.WQDirectory;
                 var configpath = BaseModel.ConfigPath;
-                WQFiles wqfile = new WQFiles();
-                wqfile.New(configpath, wqinputpath, nhru, nseg, nreach, starttime, endtime);
-                cancelProgressHandler.Progress("Package_Tool", 50, "WQ files copied");
+                //WQFiles wqfile = new WQFiles();
+                //wqfile.New(configpath, wqinputpath, nhru, nseg, nreach, starttime, endtime);
+                //cancelProgressHandler.Progress("Package_Tool", 50, "WQ files copied");
 
-                model.MasterPackage.nps_module = true;
+                model.MasterPackage.carbon_module = true;
 
-                model.PRMSModel.NewWQPackage(null);
-                var wqpck = model.PRMSModel.WQPackage;
+                model.PRMSModel.NewCarbonPackage(null);
+                var wqpck = model.PRMSModel.CarbonPackage;
                 wqpck.Grid = mfgrid;
                 wqpck.OnGridUpdated(mfgrid);
                 wqpck.Save(null);
-                cancelProgressHandler.Progress("Package_Tool", 80, "WQ parameter file created");
+                cancelProgressHandler.Progress("Package_Tool", 80, "Carbon parameter file created");
 
-                model.ExtensionManPackage.EnableSFRWQ = true;
-                model.ExtensionManPackage.Save(null);
-                cancelProgressHandler.Progress("Package_Tool", 90, "Extension file modified");
+                //model.ExtensionManPackage.EnableSFRWQ = true;
+                //model.ExtensionManPackage.Save(null);
+                //cancelProgressHandler.Progress("Package_Tool", 90, "Extension file modified");
 
                 model.MasterPackage.Save(null);
                 cancelProgressHandler.Progress("Package_Tool", 100, "Model control file modified");

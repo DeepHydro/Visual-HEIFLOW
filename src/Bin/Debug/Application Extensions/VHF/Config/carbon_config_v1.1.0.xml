@@ -15,7 +15,7 @@
       <ModuleName>carbon</ModuleName>
       <Maximum>1</Maximum>
       <Minimum>0</Minimum>
-      <Units />
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>nlayer</Name>
@@ -28,7 +28,7 @@
       <ModuleName>carbon</ModuleName>
       <Maximum>1</Maximum>
       <Minimum>0</Minimum>
-      <Units />
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>vegtotal</Name>
@@ -41,7 +41,7 @@
       <ModuleName>carbon</ModuleName>
       <Maximum>1</Maximum>
       <Minimum>0</Minimum>
-      <Units />
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>ndays</Name>
@@ -54,7 +54,7 @@
       <ModuleName>carbon</ModuleName>
       <Maximum>1</Maximum>
       <Minimum>0</Minimum>
-      <Units />
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>nmonths</Name>
@@ -67,7 +67,7 @@
       <ModuleName>carbon</ModuleName>
       <Maximum>1</Maximum>
       <Minimum>0</Minimum>
-      <Units />
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>nhours24</Name>
@@ -80,50 +80,50 @@
       <ModuleName>carbon</ModuleName>
       <Maximum>1</Maximum>
       <Minimum>0</Minimum>
-      <Units />
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>idc</Name>
-      <Description />
+      <Description>ID of HRU's carbon parameter group</Description>
       <ValueType>1</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>vegtotal</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>1</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
-      <Minimum>0</Minimum>
-      <Units />
+      <Maximum>100</Maximum>
+      <Minimum>1</Minimum>
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>plant_C_type</Name>
-      <Description />
+      <Description>C3 or C4 plant</Description>
       <ValueType>1</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>vegtotal</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>3</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
-      <Minimum>0</Minimum>
-      <Units />
+      <Maximum>4</Maximum>
+      <Minimum>3</Minimum>
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>iswoody</Name>
-      <Description />
+      <Description>woody PFT or not: 1 is woody,  0 is non-woody</Description>
       <ValueType>1</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>vegtotal</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>1</DefaultValue>
       <ModuleName>carbon</ModuleName>
       <Maximum>1</Maximum>
       <Minimum>0</Minimum>
-      <Units />
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>iscrop</Name>
-      <Description />
+      <Description>crop or not, 1 is crop (reproductive pool),  0 is natural vegetation</Description>
       <ValueType>1</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
@@ -132,11 +132,11 @@
       <ModuleName>carbon</ModuleName>
       <Maximum>1</Maximum>
       <Minimum>0</Minimum>
-      <Units />
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>isevergreen</Name>
-      <Description />
+      <Description>evergreen PFT or not: 1 is evergreen (background litterfall), 0 is deciduous</Description>
       <ValueType>1</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
@@ -145,24 +145,24 @@
       <ModuleName>carbon</ModuleName>
       <Maximum>1</Maximum>
       <Minimum>0</Minimum>
-      <Units />
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>mycorr</Name>
-      <Description />
+      <Description>mycorrhizal plants or not: 1 is mycorrhizal plants, o is non-mycorrhizal plants</Description>
       <ValueType>1</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>vegtotal</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>1</DefaultValue>
       <ModuleName>carbon</ModuleName>
       <Maximum>1</Maximum>
       <Minimum>0</Minimum>
-      <Units />
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>mycorr_AM</Name>
-      <Description />
+      <Description>mycorr_AM or not (only for mycorrhizal plants): 1 is arbuscular mycorrhizal (AM)  0 is ectomycorrhizal (ECM)</Description>
       <ValueType>1</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
@@ -171,11 +171,11 @@
       <ModuleName>carbon</ModuleName>
       <Maximum>1</Maximum>
       <Minimum>0</Minimum>
-      <Units />
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>Nfixing</Name>
-      <Description />
+      <Description>plants ability for N fixing: 1 is legume plants with N fixing, 0 is not</Description>
       <ValueType>1</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
@@ -184,414 +184,414 @@
       <ModuleName>carbon</ModuleName>
       <Maximum>1</Maximum>
       <Minimum>0</Minimum>
-      <Units />
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>para_stom</Name>
-      <Description />
+      <Description>PFT stomatal conductance parameters, g1</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>vegtotal</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>4.45</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
-      <Minimum>0</Minimum>
-      <Units />
+      <Maximum>5.79</Maximum>
+      <Minimum>1.62</Minimum>
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>F_LNR</Name>
-      <Description />
+      <Description>fraction of leaf nitrogen in Rubisco (g N in Rubisco g-1 N)</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>vegtotal</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>0.1007</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
-      <Minimum>0</Minimum>
-      <Units />
+      <Maximum>0.4102</Maximum>
+      <Minimum>0.0461</Minimum>
+      <Units>g N in Rubisco g-1 N</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>SLA0</Name>
-      <Description />
+      <Description>specific leaf area at the canopy top (m 2 leaf/g biomass)</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>vegtotal</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>0.0308</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
-      <Minimum>0</Minimum>
-      <Units />
+      <Maximum>0.05</Maximum>
+      <Minimum>0.01</Minimum>
+      <Units>m 2 leaf/g biomass</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>Ncb</Name>
-      <Description />
+      <Description>nitrogen for carboxylation (g N/m2 leaf)</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>vegtotal</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>0.1007</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
-      <Minimum>0</Minimum>
-      <Units />
+      <Maximum>0.4102</Maximum>
+      <Minimum>0.0466</Minimum>
+      <Units>g N/m2 leaf</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>Atkin</Name>
-      <Description />
+      <Description>leaf respiration model intercept values</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>vegtotal</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>1.756</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
-      <Minimum>0</Minimum>
-      <Units />
+      <Maximum>2.196</Maximum>
+      <Minimum>1.499</Minimum>
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>beta_root</Name>
-      <Description />
+      <Description>root distribution parameters</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>vegtotal</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>0.966</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
-      <Minimum>0</Minimum>
-      <Units />
+      <Maximum>0.993</Maximum>
+      <Minimum>0.914</Minimum>
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>mor_ann</Name>
-      <Description />
+      <Description>annual rate of plant mortality, only applies to perennial vegetation types (year-1)</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>vegtotal</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>0.02</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
-      <Minimum>0</Minimum>
-      <Units />
+      <Maximum>0.1</Maximum>
+      <Minimum>0.001</Minimum>
+      <Units>year-1</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>seed_C</Name>
-      <Description />
+      <Description>initial seed C for planting (g C/m2)</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>vegtotal</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>3.0</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
-      <Minimum>0</Minimum>
-      <Units />
+      <Maximum>5.0</Maximum>
+      <Minimum>1.0</Minimum>
+      <Units>g C/m2</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>MRbase</Name>
-      <Description />
+      <Description>base rate of maintenance respiration per unit nitrogen content (gC gN-1 day-1)</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>vegtotal</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>0.2</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
-      <Minimum>0</Minimum>
-      <Units />
+      <Maximum>1.0</Maximum>
+      <Minimum>0.001</Minimum>
+      <Units>gC gN-1 day-1</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>tau_leaf</Name>
-      <Description />
+      <Description>specified leaf longevity, only applies to evergreen vegetation types (year-1)</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>vegtotal</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>1.0</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
-      <Minimum>0</Minimum>
-      <Units />
+      <Maximum>2.0</Maximum>
+      <Minimum>0.5</Minimum>
+      <Units>year-1</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>fr_leaf_a1</Name>
-      <Description />
+      <Description>ratio of new fine root : new leaf carbon allocation</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>vegtotal</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>1.0</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
-      <Minimum>0</Minimum>
-      <Units />
+      <Maximum>2.0</Maximum>
+      <Minimum>1.0</Minimum>
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>cr_stem_a2</Name>
-      <Description />
+      <Description>ratio of new coarse root : new stem carbon allocation</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>vegtotal</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>0.3</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
+      <Maximum>0.3</Maximum>
       <Minimum>0</Minimum>
-      <Units />
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>stem_leaf_a3</Name>
-      <Description />
+      <Description>ratio of new stem : new leaf carbon allocation, a3, not used for woody vegetation</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>vegtotal</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>-1.0</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
-      <Minimum>0</Minimum>
-      <Units />
+      <Maximum>0.2</Maximum>
+      <Minimum>-1.0</Minimum>
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>lw_tw_a4</Name>
-      <Description />
+      <Description>ratio of new live wood : new total wood allocation</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>vegtotal</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>0.1</DefaultValue>
       <ModuleName>carbon</ModuleName>
       <Maximum>1</Maximum>
       <Minimum>0</Minimum>
-      <Units />
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>CN_leaf</Name>
-      <Description />
+      <Description>C:N for leaf</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>vegtotal</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>40.0</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
-      <Minimum>0</Minimum>
-      <Units />
+      <Maximum>75</Maximum>
+      <Minimum>16</Minimum>
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>CN_fr</Name>
-      <Description />
+      <Description>C:N for fine root</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>vegtotal</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>42</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
-      <Minimum>0</Minimum>
-      <Units />
+      <Maximum>60</Maximum>
+      <Minimum>30</Minimum>
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>CN_lw</Name>
-      <Description />
+      <Description>C:N for live wood (in stem and coarse root)</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>vegtotal</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>50</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
+      <Maximum>100</Maximum>
       <Minimum>0</Minimum>
-      <Units />
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>CN_dw</Name>
-      <Description />
+      <Description>C:N for dead wood (in stem and coarse root)</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>vegtotal</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>500</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
+      <Maximum>1000</Maximum>
       <Minimum>0</Minimum>
-      <Units />
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>CP_leaf</Name>
-      <Description />
+      <Description>C:P for leaf</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>vegtotal</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>300</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
-      <Minimum>0</Minimum>
-      <Units />
+      <Maximum>800</Maximum>
+      <Minimum>1.0E-5</Minimum>
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>CP_fr</Name>
-      <Description />
+      <Description>C:P for fine root</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>vegtotal</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>756</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
-      <Minimum>0</Minimum>
-      <Units />
+      <Maximum>1000</Maximum>
+      <Minimum>500</Minimum>
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>CP_lw</Name>
-      <Description />
+      <Description>C:P for live wood (in stem and coarse root)</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>vegtotal</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>900</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
+      <Maximum>1000</Maximum>
       <Minimum>0</Minimum>
-      <Units />
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>CP_dw</Name>
-      <Description />
+      <Description>C:P for dead wood (in stem and coarse root)</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>vegtotal</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>9000</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
+      <Maximum>10000</Maximum>
       <Minimum>0</Minimum>
-      <Units />
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>GPP_base</Name>
-      <Description />
+      <Description>base GPP for below base temperature</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>vegtotal</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>5</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
+      <Maximum>10</Maximum>
       <Minimum>0</Minimum>
-      <Units />
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>leaf_resorp</Name>
-      <Description />
+      <Description>leaf resorption fraction of carbon during senescence</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>vegtotal</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>0.5</DefaultValue>
       <ModuleName>carbon</ModuleName>
       <Maximum>1</Maximum>
       <Minimum>0</Minimum>
-      <Units />
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>bulk_density</Name>
-      <Description />
+      <Description>bulk density of the soil layer (Mg/m3)</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>2</Dimension>
       <DimensionNames>nhru</DimensionNames>
       <DimensionNames>nlayer</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>1.4</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
-      <Minimum>0</Minimum>
-      <Units />
+      <Maximum>3</Maximum>
+      <Minimum>1</Minimum>
+      <Units>Mg/m3</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>Soil_TN</Name>
-      <Description />
+      <Description>soil total nitrogen (Percentage)</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>2</Dimension>
       <DimensionNames>nhru</DimensionNames>
       <DimensionNames>nlayer</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>1.0</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
+      <Maximum>5</Maximum>
       <Minimum>0</Minimum>
-      <Units />
+      <Units>Percentage</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>Soil_TP</Name>
-      <Description />
+      <Description>soil total phosphorus (Percentage)</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>2</Dimension>
       <DimensionNames>nhru</DimensionNames>
       <DimensionNames>nlayer</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>0.035</DefaultValue>
       <ModuleName>carbon</ModuleName>
       <Maximum>1</Maximum>
       <Minimum>0</Minimum>
-      <Units />
+      <Units>Percentage</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>Soil_OC</Name>
-      <Description />
+      <Description>soil organic carbon</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>2</Dimension>
       <DimensionNames>nhru</DimensionNames>
       <DimensionNames>nlayer</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>1.5</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
+      <Maximum>10</Maximum>
       <Minimum>0</Minimum>
-      <Units />
+      <Units>Percentage</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>Soil_pH</Name>
-      <Description />
+      <Description>soil pH measured in water solution</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>2</Dimension>
       <DimensionNames>nhru</DimensionNames>
       <DimensionNames>nlayer</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>5.3</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
-      <Minimum>0</Minimum>
-      <Units />
+      <Maximum>10</Maximum>
+      <Minimum>1</Minimum>
+      <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>Soil_clay</Name>
-      <Description />
+      <Description>soil clay weight percentage</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>2</Dimension>
       <DimensionNames>nhru</DimensionNames>
       <DimensionNames>nlayer</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>27</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
+      <Maximum>100</Maximum>
       <Minimum>0</Minimum>
-      <Units />
+      <Units>Percentage</Units>
     </SerializableParameter>
     <SerializableParameter>
       <Name>biomass</Name>
-      <Description />
+      <Description>plant biomass (aboveground and belowground) (Mg C/ha)</Description>
       <ValueType>2</ValueType>
       <VariableType>Parameter</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>nhru</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>60</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
+      <Maximum>1000</Maximum>
       <Minimum>0</Minimum>
       <Units />
     </SerializableParameter>
