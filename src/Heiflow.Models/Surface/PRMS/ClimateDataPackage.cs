@@ -140,7 +140,15 @@ namespace Heiflow.Models.Surface.PRMS
                     list_files.Add(rad);
                 }
             }
-
+            if (MasterPackage.CO2Module == CO2Module.climate_hru)
+            {
+                var co2 = MasterPackage.CO2_Month_File;
+                if (TypeConverterEx.IsNotNull(co2))
+                {
+                    list_vars.Add("CO2");
+                    list_files.Add(co2);
+                }
+            }
             Variables = list_vars.ToArray();
             _FileNames = list_files.ToArray();
 
@@ -291,7 +299,7 @@ namespace Heiflow.Models.Surface.PRMS
                 ncell = grid.ActiveCellCount;
             else
             {
-                
+
             }
             DataCube<float> mat = new DataCube<float>(1, this.TimeService.NumTimeStep, ncell);
             mat.Variables = new string[] { "hru_ppt" };
@@ -342,11 +350,36 @@ namespace Heiflow.Models.Surface.PRMS
                     sw.WriteAll(mat);
                 }
             }
-            if(MasterPackage.SolarRadiation == SolarRadiationModule.climate_hru)
+            if (MasterPackage.SolarRadiation == SolarRadiationModule.climate_hru)
             {
                 mat.Variables[0] = "swrad";
                 mat.ILArrays[0][":", ":"] = rad;
                 sw = new DataCubeStreamWriter(MasterPackage.SwradFile);
+                sw.WriteAll(mat);
+            }
+            if (MasterPackage.CO2Module == CO2Module.climate_hru)
+            {
+                mat = new DataCube<float>(1, 12, ncell);
+                mat.Variables = new string[] { "co2" };
+                mat.DateTimes = this.TimeService.Timeline.ToArray();
+                for (int i = 0; i < ncell; i++)
+                {
+                    var co2 = new float[] { 364.076660156250f,
+                                                    364.789916992188f,
+                                                    365.178710937500f,
+                                                    365.139221191406f,
+                                                    360.948852539063f,
+                                                    357.374786376953f,
+                                                    356.903137207031f,
+                                                    356.755401611328f,
+                                                    358.903717041016f,
+                                                    361.359313964844f,
+                                                    363.589538574219f,
+                                                    365.243560791016f
+                                                  };
+                    mat.ILArrays[0][":", i] = ppt;
+                }
+                sw = new DataCubeStreamWriter(MasterPackage.CO2_Month_File);
                 sw.WriteAll(mat);
             }
         }

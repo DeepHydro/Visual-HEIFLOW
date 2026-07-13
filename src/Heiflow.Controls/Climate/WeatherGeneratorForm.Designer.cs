@@ -56,9 +56,11 @@
             this.label6 = new System.Windows.Forms.Label();
             this.tabUniform = new System.Windows.Forms.TabPage();
             this.checkBoxOneGrid = new System.Windows.Forms.CheckBox();
+            this.label25 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
@@ -66,6 +68,7 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
+            this.tbRad = new System.Windows.Forms.TextBox();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -81,9 +84,8 @@
             this.label24 = new System.Windows.Forms.Label();
             this.btnGenerate = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
-            this.label25 = new System.Windows.Forms.Label();
-            this.tbRad = new System.Windows.Forms.TextBox();
-            this.label26 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label27 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabFile.SuspendLayout();
@@ -214,8 +216,10 @@
             // 
             // tabFile
             // 
+            this.tabFile.Controls.Add(this.label27);
             this.tabFile.Controls.Add(this.labelPressure);
             this.tabFile.Controls.Add(this.tbHumidity);
+            this.tabFile.Controls.Add(this.textBox2);
             this.tabFile.Controls.Add(this.label2);
             this.tabFile.Controls.Add(this.tbPressure);
             this.tabFile.Controls.Add(this.tbPpt);
@@ -231,7 +235,7 @@
             this.tabFile.Location = new System.Drawing.Point(4, 39);
             this.tabFile.Name = "tabFile";
             this.tabFile.Padding = new System.Windows.Forms.Padding(3);
-            this.tabFile.Size = new System.Drawing.Size(592, 309);
+            this.tabFile.Size = new System.Drawing.Size(592, 365);
             this.tabFile.TabIndex = 2;
             this.tabFile.Text = "Files";
             this.tabFile.UseVisualStyleBackColor = true;
@@ -409,6 +413,15 @@
             this.checkBoxOneGrid.Text = "Use one grid";
             this.checkBoxOneGrid.UseVisualStyleBackColor = true;
             // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(18, 258);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(163, 31);
+            this.label25.TabIndex = 30;
+            this.label25.Text = "Solar Ridiation";
+            // 
             // label16
             // 
             this.label16.AutoSize = true;
@@ -435,6 +448,15 @@
             this.label20.Size = new System.Drawing.Size(138, 31);
             this.label20.TabIndex = 32;
             this.label20.Text = "Wind Speed";
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(397, 264);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(43, 31);
+            this.label26.TabIndex = 26;
+            this.label26.Text = "MJ";
             // 
             // label21
             // 
@@ -498,6 +520,15 @@
             this.label14.Size = new System.Drawing.Size(57, 31);
             this.label14.TabIndex = 29;
             this.label14.Text = "Inch";
+            // 
+            // tbRad
+            // 
+            this.tbRad.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.tbRad.Location = new System.Drawing.Point(208, 258);
+            this.tbRad.Name = "tbRad";
+            this.tbRad.Size = new System.Drawing.Size(182, 37);
+            this.tbRad.TabIndex = 22;
+            this.tbRad.Text = "10";
             // 
             // textBox5
             // 
@@ -604,7 +635,7 @@
             this.tabRandom.Location = new System.Drawing.Point(4, 39);
             this.tabRandom.Name = "tabRandom";
             this.tabRandom.Padding = new System.Windows.Forms.Padding(3);
-            this.tabRandom.Size = new System.Drawing.Size(592, 309);
+            this.tabRandom.Size = new System.Drawing.Size(592, 365);
             this.tabRandom.TabIndex = 0;
             this.tabRandom.Text = "Random Method";
             this.tabRandom.UseVisualStyleBackColor = true;
@@ -648,32 +679,23 @@
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
-            // label25
+            // textBox2
             // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(18, 258);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(163, 31);
-            this.label25.TabIndex = 30;
-            this.label25.Text = "Solar Ridiation";
+            this.textBox2.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.textBox2.Location = new System.Drawing.Point(218, 269);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
+            this.textBox2.Size = new System.Drawing.Size(363, 37);
+            this.textBox2.TabIndex = 17;
             // 
-            // tbRad
+            // label27
             // 
-            this.tbRad.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.tbRad.Location = new System.Drawing.Point(208, 258);
-            this.tbRad.Name = "tbRad";
-            this.tbRad.Size = new System.Drawing.Size(182, 37);
-            this.tbRad.TabIndex = 22;
-            this.tbRad.Text = "10";
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(397, 264);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(43, 31);
-            this.label26.TabIndex = 26;
-            this.label26.Text = "MJ";
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(18, 272);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(231, 31);
+            this.label27.TabIndex = 0;
+            this.label27.Text = "Atmoshpere Pressure";
             // 
             // WeatherGeneratorForm
             // 
@@ -761,5 +783,7 @@
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.TextBox tbRad;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.TextBox textBox2;
     }
 }

@@ -53,7 +53,7 @@ namespace Heiflow.Models.Integration
     public enum PETModule { potet_hamon_prms = 0, potet_jh_prms, potet_pm, climate_hru }
     public enum SurfaceRunoffModule { srunoff_carea_casc = 0, srunoff_smidx_casc }
     public enum ModelMode { GSFLOW, HEIFLOW }
-
+    public enum  CO2Module { climate_hru = 0 }
 
     public class MasterPackage : Package
     {
@@ -75,6 +75,7 @@ namespace Heiflow.Models.Integration
         PrecipitationModule _Precipitation = PrecipitationModule.climate_hru;
         SolarRadiationModule _SolarRadiation = SolarRadiationModule.ddsolrad_hru_prms;
         PETModule _PotentialET = PETModule.potet_pm;
+        CO2Module _CO2Module = CO2Module.climate_hru;
         SurfaceRunoffModule _SurfaceRunoff = SurfaceRunoffModule.srunoff_smidx_casc;
         bool _StatsON = false;
         string _StatVarFile;
@@ -95,6 +96,7 @@ namespace Heiflow.Models.Integration
         private string _PETFile = "pet.dcx";
         private string _WindFile = "wind.dcx";
         private string _swradFile = "swrad.dcx";
+        private string _co2File = "CO2_month.dcx";
         private string _HumidityFile = "hum.dcx";
         private string _PressureFile = "pressure.dcx";
         bool _PrintDebug = false;
@@ -433,6 +435,24 @@ namespace Heiflow.Models.Integration
                 {
                     (Parameters["swrad_day"] as DataCubeParameter<string>)[0, 0, 0] = value;
                     OnPropertyChanged("WindFile");
+                }
+            }
+        }
+        [Category("Input Files")]
+        [Description("Spatially-distributed wind file")]
+        public string CO2_Month_File
+        {
+            get
+            {
+                return Path.Combine(ModelService.WorkDirectory, _co2File);
+            }
+            set
+            {
+                _co2File = value;
+                if (Parameters.Keys.Contains("CO2_month"))
+                {
+                    (Parameters["CO2_month"] as DataCubeParameter<string>)[0, 0, 0] = value;
+                    OnPropertyChanged("CO2_month");
                 }
             }
         }
@@ -807,7 +827,24 @@ namespace Heiflow.Models.Integration
                 OnPropertyChanged("PotentialET");
             }
         }
-
+        /// <summary>
+        /// CO2Module
+        /// </summary>
+        [Category("Modules")]
+        [Description("Module name for CO2")]
+        public CO2Module CO2Module
+        {
+            get
+            {
+                return _CO2Module;
+            }
+            set
+            {
+                _CO2Module = value;
+                (Parameters["CO2_module"] as DataCubeParameter<string>)[0, 0, 0] = value.ToString();
+                OnPropertyChanged("CO2Module");
+            }
+        }
         /// <summary>
         /// wind module
         /// </summary>
