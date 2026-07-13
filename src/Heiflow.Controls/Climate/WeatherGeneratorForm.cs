@@ -64,6 +64,8 @@ namespace Heiflow.Controls.WinForm.Climate
             tbWind.Text = _ClimateDataPackage.MasterPackage.WindFile;
             tbHumidity.Text = _ClimateDataPackage.MasterPackage.HumidityFile;
             tbPressure.Text = _ClimateDataPackage.MasterPackage.PressureFile;
+            tbRadFile.Text = _ClimateDataPackage.MasterPackage.SwradFile;
+            tbCO2File.Text = _ClimateDataPackage.MasterPackage.CO2_Month_File;
           
             if (_ClimateDataPackage.MasterPackage.PotentialET == Models.Integration.PETModule.climate_hru)
                 tbPet.Text = _ClimateDataPackage.MasterPackage.PETFile;
@@ -87,6 +89,7 @@ namespace Heiflow.Controls.WinForm.Climate
             float hum = 0.7f;
             float press = 101;
             float rad = 1;
+            float co2 = 360.0f;
             float.TryParse(tbPptvalue.Text, out ppt);
             float.TryParse(tbMaxTval.Text, out tmax);
             float.TryParse(tbMinTval.Text, out tmin);
@@ -95,10 +98,11 @@ namespace Heiflow.Controls.WinForm.Climate
             float.TryParse(tbHumidity.Text, out hum);
             float.TryParse(tbPressure.Text, out press);
             float.TryParse(tbRad.Text, out rad);
+            float.TryParse(tbCO2.Text, out co2);
             Cursor.Current = Cursors.WaitCursor;
             if (cmbClimateFormat.SelectedIndex == 0)
             {
-                _ClimateDataPackage.SaveAsDcxByConstant(ppt, tmax, tmin, pet, wind, hum, press, rad, checkBoxOneGrid.Checked);
+                _ClimateDataPackage.SaveAsDcxByConstant(ppt, tmax, tmin, pet, wind, hum, press, rad, co2, checkBoxOneGrid.Checked);
             }
             else
             {

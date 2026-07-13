@@ -60,10 +60,10 @@ namespace Heiflow.Tools.WaterQuality
                 model.MasterPackage.carbon_module = true;
 
                 model.PRMSModel.NewCarbonPackage(null);
-                var wqpck = model.PRMSModel.CarbonPackage;
-                wqpck.Grid = mfgrid;
-                wqpck.OnGridUpdated(mfgrid);
-                wqpck.Save(null);
+                var carbonpck = model.PRMSModel.CarbonPackage;
+                carbonpck.Grid = mfgrid;
+                carbonpck.OnGridUpdated(mfgrid);
+                carbonpck.Save(null);
                 cancelProgressHandler.Progress("Package_Tool", 80, "Carbon parameter file created");
 
                 //model.ExtensionManPackage.EnableSFRWQ = true;

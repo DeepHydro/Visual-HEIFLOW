@@ -1547,6 +1547,7 @@ namespace Heiflow.Models.Integration
                     HumidityFile = string.Format(".\\input\\prms\\{0}_hum.dcx", Owner.Project.Name);
                     PressureFile = string.Format(".\\input\\prms\\{0}_pres.dcx", Owner.Project.Name);
                 }
+                CO2_Month_File = string.Format(".\\input\\prms\\{0}_CO2_month.dcx", Owner.Project.Name);
                 AnimationOutOCFile = string.Format(".\\input\\prms\\{0}_aniout.oc", Owner.Project.Name);
                 WRAModuleFile = string.Format(".\\input\\prms\\{0}.wra", Owner.Project.Name);
                 ExtensionManagerFile = string.Format(".\\input\\extension\\extensions.exm", Owner.Project.Name);
@@ -1832,6 +1833,10 @@ namespace Heiflow.Models.Integration
                 {
                     SwradFile = SwradFile.Replace(".txt", ".dcx");
                 }
+                if (CO2_Month_File.Contains(".txt")) 
+                {
+                    CO2_Month_File = CO2_Month_File.Replace(".txt", ".dcx");
+                }
             }
             else
             {
@@ -1866,6 +1871,10 @@ namespace Heiflow.Models.Integration
                 if (SwradFile.Contains(".dcx"))
                 {
                     SwradFile = SwradFile.Replace(".dcx", ".txt");
+                }
+                if (CO2_Month_File.Contains(".dcx"))
+                {
+                    CO2_Month_File = CO2_Month_File.Replace(".dcx", ".txt");
                 }
             }
         }

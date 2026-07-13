@@ -291,7 +291,7 @@ namespace Heiflow.Models.Surface.PRMS
           }
         }
 
-        public void SaveAsDcxByConstant(float ppt = 0.15f, float tmax = 15, float tmin = 5, float pet = 0.1f, float wind = 4.0f, float hum = 0.7f, float press = 101.0f, float rad = 1, bool onegrid = true)
+        public void SaveAsDcxByConstant(float ppt = 0.15f, float tmax = 15, float tmin = 5, float pet = 0.1f, float wind = 4.0f, float hum = 0.7f, float press = 101.0f, float rad = 1, float co2v=360, bool onegrid = true)
         {
             var grid = this.Grid as MFGrid;
             var ncell = 1;
