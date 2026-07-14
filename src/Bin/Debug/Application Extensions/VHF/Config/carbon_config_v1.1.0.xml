@@ -11,10 +11,10 @@
       <VariableType>Dimension</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>Dimension</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>100</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
-      <Minimum>0</Minimum>
+      <Maximum>1000000</Maximum>
+      <Minimum>1</Minimum>
       <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
@@ -24,10 +24,10 @@
       <VariableType>Dimension</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>Dimension</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>4</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
-      <Minimum>0</Minimum>
+      <Maximum>10</Maximum>
+      <Minimum>1</Minimum>
       <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
@@ -37,10 +37,10 @@
       <VariableType>Dimension</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>Dimension</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>6</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
-      <Minimum>0</Minimum>
+      <Maximum>100</Maximum>
+      <Minimum>1</Minimum>
       <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
@@ -50,10 +50,10 @@
       <VariableType>Dimension</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>Dimension</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>366</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
-      <Minimum>0</Minimum>
+      <Maximum>366</Maximum>
+      <Minimum>366</Minimum>
       <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
@@ -63,10 +63,10 @@
       <VariableType>Dimension</VariableType>
       <Dimension>1</Dimension>
       <DimensionNames>Dimension</DimensionNames>
-      <DefaultValue>0</DefaultValue>
+      <DefaultValue>12</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
-      <Minimum>0</Minimum>
+      <Maximum>12</Maximum>
+      <Minimum>12</Minimum>
       <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>
@@ -74,12 +74,12 @@
       <Description />
       <ValueType>0</ValueType>
       <VariableType>Dimension</VariableType>
-      <Dimension>1</Dimension>
+      <Dimension>24</Dimension>
       <DimensionNames>Dimension</DimensionNames>
       <DefaultValue>0</DefaultValue>
       <ModuleName>carbon</ModuleName>
-      <Maximum>1</Maximum>
-      <Minimum>0</Minimum>
+      <Maximum>24</Maximum>
+      <Minimum>24</Minimum>
       <Units>none</Units>
     </SerializableParameter>
     <SerializableParameter>

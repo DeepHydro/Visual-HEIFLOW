@@ -57,6 +57,11 @@ namespace Heiflow.Models.Generic
             set;
             get;
         }
+        int SoilLayerCount
+        {
+            set;
+            get;
+        }
         int ActiveCellCount
         {
             get;

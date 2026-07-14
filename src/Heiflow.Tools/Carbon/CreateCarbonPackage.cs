@@ -53,7 +53,7 @@ namespace Heiflow.Tools.WaterQuality
 
                 var wqinputpath = prj.Project.WQDirectory;
                 var configpath = BaseModel.ConfigPath;
-                //WQFiles wqfile = new WQFiles();
+                WQFiles wqfile = new WQFiles();
                 //wqfile.New(configpath, wqinputpath, nhru, nseg, nreach, starttime, endtime);
                 //cancelProgressHandler.Progress("Package_Tool", 50, "WQ files copied");
 
@@ -70,6 +70,7 @@ namespace Heiflow.Tools.WaterQuality
                 //model.ExtensionManPackage.Save(null);
                 //cancelProgressHandler.Progress("Package_Tool", 90, "Extension file modified");
 
+                model.MasterPackage.carbon_module = true;
                 model.MasterPackage.Save(null);
                 cancelProgressHandler.Progress("Package_Tool", 100, "Model control file modified");
 

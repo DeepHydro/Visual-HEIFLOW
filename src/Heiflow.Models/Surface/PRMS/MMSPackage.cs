@@ -306,6 +306,8 @@ namespace Heiflow.Models.Surface.PRMS
                 ShowWarning(Message, progress);
                 result = LoadingState.FatalError;
             }
+            var nlayer = int.Parse(Parameters["nlayer"].GetValue(0, 0, 0).ToString());
+            this.Grid.SoilLayerCount = nlayer;
             OnLoaded(progress, new LoadingObjectState() { Message = Message, Object = this, State = result });
             return result;
         }

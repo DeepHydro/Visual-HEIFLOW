@@ -95,7 +95,11 @@ namespace Heiflow.Models.Generic
             get;
             set;
         }
-
+        public int SoilLayerCount
+        {
+            get;
+            set;
+        }
         public IBasicModel Owner
         {
             get;

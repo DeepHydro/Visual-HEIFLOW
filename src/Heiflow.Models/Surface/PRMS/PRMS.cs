@@ -287,13 +287,13 @@ namespace Heiflow.Models.Surface.PRMS
 
         public void NewCarbonPackage(ICancelProgressHandler progress)
         {
-            _CarbonPackage.FileName = _master.nps_param_file; 
+            _CarbonPackage.FileName = _master.carbon_param_file; 
             string wqparafile = Path.Combine(BaseModel.ConfigPath, "carbon_" + Owner.Project.SelectedVersion + ".param");
             File.Copy(wqparafile, _CarbonPackage.FileName, true);
             if (_CarbonPackage.Load(progress) == LoadingState.Normal)
             {
-                ResolveLoadedWQParameters();
-                ResolveWQModules();
+                ResolveLoadedCarbonParameters();
+                ResolveCarbonModules();
             }
         }
 

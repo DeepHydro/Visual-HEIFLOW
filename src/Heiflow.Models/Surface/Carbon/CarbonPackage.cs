@@ -51,6 +51,8 @@ namespace Heiflow.Models.Surface.WQ
         private string[] dim_name = new string[] { "Dimension" };
         private string[] _nhru_dim_names = new string[] { "nhru"};
         private string[] _nlayer_dim_names = new string[] { "nlayer" };
+        private string[] _vegtotal_dim_names = new string[] { "vegtotal" };
+
 
         public CarbonPackage(string name)
             : base(name)
@@ -720,11 +722,20 @@ namespace Heiflow.Models.Surface.WQ
                 var para = Select(dim);
                 if (para != null)
                 {
-                    para.SetValue(0, 0, 0, prms.SoilLayerManager.LayerCount);
-                    AlterLength(dim, prms.SoilLayerManager.Layers.Count);
+                    para.SetValue(0, 0, 0, grid.SoilLayerCount);
+                    AlterLength(dim, grid.SoilLayerCount);
                 }
             }
-
+            var nvegtotal = int.Parse(prms.MMSPackage.Select("vegtotal").GetValue(0, 0, 0).ToString());
+            foreach (var dim in _vegtotal_dim_names)
+            {
+                var para = Select(dim);
+                if (para != null)
+                {
+                    para.SetValue(0, 0, 0, nvegtotal);
+                    AlterLength(dim, nvegtotal);
+                }
+            }
             ResetToDefault();
 
             ModelService.NHRU = numhru;

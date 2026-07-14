@@ -56,6 +56,7 @@ namespace Heiflow.Models.Generic
         private int _RowCount;
         private int _ColumnCount;
         private int _ActualLayerCount;
+        private int _SoilLayerCount;
         private int _LayerCount;
         private int _UTMZone;
 
@@ -116,6 +117,18 @@ namespace Heiflow.Models.Generic
             set
             {
                 _ActualLayerCount = value;
+                OnSizeChanged();
+            }
+        }
+        public int SoilLayerCount
+        {
+            get
+            {
+                return _SoilLayerCount;
+            }
+            set
+            {
+                _SoilLayerCount = value;
                 OnSizeChanged();
             }
         }

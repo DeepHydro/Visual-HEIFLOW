@@ -77,7 +77,6 @@ namespace Heiflow.Models.Surface.WQ
             set;
         }
 
-
         [XmlIgnore]
         [Browsable(false)]
         [ArealProperty(typeof(IParameter), null)]
