@@ -207,9 +207,9 @@ namespace Heiflow.Controls.WinForm.Display
             var uzferror = uzfin - uzfout - uzfds;
             var uzf_discrepancy = Math.Round((uzferror) / (uzfin + uzfout + Math.Abs(uzfds)) * 2 * 100, 2);
 
-            var satin = e[FileMonitor.UZF_RECHARGE] + e[FileMonitor.Groundwater_Inflow] + e[FileMonitor.STREAM_LEAKAGE_IN];
+            var satin = e[FileMonitor.UZF_RECHARGE] + e[FileMonitor.Groundwater_Inflow] + e[FileMonitor.STREAM_LEAKAGE_IN] + e[FileMonitor.LAKE_SEEPAGE_IN];
             var satout = e[FileMonitor.GW_ET_OUT] + e[FileMonitor.STREAM_LEAKAGE_OUT]
-    + e[FileMonitor.WELLS_OUT] + e[FileMonitor.SURFACE_LEAKAGE_OUT] + e[FileMonitor.Groundwater_Outflow];
+    + e[FileMonitor.WELLS_OUT] + e[FileMonitor.SURFACE_LEAKAGE_OUT] + e[FileMonitor.Groundwater_Outflow] + e[FileMonitor.LAKE_SEEPAGE_OUT];
             var satds = e[FileMonitor.Saturated_Zone_DS];
             var saterror = satin - satout - satds;
             var sat_discrepancy = Math.Round((saterror) / (satin + satout + Math.Abs(satds)) * 2 * 100, 2);
@@ -253,9 +253,12 @@ namespace Heiflow.Controls.WinForm.Display
             sat_g2s.Text = e[FileMonitor.STREAM_LEAKAGE_OUT].ToString("0.00");
             sat_ds.Text = e[FileMonitor.Saturated_Zone_DS].ToString("0.00");
 
-            var totalin = e[FileMonitor.PPT] + e[FileMonitor.Streams_Inflow] + e[FileMonitor.Groundwater_Inflow] + e[FileMonitor.WELLS_IN];
+            lak_leak.Text = e[FileMonitor.LAKE_SEEPAGE_IN].ToString("0.00");
+            lak_gain.Text = e[FileMonitor.LAKE_SEEPAGE_OUT].ToString("0.00");
+
+            var totalin = e[FileMonitor.PPT] + e[FileMonitor.Streams_Inflow] + e[FileMonitor.Groundwater_Inflow] + e[FileMonitor.WELLS_IN] ;
             //  var totalout = e[FileMonitor.Evapotranspiration] + e[FileMonitor.Evaporation] + e[FileMonitor.Streams_Outflow] + e[FileMonitor.Groundwater_Outflow] + e[FileMonitor.WELLS_OUT];
-            var totalout = total_et + e[FileMonitor.Streams_Outflow] + e[FileMonitor.Groundwater_Outflow] + e[FileMonitor.WELLS_OUT];
+            var totalout = total_et + e[FileMonitor.Streams_Outflow] + e[FileMonitor.Groundwater_Outflow];
             var totalds = e[FileMonitor.LAND_SURFACE_Zone_DS] + e[FileMonitor.Soil_Zone_DS]
                                 + e[FileMonitor.Unsaturated_Zone_DS] + e[FileMonitor.Saturated_Zone_DS]
                                 + e[FileMonitor.Lakes_Zone_DS] + e[FileMonitor.Canal_DS];

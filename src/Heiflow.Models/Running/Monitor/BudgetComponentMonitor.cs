@@ -542,9 +542,15 @@ namespace Heiflow.Models.Running
                 VariableIndex = 9,
                 Group = _In_Group,
             };
+            MonitorItem lake_leakage = new MonitorItem(LAKE_SEEPAGE_IN)
+            {
+                VariableIndex = 36,
+                Group = _In_Group,
+            };
             root_sat.Children.Add(uzf_recharge_sat);
             root_sat.Children.Add(gw_inout);
             root_sat.Children.Add(stream_leakage);
+            root_sat.Children.Add(lake_leakage);
 
             //Groundwater Discharge from SAT to Soil Zone
             MonitorItem basingw2sz_sat = new MonitorItem(BASINGW2SZ_HRU)
@@ -557,9 +563,16 @@ namespace Heiflow.Models.Running
                 VariableIndex = 59,
                 Group = _Out_Group,
             };
+            MonitorItem lake_gain = new MonitorItem(LAKE_SEEPAGE_OUT)
+            {
+                VariableIndex = 38,
+                Group = _Out_Group,
+            };
 
             root_sat.Children.Add(basingw2sz_sat);
             root_sat.Children.Add(sat_et);
+            root_sat.Children.Add(lake_gain);
+
             //"Total Storage Change in SAT"
             MonitorItem sat_change_stor = new MonitorItem(SAT_CHANGE_STOR)
             {

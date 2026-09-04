@@ -85,6 +85,8 @@ namespace Heiflow.Models.Running
 
         public static string LAKET = "Lakes ET";
 
+        public static string LAKLEAKAGE = "Lakes Leakage";
+
         public static string SFR_PPT = "Stream Precipitation";
         public static string SFR_INFLOW = "Stream Inflow";
         public static string SFRET = "Stream ET";
