@@ -131,6 +131,9 @@ namespace Heiflow.Models.Running
         public static string HRU_DISYP = "Total HRU Budget Percent Discrepancy";
 
         public static string Soil_ET = "Soil Zone ET";
+        public static string Dunnian_runoff_to_streams = "Dunnian runoff to streams";
+        public static string Total_Soil_Zone_Storage = "Total Soil Zone Storage";
+        public static string Soil_infiltration = "Soil infiltration";
 
         public static string UZF_INFIL = "Infiltration to UZ and SZ zones";
         public static string UZF_ET = "ET from UZ zone";

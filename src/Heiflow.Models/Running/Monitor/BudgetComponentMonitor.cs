@@ -346,10 +346,13 @@ namespace Heiflow.Models.Running
             root_hru.Children.Add(sn_stor);
             root_hru.Children.Add(hru_stor);
 
-            root_hru.Children.Add(sfr_inflow);
+            //root_hru.Children.Add(sfr_inflow);
             root_hru.Children.Add(ppt);
             root_hru.Children.Add(basingw2sz_hru);
             root_hru.Children.Add(basinszreject);
+            root_hru.Children.Add(ir_div);
+            root_hru.Children.Add(ir_pump);
+         
 
             root_hru.Children.Add(basinpervet_hru);
             root_hru.Children.Add(basinimpervevap_hru);
@@ -357,8 +360,10 @@ namespace Heiflow.Models.Running
             root_hru.Children.Add(basinsnowevap_hru);
             root_hru.Children.Add(basininterflow);
             root_hru.Children.Add(basinsroff);
-            root_hru.Children.Add(basinsz2gw);
+            //root_hru.Children.Add(basinsz2gw);
+          
             root_hru.Children.Add(basinhortonianlakes);
+            root_hru.Children.Add(basinlakeinsz);
 
             root_hru.Children.Add(hru_in);
             root_hru.Children.Add(hru_out);
@@ -370,7 +375,7 @@ namespace Heiflow.Models.Running
             var root_soil = new MonitorItemCollection("Soil Zone Water Budgets");
             _Roots.Add(root_soil);
 
-            MonitorItem soil_stor = new MonitorItem("Total Soil Zone Storage")
+            MonitorItem soil_stor = new MonitorItem(Total_Soil_Zone_Storage)
             {
                 VariableIndex = -1,
                 Group = _Storage_Group,
@@ -388,7 +393,7 @@ namespace Heiflow.Models.Running
                 Group = _In_Group,
             };
             //"Soil infiltration"
-            MonitorItem basininfil = new MonitorItem("Soil infiltration")
+            MonitorItem basininfil = new MonitorItem(Soil_infiltration)
             {
                 VariableIndex = 39,
                 Group = _In_Group,
@@ -403,23 +408,23 @@ namespace Heiflow.Models.Running
                 Group = _Out_Group
             };
             //"Dunnian runoff to streams"
-            MonitorItem basindunnian = new MonitorItem("Dunnian runoff to streams")
+            MonitorItem basindunnian = new MonitorItem(Dunnian_runoff_to_streams)
             {
                 VariableIndex = 40,
                 Group = _Out_Group
             };
             // "Gravity drainage from the soil zone to UZ";
-            MonitorItem basinsoiltogw = new MonitorItem(BASINSZ2GW)
-            {
-                VariableIndex = 6,
-                Group = _Out_Group
-            };
+            //MonitorItem basinsoiltogw = new MonitorItem(BASINSZ2GW)
+            //{
+            //    VariableIndex = 6,
+            //    Group = _Out_Group
+            //};
 
             root_soil.Children.Add(basininterflow);
             root_soil.Children.Add(basinsz2gw);
             root_soil.Children.Add(basinpervet_soil);
             root_soil.Children.Add(basindunnian);
-            root_soil.Children.Add(basinsoiltogw);
+            //root_soil.Children.Add(basinsoiltogw);
             root_soil.Children.Add(basinlakeinsz);
 
             SequenceMonitorItem soil_ds = new SequenceMonitorItem("Soil Zone Storage Change")
@@ -444,7 +449,7 @@ namespace Heiflow.Models.Running
                 Group = _Total_Group,
                 Derivable = true,
                 DerivedIndex = new int[] { basininterflow.VariableIndex, basinsz2gw.VariableIndex,
-                basinpervet_soil.VariableIndex, basindunnian.VariableIndex, basinsoiltogw.VariableIndex, basinlakeinsz.VariableIndex}
+                basinpervet_soil.VariableIndex, basindunnian.VariableIndex,  basinlakeinsz.VariableIndex}
             };
 
             AggregatedMonitorItem soil_error = new AggregatedMonitorItem("Total Soil Budget Error")
@@ -521,6 +526,8 @@ namespace Heiflow.Models.Running
             root_uzf.Children.Add(uzf_totalout);
             root_uzf.Children.Add(uzf_error);
             #endregion
+
+            root_hru.Children.Add(uzf_infil);
 
             #region SATURATED ZONE BUDGETS
             var root_sat = new MonitorItemCollection("Saturated Zone Water Budgets");

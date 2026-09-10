@@ -75,6 +75,8 @@ namespace Heiflow.Controls.WinForm.Display
             this.sat_out = new System.Windows.Forms.TextBox();
             this.sw_out = new System.Windows.Forms.TextBox();
             this.sat_gw2sz = new System.Windows.Forms.TextBox();
+            this.lak_gain = new System.Windows.Forms.TextBox();
+            this.lak_leak = new System.Windows.Forms.TextBox();
             this.sz_Percolation = new System.Windows.Forms.TextBox();
             this.sz_ds = new System.Windows.Forms.TextBox();
             this.lak_dun = new System.Windows.Forms.TextBox();
@@ -98,8 +100,10 @@ namespace Heiflow.Controls.WinForm.Display
             this.canal_et = new System.Windows.Forms.TextBox();
             this.sfr_et = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.lak_leak = new System.Windows.Forms.TextBox();
-            this.lak_gain = new System.Windows.Forms.TextBox();
+            this.tb_gw2sz = new System.Windows.Forms.TextBox();
+            this.tb_szinfil = new System.Windows.Forms.TextBox();
+            this.tb_sz_satrejected = new System.Windows.Forms.TextBox();
+            this.tb_sz2gw = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -397,6 +401,9 @@ namespace Heiflow.Controls.WinForm.Display
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.tb_sz_satrejected);
+            this.tabPage1.Controls.Add(this.tb_szinfil);
+            this.tabPage1.Controls.Add(this.tb_gw2sz);
             this.tabPage1.Controls.Add(this.label6);
             this.tabPage1.Controls.Add(this.label5);
             this.tabPage1.Controls.Add(this.label4);
@@ -420,6 +427,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabPage1.Controls.Add(this.sat_gw2sz);
             this.tabPage1.Controls.Add(this.lak_gain);
             this.tabPage1.Controls.Add(this.lak_leak);
+            this.tabPage1.Controls.Add(this.tb_sz2gw);
             this.tabPage1.Controls.Add(this.sz_Percolation);
             this.tabPage1.Controls.Add(this.sz_ds);
             this.tabPage1.Controls.Add(this.lak_dun);
@@ -663,6 +671,26 @@ namespace Heiflow.Controls.WinForm.Display
             this.sat_gw2sz.TabIndex = 1;
             this.sat_gw2sz.Text = "0";
             // 
+            // lak_gain
+            // 
+            this.lak_gain.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.lak_gain.Font = new System.Drawing.Font("Calibri", 11F);
+            this.lak_gain.Location = new System.Drawing.Point(166, 220);
+            this.lak_gain.Name = "lak_gain";
+            this.lak_gain.Size = new System.Drawing.Size(58, 39);
+            this.lak_gain.TabIndex = 1;
+            this.lak_gain.Text = "0";
+            // 
+            // lak_leak
+            // 
+            this.lak_leak.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.lak_leak.Font = new System.Drawing.Font("Calibri", 11F);
+            this.lak_leak.Location = new System.Drawing.Point(102, 220);
+            this.lak_leak.Name = "lak_leak";
+            this.lak_leak.Size = new System.Drawing.Size(58, 39);
+            this.lak_leak.TabIndex = 1;
+            this.lak_leak.Text = "0";
+            // 
             // sz_Percolation
             // 
             this.sz_Percolation.BackColor = System.Drawing.SystemColors.ButtonHighlight;
@@ -894,25 +922,45 @@ namespace Heiflow.Controls.WinForm.Display
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // lak_leak
+            // tb_gw2sz
             // 
-            this.lak_leak.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.lak_leak.Font = new System.Drawing.Font("Calibri", 11F);
-            this.lak_leak.Location = new System.Drawing.Point(132, 515);
-            this.lak_leak.Name = "lak_leak";
-            this.lak_leak.Size = new System.Drawing.Size(58, 39);
-            this.lak_leak.TabIndex = 1;
-            this.lak_leak.Text = "0";
+            this.tb_gw2sz.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.tb_gw2sz.Font = new System.Drawing.Font("Calibri", 11F);
+            this.tb_gw2sz.Location = new System.Drawing.Point(992, 418);
+            this.tb_gw2sz.Name = "tb_gw2sz";
+            this.tb_gw2sz.Size = new System.Drawing.Size(53, 39);
+            this.tb_gw2sz.TabIndex = 4;
+            this.tb_gw2sz.Text = "0";
             // 
-            // lak_gain
+            // tb_szinfil
             // 
-            this.lak_gain.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.lak_gain.Font = new System.Drawing.Font("Calibri", 11F);
-            this.lak_gain.Location = new System.Drawing.Point(132, 560);
-            this.lak_gain.Name = "lak_gain";
-            this.lak_gain.Size = new System.Drawing.Size(58, 39);
-            this.lak_gain.TabIndex = 1;
-            this.lak_gain.Text = "0";
+            this.tb_szinfil.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.tb_szinfil.Font = new System.Drawing.Font("Calibri", 11F);
+            this.tb_szinfil.Location = new System.Drawing.Point(738, 161);
+            this.tb_szinfil.Name = "tb_szinfil";
+            this.tb_szinfil.Size = new System.Drawing.Size(53, 39);
+            this.tb_szinfil.TabIndex = 4;
+            this.tb_szinfil.Text = "0";
+            // 
+            // tb_sz_satrejected
+            // 
+            this.tb_sz_satrejected.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.tb_sz_satrejected.Font = new System.Drawing.Font("Calibri", 11F);
+            this.tb_sz_satrejected.Location = new System.Drawing.Point(738, 220);
+            this.tb_sz_satrejected.Name = "tb_sz_satrejected";
+            this.tb_sz_satrejected.Size = new System.Drawing.Size(53, 39);
+            this.tb_sz_satrejected.TabIndex = 4;
+            this.tb_sz_satrejected.Text = "0";
+            // 
+            // tb_sz2gw
+            // 
+            this.tb_sz2gw.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.tb_sz2gw.Font = new System.Drawing.Font("Calibri", 11F);
+            this.tb_sz2gw.Location = new System.Drawing.Point(117, 336);
+            this.tb_sz2gw.Name = "tb_sz2gw";
+            this.tb_sz2gw.Size = new System.Drawing.Size(58, 39);
+            this.tb_sz2gw.TabIndex = 1;
+            this.tb_sz2gw.Text = "0";
             // 
             // StateMonitor
             // 
@@ -1017,5 +1065,9 @@ namespace Heiflow.Controls.WinForm.Display
         private System.Windows.Forms.TextBox div_evap;
         private System.Windows.Forms.TextBox lak_leak;
         private System.Windows.Forms.TextBox lak_gain;
+        private System.Windows.Forms.TextBox tb_gw2sz;
+        private System.Windows.Forms.TextBox tb_szinfil;
+        private System.Windows.Forms.TextBox tb_sz_satrejected;
+        private System.Windows.Forms.TextBox tb_sz2gw;
     }
 }

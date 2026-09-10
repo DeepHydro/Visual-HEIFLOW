@@ -459,9 +459,10 @@ namespace Heiflow.Models.Running
                 //SZ OUT BASINGW2SZ_HRU
                 SAT_ET,
                 //SZ DS
-                SAT_CHANGE_STOR
+                SAT_CHANGE_STOR,
+                //
+                Soil_infiltration,Dunnian_runoff_to_streams
             };
-
             foreach (var nm in item_names)
             {
                 items.Add(nm, 0);

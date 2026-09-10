@@ -189,15 +189,10 @@ namespace Heiflow.Controls.WinForm.Display
             ppt.Text = e[FileMonitor.PPT].ToString();
             et.Text = total_et.ToString();
 
-            var soilin = e[FileMonitor.IR_PUMP] + e[FileMonitor.SURFACE_LEAKAGE_OUT] + e[FileMonitor.PPT];
-            var soilout = e[FileMonitor.BASININTERFLOW] + e[FileMonitor.BASINSROFF]
-                + e[FileMonitor.BASINLAKEINSZ] + e[FileMonitor.BASINHORTONIANLAKES]
-                 + e[FileMonitor.BASINPERVET_HRU]
-                 + e[FileMonitor.BASINIMPERVEVAP_HRU] + e[FileMonitor.BASININTCPEVAP_HRU] + e[FileMonitor.BASINSNOWEVAP_HRU]
-                 + e[FileMonitor.UZF_INFIL];
-                 //+ e[FileMonitor.CANAL_ET] + e[FileMonitor.SFRET] + e[FileMonitor.LAKET];
-      
-            var soilds = e[FileMonitor.Soil_Zone_DS] + e[FileMonitor.LAND_SURFACE_Zone_DS];
+
+            var soilin = e[FileMonitor.BASINGW2SZ_HRU] + e[FileMonitor.Soil_infiltration] + e[FileMonitor.BASINSZREJECT];
+            var soilout = e[FileMonitor.BASININTERFLOW] + e[FileMonitor.BASINSZ2GW] + e[FileMonitor.BASINPERVET_HRU] + e[FileMonitor.Dunnian_runoff_to_streams] + e[FileMonitor.BASINLAKEINSZ];
+            var soilds = e[FileMonitor.Soil_Zone_DS];
             var soilerror = soilin - soilout - soilds;
             var soildisp = Math.Round((soilerror) / (soilin + soilout + Math.Abs(soilds)) * 2 * 100, 2);
 
@@ -213,6 +208,11 @@ namespace Heiflow.Controls.WinForm.Display
             var satds = e[FileMonitor.Saturated_Zone_DS];
             var saterror = satin - satout - satds;
             var sat_discrepancy = Math.Round((saterror) / (satin + satout + Math.Abs(satds)) * 2 * 100, 2);
+
+            tb_gw2sz.Text = e[FileMonitor.BASINGW2SZ_HRU].ToString();
+            tb_szinfil.Text = e[FileMonitor.Soil_infiltration].ToString();
+            tb_sz_satrejected.Text = e[FileMonitor.BASINSZREJECT].ToString();
+            tb_sz2gw.Text = e[FileMonitor.BASINSZ2GW].ToString();
 
             sw_in.Text = e[FileMonitor.Streams_Inflow].ToString();
             sw_out.Text = e[FileMonitor.Streams_Outflow].ToString();
