@@ -305,23 +305,31 @@ namespace Heiflow.Models.Running
                 Group = _Out_Group
             };
 
+            //MonitorItem hru_in = new MonitorItem(HRU_IN)
+            //{
+            //    VariableIndex = -1,
+            //    Group = _Total_Group,
+            //    Derivable = true,
+            //    DerivedIndex = new int[] { ppt.VariableIndex, basingw2sz_hru.VariableIndex, basinszreject.VariableIndex, ir_div.VariableIndex, ir_pump.VariableIndex }
+            //};
             MonitorItem hru_in = new MonitorItem(HRU_IN)
             {
                 VariableIndex = -1,
                 Group = _Total_Group,
                 Derivable = true,
-                DerivedIndex = new int[] { 0, 7, 25, ir_div.VariableIndex, ir_pump.VariableIndex }
+                DerivedIndex = new int[] { ppt.VariableIndex, basingw2sz_hru.VariableIndex, ir_div.VariableIndex, ir_pump.VariableIndex }
             };
+       
             MonitorItem hru_out = new MonitorItem(HRU_OUT)
             {
                 VariableIndex = -1,
                 Group = _Total_Group,
                 Derivable = true,
                 DerivedIndex = new int[] { basinpervet_hru.VariableIndex, basinimpervevap_hru.VariableIndex,
-                    basinintcpevap_hru.VariableIndex, basinsnowevap_hru.VariableIndex, basinsz2gw.VariableIndex, basininterflow.VariableIndex,
-                    basinsroff.VariableIndex , basinhortonianlakes.VariableIndex, basinlakeinsz.VariableIndex }
+                    basinintcpevap_hru.VariableIndex, basinsnowevap_hru.VariableIndex, basininterflow.VariableIndex,
+                    basinsroff.VariableIndex , basinsz2gw.VariableIndex,basinhortonianlakes.VariableIndex, basinlakeinsz.VariableIndex ,ir_industry.VariableIndex}
             };
-
+      
             SequenceMonitorItem hru_ds = new SequenceMonitorItem(HRU_DS)
             {
                 VariableIndex = -1,
@@ -345,11 +353,11 @@ namespace Heiflow.Models.Running
             root_hru.Children.Add(im_stor);
             root_hru.Children.Add(sn_stor);
             root_hru.Children.Add(hru_stor);
-
+          
             //root_hru.Children.Add(sfr_inflow);
             root_hru.Children.Add(ppt);
             root_hru.Children.Add(basingw2sz_hru);
-            root_hru.Children.Add(basinszreject);
+            //root_hru.Children.Add(basinszreject);
             root_hru.Children.Add(ir_div);
             root_hru.Children.Add(ir_pump);
          
@@ -360,8 +368,7 @@ namespace Heiflow.Models.Running
             root_hru.Children.Add(basinsnowevap_hru);
             root_hru.Children.Add(basininterflow);
             root_hru.Children.Add(basinsroff);
-            //root_hru.Children.Add(basinsz2gw);
-          
+            root_hru.Children.Add(basinsz2gw);
             root_hru.Children.Add(basinhortonianlakes);
             root_hru.Children.Add(basinlakeinsz);
 
@@ -526,8 +533,6 @@ namespace Heiflow.Models.Running
             root_uzf.Children.Add(uzf_totalout);
             root_uzf.Children.Add(uzf_error);
             #endregion
-
-            root_hru.Children.Add(uzf_infil);
 
             #region SATURATED ZONE BUDGETS
             var root_sat = new MonitorItemCollection("Saturated Zone Water Budgets");

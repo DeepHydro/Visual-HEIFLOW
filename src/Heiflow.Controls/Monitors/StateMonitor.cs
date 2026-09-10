@@ -189,6 +189,14 @@ namespace Heiflow.Controls.WinForm.Display
             ppt.Text = e[FileMonitor.PPT].ToString();
             et.Text = total_et.ToString();
 
+            var hru_in = e[FileMonitor.Daily_PPT] + e[FileMonitor.BASINGW2SZ_HRU] + e[FileMonitor.BASINSZREJECT] + e[FileMonitor.IR_DIV] + e[FileMonitor.IR_PUMP];
+            var hru_out = e[FileMonitor.BASINPERVET_HRU] + e[FileMonitor.BASINIMPERVEVAP_HRU] + e[FileMonitor.BASININTCPEVAP_HRU]
+                + e[FileMonitor.BASINSNOWEVAP_HRU] + e[FileMonitor.BASININTERFLOW] + e[FileMonitor.BASINSROFF] + e[FileMonitor.BASINSZ2GW] +
+                 e[FileMonitor.BASINHORTONIANLAKES] + e[FileMonitor.BASINLAKEINSZ];
+            var hru_ds = e[FileMonitor.HRU_DS];
+            var hru_error = hru_in - hru_out - hru_ds;
+            var hrudisp = Math.Round((hru_error) / (hru_in + hru_out + Math.Abs(hru_ds)) * 2 * 100, 2);
+            tb_hrudisp.Text = hrudisp.ToString("0.00") + "%";
 
             var soilin = e[FileMonitor.BASINGW2SZ_HRU] + e[FileMonitor.Soil_infiltration] + e[FileMonitor.BASINSZREJECT];
             var soilout = e[FileMonitor.BASININTERFLOW] + e[FileMonitor.BASINSZ2GW] + e[FileMonitor.BASINPERVET_HRU] + e[FileMonitor.Dunnian_runoff_to_streams] + e[FileMonitor.BASINLAKEINSZ];
