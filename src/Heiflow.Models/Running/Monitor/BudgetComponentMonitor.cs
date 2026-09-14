@@ -220,13 +220,22 @@ namespace Heiflow.Models.Running
                 Group = _Storage_Group
             };
 
+            //MonitorItem hru_stor = new MonitorItem(HRU_STORAGE)
+            //{
+            //    VariableIndex = -1,
+            //    Group = _Storage_Group,
+            //    Derivable = true,
+            //    DerivedIndex = new int[] { basinsoilmoist.VariableIndex, basingravstor.VariableIndex, pc_stor.VariableIndex, im_stor.VariableIndex, sn_stor.VariableIndex }
+            //};
+
             MonitorItem hru_stor = new MonitorItem(HRU_STORAGE)
             {
                 VariableIndex = -1,
                 Group = _Storage_Group,
                 Derivable = true,
-                DerivedIndex = new int[] { basinsoilmoist.VariableIndex, basingravstor.VariableIndex, pc_stor.VariableIndex, im_stor.VariableIndex, sn_stor.VariableIndex }
+                DerivedIndex = new int[] { pc_stor.VariableIndex, im_stor.VariableIndex, sn_stor.VariableIndex }
             };
+
 
             var sfr_inflow = new MonitorItem(SFR_INFLOW)
             {
@@ -247,6 +256,11 @@ namespace Heiflow.Models.Running
             };
             // "Rejected  Gravity Drainage by UZ/SAT";
             var basinszreject = new MonitorItem(BASINSZREJECT)
+            {
+                VariableIndex = 25,
+                Group = _In_Group
+            };
+            var basinszrejecthru = new MonitorItem("hru_"+BASINSZREJECT)
             {
                 VariableIndex = 25,
                 Group = _In_Group
@@ -304,7 +318,17 @@ namespace Heiflow.Models.Running
                 VariableIndex = 50,
                 Group = _Out_Group
             };
-
+            MonitorItem hrubasininfil = new MonitorItem("hru_" + Soil_infiltration)
+            {
+                VariableIndex = 39,
+                Group = _Out_Group,
+            };
+            //"Hortonian runoff to streams"
+            MonitorItem basinhortonian = new MonitorItem( Hortonian_runoff_to_streams)
+            {
+                VariableIndex = 41,
+                Group = _Out_Group
+            };
             //MonitorItem hru_in = new MonitorItem(HRU_IN)
             //{
             //    VariableIndex = -1,
@@ -317,19 +341,26 @@ namespace Heiflow.Models.Running
                 VariableIndex = -1,
                 Group = _Total_Group,
                 Derivable = true,
-                DerivedIndex = new int[] { ppt.VariableIndex, basingw2sz_hru.VariableIndex, ir_div.VariableIndex, ir_pump.VariableIndex }
+                DerivedIndex = new int[] { ppt.VariableIndex,  ir_div.VariableIndex, ir_pump.VariableIndex }
             };
        
-            MonitorItem hru_out = new MonitorItem(HRU_OUT)
+            //MonitorItem hru_out = new MonitorItem(HRU_OUT)
+            //{
+            //    VariableIndex = -1,
+            //    Group = _Total_Group,
+            //    Derivable = true,
+            //    DerivedIndex = new int[] { basinpervet_hru.VariableIndex, basinimpervevap_hru.VariableIndex,
+            //        basinintcpevap_hru.VariableIndex, basinsnowevap_hru.VariableIndex, basininterflow.VariableIndex,
+            //        basinsroff.VariableIndex , basinsz2gw.VariableIndex,basinhortonianlakes.VariableIndex, basinlakeinsz.VariableIndex ,ir_industry.VariableIndex}
+            //};
+                  MonitorItem hru_out = new MonitorItem(HRU_OUT)
             {
                 VariableIndex = -1,
                 Group = _Total_Group,
                 Derivable = true,
-                DerivedIndex = new int[] { basinpervet_hru.VariableIndex, basinimpervevap_hru.VariableIndex,
-                    basinintcpevap_hru.VariableIndex, basinsnowevap_hru.VariableIndex, basininterflow.VariableIndex,
-                    basinsroff.VariableIndex , basinsz2gw.VariableIndex,basinhortonianlakes.VariableIndex, basinlakeinsz.VariableIndex ,ir_industry.VariableIndex}
+                DerivedIndex = new int[] {basinimpervevap_hru.VariableIndex, hrubasininfil.VariableIndex, 
+                    basinintcpevap_hru.VariableIndex, basinsnowevap_hru.VariableIndex, basinhortonian.VariableIndex, basinhortonianlakes.VariableIndex}
             };
-      
             SequenceMonitorItem hru_ds = new SequenceMonitorItem(HRU_DS)
             {
                 VariableIndex = -1,
@@ -347,8 +378,8 @@ namespace Heiflow.Models.Running
             hru_error.Source.AddRange(new MonitorItem[] { hru_in, hru_out, hru_ds });
             hru_error.SourceSign.AddRange(new int[] { -1, 1, 1 });
 
-            root_hru.Children.Add(basinsoilmoist);
-            root_hru.Children.Add(basingravstor);
+            //root_hru.Children.Add(basinsoilmoist);
+            //root_hru.Children.Add(basingravstor);
             root_hru.Children.Add(pc_stor);
             root_hru.Children.Add(im_stor);
             root_hru.Children.Add(sn_stor);
@@ -356,21 +387,23 @@ namespace Heiflow.Models.Running
           
             //root_hru.Children.Add(sfr_inflow);
             root_hru.Children.Add(ppt);
-            root_hru.Children.Add(basingw2sz_hru);
+            //root_hru.Children.Add(basingw2sz_hru);
             //root_hru.Children.Add(basinszreject);
             root_hru.Children.Add(ir_div);
             root_hru.Children.Add(ir_pump);
-         
+            //root_hru.Children.Add(basinszrejecthru);
 
-            root_hru.Children.Add(basinpervet_hru);
+            //root_hru.Children.Add(basinpervet_hru);
             root_hru.Children.Add(basinimpervevap_hru);
             root_hru.Children.Add(basinintcpevap_hru);
             root_hru.Children.Add(basinsnowevap_hru);
-            root_hru.Children.Add(basininterflow);
-            root_hru.Children.Add(basinsroff);
-            root_hru.Children.Add(basinsz2gw);
+            //root_hru.Children.Add(basininterflow);
+            root_hru.Children.Add(hrubasininfil);
+            root_hru.Children.Add(basinhortonian);
+            //root_hru.Children.Add(hru_basindunnian);
+            //root_hru.Children.Add(basinsz2gw);
             root_hru.Children.Add(basinhortonianlakes);
-            root_hru.Children.Add(basinlakeinsz);
+            //root_hru.Children.Add(basinlakeinsz);
 
             root_hru.Children.Add(hru_in);
             root_hru.Children.Add(hru_out);
@@ -394,7 +427,7 @@ namespace Heiflow.Models.Running
             root_soil.Children.Add(soil_stor);
 
             // "Groundwater Discharge from SAT to Soil Zone";
-            MonitorItem basingw2sz = new MonitorItem(BASINGW2SZ_HRU)
+            MonitorItem basingw2sz = new MonitorItem("soil"+BASINGW2SZ_HRU)
             {
                 VariableIndex = 7,
                 Group = _In_Group,
@@ -420,18 +453,12 @@ namespace Heiflow.Models.Running
                 VariableIndex = 40,
                 Group = _Out_Group
             };
-            // "Gravity drainage from the soil zone to UZ";
-            //MonitorItem basinsoiltogw = new MonitorItem(BASINSZ2GW)
-            //{
-            //    VariableIndex = 6,
-            //    Group = _Out_Group
-            //};
+
 
             root_soil.Children.Add(basininterflow);
             root_soil.Children.Add(basinsz2gw);
             root_soil.Children.Add(basinpervet_soil);
             root_soil.Children.Add(basindunnian);
-            //root_soil.Children.Add(basinsoiltogw);
             root_soil.Children.Add(basinlakeinsz);
 
             SequenceMonitorItem soil_ds = new SequenceMonitorItem("Soil Zone Storage Change")

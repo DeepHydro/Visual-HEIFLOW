@@ -187,6 +187,9 @@ namespace Heiflow.Controls.WinForm.Monitors
 
             string report = "";
             var dt = item.Monitor.Balance(ref report);
+            if (dt == null)
+                return;
+
             if(ReportBox !=null)
                 ReportBox.Text = report;
 

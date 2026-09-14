@@ -132,6 +132,7 @@ namespace Heiflow.Models.Running
 
         public static string Soil_ET = "Soil Zone ET";
         public static string Dunnian_runoff_to_streams = "Dunnian runoff to streams";
+        public static string Hortonian_runoff_to_streams = "Hortonian runoff to streams";
         public static string Total_Soil_Zone_Storage = "Total Soil Zone Storage";
         public static string Soil_infiltration = "Soil infiltration";
 
