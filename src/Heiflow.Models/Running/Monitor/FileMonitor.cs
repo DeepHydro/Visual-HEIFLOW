@@ -154,6 +154,9 @@ namespace Heiflow.Models.Running
         public static string STREAM_LEAKAGE = "Stream Leakage to the UZ and SAT";
         public static string SAT_ET = "Saturated ET";
         public static string SAT_CHANGE_STOR = "Total Storage Change in SAT";
+        public static string SAT_In = "Total SAT In";
+        public static string SAT_Out = "Total SAT Out";
+        public static string SAT_Error = "Total SAT Budget Error";
 
         public static string CONSTANT_HEAD_IN = "CONSTANT HEAD IN";
         public static string WELLS_IN = "WELLS IN";

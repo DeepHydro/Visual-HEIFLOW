@@ -466,180 +466,49 @@ namespace Heiflow.Models.Running
                     }
                 }
             }
-            return items;
-        }
 
-        public  Dictionary<string, double> ZonalBudgets0()
-        {
-            string report = "";
-            if (_EntireBudgetItems.Count == 0)
-                Balance(ref report);
-            var len = DataSource.Values[0].Count;
-            if (EndStep <= 0)
-                EndStep = len;
-
-            if (EndStep > len)
-                EndStep = len;
-
-            if (StartStep > len)
-                StartStep = len;
-
-            if (StartStep > EndStep)
-                StartStep = EndStep;
-
-            double nsteps = EndStep - StartStep + 1;
-            double factor = Intevals / nsteps / ModelService.BasinArea * 1000;
-
-            var scale = Intevals / ModelService.BasinArea * 1000;
-            Dictionary<string, double> items = new Dictionary<string, double>();
-            var item_names = new string[] { 
-                //HRU in
-                Daily_PPT, IR_DIV, IR_PUMP, BASINGW2SZ_HRU, BASINSZREJECT ,
-                //HRU out
-                BASINPERVET_HRU,BASINIMPERVEVAP_HRU,BASININTCPEVAP_HRU,BASINSNOWEVAP_HRU,BASININTERFLOW,BASINSROFF,BASINSZ2GW,BASINLAKEINSZ,BASINHORTONIANLAKES,
-                //UZF IN
-                UZF_INFIL,
-                //UZF OUT
-                UZF_RECHARGE,UZF_ET,
-                //UZF DS
-                UZF_DS,
-                //SZ IN UZF_RECHARGE
-                GW_INOUT,STREAM_LEAKAGE,
-                //SZ OUT BASINGW2SZ_HRU
-                SAT_ET,
-                //SZ DS
-                SAT_CHANGE_STOR,
-                //
-                Soil_infiltration,Dunnian_runoff_to_streams
-            };
-            foreach (var nm in item_names)
+            foreach (var par in this.Partners)
             {
-                items.Add(nm, 0);
-                var buf = Select(nm);
-                if (buf.Monitor.DataSource != null)
+                foreach (var root in par.Root)
                 {
-                    var vector = buf.Monitor.DataSource.Values[buf.VariableIndex].Skip<double>(StartStep);
-                    double dv = 0;
-                    if (vector != null && vector.Count() > 0)
+                    foreach (var item in root.Children)
                     {
-                        if (buf.SequenceType == SequenceType.StepbyStep)
-                            dv = vector.Average() * scale;
+                        var nm = item.Name;
+                        if (items.ContainsKey(nm))
+                        {
+                            Console.WriteLine(nm);
+                            continue;
+                        }
+                        items.Add(nm, 0);
+                        if (item.Derivable)
+                        {
+                            var vec = item.Derive(item.Monitor.DataSource);
+                            var dv = vec.Average() * scale;
+                            items[nm] = dv;
+                        }
                         else
-                            dv = (vector.Last() - vector.ElementAt(StartStep - 1)) * factor;
-                        dv = Math.Round(dv, 1);
+                        {
+                            if (item.Monitor.DataSource != null)
+                            {
+                                var vector = item.Monitor.DataSource.Values[item.VariableIndex].Skip<double>(StartStep);
+                                double dv = 0;
+                                if (vector != null && vector.Count() > 0)
+                                {
+                                    if (item.SequenceType == SequenceType.StepbyStep)
+                                        dv = vector.Average() * scale;
+                                    else
+                                        dv = (vector.Last() - vector.ElementAt(StartStep - 1)) * factor;
+                                    dv = Math.Round(dv, 1);
+                                }
+                                items[nm] = dv;
+                            }
+                        }
                     }
-                    items[nm] = dv;
                 }
             }
 
-            //==========HRU
-            var hru_in = items[Daily_PPT] + items[IR_DIV] + items[IR_PUMP] + items[BASINGW2SZ_HRU] + items[BASINSZREJECT];
-            var hru_out = items[BASINPERVET_HRU] + items[BASINIMPERVEVAP_HRU] + items[BASININTCPEVAP_HRU] + items[BASINSNOWEVAP_HRU]
-                + items[BASININTERFLOW] + items[BASINSROFF] + items[BASINSZ2GW] + items[BASINLAKEINSZ] + items[BASINHORTONIANLAKES];
-            var hru_ds_item = Select(HRU_DS);
-
-            var vec = hru_ds_item.Derive(hru_ds_item.Monitor.DataSource);
-            var hru_ds = vec.Average() * scale;
-            hru_ds = Math.Round(hru_ds, 1);
-            var hru_error = hru_in - hru_out - hru_ds;
-            var hru_dispy = Math.Round((hru_error) / (hru_in + hru_out + Math.Abs(hru_ds)) * 2 * 100, 2);
-
-            items.Add(HRU_IN, hru_in);
-            items.Add(HRU_OUT, hru_out);
-            items.Add(HRU_DS, hru_ds);
-            items.Add(HRU_ERROR, hru_error);
-            items.Add(HRU_DISYP, hru_error);
-
-            //==================UZF
-            var uzf_out = items[UZF_RECHARGE] + items[UZF_ET];
-            var uzf_ds = items[UZF_DS];
-            var uzf_error = items[UZF_INFIL] - uzf_out - uzf_ds;
-            var uzf_dispy = Math.Round((uzf_error) / (items[UZF_INFIL] + uzf_out + Math.Abs(uzf_ds)) * 2 * 100, 2);
-
-            items.Add(UZF_IN, items[UZF_INFIL]);
-            items.Add(UZF_OUT, uzf_out);
-            items.Add(UZF_ERROR, uzf_error);
-            items.Add(UZF_DISPY, uzf_dispy);
-
-            //===============SAT
-            var sat_names = new string[] 
-            { 
-                //in 
-                CONSTANT_HEAD_IN, WELLS_IN, SPECIFIED_FLOWS_IN ,  STORAGE_IN, UZF_RECHARGE_IN,STREAM_LEAKAGE_IN,LAKE_SEEPAGE_IN, HEAD_DEP_BOUNDS_IN,
-                //out
-                CONSTANT_HEAD_OUT,WELLS_OUT,  SPECIFIED_FLOWS_OUT,SURFACE_LEAKAGE_OUT,GW_ET_OUT,STREAM_LEAKAGE_OUT,STORAGE_OUT,LAKE_SEEPAGE_OUT,HEAD_DEP_BOUNDS_OUT
-            };
-
-            foreach (var nm in sat_names)
-            {
-                items.Add(nm, 0);
-                var buf = Select(nm);
-                if (buf != null)
-                {
-                    var vector = buf.Monitor.DataSource.Values[buf.VariableIndex];//.Skip<double>(StartStep);
-                    double dv = 0;
-                    if (buf.SequenceType == SequenceType.StepbyStep)
-                    {
-                        dv = vector.Average() * scale;
-                    }
-                    else
-                        dv = (vector.Last() - vector.ElementAt(1)) * factor;
-
-                    dv = Math.Round(dv, 1);
-                    items[nm] = dv;
-                }
-            }
-
-            var sat_in = items[CONSTANT_HEAD_IN] + items[WELLS_IN] + items[SPECIFIED_FLOWS_IN] + items[UZF_RECHARGE_IN] 
-                + items[STREAM_LEAKAGE_IN] + items[LAKE_SEEPAGE_IN] + items[STORAGE_IN] + items[HEAD_DEP_BOUNDS_IN];
-            var sat_out = items[CONSTANT_HEAD_OUT] + items[WELLS_OUT] + items[SPECIFIED_FLOWS_OUT] + items[GW_ET_OUT] + items[SURFACE_LEAKAGE_OUT] 
-    + items[STREAM_LEAKAGE_OUT] + items[LAKE_SEEPAGE_OUT] + items[STORAGE_OUT] + items[HEAD_DEP_BOUNDS_OUT];
-            var sat_ds = items[STORAGE_OUT] - items[STORAGE_IN];
-            var sat_error = sat_in - sat_out - sat_ds;
-            var sat_discrepancy = Math.Round((sat_error) / (sat_in + sat_out + Math.Abs(sat_ds)) * 2 * 100, 2);
-
-            items.Add(SAT_IN, sat_in);
-            items.Add(SAT_OUT, sat_out);
-            items.Add(SAT_DS, sat_ds);
-            items.Add(SAT_ERROR, sat_error);
-            items.Add(SAT_DISPY, sat_discrepancy);
-
-            items.Add(TOTAL_DISPY, total_discrepancy);
-            // Canal, SFR, LAKE
-            var canal_names = new string[]
-            {
-                Canal_DS,CANAL_ET,Canal_Drainage,
-                SFRET,LAKET,IR_Industry
-            };
-
-            foreach (var nm in canal_names)
-            {
-                items.Add(nm, 0);
-                var buf = Select(nm);
-                if (buf != null)
-                {
-                    var vector = buf.Monitor.DataSource.Values[buf.VariableIndex];//.Skip<double>(StartStep);
-                    double dv = 0;
-                    if (buf.SequenceType == SequenceType.StepbyStep)
-                    {
-                        dv = vector.Average() * scale;
-                    }
-                    else
-                        dv = (vector.Last() - vector.ElementAt(1)) * factor;
-
-                    dv = Math.Round(dv, 1);
-                    items[nm] = dv;
-                }
-            }
-
-            var percolation = items[UZF_INFIL];
-            items.Add(Percolation, percolation);
-
-            foreach (var item in _EntireBudgetItems)
-            {
-                items.Add(item.Key, item.Value);
-            }
             return items;
         }
+
     }
 }

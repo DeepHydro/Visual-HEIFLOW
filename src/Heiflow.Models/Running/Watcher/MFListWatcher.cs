@@ -338,7 +338,7 @@ namespace Heiflow.Models.Running
                                 total_out += vector[i];
                             }
 
-                            ds = vector[2 * nvar] - vector[0];
+                            ds = vector[nvar] - vector[0];
                             error = total_in - total_out;
 
                             vector[2 * nvar] = total_in;

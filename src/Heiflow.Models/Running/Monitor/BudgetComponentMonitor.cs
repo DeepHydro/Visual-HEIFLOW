@@ -54,25 +54,25 @@ namespace Heiflow.Models.Running
             var root_et = new MonitorItemCollection("ET Budgets");
             _Roots.Add(root_et);
 
-            MonitorItem basinpervet = new MonitorItem("Pervious Areas ET")
+            MonitorItem basinpervet = new MonitorItem(BASINPERVET_HRU)
             {
                 VariableIndex = 1,
                 Group = _In_Group
             };
 
-            MonitorItem basinimpervevap = new MonitorItem("Impervious Areas ET")
+            MonitorItem basinimpervevap = new MonitorItem(BASINIMPERVEVAP_HRU)
             {
                 VariableIndex = 2,
                 Group = _In_Group
             };
 
-            MonitorItem basinintcpevap = new MonitorItem("Intercepted Precipitation ET")
+            MonitorItem basinintcpevap = new MonitorItem(BASININTCPEVAP_HRU)
             {
                 VariableIndex = 3,
                 Group = _In_Group
             };
 
-            MonitorItem basinsnowevap = new MonitorItem("Snowpack Sublimation ET")
+            MonitorItem basinsnowevap = new MonitorItem(BASINSNOWEVAP_HRU)
             {
                 VariableIndex = 4,
                 Group = _In_Group
@@ -84,7 +84,7 @@ namespace Heiflow.Models.Running
                 Group = _In_Group
             };
 
-            MonitorItem satet = new MonitorItem("Saturated zones ET")
+            MonitorItem satet = new MonitorItem(SAT_ET)
             {
                 VariableIndex = 59,
                 Group = _In_Group
@@ -214,7 +214,7 @@ namespace Heiflow.Models.Running
                 VariableIndex = 18,
                 Group = _Storage_Group
             };
-            var sn_stor = new MonitorItem("Snowpack")
+            var sn_stor = new MonitorItem("Snowpack Storage")
             {
                 VariableIndex = 19,
                 Group = _Storage_Group
@@ -262,6 +262,16 @@ namespace Heiflow.Models.Running
                 VariableIndex = 25,
                 Group = _In_Group
             };
+            MonitorItem hru_ir_div = new MonitorItem("hru_" + IR_DIV)
+            {
+                VariableIndex = 66,
+                Group = _In_Group,
+            };
+            MonitorItem hru_ir_pump = new MonitorItem("hru_" + IR_PUMP)
+            {
+                VariableIndex = 67,
+                Group = _In_Group,
+            };
             // "Pervious Areas ET";
             MonitorItem basinpervet_hru = new MonitorItem(BASINPERVET_HRU)
             {
@@ -269,7 +279,7 @@ namespace Heiflow.Models.Running
                 Group = _Out_Group
             };
             //"Impervious Areas ET";
-            MonitorItem basinimpervevap_hru = new MonitorItem(BASINIMPERVEVAP_HRU)
+            MonitorItem basinimpervevap_hru = new MonitorItem("hru_" + BASINIMPERVEVAP_HRU)
             {
                 VariableIndex = 2,
                 Group = _Out_Group
@@ -292,12 +302,7 @@ namespace Heiflow.Models.Running
                 VariableIndex = 20,
                 Group = _Out_Group
             };
-            //"Hortonian and Dunnian surface runoff to streams";
-            MonitorItem basinsroff = new MonitorItem(BASINSROFF)
-            {
-                VariableIndex = 21,
-                Group = _Out_Group
-            };
+
             // "Gravity drainage from the soil zone to UZ";
             MonitorItem basinsz2gw = new MonitorItem(BASINSZ2GW)
             {
@@ -332,7 +337,7 @@ namespace Heiflow.Models.Running
                 VariableIndex = -1,
                 Group = _Total_Group,
                 Derivable = true,
-                DerivedIndex = new int[] { ppt.VariableIndex, ir_div.VariableIndex, ir_pump.VariableIndex }
+                DerivedIndex = new int[] { ppt.VariableIndex, hru_ir_div.VariableIndex, hru_ir_pump.VariableIndex }
             };
 
 
@@ -368,8 +373,8 @@ namespace Heiflow.Models.Running
 
             root_hru.Children.Add(ppt);
             root_hru.Children.Add(basinlakeprecip);
-            root_hru.Children.Add(ir_div);
-            root_hru.Children.Add(ir_pump);
+            root_hru.Children.Add(hru_ir_div);
+            root_hru.Children.Add(hru_ir_pump);
 
             root_hru.Children.Add(basinimpervevap_hru);
             root_hru.Children.Add(basinintcpevap_hru);
@@ -382,6 +387,18 @@ namespace Heiflow.Models.Running
             root_hru.Children.Add(hru_out);
             root_hru.Children.Add(hru_ds);
             root_hru.Children.Add(hru_error);
+            #endregion
+
+            #region Streams
+            //"Hortonian and Dunnian surface runoff to streams";
+            MonitorItem basinsroff = new MonitorItem(BASINSROFF)
+            {
+                VariableIndex = 21,
+                Group = _In_Group
+            };
+            var root_sfr = new MonitorItemCollection("Stream Water Budgets");
+            root_sfr.Children.Add(basinsroff);
+            _Roots.Add(root_sfr);
             #endregion
 
             #region SOIL ZONE BUDGETS
@@ -534,93 +551,94 @@ namespace Heiflow.Models.Running
             root_uzf.Children.Add(uzf_error);
             #endregion
 
-            #region SATURATED ZONE BUDGETS
-            var root_sat = new MonitorItemCollection("Saturated Zone Water Budgets");
-            _Roots.Add(root_sat);
+            //#region SATURATED ZONE BUDGETS
+            //var root_sat = new MonitorItemCollection("Saturated Zone Water Budgets");
+            //_Roots.Add(root_sat);
 
-            //"Recharge from UZ to SAT"
-            MonitorItem uzf_recharge_sat = new MonitorItem(UZF_RECHARGE)
-            {
-                VariableIndex = 10,
-                Group = _In_Group,
-            };
-            MonitorItem gw_inout = new MonitorItem(GW_INOUT)
-            {
-                VariableIndex = 8,
-                Group = _In_Group,
-            };
-            MonitorItem stream_leakage = new MonitorItem(STREAM_LEAKAGE)
-            {
-                VariableIndex = 9,
-                Group = _In_Group,
-            };
-            MonitorItem lake_leakage = new MonitorItem(LAKE_SEEPAGE_IN)
-            {
-                VariableIndex = 36,
-                Group = _In_Group,
-            };
-            root_sat.Children.Add(uzf_recharge_sat);
-            root_sat.Children.Add(gw_inout);
-            root_sat.Children.Add(stream_leakage);
-            root_sat.Children.Add(lake_leakage);
+            ////"Recharge from UZ to SAT"
+            //MonitorItem uzf_recharge_sat = new MonitorItem(UZF_RECHARGE)
+            //{
+            //    VariableIndex = 10,
+            //    Group = _In_Group,
+            //};
+            //MonitorItem gw_inout = new MonitorItem(GW_INOUT)
+            //{
+            //    VariableIndex = 8,
+            //    Group = _In_Group,
+            //};
+            //MonitorItem stream_leakage = new MonitorItem(STREAM_LEAKAGE)
+            //{
+            //    VariableIndex = 9,
+            //    Group = _In_Group,
+            //};
+            //MonitorItem lake_leakage = new MonitorItem(LAKE_SEEPAGE_IN)
+            //{
+            //    VariableIndex = 36,
+            //    Group = _In_Group,
+            //};
+            //root_sat.Children.Add(uzf_recharge_sat);
+            //root_sat.Children.Add(gw_inout);
+            //root_sat.Children.Add(stream_leakage);
+            //root_sat.Children.Add(lake_leakage);
 
-            //Groundwater Discharge from SAT to Soil Zone
-            MonitorItem basingw2sz_sat = new MonitorItem(BASINGW2SZ_HRU)
-            {
-                VariableIndex = 7,
-                Group = _Out_Group,
-            };
-            MonitorItem sat_et = new MonitorItem(SAT_ET)
-            {
-                VariableIndex = 59,
-                Group = _Out_Group,
-            };
-            MonitorItem lake_gain = new MonitorItem(LAKE_SEEPAGE_OUT)
-            {
-                VariableIndex = 38,
-                Group = _Out_Group,
-            };
+            ////Groundwater Discharge from SAT to Soil Zone
+            //MonitorItem basingw2sz_sat = new MonitorItem(BASINGW2SZ_HRU)
+            //{
+            //    VariableIndex = 7,
+            //    Group = _Out_Group,
+            //};
+            //MonitorItem sat_et = new MonitorItem(SAT_ET)
+            //{
+            //    VariableIndex = 59,
+            //    Group = _Out_Group,
+            //};
+            //MonitorItem lake_gain = new MonitorItem(LAKE_SEEPAGE_OUT)
+            //{
+            //    VariableIndex = 38,
+            //    Group = _Out_Group,
+            //};
 
-            root_sat.Children.Add(basingw2sz_sat);
-            root_sat.Children.Add(sat_et);
-            root_sat.Children.Add(lake_gain);
+            //root_sat.Children.Add(basingw2sz_sat);
+            //root_sat.Children.Add(sat_et);
+            //root_sat.Children.Add(lake_gain);
 
-            //"Total Storage Change in SAT"
-            MonitorItem sat_change_stor = new MonitorItem(SAT_CHANGE_STOR)
-            {
-                VariableIndex = 31,
-                Group = _Total_Group,
-            };
+            ////"Total Storage Change in SAT"
+            //MonitorItem sat_change_stor = new MonitorItem(SAT_CHANGE_STOR)
+            //{
+            //    VariableIndex = 31,
+            //    Group = _Total_Group,
+            //};
 
-            MonitorItem sat_totalin = new MonitorItem("Total SAT In")
-            {
-                VariableIndex = -1,
-                Group = _Total_Group,
-                Derivable = true,
-                DerivedIndex = new int[] { uzf_recharge_sat.VariableIndex, gw_inout.VariableIndex, stream_leakage.VariableIndex }
-            };
-            MonitorItem sat_totalout = new MonitorItem("Total SAT Out")
-            {
-                VariableIndex = -1,
-                Group = _Total_Group,
-                Derivable = true,
-                DerivedIndex = new int[] { basingw2sz_sat.VariableIndex }
-            };
-            AggregatedMonitorItem sat_error = new AggregatedMonitorItem("Total SAT Budget Error")
-            {
-                VariableIndex = -1,
-                Group = _Total_Group,
-                Derivable = true
-            };
-            sat_error.Source.AddRange(new MonitorItem[] { sat_totalin, sat_totalout, sat_change_stor });
-            sat_error.SourceSign.AddRange(new int[] { 1, -1, -1 });
 
-            root_sat.Children.Add(sat_change_stor);
-            root_sat.Children.Add(sat_totalin);
-            root_sat.Children.Add(sat_totalout);
-            root_sat.Children.Add(sat_error);
+            //MonitorItem sat_totalin = new MonitorItem(SAT_In)
+            //{
+            //    VariableIndex = -1,
+            //    Group = _Total_Group,
+            //    Derivable = true,
+            //    DerivedIndex = new int[] { uzf_recharge_sat.VariableIndex, gw_inout.VariableIndex, stream_leakage.VariableIndex, lake_leakage .VariableIndex}
+            //};
+            //MonitorItem sat_totalout = new MonitorItem(SAT_Out)
+            //{
+            //    VariableIndex = -1,
+            //    Group = _Total_Group,
+            //    Derivable = true,
+            //    DerivedIndex = new int[] { basingw2sz_sat.VariableIndex, sat_et.VariableIndex, lake_gain.VariableIndex}
+            //};
+            //AggregatedMonitorItem sat_error = new AggregatedMonitorItem(SAT_Error)
+            //{
+            //    VariableIndex = -1,
+            //    Group = _Total_Group,
+            //    Derivable = true
+            //};
+            //sat_error.Source.AddRange(new MonitorItem[] { sat_totalin, sat_totalout, sat_change_stor });
+            //sat_error.SourceSign.AddRange(new int[] { 1, -1, -1 });
 
-            #endregion
+            //root_sat.Children.Add(sat_change_stor);
+            //root_sat.Children.Add(sat_totalin);
+            //root_sat.Children.Add(sat_totalout);
+            //root_sat.Children.Add(sat_error);
+
+            //#endregion
 
 
             foreach (var item in root_et.Children)
@@ -648,7 +666,12 @@ namespace Heiflow.Models.Running
                 item.Monitor = this;
                 item.SequenceType = SequenceType.StepbyStep;
             }
-            foreach (var item in root_sat.Children)
+            //foreach (var item in root_sat.Children)
+            //{
+            //    item.SequenceType = SequenceType.StepbyStep;
+            //    item.Monitor = this;
+            //}
+            foreach (var item in root_sfr.Children)
             {
                 item.SequenceType = SequenceType.StepbyStep;
                 item.Monitor = this;
