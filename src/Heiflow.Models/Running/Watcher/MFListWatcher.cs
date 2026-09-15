@@ -108,7 +108,7 @@ namespace Heiflow.Models.Running
         {
             if (File.Exists(filename))
             {
-                var root = new MonitorItemCollection("Modflow Water Budgets");
+                var root = new MonitorItemCollection("Saturated Zone Water Budgets");
                 var fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 var sr = new StreamReader(fs, Encoding.Default);
                 string line = "";

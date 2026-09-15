@@ -158,9 +158,10 @@ namespace Heiflow.Models.Running
         public static string SAT_Out = "Total SAT Out";
         public static string SAT_Error = "Total SAT Budget Error";
 
+
         public static string CONSTANT_HEAD_IN = "CONSTANT HEAD IN";
         public static string WELLS_IN = "WELLS IN";
-        public static string WRA_WELLS_IN = "WRA WELLS IN";
+        //public static string WRA_WELLS_IN = "WRA WELLS IN";
         public static string SPECIFIED_FLOWS_IN = "SPECIFIED FLOWS IN";
         public static string UZF_RECHARGE_IN = "UZF RECHARGE IN";
         public static string GW_ET_IN = "GW ET IN";
