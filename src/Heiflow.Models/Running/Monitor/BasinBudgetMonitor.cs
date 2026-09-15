@@ -130,12 +130,16 @@ namespace Heiflow.Models.Running
            // root.Children.Add(lake_out);
             root.Children.Add(wells_out);
 
-            MonitorItem land_ds = new MonitorItem(LAND_SURFACE_Zone_DS)
+            //MonitorItem land_ds = new MonitorItem(LAND_SURFACE_Zone_DS)
+            //{
+            //    VariableIndex = 10,
+            //    Group = _Ds_Group
+            //};
+            MonitorItem land_ds = new MonitorItem(HRU_DS)
             {
                 VariableIndex = 10,
                 Group = _Ds_Group
             };
-
             MonitorItem soil_ds = new MonitorItem(Soil_Zone_DS)
             {
                 VariableIndex = 11,
@@ -419,8 +423,53 @@ namespace Heiflow.Models.Running
                 return null;
             }
         }
-
         public override Dictionary<string, double> ZonalBudgets()
+        {
+            Dictionary<string, double> items = new Dictionary<string, double>();
+            var len = DataSource.Values[0].Count;
+            if (EndStep <= 0)
+                EndStep = len;
+
+            if (EndStep > len)
+                EndStep = len;
+
+            if (StartStep > len)
+                StartStep = len;
+
+            if (StartStep > EndStep)
+                StartStep = EndStep;
+
+            double nsteps = EndStep - StartStep + 1;
+            double factor = Intevals / nsteps / ModelService.BasinArea * 1000;
+
+            var scale = Intevals / ModelService.BasinArea * 1000;
+
+            foreach (var root in this.Root)
+            {
+                foreach (var item in root.Children)
+                {
+                    var nm = item.Name;
+                    items.Add(nm, 0);
+                    if (item.Monitor.DataSource != null)
+                    {
+                        var vector = item.Monitor.DataSource.Values[item.VariableIndex].Skip<double>(StartStep);
+                        double dv = 0;
+                        if (vector != null && vector.Count() > 0)
+                        {
+                            if (item.SequenceType == SequenceType.StepbyStep)
+                                dv = vector.Average() * scale;
+                            else
+                                dv = (vector.Last() - vector.ElementAt(StartStep - 1)) * factor;
+                            dv = Math.Round(dv, 1);
+                        }
+                        items[nm] = dv;
+                    }
+                }
+            }
+            return items;
+        }
+
+        public  Dictionary<string, double> ZonalBudgets0()
         {
             string report = "";
             if (_EntireBudgetItems.Count == 0)

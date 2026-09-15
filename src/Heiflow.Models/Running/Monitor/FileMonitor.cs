@@ -102,6 +102,7 @@ namespace Heiflow.Models.Running
         public static string IR_Industry = "Industry";
         public static string IR_CANAL_ET = "Irrigation Canals ET";
 
+        public static string BasinLakePrecip = "Lake Precipitation";
         public static string BASINGW2SZ_HRU = "Groundwater Discharge from SAT to Soil Zone";
         public static string BASINSZREJECT = "Rejected  Gravity Drainage by UZ/SAT";
 
@@ -130,6 +131,10 @@ namespace Heiflow.Models.Running
         public static string HRU_ERROR = "Total HRU Budget Error";
         public static string HRU_DISYP = "Total HRU Budget Percent Discrepancy";
 
+        public static string Soil_In = "Total Soil In";
+        public static string Soil_Out = "Total Soil Out";
+        public static string Soil_Storage_Change = "Soil Zone Storage Change";
+        public static string Soil_Out_Eorror = "Total Soil Budget Error";
         public static string Soil_ET = "Soil Zone ET";
         public static string Dunnian_runoff_to_streams = "Dunnian runoff to streams";
         public static string Hortonian_runoff_to_streams = "Hortonian runoff to streams";
