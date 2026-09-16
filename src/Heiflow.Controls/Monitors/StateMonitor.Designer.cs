@@ -104,6 +104,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.canal_et = new System.Windows.Forms.TextBox();
             this.sfr_et = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -138,7 +139,7 @@ namespace Heiflow.Controls.WinForm.Display
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl_Main);
             this.splitContainer1.Size = new System.Drawing.Size(1334, 713);
-            this.splitContainer1.SplitterDistance = 219;
+            this.splitContainer1.SplitterDistance = 201;
             this.splitContainer1.TabIndex = 2;
             // 
             // tabControl3
@@ -152,7 +153,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabControl3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabControl3.Name = "tabControl3";
             this.tabControl3.SelectedIndex = 0;
-            this.tabControl3.Size = new System.Drawing.Size(219, 686);
+            this.tabControl3.Size = new System.Drawing.Size(201, 686);
             this.tabControl3.TabIndex = 5;
             // 
             // tabPage5
@@ -162,7 +163,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabPage5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage5.Size = new System.Drawing.Size(211, 646);
+            this.tabPage5.Size = new System.Drawing.Size(193, 646);
             this.tabPage5.TabIndex = 0;
             this.tabPage5.Text = "Explorer";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -188,7 +189,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.treeView1.NodeControls.Add(this.nodeTextBox1);
             this.treeView1.OnVisibleOverride = null;
             this.treeView1.SelectedNode = null;
-            this.treeView1.Size = new System.Drawing.Size(205, 638);
+            this.treeView1.Size = new System.Drawing.Size(187, 638);
             this.treeView1.TabIndex = 2;
             this.treeView1.Text = "treeViewAdv1";
             // 
@@ -238,7 +239,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.btnClearCache});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(219, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(201, 27);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -281,7 +282,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabControl_Main.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabControl_Main.Name = "tabControl_Main";
             this.tabControl_Main.SelectedIndex = 0;
-            this.tabControl_Main.Size = new System.Drawing.Size(1111, 713);
+            this.tabControl_Main.Size = new System.Drawing.Size(1129, 713);
             this.tabControl_Main.TabIndex = 1;
             // 
             // tabPage_Graph
@@ -291,7 +292,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabPage_Graph.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage_Graph.Name = "tabPage_Graph";
             this.tabPage_Graph.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage_Graph.Size = new System.Drawing.Size(1103, 673);
+            this.tabPage_Graph.Size = new System.Drawing.Size(1411, 878);
             this.tabPage_Graph.TabIndex = 0;
             this.tabPage_Graph.Text = "Time Series";
             this.tabPage_Graph.UseVisualStyleBackColor = true;
@@ -306,7 +307,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.winChart1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.winChart1.Name = "winChart1";
             this.winChart1.ShowStatPanel = true;
-            this.winChart1.Size = new System.Drawing.Size(1097, 665);
+            this.winChart1.Size = new System.Drawing.Size(1405, 870);
             this.winChart1.TabIndex = 0;
             // 
             // tabPage_Report
@@ -316,7 +317,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabPage_Report.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage_Report.Name = "tabPage_Report";
             this.tabPage_Report.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage_Report.Size = new System.Drawing.Size(1103, 673);
+            this.tabPage_Report.Size = new System.Drawing.Size(1121, 673);
             this.tabPage_Report.TabIndex = 1;
             this.tabPage_Report.Text = "Statistics";
             this.tabPage_Report.UseVisualStyleBackColor = true;
@@ -332,7 +333,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabControl2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(1097, 665);
+            this.tabControl2.Size = new System.Drawing.Size(1115, 665);
             this.tabControl2.TabIndex = 3;
             // 
             // tabPage3
@@ -342,7 +343,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabPage3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage3.Size = new System.Drawing.Size(1089, 622);
+            this.tabPage3.Size = new System.Drawing.Size(1375, 827);
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "Entire Region Budgets";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -371,7 +372,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.olvDataTree.RootKeyValueString = "";
             this.olvDataTree.ShowGroups = false;
             this.olvDataTree.ShowKeyColumns = false;
-            this.olvDataTree.Size = new System.Drawing.Size(1083, 614);
+            this.olvDataTree.Size = new System.Drawing.Size(1369, 819);
             this.olvDataTree.TabIndex = 4;
             this.olvDataTree.UseCompatibleStateImageBehavior = false;
             this.olvDataTree.UseFilterIndicator = true;
@@ -406,6 +407,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabPage1.Controls.Add(this.label6);
             this.tabPage1.Controls.Add(this.label5);
             this.tabPage1.Controls.Add(this.label4);
+            this.tabPage1.Controls.Add(this.label7);
             this.tabPage1.Controls.Add(this.label3);
             this.tabPage1.Controls.Add(this.label2);
             this.tabPage1.Controls.Add(this.label1);
@@ -454,7 +456,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabPage1.Location = new System.Drawing.Point(4, 39);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1089, 622);
+            this.tabPage1.Size = new System.Drawing.Size(1107, 622);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "Zonal Budgets";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -463,7 +465,7 @@ namespace Heiflow.Controls.WinForm.Display
             // 
             this.tb_sz_satrejected.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.tb_sz_satrejected.Font = new System.Drawing.Font("Calibri", 11F);
-            this.tb_sz_satrejected.Location = new System.Drawing.Point(738, 220);
+            this.tb_sz_satrejected.Location = new System.Drawing.Point(199, 336);
             this.tb_sz_satrejected.Name = "tb_sz_satrejected";
             this.tb_sz_satrejected.Size = new System.Drawing.Size(53, 39);
             this.tb_sz_satrejected.TabIndex = 4;
@@ -517,9 +519,9 @@ namespace Heiflow.Controls.WinForm.Display
             this.label3.Font = new System.Drawing.Font("Calibri", 10F);
             this.label3.Location = new System.Drawing.Point(356, 269);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(331, 29);
+            this.label3.Size = new System.Drawing.Size(210, 29);
             this.label3.TabIndex = 2;
-            this.label3.Text = "Surface and Soil Zone Budget PD";
+            this.label3.Text = "Soil Zone Budget PD";
             // 
             // label2
             // 
@@ -695,7 +697,7 @@ namespace Heiflow.Controls.WinForm.Display
             // 
             this.lak_gain.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.lak_gain.Font = new System.Drawing.Font("Calibri", 11F);
-            this.lak_gain.Location = new System.Drawing.Point(166, 220);
+            this.lak_gain.Location = new System.Drawing.Point(194, 508);
             this.lak_gain.Name = "lak_gain";
             this.lak_gain.Size = new System.Drawing.Size(58, 39);
             this.lak_gain.TabIndex = 1;
@@ -705,7 +707,7 @@ namespace Heiflow.Controls.WinForm.Display
             // 
             this.lak_leak.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.lak_leak.Font = new System.Drawing.Font("Calibri", 11F);
-            this.lak_leak.Location = new System.Drawing.Point(102, 220);
+            this.lak_leak.Location = new System.Drawing.Point(130, 508);
             this.lak_leak.Name = "lak_leak";
             this.lak_leak.Size = new System.Drawing.Size(58, 39);
             this.lak_leak.TabIndex = 1;
@@ -785,7 +787,7 @@ namespace Heiflow.Controls.WinForm.Display
             // 
             this.tb_hrudisp.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.tb_hrudisp.Font = new System.Drawing.Font("Calibri", 11F);
-            this.tb_hrudisp.Location = new System.Drawing.Point(607, 301);
+            this.tb_hrudisp.Location = new System.Drawing.Point(834, 56);
             this.tb_hrudisp.Name = "tb_hrudisp";
             this.tb_hrudisp.Size = new System.Drawing.Size(61, 39);
             this.tb_hrudisp.TabIndex = 1;
@@ -795,7 +797,7 @@ namespace Heiflow.Controls.WinForm.Display
             // 
             this.soil_error.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.soil_error.Font = new System.Drawing.Font("Calibri", 11F);
-            this.soil_error.Location = new System.Drawing.Point(607, 265);
+            this.soil_error.Location = new System.Drawing.Point(572, 263);
             this.soil_error.Name = "soil_error";
             this.soil_error.Size = new System.Drawing.Size(61, 39);
             this.soil_error.TabIndex = 1;
@@ -962,6 +964,17 @@ namespace Heiflow.Controls.WinForm.Display
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.SystemColors.Info;
+            this.label7.Font = new System.Drawing.Font("Calibri", 10F);
+            this.label7.Location = new System.Drawing.Point(581, 58);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(247, 29);
+            this.label7.TabIndex = 2;
+            this.label7.Text = "Surface Zone Budget PD";
+            // 
             // StateMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 27F);
@@ -1069,5 +1082,6 @@ namespace Heiflow.Controls.WinForm.Display
         private System.Windows.Forms.TextBox tb_sz_satrejected;
         private System.Windows.Forms.TextBox tb_sz2gw;
         private System.Windows.Forms.TextBox tb_hrudisp;
+        private System.Windows.Forms.Label label7;
     }
 }

@@ -130,11 +130,7 @@ namespace Heiflow.Models.Running
            // root.Children.Add(lake_out);
             root.Children.Add(wells_out);
 
-            //MonitorItem land_ds = new MonitorItem(LAND_SURFACE_Zone_DS)
-            //{
-            //    VariableIndex = 10,
-            //    Group = _Ds_Group
-            //};
+
             MonitorItem land_ds = new MonitorItem(HRU_DS)
             {
                 VariableIndex = 10,

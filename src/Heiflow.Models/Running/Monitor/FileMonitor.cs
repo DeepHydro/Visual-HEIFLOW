@@ -74,7 +74,6 @@ namespace Heiflow.Models.Running
         public static string Lakes_Outflow = "Lakes Outflow";
         public static string Evapotranspiration = "Evapotranspiration";
         public static string Evaporation = "Evaporation"; 
-        public static string LAND_SURFACE_Zone_DS = "Land Surface";
         public static string Soil_Zone_DS = "Soil Zone";
         public static string Unsaturated_Zone_DS = "Unsaturated Zone";
         public static string Saturated_Zone_DS = "Saturated Zone";
@@ -83,14 +82,57 @@ namespace Heiflow.Models.Running
         public static string SFR_DS = "Streams";
         public static string Total_Storage_Change = "Total Storage Change";
 
-        public static string LAKET = "Lakes ET";
 
-        public static string LAKLEAKAGE = "Lakes Leakage";
+        public static string CONSTANT_HEAD_IN = "CONSTANT HEAD IN";
+        public static string WELLS_IN = "WELLS IN";
+        public static string SPECIFIED_FLOWS_IN = "SPECIFIED FLOWS IN";
+        public static string UZF_RECHARGE_IN = "UZF RECHARGE IN";
+        public static string GW_ET_IN = "GW ET IN";
+        public static string SURFACE_LEAKAGE_IN = "SURFACE LEAKAGE IN";
+        public static string STREAM_LEAKAGE_IN = "STREAM LEAKAGE IN";
+        public static string LAKE_SEEPAGE_IN = "LAKE SEEPAGE IN";
+        public static string STORAGE_IN = "STORAGE IN";
+        public static string HEAD_DEP_BOUNDS_IN = "HEAD DEP BOUNDS IN";
+
+        public static string CONSTANT_HEAD_OUT = "CONSTANT HEAD OUT";
+        public static string WELLS_OUT = "WELLS OUT";
+        public static string SPECIFIED_FLOWS_OUT = "SPECIFIED FLOWS OUT";
+        public static string UZF_RECHARGE_OUT = "UZF RECHARGE OUT";
+        public static string GW_ET_OUT = "GW ET OUT";
+        public static string SURFACE_LEAKAGE_OUT = "SURFACE LEAKAGE OUT";
+        public static string STREAM_LEAKAGE_OUT = "STREAM LEAKAGE OUT";
+        public static string LAKE_SEEPAGE_OUT = "LAKE SEEPAGE OUT";
+        public static string STORAGE_OUT = "STORAGE OUT";
+        public static string HEAD_DEP_BOUNDS_OUT = "HEAD DEP BOUNDS OUT";
+
+        public static string SAT_IN = "Total SAT IN";
+        public static string SAT_OUT = "Total SAT OUT";
+        public static string SAT_ERROR = "Total SAT ERROR";
+
+
+        public static string LAKET = "Lakes ET";
+        public static string LAK_PPT = "Lakes Precipitation";
+        public static string LAK_INFLOW = "Lakes Inflow";
+        public static string LAK_Storage = "Lakes Storage";
+        public static string LAK_Storage_Change = "Total Lakes Storage Change";
+        public static string LAK_In = "Total Lakes In";
+        public static string LAK_Out = "Total Lakes Out";
+        public static string LAK_Outflow = "Lakes Outflow";
+        public static string LAK_Error = "Total Lakes Budget Error";
+        public static string LAK_Gaining = "Lakes Gaining";
+        public static string LAK_Losing = "Lakes Losing";
 
         public static string SFR_PPT = "Stream Precipitation";
         public static string SFR_INFLOW = "Stream Inflow";
         public static string SFRET = "Stream ET";
-       
+        public static string SFR_Storage = "Stream Storage";
+        public static string SFR_Storage_Change = "Total Stream Storage Change";
+        public static string SFR_In = "Total Stream In";
+        public static string SFR_Out = "Total Stream Out";
+        public static string SFR_Outflow= "Stream Outflow";
+        public static string SFR_Error = "Total Stream Budget Error";
+        public static string SFR_Gaining = "Stream Gaining";
+        public static string SFR_Losing = "Stream Losing";
 
         public static string CANAL_ET = "Canals ET";
         public static string Canal_Drainage = "Canals Drainage";
@@ -111,7 +153,7 @@ namespace Heiflow.Models.Running
         public static string BASININTCPEVAP_HRU = "Intercepted Precipitation ET";
         public static string BASINSNOWEVAP_HRU = "Snowpack Sublimation";
 
-        public static string BASININTERFLOW = "Slow interflow to streams";
+        public static string BASININTERFLOW = "Slow interflow and prefer flow to streams";
         /// <summary>
         ///  Hortonian and Dunnian surface runoff to streams
         /// </summary>
@@ -150,42 +192,8 @@ namespace Heiflow.Models.Running
         public static string UZF_ERROR = "Total UZ Budget Error";
         public static string UZF_DISPY = "Total UZ Budget Percent Discrepancy";
 
-        public static string GW_INOUT = "SAT Boundary Infow";
-        public static string STREAM_LEAKAGE = "Stream Leakage to the UZ and SAT";
         public static string SAT_ET = "Saturated ET";
-        public static string SAT_CHANGE_STOR = "Total Storage Change in SAT";
-        public static string SAT_In = "Total SAT In";
-        public static string SAT_Out = "Total SAT Out";
-        public static string SAT_Error = "Total SAT Budget Error";
 
-
-        public static string CONSTANT_HEAD_IN = "CONSTANT HEAD IN";
-        public static string WELLS_IN = "WELLS IN";
-        //public static string WRA_WELLS_IN = "WRA WELLS IN";
-        public static string SPECIFIED_FLOWS_IN = "SPECIFIED FLOWS IN";
-        public static string UZF_RECHARGE_IN = "UZF RECHARGE IN";
-        public static string GW_ET_IN = "GW ET IN";
-        public static string SURFACE_LEAKAGE_IN = "SURFACE LEAKAGE IN";
-        public static string STREAM_LEAKAGE_IN = "STREAM LEAKAGE IN";
-        public static string LAKE_SEEPAGE_IN = "LAKE SEEPAGE IN";
-        public static string STORAGE_IN = "STORAGE IN";
-        public static string HEAD_DEP_BOUNDS_IN = "HEAD DEP BOUNDS IN";
-
-        public static string CONSTANT_HEAD_OUT = "CONSTANT HEAD OUT";
-        public static string WELLS_OUT = "WELLS OUT";
-      //  public static string WRA_WELLS_OUT = "WRA WELLS OUT";
-        public static string SPECIFIED_FLOWS_OUT = "SPECIFIED FLOWS OUT";
-        public static string UZF_RECHARGE_OUT = "UZF RECHARGE OUT";
-        public static string GW_ET_OUT = "GW ET OUT";
-        public static string SURFACE_LEAKAGE_OUT = "SURFACE LEAKAGE OUT";
-        public static string STREAM_LEAKAGE_OUT = "STREAM LEAKAGE OUT";
-        public static string LAKE_SEEPAGE_OUT = "LAKE SEEPAGE OUT";
-        public static string STORAGE_OUT = "STORAGE OUT";
-        public static string HEAD_DEP_BOUNDS_OUT = "HEAD DEP BOUNDS OUT";
-
-        public static string SAT_IN = "Total SAT IN";
-        public static string SAT_OUT = "Total SAT OUT";
-        public static string SAT_ERROR = "Total SAT ERROR";
         /// <summary>
         /// Total SAT Discrepancy in 100%
         /// </summary>
@@ -199,7 +207,7 @@ namespace Heiflow.Models.Running
             _Roots = new List<IMonitorItem>();
             Partners = new List<IFileMonitor>();
             _CurrentStep = 0;
-            StartStep = 366;
+            StartStep = 1;
         }
         [Category("Design")]
         public string MonitorName { get; protected set; }
