@@ -35,6 +35,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -48,6 +49,8 @@ namespace Heiflow.Models.Running
         private ArrayWatchObject<double> _WatchObject;
         private MFMonitor _MFMonitor;
         private string _cache_file;
+        private bool _has_lakpck = false;
+        private int _num_lakes = 0;
 
         public MFListWatcher(WatchDirectory directory)
         {
@@ -104,6 +107,130 @@ namespace Heiflow.Models.Running
 
         }
 
+        private void InitLakeMonitor()
+        {
+            var lak = new MonitorItemCollection("Lake Water Budgets");
+
+            MonitorItem item = new MonitorItem(FileMonitor.LAK_PPT)
+              {
+                  VariableIndex = 0,
+                  Group = FileMonitor._In_Group,
+                  SequenceType = SequenceType.StepbyStep
+              };
+            lak.Children.Add(item);
+
+            item = new MonitorItem(FileMonitor.LAK_Runoff)
+            {
+                VariableIndex = 4,
+                Group = FileMonitor._In_Group,
+                SequenceType = SequenceType.StepbyStep
+            };
+            lak.Children.Add(item);
+
+            item = new MonitorItem(FileMonitor.LAK_Gaining)
+            {
+                VariableIndex = 5,
+                Group = FileMonitor._In_Group,
+                SequenceType = SequenceType.StepbyStep
+            };
+            lak.Children.Add(item);
+
+            item = new MonitorItem(FileMonitor.LAK_INFLOW)
+            {
+                VariableIndex = 7,
+                Group = FileMonitor._In_Group,
+                SequenceType = SequenceType.StepbyStep
+            };
+            lak.Children.Add(item);
+
+            item = new MonitorItem(FileMonitor.LAKET)
+            {
+                VariableIndex = 1,
+                Group = FileMonitor._Out_Group,
+                SequenceType = SequenceType.StepbyStep
+            };
+            lak.Children.Add(item);
+
+            item = new MonitorItem(FileMonitor.LAK_Losing)
+            {
+                VariableIndex = 6,
+                Group = FileMonitor._Out_Group,
+                SequenceType = SequenceType.StepbyStep
+            };
+            lak.Children.Add(item);
+
+            item = new MonitorItem(FileMonitor.LAK_Outflow)
+            {
+                VariableIndex = 8,
+                Group = FileMonitor._Out_Group,
+                SequenceType = SequenceType.StepbyStep
+            };
+            lak.Children.Add(item);
+
+            item = new MonitorItem(FileMonitor.LAK_Uzf_Infil)
+            {
+                VariableIndex = 9,
+                Group = FileMonitor._Out_Group,
+                SequenceType = SequenceType.StepbyStep
+            };
+            lak.Children.Add(item);
+
+            item = new MonitorItem(FileMonitor.LAK_Water_Use)
+            {
+                VariableIndex = 10,
+                Group = FileMonitor._Out_Group,
+                SequenceType = SequenceType.StepbyStep
+            };
+            lak.Children.Add(item);
+
+            MonitorItem lake_stor = new MonitorItem(FileMonitor.LAK_Storage)
+            {
+                VariableIndex = 12,
+                Group = FileMonitor._Storage_Group,
+                SequenceType = SequenceType.StepbyStep
+            };
+            lak.Children.Add(lake_stor);
+
+            MonitorItem lak_in = new MonitorItem(FileMonitor.LAK_In)
+            {
+                VariableIndex = -1,
+                Group = FileMonitor._Total_Group,
+                Derivable = true,
+                DerivedIndex = new int[] { 0, 4, 5, 7 }
+            };
+            lak.Children.Add(lak_in);
+
+            MonitorItem lak_out = new MonitorItem(FileMonitor.LAK_Out)
+            {
+                VariableIndex = -1,
+                Group = FileMonitor._Total_Group,
+                Derivable = true,
+                DerivedIndex = new int[] { 1, 6, 8, 9, 10 }
+            };
+            lak.Children.Add(lak_out);
+
+            SequenceMonitorItem lak_ds = new SequenceMonitorItem(FileMonitor.LAK_Storage_Change)
+            {
+                VariableIndex = -1,
+                Group = FileMonitor._Total_Group,
+                Derivable = true
+            };
+            lak_ds.Source = lake_stor;
+            lak.Children.Add(lak_ds);
+
+            AggregatedMonitorItem lak_error = new AggregatedMonitorItem(FileMonitor.LAK_Error)
+            {
+                VariableIndex = -1,
+                Group = FileMonitor._Total_Group,
+                Derivable = true
+            };
+            lak_error.Source.AddRange(new MonitorItem[] { lak_in, lak_out, lak_ds });
+            lak_error.SourceSign.AddRange(new int[] { 1, -1, -1 });
+            lak.Children.Add(lak_error);
+
+            _MFMonitor.Root.Add(lak);
+        }
+
         public void InitMonitor(string filename)
         {
             if (File.Exists(filename))
@@ -116,6 +243,18 @@ namespace Heiflow.Models.Running
                 while (!sr.EndOfStream)
                 {
                     line = sr.ReadLine();
+                    if(line.Contains("LAK7"))
+                    {
+                        _has_lakpck = true;
+                    }
+                    if (line.Contains("MAXIMUM NUMBER OF LAKES"))
+                    {
+                        var matches = Regex.Matches(line, @"\d+");
+                        foreach (Match match in matches)
+                        {
+                            _num_lakes = int.Parse(match.Value);
+                        }
+                    }
                     if (!string.IsNullOrEmpty(line))
                     {
                         if (line.Contains("VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP"))
@@ -224,8 +363,12 @@ namespace Heiflow.Models.Running
 
                 _MFMonitor.Root.Clear();
                 _MFMonitor.Root.Add(root);
-            }
 
+                if(_has_lakpck)
+                {
+                    InitLakeMonitor();
+                }
+            }
         }
 
         public override void Load(string filename)

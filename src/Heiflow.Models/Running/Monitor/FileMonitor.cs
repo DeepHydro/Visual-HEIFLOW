@@ -113,14 +113,17 @@ namespace Heiflow.Models.Running
         public static string LAKET = "Lakes ET";
         public static string LAK_PPT = "Lakes Precipitation";
         public static string LAK_INFLOW = "Lakes Inflow";
+        public static string LAK_Outflow = "Lakes Outflow";
+        public static string LAK_Runoff = "Lakes Runoff";
         public static string LAK_Storage = "Lakes Storage";
         public static string LAK_Storage_Change = "Total Lakes Storage Change";
         public static string LAK_In = "Total Lakes In";
         public static string LAK_Out = "Total Lakes Out";
-        public static string LAK_Outflow = "Lakes Outflow";
         public static string LAK_Error = "Total Lakes Budget Error";
         public static string LAK_Gaining = "Lakes Gaining";
         public static string LAK_Losing = "Lakes Losing";
+        public static string LAK_Uzf_Infil = "Lakes UZF Infiltration";
+        public static string LAK_Water_Use = "Lakes Water Use";
 
         public static string SFR_PPT = "Stream Precipitation";
         public static string SFR_INFLOW = "Stream Inflow";
