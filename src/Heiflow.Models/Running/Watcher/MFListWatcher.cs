@@ -51,7 +51,8 @@ namespace Heiflow.Models.Running
         private string _cache_file;
         private bool _has_lakpck = false;
         private int _num_lakes = 0;
-
+        private const string _timestep_key = "VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP";
+        private const string _lak_step_key = "ALL FLUID FLUXES ARE VOLUMES ADDED TO THE LAKE DURING PRESENT TIME STEP";
         public MFListWatcher(WatchDirectory directory)
         {
             _WatchObject = new ArrayWatchObject<double>();
@@ -107,13 +108,13 @@ namespace Heiflow.Models.Running
 
         }
 
-        private void InitLakeMonitor()
+        private void InitLakeMonitor(int nvar)
         {
             var lak = new MonitorItemCollection("Lake Water Budgets");
 
             MonitorItem item = new MonitorItem(FileMonitor.LAK_PPT)
               {
-                  VariableIndex = 0,
+                  VariableIndex = nvar + 3,
                   Group = FileMonitor._In_Group,
                   SequenceType = SequenceType.StepbyStep
               };
@@ -121,7 +122,7 @@ namespace Heiflow.Models.Running
 
             item = new MonitorItem(FileMonitor.LAK_Runoff)
             {
-                VariableIndex = 4,
+                VariableIndex = nvar + 7,
                 Group = FileMonitor._In_Group,
                 SequenceType = SequenceType.StepbyStep
             };
@@ -129,7 +130,7 @@ namespace Heiflow.Models.Running
 
             item = new MonitorItem(FileMonitor.LAK_Gaining)
             {
-                VariableIndex = 5,
+                VariableIndex = nvar + 8,
                 Group = FileMonitor._In_Group,
                 SequenceType = SequenceType.StepbyStep
             };
@@ -137,7 +138,7 @@ namespace Heiflow.Models.Running
 
             item = new MonitorItem(FileMonitor.LAK_INFLOW)
             {
-                VariableIndex = 7,
+                VariableIndex = nvar + 10,
                 Group = FileMonitor._In_Group,
                 SequenceType = SequenceType.StepbyStep
             };
@@ -145,7 +146,7 @@ namespace Heiflow.Models.Running
 
             item = new MonitorItem(FileMonitor.LAKET)
             {
-                VariableIndex = 1,
+                VariableIndex = nvar + 4,
                 Group = FileMonitor._Out_Group,
                 SequenceType = SequenceType.StepbyStep
             };
@@ -153,7 +154,7 @@ namespace Heiflow.Models.Running
 
             item = new MonitorItem(FileMonitor.LAK_Losing)
             {
-                VariableIndex = 6,
+                VariableIndex = nvar + 9,
                 Group = FileMonitor._Out_Group,
                 SequenceType = SequenceType.StepbyStep
             };
@@ -161,7 +162,7 @@ namespace Heiflow.Models.Running
 
             item = new MonitorItem(FileMonitor.LAK_Outflow)
             {
-                VariableIndex = 8,
+                VariableIndex = nvar + 11,
                 Group = FileMonitor._Out_Group,
                 SequenceType = SequenceType.StepbyStep
             };
@@ -169,7 +170,7 @@ namespace Heiflow.Models.Running
 
             item = new MonitorItem(FileMonitor.LAK_Uzf_Infil)
             {
-                VariableIndex = 9,
+                VariableIndex = nvar + 13,
                 Group = FileMonitor._Out_Group,
                 SequenceType = SequenceType.StepbyStep
             };
@@ -177,26 +178,19 @@ namespace Heiflow.Models.Running
 
             item = new MonitorItem(FileMonitor.LAK_Water_Use)
             {
-                VariableIndex = 10,
+                VariableIndex = nvar + 12,
                 Group = FileMonitor._Out_Group,
                 SequenceType = SequenceType.StepbyStep
             };
             lak.Children.Add(item);
 
-            MonitorItem lake_stor = new MonitorItem(FileMonitor.LAK_Storage)
-            {
-                VariableIndex = 12,
-                Group = FileMonitor._Storage_Group,
-                SequenceType = SequenceType.StepbyStep
-            };
-            lak.Children.Add(lake_stor);
 
             MonitorItem lak_in = new MonitorItem(FileMonitor.LAK_In)
             {
                 VariableIndex = -1,
                 Group = FileMonitor._Total_Group,
                 Derivable = true,
-                DerivedIndex = new int[] { 0, 4, 5, 7 }
+                DerivedIndex = new int[] { nvar + 3, nvar + 7, nvar + 8, nvar + 10 }
             };
             lak.Children.Add(lak_in);
 
@@ -205,18 +199,25 @@ namespace Heiflow.Models.Running
                 VariableIndex = -1,
                 Group = FileMonitor._Total_Group,
                 Derivable = true,
-                DerivedIndex = new int[] { 1, 6, 8, 9, 10 }
+                DerivedIndex = new int[] { nvar + 4, nvar + 9, nvar + 11, nvar + 12, nvar + 13 }
             };
             lak.Children.Add(lak_out);
 
-            SequenceMonitorItem lak_ds = new SequenceMonitorItem(FileMonitor.LAK_Storage_Change)
+            MonitorItem lak_ds = new MonitorItem(FileMonitor.LAK_Storage_Change)
             {
-                VariableIndex = -1,
+                VariableIndex = nvar + 2,
                 Group = FileMonitor._Total_Group,
-                Derivable = true
+                SequenceType = SequenceType.StepbyStep,
             };
-            lak_ds.Source = lake_stor;
             lak.Children.Add(lak_ds);
+
+            MonitorItem lak_stor = new MonitorItem(FileMonitor.LAK_Storage)
+            {
+                VariableIndex = nvar + 1,
+                Group = FileMonitor._Storage_Group,
+                SequenceType = SequenceType.StepbyStep,
+            };
+            lak.Children.Add(lak_stor);
 
             AggregatedMonitorItem lak_error = new AggregatedMonitorItem(FileMonitor.LAK_Error)
             {
@@ -225,8 +226,22 @@ namespace Heiflow.Models.Running
                 Derivable = true
             };
             lak_error.Source.AddRange(new MonitorItem[] { lak_in, lak_out, lak_ds });
-            lak_error.SourceSign.AddRange(new int[] { 1, -1, -1 });
+            lak_error.SourceSign.AddRange(new int[] { -1, 1, 1 });
             lak.Children.Add(lak_error);
+
+            MonitorItem lake_percdisp = new MonitorItem("Laek Error Percent")
+            {
+                VariableIndex = nvar + 13,
+                Group = FileMonitor._Total_Group,
+                SequenceType = SequenceType.StepbyStep
+            };
+            lak.Children.Add(lake_percdisp);
+
+            foreach (var cl in lak.Children)
+            {
+                cl.Monitor = _MFMonitor;
+                cl.SequenceType = SequenceType.StepbyStep;
+            }
 
             _MFMonitor.Root.Add(lak);
         }
@@ -257,7 +272,7 @@ namespace Heiflow.Models.Running
                     }
                     if (!string.IsNullOrEmpty(line))
                     {
-                        if (line.Contains("VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP"))
+                        if (line.Contains(_timestep_key))
                         {
                             break;
                         }
@@ -268,7 +283,7 @@ namespace Heiflow.Models.Running
                     line = sr.ReadLine();
                     if (!string.IsNullOrEmpty(line))
                     {
-                        if (line.Contains("VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP"))
+                        if (line.Contains(_timestep_key))
                         {
                             for (int i = 0; i < 7; i++)
                             {
@@ -366,7 +381,7 @@ namespace Heiflow.Models.Running
 
                 if(_has_lakpck)
                 {
-                    InitLakeMonitor();
+                    InitLakeMonitor(root.Children.Count);
                 }
             }
         }
@@ -377,6 +392,7 @@ namespace Heiflow.Models.Running
                 return;
 
             _cache_file = filename + ".csv";
+            var num_lakvar = 19;
             //if (File.Exists(_cache_file) && File.Exists(filename))
             //{
             //    InitMonitor(filename);
@@ -406,19 +422,23 @@ namespace Heiflow.Models.Running
                 {
                     InitMonitor(filename);
                     int total_var = _MFMonitor.Root[0].Children.Count;
-                    _DataSource = new ListTimeSeries<double>(total_var);
+                    if (_has_lakpck)
+                        _DataSource = new ListTimeSeries<double>(total_var + num_lakvar);
+                    else
+                        _DataSource = new ListTimeSeries<double>(total_var);
 
                     var fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                     var sr = new StreamReader(fs, Encoding.Default);
                     string line = "";
                     int t = 0;
                     int nvar = (total_var - 4) / 2;
+                    var lak_vec = new double[num_lakvar];
                     while (!sr.EndOfStream)
                     {
                         line = sr.ReadLine();
                         if (!string.IsNullOrEmpty(line))
                         {
-                            if (line.Contains("VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP"))
+                            if (line.Contains(_timestep_key))
                             {
                                 break;
                             }
@@ -429,7 +449,12 @@ namespace Heiflow.Models.Running
                         line = sr.ReadLine();
                         //if (!string.IsNullOrEmpty(line))
                         //{
-                        if (line.Contains("VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP"))
+                        if(line.Contains(_lak_step_key))
+                        {
+                            ParseLakeBudget(sr, _num_lakes, ref lak_vec);
+                            line = sr.ReadLine();
+                        }
+                        if (line.Contains(_timestep_key))
                         {
                             var vector = new double[total_var];
                             double total_in = 0, total_out = 0, ds = 0, error = 0;
@@ -489,14 +514,45 @@ namespace Heiflow.Models.Running
                             vector[2 * nvar + 2] = ds;
                             vector[2 * nvar + 3] = error;
 
-                            var date = ModelService.Start.AddDays(t - 1);
-                            _DataSource.Add(date, vector);
+                            var date = ModelService.Start.AddDays(t);
+
+                            if (_has_lakpck)
+                            {
+                                var new_vec = vector.Concat(lak_vec).ToArray();
+                                _DataSource.Add(date, new_vec);
+                            }
+                            else
+                            {
+                                _DataSource.Add(date, vector);
+                            }
                             t++;
                         }
                         //}
                     }
                     fs.Close();
                     sr.Close();
+
+                    //if (_has_lakpck)
+                    //{
+                    //    int nrow= _DataSource.Dates.Count;
+                    //    double[,] mat = new double[nrow, num_lakvar];
+                    //    for (int i = 0; i < nrow; i++)
+                    //    {
+                    //        for (int j = 0; j < num_lakvar; j++)
+                    //        {
+                    //            mat[i, j] = _DataSource.Values[total_var + j][i];
+                    //        }
+                    //    }
+                    //    for (int i = 1; i < nrow; i++)
+                    //    {
+                    //        for (int j = 0; j < num_lakvar; j++)
+                    //        {
+                    //            //skip storage change
+                    //            if(j != 12)
+                    //                _DataSource.Values[total_var + j][i] = mat[i, j] - mat[i - 1, j];
+                    //        }
+                    //    }
+                    //}
 
                     var csv_file = filename + ".csv";
                     StreamWriter sw = new StreamWriter(csv_file);
@@ -516,6 +572,53 @@ namespace Heiflow.Models.Running
                     sw.Close();
                 }
             //}
+        }
+
+        public void ParseLakeBudget(StreamReader sr, int lakeCount, ref double[] vec)
+        {
+            var line = sr.ReadLine();
+            line = sr.ReadLine();
+
+            for (int i = 0; i < vec.Length; i++)
+            {
+                vec[i] = 0;
+            }
+
+            for (int i = 0; i < lakeCount; i++)
+            {
+                line = sr.ReadLine();
+                var tokens = Regex.Split(line.Trim(), @"\s+");
+                for (int j = 0; j < 8; j++)
+                {
+                    vec[j] += double.Parse(tokens[j + 1]);
+                }
+            }
+
+            line = sr.ReadLine();
+            line = sr.ReadLine();
+            line = sr.ReadLine();
+            for (int i = 0; i < lakeCount; i++)
+            {
+                line = sr.ReadLine();
+                var tokens = Regex.Split(line.Trim(), @"\s+");
+                for (int j = 0; j < 6; j++)
+                {
+                    vec[8 + j] += double.Parse(tokens[j + 1]);
+                }
+            }
+
+            line = sr.ReadLine();
+            line = sr.ReadLine();
+            line = sr.ReadLine();
+            for (int i = 0; i < lakeCount; i++)
+            {
+                line = sr.ReadLine();
+                var tokens = Regex.Split(line.Trim(), @"\s+");
+                for (int j = 0; j < 5; j++)
+                {
+                    vec[14 + j] += double.Parse(tokens[j + 1]);
+                }
+            }
         }
 
         public override void Clear()
