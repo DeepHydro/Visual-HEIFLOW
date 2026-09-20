@@ -73,7 +73,7 @@ namespace Heiflow.Models.Running
 
         public string[] Variables { get; protected set; }
 
-        public abstract void Load(string filename);
+        public abstract void Load(string filename, bool convertToStrepRate, bool[] var_index_isconvert);
 
         public void OnUpdated(object sender, ArrayWatchObject<double> e)
         {

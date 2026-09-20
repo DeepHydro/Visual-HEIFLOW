@@ -73,7 +73,7 @@ namespace Heiflow.Models.Running
         public static string Lakes_Inflow = "Lakes Inflow";
         public static string Lakes_Outflow = "Lakes Outflow";
         public static string Evapotranspiration = "Evapotranspiration";
-        public static string Evaporation = "Evaporation"; 
+        public static string Evaporation = "Evaporation";
         public static string Soil_Zone_DS = "Soil Zone";
         public static string Unsaturated_Zone_DS = "Unsaturated Zone";
         public static string Saturated_Zone_DS = "Saturated Zone";
@@ -132,7 +132,7 @@ namespace Heiflow.Models.Running
         public static string SFR_Storage_Change = "Total Stream Storage Change";
         public static string SFR_In = "Total Stream In";
         public static string SFR_Out = "Total Stream Out";
-        public static string SFR_Outflow= "Stream Outflow";
+        public static string SFR_Outflow = "Stream Outflow";
         public static string SFR_Error = "Total Stream Budget Error";
         public static string SFR_Gaining = "Stream Gaining";
         public static string SFR_Losing = "Stream Losing";
@@ -211,6 +211,7 @@ namespace Heiflow.Models.Running
             Partners = new List<IFileMonitor>();
             _CurrentStep = 0;
             StartStep = 1;
+            ConvertToStrepRate = false;
         }
         [Category("Design")]
         public string MonitorName { get; protected set; }
@@ -315,7 +316,7 @@ namespace Heiflow.Models.Running
                 _Inteval_Budget = value;
             }
         }
-           [Browsable(false)]
+        [Browsable(false)]
         public bool IsStarted
         {
             get;
@@ -336,13 +337,25 @@ namespace Heiflow.Models.Running
             }
         }
 
-           [Browsable(false)]
+        [Browsable(false)]
         public List<IFileMonitor> Partners
         {
             get;
             protected set;
         }
-
+        [Category("Analysis")]
+        public bool ConvertToStrepRate
+        {
+            get;
+            set;
+        }
+        [Category("Analysis")]
+        [Browsable(false)]
+        public bool[] VarIndexIsConvert
+        {
+            get;
+            set;
+        }
         public virtual void Clear()
         {
             _CurrentStep = 0;
@@ -351,7 +364,7 @@ namespace Heiflow.Models.Running
 
 
         public virtual void Start()
-        {     
+        {
             _Watcher.Start();
             IsStarted = true;
         }
@@ -412,8 +425,5 @@ namespace Heiflow.Models.Running
         {
             return new Dictionary<string, double>();
         }
-
-
-
     }
 }

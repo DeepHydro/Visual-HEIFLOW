@@ -42,7 +42,7 @@ namespace Heiflow.Models.Running
        string[] Variables { get; }
        string FileName { get; set; }
        ListTimeSeries<double> DataSource { get; }
-       void Load(string filename);
+       void Load(string filename, bool convertToStrepRate, bool[] var_index_isconvert);
        void Clear();
     }
 }

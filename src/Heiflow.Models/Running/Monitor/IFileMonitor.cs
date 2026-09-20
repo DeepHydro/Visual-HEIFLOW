@@ -44,6 +44,8 @@ namespace Heiflow.Models.Running
 
         List<IFileMonitor> Partners { get; }
         bool IsStarted { get; }
+        bool ConvertToStrepRate { get; set; }
+        bool[] VarIndexIsConvert { get; set; }
         void Start();
         void Stop();
         void Clear();

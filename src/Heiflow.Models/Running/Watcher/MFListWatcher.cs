@@ -386,7 +386,7 @@ namespace Heiflow.Models.Running
             }
         }
 
-        public override void Load(string filename)
+        public override void Load(string filename, bool convertToStrepRate, bool[] var_index_isconvert)
         {
             if (this.State == RunningState.Busy)
                 return;
@@ -531,28 +531,6 @@ namespace Heiflow.Models.Running
                     }
                     fs.Close();
                     sr.Close();
-
-                    //if (_has_lakpck)
-                    //{
-                    //    int nrow= _DataSource.Dates.Count;
-                    //    double[,] mat = new double[nrow, num_lakvar];
-                    //    for (int i = 0; i < nrow; i++)
-                    //    {
-                    //        for (int j = 0; j < num_lakvar; j++)
-                    //        {
-                    //            mat[i, j] = _DataSource.Values[total_var + j][i];
-                    //        }
-                    //    }
-                    //    for (int i = 1; i < nrow; i++)
-                    //    {
-                    //        for (int j = 0; j < num_lakvar; j++)
-                    //        {
-                    //            //skip storage change
-                    //            if(j != 12)
-                    //                _DataSource.Values[total_var + j][i] = mat[i, j] - mat[i - 1, j];
-                    //        }
-                    //    }
-                    //}
 
                     var csv_file = filename + ".csv";
                     StreamWriter sw = new StreamWriter(csv_file);

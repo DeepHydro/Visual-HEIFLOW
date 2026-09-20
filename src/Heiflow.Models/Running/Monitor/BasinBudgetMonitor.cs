@@ -40,11 +40,11 @@ namespace Heiflow.Models.Running
     [Export(typeof(IFileMonitor))]
     public class BasinBudgetMonitor : FileMonitor
     {
-
         private Dictionary<string, double> _EntireBudgetItems = new Dictionary<string, double>();
         private double total_discrepancy = 0;
         public BasinBudgetMonitor()
         {
+            ConvertToStrepRate = true;
             Correct = false;
             MonitorName = "BasinBudgetMonitor";
             var root = new MonitorItemCollection("Basin Water Budgets");
@@ -84,7 +84,7 @@ namespace Heiflow.Models.Running
             root.Children.Add(sr_in);
             root.Children.Add(gw_in);
             root.Children.Add(wells_in);
-          //  root.Children.Add(lakes_in);
+            root.Children.Add(lakes_in);
 
             MonitorItem et_out = new MonitorItem(Evapotranspiration)
             {
@@ -110,12 +110,6 @@ namespace Heiflow.Models.Running
                 Group = _Out_Group
             };
 
-            //MonitorItem lake_out = new MonitorItem(Lakes_Outflow)
-            //{
-            //    VariableIndex = 9,
-            //    Group = _Out_Group
-            //};
-
             MonitorItem wells_out = new MonitorItem(Wells_Out)
             {
                 VariableIndex = 9,
@@ -127,7 +121,6 @@ namespace Heiflow.Models.Running
             root.Children.Add(evap_out);
             root.Children.Add(sr_out);
             root.Children.Add(gw_out);
-           // root.Children.Add(lake_out);
             root.Children.Add(wells_out);
 
 
@@ -215,6 +208,14 @@ namespace Heiflow.Models.Running
                 item.SequenceType = SequenceType.Accumulative;
             }
             _Watcher = new CSVWatcher();
+
+            int nvar = root.Children.Count;
+            VarIndexIsConvert = new bool[nvar];
+            for (int i = 0; i < nvar; i++)
+            {
+                VarIndexIsConvert[i] = true;
+            }
+            VarIndexIsConvert[20] = false;
         }
 
         public bool Correct

@@ -111,7 +111,12 @@ namespace Heiflow.Applications.Controllers
             foreach (var monitor in _StateMonitor.Monitors)
             {
                 monitor.Clear();
-                monitor.Watcher.Load(monitor.FileName);
+                if (monitor is BasinBudgetMonitor)
+                {
+                    monitor.Watcher.Load(monitor.FileName, monitor.ConvertToStrepRate, monitor.VarIndexIsConvert);
+                }
+                else
+                    monitor.Watcher.Load(monitor.FileName, false, null);
             }
         }
 

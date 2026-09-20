@@ -100,7 +100,7 @@ namespace Heiflow.Models.Running
             OnUpdated(this, _WatchObject);
         }
 
-        public override void Load(string filename)
+        public override void Load(string filename, bool convertToStrepRate, bool[] var_index_isconvert)
         {
             if (this.State == RunningState.Busy)
                 return;
@@ -111,7 +111,7 @@ namespace Heiflow.Models.Running
                 string line = sr.ReadLine();
                 int nvar = TypeConverterEx.Split<string>(line, TypeConverterEx.Comma).Length - 1;
                  _DataSource =new ListTimeSeries<double>(nvar);
-
+               
                 while (!sr.EndOfStream)
                 {
                     line = sr.ReadLine();
@@ -124,6 +124,28 @@ namespace Heiflow.Models.Running
                 }
                 fs.Close();
                 sr.Close();
+
+                if (convertToStrepRate && var_index_isconvert != null)
+                {
+                    int nrow = _DataSource.Dates.Count;
+                    int ncol = _DataSource.Values.Length;
+
+                    for (int i = 0; i < ncol; i++)
+                    {
+                        if (var_index_isconvert[i])
+                        {
+                            var vec = new double[nrow];
+                            for (int j = 0; j < nrow; j++)
+                            {
+                                vec[j] = _DataSource.Values[i][j];
+                            }
+                            for (int j = 1; j < nrow; j++)
+                            {
+                                _DataSource.Values[i][j] = vec[j] - vec[j - 1];
+                            }
+                        }
+                    }
+                }
             }
         }
     }

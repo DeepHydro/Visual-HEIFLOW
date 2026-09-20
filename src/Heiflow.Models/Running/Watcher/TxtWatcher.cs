@@ -101,7 +101,7 @@ namespace Heiflow.Models.Running
 
         }
 
-        public override void Load(string filename)
+        public override void Load(string filename, bool convertToStrepRate, bool[] var_index_isconvert)
         {
             if (this.State == RunningState.Busy)
                 return;
