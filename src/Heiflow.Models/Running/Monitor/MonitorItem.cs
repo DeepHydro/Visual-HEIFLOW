@@ -51,6 +51,7 @@ namespace Heiflow.Models.Running
             Derivable = false;
             Children = new List<MonitorItem>();
             this.SequenceType = SequenceType.StepbyStep;
+            IsDisplay = true;
         }
 
         public string Name
@@ -119,7 +120,11 @@ namespace Heiflow.Models.Running
             }
         }
 
-
+        public bool IsDisplay
+        {
+            get;
+            set;
+        }
         public double[] DerivedValues
         {
             get;
@@ -173,7 +178,5 @@ namespace Heiflow.Models.Running
             }
             return dt;
         }
-
-
     }
 }

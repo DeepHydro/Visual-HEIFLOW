@@ -44,5 +44,6 @@ namespace Heiflow.Models.Running
         SequenceType SequenceType { get; set; }
 
         DataTable ToDataTable(ListTimeSeries<double> sourcedata);
+        bool IsDisplay { get; set; }
     }
 }

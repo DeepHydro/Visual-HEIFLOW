@@ -502,7 +502,11 @@ namespace Heiflow.Models.Running
             #endregion
 
             #region Lakes
-            var root_lak = new MonitorItemCollection("Lake Water Budgets");
+            // root_lak is added for budget statistics computation
+            var root_lak = new MonitorItemCollection("Lake Water Budget Components")
+            {
+                IsDisplay = false
+            };
       
             MonitorItem basinhortonianlakes_lak = new MonitorItem("Lake_" + BASINHORTONIANLAKES)
             {
@@ -515,83 +519,83 @@ namespace Heiflow.Models.Running
                 VariableIndex = 50,
                 Group = _In_Group
             };
-            MonitorItem lak_gain = new MonitorItem(LAK_Gaining)
-            {
-                VariableIndex = 38,
-                Group = _In_Group,
-            };
-            MonitorItem basinlakeprecip_lak = new MonitorItem("Lake_" + BasinLakePrecip)
-            {
-                VariableIndex = 52,
-                Group = _In_Group
-            };
+            //MonitorItem lak_gain = new MonitorItem(LAK_Gaining)
+            //{
+            //    VariableIndex = 38,
+            //    Group = _In_Group,
+            //};
+            //MonitorItem basinlakeprecip_lak = new MonitorItem("Lake_" + BasinLakePrecip)
+            //{
+            //    VariableIndex = 52,
+            //    Group = _In_Group
+            //};
 
-            MonitorItem lak_loss = new MonitorItem(LAK_Losing)
-            {
-                VariableIndex = 36,
-                Group = _Out_Group,
-            };
- 
-            MonitorItem lake_stor = new MonitorItem(LAK_Storage)
-            {
-                VariableIndex = 23,
-                Group = _Storage_Group,
-                Derivable = true,
-                DerivedIndex = new int[] { 23 }
-            };
+            //MonitorItem lak_loss = new MonitorItem(LAK_Losing)
+            //{
+            //    VariableIndex = 36,
+            //    Group = _Out_Group,
+            //};
 
-            MonitorItem lak_in = new MonitorItem(LAK_In)
-            {
-                VariableIndex = -1,
-                Group = _Total_Group,
-                Derivable = true,
-                DerivedIndex = new int[] { 
-                    basinhortonianlakes_lak.VariableIndex
-                    , basinlakeinsz_lak.VariableIndex
-                    , lak_gain.VariableIndex
-                    , basinlakeprecip_lak.VariableIndex}
-            };
+            //MonitorItem lake_stor = new MonitorItem(LAK_Storage)
+            //{
+            //    VariableIndex = 23,
+            //    Group = _Storage_Group,
+            //    Derivable = true,
+            //    DerivedIndex = new int[] { 23 }
+            //};
 
-            MonitorItem lak_out = new MonitorItem(LAK_Out)
-            {
-                VariableIndex = -1,
-                Group = _Total_Group,
-                Derivable = true,
-                DerivedIndex = new int[] { 
-                     lak_loss.VariableIndex
-                    , lakes_et.VariableIndex}
-            };
-            
-            SequenceMonitorItem lak_ds = new SequenceMonitorItem(LAK_Storage_Change)
-            {
-                VariableIndex = -1,
-                Group = _Total_Group,
-                Derivable = true
-            };
-            lak_ds.Source = lake_stor;
+            //MonitorItem lak_in = new MonitorItem(LAK_In)
+            //{
+            //    VariableIndex = -1,
+            //    Group = _Total_Group,
+            //    Derivable = true,
+            //    DerivedIndex = new int[] { 
+            //        basinhortonianlakes_lak.VariableIndex
+            //        , basinlakeinsz_lak.VariableIndex
+            //        , lak_gain.VariableIndex
+            //        , basinlakeprecip_lak.VariableIndex}
+            //};
 
-            AggregatedMonitorItem lak_error = new AggregatedMonitorItem(LAK_Error)
-            {
-                VariableIndex = -1,
-                Group = _Total_Group,
-                Derivable = true
-            };
-            lak_error.Source.AddRange(new MonitorItem[] { lak_in, lak_out, lak_ds });
-            lak_error.SourceSign.AddRange(new int[] { 1, -1, -1 });
+            //MonitorItem lak_out = new MonitorItem(LAK_Out)
+            //{
+            //    VariableIndex = -1,
+            //    Group = _Total_Group,
+            //    Derivable = true,
+            //    DerivedIndex = new int[] { 
+            //         lak_loss.VariableIndex
+            //        , lakes_et.VariableIndex}
+            //};
+
+            //SequenceMonitorItem lak_ds = new SequenceMonitorItem(LAK_Storage_Change)
+            //{
+            //    VariableIndex = -1,
+            //    Group = _Total_Group,
+            //    Derivable = true
+            //};
+            //lak_ds.Source = lake_stor;
+
+            //AggregatedMonitorItem lak_error = new AggregatedMonitorItem(LAK_Error)
+            //{
+            //    VariableIndex = -1,
+            //    Group = _Total_Group,
+            //    Derivable = true
+            //};
+            //lak_error.Source.AddRange(new MonitorItem[] { lak_in, lak_out, lak_ds });
+            //lak_error.SourceSign.AddRange(new int[] { 1, -1, -1 });
 
             root_lak.Children.Add(basinhortonianlakes_lak);
             root_lak.Children.Add(basinlakeinsz_lak);
-            root_lak.Children.Add(lak_gain);
-            root_lak.Children.Add(basinlakeprecip_lak);
+            //root_lak.Children.Add(lak_gain);
+            //root_lak.Children.Add(basinlakeprecip_lak);
 
-            root_lak.Children.Add(lak_loss);
-            root_lak.Children.Add(lakes_et);
+            //root_lak.Children.Add(lak_loss);
+            //root_lak.Children.Add(lakes_et);
 
-            root_lak.Children.Add(lake_stor);
-            root_lak.Children.Add(lak_in);
-            root_lak.Children.Add(lak_out);
-            root_lak.Children.Add(lak_ds);
-            root_lak.Children.Add(lak_error);
+            //root_lak.Children.Add(lake_stor);
+            //root_lak.Children.Add(lak_in);
+            //root_lak.Children.Add(lak_out);
+            //root_lak.Children.Add(lak_ds);
+            //root_lak.Children.Add(lak_error);
 
             _Roots.Add(root_lak);
             #endregion

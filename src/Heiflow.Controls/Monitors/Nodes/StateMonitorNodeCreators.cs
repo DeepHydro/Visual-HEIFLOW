@@ -144,7 +144,8 @@ namespace Heiflow.Controls.WinForm.Monitors
                     }
                     root_node.Nodes.Add(tn);
                 }
-                nodes.Add(root_node);
+                if (root.IsDisplay)
+                    nodes.Add(root_node);
             }
             return nodes;
         }
