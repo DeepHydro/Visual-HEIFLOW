@@ -208,7 +208,7 @@ namespace Heiflow.Controls.WinForm.Display
 
             var sat_items_in = new string[] { 
                     FileMonitor.STORAGE_IN,
-                       FileMonitor.GW_ET_IN,
+                    FileMonitor.GW_ET_IN,
                     FileMonitor.CONSTANT_HEAD_IN, 
                     FileMonitor.WELLS_IN,
                     FileMonitor.SPECIFIED_FLOWS_IN,
@@ -227,7 +227,7 @@ namespace Heiflow.Controls.WinForm.Display
                     FileMonitor.UZF_RECHARGE_OUT,
                     FileMonitor.STREAM_LEAKAGE_OUT,
                     FileMonitor.LAKE_SEEPAGE_OUT,
-                     FileMonitor.SURFACE_LEAKAGE_OUT,
+                    FileMonitor.SURFACE_LEAKAGE_OUT,
                     FileMonitor.HEAD_DEP_BOUNDS_OUT
             };
             var satin = 0.0;

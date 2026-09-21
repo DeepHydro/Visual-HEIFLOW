@@ -206,11 +206,6 @@ namespace Heiflow.Controls.WinForm.Monitors
                 ZonalBudgetClicked(this, dic);
         }
 
-        //private void ZonalBudget_Click(object sender, EventArgs e)
-        //{
-        
-        //}
-
         public void Plot(MonitorItem item)
         {
             if (item == null)
