@@ -42,6 +42,7 @@ using System.Waf.Foundation;
 
 namespace Heiflow.Models.Running
 {
+    public enum BudgetItemUnit { BasinAveraged, Volume}
     public abstract class FileMonitor : Model, Heiflow.Models.Running.IFileMonitor
     {
         protected string _FileName;
@@ -212,6 +213,7 @@ namespace Heiflow.Models.Running
             _CurrentStep = 0;
             StartStep = 1;
             ConvertToStrepRate = false;
+            BudgetItemUnit = Running.BudgetItemUnit.BasinAveraged;
         }
         [Category("Design")]
         public string MonitorName { get; protected set; }
@@ -356,6 +358,14 @@ namespace Heiflow.Models.Running
             get;
             set;
         }
+        [Category("Analysis")]
+        [Browsable(true)]
+        public BudgetItemUnit BudgetItemUnit
+        {
+            get;
+            set;
+        }
+
         public virtual void Clear()
         {
             _CurrentStep = 0;

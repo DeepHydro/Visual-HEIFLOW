@@ -457,9 +457,20 @@ namespace Heiflow.Models.Running
                 StartStep = EndStep;
 
             double nsteps = EndStep - StartStep + 1;
-            double factor = Intevals / nsteps / ModelService.BasinArea * 1000;
+            double factor = 1.0;
+            var scale = 1.0;
+            if (BudgetItemUnit == Running.BudgetItemUnit.BasinAveraged)
+            {
+                factor = Intevals / nsteps / ModelService.BasinArea * 1000;
+                scale = Intevals / ModelService.BasinArea * 1000;
+            }
+            else
+            {
+                factor = 1.0;
+                scale = 1.0;
+            }
 
-            var scale = Intevals / ModelService.BasinArea * 1000;
+            
 
             foreach (var root in this.Root)
             {
@@ -469,7 +480,8 @@ namespace Heiflow.Models.Running
                     items.Add(nm, 0);
                     if (item.Monitor.DataSource != null)
                     {
-                        var vector = item.Monitor.DataSource.Values[item.VariableIndex].Skip<double>(StartStep);
+                        //var vector = item.Monitor.DataSource.Values[item.VariableIndex].Skip<double>(StartStep);
+                        var vector = item.Monitor.DataSource.Values[item.VariableIndex];
                         double dv = 0;
                         if (vector != null && vector.Count() > 0)
                         {
@@ -477,7 +489,7 @@ namespace Heiflow.Models.Running
                                 dv = vector.Average() * scale;
                             else
                                 dv = (vector.Last() - vector.ElementAt(StartStep - 1)) * factor;
-                            dv = Math.Round(dv, 1);
+                            //dv = Math.Round(dv, 1);
                         }
                         items[nm] = dv;
                     }
@@ -507,7 +519,8 @@ namespace Heiflow.Models.Running
                         {
                             if (item.Monitor.DataSource != null)
                             {
-                                var vector = item.Monitor.DataSource.Values[item.VariableIndex].Skip<double>(StartStep);
+                                //var vector = item.Monitor.DataSource.Values[item.VariableIndex].Skip<double>(StartStep);
+                                var vector = item.Monitor.DataSource.Values[item.VariableIndex];
                                 double dv = 0;
                                 if (vector != null && vector.Count() > 0)
                                 {
@@ -515,7 +528,7 @@ namespace Heiflow.Models.Running
                                         dv = vector.Average() * scale;
                                     else
                                         dv = (vector.Last() - vector.ElementAt(StartStep - 1)) * factor;
-                                    dv = Math.Round(dv, 1);
+                                    //dv = Math.Round(dv, 1);
                                 }
                                 items[nm] = dv;
                             }
