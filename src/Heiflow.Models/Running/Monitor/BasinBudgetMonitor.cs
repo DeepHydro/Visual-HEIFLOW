@@ -166,36 +166,16 @@ namespace Heiflow.Models.Running
             root.Children.Add(lake_ds);
             root.Children.Add(canal_ds);
 
-            //MonitorItem total_in = new MonitorItem("Total In")
-            //{
-            //    VariableIndex = -1,
-            //    Group = _Total_Group,
-            //    Derivable = true,
-            //    DerivedIndex = new int[] { ppt.VariableIndex, sr_in.VariableIndex, gw_in.VariableIndex, wells_in.VariableIndex }
-            //};
-
-            //MonitorItem total_out = new MonitorItem("Total Out")
-            //{
-            //    VariableIndex = -1,
-            //    Group = _Total_Group,
-            //    Derivable = true,
-            //    DerivedIndex = new int[] { et_out.VariableIndex, evap_out.VariableIndex, sr_out.VariableIndex, gw_out.VariableIndex }
-            //};
-
             MonitorItem total_in = new MonitorItem("Total In")
             {
                 VariableIndex = 16,
                 Group = _Total_Group,
-                //Derivable = true,
-                //DerivedIndex = new int[] { ppt.VariableIndex, sr_in.VariableIndex, gw_in.VariableIndex, wells_in.VariableIndex }
             };
 
             MonitorItem total_out = new MonitorItem("Total Out")
             {
                 VariableIndex = 17,
                 Group = _Total_Group,
-                //Derivable = true,
-                //DerivedIndex = new int[] { et_out.VariableIndex, evap_out.VariableIndex, sr_out.VariableIndex, gw_out.VariableIndex }
             };
 
             MonitorItem total_ds = new MonitorItem(Total_Storage_Change)
@@ -440,6 +420,16 @@ namespace Heiflow.Models.Running
                 return null;
             }
         }
+     
+        public void Load()
+        {
+            _DataSource.Clear();
+
+            //_DataSource.Add
+            var ppt = Select(Daily_PPT);
+            //ppt.Monitor.DataSource[ppt.VariableIndex]
+        }
+
         public override Dictionary<string, double> ZonalBudgets()
         {
             Dictionary<string, double> items = new Dictionary<string, double>();
@@ -470,8 +460,6 @@ namespace Heiflow.Models.Running
                 scale = 1.0;
             }
 
-            
-
             foreach (var root in this.Root)
             {
                 foreach (var item in root.Children)
@@ -480,8 +468,7 @@ namespace Heiflow.Models.Running
                     items.Add(nm, 0);
                     if (item.Monitor.DataSource != null)
                     {
-                        //var vector = item.Monitor.DataSource.Values[item.VariableIndex].Skip<double>(StartStep);
-                        var vector = item.Monitor.DataSource.Values[item.VariableIndex];
+                        var vector = item.Monitor.DataSource.Values[item.VariableIndex].Skip<double>(StartStep);
                         double dv = 0;
                         if (vector != null && vector.Count() > 0)
                         {
@@ -519,8 +506,7 @@ namespace Heiflow.Models.Running
                         {
                             if (item.Monitor.DataSource != null)
                             {
-                                //var vector = item.Monitor.DataSource.Values[item.VariableIndex].Skip<double>(StartStep);
-                                var vector = item.Monitor.DataSource.Values[item.VariableIndex];
+                                var vector = item.Monitor.DataSource.Values[item.VariableIndex].Skip<double>(StartStep);
                                 double dv = 0;
                                 if (vector != null && vector.Count() > 0)
                                 {
