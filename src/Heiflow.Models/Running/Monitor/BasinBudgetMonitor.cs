@@ -41,7 +41,7 @@ namespace Heiflow.Models.Running
     public class BasinBudgetMonitor : FileMonitor
     {
         private Dictionary<string, double> _EntireBudgetItems = new Dictionary<string, double>();
-        private double total_discrepancy = 0;
+          
         public BasinBudgetMonitor()
         {
            
@@ -229,10 +229,11 @@ namespace Heiflow.Models.Running
         /// </summary>
         /// <param name="report">balance report</param>
         /// <returns></returns>
-        public override DataTable Balance(ref string report)
+        public override DataTable Balance(string itemname, ref string report)
         {
             if (DataSource != null)
             {
+                double total_discrepancy = 0;
                 _EntireBudgetItems.Clear();
 
                 var len = DataSource.Values[0].Count;

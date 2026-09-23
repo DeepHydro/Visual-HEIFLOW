@@ -49,7 +49,7 @@ namespace Heiflow.Models.Running
         void Start();
         void Stop();
         void Clear();
-        DataTable Balance( ref string budget);
+        DataTable Balance( string itemname, ref string budget);
         Dictionary<string, double> ZonalBudgets();
  
     }

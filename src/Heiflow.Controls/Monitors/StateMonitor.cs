@@ -70,6 +70,7 @@ namespace Heiflow.Controls.WinForm.Display
             _NodeCreator = new StateMonitorNodeCreators();
             _NodeCreator.Chart = winChart1;
             _NodeCreator.DataGrid = this.olvDataTree;
+            _NodeCreator.ReportBox = this.textBoxReport;
             _NodeCreator.ZonalBudgetClicked += NodeCreator_ZonalBudgetClicked;
             this.treeView1.MouseUp += treeView1_MouseUp;
             olvDataTree.RootKeyValue = 9999;

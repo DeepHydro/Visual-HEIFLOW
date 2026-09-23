@@ -187,7 +187,7 @@ namespace Heiflow.Controls.WinForm.Monitors
                 return;
 
             string report = "";
-            var dt = item.Monitor.Balance(ref report);
+            var dt = item.Monitor.Balance(item.Name, ref report);
             if (dt == null)
                 return;
 
@@ -202,7 +202,7 @@ namespace Heiflow.Controls.WinForm.Monitors
             DataGrid.ExpandAll();
 
             var dic = item.Monitor.ZonalBudgets();
-            if (ZonalBudgetClicked != null)
+            if (ZonalBudgetClicked != null && dic != null)
                 ZonalBudgetClicked(this, dic);
         }
 

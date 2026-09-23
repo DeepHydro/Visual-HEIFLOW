@@ -402,7 +402,7 @@ namespace Heiflow.Models.Running
         /// </summary>
         /// <param name="report">balance report</param>
         /// <returns></returns>
-        public virtual System.Data.DataTable Balance(ref string budget)
+        public virtual System.Data.DataTable Balance(string itemname, ref string budget)
         {
             return null;
         }
