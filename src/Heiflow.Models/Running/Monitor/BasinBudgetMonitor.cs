@@ -44,7 +44,7 @@ namespace Heiflow.Models.Running
         private double total_discrepancy = 0;
         public BasinBudgetMonitor()
         {
-            ConvertToStrepRate = true;
+           
             Correct = false;
             MonitorName = "BasinBudgetMonitor";
             var root = new MonitorItemCollection("Basin Water Budgets");
@@ -124,7 +124,7 @@ namespace Heiflow.Models.Running
             root.Children.Add(wells_out);
 
 
-            MonitorItem land_ds = new MonitorItem(HRU_DS)
+            MonitorItem land_ds = new MonitorItem(Surface_Zone_DS)
             {
                 VariableIndex = 10,
                 Group = _Ds_Group
@@ -341,7 +341,7 @@ namespace Heiflow.Models.Running
                 total_diff = total_in - total_out;
                 total_error = total_diff - total_ds;
 
-                total_discrepancy = Math.Round((total_in - total_out - total_ds) / (total_in + total_out + Math.Abs(total_ds)) * 2 * 100, DecimalDigit);
+                total_discrepancy = Math.Round((total_in - total_out - total_ds) / (total_in + total_out + Math.Abs(total_ds)) * 2, DecimalDigit);
 
                 var dr_totalin = dt.NewRow();
                 dr_totalin[0] = 100;
@@ -412,7 +412,6 @@ namespace Heiflow.Models.Running
                 report += "\r\nOVERALL BUDGET ERROR".PadLeft(width_term, ' ') + equal + total_error.ToString().PadLeft(width_number, ' ');
                 report += "\r\nPERCENT DISCREPANCY".PadLeft(width_term, ' ') + equal + total_discrepancy.ToString().PadLeft(width_number, ' ');
 
-
                 return dt;
             }
             else
@@ -427,6 +426,8 @@ namespace Heiflow.Models.Running
 
             //_DataSource.Add
             var ppt = Select(Daily_PPT);
+            var sfrin = Select(SFR_INFLOW);
+
             //ppt.Monitor.DataSource[ppt.VariableIndex]
         }
 
@@ -526,5 +527,28 @@ namespace Heiflow.Models.Running
             return items;
         }
 
+        protected override void OnConvertToStrepRateChanged()
+        {
+             if(_ConvertToStrepRate)
+             {
+                 foreach (var root in this.Root)
+                 {
+                     foreach (var item in root.Children)
+                     {
+                         item.SequenceType = SequenceType.StepbyStep;
+                     }
+                 }
+             }
+            else
+             {
+                 foreach (var root in this.Root)
+                 {
+                     foreach (var item in root.Children)
+                     {
+                         item.SequenceType = SequenceType.Accumulative;
+                     }
+                 }
+             }
+        }
     }
 }

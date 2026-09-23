@@ -184,6 +184,13 @@ namespace Heiflow.Models.Running
             };
             lak.Children.Add(item);
 
+            MonitorItem lak_stor = new MonitorItem(FileMonitor.LAK_Storage)
+            {
+                VariableIndex = nvar + 1,
+                Group = FileMonitor._Storage_Group,
+                SequenceType = SequenceType.StepbyStep,
+            };
+            lak.Children.Add(lak_stor);
 
             MonitorItem lak_in = new MonitorItem(FileMonitor.LAK_In)
             {
@@ -210,14 +217,7 @@ namespace Heiflow.Models.Running
                 SequenceType = SequenceType.StepbyStep,
             };
             lak.Children.Add(lak_ds);
-
-            MonitorItem lak_stor = new MonitorItem(FileMonitor.LAK_Storage)
-            {
-                VariableIndex = nvar + 1,
-                Group = FileMonitor._Storage_Group,
-                SequenceType = SequenceType.StepbyStep,
-            };
-            lak.Children.Add(lak_stor);
+             
 
             AggregatedMonitorItem lak_error = new AggregatedMonitorItem(FileMonitor.LAK_Error)
             {
@@ -365,14 +365,37 @@ namespace Heiflow.Models.Running
                     Group = FileMonitor._Total_Group,
                     SequenceType = SequenceType.StepbyStep
                 };
+                var ds_cum = new MonitorItem(FileMonitor.SAT_DS_CUM)
+                {
+                    VariableIndex = nvar * 2 + 4,
+                    Group = FileMonitor._Storage_Group,
+                    SequenceType = SequenceType.Accumulative
+                };
+                var disp_cum = new MonitorItem(FileMonitor.SAT_PERD_CUM)
+                {
+                    VariableIndex = nvar * 2 + 5,
+                    Group = FileMonitor._Total_Group,
+                    SequenceType = SequenceType.Accumulative
+                };
+                var disp_step = new MonitorItem(FileMonitor.SAT_PERD_Step)
+                {
+                    VariableIndex = nvar * 2 + 6,
+                    Group = FileMonitor._Total_Group,
+                    SequenceType = SequenceType.StepbyStep
+                };
+               
+                root.Children.Add(ds_cum);
+
                 root.Children.Add(total_in);
                 root.Children.Add(total_out);
                 root.Children.Add(ds);
                 root.Children.Add(error);
+                root.Children.Add(disp_step);
+                root.Children.Add(disp_cum);
 
                 foreach (var item in root.Children)
                 {
-                    item.SequenceType = SequenceType.StepbyStep;
+                  //  item.SequenceType = SequenceType.StepbyStep;
                     item.Monitor = _MFMonitor;
                 }
 
@@ -392,6 +415,7 @@ namespace Heiflow.Models.Running
                 return;
 
             _cache_file = filename + ".csv";
+            var percent_token = @"PERCENT DISCREPANCY\s*=\s*(-?\d+\.?\d*)";
             var num_lakvar = 19;
             //if (File.Exists(_cache_file) && File.Exists(filename))
             //{
@@ -421,6 +445,7 @@ namespace Heiflow.Models.Running
                 if (File.Exists(filename))
                 {
                     InitMonitor(filename);
+                    var nvar = (from it in _MFMonitor.Root[0].Children where it.Group == FileMonitor._In_Group select it).Count();
                     int total_var = _MFMonitor.Root[0].Children.Count;
                     if (_has_lakpck)
                         _DataSource = new ListTimeSeries<double>(total_var + num_lakvar);
@@ -431,8 +456,9 @@ namespace Heiflow.Models.Running
                     var sr = new StreamReader(fs, Encoding.Default);
                     string line = "";
                     int t = 0;
-                    int nvar = (total_var - 4) / 2;
                     var lak_vec = new double[num_lakvar];
+
+                    var ds_cum = 0.0;
                     while (!sr.EndOfStream)
                     {
                         line = sr.ReadLine();
@@ -446,6 +472,7 @@ namespace Heiflow.Models.Running
                     }
                     while (!sr.EndOfStream)
                     {
+                      
                         line = sr.ReadLine();
                         //if (!string.IsNullOrEmpty(line))
                         //{
@@ -513,6 +540,21 @@ namespace Heiflow.Models.Running
                             vector[2 * nvar + 1] = total_out;
                             vector[2 * nvar + 2] = ds;
                             vector[2 * nvar + 3] = error;
+                            ds_cum += ds;
+                            vector[2 * nvar + 4] += ds_cum;
+
+                            for (int i = 0; i < 5; i++)
+                            {
+                                sr.ReadLine();
+                            }
+                            line = sr.ReadLine();
+                            var matches = Regex.Matches(line, percent_token);
+                            var ii = 0;
+                            foreach (Match match in matches)
+                            {
+                                vector[2 * nvar + 5 + ii] = double.Parse(match.Groups[1].Value);
+                                ii++;
+                            }
 
                             var date = ModelService.Start.AddDays(t);
 

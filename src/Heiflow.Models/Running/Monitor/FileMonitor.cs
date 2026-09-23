@@ -75,6 +75,7 @@ namespace Heiflow.Models.Running
         public static string Lakes_Outflow = "Lakes Outflow";
         public static string Evapotranspiration = "Evapotranspiration";
         public static string Evaporation = "Evaporation";
+        public static string Surface_Zone_DS = "Land Surface Zone";
         public static string Soil_Zone_DS = "Soil Zone";
         public static string Unsaturated_Zone_DS = "Unsaturated Zone";
         public static string Saturated_Zone_DS = "Saturated Zone";
@@ -108,8 +109,10 @@ namespace Heiflow.Models.Running
 
         public static string SAT_IN = "Total SAT IN";
         public static string SAT_OUT = "Total SAT OUT";
+        public static string SAT_DS_CUM = "Cumulative Storage Change";
         public static string SAT_ERROR = "Total SAT ERROR";
-
+        public static string SAT_PERD_Step = "Step Percent Discrepancy";
+        public static string SAT_PERD_CUM = "Cumulative Percent Discrepancy";
 
         public static string LAKET = "Lakes ET";
         public static string LAK_PPT = "Lakes Precipitation";
@@ -141,7 +144,7 @@ namespace Heiflow.Models.Running
         public static string CANAL_ET = "Canals ET";
         public static string Canal_Drainage = "Canals Drainage";
         public static string Canal_Storage = "Canals Storage";
-        public static string Canal_DS = "Canals Storage Change";
+        public static string Canal_DS = "Total Canals Storage Change";
 
         public static string IR_PUMP = "Pumping";
         public static string IR_DIV = "Diversion";
@@ -197,6 +200,7 @@ namespace Heiflow.Models.Running
         public static string UZF_DISPY = "Total UZ Budget Percent Discrepancy";
 
         public static string SAT_ET = "Saturated ET";
+        protected bool _ConvertToStrepRate = false;
 
         /// <summary>
         /// Total SAT Discrepancy in 100%
@@ -212,7 +216,6 @@ namespace Heiflow.Models.Running
             Partners = new List<IFileMonitor>();
             _CurrentStep = 0;
             StartStep = 1;
-            ConvertToStrepRate = false;
             BudgetItemUnit = Running.BudgetItemUnit.BasinAveraged;
         }
         [Category("Design")]
@@ -345,11 +348,19 @@ namespace Heiflow.Models.Running
             get;
             protected set;
         }
+        [Browsable(false)]
         [Category("Analysis")]
         public bool ConvertToStrepRate
         {
-            get;
-            set;
+            get
+            {
+                return _ConvertToStrepRate;
+            }
+            set
+            {
+                _ConvertToStrepRate = value;
+                OnConvertToStrepRateChanged();
+            }
         }
         [Category("Analysis")]
         [Browsable(false)]
@@ -434,6 +445,11 @@ namespace Heiflow.Models.Running
         public virtual Dictionary<string, double> ZonalBudgets()
         {
             return new Dictionary<string, double>();
+        }
+
+        protected virtual void OnConvertToStrepRateChanged()
+        {
+
         }
     }
 }

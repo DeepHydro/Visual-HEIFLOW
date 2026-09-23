@@ -274,15 +274,15 @@ namespace Heiflow.Controls.WinForm.Display
             var totalerror = totalin - totalout - totalds;
             var totaldisp = Math.Round((totalerror) / ((totalin + totalout + Math.Abs(totalds)) * 0.5) * 100, 2);
 
-            et.Text = total_et.ToString();
-            ppt.Text = e[FileMonitor.PPT].ToString();
-            sw_in.Text = e[FileMonitor.Streams_Inflow].ToString();
-            sw_out.Text = e[FileMonitor.Streams_Outflow].ToString();
-            sat_in.Text = e[FileMonitor.Groundwater_Inflow].ToString();
-            sat_out.Text = e[FileMonitor.Groundwater_Outflow].ToString();
+            et.Text = total_et.ToString("0.00");
+            ppt.Text = e[FileMonitor.PPT].ToString("0.00");
+            sw_in.Text = e[FileMonitor.Streams_Inflow].ToString("0.00");
+            sw_out.Text = e[FileMonitor.Streams_Outflow].ToString("0.00");
+            sat_in.Text = e[FileMonitor.Groundwater_Inflow].ToString("0.00");
+            sat_out.Text = e[FileMonitor.Groundwater_Outflow].ToString("0.00");
 
             sf_et.Text = surface_et.ToString("0.00");
-            tb_szinfil.Text = e[FileMonitor.Soil_infiltration].ToString();
+            tb_szinfil.Text = e[FileMonitor.Soil_infiltration].ToString("0.00");
             sw_ds.Text = (e[FileMonitor.HRU_DS]).ToString("0.00");
             tb_hrudisp.Text = hrudisp.ToString("0.00") + "%";
 
@@ -310,8 +310,8 @@ namespace Heiflow.Controls.WinForm.Display
             div_evap.Text = e[FileMonitor.IR_Industry].ToString("0.00");
             div.Text = e[FileMonitor.IR_DIV].ToString("0.00");
         
-            tb_sz_satrejected.Text = e[FileMonitor.BASINSZREJECT].ToString();
-            tb_sz2gw.Text = e[FileMonitor.BASINSZ2GW].ToString();
+            tb_sz_satrejected.Text = e[FileMonitor.BASINSZREJECT].ToString("0.00");
+            tb_sz2gw.Text = e[FileMonitor.BASINSZ2GW].ToString("0.00");
             sz_Percolation.Text = e[FileMonitor.UZF_INFIL].ToString("0.00");
             sz_et.Text = e[FileMonitor.BASINPERVET_HRU].ToString("0.00");
             sz_ds.Text = soilds.ToString("0.00");
@@ -326,7 +326,7 @@ namespace Heiflow.Controls.WinForm.Display
             sat_g2s.Text = e[FileMonitor.STREAM_LEAKAGE_OUT].ToString("0.00");
             sat_ds.Text = e[FileMonitor.Saturated_Zone_DS].ToString("0.00");
 
-            ds.Text = totalds.ToString();
+            ds.Text = totalds.ToString("0.00");
             total_error.Text = totaldisp.ToString("0.00") + "%";
             soil_error.Text = soildisp.ToString("0.00") + "%";
             sat_error.Text = sat_discrepancy.ToString("0.00") + "%";

@@ -203,9 +203,9 @@ namespace Heiflow.Models.Running
             root_irrigation.Children.Add(canal_drain);
             root_irrigation.Children.Add(canal_et);
             root_irrigation.Children.Add(canal_stor);
-            root_irrigation.Children.Add(canal_ds);
             root_irrigation.Children.Add(ir_totalin);
             root_irrigation.Children.Add(ir_totalout);
+            root_irrigation.Children.Add(canal_ds);
             root_irrigation.Children.Add(ir_error);
             _Roots.Add(root_irrigation);
             #endregion
@@ -243,7 +243,7 @@ namespace Heiflow.Models.Running
             MonitorItem hru_stor = new MonitorItem(HRU_STORAGE)
             {
                 VariableIndex = -1,
-                Group = _Total_Group,
+                Group = _Storage_Group,
                 Derivable = true,
                 DerivedIndex = new int[] { pc_stor.VariableIndex, im_stor.VariableIndex, sn_stor.VariableIndex }
             };
@@ -301,7 +301,7 @@ namespace Heiflow.Models.Running
                 VariableIndex = 50,
                 Group = _Out_Group
             };
-            MonitorItem hrubasininfil = new MonitorItem("hru_" + Soil_infiltration)
+            MonitorItem hrubasininfil = new MonitorItem(Soil_infiltration)
             {
                 VariableIndex = 39,
                 Group = _Out_Group,
@@ -378,6 +378,85 @@ namespace Heiflow.Models.Running
             root_hru.Children.Add(hru_error);
             #endregion
 
+            #region SOIL ZONE BUDGETS
+            var root_soil = new MonitorItemCollection("Soil Zone Water Budgets");
+            _Roots.Add(root_soil);
+
+            //"Soil infiltration"
+            MonitorItem basininfil = new MonitorItem(Soil_infiltration)
+            {
+                VariableIndex = 39,
+                Group = _In_Group,
+            };
+            //"Dunnian runoff to streams"
+            MonitorItem basindunnian = new MonitorItem(Dunnian_runoff_to_streams)
+            {
+                VariableIndex = 40,
+                Group = _Out_Group
+            };
+
+            MonitorItem soil_stor = new MonitorItem(Total_Soil_Zone_Storage)
+            {
+                VariableIndex = -1,
+                Group = _Storage_Group,
+                Derivable = true,
+                DerivedIndex = new int[] { basinsoilmoist.VariableIndex, basingravstor.VariableIndex }
+            };
+
+            root_soil.Children.Add(basingw2sz_hru);
+            root_soil.Children.Add(basininfil);
+            root_soil.Children.Add(basinszreject);
+
+            root_soil.Children.Add(basininterflow);
+            root_soil.Children.Add(basinsz2gw);
+            root_soil.Children.Add(basinpervet);
+            root_soil.Children.Add(basindunnian);
+            root_soil.Children.Add(basinlakeinsz);
+
+            root_soil.Children.Add(basinsoilmoist);
+            root_soil.Children.Add(basingravstor);
+            root_soil.Children.Add(soil_stor);
+
+            SequenceMonitorItem soil_ds = new SequenceMonitorItem(Soil_Storage_Change)
+            {
+                VariableIndex = -1,
+                Group = _Total_Group,
+                Derivable = true
+            };
+            soil_ds.Source = soil_stor;
+
+            MonitorItem soil_in = new MonitorItem(Soil_In)
+            {
+                VariableIndex = -1,
+                Group = _Total_Group,
+                Derivable = true,
+                DerivedIndex = new int[] { basingw2sz_hru.VariableIndex, basininfil.VariableIndex, basinszreject.VariableIndex }
+            };
+
+            MonitorItem soil_out = new MonitorItem(Soil_Out)
+            {
+                VariableIndex = -1,
+                Group = _Total_Group,
+                Derivable = true,
+                DerivedIndex = new int[] { basininterflow.VariableIndex, basinsz2gw.VariableIndex,
+                basinpervet.VariableIndex, basindunnian.VariableIndex,  basinlakeinsz.VariableIndex}
+            };
+
+            AggregatedMonitorItem soil_error = new AggregatedMonitorItem(Soil_Out_Eorror)
+            {
+                VariableIndex = -1,
+                Group = _Total_Group,
+                Derivable = true
+            };
+            soil_error.Source.AddRange(new MonitorItem[] { soil_in, soil_out, soil_ds });
+            soil_error.SourceSign.AddRange(new int[] { 1, -1, -1 });
+
+            root_soil.Children.Add(soil_in);
+            root_soil.Children.Add(soil_out);
+            root_soil.Children.Add(soil_ds);
+            root_soil.Children.Add(soil_error);
+            #endregion
+
             #region Streams
             var root_sfr = new MonitorItemCollection("Stream Water Budgets");
 
@@ -388,7 +467,7 @@ namespace Heiflow.Models.Running
                 Group = _In_Group
             };
             // "Slow interflow to streams";
-            MonitorItem basininterflow_sfr = new MonitorItem("Stream_"+BASININTERFLOW)
+            MonitorItem basininterflow_sfr = new MonitorItem(BASININTERFLOW)
             {
                 VariableIndex = 20,
                 Group = _In_Group
@@ -410,13 +489,13 @@ namespace Heiflow.Models.Running
                 VariableIndex = 5,
                 Group = _Out_Group
             };
-            MonitorItem ir_div_sfr = new MonitorItem("Stream_" + IR_DIV)
+            MonitorItem ir_div_sfr = new MonitorItem(IR_DIV)
             {
                 VariableIndex = 66,
                 Group = _Out_Group,
             };
 
-            MonitorItem ir_industry_sfr = new MonitorItem("Stream_" + IR_Industry)
+            MonitorItem ir_industry_sfr = new MonitorItem( IR_Industry)
             {
                 VariableIndex = 68,
                 Group = _Out_Group,
@@ -600,83 +679,6 @@ namespace Heiflow.Models.Running
             _Roots.Add(root_lak);
             #endregion
 
-            #region SOIL ZONE BUDGETS
-            var root_soil = new MonitorItemCollection("Soil Zone Water Budgets");
-            _Roots.Add(root_soil);
-
-            MonitorItem soil_stor = new MonitorItem(Total_Soil_Zone_Storage)
-            {
-                VariableIndex = -1,
-                Group = _Storage_Group,
-                Derivable = true,
-                DerivedIndex = new int[] { basinsoilmoist.VariableIndex, basingravstor.VariableIndex }
-            };
-            root_soil.Children.Add(basinsoilmoist);
-            root_soil.Children.Add(basingravstor);
-            root_soil.Children.Add(soil_stor);
-
-            //"Soil infiltration"
-            MonitorItem basininfil = new MonitorItem(Soil_infiltration)
-            {
-                VariableIndex = 39,
-                Group = _In_Group,
-            };
-            //"Dunnian runoff to streams"
-            MonitorItem basindunnian = new MonitorItem(Dunnian_runoff_to_streams)
-            {
-                VariableIndex = 40,
-                Group = _Out_Group
-            };
-
-            root_soil.Children.Add(basingw2sz_hru);
-            root_soil.Children.Add(basininfil);
-            root_soil.Children.Add(basinszreject);
-
-            root_soil.Children.Add(basininterflow);
-            root_soil.Children.Add(basinsz2gw);
-            root_soil.Children.Add(basinpervet);
-            root_soil.Children.Add(basindunnian);
-            root_soil.Children.Add(basinlakeinsz);
-
-            SequenceMonitorItem soil_ds = new SequenceMonitorItem(Soil_Storage_Change)
-            {
-                VariableIndex = -1,
-                Group = _Total_Group,
-                Derivable = true
-            };
-            soil_ds.Source = soil_stor;
-
-            MonitorItem soil_in = new MonitorItem(Soil_In)
-            {
-                VariableIndex = -1,
-                Group = _Total_Group,
-                Derivable = true,
-                DerivedIndex = new int[] { basingw2sz_hru.VariableIndex, basininfil.VariableIndex, basinszreject.VariableIndex }
-            };
-
-            MonitorItem soil_out = new MonitorItem(Soil_Out)
-            {
-                VariableIndex = -1,
-                Group = _Total_Group,
-                Derivable = true,
-                DerivedIndex = new int[] { basininterflow.VariableIndex, basinsz2gw.VariableIndex,
-                basinpervet.VariableIndex, basindunnian.VariableIndex,  basinlakeinsz.VariableIndex}
-            };
-
-            AggregatedMonitorItem soil_error = new AggregatedMonitorItem(Soil_Out_Eorror)
-            {
-                VariableIndex = -1,
-                Group = _Total_Group,
-                Derivable = true
-            };
-            soil_error.Source.AddRange(new MonitorItem[] { soil_in, soil_out, soil_ds });
-            soil_error.SourceSign.AddRange(new int[] { 1, -1, -1 });
-
-            root_soil.Children.Add(soil_ds);
-            root_soil.Children.Add(soil_in);
-            root_soil.Children.Add(soil_out);
-            root_soil.Children.Add(soil_error);
-            #endregion
 
             #region UZF BUDGETS
             var root_uzf = new MonitorItemCollection("Unsaturated Zone Water Budgets");
@@ -728,9 +730,9 @@ namespace Heiflow.Models.Running
             uzf_error.Source.AddRange(new MonitorItem[] { uzf_totalin, uzf_totalout, uzf_del_stor });
             uzf_error.SourceSign.AddRange(new int[] { 1, -1, -1 });
 
-            root_uzf.Children.Add(uzf_del_stor);
             root_uzf.Children.Add(uzf_totalin);
             root_uzf.Children.Add(uzf_totalout);
+            root_uzf.Children.Add(uzf_del_stor);
             root_uzf.Children.Add(uzf_error);
             #endregion
 
