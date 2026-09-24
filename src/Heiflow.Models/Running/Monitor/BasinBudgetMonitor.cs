@@ -233,24 +233,11 @@ namespace Heiflow.Models.Running
         {
             if (DataSource != null)
             {
-                double total_discrepancy = 0;
                 _EntireBudgetItems.Clear();
 
-                var len = DataSource.Values[0].Count;
-                if (EndStep <= 0)
-                    EndStep = len;
+                ClampSteps(DataSource.Values[0].Count);
 
-                if (EndStep > len)
-                    EndStep = len;
-
-                if (StartStep > len)
-                    StartStep = len;
-
-                if (StartStep >= EndStep)
-                    StartStep = 0;
-
-                report = "SUMMARY VOLUMETRIC BUDGET";
-                DataTable dt = new DataTable();
+                var dt = CreateBudgetTable();
                 double nsteps = EndStep - StartStep + 1;
                 double factor = Intevals / nsteps;
                 double total_in = 0;
@@ -258,160 +245,47 @@ namespace Heiflow.Models.Running
                 double total_ds = 0;
                 double total_diff = 0;
                 double total_error = 0;
-              
-                string equal = " = ";
-                int width_term = 30;
-                int width_number = 30;
-                var scale = Intevals / ModelService.BasinArea * 1000;
 
-                DataColumn dc = new DataColumn("ID", Type.GetType("System.Int32"));
-                dt.Columns.Add(dc);
-                dc = new DataColumn("ParentID", Type.GetType("System.Int32"));
-                dt.Columns.Add(dc);
-                dc = new DataColumn("Item", Type.GetType("System.String"));
-                dt.Columns.Add(dc);
-                dc = new DataColumn("Volumetric_Flow", Type.GetType("System.Double"));
-                dt.Columns.Add(dc);
-                dc = new DataColumn("Water_Depth", Type.GetType("System.Double"));
-                dt.Columns.Add(dc);
-
-                var items = (from item in _Roots[0].Children where item.Group == _In_Group select item).ToArray();
-                report += "\r\nIN TERMS";
-                report += "\r\n------------";
-
-                foreach (var item in items)
+                // 累积序列取首末差值
+                Func<MonitorItem, IEnumerable<double>> selector = item =>
                 {
-                    var flow = Math.Round((DataSource.Values[item.VariableIndex][EndStep - 1] - DataSource.Values[item.VariableIndex][StartStep - 1]) * factor, DecimalDigit);
-                    var dr = dt.NewRow();
-                    dr[0] = item.VariableIndex;
-                    dr[1] = 100;
-                    dr[2] = item.Name;
-                    dr[3] = flow;
-                    var wd = Math.Round(flow / ModelService.BasinArea * 1000, DecimalDigit);
-                    dr[4] = wd;
-                    dt.Rows.Add(dr);
-                    total_in += flow;
-                    _EntireBudgetItems.Add(item.Name, wd);
-                }
+                    var series = DataSource.Values[item.VariableIndex];
+                    return new[] { series[EndStep - 1] - series[StartStep - 1] };
+                };
 
-                report += "\r\n-";
-                report += "\r\n-";
+                var lines = new List<BudgetLine>();
+
+                var items = (from item in _Roots[0].Children where item.Group == _In_Group && item.Name != Lakes_Inflow select item).ToArray();
+                lines.Add(BudgetLine.Section("IN TERMS"));
+                total_in = AddTermRows(items, dt, 100, factor, lines, selector);
+
                 items = (from item in _Roots[0].Children where item.Group == _Out_Group select item).ToArray();
-                report += "\r\nOUT TERMS";
-                report += "\r\n-----------------";
-                foreach (var item in items)
-                {
-                    var flow = Math.Round((DataSource.Values[item.VariableIndex][EndStep - 1] - DataSource.Values[item.VariableIndex][StartStep - 1]) * factor, DecimalDigit);
-                    var dr = dt.NewRow();
-                    dr[0] = item.VariableIndex;
-                    dr[1] = 200;
-                    dr[2] = item.Name;
-                    dr[3] = flow;
-                    var wd = Math.Round(flow / ModelService.BasinArea * 1000, DecimalDigit);
-                    dr[4] = wd;
-                    dt.Rows.Add(dr);
-                    total_out += flow;
-                    _EntireBudgetItems.Add(item.Name, wd);
-                }
+                lines.Add(BudgetLine.Section("OUT TERMS"));
+                total_out = AddTermRows(items, dt, 200, factor, lines, selector);
 
-                report += "\r\n-";
-                report += "\r\n-";
                 items = (from item in _Roots[0].Children where item.Group == _Ds_Group select item).ToArray();
-                report += "\r\nSTORAGE CHANGE TERMS";
-                report += "\r\n------------------------------------";
-                var uzf_ds = 0.0;
-                foreach (var item in items)
+                lines.Add(BudgetLine.Section("STORAGE CHANGE TERMS"));
+                total_ds = AddTermRows(items, dt, 300, factor, lines, selector);
+
+                foreach (var row in dt.Rows.Cast<DataRow>())
                 {
-                    var flow = Math.Round((DataSource.Values[item.VariableIndex][EndStep - 1] - DataSource.Values[item.VariableIndex][StartStep - 1]) * factor, DecimalDigit);
-                    var dr = dt.NewRow();
-                    dr[0] = item.VariableIndex;
-                    dr[1] = 300;
-                    dr[2] = item.Name;
-                    dr[3] = flow;
-                    var wd = Math.Round(flow / ModelService.BasinArea * 1000, DecimalDigit);
-                    dr[4] = wd;
-                    dt.Rows.Add(dr);
-
-                    total_ds += flow;
-                    if (item.Name == Unsaturated_Zone_DS)
-                        uzf_ds = flow;
-
-                    _EntireBudgetItems.Add(item.Name, wd);
+                    var name = row[2].ToString();
+                    if (!_EntireBudgetItems.ContainsKey(name))
+                        _EntireBudgetItems.Add(name, (double)row[4]);
                 }
 
                 total_diff = total_in - total_out;
                 total_error = total_diff - total_ds;
 
-                total_discrepancy = Math.Round((total_in - total_out - total_ds) / (total_in + total_out + Math.Abs(total_ds)) * 2, DecimalDigit);
+                var total_discrepancy = PercentDiscrepancy(total_in, total_out, total_ds);
 
-                var dr_totalin = dt.NewRow();
-                dr_totalin[0] = 100;
-                dr_totalin[1] = 9999;
-                dr_totalin[2] = "Total In";
-                dr_totalin[3] = total_in;
-                dr_totalin[4] = Math.Round(total_in / ModelService.BasinArea * 1000, DecimalDigit);
-                dt.Rows.Add(dr_totalin);
+                AddSummaryRows(dt, lines, total_in, total_out, total_ds, total_diff, total_error, total_discrepancy);
 
-                var dr_totalout = dt.NewRow();
-                dr_totalout[0] = 200;
-                dr_totalout[1] = 9999;
-                dr_totalout[2] = "Total Out";
-                dr_totalout[3] = total_out;
-                dr_totalout[4] = Math.Round(total_out / ModelService.BasinArea * 1000, DecimalDigit);
-                dt.Rows.Add(dr_totalout);
+                var wd_ds = ToDepth(total_ds);
+                if (!_EntireBudgetItems.ContainsKey(Total_Storage_Change))
+                    _EntireBudgetItems.Add(Total_Storage_Change, wd_ds);
 
-                var dr_totalds = dt.NewRow();
-                dr_totalds[0] = 300;
-                dr_totalds[1] = 9999;
-                dr_totalds[2] = Total_Storage_Change;
-                dr_totalds[3] = total_ds;
-                dr_totalds[4] = Math.Round(total_ds / ModelService.BasinArea * 1000, DecimalDigit);
-                dt.Rows.Add(dr_totalds);
-
-
-                var dr_total_error = dt.NewRow();
-                dr_total_error[0] = 400;
-                dr_total_error[1] = 9999;
-                dr_total_error[2] = "Budget Error";
-                dr_total_error[3] = total_discrepancy;
-                dt.Rows.Add(dr_total_error);
-
-                var dr_in_out_diff = dt.NewRow();
-                dr_in_out_diff[0] = 401;
-                dr_in_out_diff[1] = 400;
-                dr_in_out_diff[2] = "Inflows - Outflows";
-                dr_in_out_diff[3] = total_diff;
-                dr_in_out_diff[4] = Math.Round(total_diff / ModelService.BasinArea * 1000, DecimalDigit);
-                dt.Rows.Add(dr_in_out_diff);
-
-                var dr_error = dt.NewRow();
-                dr_error[0] = 402;
-                dr_error[1] = 400;
-                dr_error[2] = "Overall Budget Error";
-                dr_error[3] = total_error;
-                dr_error[4] = Math.Round(total_error / ModelService.BasinArea * 1000, DecimalDigit);
-                dt.Rows.Add(dr_error);
-
-                var dr_percent = dt.NewRow();
-                dr_percent[0] = 403;
-                dr_percent[1] = 400;
-                dr_percent[2] = "Percent Discrepancy";
-                dr_percent[3] = total_discrepancy;
-                dt.Rows.Add(dr_percent);
-
-                var wd_ds = Math.Round(total_ds / ModelService.BasinArea * 1000, DecimalDigit);
-                _EntireBudgetItems.Add(Total_Storage_Change, wd_ds);
-                report += "\r\nBUDGET SUMMERY";
-                report += "\r\n--------------";
-                report += "\r\nTOTAL IN".PadLeft(width_term, ' ') + equal + total_in.ToString().PadLeft(width_number, ' ');
-                report += "\r\nTOTAL OUT".PadLeft(width_term, ' ') + equal + total_out.ToString().PadLeft(width_number, ' ');
-                report += "\r\nTOTAL STORAGE CHANGE".PadLeft(width_term, ' ') + equal + total_ds.ToString().PadLeft(width_number, ' ');
-
-                report += "\r\nBUDGET ERROR";
-                report += "\r\n--------------";
-                report += "\r\nINFLOWS - OUTFLOWS".PadLeft(width_term, ' ') + equal + total_diff.ToString().PadLeft(width_number, ' ');
-                report += "\r\nOVERALL BUDGET ERROR".PadLeft(width_term, ' ') + equal + total_error.ToString().PadLeft(width_number, ' ');
-                report += "\r\nPERCENT DISCREPANCY".PadLeft(width_term, ' ') + equal + total_discrepancy.ToString().PadLeft(width_number, ' ');
+                report = BuildReport(itemname, lines);
 
                 return dt;
             }

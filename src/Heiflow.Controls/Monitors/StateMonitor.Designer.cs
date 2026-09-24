@@ -166,7 +166,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabPage5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage5.Size = new System.Drawing.Size(193, 654);
+            this.tabPage5.Size = new System.Drawing.Size(193, 646);
             this.tabPage5.TabIndex = 0;
             this.tabPage5.Text = "Explorer";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -192,7 +192,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.treeView1.NodeControls.Add(this.nodeTextBox1);
             this.treeView1.OnVisibleOverride = null;
             this.treeView1.SelectedNode = null;
-            this.treeView1.Size = new System.Drawing.Size(187, 646);
+            this.treeView1.Size = new System.Drawing.Size(187, 638);
             this.treeView1.TabIndex = 2;
             this.treeView1.Text = "treeViewAdv1";
             // 
@@ -217,7 +217,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabPage6.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage6.Size = new System.Drawing.Size(193, 654);
+            this.tabPage6.Size = new System.Drawing.Size(193, 646);
             this.tabPage6.TabIndex = 1;
             this.tabPage6.Text = "Config";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -230,7 +230,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.propertyGrid1.Location = new System.Drawing.Point(3, 4);
             this.propertyGrid1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(187, 646);
+            this.propertyGrid1.Size = new System.Drawing.Size(187, 638);
             this.propertyGrid1.TabIndex = 0;
             // 
             // toolStrip1
@@ -291,11 +291,11 @@ namespace Heiflow.Controls.WinForm.Display
             // tabPage_Graph
             // 
             this.tabPage_Graph.Controls.Add(this.winChart1);
-            this.tabPage_Graph.Location = new System.Drawing.Point(4, 28);
+            this.tabPage_Graph.Location = new System.Drawing.Point(4, 36);
             this.tabPage_Graph.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage_Graph.Name = "tabPage_Graph";
             this.tabPage_Graph.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage_Graph.Size = new System.Drawing.Size(1121, 681);
+            this.tabPage_Graph.Size = new System.Drawing.Size(1121, 673);
             this.tabPage_Graph.TabIndex = 0;
             this.tabPage_Graph.Text = "Time Series";
             this.tabPage_Graph.UseVisualStyleBackColor = true;
@@ -310,17 +310,17 @@ namespace Heiflow.Controls.WinForm.Display
             this.winChart1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.winChart1.Name = "winChart1";
             this.winChart1.ShowStatPanel = true;
-            this.winChart1.Size = new System.Drawing.Size(1115, 673);
+            this.winChart1.Size = new System.Drawing.Size(1115, 665);
             this.winChart1.TabIndex = 0;
             // 
             // tabPage_Report
             // 
             this.tabPage_Report.Controls.Add(this.tabControl2);
-            this.tabPage_Report.Location = new System.Drawing.Point(4, 28);
+            this.tabPage_Report.Location = new System.Drawing.Point(4, 36);
             this.tabPage_Report.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage_Report.Name = "tabPage_Report";
             this.tabPage_Report.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage_Report.Size = new System.Drawing.Size(1121, 681);
+            this.tabPage_Report.Size = new System.Drawing.Size(1121, 673);
             this.tabPage_Report.TabIndex = 1;
             this.tabPage_Report.Text = "Statistics";
             this.tabPage_Report.UseVisualStyleBackColor = true;
@@ -329,27 +329,27 @@ namespace Heiflow.Controls.WinForm.Display
             // 
             this.tabControl2.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
             this.tabControl2.Controls.Add(this.tabPage3);
-            this.tabControl2.Controls.Add(this.tabPage1);
             this.tabControl2.Controls.Add(this.tabPageReport);
+            this.tabControl2.Controls.Add(this.tabPage1);
             this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl2.Font = new System.Drawing.Font("Calibri", 9.5F);
             this.tabControl2.Location = new System.Drawing.Point(3, 4);
             this.tabControl2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(1115, 673);
+            this.tabControl2.Size = new System.Drawing.Size(1115, 665);
             this.tabControl2.TabIndex = 3;
             // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.olvDataTree);
-            this.tabPage3.Location = new System.Drawing.Point(4, 31);
+            this.tabPage3.Location = new System.Drawing.Point(4, 39);
             this.tabPage3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage3.Size = new System.Drawing.Size(1107, 638);
+            this.tabPage3.Size = new System.Drawing.Size(1107, 622);
             this.tabPage3.TabIndex = 0;
-            this.tabPage3.Text = "Entire Region Budgets";
+            this.tabPage3.Text = "Budget Components";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // olvDataTree
@@ -376,7 +376,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.olvDataTree.RootKeyValueString = "";
             this.olvDataTree.ShowGroups = false;
             this.olvDataTree.ShowKeyColumns = false;
-            this.olvDataTree.Size = new System.Drawing.Size(1101, 630);
+            this.olvDataTree.Size = new System.Drawing.Size(1101, 614);
             this.olvDataTree.TabIndex = 4;
             this.olvDataTree.UseCompatibleStateImageBehavior = false;
             this.olvDataTree.UseFilterIndicator = true;
@@ -457,12 +457,12 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabPage1.Controls.Add(this.canal_et);
             this.tabPage1.Controls.Add(this.sfr_et);
             this.tabPage1.Controls.Add(this.pictureBox1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 31);
+            this.tabPage1.Location = new System.Drawing.Point(4, 39);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1107, 638);
+            this.tabPage1.Size = new System.Drawing.Size(1107, 622);
             this.tabPage1.TabIndex = 2;
-            this.tabPage1.Text = "Zonal Budgets";
+            this.tabPage1.Text = "Entire Budget Diagram";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // tb_sz_satrejected
@@ -471,7 +471,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.tb_sz_satrejected.Font = new System.Drawing.Font("Calibri", 11F);
             this.tb_sz_satrejected.Location = new System.Drawing.Point(199, 336);
             this.tb_sz_satrejected.Name = "tb_sz_satrejected";
-            this.tb_sz_satrejected.Size = new System.Drawing.Size(53, 30);
+            this.tb_sz_satrejected.Size = new System.Drawing.Size(53, 39);
             this.tb_sz_satrejected.TabIndex = 4;
             this.tb_sz_satrejected.Text = "0";
             // 
@@ -481,7 +481,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.tb_szinfil.Font = new System.Drawing.Font("Calibri", 11F);
             this.tb_szinfil.Location = new System.Drawing.Point(738, 161);
             this.tb_szinfil.Name = "tb_szinfil";
-            this.tb_szinfil.Size = new System.Drawing.Size(53, 30);
+            this.tb_szinfil.Size = new System.Drawing.Size(53, 39);
             this.tb_szinfil.TabIndex = 4;
             this.tb_szinfil.Text = "0";
             // 
@@ -490,7 +490,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(912, 10);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(173, 19);
+            this.label6.Size = new System.Drawing.Size(246, 28);
             this.label6.TabIndex = 3;
             this.label6.Text = "Percent Discrepancy (PD)";
             // 
@@ -501,7 +501,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.label5.Font = new System.Drawing.Font("Calibri", 10F);
             this.label5.Location = new System.Drawing.Point(378, 449);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(211, 21);
+            this.label5.Size = new System.Drawing.Size(297, 29);
             this.label5.TabIndex = 2;
             this.label5.Text = "Unsaturated Zone Budget PD";
             // 
@@ -512,7 +512,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.label4.Font = new System.Drawing.Font("Calibri", 10F);
             this.label4.Location = new System.Drawing.Point(451, 617);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(139, 21);
+            this.label4.Size = new System.Drawing.Size(196, 29);
             this.label4.TabIndex = 2;
             this.label4.Text = "Saturated Zone PD";
             // 
@@ -523,7 +523,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.label7.Font = new System.Drawing.Font("Calibri", 10F);
             this.label7.Location = new System.Drawing.Point(581, 58);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(175, 21);
+            this.label7.Size = new System.Drawing.Size(247, 29);
             this.label7.TabIndex = 2;
             this.label7.Text = "Surface Zone Budget PD";
             // 
@@ -534,7 +534,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.label3.Font = new System.Drawing.Font("Calibri", 10F);
             this.label3.Location = new System.Drawing.Point(356, 269);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(149, 21);
+            this.label3.Size = new System.Drawing.Size(210, 29);
             this.label3.TabIndex = 2;
             this.label3.Text = "Soil Zone Budget PD";
             // 
@@ -545,7 +545,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.label2.Font = new System.Drawing.Font("Calibri", 10F);
             this.label2.Location = new System.Drawing.Point(471, 10);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(119, 21);
+            this.label2.Size = new System.Drawing.Size(169, 29);
             this.label2.TabIndex = 2;
             this.label2.Text = "Total Budget PD";
             // 
@@ -554,7 +554,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(1009, 29);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(68, 19);
+            this.label1.Size = new System.Drawing.Size(99, 28);
             this.label1.TabIndex = 2;
             this.label1.Text = "Unit: mm";
             // 
@@ -564,7 +564,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.lak_slow.Font = new System.Drawing.Font("Calibri", 10F);
             this.lak_slow.Location = new System.Drawing.Point(284, 161);
             this.lak_slow.Name = "lak_slow";
-            this.lak_slow.Size = new System.Drawing.Size(45, 28);
+            this.lak_slow.Size = new System.Drawing.Size(45, 36);
             this.lak_slow.TabIndex = 1;
             this.lak_slow.Text = "0";
             // 
@@ -574,7 +574,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.sfr_slow.Font = new System.Drawing.Font("Calibri", 10F);
             this.sfr_slow.Location = new System.Drawing.Point(453, 158);
             this.sfr_slow.Name = "sfr_slow";
-            this.sfr_slow.Size = new System.Drawing.Size(51, 28);
+            this.sfr_slow.Size = new System.Drawing.Size(51, 36);
             this.sfr_slow.TabIndex = 1;
             this.sfr_slow.Text = "0";
             // 
@@ -584,7 +584,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.sat_s2g.Font = new System.Drawing.Font("Calibri", 11F);
             this.sat_s2g.Location = new System.Drawing.Point(491, 508);
             this.sat_s2g.Name = "sat_s2g";
-            this.sat_s2g.Size = new System.Drawing.Size(53, 30);
+            this.sat_s2g.Size = new System.Drawing.Size(53, 39);
             this.sat_s2g.TabIndex = 1;
             this.sat_s2g.Text = "0";
             // 
@@ -594,7 +594,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.uzf_recharge.Font = new System.Drawing.Font("Calibri", 11F);
             this.uzf_recharge.Location = new System.Drawing.Point(255, 442);
             this.uzf_recharge.Name = "uzf_recharge";
-            this.uzf_recharge.Size = new System.Drawing.Size(53, 30);
+            this.uzf_recharge.Size = new System.Drawing.Size(53, 39);
             this.uzf_recharge.TabIndex = 1;
             this.uzf_recharge.Text = "0";
             // 
@@ -604,7 +604,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.uzf_et.Font = new System.Drawing.Font("Calibri", 11F);
             this.uzf_et.Location = new System.Drawing.Point(817, 373);
             this.uzf_et.Name = "uzf_et";
-            this.uzf_et.Size = new System.Drawing.Size(53, 30);
+            this.uzf_et.Size = new System.Drawing.Size(53, 39);
             this.uzf_et.TabIndex = 1;
             this.uzf_et.Text = "0";
             // 
@@ -614,7 +614,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.sat_et.Font = new System.Drawing.Font("Calibri", 11F);
             this.sat_et.Location = new System.Drawing.Point(765, 515);
             this.sat_et.Name = "sat_et";
-            this.sat_et.Size = new System.Drawing.Size(53, 30);
+            this.sat_et.Size = new System.Drawing.Size(53, 39);
             this.sat_et.TabIndex = 1;
             this.sat_et.Text = "0";
             // 
@@ -624,7 +624,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.sat_pr.Font = new System.Drawing.Font("Calibri", 11F);
             this.sat_pr.Location = new System.Drawing.Point(672, 82);
             this.sat_pr.Name = "sat_pr";
-            this.sat_pr.Size = new System.Drawing.Size(53, 30);
+            this.sat_pr.Size = new System.Drawing.Size(53, 39);
             this.sat_pr.TabIndex = 1;
             this.sat_pr.Text = "0";
             // 
@@ -634,7 +634,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.sat_g2s.Font = new System.Drawing.Font("Calibri", 11F);
             this.sat_g2s.Location = new System.Drawing.Point(491, 536);
             this.sat_g2s.Name = "sat_g2s";
-            this.sat_g2s.Size = new System.Drawing.Size(53, 30);
+            this.sat_g2s.Size = new System.Drawing.Size(53, 39);
             this.sat_g2s.TabIndex = 1;
             this.sat_g2s.Text = "0";
             // 
@@ -644,7 +644,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.sat_ds.Font = new System.Drawing.Font("Calibri", 11F);
             this.sat_ds.Location = new System.Drawing.Point(317, 577);
             this.sat_ds.Name = "sat_ds";
-            this.sat_ds.Size = new System.Drawing.Size(58, 30);
+            this.sat_ds.Size = new System.Drawing.Size(58, 39);
             this.sat_ds.TabIndex = 1;
             this.sat_ds.Text = "0";
             // 
@@ -654,7 +654,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.uzf_ds.Font = new System.Drawing.Font("Calibri", 11F);
             this.uzf_ds.Location = new System.Drawing.Point(312, 400);
             this.uzf_ds.Name = "uzf_ds";
-            this.uzf_ds.Size = new System.Drawing.Size(58, 30);
+            this.uzf_ds.Size = new System.Drawing.Size(58, 39);
             this.uzf_ds.TabIndex = 1;
             this.uzf_ds.Text = "0";
             // 
@@ -664,7 +664,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.sw_in.Font = new System.Drawing.Font("Calibri", 11F);
             this.sw_in.Location = new System.Drawing.Point(3, 158);
             this.sw_in.Name = "sw_in";
-            this.sw_in.Size = new System.Drawing.Size(53, 30);
+            this.sw_in.Size = new System.Drawing.Size(53, 39);
             this.sw_in.TabIndex = 1;
             this.sw_in.Text = "0";
             // 
@@ -674,7 +674,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.sat_in.Font = new System.Drawing.Font("Calibri", 11F);
             this.sat_in.Location = new System.Drawing.Point(3, 528);
             this.sat_in.Name = "sat_in";
-            this.sat_in.Size = new System.Drawing.Size(53, 30);
+            this.sat_in.Size = new System.Drawing.Size(53, 39);
             this.sat_in.TabIndex = 1;
             this.sat_in.Text = "0";
             // 
@@ -684,7 +684,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.sat_out.Font = new System.Drawing.Font("Calibri", 11F);
             this.sat_out.Location = new System.Drawing.Point(1010, 591);
             this.sat_out.Name = "sat_out";
-            this.sat_out.Size = new System.Drawing.Size(53, 30);
+            this.sat_out.Size = new System.Drawing.Size(53, 39);
             this.sat_out.TabIndex = 1;
             this.sat_out.Text = "0";
             // 
@@ -694,7 +694,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.sw_out.Font = new System.Drawing.Font("Calibri", 11F);
             this.sw_out.Location = new System.Drawing.Point(1012, 188);
             this.sw_out.Name = "sw_out";
-            this.sw_out.Size = new System.Drawing.Size(53, 30);
+            this.sw_out.Size = new System.Drawing.Size(53, 39);
             this.sw_out.TabIndex = 1;
             this.sw_out.Text = "0";
             // 
@@ -704,7 +704,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.sat_gw2sz.Font = new System.Drawing.Font("Calibri", 11F);
             this.sat_gw2sz.Location = new System.Drawing.Point(992, 336);
             this.sat_gw2sz.Name = "sat_gw2sz";
-            this.sat_gw2sz.Size = new System.Drawing.Size(53, 30);
+            this.sat_gw2sz.Size = new System.Drawing.Size(53, 39);
             this.sat_gw2sz.TabIndex = 1;
             this.sat_gw2sz.Text = "0";
             // 
@@ -714,7 +714,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.lak_gain.Font = new System.Drawing.Font("Calibri", 11F);
             this.lak_gain.Location = new System.Drawing.Point(194, 508);
             this.lak_gain.Name = "lak_gain";
-            this.lak_gain.Size = new System.Drawing.Size(58, 30);
+            this.lak_gain.Size = new System.Drawing.Size(58, 39);
             this.lak_gain.TabIndex = 1;
             this.lak_gain.Text = "0";
             // 
@@ -724,7 +724,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.lak_leak.Font = new System.Drawing.Font("Calibri", 11F);
             this.lak_leak.Location = new System.Drawing.Point(130, 508);
             this.lak_leak.Name = "lak_leak";
-            this.lak_leak.Size = new System.Drawing.Size(58, 30);
+            this.lak_leak.Size = new System.Drawing.Size(58, 39);
             this.lak_leak.TabIndex = 1;
             this.lak_leak.Text = "0";
             // 
@@ -734,7 +734,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.tb_sz2gw.Font = new System.Drawing.Font("Calibri", 11F);
             this.tb_sz2gw.Location = new System.Drawing.Point(117, 336);
             this.tb_sz2gw.Name = "tb_sz2gw";
-            this.tb_sz2gw.Size = new System.Drawing.Size(58, 30);
+            this.tb_sz2gw.Size = new System.Drawing.Size(58, 39);
             this.tb_sz2gw.TabIndex = 1;
             this.tb_sz2gw.Text = "0";
             // 
@@ -744,7 +744,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.sz_Percolation.Font = new System.Drawing.Font("Calibri", 11F);
             this.sz_Percolation.Location = new System.Drawing.Point(239, 278);
             this.sz_Percolation.Name = "sz_Percolation";
-            this.sz_Percolation.Size = new System.Drawing.Size(58, 30);
+            this.sz_Percolation.Size = new System.Drawing.Size(58, 39);
             this.sz_Percolation.TabIndex = 1;
             this.sz_Percolation.Text = "0";
             // 
@@ -754,7 +754,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.sz_ds.Font = new System.Drawing.Font("Calibri", 10F);
             this.sz_ds.Location = new System.Drawing.Point(312, 231);
             this.sz_ds.Name = "sz_ds";
-            this.sz_ds.Size = new System.Drawing.Size(58, 28);
+            this.sz_ds.Size = new System.Drawing.Size(58, 36);
             this.sz_ds.TabIndex = 1;
             this.sz_ds.Text = "0";
             // 
@@ -764,7 +764,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.lak_dun.Font = new System.Drawing.Font("Calibri", 10F);
             this.lak_dun.Location = new System.Drawing.Point(284, 188);
             this.lak_dun.Name = "lak_dun";
-            this.lak_dun.Size = new System.Drawing.Size(45, 28);
+            this.lak_dun.Size = new System.Drawing.Size(45, 36);
             this.lak_dun.TabIndex = 1;
             this.lak_dun.Text = "0";
             // 
@@ -774,7 +774,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.sfr_dun.Font = new System.Drawing.Font("Calibri", 10F);
             this.sfr_dun.Location = new System.Drawing.Point(453, 185);
             this.sfr_dun.Name = "sfr_dun";
-            this.sfr_dun.Size = new System.Drawing.Size(51, 28);
+            this.sfr_dun.Size = new System.Drawing.Size(51, 36);
             this.sfr_dun.TabIndex = 1;
             this.sfr_dun.Text = "0";
             // 
@@ -784,7 +784,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.uz_error.Font = new System.Drawing.Font("Calibri", 11F);
             this.uz_error.Location = new System.Drawing.Point(616, 446);
             this.uz_error.Name = "uz_error";
-            this.uz_error.Size = new System.Drawing.Size(61, 30);
+            this.uz_error.Size = new System.Drawing.Size(61, 39);
             this.uz_error.TabIndex = 1;
             this.uz_error.Text = "0";
             // 
@@ -794,7 +794,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.sat_error.Font = new System.Drawing.Font("Calibri", 11F);
             this.sat_error.Location = new System.Drawing.Point(616, 616);
             this.sat_error.Name = "sat_error";
-            this.sat_error.Size = new System.Drawing.Size(61, 30);
+            this.sat_error.Size = new System.Drawing.Size(61, 39);
             this.sat_error.TabIndex = 1;
             this.sat_error.Text = "0";
             // 
@@ -804,7 +804,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.tb_hrudisp.Font = new System.Drawing.Font("Calibri", 11F);
             this.tb_hrudisp.Location = new System.Drawing.Point(834, 56);
             this.tb_hrudisp.Name = "tb_hrudisp";
-            this.tb_hrudisp.Size = new System.Drawing.Size(61, 30);
+            this.tb_hrudisp.Size = new System.Drawing.Size(61, 39);
             this.tb_hrudisp.TabIndex = 1;
             this.tb_hrudisp.Text = "0";
             // 
@@ -814,7 +814,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.soil_error.Font = new System.Drawing.Font("Calibri", 11F);
             this.soil_error.Location = new System.Drawing.Point(572, 263);
             this.soil_error.Name = "soil_error";
-            this.soil_error.Size = new System.Drawing.Size(61, 30);
+            this.soil_error.Size = new System.Drawing.Size(61, 39);
             this.soil_error.TabIndex = 1;
             this.soil_error.Text = "0";
             // 
@@ -824,7 +824,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.sz_et.Font = new System.Drawing.Font("Calibri", 11F);
             this.sz_et.Location = new System.Drawing.Point(864, 215);
             this.sz_et.Name = "sz_et";
-            this.sz_et.Size = new System.Drawing.Size(58, 30);
+            this.sz_et.Size = new System.Drawing.Size(58, 39);
             this.sz_et.TabIndex = 1;
             this.sz_et.Text = "0";
             // 
@@ -835,7 +835,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.total_error.Font = new System.Drawing.Font("Calibri", 11F);
             this.total_error.Location = new System.Drawing.Point(607, 6);
             this.total_error.Name = "total_error";
-            this.total_error.Size = new System.Drawing.Size(66, 30);
+            this.total_error.Size = new System.Drawing.Size(66, 39);
             this.total_error.TabIndex = 1;
             this.total_error.Text = "0";
             // 
@@ -845,7 +845,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.et.Font = new System.Drawing.Font("Calibri", 11F);
             this.et.Location = new System.Drawing.Point(847, 11);
             this.et.Name = "et";
-            this.et.Size = new System.Drawing.Size(58, 30);
+            this.et.Size = new System.Drawing.Size(58, 39);
             this.et.TabIndex = 1;
             this.et.Text = "0";
             // 
@@ -855,7 +855,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.ds.Font = new System.Drawing.Font("Calibri", 11F);
             this.ds.Location = new System.Drawing.Point(132, 11);
             this.ds.Name = "ds";
-            this.ds.Size = new System.Drawing.Size(58, 30);
+            this.ds.Size = new System.Drawing.Size(58, 39);
             this.ds.TabIndex = 1;
             this.ds.Text = "0";
             // 
@@ -865,7 +865,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.ppt.Font = new System.Drawing.Font("Calibri", 11F);
             this.ppt.Location = new System.Drawing.Point(387, 13);
             this.ppt.Name = "ppt";
-            this.ppt.Size = new System.Drawing.Size(58, 30);
+            this.ppt.Size = new System.Drawing.Size(58, 39);
             this.ppt.TabIndex = 1;
             this.ppt.Text = "0";
             // 
@@ -875,7 +875,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.sf_et.Font = new System.Drawing.Font("Calibri", 11F);
             this.sf_et.Location = new System.Drawing.Point(942, 73);
             this.sf_et.Name = "sf_et";
-            this.sf_et.Size = new System.Drawing.Size(58, 30);
+            this.sf_et.Size = new System.Drawing.Size(58, 39);
             this.sf_et.TabIndex = 1;
             this.sf_et.Text = "0";
             // 
@@ -885,7 +885,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.sfr_ds.Location = new System.Drawing.Point(438, 127);
             this.sfr_ds.Name = "sfr_ds";
             this.sfr_ds.ReadOnly = true;
-            this.sfr_ds.Size = new System.Drawing.Size(43, 27);
+            this.sfr_ds.Size = new System.Drawing.Size(43, 35);
             this.sfr_ds.TabIndex = 1;
             this.sfr_ds.Text = "0";
             // 
@@ -895,7 +895,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.lak_et.Font = new System.Drawing.Font("Calibri", 11F);
             this.lak_et.Location = new System.Drawing.Point(184, 92);
             this.lak_et.Name = "lak_et";
-            this.lak_et.Size = new System.Drawing.Size(43, 30);
+            this.lak_et.Size = new System.Drawing.Size(43, 39);
             this.lak_et.TabIndex = 1;
             this.lak_et.Text = "0";
             // 
@@ -905,7 +905,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.lak_ds.Font = new System.Drawing.Font("Calibri", 11F);
             this.lak_ds.Location = new System.Drawing.Point(239, 127);
             this.lak_ds.Name = "lak_ds";
-            this.lak_ds.Size = new System.Drawing.Size(43, 30);
+            this.lak_ds.Size = new System.Drawing.Size(43, 39);
             this.lak_ds.TabIndex = 1;
             this.lak_ds.Text = "0";
             // 
@@ -915,7 +915,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.sw_ds.Font = new System.Drawing.Font("Calibri", 11F);
             this.sw_ds.Location = new System.Drawing.Point(132, 124);
             this.sw_ds.Name = "sw_ds";
-            this.sw_ds.Size = new System.Drawing.Size(43, 30);
+            this.sw_ds.Size = new System.Drawing.Size(43, 39);
             this.sw_ds.TabIndex = 1;
             this.sw_ds.Text = "0";
             // 
@@ -925,7 +925,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.div_evap.Font = new System.Drawing.Font("Calibri", 11F);
             this.div_evap.Location = new System.Drawing.Point(531, 58);
             this.div_evap.Name = "div_evap";
-            this.div_evap.Size = new System.Drawing.Size(58, 30);
+            this.div_evap.Size = new System.Drawing.Size(58, 39);
             this.div_evap.TabIndex = 1;
             this.div_evap.Text = "0";
             // 
@@ -935,7 +935,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.div.Font = new System.Drawing.Font("Calibri", 11F);
             this.div.Location = new System.Drawing.Point(439, 58);
             this.div.Name = "div";
-            this.div.Size = new System.Drawing.Size(58, 30);
+            this.div.Size = new System.Drawing.Size(58, 39);
             this.div.TabIndex = 1;
             this.div.Text = "0";
             // 
@@ -945,7 +945,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.canal_ds.Font = new System.Drawing.Font("Calibri", 10F);
             this.canal_ds.Location = new System.Drawing.Point(598, 158);
             this.canal_ds.Name = "canal_ds";
-            this.canal_ds.Size = new System.Drawing.Size(43, 28);
+            this.canal_ds.Size = new System.Drawing.Size(43, 36);
             this.canal_ds.TabIndex = 1;
             this.canal_ds.Text = "0";
             // 
@@ -955,7 +955,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.canal_et.Font = new System.Drawing.Font("Calibri", 11F);
             this.canal_et.Location = new System.Drawing.Point(537, 92);
             this.canal_et.Name = "canal_et";
-            this.canal_et.Size = new System.Drawing.Size(43, 30);
+            this.canal_et.Size = new System.Drawing.Size(43, 39);
             this.canal_et.TabIndex = 1;
             this.canal_et.Text = "0";
             // 
@@ -965,7 +965,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.sfr_et.Font = new System.Drawing.Font("Calibri", 11F);
             this.sfr_et.Location = new System.Drawing.Point(337, 92);
             this.sfr_et.Name = "sfr_et";
-            this.sfr_et.Size = new System.Drawing.Size(43, 30);
+            this.sfr_et.Size = new System.Drawing.Size(43, 39);
             this.sfr_et.TabIndex = 1;
             this.sfr_et.Text = "0";
             // 
@@ -982,10 +982,10 @@ namespace Heiflow.Controls.WinForm.Display
             // tabPageReport
             // 
             this.tabPageReport.Controls.Add(this.textBoxReport);
-            this.tabPageReport.Location = new System.Drawing.Point(4, 31);
+            this.tabPageReport.Location = new System.Drawing.Point(4, 39);
             this.tabPageReport.Name = "tabPageReport";
             this.tabPageReport.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageReport.Size = new System.Drawing.Size(1107, 638);
+            this.tabPageReport.Size = new System.Drawing.Size(1107, 622);
             this.tabPageReport.TabIndex = 3;
             this.tabPageReport.Text = "Budget Report";
             this.tabPageReport.UseVisualStyleBackColor = true;
@@ -993,15 +993,18 @@ namespace Heiflow.Controls.WinForm.Display
             // textBoxReport
             // 
             this.textBoxReport.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxReport.Font = new System.Drawing.Font("Consolas", 9.5F);
             this.textBoxReport.Location = new System.Drawing.Point(3, 3);
             this.textBoxReport.Multiline = true;
             this.textBoxReport.Name = "textBoxReport";
-            this.textBoxReport.Size = new System.Drawing.Size(1101, 632);
+            this.textBoxReport.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBoxReport.Size = new System.Drawing.Size(1101, 616);
             this.textBoxReport.TabIndex = 0;
+            this.textBoxReport.WordWrap = false;
             // 
             // StateMonitor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 27F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer1);
             this.Font = new System.Drawing.Font("Calibri", 9.5F);

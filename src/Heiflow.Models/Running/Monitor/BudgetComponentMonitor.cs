@@ -38,6 +38,7 @@ using System.IO;
 using Heiflow.Models.IO;
 using System.ComponentModel.Composition;
 using Heiflow.Models.Generic;
+using System.Data;
 
 namespace Heiflow.Models.Running
 {
@@ -582,7 +583,7 @@ namespace Heiflow.Models.Running
 
             #region Lakes
             // root_lak is added for budget statistics computation
-            var root_lak = new MonitorItemCollection("Lake Water Budget Components")
+            var root_lak = new MonitorItemCollection("Lake Water Budgets")
             {
                 IsDisplay = false
             };
@@ -777,14 +778,79 @@ namespace Heiflow.Models.Running
             _Watcher = new CSVWatcher();
         }
 
-        public override System.Data.DataTable Balance(string itemname, ref string budget)
+        public override System.Data.DataTable Balance(string itemname, ref string report)
         {
-            //ModelService.WorkDirectory
+            ClampSteps(DataSource.Values[0].Count);
+
+            var dt = CreateBudgetTable();
+            double nsteps = EndStep - StartStep + 1;
+            double factor = Intevals / nsteps;
+            double total_in = 0;
+            double total_out = 0;
+            double total_ds = 0;
+            double total_diff = 0;
+            double total_error = 0;
+
+            var lines = new List<BudgetLine>();
+
+            string ds_term = "";
+            var rootitem = (from item in _Roots where item.Name == itemname select item).First();
+            if (itemname == "Irrigation Budgets")
+            {
+                ds_term = Canal_DS;
+            }
+            else if (itemname == "HRU Water Budgets")
+                ds_term = HRU_DS;
+            else if (itemname == "Soil Zone Water Budgets")
+                ds_term = Soil_Storage_Change;
+            else if (itemname == "Stream Water Budgets")
+                ds_term = SFR_Storage_Change;
+            else if (itemname == "Unsaturated Zone Water Budgets")
+                ds_term = UZF_DS;
+
             if (itemname == "ET Budgets")
             {
+                var items = (from item in rootitem.Children where item.Group == _Out_Group select item).ToArray();
+                lines.Add(BudgetLine.Section("OUT TERMS"));
+                total_out = AddTermRows(items, dt, 200, factor, lines);
 
+                report = BuildReport(itemname, lines);
+
+                return dt;
             }
-            return base.Balance(itemname, ref budget);
+            else
+            {
+                var items = (from item in rootitem.Children where item.Group == _In_Group select item).ToArray();
+                lines.Add(BudgetLine.Section("IN TERMS"));
+                total_in = AddTermRows(items, dt, 100, factor, lines);
+
+                items = (from item in rootitem.Children where item.Group == _Out_Group select item).ToArray();
+                lines.Add(BudgetLine.Section("OUT TERMS"));
+                total_out = AddTermRows(items, dt, 200, factor, lines);
+
+                items = (from item in rootitem.Children where item.Name == ds_term select item).ToArray();
+                lines.Add(BudgetLine.Section("STORAGE CHANGE TERMS"));
+
+                // 可推导项先 Derive 再取序列
+                Func<MonitorItem, IEnumerable<double>> dsSelector = item =>
+                {
+                    if (item.Derivable)
+                        return item.Derive(item.Monitor.DataSource).Skip<double>(StartStep);
+                    return item.Monitor.DataSource.Values[item.VariableIndex].Skip<double>(StartStep);
+                };
+                total_ds = AddTermRows(items, dt, 300, factor, lines, dsSelector);
+
+                total_diff = total_in - total_out;
+                total_error = total_diff - total_ds;
+
+                var total_discrepancy = PercentDiscrepancy(total_in, total_out, total_ds);
+
+                AddSummaryRows(dt, lines, total_in, total_out, total_ds, total_diff, total_error, total_discrepancy);
+
+                report = BuildReport(itemname, lines);
+
+                return dt;
+            }
         }
 
     }

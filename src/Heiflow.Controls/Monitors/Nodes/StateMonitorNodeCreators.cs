@@ -191,7 +191,7 @@ namespace Heiflow.Controls.WinForm.Monitors
             if (dt == null)
                 return;
 
-            if(ReportBox !=null)
+            if (ReportBox != null)
                 ReportBox.Text = report;
 
             DataSet ds = new DataSet();
@@ -202,7 +202,7 @@ namespace Heiflow.Controls.WinForm.Monitors
             DataGrid.ExpandAll();
 
             var dic = item.Monitor.ZonalBudgets();
-            if (ZonalBudgetClicked != null && dic != null)
+            if (ZonalBudgetClicked != null && dic != null && dic.Count > 0)
                 ZonalBudgetClicked(this, dic);
         }
 

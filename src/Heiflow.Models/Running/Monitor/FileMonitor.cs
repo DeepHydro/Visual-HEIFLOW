@@ -34,6 +34,7 @@ using Heiflow.Models.IO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -406,6 +407,282 @@ namespace Heiflow.Models.Running
         {
             return null;
         }
+
+        #region 预算报告通用方法
+
+        /// <summary>
+        /// 将起止步校正到数据源长度范围内
+        /// </summary>
+        protected void ClampSteps(int length)
+        {
+            if (EndStep <= 0)
+                EndStep = length;
+
+            if (EndStep > length)
+                EndStep = length;
+
+            if (StartStep > length)
+                StartStep = length;
+
+            if (StartStep >= EndStep)
+                StartStep = 0;
+        }
+
+        /// <summary>
+        /// 创建预算数据表：ID、ParentID、Item、Volumetric_Flow、Water_Depth
+        /// </summary>
+        protected System.Data.DataTable CreateBudgetTable()
+        {
+            var dt = new System.Data.DataTable();
+            dt.Columns.Add(new System.Data.DataColumn("ID", Type.GetType("System.Int32")));
+            dt.Columns.Add(new System.Data.DataColumn("ParentID", Type.GetType("System.Int32")));
+            dt.Columns.Add(new System.Data.DataColumn("Item", Type.GetType("System.String")));
+            dt.Columns.Add(new System.Data.DataColumn("Volumetric_Flow", Type.GetType("System.Double")));
+            dt.Columns.Add(new System.Data.DataColumn("Water_Depth", Type.GetType("System.Double")));
+            return dt;
+        }
+
+        /// <summary>
+        /// 向预算表追加一行，depth 为空时该列写入 DBNull
+        /// </summary>
+        protected System.Data.DataRow AddBudgetRow(System.Data.DataTable dt, int id, int parentId, string name, double flow, double? depth = null)
+        {
+            var dr = dt.NewRow();
+            dr[0] = id;
+            dr[1] = parentId;
+            dr[2] = name;
+            dr[3] = flow;
+            dr[4] = depth.HasValue ? (object)depth.Value : DBNull.Value;
+            dt.Rows.Add(dr);
+            return dr;
+        }
+
+        /// <summary>
+        /// 汇总分项：按 selector 取序列求和后写入数据表、累计通量并收集报告行
+        /// </summary>
+        protected double AddTermRows(IEnumerable<MonitorItem> items, System.Data.DataTable dt, int parentId, double factor,
+            List<BudgetLine> lines, Func<MonitorItem, IEnumerable<double>> selector = null)
+        {
+            if (selector == null)
+                selector = item => item.Monitor.DataSource.Values[item.VariableIndex].Skip<double>(StartStep);
+
+            double total = 0;
+            foreach (var item in items)
+            {
+                var flow = Math.Round(selector(item).Sum() * factor, DecimalDigit);
+                var depth = ToDepth(flow);
+
+                AddBudgetRow(dt, item.VariableIndex, parentId, item.Name, flow, depth);
+
+                total += flow;
+                lines.Add(BudgetLine.Item(item.Name, DExp(flow), Fix(depth)));
+            }
+            return total;
+        }
+
+        /// <summary>
+        /// 体积通量换算为水深
+        /// </summary>
+        protected double ToDepth(double flow)
+        {
+            return Math.Round(flow / ModelService.BasinArea * 1000, DecimalDigit);
+        }
+
+        /// <summary>
+        /// 百分比差异
+        /// </summary>
+        protected double PercentDiscrepancy(double total_in, double total_out, double total_ds)
+        {
+            var denom = total_in + total_out + Math.Abs(total_ds);
+            if (denom == 0)
+                return 0;
+            return Math.Round((total_in - total_out - total_ds) / denom * 2 * 100, DecimalDigit);
+        }
+
+        /// <summary>
+        /// 百分比差异
+        /// </summary>
+        protected double PercentDiscrepancyModflow(double total_in, double total_out)
+        {
+            var denom = (total_in + total_out)/2 ;
+            if (denom == 0)
+                return 0;
+            return Math.Round((total_in - total_out ) / denom * 100, DecimalDigit);
+        }
+
+        /// <summary>
+        /// 追加汇总与误差行，包括数据表行与报告行
+        /// </summary>
+        protected void AddSummaryRows(System.Data.DataTable dt, List<BudgetLine> lines, double total_in, double total_out,
+            double total_ds, double total_diff, double total_error, double total_discrepancy)
+        {
+            AddBudgetRow(dt, 100, 9999, "Total In", total_in, ToDepth(total_in));
+            AddBudgetRow(dt, 200, 9999, "Total Out", total_out, ToDepth(total_out));
+            AddBudgetRow(dt, 300, 9999, Total_Storage_Change, total_ds, ToDepth(total_ds));
+
+            AddBudgetRow(dt, 400, 9999, "Budget Error", total_discrepancy);
+            AddBudgetRow(dt, 401, 400, "Inflows - Outflows", total_diff, ToDepth(total_diff));
+            AddBudgetRow(dt, 402, 400, "Overall Budget Error", total_error, ToDepth(total_error));
+            AddBudgetRow(dt, 403, 400, "Percent Discrepancy", total_discrepancy);
+
+            lines.Add(BudgetLine.Section("BUDGET SUMMARY"));
+            lines.Add(BudgetLine.Item("Total In", DExp(total_in), Fix(ToDepth(total_in))));
+            lines.Add(BudgetLine.Item("Total Out", DExp(total_out), Fix(ToDepth(total_out))));
+            lines.Add(BudgetLine.Item(Total_Storage_Change, DExp(total_ds), Fix(ToDepth(total_ds))));
+
+            lines.Add(BudgetLine.Section("BUDGET ERROR"));
+            lines.Add(BudgetLine.Item("Inflows - Outflows", DExp(total_diff), Fix(ToDepth(total_diff))));
+            lines.Add(BudgetLine.Item("Overall Budget Error", DExp(total_error), Fix(ToDepth(total_error))));
+            lines.Add(BudgetLine.Item("Percent Discrepancy (%)", Fix(total_discrepancy), ""));
+        }
+
+        /// <summary>
+        /// 以 Fortran 风格的 D 指数格式输出数值，例如 1.2558D+10；零值输出为 0
+        /// </summary>
+        protected string DExp(double value)
+        {
+            if (value == 0)
+                return "0";
+            if (double.IsNaN(value) || double.IsInfinity(value))
+                return value.ToString(CultureInfo.InvariantCulture);
+
+            var text = value.ToString("E4", CultureInfo.InvariantCulture);
+            int epos = text.IndexOf('E');
+            if (epos < 0)
+                return text;
+
+            var mantissa = text.Substring(0, epos);
+            var sign = text[epos + 1];
+            var exponent = text.Substring(epos + 2).TrimStart('0');
+            if (exponent.Length == 0)
+                exponent = "0";
+            else if (exponent.Length < 2)
+                exponent = exponent.PadLeft(2, '0');
+
+            return mantissa + "D" + sign + exponent;
+        }
+
+        /// <summary>
+        /// 以固定小数位输出数值，用于水深与百分比等无量纲量
+        /// </summary>
+        protected string Fix(double value)
+        {
+            if (double.IsNaN(value) || double.IsInfinity(value))
+                return value.ToString(CultureInfo.InvariantCulture);
+            return value.ToString("N" + DecimalDigit.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// 生成清单式预算报告：标签右对齐 + " = " + 体积通量右对齐 + 水深右对齐，段落以分隔线区分
+        /// </summary>
+        protected string BuildReport(string title, IEnumerable<BudgetLine> lines)
+        {
+            const int MinNameWidth = 30;
+            const int MinValueWidth = 18;
+            const int ColumnGap = 4;
+            const string FlowHeader = "VOLUMETRIC FLOW";
+            const string DepthHeader = "WATER DEPTH";
+
+            var rows = new List<BudgetLine>(lines);
+
+            int nameWidth = MinNameWidth;
+            int valueWidth = MinValueWidth;
+            foreach (var line in rows)
+            {
+                if (line.IsSection)
+                    continue;
+                nameWidth = Math.Max(nameWidth, line.Name.Length + 2);
+                valueWidth = Math.Max(valueWidth, line.Flow.Length);
+                valueWidth = Math.Max(valueWidth, line.Depth.Length);
+            }
+            valueWidth = Math.Max(valueWidth, FlowHeader.Length);
+
+            int totalWidth = nameWidth + 3 + valueWidth + ColumnGap + valueWidth;
+            string thickBar = new string('=', totalWidth);
+            string thinBar = new string('-', totalWidth);
+            string gap = new string(' ', ColumnGap);
+
+            var sb = new StringBuilder();
+            sb.AppendLine(thickBar);
+            sb.AppendLine(Center("SUMMARY VOLUMETRIC BUDGET", totalWidth));
+            if (!string.IsNullOrWhiteSpace(title))
+                sb.AppendLine(Center(title, totalWidth));
+            sb.AppendLine(thickBar);
+            sb.AppendLine();
+
+            sb.Append(new string(' ', nameWidth));
+            sb.Append("   ");
+            sb.Append(FlowHeader.PadLeft(valueWidth));
+            sb.Append(gap);
+            sb.Append(DepthHeader.PadLeft(valueWidth));
+            sb.AppendLine();
+            sb.AppendLine(thinBar);
+
+            bool firstSection = true;
+            foreach (var line in rows)
+            {
+                if (line.IsSection)
+                {
+                    if (firstSection)
+                        firstSection = false;
+                    else
+                        sb.AppendLine();
+                    sb.AppendLine(line.Name);
+                    sb.AppendLine(thinBar);
+                }
+                else
+                {
+                    sb.Append(line.Name.PadLeft(nameWidth));
+                    sb.Append(" = ");
+                    sb.Append(line.Flow.PadLeft(valueWidth));
+                    sb.Append(gap);
+                    sb.Append(line.Depth.PadLeft(valueWidth));
+                    sb.AppendLine();
+                }
+            }
+
+            sb.AppendLine(thinBar);
+            return sb.ToString();
+        }
+
+        protected static string Center(string text, int width)
+        {
+            if (string.IsNullOrEmpty(text) || text.Length >= width)
+                return text;
+            int left = (width - text.Length) / 2;
+            return text.PadLeft(text.Length + left, ' ').PadRight(width, ' ');
+        }
+
+        /// <summary>
+        /// 报告中的一行：段落标题或数据项
+        /// </summary>
+        protected class BudgetLine
+        {
+            public bool IsSection { get; private set; }
+            public string Name { get; private set; }
+            public string Flow { get; private set; }
+            public string Depth { get; private set; }
+
+            private BudgetLine(bool isSection, string name, string flow, string depth)
+            {
+                IsSection = isSection;
+                Name = name;
+                Flow = flow;
+                Depth = depth;
+            }
+
+            public static BudgetLine Section(string name)
+            {
+                return new BudgetLine(true, name.ToUpperInvariant(), "", "");
+            }
+
+            public static BudgetLine Item(string name, string flow, string depth)
+            {
+                return new BudgetLine(false, name.ToUpperInvariant(), flow, depth);
+            }
+        }
+
+        #endregion
 
         public MonitorItem Select(string name)
         {
