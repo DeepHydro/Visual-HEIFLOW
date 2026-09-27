@@ -305,7 +305,6 @@ namespace Heiflow.Models.Surface.PRMS
             mat.Variables = new string[] { "hru_ppt" };
             mat.DateTimes = this.TimeService.Timeline.ToArray();
             mat.ILArrays[0][":", ":"] = ppt;
-
             DataCubeStreamWriter sw = new DataCubeStreamWriter(MasterPackage.PrecipitationFile);
             sw.WriteAll(mat);
 
@@ -359,29 +358,57 @@ namespace Heiflow.Models.Surface.PRMS
             }
             if (MasterPackage.CO2Module == CO2Module.climate_hru)
             {
-                mat = new DataCube<float>(1, 12, ncell);
+                var nmonth = CountMonths(mat.DateTimes);
+                mat = new DataCube<float>(1, nmonth, ncell);
                 mat.Variables = new string[] { "co2" };
                 mat.DateTimes = this.TimeService.Timeline.ToArray();
-                for (int i = 0; i < ncell; i++)
+                var co2 = GenerateCO2Array(nmonth);
+                for (int i = 0; i < nmonth; i++)
                 {
-                    var co2 = new float[] { 364.076660156250f,
-                                                    364.789916992188f,
-                                                    365.178710937500f,
-                                                    365.139221191406f,
-                                                    360.948852539063f,
-                                                    357.374786376953f,
-                                                    356.903137207031f,
-                                                    356.755401611328f,
-                                                    358.903717041016f,
-                                                    361.359313964844f,
-                                                    363.589538574219f,
-                                                    365.243560791016f
-                                                  };
-                    mat.ILArrays[0][":", i] = ppt;
+                    for (int j = 0; j < ncell; j++)
+                    {
+                        mat.ILArrays[0][i, j] = co2[i];
+                    }
                 }
                 sw = new DataCubeStreamWriter(MasterPackage.CO2_Month_File);
                 sw.WriteAll(mat);
             }
+        }
+
+        private int CountMonths(DateTime[] dates)
+        {
+            if (dates == null || dates.Length == 0) return 0;
+
+            DateTime first = dates[0];
+            DateTime last = dates[dates.Length - 1];
+
+            return (last.Year - first.Year) * 12 + last.Month - first.Month + 1;
+        }
+
+        private float[] GenerateCO2Array(int totalMonths)
+        {
+            float[] co2 = new float[]
+                {
+                    364.076660156250f,
+                    364.789916992188f,
+                    365.178710937500f,
+                    365.139221191406f,
+                    360.948852539063f,
+                    357.374786376953f,
+                    356.903137207031f,
+                    356.755401611328f,
+                    358.903717041016f,
+                    361.359313964844f,
+                    363.589538574219f,
+                    365.243560791016f
+                };
+
+            float[] result = new float[totalMonths];
+            for (int i = 0; i < totalMonths; i++)
+            {
+                result[i] = co2[i % 12];   // 取模循环
+            }
+            return result;
         }
 
         public override void Clear()

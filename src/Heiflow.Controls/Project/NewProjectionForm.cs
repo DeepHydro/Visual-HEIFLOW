@@ -144,7 +144,7 @@ namespace Heiflow.Presentation.Controls.Project
             var prj = (e.Item.Tag as IProject);
             //tbModelDes.Text = prj.Description;
             cmbVersion.DataSource = prj.SupportedVersions;
-            cmbVersion.SelectedIndex = 0;
+            cmbVersion.SelectedIndex = prj.SupportedVersions.Length - 1;
             propertyGrid1.SelectedObject = prj;
         }
 

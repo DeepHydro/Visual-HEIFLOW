@@ -34,6 +34,7 @@ using Heiflow.Core.Data.ODM;
 using Heiflow.Core.Utility;
 using Heiflow.Models.Generic.Packages;
 using Heiflow.Models.Generic.Parameters;
+using Heiflow.Models.Integration;
 using Heiflow.Models.Properties;
 using Heiflow.Models.UI;
 using System;
@@ -96,6 +97,12 @@ namespace Heiflow.Models.Generic.Project
         [XmlElement]
         [Category("General")]
         public string Description
+        {
+            get;
+            set;
+        }
+        [Category("General")]
+        public ProcessModule ProcessModule
         {
             get;
             set;
@@ -279,7 +286,7 @@ namespace Heiflow.Models.Generic.Project
         {
             get
             {
-                string model = string.Format("Models\\{0}_{1}.exe", Token, SelectedVersion);
+                string model = string.Format("Models\\{0}_{1}_{2}.exe", Token, SelectedVersion, ProcessModule.ToString());
                 return Path.Combine(Application.StartupPath, model);
             }
         }

@@ -59,11 +59,12 @@ namespace Heiflow.Models.Integration
             this.NameToShown = "HEIFLOW";
             this.Icon = Resources.RasterImageAnalysisPanSharpen16;
             this.LargeIcon = Resources.RasterImageAnalysisPanSharpen32;
-            Description = "HEIFLOW model version 1.0.0 or version 1.1.0";
+            Description = "HEIFLOW model version 1.1.0";
             Token = "HEIFLOW";
-            SupportedVersions = new string[] { "v1.0.0", "v1.0.5", "v1.1.0" };
+            SupportedVersions = new string[] { "v1.1.0" };
             SelectedVersion = SupportedVersions[0];
             MODFLOWVersion = Subsurface.MODFLOWVersion.MFNWT;
+            ProcessModule = Integration.ProcessModule.Hydrology;
         }
        [Category("Model")]
         public MODFLOWVersion MODFLOWVersion
@@ -96,7 +97,8 @@ namespace Heiflow.Models.Integration
                 {
                     Project = this,
                     WorkDirectory = FullModelWorkDirectory,
-                    ControlFileName = RelativeControlFileName
+                    ControlFileName = RelativeControlFileName,
+                    ProcessModule = Integration.ProcessModule.Hydrology
                 };
                 model.Initialize();
                 succ = model.New(progress);

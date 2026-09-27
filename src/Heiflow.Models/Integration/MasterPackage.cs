@@ -1406,6 +1406,8 @@ namespace Heiflow.Models.Integration
                         _HumidityFile = (Parameters["hum_day"] as DataCubeParameter<string>)[0, 0, 0];
                     if ((Parameters.Keys.Contains("press_day")))
                         _PressureFile = (Parameters["press_day"] as DataCubeParameter<string>)[0, 0, 0];
+                    if ((Parameters.Keys.Contains("CO2_month")))
+                        _co2File = (Parameters["CO2_month"] as DataCubeParameter<string>)[0, 0, 0];
                     if (Parameters.ContainsKey("subbasin_flag"))
                         _SubbasinFlag = (Parameters["subbasin_flag"] as DataCubeParameter<int>)[0, 0, 0] == 1 ? true : false;
                     if (Parameters.ContainsKey("global_time_unit"))
@@ -1526,7 +1528,7 @@ namespace Heiflow.Models.Integration
                 _carbon_module = false;
                 GlobalTimeUnit = 4;
                 if (Owner.Project.SelectedVersion != "v1.0.0")
-                    SaveSoilWaterFile = true;
+                    SaveSoilWaterFile = false;
 
                 DataFile = string.Format(".\\input\\prms\\{0}.data", Owner.Project.Name);
                 ParameterFilePath = string.Format(".\\input\\prms\\{0}.param", Owner.Project.Name);

@@ -60,8 +60,10 @@ namespace Heiflow.Models.Integration
         public HeiflowModel()
         {
             Name = "HEIFLOW";
-            Description = "HEIFLOW model version 1.0.0";
-            Version = "1.0.0";
+            Description = "HEIFLOW model version 1.1.0";
+            Version = "1.1.0";
+            ProcessModule = ProcessModule.Hydrology;
+
             if (!ModelService.SafeMode)
             {
                 this.Icon = Resources.RasterImageAnalysisPanSharpen16;
@@ -88,6 +90,12 @@ namespace Heiflow.Models.Integration
             _WaterManagementModel.Owner = this;
             _WaterManagementModel.LoadFailed += this.OnLoadFailed;
             Children.Add(_WaterManagementModel.Name, _WaterManagementModel);
+        }
+        [Category("Process")]
+        public ProcessModule ProcessModule
+        {
+            get;
+            set;
         }
 
         [XmlIgnore]
@@ -267,6 +275,21 @@ namespace Heiflow.Models.Integration
         {
             bool succ = true;
             _MasterPackage.FileName = ControlFileName;
+            if (ProcessModule == Integration.ProcessModule.NPS)
+            {
+                _MasterPackage.nps_module = false;
+                _MasterPackage.carbon_module = false;
+            }
+            else   if(ProcessModule == Integration.ProcessModule.NPS)
+            {
+                _MasterPackage.nps_module = true;
+                _MasterPackage.carbon_module = false;
+            }
+            else if (ProcessModule == Integration.ProcessModule.Carbon)
+            {
+                _MasterPackage.nps_module = true;
+                _MasterPackage.carbon_module = true;
+            }
             _MasterPackage.Initialize();       
              _MasterPackage.New();
             if (!succ)

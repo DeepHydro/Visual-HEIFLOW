@@ -395,7 +395,6 @@ namespace Heiflow.Models.Running
 
                 foreach (var item in root.Children)
                 {
-                  //  item.SequenceType = SequenceType.StepbyStep;
                     item.Monitor = _MFMonitor;
                 }
 

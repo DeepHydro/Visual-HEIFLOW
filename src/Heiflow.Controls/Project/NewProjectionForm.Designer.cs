@@ -165,6 +165,7 @@ namespace Heiflow.Presentation.Controls.Project
             // 
             // cmbVersion
             // 
+            this.cmbVersion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbVersion.FormattingEnabled = true;
             this.cmbVersion.Location = new System.Drawing.Point(101, 333);
             this.cmbVersion.Name = "cmbVersion";

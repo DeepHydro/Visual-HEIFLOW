@@ -149,6 +149,7 @@
     <Compile Include="Generic\Attributes\FileMonitorItem.cs" />
     <Compile Include="Generic\Attributes\VariableItem.cs" />
     <Compile Include="GeoSpatial\GCSConverter.cs" />
+    <Compile Include="Integration\Enums.cs" />
     <Compile Include="IO\DataCubeFileFactory.cs" />
     <Compile Include="Generic\Delegates.cs" />
     <Compile Include="Generic\Enums.cs" />
