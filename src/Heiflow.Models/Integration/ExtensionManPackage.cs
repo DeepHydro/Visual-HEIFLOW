@@ -408,6 +408,10 @@ namespace Heiflow.Models.Integration
                     newline = sr.ReadLine();
                     EnableCHDEx = TypeConverterEx.String2Bool(newline.Trim());
                     CHD_EX_File = sr.ReadLine().Trim();
+                    newline = sr.ReadLine();
+                    newline = sr.ReadLine();
+                    EnableABMcrop = TypeConverterEx.String2Bool(newline.Trim());
+                    ABMCropEX_File = sr.ReadLine().Trim();
 
                     State = ModelObjectState.Ready;
                     result = LoadingState.Normal;
@@ -438,7 +442,17 @@ namespace Heiflow.Models.Integration
         {
             InitValues();
             base.New();
+            CopyTemplateFiles();
             State = ModelObjectState.Ready;
+        }
+
+        private void CopyTemplateFiles()
+        {
+            var sfrex = Path.Combine(BaseModel.ConfigPath, "template\\sfr.ex");
+            if (File.Exists(sfrex))
+            {
+                File.Copy(sfrex, SFRExFile, true);
+            }
         }
 
         public override void SaveAs(string filename, DotSpatial.Data.ICancelProgressHandler progress)
@@ -527,12 +541,6 @@ namespace Heiflow.Models.Integration
             _GWHDA_File = ".\\Input\\Extension\\gwh_da.ex";
             _PETEX_File = ".\\Input\\Extension\\pet.ex";
             _CHDEX_File = ".\\Input\\Extension\\chd.ex";
-
-            var sfrex = Path.Combine(BaseModel.ConfigPath, "template\\sfr.ex");
-             if(File.Exists(sfrex))
-             {
-                 File.Copy(sfrex, SFRExFile, true);
-             }
         }
 
         private void SaveSFROutEx()
