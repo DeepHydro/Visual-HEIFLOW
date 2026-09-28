@@ -1,0 +1,10 @@
+#Crop variables for HEIFLOW carbon model.
+0 #是否轮作或多季，添加轮作输入文件动态修改idplt,达到不同作物的Tbase,Topt等更新
+1 5    #idplt value for crop
+75 196 #phenology parameter for early rice, planting day, harvest day
+1 0.2 0.8 0.5 5.0#irrigation parameter, irrigation or not, start PHU, end PHU, soil water threshold, flood depth
+0.03	0.5	0.85	0.2	0.2	0	0.3	5	2	65	130	0	50	812.5	2340	0	900  #corresponding crop variables(17): phase2,phase3,ai_leaf,ai_froot,af_froot,af_leaf,af_livestem,d_alloc_stem,d_alloc_leaf,CN_f_leaf,CN_f_stem,CN_f_froot, CN_grain, CP_f_leaf,CP_f_stem,CP_f_froot,CP_grain.
+207 320 #phenology parameter for late rice, planting day, harvest day
+1 0.2 0.8 0.5 #irrigation parameter, is irrigation or not, start PHU fraction, end PHU fraction, soil water threshold
+0.03	0.5	0.85	0.2	0.2	0	0.3	5	2	65	130	0	50	812.5	2340	0	900  #corresponding crop variables
+.input\WQ\crop_multiseason.dat

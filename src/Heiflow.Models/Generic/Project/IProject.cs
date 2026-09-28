@@ -33,6 +33,7 @@ using Heiflow.Core.Data;
 using Heiflow.Core.Data.ODM;
 using Heiflow.Models.Generic.Packages;
 using Heiflow.Models.Generic.Parameters;
+using Heiflow.Models.Integration;
 using Heiflow.Models.UI;
 using System;
 using System.Collections.Generic;
@@ -149,7 +150,11 @@ namespace Heiflow.Models.Generic.Project
         string[] RemovedHeaderItemKeys { get; }
         [Browsable(false)]
         IGridFileFactory GridFileFactory { get; set; }
+        [Browsable(false)]
         IDataCubeFileFactory DataCubeFileFactory { get; set; }
+         [Browsable(false)]
+        ProcessModule ProcessModule { get; set; }
+
         void Initialize();
         bool New(ICancelProgressHandler progress, bool ImportFromExistingModel);
         void Clear();
@@ -159,5 +164,6 @@ namespace Heiflow.Models.Generic.Project
         void AttachFeatures();
         void CreateGridFeature();
         bool ContainsCoverage(string legendtext);
+        void SaveBatchRunFile();
     }
 }

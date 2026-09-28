@@ -34,11 +34,19 @@ namespace Heiflow.Models.Surface.WaterQuality
             save_sfrwq_ps(wq_input_path, total_days);
             save_month_cycle(startDate, endDate, wq_input_path);
             save_year_cycle(startDate, endDate, wq_input_path);
+            save_crop_ex(configpath, wq_input_path);
+        }
+
+        private void save_crop_ex(string configpath, string wq_input_path)
+        {
+            var npsex = Path.Combine(configpath, "template\\crop.txt");
+            var npsex_out = Path.Combine(wq_input_path, "crop.txt");
+            File.Copy(npsex, npsex_out, true);
         }
 
         private void save_nps_ex(string configpath, string wq_input_path)
         {
-            var npsex = Path.Combine(configpath, "wq\\nps.ex");
+            var npsex = Path.Combine(configpath, "template\\nps.ex");
             var npsex_out = Path.Combine(wq_input_path, "nps.ex");
             File.Copy(npsex, npsex_out, true);
             var fert_times = 3;
@@ -81,19 +89,19 @@ namespace Heiflow.Models.Surface.WaterQuality
 
         private void copy_extern_files(string configpath, string wq_input_path)
         {
-            var npsex = Path.Combine(configpath, "wq\\init_nps_extern.txt");
+            var npsex = Path.Combine(configpath, "template\\init_nps_extern.txt");
             var npsex_out = Path.Combine(wq_input_path, "init_nps_extern.txt");
             File.Copy(npsex, npsex_out, true);
 
-            npsex = Path.Combine(configpath, "wq\\init_otherwq_extern.txt");
+            npsex = Path.Combine(configpath, "template\\init_otherwq_extern.txt");
             npsex_out = Path.Combine(wq_input_path, "init_otherwq_extern.txt");
             File.Copy(npsex, npsex_out, true);
 
-            npsex = Path.Combine(configpath, "wq\\init_gw_otherwq_extern.txt");
+            npsex = Path.Combine(configpath, "template\\init_gw_otherwq_extern.txt");
             npsex_out = Path.Combine(wq_input_path, "init_gw_otherwq_extern.txt");
             File.Copy(npsex, npsex_out, true);
 
-            npsex = Path.Combine(configpath, "wq\\wqm_para.txt");
+            npsex = Path.Combine(configpath, "template\\wqm_para.txt");
             npsex_out = Path.Combine(wq_input_path, "wqm_para.txt");
             File.Copy(npsex, npsex_out, true);
 
@@ -101,7 +109,7 @@ namespace Heiflow.Models.Surface.WaterQuality
 
         private void save_sfrwq(string configpath, string wq_input_path, int nseg, int nreach)
         {
-            StreamReader sr = new StreamReader(Path.Combine(configpath, "wq\\sfrwq.ex"));
+            StreamReader sr = new StreamReader(Path.Combine(configpath, "template\\sfrwq.ex"));
             StreamWriter sw = new StreamWriter(Path.Combine(wq_input_path, "sfrwq.ex"));
             var line = sr.ReadLine();
             var newline = string.Format("9 {0} {1}	1	5 # npolut, numreach, numseg, output_polut_index1,output_polut_index2", nreach, nseg);

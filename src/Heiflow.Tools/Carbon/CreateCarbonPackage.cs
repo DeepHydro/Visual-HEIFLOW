@@ -43,22 +43,11 @@ namespace Heiflow.Tools.WaterQuality
             if (model != null)
             {
                 var mf = model.ModflowModel;
-                //var sfrpck = mf.GetPackage(SFRPackage.PackageName) as SFRPackage;
                 var mfgrid = mf.Grid as RegularGrid;
-                //var starttime = model.TimeService.Start;
-                //var endtime = model.TimeService.End;
-                //var nhru = mfgrid.ActiveCellCount;
-                //var nseg = sfrpck.NSS;
-                //var nreach = sfrpck.NSTRM;
-
                 var wqinputpath = prj.Project.WQDirectory;
                 var configpath = BaseModel.ConfigPath;
-                WQFiles wqfile = new WQFiles();
-                //wqfile.New(configpath, wqinputpath, nhru, nseg, nreach, starttime, endtime);
-                //cancelProgressHandler.Progress("Package_Tool", 50, "WQ files copied");
 
                 model.MasterPackage.carbon_module = true;
-
                 model.PRMSModel.NewCarbonPackage(null);
                 var carbonpck = model.PRMSModel.CarbonPackage;
                 carbonpck.Grid = mfgrid;
@@ -66,15 +55,13 @@ namespace Heiflow.Tools.WaterQuality
                 carbonpck.Save(null);
                 cancelProgressHandler.Progress("Package_Tool", 80, "Carbon parameter file created");
 
-                //model.ExtensionManPackage.EnableSFRWQ = true;
-                //model.ExtensionManPackage.Save(null);
-                //cancelProgressHandler.Progress("Package_Tool", 90, "Extension file modified");
-
                 model.MasterPackage.carbon_module = true;
                 model.MasterPackage.Save(null);
                 cancelProgressHandler.Progress("Package_Tool", 100, "Model control file modified");
 
-
+                prj.Project.ProcessModule = ProcessModule.Carbon;
+                prj.Project.SaveBatchRunFile();
+                prj.Serializer.Save(prj.Project);
                 return true;
             }
             else

@@ -276,7 +276,7 @@ namespace Heiflow.Models.Surface.PRMS
         public void NewWQPackage(ICancelProgressHandler progress)
         {
             _wqPackage.FileName = _master.nps_param_file;
-            string wqparafile = Path.Combine(BaseModel.ConfigPath, "wq_" + Owner.Project.SelectedVersion + ".param");
+            string wqparafile = Path.Combine(BaseModel.ConfigPath, "nps_" + Owner.Project.SelectedVersion + ".param");
             File.Copy(wqparafile, _wqPackage.FileName, true);
             if (_wqPackage.Load(progress) == LoadingState.Normal)
             {

@@ -120,6 +120,11 @@ et_module
 4
 potet_pm
 ####
+CO2_module
+1
+4
+climate_hru
+####
 srunoff_module
 1
 4

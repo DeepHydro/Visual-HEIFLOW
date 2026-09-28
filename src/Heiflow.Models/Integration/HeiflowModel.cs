@@ -280,7 +280,7 @@ namespace Heiflow.Models.Integration
                 _MasterPackage.nps_module = false;
                 _MasterPackage.carbon_module = false;
             }
-            else   if(ProcessModule == Integration.ProcessModule.NPS)
+            else if(ProcessModule == Integration.ProcessModule.NPS)
             {
                 _MasterPackage.nps_module = true;
                 _MasterPackage.carbon_module = false;

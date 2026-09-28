@@ -143,7 +143,7 @@ namespace Heiflow.Models.Subsurface
 
             this.Map.Invalidate();
         }
-        protected override void SaveBatchRunFile()
+        public override void SaveBatchRunFile()
         {
             var filename = Path.Combine(AbsolutePathToProjectFile, "run.bat");
             StreamWriter sw = new StreamWriter(filename);

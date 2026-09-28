@@ -54,6 +54,7 @@ namespace Heiflow.Models.Integration
          private string _CHDEX_File;
          private string _NPSEX_File;
          private string _NPSCEX_File;
+         private string _abmcropEX_File;
 
         public ExtensionManPackage()
         {
@@ -291,6 +292,26 @@ namespace Heiflow.Models.Integration
             get;
             set;
         }
+        [Category("ABM Crop Model Extension")]
+        [Description("")]
+        public bool EnableABMcrop
+        {
+            get;
+            set;
+        }
+        [Category("ABM Crop Model Extension")]
+        [Description("")]
+        public string ABMCropEX_File
+        {
+            get
+            {
+                return Path.Combine(Owner.WorkDirectory, _abmcropEX_File);
+            }
+            set
+            {
+                _abmcropEX_File = value;
+            }
+        }
         [Category("PET EX File")]
         [Description("")]
         public string PETEX_File
@@ -317,6 +338,8 @@ namespace Heiflow.Models.Integration
                 _CHDEX_File = value;
             }
         }
+
+
         public override void Initialize()
         {
             this.Grid = Owner.Grid;
@@ -465,6 +488,9 @@ namespace Heiflow.Models.Integration
             sw.WriteLine("## CHD Extension");
             sw.WriteLine(TypeConverterEx.Bool2String(EnableCHDEx));
             sw.WriteLine(_CHDEX_File);
+            sw.WriteLine("## ABMcrop Mode");
+            sw.WriteLine(TypeConverterEx.Bool2String(EnableABMcrop));
+            sw.WriteLine(_abmcropEX_File);
             sw.Close();
 
             SaveSFROutEx();
@@ -501,6 +527,12 @@ namespace Heiflow.Models.Integration
             _GWHDA_File = ".\\Input\\Extension\\gwh_da.ex";
             _PETEX_File = ".\\Input\\Extension\\pet.ex";
             _CHDEX_File = ".\\Input\\Extension\\chd.ex";
+
+            var sfrex = Path.Combine(BaseModel.ConfigPath, "template\\sfr.ex");
+             if(File.Exists(sfrex))
+             {
+                 File.Copy(sfrex, SFRExFile, true);
+             }
         }
 
         private void SaveSFROutEx()

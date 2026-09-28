@@ -1494,6 +1494,7 @@ namespace Heiflow.Models.Integration
                 Temperature = TemperatureModule.climate_hru;
                 Precipitation = PrecipitationModule.climate_hru;
                 SolarRadiation = SolarRadiationModule.ddsolrad_hru_prms;
+                CO2Module = CO2Module.climate_hru;
                 if (Owner.Project.SelectedVersion == "v1.0.0")
                 {
                     PotentialET = PETModule.climate_hru;

@@ -101,6 +101,7 @@ namespace Heiflow.Models.Generic.Project
             get;
             set;
         }
+        [Browsable(false)]
         [Category("General")]
         public ProcessModule ProcessModule
         {
@@ -524,7 +525,7 @@ namespace Heiflow.Models.Generic.Project
         }
         public abstract void AttachFeatures();
         public abstract void CreateGridFeature();
-        protected abstract void SaveBatchRunFile();
+        public abstract void SaveBatchRunFile();
 
         public bool ContainsCoverage(string legendtext)
         {

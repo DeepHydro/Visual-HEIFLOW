@@ -17,15 +17,15 @@ using System.Windows.Forms.Design;
 // TODO: 
 //  (1) 修改extensions.exm 中的SFRWQ = 1
 // (2) 修改SFR边界入流，需要加入浓度
-namespace Heiflow.Tools.WaterQuality
+namespace Heiflow.Tools.NPS
 {
-    public class CreateWQTool : MapLayerRequiredTool
+    public class CreateNPSTool : MapLayerRequiredTool
     {
-        public CreateWQTool()
+        public CreateNPSTool()
         {
-            Name = "Create WQ Package";
-            Category = "Water Quality";
-            Description = "Create WQ Pacakge input files";
+            Name = "Create NPS Package";
+            Category = "Non Point Source";
+            Description = "Create NPS Pacakge input files";
             Version = "1.0.0.0";
             this.Author = "Yong Tian";
             MultiThreadRequired = true;
@@ -75,7 +75,9 @@ namespace Heiflow.Tools.WaterQuality
                 model.MasterPackage.Save(null);
                 cancelProgressHandler.Progress("Package_Tool", 100, "Model control file modified");
 
-
+                prj.Project.ProcessModule = ProcessModule.NPS;
+                prj.Project.SaveBatchRunFile();
+                prj.Serializer.Save(prj.Project);
                 return true;
             }
             else
