@@ -138,7 +138,7 @@ namespace Heiflow.Models.Generic
 
         [Category("Time")]
         [XmlIgnore]
-        public int MaxTimeStep
+        public virtual int MaxTimeStep
         {
             get
             {

@@ -4,7 +4,7 @@ using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Integration;
 using Heiflow.Models.Subsurface;
-using Heiflow.Models.Surface.NPS;
+using Heiflow.Models.Surface.WQ;
 using Heiflow.Presentation.Services;
 using System;
 using System.Collections.Generic;

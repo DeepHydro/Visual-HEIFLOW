@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using Heiflow.Core.Data;
 
-namespace Heiflow.Models.Surface.NPS
+namespace Heiflow.Models.Surface.WQ
 {
     public class NPSInputFiles
     {

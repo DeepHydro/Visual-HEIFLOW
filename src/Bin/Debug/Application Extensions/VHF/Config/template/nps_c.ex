@@ -1,5 +1,5 @@
 2	1	1	1	0	0	0	0	0 # num_crop, C_plant_output, Fertilizer_on, sz_month_layer_output,int_temp(i), i =1,9
-1	1	0	0  #Init_vars_from_file, Save_vars_to_file, hotstart_GSFLOW_FLAG, hotstart_GSFLOW_WRITE
+0	1	0	0  #Init_vars_from_file, Save_vars_to_file, hotstart_GSFLOW_FLAG, hotstart_GSFLOW_WRITE
 0.05        #decomposition rate constant litter 1 (1/day) meta (0.03-0.10 day-1)
 0.01        #decomposition rate constant litter 2 (1/day) struc (0.001-0.03 day-1)
 0.01        #decomposition rate constant SOM 1 (1/day) micr (1 year)
@@ -80,4 +80,3 @@
 .\input\WQ\ferti_P.txt  #phosphorus fertilizer file  (kg P/ha)
 .\input\WQ\ferti_C.txt  #carbon fertilizer file  (kg C/ha)
 not used
-

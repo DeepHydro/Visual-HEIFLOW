@@ -56,7 +56,7 @@ namespace Heiflow.Models.Surface.PRMS
     {
         public const string InputDic = ".\\Input\\";
         private MMSPackage _mmsPackage;
-        private NPSPackage _wqPackage;
+        private WQPackage _wqPackage;
         private CarbonPackage _CarbonPackage;
         private PRMSOutputDataPackage _outputPackage;
         private PRMSInputDataPackage _inputPackage;
@@ -88,7 +88,7 @@ namespace Heiflow.Models.Surface.PRMS
             {
                 Owner = this
             };
-            _wqPackage = new WQ.NPSPackage()
+            _wqPackage = new WQ.WQPackage()
             {
                 Owner = this
             };
@@ -120,7 +120,7 @@ namespace Heiflow.Models.Surface.PRMS
             }
         }
           [Browsable(false)]
-          public NPSPackage WQPackage
+          public WQPackage WQPackage
           {
               get
               {
@@ -454,7 +454,7 @@ namespace Heiflow.Models.Surface.PRMS
 
             foreach (var p in para)
             {
-                NPSPackage pk = new NPSPackage(p.Module.ToString());
+                WQPackage pk = new WQPackage(p.Module.ToString());
                 pk.Owner = this;
                 pk.FileName = _wqPackage.FileName;
                 foreach (var ar in p.Paras)
