@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using System.IO;
 using Heiflow.Core.Data;
 
-namespace Heiflow.Models.Surface.WaterQuality
+namespace Heiflow.Models.Surface.NPS
 {
-    public class WQFiles
+    public class NPSInputFiles
     {
-        public WQFiles()
+        public NPSInputFiles()
         {
             FertN = 10;
             FertP = 5;
@@ -109,7 +109,7 @@ namespace Heiflow.Models.Surface.WaterQuality
 
         private void save_sfrwq(string configpath, string wq_input_path, int nseg, int nreach)
         {
-            StreamReader sr = new StreamReader(Path.Combine(configpath, "template\\sfrwq.ex"));
+            StreamReader sr = new StreamReader(Path.Combine(configpath, "template\\sfrwq_nps.ex"));
             StreamWriter sw = new StreamWriter(Path.Combine(wq_input_path, "sfrwq.ex"));
             var line = sr.ReadLine();
             var newline = string.Format("9 {0} {1}	1	5 # npolut, numreach, numseg, output_polut_index1,output_polut_index2", nreach, nseg);

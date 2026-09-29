@@ -4,7 +4,7 @@ using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Integration;
 using Heiflow.Models.Subsurface;
-using Heiflow.Models.Surface.WaterQuality;
+using Heiflow.Models.Surface.NPS;
 using Heiflow.Presentation.Services;
 using System;
 using System.Collections.Generic;
@@ -55,9 +55,9 @@ namespace Heiflow.Tools.NPS
 
                 var wqinputpath = prj.Project.WQDirectory;
                 var configpath = BaseModel.ConfigPath;
-                WQFiles wqfile = new WQFiles();
+                NPSInputFiles wqfile = new NPSInputFiles();
                 wqfile.New(configpath, wqinputpath, nhru, nseg, nreach, starttime, endtime);
-                cancelProgressHandler.Progress("Package_Tool", 50, "WQ files copied");
+                cancelProgressHandler.Progress("Package_Tool", 50, "NPS input files copied");
 
                 model.MasterPackage.nps_module = true;
 
@@ -66,7 +66,7 @@ namespace Heiflow.Tools.NPS
                 wqpck.Grid = mfgrid;
                 wqpck.OnGridUpdated(mfgrid);
                 wqpck.Save(null);
-                cancelProgressHandler.Progress("Package_Tool", 80, "WQ parameter file created");
+                cancelProgressHandler.Progress("Package_Tool", 80, "NPS parameter file created");
 
                 model.ExtensionManPackage.EnableSFRWQ = true;
                 model.ExtensionManPackage.Save(null);

@@ -241,6 +241,7 @@
     <Compile Include="Subsurface\VFT3D\VFT3DProject.cs" />
     <Compile Include="Subsurface\VFT3D\PHCPackage.cs" />
     <Compile Include="Surface\Carbon\CarbonPackage.cs" />
+    <Compile Include="Surface\Carbon\CarbonPackageInputFiles.cs" />
     <Compile Include="Surface\PRMS\PRMSDataPackage.cs" />
     <Compile Include="Running\Watcher\TxtWatcher.cs" />
     <Compile Include="Running\Watcher\CSVWatcher.cs" />
@@ -316,8 +317,8 @@
     <Compile Include="Subsurface\IExtractMFPackage.cs" />
     <Compile Include="Surface\PRMS\SoilLayer.cs" />
     <Compile Include="Surface\PRMS\SoilLayerManager.cs" />
-    <Compile Include="Surface\WaterQuality\WQFiles.cs" />
-    <Compile Include="Surface\WaterQuality\WQPackage.cs" />
+    <Compile Include="Surface\NPS\NPSInputFiles.cs" />
+    <Compile Include="Surface\NPS\NPSPackage.cs" />
     <Compile Include="UI\IParameterExplorerView.cs" />
     <Compile Include="Visualization\EChartsFile.cs" />
     <Compile Include="Visualization\TerrainViewerMapFile.cs" />

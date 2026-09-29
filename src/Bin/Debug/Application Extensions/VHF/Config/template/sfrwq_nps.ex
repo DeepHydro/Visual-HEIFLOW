@@ -1,7 +1,7 @@
 9 40824 8016	1	5 # npolut, numreach, numseg, output_polut_index1,output_polut_index2,
 1	1	1	1	1	1	0	0	0	0 #enable_sfrwq_out, enable_sfr_div, enable_sfr_ps, enable_sfrwq_dcxout, enable_nps2sfr, enable_sfrwq_wasp,enable_gwsfr_sacle,enable_interflow_scale,enable_reachotherwq_out,enable_div_wq 
 1  1 #The number of npolut and reach id for sfrwq out, only for enable_sfrwq_out=1
-.\output\sfr_wq.csv	#sfrwq_out_file
+.\output\sfrwq_out_reach1.csv	#sfrwq_out_file
 .\Input\wq\sfrwq_div.ex  #sfr river diversion file
 .\Input\wq\sfrwq_ps.ex  #sfr point source file
 1.0	1.0 #sfr2gw_conc_factor, gw2sfr_conc_factor, only for enable_gwsfr_scale=1

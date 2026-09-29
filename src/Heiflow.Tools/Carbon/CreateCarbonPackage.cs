@@ -4,7 +4,7 @@ using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Integration;
 using Heiflow.Models.Subsurface;
-using Heiflow.Models.Surface.WaterQuality;
+using Heiflow.Models.Surface.NPS;
 using Heiflow.Presentation.Services;
 using System;
 using System.Collections.Generic;
@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms.Design;
+using Heiflow.Models.Surface.Carbon;
 
 namespace Heiflow.Tools.WaterQuality
 {
@@ -43,9 +44,19 @@ namespace Heiflow.Tools.WaterQuality
             if (model != null)
             {
                 var mf = model.ModflowModel;
+                var sfrpck = mf.GetPackage(SFRPackage.PackageName) as SFRPackage;
                 var mfgrid = mf.Grid as RegularGrid;
+                var nhru = mfgrid.ActiveCellCount;
+                var nseg = sfrpck.NSS;
+                var nreach = sfrpck.NSTRM;
                 var wqinputpath = prj.Project.WQDirectory;
                 var configpath = BaseModel.ConfigPath;
+                var starttime = model.TimeService.Start;
+                var endtime = model.TimeService.End;
+
+                CarbonPackageInputFiles carbon = new CarbonPackageInputFiles();
+                carbon.New(configpath, wqinputpath, nhru, nseg, nreach, starttime, endtime);
+                cancelProgressHandler.Progress("Package_Tool", 50, "Carbon module input files copied");
 
                 model.MasterPackage.carbon_module = true;
                 model.PRMSModel.NewCarbonPackage(null);
