@@ -82,15 +82,15 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.Controls">
-      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Controls.dll</HintPath>
+      <HintPath>..\Bin\Debug\DotSpatial.Controls.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.Data">
-      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Data.dll</HintPath>
+      <HintPath>..\Bin\Debug\DotSpatial.Data.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.Data.Forms">
-      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Data.Forms.dll</HintPath>
+      <HintPath>..\Bin\Debug\DotSpatial.Data.Forms.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.Extensions">
@@ -98,19 +98,19 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.GeoAPI">
-      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.GeoAPI.dll</HintPath>
+      <HintPath>..\Bin\Debug\DotSpatial.GeoAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.Modeling.Forms">
-      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Modeling.Forms.dll</HintPath>
+      <HintPath>..\Bin\Debug\DotSpatial.Modeling.Forms.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.NetTopologySuite">
-      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.NetTopologySuite.dll</HintPath>
+      <HintPath>..\Bin\Debug\DotSpatial.NetTopologySuite.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.Symbology">
-      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Symbology.dll</HintPath>
+      <HintPath>..\Bin\Debug\DotSpatial.Symbology.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -161,6 +161,7 @@
     <Compile Include="ModelRunPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ModelBudgetAnalysisPlugin.cs" />
+    <Compile Include="NPBudgetAnalysisPlugin.cs" />
     <Compile Include="TableEditorPlugin.cs" />
     <Compile Include="ToolManagerPlugin.cs" />
     <Compile Include="WinChartPlugin.cs" />
@@ -305,6 +306,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Abacus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NPBudget16.png" />
+    <None Include="Resources\NPBudget32.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\curve-chart.png" />

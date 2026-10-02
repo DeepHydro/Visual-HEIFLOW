@@ -49,6 +49,7 @@ namespace Heiflow.Applications
     {
         private IProjectController _ProjectController;
         private StateMonitorController _StateMonitorController;
+        private NPBudgetMonitorController _NPBudgetMonitorController;
         private RunningMonitorController _RunningMonitorController;
         private DatabaseExplorerController _DatabaseExplorerController;
         private LookupTableController _ParameterTableController;
@@ -85,6 +86,19 @@ namespace Heiflow.Applications
             set
             {
                 _StateMonitorController = value;
+            }
+        }
+
+        [Import(typeof(NPBudgetMonitorController))]
+        public NPBudgetMonitorController NPBudgetMonitor
+        {
+            get
+            {
+                return _NPBudgetMonitorController;
+            }
+            set
+            {
+                _NPBudgetMonitorController = value;
             }
         }
 
@@ -198,6 +212,7 @@ namespace Heiflow.Applications
             _ProjectController.MapAppManager = MapAppManager;
             BaseModel.ConfigPath = _ConfigManager.ConfigPath;
             _StateMonitorController.Initialize();
+            _NPBudgetMonitorController.Initialize();
             _RunningMonitorController.Initialize();
             _ProjectController.Initialize();
             _ParameterTableController.Initialize();
@@ -217,6 +232,7 @@ namespace Heiflow.Applications
               //  view.CloseRequired = true;
             }
             _StateMonitorController.Shutdown();
+            _NPBudgetMonitorController.Shutdown();
             _RunningMonitorController.Shutdown();
             _ProjectController.Shutdown();
             _ParameterTableController.Shutdown();

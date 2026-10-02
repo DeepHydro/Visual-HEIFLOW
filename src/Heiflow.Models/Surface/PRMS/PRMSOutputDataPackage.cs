@@ -46,11 +46,17 @@ namespace Heiflow.Models.Surface.PRMS
     {
         private MasterPackage _master;
         private AnimationOutPackage _animation;
+        private NPSOutPackage _NPSOutPackage;
+        private CarbonOutPackage _CarbonOut;
+        private LayeredCarbonOutPackage _LayeredCarbonOutPackage;
 
         public PRMSOutputDataPackage()
         {
             Name = "Surface Output";
             _animation = new AnimationOutPackage();
+            _NPSOutPackage = new NPSOutPackage();
+            _CarbonOut = new CarbonOutPackage();
+            _LayeredCarbonOutPackage = new LayeredCarbonOutPackage();
             IsMandatory = true;
         }
 
@@ -74,6 +80,21 @@ namespace Heiflow.Models.Surface.PRMS
             _animation.Initialize();
             AddChild(_animation);
 
+            _NPSOutPackage.MasterPackage = _master;
+            _NPSOutPackage.Owner = this.Owner;
+            _NPSOutPackage.Initialize();
+            AddChild(_NPSOutPackage);
+
+            _CarbonOut.MasterPackage = _master;
+            _CarbonOut.Owner = this.Owner;
+            _CarbonOut.Initialize();
+            AddChild(_CarbonOut);
+
+            _LayeredCarbonOutPackage.MasterPackage = _master;
+            _LayeredCarbonOutPackage.Owner = this.Owner;
+            _LayeredCarbonOutPackage.Initialize();
+            AddChild(_LayeredCarbonOutPackage);
+
             this.Grid = Owner.Grid;
             this.TimeService = Owner.TimeService;
             this.TimeService.Updated += this.OnTimeServiceUpdated;
@@ -94,6 +115,7 @@ namespace Heiflow.Models.Surface.PRMS
         public override void Clear()
         {
             _animation.Clear();
+            _CarbonOut.Clear();
             if (_Initialized)
             {
                 this.TimeService.Updated -= this.OnTimeServiceUpdated;

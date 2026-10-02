@@ -198,7 +198,7 @@ namespace Heiflow.Models.Surface.PRMS
 
                     if (_master.carbon_module)
                     {
-                        _CarbonPackage.Load(progress); 
+                        _CarbonPackage.Load(progress);
                         ResolveLoadedCarbonParameters();
                         ResolveCarbonModules();
                     }
@@ -208,6 +208,17 @@ namespace Heiflow.Models.Surface.PRMS
                         pck.AfterLoad();
                     }
                     progress.Progress("PRMS", 1, "Parameter file loaded.");
+
+                    var heiflow = (Owner as HeiflowModel);
+                    if (heiflow.ProcessModule == ProcessModule.Hydrology)
+                    {
+                        _outputPackage.RemoveChild(CarbonOutPackage.CarbonOutPackageName);
+                        _outputPackage.RemoveChild(LayeredCarbonOutPackage.LayeredCarbonOutPackageName);
+                    }
+                    if (heiflow.ProcessModule == ProcessModule.NPS || heiflow.ProcessModule == ProcessModule.Carbon)
+                    {
+
+                    }
                     return LoadingState.Normal;
                 }
                 else

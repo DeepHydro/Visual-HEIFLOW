@@ -61,6 +61,8 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         private FeatureMapLayer[] _FeatureMapLayers;
         private FeatureMapLayer _SelectedFeatureMapLayer;
         private string _sfroutfile;
+        private string _curfilename;
+        private bool _DataLoaded;
 
         public SFRExplorer()
         {
@@ -70,6 +72,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             worker.WorkerSupportsCancellation = true;
             worker.DoWork += new System.ComponentModel.DoWorkEventHandler(worker_DoWork);
             worker.ProgressChanged += new ProgressChangedEventHandler(worker_ProgressChanged);
+            worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(worker_RunWorkerCompleted);
             toolStripProgressBar1.Visible = false;
             cmbSegsID.DisplayMember = "ID";
             cmbRchID.DisplayMember = "SubID";
@@ -95,8 +98,10 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                     _SFROutputPackage.ScaleFactor = 1.0 / 86400;
                     propertyGrid1.SelectedObject = _SFROutputPackage;
                     cmbSFRVars.ComboBox.DataSource = _SFROutputPackage.Variables;
-                    cmbSFRVars.SelectedIndex = 0;
+                    if (_SFROutputPackage.Variables != null && _SFROutputPackage.Variables.Length > 0)
+                        cmbSFRVars.SelectedIndex = 0;
                     _sfroutfile = _SFROutputPackage.FileName;
+                    _curfilename = _sfroutfile;
                 }
             }
         }
@@ -132,28 +137,110 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         {
             labelStatus.Text = "";
             BindSites();
-            if (MyAppManager.Instance.AppMode == Presentation.Controls.AppMode.HE)
-                btnAdd2Toolbox.Visible = false;
-            else
-                btnAdd2Toolbox.Visible = true;
-            cmbSFRVars.ComboBox.DataSource = SFROutput.DefaultAttachedVariables;
-            cmbSFRVars.SelectedIndex = 0;
+            btnAdd2Toolbox.Visible = MyAppManager.Instance.AppMode != Presentation.Controls.AppMode.HE;
+            if (SFROutput != null && SFROutput.DefaultAttachedVariables != null && SFROutput.DefaultAttachedVariables.Length > 0)
+            {
+                cmbSFRVars.ComboBox.DataSource = SFROutput.DefaultAttachedVariables;
+                cmbSFRVars.SelectedIndex = 0;
+            }
             _LoadAllVars = true;
         }
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
-            if (SFROutput != null)
+            if (SFROutput == null)
             {
-                SFROutput.IsLoadCompleteData = chbReadComplData.Checked;
-                toolStripProgressBar1.Visible = true;
-                toolStrip1.Enabled = false;
-                tabControlLeft.Enabled = false;
-                colorSlider1.Enabled = false;
-                SFROutput.Loading += SFROutputPackage_Loading;
-                SFROutput.Loaded += SFROutputPackage_Loaded;
-                worker.RunWorkerAsync();
+                ShowWarning("The SFR output package is not initialized. Please open a model project first.");
+                return;
             }
+            if (worker.IsBusy)
+            {
+                ShowInfo("The SFR output is being loaded. Please wait until the current loading finishes.");
+                return;
+            }
+
+            string reason;
+            if (!CanLoad(out reason))
+            {
+                ShowWarning(reason);
+                return;
+            }
+
+            SFROutput.IsLoadCompleteData = chbReadComplData.Checked;
+            UnsubscribePackageEvents();
+            SFROutput.Loading += SFROutputPackage_Loading;
+            SFROutput.Loaded += SFROutputPackage_Loaded;
+            SFROutput.LoadFailed += SFROutput_LoadFailed;
+            SetBusyState(true, "Loading  0%");
+            worker.RunWorkerAsync();
+        }
+
+        /// <summary>
+        /// 加载前的合法性检查，失败时给出可操作的原因
+        /// </summary>
+        private bool CanLoad(out string reason)
+        {
+            reason = "";
+            var filename = SFROutput.LocalFileName;
+            if (string.IsNullOrWhiteSpace(filename))
+            {
+                reason = "The SFR output file is not specified. Please open a model project first.";
+                return false;
+            }
+            if (!File.Exists(filename))
+            {
+                reason = string.Format("The SFR output file does not exist:\n{0}\nPlease run the model first, or use \"Scan\" to select another output file.", filename);
+                return false;
+            }
+            if (SFROutput.Variables == null || SFROutput.Variables.Length == 0)
+            {
+                reason = "No variable is available. Please click \"Scan\" to read the variable list from the output file.";
+                return false;
+            }
+            if (cmbSFRVars.SelectedIndex < 0)
+            {
+                reason = "Please select a variable before loading.";
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 统一切换忙碌状态，保证任何退出路径下界面都能恢复
+        /// </summary>
+        private void SetBusyState(bool busy, string status = "")
+        {
+            toolStripProgressBar1.Visible = busy;
+            toolStrip1.Enabled = !busy;
+            tabControlLeft.Enabled = !busy && _DataLoaded;
+            colorSlider1.Enabled = !busy && _DataLoaded;
+            labelStatus.Text = status;
+            if (busy)
+                toolStripProgressBar1.Value = toolStripProgressBar1.Minimum;
+        }
+
+        private void UnsubscribePackageEvents()
+        {
+            if (SFROutput == null)
+                return;
+            SFROutput.Loading -= SFROutputPackage_Loading;
+            SFROutput.Loaded -= SFROutputPackage_Loaded;
+            SFROutput.LoadFailed -= SFROutput_LoadFailed;
+        }
+
+        private void ShowInfo(string message)
+        {
+            MessageBox.Show(message, "SFR", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void ShowWarning(string message)
+        {
+            MessageBox.Show(message, "SFR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        private void ShowError(string message)
+        {
+            MessageBox.Show(message, "SFR", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         public void ClearContent()
@@ -163,54 +250,99 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         }
         private void SFROutputPackage_Loaded(object sender, LoadingObjectState e)
         {
-            this.Invoke((MethodInvoker)delegate
+            if (this.InvokeRequired)
             {
-                toolStripProgressBar1.Visible = false;
-                labelStatus.Text = "";
-                toolStrip1.Enabled = true;
-                tabControlLeft.Enabled = true;
-                colorSlider1.Enabled = true;
-                SFROutput.Loading -= SFROutputPackage_Loading;
-                SFROutput.Loaded -= SFROutputPackage_Loaded;
+                this.Invoke((MethodInvoker)delegate { SFROutputPackage_Loaded(sender, e); });
+                return;
+            }
 
-                if (e.State == LoadingState.Normal)
+            if (e.State == LoadingState.Normal)
+            {
+                if (SFROutput.RiverNetwork != null && SFROutput.RiverNetwork.Rivers != null)
                 {
-                    var riv_ids = from rv in SFROutput.RiverNetwork.Rivers select rv.ID;
                     cmbSegsID.DataSource = SFROutput.RiverNetwork.Rivers;
-                    cmbStartID.DataSource = riv_ids.ToArray();
+                    cmbStartID.DataSource = (from rv in SFROutput.RiverNetwork.Rivers select rv.ID).ToArray();
+                }
+                if (SFROutput.DataCube != null)
                     cmbDates.DataSource = SFROutput.DataCube.DateTimes;
-                }
-                else
-                {
-                    MessageBox.Show("Failed to load data. Error message: " + e.Message, "SFR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            });
+            }
+            else
+            {
+                var msg = string.IsNullOrEmpty(e.Message) ? "Unknown error." : e.Message;
+                ShowWarning("Failed to load the SFR output.\n" + msg);
+            }
         }
 
         private void SFROutputPackage_Loading(object sender, int e)
         {
-            worker.ReportProgress(e);
+            if (worker.IsBusy)
+                worker.ReportProgress(e);
         }
 
         private void SFROutput_LoadFailed(object sender, string e)
         {
-            worker.CancelAsync();
-            this.Invoke((MethodInvoker)delegate
-       {
-           toolStripProgressBar1.Visible = false;
-           labelStatus.Text = "";
-           toolStrip1.Enabled = true;
-           tabControlLeft.Enabled = true;
-           colorSlider1.Enabled = true;
-           //SFROutput.LoadFailed -= SFROutput_LoadFailed;
-       });
+            if (worker.IsBusy)
+                worker.CancelAsync();
+            var msg = "Failed to load the SFR output.\n" + e;
+            if (this.InvokeRequired)
+            {
+                this.Invoke((MethodInvoker)delegate { ShowWarning(msg); });
+                return;
+            }
+            ShowWarning(msg);
         }
+
         private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            if (_LoadAllVars)
-                SFROutput.Load(null);
+            if (worker.CancellationPending)
+            {
+                e.Cancel = true;
+                return;
+            }
+            try
+            {
+                if (_LoadAllVars)
+                    SFROutput.Load(null);
+                else
+                    SFROutput.Load(_Selected_Sfr_var, null);
+            }
+            catch (Exception ex)
+            {
+                // 交由 worker_RunWorkerCompleted 统一提示，避免异常逸出后台线程
+                e.Result = ex;
+            }
+        }
+
+        private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            UnsubscribePackageEvents();
+            _DataLoaded = SFROutput != null && SFROutput.DataCube != null && SFROutput.DataCube.Size[1] > 0;
+            SetBusyState(false);
+
+            if (e.Error != null)
+            {
+                ShowError("Failed to load the SFR output.\n" + e.Error.Message);
+                return;
+            }
+            if (e.Result is Exception)
+            {
+                ShowError("Failed to load the SFR output.\n" + ((Exception)e.Result).Message);
+                return;
+            }
+            if (e.Cancelled)
+            {
+                ShowInfo("The loading was cancelled.");
+                return;
+            }
+            if (_DataLoaded)
+            {
+                labelStatus.Text = string.Format("{0} time step(s), {1} variable(s) loaded.",
+                    SFROutput.DataCube.Size[1], SFROutput.DataCube.Size[0]);
+            }
             else
-                SFROutput.Load(_Selected_Sfr_var, null);
+            {
+                ShowWarning("No data is loaded. Please check the output file and the selected variable.");
+            }
         }
 
         private void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -221,53 +353,83 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             labelStatus.Text = string.Format("Loading  {0}%", e.ProgressPercentage);
         }
 
+        /// <summary>
+        /// 检查当前所选变量的数据是否可读，不可读时给出可读的原因
+        /// </summary>
+        private bool TryGetSelectedVariable(out int varIndex, out string reason)
+        {
+            varIndex = cmbSFRVars.SelectedIndex;
+            reason = "";
+            if (SFROutput == null)
+            {
+                reason = "The SFR output package is not initialized. Please open a model project first.";
+                return false;
+            }
+            if (varIndex < 0)
+            {
+                reason = "Please select a variable first.";
+                return false;
+            }
+            return SFROutput.IsVariableReady(varIndex, out reason);
+        }
+
         private void cmbSegsID_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbSegsID.SelectedItem != null)
+            var river = cmbSegsID.SelectedItem as River;
+            if (river == null)
+                return;
+
+            if (chbReadComplData.Checked)
             {
-                var river = cmbSegsID.SelectedItem as River;
-                if (chbReadComplData.Checked)
-                    cmbRchID.DataSource = river.Reaches;
-                else
-                {
-                   // tabControl_Chart.SelectedTab = this.tabPageTimeSeries;
-                    if (cmbSFRVars.SelectedIndex < 0)
-                        return;
-                    var fts = SFROutput.GetTimeSeries(river.ID - 1, cmbSFRVars.SelectedIndex);
-                    if (fts != null)
-                    {
-                        string sereis = string.Format("{0} at Segment {1} Reach {2}", cmbSFRVars.SelectedItem.ToString(), river.ID, river.LastReach.SubID);
-                        winChart_timeseries.Plot<float>(fts.DateTimes, fts[0, ":", "0"], sereis);
-                    }
-                    else
-                    {
-                        MessageBox.Show("No data retrieved.", "SFR", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                }
+                cmbRchID.DataSource = river.Reaches;
+                return;
             }
+
+            int varIndex;
+            string reason;
+            if (!TryGetSelectedVariable(out varIndex, out reason))
+            {
+                ShowWarning(reason);
+                return;
+            }
+
+            var fts = SFROutput.GetTimeSeries(river.ID - 1, varIndex);
+            if (fts == null)
+            {
+                ShowWarning(string.Format("No data is retrieved for \"{0}\" at segment {1}.\nThe segment may not be contained in the loaded data.",
+                    cmbSFRVars.SelectedItem, river.ID));
+                return;
+            }
+            var reachLabel = river.LastReach != null ? river.LastReach.SubID.ToString() : "-";
+            string sereis = string.Format("{0} at Segment {1} Reach {2}", cmbSFRVars.SelectedItem, river.ID, reachLabel);
+            winChart_timeseries.Plot<float>(fts.DateTimes, fts[0, ":", "0"], sereis);
         }
 
         private void cmbRchID_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbSFRVars.SelectedIndex < 0)
+            var reach = cmbRchID.SelectedItem as Reach;
+            if (reach == null)
                 return;
 
-            if (cmbRchID.SelectedItem != null)
+            int varIndex;
+            string reason;
+            if (!TryGetSelectedVariable(out varIndex, out reason))
             {
-               // tabControl_Chart.SelectedTab = this.tabPageTimeSeries;
-                var reach = cmbRchID.SelectedItem as Reach;
-                var fts = SFROutput.GetTimeSeries(reach.Parent.SubIndex, reach.SubIndex, cmbSFRVars.SelectedIndex, _SFROutputPackage.StartOfLoading);
-                if (fts != null)
-                {
-                    var derieved_ts = TimeSeriesAnalyzer.Derieve(fts, _SFROutputPackage.NumericalDataType, _SFROutputPackage.TimeUnits);
-                    string sereis = string.Format("{0} at Segment {1} Reach {2}", cmbSFRVars.SelectedItem.ToString(), reach.Parent.ID, reach.SubID);
-                    winChart_timeseries.Plot<float>(derieved_ts.DateTimes, derieved_ts[0, ":", "0"], sereis);
-                }
-                else
-                {
-                    MessageBox.Show("No data retrieved.", "SFR", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                ShowWarning(reason);
+                return;
             }
+
+            var fts = SFROutput.GetTimeSeries(reach.Parent.SubIndex, reach.SubIndex, varIndex, _SFROutputPackage.StartOfLoading);
+            if (fts == null)
+            {
+                ShowWarning(string.Format("No data is retrieved for \"{0}\" at segment {1} reach {2}.\nThe reach may not be contained in the loaded data.",
+                    cmbSFRVars.SelectedItem, reach.Parent != null ? reach.Parent.ID : 0, reach.SubID));
+                return;
+            }
+            var derieved_ts = TimeSeriesAnalyzer.Derieve(fts, _SFROutputPackage.NumericalDataType, _SFROutputPackage.TimeUnits);
+            string sereis = string.Format("{0} at Segment {1} Reach {2}", cmbSFRVars.SelectedItem,
+                reach.Parent != null ? reach.Parent.ID : 0, reach.SubID);
+            winChart_timeseries.Plot<float>(derieved_ts.DateTimes, derieved_ts[0, ":", "0"], sereis);
         }
 
         private void cmbSite_SelectedIndexChanged(object sender, EventArgs e)
@@ -282,10 +444,21 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
 
         private void cmbObsVars_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (ODM != null)
+            if (ODM == null)
+                return;
+
+            var site = cmbSite.SelectedItem as Site;
+            var varb = cmbObsVars.SelectedItem as Variable;
+            if (site == null || varb == null)
+                return;
+            if (_SFROutputPackage == null)
             {
-                var site = cmbSite.SelectedItem as Site;
-                var varb = cmbObsVars.SelectedItem as Variable;
+                ShowWarning("The SFR output package is not initialized. Please open a model project first.");
+                return;
+            }
+
+            try
+            {
                 var ts = ODM.GetTimeSeries(new QueryCriteria()
                 {
                     Start = _SFROutputPackage.StartOfLoading,
@@ -294,12 +467,18 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                     VariableID = varb.ID,
                     VariableName = varb.Name
                 });
-                if (ts != null)
+                if (ts == null)
                 {
-                    var derieved_ts = TimeSeriesAnalyzer.Derieve(ts, _SFROutputPackage.NumericalDataType, _SFROutputPackage.TimeUnits);
-                    string sereis = string.Format("{1} at {0}", site.Name, varb.Name);
-                    winChart_timeseries.Plot<double>(derieved_ts.DateTimes, derieved_ts[0, ":", "0"], sereis);
+                    ShowInfo(string.Format("No observation is available for \"{0}\" at \"{1}\" within the selected period.", varb.Name, site.Name));
+                    return;
                 }
+                var derieved_ts = TimeSeriesAnalyzer.Derieve(ts, _SFROutputPackage.NumericalDataType, _SFROutputPackage.TimeUnits);
+                string sereis = string.Format("{1} at {0}", site.Name, varb.Name);
+                winChart_timeseries.Plot<double>(derieved_ts.DateTimes, derieved_ts[0, ":", "0"], sereis);
+            }
+            catch (Exception ex)
+            {
+                ShowError(string.Format("Failed to read the observation series of \"{0}\" at \"{1}\".\n{2}", varb.Name, site.Name, ex.Message));
             }
         }
 
@@ -326,54 +505,79 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
 
         private void cmbEndID_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbEndID.SelectedItem != null)
+            if (cmbEndID.SelectedItem == null || cmbStartID.SelectedItem == null)
+                return;
+
+            int varIndex;
+            string reason;
+            if (!TryGetSelectedVariable(out varIndex, out reason))
             {
-                if (cmbSFRVars.SelectedIndex < 0)
-                    return;
-
-                if (!SFROutput.DataCube.IsAllocated(cmbSFRVars.SelectedIndex))
-                {
-                    MessageBox.Show("The selected variable is not loaded.", "SFR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                //tabControl_Chart.SelectedTab = this.tabPageProfile;
-                var river_start = (int)cmbStartID.SelectedItem;
-                var river_end = (int)cmbEndID.SelectedItem;
-
-                _ProfileRivers = SFROutput.RiverNetwork.BuildProfile(river_start, river_end);
-                _ProfileMat = SFROutput.ProfileTimeSeries(_ProfileRivers, cmbSFRVars.SelectedIndex, 0,
-                    chbReadComplData.Checked, chbUnifiedByLength.Checked);
-                colorSlider1.Maximum = SFROutput.DataCube.Size[1] - 1;
-                colorSlider1.Value = 0;
-                string series = string.Format("{0} from {1} to {2}", cmbSFRVars.SelectedItem.ToString(), river_start, river_end);
-                winChart_proflie.Plot(_ProfileMat[0, "0", ":"], _ProfileMat[1, "0", ":"], series);
+                ShowWarning(reason);
+                return;
             }
+
+            var river_start = (int)cmbStartID.SelectedItem;
+            var river_end = (int)cmbEndID.SelectedItem;
+
+            _ProfileRivers = SFROutput.RiverNetwork.BuildProfile(river_start, river_end);
+            _ProfileMat = SFROutput.ProfileTimeSeries(_ProfileRivers, varIndex, 0,
+                chbReadComplData.Checked, chbUnifiedByLength.Checked);
+            if (_ProfileMat == null)
+            {
+                ShowWarning(string.IsNullOrEmpty(SFROutput.Message)
+                    ? string.Format("Failed to build the profile from segment {0} to segment {1}.", river_start, river_end)
+                    : SFROutput.Message);
+                return;
+            }
+            colorSlider1.Maximum = Math.Max(0, SFROutput.DataCube.Size[1] - 1);
+            colorSlider1.Value = 0;
+            colorSlider1.Enabled = true;
+            string series = string.Format("{0} from {1} to {2}", cmbSFRVars.SelectedItem, river_start, river_end);
+            winChart_proflie.Plot(_ProfileMat[0, "0", ":"], _ProfileMat[1, "0", ":"], series);
         }
 
         private void colorSlider1_Scroll(object sender, ScrollEventArgs e)
         {
-            if (cmbStartID.SelectedItem == null || cmbEndID.SelectedItem == null || cmbSFRVars.SelectedIndex < 0 || colorSlider1.Value == 0)
-            {
+            if (_ProfileRivers == null || cmbStartID.SelectedItem == null || cmbEndID.SelectedItem == null)
                 return;
-            }
-            _ProfileMat = SFROutput.ProfileTimeSeries(_ProfileRivers, cmbSFRVars.SelectedIndex, colorSlider1.Value,
+
+            int varIndex;
+            string reason;
+            // 拖动过程中不弹窗打断操作
+            if (!TryGetSelectedVariable(out varIndex, out reason))
+                return;
+
+            _ProfileMat = SFROutput.ProfileTimeSeries(_ProfileRivers, varIndex, colorSlider1.Value,
                 chbReadComplData.Checked, chbUnifiedByLength.Checked);
-            string series = string.Format("{0} from {1} to {2}", cmbSFRVars.SelectedItem.ToString(), cmbStartID.SelectedItem, cmbEndID.SelectedItem);
+            if (_ProfileMat == null)
+                return;
+
+            string series = string.Format("{0} from {1} to {2}", cmbSFRVars.SelectedItem, cmbStartID.SelectedItem, cmbEndID.SelectedItem);
             winChart_proflie.Plot(_ProfileMat[0, "0", ":"], _ProfileMat[1, "0", ":"], series);
-            if (colorSlider1.Value < SFROutput.TimeService.IOTimeline.Count)
+            if (SFROutput.TimeService != null && SFROutput.TimeService.IOTimeline != null
+                && colorSlider1.Value < SFROutput.TimeService.IOTimeline.Count)
                 tbCurDate.Text = SFROutput.TimeService.IOTimeline[colorSlider1.Value].ToString();
         }
 
         private void BindSites()
         {
-            var projectService = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
-            ODM = projectService.Project.ODMSource;
-            if (ODM != null)
+            try
             {
+                var projectService = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
+                ODM = projectService != null && projectService.Project != null ? projectService.Project.ODMSource : null;
+                if (ODM == null)
+                {
+                    labelStatus.Text = "No observation database (ODM) is available in the current project.";
+                    return;
+                }
                 var sites = ODM.GetSites(Settings.Default.GagingStationSQL);
                 if (sites != null)
                     cmbSite.DataSource = sites;
+            }
+            catch (Exception ex)
+            {
+                ODM = null;
+                labelStatus.Text = "Failed to bind observation sites: " + ex.Message;
             }
         }
 
@@ -392,6 +596,11 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
 
         private void segmentsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (SFROutput == null)
+            {
+                ShowWarning("The SFR output package is not initialized. Please open a model project first.");
+                return;
+            }
             SaveFileDialog dlg = new SaveFileDialog();
             dlg.Filter = "shp file|*.shp";
             if (dlg.ShowDialog() == DialogResult.OK)
@@ -402,6 +611,11 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
 
         private void reachesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (SFROutput == null)
+            {
+                ShowWarning("The SFR output package is not initialized. Please open a model project first.");
+                return;
+            }
             SaveFileDialog dlg = new SaveFileDialog();
             dlg.Filter = "shp file|*.shp";
             if (dlg.ShowDialog() == DialogResult.OK)
@@ -413,44 +627,73 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         private void exportRiversToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (_ProfileRivers == null)
-                return;
-            SaveFileDialog ofd = new SaveFileDialog();
-            ofd.FileName = "Segment Profile.csv";
-            if (ofd.ShowDialog() == DialogResult.OK)
             {
-                StreamWriter sw = new StreamWriter(ofd.FileName);
-                sw.WriteLine("NSEG,ICALC,OUTSEG,IUPSEG,FLOW,RUNOFF,ETSW,PPTSW,ROUGHCH,WIDTH1,WIDTH2,IPRIOR");
-                foreach (var river in _ProfileRivers)
+                ShowInfo("No river profile is available. Please select a start segment and an end segment first.");
+                return;
+            }
+            using (SaveFileDialog ofd = new SaveFileDialog())
+            {
+                ofd.FileName = "Segment Profile.csv";
+                ofd.Filter = "csv file|*.csv";
+                if (ofd.ShowDialog() != DialogResult.OK)
+                    return;
+                try
                 {
-                    string line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}", river.ID, river.ICALC, river.OutRiverID,
-                        river.UpRiverID, river.Flow, river.Runoff, river.ETSW, river.PPTSW, river.ROUGHCH, river.Width1, river.Width2, river.IPrior);
-                    sw.WriteLine(line);
-
+                    using (StreamWriter sw = new StreamWriter(ofd.FileName))
+                    {
+                        sw.WriteLine("NSEG,ICALC,OUTSEG,IUPSEG,FLOW,RUNOFF,ETSW,PPTSW,ROUGHCH,WIDTH1,WIDTH2,IPRIOR");
+                        foreach (var river in _ProfileRivers)
+                        {
+                            string line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}", river.ID, river.ICALC, river.OutRiverID,
+                                river.UpRiverID, river.Flow, river.Runoff, river.ETSW, river.PPTSW, river.ROUGHCH, river.Width1, river.Width2, river.IPrior);
+                            sw.WriteLine(line);
+                        }
+                    }
+                    labelStatus.Text = string.Format("{0} segment(s) exported.", _ProfileRivers.Count);
                 }
-                sw.Close();
+                catch (Exception ex)
+                {
+                    ShowError(string.Format("Failed to export the segment profile to \"{0}\".\n{1}", ofd.FileName, ex.Message));
+                }
             }
         }
         private void exportReachesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (_ProfileRivers == null)
-                return;
-            SaveFileDialog ofd = new SaveFileDialog();
-            ofd.FileName = "Reach Profile.csv";
-            if (ofd.ShowDialog() == DialogResult.OK)
             {
-                StreamWriter sw = new StreamWriter(ofd.FileName);
-                sw.WriteLine("KRCH,IRCH,JRCH,ISEG,IREACH,RCHLEN,STRTOP,SLOPE,STRTHICK,STRHC1,THTS,THTI,EPS");
-                foreach (var river in _ProfileRivers)
+                ShowInfo("No river profile is available. Please select a start segment and an end segment first.");
+                return;
+            }
+            using (SaveFileDialog ofd = new SaveFileDialog())
+            {
+                ofd.FileName = "Reach Profile.csv";
+                ofd.Filter = "csv file|*.csv";
+                if (ofd.ShowDialog() != DialogResult.OK)
+                    return;
+                try
                 {
-                    foreach (var re in river.Reaches)
+                    int count = 0;
+                    using (StreamWriter sw = new StreamWriter(ofd.FileName))
                     {
-                        string line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12}", re.KRCH, re.IRCH, re.JRCH, re.ISEG,
-                            re.IREACH, re.Length, re.TopElevation, re.Slope, re.BedThick,
-                            re.STRHC1, re.THTS, re.THTI, re.EPS);
-                        sw.WriteLine(line);
+                        sw.WriteLine("KRCH,IRCH,JRCH,ISEG,IREACH,RCHLEN,STRTOP,SLOPE,STRTHICK,STRHC1,THTS,THTI,EPS");
+                        foreach (var river in _ProfileRivers)
+                        {
+                            foreach (var re in river.Reaches)
+                            {
+                                string line = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12}", re.KRCH, re.IRCH, re.JRCH, re.ISEG,
+                                    re.IREACH, re.Length, re.TopElevation, re.Slope, re.BedThick,
+                                    re.STRHC1, re.THTS, re.THTI, re.EPS);
+                                sw.WriteLine(line);
+                                count++;
+                            }
+                        }
                     }
+                    labelStatus.Text = string.Format("{0} reach(es) exported.", count);
                 }
-                sw.Close();
+                catch (Exception ex)
+                {
+                    ShowError(string.Format("Failed to export the reach profile to \"{0}\".\n{1}", ofd.FileName, ex.Message));
+                }
             }
         }
 
@@ -458,51 +701,146 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         {
             if (_ShellService == null)
                 _ShellService = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
-            Cursor.Current = Cursors.WaitCursor;
-            if (_ProfileRivers != null && SFROutput.DataCube != null)
+
+            if (_ProfileRivers == null)
             {
-                var mat = SFROutput.GetProfileTimeSeries(_ProfileRivers, cmbSFRVars.SelectedIndex, cmbSFRVars.SelectedItem.ToString(), SFROutput.DataCube.Size[1],
-                       chbReadComplData.Checked, chbUnifiedByLength.Checked);
+                ShowWarning("No river profile is available. Please select a start segment and an end segment first.");
+                return;
+            }
+
+            int varIndex;
+            string reason;
+            if (!TryGetSelectedVariable(out varIndex, out reason))
+            {
+                ShowWarning(reason);
+                return;
+            }
+
+            Cursor.Current = Cursors.WaitCursor;
+            try
+            {
+                var mat = SFROutput.GetProfileTimeSeries(_ProfileRivers, varIndex, cmbSFRVars.SelectedItem.ToString(),
+                    SFROutput.DataCube.Size[1], chbReadComplData.Checked, chbUnifiedByLength.Checked);
+                if (mat == null)
+                {
+                    ShowWarning(string.IsNullOrEmpty(SFROutput.Message)
+                        ? "Failed to build the profile data cube."
+                        : SFROutput.Message);
+                    return;
+                }
                 _ShellService.PackageToolManager.Workspace.Add(mat);
             }
-            else
+            finally
             {
-                MessageBox.Show("No data loaded", "SFR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Cursor.Current = Cursors.Default;
             }
-            Cursor.Current = Cursors.Default;
         }
 
         private void btnAddSfrMat2Toolbox_Click(object sender, EventArgs e)
         {
+            if (SFROutput == null || SFROutput.DataCube == null || SFROutput.DataCube.Size[1] == 0)
+            {
+                ShowWarning("No SFR output is loaded. Please load the data first.");
+                return;
+            }
             if (_ShellService == null)
                 _ShellService = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
             Cursor.Current = Cursors.WaitCursor;
-            _ShellService.PackageToolManager.Workspace.Add(SFROutput.DataCube);
-            Cursor.Current = Cursors.Default;
+            try
+            {
+                _ShellService.PackageToolManager.Workspace.Add(SFROutput.DataCube);
+            }
+            finally
+            {
+                Cursor.Current = Cursors.Default;
+            }
         }
 
         private void cmbSFRVars_SelectedIndexChanged(object sender, EventArgs e)
         {
             _Selected_Sfr_var = cmbSFRVars.SelectedIndex;
-            //if (_Selected_Sfr_var == 0 || _Selected_Sfr_var == 2)
-            //    _SFROutputPackage.Offset = 10;
-            //else
-            //    _SFROutputPackage.Offset = 0;
+            var slctvar = cmbSFRVars.SelectedItem.ToString() ;
+
+            if ( slctvar ==  "overland flow" || slctvar == "flow out"|| slctvar == "stream loss")
+            {
+                _SFROutputPackage.ScaleFactor = 1.0 / 86400;
+            }
+            else
+            {
+                _SFROutputPackage.ScaleFactor = 1.0;
+            }
         }
 
         private void btnScan_Click(object sender, EventArgs e)
         {
-            SFROutput.Scan();
-            if (SFROutput.NumTimeStep > 0)
+            if (SFROutput == null)
             {
-                tabControlLeft.Enabled = true;
-
+                ShowWarning("The SFR output package is not initialized. Please open a model project first.");
+                return;
             }
+            if (string.IsNullOrWhiteSpace(_curfilename) || !File.Exists(_curfilename))
+            {
+                ShowWarning(string.Format("The output file does not exist:\n{0}\nPlease run the model first.", _curfilename));
+                return;
+            }
+
+            SFROutput.FileName = _curfilename;
+            var isBinary = _curfilename.EndsWith(".dcx", StringComparison.OrdinalIgnoreCase);
+
+            // Scan 负责构建河段索引；失败信息先记录，二进制文件可由 ScanVariables 补充时间步信息
+            string scanMessage = null;
+            if (!SFROutput.Scan())
+                scanMessage = SFROutput.Message;
+
+            if (isBinary)
+            {
+                if (!SFROutput.ScanVariables(_curfilename))
+                {
+                    ShowWarning(SFROutput.Message);
+                    return;
+                }
+            }
+            else
+            {
+                if (scanMessage != null)
+                {
+                    ShowWarning(scanMessage);
+                    return;
+                }
+                SFROutput.ResetVariablesToDefault();
+            }
+
+            if (SFROutput.NumTimeStep <= 0)
+            {
+                ShowWarning(string.Format("No time step is found in \"{0}\". Please run the model first.", _curfilename));
+                return;
+            }
+            if (SFROutput.Variables == null || SFROutput.Variables.Length == 0)
+            {
+                ShowWarning(string.Format("No variable is found in \"{0}\".", _curfilename));
+                return;
+            }
+
+            tabControlLeft.Enabled = true;
+            cmbSFRVars.ComboBox.DataSource = SFROutput.Variables;
+            cmbSFRVars.SelectedIndex = 0;
+            labelStatus.Text = string.Format("{0} variable(s), {1} time step(s) found.", SFROutput.Variables.Length, SFROutput.NumTimeStep);
         }
 
         private void btnClear_Click(object sender, EventArgs e)
         {
+            if (_SFROutputPackage == null || _SFROutputPackage.DataCube == null)
+            {
+                ShowInfo("No data is loaded.");
+                return;
+            }
             _SFROutputPackage.DataCube.Clear();
+            _ProfileMat = null;
+            _ProfileRivers = null;
+            _DataLoaded = false;
+            winChart_timeseries.Clear();
+            winChart_proflie.Clear();
+            SetBusyState(false, "Content cleared.");
         }
 
         private void cmbLoadVar_SelectedIndexChanged(object sender, EventArgs e)
@@ -516,35 +854,42 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         private void btnShowLayer_Click(object sender, EventArgs e)
         {
             if (cmbLayers.SelectedItem == null)
+            {
+                ShowWarning("Please select a feature layer first.");
                 return;
+            }
             if (cmbDates.SelectedItem == null)
+            {
+                ShowWarning("Please select a date first.");
                 return;
-            if (cmbSFRVars.SelectedIndex < 0)
-                return;
+            }
             if (cmbSegFields.SelectedIndex < 0)
             {
-                MessageBox.Show("Field that represents Segment ID must be selected", "SFR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ShowWarning("The field that represents Segment ID must be selected.");
                 return;
             }
             if (chbReadComplData.Checked && cmbReachFields.SelectedIndex < 0)
             {
-                MessageBox.Show("Field that represents Reach ID must be selected", "SFR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ShowWarning("The field that represents Reach ID must be selected.");
                 return;
             }
 
-            if (!SFROutput.DataCube.IsAllocated(cmbSFRVars.SelectedIndex))
+            int varIndex;
+            string reason;
+            if (!TryGetSelectedVariable(out varIndex, out reason))
             {
-                MessageBox.Show("The selected variable is not loaded.", "SFR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ShowWarning(reason);
                 return;
             }
 
             _SelectedFeatureMapLayer = cmbLayers.SelectedItem as FeatureMapLayer;
-            if (_SelectedFeatureMapLayer != null)
+            if (_SelectedFeatureMapLayer == null)
+                return;
+
+            var dt = _SelectedFeatureMapLayer.DataSet.DataTable;
+            Cursor.Current = Cursors.WaitCursor;
+            try
             {
-                var dt = _SelectedFeatureMapLayer.DataSet.DataTable;
-                Cursor.Current = Cursors.WaitCursor;
-                int segid = 0;
-                int reachid = 0;
                 int failurecount = 0;
                 var varname = SFROutput.GetVarAbv(cmbSFRVars.SelectedItem.ToString());
                 if (!dt.Columns.Contains(varname))
@@ -552,7 +897,12 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                     DataColumn col = new DataColumn(varname, typeof(float));
                     dt.Columns.Add(col);
                 }
-                var vec = SFROutput.DataCube.GetVector(cmbSFRVars.SelectedIndex, cmbDates.SelectedIndex.ToString(), ":");
+                var vec = SFROutput.DataCube.GetVector(varIndex, cmbDates.SelectedIndex.ToString(), ":");
+                if (vec == null || vec.Length == 0)
+                {
+                    ShowWarning(string.Format("No value is available for \"{0}\" at the selected date.", cmbSFRVars.SelectedItem));
+                    return;
+                }
 
                 if (chbReadComplData.Checked)
                 {
@@ -561,18 +911,20 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {
                         var dr = dt.Rows[i];
-                        segid = 0;
-                        reachid = 0;
+                        int segid = 0;
+                        int reachid = 0;
                         int.TryParse(dr[segfield].ToString(), out segid);
                         int.TryParse(dr[reachfield].ToString(), out reachid);
-                        if (segid != 0 && reachid != 0)
+                        if (segid <= 0 || reachid <= 0)
                         {
-                            var index = SFROutput.GetReachSerialIndex(segid, reachid);
-                            if (index >= 0)
-                                dt.Rows[i][varname] = vec[index];
-                            else
-                                failurecount++;
+                            failurecount++;
+                            continue;
                         }
+                        var index = SFROutput.GetReachSerialIndex(segid, reachid);
+                        if (index >= 0 && index < vec.Length)
+                            dt.Rows[i][varname] = vec[index];
+                        else
+                            failurecount++;
                     }
                 }
                 else
@@ -581,12 +933,10 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {
                         var dr = dt.Rows[i];
-                        segid = 0;
+                        int segid = 0;
                         int.TryParse(dr[segfield].ToString(), out segid);
-                        if (segid != 0)
-                        {
+                        if (segid > 0 && segid <= vec.Length)
                             dt.Rows[i][varname] = vec[segid - 1];
-                        }
                         else
                             failurecount++;
                     }
@@ -594,13 +944,17 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
 
                 if (failurecount > 0)
                 {
-                    MessageBox.Show("The number of failed rows is: " + failurecount, "SFR", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    ShowWarning(string.Format("{0} of {1} row(s) in layer \"{2}\" are not updated.\nPlease check that the selected segment/reach ID fields match the SFR network.",
+                        failurecount, dt.Rows.Count, _SelectedFeatureMapLayer.LegendText));
+                    return;
                 }
-                else
-                {
-                    if (checkBoxSaveLayer.Checked)
-                        _SelectedFeatureMapLayer.DataSet.Save();
-                }
+
+                if (checkBoxSaveLayer.Checked)
+                    _SelectedFeatureMapLayer.DataSet.Save();
+                labelStatus.Text = string.Format("{0} row(s) updated in layer \"{1}\".", dt.Rows.Count, _SelectedFeatureMapLayer.LegendText);
+            }
+            finally
+            {
                 Cursor.Current = Cursors.Default;
             }
         }
@@ -624,6 +978,11 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
 
         private void riverJunctionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (SFROutput == null)
+            {
+                ShowWarning("The SFR output package is not initialized. Please open a model project first.");
+                return;
+            }
             SaveFileDialog dlg = new SaveFileDialog();
             dlg.Filter = "shp file|*.shp";
             if (dlg.ShowDialog() == DialogResult.OK)
@@ -665,32 +1024,40 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         }
         private void mi_flow_Click(object sender, EventArgs e)
         {
-            SFROutput.FileName = _sfroutfile;
-            cmbSFRVars.ComboBox.DataSource = SFROutput.DefaultAttachedVariables;
-            cmbSFRVars.SelectedIndex = 0;
+            if (SFROutput == null)
+            {
+                ShowWarning("The SFR output package is not initialized. Please open a model project first.");
+                return;
+            }
+
+            var items = new ToolStripMenuItem[] { this.mi_flow, this.mi_nps, this.mi_month_npc, this.mi_sediment };
+            foreach (ToolStripMenuItem it in items)
+            {
+                it.CheckState = CheckState.Unchecked;
+            }
+            ToolStripMenuItem item = sender as ToolStripMenuItem;
+            if (item == null)
+                return;
+            item.CheckState = CheckState.Checked;
+
+            var outputDir = Path.Combine(ModelService.WorkDirectory, "output");
+            if (item.Name == "mi_flow")
+            {
+                _curfilename = _sfroutfile;
+            }
+            else if (item.Name == "mi_nps")
+            {
+                _curfilename = Path.Combine(outputDir, "sfrwq.dcx");
+            }
+            else if (item.Name == "mi_sediment")
+            {
+                _curfilename = Path.Combine(outputDir, "sed_reach.dcx");
+            }
+            else if (item.Name == "mi_month_npc")
+            {
+                _curfilename = Path.Combine(outputDir, "reachNP.dcx");
+            }
+            this.btnScan_Click(this.btnScan, EventArgs.Empty);
         }
-
-        private void mi_conc_Click(object sender, EventArgs e)
-        {
-            SFROutput.FileName = ".\\output\\sfrwq.dcx";
-            cmbSFRVars.ComboBox.DataSource = SFROutput.DefaultWQVariables;
-            cmbSFRVars.SelectedIndex = 0;
-        }
-
-        private void mi_so4comp_Click(object sender, EventArgs e)
-        {
-            SFROutput.FileName = ".\\output\\sfr_so4.dcx";
-            cmbSFRVars.ComboBox.DataSource = SFROutput.DefaultSO4Variables;
-            cmbSFRVars.SelectedIndex = 0;
-        }
-
-        private void mi_fucomp_Click(object sender, EventArgs e)
-        {
-            SFROutput.FileName = ".\\output\\sfr_fu.dcx";
-            cmbSFRVars.ComboBox.DataSource = SFROutput.DefaultFUVariables;
-            cmbSFRVars.SelectedIndex = 0;
-        }
-
-
     }
 }

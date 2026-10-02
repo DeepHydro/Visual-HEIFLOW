@@ -193,13 +193,31 @@ namespace Heiflow.Models.Subsurface
         }
         public override bool Scan()
         {
-            
-            NumTimeStep = TimeService.GetIOTimeLength(this.Owner.WorkDirectory);
-            if (NumTimeStep > 0)
+            Message = "";
+
+            if (_SFRPackage == null || _SFRPackage.RiverNetwork == null)
             {
-                _StartLoading = TimeService.Start;
-                MaxTimeStep = NumTimeStep;
+                Message = "The SFR package or its river network is not available. Please load the SFR package first.";
+                OnScanFailed(Message);
+                return false;
             }
+            if (TimeService == null || Owner == null || Owner.WorkDirectory == null)
+            {
+                Message = "The model time service is not initialized. Please check the time settings of the model.";
+                OnScanFailed(Message);
+                return false;
+            }
+
+            NumTimeStep = TimeService.GetIOTimeLength(this.Owner.WorkDirectory);
+            if (NumTimeStep <= 0)
+            {
+                Message = string.Format("No output time step is found in \"{0}\". Please run the model first.", this.Owner.WorkDirectory);
+                OnScanFailed(Message);
+                return false;
+            }
+            _StartLoading = TimeService.Start;
+            MaxTimeStep = NumTimeStep;
+
             var network = _SFRPackage.RiverNetwork;
             var index = 0;
             ReachIndex.Clear();
@@ -213,18 +231,117 @@ namespace Heiflow.Models.Subsurface
             }
             return true;
         }
+
+        /// <summary>
+        /// 文本文件没有变量头信息，将变量列表恢复为默认的文本输出变量集
+        /// </summary>
+        public void ResetVariablesToDefault()
+        {
+            Variables = DefaultAttachedVariables;
+            if (NumTimeStep <= 0 && TimeService != null && Owner != null)
+            {
+                NumTimeStep = TimeService.GetIOTimeLength(Owner.WorkDirectory);
+                MaxTimeStep = NumTimeStep;
+            }
+        }
+
+        /// <summary>
+        /// 扫描 dcx 文件中的变量名与时间步数
+        /// </summary>
+        /// <param name="filename">dcx 文件全路径</param>
+        /// <returns>扫描成功返回 true；失败时通过 Message 给出原因</returns>
+        public bool ScanVariables(string filename)
+        {
+            Message = "";
+
+            if (string.IsNullOrWhiteSpace(filename))
+            {
+                Message = "The output file name is not specified.";
+                OnScanFailed(Message);
+                return false;
+            }
+            if (!File.Exists(filename))
+            {
+                Message = string.Format("The output file does not exist: {0}", filename);
+                OnScanFailed(Message);
+                return false;
+            }
+
+            try
+            {
+                DataCubeStreamReader stream = new DataCubeStreamReader(filename);
+                var info = stream.GetFileInfo();
+                if (info == null || info.VariableNames == null || info.VariableNames.Length == 0)
+                {
+                    Message = string.Format("No variable is found in \"{0}\". The file may be empty or corrupted.", filename);
+                    OnScanFailed(Message);
+                    return false;
+                }
+                Variables = info.VariableNames;
+                NumTimeStep = info.TotalTimeSteps;
+                if (TimeService != null)
+                    _StartLoading = TimeService.Start;
+                MaxTimeStep = NumTimeStep;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Message = string.Format("Failed to scan variables from \"{0}\". Error message: {1}", filename, ex.Message);
+                OnScanFailed(Message);
+                return false;
+            }
+        }
+        /// <summary>
+        /// 读取一行并去除首尾空白；到达文件尾时返回 null，避免对 null 调用 Trim 引发异常
+        /// </summary>
+        private static string ReadLineSafe(StreamReader sr)
+        {
+            if (sr == null || sr.EndOfStream)
+                return null;
+            var line = sr.ReadLine();
+            if (line == null)
+                return null;
+            return line.Trim();
+        }
+
         public override LoadingState Load(ICancelProgressHandler progresshandler)
         {
             _ProgressHandler = progresshandler;
-            _NumTimeStep = TimeService.GetIOTimeLength(ModelService.WorkDirectory);
+            Message = "";
+
+            if (_SFRPackage == null || _SFRPackage.RiverNetwork == null)
+            {
+                Message = "The river network does not exist. Please load the SFR package first.";
+                ShowWarning(Message, progresshandler);
+                OnLoaded(progresshandler, new LoadingObjectState() { Message = Message, Object = this, State = LoadingState.Warning });
+                return LoadingState.Warning;
+            }
+
             var filename = LocalFileName;
+            if (string.IsNullOrWhiteSpace(filename))
+            {
+                Message = "The output file name is not specified.";
+                ShowWarning(Message, progresshandler);
+                OnLoaded(progresshandler, new LoadingObjectState() { Message = Message, Object = this, State = LoadingState.Warning });
+                return LoadingState.Warning;
+            }
+
             var result = LoadingState.Normal;
             if (File.Exists(filename))
             {
-                if(OutputFormat == FileFormat.Text)
-                    result = LoadAllVarsFromText(filename, progresshandler);
-                else
-                    result = LoadAllVarsFromBinary(filename, progresshandler);
+                try
+                {
+                    if (OutputFormat == FileFormat.Text)
+                        result = LoadAllVarsFromText(filename, progresshandler);
+                    else
+                        result = LoadAllVarsFromBinary(filename, progresshandler);
+                }
+                catch (Exception ex)
+                {
+                    Message = string.Format("Failed to read \"{0}\". Error message: {1}", filename, ex.Message);
+                    ShowWarning(Message, progresshandler);
+                    result = LoadingState.FatalError;
+                }
             }
             else
             {
@@ -263,34 +380,51 @@ namespace Heiflow.Models.Subsurface
         public override LoadingState Load(int var_index, ICancelProgressHandler progresshandler)
         {
             _ProgressHandler = progresshandler;
-            _NumTimeStep = TimeService.GetIOTimeLength(ModelService.WorkDirectory);
-             var  filename =LocalFileName;
-             var result = LoadingState.Normal;
-            if (File.Exists(filename))
+            Message = "";
+            var filename = LocalFileName;
+            var result = LoadingState.Normal;
+
+            if (_SFRPackage == null || _SFRPackage.RiverNetwork == null)
             {
-                var network = _SFRPackage.RiverNetwork;
-                RiverNetwork = network;
-                if (network == null)
-                {
-                    Message = "The river network does not exist.";
-                    ShowWarning(Message, progresshandler);
-                    result = LoadingState.Warning;
-                    OnLoaded(progresshandler, new LoadingObjectState() { Message = Message, Object = this, State = result });
-                    return result;
-                }
-                else
-                {
-                    if(OutputFormat == FileFormat.Text)
-                    result = LoadSingleVarFromText(filename, var_index, progresshandler);
-                    else
-                        result = LoadSingleVarFromBanary(filename, var_index, progresshandler);
-                }
+                Message = "The river network does not exist. Please load the SFR package first.";
+                result = LoadingState.Warning;
+            }
+            else if (string.IsNullOrWhiteSpace(filename))
+            {
+                Message = "The output file name is not specified.";
+                result = LoadingState.Warning;
+            }
+            else if (!File.Exists(filename))
+            {
+                Message = "The file does not exist: " + filename;
+                result = LoadingState.Warning;
+            }
+            else if (Variables == null || var_index < 0 || var_index >= Variables.Length)
+            {
+                Message = string.Format("The variable index {0} is out of range. Only {1} variable(s) are available in the file.",
+                    var_index, Variables == null ? 0 : Variables.Length);
+                result = LoadingState.Warning;
             }
             else
             {
-                ShowWarning("The file does not exist: " + filename, progresshandler);
-                result = LoadingState.Warning;
+                var network = _SFRPackage.RiverNetwork;
+                RiverNetwork = network;
+                try
+                {
+                    if (OutputFormat == FileFormat.Text)
+                        result = LoadSingleVarFromText(filename, var_index, progresshandler);
+                    else
+                        result = LoadSingleVarFromBanary(filename, var_index, progresshandler);
+                }
+                catch (Exception ex)
+                {
+                    Message = string.Format("Failed to read \"{0}\". Error message: {1}", filename, ex.Message);
+                    result = LoadingState.FatalError;
+                }
             }
+
+            if (result != LoadingState.Normal)
+                ShowWarning(Message, progresshandler);
 
             OnLoaded(progresshandler, new LoadingObjectState() { Message = Message, Object = this, State = result });
             return result;
@@ -315,11 +449,12 @@ namespace Heiflow.Models.Subsurface
                 reachNum = network.RiverCount;
             }
 
+            int skippedSteps = SkippedSteps;
             if (IsReadSSData)
             {
-                SkippedSteps = SkippedSteps - 1;
+                skippedSteps = Math.Max(0, SkippedSteps - 1);
             }
-            for (int t = 0; t < SkippedSteps * network.ReachCount + SkippedSteps * 8; t++)
+            for (int t = 0; t < skippedSteps * network.ReachCount + skippedSteps * 8; t++)
             {
                 if (!sr.EndOfStream)
                     line = sr.ReadLine();
@@ -355,19 +490,17 @@ namespace Heiflow.Models.Subsurface
                     {
                         for (int j = 0; j < network.Rivers[i].Reaches.Count; j++)
                         {
-                            line = sr.ReadLine().Trim();
-                            if (line != "")
+                            line = ReadLineSafe(sr);
+                            if (string.IsNullOrEmpty(line))
                             {
-                                var temp = TypeConverterEx.SkipSplit<float>(line, 5);
-                                //Values.Value[var_index][t][rch_index] = temp[var_index];
-                                // DataCube.ILArrays[var_index].SetValue(temp[var_index], t, rch_index);
-                                DataCube[var_index, t, rch_index] = temp[var_index] * scale;
-                            }
-                            else
-                            {
-                                Debug.WriteLine(String.Format("step:{0} seg:{1} reach:{2}", t, i + 1, j + 1));
+                                Message = string.Format("The output file ends at step {0} (segment {1}, reach {2}), earlier than the expected {3} step(s).",
+                                    t + 1, i + 1, j + 1, nstep);
                                 goto finished;
                             }
+                            var temp = TypeConverterEx.SkipSplit<float>(line, 5);
+                            //Values.Value[var_index][t][rch_index] = temp[var_index];
+                            // DataCube.ILArrays[var_index].SetValue(temp[var_index], t, rch_index);
+                            DataCube[var_index, t, rch_index] = temp[var_index] * scale;
                             rch_index++;
                         }
                     }
@@ -375,9 +508,20 @@ namespace Heiflow.Models.Subsurface
                     {
                         for (int j = 0; j < network.Rivers[i].Reaches.Count - 1; j++)
                         {
-                            line = sr.ReadLine().Trim();
+                            if (ReadLineSafe(sr) == null)
+                            {
+                                Message = string.Format("The output file ends at step {0} (segment {1}), earlier than the expected {2} step(s).",
+                                    t + 1, i + 1, nstep);
+                                goto finished;
+                            }
                         }
-                        line = sr.ReadLine().Trim();
+                        line = ReadLineSafe(sr);
+                        if (string.IsNullOrEmpty(line))
+                        {
+                            Message = string.Format("The output file ends at step {0} (segment {1}), earlier than the expected {2} step(s).",
+                                t + 1, i + 1, nstep);
+                            goto finished;
+                        }
                         var temp = TypeConverterEx.SkipSplit<float>(line, 5);
                         DataCube[var_index, t, i] = temp[var_index] * scale;
                     }
@@ -402,7 +546,16 @@ namespace Heiflow.Models.Subsurface
                 DataCube.Topology = _SFRPackage.SegTopology;
             DataCube.Variables = DefaultAttachedVariables;
             Variables = DefaultAttachedVariables;
-            result = LoadingState.Normal;
+
+            if (!string.IsNullOrEmpty(Message))
+            {
+                ShowWarning(Message, progresshandler);
+                result = LoadingState.Warning;
+            }
+            else
+            {
+                result = LoadingState.Normal;
+            }
 
             return result;
         }
@@ -418,7 +571,7 @@ namespace Heiflow.Models.Subsurface
             int varnum = 0;
 
             OnLoading(0);
-            FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             BinaryReader br = new BinaryReader(fs);
 
             varnum = br.ReadInt32();
@@ -437,11 +590,12 @@ namespace Heiflow.Models.Subsurface
                 reachNum = network.RiverCount;
             }
 
+            int skippedSteps = SkippedSteps;
             if (IsReadSSData)
             {
-                SkippedSteps = SkippedSteps - 1;
+                skippedSteps = Math.Max(0, SkippedSteps - 1);
             }
-            for (int t = 0; t < SkippedSteps; t++)
+            for (int t = 0; t < skippedSteps; t++)
             {
                 br.ReadBytes(stepbyte);
             }
@@ -549,11 +703,12 @@ namespace Heiflow.Models.Subsurface
                             reachNum = network.RiverCount;
                         }
 
+                        int skippedSteps = SkippedSteps;
                         if (IsReadSSData)
                         {
-                            SkippedSteps = SkippedSteps - 1;
+                            skippedSteps = Math.Max(0, SkippedSteps - 1);
                         }
-                        for (int t = 0; t < SkippedSteps * network.ReachCount + SkippedSteps * 8; t++)
+                        for (int t = 0; t < skippedSteps * network.ReachCount + skippedSteps * 8; t++)
                         {
                             if (!sr.EndOfStream)
                                 line = sr.ReadLine();
@@ -686,7 +841,7 @@ namespace Heiflow.Models.Subsurface
             int varnum = 0;
 
             OnLoading(0);
-            FileStream fs = new FileStream(_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             BinaryReader br = new BinaryReader(fs);
 
             varnum = br.ReadInt32();
@@ -705,11 +860,12 @@ namespace Heiflow.Models.Subsurface
                 reachNum = network.RiverCount;
             }
 
+            int skippedSteps = SkippedSteps;
             if (IsReadSSData)
             {
-                SkippedSteps = SkippedSteps - 1;
+                skippedSteps = Math.Max(0, SkippedSteps - 1);
             }
-            for (int t = 0; t < SkippedSteps; t++)
+            for (int t = 0; t < skippedSteps; t++)
             {
                 br.ReadBytes(stepbyte);
             }
@@ -859,10 +1015,42 @@ namespace Heiflow.Models.Subsurface
             }
         }
 
+        /// <summary>
+        /// 获取河段的串行索引；未找到时返回 -1 并通过 Message 说明原因
+        /// </summary>
         public int GetReachIndex(int segIndex, int rchIndex)
         {
-            var index = (from ind in ReachIndex where ind.Item1 == segIndex && ind.Item2 == rchIndex select ind.Item3).Single();
-            return index;
+            var buf = from ind in ReachIndex where ind.Item1 == segIndex && ind.Item2 == rchIndex select ind.Item3;
+            if (buf.Any())
+            {
+                return buf.First();
+            }
+            Message = string.Format("The reach (segment index {0}, reach index {1}) is not found in the river network.", segIndex, rchIndex);
+            return -1;
+        }
+
+        /// <summary>
+        /// 检查指定变量的数据是否已就绪；未就绪时通过 message 返回可读的原因
+        /// </summary>
+        public bool IsVariableReady(int varIndex, out string message)
+        {
+            message = "";
+            if (DataCube == null)
+            {
+                message = "No SFR output is loaded. Please load the data first.";
+                return false;
+            }
+            if (varIndex < 0 || varIndex >= DataCube.Size[0])
+            {
+                message = string.Format("The variable index {0} is out of range. {1} variable(s) are available.", varIndex, DataCube.Size[0]);
+                return false;
+            }
+            if (!DataCube.IsAllocated(varIndex))
+            {
+                message = string.Format("The selected variable (index {0}) is not loaded. Please load it first.", varIndex);
+                return false;
+            }
+            return true;
         }
 
         /// <summary>
@@ -880,8 +1068,17 @@ namespace Heiflow.Models.Subsurface
             int startday = 0;
             var scaleFactor = 1;// ScaleFactor;
 
-            if (profile == null)
+            if (profile == null || profile.Count == 0)
+            {
+                Message = "The river profile is empty. Please select a start segment first.";
                 return mat;
+            }
+            string msg;
+            if (!IsVariableReady(varIndex, out msg))
+            {
+                Message = msg;
+                return mat;
+            }
 
             if (allReach)
             {
@@ -900,9 +1097,11 @@ namespace Heiflow.Models.Subsurface
                         foreach (var reach in r.Reaches)
                         {
                             int index = GetReachIndex(r.ID - 1, reach.SubID - 1);
+                            if (index < 0)
+                                continue;
                             sumlen += reach.Length;
                             mat[0, 0, i] = sumlen;
-                            mat[1, 0, i] = DataCube[varIndex, startday + current, index] * scaleFactor / reach.Length;
+                            mat[1, 0, i] = DataCube[varIndex, startday + current, index] * scaleFactor / (reach.Length > 0 ? reach.Length : 1.0);
                             i++;
                         }
                     }
@@ -914,6 +1113,8 @@ namespace Heiflow.Models.Subsurface
                         foreach (var reach in r.Reaches)
                         {
                             int index = GetReachIndex(r.ID - 1, reach.SubID - 1);
+                            if (index < 0)
+                                continue;
                             sumlen += reach.Length;
                             mat[0, 0, i] = sumlen;
                             mat[1, 0, i] = DataCube[varIndex, startday + current, index] * scaleFactor;
@@ -924,32 +1125,34 @@ namespace Heiflow.Models.Subsurface
             }
             else
             {
-                if (DataCube != null)
+                mat = new DataCube<double>(2, 1, profile.Count);
+                int i = 0;
+                double sumlen = 0;
+                if (unified)
                 {
-                    mat = new DataCube<double>(2, 1, profile.Count);
-                    int i = 0;
-                    double sumlen = 0;
-                    if (unified)
+                    foreach (var r in profile)
                     {
-                        foreach (var r in profile)
-                        {
-                            int index = r.ID - 1;
-                            sumlen += r.Length;
-                            mat[0, 0, i] = sumlen;
-                            mat[1, 0, i] = DataCube[varIndex, startday + current, index] * scaleFactor / r.LastReach.Length;
-                            i++;
-                        }
+                        int index = r.ID - 1;
+                        if (index < 0 || index >= DataCube.Size[2])
+                            continue;
+                        sumlen += r.Length;
+                        var len = r.LastReach != null ? r.LastReach.Length : r.Length;
+                        mat[0, 0, i] = sumlen;
+                        mat[1, 0, i] = DataCube[varIndex, startday + current, index] * scaleFactor / (len > 0 ? len : 1.0);
+                        i++;
                     }
-                    else
+                }
+                else
+                {
+                    foreach (var r in profile)
                     {
-                        foreach (var r in profile)
-                        {
-                            int index = r.ID - 1;
-                            sumlen += r.Length;
-                            mat[0, 0, i] = sumlen;
-                            mat[1, 0, i] = DataCube[varIndex, startday + current, index] * scaleFactor;
-                            i++;
-                        }
+                        int index = r.ID - 1;
+                        if (index < 0 || index >= DataCube.Size[2])
+                            continue;
+                        sumlen += r.Length;
+                        mat[0, 0, i] = sumlen;
+                        mat[1, 0, i] = DataCube[varIndex, startday + current, index] * scaleFactor;
+                        i++;
                     }
                 }
             }
@@ -960,6 +1163,18 @@ namespace Heiflow.Models.Subsurface
         {
             DataCube<float> mat = null;
             var scaleFactor = ScaleFactor;
+
+            if (profile == null || profile.Count == 0)
+            {
+                Message = "The river profile is empty. Please select a start segment first.";
+                return null;
+            }
+            string msg;
+            if (!IsVariableReady(varIndex, out msg))
+            {
+                Message = msg;
+                return null;
+            }
 
             if (allReach)
             {
@@ -979,7 +1194,9 @@ namespace Heiflow.Models.Subsurface
                             foreach (var reach in r.Reaches)
                             {
                                 int index = GetReachIndex(r.ID - 1, reach.SubID - 1);
-                                mat[0,t,i] = (float)(DataCube[varIndex, t, index] * scaleFactor / reach.Length);
+                                if (index < 0)
+                                    continue;
+                                mat[0, t, i] = (float)(DataCube[varIndex, t, index] * scaleFactor / (reach.Length > 0 ? reach.Length : 1.0));
                                 i++;
                             }
                         }
@@ -995,7 +1212,9 @@ namespace Heiflow.Models.Subsurface
                             foreach (var reach in r.Reaches)
                             {
                                 int index = GetReachIndex(r.ID - 1, reach.SubID - 1);
-                                mat[0,t,i] = (float)(DataCube[varIndex, t, index] * scaleFactor);
+                                if (index < 0)
+                                    continue;
+                                mat[0, t, i] = (float)(DataCube[varIndex, t, index] * scaleFactor);
                                 i++;
                             }
                         }
@@ -1004,38 +1223,43 @@ namespace Heiflow.Models.Subsurface
             }
             else
             {
-                if (DataCube != null)
+                mat = new DataCube<float>(1, total_time, profile.Count);
+                if (unified)
                 {
-                    mat = new DataCube<float>(1, total_time, profile.Count);
-
-                    if (unified)
+                    for (int t = 0; t < total_time; t++)
                     {
-                        for (int t = 0; t < total_time; t++)
+                        int i = 0;
+                        foreach (var r in profile)
                         {
-                            int i = 0;
-                            foreach (var r in profile)
-                            {
-                                int index = r.ID - 1;
-                                mat[0,t,i] = (float)(DataCube[varIndex, t, index] * scaleFactor / r.LastReach.Length);
-                                i++;
-                            }
+                            int index = r.ID - 1;
+                            if (index < 0 || index >= DataCube.Size[2])
+                                continue;
+                            var len = r.LastReach != null ? r.LastReach.Length : r.Length;
+                            mat[0, t, i] = (float)(DataCube[varIndex, t, index] * scaleFactor / (len > 0 ? len : 1.0));
+                            i++;
                         }
                     }
-                    else
+                }
+                else
+                {
+                    for (int t = 0; t < total_time; t++)
                     {
-                        for (int t = 0; t < total_time; t++)
+                        int i = 0;
+                        foreach (var r in profile)
                         {
-                            int i = 0;
-                            foreach (var r in profile)
-                            {
-                                int index = r.ID - 1;
-                                mat[0,t,i] = (float)(DataCube[varIndex, t, index] * scaleFactor);
-                                i++;
-                            }
+                            int index = r.ID - 1;
+                            if (index < 0 || index >= DataCube.Size[2])
+                                continue;
+                            mat[0, t, i] = (float)(DataCube[varIndex, t, index] * scaleFactor);
+                            i++;
                         }
                     }
                 }
             }
+
+            if (mat == null)
+                return null;
+
             mat.Name = var_name;
             mat.Variables = new string[] { var_name };
             return mat;

@@ -363,6 +363,13 @@
       <DependentUpon>WinChartView.cs</DependentUpon>
     </Compile>
     <Compile Include="Monitors\Nodes\StateMonitorNodeCreators.cs" />
+    <Compile Include="Monitors\Nodes\NPBudgetNodeCreators.cs" />
+    <Compile Include="Monitors\NPBudgetMonitorView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Monitors\NPBudgetMonitorView.Designer.cs">
+      <DependentUpon>NPBudgetMonitorView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Processing\CascadeForm.cs">
       <SubType>Form</SubType>
     </Compile>

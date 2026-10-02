@@ -101,6 +101,26 @@ namespace Heiflow.Plugins.Default.Properties {
         }
         
         /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap NPBudget16 {
+            get {
+                object obj = ResourceManager.GetObject("NPBudget16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap NPBudget32 {
+            get {
+                object obj = ResourceManager.GetObject("NPBudget32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Active Datasets 的本地化字符串。
         /// </summary>
         internal static string Active_Datasets {

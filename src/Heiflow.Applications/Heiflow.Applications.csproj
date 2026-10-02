@@ -94,6 +94,7 @@
     <Compile Include="Controllers\LookupTableController.cs" />
     <Compile Include="Controllers\RunningMonitorController.cs" />
     <Compile Include="Controllers\StateMonitorController.cs" />
+    <Compile Include="Controllers\NPBudgetMonitorController.cs" />
     <Compile Include="MyAppManager.cs" />
     <Compile Include="Services\ActiveDataService.cs" />
     <Compile Include="Services\FigureService.cs" />
@@ -122,8 +123,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ShellService.cs" />
     <Compile Include="ViewModels\StateMonitorViewModel.cs" />
+    <Compile Include="ViewModels\NPBudgetMonitorViewModel.cs" />
     <Compile Include="Views\IDatabaseExplorerView.cs" />
     <Compile Include="Views\IStateMonitorView.cs" />
+    <Compile Include="Views\INPBudgetMonitorView.cs" />
     <Compile Include="Views\IShellView.cs" />
     <Compile Include="Views\IRunningMonitorView.cs" />
   </ItemGroup>

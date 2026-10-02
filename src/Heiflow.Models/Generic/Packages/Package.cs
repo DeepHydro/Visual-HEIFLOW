@@ -666,11 +666,6 @@ namespace Heiflow.Models.Generic
         }
         public void AddChild(IPackage pck)
         {
-            //if (!Children.Contains(pck))
-            //{
-            //    Children.Add(pck);
-            //    pck.Parent = this;
-            //}
             if (ContainChild(pck.Name))
             {
                 var pck1 = Children.Single(p => p.Name == pck.Name);
@@ -682,6 +677,15 @@ namespace Heiflow.Models.Generic
                 Children.Add(pck);
             }
             pck.Parent = this;
+        }
+        public void RemoveChild(string pckname)
+        {
+            var buf = from item in Children where item.Name == pckname select item;
+            if(buf.Any())
+            {
+                var pck = buf.First();
+                Children.Remove(pck);
+            }
         }
         public virtual void OnGridUpdated(IGrid sender)
         {

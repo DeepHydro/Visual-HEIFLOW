@@ -55,6 +55,7 @@ namespace Heiflow.Applications.Controllers
         private readonly IShellService _ShellService;
         private readonly IPackageService _PackageService;
         private readonly StateMonitorViewModel _StateMonitor;
+        private readonly NPBudgetMonitorViewModel _NPBudgetMonitor;
         private readonly DelegateCommand _NewPrjCommand;
         private readonly DelegateCommand _OpenPrjCommand;
         private readonly DelegateCommand _ClosePrjCommand;
@@ -69,13 +70,14 @@ namespace Heiflow.Applications.Controllers
 
         [ImportingConstructor]
         public ProjectController(IShellService shellService, IActiveDataService dataservice, IProjectService projectServ,
-     IPackageUIService packageUIService, StateMonitorViewModel state, IPackageService pck_service, RunningMonitorViewModel rm_vm)
+     IPackageUIService packageUIService, StateMonitorViewModel state,NPBudgetMonitorViewModel npcmodel, IPackageService pck_service, RunningMonitorViewModel rm_vm)
         {
             _ShellService = shellService;
             _ActiveDataService = dataservice;
             _ProjectService = projectServ;
             _PackageService = pck_service;
             _StateMonitor = state;
+            _NPBudgetMonitor = npcmodel;
             _PackageUIService = packageUIService;
             _NewPrjCommand = new DelegateCommand(AddNewProject, CanAddNewProject);
             _OpenPrjCommand = new DelegateCommand(p => OpenProject(p), t => CanOpenProject(t, true));  
@@ -193,6 +195,7 @@ namespace Heiflow.Applications.Controllers
             _ProjectService.ProjectOpenedOrCreated += _MapFunctionManager.OnProjectOpened;
             _ProjectService.ProjectOpenedOrCreated += _ConceputalModelManager.OnProjectOpened;
             _ProjectService.ProjectOpenedOrCreated += _StateMonitor.OnProjectOpened;
+            _ProjectService.ProjectOpenedOrCreated += _NPBudgetMonitor.OnProjectOpened;
 
             _ShellService.ProjectExplorer.NodeFactory = _ProjectService.NodeFactory;
             _ShellService.ProjectExplorer.ContextMenuFactory = _ProjectService.ContextMenuFactory;
