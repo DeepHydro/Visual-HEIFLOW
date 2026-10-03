@@ -135,7 +135,7 @@
             this.nav_bottom.BindingSource = this.bindingSourceODM;
             this.nav_bottom.CountItem = this.toolStripLabel3;
             this.nav_bottom.DeleteItem = null;
-            this.nav_bottom.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.nav_bottom.ImageScalingSize = new System.Drawing.Size(16, 16);
             this.nav_bottom.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton5,
             this.toolStripButton6,
@@ -312,7 +312,7 @@
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F);
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.LightGreen;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(214, 233, 245);
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dg_site.DefaultCellStyle = dataGridViewCellStyle1;

@@ -75,7 +75,8 @@
             // toolStrip1
             // 
             this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel1,
             this.cmbVersion,
@@ -108,7 +109,7 @@
             // btnLoadDefaultParaMeta
             // 
             this.btnLoadDefaultParaMeta.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnLoadDefaultParaMeta.Image = global::Heiflow.Controls.WinForm.Properties.Resources.Load24;
+            this.btnLoadDefaultParaMeta.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiLoad24;
             this.btnLoadDefaultParaMeta.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLoadDefaultParaMeta.Name = "btnLoadDefaultParaMeta";
             this.btnLoadDefaultParaMeta.Size = new System.Drawing.Size(24, 25);
@@ -118,7 +119,7 @@
             // btnSave
             // 
             this.btnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnSave.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GenericSave_B_16;
+            this.btnSave.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiSave24;
             this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(24, 25);
@@ -137,7 +138,7 @@
             this.btnImport.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.importFromXML,
             this.importFromParameterFile});
-            this.btnImport.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GeodatabaseXMLRecordSetImport32;
+            this.btnImport.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiImport24;
             this.btnImport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(34, 25);
@@ -161,7 +162,7 @@
             // btnCompare
             // 
             this.btnCompare.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnCompare.Image = global::Heiflow.Controls.WinForm.Properties.Resources.compare_24p;
+            this.btnCompare.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiCompare24;
             this.btnCompare.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnCompare.Name = "btnCompare";
             this.btnCompare.Size = new System.Drawing.Size(24, 25);
@@ -189,7 +190,7 @@
             this.export2Csv,
             this.exportAsXml,
             this.exportAsParameterFile});
-            this.toolStripDropDownButton1.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GenericOpen_B_32;
+            this.toolStripDropDownButton1.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiOpen24;
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
             this.toolStripDropDownButton1.Size = new System.Drawing.Size(34, 25);

@@ -52,7 +52,8 @@
             // toolStrip1
             // 
             this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cmbAnimators,
             this.btnPlay});
@@ -71,7 +72,7 @@
             // btnPlay
             // 
             this.btnPlay.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnPlay.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GenericBlueRightArrowNoTail32;
+            this.btnPlay.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiRun24;
             this.btnPlay.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnPlay.Name = "btnPlay";
             this.btnPlay.Size = new System.Drawing.Size(24, 25);
@@ -117,13 +118,13 @@
             this.olvDataCubeTree.Name = "olvDataCubeTree";
             this.olvDataCubeTree.ParentKeyAspectName = "ParentID";
             this.olvDataCubeTree.RootKeyValueString = "";
-            this.olvDataCubeTree.SelectedBackColor = System.Drawing.Color.LimeGreen;
+            this.olvDataCubeTree.SelectedBackColor = System.Drawing.Color.FromArgb(46, 123, 184);
             this.olvDataCubeTree.SelectedForeColor = System.Drawing.Color.White;
             this.olvDataCubeTree.ShowGroups = false;
             this.olvDataCubeTree.ShowKeyColumns = false;
             this.olvDataCubeTree.Size = new System.Drawing.Size(384, 283);
             this.olvDataCubeTree.TabIndex = 13;
-            this.olvDataCubeTree.UnfocusedSelectedBackColor = System.Drawing.Color.LimeGreen;
+            this.olvDataCubeTree.UnfocusedSelectedBackColor = System.Drawing.Color.FromArgb(46, 123, 184);
             this.olvDataCubeTree.UnfocusedSelectedForeColor = System.Drawing.Color.White;
             this.olvDataCubeTree.UseCompatibleStateImageBehavior = false;
             this.olvDataCubeTree.UseFilterIndicator = true;

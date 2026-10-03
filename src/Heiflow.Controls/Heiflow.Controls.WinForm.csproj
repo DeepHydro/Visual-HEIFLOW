@@ -937,7 +937,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Resources\heiflow.ico" />
     <None Include="Resources\loading_icon" />
     <None Include="Controls\TreeView\Tree\ClassDiagram.cd" />
     <None Include="Controls\TreeView\Tree\NodeControls\ClassDiagram.cd" />
@@ -963,10 +962,6 @@
     <ProjectReference Include="..\Heiflow.Processing\Heiflow.Plugins.Tools.csproj">
       <Project>{e5f99333-3e66-4a22-a519-07b78370f322}</Project>
       <Name>Heiflow.Plugins.Tools</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Heiflow.Spatial\Heiflow.Spatial.csproj">
-      <Project>{2a3c4415-b678-4826-97d8-e25e6e63b088}</Project>
-      <Name>Heiflow.Spatial</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -997,7 +992,6 @@
     <None Include="Resources\DVSplit.cur" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\property16.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\3dplot16.png" />
@@ -1009,88 +1003,60 @@
     <None Include="Resources\database-add-16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ZoomFixedZoomOut32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\TableFolder16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SpatialAnalystTrainingSampleHistograms16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ViewCompact16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\RasterImageAnalysisPanSharpen16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Surface16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\DataFrame16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\AddContent16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\AttributesWindow16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\MapProperties16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\LayerBasemapNew16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\LayerRasterOptimized16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\LayerRaster_B_16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GenericSplitThree16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ContentsWindowFloatingLayers16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\AnimationVideo16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GenericBlueLeftArrowShortTail32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GenericBlueRightArrowNoTail32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GenericBluePause32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GenericBlueRightArrowLongTail32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\DataFrameRotate_B_16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\DatabaseServerAdd16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\DatabaseServer16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\FolderWithGISData16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GeoStatAnalystHideShowLegend32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ItemInformation16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SelectionClearSelected16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SelectionSelectAll16.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\script.png" />
@@ -1132,112 +1098,79 @@
     <None Include="Resources\Pan.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\EditingAdjustmentLinkTable16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GenericBlueArrowDoubleRightFastForward32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GenericBlueArrowDoubleLeftRewind32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\PointDisplay16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\LayerSchematic16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\TmImportFeatures16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ContentsWindowListBySource32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ContentsWindowListBySource16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\MetadataProperties16.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\CadastralBluePrint16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\LayerRaster_B_16_gray.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SpatialAnalystTrainingSampleClear16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\TmClearSelection16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\MetadataGazetteerLoad16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GenericSave_B_16.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\3DCacheGroupLayerSettings16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\AnimationCreateGroup16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\HostedServicesFolderOpenState32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\TmImportFeatures32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\KML_GroundOverlay16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\LayerRemove16.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Chart.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GraphHistogram32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Surface32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SpatialAnalystTrainingSampleScatterplots16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GraphVerticalLine16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GraphScatterplotCreate16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GeoprocessingScriptUnfilled16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\TableExport16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ToolboxesFolder16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GeoprocessingTool16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ReportRun16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GeostatisticalGraphCrossvarianceCloud16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CadastralParcelHistoric16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ViewList16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GeostatisticalGraphGeneralQQPlot16.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\budget.png" />
@@ -1246,19 +1179,15 @@
     <None Include="Resources\GenericOpen_B_16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GenericOpen_B_32.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\excel-32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SelectionStatistics_B_32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\hammer16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\hammer32.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\toolbox16.png" />
@@ -1267,10 +1196,82 @@
     <None Include="Resources\toolbox32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\compare_24p.png" />
+    <None Include="Resources\UiAdd16.png" />
+    <None Include="Resources\UiAdd24.png" />
+    <None Include="Resources\UiBalance16.png" />
+    <None Include="Resources\UiBalance24.png" />
+    <None Include="Resources\UiChart16.png" />
+    <None Include="Resources\UiChart24.png" />
+    <None Include="Resources\UiClear16.png" />
+    <None Include="Resources\UiClear24.png" />
+    <None Include="Resources\UiColorbar16.png" />
+    <None Include="Resources\UiColorbar24.png" />
+    <None Include="Resources\UiCompare16.png" />
+    <None Include="Resources\UiCompare24.png" />
+    <None Include="Resources\UiCsv16.png" />
+    <None Include="Resources\UiCsv24.png" />
+    <None Include="Resources\UiDatabase16.png" />
+    <None Include="Resources\UiDatabase24.png" />
+    <None Include="Resources\UiDefault16.png" />
+    <None Include="Resources\UiDefault24.png" />
+    <None Include="Resources\UiDelete16.png" />
+    <None Include="Resources\UiDelete24.png" />
+    <None Include="Resources\UiExcel16.png" />
+    <None Include="Resources\UiExcel24.png" />
+    <None Include="Resources\UiExport16.png" />
+    <None Include="Resources\UiExport24.png" />
+    <None Include="Resources\UiFolder16.png" />
+    <None Include="Resources\UiFolder24.png" />
+    <None Include="Resources\UiImport16.png" />
+    <None Include="Resources\UiImport24.png" />
+    <None Include="Resources\UiLayer16.png" />
+    <None Include="Resources\UiLayer24.png" />
+    <None Include="Resources\UiLegend16.png" />
+    <None Include="Resources\UiLegend24.png" />
+    <None Include="Resources\UiLink16.png" />
+    <None Include="Resources\UiLink24.png" />
+    <None Include="Resources\UiList16.png" />
+    <None Include="Resources\UiList24.png" />
+    <None Include="Resources\UiLoad16.png" />
+    <None Include="Resources\UiLoad24.png" />
+    <None Include="Resources\UiMap16.png" />
+    <None Include="Resources\UiMap24.png" />
+    <None Include="Resources\UiOpen16.png" />
+    <None Include="Resources\UiOpen24.png" />
+    <None Include="Resources\UiProfile16.png" />
+    <None Include="Resources\UiProfile24.png" />
+    <None Include="Resources\UiRefresh16.png" />
+    <None Include="Resources\UiRefresh24.png" />
+    <None Include="Resources\UiRemove16.png" />
+    <None Include="Resources\UiRemove24.png" />
+    <None Include="Resources\UiRun16.png" />
+    <None Include="Resources\UiRun24.png" />
+    <None Include="Resources\UiSave16.png" />
+    <None Include="Resources\UiSave24.png" />
+    <None Include="Resources\UiScatter16.png" />
+    <None Include="Resources\UiScatter24.png" />
+    <None Include="Resources\UiScript16.png" />
+    <None Include="Resources\UiScript24.png" />
+    <None Include="Resources\UiSearch16.png" />
+    <None Include="Resources\UiSearch24.png" />
+    <None Include="Resources\UiSettings16.png" />
+    <None Include="Resources\UiSettings24.png" />
+    <None Include="Resources\UiStats16.png" />
+    <None Include="Resources\UiStats24.png" />
+    <None Include="Resources\UiStop16.png" />
+    <None Include="Resources\UiStop24.png" />
+    <None Include="Resources\UiTable16.png" />
+    <None Include="Resources\UiTable24.png" />
+    <None Include="Resources\UiZoomFull16.png" />
+    <None Include="Resources\UiZoomFull24.png" />
+    <None Include="Resources\UiPause16.png" />
+    <None Include="Resources\UiPause24.png" />
+    <None Include="Resources\UiRun48.png" />
+    <None Include="Resources\UiStop48.png" />
+    <None Include="Resources\SfrDataSource24.png" />
+    <None Include="Resources\SfrScan24.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Go_24px.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ViewList161.png" />
@@ -1279,25 +1280,19 @@
     <None Include="Resources\image_regc.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\PkgInfo_File16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\LayoutDataDrivenPagesChangeToPage16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\MapPackageTiledTPKFile16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GenericDeleteRed32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GenericWindowLightBlue16.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\if_edit-clear_15273.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\TmRemoveFromSelected16.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\if_selected-delete_37293.png" />
@@ -1312,70 +1307,51 @@
     <None Include="Resources\csv-3-24.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GeodatabaseXMLRecordSetImport32.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\3d_plot_printing_printer.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\if_Side_Panel.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Load24.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\download32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\setting32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\star32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\datasheet16.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\single_object.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\import_db.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\search_db.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\cat_db.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\add_db.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\remove_db.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\if_history-clear_9334.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\begin.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\search24.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\refresh_src.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\defaultv.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\LasRGB32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\stop64.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\play64.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\colorbar.gif" />

@@ -63,7 +63,7 @@ namespace Heiflow.Plugins.Default
                 Key = "kHeiflowTime",
                 ToolTipText = Resources.Model_Time,
                 GroupCaption = Resources.Time_group,
-                LargeImage = Resources.calendar_32,
+                LargeImage = Resources.UiTime32,
                 SortOrder = 1
             };
             App.HeaderControl.Add(_heiflow_time);

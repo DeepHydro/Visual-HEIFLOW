@@ -113,7 +113,7 @@
             // 
             // button1
             // 
-            this.button1.Image = global::Heiflow.Controls.WinForm.Properties.Resources.AddContent16;
+            this.button1.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiAdd24;
             this.button1.Location = new System.Drawing.Point(16, 21);
             this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button1.Name = "button1";
@@ -123,7 +123,7 @@
             // 
             // button2
             // 
-            this.button2.Image = global::Heiflow.Controls.WinForm.Properties.Resources.ViewList16;
+            this.button2.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiList24;
             this.button2.Location = new System.Drawing.Point(75, 21);
             this.button2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button2.Name = "button2";
@@ -142,7 +142,7 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.tbModelDes);
-            this.Font = new System.Drawing.Font("Calibri", 11F);
+            this.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "NewEcoPackageForm";

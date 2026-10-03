@@ -114,9 +114,9 @@
             // 
             // toolStrip1
             // 
-            this.toolStrip1.Font = new System.Drawing.Font("Calibri", 9F);
+            this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnStatPanel,
             this.btnLengend,
@@ -136,7 +136,7 @@
             // btnStatPanel
             // 
             this.btnStatPanel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnStatPanel.Image = global::Heiflow.Controls.WinForm.Properties.Resources.if_business_work_12_2377635;
+            this.btnStatPanel.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiStats24;
             this.btnStatPanel.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnStatPanel.Name = "btnStatPanel";
             this.btnStatPanel.Size = new System.Drawing.Size(24, 24);
@@ -148,7 +148,7 @@
             this.btnLengend.Checked = true;
             this.btnLengend.CheckState = System.Windows.Forms.CheckState.Checked;
             this.btnLengend.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnLengend.Image = global::Heiflow.Controls.WinForm.Properties.Resources.if_stock_chart_toggle_legend_93841;
+            this.btnLengend.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiLegend24;
             this.btnLengend.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLengend.Name = "btnLengend";
             this.btnLengend.Size = new System.Drawing.Size(24, 24);
@@ -165,7 +165,7 @@
             this.btnClearExist.Checked = true;
             this.btnClearExist.CheckState = System.Windows.Forms.CheckState.Checked;
             this.btnClearExist.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnClearExist.Image = global::Heiflow.Controls.WinForm.Properties.Resources.if_selected_delete_37293;
+            this.btnClearExist.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiDelete24;
             this.btnClearExist.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnClearExist.Name = "btnClearExist";
             this.btnClearExist.Size = new System.Drawing.Size(24, 24);
@@ -175,7 +175,7 @@
             // btnClear
             // 
             this.btnClear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnClear.Image = global::Heiflow.Controls.WinForm.Properties.Resources.if_edit_clear_15273;
+            this.btnClear.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiClear24;
             this.btnClear.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(24, 24);
@@ -185,7 +185,7 @@
             // btnZoomFull
             // 
             this.btnZoomFull.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnZoomFull.Image = global::Heiflow.Controls.WinForm.Properties.Resources.ZoomFixedZoomOut32;
+            this.btnZoomFull.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiZoomFull24;
             this.btnZoomFull.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnZoomFull.Name = "btnZoomFull";
             this.btnZoomFull.Size = new System.Drawing.Size(24, 24);
@@ -203,7 +203,7 @@
             this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menu_line,
             this.menu_scatter});
-            this.toolStripDropDownButton1.Image = global::Heiflow.Controls.WinForm.Properties.Resources.Chart;
+            this.toolStripDropDownButton1.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiChart24;
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
             this.toolStripDropDownButton1.Size = new System.Drawing.Size(34, 24);
@@ -213,7 +213,7 @@
             // 
             this.menu_line.Checked = true;
             this.menu_line.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.menu_line.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GraphVerticalLine16;
+            this.menu_line.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiProfile16;
             this.menu_line.Name = "menu_line";
             this.menu_line.Size = new System.Drawing.Size(125, 26);
             this.menu_line.Text = "Line";
@@ -221,7 +221,7 @@
             // 
             // menu_scatter
             // 
-            this.menu_scatter.Image = global::Heiflow.Controls.WinForm.Properties.Resources.SpatialAnalystTrainingSampleScatterplots16;
+            this.menu_scatter.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiScatter16;
             this.menu_scatter.Name = "menu_scatter";
             this.menu_scatter.Size = new System.Drawing.Size(125, 26);
             this.menu_scatter.Text = "Scatter";
@@ -230,7 +230,7 @@
             // btnStat
             // 
             this.btnStat.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnStat.Image = global::Heiflow.Controls.WinForm.Properties.Resources.SelectionStatistics_B_32;
+            this.btnStat.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiStats24;
             this.btnStat.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnStat.Name = "btnStat";
             this.btnStat.Size = new System.Drawing.Size(24, 24);
@@ -288,7 +288,7 @@
             chartArea1.Area3DStyle.Rotation = 10;
             chartArea1.Area3DStyle.WallWidth = 0;
             chartArea1.AxisX.IsLabelAutoFit = false;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisX.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisX.ScaleView.Position = 10D;
@@ -296,7 +296,7 @@
             chartArea1.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.Silver;
             chartArea1.AxisX.ScrollBar.LineColor = System.Drawing.Color.Black;
             chartArea1.AxisY.IsLabelAutoFit = false;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Trebuchet MS", 8.25F, System.Drawing.FontStyle.Bold);
+            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold);
             chartArea1.AxisY.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             chartArea1.AxisY.ScaleView.Position = 10D;
@@ -328,7 +328,7 @@
             this.chart1.ContextMenuStrip = this.contextMenuStripChart;
             this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
             legend1.BackColor = System.Drawing.Color.Transparent;
-            legend1.Font = new System.Drawing.Font("Calibri", 8.5F);
+            legend1.Font = new System.Drawing.Font("Segoe UI", 9F);
             legend1.IsTextAutoFit = false;
             legend1.Name = "Default";
             legend1.Position.Auto = false;
@@ -355,7 +355,7 @@
             // 
             // contextMenuStripChart
             // 
-            this.contextMenuStripChart.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStripChart.ImageScalingSize = new System.Drawing.Size(16, 16);
             this.contextMenuStripChart.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.zoomFullToolStripMenuItem,
             this.clearToolStripMenuItem,
@@ -367,14 +367,14 @@
             // 
             // zoomFullToolStripMenuItem
             // 
-            this.zoomFullToolStripMenuItem.Image = global::Heiflow.Controls.WinForm.Properties.Resources.ZoomFixedZoomOut32;
+            this.zoomFullToolStripMenuItem.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiZoomFull16;
             this.zoomFullToolStripMenuItem.Name = "zoomFullToolStripMenuItem";
             this.zoomFullToolStripMenuItem.Size = new System.Drawing.Size(154, 26);
             this.zoomFullToolStripMenuItem.Text = "Zoom Full";
             // 
             // clearToolStripMenuItem
             // 
-            this.clearToolStripMenuItem.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GenericDeleteRed32;
+            this.clearToolStripMenuItem.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiDelete16;
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
             this.clearToolStripMenuItem.Size = new System.Drawing.Size(154, 26);
             this.clearToolStripMenuItem.Text = "Clear";
@@ -486,7 +486,7 @@
             // 
             // contextMenuStripItems
             // 
-            this.contextMenuStripItems.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStripItems.ImageScalingSize = new System.Drawing.Size(16, 16);
             this.contextMenuStripItems.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.zoomToToolStripMenuItem,
             this.menu_trend,
@@ -507,7 +507,7 @@
             // 
             // menu_trend
             // 
-            this.menu_trend.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GeostatisticalGraphGeneralQQPlot16;
+            this.menu_trend.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiProfile16;
             this.menu_trend.Name = "menu_trend";
             this.menu_trend.Size = new System.Drawing.Size(166, 26);
             this.menu_trend.Text = "Trend";

@@ -52,5 +52,5 @@ D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Presentation\obj\Debug\Heiflow.Present
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.csproj.GenerateResource.cache
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.pdb
-D:\system\git\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.csprojResolveAssemblyReference.cache
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.csprojResolveAssemblyReference.cache
+D:\system\git\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.csprojResolveAssemblyReference.cache

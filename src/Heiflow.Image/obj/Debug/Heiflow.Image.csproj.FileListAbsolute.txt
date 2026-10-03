@@ -625,7 +625,6 @@ D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\ObjectListView.xml
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\SourceGrid.xml
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\DotSpatial.NetTopologySuite.xml
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\DotSpatial.GeoAPI.xml
-D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\Newtonsoft.Json.xml
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\AForge.xml
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\cs\Heiflow.Controls.WinForm.resources.dll
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\zh-CN\Heiflow.Controls.WinForm.resources.dll
@@ -659,7 +658,6 @@ D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\pt-BR\DotSpatial.Symbol
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\zh-CN\DotSpatial.Symbology.Forms.resources.dll
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\zh-CN\DotSpatial.Modeling.Forms.resources.dll
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\zh-MO\DotSpatial.Modeling.Forms.resources.dll
-D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\obj\Debug\Heiflow.Image.csprojResolveAssemblyReference.cache
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\obj\Debug\Heiflow.Image.Controls.ImageSourceManager.resources
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\obj\Debug\Heiflow.Image.RecgnizationForm.resources
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\obj\Debug\Heiflow.Image.Properties.Resources.resources
@@ -667,3 +665,15 @@ D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\obj\Debug\Heiflow.Image.WebMapFor
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\obj\Debug\Heiflow.Image.csproj.GenerateResource.Cache
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\obj\Debug\Heiflow.Image.exe
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\obj\Debug\Heiflow.Image.pdb
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\Heiflow.AI.dll.config
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\Heiflow.Controls.WinForm.dll.config
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\Heiflow.Models.dll.config
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\DotSpatial.Data.dll.config
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\DotSpatial.Symbology.Forms.dll.config
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\DotSpatial.Controls.dll.config
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\Heiflow.Applications.dll.config
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\DotSpatial.Modeling.Forms.dll.config
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\DotSpatial.Serialization.dll.config
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Image\obj\Debug\Heiflow.Image.csproj.AssemblyReference.cache
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Image\obj\Debug\Heiflow.Image.csproj.CoreCompileInputs.cache
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Image\obj\Debug\Heiflow..21857099.Up2Date

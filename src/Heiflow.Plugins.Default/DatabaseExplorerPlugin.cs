@@ -60,7 +60,7 @@ namespace Heiflow.Plugins.Default
             this._Explorer.Name = "dbexplorer";
 
             var dock = new DockablePanel("kDatabaseExplorer", Resources.Database_Panel,
-                _Explorer, DockStyle.Right) { SmallImage = Properties.Resources.DatabaseServer16 };
+                _Explorer, DockStyle.Right) { SmallImage = Properties.Resources.UiDatabase16 };
             App.DockManager.Add(dock);
 
             var showDatabase = new SimpleActionItem("kView", Resources.ODM_Database,
@@ -70,7 +70,7 @@ namespace Heiflow.Plugins.Default
                 Key = "kShowDatabaseExplorer",
                 ToolTipText = Resources.ODM_Database_Tips,
                 GroupCaption =Resources.Data_Group,
-                LargeImage = Heiflow.Plugins.Default.Properties.Resources.DatabaseServer32
+                LargeImage = Heiflow.Plugins.Default.Properties.Resources.UiDatabase32
             };
 
             App.HeaderControl.Add(showDatabase);

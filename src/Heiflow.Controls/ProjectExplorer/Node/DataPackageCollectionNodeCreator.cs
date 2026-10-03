@@ -64,7 +64,7 @@ namespace Heiflow.Controls.WinForm.Project
             var pck_menu = ContextMenuFactory.Creat(item_attribute);
             Node node_pck = new Node(pck.Name)
             {
-                Image = Resources.LayoutDataDrivenPagesChangeToPage16,
+                Image = Resources.UiChart16,
                 Tag = pck_menu
             };
 
@@ -76,7 +76,7 @@ namespace Heiflow.Controls.WinForm.Project
                 child_menu.Package = pck_child;
                 Node node_child = new Node(pck_child.Name)
                 {
-                    Image = Resources.FolderWithGISData16,
+                    Image = Resources.UiFolder16,
                     Tag = child_menu
                 };
                 node_pck.Nodes.Add(node_child);

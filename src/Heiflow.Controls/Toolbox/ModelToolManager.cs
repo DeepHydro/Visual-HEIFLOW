@@ -150,7 +150,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
                 var cat = (from gp in groups where gp.cat == key select gp).First();
                 Node node_folder = new Node(key)
                 {
-                    Image = Resources.toolbox16,
+                    Image = Resources.UiAdd16,
                     Tag = key
                 };
                 var subgroups = from tool in cat.items group tool by tool.SubCategory into gp select new { cat = gp.Key, items = gp };
@@ -169,7 +169,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
                             tool.BindProjectService(_ProjectService);
                             Node node_tool = new Node(tool.Name)
                             {
-                                Image = Resources.hammer16,
+                                Image = Resources.UiSettings16,
                                 Tag = tool
                             };
                             node_folder.Nodes.Add(node_tool);
@@ -180,7 +180,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
                         var subcat = (from gp in subgroups where gp.cat == subkey select gp).First();
                         Node sub_node_folder = new Node(subkey)
                         {
-                            Image = Resources.toolbox16,
+                            Image = Resources.UiAdd16,
                             Tag = key
                         };
                         var sort_items = subcat.items.OrderBy(item => item.Name);
@@ -191,7 +191,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
                             tool.BindProjectService(_ProjectService);
                             Node node_tool = new Node(tool.Name)
                             {
-                                Image = Resources.hammer16,
+                                Image = Resources.UiSettings16,
                                 Tag = tool
                             };
                             sub_node_folder.Nodes.Add(node_tool);

@@ -75,7 +75,7 @@ namespace Heiflow.Plugins.Default
                 Key = "kLayerGroup",
                 ToolTipText = Resources.Layer_Group,
                 GroupCaption = Resources.Grid_group,
-                LargeImage = Resources.stack,
+                LargeImage = Resources.UiLayer32,
                 SortOrder = 0
             };
             App.HeaderControl.Add(_layer_group);
@@ -85,7 +85,7 @@ namespace Heiflow.Plugins.Default
                 Key = "kFDGrid",
                 ToolTipText = Resources.Finite_Difference_Grid,
                 GroupCaption = Resources.Grid_group,
-                LargeImage = Properties.Resources.convert_to_mesh,
+                LargeImage = Properties.Resources.UiGrid32,
                 SortOrder = 1
             };
             App.HeaderControl.Add(_fd_grid);
@@ -96,7 +96,7 @@ namespace Heiflow.Plugins.Default
                 Key = "kRunCascade",
                 ToolTipText = Resources.Cascade,
                 GroupCaption = Resources.Grid_group,
-                LargeImage = Properties.Resources.FileNetworkDataset32,
+                LargeImage = Properties.Resources.UiNetwork32,
                 Enabled = true,
                 SortOrder = 2
             };
@@ -107,7 +107,7 @@ namespace Heiflow.Plugins.Default
                 Key = "kGlobalSet",
                 ToolTipText = Resources.Global,
                 GroupCaption = Resources.Setting_group,
-                LargeImage = Properties.Resources.equilizer_48,
+                LargeImage = Properties.Resources.UiSettings32,
                 Enabled = true,
                 SortOrder = 3
             };
@@ -118,7 +118,7 @@ namespace Heiflow.Plugins.Default
                 Key = "kParaViewer",
                 ToolTipText = Resources.Surface_Parameter,
                 GroupCaption = Resources.Setting_group,
-                LargeImage = Properties.Resources.TableFields32,
+                LargeImage = Properties.Resources.UiTable32,
                 Enabled = true,
                 SortOrder = 4
             };
@@ -129,7 +129,7 @@ namespace Heiflow.Plugins.Default
                 Key = "kParaMapping",
                 ToolTipText = Resources.Parameter_Mapping_Tool,
                 GroupCaption = Resources.Tool_group,
-                LargeImage = Properties.Resources.hyper_link,
+                LargeImage = Properties.Resources.UiLink32,
                 Enabled = true,
                 SortOrder = 0
             };
@@ -140,7 +140,7 @@ namespace Heiflow.Plugins.Default
                 Key = "kCreateGridFromMF",
                 ToolTipText = Resources.CreateGridFromMF,
                 GroupCaption = Resources.Tool_group,
-                LargeImage = Properties.Resources.grid128,
+                LargeImage = Properties.Resources.UiGrid32,
                 Enabled = true,
                 SortOrder = 0
             };

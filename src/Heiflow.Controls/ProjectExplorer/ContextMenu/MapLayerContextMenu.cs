@@ -74,8 +74,8 @@ namespace Heiflow.Controls.WinForm.MenuItems
 
         public override void AddMenuItems()
         {
-            ContextMenuItems.Add(new ExplorerMenuItem("Coverage Setup...", Resources.MapPackageTiledTPKFile16, CoverageSetup_Clicked));
-          //  ContextMenuItems.Add(new ExplorerMenuItem("Attribute Table...", Resources.AttributesWindow16, AttributeTable_Clicked));
+            ContextMenuItems.Add(new ExplorerMenuItem("Coverage Setup...", Resources.UiMap16, CoverageSetup_Clicked));
+          //  ContextMenuItems.Add(new ExplorerMenuItem("Attribute Table...", Resources.UiTable16, AttributeTable_Clicked));
             ContextMenuItems.Add(new ExplorerMenuItem("Remove", null, Remove_Clicked));
         }
 

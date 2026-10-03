@@ -169,7 +169,7 @@
             this.treeView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.treeView1.DefaultToolTipProvider = null;
             this.treeView1.DragDropMarkColor = System.Drawing.Color.Black;
-            this.treeView1.Font = new System.Drawing.Font("Calibri", 10.5F);
+            this.treeView1.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.treeView1.HighlightColorActive = System.Drawing.SystemColors.Highlight;
             this.treeView1.HighlightColorInactive = System.Drawing.SystemColors.InactiveBorder;
             this.treeView1.LineColor = System.Drawing.SystemColors.ControlDark;

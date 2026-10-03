@@ -75,8 +75,8 @@ namespace Heiflow.Controls.WinForm.MenuItems
         {
             ContextMenuItems.Add(new ExplorerMenuItem(_LA, null, LoadVariables_Clicked));
             ContextMenuItems.Add(new ExplorerMenuItem(_LAD, null, LoaddAllData_Clicked));
-            ContextMenuItems.Add(new ExplorerMenuItem(_AT, Resources.AttributesWindow16, AttributeTable_Clicked));
-            ContextMenuItems.Add(new ExplorerMenuItem(_OP, Resources.GenericWindowLightBlue16, Optional_Clicked));
+            ContextMenuItems.Add(new ExplorerMenuItem(_AT, Resources.UiTable16, AttributeTable_Clicked));
+            ContextMenuItems.Add(new ExplorerMenuItem(_OP, Resources.UiList16, Optional_Clicked));
             ContextMenuItems.Add(new ExplorerMenuItem(PEContextMenu.MenuSeparator, null, null));
         }
 

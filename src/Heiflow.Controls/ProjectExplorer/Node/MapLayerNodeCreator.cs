@@ -65,13 +65,13 @@ namespace Heiflow.Controls.WinForm.Project
             layer_menu.Coverage = layer_item.Coverage;
             Node layer_node = new Node(layer_item.Coverage.LegendText)
             {
-                Image = Resources.MapPackageTiledTPKFile16,
+                Image = Resources.UiMap16,
                 Tag = layer_menu
             };
             layer_menu.Coverage.State = ModelObjectState.Ready;
             if(!File.Exists(layer_menu.Coverage.FullCoverageFileName))
             {
-                layer_node.Image = Resources.PkgInfo_File16;
+                layer_node.Image = Resources.UiCsv16;
                 layer_menu.Coverage.State = ModelObjectState.Error;
             }
             return layer_node;

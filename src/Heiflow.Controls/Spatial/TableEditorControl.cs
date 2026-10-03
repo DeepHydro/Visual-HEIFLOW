@@ -232,7 +232,7 @@ namespace Heiflow.Controls.WinForm.Spatial
             // 
             // menuStrip1
             // 
-            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(16, 16);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuEdit,
             this.mnuView,
@@ -413,7 +413,7 @@ namespace Heiflow.Controls.WinForm.Spatial
             this.toolStrip.AddNewItem = null;
             this.toolStrip.CountItem = null;
             this.toolStrip.DeleteItem = null;
-            this.toolStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip.ImageScalingSize = new System.Drawing.Size(16, 16);
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripDropDownButton1,
             this.tsbtnSaveEdits,
@@ -436,7 +436,7 @@ namespace Heiflow.Controls.WinForm.Spatial
             // tsbtnSaveEdits
             // 
             this.tsbtnSaveEdits.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tsbtnSaveEdits.Image = Resources.GenericSave_B_16;
+            this.tsbtnSaveEdits.Image = Resources.UiSave16;
             resources.ApplyResources(this.tsbtnSaveEdits, "tsbtnSaveEdits");
             this.tsbtnSaveEdits.Name = "tsbtnSaveEdits";
             this.tsbtnSaveEdits.Click += new System.EventHandler(this.tsbtnSaveEdits_Click);
@@ -513,7 +513,7 @@ namespace Heiflow.Controls.WinForm.Spatial
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.LightGreen;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(214, 233, 245);
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle3;
@@ -527,7 +527,7 @@ namespace Heiflow.Controls.WinForm.Spatial
             this.bindingNavigator2.CountItem = this.toolStripLabel1;
             this.bindingNavigator2.DeleteItem = null;
             resources.ApplyResources(this.bindingNavigator2, "bindingNavigator2");
-            this.bindingNavigator2.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.bindingNavigator2.ImageScalingSize = new System.Drawing.Size(16, 16);
             this.bindingNavigator2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripSeparator2,
             this.toolStripButton17,
@@ -627,7 +627,7 @@ namespace Heiflow.Controls.WinForm.Spatial
             this.renameFieldToolStripMenuItem1,
             this.enableEditingToolStripMenuItem1,
             this.saveEditsToolStripMenuItem1});
-            this.toolStripDropDownButton1.Image = global::Heiflow.Controls.WinForm.Properties.Resources.EditingAdjustmentLinkTable16;
+            this.toolStripDropDownButton1.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiChart16;
             resources.ApplyResources(this.toolStripDropDownButton1, "toolStripDropDownButton1");
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
             // 

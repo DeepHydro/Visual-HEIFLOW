@@ -60,16 +60,16 @@ namespace Heiflow.Controls.WinForm.Monitors
             _GroupMenu = new ContextMenuStrip();
             _ItemMenu = new ContextMenuStrip();
 
-            _RootMenu.Items.Add(VariablesFolderContextMenu._AT, Resources.AttributesWindow16, TableView_Click);
-            _RootMenu.Items.Add("Mass Budget", Resources.GraphHistogram32, MassBudget_Click);
-            _RootMenu.Items.Add("Plot All Terms", Resources._3dplot16, PlotGroup_Click);
+            _RootMenu.Items.Add(VariablesFolderContextMenu._AT, Resources.UiTable16, TableView_Click);
+            _RootMenu.Items.Add("Mass Budget", Resources.UiBalance16, MassBudget_Click);
+            _RootMenu.Items.Add("Plot All Terms", Resources.UiChart16, PlotGroup_Click);
 
-            _GroupMenu.Items.Add(VariablesFolderContextMenu._AT, Resources.AttributesWindow16, TableView_Click);
-            _GroupMenu.Items.Add("Mass Budget", Resources.GraphHistogram32, MassBudget_Click);
-            _GroupMenu.Items.Add("Plot All Terms", Resources._3dplot16, PlotGroup_Click);
+            _GroupMenu.Items.Add(VariablesFolderContextMenu._AT, Resources.UiTable16, TableView_Click);
+            _GroupMenu.Items.Add("Mass Budget", Resources.UiBalance16, MassBudget_Click);
+            _GroupMenu.Items.Add("Plot All Terms", Resources.UiChart16, PlotGroup_Click);
 
-            _ItemMenu.Items.Add(VariablesFolderContextMenu._AT, Resources.AttributesWindow16, TableView_Click);
-            _ItemMenu.Items.Add("Plot", Resources._3dplot16, PlotItem_Click);
+            _ItemMenu.Items.Add(VariablesFolderContextMenu._AT, Resources.UiTable16, TableView_Click);
+            _ItemMenu.Items.Add("Plot", Resources.UiChart16, PlotItem_Click);
         }
 
         public WinChart Chart
@@ -109,7 +109,7 @@ namespace Heiflow.Controls.WinForm.Monitors
                 {
                     Tag = root,
                     ContextMenu = _RootMenu,
-                    Image = Resources.AnimationCreateGroup16
+                    Image = Resources.UiAdd16
                 };
 
                 var categories = from item in root.Children
@@ -126,7 +126,7 @@ namespace Heiflow.Controls.WinForm.Monitors
                     {
                         ContextMenu = _GroupMenu,
                         Tag = cat_item,
-                        Image = Resources.KML_GroundOverlay16
+                        Image = Resources.UiMap16
                     };
 
                     foreach (var item in cat.Items)
@@ -135,7 +135,7 @@ namespace Heiflow.Controls.WinForm.Monitors
                         {
                             ContextMenu = _ItemMenu,
                             Tag = item,
-                            Image = Resources.ItemInformation16
+                            Image = Resources.UiList16
                         };
                         group_node.Nodes.Add(leaf);
                     }

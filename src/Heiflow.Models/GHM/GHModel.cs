@@ -56,10 +56,10 @@ namespace Heiflow.Models.GHM
         public GHModel()
         {
             Name = "GHM";
-            Icon = Resources.ServiceWMSGroup16;
+            Icon = Resources.UiService16;
             if (!ModelService.SafeMode)
             {
-                LargeIcon = Resources.ServiceWMSGroup32;
+                LargeIcon = Resources.UiService32;
                 Packages = new Dictionary<string, IPackage>();
             }
         }

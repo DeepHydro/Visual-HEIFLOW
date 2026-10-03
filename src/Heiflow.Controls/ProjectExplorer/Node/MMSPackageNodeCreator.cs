@@ -88,7 +88,7 @@ namespace Heiflow.Controls.WinForm.Project
                 menu_cat.Enable(VariablesFolderContextMenu._OP, false);
                 Node node_cat = new Node(cat.Category)
                 {
-                    Image = Resources.FolderWithGISData16,
+                    Image = Resources.UiFolder16,
                     Tag = menu_cat
                 };
                 foreach (var pr in cat.Items)
@@ -106,7 +106,7 @@ namespace Heiflow.Controls.WinForm.Project
                         mmsi.Enable(DisplayablePropertyContextMenu._LD, false);
                         Node ndpara = new Node(pr.Name)
                         {
-                            Image = Resources.LayerRaster_B_16,
+                            Image = Resources.UiLayer16,
                             Tag = mmsi
                         };
                         node_cat.Nodes.Add(ndpara);

@@ -49,8 +49,8 @@ namespace Heiflow.Models.Integration
         {
             this.Name = "GSFLOW Project";
             this.NameToShown = "GSFLOW";
-            this.Icon = Resources.RasterImageAnalysisDifference16;
-            this.LargeIcon = Resources.RasterImageAnalysisDifference32;
+            this.Icon = Resources.UiCompare16;
+            this.LargeIcon = Resources.UiCompare32;
             Description = "GSFLOW model version 1.1.6";
             Token = "GSFLOW";
             SupportedVersions = new string[] { "1.0.0", "1.0.1" };

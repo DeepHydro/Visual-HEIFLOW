@@ -55,7 +55,7 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnCancel.Location = new System.Drawing.Point(490, 477);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.btnCancel.Name = "btnCancel";
@@ -66,7 +66,7 @@
             // 
             // btnOk
             // 
-            this.btnOk.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.btnOk.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnOk.Location = new System.Drawing.Point(374, 477);
             this.btnOk.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.btnOk.Name = "btnOk";
@@ -209,7 +209,7 @@
             // 
             // btnNewFeature
             // 
-            this.btnNewFeature.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.btnNewFeature.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnNewFeature.Location = new System.Drawing.Point(20, 477);
             this.btnNewFeature.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.btnNewFeature.Name = "btnNewFeature";

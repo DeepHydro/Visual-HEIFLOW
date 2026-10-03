@@ -183,7 +183,8 @@ namespace Heiflow.Controls.WinForm.Toolbox
             // 
             // toolStrip1
             // 
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnRun});
             this.toolStrip1.Location = new System.Drawing.Point(3, 3);
@@ -195,7 +196,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             // btnRun
             // 
             this.btnRun.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnRun.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GenericBlueRightArrowNoTail32;
+            this.btnRun.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiRun24;
             this.btnRun.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRun.Name = "btnRun";
             this.btnRun.Size = new System.Drawing.Size(24, 24);
@@ -217,7 +218,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             // 
             this.winChart_timeseries.BackColor = System.Drawing.SystemColors.Control;
             this.winChart_timeseries.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.winChart_timeseries.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.winChart_timeseries.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.winChart_timeseries.Location = new System.Drawing.Point(3, 3);
             this.winChart_timeseries.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.winChart_timeseries.Name = "winChart_timeseries";
@@ -241,7 +242,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.dataGridEx1.DataObjectName = "";
             this.dataGridEx1.DataTable = null;
             this.dataGridEx1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridEx1.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.dataGridEx1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.dataGridEx1.Location = new System.Drawing.Point(3, 3);
             this.dataGridEx1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dataGridEx1.Name = "dataGridEx1";
@@ -340,7 +341,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.olvMatName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.olvMatName.Name = "olvMatName";
             this.olvMatName.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
-            this.olvMatName.SelectedBackColor = System.Drawing.Color.LimeGreen;
+            this.olvMatName.SelectedBackColor = System.Drawing.Color.FromArgb(46, 123, 184);
             this.olvMatName.SelectedForeColor = System.Drawing.Color.White;
             this.olvMatName.ShowCommandMenuOnRightClick = true;
             this.olvMatName.ShowGroups = false;
@@ -348,7 +349,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.olvMatName.ShowItemToolTips = true;
             this.olvMatName.Size = new System.Drawing.Size(340, 383);
             this.olvMatName.TabIndex = 3;
-            this.olvMatName.UnfocusedSelectedBackColor = System.Drawing.Color.LimeGreen;
+            this.olvMatName.UnfocusedSelectedBackColor = System.Drawing.Color.FromArgb(46, 123, 184);
             this.olvMatName.UnfocusedSelectedForeColor = System.Drawing.Color.White;
             this.olvMatName.UseCellFormatEvents = true;
             this.olvMatName.UseCompatibleStateImageBehavior = false;
@@ -382,7 +383,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             // 
             // contextMenuStrip_matname
             // 
-            this.contextMenuStrip_matname.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip_matname.ImageScalingSize = new System.Drawing.Size(16, 16);
             this.contextMenuStrip_matname.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menu_Open,
             this.menu_remove,
@@ -408,7 +409,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             // 
             // menu_SaveAs
             // 
-            this.menu_SaveAs.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GenericSave_B_16;
+            this.menu_SaveAs.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiSave16;
             this.menu_SaveAs.Name = "menu_SaveAs";
             this.menu_SaveAs.Size = new System.Drawing.Size(204, 26);
             this.menu_SaveAs.Text = "Save As...";
@@ -421,7 +422,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             // 
             // menu_Clear
             // 
-            this.menu_Clear.Image = global::Heiflow.Controls.WinForm.Properties.Resources.if_edit_clear_15273;
+            this.menu_Clear.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiClear16;
             this.menu_Clear.Name = "menu_Clear";
             this.menu_Clear.Size = new System.Drawing.Size(204, 26);
             this.menu_Clear.Text = "Clear Workspace";
@@ -429,7 +430,8 @@ namespace Heiflow.Controls.WinForm.Toolbox
             // 
             // toolStrip2
             // 
-            this.toolStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip2.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btn_open_dcx,
             this.btnClear});
@@ -442,7 +444,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             // btn_open_dcx
             // 
             this.btn_open_dcx.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btn_open_dcx.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GenericOpen_B_32;
+            this.btn_open_dcx.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiOpen24;
             this.btn_open_dcx.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_open_dcx.Name = "btn_open_dcx";
             this.btn_open_dcx.Size = new System.Drawing.Size(24, 24);
@@ -452,7 +454,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             // btnClear
             // 
             this.btnClear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnClear.Image = global::Heiflow.Controls.WinForm.Properties.Resources.if_edit_clear_15273;
+            this.btnClear.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiClear24;
             this.btnClear.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(24, 24);
@@ -479,7 +481,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.olvVariableName.DataSource = null;
             this.olvVariableName.Dock = System.Windows.Forms.DockStyle.Fill;
             this.olvVariableName.EmptyListMsg = "";
-            this.olvVariableName.EmptyListMsgFont = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.olvVariableName.EmptyListMsgFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.olvVariableName.FullRowSelect = true;
             this.olvVariableName.GridLines = true;
             this.olvVariableName.GroupWithItemCountFormat = "";
@@ -489,8 +491,8 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.olvVariableName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.olvVariableName.Name = "olvVariableName";
             this.olvVariableName.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
-            this.olvVariableName.SelectedBackColor = System.Drawing.Color.Pink;
-            this.olvVariableName.SelectedForeColor = System.Drawing.Color.MidnightBlue;
+            this.olvVariableName.SelectedBackColor = System.Drawing.Color.FromArgb(214, 233, 245);
+            this.olvVariableName.SelectedForeColor = System.Drawing.Color.FromArgb(27, 90, 140);
             this.olvVariableName.ShowCommandMenuOnRightClick = true;
             this.olvVariableName.ShowGroups = false;
             this.olvVariableName.ShowImagesOnSubItems = true;
@@ -564,7 +566,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.treeView1.DefaultToolTipProvider = null;
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.DragDropMarkColor = System.Drawing.Color.Black;
-            this.treeView1.Font = new System.Drawing.Font("Calibri", 10.5F);
+            this.treeView1.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.treeView1.HighlightColorActive = System.Drawing.SystemColors.Highlight;
             this.treeView1.HighlightColorInactive = System.Drawing.SystemColors.InactiveBorder;
             this.treeView1.LineColor = System.Drawing.SystemColors.ControlDark;

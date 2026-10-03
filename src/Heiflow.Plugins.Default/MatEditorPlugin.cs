@@ -65,7 +65,7 @@ namespace DotSpatial.Plugins.ToolManager
                 Key = "kShowMatEditor",
                 ToolTipText =  Resources.Data_Cube_Editor_tips,
                 GroupCaption = Resources.Model_Group,
-                LargeImage = Resources.matrix
+                LargeImage = Resources.UiCube32
             };
             App.HeaderControl.Add(showMatEditor);
             base.Activate();
@@ -90,7 +90,7 @@ namespace DotSpatial.Plugins.ToolManager
             };
             ProjectManager.ShellService.TV3DMatEditor = _TV3DMatEditor;
             ProjectManager.ShellService.AddChild(_TV3DMatEditor);
-            App.DockManager.Add(new DockablePanel("kDCEditor", "Data Cube Editor", _TV3DMatEditor, DockStyle.None) { SmallImage = Resources.matrix16 });
+            App.DockManager.Add(new DockablePanel("kDCEditor", "Data Cube Editor", _TV3DMatEditor, DockStyle.None) { SmallImage = Resources.UiCube16 });
            
         }
     }

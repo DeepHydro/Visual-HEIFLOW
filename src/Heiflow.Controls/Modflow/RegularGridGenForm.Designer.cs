@@ -573,7 +573,7 @@
             this.olvSoilLayers.Cursor = System.Windows.Forms.Cursors.Default;
             this.olvSoilLayers.DataSource = null;
             this.olvSoilLayers.EmptyListMsg = "";
-            this.olvSoilLayers.EmptyListMsgFont = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.olvSoilLayers.EmptyListMsgFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.olvSoilLayers.FullRowSelect = true;
             this.olvSoilLayers.GridLines = true;
             this.olvSoilLayers.GroupWithItemCountFormat = "";
@@ -583,8 +583,8 @@
             this.olvSoilLayers.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.olvSoilLayers.Name = "olvSoilLayers";
             this.olvSoilLayers.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
-            this.olvSoilLayers.SelectedBackColor = System.Drawing.Color.Pink;
-            this.olvSoilLayers.SelectedForeColor = System.Drawing.Color.MidnightBlue;
+            this.olvSoilLayers.SelectedBackColor = System.Drawing.Color.FromArgb(214, 233, 245);
+            this.olvSoilLayers.SelectedForeColor = System.Drawing.Color.FromArgb(27, 90, 140);
             this.olvSoilLayers.ShowCommandMenuOnRightClick = true;
             this.olvSoilLayers.ShowGroups = false;
             this.olvSoilLayers.ShowImagesOnSubItems = true;

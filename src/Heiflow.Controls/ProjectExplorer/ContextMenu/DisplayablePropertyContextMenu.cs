@@ -128,12 +128,12 @@ namespace Heiflow.Controls.WinForm.MenuItems
             _sub_menus.Clear();
             if (_AppManager.AppMode == AppMode.VHF)
             {
-                var item = new ExplorerMenuItem(_LD, Resources.AddContent16, LoadValues_Clicked);
+                var item = new ExplorerMenuItem(_LD, Resources.UiAdd16, LoadValues_Clicked);
                 item.Enabled = false;
                 _sub_menus.Add(item);
-                item = new ExplorerMenuItem(_AT, Resources.AttributesWindow16, AttributeTable_Clicked);
+                item = new ExplorerMenuItem(_AT, Resources.UiTable16, AttributeTable_Clicked);
                 _sub_menus.Add(item);
-                item = new ExplorerMenuItem(_A2T, Resources.GeoprocessingTool16, Add2Toolbox_Clicked);
+                item = new ExplorerMenuItem(_A2T, Resources.UiRun16, Add2Toolbox_Clicked);
                 _sub_menus.Add(item);
                 item = new ExplorerMenuItem(_A2DC, null, Add2DCEditor_Clicked);
                 _sub_menus.Add(item);
@@ -142,15 +142,15 @@ namespace Heiflow.Controls.WinForm.MenuItems
                 _sub_menus.Add(item);
 
                 _sub_menus.Add(new ExplorerMenuItem(PEContextMenu.MenuSeparator, null, null));
-                item = new ExplorerMenuItem(_SOM, Resources.LayerRasterOptimized16, ShowOnMap_Clicked);
+                item = new ExplorerMenuItem(_SOM, Resources.UiLayer16, ShowOnMap_Clicked);
                 _sub_menus.Add(item);
-                item = new ExplorerMenuItem(_VI3, Resources._3dplot16, ShowOn3D_Clicked);
+                item = new ExplorerMenuItem(_VI3, Resources.UiChart16, ShowOn3D_Clicked);
                 _sub_menus.Add(item);
-                item = new ExplorerMenuItem(_VERTPROF, Resources.LasRGB32, VertProfileView_Clicked);
+                item = new ExplorerMenuItem(_VERTPROF, Resources.UiMap16, VertProfileView_Clicked);
                 item.Enabled = false;
                 _sub_menus.Add(item);
 
-                var animate = new ExplorerMenuItem(_AN, Resources.AnimationVideo16, Animate_Clicked);
+                var animate = new ExplorerMenuItem(_AN, Resources.UiRun16, Animate_Clicked);
                 animate.Enabled = false;
                 _sub_menus.Add(animate);
 
@@ -167,14 +167,14 @@ namespace Heiflow.Controls.WinForm.MenuItems
             }
             else if (_AppManager.AppMode == AppMode.HE)
             {
-                var item = new ExplorerMenuItem(_LD, Resources.AddContent16, LoadValues_Clicked);
+                var item = new ExplorerMenuItem(_LD, Resources.UiAdd16, LoadValues_Clicked);
                 item.Enabled = false;
                 _sub_menus.Add(item);
-               item = new ExplorerMenuItem(_AT, Resources.AttributesWindow16, AttributeTable_Clicked);
+               item = new ExplorerMenuItem(_AT, Resources.UiTable16, AttributeTable_Clicked);
                    _sub_menus.Add(item);
-                item =(new ExplorerMenuItem(_VI3, Resources._3dplot16, ShowOn3D_Clicked));
+                item =(new ExplorerMenuItem(_VI3, Resources.UiChart16, ShowOn3D_Clicked));
                    _sub_menus.Add(item);
-                item = new ExplorerMenuItem(_AN, Resources.AnimationVideo16, Animate_Clicked);
+                item = new ExplorerMenuItem(_AN, Resources.UiRun16, Animate_Clicked);
                 _sub_menus.Add(item);
                 item = new ExplorerMenuItem(_SETAS_ACTSource,null, SetAsActiveSource_Clicked);
                 _sub_menus.Add(item);
@@ -205,7 +205,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
                     dp = Package as IDataPackage;
                 }
 
-                _SelectedNode.Image = Resources.LayerRaster_B_16;
+                _SelectedNode.Image = Resources.UiLayer16;
                 //if(Package.TimeService != null)
                 //    dp.Layer = Package.TimeService.CurrentGridLayer;
                 dp.Loading += dp_Loading;

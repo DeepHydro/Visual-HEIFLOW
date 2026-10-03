@@ -188,7 +188,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
             _ProjectService = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
             _ActiveDataService = MyAppManager.Instance.CompositionContainer.GetExportedValue<IActiveDataService>();
 
-            ContextMenuItems.Add(new ExplorerMenuItem("Property", Resources.property16, ProjectItem_PropertyClicked));
+            ContextMenuItems.Add(new ExplorerMenuItem("Property", Resources.UiTable16, ProjectItem_PropertyClicked));
             AddMenuItems();
         }
 

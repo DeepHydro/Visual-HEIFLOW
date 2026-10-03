@@ -128,7 +128,7 @@
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.LightGreen;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(214, 233, 245);
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewZone.DefaultCellStyle = dataGridViewCellStyle1;
@@ -146,7 +146,7 @@
             this.bindingNavigatorZone.BindingSource = this.bindingSourceZone;
             this.bindingNavigatorZone.CountItem = this.bindingNavigatorCountItem;
             this.bindingNavigatorZone.DeleteItem = null;
-            this.bindingNavigatorZone.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.bindingNavigatorZone.ImageScalingSize = new System.Drawing.Size(16, 16);
             this.bindingNavigatorZone.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnImportZone,
             this.bindingNavigatorMoveFirstItem,
@@ -182,7 +182,7 @@
             // btnImportZone
             // 
             this.btnImportZone.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnImportZone.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GeodatabaseXMLRecordSetImport32;
+            this.btnImportZone.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiImport24;
             this.btnImportZone.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnImportZone.Name = "btnImportZone";
             this.btnImportZone.Size = new System.Drawing.Size(24, 28);
@@ -252,7 +252,7 @@
             // btnExportZone
             // 
             this.btnExportZone.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnExportZone.Image = global::Heiflow.Controls.WinForm.Properties.Resources.csv_3_24;
+            this.btnExportZone.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiCsv24;
             this.btnExportZone.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnExportZone.Name = "btnExportZone";
             this.btnExportZone.Size = new System.Drawing.Size(24, 28);
@@ -261,7 +261,7 @@
             // btnZoneTemplateFile
             // 
             this.btnZoneTemplateFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnZoneTemplateFile.Image = global::Heiflow.Controls.WinForm.Properties.Resources.excel_32;
+            this.btnZoneTemplateFile.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiExcel24;
             this.btnZoneTemplateFile.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnZoneTemplateFile.Name = "btnZoneTemplateFile";
             this.btnZoneTemplateFile.Size = new System.Drawing.Size(24, 28);
@@ -270,7 +270,7 @@
             // btnLocateZoneDic
             // 
             this.btnLocateZoneDic.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnLocateZoneDic.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GenericOpen_B_32;
+            this.btnLocateZoneDic.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiOpen24;
             this.btnLocateZoneDic.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLocateZoneDic.Name = "btnLocateZoneDic";
             this.btnLocateZoneDic.Size = new System.Drawing.Size(24, 28);
@@ -285,7 +285,7 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.tabControlLeft);
-            this.splitContainer1.Panel1.Font = new System.Drawing.Font("Calibri", 10.5F);
+            this.splitContainer1.Panel1.Font = new System.Drawing.Font("Segoe UI", 10F);
             // 
             // splitContainer1.Panel2
             // 
@@ -478,7 +478,7 @@
             this.winChart1.BackColor = System.Drawing.SystemColors.Control;
             this.winChart1.ClearExistesSeries = true;
             this.winChart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.winChart1.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.winChart1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.winChart1.Location = new System.Drawing.Point(3, 3);
             this.winChart1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.winChart1.Name = "winChart1";
@@ -488,7 +488,7 @@
             // 
             // contextMenuStripAreal
             // 
-            this.contextMenuStripAreal.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStripAreal.ImageScalingSize = new System.Drawing.Size(16, 16);
             this.contextMenuStripAreal.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.selectAllToolStripMenuItem,
             this.clearToolStripMenuItem});
@@ -514,7 +514,7 @@
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripProgressBar1,
             this.labelStatus});

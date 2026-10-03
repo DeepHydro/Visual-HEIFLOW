@@ -46,7 +46,7 @@ namespace Heiflow.Controls.WinForm.Display
             // button3
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.button3.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.button3.Location = new System.Drawing.Point(822, 668);
             this.button3.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.button3.Name = "button3";
@@ -58,7 +58,7 @@ namespace Heiflow.Controls.WinForm.Display
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.button2.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.button2.Location = new System.Drawing.Point(693, 670);
             this.button2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.button2.Name = "button2";

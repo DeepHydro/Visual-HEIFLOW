@@ -192,7 +192,7 @@
             this.olvMF.Cursor = System.Windows.Forms.Cursors.Default;
             this.olvMF.DataSource = null;
             this.olvMF.EmptyListMsg = "";
-            this.olvMF.EmptyListMsgFont = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.olvMF.EmptyListMsgFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.olvMF.FullRowSelect = true;
             this.olvMF.GridLines = true;
             this.olvMF.GroupWithItemCountFormat = "";
@@ -203,7 +203,7 @@
             this.olvMF.Name = "olvMF";
             this.olvMF.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
             this.olvMF.SelectedBackColor = System.Drawing.Color.LightSkyBlue;
-            this.olvMF.SelectedForeColor = System.Drawing.Color.MidnightBlue;
+            this.olvMF.SelectedForeColor = System.Drawing.Color.FromArgb(27, 90, 140);
             this.olvMF.ShowCommandMenuOnRightClick = true;
             this.olvMF.ShowGroups = false;
             this.olvMF.ShowImagesOnSubItems = true;
@@ -312,7 +312,7 @@
             // 
             // btnRefreshGlobalTime
             // 
-            this.btnRefreshGlobalTime.Font = new System.Drawing.Font("Calibri", 10.5F);
+            this.btnRefreshGlobalTime.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.btnRefreshGlobalTime.Location = new System.Drawing.Point(622, 24);
             this.btnRefreshGlobalTime.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnRefreshGlobalTime.Name = "btnRefreshGlobalTime";
@@ -349,7 +349,7 @@
             // 
             // btnUpdate
             // 
-            this.btnUpdate.Font = new System.Drawing.Font("Calibri", 10.5F);
+            this.btnUpdate.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.btnUpdate.Location = new System.Drawing.Point(622, 67);
             this.btnUpdate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnUpdate.Name = "btnUpdate";

@@ -48,8 +48,8 @@ namespace Heiflow.Models.Subsurface
         {
             this.Name = "MT3DMS Project";
             this.NameToShown = "MT3DMS";
-            this.Icon = Resources.mf16;
-            this.LargeIcon = Resources.vft3d;
+            this.Icon = Resources.UiCube16;
+            this.LargeIcon = Resources.UiCube32;
             Description = "Three-Dimensional Transporation Model";
             Token = "MT3DMS";
             SupportedVersions = new string[] { "v2005" };

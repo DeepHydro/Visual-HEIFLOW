@@ -42,7 +42,7 @@
             this.treeView1.DefaultToolTipProvider = null;
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.DragDropMarkColor = System.Drawing.Color.Black;
-            this.treeView1.Font = new System.Drawing.Font("Calibri", 10.5F);
+            this.treeView1.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.treeView1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.treeView1.HighlightColorActive = System.Drawing.SystemColors.Highlight;
             this.treeView1.HighlightColorInactive = System.Drawing.SystemColors.InactiveBorder;
@@ -68,7 +68,7 @@
             // 
             this._nodeTextBox.DataPropertyName = "Text";
             this._nodeTextBox.EditEnabled = true;
-            this._nodeTextBox.Font = new System.Drawing.Font("Calibri", 10.5F);
+            this._nodeTextBox.Font = new System.Drawing.Font("Segoe UI", 10F);
             this._nodeTextBox.IncrementalSearchEnabled = true;
             this._nodeTextBox.LeftMargin = 3;
             this._nodeTextBox.ParentColumn = null;

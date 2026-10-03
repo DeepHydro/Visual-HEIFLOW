@@ -449,52 +449,54 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\TableFolder16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\RasterImageAnalysisPanSharpen16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\RasterImageAnalysisPanSharpen32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ServiceWMSGroup16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ServiceWMSGroup32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\mf32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\mf16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\RasterImageAnalysisDifference32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\RasterImageAnalysisDifference16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Pkg_File16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Pkg_File32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CADFeatureClassMultiPatch32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CADFeatureClassMultiPatch16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\MapPackageTiledTPKFile16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\vft3d.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\vft3dms.png" />
+    <None Include="Resources\\UiCompare16.png" />
+    <None Include="Resources\\UiCompare24.png" />
+    <None Include="Resources\\UiCompare32.png" />
+    <None Include="Resources\\UiCube16.png" />
+    <None Include="Resources\\UiCube24.png" />
+    <None Include="Resources\\UiCube32.png" />
+    <None Include="Resources\\UiMap16.png" />
+    <None Include="Resources\\UiMap24.png" />
+    <None Include="Resources\\UiMap32.png" />
+    <None Include="Resources\\UiRaster16.png" />
+    <None Include="Resources\\UiRaster24.png" />
+    <None Include="Resources\\UiRaster32.png" />
+    <None Include="Resources\\UiService16.png" />
+    <None Include="Resources\\UiService24.png" />
+    <None Include="Resources\\UiService32.png" />
+    <None Include="Resources\\UiTable16.png" />
+    <None Include="Resources\\UiTable24.png" />
+    <None Include="Resources\\UiTable32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -52,7 +52,7 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
             // tbn_compare_tr
             // 
             this.tbn_compare_tr.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbn_compare_tr.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GraphScatterplotCreate16;
+            this.tbn_compare_tr.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiScatter24;
             this.tbn_compare_tr.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbn_compare_tr.Name = "tbn_compare_tr";
             this.tbn_compare_tr.Size = new System.Drawing.Size(24, 25);
@@ -62,7 +62,7 @@ namespace Heiflow.Controls.WinForm.TimeSeriesExplorer
             // tbn_compare_ss
             // 
             //this.tbn_compare_ss.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            //this.tbn_compare_ss.Image = global::Heiflow.Controls.WinForm.Properties.Resources.ViewCompact16;
+            //this.tbn_compare_ss.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiCompare24;
             //this.tbn_compare_ss.ImageTransparentColor = System.Drawing.Color.Magenta;
             //this.tbn_compare_ss.Name = "tbn_compare_ss";
             //this.tbn_compare_ss.Size = new System.Drawing.Size(24, 25);

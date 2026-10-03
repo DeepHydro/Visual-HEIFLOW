@@ -55,7 +55,7 @@ namespace DotSpatial.Plugins.SplashScreenManager
                 Key = "kShowLegend",
                 ToolTipText = Resources.Legend,
                 GroupCaption = Resources.Map_Group,
-                LargeImage = Heiflow.Plugins.Default.Properties.Resources.Legend32
+                LargeImage = Heiflow.Plugins.Default.Properties.Resources.UiLegend32
             };
             App.HeaderControl.Add(showLengend);
 
@@ -96,7 +96,7 @@ namespace DotSpatial.Plugins.SplashScreenManager
 
             App.Map.Legend = legend1;
             App.Legend = this.legend1;
-            App.DockManager.Add(new DockablePanel("kLegend",Resources.Legend, legend1, DockStyle.Left) { SmallImage = Heiflow.Plugins.Default.Properties.Resources.Legend16 });
+            App.DockManager.Add(new DockablePanel("kLegend",Resources.Legend, legend1, DockStyle.Left) { SmallImage = Heiflow.Plugins.Default.Properties.Resources.UiLegend16 });
 
         }
 

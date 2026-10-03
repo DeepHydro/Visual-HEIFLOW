@@ -159,7 +159,7 @@
             this.btnOpenTrainingImages.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openTraningImagesToolStripMenuItem,
             this.openImagesToBeRecognizeToolStripMenuItem});
-            this.btnOpenTrainingImages.Image = global::Heiflow.Image.Properties.Resources.Apps_image_viewer_24;
+            this.btnOpenTrainingImages.Image = global::Heiflow.Image.Properties.Resources.UiImage24;
             this.btnOpenTrainingImages.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnOpenTrainingImages.Name = "btnOpenTrainingImages";
             this.btnOpenTrainingImages.Size = new System.Drawing.Size(29, 22);
@@ -199,7 +199,7 @@
             // btnTrain
             // 
             this.btnTrain.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnTrain.Image = global::Heiflow.Image.Properties.Resources.training_24;
+            this.btnTrain.Image = global::Heiflow.Image.Properties.Resources.UiTrain24;
             this.btnTrain.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnTrain.Name = "btnTrain";
             this.btnTrain.Size = new System.Drawing.Size(23, 22);
@@ -215,7 +215,7 @@
             // btnRecognize
             // 
             this.btnRecognize.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnRecognize.Image = global::Heiflow.Image.Properties.Resources.Recognition_24;
+            this.btnRecognize.Image = global::Heiflow.Image.Properties.Resources.UiSearch24;
             this.btnRecognize.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRecognize.Name = "btnRecognize";
             this.btnRecognize.Size = new System.Drawing.Size(23, 22);

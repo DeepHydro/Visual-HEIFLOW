@@ -66,7 +66,7 @@ namespace Heiflow.Plugins.Default
                 Key = "kActivePlot",
                 ToolTipText = Resources.Active_Datasets_tips,
                 GroupCaption = Resources.Analysis_group,
-                LargeImage = Properties.Resources.curve_chart
+                LargeImage = Properties.Resources.UiChart32
             };
             App.HeaderControl.Add(_plot_ts);
             if (_identify == null)

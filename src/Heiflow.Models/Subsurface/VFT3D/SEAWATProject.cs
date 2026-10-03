@@ -49,8 +49,8 @@ namespace Heiflow.Models.Subsurface.VFT3D
         {
             this.Name = "SEAWAT Project";
             this.NameToShown = "SEAWAT";
-            this.Icon = Resources.mf16;
-            this.LargeIcon = Resources.vft3dms;
+            this.Icon = Resources.UiCube16;
+            this.LargeIcon = Resources.UiCube32;
             Description = "Variable Flow Three-Dimensional Transporation Model";
             Token = "SEAWAT";
             SupportedVersions = new string[] { "v1.0.0"};

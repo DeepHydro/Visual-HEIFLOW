@@ -176,12 +176,12 @@ namespace Heiflow.Controls.WinForm.Controls
             {
                 _SelectedAnimator.Stop();
                 isPlay = false;
-                btnPlay.Image = Resources.GenericBlueRightArrowNoTail32;
+                btnPlay.Image = Resources.UiRun24;
                 btnPlay.ToolTipText = "Play";
             }
             else
             {
-                btnPlay.Image = Resources.GenericBluePause32;
+                btnPlay.Image = Resources.UiPause24;
                 btnPlay.ToolTipText = "Stop";
                 isPlay = true;
                 _SelectedAnimator.Play();
@@ -219,7 +219,7 @@ namespace Heiflow.Controls.WinForm.Controls
                 if(listBox_timeline.SelectedIndex == (listBox_timeline.Items.Count-1))
                 {
                     isPlay = false;
-                    btnPlay.Image = Resources.GenericBlueRightArrowNoTail32;
+                    btnPlay.Image = Resources.UiRun24;
                     btnPlay.ToolTipText = "Play";
                 }
             }

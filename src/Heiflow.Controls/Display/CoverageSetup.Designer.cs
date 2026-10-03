@@ -88,7 +88,7 @@
             // 
             // contextMenuStripAreal
             // 
-            this.contextMenuStripAreal.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStripAreal.ImageScalingSize = new System.Drawing.Size(16, 16);
             this.contextMenuStripAreal.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.selectAllToolStripMenuItem,
             this.clearToolStripMenuItem});
@@ -122,7 +122,8 @@
             // 
             this.toolStrip1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel2,
             this.tbCoverageName,
@@ -161,7 +162,7 @@
             // btnCreateLookupTable
             // 
             this.btnCreateLookupTable.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnCreateLookupTable.Image = global::Heiflow.Controls.WinForm.Properties.Resources.begin;
+            this.btnCreateLookupTable.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiAdd24;
             this.btnCreateLookupTable.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnCreateLookupTable.Name = "btnCreateLookupTable";
             this.btnCreateLookupTable.Size = new System.Drawing.Size(24, 24);
@@ -172,7 +173,7 @@
             // btnSave
             // 
             this.btnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnSave.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GenericSave_B_16;
+            this.btnSave.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiSave24;
             this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(24, 24);
@@ -187,7 +188,7 @@
             // btnMap
             // 
             this.btnMap.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnMap.Image = global::Heiflow.Controls.WinForm.Properties.Resources.ReportRun16;
+            this.btnMap.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiMap24;
             this.btnMap.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnMap.Name = "btnMap";
             this.btnMap.Size = new System.Drawing.Size(24, 24);
@@ -198,7 +199,7 @@
             // btnImport
             // 
             this.btnImport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnImport.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GeodatabaseXMLRecordSetImport32;
+            this.btnImport.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiImport24;
             this.btnImport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(24, 24);
@@ -211,7 +212,7 @@
             this.btnUseDefault.CheckOnClick = true;
             this.btnUseDefault.CheckState = System.Windows.Forms.CheckState.Checked;
             this.btnUseDefault.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnUseDefault.Image = global::Heiflow.Controls.WinForm.Properties.Resources.defaultv;
+            this.btnUseDefault.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiDefault24;
             this.btnUseDefault.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnUseDefault.Name = "btnUseDefault";
             this.btnUseDefault.Size = new System.Drawing.Size(24, 24);
@@ -275,7 +276,7 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.tabControlLeft);
-            this.splitContainer1.Panel1.Font = new System.Drawing.Font("Calibri", 10.5F);
+            this.splitContainer1.Panel1.Font = new System.Drawing.Font("Segoe UI", 10F);
             // 
             // splitContainer1.Panel2
             // 
@@ -398,7 +399,7 @@
             // btnSaveAsCsv
             // 
             this.btnSaveAsCsv.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnSaveAsCsv.Image = global::Heiflow.Controls.WinForm.Properties.Resources.excel_32;
+            this.btnSaveAsCsv.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiCsv24;
             this.btnSaveAsCsv.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSaveAsCsv.Name = "btnSaveAsCsv";
             this.btnSaveAsCsv.Size = new System.Drawing.Size(24, 24);

@@ -76,7 +76,7 @@ namespace Heiflow.Controls.WinForm.Project
                 Tag = pck_menu
             };
             if (pck.State == ModelObjectState.Standby || pck.State == ModelObjectState.Error)
-                pck_node.Image = Resources.PkgInfo_File16;
+                pck_node.Image = Resources.UiCsv16;
 
             if (pck is GHMPackage)
             {

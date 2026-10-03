@@ -68,8 +68,8 @@ namespace Heiflow.Models.Generic.Project
         {
             this.Name = "Project";
             NameToShown = "Unknown";
-            this.Icon = Resources.RasterImageAnalysisPanSharpen16;
-            this.LargeIcon = Resources.RasterImageAnalysisPanSharpen32;
+            this.Icon = Resources.UiRaster16;
+            this.LargeIcon = Resources.UiRaster32;
             Description = "This is base project";
             GridFeatureFilePath = "";
             CentroidFeatureFilePath = "";

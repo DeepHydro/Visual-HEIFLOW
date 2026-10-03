@@ -62,7 +62,7 @@ namespace Heiflow.Controls.WinForm.Modflow
 
             this.btnImport = new ToolStripButton();
             this.btnImport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnImport.Image = global::Heiflow.Controls.WinForm.Properties.Resources.TmImportFeatures16;
+            this.btnImport.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiImport24;
             this.btnImport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(24, 25);
@@ -71,7 +71,7 @@ namespace Heiflow.Controls.WinForm.Modflow
 
             this.btnCorrectElev = new ToolStripButton();
             this.btnCorrectElev.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnCorrectElev.Image = global::Heiflow.Controls.WinForm.Properties.Resources.Go_24px;
+            this.btnCorrectElev.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiRun24;
             this.btnCorrectElev.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnCorrectElev.Name = "btnCorrectElev";
             this.btnCorrectElev.Size = new System.Drawing.Size(24, 25);

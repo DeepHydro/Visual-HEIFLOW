@@ -131,11 +131,11 @@ namespace Heiflow.Presentation.Controls.Project
             {
                 if(pck.State == ModelObjectState.Ready)
                 {
-                    node.Image = Resources.MapPackageTiledTPKFile16;
+                    node.Image = Resources.UiMap16;
                 }
                 else if(pck.State == ModelObjectState.Standby)
                 {
-                    node.Image = Resources.PkgInfo_File16;
+                    node.Image = Resources.UiCsv16;
                 }
             }
         }

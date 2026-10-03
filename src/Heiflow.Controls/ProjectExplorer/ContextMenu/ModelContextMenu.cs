@@ -81,7 +81,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
         {
             if (MyAppManager.Instance.AppMode == AppMode.VHF)
             {
-                ContextMenuItems.Add(new ExplorerMenuItem("Add Package...", Resources.MapPackageTiledTPKFile16, ProjectItem_NewPackageClicked));
+                ContextMenuItems.Add(new ExplorerMenuItem("Add Package...", Resources.UiMap16, ProjectItem_NewPackageClicked));
                 ContextMenuItems.Add(new ExplorerMenuItem(PEContextMenu.MenuSeparator, null, null));
             }
             ContextMenuItems.Add(new ExplorerMenuItem("Expand All", null, ExpandAll_Clicked));

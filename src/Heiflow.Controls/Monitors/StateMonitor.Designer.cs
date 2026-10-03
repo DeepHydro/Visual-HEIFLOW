@@ -151,7 +151,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabControl3.Controls.Add(this.tabPage5);
             this.tabControl3.Controls.Add(this.tabPage6);
             this.tabControl3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl3.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.tabControl3.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.tabControl3.Location = new System.Drawing.Point(0, 27);
             this.tabControl3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabControl3.Name = "tabControl3";
@@ -180,7 +180,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.treeView1.DefaultToolTipProvider = null;
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.DragDropMarkColor = System.Drawing.Color.Black;
-            this.treeView1.Font = new System.Drawing.Font("Calibri", 10.5F);
+            this.treeView1.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.treeView1.HighlightColorActive = System.Drawing.SystemColors.Highlight;
             this.treeView1.HighlightColorInactive = System.Drawing.SystemColors.InactiveBorder;
             this.treeView1.LineColor = System.Drawing.SystemColors.ControlDark;
@@ -205,7 +205,7 @@ namespace Heiflow.Controls.WinForm.Display
             // nodeTextBox1
             // 
             this.nodeTextBox1.DataPropertyName = "Text";
-            this.nodeTextBox1.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.nodeTextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.nodeTextBox1.IncrementalSearchEnabled = true;
             this.nodeTextBox1.LeftMargin = 3;
             this.nodeTextBox1.ParentColumn = null;
@@ -235,7 +235,8 @@ namespace Heiflow.Controls.WinForm.Display
             // 
             // toolStrip1
             // 
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnLoad,
             this.btnOpen,
@@ -249,7 +250,7 @@ namespace Heiflow.Controls.WinForm.Display
             // btnLoad
             // 
             this.btnLoad.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnLoad.Image = global::Heiflow.Controls.WinForm.Properties.Resources.Load24;
+            this.btnLoad.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiLoad24;
             this.btnLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(24, 24);
@@ -259,7 +260,7 @@ namespace Heiflow.Controls.WinForm.Display
             // btnOpen
             // 
             this.btnOpen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnOpen.Image = global::Heiflow.Controls.WinForm.Properties.Resources.HostedServicesFolderOpenState32;
+            this.btnOpen.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiOpen24;
             this.btnOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(24, 24);
@@ -268,7 +269,7 @@ namespace Heiflow.Controls.WinForm.Display
             // btnClearCache
             // 
             this.btnClearCache.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnClearCache.Image = global::Heiflow.Controls.WinForm.Properties.Resources.if_history_clear_9334;
+            this.btnClearCache.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiClear24;
             this.btnClearCache.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnClearCache.Name = "btnClearCache";
             this.btnClearCache.Size = new System.Drawing.Size(24, 24);
@@ -280,7 +281,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabControl_Main.Controls.Add(this.tabPage_Graph);
             this.tabControl_Main.Controls.Add(this.tabPage_Report);
             this.tabControl_Main.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl_Main.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.tabControl_Main.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.tabControl_Main.Location = new System.Drawing.Point(0, 0);
             this.tabControl_Main.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabControl_Main.Name = "tabControl_Main";
@@ -305,7 +306,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.winChart1.BackColor = System.Drawing.SystemColors.Control;
             this.winChart1.ClearExistesSeries = true;
             this.winChart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.winChart1.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.winChart1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.winChart1.Location = new System.Drawing.Point(3, 4);
             this.winChart1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.winChart1.Name = "winChart1";
@@ -332,7 +333,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabControl2.Controls.Add(this.tabPageReport);
             this.tabControl2.Controls.Add(this.tabPage1);
             this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl2.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.tabControl2.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.tabControl2.Location = new System.Drawing.Point(3, 4);
             this.tabControl2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabControl2.Name = "tabControl2";
@@ -468,7 +469,7 @@ namespace Heiflow.Controls.WinForm.Display
             // tb_sz_satrejected
             // 
             this.tb_sz_satrejected.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.tb_sz_satrejected.Font = new System.Drawing.Font("Calibri", 11F);
+            this.tb_sz_satrejected.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.tb_sz_satrejected.Location = new System.Drawing.Point(199, 336);
             this.tb_sz_satrejected.Name = "tb_sz_satrejected";
             this.tb_sz_satrejected.Size = new System.Drawing.Size(53, 39);
@@ -478,7 +479,7 @@ namespace Heiflow.Controls.WinForm.Display
             // tb_szinfil
             // 
             this.tb_szinfil.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.tb_szinfil.Font = new System.Drawing.Font("Calibri", 11F);
+            this.tb_szinfil.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.tb_szinfil.Location = new System.Drawing.Point(738, 161);
             this.tb_szinfil.Name = "tb_szinfil";
             this.tb_szinfil.Size = new System.Drawing.Size(53, 39);
@@ -498,7 +499,7 @@ namespace Heiflow.Controls.WinForm.Display
             // 
             this.label5.AutoSize = true;
             this.label5.BackColor = System.Drawing.SystemColors.Info;
-            this.label5.Font = new System.Drawing.Font("Calibri", 10F);
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.label5.Location = new System.Drawing.Point(378, 449);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(297, 29);
@@ -509,7 +510,7 @@ namespace Heiflow.Controls.WinForm.Display
             // 
             this.label4.AutoSize = true;
             this.label4.BackColor = System.Drawing.SystemColors.Info;
-            this.label4.Font = new System.Drawing.Font("Calibri", 10F);
+            this.label4.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.label4.Location = new System.Drawing.Point(451, 617);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(196, 29);
@@ -520,7 +521,7 @@ namespace Heiflow.Controls.WinForm.Display
             // 
             this.label7.AutoSize = true;
             this.label7.BackColor = System.Drawing.SystemColors.Info;
-            this.label7.Font = new System.Drawing.Font("Calibri", 10F);
+            this.label7.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.label7.Location = new System.Drawing.Point(581, 58);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(247, 29);
@@ -531,7 +532,7 @@ namespace Heiflow.Controls.WinForm.Display
             // 
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.SystemColors.Info;
-            this.label3.Font = new System.Drawing.Font("Calibri", 10F);
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.label3.Location = new System.Drawing.Point(356, 269);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(210, 29);
@@ -542,7 +543,7 @@ namespace Heiflow.Controls.WinForm.Display
             // 
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.SystemColors.Info;
-            this.label2.Font = new System.Drawing.Font("Calibri", 10F);
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.label2.Location = new System.Drawing.Point(471, 10);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(169, 29);
@@ -561,7 +562,7 @@ namespace Heiflow.Controls.WinForm.Display
             // lak_slow
             // 
             this.lak_slow.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.lak_slow.Font = new System.Drawing.Font("Calibri", 10F);
+            this.lak_slow.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.lak_slow.Location = new System.Drawing.Point(284, 161);
             this.lak_slow.Name = "lak_slow";
             this.lak_slow.Size = new System.Drawing.Size(45, 36);
@@ -571,7 +572,7 @@ namespace Heiflow.Controls.WinForm.Display
             // sfr_slow
             // 
             this.sfr_slow.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.sfr_slow.Font = new System.Drawing.Font("Calibri", 10F);
+            this.sfr_slow.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.sfr_slow.Location = new System.Drawing.Point(453, 158);
             this.sfr_slow.Name = "sfr_slow";
             this.sfr_slow.Size = new System.Drawing.Size(51, 36);
@@ -581,7 +582,7 @@ namespace Heiflow.Controls.WinForm.Display
             // sat_s2g
             // 
             this.sat_s2g.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.sat_s2g.Font = new System.Drawing.Font("Calibri", 11F);
+            this.sat_s2g.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.sat_s2g.Location = new System.Drawing.Point(491, 508);
             this.sat_s2g.Name = "sat_s2g";
             this.sat_s2g.Size = new System.Drawing.Size(53, 39);
@@ -591,7 +592,7 @@ namespace Heiflow.Controls.WinForm.Display
             // uzf_recharge
             // 
             this.uzf_recharge.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.uzf_recharge.Font = new System.Drawing.Font("Calibri", 11F);
+            this.uzf_recharge.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.uzf_recharge.Location = new System.Drawing.Point(255, 442);
             this.uzf_recharge.Name = "uzf_recharge";
             this.uzf_recharge.Size = new System.Drawing.Size(53, 39);
@@ -601,7 +602,7 @@ namespace Heiflow.Controls.WinForm.Display
             // uzf_et
             // 
             this.uzf_et.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.uzf_et.Font = new System.Drawing.Font("Calibri", 11F);
+            this.uzf_et.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.uzf_et.Location = new System.Drawing.Point(817, 373);
             this.uzf_et.Name = "uzf_et";
             this.uzf_et.Size = new System.Drawing.Size(53, 39);
@@ -611,7 +612,7 @@ namespace Heiflow.Controls.WinForm.Display
             // sat_et
             // 
             this.sat_et.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.sat_et.Font = new System.Drawing.Font("Calibri", 11F);
+            this.sat_et.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.sat_et.Location = new System.Drawing.Point(765, 515);
             this.sat_et.Name = "sat_et";
             this.sat_et.Size = new System.Drawing.Size(53, 39);
@@ -621,7 +622,7 @@ namespace Heiflow.Controls.WinForm.Display
             // sat_pr
             // 
             this.sat_pr.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.sat_pr.Font = new System.Drawing.Font("Calibri", 11F);
+            this.sat_pr.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.sat_pr.Location = new System.Drawing.Point(672, 82);
             this.sat_pr.Name = "sat_pr";
             this.sat_pr.Size = new System.Drawing.Size(53, 39);
@@ -631,7 +632,7 @@ namespace Heiflow.Controls.WinForm.Display
             // sat_g2s
             // 
             this.sat_g2s.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.sat_g2s.Font = new System.Drawing.Font("Calibri", 11F);
+            this.sat_g2s.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.sat_g2s.Location = new System.Drawing.Point(491, 536);
             this.sat_g2s.Name = "sat_g2s";
             this.sat_g2s.Size = new System.Drawing.Size(53, 39);
@@ -641,7 +642,7 @@ namespace Heiflow.Controls.WinForm.Display
             // sat_ds
             // 
             this.sat_ds.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.sat_ds.Font = new System.Drawing.Font("Calibri", 11F);
+            this.sat_ds.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.sat_ds.Location = new System.Drawing.Point(317, 577);
             this.sat_ds.Name = "sat_ds";
             this.sat_ds.Size = new System.Drawing.Size(58, 39);
@@ -651,7 +652,7 @@ namespace Heiflow.Controls.WinForm.Display
             // uzf_ds
             // 
             this.uzf_ds.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.uzf_ds.Font = new System.Drawing.Font("Calibri", 11F);
+            this.uzf_ds.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.uzf_ds.Location = new System.Drawing.Point(312, 400);
             this.uzf_ds.Name = "uzf_ds";
             this.uzf_ds.Size = new System.Drawing.Size(58, 39);
@@ -661,7 +662,7 @@ namespace Heiflow.Controls.WinForm.Display
             // sw_in
             // 
             this.sw_in.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.sw_in.Font = new System.Drawing.Font("Calibri", 11F);
+            this.sw_in.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.sw_in.Location = new System.Drawing.Point(3, 158);
             this.sw_in.Name = "sw_in";
             this.sw_in.Size = new System.Drawing.Size(53, 39);
@@ -671,7 +672,7 @@ namespace Heiflow.Controls.WinForm.Display
             // sat_in
             // 
             this.sat_in.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.sat_in.Font = new System.Drawing.Font("Calibri", 11F);
+            this.sat_in.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.sat_in.Location = new System.Drawing.Point(3, 528);
             this.sat_in.Name = "sat_in";
             this.sat_in.Size = new System.Drawing.Size(53, 39);
@@ -681,7 +682,7 @@ namespace Heiflow.Controls.WinForm.Display
             // sat_out
             // 
             this.sat_out.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.sat_out.Font = new System.Drawing.Font("Calibri", 11F);
+            this.sat_out.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.sat_out.Location = new System.Drawing.Point(1010, 591);
             this.sat_out.Name = "sat_out";
             this.sat_out.Size = new System.Drawing.Size(53, 39);
@@ -691,7 +692,7 @@ namespace Heiflow.Controls.WinForm.Display
             // sw_out
             // 
             this.sw_out.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.sw_out.Font = new System.Drawing.Font("Calibri", 11F);
+            this.sw_out.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.sw_out.Location = new System.Drawing.Point(1012, 188);
             this.sw_out.Name = "sw_out";
             this.sw_out.Size = new System.Drawing.Size(53, 39);
@@ -701,7 +702,7 @@ namespace Heiflow.Controls.WinForm.Display
             // sat_gw2sz
             // 
             this.sat_gw2sz.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.sat_gw2sz.Font = new System.Drawing.Font("Calibri", 11F);
+            this.sat_gw2sz.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.sat_gw2sz.Location = new System.Drawing.Point(992, 336);
             this.sat_gw2sz.Name = "sat_gw2sz";
             this.sat_gw2sz.Size = new System.Drawing.Size(53, 39);
@@ -711,7 +712,7 @@ namespace Heiflow.Controls.WinForm.Display
             // lak_gain
             // 
             this.lak_gain.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.lak_gain.Font = new System.Drawing.Font("Calibri", 11F);
+            this.lak_gain.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.lak_gain.Location = new System.Drawing.Point(194, 508);
             this.lak_gain.Name = "lak_gain";
             this.lak_gain.Size = new System.Drawing.Size(58, 39);
@@ -721,7 +722,7 @@ namespace Heiflow.Controls.WinForm.Display
             // lak_leak
             // 
             this.lak_leak.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.lak_leak.Font = new System.Drawing.Font("Calibri", 11F);
+            this.lak_leak.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.lak_leak.Location = new System.Drawing.Point(130, 508);
             this.lak_leak.Name = "lak_leak";
             this.lak_leak.Size = new System.Drawing.Size(58, 39);
@@ -731,7 +732,7 @@ namespace Heiflow.Controls.WinForm.Display
             // tb_sz2gw
             // 
             this.tb_sz2gw.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.tb_sz2gw.Font = new System.Drawing.Font("Calibri", 11F);
+            this.tb_sz2gw.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.tb_sz2gw.Location = new System.Drawing.Point(117, 336);
             this.tb_sz2gw.Name = "tb_sz2gw";
             this.tb_sz2gw.Size = new System.Drawing.Size(58, 39);
@@ -741,7 +742,7 @@ namespace Heiflow.Controls.WinForm.Display
             // sz_Percolation
             // 
             this.sz_Percolation.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.sz_Percolation.Font = new System.Drawing.Font("Calibri", 11F);
+            this.sz_Percolation.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.sz_Percolation.Location = new System.Drawing.Point(239, 278);
             this.sz_Percolation.Name = "sz_Percolation";
             this.sz_Percolation.Size = new System.Drawing.Size(58, 39);
@@ -751,7 +752,7 @@ namespace Heiflow.Controls.WinForm.Display
             // sz_ds
             // 
             this.sz_ds.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.sz_ds.Font = new System.Drawing.Font("Calibri", 10F);
+            this.sz_ds.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.sz_ds.Location = new System.Drawing.Point(312, 231);
             this.sz_ds.Name = "sz_ds";
             this.sz_ds.Size = new System.Drawing.Size(58, 36);
@@ -761,7 +762,7 @@ namespace Heiflow.Controls.WinForm.Display
             // lak_dun
             // 
             this.lak_dun.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.lak_dun.Font = new System.Drawing.Font("Calibri", 10F);
+            this.lak_dun.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.lak_dun.Location = new System.Drawing.Point(284, 188);
             this.lak_dun.Name = "lak_dun";
             this.lak_dun.Size = new System.Drawing.Size(45, 36);
@@ -771,7 +772,7 @@ namespace Heiflow.Controls.WinForm.Display
             // sfr_dun
             // 
             this.sfr_dun.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.sfr_dun.Font = new System.Drawing.Font("Calibri", 10F);
+            this.sfr_dun.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.sfr_dun.Location = new System.Drawing.Point(453, 185);
             this.sfr_dun.Name = "sfr_dun";
             this.sfr_dun.Size = new System.Drawing.Size(51, 36);
@@ -781,7 +782,7 @@ namespace Heiflow.Controls.WinForm.Display
             // uz_error
             // 
             this.uz_error.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.uz_error.Font = new System.Drawing.Font("Calibri", 11F);
+            this.uz_error.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.uz_error.Location = new System.Drawing.Point(616, 446);
             this.uz_error.Name = "uz_error";
             this.uz_error.Size = new System.Drawing.Size(61, 39);
@@ -791,7 +792,7 @@ namespace Heiflow.Controls.WinForm.Display
             // sat_error
             // 
             this.sat_error.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.sat_error.Font = new System.Drawing.Font("Calibri", 11F);
+            this.sat_error.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.sat_error.Location = new System.Drawing.Point(616, 616);
             this.sat_error.Name = "sat_error";
             this.sat_error.Size = new System.Drawing.Size(61, 39);
@@ -801,7 +802,7 @@ namespace Heiflow.Controls.WinForm.Display
             // tb_hrudisp
             // 
             this.tb_hrudisp.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.tb_hrudisp.Font = new System.Drawing.Font("Calibri", 11F);
+            this.tb_hrudisp.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.tb_hrudisp.Location = new System.Drawing.Point(834, 56);
             this.tb_hrudisp.Name = "tb_hrudisp";
             this.tb_hrudisp.Size = new System.Drawing.Size(61, 39);
@@ -811,7 +812,7 @@ namespace Heiflow.Controls.WinForm.Display
             // soil_error
             // 
             this.soil_error.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.soil_error.Font = new System.Drawing.Font("Calibri", 11F);
+            this.soil_error.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.soil_error.Location = new System.Drawing.Point(572, 263);
             this.soil_error.Name = "soil_error";
             this.soil_error.Size = new System.Drawing.Size(61, 39);
@@ -821,7 +822,7 @@ namespace Heiflow.Controls.WinForm.Display
             // sz_et
             // 
             this.sz_et.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.sz_et.Font = new System.Drawing.Font("Calibri", 11F);
+            this.sz_et.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.sz_et.Location = new System.Drawing.Point(864, 215);
             this.sz_et.Name = "sz_et";
             this.sz_et.Size = new System.Drawing.Size(58, 39);
@@ -832,7 +833,7 @@ namespace Heiflow.Controls.WinForm.Display
             // 
             this.total_error.AcceptsReturn = true;
             this.total_error.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.total_error.Font = new System.Drawing.Font("Calibri", 11F);
+            this.total_error.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.total_error.Location = new System.Drawing.Point(607, 6);
             this.total_error.Name = "total_error";
             this.total_error.Size = new System.Drawing.Size(66, 39);
@@ -842,7 +843,7 @@ namespace Heiflow.Controls.WinForm.Display
             // et
             // 
             this.et.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.et.Font = new System.Drawing.Font("Calibri", 11F);
+            this.et.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.et.Location = new System.Drawing.Point(847, 11);
             this.et.Name = "et";
             this.et.Size = new System.Drawing.Size(58, 39);
@@ -852,7 +853,7 @@ namespace Heiflow.Controls.WinForm.Display
             // ds
             // 
             this.ds.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ds.Font = new System.Drawing.Font("Calibri", 11F);
+            this.ds.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.ds.Location = new System.Drawing.Point(132, 11);
             this.ds.Name = "ds";
             this.ds.Size = new System.Drawing.Size(58, 39);
@@ -862,7 +863,7 @@ namespace Heiflow.Controls.WinForm.Display
             // ppt
             // 
             this.ppt.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ppt.Font = new System.Drawing.Font("Calibri", 11F);
+            this.ppt.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.ppt.Location = new System.Drawing.Point(387, 13);
             this.ppt.Name = "ppt";
             this.ppt.Size = new System.Drawing.Size(58, 39);
@@ -872,7 +873,7 @@ namespace Heiflow.Controls.WinForm.Display
             // sf_et
             // 
             this.sf_et.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.sf_et.Font = new System.Drawing.Font("Calibri", 11F);
+            this.sf_et.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.sf_et.Location = new System.Drawing.Point(942, 73);
             this.sf_et.Name = "sf_et";
             this.sf_et.Size = new System.Drawing.Size(58, 39);
@@ -892,7 +893,7 @@ namespace Heiflow.Controls.WinForm.Display
             // lak_et
             // 
             this.lak_et.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.lak_et.Font = new System.Drawing.Font("Calibri", 11F);
+            this.lak_et.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.lak_et.Location = new System.Drawing.Point(184, 92);
             this.lak_et.Name = "lak_et";
             this.lak_et.Size = new System.Drawing.Size(43, 39);
@@ -902,7 +903,7 @@ namespace Heiflow.Controls.WinForm.Display
             // lak_ds
             // 
             this.lak_ds.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.lak_ds.Font = new System.Drawing.Font("Calibri", 11F);
+            this.lak_ds.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.lak_ds.Location = new System.Drawing.Point(239, 127);
             this.lak_ds.Name = "lak_ds";
             this.lak_ds.Size = new System.Drawing.Size(43, 39);
@@ -912,7 +913,7 @@ namespace Heiflow.Controls.WinForm.Display
             // sw_ds
             // 
             this.sw_ds.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.sw_ds.Font = new System.Drawing.Font("Calibri", 11F);
+            this.sw_ds.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.sw_ds.Location = new System.Drawing.Point(132, 124);
             this.sw_ds.Name = "sw_ds";
             this.sw_ds.Size = new System.Drawing.Size(43, 39);
@@ -922,7 +923,7 @@ namespace Heiflow.Controls.WinForm.Display
             // div_evap
             // 
             this.div_evap.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.div_evap.Font = new System.Drawing.Font("Calibri", 11F);
+            this.div_evap.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.div_evap.Location = new System.Drawing.Point(531, 58);
             this.div_evap.Name = "div_evap";
             this.div_evap.Size = new System.Drawing.Size(58, 39);
@@ -932,7 +933,7 @@ namespace Heiflow.Controls.WinForm.Display
             // div
             // 
             this.div.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.div.Font = new System.Drawing.Font("Calibri", 11F);
+            this.div.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.div.Location = new System.Drawing.Point(439, 58);
             this.div.Name = "div";
             this.div.Size = new System.Drawing.Size(58, 39);
@@ -942,7 +943,7 @@ namespace Heiflow.Controls.WinForm.Display
             // canal_ds
             // 
             this.canal_ds.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.canal_ds.Font = new System.Drawing.Font("Calibri", 10F);
+            this.canal_ds.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.canal_ds.Location = new System.Drawing.Point(598, 158);
             this.canal_ds.Name = "canal_ds";
             this.canal_ds.Size = new System.Drawing.Size(43, 36);
@@ -952,7 +953,7 @@ namespace Heiflow.Controls.WinForm.Display
             // canal_et
             // 
             this.canal_et.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.canal_et.Font = new System.Drawing.Font("Calibri", 11F);
+            this.canal_et.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.canal_et.Location = new System.Drawing.Point(537, 92);
             this.canal_et.Name = "canal_et";
             this.canal_et.Size = new System.Drawing.Size(43, 39);
@@ -962,7 +963,7 @@ namespace Heiflow.Controls.WinForm.Display
             // sfr_et
             // 
             this.sfr_et.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.sfr_et.Font = new System.Drawing.Font("Calibri", 11F);
+            this.sfr_et.Font = new System.Drawing.Font("Segoe UI", 11F);
             this.sfr_et.Location = new System.Drawing.Point(337, 92);
             this.sfr_et.Name = "sfr_et";
             this.sfr_et.Size = new System.Drawing.Size(43, 39);
@@ -1007,7 +1008,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 27F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer1);
-            this.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "StateMonitor";
             this.Size = new System.Drawing.Size(1334, 713);

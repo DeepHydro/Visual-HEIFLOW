@@ -173,7 +173,7 @@
             this.olvMatName.Margin = new System.Windows.Forms.Padding(5);
             this.olvMatName.Name = "olvMatName";
             this.olvMatName.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
-            this.olvMatName.SelectedBackColor = System.Drawing.Color.LimeGreen;
+            this.olvMatName.SelectedBackColor = System.Drawing.Color.FromArgb(46, 123, 184);
             this.olvMatName.SelectedForeColor = System.Drawing.Color.White;
             this.olvMatName.ShowCommandMenuOnRightClick = true;
             this.olvMatName.ShowGroups = false;
@@ -181,7 +181,7 @@
             this.olvMatName.ShowItemToolTips = true;
             this.olvMatName.Size = new System.Drawing.Size(292, 274);
             this.olvMatName.TabIndex = 3;
-            this.olvMatName.UnfocusedSelectedBackColor = System.Drawing.Color.LimeGreen;
+            this.olvMatName.UnfocusedSelectedBackColor = System.Drawing.Color.FromArgb(46, 123, 184);
             this.olvMatName.UnfocusedSelectedForeColor = System.Drawing.Color.White;
             this.olvMatName.UseCellFormatEvents = true;
             this.olvMatName.UseCompatibleStateImageBehavior = false;
@@ -221,7 +221,7 @@
             // contextMenuStrip_matname
             // 
             this.contextMenuStrip_matname.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.contextMenuStrip_matname.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip_matname.ImageScalingSize = new System.Drawing.Size(16, 16);
             this.contextMenuStrip_matname.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menu_remove,
             this.menu_Clear,
@@ -238,7 +238,7 @@
             // 
             // menu_Clear
             // 
-            this.menu_Clear.Image = global::Heiflow.Controls.WinForm.Properties.Resources.if_edit_clear_15273;
+            this.menu_Clear.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiClear16;
             this.menu_Clear.Name = "menu_Clear";
             this.menu_Clear.Size = new System.Drawing.Size(192, 26);
             this.menu_Clear.Text = "Clear Workspace";
@@ -252,7 +252,8 @@
             // toolStrip2
             // 
             this.toolStrip2.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStrip2.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip2.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnRemove,
             this.btnClear});
@@ -266,7 +267,7 @@
             // 
             this.btnRemove.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.btnRemove.Enabled = false;
-            this.btnRemove.Image = global::Heiflow.Controls.WinForm.Properties.Resources.SpatialAnalystTrainingSampleClear16;
+            this.btnRemove.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiDelete24;
             this.btnRemove.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(24, 24);
@@ -276,7 +277,7 @@
             // btnClear
             // 
             this.btnClear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnClear.Image = global::Heiflow.Controls.WinForm.Properties.Resources.if_edit_clear_15273;
+            this.btnClear.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiClear24;
             this.btnClear.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(24, 24);
@@ -313,7 +314,7 @@
             this.olvVariableName.Margin = new System.Windows.Forms.Padding(5);
             this.olvVariableName.Name = "olvVariableName";
             this.olvVariableName.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
-            this.olvVariableName.SelectedBackColor = System.Drawing.Color.LimeGreen;
+            this.olvVariableName.SelectedBackColor = System.Drawing.Color.FromArgb(46, 123, 184);
             this.olvVariableName.SelectedForeColor = System.Drawing.Color.White;
             this.olvVariableName.ShowCommandMenuOnRightClick = true;
             this.olvVariableName.ShowGroups = false;
@@ -321,7 +322,7 @@
             this.olvVariableName.ShowItemToolTips = true;
             this.olvVariableName.Size = new System.Drawing.Size(292, 294);
             this.olvVariableName.TabIndex = 2;
-            this.olvVariableName.UnfocusedSelectedBackColor = System.Drawing.Color.LimeGreen;
+            this.olvVariableName.UnfocusedSelectedBackColor = System.Drawing.Color.FromArgb(46, 123, 184);
             this.olvVariableName.UnfocusedSelectedForeColor = System.Drawing.Color.White;
             this.olvVariableName.UseCellFormatEvents = true;
             this.olvVariableName.UseCompatibleStateImageBehavior = false;
@@ -388,7 +389,8 @@
             // toolStripArray
             // 
             this.toolStripArray.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripArray.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStripArray.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.toolStripArray.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStripArray.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsLabel,
             this.toolStripLabel2,
@@ -452,7 +454,7 @@
             // btnSave
             // 
             this.btnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnSave.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GenericSave_B_16;
+            this.btnSave.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiSave24;
             this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(24, 25);
@@ -462,7 +464,7 @@
             // btnExport
             // 
             this.btnExport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnExport.Image = global::Heiflow.Controls.WinForm.Properties.Resources.excel_32;
+            this.btnExport.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiExcel24;
             this.btnExport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(24, 25);
@@ -472,7 +474,7 @@
             // btnImport
             // 
             this.btnImport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnImport.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GeodatabaseXMLRecordSetImport32;
+            this.btnImport.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiImport24;
             this.btnImport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(24, 25);

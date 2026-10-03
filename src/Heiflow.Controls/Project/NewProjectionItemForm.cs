@@ -81,7 +81,7 @@ namespace Heiflow.Presentation.Controls.Project
             {
                 Node node_root = new Node(gp.root)
                 {
-                    Image = Resources.MapPackageTiledTPKFile16,
+                    Image = Resources.UiMap16,
                     Tag = (from dd in dic where dd.Value.Root == gp.root select dd.Key).ToArray()
                 };
 
@@ -94,7 +94,7 @@ namespace Heiflow.Presentation.Controls.Project
                     {
                         var node_level1 = new Node(ll.token)
                          {
-                             Image = Resources.MapPackageTiledTPKFile16,
+                             Image = Resources.UiMap16,
                              Tag = (from dd in dic where dd.Value.Depth == 2 && dd.Value.Tokens[1] == ll.token select dd.Key).ToArray()
                          };
                         node_root.Nodes.Add(node_level1);

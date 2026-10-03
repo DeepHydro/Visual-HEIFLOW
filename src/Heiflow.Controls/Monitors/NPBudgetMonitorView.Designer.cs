@@ -92,7 +92,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabControlExplorer.Controls.Add(this.tabPageTree);
             this.tabControlExplorer.Controls.Add(this.tabPageConfig);
             this.tabControlExplorer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlExplorer.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.tabControlExplorer.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.tabControlExplorer.Location = new System.Drawing.Point(0, 27);
             this.tabControlExplorer.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabControlExplorer.Name = "tabControlExplorer";
@@ -121,7 +121,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.treeView1.DefaultToolTipProvider = null;
             this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView1.DragDropMarkColor = System.Drawing.Color.Black;
-            this.treeView1.Font = new System.Drawing.Font("Calibri", 10.5F);
+            this.treeView1.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.treeView1.HighlightColorActive = System.Drawing.SystemColors.Highlight;
             this.treeView1.HighlightColorInactive = System.Drawing.SystemColors.InactiveBorder;
             this.treeView1.LineColor = System.Drawing.SystemColors.ControlDark;
@@ -146,7 +146,7 @@ namespace Heiflow.Controls.WinForm.Display
             // nodeTextBox1
             // 
             this.nodeTextBox1.DataPropertyName = "Text";
-            this.nodeTextBox1.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.nodeTextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.nodeTextBox1.IncrementalSearchEnabled = true;
             this.nodeTextBox1.LeftMargin = 3;
             this.nodeTextBox1.ParentColumn = null;
@@ -176,7 +176,8 @@ namespace Heiflow.Controls.WinForm.Display
             // 
             // toolStrip1
             // 
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnLoad,
             this.btnMassBudget,
@@ -190,7 +191,7 @@ namespace Heiflow.Controls.WinForm.Display
             // btnLoad
             // 
             this.btnLoad.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnLoad.Image = global::Heiflow.Controls.WinForm.Properties.Resources.Load24;
+            this.btnLoad.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiLoad24;
             this.btnLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(24, 24);
@@ -200,7 +201,7 @@ namespace Heiflow.Controls.WinForm.Display
             // btnMassBudget
             // 
             this.btnMassBudget.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnMassBudget.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GraphHistogram32;
+            this.btnMassBudget.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiBalance24;
             this.btnMassBudget.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnMassBudget.Name = "btnMassBudget";
             this.btnMassBudget.Size = new System.Drawing.Size(24, 24);
@@ -210,7 +211,7 @@ namespace Heiflow.Controls.WinForm.Display
             // btnClear
             // 
             this.btnClear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnClear.Image = global::Heiflow.Controls.WinForm.Properties.Resources.if_history_clear_9334;
+            this.btnClear.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiClear24;
             this.btnClear.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(24, 24);
@@ -223,7 +224,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabControlMain.Controls.Add(this.tabPageTable);
             this.tabControlMain.Controls.Add(this.tabPageReport);
             this.tabControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControlMain.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.tabControlMain.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.tabControlMain.Location = new System.Drawing.Point(0, 0);
             this.tabControlMain.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabControlMain.Name = "tabControlMain";
@@ -248,7 +249,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.winChart1.BackColor = System.Drawing.SystemColors.Control;
             this.winChart1.ClearExistesSeries = true;
             this.winChart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.winChart1.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.winChart1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.winChart1.Location = new System.Drawing.Point(3, 4);
             this.winChart1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.winChart1.Name = "winChart1";
@@ -349,7 +350,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 27F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer1);
-            this.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "NPBudgetMonitorView";
             this.Size = new System.Drawing.Size(1100, 640);

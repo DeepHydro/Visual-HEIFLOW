@@ -83,7 +83,7 @@ namespace Heiflow.Image.Controls
             _TreeModel.Nodes.Clear();
             var root_training_node = new Node("Training")
             {
-                Image = Resources.training_24,
+                Image = Resources.UiTrain24,
                 Tag = "Training"
             };
 
@@ -94,7 +94,7 @@ namespace Heiflow.Image.Controls
                     var fn = Path.GetFileNameWithoutExtension(img);
                     var node = new Node(fn)
                     {
-                        Image = Resources.image_tr,
+                        Image = Resources.UiTrain32,
                         Tag = img
                     };
                     
@@ -103,7 +103,7 @@ namespace Heiflow.Image.Controls
             }
             var root_Recoginzing_node = new Node("Recoginzing")
             {
-                Image = Resources.Recognition_24,
+                Image = Resources.UiSearch24,
                 Tag = "Training"
             };
             foreach (var img in ImageSource.RecoginzingImages)
@@ -113,7 +113,7 @@ namespace Heiflow.Image.Controls
                     var fn = Path.GetFileNameWithoutExtension(img);
                     var node = new Node(fn)
                     {
-                        Image = Resources.image_regc,
+                        Image = Resources.UiSearch32,
                         Tag = img 
                     };
 

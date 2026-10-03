@@ -32,7 +32,7 @@
   <ItemGroup>
     <Reference Include="DotSpatial.Controls, Version=2.0.0.0, Culture=neutral, PublicKeyToken=4d9e49339a7d240c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Controls.dll</HintPath>
+      <HintPath>..\Bin\Debug\DotSpatial.Controls.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.Extensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=4d9e49339a7d240c, processorArchitecture=MSIL">
@@ -41,7 +41,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.GeoAPI">
-      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.GeoAPI.dll</HintPath>
+      <HintPath>..\Bin\Debug\DotSpatial.GeoAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -122,52 +122,51 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Heiflow.Plugins.Menubar.licenseheader" />
-    <None Include="Resources\3d-volume.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Import-32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Save_blue_32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\new32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\exit32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\import32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\open32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ReportLoad32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ReportLoad16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\MapWindowNew16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\MapWindowNew32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GenericSave_B_16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GenericSave_B_32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\MapServiceDefinitionSave16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\MapServiceDefinitionSave32.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\information32.png" />
+    <None Include="Resources\\UiExit16.png" />
+    <None Include="Resources\\UiExit24.png" />
+    <None Include="Resources\\UiExit32.png" />
+    <None Include="Resources\\UiInfo16.png" />
+    <None Include="Resources\\UiInfo24.png" />
+    <None Include="Resources\\UiInfo32.png" />
+    <None Include="Resources\\UiLoad16.png" />
+    <None Include="Resources\\UiLoad24.png" />
+    <None Include="Resources\\UiLoad32.png" />
+    <None Include="Resources\\UiMap16.png" />
+    <None Include="Resources\\UiMap24.png" />
+    <None Include="Resources\\UiMap32.png" />
+    <None Include="Resources\\UiSave16.png" />
+    <None Include="Resources\\UiSave24.png" />
+    <None Include="Resources\\UiSave32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

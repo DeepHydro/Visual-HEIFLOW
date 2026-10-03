@@ -64,7 +64,7 @@ namespace Heiflow.Plugins.Default
                 Key = "kWeatherGenerator",
                 ToolTipText = Properties.Resources.Weather_Generator,
                 GroupCaption = Properties.Resources.Driving_Forces_group,
-                LargeImage = Properties.Resources.ThunderD_A_32,
+                LargeImage = Properties.Resources.UiWeather32,
                 SortOrder = 3
             };
             App.HeaderControl.Add(_Weather);

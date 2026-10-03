@@ -173,19 +173,23 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Recognition_24.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\training_24.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Apps_image_viewer_24.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\image_regc.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\image_tr.png" />
+    <None Include="Resources\\UiImage16.png" />
+    <None Include="Resources\\UiImage24.png" />
+    <None Include="Resources\\UiImage32.png" />
+    <None Include="Resources\\UiSearch16.png" />
+    <None Include="Resources\\UiSearch24.png" />
+    <None Include="Resources\\UiSearch32.png" />
+    <None Include="Resources\\UiTrain16.png" />
+    <None Include="Resources\\UiTrain24.png" />
+    <None Include="Resources\\UiTrain32.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

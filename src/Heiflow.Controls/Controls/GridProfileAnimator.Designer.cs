@@ -155,7 +155,7 @@
             // 
             // btnStop
             // 
-            this.btnStop.BackgroundImage = global::Heiflow.Controls.WinForm.Properties.Resources.stop64;
+            this.btnStop.BackgroundImage = global::Heiflow.Controls.WinForm.Properties.Resources.UiStop48;
             this.btnStop.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnStop.Location = new System.Drawing.Point(68, 196);
             this.btnStop.Name = "btnStop";
@@ -184,7 +184,7 @@
             // 
             // btnPlay
             // 
-            this.btnPlay.BackgroundImage = global::Heiflow.Controls.WinForm.Properties.Resources.play64;
+            this.btnPlay.BackgroundImage = global::Heiflow.Controls.WinForm.Properties.Resources.UiRun48;
             this.btnPlay.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnPlay.Location = new System.Drawing.Point(14, 196);
             this.btnPlay.Name = "btnPlay";

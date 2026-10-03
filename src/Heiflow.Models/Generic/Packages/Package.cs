@@ -83,8 +83,8 @@ namespace Heiflow.Models.Generic
             IsDirty = false;
             if (!ModelService.SafeMode)
             {
-                Icon = Resources.MapPackageTiledTPKFile16;
-                LargeIcon = Properties.Resources.MapPackageTiledTPKFile16;
+                Icon = Resources.UiMap16;
+                LargeIcon = Properties.Resources.UiMap32;
             }
             Fields = new List<PackageFeatureField>();
             Version = "1.0.0";
@@ -102,8 +102,8 @@ namespace Heiflow.Models.Generic
             IsDirty = false;
             if (!ModelService.SafeMode)
             {
-                Icon = Resources.MapPackageTiledTPKFile16;
-                LargeIcon = Properties.Resources.MapPackageTiledTPKFile16;
+                Icon = Resources.UiMap16;
+                LargeIcon = Properties.Resources.UiMap32;
             }
             Fields = new List<PackageFeatureField>();
             Version = "1.0.0";

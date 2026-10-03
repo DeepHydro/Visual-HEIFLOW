@@ -172,7 +172,7 @@
             this.olvLanduse.Name = "olvLanduse";
             this.olvLanduse.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
             this.olvLanduse.SelectedBackColor = System.Drawing.Color.LightSkyBlue;
-            this.olvLanduse.SelectedForeColor = System.Drawing.Color.MidnightBlue;
+            this.olvLanduse.SelectedForeColor = System.Drawing.Color.FromArgb(27, 90, 140);
             this.olvLanduse.ShowCommandMenuOnRightClick = true;
             this.olvLanduse.ShowGroups = false;
             this.olvLanduse.ShowImagesOnSubItems = true;
@@ -264,7 +264,7 @@
             // btnRefreshLU
             // 
             this.btnRefreshLU.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRefreshLU.Font = new System.Drawing.Font("Calibri", 10.5F);
+            this.btnRefreshLU.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.btnRefreshLU.Location = new System.Drawing.Point(611, 9);
             this.btnRefreshLU.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnRefreshLU.Name = "btnRefreshLU";
@@ -397,7 +397,7 @@
             // btnRefreshMF
             // 
             this.btnRefreshMF.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRefreshMF.Font = new System.Drawing.Font("Calibri", 10.5F);
+            this.btnRefreshMF.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.btnRefreshMF.Location = new System.Drawing.Point(617, 9);
             this.btnRefreshMF.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnRefreshMF.Name = "btnRefreshMF";
@@ -496,7 +496,7 @@
             this.olvMF.Cursor = System.Windows.Forms.Cursors.Default;
             this.olvMF.DataSource = null;
             this.olvMF.EmptyListMsg = "";
-            this.olvMF.EmptyListMsgFont = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.olvMF.EmptyListMsgFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.olvMF.FullRowSelect = true;
             this.olvMF.GridLines = true;
             this.olvMF.GroupWithItemCountFormat = "";
@@ -507,7 +507,7 @@
             this.olvMF.Name = "olvMF";
             this.olvMF.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
             this.olvMF.SelectedBackColor = System.Drawing.Color.LightSkyBlue;
-            this.olvMF.SelectedForeColor = System.Drawing.Color.MidnightBlue;
+            this.olvMF.SelectedForeColor = System.Drawing.Color.FromArgb(27, 90, 140);
             this.olvMF.ShowCommandMenuOnRightClick = true;
             this.olvMF.ShowGroups = false;
             this.olvMF.ShowImagesOnSubItems = true;
@@ -609,7 +609,7 @@
             // btnRefreshGlobalTime
             // 
             this.btnRefreshGlobalTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRefreshGlobalTime.Font = new System.Drawing.Font("Calibri", 10.5F);
+            this.btnRefreshGlobalTime.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.btnRefreshGlobalTime.Location = new System.Drawing.Point(622, 25);
             this.btnRefreshGlobalTime.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnRefreshGlobalTime.Name = "btnRefreshGlobalTime";

@@ -62,7 +62,7 @@ namespace Heiflow.Plugins.Animation
 
             var panel = new DockablePanel("kAnimation", Resources.Animation,  _Player, DockStyle.Right) 
                 {
-                    SmallImage = Resources.TrackingDataAnimationTool16
+                    SmallImage = Resources.UiAnimation16
                 };
             App.DockManager.Add(panel);
 
@@ -72,7 +72,7 @@ namespace Heiflow.Plugins.Animation
                 Key = "kShowAnimation",
                 ToolTipText = Resources.Animation,
                 GroupCaption = Resources.Analysis_group,
-                LargeImage = Resources.TrackingDataAnimationTool32,
+                LargeImage = Resources.UiAnimation32,
                 SortOrder = 5
             };
             App.HeaderControl.Add(showAnimation);

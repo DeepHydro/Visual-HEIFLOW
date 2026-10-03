@@ -17,15 +17,6 @@
     <resheader name="version">2.0</resheader>
     <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
     <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
                 
     There are any number of "resheader" rows that contain simple 
     name/value pairs.
@@ -118,36 +109,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="exit32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\exit32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="GenericSave_B_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GenericSave_B_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="GenericSave_B_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\GenericSave_B_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MapServiceDefinitionSave16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MapServiceDefinitionSave16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MapServiceDefinitionSave32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MapServiceDefinitionSave32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MapWindowNew16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MapWindowNew16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="MapWindowNew32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\MapWindowNew32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ReportLoad16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ReportLoad16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ReportLoad32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ReportLoad32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="information32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\information32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="OpenProject" xml:space="preserve">
     <value>Open Project</value>
   </data>
@@ -162,5 +123,50 @@
   </data>
   <data name="SaveProject" xml:space="preserve">
     <value>Save Project</value>
+  </data>
+  <data name="UiExit16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\\Resources\\UiExit16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UiExit24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\\Resources\\UiExit24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UiExit32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\\Resources\\UiExit32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UiInfo16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\\Resources\\UiInfo16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UiInfo24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\\Resources\\UiInfo24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UiInfo32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\\Resources\\UiInfo32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UiLoad16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\\Resources\\UiLoad16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UiLoad24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\\Resources\\UiLoad24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UiLoad32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\\Resources\\UiLoad32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UiMap16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\\Resources\\UiMap16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UiMap24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\\Resources\\UiMap24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UiMap32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\\Resources\\UiMap32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UiSave16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\\Resources\\UiSave16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UiSave24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\\Resources\\UiSave24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UiSave32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\\Resources\\UiSave32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

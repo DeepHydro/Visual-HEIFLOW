@@ -80,8 +80,8 @@ namespace Heiflow.Models.Subsurface
             PackageFileNameProvider = new MFPackFileNameProvider(this);
             if (!ModelService.SafeMode)
             {
-                this.Icon = Resources.mf16;
-                this.LargeIcon = Resources.mf32;
+                this.Icon = Resources.UiCube16;
+                this.LargeIcon = Resources.UiCube32;
             }
             this.TimeService = new TimeService("Subsurface Timeline")
             {

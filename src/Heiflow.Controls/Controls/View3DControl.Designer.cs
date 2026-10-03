@@ -60,7 +60,7 @@
             this.ilPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ilPanel1.Driver = ILNumerics.Drawing.RendererTypes.OpenGL;
             this.ilPanel1.Editor = null;
-            this.ilPanel1.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.ilPanel1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.ilPanel1.Location = new System.Drawing.Point(0, 0);
             this.ilPanel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ilPanel1.Name = "ilPanel1";
@@ -72,7 +72,8 @@
             // toolStrip1
             // 
             this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnLengend,
             this.btnRemoveExisted,
@@ -92,7 +93,7 @@
             // btnLengend
             // 
             this.btnLengend.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnLengend.Image = global::Heiflow.Controls.WinForm.Properties.Resources.if_stock_chart_toggle_legend_93841;
+            this.btnLengend.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiLegend24;
             this.btnLengend.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLengend.Name = "btnLengend";
             this.btnLengend.Size = new System.Drawing.Size(24, 25);
@@ -104,7 +105,7 @@
             this.btnRemoveExisted.CheckOnClick = true;
             this.btnRemoveExisted.CheckState = System.Windows.Forms.CheckState.Checked;
             this.btnRemoveExisted.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnRemoveExisted.Image = global::Heiflow.Controls.WinForm.Properties.Resources.if_selected_delete_37293;
+            this.btnRemoveExisted.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiDelete24;
             this.btnRemoveExisted.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRemoveExisted.Name = "btnRemoveExisted";
             this.btnRemoveExisted.Size = new System.Drawing.Size(24, 25);
@@ -114,7 +115,7 @@
             // 
             this.chbColorbar.CheckOnClick = true;
             this.chbColorbar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.chbColorbar.Image = global::Heiflow.Controls.WinForm.Properties.Resources.colorbar;
+            this.chbColorbar.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiColorbar24;
             this.chbColorbar.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.chbColorbar.Name = "chbColorbar";
             this.chbColorbar.Size = new System.Drawing.Size(24, 25);
@@ -123,7 +124,7 @@
             // btnClear
             // 
             this.btnClear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnClear.Image = global::Heiflow.Controls.WinForm.Properties.Resources.if_edit_clear_15273;
+            this.btnClear.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiClear24;
             this.btnClear.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(24, 25);
@@ -140,7 +141,7 @@
             this.btnShowSeries.Checked = true;
             this.btnShowSeries.CheckState = System.Windows.Forms.CheckState.Checked;
             this.btnShowSeries.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnShowSeries.Image = global::Heiflow.Controls.WinForm.Properties.Resources.if_Side_Panel;
+            this.btnShowSeries.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiList24;
             this.btnShowSeries.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnShowSeries.Name = "btnShowSeries";
             this.btnShowSeries.Size = new System.Drawing.Size(24, 25);

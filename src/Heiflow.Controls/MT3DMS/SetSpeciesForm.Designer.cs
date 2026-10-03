@@ -138,7 +138,7 @@
             this.olvMobileSpeciesList.DataSource = null;
             this.olvMobileSpeciesList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.olvMobileSpeciesList.EmptyListMsg = "";
-            this.olvMobileSpeciesList.EmptyListMsgFont = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.olvMobileSpeciesList.EmptyListMsgFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.olvMobileSpeciesList.FullRowSelect = true;
             this.olvMobileSpeciesList.GridLines = true;
             this.olvMobileSpeciesList.GroupWithItemCountFormat = "";
@@ -148,8 +148,8 @@
             this.olvMobileSpeciesList.Margin = new System.Windows.Forms.Padding(4);
             this.olvMobileSpeciesList.Name = "olvMobileSpeciesList";
             this.olvMobileSpeciesList.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
-            this.olvMobileSpeciesList.SelectedBackColor = System.Drawing.Color.Pink;
-            this.olvMobileSpeciesList.SelectedForeColor = System.Drawing.Color.MidnightBlue;
+            this.olvMobileSpeciesList.SelectedBackColor = System.Drawing.Color.FromArgb(214, 233, 245);
+            this.olvMobileSpeciesList.SelectedForeColor = System.Drawing.Color.FromArgb(27, 90, 140);
             this.olvMobileSpeciesList.ShowCommandMenuOnRightClick = true;
             this.olvMobileSpeciesList.ShowGroups = false;
             this.olvMobileSpeciesList.ShowImagesOnSubItems = true;
@@ -219,7 +219,7 @@
             this.olvExchangeSpeciesList.DataSource = null;
             this.olvExchangeSpeciesList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.olvExchangeSpeciesList.EmptyListMsg = "";
-            this.olvExchangeSpeciesList.EmptyListMsgFont = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.olvExchangeSpeciesList.EmptyListMsgFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.olvExchangeSpeciesList.FullRowSelect = true;
             this.olvExchangeSpeciesList.GridLines = true;
             this.olvExchangeSpeciesList.GroupWithItemCountFormat = "";
@@ -229,8 +229,8 @@
             this.olvExchangeSpeciesList.Margin = new System.Windows.Forms.Padding(4);
             this.olvExchangeSpeciesList.Name = "olvExchangeSpeciesList";
             this.olvExchangeSpeciesList.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
-            this.olvExchangeSpeciesList.SelectedBackColor = System.Drawing.Color.Pink;
-            this.olvExchangeSpeciesList.SelectedForeColor = System.Drawing.Color.MidnightBlue;
+            this.olvExchangeSpeciesList.SelectedBackColor = System.Drawing.Color.FromArgb(214, 233, 245);
+            this.olvExchangeSpeciesList.SelectedForeColor = System.Drawing.Color.FromArgb(27, 90, 140);
             this.olvExchangeSpeciesList.ShowCommandMenuOnRightClick = true;
             this.olvExchangeSpeciesList.ShowGroups = false;
             this.olvExchangeSpeciesList.ShowImagesOnSubItems = true;
@@ -304,7 +304,7 @@
             this.olvMineralSpeciesList.DataSource = null;
             this.olvMineralSpeciesList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.olvMineralSpeciesList.EmptyListMsg = "";
-            this.olvMineralSpeciesList.EmptyListMsgFont = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.olvMineralSpeciesList.EmptyListMsgFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.olvMineralSpeciesList.FullRowSelect = true;
             this.olvMineralSpeciesList.GridLines = true;
             this.olvMineralSpeciesList.GroupWithItemCountFormat = "";
@@ -314,8 +314,8 @@
             this.olvMineralSpeciesList.Margin = new System.Windows.Forms.Padding(4);
             this.olvMineralSpeciesList.Name = "olvMineralSpeciesList";
             this.olvMineralSpeciesList.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
-            this.olvMineralSpeciesList.SelectedBackColor = System.Drawing.Color.Pink;
-            this.olvMineralSpeciesList.SelectedForeColor = System.Drawing.Color.MidnightBlue;
+            this.olvMineralSpeciesList.SelectedBackColor = System.Drawing.Color.FromArgb(214, 233, 245);
+            this.olvMineralSpeciesList.SelectedForeColor = System.Drawing.Color.FromArgb(27, 90, 140);
             this.olvMineralSpeciesList.ShowCommandMenuOnRightClick = true;
             this.olvMineralSpeciesList.ShowGroups = false;
             this.olvMineralSpeciesList.ShowImagesOnSubItems = true;

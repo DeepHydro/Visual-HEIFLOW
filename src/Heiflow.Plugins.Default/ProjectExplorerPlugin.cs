@@ -77,7 +77,7 @@ namespace Heiflow.Plugins.ProjectExplorer
             _ProjectExplorer = ProjectManager.ShellService.ProjectExplorer as Control;
             _ProjectExplorer.Dock = DockStyle.Fill;
             App.DockManager.Add(new DockablePanel("kProjectExplorer", Resources.Project_panel,
-                _ProjectExplorer, DockStyle.Left) { SmallImage = Heiflow.Plugins.Default.Properties.Resources.CatalogShowTree16 });
+                _ProjectExplorer, DockStyle.Left) { SmallImage = Heiflow.Plugins.Default.Properties.Resources.UiList16 });
 
             var showPE = new SimpleActionItem("kView", Resources.Project_Explorer,
                 delegate(object sender, EventArgs e)
@@ -87,7 +87,7 @@ namespace Heiflow.Plugins.ProjectExplorer
                 Key = "kShowProjectExplorer",
                 ToolTipText = Resources.Project_Explorer,
                 GroupCaption = Resources.Model_Group,
-                LargeImage = Resources.CatalogShowTree32
+                LargeImage = Resources.UiList32
             };
             App.HeaderControl.Add(showPE);
 
@@ -112,8 +112,8 @@ namespace Heiflow.Plugins.ProjectExplorer
             {
                 GroupCaption = HeaderControl.ApplicationMenuKey,
                 SortOrder = 100,
-                SmallImage = Resources.MetadataCreateUpdate32,
-                LargeImage = Resources.MetadataCreateUpdate32,
+                SmallImage = Resources.UiDefault16,
+                LargeImage = Resources.UiDefault32,
                 ToolTipText = "Set options"
             });
 

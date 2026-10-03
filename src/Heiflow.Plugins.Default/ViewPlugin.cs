@@ -75,7 +75,7 @@ namespace Heiflow.Plugins.Default
                    Key = "kShowMap",
                    ToolTipText = Resources.Map_control,
                    GroupCaption = Resources.Map_Group,
-                   LargeImage = Properties.Resources.Map32
+                   LargeImage = Properties.Resources.UiMap32
                };
             App.HeaderControl.Add(showMap);
 
@@ -84,7 +84,7 @@ namespace Heiflow.Plugins.Default
                 Key = "kShowProgress",
                 ToolTipText = Resources.ProgressWindow,
                 GroupCaption = Resources.Common_Group,
-                LargeImage = Properties.Resources.progess64
+                LargeImage = Properties.Resources.UiProgress32
             };
             App.HeaderControl.Add(showProgress);
             base.Activate();

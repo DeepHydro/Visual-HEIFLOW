@@ -61,7 +61,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
 
         public override void AddMenuItems()
         {
-            ContextMenuItems.Add(new ExplorerMenuItem("New Coverage...", Resources.MapPackageTiledTPKFile16, NewCoverage_Clicked));
+            ContextMenuItems.Add(new ExplorerMenuItem("New Coverage...", Resources.UiMap16, NewCoverage_Clicked));
             ContextMenuItems.Add(new ExplorerMenuItem("Expand All", null, ExpandAll_Clicked));
             ContextMenuItems.Add(new ExplorerMenuItem("Collapse All", null, CollapseAll_Clicked));    
         }

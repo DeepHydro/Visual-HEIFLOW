@@ -71,7 +71,7 @@ namespace Heiflow.Plugins.View3DPanel
                 Key = "kShowView3D",
                 ToolTipText = Resources.View_3d_tips,
                 GroupCaption = Resources.Data_Group,
-                LargeImage = Resources._3d_plot_printing_printer
+                LargeImage = Resources.UiCube32
             };
             App.HeaderControl.Add(showView3D);
 
@@ -80,7 +80,7 @@ namespace Heiflow.Plugins.View3DPanel
                 Key = "kTerrainViewer",
                 ToolTipText = Resources.Terrain_Viewer_tips,
                 GroupCaption = Resources.Data_Group,
-                LargeImage = Resources.rotation3d32
+                LargeImage = Resources.UiTerrain32
             };
             App.HeaderControl.Add(terrainViewer);
 
@@ -90,7 +90,7 @@ namespace Heiflow.Plugins.View3DPanel
                 Key = "kGridProfileViewer",
                 ToolTipText =  Resources.Vertical_Profile_Viewer_tips,
                 GroupCaption = Resources.Data_Group,
-                LargeImage = Resources.LasRGB32
+                LargeImage = Resources.UiProfile32
             };
             App.HeaderControl.Add(gridprofileViewer);
 
@@ -100,7 +100,7 @@ namespace Heiflow.Plugins.View3DPanel
                 Key = "kProfileViewer",
                 ToolTipText = Resources.Profile_Viewer,
                 GroupCaption = Resources.Data_Group,
-                LargeImage = Resources.cube128
+                LargeImage = Resources.UiCube32
             };
             App.HeaderControl.Add(profileViewer);
 

@@ -68,7 +68,7 @@ namespace Heiflow.Controls.WinForm.Project
 
             root_mapdata = new Node("Conceptual Model")
             {
-                Image = Resources.DataFrame16,
+                Image = Resources.UiLayer16,
                 Tag = root_menu
             };
 

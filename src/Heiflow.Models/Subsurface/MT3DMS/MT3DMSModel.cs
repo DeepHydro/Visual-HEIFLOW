@@ -21,7 +21,7 @@ namespace Heiflow.Models.Subsurface.MT3DMS
             PackageFileNameProvider = new MT3DPackFileNameProvider(this);
             if (!ModelService.SafeMode)
             {
-                this.Icon = Resources.mf16;
+                this.Icon = Resources.UiCube16;
             }
             Description = "A Modular Three-Dimensional Multispecies Transport Model for Simulation of Advection, Dispersion, and Chemical Reactions of Contaminants in Groundwater Systems";
         }

@@ -20,7 +20,7 @@ namespace Heiflow.Models.Subsurface.VFT3D
             Name = "SEAWAT";
             this.MFVersion = MODFLOWVersion.MF2005;
             PackageFileNameProvider = new SEAWATPackFileNameProvider(this);
-            this.Icon = Resources.mf16;
+            this.Icon = Resources.UiCube16;
             Description = "A Modular Three-Dimensional Multispecies Transport Model for Simulation of Advection, Dispersion, and Chemical Reactions of Contaminants in Groundwater Systems";
         }
 

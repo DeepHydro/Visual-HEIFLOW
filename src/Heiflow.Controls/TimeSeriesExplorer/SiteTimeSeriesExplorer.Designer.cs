@@ -74,7 +74,8 @@
             // toolStrip1
             // 
             this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnLoad,
             this.toolStripLabel1,
@@ -95,7 +96,7 @@
             // btnLoad
             // 
             this.btnLoad.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnLoad.Image = global::Heiflow.Controls.WinForm.Properties.Resources.Load24;
+            this.btnLoad.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiLoad24;
             this.btnLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(24, 26);
@@ -124,7 +125,7 @@
             // btnRefresh
             // 
             this.btnRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnRefresh.Image = global::Heiflow.Controls.WinForm.Properties.Resources.refresh;
+            this.btnRefresh.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiRefresh24;
             this.btnRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(24, 26);
@@ -134,7 +135,7 @@
             // tbnSlctDataSource
             // 
             this.tbnSlctDataSource.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbnSlctDataSource.Image = global::Heiflow.Controls.WinForm.Properties.Resources.DatabaseServer16;
+            this.tbnSlctDataSource.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiDatabase24;
             this.tbnSlctDataSource.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbnSlctDataSource.Name = "tbnSlctDataSource";
             this.tbnSlctDataSource.Size = new System.Drawing.Size(24, 26);
@@ -152,7 +153,7 @@
             this.btnCompareMode.CheckOnClick = true;
             this.btnCompareMode.CheckState = System.Windows.Forms.CheckState.Checked;
             this.btnCompareMode.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnCompareMode.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GeostatisticalGraphGeneralQQPlot16;
+            this.btnCompareMode.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiCompare24;
             this.btnCompareMode.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnCompareMode.Name = "btnCompareMode";
             this.btnCompareMode.Size = new System.Drawing.Size(24, 26);

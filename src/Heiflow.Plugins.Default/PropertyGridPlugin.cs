@@ -61,7 +61,7 @@ namespace Heiflow.Plugins.Default
             this._PropertyGrid.Name = "propGrid1";
             App.DockManager.Add
                 (new DockablePanel("kPropGrid", 
-                    "Property", _PropertyGrid, DockStyle.Right) { SmallImage = Properties.Resources.MetadataProperties16 });
+                    "Property", _PropertyGrid, DockStyle.Right) { SmallImage = Properties.Resources.UiProperty16 });
 
             var showPropertyGrid = new SimpleActionItem("kView", Resources.Property,
                delegate(object sender, EventArgs e)
@@ -71,7 +71,7 @@ namespace Heiflow.Plugins.Default
                 Key = "kShowProperty",
                 ToolTipText = Resources.Property,
                 GroupCaption = Resources.Common_Group,
-                LargeImage = Resources.MetadataProperties32
+                LargeImage = Resources.UiProperty32
             };
             App.HeaderControl.Add(showPropertyGrid);
 

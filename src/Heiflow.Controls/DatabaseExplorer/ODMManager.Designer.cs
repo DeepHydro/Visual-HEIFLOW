@@ -118,7 +118,7 @@
             this.nav_top.CountItem = null;
             this.nav_top.DeleteItem = null;
             this.nav_top.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.nav_top.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.nav_top.ImageScalingSize = new System.Drawing.Size(16, 16);
             this.nav_top.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnUpdateSeriesCata,
             this.btn_ShowScript,
@@ -139,7 +139,7 @@
             // btnUpdateSeriesCata
             // 
             this.btnUpdateSeriesCata.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnUpdateSeriesCata.Image = global::Heiflow.Controls.WinForm.Properties.Resources.refresh;
+            this.btnUpdateSeriesCata.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiRefresh24;
             this.btnUpdateSeriesCata.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnUpdateSeriesCata.Name = "btnUpdateSeriesCata";
             this.btnUpdateSeriesCata.Size = new System.Drawing.Size(24, 24);
@@ -150,7 +150,7 @@
             // btn_ShowScript
             // 
             this.btn_ShowScript.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btn_ShowScript.Image = global::Heiflow.Controls.WinForm.Properties.Resources.script;
+            this.btn_ShowScript.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiScript24;
             this.btn_ShowScript.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_ShowScript.Name = "btn_ShowScript";
             this.btn_ShowScript.Size = new System.Drawing.Size(24, 24);
@@ -160,7 +160,7 @@
             // btn_script
             // 
             this.btn_script.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btn_script.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GeoprocessingScriptUnfilled16;
+            this.btn_script.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiScript24;
             this.btn_script.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btn_script.Name = "btn_script";
             this.btn_script.Size = new System.Drawing.Size(24, 24);
@@ -179,7 +179,7 @@
             this.defaultExportToolStripMenuItem,
             this.btnExportSiteAsShp,
             this.customExportToolStripMenuItem});
-            this.btnExport.Image = global::Heiflow.Controls.WinForm.Properties.Resources.TableExport16;
+            this.btnExport.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiExport24;
             this.btnExport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(34, 24);
@@ -215,7 +215,7 @@
             this.nav_bottom.DeleteItem = this.toolStripButton2;
             this.nav_bottom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.nav_bottom.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.nav_bottom.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.nav_bottom.ImageScalingSize = new System.Drawing.Size(16, 16);
             this.nav_bottom.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton5,
             this.toolStripButton6,
@@ -383,7 +383,7 @@
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9F);
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.LightGreen;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(214, 233, 245);
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dg_odm.DefaultCellStyle = dataGridViewCellStyle1;
@@ -428,7 +428,7 @@
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9F);
             dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.LightGreen;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(214, 233, 245);
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dg_external.DefaultCellStyle = dataGridViewCellStyle2;
@@ -446,7 +446,7 @@
             this.navExcel.CountItem = this.bindingNavigatorCountItem;
             this.navExcel.DeleteItem = null;
             this.navExcel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.navExcel.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.navExcel.ImageScalingSize = new System.Drawing.Size(16, 16);
             this.navExcel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.bindingNavigatorMoveFirstItem,
             this.bindingNavigatorMovePreviousItem,

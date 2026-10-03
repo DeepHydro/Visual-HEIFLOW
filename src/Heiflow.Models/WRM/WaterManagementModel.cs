@@ -22,10 +22,10 @@ namespace Heiflow.Models.WRM
         public WaterManagementModel()
         {
             Name = "Water Management";
-            Icon = Resources.mf16;
+            Icon = Resources.UiCube16;
             if (!ModelService.SafeMode)
             {
-                LargeIcon = Resources.mf32;
+                LargeIcon = Resources.UiCube32;
                 Description = "Water resources management model";
             }
             _WRAPackage = new WRAPackage();

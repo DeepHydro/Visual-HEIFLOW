@@ -50,7 +50,7 @@
             // toolStrip1
             // 
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnConectODM,
             this.toolStripSeparator1,
@@ -67,7 +67,7 @@
             // btnConectODM
             // 
             this.btnConectODM.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnConectODM.Image = global::Heiflow.Controls.WinForm.Properties.Resources.add_db;
+            this.btnConectODM.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiDatabase24;
             this.btnConectODM.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnConectODM.Name = "btnConectODM";
             this.btnConectODM.Size = new System.Drawing.Size(24, 24);
@@ -77,7 +77,7 @@
             // btnRefresh
             // 
             this.btnRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnRefresh.Image = global::Heiflow.Controls.WinForm.Properties.Resources.refresh;
+            this.btnRefresh.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiRefresh24;
             this.btnRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(24, 24);
@@ -96,7 +96,7 @@
             this.btnGroupBySiteState,
             this.btnGroupBySiteCategory,
             this.btnGroupByVariable});
-            this.toolStripDropDownButton1.Image = global::Heiflow.Controls.WinForm.Properties.Resources.search_db;
+            this.toolStripDropDownButton1.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiSearch24;
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
             this.toolStripDropDownButton1.Size = new System.Drawing.Size(34, 24);
@@ -128,7 +128,7 @@
             // btnImport
             // 
             this.btnImport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnImport.Image = global::Heiflow.Controls.WinForm.Properties.Resources.import_db;
+            this.btnImport.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiImport24;
             this.btnImport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(24, 24);
@@ -138,7 +138,7 @@
             // btnRemoveDB
             // 
             this.btnRemoveDB.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnRemoveDB.Image = global::Heiflow.Controls.WinForm.Properties.Resources.remove_db;
+            this.btnRemoveDB.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiDelete24;
             this.btnRemoveDB.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRemoveDB.Name = "btnRemoveDB";
             this.btnRemoveDB.Size = new System.Drawing.Size(24, 24);
@@ -186,7 +186,7 @@
             // nodeTextBox1
             // 
             this.nodeTextBox1.DataPropertyName = "Text";
-            this.nodeTextBox1.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.nodeTextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.nodeTextBox1.IncrementalSearchEnabled = true;
             this.nodeTextBox1.LeftMargin = 3;
             this.nodeTextBox1.ParentColumn = null;

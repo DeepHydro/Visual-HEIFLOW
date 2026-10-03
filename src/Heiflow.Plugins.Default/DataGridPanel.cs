@@ -61,7 +61,7 @@ namespace Heiflow.Plugins.DataGridPanel
         {
             _DataGridEx = new DataCubeGrid();
             App.DockManager.Add(new DockablePanel("kDataGridPanel", Resources.Table_View,
-                _DataGridEx, DockStyle.None) { SmallImage = Resources.table_green_48 });
+                _DataGridEx, DockStyle.None) { SmallImage = Resources.UiTable16 });
 
             var showDataGrid = new SimpleActionItem("kView", Resources.Table_View, 
                      delegate(object sender, EventArgs e)
@@ -71,7 +71,7 @@ namespace Heiflow.Plugins.DataGridPanel
                 Key = "kShowDataGridPanel",
                 ToolTipText = Resources.Table_View_tips,
                 GroupCaption = Resources.Data_Group,
-                LargeImage = Resources.table_green_48
+                LargeImage = Resources.UiTable32
             };
             App.HeaderControl.Add(showDataGrid);
             App.DockManager.HidePanel("kDataGridPanel");

@@ -87,7 +87,7 @@ namespace Heiflow.Controls.Options
 
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if (e.Button == System.Windows.Forms.MouseButtons.Left && e.Node.Tag != null)
+            if (e.Button == System.Windows.Forms.MouseButtons.Left && e.Node.Tag != null && cmbVersion.SelectedItem != null)
             {
                 panel1.Controls.Clear();
                 _CurrentOption = (e.Node.Tag as IOptionControl);

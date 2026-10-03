@@ -214,7 +214,7 @@
             // 
             this.winChart_proflie.BackColor = System.Drawing.SystemColors.Control;
             this.winChart_proflie.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.winChart_proflie.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.winChart_proflie.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.winChart_proflie.Location = new System.Drawing.Point(3, 3);
             this.winChart_proflie.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.winChart_proflie.Name = "winChart_proflie";
@@ -228,7 +228,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1313, 606);
             this.Controls.Add(this.splitContainer1);
-            this.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);

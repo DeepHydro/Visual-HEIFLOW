@@ -124,7 +124,7 @@
             this.olvLayerGroup.DataSource = null;
             this.olvLayerGroup.Dock = System.Windows.Forms.DockStyle.Fill;
             this.olvLayerGroup.EmptyListMsg = "";
-            this.olvLayerGroup.EmptyListMsgFont = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.olvLayerGroup.EmptyListMsgFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.olvLayerGroup.FullRowSelect = true;
             this.olvLayerGroup.GridLines = true;
             this.olvLayerGroup.GroupWithItemCountFormat = "";
@@ -134,8 +134,8 @@
             this.olvLayerGroup.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.olvLayerGroup.Name = "olvLayerGroup";
             this.olvLayerGroup.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
-            this.olvLayerGroup.SelectedBackColor = System.Drawing.Color.Pink;
-            this.olvLayerGroup.SelectedForeColor = System.Drawing.Color.MidnightBlue;
+            this.olvLayerGroup.SelectedBackColor = System.Drawing.Color.FromArgb(214, 233, 245);
+            this.olvLayerGroup.SelectedForeColor = System.Drawing.Color.FromArgb(27, 90, 140);
             this.olvLayerGroup.ShowCommandMenuOnRightClick = true;
             this.olvLayerGroup.ShowGroups = false;
             this.olvLayerGroup.ShowImagesOnSubItems = true;
@@ -320,7 +320,7 @@
             this.olvLayersUniformProp.DataSource = null;
             this.olvLayersUniformProp.Dock = System.Windows.Forms.DockStyle.Fill;
             this.olvLayersUniformProp.EmptyListMsg = "";
-            this.olvLayersUniformProp.EmptyListMsgFont = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.olvLayersUniformProp.EmptyListMsgFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.olvLayersUniformProp.FullRowSelect = true;
             this.olvLayersUniformProp.GridLines = true;
             this.olvLayersUniformProp.GroupWithItemCountFormat = "";
@@ -330,8 +330,8 @@
             this.olvLayersUniformProp.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.olvLayersUniformProp.Name = "olvLayersUniformProp";
             this.olvLayersUniformProp.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
-            this.olvLayersUniformProp.SelectedBackColor = System.Drawing.Color.Pink;
-            this.olvLayersUniformProp.SelectedForeColor = System.Drawing.Color.MidnightBlue;
+            this.olvLayersUniformProp.SelectedBackColor = System.Drawing.Color.FromArgb(214, 233, 245);
+            this.olvLayersUniformProp.SelectedForeColor = System.Drawing.Color.FromArgb(27, 90, 140);
             this.olvLayersUniformProp.ShowCommandMenuOnRightClick = true;
             this.olvLayersUniformProp.ShowGroups = false;
             this.olvLayersUniformProp.ShowImagesOnSubItems = true;

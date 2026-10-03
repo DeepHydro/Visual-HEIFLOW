@@ -57,9 +57,9 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
         {
             _ContextMenuStrip = new ContextMenuStrip();
             _Dict_Items = new Dictionary<string, ToolStripItem>();
-            var item = _ContextMenuStrip.Items.Add(_PlotTSString, Resources.Chart, Plot);
+            var item = _ContextMenuStrip.Items.Add(_PlotTSString, Resources.UiChart16, Plot);
             _Dict_Items.Add(_PlotTSString, item);
-            item = _ContextMenuStrip.Items.Add(_ExportExcelString, Resources.excel_32, Export2Excel_Clicked);
+            item = _ContextMenuStrip.Items.Add(_ExportExcelString, Resources.UiExcel16, Export2Excel_Clicked);
             _Dict_Items.Add(_ExportExcelString, item);
             item = _ContextMenuStrip.Items.Add(_ExportShpString, null, Export2Shp_Clicked);
             _Dict_Items.Add(_ExportShpString, item);
@@ -67,7 +67,7 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
             //_Dict_Items.Add(_DeleteString, item);
             ToolStripSeparator sepa = new ToolStripSeparator();
             _ContextMenuStrip.Items.Add(sepa);
-            item = _ContextMenuStrip.Items.Add(_PropertyString, Resources.MetadataProperties16, Property_Clicked);
+            item = _ContextMenuStrip.Items.Add(_PropertyString, Resources.UiTable16, Property_Clicked);
             _Dict_Items.Add(_PropertyString, item);
         }
 

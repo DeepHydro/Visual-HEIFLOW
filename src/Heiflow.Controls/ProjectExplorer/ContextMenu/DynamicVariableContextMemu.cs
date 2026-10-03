@@ -233,7 +233,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
                     item.Enabled = false;
                 }
                 this.Enable(_LD, true);
-                _SelectedNode.Image = Resources.LayerRaster_B_16_gray;
+                _SelectedNode.Image = Resources.UiLayer16;
                 GC.Collect();
             }
         }

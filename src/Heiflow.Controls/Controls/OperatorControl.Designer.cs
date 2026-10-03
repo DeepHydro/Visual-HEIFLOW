@@ -78,7 +78,7 @@
             // 
             // button2
             // 
-            this.button2.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.button2.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.button2.Location = new System.Drawing.Point(17, 28);
             this.button2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button2.Name = "button2";
@@ -89,7 +89,7 @@
             // 
             // button3
             // 
-            this.button3.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.button3.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.button3.Location = new System.Drawing.Point(68, 28);
             this.button3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button3.Name = "button3";
@@ -100,7 +100,7 @@
             // 
             // button4
             // 
-            this.button4.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.button4.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.button4.Location = new System.Drawing.Point(123, 28);
             this.button4.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button4.Name = "button4";
@@ -133,7 +133,7 @@
             // 
             // button12
             // 
-            this.button12.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.button12.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.button12.Location = new System.Drawing.Point(123, 181);
             this.button12.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button12.Name = "button12";
@@ -144,7 +144,7 @@
             // 
             // button10
             // 
-            this.button10.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.button10.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.button10.Location = new System.Drawing.Point(123, 130);
             this.button10.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button10.Name = "button10";
@@ -155,7 +155,7 @@
             // 
             // button7
             // 
-            this.button7.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.button7.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.button7.Location = new System.Drawing.Point(123, 79);
             this.button7.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button7.Name = "button7";
@@ -166,7 +166,7 @@
             // 
             // button9
             // 
-            this.button9.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.button9.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.button9.Location = new System.Drawing.Point(68, 130);
             this.button9.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button9.Name = "button9";
@@ -177,7 +177,7 @@
             // 
             // button11
             // 
-            this.button11.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.button11.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.button11.Location = new System.Drawing.Point(17, 181);
             this.button11.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button11.Name = "button11";
@@ -188,7 +188,7 @@
             // 
             // button8
             // 
-            this.button8.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.button8.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.button8.Location = new System.Drawing.Point(17, 130);
             this.button8.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button8.Name = "button8";
@@ -199,7 +199,7 @@
             // 
             // button6
             // 
-            this.button6.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.button6.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.button6.Location = new System.Drawing.Point(68, 79);
             this.button6.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button6.Name = "button6";
@@ -210,7 +210,7 @@
             // 
             // button5
             // 
-            this.button5.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.button5.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.button5.Location = new System.Drawing.Point(17, 79);
             this.button5.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button5.Name = "button5";
@@ -238,7 +238,7 @@
             // 
             // button21
             // 
-            this.button21.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.button21.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.button21.Location = new System.Drawing.Point(79, 130);
             this.button21.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button21.Name = "button21";
@@ -249,7 +249,7 @@
             // 
             // button22
             // 
-            this.button22.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.button22.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.button22.Location = new System.Drawing.Point(79, 79);
             this.button22.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button22.Name = "button22";
@@ -260,7 +260,7 @@
             // 
             // button23
             // 
-            this.button23.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.button23.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.button23.Location = new System.Drawing.Point(20, 130);
             this.button23.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button23.Name = "button23";
@@ -271,7 +271,7 @@
             // 
             // button24
             // 
-            this.button24.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.button24.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.button24.Location = new System.Drawing.Point(79, 28);
             this.button24.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button24.Name = "button24";
@@ -282,7 +282,7 @@
             // 
             // button25
             // 
-            this.button25.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.button25.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.button25.Location = new System.Drawing.Point(20, 79);
             this.button25.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button25.Name = "button25";
@@ -293,7 +293,7 @@
             // 
             // button26
             // 
-            this.button26.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.button26.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.button26.Location = new System.Drawing.Point(20, 28);
             this.button26.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button26.Name = "button26";

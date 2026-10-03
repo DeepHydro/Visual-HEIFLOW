@@ -37,7 +37,7 @@ namespace Heiflow.Controls.WinForm.Display
             // 
             this.winChart1.BackColor = System.Drawing.SystemColors.Control;
             this.winChart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.winChart1.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.winChart1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.winChart1.Location = new System.Drawing.Point(0, 0);
             this.winChart1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.winChart1.Name = "winChart1";

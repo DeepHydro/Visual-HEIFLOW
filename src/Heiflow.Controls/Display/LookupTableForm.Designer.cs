@@ -64,7 +64,7 @@ namespace Heiflow.Controls.WinForm.Display
             // btnSave
             // 
             this.btnSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnSave.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GenericSave_B_16;
+            this.btnSave.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiSave24;
             this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(24, 25);
@@ -75,7 +75,7 @@ namespace Heiflow.Controls.WinForm.Display
             // btnExport
             // 
             this.btnExport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnExport.Image = global::Heiflow.Controls.WinForm.Properties.Resources.excel_32;
+            this.btnExport.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiExcel24;
             this.btnExport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(24, 25);
@@ -85,7 +85,7 @@ namespace Heiflow.Controls.WinForm.Display
             // btnImport
             // 
             this.btnImport.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnImport.Image = global::Heiflow.Controls.WinForm.Properties.Resources.TmImportFeatures16;
+            this.btnImport.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiImport24;
             this.btnImport.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(24, 25);
@@ -95,7 +95,7 @@ namespace Heiflow.Controls.WinForm.Display
             // btnClear
             // 
             this.btnClear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnClear.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GenericDeleteRed32;
+            this.btnClear.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiDelete24;
             this.btnClear.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(24, 25);
@@ -123,7 +123,7 @@ namespace Heiflow.Controls.WinForm.Display
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Font = new System.Drawing.Font("Calibri", 10.5F);
+            this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.btnCancel.Location = new System.Drawing.Point(623, 10);
             this.btnCancel.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.btnCancel.Name = "btnCancel";
@@ -135,7 +135,7 @@ namespace Heiflow.Controls.WinForm.Display
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.Font = new System.Drawing.Font("Calibri", 10.5F);
+            this.btnOK.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.btnOK.Location = new System.Drawing.Point(522, 10);
             this.btnOK.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.btnOK.Name = "btnOK";
@@ -167,7 +167,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.ClientSize = new System.Drawing.Size(734, 415);
             this.Controls.Add(this.dataGridEx1);
             this.Controls.Add(this.panel1);
-            this.Font = new System.Drawing.Font("Calibri", 10.5F);
+            this.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.Name = "LookupTableForm";

@@ -57,8 +57,8 @@ namespace Heiflow.Models.Integration
         {
             this.Name = "HEIFLOW Project";
             this.NameToShown = "HEIFLOW";
-            this.Icon = Resources.RasterImageAnalysisPanSharpen16;
-            this.LargeIcon = Resources.RasterImageAnalysisPanSharpen32;
+            this.Icon = Resources.UiRaster16;
+            this.LargeIcon = Resources.UiRaster32;
             Description = "HEIFLOW model version 1.1.0";
             Token = "HEIFLOW";
             SupportedVersions = new string[] { "v1.1.0" };

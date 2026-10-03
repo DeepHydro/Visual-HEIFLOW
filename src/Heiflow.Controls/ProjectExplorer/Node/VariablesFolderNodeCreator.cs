@@ -64,7 +64,7 @@ namespace Heiflow.Controls.WinForm.Project
                 mat_menu.Package = pck_prop;
                 Node node_mat = new Node(item_attribute.PropertyInfo.Name)
                 {
-                    Image = Resources.LayoutDataDrivenPagesChangeToPage16,
+                    Image = Resources.UiChart16,
                     Tag = mat_menu
                 };
                 return node_mat;
@@ -77,7 +77,7 @@ namespace Heiflow.Controls.WinForm.Project
                 mat_menu.Package = dp.Parent;
                 Node node_mat = new Node(dp.Name)
                 {
-                    Image = Resources.LayoutDataDrivenPagesChangeToPage16,
+                    Image = Resources.UiChart16,
                     Tag = mat_menu
                 };
                 return node_mat;

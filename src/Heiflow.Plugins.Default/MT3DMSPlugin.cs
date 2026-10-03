@@ -74,7 +74,7 @@ namespace Heiflow.Plugins.Default
                 Key = "kSetSpecies",
                 ToolTipText = Properties.Resources.Set_Species,
                 GroupCaption = Properties.Resources.MT3DMS,
-                LargeImage = Properties.Resources.element,
+                LargeImage = Properties.Resources.UiSpecies32,
                 SortOrder = 1
             };
             App.HeaderControl.Add(setSpecies);

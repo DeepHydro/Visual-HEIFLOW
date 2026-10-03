@@ -35,7 +35,7 @@
             // sfrExplorer1
             // 
             this.sfrExplorer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.sfrExplorer1.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.sfrExplorer1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.sfrExplorer1.Location = new System.Drawing.Point(0, 0);
             this.sfrExplorer1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.sfrExplorer1.Name = "sfrExplorer1";
@@ -50,7 +50,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1052, 654);
             this.Controls.Add(this.sfrExplorer1);
-            this.Font = new System.Drawing.Font("Calibri", 9.5F);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "SFRExplorerView";

@@ -80,7 +80,7 @@ namespace Heiflow.Controls.WinForm.Project
             }
             Node node_mat = new Node(name)
             {
-                Image = Resources.LayerRaster_B_16,
+                Image = Resources.UiLayer16,
                 Tag = mat_menu
             };
 

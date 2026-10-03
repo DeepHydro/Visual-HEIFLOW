@@ -50,8 +50,8 @@ namespace Heiflow.Plugins.Default
         public override void Activate()
         {
             //App.HeaderControl.Add(new SimpleActionItem(HeaderControl.HomeRootItemKey, "View Attribute Table", AttributeTable_Click) { GroupCaption = "Map Tool",
-            //                                                                                                                          SmallImage = Resources.table_green_48,
-            //                                                                                                                          LargeImage = Resources.table_green_48
+            //                                                                                                                          SmallImage = Resources.UiTable16,
+            //                                                                                                                          LargeImage = Resources.UiTable32
             //});
             //App.Map.LayerAdded += Map_LayerAdded;
             //App.SerializationManager.Deserializing += SerializationManager_Deserializing;
@@ -61,7 +61,7 @@ namespace Heiflow.Plugins.Default
             //_TableEditorControl.Size = new System.Drawing.Size(800, 600);
             //var dock = new DockablePanel("kAttributeTable", "Attribute Table", _TableEditorControl, DockStyle.None)
             //{
-            //    SmallImage = Properties.Resources.table_green_48,
+            //    SmallImage = Properties.Resources.UiTable16,
             //};
 
             //App.DockManager.Add(dock);
@@ -82,7 +82,7 @@ namespace Heiflow.Plugins.Default
                     {
                         // add context menu item.
                         var menuItem = new SymbologyMenuItem(contextMenuItemName, delegate { ShowAttributes(fl); });
-                        menuItem.Image = Resources.CatalogShowTree16;
+                        menuItem.Image = Resources.UiList16;
                         fl.ContextMenuItems.Insert(2, menuItem);
                     }
                 }
@@ -120,7 +120,7 @@ namespace Heiflow.Plugins.Default
 
             // add context menu item.
             var menuItem = new SymbologyMenuItem(contextMenuItemName, delegate { ShowAttributes(addedLayer as IFeatureLayer); });
-            menuItem.Image = Resources.table_green_48;
+            menuItem.Image = Resources.UiTable16;
             var cmi = addedLayer.ContextMenuItems;
             if (cmi.Count > 2)
             {

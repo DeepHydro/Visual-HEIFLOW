@@ -47,8 +47,8 @@ namespace Heiflow.Models.Subsurface
         {
             this.Name = "Modflow2005 Project";
             this.NameToShown = "Modflow2005";
-            this.Icon = Resources.mf16;
-            this.LargeIcon = Resources.mf32;
+            this.Icon = Resources.UiCube16;
+            this.LargeIcon = Resources.UiCube32;
             Description = "Modflow model version 2005";
             Token = "Modflow2005";
             SupportedVersions = new string[] { "v2005" };

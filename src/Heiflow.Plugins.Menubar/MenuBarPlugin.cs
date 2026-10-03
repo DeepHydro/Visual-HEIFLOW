@@ -87,8 +87,8 @@ namespace Heiflow.Plugins.Menubar
             {
                 GroupCaption = HeaderControl.ApplicationMenuKey,
                 SortOrder = 0,
-                SmallImage = Resources.ReportLoad16,
-                LargeImage = Resources.ReportLoad32,
+                SmallImage = Resources.UiLoad16,
+                LargeImage = Resources.UiLoad32,
                 ToolTipText = str
             });
             str = rm.GetString("NewProject");
@@ -96,8 +96,8 @@ namespace Heiflow.Plugins.Menubar
             {
                 GroupCaption = HeaderControl.ApplicationMenuKey,
                 SortOrder = 1,
-                SmallImage = Resources.MapWindowNew16,
-                LargeImage = Resources.MapWindowNew32,
+                SmallImage = Resources.UiMap16,
+                LargeImage = Resources.UiMap32,
                 ToolTipText = str
             });
             str = rm.GetString("SaveProject");
@@ -105,8 +105,8 @@ namespace Heiflow.Plugins.Menubar
             {
                 GroupCaption = HeaderControl.ApplicationMenuKey,
                 SortOrder = 2,
-                SmallImage = Resources.GenericSave_B_16,
-                LargeImage = Resources.GenericSave_B_32,
+                SmallImage = Resources.UiSave16,
+                LargeImage = Resources.UiSave32,
                 ToolTipText = str
             });
 
@@ -115,8 +115,8 @@ namespace Heiflow.Plugins.Menubar
             {
                 GroupCaption = HeaderControl.ApplicationMenuKey,
                 SortOrder = 4,
-                SmallImage = Resources.information32,
-                LargeImage = Resources.information32,
+                SmallImage = Resources.UiInfo16,
+                LargeImage = Resources.UiInfo32,
                 ToolTipText = str
             });
             str = rm.GetString("Exit");
@@ -124,8 +124,8 @@ namespace Heiflow.Plugins.Menubar
             {
                 GroupCaption = HeaderControl.ApplicationMenuKey,
                 SortOrder = 1000,
-                SmallImage = Resources.exit32,
-                LargeImage = Resources.exit32,
+                SmallImage = Resources.UiExit16,
+                LargeImage = Resources.UiExit32,
                 ToolTipText = str
             });
 

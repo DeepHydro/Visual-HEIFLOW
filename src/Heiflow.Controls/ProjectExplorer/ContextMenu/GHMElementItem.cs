@@ -62,18 +62,18 @@ namespace Heiflow.Controls.WinForm.MenuItems
             GHMItem.Grid = _ProjectService.Project.Model.Grid as MFGrid;
             if (_AppManager.AppMode == AppMode.VHF)
             {
-                ContextMenuItems.Add(new ExplorerMenuItem("Load", Resources.AddContent16, LoadData_Clicked));
-                ContextMenuItems.Add(new ExplorerMenuItem("View Values...", Resources.AttributesWindow16, ViewValues_Clicked) { Enabled = false });
+                ContextMenuItems.Add(new ExplorerMenuItem("Load", Resources.UiAdd16, LoadData_Clicked));
+                ContextMenuItems.Add(new ExplorerMenuItem("View Values...", Resources.UiTable16, ViewValues_Clicked) { Enabled = false });
                 ContextMenuItems.Add(new ExplorerMenuItem("Gridded Values", null, ViewGridData_Clicked) { Enabled = false });
-                ContextMenuItems.Add(new ExplorerMenuItem("Show on Map", Resources.LayerRasterOptimized16, ViewInMap_Clicked) { Enabled = false });
+                ContextMenuItems.Add(new ExplorerMenuItem("Show on Map", Resources.UiLayer16, ViewInMap_Clicked) { Enabled = false });
             }
             else if (_AppManager.AppMode == AppMode.HE)
             {
-                ContextMenuItems.Add(new ExplorerMenuItem("Load", Resources.AddContent16, LoadData_Clicked));
+                ContextMenuItems.Add(new ExplorerMenuItem("Load", Resources.UiAdd16, LoadData_Clicked));
                 ContextMenuItems.Add(new ExplorerMenuItem("Symbology", null, Symbol_Clicked));
-                ContextMenuItems.Add(new ExplorerMenuItem("View Values...", Resources.AttributesWindow16, ViewGridData_Clicked) { Enabled = false });
-                ContextMenuItems.Add(new ExplorerMenuItem("View in 3D", Resources._3dplot16, ViewInGraphy_Clicked) { Enabled = false });
-                ContextMenuItems.Add(new ExplorerMenuItem("Animate", Resources.AnimationVideo16, Animation3D_Clicked) { Enabled = false });
+                ContextMenuItems.Add(new ExplorerMenuItem("View Values...", Resources.UiTable16, ViewGridData_Clicked) { Enabled = false });
+                ContextMenuItems.Add(new ExplorerMenuItem("View in 3D", Resources.UiChart16, ViewInGraphy_Clicked) { Enabled = false });
+                ContextMenuItems.Add(new ExplorerMenuItem("Animate", Resources.UiRun16, Animation3D_Clicked) { Enabled = false });
                 ContextMenuItems.Add(new ExplorerMenuItem("Export...", null, Export_Clicked) { Enabled = false });
             }
         }

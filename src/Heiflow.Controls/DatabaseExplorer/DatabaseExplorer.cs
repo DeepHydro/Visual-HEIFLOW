@@ -286,7 +286,7 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
             _TreeModel.Nodes.Clear();
             var root_node = new Node(_SeriesCatalog.ODM.Name)
             {
-                Image = Resources.DatabaseServer16,
+                Image = Resources.UiDatabase16,
                 Tag = _SeriesCatalog.ODM
             };
             _SeriesCatalog.GroupMethod = _GroupMethod;

@@ -66,8 +66,8 @@ namespace Heiflow.Models.Integration
 
             if (!ModelService.SafeMode)
             {
-                this.Icon = Resources.RasterImageAnalysisPanSharpen16;
-                this.LargeIcon = Resources.RasterImageAnalysisPanSharpen32;
+                this.Icon = Resources.UiRaster16;
+                this.LargeIcon = Resources.UiRaster32;
             }
             _IsDirty = false;
 

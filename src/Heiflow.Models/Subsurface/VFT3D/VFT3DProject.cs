@@ -49,8 +49,8 @@ namespace Heiflow.Models.Subsurface.VFT3D
         {
             this.Name = "VFT3D Project";
             this.NameToShown = "VFT3D";
-            this.Icon = Resources.mf16;
-            this.LargeIcon = Resources.vft3dms;
+            this.Icon = Resources.UiCube16;
+            this.LargeIcon = Resources.UiCube32;
             Description = "Variable Flow Three-Dimensional Transporation and Recation Model";
             Token = "VFT3D";
             SupportedVersions = new string[] { "v1.0.0"};

@@ -73,7 +73,7 @@ namespace Heiflow.Plugins.Default
                 Key = "kRunModel",
                 ToolTipText = Resources.Start,
                 GroupCaption = Resources.Running_group,
-                LargeImage = Properties.Resources.GenericBlackRightArrowNoTail32,
+                LargeImage = Properties.Resources.UiRun32,
                 SortOrder = 4
             };
             App.HeaderControl.Add(runmodel);
@@ -83,7 +83,7 @@ namespace Heiflow.Plugins.Default
                 Key = "kStopModel",
                 ToolTipText = Resources.Stop,
                 GroupCaption = Resources.Running_group,
-                LargeImage = Properties.Resources.GenericBlackStop32,
+                LargeImage = Properties.Resources.UiStop32,
                 Enabled = false,
                 SortOrder = 4
             };
@@ -94,7 +94,7 @@ namespace Heiflow.Plugins.Default
                 Key = "kShowRunningMonitor",
                 ToolTipText = Resources.Model_Running,
                 GroupCaption = Resources.Model_Group,
-                LargeImage = Resources.ModelBuilderAutoLayout32
+                LargeImage = Resources.UiRun32
             };
             App.HeaderControl.Add(showRunningMonitor);
             Manager.ProjectController.ShellService.AddChild(_RunningMonitor);

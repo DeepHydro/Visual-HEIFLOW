@@ -70,7 +70,7 @@ namespace Heiflow.Controls.WinForm.Project
             }
             Node root_node_folder = new Node(node_name)
             {
-                Image = Resources.FolderWithGISData16,
+                Image = Resources.UiFolder16,
                 Tag = null
             };
             if (dcarray != null)
@@ -93,7 +93,7 @@ namespace Heiflow.Controls.WinForm.Project
 
                         Node node_folder = new Node(node_name)
                         {
-                            Image = Resources.FolderWithGISData16,
+                            Image = Resources.UiFolder16,
                             Tag = folder_menu
                         };
 
@@ -118,7 +118,7 @@ namespace Heiflow.Controls.WinForm.Project
                             elei.Initialize();
                             Node ndmat = new Node(item.VariableName)
                             {
-                                Image = Resources.LayerRaster_B_16,
+                                Image = Resources.UiLayer16,
                                 Tag = elei
                             };
                             node_folder.Nodes.Add(ndmat);
