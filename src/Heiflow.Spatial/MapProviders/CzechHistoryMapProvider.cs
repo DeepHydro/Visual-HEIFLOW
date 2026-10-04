@@ -1,0 +1,104 @@
+﻿//
+// The Visual HEIFLOW License
+//
+// Copyright (c) 2015-2018 Yong Tian, SUSTech, Shenzhen, China. All rights reserved.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+// the Software, and to permit persons to whom the Software is furnished to do
+// so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+//
+// Note:  The software also contains contributed files, which may have their own 
+// copyright notices. If not, the GNU General Public License holds for them, too, 
+// but so that the author(s) of the file have the Copyright.
+//
+
+namespace Heiflow.Spatial.MapProviders
+{
+   using System;
+
+   /// <summary>
+   /// CzechHistoryMap provider, http://www.mapy.cz/
+   /// </summary>
+   public class CzechHistoryMapProvider : CzechMapProviderBase
+   {
+      public static readonly CzechHistoryMapProvider Instance;
+
+      CzechHistoryMapProvider()
+      {
+      }
+
+      static CzechHistoryMapProvider()
+      {
+         Instance = new CzechHistoryMapProvider();
+      }
+
+      #region GMapProvider Members
+
+      readonly Guid id = new Guid("C666AAF4-9D27-418F-97CB-7F0D8CC44544");
+      public override Guid Id
+      {
+         get
+         {
+            return id;
+         }
+      }
+
+      readonly string name = "CzechHistoryMap";
+      public override string Name
+      {
+         get
+         {
+            return name;
+         }
+      }
+
+      GMapProvider[] overlays;
+      public override GMapProvider[] Overlays
+      {
+         get
+         {
+            if(overlays == null)
+            {
+               overlays = new GMapProvider[] { this, CzechHybridMapProvider.Instance };
+            }
+            return overlays;
+         }
+      }
+
+      public override PureImage GetTileImage(GPoint pos, int zoom)
+      {
+         string url = MakeTileImageUrl(pos, zoom, LanguageStr);
+
+         return GetTileImageUsingHttp(url);
+      }
+
+      #endregion
+
+      public override string MakeTileImageUrl(GPoint pos, int zoom, string language)
+      {
+         // http://m4.mapserver.mapy.cz/army2/9_7d00000_8080000
+
+         int xx = pos.X << (28 - zoom);
+         int yy = ((((int)Math.Pow(2.0, (double)zoom)) - 1) - pos.Y) << (28 - zoom);
+
+         return string.Format(UrlFormat, GetServerNum(pos, 3) + 1, zoom, xx, yy);
+      }
+
+      static readonly string UrlFormat = "http://m{0}.mapserver.mapy.cz/army2/{1}_{2:x7}_{3:x7}";
+   }
+}

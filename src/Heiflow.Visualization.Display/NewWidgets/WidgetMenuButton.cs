@@ -1,0 +1,78 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using HUST.WREIS.Dot3D.Menu;
+using Heiflow.Core.Plugin;
+
+
+namespace HUST.WREIS.Dot3D.NewWidgets
+{
+    public class WidgetMenuButton : MenuButton
+    {
+        IWidget m_widget = null;
+
+        public WidgetMenuButton(
+			string name,
+			string iconFilePath,
+			IWidget widget) : base(iconFilePath)
+		{
+			this.Description = name;
+            m_widget = widget;
+		}
+
+        public override void Update(DrawArgs drawArgs)
+        {
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+        }
+
+        public override bool IsPushed()
+        {
+            return m_widget.Visible;
+        }
+
+        public override void SetPushed(bool isPushed)
+        {
+            m_widget.Visible = isPushed;
+        }
+
+        public override bool OnMouseWheel(System.Windows.Forms.MouseEventArgs e)
+        {
+            return false;
+        }
+
+        public override void OnKeyDown(System.Windows.Forms.KeyEventArgs keyEvent)
+        {
+        }
+
+        public override void OnKeyUp(System.Windows.Forms.KeyEventArgs keyEvent)
+        {
+        }
+
+        public override bool OnMouseDown(System.Windows.Forms.MouseEventArgs e)
+        {
+            return false;
+        }
+
+        public override bool OnMouseMove(System.Windows.Forms.MouseEventArgs e)
+        {
+            return false;
+        }
+
+        public override bool OnMouseUp(System.Windows.Forms.MouseEventArgs e)
+        {
+            return false;
+        }
+
+        public override void Render(IDrawArgs drawArgs)
+        {
+            if (!m_widget.Visible)
+            {
+                SetPushed(false);
+            }
+        }
+    }
+}

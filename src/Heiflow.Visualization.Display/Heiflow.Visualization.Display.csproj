@@ -1,0 +1,378 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5D82B585-BBB4-4BD8-B260-F78EE06A4C9C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HUST.WREIS.Dot3D.Display</RootNamespace>
+    <AssemblyName>Heiflow.Visualization.Display</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Visualization\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\WINDOWS\Microsoft.NET\DirectX for Managed Code\1.0.2902.0\Microsoft.DirectX.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.DirectX.Direct3D, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\WINDOWS\Microsoft.NET\DirectX for Managed Code\1.0.2902.0\Microsoft.DirectX.Direct3D.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.DirectX.Direct3DX, Version=1.0.2904.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\WINDOWS\Microsoft.NET\DirectX for Managed Code\1.0.2908.0\Microsoft.DirectX.Direct3DX.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.DirectX.DirectDraw, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\WINDOWS\Microsoft.NET\DirectX for Managed Code\1.0.2902.0\Microsoft.DirectX.DirectDraw.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualC" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="ZedGraph, Version=5.1.5.28844, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Visualization\ZedGraph.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Chart\DataSource.cs" />
+    <Compile Include="Chart\GraphChart3D.cs" />
+    <Compile Include="Chart\PanelBase.cs" />
+    <Compile Include="Controls\ColorBar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\HttpHeaderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\LatLonMenuButton.cs" />
+    <Compile Include="Controls\LayerManagerItemInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\LensFlareOptionsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\PositionMenuButton.cs" />
+    <Compile Include="Controls\ProgressMonitor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\PropertyBrowser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ErrorDisplay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewWidgets\NewWidget.cs" />
+    <Compile Include="Plugins\Chart.cs" />
+    <Compile Include="Plugins\Compass.cs" />
+    <Compile Include="Plugins\Fog.cs" />
+    <Compile Include="Plugins\FormChartData.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Plugins\FormChartData.Designer.cs">
+      <DependentUpon>FormChartData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Plugins\GridLengendBar.cs" />
+    <Compile Include="Plugins\MeasureTool.cs" />
+    <Compile Include="Plugins\Plugin3D.cs" />
+    <Compile Include="Plugins\ScaleBarLegend.cs" />
+    <Compile Include="Plugins\Sky.cs" />
+    <Compile Include="Plugins\ToolBar.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resource-en-US.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource-en-US.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resource-zh-CN.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource-zh-CN.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SceneWindow\RenderableSitesLayer.cs" />
+    <Compile Include="VeReprojectTilesLayer.cs" />
+    <Compile Include="VeSearch.cs" />
+    <Compile Include="VeTile.cs" />
+    <Compile Include="NewWidgets\ButtonWidget.cs" />
+    <Compile Include="NewWidgets\CompassWidget.cs" />
+    <Compile Include="NewWidgets\ControlWidget.cs" />
+    <Compile Include="NewWidgets\FormWidget.cs" />
+    <Compile Include="NewWidgets\LabelWidget.cs" />
+    <Compile Include="NewWidgets\PanelWidget.cs" />
+    <Compile Include="NewWidgets\PictureBox.cs" />
+    <Compile Include="NewWidgets\Scrollbar.cs" />
+    <Compile Include="NewWidgets\SimpleTreeNodeWidget.cs" />
+    <Compile Include="NewWidgets\TextBox.cs" />
+    <Compile Include="NewWidgets\TextLabel.cs" />
+    <Compile Include="NewWidgets\TreeNodeWidget.cs" />
+    <Compile Include="NewWidgets\WidgetEnums.cs" />
+    <Compile Include="NewWidgets\WidgetMenuButton.cs" />
+    <Compile Include="NewWidgets\WidgetUtilities.cs" />
+    <Compile Include="Widget\WidgetMenuButton.cs" />
+    <Compile Include="Widget\Widgets.LayerManager.cs" />
+    <Compile Include="Widget\Widgets.TextBox.cs" />
+    <Compile Include="Widget\Widgets.TextLabel.cs" />
+    <Compile Include="SceneWindow\NativeMethods.cs" />
+    <Compile Include="SceneWindow\SceneWindow.cs">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Heiflow.Controls\Heiflow.Controls.WinForm.csproj">
+      <Project>{04b4c21d-e554-4369-8c00-bfbbeca0fb2c}</Project>
+      <Name>Heiflow.Controls.WinForm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Core\Heiflow.Core.csproj">
+      <Project>{e75a11b8-00a2-45de-a5e4-4b8180b5903c}</Project>
+      <Name>Heiflow.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Models\Heiflow.Models.csproj">
+      <Project>{28e79461-3161-4130-81b0-2c36cd3a3315}</Project>
+      <Name>Heiflow.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Presentation\Heiflow.Presentation.csproj">
+      <Project>{55d24eb1-96bb-4902-8240-e9019032db93}</Project>
+      <Name>Heiflow.Presentation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Spatial\Heiflow.Spatial.csproj">
+      <Project>{2a3c4415-b678-4826-97d8-e25e6e63b088}</Project>
+      <Name>Heiflow.Spatial</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Visualization.Core\Heiflow.Visualization.csproj">
+      <Project>{fd13ab2f-63ff-4a41-b133-b308553c5180}</Project>
+      <Name>Heiflow.Visualization</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Controls\ColorBar.resx">
+      <DependentUpon>ColorBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\HttpHeaderForm.resx">
+      <DependentUpon>HttpHeaderForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\LayerManagerItemInfo.resx">
+      <DependentUpon>LayerManagerItemInfo.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ProgressMonitor.resx">
+      <DependentUpon>ProgressMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PropertyBrowser.resx">
+      <DependentUpon>PropertyBrowser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ErrorDisplay.resx">
+      <DependentUpon>ErrorDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Plugins\FormChartData.resx">
+      <DependentUpon>FormChartData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resource-en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource-en-US.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resource-zh-CN.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource-zh-CN.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SceneWindow\SceneWindow.resx">
+      <DependentUpon>SceneWindow.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\home-share.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\flag--arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\funnel--plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\geotag.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\globe--pencil.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\grid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\grid-snap.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\fire--plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\flag.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bookmark--arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\draw_eraser.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\celsius.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\action_log.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\layers_map.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\layer_grid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\layer_his.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\layer_histogram.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\layer_raster.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\layers.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\layer_remove.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit_free.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit_path.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\export_excel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit_diff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\page_white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\newspaper_go.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\page_excel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ee_icon_4.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chart-bullseye-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chart-curve-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chart-stock-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Prop.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\xhtml_delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\windy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\select_continuous_area.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\select.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\select_by_color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\monitor_wallpaper.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

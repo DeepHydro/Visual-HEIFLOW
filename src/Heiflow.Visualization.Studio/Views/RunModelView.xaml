@@ -1,0 +1,31 @@
+﻿<Controls:MetroWindow  x:Class="Heiflow.Visualization.Studio.Views.RunModelView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"     
+     xmlns:input="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+        Title="Run Model" Height="600" Width="800" ShowMinButton="False" ShowMaxRestoreButton="False" ShowInTaskbar="False">
+    <Border BorderThickness="1,1,1,1" Margin="0" Background="{DynamicResource CommonBrush}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Margin="0" Background="{StaticResource PanelGradientBrush}" Grid.Row="0" Orientation="Horizontal">
+                <Button x:Name="PlayButton"  Margin="5"  Style="{StaticResource darkButtonStyle}" Click="PlayButton_Click">
+                    <Button.Content>
+                        <Path Data="M0,0 L10,5 0,10 0,0"  Fill="White" Opacity=".8" />
+                    </Button.Content>
+                </Button>
+                <Button x:Name="StopButton" IsEnabled="False" Margin="5" Style="{StaticResource darkButtonStyle}" Click="StopButton_Click">
+                    <Button.Content>
+                        <Rectangle Fill="White" Opacity=".8" Width="10" Height="10" />
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+            <ScrollViewer VerticalScrollBarVisibility="Visible" VerticalAlignment="Stretch" Grid.Row="1" x:Name="scrollViewer">
+                <TextBox x:Name="outputText" Background="Black" Foreground="#FF2AFF20" FontSize="14" Margin="0" 
+                         AcceptsReturn="True"  IsReadOnly="True"  MaxLines="200" ></TextBox>
+            </ScrollViewer>
+        </Grid>
+    </Border>
+</Controls:MetroWindow>

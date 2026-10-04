@@ -1,0 +1,98 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mwt="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
+    xmlns:odc="clr-namespace:Odyssey.Controls">
+
+    <odc:TwoLineConverter x:Key="twoLineConverter"/>
+    <odc:TwoLineTextConverter x:Key="twoLineTextConverter"/>
+    <odc:RoundedCornerConverter x:Key="roundedCornerConverter"/>
+
+
+    <ControlTemplate x:Key="SmallRibbonButtonControlTemplate" TargetType="{x:Type odc:RibbonButton}">
+        <odc:RibbonChrome x:Name="chrome"  SnapsToDevicePixels="True"
+                 RenderEnabled="{TemplateBinding IsEnabled}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                 BorderBrush="{TemplateBinding BorderBrush}"
+                Background="{TemplateBinding Background}"
+                RenderFlat="{TemplateBinding IsFlat}"                  
+                RenderMouseOver="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}"
+                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                RenderPressed="{TemplateBinding IsPressed}">
+            <odc:RibbonChrome.Content>
+                    <DockPanel  Margin="2,0,2,0" x:Name="dock1" SnapsToDevicePixels="True" HorizontalAlignment="Stretch">
+                        <Image Margin="0" x:Name="image" Source="{TemplateBinding SmallImage}" Height="16" Width="16"
+                           VerticalAlignment="Center"   DockPanel.Dock="Left" SnapsToDevicePixels="True" ClipToBounds="True"
+                           Stretch="{Binding Path=(odc:RibbonButton.ImageStretch), RelativeSource={RelativeSource TemplatedParent}}"/>
+                        <ContentPresenter x:Name="content" Content="{TemplateBinding Content}" VerticalAlignment="Center" Margin="2,0,0,0" Visibility="Visible"  />
+                    </DockPanel>
+            </odc:RibbonChrome.Content>
+        </odc:RibbonChrome>
+        <ControlTemplate.Triggers>
+            <Trigger Property="SmallImage" Value="{x:Null}">
+                <Setter Property="Visibility" Value="Collapsed" TargetName="image"/>
+                <Setter Property="Margin" Value="0" TargetName="content"/>
+                <Setter Property="HorizontalAlignment" Value="Center" TargetName="content"/>
+            </Trigger>
+            <Trigger Property="odc:RibbonBar.Size" Value="Small">
+                <Setter Property="Visibility" Value="Collapsed" TargetName="content"/>
+                <Setter Property="Width" Value="0" TargetName="content"/>
+            </Trigger>
+            <Trigger Property="odc:RibbonBar.Size" Value="Minimized">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="LargeRibbonButtonControlTemplate" TargetType="{x:Type odc:RibbonButton}">
+        <odc:RibbonChrome x:Name="chrome" Height="72"
+                 RenderEnabled="{TemplateBinding IsEnabled}"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Top"
+                               BorderBrush="{TemplateBinding BorderBrush}"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                RenderMouseOver="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}"
+                                RenderPressed="{TemplateBinding IsPressed}">
+            <odc:RibbonChrome.Content>
+                <Grid Height="72" Margin="0,-2,0,-2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="44"/>
+                        <RowDefinition Height="4"/>
+                        <RowDefinition Height="12"/>
+                        <RowDefinition Height="12"/>
+                    </Grid.RowDefinitions>
+                    <Image Source="{TemplateBinding LargeImage}" VerticalAlignment="Center" Margin="4,0,0,0" 
+                           SnapsToDevicePixels="True" Grid.Row="0"
+                           Width="32" Height="32" Stretch="{Binding Path=(odc:RibbonButton.ImageStretch), RelativeSource={RelativeSource TemplatedParent}}"    />
+                    <TextBlock x:Name="content" Grid.Row="2" 
+                               Text="{Binding Content, RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource twoLineTextConverter}, ConverterParameter=1}" 
+                               VerticalAlignment="Bottom" HorizontalAlignment="Center" />
+                    <TextBlock x:Name="content2" Grid.Row="3" 
+                               Text="{Binding Content, RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource twoLineTextConverter}, ConverterParameter=2}" 
+                               VerticalAlignment="Bottom" HorizontalAlignment="Center" />
+                </Grid>
+            </odc:RibbonChrome.Content>
+        </odc:RibbonChrome>
+        <ControlTemplate.Triggers>
+            <Trigger Property="odc:RibbonBar.Size" Value="Small">
+                <Setter Property="Visibility" Value="Collapsed" TargetName="content"/>
+            </Trigger>
+            <Trigger Property="odc:RibbonBar.Size" Value="Minimized">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type odc:RibbonButton}">
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey odc:Skins, HighlightedRibbonBorderBrush}}"/>
+        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey odc:Skins, RibbonButtonGroupBgBrush}}"/>
+        <Setter Property="Template" Value="{StaticResource SmallRibbonButtonControlTemplate}"/>
+        <Style.Triggers>
+            <Trigger Property="odc:RibbonBar.Size" Value="Large">
+                <Setter Property="Template" Value="{StaticResource LargeRibbonButtonControlTemplate}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>

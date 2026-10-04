@@ -1,0 +1,45 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:odc="clr-namespace:Odyssey.Controls"
+    xmlns:mwt="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"                    
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <LinearGradientBrush x:Key="RibbonContextualTabSetBorderBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#10000000" Offset="0"/>
+        <GradientStop Color="#60000000" Offset="1"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="RibbonContextualTabSetBorderBrush2" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#10000000" Offset="1"/>
+        <GradientStop Color="#60000000" Offset="0"/>
+    </LinearGradientBrush>
+
+    <ControlTemplate TargetType="{x:Type odc:RibbonContextualTabSet}" x:Key="RibbonContextualTabSetTemplate">
+        <StackPanel>
+            <Border BorderThickness="1,0,1,0" SnapsToDevicePixels="True" BorderBrush="{StaticResource RibbonContextualTabSetBorderBrush}"  Height="24">
+                <Grid>
+                    <Grid>
+                        <Grid.Background>
+                            <SolidColorBrush Color="{Binding Color,RelativeSource={RelativeSource TemplatedParent}}"/>
+                        </Grid.Background>
+                        <Grid.OpacityMask>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="Transparent" Offset="0"/>
+                                <GradientStop Color="#80FFFFFF" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Grid.OpacityMask>
+                    </Grid>
+
+                    <ContentPresenter Content="{TemplateBinding Title}" 
+                                      TextBlock.Foreground="{DynamicResource {ComponentResourceKey odc:Skins, RibbonBarForgroundBrush}}"
+                                      Margin="4,1,4,1" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                </Grid>
+            </Border>
+            <Border BorderThickness="1,0,1,0" SnapsToDevicePixels="True" BorderBrush="{StaticResource RibbonContextualTabSetBorderBrush2}" Height="16"/>
+        </StackPanel>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type odc:RibbonContextualTabSet}">
+        <Setter Property="Template" Value="{StaticResource RibbonContextualTabSetTemplate}"/>
+        <Setter Property="Color" Value="Tomato"/>
+    </Style>
+
+</ResourceDictionary>

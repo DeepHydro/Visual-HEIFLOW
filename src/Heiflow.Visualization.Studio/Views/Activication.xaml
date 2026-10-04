@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="Heiflow.Visualization.Studio.Controls.Activication"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="250" d:DesignWidth="500">
+
+    <Border Style="{DynamicResource DetailsBorderStyle}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.2*"></RowDefinition>
+                <RowDefinition Height="0.6*"></RowDefinition>
+                <RowDefinition Height="0.2*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel VerticalAlignment="Center" Grid.Row="1">
+                <TextBlock Margin="30,0,35,10" Foreground="White">Input Activication Code</TextBlock>
+                <StackPanel  HorizontalAlignment="Center" Height="24" Orientation="Horizontal">
+                    <TextBox x:Name="tb1"  Width="100"  Background="{DynamicResource InputFontColor}" MaxLength="4" Foreground="Black"></TextBox>
+                    <TextBox x:Name="tb2"  Width="100" Margin="10,0,0,0" Background="{DynamicResource InputFontColor}"  MaxLength="4" Foreground="Black"></TextBox>
+                    <TextBox x:Name="tb3"  Width="100" Margin="10,0,0,0"  Background="{DynamicResource InputFontColor}" MaxLength="4" Foreground="Black"></TextBox>
+                    <TextBox x:Name="tb4"  Width="100" Margin="10,0,0,0" Background="{DynamicResource InputFontColor}" MaxLength="4" Foreground="Black"></TextBox>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <Button x:Name="btnActivicate" Width="100" Height="24"  Margin="250,10,10,10"
+                        HorizontalAlignment="Right" Click="btnActivicate_Click">Activicate</Button>
+                <Button x:Name="btnExit" Width="100" Height="24" 
+                	HorizontalAlignment="Right" Click="btnExit_Click" Content="Exit" Margin="10,10,10,10"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

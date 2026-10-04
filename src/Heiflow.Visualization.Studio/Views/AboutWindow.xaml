@@ -1,0 +1,44 @@
+﻿<Controls:MetroWindow x:Class="Heiflow.Visualization.Studio.Controls.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"     
+        Title="About HydroEarth" Height="340" Width="505" ShowInTaskbar="False" ShowIconOnTitleBar="False">
+    <Window.Resources>
+        <Style x:Key="BackgroundStyle" TargetType="{x:Type StackPanel}">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush EndPoint="0,1">
+                        <GradientStop Offset="0" Color="LightBlue" />
+                        <GradientStop Offset="0.55" Color="White" />
+                        <GradientStop Offset="0.85" Color="White" />
+                        <GradientStop Offset="1" Color="LightBlue" />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <StackPanel Background="{DynamicResource ControlBackgroundBrush}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="135"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+              <RowDefinition Height="40"></RowDefinition>
+            </Grid.RowDefinitions>
+        <StackPanel Margin="10" Grid.Row="0" >
+                <TextBlock Style="{DynamicResource CaptionText}"  Text="HydroEarth"></TextBlock>
+                <TextBlock Style="{DynamicResource CaptionText}" Text="Version 1.0.0.0"></TextBlock>
+                <TextBlock  Style="{DynamicResource CaptionText}" TextWrapping="Wrap" Text="Copyright © 2015-2020.  The Southern University of Science and Technology (SUSTech).  All Rights Reserved.  "></TextBlock>
+                <TextBlock Style="{DynamicResource CaptionText}" TextWrapping="Wrap" Text="Developed by Yong Tian at SUSTech. Contact: tiany@sustech.edu.cn "></TextBlock>        
+        </StackPanel>
+        <StackPanel Margin="10" Grid.Row="1">
+                <TextBlock Style="{DynamicResource CaptionText}"  Text="Product details:" ></TextBlock>
+                <Border BorderBrush="Black" BorderThickness="1">
+                    <TextBox x:Name="description" Text="This is a demo application to show off the HydroEarth capabilities. HydroEarth is a 3D visualization software, streamlined for integrated surface water-groundawater modeling. HydroEarth enables to overlay geo-referenced data sets in a virtual 3D environment. It can effectively and efficiently visualize various types of model inputs and outputs in space and in time, without transforming them into standard GIS layers."  Background="White" Foreground="Black"                       
+                     TextWrapping="WrapWithOverflow"  IsReadOnly="True"
+                     VerticalScrollBarVisibility="Visible" MinLines="6" FontSize="12"/>
+                </Border>
+            </StackPanel>
+            <Button x:Name="btnOK" Grid.Row="2" Width="80" Margin="5,5,50,10" HorizontalAlignment="Right" Content="OK" Click="btnOK_Click"></Button>
+    </Grid>
+    </StackPanel>
+</Controls:MetroWindow>

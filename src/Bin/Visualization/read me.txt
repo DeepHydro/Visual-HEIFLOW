@@ -1,0 +1,14 @@
+=====================================================
+IHM3D 1.0.0
+Web: https://github.com/DeepHydro/Visual-HEIFLOW
+=====================================================
+
+1. Make sure following prerequisite software have been installed
+	 (1) Microsoft .NET Framework4.5
+	 (2) DirectX 9.0c End-User Runtime
+	 (3) Microsoft Access Database Engine 2010 Redistributable or Microsoft Access 2013 or higher
+	  
+	 All these prerequisite software could be downloaded freely from Microsoft Website
+
+
+Contact: tiany@sustc.edu.cn

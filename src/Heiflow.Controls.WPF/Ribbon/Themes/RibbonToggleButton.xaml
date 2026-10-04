@@ -1,0 +1,92 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mwt="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
+    xmlns:odc="clr-namespace:Odyssey.Controls">
+
+
+    <RadialGradientBrush x:Key="{ComponentResourceKey odc:Skins, DefaultMousePressedBtnBrush}"  Center="0.5,0.9">
+        <GradientStop Color="#FFFDE499" Offset="0.0"/>
+        <GradientStop Color="#FFFBAE60" Offset="0.8"/>
+        <GradientStop Color="#FFF9972F"  Offset="1.1"/>
+        <GradientStop Color="#FFFDD4A8"  Offset="2"/>
+    </RadialGradientBrush>
+
+
+    <odc:TwoLineConverter x:Key="twoLineConverter"/>
+    <odc:RoundedCornerConverter x:Key="roundedCornerConverter"/>
+
+
+    <ControlTemplate x:Key="SmallRibbonButtonControlTemplate" TargetType="{x:Type odc:RibbonToggleButton}">
+        <odc:RibbonChrome x:Name="chrome" 
+                 RenderFlat="{TemplateBinding IsFlat}"
+                 RenderEnabled="{TemplateBinding IsEnabled}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                RenderMouseOver="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                Background="{TemplateBinding Background}"
+                RenderPressed="{TemplateBinding IsPressed}">
+            <odc:RibbonChrome.Content>
+                <DockPanel Margin="0">
+                    <Image x:Name="image" Source="{TemplateBinding SmallImage}" VerticalAlignment="Center" Margin="2,0,2,0" Width="16" Height="16"  DockPanel.Dock="Left"/>
+                    <ContentPresenter x:Name="content" Content="{TemplateBinding Content}" VerticalAlignment="Center" Margin="2,0,2,0" Visibility="Visible"  />
+                </DockPanel>
+            </odc:RibbonChrome.Content>
+        </odc:RibbonChrome>
+        <ControlTemplate.Triggers>
+            <Trigger Property="SmallImage" Value="{x:Null}">
+                <Setter Property="Visibility" Value="Collapsed" TargetName="image"/>
+            </Trigger>
+            <Trigger Property="odc:RibbonBar.Size" Value="Small">
+                <Setter Property="Visibility" Value="Collapsed" TargetName="content"/>
+                <Setter Property="Width" Value="0" TargetName="content"/>
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="RenderPressed" Value="true" TargetName="chrome"/>
+            </Trigger>
+            <Trigger Property="odc:RibbonBar.Size" Value="Minimized">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="LargeRibbonButtonControlTemplate" TargetType="{x:Type odc:RibbonToggleButton}">
+        <odc:RibbonChrome x:Name="chrome" Height="72"
+                 RenderEnabled="{TemplateBinding IsEnabled}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                                  RenderFlat="{TemplateBinding IsFlat}"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Top"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                RenderMouseOver="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}"
+                                RenderPressed="{TemplateBinding IsPressed}">
+            <odc:RibbonChrome.Content>
+                <DockPanel HorizontalAlignment="Stretch" Margin="2,4,2,4" Height="64"  >
+                    <Image Source="{TemplateBinding LargeImage}" VerticalAlignment="Center" Margin="4,0,0,0" Width="32" Height="32" DockPanel.Dock="Top" Stretch="UniformToFill"    />
+                    <ContentPresenter x:Name="content" 
+                                      Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent},Converter={StaticResource twoLineConverter}}" 
+                                      VerticalAlignment="Center" Margin="4,0,0,0" HorizontalAlignment="Center" DockPanel.Dock="Bottom" />
+                </DockPanel>
+            </odc:RibbonChrome.Content>
+        </odc:RibbonChrome>
+        <ControlTemplate.Triggers>
+            <Trigger Property="odc:RibbonBar.Size" Value="Small">
+                <Setter Property="Visibility" Value="Collapsed" TargetName="content"/>
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="RenderPressed" Value="true" TargetName="chrome"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type odc:RibbonToggleButton}">
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey odc:Skins, HighlightedRibbonBorderBrush}}"/>
+        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey odc:Skins, RibbonButtonGroupBgBrush}}"/>
+        <Setter Property="Template" Value="{StaticResource SmallRibbonButtonControlTemplate}"/>
+        <Style.Triggers>
+            <Trigger Property="odc:RibbonBar.Size" Value="Large">
+                <Setter Property="Template" Value="{StaticResource LargeRibbonButtonControlTemplate}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>
+   

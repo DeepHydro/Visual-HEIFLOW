@@ -1,0 +1,30 @@
+﻿<!--Brushes for the default (blue) Backrgrounds.-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:odc="clr-namespace:Odyssey.Controls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <LinearGradientBrush x:Key="{ComponentResourceKey odc:Skins, DefaultMouseOverBtnBrush}" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#FFEAF6FD" Offset="0"/>
+        <GradientStop Color="#FFD7EFFC" Offset="0.5"/>
+        <GradientStop Color="#FFBDE6FD" Offset="0.5"/>
+        <GradientStop Color="#FFA6D9F4" Offset="1"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="{ComponentResourceKey odc:Skins, DefaultMousePressedBtnBrush}" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#FFC2E4F6" Offset="0"/>
+        <GradientStop Color="#FFC2E4F6" Offset="0.5"/>
+        <GradientStop Color="#FFA9D9F2" Offset="0.5"/>
+        <GradientStop Color="#FF90CBEB" Offset="1"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="{ComponentResourceKey odc:Skins, DefaultGradientBorderBrush}" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="White" Offset="0" />
+        <GradientStop Color="#FFCECECE" Offset="1" />
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey odc:Skins, BorderBrush}" Color="#FF8FA8B5"/>
+    <SolidColorBrush x:Key="{ComponentResourceKey odc:Skins, BorderShadowBrush}" Color="#30000000"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey odc:Skins, DefaultBgBrush}" Color="#FFF2F6FB"/>
+    <!--<SolidColorBrush x:Key="{ComponentResourceKey odc:Skins, DefaultBorderBrush}" Color="#A08FA8B5"/>-->
+</ResourceDictionary>

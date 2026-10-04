@@ -1,0 +1,195 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+     xmlns:odc="clr-namespace:Odyssey.Controls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <DrawingImage x:Key="{ComponentResourceKey odc:Skins, LeftArrowImage}" RenderOptions.BitmapScalingMode="HighQuality">
+        <DrawingImage.Drawing>
+            <DrawingGroup >
+                <GeometryDrawing Geometry="M3,5 L 3,1 L1,3 Z" >
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{DynamicResource {ComponentResourceKey odc:Skins, LightBorderBrush}}" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+
+
+                <GeometryDrawing Geometry="M2,4 L 2,0 L0,2 Z" Brush="{DynamicResource {ComponentResourceKey odc:Skins, RibbonForegroundBrush}}">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{DynamicResource {ComponentResourceKey odc:Skins, RibbonForegroundBrush}}" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="{ComponentResourceKey odc:Skins, RightArrowImage}" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Unspecified">
+        <DrawingImage.Drawing>
+            <DrawingGroup >
+                <GeometryDrawing Geometry="M1,5 L 1,1 L3,3 Z" >
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{DynamicResource {ComponentResourceKey odc:Skins, LightBorderBrush}}" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+
+
+                <GeometryDrawing Geometry="M0,4 L 0,0 L2,2 Z" Brush="{DynamicResource {ComponentResourceKey odc:Skins, RibbonForegroundBrush}}">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{DynamicResource {ComponentResourceKey odc:Skins, RibbonForegroundBrush}}" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="{ComponentResourceKey odc:Skins,DownArrowImage}" RenderOptions.BitmapScalingMode="HighQuality" >
+        <DrawingImage.Drawing>
+            <DrawingGroup >
+                <GeometryDrawing Geometry="M5,1 L 3,3 L1,1 Z" >
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{DynamicResource {ComponentResourceKey odc:Skins, LightBorderBrush}}" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+
+
+                <GeometryDrawing Geometry="M4,0 L 2,2 L0,0 Z" Brush="{DynamicResource {ComponentResourceKey odc:Skins, RibbonForegroundBrush}}">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{DynamicResource {ComponentResourceKey odc:Skins, RibbonForegroundBrush}}" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="{ComponentResourceKey odc:Skins, UpArrowImage}" RenderOptions.BitmapScalingMode="HighQuality" >
+        <DrawingImage.Drawing>
+            <DrawingGroup >
+                <GeometryDrawing Geometry="M5,3 L 3,1 L1,3 Z" >
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{DynamicResource {ComponentResourceKey odc:Skins, LightBorderBrush}}" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+
+
+                <GeometryDrawing Geometry="M4,2 L 2,0 L0,2 Z" Brush="{DynamicResource {ComponentResourceKey odc:Skins, RibbonForegroundBrush}}">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{DynamicResource {ComponentResourceKey odc:Skins, RibbonForegroundBrush}}" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="{ComponentResourceKey odc:Skins, OverflowArrow}" RenderOptions.BitmapScalingMode="HighQuality" >
+        <DrawingImage.Drawing>
+            <DrawingGroup >
+
+                <GeometryDrawing Geometry="M1,0 L 4,3 L 1,6 M 4,0 L 7,3 L 4,6" >
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{DynamicResource {ComponentResourceKey odc:Skins, LightBorderBrush}}" StartLineCap="Square" EndLineCap="Square" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+                
+                <GeometryDrawing Geometry="M0,0 L 3,3 L 0,6 M 3,0 L 6,3 L 3,6">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{DynamicResource {ComponentResourceKey odc:Skins, RibbonForegroundBrush}}" StartLineCap="Square" EndLineCap="Square" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="{ComponentResourceKey odc:Skins, QAMenuArrow}" RenderOptions.BitmapScalingMode="HighQuality" >
+        <DrawingImage.Drawing>
+            <DrawingGroup >
+                <GeometryDrawing Geometry="M0,2 L6,2">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{DynamicResource {ComponentResourceKey odc:Skins, LightBorderBrush}}" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+                <GeometryDrawing Geometry="M0,5 L 6,5 L 3,9 L 0,5" Brush="{DynamicResource {ComponentResourceKey odc:Skins, LightBorderBrush}}">
+                    <GeometryDrawing.Pen>
+                        <Pen Thickness="0"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+                <GeometryDrawing Geometry="M0,1 L6,1">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{DynamicResource {ComponentResourceKey odc:Skins, QAMenuArrowImgBdrBrush}}" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+                <GeometryDrawing Geometry="M0,4 L 6,4 L 3,8 L 0,4" Brush="{DynamicResource {ComponentResourceKey odc:Skins, QAMenuArrowImgBdrBrush}}">
+                    <GeometryDrawing.Pen>
+                        <Pen Thickness="0"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="{ComponentResourceKey odc:Skins, ExpandImage}" RenderOptions.BitmapScalingMode="HighQuality" >
+        <DrawingImage.Drawing>
+            <DrawingGroup >
+                <GeometryDrawing Geometry="M0,1 L6,1">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{DynamicResource {ComponentResourceKey odc:Skins, RibbonForegroundBrush}}" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+                <GeometryDrawing Geometry="M0,4 L 6,4 L 3,8 L 0,4" Brush="{DynamicResource {ComponentResourceKey odc:Skins, RibbonForegroundBrush}}">
+                    <GeometryDrawing.Pen>
+                        <Pen Thickness="0"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+
+
+    <DrawingImage x:Key="{ComponentResourceKey odc:Skins, WindowRestoreImage}" RenderOptions.BitmapScalingMode="HighQuality" >
+        <DrawingImage.Drawing>
+            <DrawingGroup  >
+                <GeometryDrawing Geometry="M0,3L6,3 6,8 0,8 0,4z  M3,2 L3,0L9,0L9,5L7,5" >
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{DynamicResource {ComponentResourceKey odc:Skins, WindowButtonPenColor}}" Thickness="1" StartLineCap="Flat" EndLineCap="Flat"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+                <GeometryDrawing Geometry="M0,4L6,4 M3,1L9,1" >
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{DynamicResource {ComponentResourceKey odc:Skins, WindowButtonPenColor}}" Thickness="1" StartLineCap="Flat"  EndLineCap="Flat"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="{ComponentResourceKey odc:Skins, LauncherButtonImage}" 
+                  RenderOptions.BitmapScalingMode="HighQuality">
+        <DrawingImage.Drawing>
+            <DrawingGroup >
+                <GeometryDrawing Geometry="M1,6 L1,1 L6,1" >
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{DynamicResource {ComponentResourceKey odc:Skins, LightBorderBrush}}" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+                <GeometryDrawing Geometry="M 7,4 L 7,7 L 4,7">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{DynamicResource {ComponentResourceKey odc:Skins, LightBorderBrush}}" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+
+                <GeometryDrawing Geometry="M0,5 L0,0 L5,0 M 3,3 L5,5">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="#50000000" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+                <GeometryDrawing Geometry="M 6,3 L 6,6 L 3,6 Z" Brush="{DynamicResource {ComponentResourceKey odc:Skins, RibbonForegroundBrush}}">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="#50000000" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+        
+
+</ResourceDictionary>

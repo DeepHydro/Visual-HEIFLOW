@@ -1,0 +1,128 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:s="clr-namespace:System;assembly=mscorlib">
+    <s:String x:Key="FileMenuHeader">File(_F)</s:String>
+    <s:String x:Key="OpenPrjMenuHeader">Open Project(_O)</s:String>
+    <s:String x:Key="SavePrjMenuHeader">Save Project(_S)</s:String>
+    <s:String x:Key="ExitMenuHeader">Exit(_E)</s:String>
+    <s:String x:Key="LanguageMenuHeader">_Language</s:String>
+    <s:String x:Key="EnglishMenuHeader">_English</s:String>
+    <s:String x:Key="ChineseMenuHeader">汉语(_C)</s:String>
+    
+    <s:String x:Key="ViewMenuHeader">View(_V)</s:String>
+    <s:String x:Key="ShowPosInfoMenuHeader">Position Info</s:String>
+    <s:String x:Key="ShowCroHairMenuHeader">Cross Hairs</s:String>
+    <s:String x:Key="ShowLatlngMenuHeader">Latitude/Longitude Grid</s:String>
+    <s:String x:Key="ShowCompassMenuHeader">Compass</s:String>
+    <s:String x:Key="ShowScalebarMenuHeader">Scale Bar</s:String>
+    <s:String x:Key="ShowLengendMenuHeader">Legend</s:String>
+    <s:String x:Key="EnMoveMoMenuHeader">Movement Motion</s:String>
+    <s:String x:Key="EnInertiaMenuHeader">Camera Inertia</s:String>
+    <s:String x:Key="EnFogMenuHeader">Fog Effect</s:String>
+    <s:String x:Key="EnSolarMenuHeader">Solar Mode</s:String>
+    <s:String x:Key="EnSkyMenuHeader">Sky</s:String>
+    <s:String x:Key="EnAtmosphericScattering">Atmospheric Scattering</s:String>
+    <s:String x:Key="EnAtomosphereMenuHeader">Atomosphere</s:String>
+    <s:String x:Key="EnAtomScatMenuHeader">Atomosphere Scattering</s:String>
+    <s:String x:Key="EnPseColorMenuHeader">Pseudo Color</s:String>
+    <s:String x:Key="ShowChartMenuHeader">Chart Viewer</s:String>
+    <s:String x:Key="ShowHistMenuHeader">Histogram</s:String>
+    <s:String x:Key="ShowSceTitleHeader">Scene Title</s:String>
+    <s:String x:Key="DefaultPosMenuHeader">Default Location</s:String>
+    <s:String x:Key="CurrentPosAsDefaultMenuHeader">Save Current Location</s:String>
+    <s:String x:Key="ViewpropMenuHeader">View Property</s:String>
+    <s:String x:Key="SaveConfigMenuHeader">Save View Configuration</s:String>
+
+    <s:String x:Key="DataMenuHeader">Data(_D)</s:String>
+
+    <s:String x:Key="ToolMenuHeader">Tool(_T)</s:String>
+    <s:String x:Key="D3PerfMenuHeader">3D Performance</s:String>
+    <s:String x:Key="MeasureMenuHeader">Measure</s:String>
+    <s:String x:Key="ScreenShotMenuHeader">Screen Shot</s:String>
+    <s:String x:Key="ShowStatInfoMenuHeader">Model Statistics Information</s:String>
+    <s:String x:Key="AutoScreenShotMenuHeader">Auto Screen Shot</s:String>
+    <s:String x:Key="MakeMovieMenuHeader">Make Movie</s:String>
+    <s:String x:Key="WMSMenuHeader">WMS...</s:String>
+    <s:String x:Key="PropMenuHeader">Property</s:String>
+
+    <s:String x:Key="ModelMenuHeader">Model(_M)</s:String>
+    <s:String x:Key="SurfModelMenuHeader">Surface Domain</s:String>
+    <s:String x:Key="SubsurfModelMenuHeader">Subsurface Domain</s:String>
+    <s:String x:Key="ModelStatInfoMenuHeader">Show Model Statistical Info</s:String>
+    <s:String x:Key="ModelPropMenuHeader">Model Property</s:String>
+    
+    <s:String x:Key="HelpMenuHeader">Help(_H)</s:String>
+    <s:String x:Key="ViewHelpMenuHeader">View Help...</s:String>
+    <s:String x:Key="AboutMenuHeader">About...</s:String>
+
+    <s:String x:Key="LayerManagerTxt">Layer Manager</s:String>
+    <s:String x:Key="VariableTxt">Variable</s:String>
+    <s:String x:Key="ParameterTxt">Parameter</s:String>
+    <s:String x:Key="LayerSettingTxt">Model Layer Setting</s:String>
+    <s:String x:Key="CurLayerTxt">Current Layer</s:String>
+    <s:String x:Key="VerLayerAvTxt">Vertically Averaged</s:String>
+
+    <s:String x:Key="VelVecTxt">Velocity Vector Setting</s:String>
+    <s:String x:Key="DisRiversTxt">Display Rivers</s:String>
+    <s:String x:Key="DisScalarTxt">Display Scalar</s:String>   
+    <s:String x:Key="DisVecTxt">Display Vector</s:String>
+    <s:String x:Key="DisCroSecTxt">Display Cross Section</s:String>
+    <s:String x:Key="DisGridTxt">Display Model Grid</s:String>
+    <s:String x:Key="ScaleVecTxt">Scale Vector</s:String>
+    <s:String x:Key="ScaleVecTipTxt">Method of scaling vector</s:String>
+    <s:String x:Key="NoneScaleTxt">None</s:String>
+    <s:String x:Key="LinearScaleTxt">Linear</s:String>
+    <s:String x:Key="SdScaleTxt">Standard deviation</s:String>
+    <s:String x:Key="AutoVecColorTxt">Auto Color</s:String>
+    <s:String x:Key="VecColorTxt">Vector Color</s:String>
+    <s:String x:Key="VecSizeTxt">Vector Size</s:String>
+
+    <s:String x:Key="ColorSettingTxt">Color</s:String>
+    <s:String x:Key="VetExTxt">Vertical Exaggeration</s:String>
+    <s:String x:Key="ColorRampTxt">Color Ramp</s:String>
+    <s:String x:Key="ClsfyContTxt">Classification Count</s:String>
+    <s:String x:Key="OpacityTxt">Opacity</s:String>
+    <s:String x:Key="UniqueColorTxt">Use Unique Color</s:String>
+    
+    <s:String x:Key="SetAsCurrentPrjMenu">Set as Current Project</s:String>
+    <s:String x:Key="RemovePrjMenu">Remove Project</s:String>
+    <s:String x:Key="LayerPropMenu">Layer Property</s:String>
+    <s:String x:Key="ModelPropMenu">Model Property</s:String>
+
+    <s:String x:Key="AniPlayerTxt">Animation Player</s:String>
+    <s:String x:Key="AniSpeedTxt">Animation Speed</s:String>
+    <s:String x:Key="AniDatesTxt">Go to</s:String>
+    
+    <s:String x:Key="MoreTxt">More...</s:String>
+    <s:String x:Key="ReturnTxt">Return</s:String>
+    <s:String x:Key="SmallTxt">Small</s:String>
+    <s:String x:Key="NormalTxt">Normal</s:String>
+    <s:String x:Key="LargeTxt">Large</s:String>
+    <s:String x:Key="VerylargeTxt">Very large</s:String>
+    <s:String x:Key="FastTxt">Fast</s:String>
+    <s:String x:Key="SlowTxt">Slow</s:String>
+    <s:String x:Key="VerySlowTxt">Very Slow</s:String>
+    
+    <s:String x:Key="D3SceneSettingTxt">Terrain</s:String>
+    <s:String x:Key="TerSufTxt">Terrain Surface</s:String>
+    <s:String x:Key="InvertColTxt">Intert Color</s:String>
+    <s:String x:Key="FogSetTxt">Fog Effect</s:String>
+    <s:String x:Key="CusFogSetTxt">Custom Fog Effect</s:String>
+    <s:String x:Key="FogLevelTxt">Levels of Fog</s:String>
+    <s:String x:Key="VeryLightTxt">Very light</s:String>
+    <s:String x:Key="LightTxt">Light</s:String>
+    <s:String x:Key="HeavyTxt">Heavy</s:String>
+    <s:String x:Key="DenseTxt">Dense</s:String>
+
+    <s:String x:Key="SunLightTxt">Solar Lighting</s:String>
+    <s:String x:Key="AzimuthTxt">Azimuth</s:String>
+    <s:String x:Key="Altitudext">Altitude</s:String>
+
+    <s:String x:Key="AcFileTxt">Extern Files</s:String>
+    <s:String x:Key="AcScaleTxt">Scale</s:String>
+    <s:String x:Key="AcMaxStepTxt">Maximum steps</s:String>
+
+    <s:String x:Key="SunSynchedWithTime">Sun Synched With Time</s:String>
+    <s:String x:Key="Remove">Remove</s:String>
+    <s:String x:Key="AttributeTable">Attribute Table</s:String>
+</ResourceDictionary>

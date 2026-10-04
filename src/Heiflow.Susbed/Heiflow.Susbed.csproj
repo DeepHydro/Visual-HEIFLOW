@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B44CD67F-7332-45A7-9355-6BD1FCBFB832}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Heiflow.Models.Hydrodynamics.Susbed</RootNamespace>
+    <AssemblyName>Heiflow.Models.Hydrodynamics.Susbed</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\Application Extensions\Susbed\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DotSpatial.Controls">
+      <HintPath>..\Bin\Debug\DotSpatial.Controls.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotSpatial.Data">
+      <HintPath>..\Bin\Debug\DotSpatial.Data.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DotSpatial.Symbology">
+      <HintPath>..\Bin\Debug\DotSpatial.Symbology.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ObjectListView">
+      <HintPath>..\Bin\Debug\ObjectListView.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SourceGrid">
+      <HintPath>..\Bin\Debug\SourceGrid.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="RunoffDataForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RunoffDataForm.Designer.cs">
+      <DependentUpon>RunoffDataForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClimateDataForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClimateDataForm.Designer.cs">
+      <DependentUpon>ClimateDataForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CrossSection.cs" />
+    <Compile Include="CrossSectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CrossSectionForm.Designer.cs">
+      <DependentUpon>CrossSectionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FlowOutPackage.cs" />
+    <Compile Include="FlowOutViewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FlowOutViewForm.Designer.cs">
+      <DependentUpon>FlowOutViewForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FlowSedForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FlowSedForm.Designer.cs">
+      <DependentUpon>FlowSedForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FlowSedPackage.cs" />
+    <Compile Include="RoutingParaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RoutingParaForm.Designer.cs">
+      <DependentUpon>RoutingParaForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SedGradationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SedGradationForm.Designer.cs">
+      <DependentUpon>SedGradationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="JunctionParaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JunctionParaForm.Designer.cs">
+      <DependentUpon>JunctionParaForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OpenSusbedProjectFileProvider.cs" />
+    <Compile Include="CrossSectionPackage.cs" />
+    <Compile Include="OverlandFlowForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OverlandFlowForm.Designer.cs">
+      <DependentUpon>OverlandFlowForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SedGradationPackage.cs" />
+    <Compile Include="SusbedLoader.cs" />
+    <Compile Include="SusbedProject.cs" />
+    <Compile Include="ParameterPackage.cs" />
+    <Compile Include="SourceInfo.cs" />
+    <Compile Include="Susbed.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SWMM\RainGage.cs" />
+    <Compile Include="SWMM\SWMMPackage.cs" />
+    <Compile Include="SWMM\SubCachement.cs" />
+    <Compile Include="SWMM\TimeSeriesExtension.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Heiflow.Controls\Heiflow.Controls.WinForm.csproj">
+      <Project>{04b4c21d-e554-4369-8c00-bfbbeca0fb2c}</Project>
+      <Name>Heiflow.Controls.WinForm</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Core\Heiflow.Core.csproj">
+      <Project>{e75a11b8-00a2-45de-a5e4-4b8180b5903c}</Project>
+      <Name>Heiflow.Core</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Models\Heiflow.Models.csproj">
+      <Project>{28e79461-3161-4130-81b0-2c36cd3a3315}</Project>
+      <Name>Heiflow.Models</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Presentation\Heiflow.Presentation.csproj">
+      <Project>{55d24eb1-96bb-4902-8240-e9019032db93}</Project>
+      <Name>Heiflow.Presentation</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="RunoffDataForm.resx">
+      <DependentUpon>RunoffDataForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClimateDataForm.resx">
+      <DependentUpon>ClimateDataForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrossSectionForm.resx">
+      <DependentUpon>CrossSectionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FlowOutViewForm.resx">
+      <DependentUpon>FlowOutViewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FlowSedForm.resx">
+      <DependentUpon>FlowSedForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RoutingParaForm.resx">
+      <DependentUpon>RoutingParaForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SedGradationForm.resx">
+      <DependentUpon>SedGradationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JunctionParaForm.resx">
+      <DependentUpon>JunctionParaForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OverlandFlowForm.resx">
+      <DependentUpon>OverlandFlowForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Heiflow.Susbed.licenseheader" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

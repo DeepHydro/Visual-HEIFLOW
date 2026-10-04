@@ -1,0 +1,60 @@
+2026-10-04 10:38:28Z 0 CONF Exception caught during XML parsing: 未能找到路径“D:\System\git\Visual-HEIFLOW\src\bin\Visualization\Config\Layers.xml”的一部分。
+2026-10-04 10:38:28Z 0 CONF File D:\System\git\Visual-HEIFLOW\src\bin\Visualization\Config\Layers.xml was not read successfully.
+2026-10-04 10:44:27Z 0      caught exception: 
+2026-10-04 10:44:27Z 0      System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 HUST.WREIS.Dot3D.SceneWindow.flag_OnMouseEnterEvent(Object sender, EventArgs e) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Display\SceneWindow\SceneWindow.cs:行号 476
+   在 HUST.WREIS.Dot3D.Renderable.WavingFlagLayer.Render(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\RenderableModel\WavingFlagLayer.cs:行号 271
+2026-10-04 10:44:27Z 0      caught exception: 
+2026-10-04 10:44:27Z 0      System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 HUST.WREIS.Dot3D.SceneWindow.flag_OnMouseLeaveEvent(Object sender, EventArgs e) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Display\SceneWindow\SceneWindow.cs:行号 465
+   在 HUST.WREIS.Dot3D.Renderable.WavingFlagLayer.Render(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\RenderableModel\WavingFlagLayer.cs:行号 282
+2026-10-04 10:44:28Z 0      caught exception: 
+2026-10-04 10:44:28Z 0      System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 HUST.WREIS.Dot3D.SceneWindow.flag_OnMouseEnterEvent(Object sender, EventArgs e) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Display\SceneWindow\SceneWindow.cs:行号 476
+   在 HUST.WREIS.Dot3D.Renderable.WavingFlagLayer.Render(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\RenderableModel\WavingFlagLayer.cs:行号 271
+2026-10-04 10:44:31Z 0      caught exception: 
+2026-10-04 10:44:31Z 0      System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 HUST.WREIS.Dot3D.SceneWindow.flag_OnMouseLeaveEvent(Object sender, EventArgs e) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Display\SceneWindow\SceneWindow.cs:行号 465
+   在 HUST.WREIS.Dot3D.Renderable.WavingFlagLayer.Render(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\RenderableModel\WavingFlagLayer.cs:行号 282
+2026-10-04 10:44:38Z 0      caught exception: 
+2026-10-04 10:44:38Z 0      System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 HUST.WREIS.Dot3D.SceneWindow.flag_OnMouseEnterEvent(Object sender, EventArgs e) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Display\SceneWindow\SceneWindow.cs:行号 476
+   在 HUST.WREIS.Dot3D.Renderable.WavingFlagLayer.Render(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\RenderableModel\WavingFlagLayer.cs:行号 271
+2026-10-04 10:44:38Z 0      caught exception: 
+2026-10-04 10:44:38Z 0      System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 HUST.WREIS.Dot3D.SceneWindow.flag_OnMouseLeaveEvent(Object sender, EventArgs e) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Display\SceneWindow\SceneWindow.cs:行号 465
+   在 HUST.WREIS.Dot3D.Renderable.WavingFlagLayer.Render(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\RenderableModel\WavingFlagLayer.cs:行号 282
+2026-10-04 10:44:38Z 0      caught exception: 
+2026-10-04 10:44:38Z 0      System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 HUST.WREIS.Dot3D.SceneWindow.flag_OnMouseEnterEvent(Object sender, EventArgs e) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Display\SceneWindow\SceneWindow.cs:行号 476
+   在 HUST.WREIS.Dot3D.Renderable.WavingFlagLayer.Render(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\RenderableModel\WavingFlagLayer.cs:行号 271
+2026-10-04 10:44:38Z 0      caught exception: 
+2026-10-04 10:44:38Z 0      System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 HUST.WREIS.Dot3D.SceneWindow.flag_OnMouseLeaveEvent(Object sender, EventArgs e) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Display\SceneWindow\SceneWindow.cs:行号 465
+   在 HUST.WREIS.Dot3D.Renderable.WavingFlagLayer.Render(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\RenderableModel\WavingFlagLayer.cs:行号 282
+2026-10-04 10:44:38Z 0      caught exception: 
+2026-10-04 10:44:38Z 0      System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 HUST.WREIS.Dot3D.SceneWindow.flag_OnMouseEnterEvent(Object sender, EventArgs e) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Display\SceneWindow\SceneWindow.cs:行号 476
+   在 HUST.WREIS.Dot3D.Renderable.WavingFlagLayer.Render(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\RenderableModel\WavingFlagLayer.cs:行号 271
+2026-10-04 10:44:39Z 0      caught exception: 
+2026-10-04 10:44:39Z 0      System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 HUST.WREIS.Dot3D.SceneWindow.flag_OnMouseLeaveEvent(Object sender, EventArgs e) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Display\SceneWindow\SceneWindow.cs:行号 465
+   在 HUST.WREIS.Dot3D.Renderable.WavingFlagLayer.Render(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\RenderableModel\WavingFlagLayer.cs:行号 282
+2026-10-04 10:44:47Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-04 10:44:48Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-04 10:44:48Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-04 10:44:49Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-04 10:44:49Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-04 10:44:50Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-04 10:44:50Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-04 10:44:51Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-04 10:44:51Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-04 10:44:52Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-04 11:46:09Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-04 11:46:10Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-04 11:46:11Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-04 11:46:11Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-04 11:46:12Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-04 11:46:12Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-04 11:46:13Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-04 11:46:13Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()

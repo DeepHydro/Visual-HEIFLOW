@@ -1,0 +1,9 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="clr-namespace:System;assembly=mscorlib">
+    <s:String x:Key="MainWindowTitle">Localization Demo</s:String>
+    <s:String x:Key="LanguageMenuHeader">_Language</s:String>
+    <s:String x:Key="EnglishMenuHeader">_English</s:String>
+    <s:String x:Key="ChineseMenuHeader">汉语(_C)</s:String>
+    <s:String x:Key="OpenLanguageFileMenuHeader">_Open Language File...</s:String>
+</ResourceDictionary>

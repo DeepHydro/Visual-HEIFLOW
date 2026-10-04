@@ -1,0 +1,68 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:odc="clr-namespace:Odyssey.Controls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Odyssey;Component/Themes/HighlightedBackgrounds.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Odyssey;Component/Themes/OfficeBlueSkin.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="{x:Type odc:RibbonButtonGroup}">
+        <Style.Resources>
+            <Style TargetType="{x:Type odc:RibbonButton}">
+                <Setter Property="Margin" Value="-1,0,0,-1"/>
+                <Setter Property="odc:RibbonBar.Size" Value="Small"/>
+                <Setter Property="IsFlat" Value="False"/>
+                <Setter Property="Width" Value="26"/>
+                <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey odc:Skins, RibbonButtonGroupBgBrush}}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey odc:Skins, DefaultBorderBrush}}"/>
+            </Style>
+            <Style TargetType="{x:Type odc:RibbonToggleButton}">
+                <Setter Property="Margin" Value="-1,0,0,-1"/>
+                <Setter Property="IsFlat" Value="False"/>
+                <Setter Property="odc:RibbonBar.Size" Value="Small"/>
+                <Setter Property="Width" Value="26"/>
+                <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey odc:Skins, RibbonButtonGroupBgBrush}}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey odc:Skins, DefaultBorderBrush}}"/>
+            </Style>
+            <Style TargetType="{x:Type odc:RibbonDropDownButton}">
+                <Setter Property="Margin" Value="-1,0,0,-1"/>
+                <Setter Property="odc:RibbonBar.Size" Value="Small"/>
+                <Setter Property="Width" Value="40"/>
+                <Setter Property="IsFlat" Value="False"/>
+                <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey odc:Skins, RibbonButtonGroupBgBrush}}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey odc:Skins, DefaultBorderBrush}}"/>
+            </Style>
+            <Style TargetType="{x:Type odc:RibbonSplitButton}">
+                <Setter Property="Margin" Value="-1,0,0,-1"/>
+                <Setter Property="odc:RibbonBar.Size" Value="Small"/>
+                <Setter Property="Width" Value="40"/>
+                <Setter Property="IsFlat" Value="False"/>
+                <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey odc:Skins, RibbonButtonGroupBgBrush}}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey odc:Skins, DefaultBorderBrush}}"/>
+            </Style>
+            <Style TargetType="{x:Type odc:RibbonChrome}"  BasedOn="{StaticResource RibbonChromeStyle}" >
+                <Setter Property="RenderFlat" Value="false"/>
+                <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey odc:Skins, RibbonButtonGroupBgBrush}}"/>
+            </Style>
+        </Style.Resources>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel Orientation="Horizontal"  CanVerticallyScroll="True" CanHorizontallyScroll="False" Focusable="False" />
+                </ItemsPanelTemplate>
+           </Setter.Value>
+        </Setter>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type odc:RibbonButtonGroup}" >
+                    <Border Background="{TemplateBinding Background}" Focusable="False"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <ItemsPresenter Focusable="False" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

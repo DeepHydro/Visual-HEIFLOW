@@ -1,26 +1,3 @@
-/src/Heiflow.Susbed/
-/src/Heiflow.Plugins.Susbed/
-/src/UnitTest/
-/src/packages/
-/src/MiscUtil/
-/src/Heiflow.Spatial/
-/src/Heiflow.Controls.WPF/
-/src/Heiflow.Visualization.Applications/
-/src/Heiflow.Visualization.Core/
-/src/Heiflow.Visualization.Display/
-/src/Heiflow.Visualization.Studio/
-/src/DotSpatial-master/
-/src/bin/Plugin/
-/src/bin/VGS backup/
-/src/bin/Visualization/
-/src/Heiflow.sln
-/src/Visual Heiflow.v12.suo
-/src/Heiflow.v12.suo
 *.pdb
-*.dll
 *.cache
-src/Bin/Debug/Heiflow.AI.dll
-src/Heiflow.AI/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
-*.dll
-src/Heiflow.Models/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
-src/Bin/Debug/External/Echarts/Echarts.zip
+*..gmdb

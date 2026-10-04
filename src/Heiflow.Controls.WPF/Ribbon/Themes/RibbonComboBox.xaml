@@ -1,0 +1,88 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:odc="clr-namespace:Odyssey.Controls"
+    xmlns:mwt="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"                    
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Odyssey;Component/Themes/InternalRibbonButton.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <ControlTemplate TargetType="{x:Type odc:RibbonComboBox}" x:Key="RibbonComboBoxTemplate">
+        <DockPanel HorizontalAlignment="Stretch" Focusable="False" >
+            <Grid SnapsToDevicePixels="True"  Focusable="False"  Width="{TemplateBinding ContentWidth}"  DockPanel.Dock="Right">
+                <Border BorderThickness="{TemplateBinding BorderThickness}" Padding="1" BorderBrush="{TemplateBinding BorderBrush}" 
+                        x:Name="border"
+                        Background="{TemplateBinding Background}" Focusable="False">
+                    <DockPanel HorizontalAlignment="Stretch" Focusable="False" >
+                        <ToggleButton x:Name="button" Margin="0,-2,-2,-2" DockPanel.Dock="Right" Width="16" Template="{StaticResource InternalToggleButton}" 
+                                          IsChecked="{Binding IsDropDownOpen,RelativeSource={RelativeSource TemplatedParent},Mode=TwoWay}"
+                                        Focusable="False"
+                                          HorizontalContentAlignment="Center" >
+                            <Image Margin="2,0,2,0" Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False"
+                                   Source="{DynamicResource {ComponentResourceKey odc:Skins, DownArrowImage}}"/>
+                        </ToggleButton>
+                        <Grid   Focusable="False" x:Name="grid" DockPanel.Dock="Right" Margin="4,0,0,0" >
+                            <TextBox x:Name="PART_EditableTextBox" Focusable="True"
+                                     SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" BorderThickness="0" />
+                            <ContentPresenter x:Name="content" Visibility="Collapsed" Focusable="False"
+                                      Content="{TemplateBinding ComboBox.SelectionBoxItem}" ContentTemplate="{TemplateBinding ComboBox.SelectionBoxItemTemplate}" 
+                                      ContentStringFormat="{TemplateBinding ComboBox.SelectionBoxItemStringFormat}" 
+                                      HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}" 
+                                      VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}" 
+                                      SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
+                        </Grid>
+                    </DockPanel>
+                </Border>
+                <Popup IsOpen="{Binding IsDropDownOpen,RelativeSource={RelativeSource TemplatedParent},Mode=TwoWay}" StaysOpen="False"
+                       MinWidth="{Binding ActualWidth, ElementName=border}"
+                                        Placement="Bottom" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" AllowsTransparency="True" 
+                                       Name="PART_Popup" Focusable="False">
+                    <mwt:SystemDropShadowChrome Color="#00FFFFFF" Name="Shdw" 
+                                            MinWidth="{Binding FrameworkElement.ActualWidth, ElementName=button}" 
+                                            MaxHeight="{TemplateBinding ComboBox.MaxDropDownHeight}">
+                        <Border BorderThickness="1,1,1,1" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Name="DropDownBorder">
+                            <StackPanel>
+                                <ContentPresenter Content="{TemplateBinding DropDownHeader}" ContentTemplate="{TemplateBinding DropDownHeaderTemplate}"/>
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" CanContentScroll="True">
+                                    <ItemsPresenter SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" KeyboardNavigation.DirectionalNavigation="Contained" Margin="1"  />
+                                </ScrollViewer>
+                                <ContentPresenter Content="{TemplateBinding DropDownFooter}" ContentTemplate="{TemplateBinding DropDownFooterTemplate}"/>
+                            </StackPanel>
+                        </Border>
+                    </mwt:SystemDropShadowChrome>
+                </Popup>
+            </Grid>
+            <Image Width="16" Height="16" DockPanel.Dock="Left" Source="{TemplateBinding Image}" VerticalAlignment="Center" Margin="4,2,0,2" Focusable="False"/>
+            <TextBlock x:Name="text" Text="{TemplateBinding Title}" DockPanel.Dock="Left" VerticalAlignment="Center" Margin="2,0,2,0" Focusable="False"/>
+        </DockPanel>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEditable" Value="False">
+                <Setter Property="Visibility" Value="Hidden" TargetName="PART_EditableTextBox"/>
+                <Setter Property="Visibility" Value="Visible" TargetName="content"/>
+            </Trigger>
+            <!--<Trigger Property="odc:RibbonBar.Size" Value="Medium">
+                <Setter Property="Visibility" Value="Collapsed" TargetName="text"/>
+            </Trigger>-->
+            <Trigger Property="odc:RibbonBar.Size" Value="Small">
+                <Setter Property="Visibility" Value="Collapsed" TargetName="text"/>
+            </Trigger>
+            <Trigger Property="odc:RibbonBar.Size" Value="Minimized">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type odc:RibbonComboBox}">
+        <Setter Property="Template" Value="{StaticResource RibbonComboBoxTemplate}"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey odc:Skins, DefaultBorderBrush}}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel Orientation="Vertical"/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

@@ -1,0 +1,12 @@
+E:\PKU\Program\VHF\UnitTest\bin\x64\Debug\UnitTest.exe.config
+E:\PKU\Program\VHF\UnitTest\bin\x64\Debug\UnitTest.exe
+E:\PKU\Program\VHF\UnitTest\bin\x64\Debug\UnitTest.pdb
+E:\PKU\Program\VHF\UnitTest\bin\x64\Debug\Heiflow.Model.dll
+E:\PKU\Program\VHF\UnitTest\bin\x64\Debug\ILNumerics.dll
+E:\PKU\Program\VHF\UnitTest\bin\x64\Debug\Heiflow.Model.pdb
+E:\PKU\Program\VHF\UnitTest\bin\x64\Debug\ILNumerics.pdb
+E:\PKU\Program\VHF\UnitTest\obj\x64\Debug\UnitTest.csprojResolveAssemblyReference.cache
+E:\PKU\Program\VHF\UnitTest\obj\x64\Debug\UnitTest.Form1.resources
+E:\PKU\Program\VHF\UnitTest\obj\x64\Debug\UnitTest.csproj.GenerateResource.Cache
+E:\PKU\Program\VHF\UnitTest\obj\x64\Debug\UnitTest.exe
+E:\PKU\Program\VHF\UnitTest\obj\x64\Debug\UnitTest.pdb

@@ -1,0 +1,12 @@
+﻿<Controls:MetroWindow x:Class="Heiflow.Visualization.Studio.Views.WinChartView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+          xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"            
+        xmlns:heict="clr-namespace:Heiflow.Controls.WinForm.Controls;assembly=Heiflow.Controls.WinForm"      
+        Title="Chart View" Height="500" Width="700" ShowInTaskbar="False" Foreground="Black">
+    <Grid Margin="2">
+        <WindowsFormsHost>
+            <heict:WinChart x:Name="chart"></heict:WinChart>
+        </WindowsFormsHost>
+    </Grid>
+</Controls:MetroWindow>

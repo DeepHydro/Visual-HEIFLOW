@@ -40,12 +40,6 @@ E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.dll
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.pdb
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.csprojResolveAssemblyReference.cache
-D:\system\git\Visual-HEIFLOW\src\bin\Debug\Heiflow.Presentation.dll
-D:\system\git\Visual-HEIFLOW\src\bin\Debug\Heiflow.Presentation.pdb
-D:\system\git\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.Properties.Resources.resources
-D:\system\git\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.csproj.GenerateResource.Cache
-D:\system\git\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.dll
-D:\system\git\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.pdb
 D:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Heiflow.Presentation.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Debug\Heiflow.Presentation.pdb
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.Properties.Resources.resources
@@ -53,6 +47,12 @@ D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Presentation\obj\Debug\Heiflow.Present
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.pdb
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.csprojResolveAssemblyReference.cache
+D:\System\git\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.Properties.Resources.resources
+D:\System\git\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.csproj.GenerateResource.Cache
+D:\System\git\Visual-HEIFLOW\src\bin\Debug\Heiflow.Presentation.dll
+D:\System\git\Visual-HEIFLOW\src\bin\Debug\Heiflow.Presentation.pdb
+D:\System\git\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.dll
+D:\System\git\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.pdb
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.csproj.AssemblyReference.cache
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.csproj.CoreCompileInputs.cache
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow..2F1D3D02.Up2Date

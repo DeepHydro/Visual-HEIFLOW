@@ -1,0 +1,101 @@
+﻿<UserControl x:Class="Heiflow.Visualization.Studio.Controls.AnimationPlayer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="300" Height="400">
+    <Grid Margin="0">
+        <Border BorderThickness="1,1,1,1" Margin="0,5,0,0" Background="{DynamicResource CommonBrush}">
+            <StackPanel Orientation="Vertical">
+                <Expander Header="Player" IsExpanded="True" Margin="3" ExpandDirection="Down" Foreground="White" >
+                    <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="4,10,4,10">
+                        <TextBlock x:Name="tbAniVarName" Text="Animated Variable: "  Style="{DynamicResource CaptionText}" ></TextBlock>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="4,10,4,10">
+                        <TextBlock Text="{DynamicResource AniSpeedTxt}"  Style="{DynamicResource CaptionText}" Width="100"></TextBlock>
+                        <ComboBox IsSynchronizedWithCurrentItem="False" x:Name="cobAnimateVelocity"  VerticalAlignment="Center"  
+                              Width="150" HorizontalAlignment="Left" Margin="5,0,0,0"             
+                        SelectionChanged="cobAnimateVelocity_SelectionChanged" SelectedIndex="1">
+                            <ComboBoxItem IsSelected="True" Content="{DynamicResource FastTxt}"   Tag="50"></ComboBoxItem>
+                            <ComboBoxItem IsSelected="False"  Content="{DynamicResource NormalTxt}" Tag="100" ></ComboBoxItem>
+                            <ComboBoxItem IsSelected="False" Content="{DynamicResource SlowTxt}" Tag="200"></ComboBoxItem>
+                            <ComboBoxItem IsSelected="False" Content="{DynamicResource VerySlowTxt}" Tag="300"></ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="4,10,4,10">
+                        <TextBlock Text="{DynamicResource AniDatesTxt}"  Style="{DynamicResource CaptionText}" Width="100"></TextBlock>
+                        <ComboBox IsSynchronizedWithCurrentItem="False" x:Name="cmbDates"  VerticalAlignment="Center"  
+                              Width="150" HorizontalAlignment="Left" Margin="5,0,0,0"
+                        SelectionChanged="cmbDates_SelectionChanged">
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Margin="4,10,4,10" Background="{StaticResource PanelGradientBrush}">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="2">
+                            <Button x:Name="RewindButton"  Style="{StaticResource darkButtonStyle}" Margin="5" Click="RewindButton_Click">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Rectangle Fill="White" Opacity=".8" Width="3" Height="10" />
+                                        <Path Data="M10,0 L10,10 0,5 10,0" Fill="White" Opacity=".8" />
+                                        <Path Data="M10,0 L10,10 0,5 10,0" Fill="White" Opacity=".8" />
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                            <Button x:Name="PlayButton"  Margin="5"  Style="{StaticResource darkButtonStyle}">
+                                <Button.Content>
+                                    <Path Data="M0,0 L10,5 0,10 0,0"  Fill="White" Opacity=".8" />
+                                </Button.Content>
+                            </Button>
+                            <Button x:Name="PauseButton"  Margin="5"  IsEnabled="False" Style="{StaticResource darkButtonStyle}">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Rectangle Fill="White" Opacity=".8" Width="3" Height="10" Margin="0,0,3,0" />
+                                        <Rectangle Fill="White" Opacity=".8" Width="3" Height="10" />
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                            <Button x:Name="StopButton" IsEnabled="False" Margin="5" Style="{StaticResource darkButtonStyle}">
+                                <Button.Content>
+                                    <Rectangle Fill="White" Opacity=".8" Width="10" Height="10" />
+                                </Button.Content>
+                            </Button>
+                            <Button x:Name="ForwardButton"  Style="{StaticResource darkButtonStyle}" Margin="5" Click="ForwardButton_Click">
+                                <Button.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Path Data="M0,0 L10,5 0,10 0,0" Fill="White" Opacity=".8" />
+                                        <Path Data="M0,0 L10,5 0,10 0,0" Fill="White" Opacity=".8" />
+                                        <Rectangle Fill="White" Opacity=".8" Width="3" Height="10" />
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                    <Slider x:Name="sliderPlayPrg" Margin="4,10,4,10"  Height="20" SmallChange="1.0" Interval="1" TickFrequency="1" Minimum="0"
+                     IsSnapToTickEnabled="True" Orientation="Horizontal"   Style="{DynamicResource Horizontal_Slider}"
+                ValueChanged="sliderPlayPrg_ValueChanged"></Slider>
+                    <Grid Margin="4">
+                        <TextBlock Text="0:00" x:Name="CurrentTime"
+									   HorizontalAlignment="Left" Foreground="White" />
+                        <TextBlock Text="" x:Name="Status"
+									   HorizontalAlignment="Center" Foreground="White" />
+                        <TextBlock Text="" x:Name="TotalTime"
+									   HorizontalAlignment="Right" Foreground="White" />
+
+                    </Grid>
+                    </StackPanel>
+                </Expander>
+                <Expander Header="Cache" IsExpanded="True" Margin="3" ExpandDirection="Down" Foreground="White" >
+                    <StackPanel Orientation="Vertical" Margin="0,5,0,0">
+                        <CheckBox Content="Use Cache" Foreground="White" Margin="4" x:Name="chkUseCache" Checked="chkUseCache_Checked"  Unchecked="chkUseCache_Checked"></CheckBox>
+                        <StackPanel Orientation="Horizontal">
+                            <Button  Width="120" Height="30" HorizontalAlignment="Left" Margin="4" Content="Create Cache" x:Name="butCacheColor" Click="ButCacheColor_Click"></Button>
+                            <Button  Width="120" Height="30" HorizontalAlignment="Left" Margin="4" Content="Clear Cache" x:Name="btnClearCacheColor" Click="BtnClearCacheColor"></Button>
+                        </StackPanel>
+                        <ProgressBar Height="20" Margin="0,5,0,0" x:Name="cacheProgress" Minimum="0" Maximum="100"></ProgressBar>
+                    </StackPanel>
+                </Expander>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<HeiflowProject Name="miho">
+	<Modules>
+	  <ModIrrigation>
+	  	<Pumping Enable="false" File=""></Pumping>
+	  	<Diversion Enable="false" File="" Allocation="custom">
+	  		<DynamicDiv Enable="false" File="" SleepFlagFile=""></DynamicDiv>
+	  		<AdjustDiv Enable="false" File=""></AdjustDiv>
+	  	</Diversion>
+	  	<IrrigationReport Enable="false" File=""></IrrigationReport> 	
+	  </ModIrrigation>
+	  <ModGridClimateHru  Enable="false" File="" Format="txt">
+	  </ModGridClimateHru>
+	  <ModPenmanMonteith Enable="true" File=".\input\prms\Heiflow_Project_pet.txt" Units= "inch" Scale="1.0">
+	  </ModPenmanMonteith>
+	  <ModSWMM Enable="false" File="">
+	  </ModSWMM>
+  </Modules>
+  <Extensions>
+	  <SFREx Enable="false" File=""></SFREx>
+	  <SFRReport Enable="false" File=""></SFRReport> 
+	  <SFROutEX Enable="false"></SFROutEX>
+	  <BudgetsSumEx Enable="true" File=".\output\miho_Budgets.csv">
+	  </BudgetsSumEx>
+	  <LakeEx Enable="false" LakeNum="0">
+	  	<BottomElevation></BottomElevation>
+	  </LakeEx>
+	  <MFOutputEx Enable="false" File=".\HRB\input\mf_out.oc"></MFOutputEx>
+	  <SolverEx Enable="true" Max_TS_ITER="10"></SolverEx>
+  </Extensions>
+  <Scales>
+  	<HCLOSER>1.0</HCLOSER>
+  	<AreaConversionFactor>4047</AreaConversionFactor>
+  </Scales>
+</HeiflowProject>

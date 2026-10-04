@@ -1,0 +1,8 @@
+G:\E\PKU\Program\VHF\Heiflow.Visualization.Core\obj\x86\Debug\Heiflow.Visualization.Core.csprojResolveAssemblyReference.cache
+G:\E\PKU\Program\VHF\Heiflow.Visualization.Core\obj\x86\Debug\Heiflow.Visualization.Core.csproj.GenerateResource.Cache
+G:\E\PKU\Program\VHF\Heiflow.Visualization.Core\obj\x86\Debug\Heiflow.Visualization.Properties.Resources.resources
+G:\E\PKU\Program\VHF\bin\Visualization\Heiflow.Visualization.Core.dll.config
+G:\E\PKU\Program\VHF\bin\Visualization\Heiflow.Visualization.Core.dll
+G:\E\PKU\Program\VHF\bin\Visualization\Heiflow.Visualization.Core.pdb
+G:\E\PKU\Program\VHF\Heiflow.Visualization.Core\obj\x86\Debug\Heiflow.Visualization.Core.dll
+G:\E\PKU\Program\VHF\Heiflow.Visualization.Core\obj\x86\Debug\Heiflow.Visualization.Core.pdb

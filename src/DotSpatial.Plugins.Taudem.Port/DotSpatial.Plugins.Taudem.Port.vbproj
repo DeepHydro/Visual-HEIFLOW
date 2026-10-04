@@ -219,7 +219,6 @@
     <ProjectReference Include="..\Heiflow.Applications\Heiflow.Applications.csproj">
       <Project>{feafec49-6f84-4852-9a57-f16df359b356}</Project>
       <Name>Heiflow.Applications</Name>
-      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\Heiflow.Models\Heiflow.Models.csproj">
       <Project>{28e79461-3161-4130-81b0-2c36cd3a3315}</Project>

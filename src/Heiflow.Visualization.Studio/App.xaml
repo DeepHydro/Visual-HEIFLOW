@@ -1,0 +1,20 @@
+﻿<Application x:Class="Heiflow.Visualization.Studio.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Heiflow.Controls.WPF.Styles;component/MetroWindowResources.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Tooltip.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Buttons.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Heiflow.Controls.WPF.Styles;component/Resources.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Heiflow.Controls.WPF.Styles;component/Styles.xaml"/>
+                <ResourceDictionary Source="Resources\Langs\en-US.xaml"/>
+                <ResourceDictionary Source="Resources\Skins\Black.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="Resources\ControlStyle.xaml"></ResourceDictionary>
+                 <ResourceDictionary Source="/WPG;component/Themes/ExpressionBlend.xaml" />  
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

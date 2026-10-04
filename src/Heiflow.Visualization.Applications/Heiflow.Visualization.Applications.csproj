@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BC6702E0-5487-46A7-878D-A8141A4BD0E1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Heiflow.Visualization.Applications</RootNamespace>
+    <AssemblyName>Heiflow.Visualization.Applications</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Visualization\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DotSpatial.Controls, Version=1.7.0.0, Culture=neutral, PublicKeyToken=4d9e49339a7d240c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Debug\DotSpatial.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="DotSpatial.Data, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c29dbf30e059ca9d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Debug\DotSpatial.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="DotSpatial.Data.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=53ab5a198378d4c1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Debug\DotSpatial.Data.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="DotSpatial.GeoAPI, Version=1.7.4.0, Culture=neutral, PublicKeyToken=a1a0da7def465678, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Debug\DotSpatial.GeoAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="DotSpatial.Modeling.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=712bef29a31a9354, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Debug\DotSpatial.Modeling.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="DotSpatial.Projections, Version=2.0.0.0, Culture=neutral, PublicKeyToken=272632bddd08a38b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Debug\DotSpatial.Projections.dll</HintPath>
+    </Reference>
+    <Reference Include="DotSpatial.Symbology, Version=2.0.0.0, Culture=neutral, PublicKeyToken=6178c08da7998387, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Debug\DotSpatial.Symbology.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.DirectX.Direct3D, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Windows\Microsoft.NET\DirectX for Managed Code\1.0.2902.0\Microsoft.DirectX.Direct3D.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WpfApplicationFramework, Version=3.2.0.450, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Visualization\WpfApplicationFramework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Controllers\LayerController.cs" />
+    <Compile Include="Controllers\VGSModuleController.cs" />
+    <Compile Include="Controllers\VGSProjectController.cs" />
+    <Compile Include="Controllers\VirtualGlobeController.cs" />
+    <Compile Include="Project\GHMLayerImporter.cs" />
+    <Compile Include="Project\Heiflow3DProject.cs" />
+    <Compile Include="Project\ModelLayerImporter.cs" />
+    <Compile Include="Project\OpenH3DProjectFileProvider.cs" />
+    <Compile Include="Project\PRMSLayerImporter.cs" />
+    <Compile Include="Project\SaveH3DProjectFileProvider.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Project\HeiflowModelLayerImporter.cs" />
+    <Compile Include="Project\IModelLayerImporter.cs" />
+    <Compile Include="Services\PackageUIService.cs" />
+    <Compile Include="Services\VGSActiveDataService.cs" />
+    <Compile Include="Services\FigureService.cs" />
+    <Compile Include="Services\IVGSShellService.cs" />
+    <Compile Include="Project\MFLayerImporter.cs" />
+    <Compile Include="Services\LayerService.cs" />
+    <Compile Include="Services\VGSPackageService.cs" />
+    <Compile Include="Services\VGSProjectService.cs" />
+    <Compile Include="Services\VGSShellService.cs" />
+    <Compile Include="ViewModels\Add3DModelViewModel.cs" />
+    <Compile Include="ViewModels\RunModelViewModel.cs" />
+    <Compile Include="ViewModels\AnimationPlayerViewModel.cs" />
+    <Compile Include="ViewModels\LayerManagerViewModel.cs" />
+    <Compile Include="ViewModels\SeachSitesViewModel.cs" />
+    <Compile Include="ViewModels\SFRViewModel.cs" />
+    <Compile Include="ViewModels\SiteViewModel.cs" />
+    <Compile Include="ViewModels\SymbologyViewModel.cs" />
+    <Compile Include="ViewModels\VGSShellViewModel.cs" />
+    <Compile Include="ViewModels\VirtualGlobeViewModel.cs" />
+    <Compile Include="Views\IAboutView.cs" />
+    <Compile Include="Views\IAdd3DModelView.cs" />
+    <Compile Include="Views\IChildWPFWindow.cs" />
+    <Compile Include="Views\ILayerManagerView.cs" />
+    <Compile Include="Views\IProjectExplorerView.cs" />
+    <Compile Include="Views\ISiteView.cs" />
+    <Compile Include="Views\ISeachSitesView.cs" />
+    <Compile Include="Views\ISFRWindow.cs" />
+    <Compile Include="Views\ISymbologyView.cs" />
+    <Compile Include="Views\IVGSShellView.cs" />
+    <Compile Include="Views\IVirtualGlobeView.cs" />
+    <Compile Include="VGSManager.cs" />
+    <Compile Include="Views\IRunModelView .cs" />
+    <Compile Include="Views\IWPFAnimationView.cs" />
+    <Compile Include="Views\IWPFPropertyView.cs" />
+    <Compile Include="Views\IWPFWinChartView.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Heiflow.Applications\Heiflow.Applications.csproj">
+      <Project>{feafec49-6f84-4852-9a57-f16df359b356}</Project>
+      <Name>Heiflow.Applications</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Controls\Heiflow.Controls.WinForm.csproj">
+      <Project>{04b4c21d-e554-4369-8c00-bfbbeca0fb2c}</Project>
+      <Name>Heiflow.Controls.WinForm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Core\Heiflow.Core.csproj">
+      <Project>{e75a11b8-00a2-45de-a5e4-4b8180b5903c}</Project>
+      <Name>Heiflow.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Models\Heiflow.Models.csproj">
+      <Project>{28e79461-3161-4130-81b0-2c36cd3a3315}</Project>
+      <Name>Heiflow.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Presentation\Heiflow.Presentation.csproj">
+      <Project>{55d24eb1-96bb-4902-8240-e9019032db93}</Project>
+      <Name>Heiflow.Presentation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Tools\Heiflow.Tools.csproj">
+      <Project>{a559df9c-cea8-4cad-8d9b-7549370e5159}</Project>
+      <Name>Heiflow.Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Visualization.Core\Heiflow.Visualization.csproj">
+      <Project>{fd13ab2f-63ff-4a41-b133-b308553c5180}</Project>
+      <Name>Heiflow.Visualization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Visualization.Display\Heiflow.Visualization.Display.csproj">
+      <Project>{5d82b585-bbb4-4bd8-b260-f78ee06a4c9c}</Project>
+      <Name>Heiflow.Visualization.Display</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

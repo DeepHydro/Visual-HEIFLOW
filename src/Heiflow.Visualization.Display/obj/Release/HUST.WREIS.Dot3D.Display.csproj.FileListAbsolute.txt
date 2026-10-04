@@ -1,0 +1,11 @@
+E:\PKU\Work Program\Dot3D\HUST.WREIS.Dot3D.Display\obj\Release\HUST.WREIS.Dot3D.Display.csprojResolveAssemblyReference.cache
+E:\PKU\Work Program\Dot3D\HUST.WREIS.Dot3D.Display\obj\Release\HUST.WREIS.Dot3D.VisualControl.Colorbar.resources
+E:\PKU\Work Program\Dot3D\HUST.WREIS.Dot3D.Display\obj\Release\HUST.WREIS.Dot3D.Net.Monitor.HttpHeaderForm.resources
+E:\PKU\Work Program\Dot3D\HUST.WREIS.Dot3D.Display\obj\Release\HUST.WREIS.Dot3D.Menu.LayerManagerItemInfo.resources
+E:\PKU\Work Program\Dot3D\HUST.WREIS.Dot3D.Display\obj\Release\HUST.WREIS.Dot3D.Net.Monitor.ProgressMonitor.resources
+E:\PKU\Work Program\Dot3D\HUST.WREIS.Dot3D.Display\obj\Release\HUST.WREIS.Dot3D.VisualControl.PropertyBrowser.resources
+E:\PKU\Work Program\Dot3D\HUST.WREIS.Dot3D.Display\obj\Release\Utility.ErrorDisplay.resources
+E:\PKU\Work Program\Dot3D\HUST.WREIS.Dot3D.Display\obj\Release\HUST.WREIS.Dot3D.Display.Plugins.FormChartData.resources
+E:\PKU\Work Program\Dot3D\HUST.WREIS.Dot3D.Display\obj\Release\HUST.WREIS.Dot3D.Display.Properties.Resources.resources
+E:\PKU\Work Program\Dot3D\HUST.WREIS.Dot3D.Display\obj\Release\HUST.WREIS.Dot3D.SceneWindow.resources
+E:\PKU\Work Program\Dot3D\HUST.WREIS.Dot3D.Display\obj\Release\HUST.WREIS.Dot3D.Display.csproj.GenerateResource.Cache

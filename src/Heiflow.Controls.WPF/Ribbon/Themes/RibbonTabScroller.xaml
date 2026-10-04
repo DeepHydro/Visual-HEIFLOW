@@ -1,0 +1,84 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:odc="clr-namespace:Odyssey.Controls"
+    xmlns:mwt="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"                    
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Odyssey;Component/Themes/InternalRibbonButton.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Odyssey;Component/Themes/DefaultRibbonButtonBrushes.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Odyssey;Component/Themes/HighlightedBackgrounds.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Odyssey;Component/Themes/OfficeBlueSkin.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--Specifies the chrome for the ribbon tab: -->
+    <Style TargetType="{x:Type odc:RibbonChrome}" x:Key="{ComponentResourceKey odc:Skins, RibbonTabScrollerChromeStyle}">
+        <Setter Property="RenderFlat" Value="False"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey odc:Skins, RibbonTabBrush}}"/>
+        <Setter Property="InnerBorderThickness" Value="0"/>
+    </Style>
+
+
+    <ControlTemplate x:Key="RibbonTabScrollerControlTemplate" TargetType="{x:Type odc:RibbonTabScroller}">
+        <odc:RibbonChrome x:Name="chrome" Focusable="False"
+                     Style="{DynamicResource {ComponentResourceKey odc:Skins, RibbonTabScrollerChromeStyle}}"
+                    HorizontalContentAlignment="Stretch">
+            <Grid Focusable="False">
+                <Grid x:Name="ColorBackground" Margin="-1">
+                    <Grid.Background>
+                        <SolidColorBrush Color="{Binding Color, RelativeSource={RelativeSource TemplatedParent}}"/>
+                    </Grid.Background>
+                    <Grid.OpacityMask>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Color="#80FFFFFF" Offset="0"/>
+                            <GradientStop Color="#15FFFFFF" Offset="0.05"/>
+                            <GradientStop Color="#00FFFFFF" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Grid.OpacityMask>
+                </Grid>
+                <DockPanel Focusable="False">
+                    <odc:RibbonButton x:Name="LeftButton" ClickMode="Press" SnapsToDevicePixels="True" Focusable="False"
+                                Template="{StaticResource InternalRibbonButton}" DockPanel.Dock="Left" 
+                                Command="{x:Static odc:RibbonTabScroller.ScrollLeftCommand}"
+                                Width="12" CornerRadius="5,0,0,5" Margin="-2,-2,0,-2" Visibility="Collapsed">
+                        <Image Margin="2,0,0,0" Source="{DynamicResource {ComponentResourceKey odc:Skins, LeftArrowImage}}" 
+                               Focusable="False"
+                               Stretch="None"  VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </odc:RibbonButton>
+                    <odc:RibbonButton x:Name="RightButton" ClickMode="Press" SnapsToDevicePixels="True" Focusable="False"
+                                Template="{StaticResource InternalRibbonButton}" DockPanel.Dock="Right" 
+                                Command="{x:Static odc:RibbonTabScroller.ScrollRightCommand}"
+                                Width="12" CornerRadius="0,5,5,0" Margin="0,-2,-2,-2" Visibility="Collapsed">
+                        <Image Margin="2,0,0,0" Source="{DynamicResource {ComponentResourceKey odc:Skins, RightArrowImage}}" 
+                               Focusable="False"
+                               Stretch="None"  VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </odc:RibbonButton>
+                    <ScrollViewer x:Name="PART_ScrollViewer"  SnapsToDevicePixels="True" Focusable="False"
+                          Content="{TemplateBinding Content}"
+                          VerticalScrollBarVisibility="Disabled"
+                          HorizontalScrollBarVisibility="Hidden"
+                          CanContentScroll="False"/>
+                </DockPanel>
+            </Grid>
+        </odc:RibbonChrome>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsColorized" Value="True">
+                <Setter Property="Background" Value="White" TargetName="chrome"/>
+            </Trigger>
+            <Trigger Property="IsColorized" Value="False">
+                <Setter Property="Visibility" Value="Collapsed" TargetName="ColorBackground"/>
+            </Trigger>
+            <Trigger Property="Alignment" Value="Left">
+                <Setter Property="Visibility" Value="Visible" TargetName="RightButton"/>
+            </Trigger>
+            <Trigger Property="Alignment" Value="Right">
+                <Setter Property="Visibility" Value="Visible" TargetName="LeftButton"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type odc:RibbonTabScroller}">
+        <Setter Property="Template" Value="{StaticResource RibbonTabScrollerControlTemplate}"/>
+        <Setter Property="Focusable" Value="False"/>
+    </Style>
+
+</ResourceDictionary>

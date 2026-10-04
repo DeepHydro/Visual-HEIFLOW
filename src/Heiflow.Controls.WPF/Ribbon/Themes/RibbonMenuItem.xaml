@@ -1,0 +1,108 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:odc="clr-namespace:Odyssey.Controls"
+    xmlns:mwt="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"                    
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Odyssey;Component/Themes/InternalRibbonButton.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Odyssey;Component/Themes/HighlightedBackgrounds.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Odyssey;Component/Themes/OfficeBlueSkin.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <ControlTemplate TargetType="{x:Type odc:RibbonMenuItem}" x:Key="RibbonMenuItemTemplate">
+        <Grid>
+            <odc:RibbonChrome CornerRadius="3" x:Name="bgrnd"
+            RenderMouseOver="{TemplateBinding IsHighlighted}" 
+            HorizontalContentAlignment="Stretch"
+            VerticalContentAlignment="Stretch"
+            MouseOverBackground="{StaticResource  {ComponentResourceKey odc:Skins, HighlightedDropDownBg}}">
+                <DockPanel HorizontalAlignment="Stretch" Margin="-2">
+                    <ToggleButton x:Name="PART_DropDown" Width="16" DockPanel.Dock="Right" ClickMode="Press" 
+                                  IsChecked="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent},Mode=TwoWay}">
+                        <ToggleButton.Template>
+                            <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                <odc:RibbonChrome CornerRadius="0,3,3,0"
+                                          RenderPressed="{TemplateBinding IsChecked}"
+                                          RenderMouseOver="{TemplateBinding IsMouseOver}" HorizontalContentAlignment="Center">
+                                    <Image Source="{DynamicResource {ComponentResourceKey odc:Skins, RightArrowImage}}" Margin="1,1,0,0" Stretch="None" SnapsToDevicePixels="True"/>
+                                </odc:RibbonChrome>
+                            </ControlTemplate>
+                        </ToggleButton.Template>
+                    </ToggleButton>
+                    <odc:RibbonChrome x:Name="item" CornerRadius="3,0,0,3"
+                                          RenderMouseOver="{Binding IsMouseOver,ElementName=item}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="24"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Name="GlyphPanel" Grid.Column="0"
+                                    BorderThickness="1,1,1,1" CornerRadius="3,3,3,3" 
+                                    BorderBrush="{DynamicResource {ComponentResourceKey odc:Skins, HighlightedRibbonBorderBrush}}" 
+                                    Background="{DynamicResource {ComponentResourceKey odc:Skins, HighlightedPressedBtnBrush}}"  
+                                    Width="22" Height="22" Margin="1,1,1,1" Visibility="Hidden">
+                                <Path Data="M0,5.1L1.7,5.2 3.4,7.1 8,0.4 9.2,0 3.3,10.8z" Fill="#80000000" Visibility="Hidden"
+                                      Name="Glyph" Width="9" Height="11" FlowDirection="LeftToRight" />
+                            </Border>
+
+                            <Image  Name="Image" 
+                                Source="{TemplateBinding Image}"  Margin="1" Height="16" Grid.Column="0"
+                                VerticalAlignment="Center" Width="16"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+
+                            <ContentPresenter x:Name="content" Content="{TemplateBinding Header}" 
+                                              Grid.Column="1"
+                                              Margin="4,2,4,2" VerticalAlignment="Center"/>
+                        </Grid>
+                    </odc:RibbonChrome>
+                </DockPanel>
+            </odc:RibbonChrome>
+            <Popup x:Name="PART_Popup" PopupAnimation="Fade" Placement="Right" 
+                   AllowsTransparency="True"
+                   StaysOpen="False" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent},Mode=TwoWay}">
+                <mwt:SystemDropShadowChrome Margin="0,0,5,5"  Color="#81000000" Name="Shdw" CornerRadius="2" >
+                    <Border Background="{DynamicResource {ComponentResourceKey odc:Skins, PopupContainerBgBrush}}" BorderBrush="{DynamicResource {ComponentResourceKey odc:Skins, {ComponentResourceKey odc:Skins, RibbonBorderBrush}}}" Padding="1" CornerRadius="2" BorderThickness="1" >
+                        <ScrollViewer CanContentScroll="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                            <ItemsPresenter ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True"/>
+                        </ScrollViewer>
+                    </Border>
+                </mwt:SystemDropShadowChrome>
+            </Popup>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsChecked" Value="True" SourceName="PART_DropDown">
+                <Setter Property="RenderMouseOver" Value="True" TargetName="bgrnd"/>
+            </Trigger>
+            <Trigger Property="HasItems" Value="False">
+                <Setter Property="Visibility" TargetName="PART_DropDown" Value="Collapsed"/>
+                <Setter Property="Margin" Value="4,2,48,2" TargetName="content"/>
+                <Setter Property="CornerRadius"  Value="3" TargetName="item"/>
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True" >
+                <Setter Property="Visibility" Value="Visible" TargetName="GlyphPanel"/>
+            </Trigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsChecked" Value="True"/>
+                    <Condition Property="Image" Value="{x:Null}"/>                    
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter Property="Visibility" Value="Visible" TargetName="Glyph"/>
+                </MultiTrigger.Setters>
+            </MultiTrigger>
+        </ControlTemplate.Triggers>
+        <ControlTemplate.Resources>
+            <Style TargetType="{x:Type odc:RibbonChrome}" BasedOn="{StaticResource RibbonChromeStyle}"/>
+        </ControlTemplate.Resources>
+
+    </ControlTemplate>
+
+
+    <Style TargetType="{x:Type odc:RibbonMenuItem}">
+        <Setter Property="Template" Value="{StaticResource RibbonMenuItemTemplate}"/>
+        <Setter Property="MinHeight" Value="24"/>
+        <Setter Property="MinWidth" Value="24"/>
+        <Setter Property="Width" Value="Auto"/>
+    </Style>
+
+
+</ResourceDictionary>

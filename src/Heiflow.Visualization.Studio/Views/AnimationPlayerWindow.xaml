@@ -1,0 +1,10 @@
+﻿<Controls:MetroWindow x:Class="Heiflow.Visualization.Studio.Views.AnimationPlayerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:localct="clr-namespace:Heiflow.Visualization.Studio.Controls"
+        Title="Animation Player" Height="430" Width="300" ShowInTaskbar="False">
+    <Grid Margin="0">
+        <localct:AnimationPlayer x:Name="animation_player" Margin="0"></localct:AnimationPlayer>
+    </Grid>
+</Controls:MetroWindow>

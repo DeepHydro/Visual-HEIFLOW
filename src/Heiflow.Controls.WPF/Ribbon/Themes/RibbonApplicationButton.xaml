@@ -1,0 +1,81 @@
+﻿<!--Contains all brushes and the ControlTemplate to render an eliptic and Office like application menu button with reflection effects.-->
+    <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:odc="clr-namespace:Odyssey.Controls"
+    xmlns:mwt="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"                    
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <RadialGradientBrush x:Key="SilverButton" GradientOrigin="0.5,0.95" RadiusX="0.8" >
+        <GradientStop Color="White" Offset="0"/>
+        <GradientStop Color="#FF8FA8B5" Offset="1" />
+    </RadialGradientBrush>
+
+    <RadialGradientBrush x:Key="OrangeButton" GradientOrigin="0.5,0.95" RadiusX="0.9" >
+        <GradientStop Color="#FFF2CF94" Offset="0"/>
+        <GradientStop Color="#FFE97304" Offset="0.5"/>
+        <GradientStop Color="#FFA66107" Offset="1" />
+    </RadialGradientBrush>
+
+    <RadialGradientBrush x:Key="OrangeLightButton" GradientOrigin="0.5,0.95" RadiusX="0.9" >
+        <GradientStop Color="#FFFDFABE" Offset="0"/>
+        <GradientStop  Color="Orange" Offset="0.5"/>
+        <GradientStop  Color="OrangeRed" Offset="1" />
+    </RadialGradientBrush>
+
+    <ControlTemplate x:Key="{ComponentResourceKey odc:Skins, ApplicationMenuButtonTemplate}" TargetType="{x:Type odc:RibbonToggleButton}">
+        <Grid Width="37" Height="37" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Ellipse Fill="#A0000000"  Margin="1,1,0,0" Width="36" Height="36"  HorizontalAlignment="Left">
+                <Ellipse.Effect>
+                    <BlurEffect Radius="5"/>
+                </Ellipse.Effect>
+            </Ellipse>
+            <Ellipse x:Name="elipse"  StrokeThickness="0" Stroke="#FFE0E0FF" Width="36" Height="36" HorizontalAlignment="Left" 
+                                 Fill="{StaticResource SilverButton}"/>
+            <Ellipse x:Name="mouseOver"  StrokeThickness="0" Stroke="#FFE0E0FF" Width="36" Height="36" HorizontalAlignment="Left" 
+                                 Fill="{StaticResource OrangeLightButton}" Opacity="0"/>
+            <Path Stroke="{x:Null}" StrokeThickness="0" Stretch="None" Data="M0,18 A 18,18 180 0,1 36,18 L 36,18 A 12,27 90 0,0 0,18">
+                <Path.Fill>
+                    <RadialGradientBrush GradientOrigin="0.5,0.10" RadiusX="1">
+                        <GradientStop Color="#F0FFFFFF" Offset="0"/>
+                        <GradientStop Color="#10FFFFFF" Offset="1" />
+                    </RadialGradientBrush>
+                </Path.Fill>
+            </Path>
+            <Ellipse StrokeThickness="1.5" Stroke="#90FFFFFF" Width="36" Height="36" HorizontalAlignment="Left">
+                <Ellipse.Effect>
+                    <BlurEffect Radius="3" RenderingBias="Performance"/>
+                </Ellipse.Effect>
+            </Ellipse>
+            <ContentPresenter Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <!--<Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Fill" Value="{StaticResource OrangeLightButton}" TargetName="elipse"/>
+                        </Trigger>-->
+            <Trigger Property="IsMouseOver" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="mouseOver" Duration="0:0:0.10"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation To="0" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="mouseOver" Duration="0:0:0.25"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Fill" Value="{StaticResource OrangeButton}" TargetName="elipse"/>
+                <Setter Property="Visibility" Value="Hidden" TargetName="mouseOver"/>
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Fill" Value="{StaticResource OrangeButton}" TargetName="elipse"/>
+                <Setter Property="Visibility" Value="Hidden" TargetName="mouseOver"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+</ResourceDictionary>

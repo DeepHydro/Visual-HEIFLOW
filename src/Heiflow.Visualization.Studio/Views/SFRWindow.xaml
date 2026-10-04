@@ -1,0 +1,14 @@
+﻿<Controls:MetroWindow  x:Class="Heiflow.Visualization.Studio.Controls.SFRWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"     
+     xmlns:input="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+         xmlns:wpg="clr-namespace:WPG;assembly=WPG" ShowInTaskbar="False"
+         xmlns:winform="clr-namespace:Heiflow.Controls.WinForm.SFRExplorer;assembly=Heiflow.Controls.WinForm"      
+        Title="Stream Network" Height="500" Width="805" ShowMinButton="False" ShowMaxRestoreButton="False" >
+    <Grid Background="{DynamicResource CommonBrush}">
+        <WindowsFormsHost>
+            <winform:SFRExplorer x:Name="sfrExplorer" ForeColor="Black"></winform:SFRExplorer>
+        </WindowsFormsHost>
+    </Grid>
+</Controls:MetroWindow>

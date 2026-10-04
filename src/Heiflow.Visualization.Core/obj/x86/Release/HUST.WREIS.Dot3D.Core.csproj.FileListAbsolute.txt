@@ -1,0 +1,3 @@
+E:\PKU\Work Program\Dot3D\HUST.WREIS.Dot3D.Core\obj\x86\Release\HUST.WREIS.Dot3D.Core.csprojResolveAssemblyReference.cache
+E:\PKU\Work Program\Dot3D\HUST.WREIS.Dot3D.Core\obj\x86\Release\HUST.WREIS.Dot3D.Core.Properties.Resources.resources
+E:\PKU\Work Program\Dot3D\HUST.WREIS.Dot3D.Core\obj\x86\Release\HUST.WREIS.Dot3D.Core.csproj.GenerateResource.Cache

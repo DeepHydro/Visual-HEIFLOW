@@ -1,0 +1,175 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:odc="clr-namespace:Odyssey.Controls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Odyssey;Component/Themes/DefaultWindowButtonStyles.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+
+    <SolidColorBrush x:Key="{ComponentResourceKey odc:Skins, PopupContainerBgBrush}" Color="White"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey odc:Skins, WindowButtonPenColor}" Color="#FF626E7C"/>
+    
+    <SolidColorBrush x:Key="{ComponentResourceKey odc:Skins, ActiveWindowBrush}" Color="#FFD0D4DD"/>
+    <SolidColorBrush x:Key="{ComponentResourceKey odc:Skins, InactiveWindowBrush}" Color="#FFD0D4DD"/>
+    <SolidColorBrush x:Key="{ComponentResourceKey odc:Skins, WindowForegroundBrush}" Color="#FF4C535C"/>
+
+
+    <LinearGradientBrush x:Key="{ComponentResourceKey odc:Skins, RibbonActiveTitleBrush}" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#FFE1E2E3" Offset="0"/>
+        <GradientStop Color="#FFBAC1CA" Offset="0.25"/>
+        <GradientStop Color="#FFBAC1CA" Offset="0.25"/>
+        <GradientStop Color="#FFE9EEF7" Offset="1"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="{ComponentResourceKey odc:Skins, RibbonInactiveTitleBrush}" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#FFEEEFF0" Offset="0"/>
+        <GradientStop Color="#FFE5E6E8" Offset="0.25"/>
+        <GradientStop Color="#FFDDE0E5" Offset="0.25"/>
+        <GradientStop Color="#FFF4F7FB" Offset="1"/>
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey odc:Skins, RibbonActiveBorderBrush}" Color="#FF949494"/>
+    <SolidColorBrush x:Key="{ComponentResourceKey odc:Skins, RibbonInactiveBorderBrush}" Color="#FFCCCCCC"/>
+
+
+    <LinearGradientBrush x:Key="{ComponentResourceKey odc:Skins, RibbonButtonGroupBgBrush}" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#FFF1F3F3" Offset="0"/>
+        <GradientStop Color="#FFF0F2F2" Offset="0.5"/>
+        <GradientStop Color="#FFE7EAEE" Offset="0.5"/>
+        <GradientStop Color="#FFF6F7F8" Offset="1"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="{ComponentResourceKey odc:Skins, RibbonTabBrush}" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#FFF3F5F9" Offset="0"/>
+        <GradientStop Color="#FFE1E6EE" Offset="0.2"/>
+        <GradientStop Color="#FFD5DBE7" Offset="0.2"/>
+        <GradientStop Color="#FFEAEBEB" Offset="1"/>
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey odc:Skins, DefaultBorderBrush}" Color="#A08FA8B5"/>
+
+    <LinearGradientBrush x:Key="{ComponentResourceKey odc:Skins, RibbonTabSeparatorBrush}" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#30606060" Offset="0"/>
+        <GradientStop Color="#FF606060" Offset="1"/>
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey odc:Skins, RibbonBorderBrush}" Color="#FFBDBFC1"/>
+    <SolidColorBrush x:Key="{ComponentResourceKey odc:Skins, RibbonForegroundBrush}" Color="#FF4C535C"/>
+    <SolidColorBrush x:Key="{ComponentResourceKey odc:Skins, LightBorderBrush}" Color="#E0FFFFFF"/>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey odc:Skins, TabItemSelectedForegroundBrush}" Color="#FF4C535C"/>
+    <SolidColorBrush x:Key="{ComponentResourceKey odc:Skins, TabItemForegroundBrush}" Color="#FF4C535C"/>
+    <SolidColorBrush x:Key="{ComponentResourceKey odc:Skins, GroupTitleForegroundBrush}" Color="#FF4C535C"/>
+
+    <LinearGradientBrush x:Key="{ComponentResourceKey odc:Skins, RibbonTabItemBrush}" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#FFF2F7FA" Offset="0"/>
+        <GradientStop Color="#FFE6EAF1" Offset="1"/>
+    </LinearGradientBrush>
+
+
+    <LinearGradientBrush x:Key="{ComponentResourceKey odc:Skins, RibbonPanelBgBrush}" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="Transparent"  Offset="0"/>
+        <GradientStop Color="Transparent"  Offset="0.83"/>
+        <GradientStop Color="#FFDEE2EE" Offset="0.83"/>
+        <GradientStop Color="#FFC3C7D1" Offset="1"/>
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey odc:Skins, RibbonWindowBgBrush}" Color="#FFD0D4DD"/>
+    <SolidColorBrush x:Key="{ComponentResourceKey odc:Skins, RibbonBarControlBrush}" Color="#FFD0D4DD"/>
+
+    <LinearGradientBrush x:Key="{ComponentResourceKey odc:Skins, RibbonPanelMouseOverBg}" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#50FFFFFF"  Offset="0"/>
+        <GradientStop Color="#50FFFFFF"  Offset="0.83"/>
+        <GradientStop Color="#FFDCE1EC" Offset="0.83"/>
+        <GradientStop Color="#FFB3B9C7" Offset="1"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="{ComponentResourceKey odc:Skins, DefaultMousePressedBtnBrush}" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#FFE5E5E6" Offset="0"/>
+        <GradientStop Color="#FFBFC3CC" Offset="0.15"/>
+        <GradientStop Color="#FFB3B9C3" Offset="0.15"/>
+        <GradientStop Color="#FFDEE4E4" Offset="1"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="{ComponentResourceKey odc:Skins, SmallIconBgBrush}" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#70FFFFFF" Offset="0"/>
+        <GradientStop Color="#70FFFFFF" Offset="0.85"/>
+        <GradientStop Color="#FFD1D1D1" Offset="0.85"/>
+        <GradientStop Color="#FFD1D1D1" Offset="1"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="MouseOverWndButtonBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#FFF9FAFC" Offset="0"/>
+        <GradientStop Color="#FFF5F7FB" Offset="0.5"/>
+        <GradientStop Color="#FFEAEFF6" Offset="0.5"/>
+        <GradientStop Color="#FFE3E9F2" Offset="1"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="MousePressedWndButtonBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#FFDEE2E5" Offset="0"/>
+        <GradientStop Color="#FFBABDC2" Offset="0.5"/>
+        <GradientStop Color="#FF959AA2" Offset="0.5"/>
+        <GradientStop Color="#FFCAD6DD" Offset="1"/>
+    </LinearGradientBrush>
+
+    <Style TargetType="{x:Type odc:RibbonChrome}" x:Key="WindowButtonChromeStyle">
+        <Setter Property="InnerBorderThickness" Value="0.2,0.5,0.2,0.5"/>
+        <Setter Property="BorderBrush" Value="#FFB2BDCC"/>
+        <Setter Property="MouseOverBackground" Value="{StaticResource MouseOverWndButtonBrush}" />
+        <Setter Property="MousePressedBackground" Value="{StaticResource MousePressedWndButtonBrush}" />
+        <Style.Triggers>
+            <Trigger Property="RenderPressed" Value="True">
+                <Setter Property="BorderBrush" Value="#FF979BA1"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type odc:RibbonButton}" x:Key="{ComponentResourceKey odc:Skins, CloseButtonStyle}" 
+           BasedOn="{StaticResource DefaultCloseButtonStyle}">
+        <Style.Resources>
+            <Style TargetType="{x:Type odc:RibbonChrome}" BasedOn="{StaticResource WindowButtonChromeStyle}"/>
+        </Style.Resources>
+        <Style.Triggers>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Foreground" Value="#FF202020"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type odc:RibbonButton}" x:Key="{ComponentResourceKey odc:Skins, MinimizeButtonStyle}" 
+           BasedOn="{StaticResource DefaultMinimizeButtonStyle}">
+        <Style.Resources>
+            <Style TargetType="{x:Type odc:RibbonChrome}" BasedOn="{StaticResource WindowButtonChromeStyle}"/>
+        </Style.Resources>
+        <Style.Triggers>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Foreground" Value="#FF202020"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type odc:RibbonButton}" x:Key="{ComponentResourceKey odc:Skins, MaximizeButtonStyle}" 
+           BasedOn="{StaticResource DefaultMaximizeButtonStyle}">
+        <Style.Resources>
+            <Style TargetType="{x:Type odc:RibbonChrome}" BasedOn="{StaticResource WindowButtonChromeStyle}"/>
+        </Style.Resources>
+        <Style.Triggers>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Foreground" Value="#FF202020"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type odc:RibbonButton}" x:Key="{ComponentResourceKey odc:Skins, RestoreButtonStyle}" 
+           BasedOn="{StaticResource DefaultRestoreButtonStyle}">
+        <Style.Resources>
+            <Style TargetType="{x:Type odc:RibbonChrome}" BasedOn="{StaticResource WindowButtonChromeStyle}"/>
+        </Style.Resources>
+        <Style.Triggers>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Foreground" Value="#FF202020"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

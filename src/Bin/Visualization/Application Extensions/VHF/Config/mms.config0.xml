@@ -1,0 +1,1401 @@
+<?xml version="1.0"?>
+<MMSPackage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>PRMS</Name>
+  <Description>null</Description>
+  <Version>1.0.0</Version>
+  <DefaultParameters>
+    <Parameter>
+      <Name>nform</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>obs</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>nsnow</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>obs</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>ngwcell</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>routing</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>ndays</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>nlake</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>lake_route</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>nhrucell</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>nrain</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>obs</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>ntemp</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>obs</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>one</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>ncascade</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>cascade</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>ngw</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>gwflow</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>nsfres</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>nhru</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>ndepl</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>nsegment</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>nsol</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>ndeplval</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>ncascdgw</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>nobs</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>obs</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>nevap</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>obs</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>nssr</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>nreach</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>nmonths</Name>
+      <Description />
+      <ValueType>0</ValueType>
+      <VariableType>Dimension</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>Dimension</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>elev_units</Name>
+      <Description>elevation units</Description>
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>soil_type</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>tmax_allrain</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nmonths</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>climateflow</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>radj_wppt</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>climateflow</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>adjmix_rain</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nmonths</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>climateflow</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>carea_max</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>srunoff_smidx</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>transp_beg</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>potet_jh</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>hru_lat</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>ddsolrad</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>circle_switch</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>cascade</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>rad_trncf</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>ddsolrad</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>hru_area</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>srunoff_smidx</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>smidx_exp</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>srunoff_smidx</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>covden_win</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>intcp</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>szconverge</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>gwflow</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>pmn_mo</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nrain</DimensionNames>
+      <DimensionNames>nmonths</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>climateflow</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>hru_psta</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>climateflow</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>srain_intcp</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>climateflow</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>mxsziter</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>snowinfil_max</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>srunoff_smidx</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>melt_force</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>snowcomp</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>epan_coef</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nmonths</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>potet_pan</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>gwflow_coef</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>ngw</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>gwflow</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>den_max</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>temp_units</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>hru_plaps</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>gw_strmseg_down_id</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>ncascdgw</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>hru_percent_imperv</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>runoff_units</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>jh_coef_hru</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>snow_intcp</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>dday_intcp</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nmonths</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>jh_coef</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nmonths</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>print_objfunc</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>potet_sublim</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>pmo</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>ssr2gw_exp</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nssr</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>ssstor_init</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nssr</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>gw_pct_up</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>ncascdgw</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>soil2gw_max</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>objfunc_q</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>sat_threshold</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>gvr_cell_pct</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhrucell</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>soil_rechr_init</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>gvr_hru_pct</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhrucell</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>tsta_elev</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>ntemp</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>covden_sum</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>tmax_allsnow</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>pref_flow_den</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>gwsink_coef</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>ngw</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>wrain_intcp</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>tstorm_mo</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nmonths</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>lake_hru_id</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>gvr_hru_id</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhrucell</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>print_freq</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>cascade_tol</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>smidx_coef</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>transp_end</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>radadj_intcp</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>snarea_curve</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>ndeplval</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>gvr_cell_id</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhrucell</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>albset_snm</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>basin_tsta</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>albset_rna</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>cov_type</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>dday_slope</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nmonths</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>radadj_slope</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>psta_elev</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nrain</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>cascade_flg</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>basin_area</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>albset_sna</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>fastcoef_lin</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>hru_deplcrv</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>albset_rnm</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>hru_elev</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>emis_noppt</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>fastcoef_sq</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>id_obsrunoff</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>outlet_sta</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>moyrsum</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>gwstor_init</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>ngw</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>soil_rechr_max</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>slowcoef_sq</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>ssrmax_coef</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nssr</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>den_init</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>hru_slope</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>tmin_adj</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>melt_look</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>radj_sppt</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>print_type</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>soil_moist_init</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>imperv_stor_max</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>freeh2o_cap</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>settle_const</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>gw_down_id</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>ncascdgw</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>padj_sn</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nrain</DimensionNames>
+      <DimensionNames>nmonths</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>ssr2gw_rate</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nssr</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>ppt_rad_adj</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nmonths</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>slowcoef_lin</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>hru_aspect</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>hru_tlaps</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>cecn_coef</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nmonths</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>soil_moist_max</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>soilzone</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>transp_tmax</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>snarea_thresh</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>radmax</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>tmax_adj</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>gw_up_id</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>ncascdgw</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>precip_units</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>one</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>climate_hru</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>padj_rn</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nrain</DimensionNames>
+      <DimensionNames>nmonths</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>hru_type</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>basin</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>hru_tsta</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nhru</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>climate_hru</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>tmax_index</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>nmonths</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>climate_hru</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>hru_up_id</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>ncascade</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>cascade</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>hru_down_id</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>ncascade</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>cascade</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>hru_strmseg_down_id</Name>
+      <Description />
+      <ValueType>1</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>ncascade</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>cascade</ModuleName>
+    </Parameter>
+    <Parameter>
+      <Name>hru_pct_up</Name>
+      <Description />
+      <ValueType>2</ValueType>
+      <VariableType>Parameter</VariableType>
+      <Dimension>1</Dimension>
+      <DimensionNames>ncascade</DimensionNames>
+      <DefaultValue>1</DefaultValue>
+      <ModuleName>cascade</ModuleName>
+    </Parameter>
+  </DefaultParameters>
+</MMSPackage>

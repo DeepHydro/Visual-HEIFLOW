@@ -1,0 +1,102 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mwt="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
+    xmlns:odc="clr-namespace:Odyssey.Controls">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Odyssey;Component/Themes/HighlightedBackgrounds.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Odyssey;Component/Themes/DefaultRibbonButtonBrushes.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <ControlTemplate TargetType="{x:Type odc:RibbonGallery}" x:Key="RibbonGalleryTemplate">
+        <Border BorderThickness="1" CornerRadius="3" x:Name="border" SnapsToDevicePixels="True"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="24"/>
+                    <RowDefinition Height="24"/>
+                    <RowDefinition Height="24"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <ScrollViewer Grid.RowSpan="3" Margin="1" VerticalScrollBarVisibility="Hidden"  HorizontalScrollBarVisibility="Disabled" 
+                              x:Name="ScrollViewer"                             
+                              VerticalAlignment="Stretch" HorizontalAlignment="Left">
+                    <WrapPanel x:Name="PART_WrapPanel"  IsItemsHost="False"  HorizontalAlignment="Stretch" />
+                </ScrollViewer>
+                <odc:RibbonButton Grid.Row="0" Grid.Column="1" IsFlat="False" CornerRadius="0,3,0,0" Width="16"
+                             ClickMode="Press"
+                             x:Name="UpButton"
+                              odc:RibbonButton.ImageStretch="None"
+                             Command="{x:Static odc:RibbonGallery.ScrollUpCommand}"                                 
+                             Background="{DynamicResource {ComponentResourceKey odc:Skins, RibbonButtonGroupBgBrush}}"
+                              BorderBrush="{DynamicResource {ComponentResourceKey odc:Skins, DefaultBorderBrush}}"
+                            SmallImage="{DynamicResource {ComponentResourceKey odc:Skins, UpArrowImage}}"
+                            Margin="0,-1,-1,0" odc:RibbonBar.Size="Small"/>
+                <odc:RibbonButton Grid.Row="1" Grid.Column="1" IsFlat="False" CornerRadius="0" Margin="0,-1,-1,0" Width="16"
+                             ClickMode="Press"
+                              x:Name="DownButton"
+                              odc:RibbonButton.ImageStretch="None"
+                             Command="{x:Static odc:RibbonGallery.ScrollDownCommand}"
+                              BorderBrush="{DynamicResource {ComponentResourceKey odc:Skins, DefaultBorderBrush}}"
+                             Background="{DynamicResource {ComponentResourceKey odc:Skins, RibbonButtonGroupBgBrush}}"
+                            SmallImage="{DynamicResource {ComponentResourceKey odc:Skins, DownArrowImage}}"
+                            odc:RibbonBar.Size="Small"/>
+                <odc:RibbonDropDownButton Grid.Row="2" Grid.Column="1" IsFlat="False" CornerRadius="0,0,3,0"   Width="16" Height="Auto"
+                             PopupPlacement="Left" x:Name="PART_PopupBtn"
+                             IsDropDownPressed="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent},Mode=TwoWay}"
+                             odc:RibbonButton.ImageStretch="None" PopupAnimation="Fade"
+                               BorderBrush="{DynamicResource {ComponentResourceKey odc:Skins, DefaultBorderBrush}}"
+                             Background="{DynamicResource {ComponentResourceKey odc:Skins, RibbonButtonGroupBgBrush}}"
+                            SmallImage="{DynamicResource {ComponentResourceKey odc:Skins, ExpandImage}}"
+                            LargeImage="{TemplateBinding LargeImage}"
+                            Content="{TemplateBinding Title}"
+                            DropDownFooter="{TemplateBinding Footer}" DropDownFooterTemplate="{TemplateBinding FooterTemplate}"
+                            Margin="0,-1,-1,-1" odc:RibbonBar.Size="Small">                    
+                    <odc:RibbonDropDownButton.DropDownHeader>
+                        <DockPanel Margin="0" VerticalAlignment="Stretch">
+                            <ContentControl DockPanel.Dock="Top" Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding HeaderTemplate}"/>
+                            <ItemsPresenter x:Name="PART_ItemsPresenter" Margin="4" />
+                        </DockPanel>
+                    </odc:RibbonDropDownButton.DropDownHeader>
+                </odc:RibbonDropDownButton>
+            </Grid>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsCollapsed" Value="True">
+                <Setter Property="Visibility" Value="Collapsed" TargetName="DownButton"/>
+                <Setter Property="Visibility" Value="Collapsed" TargetName="UpButton"/>
+                <Setter Property="Visibility" Value="Collapsed" TargetName="ScrollViewer"/>
+                <Setter Property="Grid.Row" Value="0" TargetName="PART_PopupBtn"/>
+                <Setter Property="Grid.Column" Value="0" TargetName="PART_PopupBtn"/>
+                <Setter Property="Grid.RowSpan" Value="3" TargetName="PART_PopupBtn"/>
+                <Setter Property="odc:RibbonBar.Size" Value="Large" TargetName="PART_PopupBtn"/>
+                <Setter Property="CornerRadius" Value="3" TargetName="PART_PopupBtn"/>
+                <Setter Property="Margin" Value="-1" TargetName="PART_PopupBtn"/>
+                <Setter Property="PopupPlacement" Value="Bottom" TargetName="PART_PopupBtn"/>
+                <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey odc:Skins, MinimizedRibbonPanelBgBrush}}" TargetName="PART_PopupBtn"/>
+                <Setter Property="Width" Value="Auto" TargetName="PART_PopupBtn"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+        <ControlTemplate.Resources>
+            <Style TargetType="{x:Type odc:RibbonChrome}" BasedOn="{StaticResource RibbonChromeStyle}"/>
+        </ControlTemplate.Resources>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type odc:RibbonGallery}">
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderBrush"  Value="{DynamicResource {ComponentResourceKey odc:Skins, DefaultBorderBrush}}"/>
+        <Setter Property="Template" Value="{StaticResource RibbonGalleryTemplate}"/>
+        <!--<Setter Property="Height" Value="75"/>-->
+    </Style>
+</ResourceDictionary>

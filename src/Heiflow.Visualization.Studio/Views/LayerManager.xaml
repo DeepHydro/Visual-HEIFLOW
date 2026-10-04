@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="Heiflow.Visualization.Studio.Controls.LayerManager"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <TreeView x:Name="treeView1"     BorderThickness="0"  Margin="2"   Foreground="White" Background="{DynamicResource CommonBrush}"
+                  SelectedItemChanged="LayerTree_SelectedItemChanged">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Path=ChildObjects, Mode=TwoWay}">
+                        <StackPanel Orientation="Horizontal" ToolTipService.ToolTip="{Binding Path=Description, Mode=OneWay}" Height="22" >
+                            <CheckBox IsChecked="{Binding Path=IsOn, Mode=TwoWay}" Margin="2,2,0,2"  VerticalAlignment="Center"></CheckBox>
+                            <!--<Image Source="{Binding Path=IconImagePath, Mode=OneWay}" Stretch="None" Margin="1,2,1,2"  Height="16" Width="16" />-->
+                            <TextBlock Text="{Binding Path=Name, Mode=OneWay}" VerticalAlignment="Center"  Margin="0,2,2,2"  FontSize="12" Foreground="White">
+                            </TextBlock>
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="TreeViewItem">
+                        <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded}" />
+                    </Style>
+                </TreeView.ItemContainerStyle>
+                <TreeView.Resources>
+                <ContextMenu x:Key ="SolutionContext"  StaysOpen="true" >
+                    <MenuItem x:Name="AttrTableItem" Header="{DynamicResource AttributeTable}" Click="AttrTableItem_Click"  Foreground="Black"/>
+                    <MenuItem x:Name="SymbologyItem" Header="Symbology" Click="SymbologyItem_Click"  Foreground="Black"/>
+                    <MenuItem x:Name="RemoveLayerItem" Header="{DynamicResource Remove}" Click="RemoveLayerItem_Click"  Foreground="Black" Visibility="Collapsed"/>
+                    <MenuItem x:Name="PropertyLayerItem" Header="{DynamicResource PropMenuHeader}" Click="PropertyLayerItem_Click"  Foreground="Black"/>         
+                </ContextMenu>
+            </TreeView.Resources>
+        </TreeView>
+    </Grid>
+</UserControl>

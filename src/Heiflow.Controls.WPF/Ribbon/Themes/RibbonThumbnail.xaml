@@ -1,0 +1,29 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mwt="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
+    xmlns:odc="clr-namespace:Odyssey.Controls">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Odyssey;Component/Themes/HighlightedBackgrounds.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <ControlTemplate x:Key="RibbonThumbnailTemplate" TargetType="{x:Type odc:RibbonThumbnail}">
+        <odc:RibbonChrome x:Name="chrome" CornerRadius="3"
+                            RenderPressed="{TemplateBinding IsSelected}"
+                            VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                            RenderMouseOver="{TemplateBinding IsMouseOver}">
+            <Image Source="{TemplateBinding ImageSource}"  VerticalAlignment="Center" HorizontalAlignment="Center" 
+                   Stretch="{Binding Path=(odc:RibbonGallery.Stretch), RelativeSource={RelativeSource TemplatedParent}}"/>
+        </odc:RibbonChrome>
+        <ControlTemplate.Resources>
+            <Style TargetType="{x:Type odc:RibbonChrome}" BasedOn="{StaticResource RibbonChromeStyle}"/>
+        </ControlTemplate.Resources>
+    </ControlTemplate>
+
+
+    <Style TargetType="{x:Type odc:RibbonThumbnail}">
+        <Setter Property="Template" Value="{StaticResource RibbonThumbnailTemplate}"/>
+        <Setter Property="Stretch" Value="Fill"/>
+    </Style>
+
+</ResourceDictionary>

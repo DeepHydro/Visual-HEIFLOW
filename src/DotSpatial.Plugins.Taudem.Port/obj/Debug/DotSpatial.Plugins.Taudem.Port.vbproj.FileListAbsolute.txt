@@ -69,3 +69,16 @@ E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Deb
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.dll
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.pdb
 F:\System\HEIFLOW\VHF_GIT\VHF\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.vbprojResolveAssemblyReference.cache
+D:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.vbprojResolveAssemblyReference.cache
+D:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.frmAdvancedOptions_v3.resources
+D:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.frmAutomatic_v3.resources
+D:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.frmLoadDelinOutputs.resources
+D:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.frmLoadOutputs.resources
+D:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.Resources.resources
+D:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.vbproj.GenerateResource.Cache
+D:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.dll
+D:\System\git\Visual-HEIFLOW\src\bin\debug\Application Extensions\DotSpatial.Plugins.Taudem.Port\Readme.txt
+D:\System\git\Visual-HEIFLOW\src\bin\debug\Application Extensions\DotSpatial.Plugins.Taudem.Port\DotSpatial.Plugins.Taudem.Port.dll.config
+D:\System\git\Visual-HEIFLOW\src\bin\debug\Application Extensions\DotSpatial.Plugins.Taudem.Port\DotSpatial.Plugins.Taudem.Port.dll
+D:\System\git\Visual-HEIFLOW\src\bin\debug\Application Extensions\DotSpatial.Plugins.Taudem.Port\DotSpatial.Plugins.Taudem.Port.pdb
+D:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.pdb

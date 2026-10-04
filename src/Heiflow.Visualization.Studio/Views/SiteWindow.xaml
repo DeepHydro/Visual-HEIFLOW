@@ -1,0 +1,41 @@
+﻿<Controls:MetroWindow  x:Class="Heiflow.Visualization.Studio.Views.SiteWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"     
+     xmlns:input="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+         xmlns:wpg="clr-namespace:WPG;assembly=WPG" ShowInTaskbar="False"
+        Title="Site" Height="300" Width="305" ShowMinButton="False" ShowMaxRestoreButton="False" >
+    <Grid Background="{DynamicResource CommonBrush}">
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top" Margin="5" Orientation="Horizontal" Visibility="Collapsed">
+                <Button x:Name="btnStat" Height="28" Width="28" HorizontalAlignment="Left" Margin="2">
+                    <Path Width="24" Height="24" Canvas.Left="16" Canvas.Top="21" Stretch="Fill" Fill="{DynamicResource BlackBrush}" Data="F1 M 36,21L 40,21L 40,25L 44,25L 44,29L 40,29L 40,33L 36,33L 36,29L 32,29L 32,25L 36,25L 36,21 Z M 32,43L 40,43L 40,40L 32,40L 32,43 Z M 44,43L 52,43L 52,40L 44,40L 44,43 Z M 20,40L 20,43L 28,43L 28,40L 20,40 Z M 16,36L 60,36L 60,40L 56,40L 56,43L 60,43L 60,47L 56,47L 56,50L 60,50L 60,54L 56,54L 56,57L 52,57L 52,54L 44,54L 44,57L 40,57L 40,54L 32,54L 32,57L 28,57L 28,54L 20,54L 20,57L 16,57L 16,36 Z M 20,47L 20,50L 28,50L 28,47L 20,47 Z M 32,47L 32,50L 40,50L 40,47L 32,47 Z M 44,47L 44,50L 52,50L 52,47L 44,47 Z "/>
+                </Button>
+            </StackPanel>
+            <Expander Header="Site Information"  Margin="3"  Foreground="White"   DockPanel.Dock="Top" IsExpanded="True">
+                <Grid Margin="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"></ColumnDefinition>
+                        <ColumnDefinition Width="130"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center">
+                        <TextBlock Style="{DynamicResource CaptionText}" Text="Site Name:" Margin="5,10,5,5"></TextBlock>
+                        <TextBlock Style="{DynamicResource CaptionText}" Text="Longitude:" Margin="5,10,5,5"></TextBlock>
+                        <TextBlock Style="{DynamicResource CaptionText}" Text="Latitude:" Margin="5,10,5,5" ></TextBlock>
+                    </StackPanel>
+                    <StackPanel Grid.Row="0" Grid.Column="1">
+                        <TextBlock Style="{DynamicResource CaptionText}" x:Name="tbName" Text="Site Name" Margin="5,10,5,5"></TextBlock>
+                        <TextBlock Style="{DynamicResource CaptionText}" x:Name="tbLon" Text="100" Margin="5,10,5,5"></TextBlock>
+                        <TextBlock Style="{DynamicResource CaptionText}" x:Name="tbLat" Text="40" Margin="5,10,5,5"></TextBlock>
+                    </StackPanel>
+                </Grid>
+            </Expander>
+            <Expander Header="Variables" IsExpanded="True" Margin="3,10,3,3" Foreground="White"  DockPanel.Dock="Top" >
+                <ComboBox x:Name="cmbVariables" Margin="30,5,45,5" SelectionChanged="cmbVariables_SelectionChanged" DisplayMemberPath="Name"></ComboBox>
+            </Expander>
+            <DockPanel HorizontalAlignment="Left">
+                <Button x:Name="btnSaveAs" Height="24" Width="100" Margin="30,5,45,5" Click="btnSaveAs_Click" >Save Data ...</Button>
+            </DockPanel>
+        </DockPanel>
+    </Grid>
+</Controls:MetroWindow>

@@ -1,0 +1,76 @@
+F:\HUST\Lake3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.Engine3D.dll.config
+F:\HUST\Lake3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.Engine3D.dll
+F:\HUST\Lake3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.Engine3D.pdb
+F:\HUST\Lake3D\HUST.WREIS.Engine3D.Core\bin\Debug\Tao.OpenGl.dll
+F:\HUST\Lake3D\HUST.WREIS.Engine3D.Core\bin\Debug\Tao.OpenGl.ExtensionLoader.dll
+F:\HUST\Lake3D\HUST.WREIS.Engine3D.Core\bin\Debug\Tao.OpenGl.Glu.dll
+F:\HUST\Lake3D\HUST.WREIS.Engine3D.Core\obj\x86\Debug\ResolveAssemblyReference.cache
+F:\HUST\Lake3D\HUST.WREIS.Engine3D.Core\obj\x86\Debug\HUST.WREIS.Engine3D.Properties.Resources.resources
+F:\HUST\Lake3D\HUST.WREIS.Engine3D.Core\obj\x86\Debug\GenerateResource.read.1.tlog
+F:\HUST\Lake3D\HUST.WREIS.Engine3D.Core\obj\x86\Debug\GenerateResource.write.1.tlog
+F:\HUST\Lake3D\HUST.WREIS.Engine3D.Core\obj\x86\Debug\HUST.WREIS.Engine3D.dll
+F:\HUST\Lake3D\HUST.WREIS.Engine3D.Core\obj\x86\Debug\HUST.WREIS.Engine3D.pdb
+F:\HUST\Lake3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.GIS.dll
+F:\HUST\Lake3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.GIS.pdb
+F:\HUST\Lake3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.PluginEngine.dll
+F:\HUST\Lake3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.PluginEngine.pdb
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\obj\x86\Debug\ResolveAssemblyReference.cache
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\obj\x86\Debug\HUST.WREIS.Engine3D.Properties.Resources.resources
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\obj\x86\Debug\GenerateResource.read.1.tlog
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\obj\x86\Debug\GenerateResource.write.1.tlog
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\obj\x86\Debug\HUST.WREIS.Engine3D.dll
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\obj\x86\Debug\HUST.WREIS.Engine3D.pdb
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.Engine3D.dll.config
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.Engine3D.dll
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.Engine3D.pdb
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.GIS.dll
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.PluginEngine.dll
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.GIS.pdb
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.PluginEngine.pdb
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.Generic.dll
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.Generic.pdb
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.CFD.dll
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.CFD.pdb
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.MathLibrary.dll
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\ILNumerics.dll
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.MathLibrary.pdb
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\ModelBase.Common.dll
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\ModelBase.Interface.dll
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.AI.dll
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.Data.dll
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\ModelBase.Interface.pdb
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\ModelBase.Common.pdb
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.AI.pdb
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.Data.pdb
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\obj\x86\Debug\HUST.WREIS.Engine3D.Properties.Resources.resources
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\obj\x86\Debug\GenerateResource.read.1.tlog
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\obj\x86\Debug\GenerateResource.write.1.tlog
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\obj\x86\Debug\HUST.WREIS.Engine3D.dll
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\obj\x86\Debug\HUST.WREIS.Engine3D.pdb
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.Engine3D.dll.config
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.Engine3D.dll
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.Engine3D.pdb
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.CFD.dll
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.Generic.dll
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.GIS.dll
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.MathLibrary.dll
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.PluginEngine.dll
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\ModelBase.Common.dll
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\ModelBase.Interface.dll
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\ILNumerics.dll
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.AI.dll
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.Data.dll
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.CFD.pdb
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.Generic.pdb
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.PluginEngine.pdb
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.GIS.pdb
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.MathLibrary.pdb
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\ModelBase.Interface.pdb
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\ModelBase.Common.pdb
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.AI.pdb
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\HUST.WREIS.Data.pdb
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\System.Data.SQLite.dll
+E:\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\System.Data.SQLite.xml
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\System.Data.SQLite.dll
+F:\HUST\Work Program\Engine3D\HUST.WREIS.Engine3D.Core\bin\Debug\System.Data.SQLite.xml

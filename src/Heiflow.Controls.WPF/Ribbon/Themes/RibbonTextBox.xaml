@@ -1,0 +1,39 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:odc="clr-namespace:Odyssey.Controls"
+    xmlns:mwt="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"                    
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Odyssey;Component/Themes/DefaultRibbonButtonBrushes.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Odyssey;Component/Themes/HighlightedBackgrounds.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Odyssey;Component/Themes/OfficeBlueSkin.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <ControlTemplate x:Key="RibbonTextBoxTemplate" TargetType="{x:Type odc:RibbonTextBox}">
+            <DockPanel HorizontalAlignment="Stretch" Focusable="False">
+            <TextBox Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"  DockPanel.Dock="Right"
+                        Width="{TemplateBinding ContentWidth}" Margin="4,0,0,0"
+                         Text="{Binding Text,RelativeSource={RelativeSource TemplatedParent},Mode=TwoWay}" />
+            <Image Source="{TemplateBinding Image}" Width="16" Height="16" DockPanel.Dock="Left" Margin="2" VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False"/>
+                <TextBlock x:Name="text" Text="{TemplateBinding Title}" VerticalAlignment="Center" DockPanel.Dock="Left" Margin="2,0,0,0" Focusable="False"/>
+            </DockPanel>
+        <ControlTemplate.Triggers>
+            <Trigger Property="odc:RibbonBar.Size" Value="Small">
+                <Setter Property="Visibility" Value="Collapsed" TargetName="text"/>
+            </Trigger>
+            <Trigger Property="odc:RibbonBar.Size" Value="Minimized">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+
+    </ControlTemplate>
+
+
+    <Style TargetType="{x:Type odc:RibbonTextBox}">
+        <Setter Property="Template" Value="{StaticResource RibbonTextBoxTemplate}"/>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey odc:Skins, DefaultBorderBrush}}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Focusable" Value="False"/>
+    </Style>
+</ResourceDictionary>

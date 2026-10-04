@@ -1,0 +1,127 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+   xmlns:odc="clr-namespace:Odyssey.Controls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Odyssey;Component/Themes/OfficeBlueSkin.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <ControlTemplate x:Key="RibbonWindowGlassTemplate" TargetType="{x:Type odc:RibbonWindow}">
+        <Grid >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="31"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="8"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="8"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Row="1" Grid.Column="1" Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"/>
+            <Border x:Name="contentBorder" Grid.IsSharedSizeScope="True" Margin="0,-26,0,0"
+                            Grid.Row="1" Grid.Column="1" IsHitTestVisible="True" >
+                
+                <!--This AdornerDecorator is necassary on a window template otherwise functions like drag&drop won't work correctly:-->
+                <AdornerDecorator>
+                    <ContentPresenter Content="{TemplateBinding Content}"/>
+                </AdornerDecorator>
+            </Border>
+        </Grid>
+
+    </ControlTemplate>
+
+
+
+    <ControlTemplate x:Key="RibbonWindowTemplate" TargetType="{x:Type odc:RibbonWindow}">
+        <Border  SnapsToDevicePixels="True" ClipToBounds="True"
+                Background="{TemplateBinding Background}"
+                BorderThickness="0"
+                IsHitTestVisible="True" x:Name="PART_OuterBorder" CornerRadius="7">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="31"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="7"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="7"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="7"/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.RowSpan="3" Grid.ColumnSpan="3" BorderThickness="{TemplateBinding BorderThickness}" x:Name="border"
+                        BorderBrush="{DynamicResource {ComponentResourceKey odc:Skins, RibbonActiveBorderBrush}}" CornerRadius="7">
+                    </Border>
+                <Border Background="{DynamicResource {ComponentResourceKey odc:Skins, RibbonActiveTitleBrush}}" Margin="1" 
+                        ClipToBounds="True" Grid.ColumnSpan="3" x:Name="PART_Title" IsHitTestVisible="False" CornerRadius="6,6,0,0"/>
+                <Border BorderThickness="1" x:Name="innerBorder" Margin="1" Grid.RowSpan="3" Grid.ColumnSpan="3"
+                        BorderBrush="{DynamicResource {ComponentResourceKey odc:Skins, WindowsInnerBorderBrush}}" CornerRadius="6"/>
+                <StackPanel Grid.ColumnSpan="3" Margin="0,2,10,2" TextBlock.Foreground="Red"
+                    Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center"  >
+
+                    <odc:RibbonButton x:Name="Minimize" Width="30" Height="17" 
+                                      Style="{DynamicResource {ComponentResourceKey odc:Skins, MinimizeButtonStyle}}"
+                                      Command="{x:Static odc:RibbonWindow.MinimizeCommand}"/>
+
+                    <odc:RibbonButton x:Name="Maximize" Width="30" Height="17" 
+                                      Style="{DynamicResource {ComponentResourceKey odc:Skins, MaximizeButtonStyle}}"
+                                      Command="{x:Static odc:RibbonWindow.MaximizeCommand}"/>
+
+                    <odc:RibbonButton x:Name="Close" Width="30" Height="17" 
+                                      Style="{DynamicResource {ComponentResourceKey odc:Skins, CloseButtonStyle}}"
+                                      Command="{x:Static odc:RibbonWindow.CloseCommand}"/>
+                </StackPanel>
+
+                <Border x:Name="contentBorder" Grid.IsSharedSizeScope="True" Margin="0,-26,0,0" 
+                            Grid.Row="1" Grid.Column="1" IsHitTestVisible="True" >
+
+                    <!--This AdornerDecorator is necassary on a window template otherwise functions like drag&drop won't work correctly:-->
+                    <AdornerDecorator>
+                        <ContentPresenter Content="{TemplateBinding Content}"/>
+                    </AdornerDecorator>
+                </Border>
+            </Grid>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="WindowState" Value="Maximized">
+                <Setter Property="Style" Value="{DynamicResource {ComponentResourceKey odc:Skins, RestoreButtonStyle}}"  TargetName="Maximize"/>
+            </Trigger>
+            <Trigger Property="RoundedCornerMode" Value="Top">
+                <Setter Property="CornerRadius" Value="7,7,0,0" TargetName="PART_OuterBorder"/>
+                <Setter Property="CornerRadius" Value="7,7,0,0" TargetName="border"/>
+                <Setter Property="CornerRadius" Value="6,6,0,0" TargetName="innerBorder"/>
+            </Trigger>
+            <Trigger Property="RoundedCornerMode" Value="None">
+                <Setter Property="CornerRadius" Value="0" TargetName="PART_OuterBorder"/>
+                <Setter Property="CornerRadius" Value="0" TargetName="border"/>
+                <Setter Property="CornerRadius" Value="0" TargetName="PART_Title"/>
+                <Setter Property="CornerRadius" Value="0" TargetName="innerBorder"/>
+            </Trigger>
+            <Trigger Property="IsWindowActive" Value="False">
+                <Setter Property="Opacity" Value="0.65" TargetName="Minimize"/>
+                <Setter Property="Opacity" Value="0.65" TargetName="Maximize"/>
+                <Setter Property="Opacity" Value="0.65" TargetName="Close"/>
+                <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey odc:Skins, RibbonInactiveTitleBrush}}" TargetName="PART_Title"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey odc:Skins, RibbonInactiveBorderBrush}}" TargetName="border"/>
+            </Trigger>
+
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type odc:RibbonWindow}">
+        <Setter Property="Template" Value="{StaticResource RibbonWindowTemplate}"/>
+        <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey odc:Skins, ActiveWindowBrush}}"/>
+        <Setter Property="Foreground" Value="{DynamicResource {ComponentResourceKey odc:Skins, WindowForegroundBrush}}"/>
+        <Setter Property="BorderThickness" Value="1.0"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource {ComponentResourceKey odc:Skins, DefaultBorderBrush}}"/>        
+        <Style.Triggers>
+            <Trigger Property="IsGlassOn" Value="True">
+                <Setter Property="Template" Value="{StaticResource RibbonWindowGlassTemplate}"/>
+                <Setter Property="BorderThickness" Value="0.0"/>
+            </Trigger>
+            <Trigger Property="IsWindowActive" Value="False">
+                <Setter Property="Background" Value="{DynamicResource {ComponentResourceKey odc:Skins, InactiveWindowBrush}}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

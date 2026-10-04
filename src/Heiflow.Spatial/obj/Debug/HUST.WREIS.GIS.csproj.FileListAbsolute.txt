@@ -1,0 +1,65 @@
+F:\HUST\Lake3D\ClassLibrary1\bin\Debug\System.Data.SQLite.DLL
+F:\HUST\Lake3D\ClassLibrary1\bin\Debug\System.Data.SQLite.xml
+F:\HUST\Lake3D\ClassLibrary1\obj\Debug\ResolveAssemblyReference.cache
+F:\HUST\Lake3D\ClassLibrary1\bin\Debug\HUST.WREIS.GIS.dll
+F:\HUST\Lake3D\ClassLibrary1\bin\Debug\HUST.WREIS.GIS.pdb
+F:\HUST\Lake3D\ClassLibrary1\obj\Debug\HUST.WREIS.GIS.dll
+F:\HUST\Lake3D\ClassLibrary1\obj\Debug\HUST.WREIS.GIS.pdb
+F:\HUST\Work Program\GIS\HUST.WREIS.GIS\bin\Debug\HUST.WREIS.GIS.dll
+F:\HUST\Work Program\GIS\HUST.WREIS.GIS\bin\Debug\HUST.WREIS.GIS.pdb
+F:\HUST\Work Program\GIS\HUST.WREIS.GIS\bin\Debug\System.Data.SQLite.DLL
+F:\HUST\Work Program\GIS\HUST.WREIS.GIS\bin\Debug\System.Data.SQLite.xml
+F:\HUST\Work Program\GIS\HUST.WREIS.GIS\obj\Debug\ResolveAssemblyReference.cache
+F:\HUST\Work Program\GIS\HUST.WREIS.GIS\obj\Debug\HUST.WREIS.GIS.dll
+F:\HUST\Work Program\GIS\HUST.WREIS.GIS\obj\Debug\HUST.WREIS.GIS.pdb
+F:\HUST\Work Program\GIS\HUST.WREIS.GIS\bin\Debug\HUST.WREIS.MathLibrary.dll
+F:\HUST\Work Program\GIS\HUST.WREIS.GIS\bin\Debug\ILNumerics.dll
+F:\HUST\Work Program\GIS\HUST.WREIS.GIS\bin\Debug\HUST.WREIS.MathLibrary.pdb
+E:\Work Program\GIS\HUST.WREIS.GIS\bin\Debug\HUST.WREIS.GIS.dll
+E:\Work Program\GIS\HUST.WREIS.GIS\bin\Debug\HUST.WREIS.GIS.pdb
+E:\Work Program\GIS\HUST.WREIS.GIS\bin\Debug\HUST.WREIS.MathLibrary.dll
+E:\Work Program\GIS\HUST.WREIS.GIS\bin\Debug\System.Data.SQLite.DLL
+E:\Work Program\GIS\HUST.WREIS.GIS\bin\Debug\ILNumerics.dll
+E:\Work Program\GIS\HUST.WREIS.GIS\bin\Debug\HUST.WREIS.MathLibrary.pdb
+E:\Work Program\GIS\HUST.WREIS.GIS\bin\Debug\System.Data.SQLite.xml
+E:\Work Program\GIS\HUST.WREIS.GIS\obj\Debug\ResolveAssemblyReference.cache
+E:\Work Program\GIS\HUST.WREIS.GIS\obj\Debug\HUST.WREIS.GIS.dll
+E:\Work Program\GIS\HUST.WREIS.GIS\obj\Debug\HUST.WREIS.GIS.pdb
+E:\Work Program\GIS\HUST.WREIS.GIS\obj\Debug\HUST.WREIS.GIS.Properties.Resources.resources
+E:\Work Program\GIS\HUST.WREIS.GIS\obj\Debug\GenerateResource.read.1.tlog
+E:\Work Program\GIS\HUST.WREIS.GIS\obj\Debug\GenerateResource.write.1.tlog
+F:\HUST\Work Program\GIS\HUST.WREIS.GIS\obj\Debug\HUST.WREIS.GIS.Properties.Resources.resources
+F:\HUST\Work Program\GIS\HUST.WREIS.GIS\obj\Debug\GenerateResource.read.1.tlog
+F:\HUST\Work Program\GIS\HUST.WREIS.GIS\obj\Debug\GenerateResource.write.1.tlog
+E:\PKU\Work Program\GIS\HUST.WREIS.GIS\bin\Debug\HUST.WREIS.GIS.dll
+E:\PKU\Work Program\GIS\HUST.WREIS.GIS\bin\Debug\HUST.WREIS.GIS.pdb
+E:\PKU\Work Program\GIS\HUST.WREIS.GIS\bin\Debug\HUST.WREIS.MathLibrary.dll
+E:\PKU\Work Program\GIS\HUST.WREIS.GIS\bin\Debug\System.Data.SQLite.DLL
+E:\PKU\Work Program\GIS\HUST.WREIS.GIS\bin\Debug\ILNumerics.dll
+E:\PKU\Work Program\GIS\HUST.WREIS.GIS\bin\Debug\HUST.WREIS.MathLibrary.pdb
+E:\PKU\Work Program\GIS\HUST.WREIS.GIS\bin\Debug\System.Data.SQLite.xml
+E:\PKU\Work Program\GIS\HUST.WREIS.GIS\obj\Debug\HUST.WREIS.GIS.Properties.Resources.resources
+E:\PKU\Work Program\GIS\HUST.WREIS.GIS\obj\Debug\HUST.WREIS.GIS.dll
+E:\PKU\Work Program\GIS\HUST.WREIS.GIS\obj\Debug\HUST.WREIS.GIS.pdb
+E:\PKU\Work Program\GIS\HUST.WREIS.GIS\obj\Debug\HUST.WREIS.GIS.csprojResolveAssemblyReference.cache
+E:\PKU\Work Program\GIS\HUST.WREIS.GIS\obj\Debug\HUST.WREIS.GIS.csproj.GenerateResource.Cache
+E:\PKU\Program\HEIFLOW3D\GIS\HUST.WREIS.GIS\bin\Debug\HUST.WREIS.GIS.dll
+E:\PKU\Program\HEIFLOW3D\GIS\HUST.WREIS.GIS\bin\Debug\HUST.WREIS.GIS.pdb
+E:\PKU\Program\HEIFLOW3D\GIS\HUST.WREIS.GIS\bin\Debug\HUST.WREIS.MathLibrary.dll
+E:\PKU\Program\HEIFLOW3D\GIS\HUST.WREIS.GIS\bin\Debug\ILNumerics.dll
+E:\PKU\Program\HEIFLOW3D\GIS\HUST.WREIS.GIS\bin\Debug\HUST.WREIS.MathLibrary.pdb
+E:\PKU\Program\HEIFLOW3D\GIS\HUST.WREIS.GIS\obj\Debug\HUST.WREIS.GIS.csprojResolveAssemblyReference.cache
+E:\PKU\Program\HEIFLOW3D\GIS\HUST.WREIS.GIS\obj\Debug\HUST.WREIS.GIS.Properties.Resources.resources
+E:\PKU\Program\HEIFLOW3D\GIS\HUST.WREIS.GIS\obj\Debug\HUST.WREIS.GIS.csproj.GenerateResource.Cache
+E:\PKU\Program\HEIFLOW3D\GIS\HUST.WREIS.GIS\obj\Debug\HUST.WREIS.GIS.dll
+E:\PKU\Program\HEIFLOW3D\GIS\HUST.WREIS.GIS\obj\Debug\HUST.WREIS.GIS.pdb
+G:\E\PKU\Program\HEIFLOW3D\GIS\HUST.WREIS.GIS\bin\Debug\HUST.WREIS.GIS.dll
+G:\E\PKU\Program\HEIFLOW3D\GIS\HUST.WREIS.GIS\bin\Debug\HUST.WREIS.GIS.pdb
+G:\E\PKU\Program\HEIFLOW3D\GIS\HUST.WREIS.GIS\bin\Debug\HUST.WREIS.MathLibrary.dll
+G:\E\PKU\Program\HEIFLOW3D\GIS\HUST.WREIS.GIS\bin\Debug\ILNumerics.dll
+G:\E\PKU\Program\HEIFLOW3D\GIS\HUST.WREIS.GIS\bin\Debug\HUST.WREIS.MathLibrary.pdb
+G:\E\PKU\Program\HEIFLOW3D\GIS\HUST.WREIS.GIS\obj\Debug\HUST.WREIS.GIS.csprojResolveAssemblyReference.cache
+G:\E\PKU\Program\HEIFLOW3D\GIS\HUST.WREIS.GIS\obj\Debug\HUST.WREIS.GIS.Properties.Resources.resources
+G:\E\PKU\Program\HEIFLOW3D\GIS\HUST.WREIS.GIS\obj\Debug\HUST.WREIS.GIS.csproj.GenerateResource.Cache
+G:\E\PKU\Program\HEIFLOW3D\GIS\HUST.WREIS.GIS\obj\Debug\HUST.WREIS.GIS.dll
+G:\E\PKU\Program\HEIFLOW3D\GIS\HUST.WREIS.GIS\obj\Debug\HUST.WREIS.GIS.pdb

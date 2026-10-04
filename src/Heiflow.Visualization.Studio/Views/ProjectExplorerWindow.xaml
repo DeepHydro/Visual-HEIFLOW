@@ -1,0 +1,14 @@
+﻿<Controls:MetroWindow x:Class="Heiflow.Visualization.Studio.Controls.ProjectExplorerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"     
+         xmlns:heict="clr-namespace:Heiflow.Presentation.Controls.Project;assembly=Heiflow.Controls.WinForm"              
+        Title="Project Explorer" Height="800" Width="300" ShowInTaskbar="False" ShowIconOnTitleBar="False">
+    <Grid Margin="4"  >
+        <WindowsFormsHost x:Name="winhost_pe" TextOptions.TextFormattingMode="Display">
+            <heict:ProjectExplorerControl  x:Name="_ProjectExplorer"  Margin="2,0,2,0" Height="790" Width="298" BackgroundImageLayout="Zoom"
+                                           Dock="Fill"  ResetOnResize="True" VerticalScrollEnabled="True" HorizontalScrollEnabled="True">
+            </heict:ProjectExplorerControl>
+        </WindowsFormsHost>
+    </Grid>
+</Controls:MetroWindow>

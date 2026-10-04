@@ -1,0 +1,352 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FD13AB2F-63FF-4A41-B133-B308553C5180}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Heiflow.Visualization</RootNamespace>
+    <AssemblyName>Heiflow.Visualization</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Visualization\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DotSpatial.Controls">
+      <HintPath>..\Bin\Debug\DotSpatial.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="DotSpatial.Data">
+      <HintPath>..\Bin\Debug\DotSpatial.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DotSpatial.GeoAPI, Version=1.7.4.0, Culture=neutral, PublicKeyToken=a1a0da7def465678, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Debug\DotSpatial.GeoAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="DotSpatial.Projections">
+      <HintPath>..\Bin\Debug\DotSpatial.Projections.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\Bin\Debug\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="mapscript_csharp, Version=1.0.3671.21478, Culture=neutral, PublicKeyToken=80087771edd02926">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\Program Files (x86)\FWTools2.4.7\csharp\mapscript_csharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Windows\Microsoft.NET\DirectX for Managed Code\1.0.2902.0\Microsoft.DirectX.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.DirectX.Diagnostics, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Windows\Microsoft.NET\DirectX for Managed Code\1.0.2902.0\Microsoft.DirectX.Diagnostics.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.DirectX.Direct3D, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Windows\Microsoft.NET\DirectX for Managed Code\1.0.2902.0\Microsoft.DirectX.Direct3D.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.DirectX.Direct3DX, Version=1.0.2910.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Windows\Microsoft.NET\DirectX for Managed Code\1.0.2908.0\Microsoft.DirectX.Direct3DX.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.DirectX.DirectDraw, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Windows\Microsoft.NET\DirectX for Managed Code\1.0.2902.0\Microsoft.DirectX.DirectDraw.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualC" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="ProjNet, Version=1.2.3432.30659, Culture=neutral, PublicKeyToken=a1f5bdcd9c6f5740, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Visualization\ProjNet.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Tao.OpenGl.Glu">
+      <HintPath>..\PluginSDK\bin\Debug\Tao.OpenGl.Glu.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Controls\IMemu.cs" />
+    <Compile Include="Geometry\Triangulation\AnalyticGeometryException.cs" />
+    <Compile Include="Geometry\Triangulation\CLine.cs" />
+    <Compile Include="Geometry\Triangulation\CPoint2D.cs" />
+    <Compile Include="Geometry\Triangulation\CPolygon.cs" />
+    <Compile Include="Geometry\Triangulation\CPolygonShape.cs" />
+    <Compile Include="Geometry\Triangulation\Definition.cs" />
+    <Compile Include="RenderableModel\Model\Renders\IVectorRender.cs" />
+    <Compile Include="RenderableModel\Model\Renders\MFCHDRender.cs" />
+    <Compile Include="RenderableModel\Model\Renders\MFWellRender.cs" />
+    <Compile Include="RenderableModel\Model\Renders\ModelRenderDX.cs" />
+    <Compile Include="RenderableModel\Model\IProfile.cs" />
+    <Compile Include="RenderableModel\Model\Renders\IDX3DLayerRender.cs" />
+    <Compile Include="RenderableModel\Model\Layers\IDX3DLayer.cs" />
+    <Compile Include="RenderableModel\Model\Renders\MFFHBRender.cs" />
+    <Compile Include="RenderableModel\Model\Layers\DXMFWellLayer.cs" />
+    <Compile Include="RenderableModel\Model\Layers\DXGridProfileLayer.cs" />
+    <Compile Include="RenderableModel\Model\Renders\ProfileRender.cs" />
+    <Compile Include="RenderableModel\Model\Renders\TriganularVectorRender.cs" />
+    <Compile Include="RenderableModel\Model\Renders\TrigularGridRender.cs" />
+    <Compile Include="RenderableModel\Model\Layers\DXVectorLayer.cs" />
+    <Compile Include="RenderableModel\Model\TriangularCell.cs" />
+    <Compile Include="RenderableModel\Providers\FlagFeatureProvider.cs" />
+    <Compile Include="RenderableModel\RenderableModelObject.cs" />
+    <Compile Include="RenderableModel\Providers\IRenderableProvider.cs" />
+    <Compile Include="RenderableModel\IRenderableRaster.cs" />
+    <Compile Include="RenderableModel\MediaColor.cs" />
+    <Compile Include="RenderableModel\Providers\IRenderableRasterProvider.cs" />
+    <Compile Include="RenderableModel\Providers\ModelFeatureProvider.cs" />
+    <Compile Include="RenderableModel\Providers\ODMProvider.cs" />
+    <Compile Include="RenderableModel\Providers\RenderableProvider.cs" />
+    <Compile Include="RenderableModel\Shp\PointFeatureLayer.cs" />
+    <Compile Include="RenderableModel\Providers\ShapeFeatureProvider.cs" />
+    <Compile Include="RenderableModel\Providers\ShapeFeatureSetProvider.cs" />
+    <Compile Include="RenderableModel\Model\VectorStyle.cs" />
+    <Compile Include="RenderableModel\Model\Renders\MFGridRender.cs" />
+    <Compile Include="RenderableModel\Model\Layers\DXRegularGridLayer.cs" />
+    <Compile Include="RenderableModel\Model\Cell.cs" />
+    <Compile Include="RenderableModel\Model\Renders\MFVectorRender.cs" />
+    <Compile Include="RenderableModel\Model\CFDSettings.cs" />
+    <Compile Include="RenderableModel\Model\DataColor.cs" />
+    <Compile Include="RenderableModel\Model\MFCell.cs" />
+    <Compile Include="RenderableModel\Model\Renders\RiverGridRender.cs" />
+    <Compile Include="RenderableModel\Model\StatisticsArgs.cs" />
+    <Compile Include="RenderableModel\Model\GCSConverter.cs" />
+    <Compile Include="RenderableModel\Model\GridProfile.cs" />
+    <Compile Include="ConfigurationLoader.cs" />
+    <Compile Include="ConfigurationManager.cs" />
+    <Compile Include="Controls\Menu.cs" />
+    <Compile Include="RenderableObject\ClickableIcon.cs" />
+    <Compile Include="RenderableObject\Icons\Icon.cs" />
+    <Compile Include="RenderableObject\Icons\Icons.cs" />
+    <Compile Include="RenderableObject\Icons\IconTexture.cs" />
+    <Compile Include="RenderableObject\LayerStyle.cs" />
+    <Compile Include="RenderableObject\LensFlare.cs" />
+    <Compile Include="QuadTile\ProjectedQuadTile.cs" />
+    <Compile Include="QuadTile\ProjectedTileSet.cs" />
+    <None Include="Controls\DownloadIndicator.cs" />
+    <Compile Include="Core\AltitudeMode.cs" />
+    <Compile Include="Core\Angle.cs" />
+    <Compile Include="Core\AtmosphericScatteringSphere.cs" />
+    <Compile Include="QuadTile\BinaryTriangleTree.cs" />
+    <Compile Include="RenderableObject\Shapes\ShapeTile.cs" />
+    <Compile Include="RenderableObject\SkyGradient.cs" />
+    <Compile Include="RenderableObject\Stars3DLayer.cs" />
+    <Compile Include="RenderableModel\Bar3D.cs" />
+    <Compile Include="RenderableModel\Cylinder.cs" />
+    <Compile Include="RenderableModel\Shp\RenderableLine.cs" />
+    <Compile Include="RenderableModel\Shp\RenderablePolygon.cs" />
+    <Compile Include="RenderableModel\Shp\RenderableShp.cs" />
+    <Compile Include="RenderableModel\TriPolygon.cs" />
+    <Compile Include="Terrain\Storage\FileTerrainStorageService.cs" />
+    <Compile Include="Terrain\Storage\SQliteTerrainStorageService.cs" />
+    <Compile Include="TiledImage\GeoImageDownloadRequest.cs" />
+    <Compile Include="RenderableModel\LakeSurface.cs" />
+    <Compile Include="RenderableModel\Providers\SeaParameter.cs" />
+    <Compile Include="RenderableModel\Providers\SoftwareNoisemaker.cs" />
+    <Compile Include="RenderableModel\WavingFlagLayer.cs" />
+    <Compile Include="RenderableObject\ScreenOverlay.cs" />
+    <Compile Include="Terrain\Storage\ITerrainStorageService.cs" />
+    <Compile Include="Terrain\NltTerrainAccessor.cs" />
+    <Compile Include="Terrain\TerrainAccessor.cs" />
+    <Compile Include="Terrain\TerrainDownloadRequest.cs" />
+    <Compile Include="Terrain\TerrainTile.cs" />
+    <Compile Include="Terrain\TerrainTileService.cs" />
+    <Compile Include="Terrain\TifTerrainAccessor.cs" />
+    <Compile Include="Terrain\WMSDownloadRequest.cs" />
+    <Compile Include="Terrain\WMSTerrainTileService.cs" />
+    <Compile Include="TiledImage\FileImageAccessService.cs" />
+    <Compile Include="TiledImage\ProjectedMapImageStore.cs" />
+    <Compile Include="RenderableObject\BoundaryLayer.cs" />
+    <Compile Include="Core\BoundingBox.cs" />
+    <Compile Include="Core\BoundingSphere.cs" />
+    <Compile Include="Core\Cache.cs" />
+    <Compile Include="Core\CameraBase.cs" />
+    <Compile Include="RenderableObject\DownloadableImageFromIconSet.cs" />
+    <Compile Include="Core\DrawArgs.cs" />
+    <Compile Include="Core\GeographicBoundingBox.cs" />
+    <Compile Include="TiledImage\SQliteImageService.cs" />
+    <Compile Include="Tool\ExtractTerrain.cs" />
+    <Compile Include="Utilities\BindingsCheck.cs" />
+    <Compile Include="Utilities\DataProtection.cs" />
+    <Compile Include="Utilities\Win32Message.cs" />
+    <Compile Include="VectorRender.cs" />
+    <Compile Include="WebDownload\DownloadQueue.cs" />
+    <Compile Include="WebDownload\DownloadRequest.cs" />
+    <Compile Include="WebDownload\GeoSpatialDownloadRequest.cs" />
+    <Compile Include="Core\IGlobe.cs" />
+    <Compile Include="TiledImage\ImageHelper.cs" />
+    <Compile Include="TiledImage\ImageLayer.cs" />
+    <Compile Include="TiledImage\ImageStore.cs" />
+    <EmbeddedResource Include="Shaders\flag.fx" />
+    <EmbeddedResource Include="Shaders\grayscale.fx" />
+    <EmbeddedResource Include="Shaders\SkyFromAtmosphere.fx" />
+    <EmbeddedResource Include="Shaders\SkyFromSpace.fx" />
+    <None Include="TiledImage\ImageTileRequest.cs" />
+    <Compile Include="TiledImage\ImageTileService.cs" />
+    <Compile Include="Core\IRenderable.cs" />
+    <Compile Include="RenderableObject\LatLongGrid.cs" />
+    <Compile Include="RenderableObject\LinearRing.cs" />
+    <Compile Include="RenderableObject\LineFeature.cs" />
+    <Compile Include="RenderableObject\LineGraph.cs" />
+    <Compile Include="RenderableObject\LineString.cs" />
+    <Compile Include="Math\MathEngine.cs" />
+    <Compile Include="RenderableObject\MeshLayer.cs" />
+    <Compile Include="RenderableObject\ModelFeature.cs" />
+    <Compile Include="TiledImage\NltImageStore.cs" />
+    <Compile Include="RenderableObject\PathLine.cs" />
+    <Compile Include="RenderableObject\PathList.cs" />
+    <Compile Include="Core\PerformanceTimer.cs" />
+    <Compile Include="Geometry\Point2d.cs" />
+    <Compile Include="Geometry\Point3d.cs" />
+    <Compile Include="Geometry\Polygon.cs" />
+    <Compile Include="RenderableObject\PolygonFeature.cs" />
+    <Compile Include="RenderableObject\PolygonLayer.cs" />
+    <Compile Include="Controls\ProgressBar.cs" />
+    <Compile Include="Geometry\ProjectedVectorRenderer.cs" />
+    <Compile Include="Geometry\ProjectedVectorTile.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuadTile\QuadTile.cs" />
+    <Compile Include="QuadTile\QuadTileSet.cs" />
+    <Compile Include="WebDownload\ProxyHelper.cs" />
+    <Compile Include="WebDownload\WebDownload.cs" />
+    <Compile Include="WebDownload\WebDownloadRequest.cs" />
+    <Compile Include="WebDownload\WmsDownload.cs" />
+    <Compile Include="Widgets\NewWidgets\IInteractive.cs" />
+    <Compile Include="Widgets\NewWidgets\IWidget.cs" />
+    <Compile Include="Widgets\NewWidgets\IWidgetCollection.cs" />
+    <Compile Include="Widgets\NewWidgets\NewWidgetsCollection.cs" />
+    <Compile Include="Widgets\NewWidgets\RootWidget.cs" />
+    <Compile Include="Widgets\WidgetCollection.cs" />
+    <Compile Include="Widgets\Widgets.Form.cs" />
+    <Compile Include="Widgets\Widgets.PictureBox.cs" />
+    <Compile Include="Widgets\Widgets.RootWidget.cs" />
+    <Compile Include="Widgets\Widgets.Utilities.cs" />
+    <Compile Include="World\Quaterniond.cs" />
+    <Compile Include="RenderableObject\RenderableObject.cs" />
+    <Compile Include="RenderableObject\RenderableObjectList.cs" />
+    <Compile Include="Core\SettingsBase.cs" />
+    <Compile Include="RenderableObject\Shapes\ShapeFileLayer.cs" />
+    <Compile Include="RenderableObject\Shapes\ShapeLayer.cs" />
+    <Compile Include="World\SunCalculator.cs" />
+    <Compile Include="TiledImage\SurfaceImage.cs" />
+    <Compile Include="TiledImage\SurfaceTile.cs" />
+    <Compile Include="RenderableObject\TerrainPath.cs" />
+    <Compile Include="RenderableObject\TiledPlacenameSet.cs" />
+    <Compile Include="QuadTile\TiledWFSPlacenameSet.cs" />
+    <Compile Include="Core\TimeKeeper.cs" />
+    <Compile Include="Core\Units.cs" />
+    <Compile Include="World\ViewFrustum.cs" />
+    <Compile Include="TiledImage\WmsImageStore.cs" />
+    <Compile Include="World\World.cs" />
+    <Compile Include="World\WorldCamera.cs" />
+    <Compile Include="World\WorldSettings.cs" />
+    <Compile Include="World\WorldSurfaceRenderer.cs" />
+    <Compile Include="Core\Engine3DSettings.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="buttons\close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Heiflow.AI\Heiflow.AI.csproj">
+      <Project>{a022b559-ab8a-4130-98ac-70a68b217c80}</Project>
+      <Name>Heiflow.AI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Controls\Heiflow.Controls.WinForm.csproj">
+      <Project>{04b4c21d-e554-4369-8c00-bfbbeca0fb2c}</Project>
+      <Name>Heiflow.Controls.WinForm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Core\Heiflow.Core.csproj">
+      <Project>{e75a11b8-00a2-45de-a5e4-4b8180b5903c}</Project>
+      <Name>Heiflow.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Models\Heiflow.Models.csproj">
+      <Project>{28e79461-3161-4130-81b0-2c36cd3a3315}</Project>
+      <Name>Heiflow.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Presentation\Heiflow.Presentation.csproj">
+      <Project>{55d24eb1-96bb-4902-8240-e9019032db93}</Project>
+      <Name>Heiflow.Presentation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Heiflow.Spatial\Heiflow.Spatial.csproj">
+      <Project>{2a3c4415-b678-4826-97d8-e25e6e63b088}</Project>
+      <Name>Heiflow.Spatial</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="RenderableModel\Model\GridValueRanges.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

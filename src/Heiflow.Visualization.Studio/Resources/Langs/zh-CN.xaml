@@ -1,0 +1,124 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib">
+    <s:String x:Key="FileMenuHeader">文件(_F)</s:String>
+    <s:String x:Key="OpenPrjMenuHeader">打开(_O)</s:String>
+    <s:String x:Key="SavePrjMenuHeader">保存(_S)</s:String>    
+    <s:String x:Key="ExitMenuHeader">退出(_E)</s:String>
+    <s:String x:Key="LanguageMenuHeader">语言(_L)</s:String>
+    <s:String x:Key="EnglishMenuHeader">_English</s:String>
+    <s:String x:Key="ChineseMenuHeader">汉语(_C)</s:String>
+    
+    <s:String x:Key="ViewMenuHeader">视图(_V)</s:String>
+    <s:String x:Key="ShowPosInfoMenuHeader">位置信息</s:String>
+    <s:String x:Key="ShowCroHairMenuHeader">十字准线</s:String>
+    <s:String x:Key="ShowLatlngMenuHeader">经纬度网格</s:String>
+    <s:String x:Key="ShowCompassMenuHeader">指南针</s:String>
+    <s:String x:Key="ShowScalebarMenuHeader">比例尺</s:String>
+    <s:String x:Key="ShowLengendMenuHeader">图例</s:String>
+    <s:String x:Key="EnMoveMoMenuHeader">使用惯性</s:String>
+    <s:String x:Key="EnFogMenuHeader">雾化效果</s:String>
+    <s:String x:Key="EnSolarMenuHeader">日光模式</s:String>
+    <s:String x:Key="EnSkyMenuHeader">天空</s:String>
+    <s:String x:Key="EnAtomosphereMenuHeader">大气</s:String>
+    <s:String x:Key="EnAtomScatMenuHeader">大气散射</s:String>
+    <s:String x:Key="EnPseColorMenuHeader">伪彩色地形</s:String>
+    <s:String x:Key="ShowChartMenuHeader">绘图</s:String>
+    <s:String x:Key="ShowHistMenuHeader">直方图</s:String>
+    <s:String x:Key="ShowSceTitleHeader">场景标题</s:String>
+    <s:String x:Key="DefaultPosHeader">默认位置</s:String>
+    <s:String x:Key="CurrentPosAsDefaultMenuHeader">保存当前位置</s:String>
+    <s:String x:Key="ViewpropHeader">视图选项</s:String>
+    <s:String x:Key="SaveConfigHeader">保存配置</s:String>
+
+    <s:String x:Key="DataMenuHeader">数据(_D)</s:String>
+
+    <s:String x:Key="ToolMenuHeader">工具(_T)</s:String>
+    <s:String x:Key="D3PerfMenuHeader">3D渲染性能</s:String>
+    <s:String x:Key="MeasureMenuHeader">测量</s:String>
+    <s:String x:Key="ScreenShotMenuHeader">截屏</s:String>
+    <s:String x:Key="AutoScreenShotMenuHeader">自动截屏</s:String>
+    <s:String x:Key="ShowStatInfoMenuHeader">显示统计信息</s:String>
+    <s:String x:Key="MakeMovieMenuHeader">制作录像</s:String>
+    <s:String x:Key="WMSMenuHeader">WMS...</s:String>
+    <s:String x:Key="PropMenuHeader">选项</s:String>
+
+    <s:String x:Key="ModelMenuHeader">模型(_M)</s:String>
+    <s:String x:Key="SurfModelMenuHeader">地表水</s:String>
+    <s:String x:Key="SubsurfModelMenuHeader">地下水</s:String>
+    <s:String x:Key="DisRiversTxt">显示河网</s:String>
+    <s:String x:Key="DisCroSecTxt">显示剖面</s:String>
+    <s:String x:Key="ModelStatInfoMenuHeader">显示模型统计信息</s:String>
+    <s:String x:Key="ModelPropMenuHeader">模型属性</s:String>
+    
+    <s:String x:Key="HelpMenuHeader">帮助(_H)</s:String>
+    <s:String x:Key="ViewHelpMenuHeader">查看帮助...</s:String>
+    <s:String x:Key="AboutMenuHeader">关于...</s:String>
+
+    <s:String x:Key="LayerManagerTxt">图层管理</s:String>
+    <s:String x:Key="VariableTxt">变量</s:String>
+    <s:String x:Key="ParameterTxt">参数</s:String>
+    <s:String x:Key="LayerSettingTxt">模型分层</s:String>
+    <s:String x:Key="CurLayerTxt">当前层</s:String>
+    <s:String x:Key="VerLayerAvTxt">垂向平均</s:String>
+
+    <s:String x:Key="VelVecTxt">速度矢量设置</s:String>
+    <s:String x:Key="DisScalarTxt">显示标量</s:String>
+    <s:String x:Key="DisVecTxt">显示矢量</s:String>
+    <s:String x:Key="DisGridTxt">显示模型网格</s:String>
+    <s:String x:Key="ScaleVecTxt">矢量缩放</s:String>
+    <s:String x:Key="ScaleVecTipTxt">矢量缩放方法</s:String>
+    <s:String x:Key="NoneScaleTxt">无缩放</s:String>
+    <s:String x:Key="LinearScaleTxt">线性</s:String>
+    <s:String x:Key="SdScaleTxt">标准差</s:String>
+    <s:String x:Key="AutoVecColorTxt">自动设置箭头颜色</s:String>
+    <s:String x:Key="VecColorTxt">箭头颜色</s:String>
+    <s:String x:Key="VecSizeTxt">箭头大小</s:String>
+
+    <s:String x:Key="ColorSettingTxt">颜色设置</s:String>
+    <s:String x:Key="VetExTxt">垂向伸缩</s:String>
+    <s:String x:Key="ColorRampTxt">渐变色表</s:String>
+    <s:String x:Key="ClsfyContTxt">颜色分类数目</s:String>
+    <s:String x:Key="OpacityTxt">透明度</s:String>
+    <s:String x:Key="UniqueColorTxt">独立颜色表</s:String>
+    
+    <s:String x:Key="SetAsCurrentPrjMenu">设为当前项目</s:String>
+    <s:String x:Key="RemovePrjMenu">移除项目</s:String>
+    <s:String x:Key="LayerPropMenu">图层属性</s:String>
+    <s:String x:Key="ModelPropMenu">模型属性</s:String>
+
+    <s:String x:Key="AniPlayerMenu">动画播放</s:String>
+    <s:String x:Key="AniSpeedMenu">动画速度</s:String>
+
+    <s:String x:Key="MoreTxt">更多...</s:String>
+    <s:String x:Key="ReturnTxt">返回</s:String>
+    <s:String x:Key="SmallTxt">较小</s:String>
+    <s:String x:Key="NormalTxt">正常</s:String>
+    <s:String x:Key="LargeTxt">L较大</s:String>
+    <s:String x:Key="VerylargeTxt">很大</s:String>
+    <s:String x:Key="FastTxt">较快</s:String>
+    <s:String x:Key="SlowTxt">较慢</s:String>
+
+    <s:String x:Key="D3SceneSettingTxt">3D场景</s:String>
+    <s:String x:Key="TerSufTxt">3D地形</s:String>
+    <s:String x:Key="InvertColTxt">翻转颜色</s:String>
+    <s:String x:Key="FogSetTxt">雾化效果</s:String>
+    <s:String x:Key="CusFogSetTxt">自定义雾化效果</s:String>
+    <s:String x:Key="FogLevelTxt">雾化程度</s:String>
+    <s:String x:Key="VeryLightTxt">轻雾</s:String>
+    <s:String x:Key="LightTxt">中雾</s:String>
+    <s:String x:Key="HeavyTxt">大雾</s:String>
+    <s:String x:Key="DenseTxt">浓雾</s:String>
+
+    <s:String x:Key="SunLightTxt">光照效果</s:String>
+    <s:String x:Key="AzimuthTxt">方位角</s:String>
+    <s:String x:Key="Altitudext">高度角</s:String>
+
+    <s:String x:Key="AcFileTxt">外部文件</s:String>
+    <s:String x:Key="AcScaleTxt">缩放系数</s:String>
+    <s:String x:Key="AcMaxStepTxt">最大步长</s:String>
+
+    <s:String x:Key="SunSynchedWithTime">太阳位置与当前时间同步</s:String>
+    <s:String x:Key="Remove">移除</s:String>
+    <s:String x:Key="AttributeTable">属性表</s:String>
+</ResourceDictionary>

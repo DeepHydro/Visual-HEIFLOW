@@ -1,0 +1,176 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:local="clr-namespace:Odyssey.Controls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush x:Key="{ComponentResourceKey local:Skins, PopupContainerBgBrush}" Color="White"/>
+
+    <LinearGradientBrush x:Key="{ComponentResourceKey local:Skins, RibbonMenuButtonBrush}" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#FFB3CDED" Offset="0"/>
+        <GradientStop Color="#FF7FA6D0" Offset="0.5"/>
+        <GradientStop Color="#FF3778C1" Offset="0.5"/>
+        <GradientStop Color="#FF7ACAEF" Offset="1"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="{ComponentResourceKey local:Skins, MouseOverRibbonMenuButtonBrush}" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#FFC3DEFE" Offset="0"/>
+        <GradientStop Color="#FF8FB5E1" Offset="0.5"/>
+        <GradientStop Color="#FF4789D3" Offset="0.5"/>
+        <GradientStop Color="#FF88DAFC" Offset="1"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="{ComponentResourceKey local:Skins, RibbonTabBrush}" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#FFDAE6F4" Offset="0"/>
+        <GradientStop Color="#FFCFDDEF" Offset="0.2"/>
+        <GradientStop Color="#FFC9D9ED" Offset="0.2"/>
+        <GradientStop Color="#FFE7F2FF" Offset="1"/>
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey local:Skins, DefaultBorderBrush}" Color="#A08FA8B5"/>
+
+    <LinearGradientBrush x:Key="{ComponentResourceKey local:Skins, RibbonTabSeparatorBrush}" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#3015428B" Offset="0"/>
+        <GradientStop Color="#FF15428B" Offset="1"/>
+        <!--<GradientStop Color="#3015428B" Offset="1"/>-->
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey local:Skins, RibbonBorderBrush}" Color="#FFC8B280"/>
+    <SolidColorBrush x:Key="{ComponentResourceKey local:Skins, RibbonForegroundBrush}" Color="#FF15428B"/>
+    <SolidColorBrush x:Key="{ComponentResourceKey local:Skins, LightBorderBrush}" Color="#E0FFFFFF"/>
+
+
+    <LinearGradientBrush x:Key="{ComponentResourceKey local:Skins, RibbonTabItemBrush}" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#FFE7F2FF" Offset="0"/>
+        <GradientStop Color="#FFDAE6F4" Offset="1"/>
+    </LinearGradientBrush>
+
+
+    <LinearGradientBrush x:Key="{ComponentResourceKey local:Skins, RibbonPanelBgBrush}" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="Transparent"  Offset="0"/>
+        <GradientStop Color="Transparent"  Offset="0.83"/>
+        <!--<GradientStop Color="#10000000" Offset="0.83"/>
+        <GradientStop Color="#20000000" Offset="1"/>-->
+        <GradientStop Color="#FFC2D8F0" Offset="0.83"/>
+        <GradientStop Color="#FFC0D8EF" Offset="1"/>
+    </LinearGradientBrush>
+    
+    <SolidColorBrush x:Key="{ComponentResourceKey local:Skins, RibbonBarControlBrush}" Color="#FFBFDBFF"/>
+
+    <LinearGradientBrush x:Key="{ComponentResourceKey local:Skins, RibbonPanelMouseOverBg}" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#50FFFFFF"  Offset="0"/>
+        <GradientStop Color="#50FFFFFF"  Offset="0.83"/>
+        <GradientStop Color="#FFC8E0FF" Offset="0.83"/>
+        <GradientStop Color="#FFD6EDFF" Offset="1"/>
+        <!--<GradientStop Color="#40C8E0FF" Offset="0.83"/>
+        <GradientStop Color="#40D8EDFF" Offset="1"/>-->
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="{ComponentResourceKey local:Skins, DefaultMousePressedBtnBrush}" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#FFAEC2DD" Offset="0"/>
+        <GradientStop Color="#FF88A7D0" Offset="0.15"/>
+        <GradientStop Color="#FF7699C8" Offset="0.15"/>
+        <GradientStop Color="#FFB2D4FD" Offset="1"/>
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="{ComponentResourceKey local:Skins, MinimizedMouseOverBrush}" Color="#40FFFFFF"/>
+    <SolidColorBrush x:Key="{ComponentResourceKey local:Skins, MinimizedRibbonPanelBgBrush}" Color="Transparent"/>
+    
+    <LinearGradientBrush x:Key="{ComponentResourceKey local:Skins, SmallIconBgBrush}" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#70FFFFFF" Offset="0"/>
+        <GradientStop Color="#70FFFFFF" Offset="0.85"/>
+        <GradientStop Color="#20000000" Offset="0.85"/>
+        <GradientStop Color="#21000000" Offset="1"/>
+    </LinearGradientBrush>
+
+    <DrawingImage x:Key="{ComponentResourceKey local:Skins, LeftArrowImage}" RenderOptions.BitmapScalingMode="Linear" RenderOptions.EdgeMode="Unspecified">
+        <DrawingImage.Drawing>
+            <DrawingGroup >
+                <GeometryDrawing Geometry="M3,5 L 3,1 L1,3 Z" >
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{DynamicResource {ComponentResourceKey local:Skins, LightBorderBrush}}" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+
+
+                <GeometryDrawing Geometry="M2,4 L 2,0 L0,2 Z" Brush="{DynamicResource {ComponentResourceKey local:Skins, RibbonForegroundBrush}}">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{DynamicResource {ComponentResourceKey local:Skins, RibbonForegroundBrush}}" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="{ComponentResourceKey local:Skins, RightArrowImage}" RenderOptions.BitmapScalingMode="Linear" RenderOptions.EdgeMode="Unspecified">
+        <DrawingImage.Drawing>
+            <DrawingGroup >
+                <GeometryDrawing Geometry="M1,5 L 1,1 L3,3 Z" >
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{DynamicResource {ComponentResourceKey local:Skins, LightBorderBrush}}" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+
+
+                <GeometryDrawing Geometry="M0,4 L 0,0 L2,2 Z" Brush="{DynamicResource {ComponentResourceKey local:Skins, RibbonForegroundBrush}}">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{DynamicResource {ComponentResourceKey local:Skins, RibbonForegroundBrush}}" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="DownArrowImage" RenderOptions.BitmapScalingMode="Linear" >
+        <DrawingImage.Drawing>
+            <DrawingGroup >
+                <GeometryDrawing Geometry="M5,1 L 3,3 L1,1 Z" >
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{DynamicResource {ComponentResourceKey local:Skins, LightBorderBrush}}" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+
+
+                <GeometryDrawing Geometry="M4,0 L 2,2 L0,0 Z" Brush="{DynamicResource {ComponentResourceKey local:Skins, RibbonForegroundBrush}}">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{DynamicResource {ComponentResourceKey local:Skins, RibbonForegroundBrush}}" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="{ComponentResourceKey local:Skins, OverflowArrow}" RenderOptions.BitmapScalingMode="Unspecified" >
+        <DrawingImage.Drawing>
+            <DrawingGroup >
+                <GeometryDrawing Geometry="M1,1 L 4,4 L 1,7 M 4,1 L 7,4 L 4,7" >
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{DynamicResource {ComponentResourceKey local:Skins, LightBorderBrush}}" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+
+                <GeometryDrawing Geometry="M0,0 L 3,3 L 0,6 M 3,0 L 6,3 L 3,6">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{DynamicResource {ComponentResourceKey local:Skins, RibbonForegroundBrush}}" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="{ComponentResourceKey local:Skins, QAMenuArrow}" RenderOptions.BitmapScalingMode="Linear" >
+        <DrawingImage.Drawing>
+            <DrawingGroup >
+                <GeometryDrawing Geometry="M0,1 L6,1">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{DynamicResource {ComponentResourceKey local:Skins, RibbonForegroundBrush}}" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+                <GeometryDrawing Geometry="M0,4 L 6,4 L 3,8 L 0,4" Brush="{DynamicResource {ComponentResourceKey local:Skins, RibbonForegroundBrush}}">
+                    <GeometryDrawing.Pen>
+                        <Pen Thickness="0"/>
+                    </GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+</ResourceDictionary>
