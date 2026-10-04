@@ -33,7 +33,6 @@ using Heiflow.Presentation.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,7 +57,6 @@ namespace Heiflow.Applications.Services
         {
             get
             {
-                Debug.WriteLine("Project");
                 return _Project;
             }
             set
@@ -68,13 +66,6 @@ namespace Heiflow.Applications.Services
         }
 
         public IProjectSerialization Serializer
-        {
-            get;
-            set;
-        }
-
-
-        public IProjectSerialization Serialization
         {
             get;
             set;
@@ -101,7 +92,10 @@ namespace Heiflow.Applications.Services
         public void Clear()
         {
             if (_Project != null)
+            {
                 _Project.Clear();
+                _Project = null;
+            }
         }
     }
 }

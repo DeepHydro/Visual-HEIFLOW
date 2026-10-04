@@ -34,6 +34,7 @@ using Heiflow.Core.Data.ODM;
 using Heiflow.Core.Utility;
 using Heiflow.Models.Generic.Packages;
 using Heiflow.Models.Generic.Parameters;
+using Heiflow.Models.GeoSpatial;
 using Heiflow.Models.Integration;
 using Heiflow.Models.Properties;
 using Heiflow.Models.UI;
@@ -60,7 +61,6 @@ namespace Heiflow.Models.Generic.Project
         protected string _RelativeModelWorkDirectory;
         protected MapPolygonLayer _GridLayer;
         protected MapPointLayer _CentroidLayer;
-        protected List<ITimeService> _TimeServices = new List<ITimeService>();
         protected bool _IsDirty;
         protected string _SelectedVersion;
         protected string[] _removedHeaderItemKeys;
@@ -133,8 +133,11 @@ namespace Heiflow.Models.Generic.Project
             }
             set
             {
+                if (ReferenceEquals(_Model, value))
+                    return;
                 _Model = value;
-                _Model.Project = this;
+                if (_Model != null)
+                    _Model.Project = this;
                 OnModelChanged();
             }
         }
@@ -452,15 +455,6 @@ namespace Heiflow.Models.Generic.Project
         }
         [XmlIgnore]
         [Browsable(false)]
-        public List<ITimeService> TimeServices
-        {
-            get
-            {
-                return _TimeServices;
-            }
-        }
-        [XmlIgnore]
-        [Browsable(false)]
         public bool IsDirty
         {
             get
@@ -517,15 +511,143 @@ namespace Heiflow.Models.Generic.Project
             _IsDirty = false;
         }
 
-        public abstract bool New(ICancelProgressHandler progress, bool ImportFromExistingModel);
         public virtual void Clear()
         {
             if (this.Model != null)
                 this.Model.Clear();
+            if (FeatureCoverages != null)
+                FeatureCoverages.Clear();
+            if (RasterLayerCoverages != null)
+                RasterLayerCoverages.Clear();
+            _GridLayer = null;
+            _CentroidLayer = null;
+            _IsDirty = false;
         }
-        public abstract void AttachFeatures();
-        public abstract void CreateGridFeature();
-        public abstract void SaveBatchRunFile();
+
+        #region Creation template
+        /// <summary>
+        /// Gets the directories that must exist before the project can be used.
+        /// </summary>
+        protected virtual string[] WorkingDirectories
+        {
+            get
+            {
+                return new string[] { GeoSpatialDirectory, ProcessingDirectory, InputDirectory, MFInputDirectory, OutputDirectory };
+            }
+        }
+
+        /// <summary>
+        /// Gets the extension (including the leading dot) of the model control file.
+        /// </summary>
+        protected virtual string ControlFileExtension
+        {
+            get { return ".nam"; }
+        }
+
+        /// <summary>
+        /// Creates the model owned by this project. Derived classes return their own model type.
+        /// </summary>
+        /// <param name="controlFileName">Relative name of the control file.</param>
+        protected abstract IBasicModel CreateModel(string controlFileName);
+
+        /// <summary>
+        /// Called once the working directories and the model have been created.
+        /// </summary>
+        protected virtual void OnCreated()
+        {
+            SaveBatchRunFile();
+            SaveIHMProjectFile();
+        }
+
+        public virtual bool New(ICancelProgressHandler progress, bool ImportFromExistingModel)
+        {
+            var succ = true;
+            foreach (var dir in WorkingDirectories)
+            {
+                if (!string.IsNullOrEmpty(dir))
+                    Directory.CreateDirectory(dir);
+            }
+
+            RelativeMapFileName = Name + ".dspx";
+            FullProjectFileName = Path.Combine(AbsolutePathToProjectFile, Name + ".vhfx");
+
+            if (!ImportFromExistingModel)
+            {
+                RelativeControlFileName = Name + ControlFileExtension;
+                var model = CreateModel(RelativeControlFileName);
+                model.Initialize();
+                succ = model.New(progress);
+                model.Version = SelectedVersion;
+                Model = model;
+            }
+            OnCreated();
+            _IsDirty = true;
+            return succ;
+        }
+        #endregion
+
+        public virtual void AttachFeatures()
+        {
+            var gridfea_file = Path.Combine(AbsolutePathToProjectFile, GridFeatureFilePath);
+            var centroidfea_file = Path.Combine(AbsolutePathToProjectFile, CentroidFeatureFilePath);
+
+            _GridLayer = MapHelper.Select(gridfea_file, Map, AbsolutePathToProjectFile) as MapPolygonLayer;
+            _CentroidLayer = MapHelper.Select(centroidfea_file, Map, AbsolutePathToProjectFile) as MapPointLayer;
+
+            if (_GridLayer != null && _CentroidLayer != null && Model != null && Model.Grid != null)
+            {
+                Model.Grid.FeatureSet = _GridLayer.DataSet;
+                Model.Grid.CentroidFeature = _CentroidLayer.DataSet;
+                Model.Grid.FeatureLayer = _GridLayer;
+                Model.Grid.CentroidFeatureLayer = _CentroidLayer;
+            }
+            else
+            {
+                CreateGridFeature();
+            }
+
+            if (Model != null)
+            {
+                Model.Attach(this.Map, this.GeoSpatialDirectory);
+            }
+            CheckBatchRunFile();
+        }
+
+        public virtual void CreateGridFeature()
+        {
+            this.GridFeatureFilePath = Path.Combine("GeoSpatial", "Grid.shp");
+            this.CentroidFeatureFilePath = Path.Combine("GeoSpatial", "Centroid.shp");
+            var full_gridfea_file = Path.Combine(this.AbsolutePathToProjectFile, GridFeatureFilePath);
+            var full_centroid_file = Path.Combine(this.AbsolutePathToProjectFile, CentroidFeatureFilePath);
+
+            this.Model.Grid.Build(full_gridfea_file);
+            var fs_grid = FeatureSet.Open(full_gridfea_file);
+            _GridLayer = new MapPolygonLayer(fs_grid);
+
+            this.Model.Grid.FeatureSet = fs_grid;
+            this.Model.Grid.FeatureLayer = _GridLayer;
+            this.Map.Layers.Add(_GridLayer);
+
+            this.Model.Grid.BuildCentroid(full_centroid_file);
+            var fs_centroid = FeatureSet.Open(full_centroid_file);
+            _CentroidLayer = new MapPointLayer(fs_centroid);
+            this.Model.Grid.CentroidFeature = fs_centroid;
+            this.Model.Grid.CentroidFeatureLayer = _CentroidLayer;
+            this.Map.Layers.Add(_CentroidLayer);
+
+            this.Map.Invalidate();
+        }
+
+        public virtual void SaveBatchRunFile()
+        {
+            var control_file = string.IsNullOrEmpty(RelativeControlFileName) ? Name + ControlFileExtension : RelativeControlFileName;
+            var filename = Path.Combine(AbsolutePathToProjectFile, "run.bat");
+            using (StreamWriter sw = new StreamWriter(filename))
+            {
+                sw.WriteLine(string.Format("{0} {1}", ModelExeFileName, control_file));
+                sw.WriteLine("Pause");
+            }
+        }
 
         public bool ContainsCoverage(string legendtext)
         {
@@ -546,23 +668,23 @@ namespace Heiflow.Models.Generic.Project
             var filename = Path.Combine(AbsolutePathToProjectFile, "run.bat");
             if (File.Exists(filename))
             {
-                StreamReader sr = new StreamReader(filename);
-                var line = sr.ReadLine();
-                var strs = TypeConverterEx.Split<string>(line);
                 bool need_fix = false;
-                if (strs.Length == 2)
+                using (StreamReader sr = new StreamReader(filename))
                 {
-                    if (!File.Exists(strs[0]))
+                    var line = sr.ReadLine();
+                    var strs = string.IsNullOrEmpty(line) ? new string[0] : TypeConverterEx.Split<string>(line);
+                    if (strs.Length == 2)
+                    {
+                        if (!File.Exists(strs[0]))
+                        {
+                            need_fix = true;
+                        }
+                    }
+                    else
                     {
                         need_fix = true;
                     }
-
                 }
-                else
-                {
-                    need_fix = true;
-                }
-                sr.Close();
                 if (need_fix)
                     SaveBatchRunFile();
             }
@@ -577,7 +699,8 @@ namespace Heiflow.Models.Generic.Project
             var filename = Path.Combine(AbsolutePathToProjectFile, this.Name+ ".ihmx");
             if (!File.Exists(filename))
             {
-                StreamWriter sw = new StreamWriter(filename);
+                using (StreamWriter sw = new StreamWriter(filename))
+                {
                 string line = "<?xml version=\"1.0\"?>";
                 sw.WriteLine(line);
                 line = "<Heiflow3DProject xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">";
@@ -631,7 +754,7 @@ namespace Heiflow.Models.Generic.Project
                 sw.WriteLine("</ShapeFeatureProvider>");
 
                 sw.Write("</Heiflow3DProject>");
-                sw.Close();
+                }
             }
         }
     }

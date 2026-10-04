@@ -29,6 +29,7 @@
 
 using DotSpatial.Controls;
 using DotSpatial.Data;
+using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Project;
 using Heiflow.Models.GeoSpatial;
 using Heiflow.Models.Properties;
@@ -63,94 +64,17 @@ namespace Heiflow.Models.Subsurface
             get;
             set;
         }
-        public override bool New(ICancelProgressHandler progress, bool ImportFromExistingModel)
+        protected override IBasicModel CreateModel(string controlFileName)
         {
-            var succ = true;
-            System.IO.Directory.CreateDirectory(GeoSpatialDirectory);
-            System.IO.Directory.CreateDirectory(ProcessingDirectory);
-            System.IO.Directory.CreateDirectory(InputDirectory);
-            System.IO.Directory.CreateDirectory(MFInputDirectory);
-            System.IO.Directory.CreateDirectory(OutputDirectory);
-
-            RelativeMapFileName = Name + ".dspx";
-            FullProjectFileName = Path.Combine(AbsolutePathToProjectFile, Name + ".vhfx");
-
-            if (!ImportFromExistingModel)
+            return new Modflow()
             {
-                RelativeControlFileName = Name + ".nam";
-                var model = new Modflow()
-                {
-                    Project = this,
-                    WorkDirectory = FullModelWorkDirectory,
-                    ControlFileName = RelativeControlFileName
-                };
-                model.Initialize();
-                succ = model.New(progress);
-                model.Version = this.SelectedVersion;
-                this.Model = model;
-            }
-            SaveBatchRunFile();
-            SaveIHMProjectFile();
-            _IsDirty = true;
-            return true;
+                Project = this,
+                WorkDirectory = FullModelWorkDirectory,
+                ControlFileName = controlFileName
+            };
         }
 
-        public override void AttachFeatures()
-        {
-            var gridfea_file = Path.Combine(this.AbsolutePathToProjectFile, GridFeatureFilePath);
-            var centroidfea_file = Path.Combine(this.AbsolutePathToProjectFile, CentroidFeatureFilePath);
 
-            _GridLayer = MapHelper.Select(gridfea_file, Map, this.AbsolutePathToProjectFile) as MapPolygonLayer;
-            _CentroidLayer = MapHelper.Select(centroidfea_file, Map, this.AbsolutePathToProjectFile) as MapPointLayer;
 
-            if (_GridLayer != null && _CentroidLayer != null)
-            {
-                Model.Grid.FeatureSet = _GridLayer.DataSet;
-                Model.Grid.CentroidFeature = _CentroidLayer.DataSet;
-                Model.Grid.FeatureLayer = _GridLayer;
-                Model.Grid.CentroidFeatureLayer = _CentroidLayer;
-            }
-            else
-            {
-                CreateGridFeature();
-            }
-
-            Model.Attach(this.Map, this.GeoSpatialDirectory);
-            CheckBatchRunFile();
-        }
-
-        public override void CreateGridFeature()
-        {
-            this.GridFeatureFilePath = "GeoSpatial\\Grid.shp";
-            this.CentroidFeatureFilePath = "GeoSpatial\\Centroid.shp";
-            var full_gridfea_file = Path.Combine(this.AbsolutePathToProjectFile, GridFeatureFilePath);
-            var full_centroid_file = Path.Combine(this.AbsolutePathToProjectFile, CentroidFeatureFilePath);
-
-            this.Model.Grid.Build(full_gridfea_file);
-            var fs_grid = FeatureSet.Open(full_gridfea_file);
-            _GridLayer = new MapPolygonLayer(fs_grid);
-
-            this.Model.Grid.FeatureSet = fs_grid;
-            this.Model.Grid.FeatureLayer = _GridLayer;
-            this.Map.Layers.Add(_GridLayer);
-
-            this.Model.Grid.BuildCentroid(full_centroid_file);
-            var fs_centroid = FeatureSet.Open(full_centroid_file);
-            _CentroidLayer = new MapPointLayer(fs_centroid);
-            this.Model.Grid.CentroidFeature = fs_centroid;
-            this.Model.Grid.CentroidFeatureLayer = _CentroidLayer;
-            this.Map.Layers.Add(_CentroidLayer);
-
-            this.Map.Invalidate();
-        }
-        public override void SaveBatchRunFile()
-        {
-            var filename = Path.Combine(AbsolutePathToProjectFile, "run.bat");
-            StreamWriter sw = new StreamWriter(filename);
-            var line = string.Format("{0} {1}", ModelExeFileName, Name + ".nam");
-            sw.WriteLine(line);
-            sw.WriteLine("Pause");
-            sw.Close();
-        }
     }
 }

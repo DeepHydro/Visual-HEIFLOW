@@ -29,6 +29,7 @@
 
 using DotSpatial.Controls;
 using DotSpatial.Data;
+using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Project;
 using Heiflow.Models.GeoSpatial;
 using Heiflow.Models.Properties;
@@ -55,6 +56,15 @@ namespace Heiflow.Models.Subsurface
             SupportedVersions = new string[] { "v2005" };
             SelectedVersion = "v2005";
         }
-      
+
+        protected override IBasicModel CreateModel(string controlFileName)
+        {
+            return new MT3DMSModel()
+            {
+                Project = this,
+                WorkDirectory = FullModelWorkDirectory,
+                ControlFileName = controlFileName
+            };
+        }
     }
 }

@@ -29,59 +29,26 @@
 
 using Heiflow.Models.Generic.Project;
 using Heiflow.Models.Integration;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using System;
 
 namespace Heiflow.Models.Subsurface
 {
-    public class OpenModflowProjectFileProvider : IOpenProjectFileProvider
+    public class OpenModflowProjectFileProvider : XmlProjectFileProvider<ModflowProject>
     {
-        public OpenModflowProjectFileProvider()
+        public override string FileTypeDescription
         {
-
+            get { return "Modflow Project File"; }
         }
 
-        public  virtual string FileTypeDescription
-        {
-            get 
-            {
-                return "Modflow Project File";
-            }
-        }
-
-        public virtual string Extension
-        {
-            get 
-            {
-                return ".vhfx";
-            }
-        }
-
-
-        public string FileName
-        {
-            get;
-            set;
-        }
-
-
-        public string ProviderName
+        public override string ProviderName
         {
             get { return "ModflowProject"; }
-        }
-
-        public virtual IProject Open(string fileName)
-        {
-            FileName = fileName;
-            XmlSerializer xs = new XmlSerializer(typeof(ModflowProject));
-            Stream stream = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
-            var project = (ModflowProject)xs.Deserialize(stream);
-            return project;
         }
     }
 }

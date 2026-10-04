@@ -29,6 +29,7 @@
 
 using DotSpatial.Controls;
 using DotSpatial.Data;
+using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Project;
 using Heiflow.Models.GeoSpatial;
 using Heiflow.Models.Properties;
@@ -43,7 +44,7 @@ namespace Heiflow.Models.Subsurface.VFT3D
 {
      [Serializable]
     [Export(typeof(IProject))]
-    public class VFT3DProject : ModflowProject
+    public class VFT3DProject : PhreaticProjectBase
     {
          public VFT3DProject()
         {
@@ -56,41 +57,14 @@ namespace Heiflow.Models.Subsurface.VFT3D
             SupportedVersions = new string[] { "v1.0.0"};
             SelectedVersion = SupportedVersions[0];
         }
-        public override bool New(ICancelProgressHandler progress, bool ImportFromExistingModel)
+        protected override IBasicModel CreateModel(string controlFileName)
         {
-            var succ = true;
-            System.IO.Directory.CreateDirectory(GeoSpatialDirectory);
-            System.IO.Directory.CreateDirectory(ProcessingDirectory);
-            System.IO.Directory.CreateDirectory(InputDirectory);
-            System.IO.Directory.CreateDirectory(MFInputDirectory);
-            System.IO.Directory.CreateDirectory(OutputDirectory);
-
-            RelativeMapFileName = Name + ".dspx";
-            FullProjectFileName = Path.Combine(AbsolutePathToProjectFile, Name + ".vhfx");
-
-            if (!ImportFromExistingModel)
+            return new VFT3DModel()
             {
-                RelativeControlFileName = Name + ".nam";
-                var model = new VFT3DModel()
-                {
-                    Project = this,
-                    WorkDirectory = FullModelWorkDirectory,
-                    ControlFileName = RelativeControlFileName
-                };
-                model.Initialize();
-                succ = model.New(progress);
-                model.Version = this.SelectedVersion;
-                this.Model = model;
-            }
-            string phc_dbfile = Path.Combine(Application.StartupPath, "data\\pht3d_datab.dat");
-            if(File.Exists(phc_dbfile))
-            {
-                var dest = Path.Combine(AbsolutePathToProjectFile, "pht3d_datab.dat");
-                File.Copy(phc_dbfile, dest, true);
-            }
-            SaveBatchRunFile();
-            _IsDirty = true;
-            return true;
+                Project = this,
+                WorkDirectory = FullModelWorkDirectory,
+                ControlFileName = controlFileName
+            };
         }
 
     }

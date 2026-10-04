@@ -53,5 +53,17 @@ namespace Heiflow.Presentation
         void Initialize();
         void Shutdown();
 
+        /// <summary>
+        /// Releases the resources of the project currently shown and clears every view and map layer.
+        /// It has to be called before another project is created or opened.
+        /// </summary>
+        void ClearCurrentProject();
+
+        /// <summary>
+        /// Attaches the given project to the shell, initializes all explorers, managers and monitors with it
+        /// and raises ProjectOpenedOrCreated.
+        /// </summary>
+        void ActivateProject(Heiflow.Models.Generic.Project.IProject project);
+
     }
 }

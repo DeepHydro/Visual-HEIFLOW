@@ -27,59 +27,28 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using Heiflow.Models.Generic.Project;
 using Heiflow.Models.Integration;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using System;
 
 namespace Heiflow.Models.Generic.Project
 {
-    public class OpenGsflowProjectFileProvider : IOpenProjectFileProvider
+    public class OpenGsflowProjectFileProvider : XmlProjectFileProvider<GsflowProject>
     {
-        public OpenGsflowProjectFileProvider()
+        public override string FileTypeDescription
         {
-
-        }
-        public virtual string FileTypeDescription
-        {
-            get
-            {
-                return "GSFLOW Project File";
-            }
+            get { return "GSFLOW Project File"; }
         }
 
-        public virtual string Extension
-        {
-            get
-            {
-                return ".vhfx";
-            }
-        }
-
-
-        public string FileName
-        {
-            get;
-            set;
-        }
-
-
-        public string ProviderName
+        public override string ProviderName
         {
             get { return "GsflowProject"; }
-        }
-
-        public virtual IProject Open(string fileName)
-        {
-            FileName = fileName;
-            XmlSerializer xs = new XmlSerializer(typeof(GsflowProject));
-            Stream stream = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
-            var project = (GsflowProject)xs.Deserialize(stream);
-            return project;
         }
     }
 }

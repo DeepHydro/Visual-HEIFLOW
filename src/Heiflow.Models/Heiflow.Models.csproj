@@ -237,6 +237,7 @@
     <Compile Include="Subsurface\VFT3D\SEAWATPackFileNameProvider.cs" />
     <Compile Include="Subsurface\VFT3D\VFT3DPackFileNameProvider.cs" />
     <Compile Include="Subsurface\VFT3D\VFT3DModel.cs" />
+    <Compile Include="Subsurface\VFT3D\PhreaticProjectBase.cs" />
     <Compile Include="Subsurface\VFT3D\SEAWATProject.cs" />
     <Compile Include="Subsurface\VFT3D\VFT3DProject.cs" />
     <Compile Include="Subsurface\VFT3D\PHCPackage.cs" />
@@ -398,6 +399,7 @@
     <Compile Include="Subsurface\Modflow.cs" />
     <Compile Include="Generic\Packages\Package.cs" />
     <Compile Include="Generic\Project\IOpenProjectFileProvider.cs" />
+    <Compile Include="Generic\Project\XmlProjectFileProvider.cs" />
     <Compile Include="Generic\Project\ISaveProjectFileProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Generic\Grid\RegularGrid.cs" />

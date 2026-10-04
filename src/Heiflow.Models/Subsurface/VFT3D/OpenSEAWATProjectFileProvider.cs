@@ -29,59 +29,26 @@
 
 using Heiflow.Models.Generic.Project;
 using Heiflow.Models.Integration;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using System;
 
 namespace Heiflow.Models.Subsurface.VFT3D
 {
-    public class OpenSEAWATProjectFileProvider : IOpenProjectFileProvider
+    public class OpenSEAWATProjectFileProvider : XmlProjectFileProvider<SEAWATProject>
     {
-        public OpenSEAWATProjectFileProvider()
+        public override string FileTypeDescription
         {
-
+            get { return "SEAWAT Project File"; }
         }
 
-        public  virtual string FileTypeDescription
-        {
-            get 
-            {
-                return "SEAWAT Project File";
-            }
-        }
-
-        public virtual string Extension
-        {
-            get 
-            {
-                return ".vhfx";
-            }
-        }
-
-
-        public string FileName
-        {
-            get;
-            set;
-        }
-
-
-        public string ProviderName
+        public override string ProviderName
         {
             get { return "SEAWATProject"; }
-        }
-
-        public virtual IProject Open(string fileName)
-        {
-            FileName = fileName;
-            XmlSerializer xs = new XmlSerializer(typeof(SEAWATProject));
-            Stream stream = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
-            var project = (SEAWATProject)xs.Deserialize(stream);
-            return project;
         }
     }
 }

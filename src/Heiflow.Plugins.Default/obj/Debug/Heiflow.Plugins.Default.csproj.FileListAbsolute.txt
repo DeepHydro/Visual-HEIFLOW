@@ -91,4 +91,5 @@ D:\system\git\Visual-HEIFLOW\src\bin\debug\Application Extensions\VHF\Heiflow.Pl
 D:\system\git\Visual-HEIFLOW\src\bin\debug\Application Extensions\VHF\zh-CN\Heiflow.Plugins.Default.resources.dll
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Plugins.Default\obj\Debug\zh-CN\Heiflow.Plugins.Default.resources.dll
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Plugins.Default\obj\Debug\Heiflow.Plugins.Default.pdb
-D:\system\git\Visual-HEIFLOW\src\Heiflow.Plugins.Default\obj\Debug\Heiflow.Plugins.Default.csprojResolveAssemblyReference.cache
+D:\System\git\Visual-HEIFLOW\src\Heiflow.Plugins.Default\obj\Debug\Heiflow.Plugins.Default.csproj.AssemblyReference.cache
+D:\System\git\Visual-HEIFLOW\src\Heiflow.Plugins.Default\obj\Debug\Heiflow.Plugins.Default.csproj.CoreCompileInputs.cache

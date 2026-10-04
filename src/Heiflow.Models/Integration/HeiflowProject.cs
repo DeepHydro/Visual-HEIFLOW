@@ -73,101 +73,31 @@ namespace Heiflow.Models.Integration
             set;
         }
 
-        public override bool New(ICancelProgressHandler progress, bool ImportFromExistingModel)
+        protected override string[] WorkingDirectories
         {
-            var succ = true;
-            System.IO.Directory.CreateDirectory(GeoSpatialDirectory);
-            System.IO.Directory.CreateDirectory(ProcessingDirectory);
-            System.IO.Directory.CreateDirectory(InputDirectory);
-            System.IO.Directory.CreateDirectory(MFInputDirectory);
-            System.IO.Directory.CreateDirectory(PRMSInputDirectory);
-            System.IO.Directory.CreateDirectory(ExtensionInputDirectory);
-            System.IO.Directory.CreateDirectory(WQDirectory);
-            System.IO.Directory.CreateDirectory(WRAInputDirectory);
-            System.IO.Directory.CreateDirectory(OutputDirectory);
-            System.IO.Directory.CreateDirectory(DatabaseDirectory);
-
-            RelativeMapFileName = Name + ".dspx";
-            FullProjectFileName = Path.Combine(AbsolutePathToProjectFile, Name + ".vhfx");       
-
-            if (!ImportFromExistingModel)
+            get
             {
-                RelativeControlFileName = Name + ".control";
-                var model = new Heiflow.Models.Integration.HeiflowModel()
-                {
-                    Project = this,
-                    WorkDirectory = FullModelWorkDirectory,
-                    ControlFileName = RelativeControlFileName,
-                    ProcessModule = Integration.ProcessModule.Hydrology
-                };
-                model.Initialize();
-                succ = model.New(progress);
-                model.Version = this.SelectedVersion;
-                this.Model = model;
+                return new string[] { GeoSpatialDirectory, ProcessingDirectory, InputDirectory, MFInputDirectory,
+                    PRMSInputDirectory, ExtensionInputDirectory, WQDirectory, WRAInputDirectory, OutputDirectory, DatabaseDirectory };
             }
-            SaveBatchRunFile();
-            SaveIHMProjectFile();
-            _IsDirty = true;
-            return succ;
         }
 
-        public override void AttachFeatures()
+        protected override string ControlFileExtension
         {
-            var gridfea_file = Path.Combine(this.AbsolutePathToProjectFile, GridFeatureFilePath);
-            var centroidfea_file = Path.Combine(this.AbsolutePathToProjectFile, CentroidFeatureFilePath);
+            get { return ".control"; }
+        }
 
-            _GridLayer = MapHelper.Select(gridfea_file, Map, this.AbsolutePathToProjectFile) as MapPolygonLayer;
-            _CentroidLayer = MapHelper.Select(centroidfea_file, Map, this.AbsolutePathToProjectFile) as MapPointLayer;
-
-            if (_GridLayer != null && _CentroidLayer != null)
+        protected override IBasicModel CreateModel(string controlFileName)
+        {
+            return new HeiflowModel()
             {
-                Model.Grid.FeatureSet = _GridLayer.DataSet;
-                Model.Grid.CentroidFeature = _CentroidLayer.DataSet;
-                Model.Grid.FeatureLayer = _GridLayer;
-                Model.Grid.CentroidFeatureLayer = _CentroidLayer;
-            }
-            else
-            {
-                CreateGridFeature();
-            }
-
-            Model.Attach(this.Map, this.GeoSpatialDirectory);
-            CheckBatchRunFile();
+                Project = this,
+                WorkDirectory = FullModelWorkDirectory,
+                ControlFileName = controlFileName,
+                ProcessModule = Integration.ProcessModule.Hydrology
+            };
         }
 
-        public override void CreateGridFeature()
-        {
-            this.GridFeatureFilePath = ".\\GeoSpatial\\Grid.shp";
-            this.CentroidFeatureFilePath = ".\\GeoSpatial\\Centroid.shp";
-            var full_gridfea_file = Path.Combine(this.AbsolutePathToProjectFile, GridFeatureFilePath);
-            var full_centroid_file = Path.Combine(this.AbsolutePathToProjectFile, CentroidFeatureFilePath);
-
-            this.Model.Grid.Build(full_gridfea_file);
-            var fs_grid = FeatureSet.Open(full_gridfea_file);    
-            _GridLayer = new MapPolygonLayer(fs_grid);
-            
-            this.Model.Grid.FeatureSet = fs_grid;
-            this.Model.Grid.FeatureLayer = _GridLayer;
-            this.Map.Layers.Add(_GridLayer);
-
-            this.Model.Grid.BuildCentroid(full_centroid_file);
-            var fs_centroid = FeatureSet.Open(full_centroid_file); 
-            _CentroidLayer = new MapPointLayer(fs_centroid);
-            this.Model.Grid.CentroidFeature = fs_centroid;
-            this.Model.Grid.CentroidFeatureLayer = _CentroidLayer;
-            this.Map.Layers.Add(_CentroidLayer);
-
-            this.Map.Invalidate();
-        }
-        public override void SaveBatchRunFile()
-        {
-           var  filename = Path.Combine(AbsolutePathToProjectFile, "run.bat");
-           StreamWriter sw = new StreamWriter(filename);
-           var line = string.Format("{0} {1}", ModelExeFileName, Name + ".control");
-           sw.WriteLine(line);
-           sw.WriteLine("Pause");
-           sw.Close();
-        }
 
     }
 }

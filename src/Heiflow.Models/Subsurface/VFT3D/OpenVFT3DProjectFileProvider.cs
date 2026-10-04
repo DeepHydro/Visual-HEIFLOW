@@ -29,59 +29,26 @@
 
 using Heiflow.Models.Generic.Project;
 using Heiflow.Models.Integration;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using System;
 
 namespace Heiflow.Models.Subsurface.VFT3D
 {
-    public class OpenVFT3DProjectFileProvider : IOpenProjectFileProvider
+    public class OpenVFT3DProjectFileProvider : XmlProjectFileProvider<VFT3DProject>
     {
-        public OpenVFT3DProjectFileProvider()
+        public override string FileTypeDescription
         {
-
+            get { return "VFT3D Project File"; }
         }
 
-        public  virtual string FileTypeDescription
-        {
-            get 
-            {
-                return "VFT3D Project File";
-            }
-        }
-
-        public virtual string Extension
-        {
-            get 
-            {
-                return ".vhfx";
-            }
-        }
-
-
-        public string FileName
-        {
-            get;
-            set;
-        }
-
-
-        public string ProviderName
+        public override string ProviderName
         {
             get { return "VFT3DProject"; }
-        }
-
-        public virtual IProject Open(string fileName)
-        {
-            FileName = fileName;
-            XmlSerializer xs = new XmlSerializer(typeof(VFT3DProject));
-            Stream stream = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.Read);
-            var project = (VFT3DProject)xs.Deserialize(stream);
-            return project;
         }
     }
 }

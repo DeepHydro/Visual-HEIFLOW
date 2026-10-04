@@ -117,11 +117,26 @@ namespace Heiflow.Presentation.Controls.Project
         {
             if (prj == null || prj.Model == null)
                 return;
+            DetachModel();
+            ClearContent();
             CreateItems(prj.Model);
             _currentPrj = prj;
             prj.Model.PackageAdded += Model_PackageAdded;
             prj.Model.PackageRemoved += Model_PackageRemoved;
             prj.Model.PackageStatechanged += Model_PackageStatechanged;
+        }
+
+        /// <summary>
+        /// Unsubscribes from the model of the previously displayed project so that it can be released.
+        /// </summary>
+        private void DetachModel()
+        {
+            if (_currentPrj == null || _currentPrj.Model == null)
+                return;
+            _currentPrj.Model.PackageAdded -= Model_PackageAdded;
+            _currentPrj.Model.PackageRemoved -= Model_PackageRemoved;
+            _currentPrj.Model.PackageStatechanged -= Model_PackageStatechanged;
+            _currentPrj = null;
         }
 
         private void Model_PackageStatechanged(object sender, IPackage pck)

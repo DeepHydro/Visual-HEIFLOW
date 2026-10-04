@@ -41,6 +41,7 @@ using Heiflow.Presentation;
 using Heiflow.Presentation.Services;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
@@ -224,13 +225,11 @@ namespace Heiflow.Applications.Controllers
 
         public void OpenProject(object filename)
         {
-            if (_ShellService.ProgressWindow != null)
-            {
-                _ShellService.ProgressWindow.DoWork += ProgressPanel_DoOpenProject;
-                _ShellService.ProgressWindow.WorkCompleted += ProgressWindow_DoOpenProjectCompleted;
-                _ShellService.ProgressWindow.EnableCancel = false;
-                _ShellService.ProgressWindow.Run(filename);
-            }
+            var fullName = filename as string;
+            if (string.IsNullOrEmpty(fullName) || !File.Exists(fullName))
+                return;
+            ClearCurrentProject();
+            RunProgress(ProgressPanel_DoOpenProject, ProgressWindow_DoOpenProjectCompleted, fullName);
         }
 
         private void ProgressPanel_DoOpenProject(object sender, System.ComponentModel.DoWorkEventArgs e)
@@ -243,13 +242,8 @@ namespace Heiflow.Applications.Controllers
             if (_ProjectService.Serializer.CurrentProject != null)
             {
                 _ProjectService.Project = _ProjectService.Serializer.CurrentProject;
-                _ShellService.ProjectExplorer.AddProject(_ProjectService.Project);
                 ModelService.ProjectDirectory = _ProjectService.Project.AbsolutePathToProjectFile;
                 _ShellService.ProgressWindow.Progress("Loading map layers...");
-            }
-            else
-            {
-
             }
         }
 
@@ -257,27 +251,21 @@ namespace Heiflow.Applications.Controllers
         {
             if (!_ProjectService.Serializer.HasError && _ProjectService.Project != null)
             {
-                MapAppManager.SerializationManager.OpenProject(_ProjectService.Project.FullMapFileName);
-                _ProjectService.Project.Map = MapAppManager.Map;
-                _ProjectService.Project.AttachFeatures();
-                BatchBindUI();
-                if (_ProjectService.Project.ODMSource != null)
-                {
-                    _ProjectService.Project.ODMSource.WorkDirectory = _ProjectService.Project.FullModelWorkDirectory;
-                    _ProjectService.Project.ODMSource.Open();
-                }
-                _ProjectService.RaiseProjectOpenedOrCreated(MapAppManager.Map, this.Project);
+                var project = _ProjectService.Project;
+                if (File.Exists(project.FullMapFileName))
+                    MapAppManager.SerializationManager.OpenProject(project.FullMapFileName);
+                project.Map = MapAppManager.Map;
+                project.AttachFeatures();
+                ActivateProject(project);
 
-                if (_ProjectService.Project.RemovedHeaderItemKeys != null)
+                if (project.RemovedHeaderItemKeys != null)
                 {
-                    foreach (var key in _ProjectService.Project.RemovedHeaderItemKeys)
+                    foreach (var key in project.RemovedHeaderItemKeys)
                         MapAppManager.HeaderControl.Remove(key);
-                    //MapAppManager.HeaderControl.
                 }
             }
             else
             {
-               // _ShellService.ProgressWindow.PrograssbarVisible = false;
                 _ProjectService.Serializer.Clear();
             }
             _ShellService.ProgressWindow.DoWork -= ProgressPanel_DoOpenProject;
@@ -295,10 +283,7 @@ namespace Heiflow.Applications.Controllers
         #region Import
         public void ImportFrom(object importProperty)
         {
-            _ShellService.ProgressWindow.DoWork += ProgressPanel_DoImport;
-            _ShellService.ProgressWindow.WorkCompleted += ProgressWindow_DoImportCompleted;
-            _ShellService.ProgressWindow.EnableCancel = false;
-            _ShellService.ProgressWindow.Run(importProperty);
+            RunProgress(ProgressPanel_DoImport, ProgressWindow_DoImportCompleted, importProperty);
         }
         private bool CanImportFrom(object importProperty)
         {
@@ -338,14 +323,13 @@ namespace Heiflow.Applications.Controllers
         }
         private void ProgressWindow_DoImportCompleted(object sender, EventArgs e)
         {
-            _ProjectService.Project = _ProjectService.Serializer.CurrentProject;
-            _ShellService.ProjectExplorer.AddProject(_ProjectService.Project);
-            ModelService.ProjectDirectory = _ProjectService.Project.AbsolutePathToProjectFile;
-            _ProjectService.Project.Map = MapAppManager.Map;
-            _ProjectService.Project.AttachFeatures();
-            _ProjectService.RaiseProjectOpenedOrCreated(MapAppManager.Map, _ProjectService.Project);
-
-            BatchBindUI();    
+            if (_ProjectService.Serializer.CurrentProject != null)
+            {
+                var project = _ProjectService.Serializer.CurrentProject;
+                project.Map = MapAppManager.Map;
+                project.AttachFeatures();
+                ActivateProject(project);
+            }
             _ShellService.ProgressWindow.DoWork -= ProgressPanel_DoImport;
             _ShellService.ProgressWindow.WorkCompleted -= ProgressWindow_DoImportCompleted;
             _ShellService.ProgressWindow.ProgressBarStyle = ProgressBarStyle.Continuous;
@@ -356,14 +340,11 @@ namespace Heiflow.Applications.Controllers
         #region Save
         private void SaveProject()
         {
-            _ShellService.ProgressWindow.DoWork += ProgressPanel_DoSaveProject;
-            _ShellService.ProgressWindow.WorkCompleted += ProgressWindow_SaveProjectCompleted;
-            _ShellService.ProgressWindow.EnableCancel = false;
-            _ShellService.ProgressWindow.Run(null);
+            RunProgress(ProgressPanel_DoSaveProject, ProgressWindow_SaveProjectCompleted, null);
         }
         private bool CanSaveProject()
         {
-            return Project != null;
+            return Project != null && Project.Model != null;
         }
 
         private void ProgressPanel_DoSaveProject(object sender, System.ComponentModel.DoWorkEventArgs e)
@@ -372,8 +353,6 @@ namespace Heiflow.Applications.Controllers
             _ShellService.ProgressWindow.ProgressBarStyle = ProgressBarStyle.Marquee;
             _ProjectService.Serializer.Save(Project.FullProjectFileName, Project);
             Project.Model.Save(_ShellService.ProgressWindow);
-            ShellService.ProgressWindow.Progress("Saving map layers...");
-            MapAppManager.SerializationManager.SaveProject(_ProjectService.Project.FullMapFileName);
             ShellService.ProgressWindow.Progress("Finshied.");
         }
         private void ProgressWindow_SaveProjectCompleted(object sender, EventArgs e)
@@ -388,11 +367,11 @@ namespace Heiflow.Applications.Controllers
         #region Close
         private void CloseProject()
         {
-
+            ClearCurrentProject();
         }
         private bool CanCloseProject()
         {
-            return true;
+            return _ProjectService.Project != null;
         }
         public void Shutdown()
         {
@@ -403,17 +382,82 @@ namespace Heiflow.Applications.Controllers
         }
         #endregion
 
+        /// <summary>
+        /// Releases everything that belongs to the project currently shown. It has to run before another
+        /// project is opened or created, otherwise the views and the map keep displaying the data of the
+        /// previous project and its database connections stay open.
+        /// </summary>
+        public void ClearCurrentProject()
+        {
+            var previous = _ProjectService.Project;
+            if (previous != null)
+            {
+                if (previous.ODMSource != null)
+                    previous.ODMSource.Close();
+                previous.Clear();
+            }
+            if (_ProjectService.Serializer != null)
+                _ProjectService.Serializer.Clear();
+            _ProjectService.Clear();
+            ModelService.ProjectDirectory = null;
+            ModelService.WorkDirectory = null;
+            if (_ShellService.MapAppManager != null)
+                _ShellService.ClearContents();
+        }
+
+        /// <summary>
+        /// Attaches the given project to the shell. Every explorer, manager and monitor subscribed to
+        /// ProjectOpenedOrCreated is then initialized with it.
+        /// </summary>
+        public void ActivateProject(IProject project)
+        {
+            if (project == null)
+                return;
+            var map = MapAppManager != null ? MapAppManager.Map : null;
+            _ProjectService.Project = project;
+            ModelService.ProjectDirectory = project.AbsolutePathToProjectFile;
+            project.Map = map;
+            _ShellService.ProjectExplorer.AddProject(project);
+            BatchBindUI();
+            if (project.ODMSource != null)
+            {
+                project.ODMSource.WorkDirectory = project.FullModelWorkDirectory;
+                project.ODMSource.Open();
+            }
+            _ProjectService.RaiseProjectOpenedOrCreated(map, project);
+        }
+
+        /// <summary>
+        /// Runs a job on the progress window. The handlers are unsubscribed by the completed callbacks.
+        /// </summary>
+        private void RunProgress(DoWorkEventHandler doWork, EventHandler completed, object argument)
+        {
+            var window = _ShellService.ProgressWindow;
+            if (window == null)
+                return;
+            window.DoWork += doWork;
+            window.WorkCompleted += completed;
+            window.EnableCancel = false;
+            window.Run(argument);
+        }
+
         public void Clear()
         {
-            //_ProjectService.Serializer.ProjectOpened -= Serializer_ProjectOpened;
-            //_ProjectService.Serializer.OpenFailed -= Serializer_OpenFailed;
-            //_ProjectService.ProjectOpenedOrCreated -= _MapFunctionManager.OnProjectOpened;
-            //_ProjectService.ProjectOpenedOrCreated -= _ConceputalModelManager.OnProjectOpened;
-            //_Initialized = false;
+            if (_ProjectService == null || _ProjectService.Serializer == null)
+                return;
+            _ProjectService.Serializer.ProjectOpened -= Serializer_ProjectOpened;
+            _ProjectService.Serializer.OpenFailed -= Serializer_OpenFailed;
+            _ProjectService.ProjectOpenedOrCreated -= _MapFunctionManager.OnProjectOpened;
+            _ProjectService.ProjectOpenedOrCreated -= _ConceputalModelManager.OnProjectOpened;
+            _ProjectService.ProjectOpenedOrCreated -= _StateMonitor.OnProjectOpened;
+            _ProjectService.ProjectOpenedOrCreated -= _NPBudgetMonitor.OnProjectOpened;
         }
 
         private void BatchBindUI()
         {
+            if (_ProjectService.Project == null || _ProjectService.Project.Model == null)
+                return;
+
             foreach (var model in _ProjectService.Project.Model.Children.Values)
             {
                 foreach (var pck in model.Packages.Values)

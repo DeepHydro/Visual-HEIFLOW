@@ -47,6 +47,8 @@ namespace Heiflow.Applications.Controllers
 
         public void OnProjectOpened(IMap Map, IProject project)
         {
+            if (Map == null || project == null || project.GridLayer == null)
+                return;
             var func = from ff in Map.MapFunctions where ff.Name == "MapFunctionActiveIdentify" select ff;
             if (func.Count() == 1)
                 (func.First() as MapFunctionActiveIdentify).GridFeature = project.GridLayer.FeatureSet;

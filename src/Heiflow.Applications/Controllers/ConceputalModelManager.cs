@@ -48,6 +48,8 @@ namespace Heiflow.Applications.Controllers
 
         public void OnProjectOpened(IMap Map, IProject Project)
         {
+            if (Map == null || Project == null || Project.Model == null)
+                return;
             var pcks = Project.Model.GetPackages();
           
             foreach (var lp in Project.FeatureCoverages)
@@ -85,6 +87,9 @@ namespace Heiflow.Applications.Controllers
                 var pck = from pp in pcks where pp.Name == lp.PackageName select pp;
                 if (pck.Count() == 1)
                     lp.Package = pck.First();
+
+                if (lp.Package == null)
+                    continue;
 
                 var paras = lp.Package.GetParameters();
                 foreach (var ap in lp.ArealProperties)

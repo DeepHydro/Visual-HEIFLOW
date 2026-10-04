@@ -135,6 +135,8 @@ namespace Heiflow.Models.Generic.Project
                 if (String.Equals(provider.Extension, extension, StringComparison.OrdinalIgnoreCase))
                 {
                     provider.Save(fileName, project);
+                    if (project != null)
+                        project.IsDirty = false;
                     isProviderPresent = true;
                     if(project.FullMapFileName != null && App != null)
                         App.SerializationManager.SaveProject(project.FullMapFileName);
@@ -143,6 +145,9 @@ namespace Heiflow.Models.Generic.Project
             }
             if (!isProviderPresent)
             {
+                HasError = true;
+                if (OpenFailed != null)
+                    OpenFailed(this, string.Format("No provider was found to save '{0}'", fileName));
             }
             AddFileToRecentFiles(fileName);
         }
@@ -158,10 +163,20 @@ namespace Heiflow.Models.Generic.Project
         /// <param name="fileName">Name of the file.</param>
           public void Open(string fileName, ICancelProgressHandler progress)
           {
+              HasError = false;
               var dic = Path.GetDirectoryName(fileName);
               var loaded = LoadingState.Normal;
-              string pname = GetProviderName(fileName);
               string errormsg = "";
+              string pname = "";
+              try
+              {
+                  pname = GetProviderName(fileName);
+              }
+              catch (Exception ex)
+              {
+                  OnOpenFailed(this, string.Format("The project file can't be read: {0}", ex.Message));
+                  return;
+              }
               SetCurrentProjectDirectory(dic);
               bool provider_found = false;
               foreach (var provider in OpenProjectFileProviders)
@@ -169,16 +184,22 @@ namespace Heiflow.Models.Generic.Project
                   if (String.Equals(provider.ProviderName, pname, StringComparison.OrdinalIgnoreCase))
                   {
                       var op = provider as IOpenProjectFileProvider;
-                      CurrentProject = op.Open(fileName);
-                      CurrentProject.AbsolutePathToProjectFile = Path.GetDirectoryName(fileName);
-                      string prj_dic = Path.GetDirectoryName(fileName);
-
-                      //repaire path
-                      if (prj_dic.ToLower() != CurrentProject.AbsolutePathToProjectFile.ToLower())
+                      try
                       {
-                          CurrentProject.AbsolutePathToProjectFile = prj_dic;
+                          CurrentProject = op.Open(fileName);
+                      }
+                      catch (Exception ex)
+                      {
+                          OnOpenFailed(this, string.Format("The project file can't be deserialized: {0}", ex.Message));
+                          return;
+                      }
+                      if (CurrentProject == null)
+                      {
+                          OnOpenFailed(this, "The project file can't be deserialized");
+                          return;
                       }
 
+                      CurrentProject.AbsolutePathToProjectFile = dic;
                       CurrentProject.FullProjectFileName = fileName;
                       string controlfile = Path.Combine(CurrentProject.FullModelWorkDirectory, CurrentProject.RelativeControlFileName);
                       string ext = Path.GetExtension(controlfile);
@@ -251,9 +272,12 @@ namespace Heiflow.Models.Generic.Project
             project.Initialize();
             if (project.New(progress, ImportFromExistingModel))
             {
-                App.SerializationManager.New();
                 CurrentProject = project;
-                CurrentProject.Map = App.Map;
+                if (App != null)
+                {
+                    App.SerializationManager.New();
+                    CurrentProject.Map = App.Map;
+                }
             }
             else
             {
@@ -312,7 +336,11 @@ namespace Heiflow.Models.Generic.Project
         public void Clear()
         {
             if (_CurrentModelLoader != null)
+            {
                 _CurrentModelLoader.Clear();
+                _CurrentModelLoader = null;
+            }
+            CurrentProject = null;
             HasError = false;
         }
     }

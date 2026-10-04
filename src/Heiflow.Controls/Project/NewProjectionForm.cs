@@ -35,6 +35,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Heiflow.Applications;
+using Heiflow.Presentation;
 using Heiflow.Presentation.Services;
 using Heiflow.Controls.WinForm.Project;
 using Heiflow.Models.Subsurface;
@@ -151,7 +152,7 @@ namespace Heiflow.Presentation.Controls.Project
         private void btnOK_Click(object sender, EventArgs e)
         {
             var project_service = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
-            var shell = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
+            var project_controller = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectController>();
             if (lstPrjTemplate.SelectedItems.Count != 1)
                 return;
             if (txtPrjName.Text == "" || !Directory.Exists(txtPrjDir.Text))
@@ -165,18 +166,19 @@ namespace Heiflow.Presentation.Controls.Project
             {
                 var prj = lstPrjTemplate.SelectedItems[0].Tag as IProject;
                 prj.SelectedVersion = cmbVersion.SelectedItem.ToString();
+                // views and map layers still belong to the previous project until they are cleared
+                project_controller.ClearCurrentProject();
                 ModelService.WorkDirectory = Path.GetFullPath(_ProjectPath);
                 project_service.Serializer.New(_ProjectName, _ProjectPath, prj, null, chbImprot.Checked);
-                project_service.Project = project_service.Serializer.CurrentProject;
-                if (chbImprot.Checked)
+                var created = project_service.Serializer.CurrentProject;
+                if (chbImprot.Checked && created != null)
                 {
-                    ImportModelForm form = new ImportModelForm(project_service.Project);
+                    ImportModelForm form = new ImportModelForm(created);
                     form.ShowInTaskbar = false;
-                    if (form.ShowDialog() == DialogResult.OK)
-                    {
-                        shell.ProjectExplorer.AddProject(project_service.Project);
-                    }
+                    form.ShowDialog();
                 }
+                project_controller.ActivateProject(created);
+
                 var prop = prj.GetType().GetProperty("MODFLOWVersion");
                 if(prop != null)
                 {

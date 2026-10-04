@@ -50,10 +50,21 @@ namespace Heiflow.Models.Generic.Project
             if (project != null)
             {
                 FileName = fileName;
+                var directory = Path.GetDirectoryName(fileName);
+                if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
+                    Directory.CreateDirectory(directory);
+
+                // serialize into a temporary file first so that a failure can't destroy the existing project file
+                var tempFile = string.IsNullOrEmpty(directory) ? fileName + ".tmp" : Path.Combine(directory, Path.GetFileName(fileName) + ".tmp");
                 XmlSerializer xs = new XmlSerializer(project.GetType());
-                Stream stream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.Read);
-                xs.Serialize(stream, project);
-                stream.Close();
+                using (Stream stream = new FileStream(tempFile, FileMode.Create, FileAccess.Write, FileShare.Read))
+                {
+                    xs.Serialize(stream, project);
+                }
+                if (File.Exists(fileName))
+                    File.Replace(tempFile, fileName, null);
+                else
+                    File.Move(tempFile, fileName);
             }
         }
 

@@ -75,10 +75,11 @@ D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Plugins.SplashScreen\obj\Debug\Heiflow
 D:\system\git\Visual-HEIFLOW\src\bin\Debug\Application Extensions\SplashScreenManager\Heiflow.Plugins.SplashScreen.dll.config
 D:\system\git\Visual-HEIFLOW\src\bin\Debug\Application Extensions\SplashScreenManager\Heiflow.Plugins.SplashScreen.dll
 D:\system\git\Visual-HEIFLOW\src\bin\Debug\Application Extensions\SplashScreenManager\Heiflow.Plugins.SplashScreen.pdb
-D:\system\git\Visual-HEIFLOW\src\Heiflow.Plugins.SplashScreen\obj\Debug\Heiflow.Plugins.SplashScreen.csprojResolveAssemblyReference.cache
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Plugins.SplashScreen\obj\Debug\DotSpatial.Plugins.SplashScreenManager.BrandedSplashScreen.resources
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Plugins.SplashScreen\obj\Debug\Heiflow.Plugins.SplashScreen.Properties.Resources.resources
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Plugins.SplashScreen\obj\Debug\Heiflow.Plugins.SplashScreen.csproj.GenerateResource.Cache
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Plugins.SplashScreen\obj\Debug\Heiflow.Plugins.SplashScreen.dll.licenses
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Plugins.SplashScreen\obj\Debug\Heiflow.Plugins.SplashScreen.dll
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Plugins.SplashScreen\obj\Debug\Heiflow.Plugins.SplashScreen.pdb
+D:\System\git\Visual-HEIFLOW\src\Heiflow.Plugins.SplashScreen\obj\Debug\Heiflow.Plugins.SplashScreen.csproj.AssemblyReference.cache
+D:\System\git\Visual-HEIFLOW\src\Heiflow.Plugins.SplashScreen\obj\Debug\Heiflow.Plugins.SplashScreen.csproj.CoreCompileInputs.cache
