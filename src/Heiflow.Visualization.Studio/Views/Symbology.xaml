@@ -3,113 +3,523 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:wpfx="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
-             mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="300">
-    <Grid Background="{DynamicResource CommonBrush}">
-        <StackPanel>
-            <Expander Header="{DynamicResource ColorSettingTxt}" IsExpanded="True" Margin="3" ExpandDirection="Down"   Foreground="{DynamicResource InputFontColor}">
-                <Grid  Background="{StaticResource PanelGradientBrush}">
+             mc:Ignorable="d"  Background="{DynamicResource CommonBrush}"
+             SnapsToDevicePixels="True" UseLayoutRounding="True"
+             d:DesignHeight="420" d:DesignWidth="300">
+    <!-- Redrawn so that it looks like the scene panel: same palette, same card per group, same property
+         grid, and the panel scrolls inside its own scroller. Only the way it is drawn changed, the names
+         of the controls and their event handlers are exactly the ones Symbology.xaml.cs expects.
+
+         Two things of the old markup are gone with it. The panel had no scroller at all, so the lower
+         part of the vector section was out of reach in a small window. And the classification count
+         combo sat in Grid.Column="2" of a grid that only declares two columns, which squeezed it into an
+         empty third column instead of putting it next to the other editors.
+
+         The styles live in this file on purpose: they belong to this panel only and must not change the
+         look of the other views. -->
+    <UserControl.Resources>
+
+        <!-- Palette of the panel, taken from the dark skin of the application. -->
+        <SolidColorBrush x:Key="SymSectionBackground" Color="#FF26272B" />
+        <SolidColorBrush x:Key="SymHeaderBackground" Color="#FF31333A" />
+        <SolidColorBrush x:Key="SymControlBackground" Color="#FF1E1F23" />
+        <SolidColorBrush x:Key="SymDropDownBackground" Color="#FF2A2C31" />
+        <SolidColorBrush x:Key="SymBorderBrush" Color="#FF3B3E46" />
+        <SolidColorBrush x:Key="SymHoverBrush" Color="#FF3A3D45" />
+        <SolidColorBrush x:Key="SymAccentBrush" Color="#FF4EA1DE" />
+        <SolidColorBrush x:Key="SymTextBrush" Color="#FFE8EAED" />
+        <SolidColorBrush x:Key="SymLabelBrush" Color="#FFAEB4BF" />
+        <SolidColorBrush x:Key="SymTrackBrush" Color="#FF141518" />
+        <SolidColorBrush x:Key="SymTickBrush" Color="#FF6E747E" />
+        <SolidColorBrush x:Key="SymThumbFill" Color="#FF2F3137" />
+
+        <!-- Label of a property, the controls of every section start at the same offset. -->
+        <Style x:Key="SymFieldLabel" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource SymLabelBrush}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0,0,8,0" />
+            <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+            <Setter Property="ToolTip" Value="{Binding Text, RelativeSource={RelativeSource Self}}" />
+        </Style>
+
+        <!-- Current value of a slider, shown right aligned above the track. -->
+        <Style x:Key="SymValueText" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource SymTextBrush}" />
+            <Setter Property="FontSize" Value="11.5" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+        </Style>
+
+        <!-- Header of a group. -->
+        <Style x:Key="SymGroupTitle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource SymTextBrush}" />
+            <Setter Property="FontSize" Value="12.5" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="SymSliderThumb" TargetType="Thumb">
+            <Setter Property="Width" Value="12" />
+            <Setter Property="Height" Value="12" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Thumb">
+                        <Ellipse Width="12" Height="12" Fill="{StaticResource SymThumbFill}"
+                                 Stroke="{StaticResource SymAccentBrush}" StrokeThickness="1.5" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SymTrackFillButton" TargetType="RepeatButton">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Border Background="{StaticResource SymAccentBrush}" Height="4" CornerRadius="2" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SymTrackButton" TargetType="RepeatButton">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Border Background="{StaticResource SymTrackBrush}" Height="4" CornerRadius="2" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Flat slider with a thin track. No ticks are shown, the opacity runs from 0 to 255 by one and a
+             tick bar would be nothing but a grey block. -->
+        <Style x:Key="SymSlider" TargetType="Slider">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="MinHeight" Value="26" />
+            <Setter Property="TickPlacement" Value="None" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Slider">
+                        <Grid Margin="0,2,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TickBar x:Name="TopTick" Grid.Row="0" Height="4" Placement="Top"
+                                     Fill="{StaticResource SymTickBrush}" Visibility="Collapsed" />
+                            <Grid Grid.Row="1" Height="16">
+                                <Border Height="4" CornerRadius="2" Background="{StaticResource SymTrackBrush}" />
+                                <Track x:Name="PART_Track">
+                                    <Track.DecreaseRepeatButton>
+                                        <RepeatButton Command="Slider.DecreaseLarge" Style="{StaticResource SymTrackFillButton}" />
+                                    </Track.DecreaseRepeatButton>
+                                    <Track.Thumb>
+                                        <Thumb Style="{StaticResource SymSliderThumb}" />
+                                    </Track.Thumb>
+                                    <Track.IncreaseRepeatButton>
+                                        <RepeatButton Command="Slider.IncreaseLarge" Style="{StaticResource SymTrackButton}" />
+                                    </Track.IncreaseRepeatButton>
+                                </Track>
+                            </Grid>
+                            <TickBar x:Name="BottomTick" Grid.Row="2" Height="4" Placement="Bottom"
+                                     Fill="{StaticResource SymTickBrush}" Visibility="Collapsed" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="TickPlacement" Value="TopLeft">
+                                <Setter TargetName="TopTick" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                            <Trigger Property="TickPlacement" Value="BottomRight">
+                                <Setter TargetName="BottomTick" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                            <Trigger Property="TickPlacement" Value="Both">
+                                <Setter TargetName="TopTick" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="BottomTick" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SymComboBoxToggle" TargetType="ToggleButton">
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border x:Name="Bd" Background="{StaticResource SymControlBackground}"
+                                BorderBrush="{StaticResource SymBorderBrush}" BorderThickness="1" CornerRadius="3">
+                            <Path Data="M 0 0 L 4 4 L 8 0" Stroke="{StaticResource SymLabelBrush}" StrokeThickness="1.5"
+                                  HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,7,0" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource SymAccentBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource SymAccentBrush}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SymComboBoxItem" TargetType="ComboBoxItem">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Foreground" Value="{StaticResource SymTextBrush}" />
+            <Setter Property="Padding" Value="6,4,6,4" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBoxItem">
+                        <Border x:Name="Bd" Background="Transparent" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource SymHoverBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource SymAccentBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="#FF7A7A7A" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SymComboBox" TargetType="ComboBox">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Foreground" Value="{StaticResource SymTextBrush}" />
+            <Setter Property="Height" Value="26" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="ItemContainerStyle" Value="{StaticResource SymComboBoxItem}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton Style="{StaticResource SymComboBoxToggle}"
+                                          IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          ClickMode="Press" />
+                            <ContentPresenter IsHitTestVisible="False" Margin="7,0,22,0"
+                                              Content="{TemplateBinding SelectionBoxItem}"
+                                              ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                              VerticalAlignment="Center" HorizontalAlignment="Left" />
+                            <Popup IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom"
+                                   PopupAnimation="Slide" AllowsTransparency="True" Focusable="False">
+                                <Border MinWidth="{TemplateBinding ActualWidth}" MaxHeight="220" Margin="0,2,0,0"
+                                        Background="{StaticResource SymDropDownBackground}"
+                                        BorderBrush="{StaticResource SymBorderBrush}" BorderThickness="1" CornerRadius="3">
+                                    <ScrollViewer Margin="2" Foreground="{StaticResource SymTextBrush}">
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Read only line holding the name of the layer that is being styled. -->
+        <Style x:Key="SymTextBox" TargetType="TextBox">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Foreground" Value="{StaticResource SymTextBrush}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Height" Value="26" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="IsReadOnly" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="Bd" Background="{StaticResource SymControlBackground}"
+                                BorderBrush="{StaticResource SymBorderBrush}" BorderThickness="1" CornerRadius="3">
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="6,0,6,0" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource SymAccentBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SymCheckBox" TargetType="CheckBox">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Foreground" Value="{StaticResource SymTextBrush}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="Box" Width="14" Height="14" CornerRadius="2" VerticalAlignment="Center"
+                                    Background="{StaticResource SymControlBackground}"
+                                    BorderBrush="{StaticResource SymBorderBrush}" BorderThickness="1">
+                                <Path x:Name="Check" Data="M 2,7 L 6,11 L 12,3" Stroke="{StaticResource SymAccentBrush}"
+                                      StrokeThickness="2" Visibility="Collapsed" />
+                            </Border>
+                            <ContentPresenter Margin="7,0,0,0" VerticalAlignment="Center" RecognizesAccessKey="True" />
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Check" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="Box" Property="BorderBrush" Value="{StaticResource SymAccentBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Box" Property="BorderBrush" Value="{StaticResource SymAccentBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SymButton" TargetType="Button">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Foreground" Value="{StaticResource SymTextBrush}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Height" Value="26" />
+            <Setter Property="Padding" Value="10,0,10,0" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{StaticResource SymControlBackground}"
+                                BorderBrush="{StaticResource SymBorderBrush}" BorderThickness="1" CornerRadius="3">
+                            <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource SymHoverBrush}" />
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource SymAccentBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource SymAccentBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Every section is a card: a header with an accent bar and a body that holds the properties. -->
+        <Style x:Key="SymExpander" TargetType="Expander">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Foreground" Value="{StaticResource SymTextBrush}" />
+            <Setter Property="Margin" Value="0,0,0,7" />
+            <Setter Property="IsExpanded" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Expander">
+                        <Border Background="{StaticResource SymSectionBackground}"
+                                BorderBrush="{StaticResource SymBorderBrush}" BorderThickness="1" CornerRadius="3">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <ToggleButton Grid.Row="0" Focusable="False"
+                                              IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                              ToolTip="{TemplateBinding Header}">
+                                    <ToggleButton.Template>
+                                        <ControlTemplate TargetType="ToggleButton">
+                                            <Border x:Name="HeaderBd" Background="{StaticResource SymHeaderBackground}"
+                                                    CornerRadius="3,3,0,0" Padding="0" SnapsToDevicePixels="True">
+                                                <Grid Height="30">
+                                                    <Rectangle Width="3" HorizontalAlignment="Left" Fill="{StaticResource SymAccentBrush}" />
+                                                    <ContentPresenter Margin="11,0,10,0" VerticalAlignment="Center" />
+                                                    <Path x:Name="Chevron" Data="M 0 0 L 4 4 L 0 8"
+                                                          Stroke="{StaticResource SymLabelBrush}" StrokeThickness="1.5"
+                                                          HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,11,0"
+                                                          RenderTransformOrigin="0.5,0.5" />
+                                                </Grid>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="HeaderBd" Property="Background" Value="{StaticResource SymHoverBrush}" />
+                                                </Trigger>
+                                                <Trigger Property="IsChecked" Value="True">
+                                                    <Setter TargetName="Chevron" Property="RenderTransform">
+                                                        <Setter.Value>
+                                                            <RotateTransform Angle="90" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </ToggleButton.Template>
+                                    <ContentPresenter Content="{TemplateBinding Header}"
+                                                      ContentTemplate="{TemplateBinding HeaderTemplate}" />
+                                </ToggleButton>
+                                <ContentPresenter x:Name="ContentSite" Grid.Row="1" Margin="0" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsExpanded" Value="False">
+                                <Setter TargetName="ContentSite" Property="Visibility" Value="Collapsed" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                  Padding="0" Background="Transparent">
+        <StackPanel Margin="5,5,5,5">
+
+            <Expander x:Name="expColorSetting" Style="{StaticResource SymExpander}">
+                <Expander.Header>
+                    <TextBlock Text="{DynamicResource ColorSettingTxt}" Style="{StaticResource SymGroupTitle}" />
+                </Expander.Header>
+                <Grid Margin="11,9,11,11">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.8*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" MinWidth="92" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition Height="30"></RowDefinition>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock Text="Current Layer Name"  VerticalAlignment="Center" Foreground="{DynamicResource InputFontColor}"  
-                                       Margin="2" Grid.Row="0" Grid.Column="0">
-                    </TextBlock>
-                    <TextBox Text="Layer"  x:Name="tbCurLayer" VerticalAlignment="Center" Foreground="{DynamicResource InputFontColor}"  
-                                       Margin="2" Grid.Row="0" Grid.Column="1">
-                    </TextBox>
-                    <TextBlock Text="Classification Method"  VerticalAlignment="Center" Foreground="{DynamicResource InputFontColor}"  
-                                       Margin="2" Grid.Row="1" Grid.Column="0">
-                    </TextBlock>
-                    <ComboBox IsSynchronizedWithCurrentItem="False" x:Name="cobClassMethod"  VerticalAlignment="Center" 
-                                           Margin="2"   Grid.Row="1" Grid.Column="1" SelectedIndex="0" SelectionChanged="CobClassMethod_SelectionChanged">
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Current Layer Name" Style="{StaticResource SymFieldLabel}" />
+                    <TextBox Grid.Row="0" Grid.Column="1" x:Name="tbCurLayer" Text="Layer" Style="{StaticResource SymTextBox}" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Classification Method" Style="{StaticResource SymFieldLabel}" />
+                    <ComboBox Grid.Row="1" Grid.Column="1" x:Name="cobClassMethod" Style="{StaticResource SymComboBox}"
+                              IsSynchronizedWithCurrentItem="False" SelectedIndex="0"
+                              SelectionChanged="CobClassMethod_SelectionChanged">
                         <ComboBoxItem>Natural Breaks</ComboBoxItem>
                         <ComboBoxItem>Equal Inteval</ComboBoxItem>
                     </ComboBox>
-                    <TextBlock Text="{DynamicResource ColorRampTxt}"  VerticalAlignment="Center" Foreground="{DynamicResource InputFontColor}"  
-                                       Margin="2" Grid.Row="2" Grid.Column="0">
-                    </TextBlock>
-                    <ComboBox IsSynchronizedWithCurrentItem="False" x:Name="cobColorRamp"  VerticalAlignment="Center" 
-                                            Margin="2"   Grid.Row="2" Grid.Column="1"
-                                              SelectionChanged="cobColorRamp_SelectionChanged" SelectedIndex="0">
-                    </ComboBox>
-                    <TextBlock Text="{DynamicResource ClsfyContTxt}"  VerticalAlignment="Center" Foreground="{DynamicResource InputFontColor}"
-                                         Margin="2" Grid.Row="3" Grid.Column="0" ></TextBlock>
-                    <ComboBox IsSynchronizedWithCurrentItem="False" x:Name="cobColorRampCount"  VerticalAlignment="Center" 
-                                       Margin="2"    Grid.Row="3" Grid.Column="2" 
-                                              SelectionChanged="cobColorRampCount_SelectionChanged" SelectedIndex="0">
-                    </ComboBox>
-                    <TextBlock Text="{DynamicResource OpacityTxt}"  VerticalAlignment="Center" Foreground="{DynamicResource InputFontColor}"
-                                        Margin="2"  Grid.Row="4" Grid.Column="0" ></TextBlock>
-                    <Slider x:Name="sliderOpacity" Margin="2"  Value="255"  SmallChange="1.0" Maximum="255" Minimum="0" 
-                            Interval="1" TickFrequency="1"   IsSnapToTickEnabled="True" Orientation="Horizontal"   Style="{DynamicResource Horizontal_Slider}"
-                                                       ValueChanged="sliderOpacity_ValueChanged"   Grid.Row="5" Grid.ColumnSpan="2">
-                    </Slider>
-                    <CheckBox x:Name="chbUniqueColor" VerticalAlignment="Center"  Foreground="{DynamicResource InputFontColor}" Grid.Row="6" Grid.Column="0"
-                                                 Margin="2" Unchecked="chbUniqueColor_Checked" Checked="chbUniqueColor_Checked" Content="{DynamicResource UniqueColorTxt}"></CheckBox>
-                    <CheckBox x:Name="chbInvertColor" VerticalAlignment="Center"  Foreground="{DynamicResource InputFontColor}" Grid.Row="7" Grid.Column="0"
-                                                 Margin="2" Unchecked="chbInvertColor_Checked" Checked="chbInvertColor_Checked" Content="Invert Color"></CheckBox>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{DynamicResource ColorRampTxt}" Style="{StaticResource SymFieldLabel}" />
+                    <ComboBox Grid.Row="2" Grid.Column="1" x:Name="cobColorRamp" Style="{StaticResource SymComboBox}"
+                              IsSynchronizedWithCurrentItem="False" SelectedIndex="0"
+                              SelectionChanged="cobColorRamp_SelectionChanged" />
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{DynamicResource ClsfyContTxt}" Style="{StaticResource SymFieldLabel}" />
+                    <ComboBox Grid.Row="3" Grid.Column="1" x:Name="cobColorRampCount" Style="{StaticResource SymComboBox}"
+                              IsSynchronizedWithCurrentItem="False" SelectedIndex="0"
+                              SelectionChanged="cobColorRampCount_SelectionChanged" />
+
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="{DynamicResource OpacityTxt}" Style="{StaticResource SymFieldLabel}" />
+                    <TextBlock Grid.Row="4" Grid.Column="1" Style="{StaticResource SymValueText}"
+                               Text="{Binding Value, ElementName=sliderOpacity, StringFormat={}{0:F0}}" />
+
+                    <Slider Grid.Row="5" Grid.ColumnSpan="2" x:Name="sliderOpacity" Margin="0,3,0,0"
+                            Style="{StaticResource SymSlider}" Value="255" SmallChange="1.0" Minimum="0" Maximum="255"
+                            Interval="1" TickFrequency="1" IsSnapToTickEnabled="True"
+                            ValueChanged="sliderOpacity_ValueChanged" />
+
+                    <CheckBox Grid.Row="6" Grid.ColumnSpan="2" x:Name="chbUniqueColor" Margin="0,8,0,0"
+                              Style="{StaticResource SymCheckBox}"
+                              Unchecked="chbUniqueColor_Checked" Checked="chbUniqueColor_Checked"
+                              Content="{DynamicResource UniqueColorTxt}" />
+                    <CheckBox Grid.Row="7" Grid.ColumnSpan="2" x:Name="chbInvertColor" Margin="0,6,0,0"
+                              Style="{StaticResource SymCheckBox}"
+                              Unchecked="chbInvertColor_Checked" Checked="chbInvertColor_Checked"
+                              Content="Invert Color" />
                 </Grid>
             </Expander>
-     
-            <Expander Header="Vector" x:Name="expVelocity" IsExpanded="True" Margin="3" ExpandDirection="Down"  Foreground="{DynamicResource InputFontColor}">
-                <Grid  Background="{StaticResource PanelGradientBrush}">
+
+            <Expander x:Name="expVelocity" Style="{StaticResource SymExpander}">
+                <Expander.Header>
+                    <TextBlock Text="Vector" Style="{StaticResource SymGroupTitle}" />
+                </Expander.Header>
+                <Grid Margin="11,9,11,11">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.8*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto" MinWidth="92" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
-                        <RowDefinition Height="40"></RowDefinition>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <CheckBox x:Name="chbVelocityAutoColor" VerticalAlignment="Center"  Foreground="{DynamicResource InputFontColor}"  Margin="2"
-                                                  Unchecked="chbVelocityAutoColor_Checked" Checked="chbVelocityAutoColor_Checked" IsChecked="True"
-                                  Content="{DynamicResource AutoVecColorTxt}"  Grid.Row="0" Grid.Column="0"></CheckBox>
-                    <TextBlock Text="{DynamicResource ScaleVecTxt}"  VerticalAlignment="Center" Foreground="{DynamicResource InputFontColor}"  
-                                   Margin="2" Grid.Row="1" Grid.Column="0"></TextBlock>
-                    <ComboBox IsSynchronizedWithCurrentItem="False" x:Name="cobVVScale"  VerticalAlignment="Center" 
-                                           Margin="2"   SelectionChanged="cobVVScale_SelectionChanged" SelectedIndex="0" Grid.Row="1" Grid.Column="1"
-                                  ToolTip="{DynamicResource ScaleVecTipTxt}">
+
+                    <CheckBox Grid.Row="0" Grid.ColumnSpan="2" x:Name="chbVelocityAutoColor" Margin="0,0,0,9"
+                              Style="{StaticResource SymCheckBox}" IsChecked="True"
+                              Unchecked="chbVelocityAutoColor_Checked" Checked="chbVelocityAutoColor_Checked"
+                              Content="{DynamicResource AutoVecColorTxt}" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{DynamicResource ScaleVecTxt}" Style="{StaticResource SymFieldLabel}" />
+                    <ComboBox Grid.Row="1" Grid.Column="1" x:Name="cobVVScale" Style="{StaticResource SymComboBox}"
+                              IsSynchronizedWithCurrentItem="False" SelectedIndex="0"
+                              SelectionChanged="cobVVScale_SelectionChanged"
+                              ToolTip="{DynamicResource ScaleVecTipTxt}">
                         <ComboBoxItem Content="{DynamicResource NoneScaleTxt}"></ComboBoxItem>
                         <ComboBoxItem Content="{DynamicResource LinearScaleTxt}"></ComboBoxItem>
                         <ComboBoxItem Content="{DynamicResource SdScaleTxt}"></ComboBoxItem>
                     </ComboBox>
-                    <TextBlock Text="{DynamicResource VecSizeTxt}"  VerticalAlignment="Center" Foreground="{DynamicResource InputFontColor}"   
-                                   Margin="2"  Grid.Row="2" Grid.Column="0"></TextBlock>
-                    <ComboBox IsSynchronizedWithCurrentItem="False" x:Name="cobVectorArrow"    Margin="2"      Grid.Row="2" Grid.Column="1"
-                        SelectionChanged="cobVectorArrow_SelectionChanged" SelectedIndex="1">
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{DynamicResource VecSizeTxt}" Style="{StaticResource SymFieldLabel}" />
+                    <ComboBox Grid.Row="2" Grid.Column="1" x:Name="cobVectorArrow" Style="{StaticResource SymComboBox}"
+                              SelectedIndex="1" SelectionChanged="cobVectorArrow_SelectionChanged">
                         <ComboBoxItem IsSelected="False" Tag="100" Content="{DynamicResource SmallTxt}"></ComboBoxItem>
                         <ComboBoxItem IsSelected="True" Tag="200" Content="{DynamicResource NormalTxt}"></ComboBoxItem>
                         <ComboBoxItem IsSelected="False" Tag="400" Content="{DynamicResource LargeTxt}"></ComboBoxItem>
                         <ComboBoxItem IsSelected="False" Tag="800" Content="{DynamicResource VerylargeTxt}"></ComboBoxItem>
                     </ComboBox>
-                    <TextBlock Text="Vector Tile Count"  VerticalAlignment="Center" Foreground="{DynamicResource InputFontColor}"   
-                                   Margin="2"  Grid.Row="3" Grid.Column="0"></TextBlock>
-                    <ComboBox IsSynchronizedWithCurrentItem="False" x:Name="cobTileCount"    Margin="2"      Grid.Row="3" Grid.Column="1"
-                        SelectionChanged="cobTileCount_SelectionChanged" SelectedIndex="0">
-                        <ComboBoxItem >1</ComboBoxItem>
-                        <ComboBoxItem >2</ComboBoxItem>
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Vector Tile Count" Style="{StaticResource SymFieldLabel}" />
+                    <ComboBox Grid.Row="3" Grid.Column="1" x:Name="cobTileCount" Style="{StaticResource SymComboBox}"
+                              IsSynchronizedWithCurrentItem="False" SelectedIndex="0"
+                              SelectionChanged="cobTileCount_SelectionChanged">
+                        <ComboBoxItem>1</ComboBoxItem>
+                        <ComboBoxItem>2</ComboBoxItem>
                         <ComboBoxItem>3</ComboBoxItem>
                     </ComboBox>
-                    <Button Margin="2,5,5,5" x:Name="btnVelocityStyleProperty" Content="{DynamicResource MoreTxt}" 
-                                                     Click="btnVelocityStyleProperty_Click"   Grid.Row="4" Grid.Column="0" Visibility="Collapsed"/>
+
+                    <Button Grid.Row="4" Grid.ColumnSpan="2" x:Name="btnVelocityStyleProperty" Margin="0,9,0,0"
+                            Style="{StaticResource SymButton}" Content="{DynamicResource MoreTxt}"
+                            Click="btnVelocityStyleProperty_Click" Visibility="Collapsed" />
                 </Grid>
-            </Expander>        
+            </Expander>
+
         </StackPanel>
-    </Grid>
+    </ScrollViewer>
 </UserControl>

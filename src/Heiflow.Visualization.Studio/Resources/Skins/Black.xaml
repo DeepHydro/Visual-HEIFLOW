@@ -30,6 +30,14 @@
         </LinearGradientBrush.GradientStops>
     </LinearGradientBrush>
     
+    <!-- The application merges only some of the MahApps dictionaries, the accent dictionaries that
+         normally define these brushes are not among them. MahApps still looks them up in its window
+         chrome and in its button templates, so they are provided here for the dark skin. -->
+    <SolidColorBrush x:Key="WhiteColorBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="BlackColorBrush" Color="#FF000000" />
+    <SolidColorBrush x:Key="IdealForegroundColorBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="IdealForegroundDisabledBrush" Color="#FF7A7A7A" />
+
     <Style x:Key="CaptionText" TargetType="TextBlock">
         <Setter Property="Foreground" Value="White"></Setter>
         <Setter Property="Margin" Value="2"></Setter>

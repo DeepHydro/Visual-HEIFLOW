@@ -29,13 +29,31 @@ namespace Heiflow.Visualization.Studio.Controls
 
         private void SceneSetting_Loaded(object sender, RoutedEventArgs e)
         {
+            // The controls start at the state the scene is in, not at the state they were declared with.
             var index = (int)World.Settings.VerticalExaggeration;
             if (index > 0 && index < cobVerticalEx.Items.Count)
             {
                 cobVerticalEx.SelectionChanged -= cobVerticalEx_SelectionChanged;
-                cobVerticalEx.SelectedIndex= index-1;
+                cobVerticalEx.SelectedIndex = index - 1;
                 cobVerticalEx.SelectionChanged += cobVerticalEx_SelectionChanged;
             }
+
+            sliderFogDegree.ValueChanged -= sliderFogDegree_ValueChanged;
+            sliderFogDegree.Value = World.Settings.FogFarFactor;
+            sliderFogDegree.ValueChanged += sliderFogDegree_ValueChanged;
+
+            sdSunHeading.ValueChanged -= sdSunHeading_ValueChanged;
+            sdSunHeading.Value = MathEngine.RadiansToDegrees(World.Settings.SunHeading);
+            sdSunElevation.Value = MathEngine.RadiansToDegrees(World.Settings.SunElevation);
+            sdSunHeading.ValueChanged += sdSunHeading_ValueChanged;
+
+            chkSunFixed.Checked -= chkSunFixed_Checked;
+            chkSunFixed.Unchecked -= chkSunFixed_Checked;
+            chkSunFixed.IsChecked = !World.Settings.SunSynchedWithTime;
+            chkSunFixed.Checked += chkSunFixed_Checked;
+            chkSunFixed.Unchecked += chkSunFixed_Checked;
+
+            UpdateSunDials();
         }
 
         private void cobVerticalEx_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -47,10 +65,14 @@ namespace Heiflow.Visualization.Studio.Controls
         {
             int fogDegree = 60;
             var item = cobFogEffect.SelectedItem as ComboBoxItem;
-            if (item.Tag != null)
+            if (item != null && item.Tag != null)
             {
                 int.TryParse(item.Tag.ToString(), out fogDegree);
                 World.Settings.FogFarFactor = fogDegree;
+                // the custom slider shows the level that was just picked
+                sliderFogDegree.ValueChanged -= sliderFogDegree_ValueChanged;
+                sliderFogDegree.Value = fogDegree;
+                sliderFogDegree.ValueChanged += sliderFogDegree_ValueChanged;
             }
         }
 
@@ -68,7 +90,14 @@ namespace Heiflow.Visualization.Studio.Controls
         {
             World.Settings.SunHeading = MathEngine.DegreesToRadians(sdSunHeading.Value);
             World.Settings.SunElevation = MathEngine.DegreesToRadians(sdSunElevation.Value);
+            UpdateSunDials();
+        }
 
+        /// <summary>
+        /// Pointer of the two dials next to the sun sliders.
+        /// </summary>
+        private void UpdateSunDials()
+        {
             lineSunHeading.X2 = 20 * Math.Cos(World.Settings.SunHeading);
             lineSunHeading.Y2 = -20 * Math.Sin(World.Settings.SunHeading);
 

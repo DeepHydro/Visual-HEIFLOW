@@ -174,6 +174,7 @@ namespace Heiflow.Visualization.Renderable.Grid
             MinCellValue = minValue;
 
             StatisticsInfo = MyStatisticsMath.SimpleStatistics(vector);
+            NotifyMeshChanged();
         }
 
         public override float GetCellValue(int row, int col)
@@ -255,6 +256,12 @@ namespace Heiflow.Visualization.Renderable.Grid
 
 
         #region Color Method
+        /// <summary>
+        /// Buffers of the vertex values and of the classes they fall into. They are refilled on every
+        /// update instead of being allocated again, the arrays hold one entry per vertex of the grid.
+        /// </summary>
+        private float[] _VertexValueBuffer;
+
         public override void UpdateVertexColor()
         {
             if (GridValues == null)
@@ -265,9 +272,10 @@ namespace Heiflow.Visualization.Renderable.Grid
             if (GridValues != null)
             {
                 var vector = GridValues;
-                MaxCellValue = vector.Max();
-                MinCellValue = vector.Min();
+                // the statistics deliver the extremes as well, they are not scanned a second time
                 StatisticsInfo = MyStatisticsMath.SimpleStatistics(vector);
+                MaxCellValue = (float)StatisticsInfo.Max;
+                MinCellValue = (float)StatisticsInfo.Min;
                 if (UseCache)
                 {
                     UpdateCachedColor();
@@ -282,28 +290,35 @@ namespace Heiflow.Visualization.Renderable.Grid
                         for (int i = 0; i < _MFGrid.Topology.ActiveVertexCount; i++)
                         {
                             var verValue = _MFGrid.Topology.GetUniqueVertexValue(vector, i);
-                            if (dic.ContainsKey(verValue))
-                                _VertexList[i].Color = dic[verValue].ToArgb();
+                            System.Drawing.Color color;
+                            if (dic.TryGetValue(verValue, out color))
+                                _VertexList[i].Color = color.ToArgb();
                             else
                                 _VertexList[i].Color = System.Drawing.Color.Transparent.ToArgb();
                         }
                     }
                     else
                     {
-                        var vertext_vec = new float[_MFGrid.Topology.ActiveVertexCount];
-                        for (int i = 0; i < _MFGrid.Topology.ActiveVertexCount; i++)
+                        var vertexCount = _MFGrid.Topology.ActiveVertexCount;
+                        if (_VertexValueBuffer == null || _VertexValueBuffer.Length != vertexCount)
                         {
-                            vertext_vec[i] = _MFGrid.Topology.GetVertexValue(vector, i);
+                            _VertexValueBuffer = new float[vertexCount];
                         }
-                        var levels = _DataColor.GetLevels(vertext_vec, ColourRampCount, ClassificationMethod);
+                        for (int i = 0; i < vertexCount; i++)
+                        {
+                            _VertexValueBuffer[i] = _MFGrid.Topology.GetVertexValue(vector, i);
+                        }
+                        var levels = _DataColor.GetLevels(_VertexValueBuffer, ColourRampCount, ClassificationMethod);
 
-                        for (int i = 0; i < _MFGrid.Topology.ActiveVertexCount; i++)
+                        for (int i = 0; i < vertexCount; i++)
                         {
                            // var verValue = _MFGrid.Topology.GetVertexValue(vector, i);
                             VertexList[i].Color = _DataColor.GetVertexColor(levels[i], Opacity);
                         }
                     }
                 }
+
+                NotifyColorsChanged();
             }
         }
 

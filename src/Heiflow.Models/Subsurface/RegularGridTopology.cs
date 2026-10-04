@@ -271,6 +271,8 @@ namespace Heiflow.Models.Subsurface
             ActiveCellID = new int[Grid.ActiveCellCount];
             ActiveCellMatrixIndex = new int[Grid.ActiveCellCount];
             CellID2CellIndex = new Dictionary<int, int>();
+            // the cells around a vertex changed, the flat copy of them has to be built again
+            _VertexCellIndices = null;
             int k = 0;
             i = 0;
 
@@ -323,6 +325,36 @@ namespace Heiflow.Models.Subsurface
             else
                 return -1;
         }
+        /// <summary>
+        /// Flat copy of the cell index of the four cells around every vertex, -1 where the cell is
+        /// inactive. GetVertexValue is called once per vertex each time the layer is coloured, the
+        /// dictionary lookups it used dominate that loop for a grid of any size.
+        /// </summary>
+        [JsonIgnore]
+        private int[] _VertexCellIndices;
+
+        private int[] VertexCellIndices
+        {
+            get
+            {
+                if (_VertexCellIndices == null)
+                {
+                    var map = new int[ActiveVertexCount * 4];
+                    for (int v = 0; v < ActiveVertexCount; v++)
+                    {
+                        for (int i = 0; i < 4; i++)
+                        {
+                            int id = VertexAtActiveCells[v, i];
+                            int cellIndex;
+                            map[v * 4 + i] = (id != 0 && CellID2CellIndex.TryGetValue(id, out cellIndex)) ? cellIndex : -1;
+                        }
+                    }
+                    _VertexCellIndices = map;
+                }
+                return _VertexCellIndices;
+            }
+        }
+
         public float GetVertexValue(float[,] matrix, int index)
         {
             int[] lc = null;
@@ -344,47 +376,49 @@ namespace Heiflow.Models.Subsurface
 
         public float GetUniqueVertexValue(float[] vecotr, int index)
         {
-            int id = VertexAtActiveCells[index, 0];
-            if (id != 0)
-            {
-                var lc = CellID2CellIndex[id];
-                return vecotr[lc];
-            }
+            var ci = VertexCellIndices[index * 4];
+            if (ci >= 0 && ci < vecotr.Length)
+                return vecotr[ci];
             else
-            {
                 return 0;
-            }
         }
 
         public float GetVertexValue(int[] matrix, int index)
         {
-            int ci = 0;
+            var map = VertexCellIndices;
             float sum = 0;
             int count = 0;
+            int offset = index * 4;
             for (int i = 0; i < 4; i++)
             {
-                int id = VertexAtActiveCells[index, i];
-                if (id != 0)
+                int ci = map[offset + i];
+                if (ci >= 0 && ci < matrix.Length)
                 {
-                    ci = CellID2CellIndex[id];
                     sum += matrix[ci];
                     count++;
                 }
             }
-            return (sum / count);
+            if (count == 0)
+            {
+                return 0;
+            }
+            else
+            {
+                return (sum / count);
+            }
         }
 
         public float GetVertexValue(float[] matrix, int index)
         {
-            int ci = 0;
+            var map = VertexCellIndices;
             float sum = 0;
             int count = 0;
+            int offset = index * 4;
             for (int i = 0; i < 4; i++)
             {
-                int id = VertexAtActiveCells[index, i];
-                if (id != 0)
+                int ci = map[offset + i];
+                if (ci >= 0 && ci < matrix.Length)
                 {
-                    ci = CellID2CellIndex[id];
                     sum += matrix[ci];
                     count++;
                 }

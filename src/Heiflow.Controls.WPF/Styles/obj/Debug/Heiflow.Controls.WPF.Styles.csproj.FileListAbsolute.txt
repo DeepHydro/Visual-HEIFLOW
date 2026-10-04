@@ -184,3 +184,6 @@ D:\System\git\Visual-HEIFLOW\src\Heiflow.Controls.WPF\Styles\obj\Debug\Selen.Wpf
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Controls.WPF\Styles\obj\Debug\Heiflow.Controls.WPF.Styles.csproj.GenerateResource.Cache
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Controls.WPF\Styles\obj\Debug\Heiflow.Controls.WPF.Styles.dll
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Controls.WPF\Styles\obj\Debug\Heiflow.Controls.WPF.Styles.pdb
+D:\System\git\Visual-HEIFLOW\src\Heiflow.Controls.WPF\Styles\obj\Debug\Heiflow.Controls.WPF.Styles.csproj.AssemblyReference.cache
+D:\System\git\Visual-HEIFLOW\src\Heiflow.Controls.WPF\Styles\obj\Debug\Heiflow.Controls.WPF.Styles.csproj.CoreCompileInputs.cache
+D:\System\git\Visual-HEIFLOW\src\Heiflow.Controls.WPF\Styles\obj\Debug\Heiflow..8A4FC612.Up2Date

@@ -205,10 +205,11 @@ namespace Heiflow.Core.MyMath
             double Sum = 0.0, SumOfSqrs = 0.0;
             for (int i = 0; i < num.Length; i++)
             {
+                // x * x instead of Math.Pow(x, 2), the power function dominates the loop otherwise
                 Sum += num[i];
-                SumOfSqrs += Math.Pow(num[i], 2);
+                SumOfSqrs += (double)num[i] * num[i];
             }
-            double topSum = (num.Length * SumOfSqrs) - (Math.Pow(Sum, 2));
+            double topSum = (num.Length * SumOfSqrs) - (Sum * Sum);
             double n = (double)num.Length;
             return (float)Math.Sqrt(topSum / (n * (n - 1)));
         }
@@ -406,13 +407,40 @@ namespace Heiflow.Core.MyMath
 
         public static StatisticsInfo SimpleStatistics(float[] vector)
         {
+            // One pass over the values instead of five: the grid renders ask for the statistics of the
+            // whole vertex array every time the layer is drawn, and each LINQ operator enumerates the
+            // array on its own.
             StatisticsInfo info = new StatisticsInfo();
-            info.Max = vector.Max();
-            info.Min = vector.Min();
-            info.Average = vector.Average();
-            info.StandardDeviation = StandardDeviation(vector);
-            info.Count = vector.Length;
-            info.Sum = vector.Sum();
+            if (vector == null || vector.Length == 0)
+            {
+                info.Count = vector == null ? 0 : vector.Length;
+                return info;
+            }
+
+            double sum = 0.0;
+            double sumOfSquares = 0.0;
+            float max = float.MinValue;
+            float min = float.MaxValue;
+
+            for (int i = 0; i < vector.Length; i++)
+            {
+                float value = vector[i];
+                if (value > max)
+                    max = value;
+                if (value < min)
+                    min = value;
+                sum += value;
+                sumOfSquares += (double)value * value;
+            }
+
+            int n = vector.Length;
+            info.Max = max;
+            info.Min = min;
+            info.Sum = sum;
+            info.Average = sum / n;
+            info.Count = n;
+            // the formula of StandardDeviation(float[]) is kept so that the numbers do not change
+            info.StandardDeviation = n > 1 ? Math.Sqrt((n * sumOfSquares - sum * sum) / (n * (double)(n - 1))) : 0.0;
             return info;
         }
 

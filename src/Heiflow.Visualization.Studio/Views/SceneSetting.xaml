@@ -3,103 +3,476 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d"  Background="Black"
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <DockPanel  Margin="2,2,2,-158" Background="{DynamicResource CommonBrush}">
-            <StackPanel x:Name="sp3D" DockPanel.Dock="Top">      
-                <Expander Header="{DynamicResource D3SceneSettingTxt}" IsExpanded="True" Margin="3" ExpandDirection="Down" Foreground="White" >
-                    <StackPanel Orientation="Vertical" Background="{StaticResource PanelGradientBrush}">
+             mc:Ignorable="d"  Background="{DynamicResource CommonBrush}"
+             SnapsToDevicePixels="True" UseLayoutRounding="True"
+             d:DesignHeight="420" d:DesignWidth="300">
+    <!-- The panel used to sit in a DockPanel with a negative bottom margin (-158), which pushed the
+         content out of its container, and there was no scroller at all. Everything is now measured
+         normally and scrolls inside the panel, so the sun light section stays reachable.
+
+         The styles below live in this file on purpose: they belong to the scene panel only and must not
+         change the look of the other views. The names of the controls and their event handlers are kept
+         exactly as before, only the way they are drawn changed. -->
+    <UserControl.Resources>
+
+        <!-- Palette of the scene panel, taken from the dark skin of the application. -->
+        <SolidColorBrush x:Key="SceneSectionBackground" Color="#FF26272B" />
+        <SolidColorBrush x:Key="SceneHeaderBackground" Color="#FF31333A" />
+        <SolidColorBrush x:Key="SceneControlBackground" Color="#FF1E1F23" />
+        <SolidColorBrush x:Key="SceneDropDownBackground" Color="#FF2A2C31" />
+        <SolidColorBrush x:Key="SceneBorderBrush" Color="#FF3B3E46" />
+        <SolidColorBrush x:Key="SceneHoverBrush" Color="#FF3A3D45" />
+        <SolidColorBrush x:Key="SceneAccentBrush" Color="#FF4EA1DE" />
+        <SolidColorBrush x:Key="SceneTextBrush" Color="#FFE8EAED" />
+        <SolidColorBrush x:Key="SceneLabelBrush" Color="#FFAEB4BF" />
+        <SolidColorBrush x:Key="SceneTrackBrush" Color="#FF141518" />
+        <SolidColorBrush x:Key="SceneTickBrush" Color="#FF6E747E" />
+        <SolidColorBrush x:Key="SceneThumbFill" Color="#FF2F3137" />
+
+        <!-- Label of a property, the controls of every section start at the same offset. -->
+        <Style x:Key="SceneFieldLabel" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource SceneLabelBrush}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0,0,8,0" />
+            <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+            <Setter Property="ToolTip" Value="{Binding Text, RelativeSource={RelativeSource Self}}" />
+        </Style>
+
+        <!-- Current value of a slider, shown right aligned above the track. -->
+        <Style x:Key="SceneValueText" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource SceneTextBrush}" />
+            <Setter Property="FontSize" Value="11.5" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+        </Style>
+
+        <!-- Header of a group. -->
+        <Style x:Key="SceneGroupTitle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource SceneTextBrush}" />
+            <Setter Property="FontSize" Value="12.5" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="SceneSliderThumb" TargetType="Thumb">
+            <Setter Property="Width" Value="12" />
+            <Setter Property="Height" Value="12" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Thumb">
+                        <Ellipse Width="12" Height="12" Fill="{StaticResource SceneThumbFill}"
+                                 Stroke="{StaticResource SceneAccentBrush}" StrokeThickness="1.5" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SceneTrackFillButton" TargetType="RepeatButton">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Border Background="{StaticResource SceneAccentBrush}" Height="4" CornerRadius="2" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SceneTrackButton" TargetType="RepeatButton">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Border Background="{StaticResource SceneTrackBrush}" Height="4" CornerRadius="2" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Flat slider with a thin track and the ticks under it. -->
+        <Style x:Key="SceneSlider" TargetType="Slider">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="MinHeight" Value="26" />
+            <Setter Property="TickPlacement" Value="BottomRight" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Slider">
+                        <Grid Margin="0,2,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TickBar x:Name="TopTick" Grid.Row="0" Height="4" Placement="Top"
+                                     Fill="{StaticResource SceneTickBrush}" Visibility="Collapsed" />
+                            <Grid Grid.Row="1" Height="16">
+                                <Border Height="4" CornerRadius="2" Background="{StaticResource SceneTrackBrush}" />
+                                <Track x:Name="PART_Track">
+                                    <Track.DecreaseRepeatButton>
+                                        <RepeatButton Command="Slider.DecreaseLarge" Style="{StaticResource SceneTrackFillButton}" />
+                                    </Track.DecreaseRepeatButton>
+                                    <Track.Thumb>
+                                        <Thumb Style="{StaticResource SceneSliderThumb}" />
+                                    </Track.Thumb>
+                                    <Track.IncreaseRepeatButton>
+                                        <RepeatButton Command="Slider.IncreaseLarge" Style="{StaticResource SceneTrackButton}" />
+                                    </Track.IncreaseRepeatButton>
+                                </Track>
+                            </Grid>
+                            <TickBar x:Name="BottomTick" Grid.Row="2" Height="4" Placement="Bottom"
+                                     Fill="{StaticResource SceneTickBrush}" Visibility="Collapsed" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="TickPlacement" Value="TopLeft">
+                                <Setter TargetName="TopTick" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                            <Trigger Property="TickPlacement" Value="BottomRight">
+                                <Setter TargetName="BottomTick" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                            <Trigger Property="TickPlacement" Value="Both">
+                                <Setter TargetName="TopTick" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="BottomTick" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SceneComboBoxToggle" TargetType="ToggleButton">
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border x:Name="Bd" Background="{StaticResource SceneControlBackground}"
+                                BorderBrush="{StaticResource SceneBorderBrush}" BorderThickness="1" CornerRadius="3">
+                            <Path Data="M 0 0 L 4 4 L 8 0" Stroke="{StaticResource SceneLabelBrush}" StrokeThickness="1.5"
+                                  HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,7,0" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource SceneAccentBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource SceneAccentBrush}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SceneComboBoxItem" TargetType="ComboBoxItem">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Foreground" Value="{StaticResource SceneTextBrush}" />
+            <Setter Property="Padding" Value="6,4,6,4" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBoxItem">
+                        <Border x:Name="Bd" Background="Transparent" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource SceneHoverBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource SceneAccentBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="#FF7A7A7A" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SceneComboBox" TargetType="ComboBox">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Foreground" Value="{StaticResource SceneTextBrush}" />
+            <Setter Property="Height" Value="26" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="ItemContainerStyle" Value="{StaticResource SceneComboBoxItem}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton Style="{StaticResource SceneComboBoxToggle}"
+                                          IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          ClickMode="Press" />
+                            <ContentPresenter IsHitTestVisible="False" Margin="7,0,22,0"
+                                              Content="{TemplateBinding SelectionBoxItem}"
+                                              ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                              VerticalAlignment="Center" HorizontalAlignment="Left" />
+                            <Popup IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom"
+                                   PopupAnimation="Slide" AllowsTransparency="True" Focusable="False">
+                                <Border MinWidth="{TemplateBinding ActualWidth}" MaxHeight="220" Margin="0,2,0,0"
+                                        Background="{StaticResource SceneDropDownBackground}"
+                                        BorderBrush="{StaticResource SceneBorderBrush}" BorderThickness="1" CornerRadius="3">
+                                    <ScrollViewer Margin="2" Foreground="{StaticResource SceneTextBrush}">
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SceneCheckBox" TargetType="CheckBox">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Foreground" Value="{StaticResource SceneTextBrush}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{DynamicResource VetExTxt}"  VerticalAlignment="Center" Foreground="{DynamicResource InputFontColor}"   Margin="2" ></TextBlock>
-                            <ComboBox IsSynchronizedWithCurrentItem="False" x:Name="cobVerticalEx"  VerticalAlignment="Center" 
-                                          Width="130" HorizontalAlignment="Left" Margin="5,2,2,2"   SelectedItem="3"
-                                              SelectionChanged="cobVerticalEx_SelectionChanged">
-                                <ComboBoxItem>1</ComboBoxItem>
-                                <ComboBoxItem>2</ComboBoxItem>
-                                <ComboBoxItem>3</ComboBoxItem>
-                                <ComboBoxItem>4</ComboBoxItem>
-                                <ComboBoxItem>5</ComboBoxItem>
-                                <ComboBoxItem>6</ComboBoxItem>
-                                <ComboBoxItem >7</ComboBoxItem>
-                                <ComboBoxItem>8</ComboBoxItem>
-                                <ComboBoxItem>9</ComboBoxItem>
-                                <ComboBoxItem>10</ComboBoxItem>
-                            </ComboBox>
-                        </StackPanel>                  
-                    </StackPanel>
-                </Expander>
-                <Expander Header="{DynamicResource FogSetTxt}" IsExpanded="True" Margin="3" ExpandDirection="Down" Foreground="White">
-                    <Grid  Background="{StaticResource PanelGradientBrush}">
+                            <Border x:Name="Box" Width="14" Height="14" CornerRadius="2" VerticalAlignment="Center"
+                                    Background="{StaticResource SceneControlBackground}"
+                                    BorderBrush="{StaticResource SceneBorderBrush}" BorderThickness="1">
+                                <Path x:Name="Check" Data="M 2,7 L 6,11 L 12,3" Stroke="{StaticResource SceneAccentBrush}"
+                                      StrokeThickness="2" Visibility="Collapsed" />
+                            </Border>
+                            <ContentPresenter Margin="7,0,0,0" VerticalAlignment="Center" RecognizesAccessKey="True" />
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Check" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="Box" Property="BorderBrush" Value="{StaticResource SceneAccentBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Box" Property="BorderBrush" Value="{StaticResource SceneAccentBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Every section is a card: a header with an accent bar and a body that holds the properties. -->
+        <Style x:Key="SceneExpander" TargetType="Expander">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Foreground" Value="{StaticResource SceneTextBrush}" />
+            <Setter Property="Margin" Value="0,0,0,7" />
+            <Setter Property="IsExpanded" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Expander">
+                        <Border Background="{StaticResource SceneSectionBackground}"
+                                BorderBrush="{StaticResource SceneBorderBrush}" BorderThickness="1" CornerRadius="3">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <ToggleButton Grid.Row="0" Focusable="False"
+                                              IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                              ToolTip="{TemplateBinding Header}">
+                                    <ToggleButton.Template>
+                                        <ControlTemplate TargetType="ToggleButton">
+                                            <Border x:Name="HeaderBd" Background="{StaticResource SceneHeaderBackground}"
+                                                    CornerRadius="3,3,0,0" Padding="0" SnapsToDevicePixels="True">
+                                                <Grid Height="30">
+                                                    <Rectangle Width="3" HorizontalAlignment="Left" Fill="{StaticResource SceneAccentBrush}" />
+                                                    <ContentPresenter Margin="11,0,10,0" VerticalAlignment="Center" />
+                                                    <Path x:Name="Chevron" Data="M 0 0 L 4 4 L 0 8"
+                                                          Stroke="{StaticResource SceneLabelBrush}" StrokeThickness="1.5"
+                                                          HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,11,0"
+                                                          RenderTransformOrigin="0.5,0.5" />
+                                                </Grid>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="HeaderBd" Property="Background" Value="{StaticResource SceneHoverBrush}" />
+                                                </Trigger>
+                                                <Trigger Property="IsChecked" Value="True">
+                                                    <Setter TargetName="Chevron" Property="RenderTransform">
+                                                        <Setter.Value>
+                                                            <RotateTransform Angle="90" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </ToggleButton.Template>
+                                    <ContentPresenter Content="{TemplateBinding Header}"
+                                                      ContentTemplate="{TemplateBinding HeaderTemplate}" />
+                                </ToggleButton>
+                                <ContentPresenter x:Name="ContentSite" Grid.Row="1" Margin="0" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsExpanded" Value="False">
+                                <Setter TargetName="ContentSite" Property="Visibility" Value="Collapsed" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                  Padding="0" Background="Transparent">
+        <StackPanel x:Name="sp3D" Margin="5,5,5,5">
+
+            <Expander x:Name="expScene" Style="{StaticResource SceneExpander}">
+                <Expander.Header>
+                    <TextBlock Text="{DynamicResource D3SceneSettingTxt}" Style="{StaticResource SceneGroupTitle}" />
+                </Expander.Header>
+                <Grid Margin="11,9,11,11">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" MinWidth="92" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="{DynamicResource VetExTxt}" Style="{StaticResource SceneFieldLabel}" />
+                    <ComboBox Grid.Column="1" x:Name="cobVerticalEx" Style="{StaticResource SceneComboBox}"
+                              IsSynchronizedWithCurrentItem="False" SelectedIndex="2"
+                              SelectionChanged="cobVerticalEx_SelectionChanged">
+                        <ComboBoxItem>1</ComboBoxItem>
+                        <ComboBoxItem>2</ComboBoxItem>
+                        <ComboBoxItem>3</ComboBoxItem>
+                        <ComboBoxItem>4</ComboBoxItem>
+                        <ComboBoxItem>5</ComboBoxItem>
+                        <ComboBoxItem>6</ComboBoxItem>
+                        <ComboBoxItem>7</ComboBoxItem>
+                        <ComboBoxItem>8</ComboBoxItem>
+                        <ComboBoxItem>9</ComboBoxItem>
+                        <ComboBoxItem>10</ComboBoxItem>
+                    </ComboBox>
+                </Grid>
+            </Expander>
+
+            <Expander x:Name="expFog" Style="{StaticResource SceneExpander}">
+                <Expander.Header>
+                    <TextBlock Text="{DynamicResource FogSetTxt}" Style="{StaticResource SceneGroupTitle}" />
+                </Expander.Header>
+                <Grid Margin="11,9,11,11">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" MinWidth="92" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{DynamicResource FogLevelTxt}" Style="{StaticResource SceneFieldLabel}" />
+                    <ComboBox Grid.Row="0" Grid.Column="1" x:Name="cobFogEffect" Style="{StaticResource SceneComboBox}"
+                              IsSynchronizedWithCurrentItem="False" SelectionChanged="cobFogEffect_SelectionChanged">
+                        <ComboBoxItem IsSelected="True" Tag="60" Content="{DynamicResource VeryLightTxt}" />
+                        <ComboBoxItem Tag="40" Content="{DynamicResource LightTxt}" />
+                        <ComboBoxItem Tag="20" Content="{DynamicResource NormalTxt}" />
+                        <ComboBoxItem Tag="10" Content="{DynamicResource HeavyTxt}" />
+                        <ComboBoxItem Tag="7" Content="{DynamicResource DenseTxt}" />
+                    </ComboBox>
+
+                    <Separator Grid.Row="1" Grid.ColumnSpan="2" Margin="0,9,0,7" Background="{StaticResource SceneBorderBrush}" Height="1" />
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{DynamicResource CusFogSetTxt}" Style="{StaticResource SceneFieldLabel}" />
+                    <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource SceneValueText}"
+                               Text="{Binding Value, ElementName=sliderFogDegree, StringFormat={}{0:F0}}" />
+
+                    <Slider Grid.Row="3" Grid.ColumnSpan="2" x:Name="sliderFogDegree" Margin="0,3,0,0"
+                            Style="{StaticResource SceneSlider}" SmallChange="1" Maximum="100" Minimum="1"
+                            TickFrequency="10" IsSnapToTickEnabled="True"
+                            ValueChanged="sliderFogDegree_ValueChanged" />
+                </Grid>
+            </Expander>
+
+            <Expander x:Name="expSun" Style="{StaticResource SceneExpander}">
+                <Expander.Header>
+                    <TextBlock Text="{DynamicResource SunLightTxt}" Style="{StaticResource SceneGroupTitle}" />
+                </Expander.Header>
+                <StackPanel Margin="11,9,11,11">
+                    <CheckBox x:Name="chkSunFixed" Margin="0,0,0,9" Style="{StaticResource SceneCheckBox}"
+                              Checked="chkSunFixed_Checked" Unchecked="chkSunFixed_Checked"
+                              Content="{DynamicResource SunSynchedWithTime}" />
+
+                    <Grid Margin="0,0,0,6">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.5*"></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="30"></RowDefinition>
-                            <RowDefinition Height="50"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <!--<TextBlock Margin="2"  VerticalAlignment="Center" Foreground="{DynamicResource InputFontColor}" Text="Enable Fog" Grid.Row="0" Grid.Column="0"></TextBlock>
-                        <CheckBox  x:Name="chkFog" Margin="2"   VerticalAlignment="Center" Foreground="{DynamicResource InputFontColor}"  Grid.Row="0" Grid.Column="1" Checked="CheckBox_Checked"></CheckBox>-->
-                        <TextBlock Margin="2" Text="{DynamicResource FogLevelTxt}"  VerticalAlignment="Center" Foreground="{DynamicResource InputFontColor}"    Grid.Row="0" Grid.Column="0" ></TextBlock>
-                        <ComboBox IsSynchronizedWithCurrentItem="False" x:Name="cobFogEffect"  VerticalAlignment="Center" 
-                                              Width="130" HorizontalAlignment="Left" Margin="2"   Grid.Row="0" Grid.Column="1"
-                                                  SelectionChanged="cobFogEffect_SelectionChanged">
-                            <ComboBoxItem IsSelected="True"  Tag="60" Content="{DynamicResource VeryLightTxt}"/>
-                            <ComboBoxItem  Tag="40" Content="{DynamicResource LightTxt}"/>
-                            <ComboBoxItem  Tag="20" Content="{DynamicResource NormalTxt}"/>
-                            <ComboBoxItem  Tag="10" Content="{DynamicResource HeavyTxt}"/>
-                            <ComboBoxItem  Tag="7" Content="{DynamicResource DenseTxt}"/>
-                        </ComboBox>
-                        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.ColumnSpan="2">
-                            <TextBlock Text="{DynamicResource CusFogSetTxt}"  VerticalAlignment="Center" Foreground="{DynamicResource InputFontColor}"   Margin="2" ></TextBlock>
-                            <Slider x:Name="sliderFogDegree" Margin="2"  Height="20" SmallChange="1.0" Maximum="100" Minimum="1" Interval="1" TickFrequency="10" 
-                                                     IsSnapToTickEnabled="True" Orientation="Horizontal"  Style="{DynamicResource Horizontal_Slider}"
-                                                         ValueChanged="sliderFogDegree_ValueChanged"></Slider>
+                        <StackPanel Grid.Column="0">
+                            <Grid>
+                                <TextBlock Text="{DynamicResource AzimuthTxt}" Style="{StaticResource SceneFieldLabel}" HorizontalAlignment="Left" />
+                                <TextBlock Style="{StaticResource SceneValueText}"
+                                           Text="{Binding Value, ElementName=sdSunHeading, StringFormat={}{0:F0}°}" />
+                            </Grid>
+                            <Slider x:Name="sdSunHeading" Style="{StaticResource SceneSlider}"
+                                    Minimum="0" Maximum="360" TickFrequency="30" SmallChange="1"
+                                    ValueChanged="sdSunHeading_ValueChanged" />
                         </StackPanel>
-                    </Grid>     
-                </Expander>       
-                <Expander Header="{DynamicResource SunLightTxt}" IsExpanded="True" Margin="3" ExpandDirection="Down"  Foreground="White">
-                    <StackPanel Orientation="Vertical" Background="{StaticResource PanelGradientBrush}">
-                        <CheckBox Margin="2,10,2,5" x:Name="chkSunFixed" Foreground="{DynamicResource InputFontColor}"  Checked="chkSunFixed_Checked" Unchecked="chkSunFixed_Checked" Content="{DynamicResource SunSynchedWithTime}"></CheckBox>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{DynamicResource AzimuthTxt}"  VerticalAlignment="Center" Foreground="{DynamicResource InputFontColor}"   Margin="2" ></TextBlock>
-                            <Slider x:Name="sdSunHeading" Width="150" Minimum="0" Maximum="360" TickFrequency="10"
-                                                TickPlacement="BottomRight" VerticalAlignment="Center" Margin="5 0,10,0" ValueChanged="sdSunHeading_ValueChanged"></Slider>
-                            <Canvas Height="40" Width="40">
-                                <Ellipse Width="40" Height="40"  Canvas.Left="0" Canvas.Top="0"  Stroke="Yellow" StrokeThickness="2"></Ellipse>
-                                <Line  Canvas.Left="0" Canvas.Top="20" X1="0" Y1="0" X2="40" Y2="0" Stroke="Yellow"  StrokeThickness="2"></Line>
-                                <Line  Canvas.Left="20" Canvas.Top="0" X1="0" Y1="0" X2="0" Y2="40" Stroke="Yellow"  StrokeThickness="2"></Line>
-                                <Line  x:Name="lineSunHeading" Canvas.Left="20" Canvas.Top="20" X1="0" Y1="0" X2="-12" Y2="15" Stroke="Red"  StrokeThickness="2"></Line>
-                            </Canvas>
+                        <Canvas Grid.Column="1" Height="40" Width="40" VerticalAlignment="Center" Margin="8,0,0,0">
+                            <Ellipse Width="40" Height="40" Canvas.Left="0" Canvas.Top="0" Stroke="Yellow" StrokeThickness="2"></Ellipse>
+                            <Line Canvas.Left="0" Canvas.Top="20" X1="0" Y1="0" X2="40" Y2="0" Stroke="Yellow" StrokeThickness="2"></Line>
+                            <Line Canvas.Left="20" Canvas.Top="0" X1="0" Y1="0" X2="0" Y2="40" Stroke="Yellow" StrokeThickness="2"></Line>
+                            <Line x:Name="lineSunHeading" Canvas.Left="20" Canvas.Top="20" X1="0" Y1="0" X2="-12" Y2="15" Stroke="Red" StrokeThickness="2"></Line>
+                        </Canvas>
+                    </Grid>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <Grid>
+                                <TextBlock Text="{DynamicResource Altitudext}" Style="{StaticResource SceneFieldLabel}" HorizontalAlignment="Left" />
+                                <TextBlock Style="{StaticResource SceneValueText}"
+                                           Text="{Binding Value, ElementName=sdSunElevation, StringFormat={}{0:F0}°}" />
+                            </Grid>
+                            <Slider x:Name="sdSunElevation" Style="{StaticResource SceneSlider}"
+                                    Minimum="-10" Maximum="90" TickFrequency="10" SmallChange="1"
+                                    ValueChanged="sdSunHeading_ValueChanged" />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{DynamicResource Altitudext}"  VerticalAlignment="Center" Foreground="{DynamicResource InputFontColor}"   Margin="2" ></TextBlock>
-                            <Slider  x:Name="sdSunElevation"  Width="150" Minimum="-10" Maximum="90"
-                                                 TickFrequency="10"  TickPlacement="BottomRight" VerticalAlignment="Center" Margin="5 0,10,0" ValueChanged="sdSunHeading_ValueChanged"></Slider>
-                            <Canvas Height="45" Width="35" Margin="4 4 0 0">
-                                <Path Stroke="Yellow"  StrokeThickness="2" Canvas.Left="0" Canvas.Top="0" >
-                                    <Path.Data>
-                                        <PathGeometry>
-                                            <PathGeometry.Figures>
-                                                <PathFigure StartPoint="0,0">
-                                                    <PathFigure.Segments>
-                                                        <ArcSegment Point="34.468,41.078" Size="35,35" RotationAngle="90" SweepDirection="Clockwise">
-                                                        </ArcSegment>
-                                                        <LineSegment Point="0,35"></LineSegment>
-                                                        <LineSegment Point="0,0"></LineSegment>
-                                                    </PathFigure.Segments>
-                                                </PathFigure>
-                                            </PathGeometry.Figures>
-                                        </PathGeometry>
-                                    </Path.Data>
-                                </Path>
-                                <Line x:Name="lineSunElevation"  Canvas.Left="0" Canvas.Top="35" X1="0" Y1="0" X2="25" Y2="-25" Stroke="Red"  StrokeThickness="2"></Line>
-                            </Canvas>
-                        </StackPanel>
-                    </StackPanel>
-                </Expander>
-            </StackPanel>
-        </DockPanel>
-    </Grid>
+                        <Canvas Grid.Column="1" Height="45" Width="35" VerticalAlignment="Center" Margin="8,4,0,0">
+                            <Path Stroke="Yellow" StrokeThickness="2" Canvas.Left="0" Canvas.Top="0">
+                                <Path.Data>
+                                    <PathGeometry>
+                                        <PathGeometry.Figures>
+                                            <PathFigure StartPoint="0,0">
+                                                <PathFigure.Segments>
+                                                    <ArcSegment Point="34.468,41.078" Size="35,35" RotationAngle="90" SweepDirection="Clockwise">
+                                                    </ArcSegment>
+                                                    <LineSegment Point="0,35"></LineSegment>
+                                                    <LineSegment Point="0,0"></LineSegment>
+                                                </PathFigure.Segments>
+                                            </PathFigure>
+                                        </PathGeometry.Figures>
+                                    </PathGeometry>
+                                </Path.Data>
+                            </Path>
+                            <Line x:Name="lineSunElevation" Canvas.Left="0" Canvas.Top="35" X1="0" Y1="0" X2="25" Y2="-25" Stroke="Red" StrokeThickness="2"></Line>
+                        </Canvas>
+                    </Grid>
+                </StackPanel>
+            </Expander>
+
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

@@ -191,6 +191,8 @@ namespace Heiflow.Visualization.Renderable.Grid
                         }
                     }
                 }
+
+                NotifyColorsChanged();
             }
         }
 
@@ -204,6 +206,7 @@ namespace Heiflow.Visualization.Renderable.Grid
                 }
                 MaxCellValue = cachedMaxValues[CurrentTimeStep];
                 MinCellValue = cachedMinValues[CurrentTimeStep];
+                NotifyColorsChanged();
             }
         }
 

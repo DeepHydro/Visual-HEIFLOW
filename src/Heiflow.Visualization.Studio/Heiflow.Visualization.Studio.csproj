@@ -244,6 +244,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\LayerManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ProjectExplorer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -318,6 +322,9 @@
     <Compile Include="Views\LayerManager.xaml.cs">
       <DependentUpon>LayerManager.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\LayerManagerView.xaml.cs">
+      <DependentUpon>LayerManagerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SceneSetting.xaml.cs">
       <DependentUpon>SceneSetting.xaml</DependentUpon>
     </Compile>
@@ -345,6 +352,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Resources\ControlStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\LayerTreeStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

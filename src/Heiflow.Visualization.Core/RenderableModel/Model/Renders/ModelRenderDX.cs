@@ -169,6 +169,35 @@ namespace Heiflow.Visualization.Renderable.Grid
             }
         }
 
+        /// <summary>
+        /// Raised every time the geometry of the mesh is rebuilt. The layers compare it with the version
+        /// they uploaded and upload again only when it changed.
+        /// </summary>
+        public int MeshVersion { get; private set; }
+
+        /// <summary>
+        /// Raised every time the vertex colours change, a new time step for example. The colours live in
+        /// the vertex array, so they are uploaded again as well.
+        /// </summary>
+        public int ColorVersion { get; private set; }
+
+        /// <summary>
+        /// Call at the end of CreatMeshes, the geometry has to be uploaded again.
+        /// </summary>
+        protected void NotifyMeshChanged()
+        {
+            MeshVersion++;
+            ColorVersion++;
+        }
+
+        /// <summary>
+        /// Call at the end of UpdateVertexColor, the vertex array has to be uploaded again.
+        /// </summary>
+        protected void NotifyColorsChanged()
+        {
+            ColorVersion++;
+        }
+
         public CustomVertex.PositionColored[] SelectedVertexes
         {
             get;
@@ -550,43 +579,7 @@ namespace Heiflow.Visualization.Renderable.Grid
 
         protected void CalculateNormals(ref CustomVertex.PositionNormalColored[] vertices, int[] indices)
         {
-            List<Vector3>[] normal_buffer = new List<Vector3>[vertices.Length];
-            for (int i = 0; i < vertices.Length; i++)
-            {
-                normal_buffer[i] = new List<Vector3>();
-            }
-            for (int i = 0; i < indices.Length; i += 3)
-            {
-                Vector3 p1 = vertices[indices[i + 0]].Position;
-                Vector3 p2 = vertices[indices[i + 1]].Position;
-                Vector3 p3 = vertices[indices[i + 2]].Position;
-
-                Vector3 v1 = p2 - p1;
-                Vector3 v2 = p3 - p1;
-                Vector3 normal = Vector3.Cross(v1, v2);
-
-                normal.Normalize();
-
-                // Store the face's normal for each of the vertices that make up the face.
-                normal_buffer[indices[i + 0]].Add(normal);
-                normal_buffer[indices[i + 1]].Add(normal);
-                normal_buffer[indices[i + 2]].Add(normal);
-            }
-
-            // Now loop through each vertex vector, and avarage out all the normals stored.
-            for (int i = 0; i < vertices.Length; ++i)
-            {
-                for (int j = 0; j < normal_buffer[i].Count; ++j)
-                {
-                    Vector3 curNormal = normal_buffer[i][j];
-
-                    if (vertices[i].Normal == Vector3.Empty)
-                        vertices[i].Normal = curNormal;
-                    else
-                        vertices[i].Normal += curNormal;
-                }
-                vertices[i].Normal.Multiply(1.0f / normal_buffer[i].Count);
-            }
+            ModelNormals.Calculate(vertices, indices);
         }
 
         public int GetVertexColor(double max, double min, double averagedValue, int alpha)

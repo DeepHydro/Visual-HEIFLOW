@@ -8,122 +8,396 @@
         xmlns:localct="clr-namespace:Heiflow.Visualization.Studio.Controls"
         Height="800" Width="1000" WindowStartupLocation="CenterScreen" TitleForeground="#999988"  Icon="Images\wc_logo32.png"               
       WindowStyle="SingleBorderWindow" WindowState="Maximized" ShowMaxRestoreButton="True">
-    <Controls:MetroWindow.Flyouts>
-        <Controls:FlyoutsControl x:Name="flyoutsControl" HorizontalAlignment="Right">
-            <Controls:Flyout Header="Scene Setting" Position="Right" HorizontalAlignment="Right"  
-                             AnimateOpacity="True"  Width="300" Margin="0,26,0,0" >
-                <localct:SceneSetting></localct:SceneSetting>
-            </Controls:Flyout>
-        </Controls:FlyoutsControl>
-    </Controls:MetroWindow.Flyouts>
+    <Controls:MetroWindow.Resources>
+        <!-- The skin of the application is dark while the framework tab control paints itself light
+             grey, so the side panel gets its own flat tab style. -->
+        <Style x:Key="SidePanelTabItem" TargetType="{x:Type TabItem}">
+            <Setter Property="Foreground" Value="#FFCCCCCC" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Padding" Value="12,5" />
+            <Setter Property="MinWidth" Value="72" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Border x:Name="HeaderBorder" Background="Transparent" BorderThickness="0,0,0,2"
+                                BorderBrush="Transparent" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                            <ContentPresenter ContentSource="Header" HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" RecognizesAccessKey="True" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="HeaderBorder" Property="BorderBrush" Value="{DynamicResource CommonBrush}" />
+                                <Setter Property="Foreground" Value="White" />
+                                <Setter Property="FontWeight" Value="SemiBold" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="SidePanelTabControl" TargetType="{x:Type TabControl}">
+            <Setter Property="Background" Value="#FF1B1B1B" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="ItemContainerStyle" Value="{StaticResource SidePanelTabItem}" />
+        </Style>
+
+        <!-- ***************** top bar ******************* -->
+        <!-- The bar used to be plain black and the glyphs used CommonBrush (#FF2D2D30), which is almost
+             invisible on it. The bar now gets a slightly lighter gradient that matches the side panel
+             (#FF1B1B1B) plus a one pixel divider, and the glyphs follow the button foreground. -->
+        <LinearGradientBrush x:Key="TopBarBackground" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#FF2C2C31" Offset="0" />
+            <GradientStop Color="#FF1B1B1F" Offset="1" />
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="TopBarSeparatorBrush" Color="#FF3C3C42" />
+        <SolidColorBrush x:Key="TopBarGlyphBrush" Color="#FFC9C9CE" />
+
+        <!-- The drop downs used to be painted by the framework with the light system menu colours. They
+             now follow the dark skin: dark pop up, light text, accent highlight. -->
+        <SolidColorBrush x:Key="TopMenuForegroundBrush" Color="#FFE8E8EC" />
+        <SolidColorBrush x:Key="TopMenuDisabledBrush" Color="#FF7A7A7A" />
+        <SolidColorBrush x:Key="TopMenuPopupBackground" Color="#FF2A2C31" />
+        <SolidColorBrush x:Key="TopMenuPopupBorderBrush" Color="#FF3B3E46" />
+        <SolidColorBrush x:Key="TopMenuHighlightBrush" Color="#FF4EA1DE" />
+        <SolidColorBrush x:Key="TopMenuSeparatorBrush" Color="#FF464A52" />
+
+        <Style x:Key="ShellTopMenu" TargetType="{x:Type Menu}">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{StaticResource TopMenuForegroundBrush}" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Menu}">
+                        <Border Background="Transparent" SnapsToDevicePixels="True">
+                            <StackPanel ClipToBounds="True" Orientation="Horizontal" IsItemsHost="True" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Applies to the top level items only. The drop down items are painted by the implicit style
+             of the menu bar, see the resources of the mainMenu panel. -->
+        <Style x:Key="TopMenuItem" TargetType="{x:Type MenuItem}">
+            <Setter Property="Foreground" Value="{StaticResource TopMenuForegroundBrush}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Padding" Value="12,0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type MenuItem}">
+                        <Grid SnapsToDevicePixels="True">
+                            <Border x:Name="ItemBorder" Background="Transparent">
+                                <ContentPresenter ContentSource="Header" RecognizesAccessKey="True"
+                                                  Margin="{TemplateBinding Padding}"
+                                                  HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <Popup x:Name="PART_Popup" AllowsTransparency="True" Focusable="False"
+                                   IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                                   Placement="Bottom" PopupAnimation="Fade">
+                                <Border Background="{StaticResource TopMenuPopupBackground}"
+                                        BorderBrush="{StaticResource TopMenuPopupBorderBrush}" CornerRadius="2"
+                                        BorderThickness="1" SnapsToDevicePixels="True">
+                                    <StackPanel IsItemsHost="True" Margin="0,3" Grid.IsSharedSizeScope="True"
+                                                KeyboardNavigation.DirectionalNavigation="Cycle" />
+                                </Border>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="#26FFFFFF" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                            <Trigger Property="IsSubmenuOpen" Value="True">
+                                <Setter TargetName="ItemBorder" Property="Background" Value="#33FFFFFF" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="#FF7A7A7A" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="TopBarButton" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Foreground" Value="{StaticResource TopBarGlyphBrush}" />
+            <Setter Property="Width" Value="32" />
+            <Setter Property="Height" Value="28" />
+            <Setter Property="Margin" Value="0,0,4,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="ButtonBorder" Background="Transparent" CornerRadius="2" SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="#26FFFFFF" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="#3FFFFFFF" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Controls:MetroWindow.Resources>
+
+    <!-- No flyouts any more: the scene settings live in the right side panel, so they can never
+         slide over the layer tree or the 3D scene. -->
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="24"></RowDefinition>
+            <RowDefinition Height="34"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <DockPanel x:Name="mainMenu" DockPanel.Dock="Top" SnapsToDevicePixels="True" Margin="0,0,0,0" Grid.Row="0" Background="Black">
-            <Menu DockPanel.Dock="Left" SnapsToDevicePixels="True" Margin="0" Style="{StaticResource GeneralMenu}" Foreground="White">
-                <MenuItem Header="{DynamicResource FileMenuHeader}"  x:Name="NewMenu"   Foreground="White" >
-                    <MenuItem  Header="{DynamicResource OpenPrjMenuHeader}"  x:Name="miLoadHeiflow"    Click="OpenPrj_Click" Foreground="Black" />
+        <Border Grid.Row="0" Background="{StaticResource TopBarBackground}" BorderThickness="0,0,0,1"
+                BorderBrush="{StaticResource TopBarSeparatorBrush}" SnapsToDevicePixels="True">
+            <DockPanel x:Name="mainMenu" LastChildFill="False" SnapsToDevicePixels="True"
+                       Background="{StaticResource TopBarBackground}"
+                       TextElement.Foreground="{StaticResource TopMenuForegroundBrush}">
+                <DockPanel.Resources>
+                    <!-- Implicit style: it paints every drop down item of this menu bar. The top level
+                         items set TopMenuItem explicitly, so they keep their own look. -->
+                    <Style TargetType="{x:Type MenuItem}">
+                        <Setter Property="OverridesDefaultStyle" Value="True" />
+                        <Setter Property="SnapsToDevicePixels" Value="True" />
+                        <Setter Property="Foreground" Value="{StaticResource TopMenuForegroundBrush}" />
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="MinHeight" Value="24" />
+                        <Setter Property="Padding" Value="6,3,8,3" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type MenuItem}">
+                                    <Border x:Name="ItemBorder" Background="Transparent" SnapsToDevicePixels="True">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition MinWidth="18" Width="Auto" SharedSizeGroup="MenuItemIconColumnGroup" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIGTColumnGroup" />
+                                                <ColumnDefinition Width="14" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <ContentPresenter x:Name="Icon" Grid.Column="0" Margin="4,0,6,0"
+                                                              VerticalAlignment="Center" ContentSource="Icon" />
+                                            <Grid x:Name="GlyphPanel" Grid.Column="0" Visibility="Hidden" Margin="5,0,4,0"
+                                                  VerticalAlignment="Center">
+                                                <Path x:Name="GlyphPanelPath" FlowDirection="LeftToRight" VerticalAlignment="Center"
+                                                      Data="M 0,2.5 L 0,5 L 2.5,7.5 L 7,2.5 L 7,5 L 2.5,10 L 0,7.5 z"
+                                                      Fill="{TemplateBinding Foreground}" />
+                                            </Grid>
+                                            <ContentPresenter x:Name="HeaderHost" Grid.Column="1" ContentSource="Header"
+                                                              RecognizesAccessKey="True" Margin="{TemplateBinding Padding}"
+                                                              VerticalAlignment="Center" />
+                                            <TextBlock x:Name="IGTHost" Grid.Column="2" Text="{TemplateBinding InputGestureText}"
+                                                       Margin="10,2,6,2" VerticalAlignment="Center" Opacity="0.6"
+                                                       Foreground="{TemplateBinding Foreground}" />
+                                            <Path x:Name="ArrowPanelPath" Grid.Column="3" Visibility="Collapsed" Margin="4,0,6,0"
+                                                  VerticalAlignment="Center" Data="M 0,0 L 0,8 L 4,4 z"
+                                                  Fill="{TemplateBinding Foreground}" />
+
+                                            <Popup x:Name="SubMenuPopup" Focusable="False" AllowsTransparency="True"
+                                                   PopupAnimation="Fade" Placement="Right" HorizontalOffset="-2"
+                                                   IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}">
+                                                <Border Background="{StaticResource TopMenuPopupBackground}"
+                                                        BorderBrush="{StaticResource TopMenuPopupBorderBrush}"
+                                                        BorderThickness="1" CornerRadius="2" SnapsToDevicePixels="True">
+                                                    <ScrollViewer CanContentScroll="True" HorizontalScrollBarVisibility="Disabled"
+                                                                  VerticalScrollBarVisibility="Auto">
+                                                        <StackPanel IsItemsHost="True" Margin="0,3" Grid.IsSharedSizeScope="True"
+                                                                    KeyboardNavigation.DirectionalNavigation="Cycle" />
+                                                    </ScrollViewer>
+                                                </Border>
+                                            </Popup>
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="Role" Value="SubmenuHeader">
+                                            <Setter TargetName="ArrowPanelPath" Property="Visibility" Value="Visible" />
+                                        </Trigger>
+                                        <Trigger Property="Role" Value="TopLevelHeader">
+                                            <Setter TargetName="SubMenuPopup" Property="Placement" Value="Bottom" />
+                                        </Trigger>
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter TargetName="GlyphPanel" Property="Visibility" Value="Visible" />
+                                            <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
+                                        </Trigger>
+                                        <Trigger Property="IsHighlighted" Value="True">
+                                            <Setter TargetName="ItemBorder" Property="Background" Value="{StaticResource TopMenuHighlightBrush}" />
+                                            <Setter Property="Foreground" Value="White" />
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Foreground" Value="{StaticResource TopMenuDisabledBrush}" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
+                    <!-- Separators inside a drop down are looked up by this key. -->
+                    <Style x:Key="{x:Static MenuItem.SeparatorStyleKey}" TargetType="{x:Type Separator}">
+                        <Setter Property="OverridesDefaultStyle" Value="True" />
+                        <Setter Property="SnapsToDevicePixels" Value="True" />
+                        <Setter Property="Margin" Value="8,3,8,3" />
+                        <Setter Property="Background" Value="{StaticResource TopMenuSeparatorBrush}" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Separator}">
+                                    <Rectangle Height="1" Fill="{TemplateBinding Background}" SnapsToDevicePixels="True" />
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </DockPanel.Resources>
+
+                <Menu DockPanel.Dock="Left" SnapsToDevicePixels="True" Margin="0" Style="{StaticResource ShellTopMenu}">
+                <MenuItem Header="{DynamicResource FileMenuHeader}"  x:Name="NewMenu"  Style="{StaticResource TopMenuItem}" >
+                    <MenuItem  Header="{DynamicResource OpenPrjMenuHeader}"  x:Name="miLoadHeiflow"    Click="OpenPrj_Click" />
                     <Separator />
-                    <MenuItem Header="{DynamicResource LanguageMenuHeader}"  Foreground="Black" >
-                        <MenuItem Header="{DynamicResource EnglishMenuHeader}"  Foreground="Black" />
-                        <MenuItem Header="{DynamicResource ChineseMenuHeader}"  Foreground="Black" />
+                    <MenuItem Header="{DynamicResource LanguageMenuHeader}"  >
+                        <MenuItem Header="{DynamicResource EnglishMenuHeader}"  />
+                        <MenuItem Header="{DynamicResource ChineseMenuHeader}"  />
                     </MenuItem>
-                    <MenuItem Header="{DynamicResource  ExitMenuHeader}"   x:Name="miExit"  Command="{Binding Exit}" Foreground="Black" />
+                    <MenuItem Header="{DynamicResource  ExitMenuHeader}"   x:Name="miExit"  Command="{Binding Exit}" />
                 </MenuItem>
-                <MenuItem Header="{DynamicResource  ViewMenuHeader}" x:Name="ViewMenu"  Foreground="White" >
-                    <MenuItem Header="{DynamicResource  ShowPosInfoMenuHeader}"   IsCheckable="True"   x:Name="miPositionInfo"  IsChecked="True"   Click="ViewMenuItem_Click" Foreground="Black" />
-                    <MenuItem Header="{DynamicResource  ShowCroHairMenuHeader}" IsCheckable="True"  x:Name="miHasCrossHairs"  IsChecked="True"  Click="ViewMenuItem_Click" Foreground="Black" />
-                    <MenuItem Header="{DynamicResource  ShowLatlngMenuHeader}" IsCheckable="True"  x:Name="miShowLatLong"  IsChecked="False"  Click="ViewMenuItem_Click"  Foreground="Black" />
-                    <MenuItem Header="{DynamicResource  EnMoveMoMenuHeader}" IsCheckable="True"  x:Name="miCameraHasMoveMo"  IsChecked="False"   Click="ViewMenuItem_Click" Foreground="Black" />
-                    <MenuItem Header="{DynamicResource  EnInertiaMenuHeader}" IsCheckable="True"  x:Name="miCameraHasInertia"  IsChecked="True"   Click="ViewMenuItem_Click" Foreground="Black" />
+                <MenuItem Header="{DynamicResource  ViewMenuHeader}" x:Name="ViewMenu"  Style="{StaticResource TopMenuItem}" >
+                    <MenuItem Header="{DynamicResource  ShowPosInfoMenuHeader}"   IsCheckable="True"   x:Name="miPositionInfo"  IsChecked="True"   Click="ViewMenuItem_Click" />
+                    <MenuItem Header="{DynamicResource  ShowCroHairMenuHeader}" IsCheckable="True"  x:Name="miHasCrossHairs"  IsChecked="True"  Click="ViewMenuItem_Click" />
+                    <MenuItem Header="{DynamicResource  ShowLatlngMenuHeader}" IsCheckable="True"  x:Name="miShowLatLong"  IsChecked="False"  Click="ViewMenuItem_Click"  />
+                    <MenuItem Header="{DynamicResource  EnMoveMoMenuHeader}" IsCheckable="True"  x:Name="miCameraHasMoveMo"  IsChecked="False"   Click="ViewMenuItem_Click" />
+                    <MenuItem Header="{DynamicResource  EnInertiaMenuHeader}" IsCheckable="True"  x:Name="miCameraHasInertia"  IsChecked="True"   Click="ViewMenuItem_Click" />
                     <Separator />
-                    <MenuItem Header="{DynamicResource  EnFogMenuHeader}" IsCheckable="True"  x:Name="miDisplayFog"   Click="ViewMenuItem_Click" Foreground="Black" />
-                    <MenuItem Header="{DynamicResource  EnSolarMenuHeader}" IsCheckable="True"  x:Name="miSunshading"  IsChecked="False"  Click="ViewMenuItem_Click"  Foreground="Black" />
-                    <MenuItem Header="{DynamicResource  EnAtmosphericScattering}" IsCheckable="True"  x:Name="miHasAtmosphereScattering"  IsChecked="True"  Click="ViewMenuItem_Click"  Foreground="Black" />
-                    <MenuItem Header="{DynamicResource  EnAtomosphereMenuHeader}" IsCheckable="True"  x:Name="miHasAtmosphere"  IsChecked="False"  Click="ViewMenuItem_Click"  Foreground="Black" />
-                    <MenuItem Header="{DynamicResource  EnSkyMenuHeader}" IsCheckable="True"  x:Name="miHasSky"  IsChecked="False"   Click="ViewMenuItem_Click"  Foreground="Black" />
-                    <MenuItem Header="High Perfomance" IsCheckable="True"  x:Name="miEnableHighPerfomance"  IsChecked="False"   Click="ViewMenuItem_Click"  Foreground="Black" />
+                    <MenuItem Header="{DynamicResource  EnFogMenuHeader}" IsCheckable="True"  x:Name="miDisplayFog"   Click="ViewMenuItem_Click" />
+                    <MenuItem Header="{DynamicResource  EnSolarMenuHeader}" IsCheckable="True"  x:Name="miSunshading"  IsChecked="False"  Click="ViewMenuItem_Click"  />
+                    <MenuItem Header="{DynamicResource  EnAtmosphericScattering}" IsCheckable="True"  x:Name="miHasAtmosphereScattering"  IsChecked="True"  Click="ViewMenuItem_Click"  />
+                    <MenuItem Header="{DynamicResource  EnAtomosphereMenuHeader}" IsCheckable="True"  x:Name="miHasAtmosphere"  IsChecked="False"  Click="ViewMenuItem_Click"  />
+                    <MenuItem Header="{DynamicResource  EnSkyMenuHeader}" IsCheckable="True"  x:Name="miHasSky"  IsChecked="False"   Click="ViewMenuItem_Click"  />
+                    <MenuItem Header="High Perfomance" IsCheckable="True"  x:Name="miEnableHighPerfomance"  IsChecked="False"   Click="ViewMenuItem_Click"  />
                     <Separator />
-                    <MenuItem Header="{DynamicResource  ShowStatInfoMenuHeader}"   x:Name="miShowStatInfo"  Click="miShowStatInfo_Click" Foreground="Black" />
-                    <MenuItem Header="{DynamicResource  D3PerfMenuHeader}"  IsCheckable="True"  x:Name="miDis3DRenderInfo"  IsChecked="False" Click="miDis3DRenderInfo_Click" Foreground="Black" />
+                    <MenuItem Header="{DynamicResource  ShowStatInfoMenuHeader}"   x:Name="miShowStatInfo"  Click="miShowStatInfo_Click" />
+                    <MenuItem Header="{DynamicResource  D3PerfMenuHeader}"  IsCheckable="True"  x:Name="miDis3DRenderInfo"  IsChecked="False" Click="miDis3DRenderInfo_Click" />
                     <Separator />
-                    <MenuItem Header="{DynamicResource  ShowCompassMenuHeader}" IsCheckable="True"  x:Name="miHasCompass"  IsChecked="True" Click="ViewMenuItem_Click"   Foreground="Black" />
-                    <MenuItem Header="{DynamicResource  ShowScalebarMenuHeader}"  x:Name="miShowScaleBar" IsCheckable="True"  IsChecked="True"  Click="ViewMenuItem_Click" Foreground="Black" />
-                    <MenuItem Header="{DynamicResource  ShowLengendMenuHeader}"   x:Name="miGridLengend" IsCheckable="True"  IsChecked="False" Click="ViewMenuItem_Click"  Foreground="Black" />
-                    <MenuItem Header="Monitor"   x:Name="miMonitor" IsCheckable="True"  IsChecked="False" Click="ViewMenuItem_Click"  Foreground="Black" />
+                    <MenuItem Header="{DynamicResource  ShowCompassMenuHeader}" IsCheckable="True"  x:Name="miHasCompass"  IsChecked="True" Click="ViewMenuItem_Click"   />
+                    <MenuItem Header="{DynamicResource  ShowScalebarMenuHeader}"  x:Name="miShowScaleBar" IsCheckable="True"  IsChecked="True"  Click="ViewMenuItem_Click" />
+                    <MenuItem Header="{DynamicResource  ShowLengendMenuHeader}"   x:Name="miGridLengend" IsCheckable="True"  IsChecked="False" Click="ViewMenuItem_Click"  />
+                    <MenuItem Header="Monitor"   x:Name="miMonitor" IsCheckable="True"  IsChecked="False" Click="ViewMenuItem_Click"  />
                     <Separator />
-                    <MenuItem Header="{DynamicResource  DefaultPosMenuHeader}"  x:Name="miGotoDefault"   Click="miGotoDefault_Click" Foreground="Black" />
-                    <MenuItem Header="{DynamicResource  CurrentPosAsDefaultMenuHeader}"  x:Name="miCurrentPosAsDefault" Click="miCurrentPosAsDefault_Click" Foreground="Black"  />
+                    <MenuItem Header="{DynamicResource  DefaultPosMenuHeader}"  x:Name="miGotoDefault"   Click="miGotoDefault_Click" />
+                    <MenuItem Header="{DynamicResource  CurrentPosAsDefaultMenuHeader}"  x:Name="miCurrentPosAsDefault" Click="miCurrentPosAsDefault_Click"  />
                     <Separator />
-                    <MenuItem Header="{DynamicResource  SaveConfigMenuHeader}"  x:Name="miSaveViewSetting"  Click="miSaveViewSetting_Click" Foreground="Black" />
+                    <MenuItem Header="{DynamicResource  SaveConfigMenuHeader}"  x:Name="miSaveViewSetting"  Click="miSaveViewSetting_Click" />
                 </MenuItem>
-                <MenuItem Header="{DynamicResource  DataMenuHeader}" x:Name="DataMenu"   Foreground="White"  >
-                    <MenuItem Header="Add Shapefile"   x:Name="miLoadShp"  Click="miLoadShp_Click" Foreground="Black" />
-                    <MenuItem Header="Add Raster"   x:Name="miLoadRater" Visibility="Collapsed"  Foreground="Black" />
-                    <MenuItem Header="Add 3D Model"   x:Name="miLoad3DModel"  Click="miLoad3DModel_Click" Foreground="Black" />
+                <MenuItem Header="{DynamicResource  DataMenuHeader}" x:Name="DataMenu"   Style="{StaticResource TopMenuItem}"  >
+                    <MenuItem Header="Add Shapefile"   x:Name="miLoadShp"  Click="miLoadShp_Click" />
+                    <MenuItem Header="Add Raster"   x:Name="miLoadRater" Visibility="Collapsed"  />
+                    <MenuItem Header="Add 3D Model"   x:Name="miLoad3DModel"  Click="miLoad3DModel_Click" />
                     <Separator />
-                    <MenuItem Header="Load ODM Database"   x:Name="miLoadODM" Click="miLoadODM_Click" Foreground="Black" />
+                    <MenuItem Header="Load ODM Database"   x:Name="miLoadODM" Click="miLoadODM_Click" />
                 </MenuItem>
-                <MenuItem Header="{DynamicResource  ToolMenuHeader}"  x:Name="ToolMenu"  Foreground="White" >
-                    <MenuItem Header="Run Model"   x:Name="miRunModel" Click="miRunModel_Click"  Foreground="Black" />
-                    <MenuItem Header="Search Sites"   x:Name="miSearchSites" Click="miSearchSites_Click" Visibility="Collapsed" Foreground="Black" />
-                    <MenuItem Header="{DynamicResource  MeasureMenuHeader}"  IsCheckable="True"  x:Name="miMeasure"  IsChecked="False"  Click="miMeasure_Click" Foreground="Black" />
-                    <MenuItem Header="{DynamicResource  ScreenShotMenuHeader}"   x:Name="miScreenShot"  Click="miScreenShot_Click" Foreground="Black" />
-                    <MenuItem Header="{DynamicResource  AutoScreenShotMenuHeader}"   x:Name="miAutoScreenShot" IsChecked="True" IsCheckable="True"   Visibility="Collapsed" Foreground="Black" />
+                <MenuItem Header="{DynamicResource  ToolMenuHeader}"  x:Name="ToolMenu"  Style="{StaticResource TopMenuItem}" >
+                    <MenuItem Header="Run Model"   x:Name="miRunModel" Click="miRunModel_Click"  />
+                    <MenuItem Header="Search Sites"   x:Name="miSearchSites" Click="miSearchSites_Click" Visibility="Collapsed" />
+                    <MenuItem Header="{DynamicResource  MeasureMenuHeader}"  IsCheckable="True"  x:Name="miMeasure"  IsChecked="False"  Click="miMeasure_Click" />
+                    <MenuItem Header="{DynamicResource  ScreenShotMenuHeader}"   x:Name="miScreenShot"  Click="miScreenShot_Click" />
+                    <MenuItem Header="{DynamicResource  AutoScreenShotMenuHeader}"   x:Name="miAutoScreenShot" IsChecked="True" IsCheckable="True"   Visibility="Collapsed" />
                     <MenuItem Header="{DynamicResource  MakeMovieMenuHeader}"    x:Name="miMakeMovie"   Visibility="Collapsed"/>
                 </MenuItem>
-                <MenuItem Header="Window (W)" x:Name="WindowMenu" Foreground="White">
-                    <MenuItem Header="Project Explorer"   x:Name="miShowPE"  IsCheckable="True"   Click="miShowPE_Click" Foreground="Black" />
-                    <MenuItem Header="Animation Player"   x:Name="miShowAnimPlayer"  IsCheckable="True"   Click="miShowAnimPlayer_Click" Foreground="Black" />
-                    <MenuItem Header="{DynamicResource  ShowChartMenuHeader}"   x:Name="miShowChart"  IsCheckable="True" Click="miShowChart_Click"  Foreground="Black"  />
-                    <MenuItem Header="Property"   x:Name="miShowProperty"  IsCheckable="True"   Click="miShowProperty_Click" Foreground="Black" />
+                <MenuItem Header="Window (W)" x:Name="WindowMenu" Style="{StaticResource TopMenuItem}">
+                    <MenuItem Header="Project Explorer"   x:Name="miShowPE"  IsCheckable="True"   Click="miShowPE_Click" />
+                    <MenuItem Header="Animation Player"   x:Name="miShowAnimPlayer"  IsCheckable="True"   Click="miShowAnimPlayer_Click" />
+                    <MenuItem Header="{DynamicResource  ShowChartMenuHeader}"   x:Name="miShowChart"  IsCheckable="True" Click="miShowChart_Click"   />
+                    <MenuItem Header="Property"   x:Name="miShowProperty"  IsCheckable="True"   Click="miShowProperty_Click" />
                 </MenuItem>
-                <MenuItem Header="{DynamicResource  HelpMenuHeader}" x:Name="HelpMenu"  Foreground="White" >
-                    <MenuItem Header="{DynamicResource  ViewHelpMenuHeader}" Visibility="Collapsed" Foreground="Black" />
-                    <MenuItem Header="{DynamicResource  AboutMenuHeader}" x:Name="btnAbout" Click="btnAbout_Click" Foreground="Black" />
+                <MenuItem Header="{DynamicResource  HelpMenuHeader}" x:Name="HelpMenu"  Style="{StaticResource TopMenuItem}" >
+                    <MenuItem Header="{DynamicResource  ViewHelpMenuHeader}" Visibility="Collapsed" />
+                    <MenuItem Header="{DynamicResource  AboutMenuHeader}" x:Name="btnAbout" Click="btnAbout_Click" />
                 </MenuItem>
             </Menu>
-            <Button x:Name="btnSceneSetting" DockPanel.Dock="Right"  Width="40" Margin="0,0,5,0" Tag="0"  
-                    HorizontalAlignment="Right"  ToolTip="SceneSetting" Click="btnVisSetting_Click">
+            <Button x:Name="btnSceneSetting" DockPanel.Dock="Right" Tag="0" Style="{StaticResource TopBarButton}"
+                    HorizontalAlignment="Right" ToolTip="Scene Setting" Click="btnVisSetting_Click">
                 <Button.Content>
-                    <Path Width="20" Height="20" Canvas.Left="19" Canvas.Top="23" Stretch="Fill" Fill="{DynamicResource CommonBrush}" Data="F1 M 21,36L 25,36L 25,40L 21,40L 21,36 Z M 19,23L 27,23L 27,31L 19,31L 19,23 Z M 19,34L 27,34L 27,42L 19,42L 19,34 Z M 31,23L 57,23L 57,31L 31,31L 31,23 Z M 19,45L 27,45L 27,53L 19,53L 19,45 Z M 31,34L 57,34L 57,42L 31,42L 31,34 Z M 31,45L 57,45L 57,53L 31,53L 31,45 Z M 20,35L 20,41L 26,41L 26,35L 20,35 Z "/>
+                    <Path Width="18" Height="18" Stretch="Fill" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" Data="F1 M 21,36L 25,36L 25,40L 21,40L 21,36 Z M 19,23L 27,23L 27,31L 19,31L 19,23 Z M 19,34L 27,34L 27,42L 19,42L 19,34 Z M 31,23L 57,23L 57,31L 31,31L 31,23 Z M 19,45L 27,45L 27,53L 19,53L 19,45 Z M 31,34L 57,34L 57,42L 31,42L 31,34 Z M 31,45L 57,45L 57,53L 31,53L 31,45 Z M 20,35L 20,41L 26,41L 26,35L 20,35 Z "/>
                 </Button.Content>
             </Button>
-            <Button  x:Name="btnAnimate" DockPanel.Dock="Right"  Width="40" Margin="0,0,5,0" Tag="2"  HorizontalAlignment="Right" 
+            <Button  x:Name="btnAnimate" DockPanel.Dock="Right" Tag="2" HorizontalAlignment="Right" Style="{StaticResource TopBarButton}"
                  ToolTip="Animaiton Player"    Click="btnVisSetting_Click" Visibility="Collapsed">
                 <Button.Content>
-                    <Path Width="20" Height="20" Canvas.Left="19" Canvas.Top="19" Stretch="Fill" Fill="{DynamicResource CommonBrush}" 
+                    <Path Width="18" Height="18" Stretch="Fill" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" 
                           Data="F1 M 19,19L 57,19L 57,57L 19,57L 19,19 Z M 26.9166,23.75L 26.9166,36.4167L 49.0833,36.4167L 49.0833,23.75L 26.9166,23.75 Z M 26.9166,39.5834L 26.9166,52.25L 49.0833,52.25L 49.0833,39.5834L 26.9166,39.5834 Z M 22.9583,22.1667C 21.6466,22.1667 20.5833,23.23 20.5833,24.5417C 20.5833,25.8534 21.6466,26.9167 22.9583,26.9167C 24.27,26.9167 25.3333,25.8534 25.3333,24.5417C 25.3333,23.23 24.27,22.1667 22.9583,22.1667 Z M 22.9583,49.0834C 21.6466,49.0834 20.5833,50.1467 20.5833,51.4584C 20.5833,52.77 21.6466,53.8334 22.9583,53.8334C 24.27,53.8334 25.3333,52.77 25.3333,51.4584C 25.3333,50.1467 24.27,49.0834 22.9583,49.0834 Z M 22.9583,42.3542C 21.6466,42.3542 20.5833,43.4175 20.5833,44.7292C 20.5833,46.0409 21.6466,47.1042 22.9583,47.1042C 24.27,47.1042 25.3333,46.0409 25.3333,44.7292C 25.3333,43.4175 24.27,42.3542 22.9583,42.3542 Z M 22.9583,35.625C 21.6466,35.625 20.5833,36.6884 20.5833,38C 20.5833,39.3117 21.6466,40.375 22.9583,40.375C 24.27,40.375 25.3333,39.3117 25.3333,38C 25.3333,36.6884 24.27,35.625 22.9583,35.625 Z M 22.9583,28.8959C 21.6466,28.8959 20.5833,29.9592 20.5833,31.2709C 20.5833,32.5826 21.6466,33.6459 22.9583,33.6459C 24.27,33.6459 25.3333,32.5826 25.3333,31.2709C 25.3333,29.9592 24.27,28.8959 22.9583,28.8959 Z M 53.0416,22.1667C 51.7299,22.1667 50.6666,23.23 50.6666,24.5417C 50.6666,25.8534 51.7299,26.9167 53.0416,26.9167C 54.3533,26.9167 55.4166,25.8534 55.4166,24.5417C 55.4166,23.23 54.3533,22.1667 53.0416,22.1667 Z M 53.0417,49.0833C 51.73,49.0833 50.6667,50.1467 50.6667,51.4583C 50.6667,52.77 51.73,53.8333 53.0417,53.8333C 54.3533,53.8333 55.4167,52.77 55.4167,51.4583C 55.4167,50.1467 54.3533,49.0833 53.0417,49.0833 Z M 53.0417,42.3542C 51.73,42.3542 50.6667,43.4175 50.6667,44.7292C 50.6667,46.0408 51.73,47.1042 53.0417,47.1042C 54.3533,47.1042 55.4167,46.0408 55.4167,44.7292C 55.4167,43.4175 54.3533,42.3542 53.0417,42.3542 Z M 53.0417,35.625C 51.73,35.625 50.6667,36.6883 50.6667,38C 50.6667,39.3117 51.73,40.375 53.0417,40.375C 54.3533,40.375 55.4167,39.3117 55.4167,38C 55.4167,36.6883 54.3533,35.625 53.0417,35.625 Z M 53.0417,28.8958C 51.73,28.8958 50.6667,29.9592 50.6667,31.2708C 50.6667,32.5825 51.73,33.6458 53.0417,33.6458C 54.3533,33.6458 55.4167,32.5825 55.4167,31.2708C 55.4167,29.9592 54.3533,28.8958 53.0417,28.8958 Z "/>
                 </Button.Content>
             </Button>
-            <Button x:Name="btnVisSetting" DockPanel.Dock="Right"  Width="40" Margin="0,0,5,0"  HorizontalAlignment="Right" 
+            <Button x:Name="btnVisSetting" DockPanel.Dock="Right" HorizontalAlignment="Right" Style="{StaticResource TopBarButton}"
                     ToolTip="Visulization Setting" Tag="1" Click="btnVisSetting_Click" Visibility="Collapsed">
                 <Button.Content>
-                    <Path Width="20" Height="20" Canvas.Left="21" Canvas.Top="21" Stretch="Fill" Fill="{DynamicResource CommonBrush}" Data="F1 M 42,21L 48,21L 48,27L 42,27L 42,21 Z M 41.9999,28.0001L 47.9998,28.0001L 47.9998,34.0001L 41.9999,34.0001L 41.9999,28.0001 Z M 48.9998,21.0002L 54.9998,21.0002L 54.9998,27.0001L 48.9998,27.0001L 48.9998,21.0002 Z M 48.9998,28.0001L 54.9998,28.0001L 54.9998,34.0001L 48.9998,34.0001L 48.9998,28.0001 Z M 27.9999,21.0002L 33.9999,21.0002L 33.9999,27.0001L 27.9999,27.0001L 27.9999,21.0002 Z M 27.9999,28.0001L 33.9999,28.0001L 33.9999,34.0001L 27.9999,34.0001L 27.9999,28.0001 Z M 34.9999,21.0001L 40.9999,21.0001L 40.9999,27.0001L 34.9999,27.0001L 34.9999,21.0001 Z M 34.9999,28.0001L 40.9999,28.0001L 40.9999,34L 34.9999,34L 34.9999,28.0001 Z M 41.9999,35.0001L 47.9999,35.0001L 47.9999,41.0001L 41.9999,41.0001L 41.9999,35.0001 Z M 28,35.0001L 34,35.0001L 34,41.0001L 28,41.0001L 28,35.0001 Z M 27.9999,42.0001L 33.9999,42.0001L 33.9999,48.0001L 27.9999,48.0001L 27.9999,42.0001 Z M 28,49.0001L 34,49.0001L 34,55L 28,55L 28,49.0001 Z M 35,35.0001L 40.9999,35.0001L 40.9999,41.0001L 35,41.0001L 35,35.0001 Z M 35,42.0001L 40.9999,42.0001L 40.9999,48.0001L 35,48.0001L 35,42.0001 Z M 21,21.0002L 26.9999,21.0002L 26.9999,27.0001L 21,27.0001L 21,21.0002 Z M 21,28.0001L 26.9999,28.0001L 26.9999,34.0001L 21,34.0001L 21,28.0001 Z M 21,35.0001L 27,35.0001L 27,41.0001L 21,41.0001L 21,35.0001 Z M 21,42.0001L 27,42.0001L 27,48.0001L 21,48.0001L 21,42.0001 Z M 21,49.0001L 27,49.0001L 27,55L 21,55L 21,49.0001 Z M 34.9999,49.0001L 40.9999,49.0001L 40.9999,55L 34.9999,55L 34.9999,49.0001 Z M 35.9999,50.0001L 35.9999,54.0001L 39.9999,54.0001L 39.9999,50.0001L 35.9999,50.0001 Z M 48.9999,35.0001L 54.9999,35.0001L 54.9999,41.0001L 48.9999,41.0001L 48.9999,35.0001 Z M 49.9999,36.0001L 49.9999,40.0001L 53.9999,40.0001L 53.9999,36.0001L 49.9999,36.0001 Z M 41.9999,42.0001L 47.9999,42.0001L 47.9999,48.0001L 41.9999,48.0001L 41.9999,42.0001 Z M 42.9999,43.0001L 42.9999,47.0001L 46.9999,47.0001L 46.9999,43.0001L 42.9999,43.0001 Z M 48.9999,42.0001L 54.9999,42.0001L 54.9999,48.0001L 48.9999,48.0001L 48.9999,42.0001 Z M 49.9999,43.0001L 49.9999,47.0001L 53.9999,47.0001L 53.9999,43.0001L 49.9999,43.0001 Z M 41.9999,49.0001L 47.9999,49.0001L 47.9999,55L 41.9999,55L 41.9999,49.0001 Z M 42.9999,50.0001L 42.9999,54.0001L 46.9999,54.0001L 46.9999,50.0001L 42.9999,50.0001 Z M 48.9999,49.0001L 54.9999,49.0001L 54.9999,55L 48.9999,55L 48.9999,49.0001 Z M 49.9999,50.0001L 49.9999,54.0001L 53.9999,54.0001L 53.9999,50.0001L 49.9999,50.0001 Z M 22,22.0001L 22,26.0001L 26,26.0001L 26,22.0001L 22,22.0001 Z M 36,29.0001L 36,33.0001L 40,33.0001L 40,29.0001L 36,29.0001 Z M 29,29.0001L 29,33.0001L 33,33.0001L 33,29.0001L 29,29.0001 Z M 22,36L 22,40L 26,40L 26,36L 22,36 Z M 22,29.0001L 22,33.0001L 26,33.0001L 26,29.0001L 22,29.0001 Z M 42.9999,29.0001L 42.9999,33.0001L 46.9999,33.0001L 46.9999,29.0001L 42.9999,29.0001 Z M 49.9999,29.0001L 49.9999,33.0001L 53.9999,33.0001L 53.9999,29.0001L 49.9999,29.0001 Z M 29,22.0001L 29,26.0001L 33,26.0001L 33,22.0001L 29,22.0001 Z M 36,22.0001L 36,26.0001L 40,26.0001L 40,22.0001L 36,22.0001 Z M 29,36L 29,40L 33,40L 33,36L 29,36 Z M 22,43L 22,47L 26,47L 26,43L 22,43 Z M 29,43L 29,47L 33,47L 33,43L 29,43 Z M 36,43L 36,47L 40,47L 40,43L 36,43 Z M 22,50L 22,54L 26,54L 26,50L 22,50 Z M 29,50L 29,54L 33,54L 33,50L 29,50 Z M 43,22L 43,26L 47,26L 47,22L 43,22 Z M 50,22L 50,26L 54,26L 54,22L 50,22 Z M 43,36L 43,40L 47,40L 47,36L 43,36 Z M 36,36L 36,40L 40,40L 40,36L 36,36 Z "/>
+                    <Path Width="18" Height="18" Stretch="Fill" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" Data="F1 M 42,21L 48,21L 48,27L 42,27L 42,21 Z M 41.9999,28.0001L 47.9998,28.0001L 47.9998,34.0001L 41.9999,34.0001L 41.9999,28.0001 Z M 48.9998,21.0002L 54.9998,21.0002L 54.9998,27.0001L 48.9998,27.0001L 48.9998,21.0002 Z M 48.9998,28.0001L 54.9998,28.0001L 54.9998,34.0001L 48.9998,34.0001L 48.9998,28.0001 Z M 27.9999,21.0002L 33.9999,21.0002L 33.9999,27.0001L 27.9999,27.0001L 27.9999,21.0002 Z M 27.9999,28.0001L 33.9999,28.0001L 33.9999,34.0001L 27.9999,34.0001L 27.9999,28.0001 Z M 34.9999,21.0001L 40.9999,21.0001L 40.9999,27.0001L 34.9999,27.0001L 34.9999,21.0001 Z M 34.9999,28.0001L 40.9999,28.0001L 40.9999,34L 34.9999,34L 34.9999,28.0001 Z M 41.9999,35.0001L 47.9999,35.0001L 47.9999,41.0001L 41.9999,41.0001L 41.9999,35.0001 Z M 28,35.0001L 34,35.0001L 34,41.0001L 28,41.0001L 28,35.0001 Z M 27.9999,42.0001L 33.9999,42.0001L 33.9999,48.0001L 27.9999,48.0001L 27.9999,42.0001 Z M 28,49.0001L 34,49.0001L 34,55L 28,55L 28,49.0001 Z M 35,35.0001L 40.9999,35.0001L 40.9999,41.0001L 35,41.0001L 35,35.0001 Z M 35,42.0001L 40.9999,42.0001L 40.9999,48.0001L 35,48.0001L 35,42.0001 Z M 21,21.0002L 26.9999,21.0002L 26.9999,27.0001L 21,27.0001L 21,21.0002 Z M 21,28.0001L 26.9999,28.0001L 26.9999,34.0001L 21,34.0001L 21,28.0001 Z M 21,35.0001L 27,35.0001L 27,41.0001L 21,41.0001L 21,35.0001 Z M 21,42.0001L 27,42.0001L 27,48.0001L 21,48.0001L 21,42.0001 Z M 21,49.0001L 27,49.0001L 27,55L 21,55L 21,49.0001 Z M 34.9999,49.0001L 40.9999,49.0001L 40.9999,55L 34.9999,55L 34.9999,49.0001 Z M 35.9999,50.0001L 35.9999,54.0001L 39.9999,54.0001L 39.9999,50.0001L 35.9999,50.0001 Z M 48.9999,35.0001L 54.9999,35.0001L 54.9999,41.0001L 48.9999,41.0001L 48.9999,35.0001 Z M 49.9999,36.0001L 49.9999,40.0001L 53.9999,40.0001L 53.9999,36.0001L 49.9999,36.0001 Z M 41.9999,42.0001L 47.9999,42.0001L 47.9999,48.0001L 41.9999,48.0001L 41.9999,42.0001 Z M 42.9999,43.0001L 42.9999,47.0001L 46.9999,47.0001L 46.9999,43.0001L 42.9999,43.0001 Z M 48.9999,42.0001L 54.9999,42.0001L 54.9999,48.0001L 48.9999,48.0001L 48.9999,42.0001 Z M 49.9999,43.0001L 49.9999,47.0001L 53.9999,47.0001L 53.9999,43.0001L 49.9999,43.0001 Z M 41.9999,49.0001L 47.9999,49.0001L 47.9999,55L 41.9999,55L 41.9999,49.0001 Z M 42.9999,50.0001L 42.9999,54.0001L 46.9999,54.0001L 46.9999,50.0001L 42.9999,50.0001 Z M 48.9999,49.0001L 54.9999,49.0001L 54.9999,55L 48.9999,55L 48.9999,49.0001 Z M 49.9999,50.0001L 49.9999,54.0001L 53.9999,54.0001L 53.9999,50.0001L 49.9999,50.0001 Z M 22,22.0001L 22,26.0001L 26,26.0001L 26,22.0001L 22,22.0001 Z M 36,29.0001L 36,33.0001L 40,33.0001L 40,29.0001L 36,29.0001 Z M 29,29.0001L 29,33.0001L 33,33.0001L 33,29.0001L 29,29.0001 Z M 22,36L 22,40L 26,40L 26,36L 22,36 Z M 22,29.0001L 22,33.0001L 26,33.0001L 26,29.0001L 22,29.0001 Z M 42.9999,29.0001L 42.9999,33.0001L 46.9999,33.0001L 46.9999,29.0001L 42.9999,29.0001 Z M 49.9999,29.0001L 49.9999,33.0001L 53.9999,33.0001L 53.9999,29.0001L 49.9999,29.0001 Z M 29,22.0001L 29,26.0001L 33,26.0001L 33,22.0001L 29,22.0001 Z M 36,22.0001L 36,26.0001L 40,26.0001L 40,22.0001L 36,22.0001 Z M 29,36L 29,40L 33,40L 33,36L 29,36 Z M 22,43L 22,47L 26,47L 26,43L 22,43 Z M 29,43L 29,47L 33,47L 33,43L 29,43 Z M 36,43L 36,47L 40,47L 40,43L 36,43 Z M 22,50L 22,54L 26,54L 26,50L 22,50 Z M 29,50L 29,54L 33,54L 33,50L 29,50 Z M 43,22L 43,26L 47,26L 47,22L 43,22 Z M 50,22L 50,26L 54,26L 54,22L 50,22 Z M 43,36L 43,40L 47,40L 47,36L 43,36 Z M 36,36L 36,40L 40,40L 40,36L 36,36 Z "/>
                 </Button.Content>
             </Button>
-        </DockPanel>
+            </DockPanel>
+        </Border>
 
         <Grid x:Name="MainGrid" Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="83*" />
-                <ColumnDefinition Width="50*"/>
-                <ColumnDefinition Width="65*"/>
-                <ColumnDefinition Width="489*"/>
-                <ColumnDefinition Width="5" />
-                <ColumnDefinition Width="300" />
+                <!-- the 3D scene takes all remaining space and is never squeezed away by the splitter -->
+                <ColumnDefinition Width="*" MinWidth="240" />
+                <ColumnDefinition Width="Auto" />
+                <!-- right side panel: resizable, but kept within reasonable bounds -->
+                <ColumnDefinition Width="300" MinWidth="180" MaxWidth="520" />
             </Grid.ColumnDefinitions>
-            <ContentControl Content="{Binding  ShellService.VirtualGlobeView}" Grid.ColumnSpan="4">
+            <ContentControl Grid.Column="0" Content="{Binding  ShellService.VirtualGlobeView}">
             </ContentControl>
-            <GridSplitter Grid.Column="4" Width="3" HorizontalAlignment="Stretch"   Margin="1,0" Padding="0"  Background="{DynamicResource CommonBrush}"/>
-            <StackPanel Orientation="Vertical" Margin="0" Grid.Column="5">
-                <Label Content="Layers" Background="{DynamicResource CommonBrush}" Foreground="White" FontWeight="Bold" FontSize="12"></Label>
-                <ContentControl Content="{Binding ShellService.LayerManager}"></ContentControl>
-            </StackPanel>
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                          Margin="0" Padding="0" ResizeBehavior="PreviousAndNext"
+                          Background="{DynamicResource CommonBrush}"/>
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <!-- header of the side panel, it stays visible when the panel is collapsed -->
+                <Border Grid.Row="0" Height="30" Background="{DynamicResource CommonBrush}">
+                    <DockPanel LastChildFill="True">
+                        <Button x:Name="btnCollapseRightPanel" DockPanel.Dock="Right" Width="28" Height="28"
+                                VerticalAlignment="Center" Margin="0,0,2,0" ToolTip="Collapse / expand the panel"
+                                Background="Transparent" BorderThickness="0" Cursor="Hand"
+                                Click="btnCollapseRightPanel_Click">
+                            <Button.Content>
+                                <TextBlock Text="&#x21D4;" Foreground="White" FontSize="13" FontWeight="Bold"></TextBlock>
+                            </Button.Content>
+                        </Button>
+                        <TextBlock Text="Panels" Foreground="White" FontWeight="Bold" FontSize="12"
+                                   VerticalAlignment="Center" Margin="8,0,0,0"></TextBlock>
+                    </DockPanel>
+                </Border>
+                <!-- layers and scene settings share the same dock, both are height constrained so that
+                     their content scrolls inside the panel instead of running past the window -->
+                <TabControl x:Name="RightPanelTabs" Grid.Row="1" Style="{StaticResource SidePanelTabControl}">
+                    <TabItem Header="Layers">
+                        <ContentControl Content="{Binding ShellService.LayerManager}"></ContentControl>
+                    </TabItem>
+                    <TabItem Header="Scene">
+                        <localct:SceneSetting></localct:SceneSetting>
+                    </TabItem>
+                </TabControl>
+            </Grid>
         </Grid>
-        <Border x:Name="ActivicationPanel" Grid.Row="1" Visibility="Hidden">
+        <Border x:Name="ActivicationPanel" Grid.Row="1" Visibility="Collapsed">
             <localct:Activication VerticalAlignment="Center" HorizontalAlignment="Center" Width="500" Height="250"  Activated="Activication_Activated"></localct:Activication>
         </Border>
     </Grid>

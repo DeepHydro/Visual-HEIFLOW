@@ -6,7 +6,7 @@ using System.Windows;
 namespace Heiflow.Visualization.Studio.Controls
 {
     /// <summary>
-    /// AboutWindow.xaml 的交互逻辑
+    /// Host window of the project explorer.
     /// </summary>
     /// 
     [Export(typeof(IProjectExplorerView))]
@@ -19,15 +19,15 @@ namespace Heiflow.Visualization.Studio.Controls
             this.Loaded += ProjectExplorerView_Loaded;
             this.Name = DockPanelNames.ProjectExplorerPanel;
             CloseAllowed = false;
-            this.FontSize = 8;
         }
+
         public bool CloseAllowed
         {
             get;
             set;
         }
 
-        public Heiflow.Presentation.Controls.Project.ProjectExplorerControl ProjectExplorer
+        public IProjectExplorer ProjectExplorer
         {
             get
             {
@@ -35,16 +35,18 @@ namespace Heiflow.Visualization.Studio.Controls
             }
             set
             {
-                _ProjectExplorer = value;
+                _ProjectExplorer = value as LayerManagerView;
             }
         }
+
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
         }
+
         public void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if(CloseAllowed)
+            if (CloseAllowed)
             {
                 e.Cancel = false;
             }
@@ -60,10 +62,10 @@ namespace Heiflow.Visualization.Studio.Controls
             this.InvalidateVisual();
         }
 
-
         public void ClearContents()
         {
-            _ProjectExplorer.ClearContent();
+            if (_ProjectExplorer != null)
+                _ProjectExplorer.ClearContent();
         }
     }
 }

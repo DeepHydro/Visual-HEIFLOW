@@ -1,4 +1,4 @@
-﻿using Heiflow.Models.UI;
+﻿using Heiflow.Presentation.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +9,10 @@ namespace Heiflow.Visualization.Applications
 {
     public interface IProjectExplorerView : IChildWPFWindow
     {
-        Heiflow.Presentation.Controls.Project.ProjectExplorerControl ProjectExplorer { get; set; }
+        /// <summary>
+        /// The explorer shown by this window. It is the interface and not a concrete control, so the
+        /// view can be implemented either with Windows Forms or with WPF.
+        /// </summary>
+        IProjectExplorer ProjectExplorer { get; set; }
     }
 }

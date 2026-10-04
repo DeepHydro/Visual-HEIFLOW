@@ -179,6 +179,7 @@ namespace Heiflow.Visualization.Renderable.Grid
         {
             if (DataSource != null && RequiredUpdated)
                 CreatMeshes();
+            NotifyColorsChanged();
         }
 
         public override void CacheColor()

@@ -18,3 +18,10 @@ D:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Visualization\Heiflow.Visualization.Applic
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Applications\obj\Debug\Heiflow.Visualization.Applications.csprojResolveAssemblyReference.cache
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Applications\obj\Debug\Heiflow.Visualization.Applications.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Applications\obj\Debug\Heiflow.Visualization.Applications.pdb
+D:\System\git\Visual-HEIFLOW\src\bin\Visualization\Heiflow.Visualization.Applications.dll
+D:\System\git\Visual-HEIFLOW\src\bin\Visualization\Heiflow.Visualization.Applications.pdb
+D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Applications\obj\Debug\Heiflow.Visualization.Applications.csproj.AssemblyReference.cache
+D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Applications\obj\Debug\Heiflow.Visualization.Applications.csproj.CoreCompileInputs.cache
+D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Applications\obj\Debug\Heiflow..39EADAD9.Up2Date
+D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Applications\obj\Debug\Heiflow.Visualization.Applications.dll
+D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Applications\obj\Debug\Heiflow.Visualization.Applications.pdb

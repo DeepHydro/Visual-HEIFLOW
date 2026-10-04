@@ -70,28 +70,45 @@ namespace Heiflow.Visualization.Renderable.Grid
             return dic;
         }
 
+        /// <summary>
+        /// Result of the last classification together with the signature of the values it was made for.
+        /// </summary>
+        private int[] _CachedLevels;
+        private int _CachedNumBreaks;
+        private int _CachedColorCount;
+        private float _CachedMin;
+        private float _CachedMax;
+        private double _CachedSum;
+        private ClassificationMethod _CachedMethod = ClassificationMethod.Natural_Breaks_Jenks;
+
         public  int[] GetLevels(float[] array, int numbreaks, ClassificationMethod clasmethod)
         {
+            float min;
+            float max;
+            double sum;
+            MinMaxSum(array, out min, out max, out sum);
+
+            // The classification costs far more than the loop that colours the vertices afterwards, and
+            // the render asks for the levels again whenever only the ramp, the opacity or the number of
+            // classes changed. The values are the same in that case, so the levels are reused.
+            if (_CachedLevels != null && _CachedLevels.Length == array.Length && _CachedNumBreaks == numbreaks
+                && _CachedColorCount == mColorRamp.Colors.Length && _CachedMethod == clasmethod
+                && _CachedMin == min && _CachedMax == max && _CachedSum == sum)
+            {
+                return _CachedLevels;
+            }
+
             var levels = new int[array.Length];
             if (clasmethod == ClassificationMethod.Natural_Breaks_Jenks)
             {
-                var breaks = JenksFisherFloat.CreateJenksFisherBreaksArray(array.ToList(), numbreaks);
+                var breaks = JenksFisherFloat.CreateJenksFisherBreaksArray(array, numbreaks);
                 for (int i = 0; i < array.Length; i++)
                 {
-                    for (int j = 0; j < breaks.Count - 1; j++)
-                    {
-                        if (array[i] >= breaks[j] && array[i] < breaks[j + 1])
-                        {
-                            levels[i] = j;
-                            break;
-                        }
-                    }
+                    levels[i] = FindLevel(array[i], breaks);
                 }
             }
             else if (clasmethod == ClassificationMethod.Equal_Inteval)
             {
-                var min = array.Min();
-                var max = array.Max();
                 if (min == max)
                     max = min + 1;
                 var colorlen = mColorRamp.Colors.Length;
@@ -104,7 +121,60 @@ namespace Heiflow.Visualization.Renderable.Grid
                         levels[i] = colorlen - 1;
                 }
             }
+
+            _CachedLevels = levels;
+            _CachedNumBreaks = numbreaks;
+            _CachedColorCount = mColorRamp.Colors.Length;
+            _CachedMin = min;
+            _CachedMax = max;
+            _CachedSum = sum;
+            _CachedMethod = clasmethod;
+
             return levels;
+        }
+
+        /// <summary>
+        /// Smallest value, largest value and sum of an array in one pass.
+        /// </summary>
+        private static void MinMaxSum(float[] array, out float min, out float max, out double sum)
+        {
+            float localMin = float.MaxValue;
+            float localMax = float.MinValue;
+            double localSum = 0.0;
+            for (int i = 0; i < array.Length; i++)
+            {
+                float value = array[i];
+                if (value < localMin)
+                    localMin = value;
+                if (value > localMax)
+                    localMax = value;
+                localSum += value;
+            }
+            min = localMin;
+            max = localMax;
+            sum = localSum;
+        }
+
+        /// <summary>
+        /// Index of the interval [breaks[j], breaks[j+1]) the value falls into, zero when there is none.
+        /// The breaks come out of the classification in ascending order, so the interval is found by
+        /// bisection instead of walking the whole list for every value.
+        /// </summary>
+        private static int FindLevel(float value, List<float> breaks)
+        {
+            int low = 0;
+            int high = breaks.Count - 2;
+            while (low <= high)
+            {
+                int mid = (low + high) / 2;
+                if (value >= breaks[mid + 1])
+                    low = mid + 1;
+                else if (value < breaks[mid])
+                    high = mid - 1;
+                else
+                    return mid;
+            }
+            return 0;
         }
 
         public int GetVertexColor(double max, double min,  double averagedValue,int alpha)

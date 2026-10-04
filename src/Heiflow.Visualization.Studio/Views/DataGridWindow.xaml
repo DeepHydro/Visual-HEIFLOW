@@ -1,12 +1,116 @@
 ﻿<Controls:MetroWindow x:Class="Heiflow.Visualization.Studio.Controls.DataGridWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-          xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"            
-        xmlns:heict="clr-namespace:Heiflow.Controls.WinForm.Controls;assembly=Heiflow.Controls.WinForm"      
-        Title="Table View" Height="500" Width="700" ShowInTaskbar="False" Foreground="Black">
-    <Grid Margin="2" TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal">
-        <WindowsFormsHost >
-            <heict:DataCubeGrid x:Name="datagrid" ForeColor="Black" AutoScroll="True" AutoSizeMode="GrowAndShrink" ></heict:DataCubeGrid>
-        </WindowsFormsHost>
+          xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        Title="Table View" Height="500" Width="700" ShowInTaskbar="False">
+    <!-- The table used to be a WinForms DataGridView inside a WindowsFormsHost. It is a native WPF
+         DataGrid now. A hosted control is measured and painted by WinForms, it takes no part in the WPF
+         layout pass, and the whole surface is repainted by the host whenever the window is resized or
+         scrolled, which is what made big tables slow. The native grid virtualises its rows and its
+         columns, so only the cells that are actually on the screen are created, and it keeps the cell
+         containers of the rows that scroll out of view and reuses them further down.
+
+         The three slicing boxes are shown for a three dimensional data cube only, the same case the old
+         toolbar handled with its variable, time and cell boxes. Everything else is a flat table. -->
+    <Controls:MetroWindow.Resources>
+
+        <!-- Palette of the table, taken from the dark skin of the application. -->
+        <SolidColorBrush x:Key="TableBackground" Color="#FF1E1F23" />
+        <SolidColorBrush x:Key="TableRowBackground" Color="#FF26272B" />
+        <SolidColorBrush x:Key="TableAlternateBackground" Color="#FF2A2C31" />
+        <SolidColorBrush x:Key="TableHeaderBackground" Color="#FF31333A" />
+        <SolidColorBrush x:Key="TableBorderBrush" Color="#FF3B3E46" />
+        <SolidColorBrush x:Key="TableForeground" Color="#FFE8EAED" />
+        <SolidColorBrush x:Key="TableLabelBrush" Color="#FFAEB4BF" />
+
+        <Style x:Key="TableHeaderText" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource TableLabelBrush}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <!-- Only the colours of the header are replaced, the template of the control is left alone so that
+             the sorting arrow keeps working. -->
+        <Style x:Key="TableColumnHeader" TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="{StaticResource TableHeaderBackground}" />
+            <Setter Property="Foreground" Value="{StaticResource TableForeground}" />
+            <Setter Property="BorderBrush" Value="{StaticResource TableBorderBrush}" />
+            <Setter Property="BorderThickness" Value="0,0,1,1" />
+            <Setter Property="Padding" Value="6,3,6,3" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+        </Style>
+
+    </Controls:MetroWindow.Resources>
+
+    <Grid Margin="4" TextOptions.TextRenderingMode="ClearType" TextOptions.TextFormattingMode="Ideal">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Name of the object that is shown and, for a data cube, the slice that is taken out of it. -->
+        <Grid Grid.Row="0" Margin="0,0,0,5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock x:Name="tbDataName" Grid.Column="0" Text="Table View"
+                       Foreground="{StaticResource TableForeground}" FontSize="13"
+                       VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+
+            <StackPanel x:Name="spSlicers" Grid.Column="1" Orientation="Horizontal" Margin="10,0,0,0"
+                        Visibility="Collapsed">
+                <TextBlock Text="Variable" Style="{StaticResource TableHeaderText}" />
+                <ComboBox x:Name="cobVar" Width="120" Margin="4,0,0,0" VerticalAlignment="Center"
+                          SelectionChanged="Slicer_SelectionChanged" />
+                <TextBlock Text="Time" Style="{StaticResource TableHeaderText}" />
+                <ComboBox x:Name="cobTime" Width="130" Margin="4,0,0,0" VerticalAlignment="Center"
+                          SelectionChanged="Slicer_SelectionChanged" />
+                <TextBlock Text="Cell" Style="{StaticResource TableHeaderText}" />
+                <ComboBox x:Name="cobCell" Width="90" Margin="4,0,0,0" VerticalAlignment="Center"
+                          SelectionChanged="Slicer_SelectionChanged" />
+            </StackPanel>
+
+            <Button x:Name="btnSave" Grid.Column="2" Content="Save" Margin="10,0,0,0" Padding="10,3,10,3"
+                    VerticalAlignment="Center" IsEnabled="False" Click="btnSave_Click" />
+            <Button x:Name="btnExport" Grid.Column="3" Content="CSV" Margin="6,0,0,0" Padding="10,3,10,3"
+                    VerticalAlignment="Center" Click="btnExport_Click" />
+        </Grid>
+
+        <!-- RowHeight is fixed so that a row never has to be measured again while scrolling, recycling
+             keeps the number of live row containers down, and the deferred scrolling does not rebind the
+             visible cells until the thumb is released. -->
+        <DataGrid x:Name="datagrid" Grid.Row="1"
+                  AutoGenerateColumns="True"
+                  CanUserAddRows="False"
+                  CanUserSortColumns="True"
+                  EnableRowVirtualization="True"
+                  EnableColumnVirtualization="True"
+                  VirtualizingPanel.IsVirtualizing="True"
+                  VirtualizingPanel.VirtualizationMode="Recycling"
+                  ScrollViewer.IsDeferredScrollingEnabled="True"
+                  ScrollViewer.CanContentScroll="True"
+                  SelectionUnit="CellOrRowHeader"
+                  SelectionMode="Extended"
+                  ClipboardCopyMode="IncludeHeader"
+                  HeadersVisibility="Column"
+                  GridLinesVisibility="Horizontal"
+                  RowHeight="22"
+                  ColumnHeaderStyle="{StaticResource TableColumnHeader}"
+                  Background="{StaticResource TableBackground}"
+                  Foreground="{StaticResource TableForeground}"
+                  RowBackground="{StaticResource TableRowBackground}"
+                  AlternatingRowBackground="{StaticResource TableAlternateBackground}"
+                  HorizontalGridLinesBrush="{StaticResource TableBorderBrush}"
+                  VerticalGridLinesBrush="{StaticResource TableBorderBrush}"
+                  BorderBrush="{StaticResource TableBorderBrush}" BorderThickness="1"
+                  AutoGeneratingColumn="datagrid_AutoGeneratingColumn" />
+
+        <TextBlock x:Name="tbState" Grid.Row="2" Margin="0,5,0,0"
+                   Foreground="{StaticResource TableLabelBrush}" FontSize="11.5" />
     </Grid>
 </Controls:MetroWindow>

@@ -465,6 +465,10 @@ namespace HUST.WREIS.Dot3D.Net
 						}
 					}
 
+					// The answer was received, so the connection works. It is reported before the
+					// content is inspected: a server that answers with an error page is reachable.
+					DownloadQueue.RegisterSuccess();
+
 					HandleErrors();
 				}
                 catch (ThreadAbortException)
@@ -498,6 +502,10 @@ namespace HUST.WREIS.Dot3D.Net
 					{
 					}
 					SaveException(caught);
+
+					// Tell the queue that the data did not arrive, it stops asking for a while when the
+					// servers cannot be reached at all.
+					DownloadQueue.RegisterFailure(caught);
 				}
 
                 if (stopFlag)

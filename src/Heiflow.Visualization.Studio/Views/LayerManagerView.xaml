@@ -1,0 +1,34 @@
+<UserControl x:Class="Heiflow.Visualization.Studio.Controls.LayerManagerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             Background="Transparent"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <!-- WPF replacement of the Windows Forms ProjectExplorerControl. The native tree avoids the
+         artefacts of the hosted WinForms control (font scaling, white background, WinForms context
+         menu) and blends into the dark skin of the shell. -->
+    <UserControl.Resources>
+        <Style x:Key="ExplorerItemStyle" TargetType="{x:Type TreeViewItem}"
+               BasedOn="{StaticResource LayerTreeViewItemStyle}">
+            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+        </Style>
+    </UserControl.Resources>
+
+    <TreeView x:Name="layerTree" Style="{StaticResource LayerTreeViewStyle}"
+              ItemContainerStyle="{StaticResource ExplorerItemStyle}"
+              PreviewMouseRightButtonDown="LayerTree_PreviewMouseRightButtonDown"
+              MouseDoubleClick="LayerTree_MouseDoubleClick">
+        <TreeView.ItemTemplate>
+            <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                <StackPanel Orientation="Horizontal" Margin="0,1">
+                    <Image Source="{Binding Icon, Mode=OneWay}" Width="16" Height="16" Margin="0,0,6,0"
+                           SnapsToDevicePixels="True" />
+                    <TextBlock Text="{Binding Text, Mode=OneWay}" VerticalAlignment="Center" />
+                </StackPanel>
+            </HierarchicalDataTemplate>
+        </TreeView.ItemTemplate>
+    </TreeView>
+</UserControl>

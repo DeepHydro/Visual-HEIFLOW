@@ -7,6 +7,7 @@ using MahApps.Metro.Controls;
 using Microsoft.Win32;
 using System;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Waf.Applications;
 using System.Windows;
 
@@ -55,7 +56,7 @@ namespace Heiflow.Visualization.Studio
             if(man.CheckLicense())
             {
                 MainGrid.Visibility = System.Windows.Visibility.Visible;
-                ActivicationPanel.Visibility = System.Windows.Visibility.Hidden;
+                ActivicationPanel.Visibility = System.Windows.Visibility.Collapsed;
                 mainMenu.IsEnabled = true;
             }
             else
@@ -88,14 +89,20 @@ namespace Heiflow.Visualization.Studio
 
         private void btnVisSetting_Click(object sender, RoutedEventArgs e)
         {
-            var index = int.Parse((sender as System.Windows.Controls.Button).Tag.ToString());
-            ToggleFlyout(index);
+            var btn = sender as System.Windows.Controls.Button;
+            if (btn == null || btn.Tag == null)
+                return;
+            int index;
+            if (!int.TryParse(btn.Tag.ToString(), out index))
+                return;
+            // 0 opens the scene settings, the other buttons fall back to the layers tab
+            ShowRightPanelTab(index == 0 ? 1 : 0);
         }
 
         private void Activication_Activated(object sender, EventArgs e)
         {
             MainGrid.Visibility = System.Windows.Visibility.Visible;
-            ActivicationPanel.Visibility = System.Windows.Visibility.Hidden;
+            ActivicationPanel.Visibility = System.Windows.Visibility.Collapsed;
             mainMenu.IsEnabled = true;
         }
 
@@ -214,14 +221,82 @@ namespace Heiflow.Visualization.Studio
         {
             viewModel.Value.ShellService.SelectPanel(DockPanelNames.RunModelPanel);
         }
-        private void ToggleFlyout(int index)
+        /// <summary>
+        /// Width of the right panel before it was collapsed.
+        /// </summary>
+        private GridLength rightPanelWidth = new GridLength(300);
+
+        /// <summary>
+        /// True while the right panel is collapsed to its header only.
+        /// </summary>
+        private bool rightPanelCollapsed = false;
+
+        /// <summary>
+        /// Index of the layers tab in the right panel.
+        /// </summary>
+        private const int LayersTabIndex = 0;
+
+        private void btnCollapseRightPanel_Click(object sender, RoutedEventArgs e)
         {
-            var flyout = this.Flyouts.Items[index] as Flyout;
-            if (flyout == null)
-            {
+            CollapseRightPanel(!rightPanelCollapsed);
+        }
+
+        /// <summary>
+        /// Shows the given tab of the right panel and expands it when it is collapsed.
+        /// </summary>
+        private void ShowRightPanelTab(int tabIndex)
+        {
+            if (rightPanelCollapsed)
+                CollapseRightPanel(false);
+            var tabs = FindRightPanelTabs();
+            if (tabs != null)
+                tabs.SelectedIndex = tabIndex;
+        }
+
+        /// <summary>
+        /// Collapses the right panel to its header, or restores the width it had before.
+        /// </summary>
+        private void CollapseRightPanel(bool collapsed)
+        {
+            // MainGrid holds the scene (0), the splitter (1) and the right panel (2)
+            if (MainGrid == null || MainGrid.ColumnDefinitions.Count < 3)
                 return;
+            var rightColumn = MainGrid.ColumnDefinitions[2];
+            var rightPanel = MainGrid.Children.OfType<System.Windows.Controls.Grid>().FirstOrDefault();
+            if (rightPanel == null)
+                return;
+            var splitter = MainGrid.Children.OfType<System.Windows.Controls.GridSplitter>().FirstOrDefault();
+            var tabs = rightPanel.Children.OfType<System.Windows.Controls.TabControl>().FirstOrDefault();
+
+            rightPanelCollapsed = collapsed;
+            if (collapsed)
+            {
+                rightPanelWidth = rightColumn.Width;
+                rightColumn.MinWidth = 0;
+                // only the header stays visible, so the panel can be expanded again
+                rightColumn.Width = new GridLength(30);
             }
-            flyout.IsOpen = !flyout.IsOpen;
+            else
+            {
+                rightColumn.MinWidth = 180;
+                rightColumn.Width = rightPanelWidth;
+            }
+            if (splitter != null)
+                splitter.Visibility = collapsed ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
+            if (tabs != null)
+                tabs.Visibility = collapsed ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible;
+        }
+
+        /// <summary>
+        /// Returns the tab control of the right panel. The name based field is not used because the
+        /// generated code does not expose elements declared inside the main grid.
+        /// </summary>
+        private System.Windows.Controls.TabControl FindRightPanelTabs()
+        {
+            if (MainGrid == null)
+                return null;
+            var rightPanel = MainGrid.Children.OfType<System.Windows.Controls.Grid>().FirstOrDefault();
+            return rightPanel != null ? rightPanel.Children.OfType<System.Windows.Controls.TabControl>().FirstOrDefault() : null;
         }
 
         private void miShowStatInfo_Click(object sender, RoutedEventArgs e)

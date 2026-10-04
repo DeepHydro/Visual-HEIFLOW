@@ -291,6 +291,11 @@ namespace HUST.WREIS.Dot3D.Terrain
 
         public virtual bool AddToDownloadQueue(TerrainDownloadRequest newRequest)
         {
+            // Terrain downloads are started directly instead of going through the download queue, so the
+            // pause that queue applies when the servers cannot be reached has to be honoured here too.
+            if (DownloadQueue.IsPaused)
+                return false;
+
             if (m_downloadRequests.Count > m_maxQueueSize)
                 return false;
             TerrainTile key = newRequest.TerrainTile;

@@ -504,3 +504,6 @@ D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Heif
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Heiflow.Visualization.Studio.csproj.GenerateResource.Cache
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\HydroEarth.exe
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\HydroEarth.pdb
+D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Views\LayerManagerView.baml
+D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Resources\LayerTreeStyles.baml
+D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Views\LayerManagerView.g.cs

@@ -11,6 +11,10 @@ namespace Heiflow.Visualization.Renderable.Grid
 {
     public class DXVectorLayer :RenderableModelObject, IDX3DLayer
     {
+        /// <summary>
+        /// Vertex and index buffer of the arrows of _RenderDX.
+        /// </summary>
+        private readonly ModelMeshBuffer _Mesh = new ModelMeshBuffer();
 
         public DXVectorLayer()
         {
@@ -51,72 +55,38 @@ namespace Heiflow.Visualization.Renderable.Grid
 
         public override void Render(HUST.WREIS.Dot3D.DrawArgs drawArgs)
         {
-            if (this.isInitialized)
+            if (!this.isInitialized || _RenderDX == null)
+                return;
+
+            var vertices = _RenderDX.VertexList;
+            var indices = _RenderDX.VertexIndexList;
+            if (vertices == null || indices == null || vertices.Length == 0 || indices.Length == 0)
+                return;
+
+            Device device = DrawArgs.Device;
+
+            using (ModelRenderScope.Begin(device, drawArgs, FillMode, !World.Settings.EnableHighPerfomance))
             {
-                Device device = DrawArgs.Device;
-                if (!World.Settings.EnableHighPerfomance)
-                    device.Clear(ClearFlags.ZBuffer, 0, 1.0f, 0);
-                device.RenderState.ZBufferEnable = true; 
-                device.VertexFormat = CustomVertex.PositionNormalColored.Format;
-                device.TextureState[0].ColorOperation = TextureOperation.Disable;
-
-                device.Transform.World = Matrix.Translation(
-                (float)(-drawArgs.WorldCamera.ReferenceCenter.X),
-                (float)(-drawArgs.WorldCamera.ReferenceCenter.Y),
-                (float)(-drawArgs.WorldCamera.ReferenceCenter.Z)
-                );
-
                 if (RenderObject.VerticalExaggeration != World.Settings.VerticalExaggeration)
                 {
                     RenderObject.VerticalExaggeration = World.Settings.VerticalExaggeration;
                 }
 
-                if (World.Settings.EnableSunShading)
+                if (_Mesh.Update(device, vertices, indices, _RenderDX.MeshVersion, _RenderDX.ColorVersion))
                 {
-                    Point3d sunPosition = SunCalculator.GetGeocentricPosition(TimeKeeper.CurrentTimeUtc);
-                    Vector3 sunVector = new Vector3(
-                        (float)sunPosition.X,
-                        (float)sunPosition.Y,
-                        (float)sunPosition.Z);
-
-                    device.RenderState.Lighting = true;
-                    Material material = new Material();
-                    material.Diffuse = System.Drawing.Color.White;
-                    material.Ambient = System.Drawing.Color.White;
-
-                    device.Material = material;
-                    device.RenderState.AmbientColor = World.Settings.ShadingAmbientColor.ToArgb();
-                    device.RenderState.NormalizeNormals = true;
-                    device.RenderState.AlphaBlendEnable = true;
-
-                    device.Lights[0].Enabled = true;
-                    device.Lights[0].Type = LightType.Directional;
-                    device.Lights[0].Diffuse = System.Drawing.Color.White;
-                    device.Lights[0].Direction = sunVector;
+                    _Mesh.Draw(device, PrimitiveType.LineList);
                 }
                 else
                 {
-                    device.RenderState.Lighting = false;
-                    device.RenderState.Ambient = World.Settings.StandardAmbientColor;
+                    device.DrawIndexedUserPrimitives(PrimitiveType.LineList, 0, vertices.Length, indices.Length / 2,
+                        indices, false, vertices);
                 }
-
-                Cull currentCull = drawArgs.device.RenderState.CullMode;
-                drawArgs.device.RenderState.CullMode = Cull.None;
-                FillMode fillmode = device.RenderState.FillMode;
-                device.RenderState.FillMode = FillMode;
-
-                    drawArgs.device.DrawIndexedUserPrimitives(PrimitiveType.LineList, 0, _RenderDX.VertexList.Length, _RenderDX.VertexIndexList.Length / 2,
-    _RenderDX.VertexIndexList, false, _RenderDX.VertexList);
-
-                device.RenderState.FillMode = fillmode;
-                drawArgs.device.RenderState.CullMode = currentCull;
-                drawArgs.device.Transform.World = drawArgs.WorldCamera.WorldMatrix;
             }
         }
 
         public override void Dispose()
         {
-        
+            _Mesh.Dispose();
         }
 
         public override bool PerformSelectionAction(HUST.WREIS.Dot3D.DrawArgs drawArgs)

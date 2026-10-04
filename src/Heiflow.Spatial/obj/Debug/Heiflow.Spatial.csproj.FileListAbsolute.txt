@@ -60,3 +60,12 @@ D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Spatial\obj\Debug\Heiflow.Spatial.pdb
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Spatial\obj\Debug\Heiflow.Spatial.csproj.AssemblyReference.cache
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Spatial\obj\Debug\Heiflow.Spatial.csproj.CoreCompileInputs.cache
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Spatial\obj\Debug\Heiflow..0759D3CC.Up2Date
+D:\System\git\Visual-HEIFLOW\src\bin\Debug\Heiflow.Spatial.dll
+D:\System\git\Visual-HEIFLOW\src\bin\Debug\Heiflow.Spatial.pdb
+D:\System\git\Visual-HEIFLOW\src\Heiflow.Spatial\obj\Debug\Heiflow.Spatial.csproj.AssemblyReference.cache
+D:\System\git\Visual-HEIFLOW\src\Heiflow.Spatial\obj\Debug\Heiflow.Spatial.Properties.Resources.resources
+D:\System\git\Visual-HEIFLOW\src\Heiflow.Spatial\obj\Debug\Heiflow.Spatial.csproj.GenerateResource.cache
+D:\System\git\Visual-HEIFLOW\src\Heiflow.Spatial\obj\Debug\Heiflow.Spatial.csproj.CoreCompileInputs.cache
+D:\System\git\Visual-HEIFLOW\src\Heiflow.Spatial\obj\Debug\Heiflow..0759D3CC.Up2Date
+D:\System\git\Visual-HEIFLOW\src\Heiflow.Spatial\obj\Debug\Heiflow.Spatial.dll
+D:\System\git\Visual-HEIFLOW\src\Heiflow.Spatial\obj\Debug\Heiflow.Spatial.pdb

@@ -123,6 +123,9 @@
     <Compile Include="RenderableModel\Model\Renders\MFWellRender.cs" />
     <Compile Include="RenderableModel\Model\Renders\ModelRenderDX.cs" />
     <Compile Include="RenderableModel\Model\IProfile.cs" />
+    <Compile Include="RenderableModel\Model\ModelMeshBuffer.cs" />
+    <Compile Include="RenderableModel\Model\ModelNormals.cs" />
+    <Compile Include="RenderableModel\Model\ModelRenderScope.cs" />
     <Compile Include="RenderableModel\Model\Renders\IDX3DLayerRender.cs" />
     <Compile Include="RenderableModel\Model\Layers\IDX3DLayer.cs" />
     <Compile Include="RenderableModel\Model\Renders\MFFHBRender.cs" />

@@ -25,6 +25,16 @@ namespace Heiflow.Visualization.Renderable.Grid
 
         int[] VertexIndexList { get; }
 
+        /// <summary>
+        /// Bumped whenever the geometry is rebuilt, the layers upload the buffers again when it changed.
+        /// </summary>
+        int MeshVersion { get; }
+
+        /// <summary>
+        /// Bumped whenever the vertex colours change.
+        /// </summary>
+        int ColorVersion { get; }
+
         int[] SelectedVertexIndexes { get; set; }
 
         CustomVertex.PositionColored[] SelectedVertexes { get; set; }

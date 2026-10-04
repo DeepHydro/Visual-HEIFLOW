@@ -13,6 +13,7 @@
                 <ResourceDictionary Source="Resources\Langs\en-US.xaml"/>
                 <ResourceDictionary Source="Resources\Skins\Black.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="Resources\ControlStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="Resources\LayerTreeStyles.xaml"></ResourceDictionary>
                  <ResourceDictionary Source="/WPG;component/Themes/ExpressionBlend.xaml" />  
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

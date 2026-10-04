@@ -102,7 +102,7 @@ namespace Heiflow.Core.Drawing
         /// <param name="values">values array of the values, do not need to be sorted.</param>
         /// <param name="numBreaks">number of breaks to create</param>
         /// <returns>Array with breaks</returns>
-        public static List<float> CreateJenksFisherBreaksArray(List<float> values, int numBreaks)
+        public static List<float> CreateJenksFisherBreaksArray(IEnumerable<float> values, int numBreaks)
         {
             var tuples = BuildValueCountTuples(values);
             var breaks = (tuples.Count > numBreaks) ? ClassifyByJenksFisher(numBreaks, tuples) : tuples.Select(x => x.Value).ToList();
@@ -308,7 +308,7 @@ namespace Heiflow.Core.Drawing
         /// <summary>
         /// Calculates the occurence count of given values and returns them in sorted list.
         /// </summary>
-        private static List<ValueCountTuple> BuildValueCountTuples(List<float> values)
+        private static List<ValueCountTuple> BuildValueCountTuples(IEnumerable<float> values)
         {
             var valuesDict = new Dictionary<float, ValueCountTuple>();
             ValueCountTuple tuple = null;

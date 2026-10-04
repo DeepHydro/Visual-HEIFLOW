@@ -218,6 +218,7 @@ namespace Heiflow.Visualization.Renderable.Grid
                     _VertexIndexList[i * 36 + 35] = i * 8 + 5;
                 }
                 CalculateNormals(ref _VertexList, _VertexIndexList);
+                NotifyMeshChanged();
             }
         }
 

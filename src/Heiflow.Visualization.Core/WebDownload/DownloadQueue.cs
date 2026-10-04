@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Net;
+using System.Threading;
 
 namespace HUST.WREIS.Dot3D.Net
 {
@@ -10,6 +12,72 @@ namespace HUST.WREIS.Dot3D.Net
 	{
 		public static int MaxQueueLength = 200;
 		public static int MaxConcurrentDownloads = 2;
+
+		/// <summary>
+		/// Number of downloads that have to fail in a row before the queue stops asking for data.
+		/// </summary>
+		public static int FailureLimit = 3;
+
+		/// <summary>
+		/// Seconds the queue stays idle after the failure limit was reached.
+		/// </summary>
+		public static int PauseSeconds = 60;
+
+		private static int s_FailuresInARow;
+		private static DateTime s_PausedUntil = DateTime.MinValue;
+		private static readonly object s_PauseLock = new object();
+
+		/// <summary>
+		/// True while the servers are treated as unreachable. A missing tile is queued again as soon as
+		/// its failed request is removed, so without this pause every visible tile would ask for its
+		/// image over and over while the network is down: thousands of web exceptions and two download
+		/// threads that never stop working, which slows the rendering down to a crawl.
+		/// </summary>
+		public static bool IsPaused
+		{
+			get
+			{
+				lock (s_PauseLock)
+				{
+					return DateTime.Now < s_PausedUntil;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Counts a download that did not get an answer from the server.
+		/// </summary>
+		public static void RegisterFailure(Exception error)
+		{
+			// A response means the server was reached (404, 500, ...). Only the failures that never got
+			// an answer at all say something about the connection.
+			var webError = error as WebException;
+			if (webError != null && webError.Response != null)
+				return;
+
+			lock (s_PauseLock)
+			{
+				s_FailuresInARow++;
+				if (s_FailuresInARow < FailureLimit)
+					return;
+
+				s_FailuresInARow = 0;
+				s_PausedUntil = DateTime.Now.AddSeconds(PauseSeconds);
+			}
+		}
+
+		/// <summary>
+		/// Counts a download that was answered, which clears the failures counted so far.
+		/// </summary>
+		public static void RegisterSuccess()
+		{
+			lock (s_PauseLock)
+			{
+				s_FailuresInARow = 0;
+				s_PausedUntil = DateTime.MinValue;
+			}
+		}
+
 		private ArrayList m_requests = new ArrayList();
 		private ArrayList m_activeDownloads = new ArrayList();
 
@@ -109,6 +177,14 @@ namespace HUST.WREIS.Dot3D.Net
 			if(newRequest==null)
 				throw new NullReferenceException();
 
+			if(IsPaused)
+			{
+				// The servers are unreachable for the moment, dropping the request here keeps the queue
+				// from filling up with entries that would fail again right away.
+				newRequest.Dispose();
+				return;
+			}
+
 			lock(m_requests.SyncRoot)
 			{
 				foreach(DownloadRequest request in m_requests)
@@ -185,6 +261,9 @@ namespace HUST.WREIS.Dot3D.Net
 		/// </summary>
 		protected virtual void ServiceDownloadQueue()
 		{
+			if(IsPaused)
+				return;
+
 			lock(m_requests.SyncRoot)
 			{
 				// Remove finished downloads

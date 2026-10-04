@@ -173,6 +173,7 @@ namespace Heiflow.Visualization.Renderable.Grid
             }
 
             CalculateNormals(ref _VertexList, _VertexIndexList);
+            NotifyMeshChanged();
         }
 
         public override void UpdateVertexColor()
@@ -180,6 +181,7 @@ namespace Heiflow.Visualization.Renderable.Grid
             DataSource = (Owner.GetPackage(VelocityPackage.PackageName) as VelocityPackage).DataCube;
             if (DataSource != null && RequiredUpdated)
                 CreatMeshes();
+            NotifyColorsChanged();
         }
 
         public override void UpdateCachedColor()
