@@ -1,0 +1,39 @@
+﻿#version 140
+
+in vec4 PositionAttribute;
+in vec2 TexCoordAttribute;
+in vec4 ColorAttribute; 
+
+uniform vec3 BasePositionUniform;  // expects base label position in screen coords
+uniform mat4 OrthographicTransform; 
+uniform int FringeSizeUniform;
+
+out vec2 fragTexCoord; 
+flat out vec4 fragColor;
+
+void main()
+{
+	//gl_Position = basePosition + ortho * position; 
+	if (FringeSizeUniform > 0) {
+		switch (gl_VertexID % 4) {
+			case 0:
+			gl_Position = OrthographicTransform * (PositionAttribute + vec4(BasePositionUniform.x - FringeSizeUniform, BasePositionUniform.y + FringeSizeUniform, BasePositionUniform.z, 0));
+			break; 
+			case 1:
+			gl_Position = OrthographicTransform * (PositionAttribute + vec4(BasePositionUniform.x - FringeSizeUniform, BasePositionUniform.y - FringeSizeUniform, BasePositionUniform.z, 0));
+			break;
+			case 2:
+			gl_Position = OrthographicTransform * (PositionAttribute + vec4(BasePositionUniform.x + FringeSizeUniform, BasePositionUniform.y - FringeSizeUniform, BasePositionUniform.z, 0));
+			break;
+			default:
+			gl_Position = OrthographicTransform * (PositionAttribute + vec4(BasePositionUniform.x + FringeSizeUniform, BasePositionUniform.y + FringeSizeUniform, BasePositionUniform.z, 0));
+			break;
+		}
+		fragTexCoord = TexCoordAttribute; 
+		fragColor = ColorAttribute;
+	} else {
+		gl_Position = OrthographicTransform * (PositionAttribute + vec4(BasePositionUniform.xyz, 0));
+		fragTexCoord = TexCoordAttribute; 
+		fragColor = ColorAttribute;
+	}
+}

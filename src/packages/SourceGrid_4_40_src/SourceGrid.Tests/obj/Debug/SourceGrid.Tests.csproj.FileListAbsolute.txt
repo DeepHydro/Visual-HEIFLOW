@@ -1,0 +1,11 @@
+E:\PKU\Library\Controls\SourceGrid_4_40_src\SourceGrid.Tests\bin\Debug\app.config
+E:\PKU\Library\Controls\SourceGrid_4_40_src\SourceGrid.Tests\bin\Debug\SourceGrid.Tests.dll.config
+E:\PKU\Library\Controls\SourceGrid_4_40_src\SourceGrid.Tests\bin\Debug\SourceGrid.Tests.dll
+E:\PKU\Library\Controls\SourceGrid_4_40_src\SourceGrid.Tests\bin\Debug\SourceGrid.Tests.pdb
+E:\PKU\Library\Controls\SourceGrid_4_40_src\SourceGrid.Tests\bin\Debug\nunit.framework.dll
+E:\PKU\Library\Controls\SourceGrid_4_40_src\SourceGrid.Tests\bin\Debug\SourceGrid.dll
+E:\PKU\Library\Controls\SourceGrid_4_40_src\SourceGrid.Tests\bin\Debug\SourceGrid.pdb
+E:\PKU\Library\Controls\SourceGrid_4_40_src\SourceGrid.Tests\bin\Debug\SourceGrid.xml
+E:\PKU\Library\Controls\SourceGrid_4_40_src\SourceGrid.Tests\obj\Debug\SourceGrid.Tests.csprojResolveAssemblyReference.cache
+E:\PKU\Library\Controls\SourceGrid_4_40_src\SourceGrid.Tests\obj\Debug\SourceGrid.Tests.dll
+E:\PKU\Library\Controls\SourceGrid_4_40_src\SourceGrid.Tests\obj\Debug\SourceGrid.Tests.pdb

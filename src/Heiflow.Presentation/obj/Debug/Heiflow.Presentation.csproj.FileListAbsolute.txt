@@ -46,7 +46,6 @@ D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Presentation\obj\Debug\Heiflow.Present
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.csproj.GenerateResource.cache
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.pdb
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.csprojResolveAssemblyReference.cache
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.Properties.Resources.resources
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.csproj.GenerateResource.Cache
 D:\System\git\Visual-HEIFLOW\src\bin\Debug\Heiflow.Presentation.dll
@@ -56,3 +55,6 @@ D:\System\git\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presenta
 d:\System\git\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.csproj.AssemblyReference.cache
 d:\System\git\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.csproj.CoreCompileInputs.cache
 d:\System\git\Visual-HEIFLOW\src\Heiflow.Presentation\obj\Debug\Heiflow..2F1D3D02.Up2Date
+d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.csproj.AssemblyReference.cache
+d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Presentation\obj\Debug\Heiflow.Presentation.csproj.CoreCompileInputs.cache
+d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Presentation\obj\Debug\Heiflow..2F1D3D02.Up2Date

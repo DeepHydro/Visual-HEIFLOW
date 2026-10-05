@@ -3672,3 +3672,74 @@
 2026-10-05 07:34:00Z 0 TERR The elevation of the terrain tile L4 87x234 was not read: 请求被中止: 未能创建 SSL/TLS 安全通道。
 2026-10-05 07:34:01Z 0 TERR The elevation of the terrain tile L4 87x233 was not read: 请求被中止: 未能创建 SSL/TLS 安全通道。
 2026-10-05 07:34:03Z 0 TERR The elevation of the terrain tile L4 88x232 was not read: 请求被中止: 未能创建 SSL/TLS 安全通道。
+2026-10-05 09:29:47Z 2      WebDownload.Cancel() : download thread refuses to die, forcing Abort()
+2026-10-05 09:29:47Z 2      WebDownload.Cancel() : download thread refuses to die, forcing Abort()
+2026-10-05 09:29:48Z 2      WebDownload.Cancel() : download thread refuses to die, forcing Abort()
+2026-10-05 09:29:48Z 2      WebDownload.Cancel() : download thread refuses to die, forcing Abort()
+2026-10-05 09:29:48Z 2      WebDownload.Cancel() : download thread refuses to die, forcing Abort()
+2026-10-05 09:32:10Z 2      WebDownload.Cancel() : download thread refuses to die, forcing Abort()
+2026-10-05 09:32:10Z 2      WebDownload.Cancel() : download thread refuses to die, forcing Abort()
+2026-10-05 09:32:10Z 2      WebDownload.Cancel() : download thread refuses to die, forcing Abort()
+2026-10-05 09:35:55Z 0 TERR The elevation of the terrain tile L5 183x454 was not read: 正在中止线程。
+2026-10-05 09:37:08Z 0      caught exception: 
+2026-10-05 09:37:08Z 0      Error reading image stream.
+-2146232832 (Unknown)
+   在 HUST.WREIS.Dot3D.ImageHelper.LoadTexture(Stream textureStream, Int32 colorKey) 位置 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Core\TiledImage\ImageHelper.cs:行号 239
+   在 HUST.WREIS.Dot3D.ImageHelper.LoadTexture(Stream textureStream) 位置 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Core\TiledImage\ImageHelper.cs:行号 203
+   在 HUST.WREIS.Dot3D.SQLiteImageService.LoadFile(QuadTile qt) 位置 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Core\TiledImage\SQliteImageService.cs:行号 85
+   在 HUST.WREIS.Dot3D.ImageStore.LoadFile(QuadTile qt) 位置 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Core\TiledImage\ImageStore.cs:行号 284
+   在 HUST.WREIS.Dot3D.Renderable.QuadTile.Initialize() 位置 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Core\QuadTile\QuadTile.cs:行号 291
+   在 HUST.WREIS.Dot3D.Renderable.QuadTile.Update(DrawArgs drawArgs) 位置 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Core\QuadTile\QuadTile.cs:行号 348
+   在 HUST.WREIS.Dot3D.Renderable.QuadTile.Update(DrawArgs drawArgs) 位置 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Core\QuadTile\QuadTile.cs:行号 394
+   在 HUST.WREIS.Dot3D.Renderable.QuadTileSet.Update(DrawArgs drawArgs) 位置 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Core\QuadTile\QuadTileSet.cs:行号 677
+2026-10-05 09:37:08Z 0      caught exception: 
+2026-10-05 09:37:08Z 0      Error reading image stream.
+-2146232832 (Unknown)
+   在 HUST.WREIS.Dot3D.ImageHelper.LoadTexture(Stream textureStream, Int32 colorKey) 位置 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Core\TiledImage\ImageHelper.cs:行号 239
+   在 HUST.WREIS.Dot3D.ImageHelper.LoadTexture(Stream textureStream) 位置 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Core\TiledImage\ImageHelper.cs:行号 203
+   在 HUST.WREIS.Dot3D.SQLiteImageService.LoadFile(QuadTile qt) 位置 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Core\TiledImage\SQliteImageService.cs:行号 85
+   在 HUST.WREIS.Dot3D.ImageStore.LoadFile(QuadTile qt) 位置 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Core\TiledImage\ImageStore.cs:行号 284
+   在 HUST.WREIS.Dot3D.Renderable.QuadTile.Initialize() 位置 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Core\QuadTile\QuadTile.cs:行号 291
+   在 HUST.WREIS.Dot3D.Renderable.QuadTile.Update(DrawArgs drawArgs) 位置 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Core\QuadTile\QuadTile.cs:行号 348
+   在 HUST.WREIS.Dot3D.Renderable.QuadTile.Update(DrawArgs drawArgs) 位置 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Core\QuadTile\QuadTile.cs:行号 394
+   在 HUST.WREIS.Dot3D.Renderable.QuadTileSet.Update(DrawArgs drawArgs) 位置 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Core\QuadTile\QuadTileSet.cs:行号 677
+2026-10-05 09:37:09Z 0      caught exception: 
+2026-10-05 09:37:09Z 0      Error reading image stream.
+-2146232832 (Unknown)
+   在 HUST.WREIS.Dot3D.ImageHelper.LoadTexture(Stream textureStream, Int32 colorKey) 位置 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Core\TiledImage\ImageHelper.cs:行号 239
+   在 HUST.WREIS.Dot3D.ImageHelper.LoadTexture(Stream textureStream) 位置 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Core\TiledImage\ImageHelper.cs:行号 203
+   在 HUST.WREIS.Dot3D.SQLiteImageService.LoadFile(QuadTile qt) 位置 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Core\TiledImage\SQliteImageService.cs:行号 85
+   在 HUST.WREIS.Dot3D.ImageStore.LoadFile(QuadTile qt) 位置 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Core\TiledImage\ImageStore.cs:行号 284
+   在 HUST.WREIS.Dot3D.Renderable.QuadTile.Initialize() 位置 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Core\QuadTile\QuadTile.cs:行号 291
+   在 HUST.WREIS.Dot3D.Renderable.QuadTile.Update(DrawArgs drawArgs) 位置 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Core\QuadTile\QuadTile.cs:行号 348
+   在 HUST.WREIS.Dot3D.Renderable.QuadTile.Update(DrawArgs drawArgs) 位置 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Core\QuadTile\QuadTile.cs:行号 394
+   在 HUST.WREIS.Dot3D.Renderable.QuadTileSet.Update(DrawArgs drawArgs) 位置 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Core\QuadTile\QuadTileSet.cs:行号 677
+2026-10-05 10:03:46Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 10:12:47Z 2      WebDownload.Cancel() : download thread refuses to die, forcing Abort()
+2026-10-05 10:12:47Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 10:12:48Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 10:12:48Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 10:13:43Z 0 TERR The elevation of the terrain tile L0 7x15 was not read: 正在中止线程。
+2026-10-05 10:13:43Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 10:13:43Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 10:13:44Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 10:13:44Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 10:16:22Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 10:16:22Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 10:16:25Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 10:16:26Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 10:16:55Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 10:18:38Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 10:18:39Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 10:18:39Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 10:18:40Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 10:18:40Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 10:18:41Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 10:18:41Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 10:18:42Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 10:18:42Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 10:18:43Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 10:29:52Z 2      WebDownload.Cancel() : download thread refuses to die, forcing Abort()
+2026-10-05 10:30:21Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 10:30:21Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 10:30:22Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()

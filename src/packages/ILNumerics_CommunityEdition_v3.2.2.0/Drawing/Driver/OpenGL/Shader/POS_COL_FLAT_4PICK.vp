@@ -1,0 +1,10 @@
+﻿#version 140
+
+in vec4 PositionAttribute;
+uniform vec3 BasePositionUniform;   // expects base label position in screen coords
+uniform mat4 Model2CameraTransform; 
+
+void main()
+{
+	gl_Position = Model2CameraTransform * (PositionAttribute + vec4(BasePositionUniform.xy, 0, 0));
+}

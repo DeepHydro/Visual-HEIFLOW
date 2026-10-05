@@ -33,6 +33,27 @@ namespace HUST.WREIS.Dot3D.Net
 		static public string proxyPassword = "";
 
 		#endregion
+
+		/// <summary>
+		/// Layers may be served over https, and most servers refuse anything below TLS 1.2, while the
+		/// protocol a request offers defaults to SSL 3 and TLS 1.0 on a 4.5 runtime. Without this switch
+		/// every https request dies in the handshake with "The request was aborted: Could not create
+		/// SSL/TLS secure channel". It is added to whatever is set already, so an older protocol another
+		/// download needs stays turned on, and it is done once, not per request.
+		/// </summary>
+		static WebDownload()
+		{
+			try
+			{
+				ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
+			}
+			catch (Exception caught)
+			{
+				Log.Write(Log.Levels.Warning,
+					"TLS 1.2 could not be turned on, https downloads may fail to load: " + caught.Message);
+			}
+		}
+
 		public static string UserAgent = String.Format(
 			CultureInfo.InvariantCulture,
 			"World Wind v{0} ({1}, {2})",
@@ -42,6 +63,12 @@ namespace HUST.WREIS.Dot3D.Net
 
 
 		public string Url;
+
+		/// <summary>
+		/// The user agent of this download. Empty means the shared one (WebDownload.UserAgent) is
+		/// used. A layer sets it when its server refuses the shared one, see ImageStore.UserAgent.
+		/// </summary>
+		public string UserAgentOverride = "";
 
 		/// <summary>
 		/// Memory downloads fills this stream
@@ -354,7 +381,17 @@ namespace HUST.WREIS.Dot3D.Net
 		{
             Log.Write(Log.Levels.Debug, "Starting download thread...");
 
-            Debug.Assert(Url.StartsWith("http://"));
+            // Both schemes have to be accepted: the imagery and the terrain servers are https today,
+            // and an assertion that only allows http stops a Debug build with a dialog. A url that is
+            // neither is logged and skipped instead, WebRequest.Create would fail on it anyway.
+            if (string.IsNullOrEmpty(Url) ||
+                !(Url.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+                  Url.StartsWith("https://", StringComparison.OrdinalIgnoreCase)))
+            {
+                Log.Write(Log.Levels.Warning, "Download skipped, not an http or https url: " + Url);
+                IsComplete = true;
+                return;
+            }
 			DownloadStartTime = DateTime.Now;
 			try
 			{
@@ -387,7 +424,7 @@ namespace HUST.WREIS.Dot3D.Net
 
 					// Create the request object.
 					request = (HttpWebRequest) WebRequest.Create(Url);
-					request.UserAgent = UserAgent;
+					request.UserAgent = string.IsNullOrEmpty(UserAgentOverride) ? UserAgent : UserAgentOverride;
 
 
 					if (this.Compressed)

@@ -51,6 +51,14 @@ namespace HUST.WREIS.Dot3D
 		}
         
         /// <summary>
+        /// The user agent the tiles of this store are requested with. Empty means the shared one of
+        /// WebDownload is used. Some servers refuse that one: the WAF of the Chinese national service
+        /// answers "您的请求疑似攻击行为" to it and only lets requests through that look like they
+        /// come from a browser, so a layer can name its own agent in Layers.xml.
+        /// </summary>
+        public string UserAgent { get; set; }
+
+        /// <summary>
         /// Server Logo path for Downloadable layers
         /// </summary>
         public string ServerLogo

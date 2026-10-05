@@ -180,6 +180,8 @@
     <Compile Include="MapProviders\ArcGIS_World_Shaded_Relief_MapProvider.cs" />
     <Compile Include="MapProviders\ArcGIS_World_Street_MapProvider.cs" />
     <Compile Include="MapProviders\ArcGIS_World_Terrain_Base_MapProvider.cs" />
+    <Compile Include="MapProviders\ArcGIS_World_Imagery_MapProvider.cs" />
+    <Compile Include="MapProviders\TiandituSatelliteMapProvider.cs" />
     <Compile Include="MapProviders\ArcGIS_World_Topo_MapProvider.cs" />
     <Compile Include="MapProviders\BingHybridMapProvider.cs" />
     <Compile Include="MapProviders\BingMapOldProvider.cs" />

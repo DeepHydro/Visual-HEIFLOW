@@ -1,0 +1,26 @@
+﻿<Window x:Class="WPGDemoApp.Window2"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:wpg="clr-namespace:WPG;assembly=WPG"		
+    Title="WPF Property Grid - By Deepforest (and patches from jogibear9988)"		
+		Width="1058"
+	 mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" Height="567" Loaded="Window_Loaded">
+
+    <Canvas>
+        <Button x:Name="myButton"
+						Margin="0,8,0,8"
+						Width="80"
+						Height="30"
+						Content="custom class"
+						HorizontalAlignment="Right" Canvas.Left="92" Canvas.Top="149" Click="myButton_Click" />
+        
+        <CheckBox Canvas.Left="20" Canvas.Top="295" Content="CheckBox" Height="25" Name="myCheckbox" Width="160" Click="myCheckbox_Click" />
+        <ProgressBar Canvas.Left="24" Canvas.Top="349" Height="30" Name="myProgressBar" Width="198" MouseDown="myProgressBar_MouseDown" />
+        <Canvas Canvas.Left="29" Canvas.Top="428" Height="49" Name="myCanvasHost" Width="206">
+            
+        </Canvas>
+        <wpg:PropertyGrid AutomaticlyExpandObjects="False" Canvas.Left="308" Canvas.Top="11" Foreground="White" Height="465" Instance="{Binding ElementName=myButton}" Name="myGrid" ShowDescription="False" ShowPreview="True" Width="337" DataContext="{Binding}" />
+        <wpg:PropertyGrid AutomaticlyExpandObjects="False" Canvas.Left="687" Canvas.Top="13" Foreground="White" Height="465" Instance="{Binding ElementName=myGrid}" Name="pgrd1" ShowDescription="False" ShowPreview="True" Width="337" />
+        <Button x:Name="myButton2" Canvas.Left="56" Canvas.Top="36" Content="button" Height="30" Width="80" Click="button1_Click" />
+    </Canvas>
+</Window>

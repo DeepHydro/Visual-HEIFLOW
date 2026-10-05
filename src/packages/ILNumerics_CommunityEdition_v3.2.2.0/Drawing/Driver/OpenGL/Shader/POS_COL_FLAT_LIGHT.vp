@@ -1,0 +1,68 @@
+﻿#version 140
+
+//#define FIX_GL_CLIPVERTEX
+
+in vec3 PositionAttribute;
+in vec3 NormalAttribute;
+
+uniform mat4 Model2CameraTransform;
+uniform mat3 Model2Camera4NormalTransform;
+
+out vec3 FragmentCamPosition; 
+out vec3 FragmentNormal; 
+ 
+layout(std140) uniform Camera2ClipTransform
+{
+	mat4 cameraToClipTransform;
+};
+layout(std140) uniform LogState 
+{
+	float XLog;
+	float YLog;
+	float ZLog;
+	float AnyLog;
+};
+
+#ifndef FIX_GL_CLIPVERTEX
+layout(std140) uniform A4Clip 
+{
+	vec4 Plane0;
+	vec4 Plane1;
+	vec4 Plane2;
+	vec4 Plane3;
+	vec4 Plane4;
+	vec4 Plane5;
+	float State; 
+};
+#endif
+
+const float log10 = log(10.0); 
+
+void main()
+{
+	vec3 pos = PositionAttribute; 
+	if (AnyLog != 0) {
+		pos = PositionAttribute;
+		if (XLog != 0) pos.x = log(pos.x) / log10; 
+		if (YLog != 0) pos.y = log(pos.y) / log10; 
+		if (ZLog != 0) pos.z = log(pos.z) / log10; 
+	} 
+	vec4 cam = Model2CameraTransform * vec4(pos, 1.0);
+	FragmentCamPosition = cam.xyz; 
+	FragmentNormal = Model2Camera4NormalTransform * NormalAttribute; 
+	gl_Position = cameraToClipTransform * cam; 
+
+	// clipping 
+#ifdef FIX_GL_CLIPVERTEX
+	gl_ClipVertex = cam; 
+#else
+	if (State != 0.0) {
+		gl_ClipDistance[0] = dot(Plane0, cam); 
+		gl_ClipDistance[1] = dot(Plane1, cam); 
+		gl_ClipDistance[2] = dot(Plane2, cam); 
+		gl_ClipDistance[3] = dot(Plane3, cam); 
+		gl_ClipDistance[4] = dot(Plane4, cam); 
+		gl_ClipDistance[5] = dot(Plane5, cam); 
+	}
+#endif
+}

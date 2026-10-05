@@ -140,6 +140,7 @@ namespace HUST.WREIS.Dot3D.Renderable
             QuadTile.IsDownloadingImage = true;
 			download = new WebDownload(m_url);
 			download.DownloadType = DownloadType.Wms;
+			download.UserAgentOverride = m_imageStore.UserAgent ?? "";
             download.ProgressCallback += new DownloadProgressHandler(UpdateProgress);
             download.CompleteCallback += new HUST.WREIS.Dot3D.Net.DownloadCompleteHandler(DownloadComplete);
 

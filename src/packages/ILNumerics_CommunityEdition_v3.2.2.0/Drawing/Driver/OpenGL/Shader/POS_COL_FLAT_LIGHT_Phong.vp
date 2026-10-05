@@ -1,0 +1,25 @@
+﻿#version 140
+
+in vec4 PositionAttribute;
+in vec4 NormalAttribute;
+
+uniform mat4 Model2CameraTransform;
+uniform mat4 Model2Camera4NormalTransform;
+
+out vec4 FragmentCamPosition; 
+out vec4 FragmentNormal; 
+ 
+layout (std140) uniform Camera2ClipTransform
+{
+	mat4 cameraToClipTransform;
+};
+
+void main()
+{
+	vec4 vertCamPos = Model2CameraTransform * PositionAttribute;
+	FragmentCamPosition = vertCamPos; 
+	FragmentNormal = Model2Camera4NormalTransform * NormalAttribute; 
+
+	gl_Position = cameraToClipTransform * vertCamPos; 
+
+}

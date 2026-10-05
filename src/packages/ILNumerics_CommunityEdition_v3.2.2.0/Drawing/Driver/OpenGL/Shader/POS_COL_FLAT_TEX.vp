@@ -1,0 +1,19 @@
+﻿#version 140
+
+in vec4 PositionAttribute;
+in vec2 inTexCoord;
+in vec4 incolor; 
+
+uniform vec3 basePosition; 
+uniform mat4 ortho; 
+
+out vec2 fragTexCoord; 
+flat out vec4 fragColor;
+
+void main()
+{
+	//gl_Position = basePosition + ortho * position; 
+	gl_Position = ortho * (PositionAttribute + vec4(basePosition.xy, 0, 0));
+	fragTexCoord = inTexCoord; 
+	fragColor = incolor;
+}

@@ -1,0 +1,721 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{93B4A10E-8979-4028-8CCF-49D88D6FAC0C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ILNumerics</RootNamespace>
+    <FileAlignment>512</FileAlignment>
+    <AssemblyName>ILNumerics</AssemblyName>
+    <MSBuildCommunityTasksPath>$(SolutionDir)\Build</MSBuildCommunityTasksPath>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <CodeAnalysisRuleSet>SecurityRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>BasicDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>True</DebugSymbols>
+    <OutputPath>..\bin64\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;x64</DefineConstants>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>False</Optimize>
+    <DocumentationFile>
+    </DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>..\bin64\</OutputPath>
+    <DefineConstants>x64 KMEANSVERBOSE_ MKLFFT_VERBOSE_</DefineConstants>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <Optimize>True</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\bin64\ILNumerics.xml</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>True</DebugSymbols>
+    <OutputPath>..\bin</OutputPath>
+    <DefineConstants>DEBUG;TRACE;TRACE_ DEBUG VERBOSE_ FINALIZE_DISPOSE_ ILDenseArray_CONSTRUCT_VERBOSE_ KMEANSVERBOSE_ DRAWPLOTCUBESCREENRECT_ DRAWTEXTURESHEET_ SHOWNORMALS_ EXPORTBMP_ TESTBMP_</DefineConstants>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <DocumentationFile>..\bin\ILNumerics.xml</DocumentationFile>
+    <Optimize>False</Optimize>
+    <NoWarn>0419</NoWarn>
+    <WarningLevel>4</WarningLevel>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineConstants>TRACE;VERBOSE_ FINALIZE_DISPOSE_ KMEANSVERBOSE_ SHOWNORMALS_</DefineConstants>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <DocumentationFile>..\bin\ILNumerics.xml</DocumentationFile>
+    <WarningLevel>4</WarningLevel>
+    <DebugSymbols>True</DebugSymbols>
+    <OutputPath>..\bin\</OutputPath>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseBuild|AnyCPU'">
+    <OutputPath>bin\ReleaseBuild\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <Optimize>True</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>..\bin\ILNumerics.Server.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>BasicDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseBuild|x64'">
+    <OutputPath>bin\x64\ReleaseBuild\</OutputPath>
+    <DefineConstants>x64</DefineConstants>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <DocumentationFile>..\build\Windows\x64_64bit\ILNumerics.Server.XML</DocumentationFile>
+    <Optimize>True</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisLogFile>..\bin64\ILNumerics.Server.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseBuild|x86'">
+    <DefineConstants>VERBOSE_ FINALIZE_DISPOSE_</DefineConstants>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <DocumentationFile>..\build\Windows\x64_64bit\ILNumerics.Server.XML</DocumentationFile>
+    <Optimize>True</Optimize>
+    <WarningLevel>1</WarningLevel>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>..\bin\ILNumerics.Server.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <OutputPath>bin\ReleaseBuild</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="OpenTK">
+      <HintPath>.\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.GLControl">
+      <HintPath>.\OpenTK.GLControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Algorithms\Graphics\Triangularize.cs" />
+    <Compile Include="Algorithms\MachineLearning\ILEM.cs" />
+    <Compile Include="Algorithms\MachineLearning\ILKNN.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Algorithms\MachineLearning\ILKRR.cs" />
+    <Compile Include="Algorithms\MachineLearning\ILOLS.cs" />
+    <Compile Include="Algorithms\MachineLearning\ILPCA.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Algorithms\MachineLearning\ILResult.cs" />
+    <Compile Include="Algorithms\MachineLearning\kmeansclust.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Algorithms\Sorting\ILBucketSort.cs" />
+    <Compile Include="Algorithms\Sorting\ILKeyMapper.cs" />
+    <Compile Include="Algorithms\Sorting\ILQueue.cs" />
+    <Compile Include="Algorithms\Sorting\ILQuickSortST.cs" />
+    <Compile Include="Algorithms\Sorting\ILQuickSortMT.cs" />
+    <Compile Include="Algorithms\Special\ILSpecialData.cs" />
+    <Compile Include="Array\ILArray.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Array\ILBaseArray.cs" />
+    <Compile Include="Array\ILBaseArrayGen.cs" />
+    <Compile Include="Array\ILBaseCell.cs" />
+    <Compile Include="Array\ILBaseLogical.cs" />
+    <Compile Include="Array\ILCell.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Array\ILDenseArray.cs" />
+    <Compile Include="Array\ILFullRange.cs" />
+    <Compile Include="Array\ILInArray.cs" />
+    <Compile Include="Array\ILInCell.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Array\ILInLogical.cs" />
+    <Compile Include="Array\ILLogical.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Array\ILOutArray.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Array\ILOutLogical.cs" />
+    <Compile Include="Array\ILRetArray.cs" />
+    <Compile Include="Array\ILRetCell.cs" />
+    <Compile Include="Array\ILRetLogical.cs" />
+    <Compile Include="Array\ILOutCell.cs" />
+    <Compile Include="Array\ILRegularRange.cs" />
+    <Compile Include="Array\Operator_Overloads.cs" />
+    <Compile Include="Data\ILAVLTree.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\ILBSPTree.cs" />
+    <Compile Include="Data\ILIntList.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Drawing\Animation\IILAnimation.cs" />
+    <Compile Include="Drawing\Animation\ILAnimation.cs" />
+    <Compile Include="Drawing\Animation\ILAnimationCollection.cs" />
+    <Compile Include="Drawing\Animation\ILBlendAnimation.cs" />
+    <Compile Include="Drawing\Animation\ILFloatLinearInterpolator.cs" />
+    <Compile Include="Drawing\Animation\ILLinearInterpolator.cs" />
+    <Compile Include="Drawing\Animation\ILClock.cs" />
+    <Compile Include="Drawing\Animation\ILRotateAnimation.cs" />
+    <Compile Include="Drawing\Animation\ILScalarAnimation.cs" />
+    <Compile Include="Drawing\Animation\ILScaleAnimation.cs" />
+    <Compile Include="Drawing\Animation\ILSlerpInterpolator.cs" />
+    <Compile Include="Drawing\Animation\ILTranslateAnimation.cs" />
+    <Compile Include="Drawing\Animation\Keyframe.cs" />
+    <Compile Include="Drawing\Buffer\BufferType.cs" />
+    <Compile Include="Drawing\Buffer\ILBuffer.cs" />
+    <Compile Include="Drawing\Buffer\ILBufferBase.cs" />
+    <Compile Include="Drawing\Buffer\ILBufferChangedEventArgs.cs" />
+    <Compile Include="Drawing\Buffer\ILBufferSet.cs" />
+    <Compile Include="Drawing\Buffer\ILColorsBuffer.cs" />
+    <Compile Include="Drawing\Buffer\ILIndicesBuffer.cs" />
+    <Compile Include="Drawing\Buffer\ILNormalsBuffer.cs" />
+    <Compile Include="Drawing\Buffer\ILPositionBuffer.cs" />
+    <Compile Include="Drawing\Buffer\Visualizer.cs" />
+    <Compile Include="Drawing\Controls\ILControlBridge.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Drawing\Controls\ILControlBridge.Designer.cs">
+      <DependentUpon>ILControlBridge.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Drawing\Controls\ILGDIControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Drawing\Controls\ILGDIControl.Designer.cs">
+      <DependentUpon>ILGDIControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Drawing\Controls\ILInputController.cs" />
+    <Compile Include="Drawing\Controls\ILMouseEventArgs.cs" />
+    <Compile Include="Drawing\Controls\ILOGLControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Drawing\Controls\ILPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Drawing\Controls\ILPanel.Designer.cs">
+      <DependentUpon>ILPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Drawing\Controls\ILPlotPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Drawing\Controls\ILPlotPanel.Designer.cs">
+      <DependentUpon>ILPlotPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Drawing\Driver\Capabilities.cs" />
+    <Compile Include="Drawing\Driver\ILDashInfo.cs" />
+    <Compile Include="Drawing\Driver\ILRenderErrorEventArgs.cs" />
+    <Compile Include="Drawing\Management\ILXmlSerializeAsAttribute.cs" />
+    <Compile Include="Drawing\Management\ILXmlSerializer.cs" />
+    <Compile Include="Drawing\Management\Matrix3.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Drawing\Management\Matrix4.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Drawing\SceneGraph\ILClipParams.cs" />
+    <Compile Include="Drawing\Driver\Enums.cs" />
+    <Compile Include="Drawing\Driver\IILDriver.cs" />
+    <Compile Include="Drawing\Driver\ILBMPBackBuffer.cs" />
+    <Compile Include="Drawing\SceneGraph\ILCamera.cs" />
+    <Compile Include="Drawing\Driver\ILChangeQueue.cs" />
+    <Compile Include="Drawing\Driver\ILDriver.cs" />
+    <Compile Include="Drawing\Driver\ILDummyTextureStorage.cs" />
+    <Compile Include="Drawing\Driver\ILGDIDriver.cs" />
+    <Compile Include="Drawing\Driver\ILHelper.cs" />
+    <Compile Include="Drawing\SceneGraph\ILMaterial.cs" />
+    <Compile Include="Drawing\Driver\ILNodeComparer.cs" />
+    <Compile Include="Drawing\Driver\ILPickingContext.cs" />
+    <Compile Include="Drawing\Driver\ILPreprocessedShape.cs" />
+    <Compile Include="Drawing\Driver\ILRenderParameter.cs" />
+    <Compile Include="Drawing\Driver\ILSelectionEventArgs.cs" />
+    <Compile Include="Drawing\Driver\ILSVGDriver.cs" />
+    <Compile Include="Drawing\Driver\ILWebGLDriver.cs" />
+    <Compile Include="Drawing\Driver\ILWPFDriver.cs" />
+    <Compile Include="Drawing\Driver\OpenGL\ILOGLBuffer.cs" />
+    <Compile Include="Drawing\Driver\OpenGL\ILOGLDriver.cs" />
+    <Compile Include="Drawing\Driver\OpenGL\ILOGLLabel.cs" />
+    <Compile Include="Drawing\Driver\OpenGL\ILOGLLightsBuffer.cs" />
+    <Compile Include="Drawing\Driver\OpenGL\ILOGLLines.cs" />
+    <Compile Include="Drawing\Driver\OpenGL\ILOGLPoints.cs" />
+    <Compile Include="Drawing\Driver\OpenGL\ILOGLShaderManager.cs" />
+    <Compile Include="Drawing\Driver\OpenGL\ILOGLShape.cs" />
+    <Compile Include="Drawing\Driver\OpenGL\ILOGLTextureStorage.cs" />
+    <Compile Include="Drawing\Driver\OpenGL\ILOGLUniformBlockBuffer.cs" />
+    <Compile Include="Drawing\Driver\OpenGL\Shader\ILOGLProgram.cs" />
+    <Compile Include="Drawing\Driver\OpenGL\Shader\ILOGLShaderDefinition.cs" />
+    <Compile Include="Drawing\Driver\OpenGL\Shader\ILOGLUniformBlockIndices.cs" />
+    <Compile Include="Drawing\Driver\ILRenderEventArgs.cs" />
+    <Compile Include="Drawing\Labeling\IILTextInterpreter.cs" />
+    <Compile Include="Drawing\Labeling\ILHashCreator.cs" />
+    <Compile Include="Drawing\Labeling\ILRenderQueue.cs" />
+    <Compile Include="Drawing\Labeling\ILRenderQueueItem.cs" />
+    <Compile Include="Drawing\Labeling\ILSimpleInterpreter.cs" />
+    <Compile Include="Drawing\Labeling\ILSimpleTexInterpreter.cs" />
+    <Compile Include="Drawing\Labeling\ILTextureData.cs" />
+    <Compile Include="Drawing\Labeling\ILTextureStorage.cs" />
+    <Compile Include="Drawing\Management\ChangeQueueActions.cs" />
+    <Compile Include="Drawing\Management\Events.cs" />
+    <Compile Include="Drawing\Management\ExtensionMethods.cs" />
+    <Compile Include="Drawing\Management\ILChangeQueueItem.cs" />
+    <Compile Include="Drawing\SceneGraph\ILClippingData.cs" />
+    <Compile Include="Drawing\Management\ILSyncParams.cs" />
+    <Compile Include="Drawing\Management\LightStorage.cs" />
+    <Compile Include="Drawing\Management\Quaternion.cs" />
+    <Compile Include="Drawing\Management\Vector3.cs" />
+    <Compile Include="Drawing\Management\Vector4.cs" />
+    <Compile Include="Drawing\Plotting\ContourLevel.cs" />
+    <Compile Include="Drawing\Plotting\DebugHelper.cs" />
+    <Compile Include="Drawing\Plotting\IILAxisDataProvider.cs" />
+    <Compile Include="Drawing\Plotting\IILColormapProvider.cs" />
+    <Compile Include="Drawing\Plotting\IILLegendDataProvider.cs" />
+    <Compile Include="Drawing\Plotting\IILLegendItemDataProvider.cs" />
+    <Compile Include="Drawing\Plotting\ILColorEnumerator.cs" />
+    <Compile Include="Drawing\Plotting\ILColormap.cs" />
+    <Compile Include="Drawing\Plotting\ILColorProvider.cs" />
+    <Compile Include="Drawing\Plotting\ILContour.cs" />
+    <Compile Include="Drawing\Plotting\ILContourLine.cs" />
+    <Compile Include="Drawing\Plotting\ILLegendItem.cs" />
+    <Compile Include="Drawing\Plotting\ILSelectionRectangle.cs" />
+    <Compile Include="Drawing\Plotting\ILSurface.cs" />
+    <Compile Include="Drawing\SceneGraph\IILPositionProvider.cs" />
+    <Compile Include="Drawing\Plotting\ILAutoSizeGroup.cs" />
+    <Compile Include="Drawing\Plotting\ILAxis.cs" />
+    <Compile Include="Drawing\Plotting\ILAxisCollection.cs" />
+    <Compile Include="Drawing\Plotting\ILColorbar.cs" />
+    <Compile Include="Drawing\Plotting\ILEditor.cs" />
+    <Compile Include="Drawing\Plotting\ILLegend.cs" />
+    <Compile Include="Drawing\Plotting\ILLinePlot.cs" />
+    <Compile Include="Drawing\Plotting\ILMarker.cs" />
+    <Compile Include="Drawing\Plotting\ILPlotCube.cs" />
+    <Compile Include="Drawing\Plotting\ILPlotCubeDataGroup.cs" />
+    <Compile Include="Drawing\Plotting\ILPlotCubeScaleGroup.cs" />
+    <Compile Include="Drawing\Plotting\ILScaleModeCollection.cs" />
+    <Compile Include="Drawing\Plotting\ILTick.cs" />
+    <Compile Include="Drawing\Plotting\ILTickCollection.cs" />
+    <Compile Include="Drawing\Plotting\ILViewAxesParameters.cs" />
+    <Compile Include="Drawing\SceneGraph\IILGroup.cs" />
+    <Compile Include="Drawing\SceneGraph\ILDynamicGroup.cs" />
+    <Compile Include="Drawing\SceneGraph\ILGroup.cs" />
+    <Compile Include="Drawing\Animation\ILInterpolator.cs" />
+    <Compile Include="Drawing\SceneGraph\ILNode.cs" />
+    <Compile Include="Drawing\SceneGraph\ILNodeCollection.cs" />
+    <Compile Include="Drawing\SceneGraph\ILScene.cs" />
+    <Compile Include="Drawing\SceneGraph\ILScreenRect.cs" />
+    <Compile Include="Drawing\Shapes\ILCircle.cs" />
+    <Compile Include="Drawing\Shapes\ILCone.cs" />
+    <Compile Include="Drawing\Shapes\ILCylinder.cs" />
+    <Compile Include="Drawing\Shapes\ILDrawable.cs" />
+    <Compile Include="Drawing\Shapes\ILFringe.cs" />
+    <Compile Include="Drawing\Shapes\ILGear.cs" />
+    <Compile Include="Drawing\Shapes\ILLabel.cs" />
+    <Compile Include="Drawing\Shapes\ILLines.cs" />
+    <Compile Include="Drawing\Shapes\ILLineStrip.cs" />
+    <Compile Include="Drawing\Shapes\ILNormalVisualizer.cs" />
+    <Compile Include="Drawing\Shapes\ILPointLight.cs" />
+    <Compile Include="Drawing\Shapes\ILPoints.cs" />
+    <Compile Include="Drawing\Shapes\ILRoundedRectangle.cs" />
+    <Compile Include="Drawing\Shapes\ILSelectionBox.cs" />
+    <Compile Include="Drawing\Shapes\ILShape.cs" />
+    <Compile Include="Drawing\Shapes\ILSphere.cs" />
+    <Compile Include="Drawing\Shapes\ILTriangles.cs" />
+    <Compile Include="Drawing\Shapes\ILTrianglesFan.cs" />
+    <Compile Include="Drawing\Shapes\ILTrianglesStrip.cs" />
+    <Compile Include="Drawing\Shapes\Line.cs" />
+    <Compile Include="Drawing\Shapes\Point.cs" />
+    <Compile Include="Drawing\Shapes\Primitives.cs" />
+    <Compile Include="Drawing\Shapes\Shapes.cs" />
+    <Compile Include="Drawing\Shapes\Triangle.cs" />
+    <Compile Include="Functions\builtin\abs.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\acos.cs" />
+    <Compile Include="Functions\builtin\Add.cs" />
+    <Compile Include="Functions\builtin\all.cs" />
+    <Compile Include="Functions\builtin\allall.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\and.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\any.cs" />
+    <Compile Include="Functions\builtin\anyall.cs" />
+    <Compile Include="Functions\builtin\apply.cs" />
+    <Compile Include="Functions\builtin\array.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\asin.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\atan.cs" />
+    <Compile Include="Functions\builtin\atan2.cs" />
+    <Compile Include="Functions\builtin\cart2pol.cs" />
+    <Compile Include="Functions\builtin\ccomplex.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\ceil.cs" />
+    <Compile Include="Functions\builtin\cell.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\check.cs" />
+    <Compile Include="Functions\builtin\chol.cs" />
+    <Compile Include="Functions\builtin\conj.cs" />
+    <Compile Include="Functions\builtin\convert.cs" />
+    <Compile Include="Functions\builtin\cos.cs" />
+    <Compile Include="Functions\builtin\cosh.cs" />
+    <Compile Include="Functions\builtin\counter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\cov.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\cross.cs" />
+    <Compile Include="Functions\builtin\cumsum.cs" />
+    <Compile Include="Functions\builtin\det.cs" />
+    <Compile Include="Functions\builtin\diag.cs" />
+    <Compile Include="Functions\builtin\diff.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\dimensionWrapper.cs" />
+    <Compile Include="Functions\builtin\distL1.cs" />
+    <Compile Include="Functions\builtin\DivideElem.cs" />
+    <Compile Include="Functions\builtin\eig.cs" />
+    <Compile Include="Functions\builtin\empty.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\end.cs" />
+    <Compile Include="Functions\builtin\eps.cs" />
+    <Compile Include="Functions\builtin\eq.cs" />
+    <Compile Include="Functions\builtin\exp.cs" />
+    <Compile Include="Functions\builtin\eye.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\fft.cs" />
+    <Compile Include="Functions\builtin\Find.cs" />
+    <Compile Include="Functions\builtin\fix.cs" />
+    <Compile Include="Functions\builtin\fliplr.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\flipud.cs" />
+    <Compile Include="Functions\builtin\floor.cs" />
+    <Compile Include="Functions\builtin\free.cs" />
+    <Compile Include="Functions\builtin\Horzcat.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\logical.cs" />
+    <Compile Include="Functions\builtin\ManMatMult.cs" />
+    <Compile Include="Functions\builtin\mvnpdf.cs" />
+    <Compile Include="Functions\builtin\ge.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\gt.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\imag.cs" />
+    <Compile Include="Functions\builtin\ind2sub.cs" />
+    <Compile Include="Functions\builtin\Invert.cs" />
+    <Compile Include="Functions\builtin\isempty.cs" />
+    <Compile Include="Functions\builtin\isequal.cs" />
+    <Compile Include="Functions\builtin\isequalwithequalnans.cs" />
+    <Compile Include="Functions\builtin\isfinite.cs" />
+    <Compile Include="Functions\builtin\isinf.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\isnan.cs" />
+    <Compile Include="Functions\builtin\isneginf.cs" />
+    <Compile Include="Functions\builtin\isnull.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\isnullorempty.cs" />
+    <Compile Include="Functions\builtin\isposinf.cs" />
+    <Compile Include="Functions\builtin\le.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\linspace.cs" />
+    <Compile Include="Functions\builtin\load.cs" />
+    <Compile Include="Functions\builtin\log.cs" />
+    <Compile Include="Functions\builtin\log10.cs" />
+    <Compile Include="Functions\builtin\logspace.cs" />
+    <Compile Include="Functions\builtin\lt.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\lu.cs" />
+    <Compile Include="Functions\builtin\matrixTest.cs" />
+    <Compile Include="Functions\builtin\Max.cs" />
+    <Compile Include="Functions\builtin\maxall.cs" />
+    <Compile Include="Functions\builtin\mean.cs" />
+    <Compile Include="Functions\builtin\meshgrid.cs" />
+    <Compile Include="Functions\builtin\Min.cs" />
+    <Compile Include="Functions\builtin\minall.cs" />
+    <Compile Include="Functions\builtin\mod.cs" />
+    <Compile Include="Functions\builtin\multiply.cs" />
+    <Compile Include="Functions\builtin\MultiplyElem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\mvnrnd.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\neq.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\new.cs" />
+    <Compile Include="Functions\builtin\Norm.cs" />
+    <Compile Include="Functions\builtin\ones.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\or.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\pinv.cs" />
+    <Compile Include="Functions\builtin\pol2cart.cs" />
+    <Compile Include="Functions\builtin\pow.cs" />
+    <Compile Include="Functions\builtin\prod.cs" />
+    <Compile Include="Functions\builtin\qr.cs" />
+    <Compile Include="Functions\builtin\r.cs" />
+    <Compile Include="Functions\builtin\rand.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\randn.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\randperm.cs" />
+    <Compile Include="Functions\builtin\rank.cs" />
+    <Compile Include="Functions\builtin\real.cs" />
+    <Compile Include="Functions\builtin\real2complex.cs" />
+    <Compile Include="Functions\builtin\real2fcomplex.cs" />
+    <Compile Include="Functions\builtin\repmat.cs" />
+    <Compile Include="Functions\builtin\reshape.cs" />
+    <Compile Include="Functions\builtin\round.cs" />
+    <Compile Include="Functions\builtin\set.cs" />
+    <Compile Include="Functions\builtin\sign.cs" />
+    <Compile Include="Functions\builtin\sin.cs" />
+    <Compile Include="Functions\builtin\sinh.cs" />
+    <Compile Include="Functions\builtin\slash.cs" />
+    <Compile Include="Functions\builtin\sort.cs" />
+    <Compile Include="Functions\builtin\sqrt.cs" />
+    <Compile Include="Functions\builtin\std.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\sub2ind.cs" />
+    <Compile Include="Functions\builtin\Subtract.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\sumall.cs" />
+    <Compile Include="Functions\builtin\SumMT.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\Svd.cs" />
+    <Compile Include="Functions\builtin\tan.cs" />
+    <Compile Include="Functions\builtin\tanh.cs" />
+    <Compile Include="Functions\builtin\trace.cs" />
+    <Compile Include="Functions\builtin\tril_u.cs" />
+    <Compile Include="Functions\builtin\var.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\builtin\vec.cs" />
+    <Compile Include="Functions\builtin\Vertcat.cs" />
+    <Compile Include="Functions\builtin\xor.cs" />
+    <Compile Include="Functions\builtin\zeros.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Functions\ILMath_General.cs" />
+    <Compile Include="Functions\statistics\median.cs" />
+    <Compile Include="Functions\statistics\nanmean.cs" />
+    <Compile Include="Functions\statistics\nansum.cs" />
+    <Compile Include="Functions\statistics\select.cs" />
+    <Compile Include="Misc\Enums.cs" />
+    <Compile Include="Misc\IILMemoryPool.cs" />
+    <Compile Include="Misc\IILStorage.cs" />
+    <Compile Include="Misc\ILArrayCache.cs" />
+    <Compile Include="Misc\ILCacheManager.cs" />
+    <Compile Include="Misc\ILComplex.cs" />
+    <Compile Include="Misc\ILExtensionMethods.cs" />
+    <Compile Include="Misc\ILFComplex.cs" />
+    <Compile Include="Misc\ILDebuggerProxy.cs" />
+    <Compile Include="Misc\ILException.cs" />
+    <Compile Include="Misc\ILExpression.cs" />
+    <Compile Include="Misc\ILMatFile5.cs" />
+    <Compile Include="Misc\ILMemoryPool.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Misc\ILMemoryPoolInternal.cs" />
+    <Compile Include="Misc\ILNRandom.cs" />
+    <Compile Include="Misc\ILPerformanceCounterMemoryPool.cs" />
+    <Compile Include="Misc\ILPerformanceCounterThreadPool.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Misc\ILRand.cs" />
+    <Compile Include="Misc\ILRequestsValueComparer.cs" />
+    <Compile Include="Misc\ILScope.cs" />
+    <Compile Include="Misc\ILScopeList.cs" />
+    <Compile Include="Misc\ILSettings.cs" />
+    <Compile Include="Misc\ILSize.cs" />
+    <Compile Include="Misc\ILThreadConfig.cs" />
+    <Compile Include="Misc\ILThreadPool.cs" />
+    <Compile Include="Native\FFT\IILFFT.cs" />
+    <Compile Include="Native\FFT\ILACMLFFT.cs" />
+    <Compile Include="Native\FFT\ILFFTW3FFT.cs" />
+    <Compile Include="Native\FFT\ILMKLFFT.cs" />
+    <Compile Include="Native\lapack\IILLapack.cs" />
+    <Compile Include="Native\lapack\ILACML4_1.cs" />
+    <Compile Include="Native\lapack\ILLapackGenLinux.cs" />
+    <Compile Include="Native\lapack\ILLapackMKL10.0C.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Storage\ILCellStorage.cs" />
+    <Compile Include="Storage\ILCountableArray.cs" />
+    <Compile Include="Storage\ILDenseStorage.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Storage\ILDenseStorage_Constructors.cs" />
+    <Compile Include="Storage\ILLeftSideRange.cs" />
+    <Compile Include="Storage\ILLogicalStorage.cs" />
+    <Compile Include="Storage\ILRange.cs" />
+    <Compile Include="Storage\ILRightSideRange.cs" />
+    <Compile Include="Storage\ILStorage.cs" />
+    <Compile Include="Storage\ILStorageGeneric.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <EmbeddedResource Include="Drawing\Controls\ILControlBridge.resx">
+      <DependentUpon>ILControlBridge.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Drawing\Controls\ILGDIControl.resx">
+      <DependentUpon>ILGDIControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Drawing\Controls\ILOGLControl.resx">
+      <DependentUpon>ILOGLControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Drawing\Controls\ILPanel.resx">
+      <DependentUpon>ILPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Drawing\Controls\ILPlotPanel.resx">
+      <DependentUpon>ILPlotPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Drawing\Driver\OpenGL\Shader\COL_FLAT.fp" />
+    <EmbeddedResource Include="Drawing\Driver\OpenGL\Shader\COL_FLAT_LIGHT.fp" />
+    <EmbeddedResource Include="Drawing\Driver\OpenGL\Shader\COL_FLAT_TEX.fp" />
+    <EmbeddedResource Include="Drawing\Driver\OpenGL\Shader\COL_FLAT_TEXBLOOM.fp" />
+    <EmbeddedResource Include="Drawing\Driver\OpenGL\Shader\COL_SMOOTH.fp" />
+    <EmbeddedResource Include="Drawing\Driver\OpenGL\Shader\COL_SMOOTH_LIGHT.fp" />
+    <EmbeddedResource Include="Drawing\Driver\OpenGL\Shader\POS_COLS_SMOOTH.vp" />
+    <EmbeddedResource Include="Drawing\Driver\OpenGL\Shader\POS_COLS_SMOOTH_LIGHT.vp" />
+    <EmbeddedResource Include="Drawing\Driver\OpenGL\Shader\POS_COL_FLAT.vp" />
+    <EmbeddedResource Include="Drawing\Driver\OpenGL\Shader\POS_COL_FLAT_LIGHT.vp" />
+    <Content Include="Native\lapack\link_general\HowToCreate lapack_gen.dll.txt" />
+    <Content Include="Native\lapack\link_general\lapack_gen.def" />
+    <Content Include="Native\lapack\link_general\lapack_gen.dll" />
+    <Content Include="Native\lapack\link_general\Win32sharedDLL.sh.txt" />
+    <EmbeddedResource Include="Drawing\Driver\OpenGL\Shader\POS_COL_FLAT_4PICK.vp" />
+    <None Include="packages.config" />
+    <EmbeddedResource Include="Drawing\Driver\OpenGL\Shader\POS_COL_FLAT_TEXBLOOM.vp" />
+    <EmbeddedResource Include="terrain.bin" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Native\lapack\link_general\blas_LINUX.a" />
+    <None Include="Native\lapack\link_general\lapack_gen-gcc.lib" />
+    <None Include="Native\lapack\link_general\lapack_LINUX.a" />
+    <None Include="Native\lapack\link_general\linkAtlasGCC65.bash" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

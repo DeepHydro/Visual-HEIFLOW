@@ -1,0 +1,10 @@
+﻿<Window x:Class="WPGDemoApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="377" Width="655" >
+    <Grid>
+        <Button Content="Demo 1" Height="37" HorizontalAlignment="Left" Margin="12,12,0,0" Name="button1" VerticalAlignment="Top" Width="147" Click="button1_Click" />
+        <Button Content="Demo 2" Height="37" HorizontalAlignment="Left" Margin="12,55,0,0" Name="button2" VerticalAlignment="Top" Width="147" Click="button2_Click" />
+        <TextBlock Height="57" HorizontalAlignment="Left" Margin="33,134,0,0" Name="textBlock1" Text="To use ExpressionBlend Style, remove &lt;!-- and --&gt; in app.xaml" VerticalAlignment="Top" Width="225" TextWrapping="Wrap" />
+    </Grid>
+</Window>

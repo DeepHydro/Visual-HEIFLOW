@@ -1,0 +1,308 @@
+///
+///    This file is part of ILNumerics Community Edition.
+///
+///    ILNumerics Community Edition - high performance computing for applications.
+///    Copyright (C) 2006 - 2013 Haymo Kutschbach, http://ilnumerics.net
+///
+///    ILNumerics Community Edition is free software: you can redistribute it and/or modify
+///    it under the terms of the GNU General Public License version 3 as published by
+///    the Free Software Foundation.
+///
+///    ILNumerics Community Edition is distributed in the hope that it will be useful,
+///    but WITHOUT ANY WARRANTY; without even the implied warranty of
+///    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+///    GNU General Public License for more details.
+///
+///    You should have received a copy of the GNU General Public License
+///    along with ILNumerics Community Edition. See the file License.txt in the root
+///    of your distribution package. If not, see <http://www.gnu.org/licenses/>.
+///
+///    In addition this software uses the following components and/or licenses: 
+///
+///    =================================================================================
+///    The Open Toolkit Library License
+///    
+///    Copyright (c) 2006 - 2009 the Open Toolkit library.
+///    
+///    Permission is hereby granted, free of charge, to any person obtaining a copy
+///    of this software and associated documentation files (the "Software"), to deal
+///    in the Software without restriction, including without limitation the rights to 
+///    use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+///    the Software, and to permit persons to whom the Software is furnished to do
+///    so, subject to the following conditions:
+///
+///    The above copyright notice and this permission notice shall be included in all
+///    copies or substantial portions of the Software.
+///
+///    =================================================================================
+///    Intel® Math Kernel Library 11.1 for Windows
+///        
+///        http://www.intel.com/software/products/mkl
+///
+///    =================================================================================
+///    Intel® Math Kernel Library 10.3 for Linux
+///        
+///        http://www.intel.com/software/products/mkl
+///
+///    =================================================================================
+///    Products / Software which is implicitly used by ILNumerics due to the inclusion 
+///    of 3rd party components: 
+///  
+///        BLAS/ LAPACK; see: http://netlib.org
+///        FFT Functions; see: http://www.spiral.net, http://fftw.org
+///        OpenGL; see: http://opengl.org
+///
+///    =================================================================================
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using ILNumerics.Storage; 
+using ILNumerics.Exceptions; 
+
+namespace ILNumerics {
+    
+    /// <summary>
+    /// Boolean array for high performance relational operations on arbitrary arrays 
+    /// </summary>
+    /// <remarks>
+    /// Logical arrays store true/false conditions as elements. Each element consumes
+    /// one byte. Logical arrays are the output parameter of all relational comparisons.</remarks>
+    [Serializable]
+    [System.Security.SecuritySafeCritical]
+    public sealed class ILOutLogical : ILBaseLogical {
+
+        #region attributes
+        private ILLogical m_originalArray; 
+        #endregion
+
+        #region constructors
+        /// <summary>
+        /// Constructor - create logical array of type <c>Byte</c> of specified size
+        /// </summary>
+        /// <param name="size">
+        /// Variable length int array specifying the number and size of dimensions to 
+        /// be created.
+        /// </param>
+        /// <remarks>
+        /// The size parameter may not be null or an empty array! An Exception will be 
+        /// thrown in this case. The dimensions will be trimmed before processing 
+        /// (removing trailing non singleton dimensions). 
+        /// Depending on the requested size an ILArray &lt; byte &gt; of the specified dimensions 
+        /// will be created. The type of storage will be <c>bool</c>.
+        /// </remarks>
+        internal ILOutLogical(params int[] size)
+            : base(new ILLogicalStorage(new ILSize(size)),false) {
+            NumberNonZero = sumElements();
+        }
+        /// <summary>
+        /// Constructor - create logical array of type <c>byte</c> of specified size
+        /// </summary>
+        /// <param name="size">
+        /// Size descriptor
+        /// </param>
+        /// <remarks>
+        /// The size parameter may not be null. An Exception will be 
+        /// thrown in this case. The dimensions will be trimmed before processing 
+        /// (removing trailing singleton dimensions). 
+        /// Depending on the requested size an logical array of the specified dimensions 
+        /// will be created. The element type is be <c>bool</c>.
+        /// </remarks>
+        internal ILOutLogical(ILSize size)
+            : base(new ILLogicalStorage(size),false) {
+            NumberNonZero = sumElements();
+        }
+        /// <summary>
+        /// Constructor creating logical array from dense storage
+        /// </summary>
+        /// <param name="A">Input array, the storage of this ILArray will directly be used for 
+        /// storage of the new logical array</param>
+        internal ILOutLogical(ILLogicalStorage A)
+            : base(A,false) {
+            NumberNonZero = sumElements();
+        }
+        /// <summary>
+        /// Constructor creating logical array from (dense) storage
+        /// </summary>
+        /// <param name="A">Input array, the storage of this ILArray will directly be used for 
+        /// storage of the new logical array</param>
+        /// <param name="numberNonZero">Number of nonzero elements in A. Must be positive or 0.</param>
+        /// <remarks>Providing this parameter prevents the constructor from having to count the 
+        /// 'true' elements in A.</remarks>
+        internal ILOutLogical(ILLogicalStorage A, long numberNonZero)
+            : base(A, false) {
+            if (numberNonZero < 0)
+                throw new ILNumerics.Exceptions.ILArgumentException("invalid number of non-zero-elements given!");
+            NumberNonZero = numberNonZero;
+        }
+        /// <summary>
+        /// Constructor - create logical array of specified size from data array
+        /// </summary>
+        /// <param name="size">
+        /// Variable length int array specifying the number and size of dimensions to 
+        /// be created.
+        /// </param>
+        /// <param name="data">byte array matching the size of the dimensions 
+        /// specified. The data will directly be used as storage! No copy will be made!</param>
+        /// <remarks>
+        /// The size parameter may not be null or an empty array! An Exception will be 
+        /// thrown in this case. The dimensions will be trimmed before processing 
+        /// (removing trailing non singleton dimensions). 
+        /// Depending on the requested size an logical array of the specified size 
+        /// will be created. The type of storage will be <c>byte</c>.
+        /// </remarks>
+        internal ILOutLogical(byte[] data, params int[] size)
+            : base(new ILLogicalStorage( data, new ILSize(size)),false) {
+            NumberNonZero = sumElements();
+        }
+        /// <summary>
+        /// Constructor creating logical array, provide predefined storage
+        /// </summary>
+        /// <param name="data">Predefined storage elements. The array will directly be used 
+        /// as underlying storage. No copy will be made! </param>
+        /// <param name="size">Dimensions specification.</param>
+        internal ILOutLogical(byte[] data, ILSize size)
+            : base(new ILLogicalStorage(data, size), false) {
+           NumberNonZero = sumElements();
+        }
+        /// <summary>
+        /// Constructor creating logical array, predefined storage (fast version)
+        /// </summary>
+        /// <param name="data">predefined storage elements. The array will directly be used 
+        /// as underlying storage. No copy will be made! </param>
+        /// <param name="size">Dimensions specification.</param>
+        /// <param name="nonZeroCount">number of nonzero elements in <paramref name="data"/>. 
+        /// Providing this parameter prevents from counting the 'true' elements (again). </param>
+        internal ILOutLogical(byte[] data, ILSize size, long nonZeroCount)
+            : base(new ILLogicalStorage(data, size), false) {
+            if (nonZeroCount < 0)
+                throw new ILNumerics.Exceptions.ILArgumentException("invalid number of non-zero-elements given!");
+            NumberNonZero = nonZeroCount;
+        }
+        #endregion
+
+        #region implicit cast operators
+        #region conversional operators
+        /// <summary>
+        /// Convert logical array to output parameter type array
+        /// </summary>
+        /// <param name="A">Source logical array</param>
+        /// <returns>Output parameter type array</returns>
+        public static implicit operator ILOutLogical(ILLogical A) {
+            if (object.Equals(A,null))
+                return null;
+            ILOutLogical ret = new ILOutLogical(A.Storage);
+            ret.m_originalArray = A;
+            return ret;
+        }
+        #endregion
+        #endregion
+
+        #region index access + mutability
+        /// <summary>
+        /// Subarray access
+        /// </summary>
+        /// <param name="range">Range specification</param>
+        /// <returns>Reference pointing to the elements of this array specified by range. If used for removal: 
+        /// the array will be changed to a referencing array having the parts requested removed and reshaped accordingly.</returns>
+        /// <remarks>Query access: for N-dimensional arrays trailing dimensions will be choosen to be 0. Therefore you 
+        /// may ommit those trailing dimensions in range.
+        /// <para>The indexer may be used for querying or altering single/any elements 
+        /// in this array. <c>range</c> may contains index specifications for one ... any 
+        /// dimension. The array returned will have the size specified by range.</para>
+        /// <para>The indexer may also be used for removing parts of the array. Therefore an empty array 
+        /// (of the same type) or 'null' must be assigned to the range specified by <c>range</c> using the set-access. <c>range</c> 
+        /// must contain exactly one dimension specification other than null. This may be any vector-sized numeric ILArray of any 
+        /// type. If <c>range</c> applies 
+        /// to less dimensions than dimensions existing in the array, the upper dimensions will be 
+        /// merged and the array will be reshaped before applying the removal to it.</para>
+        /// <para>In case of removal the ILArray returned will be a reference array.</para></remarks>
+        public ILRetLogical this[params ILBaseArray[] dims] {
+            get {
+                return new ILRetLogical((ILLogicalStorage)Storage.Subarray(dims));
+            }
+            set {
+                SetRange(value,dims); 
+                NumberNonZero = sumElements();
+            }
+        }
+        /// <summary>
+        /// Set single value to element at index specified
+        /// </summary>
+        /// <param name="value">New value</param>
+        /// <param name="idx">Index of element to be altered</param>
+        public void SetValue(byte value, params int[] idx) {
+            Storage.SetValueTyped(value, idx);
+        }
+        /// <summary>
+        /// Alter a range of this array
+        /// </summary>
+        /// <param name="value">Array with new values</param>
+        /// <param name="range">Range specification</param>
+        public void SetRange(ILInLogical value, params ILBaseArray[] range) {
+            using (ILScope.Enter(value))
+            using (ILScope.Enter(range)) {
+                if (object.Equals(value, null)) {
+                    Storage.IndexSubrange(null, range); 
+                } else {
+                    using (ILScope.Enter(value))
+                        Storage.IndexSubrange(value.Storage, range);
+                }
+            }
+        }
+        /// <summary>
+        /// Replace the elements of this array with another array's elements, preventing memory leaks
+        /// </summary>
+        /// <param name="value">New array</param>
+        public ILRetLogical a {
+            set { Assign(value); }
+            get { return this.C; }
+        }
+        /// <summary>
+        /// Replaces storage of this array with new array elements, registers this array for out-of-scope disposal
+        /// </summary>
+        /// <param name="value">new array</param>
+        public void Assign(ILRetLogical value) {
+            if (!IsDisposed)
+                Storage.Dispose();
+            ILLogicalStorage storage = (ILLogicalStorage)value.GiveStorageAwayOrClone(); 
+            m_storage = storage;
+            if (!ILMath.isnull(m_originalArray)) {
+                (m_originalArray as ILDenseArray<byte>).Storage = storage; 
+            }
+            //ILScope.Context.RegisterArray(this);  
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Direct reference to inner System.Array storage for write access - use with care!
+        /// </summary>
+        /// <returns>Reference to inner System.Array</returns>
+        /// <remarks>Altering this array can be done directly. If necessary, the array is detached before 
+        /// returned. Watch the column order format of storages in ILNumerics. Keep in mind, the length 
+        /// of the System.Array may exceed the number of elements of the ILNumerics array.
+        /// <para>Accessing the inner system array directly should be left to ILNumerics experts only. 
+        /// Unless you really know, what you are doing, you should rather use the higher order access 
+        /// methods provided by ILArray&lt;T>!</para>
+        /// <para>Unlike (almost) all other member function of an array, this function
+        /// does not keep track of internal memory management. It means, the storage which this array is based 
+        /// upon, will not be set free after the function returns. You (as the user of the array) will have to pay 
+        /// attention yourself, when to call dispose on the array - if necessary. Also, for elements of reference
+        /// types (e.g. ILCell), retrieving and storing elements from/into the System.Array directly does 
+        /// not simulate a value semantic as all other functions do! This means, references are copied. Attention
+        /// must be paid to dereference / clone elements accordingly. </para></remarks>
+        public byte[] GetArrayForWrite() {
+            return Storage.GetArrayForWrite();
+        }
+
+        #region memory management
+        internal override bool EnterScope() {
+            return false;
+        }
+        #endregion
+    
+    }
+}

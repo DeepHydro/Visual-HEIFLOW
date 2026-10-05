@@ -1,0 +1,592 @@
+Changes in version 3.2.2
+=============================================
+* bugfix: frobenius norm for matrices, homogenized with vector input ('degree' == 0.0)
+* ccomplex (complex, fcomplex): allow for scalar arguments for one/both parameters
+* bugfix: spaces in path to ILNumerics.dll made AnyCPU resolution via PATH environment fail
+* new Settings switch: IsHosted - disable DesignMode checking for Drawing controls in hosted environments (VSTO, LinqPad, ...)
+* ILPanel in VSTO: auto disable DesignMode detection; no automatic "Fill" docking
+
+Changes in version 3.2.1
+=============================================
+* enabled new deployment scheme (AnyCPU) for medium trust environments (ASP.NET)
+* bugfix: prevent ticks switching from Auto mode to Manual mode 
+
+Changes in version 3.2
+=============================================
+* ILNumerics targets AnyCPU - restructured all editions/ packages;
+   see: http://ilnumerics.net/blog/?p=398
+* Name changed: ILScreenRect.DefaultBorderTag -> BorderTag
+* Name changed: ILScreenRect.DefaultFillTag -> BackgroundTag
+* Same names changed for ILColorbar ...Tag public static members
+* All above -> readonly 
+* ILGroup.Childs -> deprecated + replaced by ILGroup.Children
+
+Changes in version 3.1.1
+=============================================
+* ILScene is now derived from ILGroup (no API changes) 
+* Complete scenes are now copied by: new ILScene(scene)
+* ILAxis.Ticks.Add() now switches to Mode = TickModes.Manual automatically
+* bugfix: Colorbar added to certain scene graph nodes caused GDI driver to fail rendering
+
+Changes in version 3.1.0
+=============================================
+* improved GDI renderer / web component: scan line triangles 
+* added support for MKL.FreeBuffers() on Windows 32 / 64 bit (requested)
+* improved stability contour plots: level values outside range 
+* CommunityEdition: new _unsigned_ project file provided
+* missing terrain.bin data file included
+* fixed issue: [#00140] some properties not configuable interactively
+* added code documentation on many places 
+* hide designer visibility for unsupported ILPanel properties
+* fixed a threading issue in GDIDriver [#00108] and ILBMPBackBuffer
+* fixed GDI triangle depth buffering on 64 bit (reported)
+* ILOGLLabel now refreshes render queues after color changes 
+* bugfix: ILColormap.Map now handles empty input parameters (reported)
+* plot cube: removed redundant group node reference attributes
+* made  ILNode.IsSynchedNode available as protected property (requested)
+* increased PolygonOffset => 0.001f for lines (affects GDI Renderer)
+
+
+Changes in version 3.0
+=============================================
+* bugfix: GDI driver rendering triangles on 64bit failed
+* improved GDI line stipples on thick lines 
+
+Changes in version 3.0 (RCi) 
+=============================================
+* PropertyChanged events populated to ILPlotCube
+* Vector3.X/Y/Z are now properties 
+* PlotCube Reset does also reset all data groups contained
+
+Changes in version 3.0 (RCh) 
+=============================================
+* bugfix in ILColormap, custom colomaps were causing wrong colors
+
+Changes in version 3.0 (RCg) 
+=============================================
+* Fixes a bug for using ILNumerics in a VS designer context (.NET 4.5 dependency polution)
+* Automatic fallback to GDI 
+* Automatic fallback to OpenGL 3.1 (gl_ClipDistance fix)
+* Two new Settings switches control the automatic behavior ShowMessageBoxOnGDIFallback, OpenGL31_FIX_GL_CLIPVERTEX)
+* Cleaned up ILDriver eventing model (BeginRenderFrame, EndRenderFrame, RenderingFailed, FPSChanged) 
+
+Changes in version 3.0 (RCf) 
+=============================================
+* Compatibility on OpenGL drivers increased: FIX switch is automatically applied 
+* 3rd target layer: World3D, Screen2DFar, Screen2DNear
+* Markers in plots now target Screen2DFar; always shown below common (Screen2DNear) objects (like legends & colorbars)
+* updated single file docu
+* Fixes colorbars (didn't show correct colormap colors)
+
+Changes in version 3.0 (RC/CTP) 
+=============================================
+* new scene graph implementation, ILNumerics.Drawing reworked
++ now supports GDI+ driver and OpenGL 3.1
++ scene based plotting implementation (old 2.0 API is no longer supported!)
+* bugfix: complete dimension array removal retains other dim sizes
+* managed matrix multiply: blocked algorithm, huge speed-up
+* all functions returning / expecting INDICES -> element type Int32
+  (sort, min, max, find, randperm, knn) 
+* bugfix: subarray remove failed, for row vectors with insufficient dimensions specified
+* ILNumerics is now strongly named and runs in a medium trust environment
+* new Settings switch: Settings.OpenGL31_FIX_GL_CLIPVERTEX for buggy OpenGL 
+  drivers on some NVIDIA graphics, set to true if you encounter problems. (Edit: auto in RC3f)
+
+Changes in version 2.14a (patch) 
+=============================================
+* reverted to unsigned assemblies due to several reported issues 
+   (signed assemblies will be provided in the pro edition seperately 
+    in the future)
+
+Changes in version 2.14
+=============================================
+* bugfix in mvnrnd: certain input data led to dimension mismatch error
+* bugfix in ILSize.IndexFromArray, corrected OOB checks 
+* Updated MKL: version 11.1 (Windows, large matrix eigSymm bugfix)
+* Community + Professional Edition: strongly named assemblies
+
+Changes in version 2.13
+=============================================
+* implemented cross(A,B,normalize) for array columns
+* included Powershell module into nuget package
+  see: http://ilnumerics.net/blog
+
+Changes in version 2.12
+=============================================
+* Added partial support for ILArray<System.Numerics.Complex>
+  + ToString(), ILMath.convert<Complex,complex> and vice versa.
+* Added Complex[].ToILArray and ILArray<complex>.ToMSComplex 
+  Extension Methods
+* bugfix: expansion on emtpy arrays with first dim specified > 0 failed
+* bugfix: sort, on arrays with all but the last element sorted and no 
+  nans failed in certain cases
+* improved/closed hole in memory management: GetArrayForRead/Write()
+  do only exist for non-temporary arrays (all except ILRet???)
+* removed license manager and toolbox license control
+* introduced Community (GPL) and Professional Edition
+* removed free and evaluation licenses (-> Community Edition)
+
+Changes in version 2.11
+=============================================
+* bug in var() fixed: in optimized scenarios may lead to inefficient memory handling
+* more robust license file handling for Free Trial Licenses
+
+Changes in version 2.10
+=============================================
+* loading of license from resources more robust: 
+  Now works even in secondary app domain scenarios. Recommended:
+  Licenses should be loaded from file if the application is not started within a 
+  managed application domain (what happens when started from a console f.e.). 
+  This bugfix makes the library ignore an empty AppDomain Resource Manager and 
+  try to load the license from a regular file instead. 
+* parallelized randn()
+
+Changes in version 2.9 (bugfix release)
+=============================================
+* fixes a bug in repmat: repmat did not handle insufficient dimension 
+  specifications for row vectors properly
+
+Changes in version 2.8.4408.34136
+=============================================
+* increased speed of all binary and unary functions
+* improved vector expansion: more efficient implace operations
+* some ML functions 2..3 times faster (especially kmeans) 
+* new optimized ML function: distL1 (user request) 
+* more robust license file handling: ignoring common encoding issues
+* option to (re)load license file at runtime 
+* option to embed license file into execution assembly
+* removed a common privilege issue with performance counter installation
+
+Changes in version 2.7.4368.41400 (bugfix patch)
+=============================================
+bugfix: qr in economy mode failed in certain situations 
+
+Changes in version 2.7.4363.39308 
+=============================================
+bugfix: memory management had limited efficiency in certain situations
+ILMath.check: provide "Default" parameter on input 'null'
+reworked threading control for MKL
+added support for 32 bit Linux, MKL, v.10.3
+new Drawing example: LitSurfaceExample
+enabled COM/Interop for ILNumerics
+
+Changes in version 2.6.4343.42870  (first commercial release)
+=============================================
+removed namespace ILNumerics.BuiltInFunctions -> ILNumerics
+MachineParameterFloat -> MachineParameterSingle
+reduced number of supported types
+removed reference array feature -> lazy full clones instead
+removed CreateReference(), ILArray<T>.R
+removed "shifted subarrays" 
+all binary operators receive arrays of same type only! (or System.Value type) 
+types array creation: ILMath.create<>, .empty<>, .zeros<>
+removed: ILArray.Diagonal -> use ILMath.diag
+ILArray.GetShifted -> ILArray.Shifted
+removed ILIterator
+GetArrayForRead()/-Write()
+improved array debugger display
+ILCell (always) returns ILArrays!, scalars are unboxed
+optional setting: implicitly cast logical array to bool with allall()
+ILArray.Reshape does return reshaped array but does NOT alter self
+binary functions (add, subtract... ) dimension SIZE sufficient to match (was:shape) 
+trailing singleton dimensions are not trimmed by default
+renamed: ILMath.vector -> ILMath.vec, explicit element type overloads (double, float, int) 
+A[int[]] is not supported anymore due to conflicts with A[cell(1,2,3,4,5)]
+A[string[]] is integrated into A[params BaseArray[]], reducing compiler overload resolution problems
+ .. -> simply replace "new int[]" (double,string,..) with "new ILBaseArray[]"
+A[null] -> empty !
+new subarray specifications: cell(A,B,2,full,r(1,2)),r(0:end(A,1)-1),full): 
+* ILMath.end allows simple calculations (via expressions) 
+* ILMath.full selects full dimension
+default vector orientation: column (specification by single dimension)
+Reshape on arrays: removed params int[] overload, use ILMath.size(dim1,dim2,..) instead 
+meshgrid -> return arrays as cell
+subarray index specifier can now be mixed between string and array format: A[":",i,end]
+ILNumerics.Drawing is integrated into ILNumerics
+removed ILNumerics.Drawing.Controls namespace -> ILNumerics.Drawing 
+changed function signatures for functions with multiple return parameters: removed ref keyword, incoming out parameters (if needed) are expected to be initialized already, f.e. ILMath.empty<>() 
+removed ILArray<T>.zeros - use ILMath.zeros<T>() instead
+cart2pol removed result type. regular new ILNumerics API instead
+ILMath.FFT renamed to: ILMath.FFTImplementation (VB compatibility)
+ILMemoryPool: created generic equivalents for some functionality 
+ILMath... API: removed all ref parameter (according to new general API parameter type schema)
+C# limited support: var and compound assignment operators are not supported anymore!!
+removed namespace ILNumerics.Settings -> ILSettings renamed to ILNumerics.Settings
+parallelized all internal functions
+complex structs are now serializable
+speed up repmat by factor 200 
+changed typed interface for ILCell: indexer return cells only, scalar cells are dereferenced, added GetArray<T>, GetCell, GetScalar<T>
+homogenized interface for ILMatfile 
+added xor()
+enabled virtual vector expansion on matching arrays for all binary operators (saving repmats)
+added isempty, mod + % operator, std, var, cov
+default orientation for vectors from elements: column vector
+conf setting: CreateRowVectorByDefault, defaults to: false / 'column'
+renamed ILDimension -> ILSize
+renamed A.Dimensions -> A.Size (original is deprecated)
+renamed A.D[] -> A.S[] (orig. is deprecated)
+added pif (single prec. pi constant) 
+added epsf (single prec. eps constant) 
+added nanmean(), nansum()
+added license management 
+reworked all examples
+provided 64 bit binaries (MKL) 
+primary support for MKL now, options for FFTW3 and ACML kept 
+implemented new memory management
+simplyfied ILNumerics.Drawing namespace 
+removed support for ILFigure, ILControl
+removed ILNumerics.BuiltinFunctions namespace; moved ILMath -> ILNumerics
+several new settings -> ILSettings class 
+implemented windows performance counters for memory pool 
+windows performance counter for thread pool measures 
+
+=======================================================
+Changelog for old (open source) core module: 
+
+Changes in version 1.4.11
+=========================
+* small docu bugfix: ILArray<T>[int] (contributed)
+* added AutoTestCaseGeneration project 
+  (permutes all parameter for all Core functions) 
+
+Changes in version 1.4.10
+=========================
+* implemented nonrecursive quicksort
+* some documentation fixes
+* new Settings in ILSettings (rel. sorting)
+* refinements in ILArray.ToString() for NaN/Inf
+
+Changes in version 1.4.09
+=========================
+* switched to .NET 3.5/ VS2008
+* refinements to complex.ToString() (contributed)
+* refinements to ILArray.ToString() (contributed)
+* made public internal QuickSort public
+* bugfix: sequential index access on reference arrays failed in certain situations
+
+Changes in version 1.4.08
+==========================
+(skipped)
+
+Changes in version 1.4.07
+==========================
+* added builtin function: atan2
+
+Changes in version 1.4.06
+==========================
+* bugfix: ILACML1_4.cs: incorrect mapping for ?potri
+
+Changes in version 1.4.05
+==========================
+* fixed a bug in ILMath.rank
+
+Changes in version 1.4.04
+===========================
+* fixed a bug in single element set acces: 
+  (setting element in referencing array led to wrong result for certain subarrays) 
+* sped up implicit cast operator T[,] and T[,,] 
+
+Changes in version 1.4.03
+===========================
+* sort: return indices rel. to dim length
+* repmat: simplified interface (no 'rows' parameter)
+* horzcat, vertcat: improved exception handling
+* added: isequal, isequalwithequalnans 
+* max,min handling NaN and Inf properly now
+* new testing framework: ILAutoTestCaseGenerator
+* ILMatFile: added Int64, UInt64 capabilities
+* binary function (add,.. etc) allowing one empty if the other parameter ist scalar
+* binary functions (add,...) saturate for integral types
+* fixed a bug in pinv for complex types (conj missed transpose)
+* complex division operator: properly handles NaN inputs
+* any() now truely ignores NaN values
+
+Changes in version 1.4.01
+===========================
+* bugfix and(scalar, array), or(scalar,array) 
+* ILArray.Reshape(params int[]) added
+* added: ILDimension.IsSameShape()
+* implemented FFT (generic interface)
+* implemented 3 FFT modules
+* moved all TESTs into seperate assembly 
+* ILDimension is _really_ immutable now
+* ILDimension.getShiftedVersion -> GetShifted()
+* ILMath.reshape(A,...) preserving A
+* empty arrays dimensions preserve true sizes
+* ILArray can have trailing singleton dimensions
+* AMD ACML updated to version 4.1 
+* ACML provided as seperate module 
+
+Changes in version 1.3.15
+===========================
+C: bugfix: diag(vect,-d)
+C: complex division with real values improved for NAN
+C: bugfix:ILArray<>.MaxValue, .MinValue on all NaN's
+C: bugfix:complex subtraction
+C: implemented unary minus on complex
+C: added ILMath.conj() - complex conjugate
+C: bugfix on n-dim reference unary operators for n>2 in certain situations
+
+Changes in version 1.3.14
+===========================
+* C: mkl update to 10.0.3.21
+* C: MatrixProperties: Unknown,None
+* C: complex: support for NaN
+* C: complex division 0/inf=>NaN
+* C: + robust against overflow
+* C: strong name for core dll
+* D: 0.10.0
+* D: ILAxisLabel -> ILLabel (in NS also)
+* D: AxisLabelAlign -> LabelAlign
+* D: legends implemented 
+
+Changes in version 1.3.13
+===========================
+* C: bugfix:binary operator (some ref.matrices op. on scalar)
+* C: bugfix:complex division handling inf's
+* C: bugfix:ILDimension (semi)immutable
+* C: added ILSpecialData.sphere(int), moebius()
+* D: 0.9.29: plot controls
+* D: Y-Line graphs starting at '0' now
+* D: all markers (and more), -> <a href="http://ilnumerics.net/main.php?site=5136312">docu</a>
+* D: implemented colormaps for ILPanel
+* D: surface graphs receive X,Y,C arguments
+* D: colorbar renders current colormap
+* D: SaveToBitmap for ILPanel, ILSubfigure
+
+Changes in version 1.3.12
+===========================
+* C: new function 'diff'
+* C: complex number bug fixes
+* D: 0.9.28: plot controls 
+* D: internal labeling redesign 
+* D: partial tex interpreter
+* D: X/Y plots
+
+Changes in version 1.3.11
+===========================
+* D: 0.9.27: more speaking trace log
+* D: removed assertion failure on TickMode.Manual
+* C: bugfix: expand emtpy ILArrays
+
+Changes in version 1.3.10
+===========================
+* new ILArray member: ExportValues(ref BaseT[] result)
+* bugfix on ILMath.ccomplex (had empty imag part)
+* new special data provider: ILSpecialData
+* redesigned ILFigure.dll -> ILNumerics.Drawing.dll
+* removed binary installer
+
+Changes in version 1.3.9
+===========================
+* ILMath.convert supports numeric ILBaseArray as argument
+* Intel MKL merged into single lib
+* Redesign for OpenGL plot panel (beta)
+
+Changes in version 1.3.8
+===========================
+* support for generalized eigenproblems for symmetrical/hermitian matrices A and B
+* improved string/debug display for complex number types
+* performance optimiziations for MKL working arrays (utilizing ILMemoryPool)
+
+Changes in version 1.3.7
+===========================
+* License changed to LGPL v3
+* implemented Intel's MKL v10.0 (sequential)
+
+Changes in version 1.3.6
+===========================
+* bugfix: expanding ILArray with left side ranges out of bounds, would not expand correctly in a special case
+* ILArray<T> A -> comparison with 'null' now also possible in boolean expressions like 'if (A==null) {...'
+* Improved array naming when writing to Matlab *.mat file. 
+
+Changes in version 1.3.5
+===========================
+* all ILMath.* functions now lowercase!
+-> PLEASE RENAME! find,vertact,horzcat!
+* bugfix: ILAsyncAlgorithm possibly caused
+  dead lock on start
+* bugfix: in certain situations sort(A,out B)
+  returned wrong indices
+
+Changes in version 1.3.4
+===========================
++ new determinant function: ILMath.det(A)
+* implicit cast System.Array ->ILArray
+* some changes/corrections for docu
+
+Changes in version 1.3.3
+===========================
+* Bugfix: calling linsolve with hermitian, pos.def. matrix A 
+  on non-AMD-processors was causing exception
+* added xml documentation files for IDE support: 
+  -> +ILNumerics.Net.xml, 
+  -> +ILFigure.xml
+
+=======================================================
+Changelog for old (open source) drawing module: 
+
+Changes in version 0.13.03
+===========================
+* reset defaults for ILSubfigure 
+* reset defaults for Plot2dGraph
+* lots of documentation fixes
+* aligned web/html docu and chm files
+* fixed IILPanelConfigurator for older graphs
+* added > 10 examples to SVN repos.
+
+Changes in version 0.13.02
+===========================
+* renamed: Drawing.Plots.ILLitBox3D 
+       ->  Drawing.Shapes.ILLitBox
+* moved:   Drawing.Graphs.ILBarGraph2D
+       ->  Drawing.Plots.ILBarGraph2D
+* implemented ILPlot (custom plots base)
+* ILPanel.Create() sets Dock=Filled also
+* added new plot: ILLitSink (demo)
+* added ILSceneGraphNode.EventingSuspend()
+* added ILSceneGraphNode.EventingResume()
+* new ILPanel.InteractiveMode: Translating (via CTRL key)
+* renamed ILLitBox3D.Wireframe -> ILLitBox3D.Edges
+* sped up ILLitBox3D
+* added ILPanel.Graph.AddPlot()
+* improved ILPanel event handling
+* ILPanel.AutoZoomContent -> AutoZoomOptions
+* IILPanelConfigurator interface
+* added ILSceneGraph.NodeAdded event
+* added ILSceneGraph.NodeRemoved event
+* removed! scene graph IEnumerable implementation
+  -> use ILSceneGraphNode instead
+* added ILSceneGraphInnerNode.Remove(ILShape)
+* removed! IILLegendRenderer.Label
+* added IILLegendRenderer.LabelSize
+* renamed: IILRenderer -> IILTextRenderer
+* improved stability of axis ticks (NaN, Inf)
+* added Plots.ILBarGraph3D: IILPanelConfigurator
+* some documentation
+* added Plots.ILLitSurface: IILPanelConfigurator
+* improved ILLitSurface performance
+* renamed: Drawing.Plots.ILVectorField
+        -> Drawing.Plots.ILVectorField2D
+* Implemented ILBorderedShape.Update()
+* improved sorting for transparent composite shapes
+* ILLitPolygon, ILPolygon, ILLines accept 
+  changed datalength on Update()
+* ILTriangles, ILQuads: added missing constructors
+
+Changes in version 0.13.01
+===========================
+* hides labeled ticks also when hiding axis main lines
+* ILLitSurface: option to update X and Y values as well
+* added line properties for ILLines also
+* hides edge tick lines in 2D mode
+* renamed ILPanel.Transform -> ILPanel.World2Screen
+* added new shape: ILLitSphere via triangularization
+* ILLabel.Anchor, repl. ILTickLabelAlign
+* bugfix: ILPanel.DrawToBitmap()
+* Zoom actions more robust
+* lots of documentation
+* added ILPanel.PlotBoxScreenRect
+* added ILPanel.PlotBoxScreenSizeMode
+* added ILPanel.AspectRatio
+* switched to .NET 3.5/ VS2008
+* improved sorting of graphs for rendering
+* general performance tunings
+* added ILTickCollection.TicksAllowOverlap
+* some tick label tuning
+* added DefaultView handling for ILPanel (AutoDefaultView)
+* rebuilt rendering section (ILPanel,ILRenderProperties)
+* added ILLabel.Visible property
+* added ILCamera.Top
+* added ILCamera.LookAt
+
+Changes in version 0.12.12
+===========================
+* addes some convenience constructors for ILLine shapes
+* improved properties interface for ILLine (lokal properties are aliased to local ILProperties class)
+* fixed a minor bug in ILTextRenderer (char caching may failed at edge of texture sheets) 
+* added update capabilities for all composite shapes
+* new higher level plots: ILLitSurface, ILBarGraph3D, ILVectorField
+* much improved text rendering for shape labels: ILShapeLabel.FringeColor
+* some slight layout improvements (f.e. backcolor for ILPanel > light gray)
+* bugfix in ILColormap, handling out-o-range values
+
+Changes in version 0.12.11
+===========================
+* reworked scene graph inner node structure
+* fixed automatic invalidation on changes to scene graph children collection
+* improved lightning for shapes
+* added new shapes: ILLitBorderedShape, ILLitQuad, ILLitTriangle
+* added new plots: ILLitBox3D, ILBarGraph3D (still under construction)
+* possibly breaking change: ILShape.Visible moved to ILSceneGraphNode.Visible
+  (as well as some other properties of ILShape)
+
+Changes in version 0.12.10
+===========================
+* corrected color (byte) -> OpenGL (float) translation in
+  vertex renderer
+
+Changes in version 0.12.09
+===========================
+* added Material to ILLitCompositShapes
+* removed unneeded/ outdated classes/files
+
+Changes in version 0.12.08
+===========================
+* bugfix: ILLines did not apply line properties correctly
+* bugfix: compute normal vectors for composite shapes
+
+Changes in version 0.12.07
+===========================
+* improved light capabilities
+* added ILLitSurfaceShape
+* improved performance on ILLitCompositeShapes
+
+Changes in version 0.12.06
+===========================
+* added ILShape.Visible property
+ 
+Changes in version 0.12.05
+===========================
+* fixes Zoom in 3D
+* implements morphing feature for Zoom
+
+Changes in version 0.12.04
+===========================
+* removed AutoFitContent from graphs - caused confusion
+* added AutoZoomContent to ILPanel as replacement
+
+Changes in version 0.12.03
+===========================
+bugfix on zero-height planes (surf)
++ added ILClippingData: AllowZeroVolume
++ moved m_* attributes of ILClippingData to private
++ zero planes get _middle_ color from colormap
++ fixed colorbar accordingly
+
+Changes in version 0.12.02
+===========================
+* bugfix: ILColorBar.RegisterRangeSource improved parameter checking
+
+Changes in version 0.12.01
+===========================
+* complete scene graph implementation
+* support for transparency (sorting of graphs)
+* more cleaner eventing / signaling model
+* scene graph partial invalidation/ reconfiguration
+* light for scene objects 
+* dynamic graphs 
+* ILCamera: new property: Position (X,Y,Z)
+* ... (just too much to count)
+
+Changes in version 0.10.02
+===========================
+* detaching events on disposals
+* ILRendererAtrribute: added CoordSystem 
+* ILRenderers are reused everywhere
+
+Changes in version: 0.10.01 
+===========================
+* ILAxisLabel -> ILLabel (in NS also)
+* AxisLabelAlign -> LabelAlign
+* legends implemented 

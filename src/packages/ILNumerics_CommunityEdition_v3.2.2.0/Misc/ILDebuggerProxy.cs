@@ -1,0 +1,143 @@
+///
+///    This file is part of ILNumerics Community Edition.
+///
+///    ILNumerics Community Edition - high performance computing for applications.
+///    Copyright (C) 2006 - 2013 Haymo Kutschbach, http://ilnumerics.net
+///
+///    ILNumerics Community Edition is free software: you can redistribute it and/or modify
+///    it under the terms of the GNU General Public License version 3 as published by
+///    the Free Software Foundation.
+///
+///    ILNumerics Community Edition is distributed in the hope that it will be useful,
+///    but WITHOUT ANY WARRANTY; without even the implied warranty of
+///    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+///    GNU General Public License for more details.
+///
+///    You should have received a copy of the GNU General Public License
+///    along with ILNumerics Community Edition. See the file License.txt in the root
+///    of your distribution package. If not, see <http://www.gnu.org/licenses/>.
+///
+///    In addition this software uses the following components and/or licenses: 
+///
+///    =================================================================================
+///    The Open Toolkit Library License
+///    
+///    Copyright (c) 2006 - 2009 the Open Toolkit library.
+///    
+///    Permission is hereby granted, free of charge, to any person obtaining a copy
+///    of this software and associated documentation files (the "Software"), to deal
+///    in the Software without restriction, including without limitation the rights to 
+///    use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+///    the Software, and to permit persons to whom the Software is furnished to do
+///    so, subject to the following conditions:
+///
+///    The above copyright notice and this permission notice shall be included in all
+///    copies or substantial portions of the Software.
+///
+///    =================================================================================
+///    Intel® Math Kernel Library 11.1 for Windows
+///        
+///        http://www.intel.com/software/products/mkl
+///
+///    =================================================================================
+///    Intel® Math Kernel Library 10.3 for Linux
+///        
+///        http://www.intel.com/software/products/mkl
+///
+///    =================================================================================
+///    Products / Software which is implicitly used by ILNumerics due to the inclusion 
+///    of 3rd party components: 
+///  
+///        BLAS/ LAPACK; see: http://netlib.org
+///        FFT Functions; see: http://www.spiral.net, http://fftw.org
+///        OpenGL; see: http://opengl.org
+///
+///    =================================================================================
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Runtime; 
+using System.Runtime.InteropServices; 
+using System.Diagnostics; 
+using ILNumerics.Storage; 
+
+namespace ILNumerics.Misc {
+    /// <summary>
+    /// This class is for internal use only. Do not instantiate from this class!
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class ILArrayDebuggerProxy<T> {
+        private ILDenseStorage<T> m_storage; 
+        private ILSize Dimensions {
+            get {
+                return m_storage.Size;
+            }
+        }
+        //[System.Diagnostics.DebuggerDisplay("{valuesToString,nq}")]
+        //public string Values {
+        //    get {
+        //        return m_array.Storage.ValuesToString(-1).ToString();
+        //    }
+        //}
+        [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+        public RowVisualizer[] Rows {
+            get {
+                string [] tmp = m_storage.ValuesToString(200).ToString().Split(new string[1]{Environment.NewLine},StringSplitOptions.None); 
+                return RowVisualizer.Convert(tmp); 
+            }
+        }
+
+        public ILArrayDebuggerProxy (ILDenseArray<T> array) : base() {
+            m_storage = array.Storage; 
+        }
+        internal ILArrayDebuggerProxy (ILDenseStorage<T> storage) : base() {
+            m_storage = storage; 
+        }
+    }
+    [DebuggerDisplay("{Value,nq}")]
+    public class RowVisualizer {
+        public string Value;
+
+        internal static RowVisualizer[] Convert(string[] tmp) {
+            RowVisualizer[] ret = new RowVisualizer[tmp.Length];
+            for (int i = 0; i < tmp.Length; i++) {
+                ret[i] = new RowVisualizer() { Value = tmp[i] }; 
+            }
+            return ret; 
+        }
+  
+    }
+
+}
+#if DEBUG    
+    public static class DebuggerTraceHelper {
+
+        private static readonly string FILENAME = "DebugTraceLog.txt"; 
+        static DebuggerTraceHelper() {
+            if (System.IO.File.Exists(FILENAME))
+                System.IO.File.Delete(FILENAME); 
+        }
+        [ThreadStatic]
+        private static StringBuilder m_output;
+        private static object s_lock = new object(); 
+        public static StringBuilder Output {
+            get {
+                lock (s_lock) {
+                    if (m_output == null)
+                        m_output = new StringBuilder();
+                    if (m_output.Length > 10000) {
+                        System.IO.File.AppendAllText(FILENAME, m_output.ToString());
+                        m_output.Clear();
+                    }
+                    m_output.Append(System.DateTime.Now.ToLongTimeString() + ": ");
+                    return m_output;
+                }
+            }
+        }
+
+    }
+#endif
+
