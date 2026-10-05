@@ -1,4 +1,4 @@
-﻿using Heiflow.Applications;
+using Heiflow.Applications;
 using Heiflow.Models.UI;
 using Heiflow.Presentation.Controls;
 using HUST.WREIS.Dot3D;

@@ -78,35 +78,17 @@ namespace Heiflow.Plugins.Default
 
             this._NPBudgetMonitor.Name = "npBudgetMonitorView1";
             App.DockManager.Add(new DockablePanel(PanelKey, Caption,
-                _NPBudgetMonitor, DockStyle.None) { SmallImage = Resources.UiBalance16 });
+                _NPBudgetMonitor, DockStyle.None) { SmallImage = Resources.NPBudget16 });
             App.DockManager.HidePanel(PanelKey);
 
             var showPanel = new SimpleActionItem("kModel", Caption, delegate(object sender, EventArgs e)
-            {
-                var prj = Manager.ProjectController.ProjectService.Project;
-                if(prj != null )
-                {
-                    if (prj.ProcessModule == Models.Integration.ProcessModule.Hydrology)
-                    {
-                        MessageBox.Show("Current model dose not contains NPS or Carbon module", "Model", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                    else
-                    {
-                        App.DockManager.ShowPanel(PanelKey);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("No project opened", "Model", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-              
-            })
+            { App.DockManager.ShowPanel(PanelKey); })
             {
                 Key = ActionKey,
                 ToolTipText = "Analyze nitrogen and phosphorus mass balance (sz_N_budget.csv / sz_P_budget.csv)",
                 GroupCaption = Resources.Analysis_group,
-                LargeImage = Resources.UiBalance32,
-                SmallImage = Resources.UiBalance16
+                LargeImage = Resources.NPBudget32,
+                SmallImage = Resources.NPBudget16
             };
             App.HeaderControl.Add(showPanel);
 

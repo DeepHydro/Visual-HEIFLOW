@@ -1,4 +1,4 @@
-﻿using Heiflow.Core.Data;
+using Heiflow.Core.Data;
 using Heiflow.Core.Data.ODM;
 // THIS FILE IS PART OF Visual HEIFLOW
 // THIS PROGRAM IS NOT FREE SOFTWARE. 

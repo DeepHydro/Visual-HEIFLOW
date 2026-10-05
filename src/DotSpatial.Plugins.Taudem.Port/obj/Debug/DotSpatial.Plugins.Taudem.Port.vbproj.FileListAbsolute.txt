@@ -83,4 +83,3 @@ D:\System\git\Visual-HEIFLOW\src\bin\debug\Application Extensions\DotSpatial.Plu
 D:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.pdb
 d:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.vbproj.AssemblyReference.cache
 d:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.vbproj.CoreCompileInputs.cache
-d:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpati.323E3485.Up2Date

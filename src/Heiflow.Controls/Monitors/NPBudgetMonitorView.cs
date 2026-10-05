@@ -90,6 +90,10 @@ namespace Heiflow.Controls.WinForm.Display
 
         #region IView 实现
 
+        public void Show()
+        {
+        }
+
         public void Close()
         {
         }

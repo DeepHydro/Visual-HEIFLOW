@@ -1,4 +1,4 @@
-﻿using Heiflow.Core.Data;
+using Heiflow.Core.Data;
 using Heiflow.Core.MyMath;
 using Heiflow.Models.Generic;
 using Heiflow.Models.GHM;

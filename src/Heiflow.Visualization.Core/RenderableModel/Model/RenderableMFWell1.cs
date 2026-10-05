@@ -1,4 +1,4 @@
-﻿using Heiflow.Controls.Project;
+using Heiflow.Controls.Project;
 using Heiflow.Models.Subsurface;
 using DotSpatial.Topology;
 using System;

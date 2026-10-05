@@ -1,4 +1,4 @@
-﻿using Heiflow.Models.Generic;
+using Heiflow.Models.Generic;
 using HUST.WREIS.Dot3D;
 using HUST.WREIS.Dot3D.Renderable;
 using Microsoft.DirectX;

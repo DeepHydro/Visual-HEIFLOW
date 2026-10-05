@@ -48,9 +48,9 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.tabControlLeft = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.olvMatName = new BrightIdeasSoftware.DataListView();
-            this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvMatName = new System.Windows.Forms.ListView();
+            this.olvColumn1 = new System.Windows.Forms.ColumnHeader();
+            this.olvColumn2 = new System.Windows.Forms.ColumnHeader();
             this.contextMenuStrip_matname = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menu_Open = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_remove = new System.Windows.Forms.ToolStripMenuItem();
@@ -60,12 +60,12 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.btn_open_dcx = new System.Windows.Forms.ToolStripButton();
             this.btnClear = new System.Windows.Forms.ToolStripButton();
-            this.olvVariableName = new BrightIdeasSoftware.DataListView();
-            this.olvColumn4 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvVariable = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn5 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn6 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn3 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvVariableName = new System.Windows.Forms.ListView();
+            this.olvColumn4 = new System.Windows.Forms.ColumnHeader();
+            this.olvVariable = new System.Windows.Forms.ColumnHeader();
+            this.olvColumn5 = new System.Windows.Forms.ColumnHeader();
+            this.olvColumn6 = new System.Windows.Forms.ColumnHeader();
+            this.olvColumn3 = new System.Windows.Forms.ColumnHeader();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.treeView1 = new Heiflow.Controls.Tree.TreeViewAdv();
             this._nodeStateIcon = new Heiflow.Controls.Tree.NodeControls.NodeStateIcon();
@@ -92,10 +92,8 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.olvMatName)).BeginInit();
             this.contextMenuStrip_matname.SuspendLayout();
             this.toolStrip2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.olvVariableName)).BeginInit();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
@@ -317,67 +315,38 @@ namespace Heiflow.Controls.WinForm.Toolbox
             // 
             // olvMatName
             // 
-            this.olvMatName.AllColumns.Add(this.olvColumn1);
-            this.olvMatName.AllColumns.Add(this.olvColumn2);
             this.olvMatName.AllowColumnReorder = true;
             this.olvMatName.AllowDrop = true;
-            this.olvMatName.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
-            this.olvMatName.CellEditUseWholeCell = false;
             this.olvMatName.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvColumn1,
             this.olvColumn2});
             this.olvMatName.ContextMenuStrip = this.contextMenuStrip_matname;
             this.olvMatName.Cursor = System.Windows.Forms.Cursors.Default;
-            this.olvMatName.DataSource = null;
             this.olvMatName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.olvMatName.EmptyListMsg = "";
-            this.olvMatName.EmptyListMsgFont = new System.Drawing.Font("Segoe UI", 9F);
             this.olvMatName.FullRowSelect = true;
             this.olvMatName.GridLines = true;
-            this.olvMatName.GroupWithItemCountFormat = "";
-            this.olvMatName.GroupWithItemCountSingularFormat = "";
             this.olvMatName.HideSelection = false;
+            this.olvMatName.LabelEdit = true;
             this.olvMatName.Location = new System.Drawing.Point(0, 27);
             this.olvMatName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.olvMatName.Name = "olvMatName";
-            this.olvMatName.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
-            this.olvMatName.SelectedBackColor = System.Drawing.Color.FromArgb(46, 123, 184);
-            this.olvMatName.SelectedForeColor = System.Drawing.Color.White;
-            this.olvMatName.ShowCommandMenuOnRightClick = true;
             this.olvMatName.ShowGroups = false;
-            this.olvMatName.ShowImagesOnSubItems = true;
             this.olvMatName.ShowItemToolTips = true;
             this.olvMatName.Size = new System.Drawing.Size(340, 383);
             this.olvMatName.TabIndex = 3;
-            this.olvMatName.UnfocusedSelectedBackColor = System.Drawing.Color.FromArgb(46, 123, 184);
-            this.olvMatName.UnfocusedSelectedForeColor = System.Drawing.Color.White;
-            this.olvMatName.UseCellFormatEvents = true;
             this.olvMatName.UseCompatibleStateImageBehavior = false;
-            this.olvMatName.UseFilterIndicator = true;
-            this.olvMatName.UseFiltering = true;
-            this.olvMatName.UseHotItem = true;
-            this.olvMatName.UseTranslucentHotItem = true;
             this.olvMatName.View = System.Windows.Forms.View.Details;
-            this.olvMatName.CellEditFinished += new BrightIdeasSoftware.CellEditEventHandler(this.olvMatName_CellEditFinished);
+            this.olvMatName.AfterLabelEdit += new System.Windows.Forms.LabelEditEventHandler(this.olvMatName_AfterLabelEdit);
             this.olvMatName.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.olvMatName_ItemSelectionChanged);
             this.olvMatName.MouseUp += new System.Windows.Forms.MouseEventHandler(this.olvMatName_MouseUp);
             // 
             // olvColumn1
             // 
-            this.olvColumn1.AspectName = "Name";
-            this.olvColumn1.ButtonPadding = new System.Drawing.Size(10, 10);
-            this.olvColumn1.CellEditUseWholeCell = false;
-            this.olvColumn1.IsTileViewColumn = true;
             this.olvColumn1.Text = "Name";
-            this.olvColumn1.UseInitialLetterForGroup = true;
             this.olvColumn1.Width = 100;
             // 
             // olvColumn2
             // 
-            this.olvColumn2.AspectName = "Size";
-            this.olvColumn2.ButtonPadding = new System.Drawing.Size(10, 10);
-            this.olvColumn2.CellEditUseWholeCell = false;
-            this.olvColumn2.IsTileViewColumn = true;
             this.olvColumn2.Text = "Size";
             this.olvColumn2.Width = 100;
             // 
@@ -463,14 +432,8 @@ namespace Heiflow.Controls.WinForm.Toolbox
             // 
             // olvVariableName
             // 
-            this.olvVariableName.AllColumns.Add(this.olvColumn4);
-            this.olvVariableName.AllColumns.Add(this.olvVariable);
-            this.olvVariableName.AllColumns.Add(this.olvColumn5);
-            this.olvVariableName.AllColumns.Add(this.olvColumn6);
-            this.olvVariableName.AllColumns.Add(this.olvColumn3);
             this.olvVariableName.AllowColumnReorder = true;
             this.olvVariableName.AllowDrop = true;
-            this.olvVariableName.CellEditUseWholeCell = false;
             this.olvVariableName.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvColumn4,
             this.olvVariable,
@@ -478,71 +441,42 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.olvColumn6,
             this.olvColumn3});
             this.olvVariableName.Cursor = System.Windows.Forms.Cursors.Default;
-            this.olvVariableName.DataSource = null;
             this.olvVariableName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.olvVariableName.EmptyListMsg = "";
-            this.olvVariableName.EmptyListMsgFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.olvVariableName.FullRowSelect = true;
             this.olvVariableName.GridLines = true;
-            this.olvVariableName.GroupWithItemCountFormat = "";
-            this.olvVariableName.GroupWithItemCountSingularFormat = "";
             this.olvVariableName.HideSelection = false;
             this.olvVariableName.Location = new System.Drawing.Point(0, 0);
             this.olvVariableName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.olvVariableName.Name = "olvVariableName";
-            this.olvVariableName.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
-            this.olvVariableName.SelectedBackColor = System.Drawing.Color.FromArgb(214, 233, 245);
-            this.olvVariableName.SelectedForeColor = System.Drawing.Color.FromArgb(27, 90, 140);
-            this.olvVariableName.ShowCommandMenuOnRightClick = true;
             this.olvVariableName.ShowGroups = false;
-            this.olvVariableName.ShowImagesOnSubItems = true;
             this.olvVariableName.ShowItemToolTips = true;
             this.olvVariableName.Size = new System.Drawing.Size(340, 216);
             this.olvVariableName.TabIndex = 2;
-            this.olvVariableName.UseCellFormatEvents = true;
             this.olvVariableName.UseCompatibleStateImageBehavior = false;
-            this.olvVariableName.UseFilterIndicator = true;
-            this.olvVariableName.UseFiltering = true;
-            this.olvVariableName.UseHotItem = true;
-            this.olvVariableName.UseTranslucentHotItem = true;
             this.olvVariableName.View = System.Windows.Forms.View.Details;
             // 
             // olvColumn4
             // 
-            this.olvColumn4.AspectName = "Index";
             this.olvColumn4.Text = "Index";
             this.olvColumn4.Width = 97;
             // 
             // olvVariable
             // 
-            this.olvVariable.AspectName = "Variable";
-            this.olvVariable.ButtonPadding = new System.Drawing.Size(10, 10);
-            this.olvVariable.IsTileViewColumn = true;
             this.olvVariable.Text = "Variable";
-            this.olvVariable.UseInitialLetterForGroup = true;
             this.olvVariable.Width = 100;
-            this.olvVariable.WordWrap = true;
             // 
             // olvColumn5
             // 
-            this.olvColumn5.AspectName = "Size";
-            this.olvColumn5.ButtonPadding = new System.Drawing.Size(10, 10);
-            this.olvColumn5.IsTileViewColumn = true;
             this.olvColumn5.Text = "Size";
             this.olvColumn5.Width = 100;
             // 
             // olvColumn6
             // 
-            this.olvColumn6.AspectName = "Max";
-            this.olvColumn6.ButtonPadding = new System.Drawing.Size(10, 10);
-            this.olvColumn6.IsTileViewColumn = true;
             this.olvColumn6.Text = "Max";
             this.olvColumn6.Width = 100;
             // 
             // olvColumn3
             // 
-            this.olvColumn3.AspectName = "Min";
-            this.olvColumn3.ButtonPadding = new System.Drawing.Size(10, 10);
             this.olvColumn3.Text = "Min";
             // 
             // tabPage1
@@ -632,11 +566,9 @@ namespace Heiflow.Controls.WinForm.Toolbox
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.olvMatName)).EndInit();
             this.contextMenuStrip_matname.ResumeLayout(false);
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.olvVariableName)).EndInit();
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);
@@ -668,21 +600,21 @@ namespace Heiflow.Controls.WinForm.Toolbox
         private System.Windows.Forms.TabPage tabPageOutput;
         private System.Windows.Forms.RichTextBox txt_msg;
         private System.Windows.Forms.SplitContainer splitContainer3;
-        private BrightIdeasSoftware.DataListView olvVariableName;
-        private BrightIdeasSoftware.OLVColumn olvVariable;
-        private BrightIdeasSoftware.OLVColumn olvColumn5;
-        private BrightIdeasSoftware.OLVColumn olvColumn6;
-        private BrightIdeasSoftware.OLVColumn olvColumn3;
+        private System.Windows.Forms.ListView olvVariableName;
+        private System.Windows.Forms.ColumnHeader olvVariable;
+        private System.Windows.Forms.ColumnHeader olvColumn5;
+        private System.Windows.Forms.ColumnHeader olvColumn6;
+        private System.Windows.Forms.ColumnHeader olvColumn3;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip_matname;
         private System.Windows.Forms.ToolStripMenuItem menu_SaveAs;
         private System.Windows.Forms.ToolStripMenuItem menu_Clear;
-        private BrightIdeasSoftware.OLVColumn olvColumn4;
+        private System.Windows.Forms.ColumnHeader olvColumn4;
         private System.Windows.Forms.ToolStripMenuItem menu_Open;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem menu_remove;
-        private BrightIdeasSoftware.DataListView olvMatName;
-        private BrightIdeasSoftware.OLVColumn olvColumn1;
-        private BrightIdeasSoftware.OLVColumn olvColumn2;
+        private System.Windows.Forms.ListView olvMatName;
+        private System.Windows.Forms.ColumnHeader olvColumn1;
+        private System.Windows.Forms.ColumnHeader olvColumn2;
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripButton btn_open_dcx;
         private DataCubeGrid dataGridEx1;

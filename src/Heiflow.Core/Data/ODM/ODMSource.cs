@@ -151,8 +151,8 @@ namespace Heiflow.Core.Data.ODM
                      DataSource = dbpath
                  };
                  ODMDB = factory.CreateInitialDbClass(DBkind.Access2013, DbOptKind.Oledb, info);
-                 if (ODMDB.ConnectionState == ConnectionState.Closed)
-                     ODMDB.DbConnection.Open();
+                 //if (ODMDB.ConnectionState == ConnectionState.Closed)
+                     //ODMDB.DbConnection.Open();
                  DatabaseFilePath = dbpath;
                  Name = Path.GetFileNameWithoutExtension(dbpath);
                  msg = "successful";

@@ -1,4 +1,4 @@
-﻿using GeoAPI.Geometries;
+using GeoAPI.Geometries;
 using Heiflow.Core.Data;
 using Heiflow.Core.MyMath;
 using Heiflow.Models.Generic;

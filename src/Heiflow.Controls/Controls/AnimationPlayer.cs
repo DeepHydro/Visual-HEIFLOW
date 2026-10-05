@@ -125,7 +125,9 @@ namespace Heiflow.Controls.WinForm.Controls
             ds.Tables.Add(dt);
             this.olvDataCubeTree.DataMember = "DataCubes";
             this.olvDataCubeTree.DataSource = new DataViewManager(ds);
-           // olvDataCubeTree.ExpandAll();
+            // A new source resets the tree to collapsed roots, which makes a freshly added cube
+            // look as if nothing happened. Show it and its variables right away.
+            olvDataCubeTree.ExpandAll();
         }
         private void map_CurrentChanged(object sender, int e)
         {
@@ -227,8 +229,11 @@ namespace Heiflow.Controls.WinForm.Controls
 
         public void ClearContent()
         {
-            _WorkSpace.DataSources.Clear();
-            olvDataCubeTree.Clear();
+            // Clearing the control here would also drop the column definitions. They are never
+            // rebuilt afterwards (AutoGenerateColumns is off), so the grid would stay empty for
+            // every cube added from then on. Routing through the workspace lets the grid rebuild
+            // itself empty and keeps its columns.
+            _WorkSpace.Clear();
             listBox_timeline.DataSource = null;
             _selectedDc = null;
         }

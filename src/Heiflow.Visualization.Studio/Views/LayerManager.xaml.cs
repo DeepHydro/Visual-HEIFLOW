@@ -1,4 +1,4 @@
-﻿using Heiflow.Presentation.Controls;
+using Heiflow.Presentation.Controls;
 using Heiflow.Visualization.Applications;
 using Heiflow.Visualization.Renderable.Grid;
 using HUST.WREIS.Dot3D.Renderable;

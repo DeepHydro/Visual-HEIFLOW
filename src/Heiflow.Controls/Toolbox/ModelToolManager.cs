@@ -327,21 +327,34 @@ namespace Heiflow.Controls.WinForm.Toolbox
             UpdateMatView();
         }
 
-        private void olvMatName_CellEditFinished(object sender, BrightIdeasSoftware.CellEditEventArgs e)
+        /// <summary>A row carries the meta data it was built from in Tag, so a click on it leads back
+        /// to the data cube, without going through the name shown in the first column.</summary>
+        private MatMeta SelectedMatMeta
         {
-            if (e.Column.Index == 0)
+            get
             {
-                var mat = e.ListViewItem.Tag as DataCube<float>;
-                if (mat != null)
-                {
-                    mat.Name = e.NewValue.ToString();
-                }
+                if (olvMatName.SelectedItems.Count == 0)
+                    return null;
+                return olvMatName.SelectedItems[0].Tag as MatMeta;
             }
+        }
+
+        private void olvMatName_AfterLabelEdit(object sender, LabelEditEventArgs e)
+        {
+            // Label is null when the user left the edit with escape.
+            if (string.IsNullOrEmpty(e.Label))
+                return;
+            var meta = olvMatName.Items[e.Item].Tag as MatMeta;
+            if (meta == null)
+                return;
+            meta.Name = e.Label;
+            if (meta.Mat != null)
+                meta.Mat.Name = e.Label;
         }
 
         private void olvMatName_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
-            var meta = olvMatName.SelectedObject as MatMeta;
+            var meta = SelectedMatMeta;
             if (meta != null && meta.Mat != null)
             {
                 UpdateVariableView(meta.Mat);
@@ -352,7 +365,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
 
         private void olvMatName_MouseUp(object sender, MouseEventArgs e)
         {
-            if (olvMatName.SelectedObject != null)
+            if (olvMatName.SelectedItems.Count > 0)
             {
                 menu_Open.Enabled = true;
                 menu_remove.Enabled = true;
@@ -405,12 +418,12 @@ namespace Heiflow.Controls.WinForm.Toolbox
                 }
              
             }
-            olvVariableName.SetObjects(_VariableMataList);
+            FillVariableList();
         }
 
         private void menu_Open_Click(object sender, EventArgs e)
         {
-            var meta = olvMatName.SelectedObject as MatMeta;
+            var meta = SelectedMatMeta;
             if (meta != null && meta.Mat != null)
             {
                 var shell = MyAppManager.Instance.CompositionContainer.GetExportedValue<IShellService>();
@@ -421,7 +434,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
 
         private void menu_Remove_Click(object sender, System.EventArgs e)
         {
-            var meta = olvMatName.SelectedObject as MatMeta;
+            var meta = SelectedMatMeta;
             if (meta != null && meta.Mat != null)
             {
                 Workspace.Remove(meta.Name);
@@ -431,7 +444,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
 
         private void menu_SaveAs_Click(object sender, EventArgs e)
         {
-            var meta = olvMatName.SelectedObject as MatMeta;
+            var meta = SelectedMatMeta;
             if (meta != null && meta.Mat != null)
             {
                 SaveDcxForm dlg = new SaveDcxForm(meta.Mat);
@@ -475,15 +488,41 @@ namespace Heiflow.Controls.WinForm.Toolbox
         {
             if (InvokeRequired)
             {
-                Invoke(new MethodInvoker(delegate
-                {
-                    olvMatName.SetObjects(_MatMataList);
-                }));
+                Invoke(new MethodInvoker(FillMatList));
             }
             else
             {
-                olvMatName.SetObjects(_MatMataList);
-            } 
+                FillMatList();
+            }
+        }
+
+        private void FillMatList()
+        {
+            olvMatName.BeginUpdate();
+            olvMatName.Items.Clear();
+            foreach (var meta in _MatMataList)
+            {
+                var item = new ListViewItem(new string[] { meta.Name, meta.Size });
+                item.Tag = meta;
+                olvMatName.Items.Add(item);
+            }
+            olvMatName.EndUpdate();
+        }
+
+        private void FillVariableList()
+        {
+            olvVariableName.BeginUpdate();
+            olvVariableName.Items.Clear();
+            foreach (var meta in _VariableMataList)
+            {
+                var item = new ListViewItem(new string[]
+                {
+                    meta.Index, meta.Variable ?? string.Empty, meta.Size, meta.Max, meta.Min
+                });
+                item.Tag = meta;
+                olvVariableName.Items.Add(item);
+            }
+            olvVariableName.EndUpdate();
         }
 
 
@@ -624,8 +663,8 @@ namespace Heiflow.Controls.WinForm.Toolbox
         {
             _MatMataList.Clear();
             _ModelWorkspace.Clear();
-            olvMatName.Clear();
-            olvVariableName.Clear();
+            olvMatName.Items.Clear();
+            olvVariableName.Items.Clear();
             propertyGrid1.SelectedObject = null;
             richTextBox1.Clear();
         }

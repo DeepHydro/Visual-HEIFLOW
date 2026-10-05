@@ -76,7 +76,15 @@ namespace Heiflow.Models.Studio
 
             Shell = this;
             appManager1.InitializeContainer();
-         
+
+            // The plugins import the shell and the project controller by name ("Shell" and
+            // "ProjectController"), and both exports are declared by this exe. No other catalog
+            // covers the exe itself, so without it every plugin asking for them is rejected and
+            // its panel never shows up.
+            Assembly mainExe = Assembly.GetEntryAssembly();
+            if (mainExe != null)
+                appManager1.Catalog.Catalogs.Add(new AssemblyCatalog(mainExe));
+
             Assembly modelDll = typeof(Heiflow.Models.Integration.HeiflowModel).Assembly;
             appManager1.Catalog.Catalogs.Add(new AssemblyCatalog(modelDll));
             Assembly cntlDll = typeof(NewProjectionForm).Assembly;

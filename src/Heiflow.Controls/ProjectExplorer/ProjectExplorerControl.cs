@@ -1,4 +1,4 @@
-﻿//
+//
 // The Visual HEIFLOW License
 //
 // Copyright (c) 2015-2018 Yong Tian, SUSTech, Shenzhen, China. All rights reserved.

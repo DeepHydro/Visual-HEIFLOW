@@ -508,11 +508,11 @@ D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Reso
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Views\LayerManagerView.g.cs
 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Views\ProgressWindow.baml
 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Views\ProgressWindow.g.cs
-d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Heiflow.Visualization.Studio.csproj.AssemblyReference.cache
-d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Heiflow.Visualization.Studio.csproj.CoreCompileInputs.cache
-d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Heiflow..FCC259DF.Up2Date
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Studio\obj\x86\Debug\Views\LayerManagerView.baml
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Studio\obj\x86\Debug\Views\ProgressWindow.baml
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Studio\obj\x86\Debug\Resources\LayerTreeStyles.baml
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Studio\obj\x86\Debug\Views\LayerManagerView.g.cs
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Studio\obj\x86\Debug\Views\ProgressWindow.g.cs
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Heiflow.Visualization.Studio.csproj.AssemblyReference.cache
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Heiflow.Visualization.Studio.csproj.CoreCompileInputs.cache
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Heiflow..FCC259DF.Up2Date

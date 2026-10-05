@@ -1,4 +1,4 @@
-﻿using HUST.WREIS.Dot3D;
+using HUST.WREIS.Dot3D;
 using HUST.WREIS.Dot3D.Renderable;
 using Microsoft.DirectX;
 using Microsoft.DirectX.Direct3D;

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -221,178 +221,152 @@
     <None Include="Resources\AttributesWindow16.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Map16.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Map32.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AttributesWindow32.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\GenericBlackStop32.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\GenericBlackRightArrowNoTail32.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\CatalogShowTree16.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\TrackingDataAnimationTool16.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\MetadataCreateUpdate32.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\MetadataCreateUpdate16.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\DatabaseServer16.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\3dplot16.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Legend16.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Legend32.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\DatabaseServer32.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\TrackingDataAnimationTool32.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\3dplot32.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\CatalogShowTree32.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\MetadataProperties16.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\MetadataProperties32.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\ModelBuilderAutoLayout32.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\ModelBuilderAutoLayout16.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\SpatialAnalystTrainingSampleHistograms32.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\SpatialAnalystTrainingSampleHistograms16.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\FileNetworkDataset32.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\calendar-32.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\time-32.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\convert_to_mesh.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\stack.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Abacus.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\NPBudget16.png" />
+    <None Include="Resources\NPBudget32.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\curve-chart.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\table_green_48.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\ThunderD-A-32.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\river.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\equilizer-48.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\matrix.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\matrix16.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\3d_plot_printing_printer.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\rotation3d16.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\rotation3d32.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\TableFields32.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\hyper_link.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\progess64.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\species.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\LasRGB32.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\element.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\grid48.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\grid128.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\\UiAnimation16.png" />
-    <None Include="Resources\\UiAnimation24.png" />
-    <None Include="Resources\\UiAnimation32.png" />
-    <None Include="Resources\\UiBalance16.png" />
-    <None Include="Resources\\UiBalance24.png" />
-    <None Include="Resources\\UiBalance32.png" />
-    <None Include="Resources\\UiChart16.png" />
-    <None Include="Resources\\UiChart24.png" />
-    <None Include="Resources\\UiChart32.png" />
-    <None Include="Resources\\UiCube16.png" />
-    <None Include="Resources\\UiCube24.png" />
-    <None Include="Resources\\UiCube32.png" />
-    <None Include="Resources\\UiDatabase16.png" />
-    <None Include="Resources\\UiDatabase24.png" />
-    <None Include="Resources\\UiDatabase32.png" />
-    <None Include="Resources\\UiDefault16.png" />
-    <None Include="Resources\\UiDefault24.png" />
-    <None Include="Resources\\UiDefault32.png" />
-    <None Include="Resources\\UiGrid16.png" />
-    <None Include="Resources\\UiGrid24.png" />
-    <None Include="Resources\\UiGrid32.png" />
-    <None Include="Resources\\UiLayer16.png" />
-    <None Include="Resources\\UiLayer24.png" />
-    <None Include="Resources\\UiLayer32.png" />
-    <None Include="Resources\\UiLegend16.png" />
-    <None Include="Resources\\UiLegend24.png" />
-    <None Include="Resources\\UiLegend32.png" />
-    <None Include="Resources\\UiLink16.png" />
-    <None Include="Resources\\UiLink24.png" />
-    <None Include="Resources\\UiLink32.png" />
-    <None Include="Resources\\UiList16.png" />
-    <None Include="Resources\\UiList24.png" />
-    <None Include="Resources\\UiList32.png" />
-    <None Include="Resources\\UiMap16.png" />
-    <None Include="Resources\\UiMap24.png" />
-    <None Include="Resources\\UiMap32.png" />
-    <None Include="Resources\\UiNetwork16.png" />
-    <None Include="Resources\\UiNetwork24.png" />
-    <None Include="Resources\\UiNetwork32.png" />
-    <None Include="Resources\\UiProfile16.png" />
-    <None Include="Resources\\UiProfile24.png" />
-    <None Include="Resources\\UiProfile32.png" />
-    <None Include="Resources\\UiProgress16.png" />
-    <None Include="Resources\\UiProgress24.png" />
-    <None Include="Resources\\UiProgress32.png" />
-    <None Include="Resources\\UiProperty16.png" />
-    <None Include="Resources\\UiProperty24.png" />
-    <None Include="Resources\\UiProperty32.png" />
-    <None Include="Resources\\UiRun16.png" />
-    <None Include="Resources\\UiRun24.png" />
-    <None Include="Resources\\UiRun32.png" />
-    <None Include="Resources\\UiSettings16.png" />
-    <None Include="Resources\\UiSettings24.png" />
-    <None Include="Resources\\UiSettings32.png" />
-    <None Include="Resources\\UiSpecies16.png" />
-    <None Include="Resources\\UiSpecies24.png" />
-    <None Include="Resources\\UiSpecies32.png" />
-    <None Include="Resources\\UiStats16.png" />
-    <None Include="Resources\\UiStats24.png" />
-    <None Include="Resources\\UiStats32.png" />
-    <None Include="Resources\\UiStop16.png" />
-    <None Include="Resources\\UiStop24.png" />
-    <None Include="Resources\\UiStop32.png" />
-    <None Include="Resources\\UiTable16.png" />
-    <None Include="Resources\\UiTable24.png" />
-    <None Include="Resources\\UiTable32.png" />
-    <None Include="Resources\\UiTerrain16.png" />
-    <None Include="Resources\\UiTerrain24.png" />
-    <None Include="Resources\\UiTerrain32.png" />
-    <None Include="Resources\\UiTime16.png" />
-    <None Include="Resources\\UiTime24.png" />
-    <None Include="Resources\\UiTime32.png" />
-    <None Include="Resources\\UiWeather16.png" />
-    <None Include="Resources\\UiWeather24.png" />
-    <None Include="Resources\\UiWeather32.png" />
+    <None Include="Resources\cube128.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

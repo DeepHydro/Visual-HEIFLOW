@@ -1,4 +1,4 @@
-﻿// <copyright   company="Environment Modeling & Software Studio"> 
+// <copyright   company="Environment Modeling & Software Studio"> 
 // Copyright (c) 2009, 2010 All Right Reserved, http://www.wreis.org/ 
 // 
 // This source is subject to the EMSS Permissive License. 

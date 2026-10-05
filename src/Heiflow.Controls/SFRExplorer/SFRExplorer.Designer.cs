@@ -1,4 +1,4 @@
-﻿using Heiflow.Controls.WinForm.Controls;
+using Heiflow.Controls.WinForm.Controls;
 namespace Heiflow.Controls.WinForm.SFRExplorer
 {
     partial class SFRExplorer
@@ -130,7 +130,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // 
             // toolStrip1
             // 
-            this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStrip1.Font = new System.Drawing.Font("Calibri", 9.5F);
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -177,7 +177,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // 
             this.mi_flow.Checked = true;
             this.mi_flow.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.mi_flow.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiProfile16;
+            this.mi_flow.Image = global::Heiflow.Controls.WinForm.Properties.Resources.SfrProfile16;
             this.mi_flow.Name = "mi_flow";
             this.mi_flow.Size = new System.Drawing.Size(248, 26);
             this.mi_flow.Text = "Flow Module";
@@ -185,7 +185,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // 
             // mi_nps
             // 
-            this.mi_nps.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiChart16;
+            this.mi_nps.Image = global::Heiflow.Controls.WinForm.Properties.Resources.SfrChart16;
             this.mi_nps.Name = "mi_nps";
             this.mi_nps.Size = new System.Drawing.Size(248, 26);
             this.mi_nps.Text = "Non-Point Source Module";
@@ -193,7 +193,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // 
             // mi_sediment
             // 
-            this.mi_sediment.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiLayer16;
+            this.mi_sediment.Image = global::Heiflow.Controls.WinForm.Properties.Resources.SfrShp16;
             this.mi_sediment.Name = "mi_sediment";
             this.mi_sediment.Size = new System.Drawing.Size(248, 26);
             this.mi_sediment.Text = "Sediment";
@@ -201,7 +201,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // 
             // mi_month_npc
             // 
-            this.mi_month_npc.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiCsv16;
+            this.mi_month_npc.Image = global::Heiflow.Controls.WinForm.Properties.Resources.SfrCsv16;
             this.mi_month_npc.Name = "mi_month_npc";
             this.mi_month_npc.Size = new System.Drawing.Size(248, 26);
             this.mi_month_npc.Text = " Monthly NPC";
@@ -240,7 +240,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // 
             this.chbReadComplData.CheckOnClick = true;
             this.chbReadComplData.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.ImageAndText;
-            this.chbReadComplData.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiDefault24;
+            this.chbReadComplData.Image = global::Heiflow.Controls.WinForm.Properties.Resources.SfrComplete24;
             this.chbReadComplData.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.chbReadComplData.Name = "chbReadComplData";
             this.chbReadComplData.Size = new System.Drawing.Size(112, 25);
@@ -251,7 +251,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // btnLoad
             // 
             this.btnLoad.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.ImageAndText;
-            this.btnLoad.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiLoad24;
+            this.btnLoad.Image = global::Heiflow.Controls.WinForm.Properties.Resources.SfrLoad24;
             this.btnLoad.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(64, 25);
@@ -276,7 +276,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // btnClear
             // 
             this.btnClear.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnClear.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiClear24;
+            this.btnClear.Image = global::Heiflow.Controls.WinForm.Properties.Resources.SfrClear24;
             this.btnClear.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(24, 25);
@@ -292,7 +292,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // btnRefresh
             // 
             this.btnRefresh.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnRefresh.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiRefresh24;
+            this.btnRefresh.Image = global::Heiflow.Controls.WinForm.Properties.Resources.SfrRefresh24;
             this.btnRefresh.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(24, 25);
@@ -303,7 +303,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // tbnSlctDataSource
             // 
             this.tbnSlctDataSource.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.tbnSlctDataSource.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiDatabase24;
+            this.tbnSlctDataSource.Image = global::Heiflow.Controls.WinForm.Properties.Resources.SfrDatabase24;
             this.tbnSlctDataSource.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tbnSlctDataSource.Name = "tbnSlctDataSource";
             this.tbnSlctDataSource.Size = new System.Drawing.Size(24, 25);
@@ -323,7 +323,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.exportToolStripMenuItem1,
             this.saveAsShpToolStripMenuItem,
             this.exportToSWMMInpToolStripMenuItem});
-            this.toolStripDropDownButton1.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiExport24;
+            this.toolStripDropDownButton1.Image = global::Heiflow.Controls.WinForm.Properties.Resources.SfrExport24;
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
             this.toolStripDropDownButton1.Size = new System.Drawing.Size(78, 25);
@@ -335,14 +335,14 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.exportToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exportRiversToolStripMenuItem,
             this.exportReachesToolStripMenuItem});
-            this.exportToolStripMenuItem1.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiExport16;
+            this.exportToolStripMenuItem1.Image = global::Heiflow.Controls.WinForm.Properties.Resources.SfrCsv16;
             this.exportToolStripMenuItem1.Name = "exportToolStripMenuItem1";
             this.exportToolStripMenuItem1.Size = new System.Drawing.Size(219, 26);
             this.exportToolStripMenuItem1.Text = "Export Profile As CSV";
             // 
             // exportRiversToolStripMenuItem
             // 
-            this.exportRiversToolStripMenuItem.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiExport16;
+            this.exportRiversToolStripMenuItem.Image = global::Heiflow.Controls.WinForm.Properties.Resources.SfrProfile16;
             this.exportRiversToolStripMenuItem.Name = "exportRiversToolStripMenuItem";
             this.exportRiversToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.exportRiversToolStripMenuItem.Text = "Segments";
@@ -350,7 +350,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // 
             // exportReachesToolStripMenuItem
             // 
-            this.exportReachesToolStripMenuItem.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiExport16;
+            this.exportReachesToolStripMenuItem.Image = global::Heiflow.Controls.WinForm.Properties.Resources.SfrChart16;
             this.exportReachesToolStripMenuItem.Name = "exportReachesToolStripMenuItem";
             this.exportReachesToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.exportReachesToolStripMenuItem.Text = "Reaches";
@@ -362,14 +362,14 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.segmentsToolStripMenuItem,
             this.reachesToolStripMenuItem,
             this.riverJunctionsToolStripMenuItem});
-            this.saveAsShpToolStripMenuItem.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiLayer16;
+            this.saveAsShpToolStripMenuItem.Image = global::Heiflow.Controls.WinForm.Properties.Resources.SfrShp16;
             this.saveAsShpToolStripMenuItem.Name = "saveAsShpToolStripMenuItem";
             this.saveAsShpToolStripMenuItem.Size = new System.Drawing.Size(219, 26);
             this.saveAsShpToolStripMenuItem.Text = "Save As Shp";
             // 
             // segmentsToolStripMenuItem
             // 
-            this.segmentsToolStripMenuItem.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiLayer16;
+            this.segmentsToolStripMenuItem.Image = global::Heiflow.Controls.WinForm.Properties.Resources.SfrShp16;
             this.segmentsToolStripMenuItem.Name = "segmentsToolStripMenuItem";
             this.segmentsToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.segmentsToolStripMenuItem.Text = "Segments";
@@ -377,7 +377,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // 
             // reachesToolStripMenuItem
             // 
-            this.reachesToolStripMenuItem.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiMap16;
+            this.reachesToolStripMenuItem.Image = global::Heiflow.Controls.WinForm.Properties.Resources.SfrMap16;
             this.reachesToolStripMenuItem.Name = "reachesToolStripMenuItem";
             this.reachesToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.reachesToolStripMenuItem.Text = "Reaches";
@@ -385,7 +385,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // 
             // riverJunctionsToolStripMenuItem
             // 
-            this.riverJunctionsToolStripMenuItem.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiMap16;
+            this.riverJunctionsToolStripMenuItem.Image = global::Heiflow.Controls.WinForm.Properties.Resources.SfrShp16;
             this.riverJunctionsToolStripMenuItem.Name = "riverJunctionsToolStripMenuItem";
             this.riverJunctionsToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.riverJunctionsToolStripMenuItem.Text = "River Junctions";
@@ -393,7 +393,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // 
             // exportToSWMMInpToolStripMenuItem
             // 
-            this.exportToSWMMInpToolStripMenuItem.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiExport16;
+            this.exportToSWMMInpToolStripMenuItem.Image = global::Heiflow.Controls.WinForm.Properties.Resources.SfrMap16;
             this.exportToSWMMInpToolStripMenuItem.Name = "exportToSWMMInpToolStripMenuItem";
             this.exportToSWMMInpToolStripMenuItem.Size = new System.Drawing.Size(219, 26);
             this.exportToSWMMInpToolStripMenuItem.Text = "Export to SWMM Inp";
@@ -471,7 +471,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // 
             this.btnAddSfrMat2Toolbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddSfrMat2Toolbox.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiAdd24;
+            this.btnAddSfrMat2Toolbox.Image = global::Heiflow.Controls.WinForm.Properties.Resources.SfrChart16;
             this.btnAddSfrMat2Toolbox.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAddSfrMat2Toolbox.Location = new System.Drawing.Point(8, 288);
             this.btnAddSfrMat2Toolbox.Name = "btnAddSfrMat2Toolbox";
@@ -647,7 +647,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // 
             this.btnAdd2Toolbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAdd2Toolbox.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiAdd24;
+            this.btnAdd2Toolbox.Image = global::Heiflow.Controls.WinForm.Properties.Resources.SfrProfile16;
             this.btnAdd2Toolbox.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAdd2Toolbox.Location = new System.Drawing.Point(6, 327);
             this.btnAdd2Toolbox.Name = "btnAdd2Toolbox";
@@ -773,7 +773,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.winChart_timeseries.BackColor = System.Drawing.SystemColors.Control;
             this.winChart_timeseries.ClearExistesSeries = true;
             this.winChart_timeseries.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.winChart_timeseries.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.winChart_timeseries.Font = new System.Drawing.Font("Calibri", 9.5F);
             this.winChart_timeseries.Location = new System.Drawing.Point(3, 3);
             this.winChart_timeseries.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.winChart_timeseries.Name = "winChart_timeseries";
@@ -798,7 +798,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.winChart_proflie.BackColor = System.Drawing.SystemColors.Control;
             this.winChart_proflie.ClearExistesSeries = true;
             this.winChart_proflie.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.winChart_proflie.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.winChart_proflie.Font = new System.Drawing.Font("Calibri", 9.5F);
             this.winChart_proflie.Location = new System.Drawing.Point(3, 3);
             this.winChart_proflie.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.winChart_proflie.Name = "winChart_proflie";
@@ -967,7 +967,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // 
             // btnRefreshLayer
             // 
-            this.btnRefreshLayer.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiLayer24;
+            this.btnRefreshLayer.Image = global::Heiflow.Controls.WinForm.Properties.Resources.SfrLayer16;
             this.btnRefreshLayer.Location = new System.Drawing.Point(490, 22);
             this.btnRefreshLayer.Name = "btnRefreshLayer";
             this.btnRefreshLayer.Size = new System.Drawing.Size(171, 30);
@@ -981,7 +981,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             // 
             this.btnShowLayer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnShowLayer.Image = global::Heiflow.Controls.WinForm.Properties.Resources.UiLayer24;
+            this.btnShowLayer.Image = global::Heiflow.Controls.WinForm.Properties.Resources.SfrMap16;
             this.btnShowLayer.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnShowLayer.Location = new System.Drawing.Point(39, 337);
             this.btnShowLayer.Name = "btnShowLayer";
@@ -998,7 +998,7 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip1);
-            this.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.Font = new System.Drawing.Font("Calibri", 9.5F);
             this.Name = "SFRExplorer";
             this.Size = new System.Drawing.Size(1132, 653);
             this.Load += new System.EventHandler(this.SFRExplorer_Load);

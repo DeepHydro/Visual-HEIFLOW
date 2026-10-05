@@ -1,4 +1,4 @@
-﻿using DotSpatial.Data;
+using DotSpatial.Data;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
 // THIS FILE IS PART OF Visual HEIFLOW

@@ -1,4 +1,4 @@
-﻿using Heiflow.Presentation.Controls;
+using Heiflow.Presentation.Controls;
 using Heiflow.Visualization.Applications;
 using System.ComponentModel.Composition;
 using System.Windows;

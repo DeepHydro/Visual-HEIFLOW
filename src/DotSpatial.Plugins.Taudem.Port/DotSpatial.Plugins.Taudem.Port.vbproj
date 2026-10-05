@@ -219,6 +219,11 @@
     <ProjectReference Include="..\Heiflow.Applications\Heiflow.Applications.csproj">
       <Project>{feafec49-6f84-4852-9a57-f16df359b356}</Project>
       <Name>Heiflow.Applications</Name>
+      <!-- Not copied: this project shares its output folder with DotSpatial.Plugins.Taudem, and the copy
+           lands next to the other Heiflow assemblies of the shell, which puts every export of this
+           assembly twice into the MEF catalog and makes the composition of the shell fail. It is resolved
+           from the folder of the exe at run time, like the other three references here. -->
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\Heiflow.Models\Heiflow.Models.csproj">
       <Project>{28e79461-3161-4130-81b0-2c36cd3a3315}</Project>

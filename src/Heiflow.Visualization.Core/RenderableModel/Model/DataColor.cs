@@ -1,4 +1,4 @@
-﻿using Heiflow.Core.Data;
+using Heiflow.Core.Data;
 using Heiflow.Core.Drawing;
 using System;
 using System.Collections.Generic;

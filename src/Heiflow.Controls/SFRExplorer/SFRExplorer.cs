@@ -1,4 +1,4 @@
-﻿//
+//
 // The Visual HEIFLOW License
 //
 // Copyright (c) 2015-2018 Yong Tian, SUSTech, Shenzhen, China. All rights reserved.
@@ -36,7 +36,6 @@ using Heiflow.Core.Data;
 using Heiflow.Core.Data.ODM;
 using Heiflow.Core.Hydrology;
 using Heiflow.Models.Generic;
-using Heiflow.Models.Integration;
 using Heiflow.Models.Subsurface;
 using Heiflow.Presentation;
 using Heiflow.Presentation.Services;
@@ -83,7 +82,6 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             tabControlLeft.Enabled = false;
             cmbLayers.DisplayMember = "LegendText";
             cmbLayers.ValueMember = "DataSet";
-           
         }
 
         public SFROutputPackage SFROutput
@@ -114,6 +112,14 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
             set;
         }
 
+        public ToolStrip MainBar
+        {
+            get
+            {
+                return this.toolStrip1;
+            }
+        }
+
         public FeatureMapLayer[] FeatureLayers
         {
             set
@@ -130,34 +136,14 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         private void SFRExplorer_Load(object sender, EventArgs e)
         {
             labelStatus.Text = "";
+            BindSites();
             btnAdd2Toolbox.Visible = MyAppManager.Instance.AppMode != Presentation.Controls.AppMode.HE;
-            _LoadAllVars = true;
-            var prj = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
-            var model = prj.Project.Model as HeiflowModel;
-            if(model != null)
+            if (SFROutput != null && SFROutput.DefaultAttachedVariables != null && SFROutput.DefaultAttachedVariables.Length > 0)
             {
-                if( model.ProcessModule == ProcessModule.Hydrology)
-                {
-                    mi_flow.Enabled = true;
-                    mi_nps.Enabled = false;
-                    mi_sediment.Enabled = false;
-                    mi_month_npc.Enabled = false;
-                }
-                else if (model.ProcessModule == ProcessModule.NPS)
-                {
-                    mi_flow.Enabled = true;
-                    mi_nps.Enabled = true;
-                    mi_sediment.Enabled = true;
-                    mi_month_npc.Enabled = false;
-                }
-                else if (model.ProcessModule == ProcessModule.Carbon)
-                {
-                    mi_flow.Enabled = true;
-                    mi_nps.Enabled = true;
-                    mi_sediment.Enabled = true;
-                    mi_month_npc.Enabled = true;
-                }
+                cmbSFRVars.ComboBox.DataSource = SFROutput.DefaultAttachedVariables;
+                cmbSFRVars.SelectedIndex = 0;
             }
+            _LoadAllVars = true;
         }
 
         private void btnLoad_Click(object sender, EventArgs e)
@@ -773,16 +759,10 @@ namespace Heiflow.Controls.WinForm.SFRExplorer
         private void cmbSFRVars_SelectedIndexChanged(object sender, EventArgs e)
         {
             _Selected_Sfr_var = cmbSFRVars.SelectedIndex;
-            var slctvar = cmbSFRVars.SelectedItem.ToString() ;
-
-            if ( slctvar ==  "overland flow" || slctvar == "flow out"|| slctvar == "stream loss")
-            {
-                _SFROutputPackage.ScaleFactor = 1.0 / 86400;
-            }
-            else
-            {
-                _SFROutputPackage.ScaleFactor = 1.0;
-            }
+            //if (_Selected_Sfr_var == 0 || _Selected_Sfr_var == 2)
+            //    _SFROutputPackage.Offset = 10;
+            //else
+            //    _SFROutputPackage.Offset = 0;
         }
 
         private void btnScan_Click(object sender, EventArgs e)

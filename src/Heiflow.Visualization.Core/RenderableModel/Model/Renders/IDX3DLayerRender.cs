@@ -1,4 +1,4 @@
-﻿using Heiflow.Core.Drawing;
+using Heiflow.Core.Drawing;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Generic.Project;
 using Heiflow.Models.Visualization;

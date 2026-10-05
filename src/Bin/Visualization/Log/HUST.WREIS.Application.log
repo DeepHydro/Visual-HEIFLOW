@@ -3743,3 +3743,55 @@
 2026-10-05 10:30:21Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
 2026-10-05 10:30:21Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
 2026-10-05 10:30:22Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 15:21:05Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 15:21:05Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 15:21:06Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 15:21:07Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 15:21:07Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 15:21:08Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 15:21:09Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 15:21:09Z 2      WebDownload.Cancel() : download thread refuses to die, forcing Abort()
+2026-10-05 15:21:09Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 15:21:10Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 15:33:44Z 0 TERR The elevation of the terrain tile L7 816x1894 was not read: 正在中止线程。
+2026-10-05 15:33:44Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 15:48:01Z 0 TERR The elevation of the terrain tile L1 13x11 was not read: 正在中止线程。
+2026-10-05 15:48:01Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 15:48:02Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 15:48:03Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 15:48:03Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 15:48:04Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 15:48:05Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 15:48:05Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 15:48:06Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 15:48:06Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 15:48:06Z 2      WebDownload.Cancel() : download thread refuses to die, forcing Abort()
+2026-10-05 23:38:51Z 2      WebDownload.Cancel() : download thread refuses to die, forcing Abort()
+2026-10-05 23:38:51Z 2      WebDownload.Cancel() : download thread refuses to die, forcing Abort()
+2026-10-05 23:38:51Z 2      WebDownload.Cancel() : download thread refuses to die, forcing Abort()
+2026-10-05 23:38:52Z 2      WebDownload.Cancel() : download thread refuses to die, forcing Abort()
+2026-10-05 23:38:52Z 2      WebDownload.Cancel() : download thread refuses to die, forcing Abort()
+2026-10-05 23:38:52Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 23:38:55Z 0      caught exception: 
+2026-10-05 23:38:55Z 0      System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 HUST.WREIS.Dot3D.SceneWindow.flag_OnMouseEnterEvent(Object sender, EventArgs e) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Display\SceneWindow\SceneWindow.cs:行号 476
+   在 HUST.WREIS.Dot3D.Renderable.WavingFlagLayer.Render(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\RenderableModel\WavingFlagLayer.cs:行号 271
+2026-10-05 23:38:55Z 0      caught exception: 
+2026-10-05 23:38:55Z 0      System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 HUST.WREIS.Dot3D.SceneWindow.flag_OnMouseEnterEvent(Object sender, EventArgs e) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Display\SceneWindow\SceneWindow.cs:行号 476
+   在 HUST.WREIS.Dot3D.Renderable.WavingFlagLayer.Render(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\RenderableModel\WavingFlagLayer.cs:行号 271
+2026-10-05 23:38:55Z 0      caught exception: 
+2026-10-05 23:38:55Z 0      System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 HUST.WREIS.Dot3D.SceneWindow.flag_OnMouseLeaveEvent(Object sender, EventArgs e) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Display\SceneWindow\SceneWindow.cs:行号 465
+   在 HUST.WREIS.Dot3D.Renderable.WavingFlagLayer.Render(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\RenderableModel\WavingFlagLayer.cs:行号 282
+2026-10-05 23:38:55Z 0      caught exception: 
+2026-10-05 23:38:55Z 0      System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 HUST.WREIS.Dot3D.SceneWindow.flag_OnMouseLeaveEvent(Object sender, EventArgs e) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Display\SceneWindow\SceneWindow.cs:行号 465
+   在 HUST.WREIS.Dot3D.Renderable.WavingFlagLayer.Render(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\RenderableModel\WavingFlagLayer.cs:行号 282
+2026-10-05 23:39:09Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 23:39:09Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 23:39:10Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 23:39:10Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 23:39:11Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 23:39:11Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-05 23:39:12Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()

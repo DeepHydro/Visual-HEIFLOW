@@ -61,6 +61,66 @@ namespace Heiflow.Plugins.Default.Properties {
         }
         
         /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap _3d_plot_printing_printer {
+            get {
+                object obj = ResourceManager.GetObject("_3d_plot_printing_printer", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap _3dplot16 {
+            get {
+                object obj = ResourceManager.GetObject("_3dplot16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap _3dplot32 {
+            get {
+                object obj = ResourceManager.GetObject("_3dplot32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Abacus {
+            get {
+                object obj = ResourceManager.GetObject("Abacus", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap NPBudget16 {
+            get {
+                object obj = ResourceManager.GetObject("NPBudget16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap NPBudget32 {
+            get {
+                object obj = ResourceManager.GetObject("NPBudget32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Active Datasets 的本地化字符串。
         /// </summary>
         internal static string Active_Datasets {
@@ -106,11 +166,41 @@ namespace Heiflow.Plugins.Default.Properties {
         }
         
         /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap calendar_32 {
+            get {
+                object obj = ResourceManager.GetObject("calendar_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Cascade 的本地化字符串。
         /// </summary>
         internal static string Cascade {
             get {
                 return ResourceManager.GetString("Cascade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap CatalogShowTree16 {
+            get {
+                object obj = ResourceManager.GetObject("CatalogShowTree16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap CatalogShowTree32 {
+            get {
+                object obj = ResourceManager.GetObject("CatalogShowTree32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -124,6 +214,16 @@ namespace Heiflow.Plugins.Default.Properties {
         }
         
         /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap convert_to_mesh {
+            get {
+                object obj = ResourceManager.GetObject("convert_to_mesh", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Create Grid From Modflow File 的本地化字符串。
         /// </summary>
         internal static string CreateGridFromMF {
@@ -133,11 +233,31 @@ namespace Heiflow.Plugins.Default.Properties {
         }
         
         /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap cube128 {
+            get {
+                object obj = ResourceManager.GetObject("cube128", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 current layer 的本地化字符串。
         /// </summary>
         internal static string current_layer {
             get {
                 return ResourceManager.GetString("current_layer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap curve_chart {
+            get {
+                object obj = ResourceManager.GetObject("curve_chart", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -178,11 +298,51 @@ namespace Heiflow.Plugins.Default.Properties {
         }
         
         /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap DatabaseServer16 {
+            get {
+                object obj = ResourceManager.GetObject("DatabaseServer16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap DatabaseServer32 {
+            get {
+                object obj = ResourceManager.GetObject("DatabaseServer32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Driving Forces 的本地化字符串。
         /// </summary>
         internal static string Driving_Forces_group {
             get {
                 return ResourceManager.GetString("Driving_Forces_group", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap element {
+            get {
+                object obj = ResourceManager.GetObject("element", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap equilizer_48 {
+            get {
+                object obj = ResourceManager.GetObject("equilizer_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -205,6 +365,16 @@ namespace Heiflow.Plugins.Default.Properties {
         }
         
         /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap FileNetworkDataset32 {
+            get {
+                object obj = ResourceManager.GetObject("FileNetworkDataset32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Finite Difference Grid 的本地化字符串。
         /// </summary>
         internal static string Finite_Difference_Grid {
@@ -213,6 +383,25 @@ namespace Heiflow.Plugins.Default.Properties {
             }
         }
         
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap GenericBlackRightArrowNoTail32 {
+            get {
+                object obj = ResourceManager.GetObject("GenericBlackRightArrowNoTail32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap GenericBlackStop32 {
+            get {
+                object obj = ResourceManager.GetObject("GenericBlackStop32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
         
         /// <summary>
         ///   查找类似 Global 的本地化字符串。
@@ -229,6 +418,46 @@ namespace Heiflow.Plugins.Default.Properties {
         internal static string Grid_group {
             get {
                 return ResourceManager.GetString("Grid_group", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap grid128 {
+            get {
+                object obj = ResourceManager.GetObject("grid128", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap grid48 {
+            get {
+                object obj = ResourceManager.GetObject("grid48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap hyper_link {
+            get {
+                object obj = ResourceManager.GetObject("hyper_link", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap LasRGB32 {
+            get {
+                object obj = ResourceManager.GetObject("LasRGB32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -251,6 +480,26 @@ namespace Heiflow.Plugins.Default.Properties {
         }
         
         /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Legend16 {
+            get {
+                object obj = ResourceManager.GetObject("Legend16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Legend32 {
+            get {
+                object obj = ResourceManager.GetObject("Legend32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Map Window 的本地化字符串。
         /// </summary>
         internal static string Map_control {
@@ -260,11 +509,100 @@ namespace Heiflow.Plugins.Default.Properties {
         }
         
         /// <summary>
+        ///   查找类似 Show Map Window 的本地化字符串。
+        /// </summary>
+        internal static string Map_control_tips {
+            get {
+                return ResourceManager.GetString("Map_control_tips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Map 的本地化字符串。
         /// </summary>
         internal static string Map_Group {
             get {
                 return ResourceManager.GetString("Map_Group", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Map16 {
+            get {
+                object obj = ResourceManager.GetObject("Map16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap Map32 {
+            get {
+                object obj = ResourceManager.GetObject("Map32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap matrix {
+            get {
+                object obj = ResourceManager.GetObject("matrix", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap matrix16 {
+            get {
+                object obj = ResourceManager.GetObject("matrix16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap MetadataCreateUpdate16 {
+            get {
+                object obj = ResourceManager.GetObject("MetadataCreateUpdate16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap MetadataCreateUpdate32 {
+            get {
+                object obj = ResourceManager.GetObject("MetadataCreateUpdate32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap MetadataProperties16 {
+            get {
+                object obj = ResourceManager.GetObject("MetadataProperties16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap MetadataProperties32 {
+            get {
+                object obj = ResourceManager.GetObject("MetadataProperties32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -319,6 +657,26 @@ namespace Heiflow.Plugins.Default.Properties {
         internal static string Model_Toolbox_tips {
             get {
                 return ResourceManager.GetString("Model_Toolbox_tips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap ModelBuilderAutoLayout16 {
+            get {
+                object obj = ResourceManager.GetObject("ModelBuilderAutoLayout16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap ModelBuilderAutoLayout32 {
+            get {
+                object obj = ResourceManager.GetObject("ModelBuilderAutoLayout32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -386,6 +744,16 @@ namespace Heiflow.Plugins.Default.Properties {
         }
         
         /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap progess64 {
+            get {
+                object obj = ResourceManager.GetObject("progess64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Progress Window 的本地化字符串。
         /// </summary>
         internal static string ProgressWindow {
@@ -418,6 +786,36 @@ namespace Heiflow.Plugins.Default.Properties {
         internal static string Property {
             get {
                 return ResourceManager.GetString("Property", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap river {
+            get {
+                object obj = ResourceManager.GetObject("river", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap rotation3d16 {
+            get {
+                object obj = ResourceManager.GetObject("rotation3d16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap rotation3d32 {
+            get {
+                object obj = ResourceManager.GetObject("rotation3d32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -467,6 +865,46 @@ namespace Heiflow.Plugins.Default.Properties {
         }
         
         /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap SpatialAnalystTrainingSampleHistograms16 {
+            get {
+                object obj = ResourceManager.GetObject("SpatialAnalystTrainingSampleHistograms16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap SpatialAnalystTrainingSampleHistograms32 {
+            get {
+                object obj = ResourceManager.GetObject("SpatialAnalystTrainingSampleHistograms32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap species {
+            get {
+                object obj = ResourceManager.GetObject("species", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap stack {
+            get {
+                object obj = ResourceManager.GetObject("stack", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Start 的本地化字符串。
         /// </summary>
         internal static string Start {
@@ -494,6 +932,16 @@ namespace Heiflow.Plugins.Default.Properties {
         }
         
         /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap table_green_48 {
+            get {
+                object obj = ResourceManager.GetObject("table_green_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Table View 的本地化字符串。
         /// </summary>
         internal static string Table_View {
@@ -508,6 +956,16 @@ namespace Heiflow.Plugins.Default.Properties {
         internal static string Table_View_tips {
             get {
                 return ResourceManager.GetString("Table_View_tips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap TableFields32 {
+            get {
+                object obj = ResourceManager.GetObject("TableFields32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -530,6 +988,26 @@ namespace Heiflow.Plugins.Default.Properties {
         }
         
         /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap ThunderD_A_32 {
+            get {
+                object obj = ResourceManager.GetObject("ThunderD_A_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap time_32 {
+            get {
+                object obj = ResourceManager.GetObject("time_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Time 的本地化字符串。
         /// </summary>
         internal static string Time_group {
@@ -544,6 +1022,26 @@ namespace Heiflow.Plugins.Default.Properties {
         internal static string Tool_group {
             get {
                 return ResourceManager.GetString("Tool_group", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap TrackingDataAnimationTool16 {
+            get {
+                object obj = ResourceManager.GetObject("TrackingDataAnimationTool16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap TrackingDataAnimationTool32 {
+            get {
+                object obj = ResourceManager.GetObject("TrackingDataAnimationTool32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -601,129 +1099,6 @@ namespace Heiflow.Plugins.Default.Properties {
             }
         }
 
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiAnimation16 {
-            get {
-                object obj = ResourceManager.GetObject("UiAnimation16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiAnimation24 {
-            get {
-                object obj = ResourceManager.GetObject("UiAnimation24", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiAnimation32 {
-            get {
-                object obj = ResourceManager.GetObject("UiAnimation32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiBalance16 {
-            get {
-                object obj = ResourceManager.GetObject("UiBalance16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiBalance24 {
-            get {
-                object obj = ResourceManager.GetObject("UiBalance24", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiBalance32 {
-            get {
-                object obj = ResourceManager.GetObject("UiBalance32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiChart16 {
-            get {
-                object obj = ResourceManager.GetObject("UiChart16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiChart24 {
-            get {
-                object obj = ResourceManager.GetObject("UiChart24", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiChart32 {
-            get {
-                object obj = ResourceManager.GetObject("UiChart32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiCube16 {
-            get {
-                object obj = ResourceManager.GetObject("UiCube16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiCube24 {
-            get {
-                object obj = ResourceManager.GetObject("UiCube24", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiCube32 {
-            get {
-                object obj = ResourceManager.GetObject("UiCube32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
         internal static System.Drawing.Bitmap UiDatabase16 {
             get {
                 object obj = ResourceManager.GetObject("UiDatabase16", resourceCulture);
@@ -731,19 +1106,6 @@ namespace Heiflow.Plugins.Default.Properties {
             }
         }
 
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiDatabase24 {
-            get {
-                object obj = ResourceManager.GetObject("UiDatabase24", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
         internal static System.Drawing.Bitmap UiDatabase32 {
             get {
                 object obj = ResourceManager.GetObject("UiDatabase32", resourceCulture);
@@ -751,489 +1113,6 @@ namespace Heiflow.Plugins.Default.Properties {
             }
         }
 
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiDefault16 {
-            get {
-                object obj = ResourceManager.GetObject("UiDefault16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiDefault24 {
-            get {
-                object obj = ResourceManager.GetObject("UiDefault24", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiDefault32 {
-            get {
-                object obj = ResourceManager.GetObject("UiDefault32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiGrid16 {
-            get {
-                object obj = ResourceManager.GetObject("UiGrid16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiGrid24 {
-            get {
-                object obj = ResourceManager.GetObject("UiGrid24", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiGrid32 {
-            get {
-                object obj = ResourceManager.GetObject("UiGrid32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiLayer16 {
-            get {
-                object obj = ResourceManager.GetObject("UiLayer16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiLayer24 {
-            get {
-                object obj = ResourceManager.GetObject("UiLayer24", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiLayer32 {
-            get {
-                object obj = ResourceManager.GetObject("UiLayer32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiLegend16 {
-            get {
-                object obj = ResourceManager.GetObject("UiLegend16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiLegend24 {
-            get {
-                object obj = ResourceManager.GetObject("UiLegend24", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiLegend32 {
-            get {
-                object obj = ResourceManager.GetObject("UiLegend32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiLink16 {
-            get {
-                object obj = ResourceManager.GetObject("UiLink16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiLink24 {
-            get {
-                object obj = ResourceManager.GetObject("UiLink24", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiLink32 {
-            get {
-                object obj = ResourceManager.GetObject("UiLink32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiList16 {
-            get {
-                object obj = ResourceManager.GetObject("UiList16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiList24 {
-            get {
-                object obj = ResourceManager.GetObject("UiList24", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiList32 {
-            get {
-                object obj = ResourceManager.GetObject("UiList32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiMap16 {
-            get {
-                object obj = ResourceManager.GetObject("UiMap16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiMap24 {
-            get {
-                object obj = ResourceManager.GetObject("UiMap24", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiMap32 {
-            get {
-                object obj = ResourceManager.GetObject("UiMap32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiNetwork16 {
-            get {
-                object obj = ResourceManager.GetObject("UiNetwork16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiNetwork24 {
-            get {
-                object obj = ResourceManager.GetObject("UiNetwork24", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiNetwork32 {
-            get {
-                object obj = ResourceManager.GetObject("UiNetwork32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiProfile16 {
-            get {
-                object obj = ResourceManager.GetObject("UiProfile16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiProfile24 {
-            get {
-                object obj = ResourceManager.GetObject("UiProfile24", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiProfile32 {
-            get {
-                object obj = ResourceManager.GetObject("UiProfile32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiProgress16 {
-            get {
-                object obj = ResourceManager.GetObject("UiProgress16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiProgress24 {
-            get {
-                object obj = ResourceManager.GetObject("UiProgress24", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiProgress32 {
-            get {
-                object obj = ResourceManager.GetObject("UiProgress32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiProperty16 {
-            get {
-                object obj = ResourceManager.GetObject("UiProperty16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiProperty24 {
-            get {
-                object obj = ResourceManager.GetObject("UiProperty24", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiProperty32 {
-            get {
-                object obj = ResourceManager.GetObject("UiProperty32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiRun16 {
-            get {
-                object obj = ResourceManager.GetObject("UiRun16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiRun24 {
-            get {
-                object obj = ResourceManager.GetObject("UiRun24", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiRun32 {
-            get {
-                object obj = ResourceManager.GetObject("UiRun32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiSettings16 {
-            get {
-                object obj = ResourceManager.GetObject("UiSettings16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiSettings24 {
-            get {
-                object obj = ResourceManager.GetObject("UiSettings24", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiSettings32 {
-            get {
-                object obj = ResourceManager.GetObject("UiSettings32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiSpecies16 {
-            get {
-                object obj = ResourceManager.GetObject("UiSpecies16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiSpecies24 {
-            get {
-                object obj = ResourceManager.GetObject("UiSpecies24", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiSpecies32 {
-            get {
-                object obj = ResourceManager.GetObject("UiSpecies32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiStats16 {
-            get {
-                object obj = ResourceManager.GetObject("UiStats16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiStats24 {
-            get {
-                object obj = ResourceManager.GetObject("UiStats24", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiStats32 {
-            get {
-                object obj = ResourceManager.GetObject("UiStats32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiStop16 {
-            get {
-                object obj = ResourceManager.GetObject("UiStop16", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiStop24 {
-            get {
-                object obj = ResourceManager.GetObject("UiStop24", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiStop32 {
-            get {
-                object obj = ResourceManager.GetObject("UiStop32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
         internal static System.Drawing.Bitmap UiTable16 {
             get {
                 object obj = ResourceManager.GetObject("UiTable16", resourceCulture);
@@ -1241,19 +1120,6 @@ namespace Heiflow.Plugins.Default.Properties {
             }
         }
 
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiTable24 {
-            get {
-                object obj = ResourceManager.GetObject("UiTable24", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
         internal static System.Drawing.Bitmap UiTable32 {
             get {
                 object obj = ResourceManager.GetObject("UiTable32", resourceCulture);
@@ -1261,59 +1127,125 @@ namespace Heiflow.Plugins.Default.Properties {
             }
         }
 
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiTerrain16 {
+        internal static System.Drawing.Bitmap UiLegend32 {
             get {
-                object obj = ResourceManager.GetObject("UiTerrain16", resourceCulture);
+                object obj = ResourceManager.GetObject("UiLegend32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
 
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiTerrain24 {
+        internal static System.Drawing.Bitmap UiLegend16 {
             get {
-                object obj = ResourceManager.GetObject("UiTerrain24", resourceCulture);
+                object obj = ResourceManager.GetObject("UiLegend16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
 
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiTerrain32 {
+        internal static System.Drawing.Bitmap UiCube32 {
             get {
-                object obj = ResourceManager.GetObject("UiTerrain32", resourceCulture);
+                object obj = ResourceManager.GetObject("UiCube32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
 
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiTime16 {
+        internal static System.Drawing.Bitmap UiCube16 {
             get {
-                object obj = ResourceManager.GetObject("UiTime16", resourceCulture);
+                object obj = ResourceManager.GetObject("UiCube16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
 
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiTime24 {
+        internal static System.Drawing.Bitmap UiChart32 {
             get {
-                object obj = ResourceManager.GetObject("UiTime24", resourceCulture);
+                object obj = ResourceManager.GetObject("UiChart32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
 
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
+        internal static System.Drawing.Bitmap UiAnimation16 {
+            get {
+                object obj = ResourceManager.GetObject("UiAnimation16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        internal static System.Drawing.Bitmap UiAnimation32 {
+            get {
+                object obj = ResourceManager.GetObject("UiAnimation32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        internal static System.Drawing.Bitmap UiStats16 {
+            get {
+                object obj = ResourceManager.GetObject("UiStats16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        internal static System.Drawing.Bitmap UiStats32 {
+            get {
+                object obj = ResourceManager.GetObject("UiStats32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        internal static System.Drawing.Bitmap UiWeather32 {
+            get {
+                object obj = ResourceManager.GetObject("UiWeather32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        internal static System.Drawing.Bitmap UiSettings32 {
+            get {
+                object obj = ResourceManager.GetObject("UiSettings32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        internal static System.Drawing.Bitmap UiLink32 {
+            get {
+                object obj = ResourceManager.GetObject("UiLink32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        internal static System.Drawing.Bitmap UiGrid32 {
+            get {
+                object obj = ResourceManager.GetObject("UiGrid32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        internal static System.Drawing.Bitmap UiLayer32 {
+            get {
+                object obj = ResourceManager.GetObject("UiLayer32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        internal static System.Drawing.Bitmap UiNetwork32 {
+            get {
+                object obj = ResourceManager.GetObject("UiNetwork32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        internal static System.Drawing.Bitmap UiRun32 {
+            get {
+                object obj = ResourceManager.GetObject("UiRun32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        internal static System.Drawing.Bitmap UiStop32 {
+            get {
+                object obj = ResourceManager.GetObject("UiStop32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
         internal static System.Drawing.Bitmap UiTime32 {
             get {
                 object obj = ResourceManager.GetObject("UiTime32", resourceCulture);
@@ -1321,32 +1253,79 @@ namespace Heiflow.Plugins.Default.Properties {
             }
         }
 
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiWeather16 {
+        internal static System.Drawing.Bitmap UiSpecies32 {
             get {
-                object obj = ResourceManager.GetObject("UiWeather16", resourceCulture);
+                object obj = ResourceManager.GetObject("UiSpecies32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
 
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiWeather24 {
+        internal static System.Drawing.Bitmap UiDefault16 {
             get {
-                object obj = ResourceManager.GetObject("UiWeather24", resourceCulture);
+                object obj = ResourceManager.GetObject("UiDefault16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
 
-        /// <summary>
-        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
-        /// </summary>
-        internal static System.Drawing.Bitmap UiWeather32 {
+        internal static System.Drawing.Bitmap UiDefault32 {
             get {
-                object obj = ResourceManager.GetObject("UiWeather32", resourceCulture);
+                object obj = ResourceManager.GetObject("UiDefault32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        internal static System.Drawing.Bitmap UiList16 {
+            get {
+                object obj = ResourceManager.GetObject("UiList16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        internal static System.Drawing.Bitmap UiList32 {
+            get {
+                object obj = ResourceManager.GetObject("UiList32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        internal static System.Drawing.Bitmap UiProperty16 {
+            get {
+                object obj = ResourceManager.GetObject("UiProperty16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        internal static System.Drawing.Bitmap UiProperty32 {
+            get {
+                object obj = ResourceManager.GetObject("UiProperty32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        internal static System.Drawing.Bitmap UiTerrain32 {
+            get {
+                object obj = ResourceManager.GetObject("UiTerrain32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        internal static System.Drawing.Bitmap UiProfile32 {
+            get {
+                object obj = ResourceManager.GetObject("UiProfile32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        internal static System.Drawing.Bitmap UiMap32 {
+            get {
+                object obj = ResourceManager.GetObject("UiMap32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+
+        internal static System.Drawing.Bitmap UiProgress32 {
+            get {
+                object obj = ResourceManager.GetObject("UiProgress32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

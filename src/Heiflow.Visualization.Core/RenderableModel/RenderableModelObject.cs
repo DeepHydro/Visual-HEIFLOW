@@ -1,4 +1,4 @@
-﻿using Heiflow.Models.Generic;
+using Heiflow.Models.Generic;
 using Heiflow.Models.Visualization;
 using Heiflow.Visualization.Renderable.Grid;
 using HUST.WREIS.Dot3D;

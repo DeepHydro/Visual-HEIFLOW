@@ -35,7 +35,6 @@ using Heiflow.Models.Running;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -51,7 +50,6 @@ namespace Heiflow.Applications.ViewModels
     [Export]
     public class NPBudgetMonitorViewModel : ViewModel<INPBudgetMonitorView>
     {
-        private const string FileNameFormat = "sz_{0}_budget.csv";
         [ImportingConstructor]
         public NPBudgetMonitorViewModel(INPBudgetMonitorView view)
             : base(view)
@@ -119,11 +117,9 @@ namespace Heiflow.Applications.ViewModels
             // 文件名为相对路径，相对工作目录解析
             if (string.IsNullOrEmpty(ModelService.WorkDirectory))
                 return;
-            foreach (NPBudgetMonitor monitor in Monitors)
+            foreach (var monitor in Monitors)
             {
-                var fn =  Path.Combine(ModelService.WorkDirectory, ".\\output\\" + string.Format(FileNameFormat, monitor.Element));
-                monitor.Watcher.FileName = fn;
-                monitor.FileName = fn;
+                monitor.Watcher.FileName = monitor.FileName;
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Reflection;
 using System.Xml;
 using System.Xml.Linq;
@@ -645,19 +645,14 @@ namespace HUST.WREIS.Dot3D
                     string dataSetName = imageTileService.Element("DataSetName").Value;
                     string localCache = imageTileService.Element("CacheDirectory").Value;
                     string serverLogoFilePath = imageTileService.Element("ServerLogoFilePath").Value;
-                    // only the providers that need a key use it, e.g. the Tianditu key
-                    string token = imageTileService.Element("Token") != null ? imageTileService.Element("Token").Value : "";
-                    // only the servers whose WAF rejects the shared agent need one, e.g. Tianditu
-                    string userAgent = imageTileService.Element("UserAgent") != null ? imageTileService.Element("UserAgent").Value : "";
                     if (mapProvider == "NLTMapProvider")
                     {
                         ia = new NltImageStore(dataSetName, serverUrl);
                     }
                     else
                     {
-                        ia = new ProjectedMapImageStore(mapProvider, token);
+                        ia = new ProjectedMapImageStore(mapProvider);
                     }
-                    ia.UserAgent = userAgent;
                     ia.DataSetName = dataSetName;
                     if (localCache != null)
                         ia.DataDirectory = Engine3DSettings.CachePath + "\\" + localCache;
