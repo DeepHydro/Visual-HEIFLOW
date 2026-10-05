@@ -44,7 +44,10 @@ using System.Windows.Forms;
 
 namespace Heiflow.Controls
 {
-    [Export(typeof(IProgressView))]
+    // No [Export(typeof(IProgressView))] any more: the WPF ProgressWindow of Heiflow.Visualization.Studio
+    // exports the contract, and both assemblies are part of the catalog of the visual shell, so two
+    // exports of the same contract would break the composition. The form is kept for the hosting modes
+    // that still create one themselves.
     public partial class ProgressForm : Form, IProgressView, IChildView
     {
         [System.Runtime.InteropServices.DllImport("user32.dll")]

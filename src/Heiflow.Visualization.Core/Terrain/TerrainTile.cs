@@ -90,6 +90,16 @@ namespace HUST.WREIS.Dot3D.Terrain
                        // Request.StartDownload();
                     }
                 }
+                else if (Owner is TerrariumTerrainTileService)
+                {
+                    using (Request = new TerrariumDownloadRequest(this, Owner, Row, Col, TargetLevel))
+                    {
+                        if (!(Owner.TerrainStorageService is FileTerrainStorageService))
+                            TerrainTileFilePath = "";
+                        if (!Owner.AddToDownloadQueue(Request))
+                            Request = null;
+                    }
+                }
             }
         }
 

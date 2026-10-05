@@ -1,0 +1,172 @@
+<Controls:MetroWindow x:Class="Heiflow.Visualization.Studio.Controls.ProgressWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        Title="Progress" Height="400" Width="460" ShowInTaskbar="False"
+        WindowStartupLocation="CenterScreen"
+        SnapsToDevicePixels="True" UseLayoutRounding="True">
+    <!-- Replaces the WinForm ProgressForm. The other child windows of the shell already are WPF windows,
+         and this one was the last window that was still created as a form, so the progress of a long
+         operation ran through a Windows Forms message pump and its progress bar and text box were painted
+         by the framework with the light system colours. It is a normal WPF window now, drawn with the
+         card and palette of the other panels.
+
+         Only the window changed: the instance is injected as an IProgressView, so every caller keeps using
+         the interface exactly like before. -->
+    <Controls:MetroWindow.Resources>
+
+        <!-- Palette of the panel, taken from the dark skin of the application. -->
+        <SolidColorBrush x:Key="PrgCardBackground" Color="#FF26272B" />
+        <SolidColorBrush x:Key="PrgControlBackground" Color="#FF1E1F23" />
+        <SolidColorBrush x:Key="PrgBorderBrush" Color="#FF3B3E46" />
+        <SolidColorBrush x:Key="PrgHoverBrush" Color="#FF3A3D45" />
+        <SolidColorBrush x:Key="PrgAccentBrush" Color="#FF4EA1DE" />
+        <SolidColorBrush x:Key="PrgTextBrush" Color="#FFE8EAED" />
+        <SolidColorBrush x:Key="PrgLabelBrush" Color="#FFAEB4BF" />
+        <SolidColorBrush x:Key="PrgTrackBrush" Color="#FF141518" />
+
+        <!-- Cancel and Close. -->
+        <Style x:Key="PrgButton" TargetType="Button">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Foreground" Value="{StaticResource PrgTextBrush}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Height" Value="26" />
+            <Setter Property="MinWidth" Value="86" />
+            <Setter Property="Padding" Value="10,0,10,0" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{StaticResource PrgControlBackground}"
+                                BorderBrush="{StaticResource PrgBorderBrush}" BorderThickness="1" CornerRadius="3">
+                            <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource PrgHoverBrush}" />
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource PrgAccentBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource PrgAccentBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.45" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PrgCheckBox" TargetType="CheckBox">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Foreground" Value="{StaticResource PrgTextBrush}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="Box" Width="14" Height="14" CornerRadius="2" VerticalAlignment="Center"
+                                    Background="{StaticResource PrgControlBackground}"
+                                    BorderBrush="{StaticResource PrgBorderBrush}" BorderThickness="1">
+                                <Path x:Name="Check" Data="M 2,7 L 6,11 L 12,3" Stroke="{StaticResource PrgAccentBrush}"
+                                      StrokeThickness="2" Visibility="Collapsed" />
+                            </Border>
+                            <ContentPresenter Margin="7,0,0,0" VerticalAlignment="Center" RecognizesAccessKey="True" />
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Check" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="Box" Property="BorderBrush" Value="{StaticResource PrgAccentBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Box" Property="BorderBrush" Value="{StaticResource PrgAccentBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- The value of the bar is a percentage, IsIndeterminate is switched on for the marquee style the
+             callers ask for while they do not know yet how long the work takes. -->
+        <Style x:Key="PrgProgressBar" TargetType="ProgressBar">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Height" Value="8" />
+            <Setter Property="Foreground" Value="{StaticResource PrgAccentBrush}" />
+            <Setter Property="Background" Value="{StaticResource PrgTrackBrush}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ProgressBar">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="2">
+                            <Decorator x:Name="PART_Indicator" HorizontalAlignment="Left">
+                                <Rectangle Fill="{TemplateBinding Foreground}" RadiusX="2" RadiusY="2" />
+                            </Decorator>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Log of the messages sent by the running work. It is read only, the text is appended by the
+             window itself. -->
+        <Style x:Key="PrgLogBox" TargetType="TextBox">
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Foreground" Value="{StaticResource PrgTextBrush}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="IsReadOnly" Value="True" />
+            <Setter Property="AcceptsReturn" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{StaticResource PrgControlBackground}"
+                                BorderBrush="{StaticResource PrgBorderBrush}" BorderThickness="1" CornerRadius="3">
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="4" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Controls:MetroWindow.Resources>
+
+    <Grid Margin="5,5,5,5">
+        <Border Background="{StaticResource PrgCardBackground}"
+                BorderBrush="{StaticResource PrgBorderBrush}" BorderThickness="1" CornerRadius="3">
+            <Grid Margin="11,9,11,11">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" x:Name="tbStatus" Text="Please wait..."
+                           Foreground="{StaticResource PrgTextBrush}" FontSize="13" TextWrapping="Wrap" />
+
+                <ProgressBar Grid.Row="1" x:Name="prgBar" Style="{StaticResource PrgProgressBar}"
+                             Margin="0,9,0,0" Minimum="0" Maximum="100" Value="0" />
+
+                <TextBox Grid.Row="2" x:Name="txtStatus" Style="{StaticResource PrgLogBox}"
+                         Margin="0,9,0,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" />
+
+                <Grid Grid.Row="3" Margin="0,9,0,0">
+                    <CheckBox x:Name="chbAutoClose" Content="Close the window when finished"
+                              Style="{StaticResource PrgCheckBox}" HorizontalAlignment="Left" VerticalAlignment="Center"
+                              IsChecked="True" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button x:Name="btnCancel" Content="Cancel" Style="{StaticResource PrgButton}" Click="btnCancel_Click" />
+                        <Button x:Name="btnClose" Content="Close" Style="{StaticResource PrgButton}" Margin="8,0,0,0"
+                                Click="btnClose_Click" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Controls:MetroWindow>

@@ -69,7 +69,6 @@ E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Deb
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.dll
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.pdb
 F:\System\HEIFLOW\VHF_GIT\VHF\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.vbprojResolveAssemblyReference.cache
-D:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.vbprojResolveAssemblyReference.cache
 D:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.frmAdvancedOptions_v3.resources
 D:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.frmAutomatic_v3.resources
 D:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.frmLoadDelinOutputs.resources
@@ -82,3 +81,6 @@ D:\System\git\Visual-HEIFLOW\src\bin\debug\Application Extensions\DotSpatial.Plu
 D:\System\git\Visual-HEIFLOW\src\bin\debug\Application Extensions\DotSpatial.Plugins.Taudem.Port\DotSpatial.Plugins.Taudem.Port.dll
 D:\System\git\Visual-HEIFLOW\src\bin\debug\Application Extensions\DotSpatial.Plugins.Taudem.Port\DotSpatial.Plugins.Taudem.Port.pdb
 D:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.pdb
+d:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.vbproj.AssemblyReference.cache
+d:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpatial.Plugins.Taudem.Port.vbproj.CoreCompileInputs.cache
+d:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem.Port\obj\Debug\DotSpati.323E3485.Up2Date

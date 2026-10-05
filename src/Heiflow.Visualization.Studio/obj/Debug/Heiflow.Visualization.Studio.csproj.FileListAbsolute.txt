@@ -143,3 +143,5 @@ D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\Debug\HydroEar
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\Debug\Views\LayerManagerView.baml
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\Debug\Views\LayerManagerView.g.cs
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\Debug\Resources\LayerTreeStyles.baml
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\Debug\Views\ProgressWindow.baml
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\Debug\Views\ProgressWindow.g.cs

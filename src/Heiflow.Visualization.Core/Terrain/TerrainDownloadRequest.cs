@@ -196,7 +196,7 @@ namespace HUST.WREIS.Dot3D.Terrain
 			}
 		}
 
-        public void StartDownload()
+        public virtual void StartDownload()
         {
             try
             {

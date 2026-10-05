@@ -1,5 +1,6 @@
 ﻿using Heiflow.Applications;
-using Heiflow.Controls;
+using Heiflow.Models.UI;
+using Heiflow.Presentation.Controls;
 using HUST.WREIS.Dot3D;
 using System;
 using System.Collections.Generic;
@@ -23,16 +24,18 @@ namespace Heiflow.Visualization.Applications
         private readonly IVGSShellService _ShellService;
         private readonly LayerController _LayerController;
         private readonly VGSProjectController _ProjectController;
+        private readonly IProgressView _ProgressWindow;
 
         [ImportingConstructor]
         public VGSModuleController(VirtualGlobeController vgc, LayerController lc, VGSProjectController pc,
-            VGSShellViewModel shellVM, IVGSShellService shell)
+            VGSShellViewModel shellVM, IVGSShellService shell, [Import(typeof(IProgressView))] IProgressView progressWindow)
         {
             _VirtualGlobeController = vgc;
             _VGSShellViewModel = shellVM;
             _ShellService = shell;
             _LayerController = lc;
             _ProjectController = pc;
+            _ProgressWindow = progressWindow;
         }
 
         public void Initialize()
@@ -44,9 +47,13 @@ namespace Heiflow.Visualization.Applications
             _LayerController.Initialize();
             _ProjectController.Initialize();
 
-            var _ProgressForm = new ProgressForm(); 
-            _ShellService.ProgressWindow = _ProgressForm;
-            _ShellService.AddChild(_ProgressForm);
+            // The progress window is injected instead of being created here, so the module gets the WPF
+            // window that the shell exports and not the Windows Forms one.
+            _ShellService.ProgressWindow = _ProgressWindow;
+            _ProgressWindow.MainForm = _ShellService.MainForm;
+            var child = _ProgressWindow as IChildView;
+            if (child != null)
+                _ShellService.AddChild(child);
         }
 
         private void Close(object obj)

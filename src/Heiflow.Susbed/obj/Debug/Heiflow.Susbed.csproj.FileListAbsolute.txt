@@ -39,4 +39,5 @@ D:\System\git\Visual-HEIFLOW\src\Heiflow.Susbed\obj\Debug\Heiflow.Models.Hydrody
 D:\System\git\Visual-HEIFLOW\src\bin\Debug\Application Extensions\Susbed\Heiflow.Models.Hydrodynamics.Susbed.dll
 D:\System\git\Visual-HEIFLOW\src\bin\Debug\Application Extensions\Susbed\Heiflow.Models.Hydrodynamics.Susbed.pdb
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Susbed\obj\Debug\Heiflow.Models.Hydrodynamics.Susbed.pdb
-D:\System\git\Visual-HEIFLOW\src\Heiflow.Susbed\obj\Debug\Heiflow.Susbed.csprojResolveAssemblyReference.cache
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Susbed\obj\Debug\Heiflow.Susbed.csproj.AssemblyReference.cache
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Susbed\obj\Debug\Heiflow.Susbed.csproj.CoreCompileInputs.cache

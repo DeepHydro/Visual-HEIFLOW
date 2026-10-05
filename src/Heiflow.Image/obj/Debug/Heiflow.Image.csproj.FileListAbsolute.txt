@@ -677,3 +677,4 @@ d:\System\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\DotSpatial.Serializatio
 d:\System\git\Visual-HEIFLOW\src\Heiflow.Image\obj\Debug\Heiflow.Image.csproj.AssemblyReference.cache
 d:\System\git\Visual-HEIFLOW\src\Heiflow.Image\obj\Debug\Heiflow.Image.csproj.CoreCompileInputs.cache
 d:\System\git\Visual-HEIFLOW\src\Heiflow.Image\obj\Debug\Heiflow..21857099.Up2Date
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\Heiflow.Spatial.pdb

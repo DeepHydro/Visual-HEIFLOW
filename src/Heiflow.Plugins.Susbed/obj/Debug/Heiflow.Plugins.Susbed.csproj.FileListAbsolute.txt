@@ -18,4 +18,6 @@ D:\System\git\Visual-HEIFLOW\src\Heiflow.Plugins.Susbed\obj\Debug\Heiflow.Plugin
 D:\System\git\Visual-HEIFLOW\src\bin\Debug\Application Extensions\Susbed\Heiflow.Plugins.Susbed.dll
 D:\System\git\Visual-HEIFLOW\src\bin\Debug\Application Extensions\Susbed\Heiflow.Plugins.Susbed.pdb
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Plugins.Susbed\obj\Debug\Heiflow.Plugins.Susbed.pdb
-D:\System\git\Visual-HEIFLOW\src\Heiflow.Plugins.Susbed\obj\Debug\Heiflow.Plugins.Susbed.csprojResolveAssemblyReference.cache
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Plugins.Susbed\obj\Debug\Heiflow.Plugins.Susbed.csproj.AssemblyReference.cache
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Plugins.Susbed\obj\Debug\Heiflow.Plugins.Susbed.csproj.CoreCompileInputs.cache
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Plugins.Susbed\obj\Debug\Heiflow..AF5B74C2.Up2Date

@@ -202,6 +202,8 @@
     <Compile Include="Terrain\TifTerrainAccessor.cs" />
     <Compile Include="Terrain\WMSDownloadRequest.cs" />
     <Compile Include="Terrain\WMSTerrainTileService.cs" />
+    <Compile Include="Terrain\TerrariumDownloadRequest.cs" />
+    <Compile Include="Terrain\TerrariumTerrainTileService.cs" />
     <Compile Include="TiledImage\FileImageAccessService.cs" />
     <Compile Include="TiledImage\ProjectedMapImageStore.cs" />
     <Compile Include="RenderableObject\BoundaryLayer.cs" />

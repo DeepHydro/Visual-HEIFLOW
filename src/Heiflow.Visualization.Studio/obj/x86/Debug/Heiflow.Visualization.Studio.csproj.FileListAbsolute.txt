@@ -446,7 +446,6 @@ D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Studio\obj\x86\Debug\Hei
 D:\System\git\Visual-HEIFLOW\src\bin\Visualization\HydroEarth.exe.config
 D:\System\git\Visual-HEIFLOW\src\bin\Visualization\HydroEarth.exe
 D:\System\git\Visual-HEIFLOW\src\bin\Visualization\HydroEarth.pdb
-D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Heiflow.Visualization.Studio.csprojResolveAssemblyReference.cache
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Views\AboutWindow.baml
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Views\ProjectExplorerWindow.baml
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Views\Activication.baml
@@ -507,3 +506,8 @@ D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Hydr
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Views\LayerManagerView.baml
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Resources\LayerTreeStyles.baml
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Views\LayerManagerView.g.cs
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Views\ProgressWindow.baml
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Views\ProgressWindow.g.cs
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Heiflow.Visualization.Studio.csproj.AssemblyReference.cache
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Heiflow.Visualization.Studio.csproj.CoreCompileInputs.cache
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Heiflow..FCC259DF.Up2Date

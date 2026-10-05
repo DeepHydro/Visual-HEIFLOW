@@ -181,6 +181,34 @@ namespace HUST.WREIS.Dot3D
             }
         }
 
+        private static TerrariumTerrainTileService GetTerrariumTerrainTileService(XElement parent, string cacheDirectory, string terrainAccessorName)
+        {
+            var terrainTileService = parent.Element("TerrariumTerrainTileService");
+            if (terrainTileService == null)
+            {
+                return null;
+            }
+            int zoomOffset = terrainTileService.Element("ZoomOffset") != null ?
+                int.Parse(terrainTileService.Element("ZoomOffset").Value) : 4;
+            int maxZoom = terrainTileService.Element("MaxZoom") != null ?
+                int.Parse(terrainTileService.Element("MaxZoom").Value) : 15;
+            TerrariumTerrainTileService tts = new TerrariumTerrainTileService(
+                terrainTileService.Element("ServerUrl").Value,
+                terrainTileService.Element("DataSetName").Value,
+               double.Parse(terrainTileService.Element("LevelZeroTileSizeDegrees").Value),
+                 int.Parse(terrainTileService.Element("SamplesPerTile").Value),
+                   terrainTileService.Element("FileExtension").Value,
+                 int.Parse(terrainTileService.Element("NumberLevels").Value),
+                    Path.Combine(cacheDirectory, terrainAccessorName),
+                     World.Settings.TerrainTileRetryInterval,
+                      terrainTileService.Element("DataFormat").Value,
+                       zoomOffset, maxZoom);
+            tts.TerrainStorageService = GetSQLiteTerrainStorageService(terrainTileService);
+            if (tts.TerrainStorageService == null)
+                tts.TerrainStorageService = new FileTerrainStorageService();
+            return tts;
+        }
+
         private static TerrainTileService GetTerrainTileService(XElement parent, string cacheDirectory, string terrainAccessorName)
         {
             var terrainTileService = parent.Element("TerrainTileService");
@@ -231,6 +259,8 @@ namespace HUST.WREIS.Dot3D
                 TerrainTileService tts = null;
                 if(terrainAccessor.Element("WMSTerrainTileService") != null)
                     tts= GetWMSTerrainTileService(terrainAccessor, cacheDirectory, terrainAccessorName);
+                else if (terrainAccessor.Element("TerrariumTerrainTileService") != null)
+                    tts = GetTerrariumTerrainTileService(terrainAccessor, cacheDirectory, terrainAccessorName);
                 else
                     tts = GetTerrainTileService(terrainAccessor, cacheDirectory, terrainAccessorName);
                 DefaultTerrainTileService = tts;

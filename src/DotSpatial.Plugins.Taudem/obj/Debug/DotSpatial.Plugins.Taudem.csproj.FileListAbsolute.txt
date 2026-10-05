@@ -31,6 +31,7 @@ F:\System\HEIFLOW\VHF_GIT\VHF\src\DotSpatial.Plugins.Taudem\obj\Debug\DotSpatial
 D:\System\git\Visual-HEIFLOW\src\bin\debug\Application Extensions\DotSpatial.Plugins.Taudem.Port\DotSpatial.Plugins.Taudem.dll.config
 D:\System\git\Visual-HEIFLOW\src\bin\debug\Application Extensions\DotSpatial.Plugins.Taudem.Port\DotSpatial.Plugins.Taudem.dll
 D:\System\git\Visual-HEIFLOW\src\bin\debug\Application Extensions\DotSpatial.Plugins.Taudem.Port\DotSpatial.Plugins.Taudem.pdb
-D:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem\obj\Debug\DotSpatial.Plugins.Taudem.csprojResolveAssemblyReference.cache
 D:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem\obj\Debug\DotSpatial.Plugins.Taudem.dll
 D:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem\obj\Debug\DotSpatial.Plugins.Taudem.pdb
+d:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem\obj\Debug\DotSpatial.Plugins.Taudem.csproj.AssemblyReference.cache
+d:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.Taudem\obj\Debug\DotSpatial.Plugins.Taudem.csproj.CoreCompileInputs.cache

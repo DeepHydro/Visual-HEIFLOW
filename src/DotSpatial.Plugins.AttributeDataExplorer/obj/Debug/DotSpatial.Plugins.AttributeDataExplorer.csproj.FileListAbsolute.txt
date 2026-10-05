@@ -84,3 +84,14 @@ E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\DotSpatial.Plugins.AttributeDataExplor
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.dll
 E:\Project\HEIFLOW\GIT\Visual-HEIFLOW\src\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.pdb
 F:\System\HEIFLOW\VHF_GIT\VHF\src\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.csprojResolveAssemblyReference.cache
+d:\System\git\Visual-HEIFLOW\src\bin\debug\Application Extensions\AttributeDataExplorer\DotSpatial.Plugins.AttributeDataExplorer.dll
+d:\System\git\Visual-HEIFLOW\src\bin\debug\Application Extensions\AttributeDataExplorer\DotSpatial.Plugins.AttributeDataExplorer.pdb
+d:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.csproj.AssemblyReference.cache
+d:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.MainForm.resources
+d:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.Properties.Resources.resources
+d:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.csproj.GenerateResource.cache
+d:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.dll.licenses
+d:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.csproj.CoreCompileInputs.cache
+d:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpati.EE8D5FD4.Up2Date
+d:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.dll
+d:\System\git\Visual-HEIFLOW\src\DotSpatial.Plugins.AttributeDataExplorer\obj\Debug\DotSpatial.Plugins.AttributeDataExplorer.pdb
