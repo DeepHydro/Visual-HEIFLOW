@@ -11,6 +11,7 @@ using Heiflow.Models.Subsurface;
 using System.IO;
 using Heiflow.Models.Subsurface.MT3DMS;
 using Heiflow.Models.Subsurface.VFT3D;
+using Heiflow.Controls.WinForm.Controls;
 
 namespace Heiflow.Controls.WinForm.MT3DMS
 {
@@ -35,15 +36,15 @@ namespace Heiflow.Controls.WinForm.MT3DMS
                     _mf.MobileSpeciesManager.LoadCollectionFromDB(dbfile);
                     _mf.MobileSpeciesManager.SetDefaultMobileSpecies();
                 }
-                olvMobileSpeciesList.DataSource = _mf.MobileSpeciesManager.SpeciesCollection;
+                NativeList.Bind(olvMobileSpeciesList, _mf.MobileSpeciesManager.SpeciesCollection);
 
                 if (phcpck.NumExchSpecies == 0)
                 {
                     _mf.ExchangeSpeciesManager.LoadCollectionFromDB(dbfile);
                     _mf.ExchangeSpeciesManager.SetDefaultExchangeSpecies();
                 }
-                olvExchangeSpeciesList.DataSource = _mf.ExchangeSpeciesManager.SpeciesCollection;
-                olvMineralSpeciesList.DataSource = _mf.MineralSpeciesManager.SpeciesCollection;
+                NativeList.Bind(olvExchangeSpeciesList, _mf.ExchangeSpeciesManager.SpeciesCollection);
+                NativeList.Bind(olvMineralSpeciesList, _mf.MineralSpeciesManager.SpeciesCollection);
             }
         }
 

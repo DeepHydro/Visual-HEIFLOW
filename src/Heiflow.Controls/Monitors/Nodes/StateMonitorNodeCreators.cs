@@ -85,7 +85,7 @@ namespace Heiflow.Controls.WinForm.Monitors
             set;
         }
 
-        public BrightIdeasSoftware.DataTreeListView DataGrid
+        public System.Windows.Forms.TreeView DataGrid
         {
             get;
             set;
@@ -194,12 +194,8 @@ namespace Heiflow.Controls.WinForm.Monitors
             if (ReportBox != null)
                 ReportBox.Text = report;
 
-            DataSet ds = new DataSet();
-            dt.TableName = "Budget";
-            ds.Tables.Add(dt);
-            this.DataGrid.DataMember = "Budget";
-            this.DataGrid.DataSource = new DataViewManager(ds);
-            DataGrid.ExpandAll();
+            if (DataGrid != null)
+                NativeTree.Fill(DataGrid, dt, "Item", "Volumetric_Flow", "Water_Depth");
 
             var dic = item.Monitor.ZonalBudgets();
             if (ZonalBudgetClicked != null && dic != null && dic.Count > 0)

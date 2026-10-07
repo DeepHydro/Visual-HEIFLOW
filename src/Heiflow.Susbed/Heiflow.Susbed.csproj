@@ -45,10 +45,6 @@
       <HintPath>..\Bin\Debug\DotSpatial.Symbology.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ObjectListView">
-      <HintPath>..\Bin\Debug\ObjectListView.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="SourceGrid">
       <HintPath>..\Bin\Debug\SourceGrid.dll</HintPath>
       <Private>False</Private>

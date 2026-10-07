@@ -32,16 +32,15 @@
             this.tbModelDes = new System.Windows.Forms.TextBox();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.olvSimple = new BrightIdeasSoftware.ObjectListView();
-            this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn3 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.Mandatory = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn4 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvSimple = new System.Windows.Forms.ListView();
+            this.olvColumn2 = new System.Windows.Forms.ColumnHeader();
+            this.olvColumn1 = new System.Windows.Forms.ColumnHeader();
+            this.olvColumn3 = new System.Windows.Forms.ColumnHeader();
+            this.Mandatory = new System.Windows.Forms.ColumnHeader();
+            this.olvColumn4 = new System.Windows.Forms.ColumnHeader();
             this.treeView1 = new Heiflow.Controls.Tree.TreeViewAdv();
             this.nodeStateIcon1 = new Heiflow.Controls.Tree.NodeControls.NodeStateIcon();
             this._nodeTextBox = new Heiflow.Controls.Tree.NodeControls.NodeTextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.olvSimple)).BeginInit();
             this.SuspendLayout();
             // 
             // tbModelDes
@@ -79,19 +78,12 @@
             // 
             // olvSimple
             // 
-            this.olvSimple.AllColumns.Add(this.olvColumn2);
-            this.olvSimple.AllColumns.Add(this.olvColumn1);
-            this.olvSimple.AllColumns.Add(this.olvColumn3);
-            this.olvSimple.AllColumns.Add(this.Mandatory);
-            this.olvSimple.AllColumns.Add(this.olvColumn4);
             this.olvSimple.AllowColumnReorder = true;
             this.olvSimple.AllowDrop = true;
             this.olvSimple.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.olvSimple.CellEditUseWholeCell = false;
             this.olvSimple.CheckBoxes = true;
-            this.olvSimple.CheckedAspectName = "IsUsed";
             this.olvSimple.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvColumn2,
             this.olvColumn1,
@@ -100,64 +92,46 @@
             this.olvColumn4});
             this.olvSimple.Cursor = System.Windows.Forms.Cursors.Default;
             this.olvSimple.FullRowSelect = true;
-            this.olvSimple.HeaderWordWrap = true;
             this.olvSimple.HideSelection = false;
-            this.olvSimple.IncludeColumnHeadersInCopy = true;
             this.olvSimple.Location = new System.Drawing.Point(226, 11);
             this.olvSimple.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.olvSimple.Name = "olvSimple";
-            this.olvSimple.OverlayText.Alignment = System.Drawing.ContentAlignment.BottomLeft;
-            this.olvSimple.OverlayText.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.olvSimple.OverlayText.BorderWidth = 2F;
-            this.olvSimple.OverlayText.Rotation = -20;
-            this.olvSimple.OverlayText.Text = "";
-            this.olvSimple.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
-            this.olvSimple.ShowCommandMenuOnRightClick = true;
             this.olvSimple.ShowGroups = false;
-            this.olvSimple.ShowHeaderInAllViews = false;
             this.olvSimple.ShowItemToolTips = true;
             this.olvSimple.Size = new System.Drawing.Size(628, 271);
-            this.olvSimple.SortGroupItemsByPrimaryColumn = false;
             this.olvSimple.TabIndex = 31;
-            this.olvSimple.TriStateCheckBoxes = true;
-            this.olvSimple.UseAlternatingBackColors = true;
-            this.olvSimple.UseCellFormatEvents = true;
             this.olvSimple.UseCompatibleStateImageBehavior = false;
-            this.olvSimple.UseFilterIndicator = true;
-            this.olvSimple.UseFiltering = true;
-            this.olvSimple.UseHotItem = true;
             this.olvSimple.View = System.Windows.Forms.View.Details;
-            this.olvSimple.SubItemChecking += new System.EventHandler<BrightIdeasSoftware.SubItemCheckingEventArgs>(this.olvSimple_SubItemChecking);
-            this.olvSimple.SelectionChanged += new System.EventHandler(this.olvSimple_SelectionChanged);
+            this.olvSimple.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.olvSimple_ItemSelectionChanged);
+            this.olvSimple.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.olvSimple_ItemChecked);
             // 
             // olvColumn2
             // 
-            this.olvColumn2.AspectName = "Name";
+            this.olvColumn2.Name = "Name";
             this.olvColumn2.Text = "Name";
             this.olvColumn2.Width = 132;
             // 
             // olvColumn1
             // 
-            this.olvColumn1.AspectName = "FullName";
+            this.olvColumn1.Name = "FullName";
             this.olvColumn1.Text = "Full Name";
             this.olvColumn1.Width = 169;
             // 
             // olvColumn3
             // 
-            this.olvColumn3.AspectName = "Version";
+            this.olvColumn3.Name = "Version";
             this.olvColumn3.Text = "Version";
             this.olvColumn3.Width = 106;
             // 
             // Mandatory
             // 
-            this.Mandatory.AspectName = "IsMandatory";
+            this.Mandatory.Name = "IsMandatory";
             this.Mandatory.Text = "Mandatory";
             this.Mandatory.Width = 115;
             // 
             // olvColumn4
             // 
-            this.olvColumn4.AspectName = "IsUsed";
-            this.olvColumn4.CheckBoxes = true;
+            this.olvColumn4.Name = "IsUsed";
             this.olvColumn4.Text = "Using";
             this.olvColumn4.Width = 125;
             // 
@@ -218,7 +192,6 @@
             this.Name = "NewProjectionItemForm";
             this.Text = "New Package";
             this.Load += new System.EventHandler(this.NewPrjForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.olvSimple)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -232,11 +205,11 @@
         private Heiflow.Controls.Tree.TreeViewAdv treeView1;
         private Heiflow.Controls.Tree.NodeControls.NodeTextBox _nodeTextBox;
         private Heiflow.Controls.Tree.NodeControls.NodeStateIcon nodeStateIcon1;
-        private BrightIdeasSoftware.ObjectListView olvSimple;
-        private BrightIdeasSoftware.OLVColumn olvColumn2;
-        private BrightIdeasSoftware.OLVColumn olvColumn3;
-        private BrightIdeasSoftware.OLVColumn Mandatory;
-        private BrightIdeasSoftware.OLVColumn olvColumn4;
-        private BrightIdeasSoftware.OLVColumn olvColumn1;
+        private System.Windows.Forms.ListView olvSimple;
+        private System.Windows.Forms.ColumnHeader olvColumn2;
+        private System.Windows.Forms.ColumnHeader olvColumn3;
+        private System.Windows.Forms.ColumnHeader Mandatory;
+        private System.Windows.Forms.ColumnHeader olvColumn4;
+        private System.Windows.Forms.ColumnHeader olvColumn1;
     }
 }

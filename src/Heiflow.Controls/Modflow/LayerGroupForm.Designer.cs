@@ -31,13 +31,13 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LayerGroupForm));
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
-            this.olvLayerGroup = new BrightIdeasSoftware.DataListView();
-            this.colLayerName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.colLayerType = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.colLAYAVG = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.colLAYVKA = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.colCHANI = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.colLAYWET = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvLayerGroup = new System.Windows.Forms.DataGridView();
+            this.colLayerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colLayerType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colLAYAVG = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colLAYVKA = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCHANI = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colLAYWET = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this.btnAdd = new System.Windows.Forms.Button();
@@ -45,14 +45,14 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPageInitial = new System.Windows.Forms.TabPage();
-            this.olvLayersUniformProp = new BrightIdeasSoftware.DataListView();
-            this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn7 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn8 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn9 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn10 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn11 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn12 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvLayersUniformProp = new System.Windows.Forms.DataGridView();
+            this.olvColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.btnSetToUniform = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -103,17 +103,9 @@
             // 
             // olvLayerGroup
             // 
-            this.olvLayerGroup.AllColumns.Add(this.colLayerName);
-            this.olvLayerGroup.AllColumns.Add(this.colLayerType);
-            this.olvLayerGroup.AllColumns.Add(this.colLAYAVG);
-            this.olvLayerGroup.AllColumns.Add(this.colLAYVKA);
-            this.olvLayerGroup.AllColumns.Add(this.colCHANI);
-            this.olvLayerGroup.AllColumns.Add(this.colLAYWET);
-            this.olvLayerGroup.AllowColumnReorder = true;
+            this.olvLayerGroup.AllowUserToOrderColumns = true;
             this.olvLayerGroup.AllowDrop = true;
-            this.olvLayerGroup.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
-            this.olvLayerGroup.CellEditUseWholeCell = false;
-            this.olvLayerGroup.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvLayerGroup.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colLayerName,
             this.colLayerType,
             this.colLAYAVG,
@@ -121,86 +113,60 @@
             this.colCHANI,
             this.colLAYWET});
             this.olvLayerGroup.Cursor = System.Windows.Forms.Cursors.Default;
-            this.olvLayerGroup.DataSource = null;
             this.olvLayerGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.olvLayerGroup.EmptyListMsg = "";
-            this.olvLayerGroup.EmptyListMsgFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.olvLayerGroup.FullRowSelect = true;
-            this.olvLayerGroup.GridLines = true;
-            this.olvLayerGroup.GroupWithItemCountFormat = "";
-            this.olvLayerGroup.GroupWithItemCountSingularFormat = "";
-            this.olvLayerGroup.HideSelection = false;
             this.olvLayerGroup.Location = new System.Drawing.Point(3, 3);
             this.olvLayerGroup.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.olvLayerGroup.Name = "olvLayerGroup";
-            this.olvLayerGroup.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
-            this.olvLayerGroup.SelectedBackColor = System.Drawing.Color.FromArgb(214, 233, 245);
-            this.olvLayerGroup.SelectedForeColor = System.Drawing.Color.FromArgb(27, 90, 140);
-            this.olvLayerGroup.ShowCommandMenuOnRightClick = true;
-            this.olvLayerGroup.ShowGroups = false;
-            this.olvLayerGroup.ShowImagesOnSubItems = true;
-            this.olvLayerGroup.ShowItemToolTips = true;
+            this.olvLayerGroup.AllowUserToAddRows = false;
+            this.olvLayerGroup.AllowUserToDeleteRows = false;
+            this.olvLayerGroup.AutoGenerateColumns = false;
+            this.olvLayerGroup.RowHeadersVisible = false;
+            this.olvLayerGroup.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.olvLayerGroup.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.olvLayerGroup.Size = new System.Drawing.Size(747, 266);
             this.olvLayerGroup.TabIndex = 21;
-            this.olvLayerGroup.UseCellFormatEvents = true;
-            this.olvLayerGroup.UseCompatibleStateImageBehavior = false;
-            this.olvLayerGroup.UseFilterIndicator = true;
-            this.olvLayerGroup.UseFiltering = true;
-            this.olvLayerGroup.UseHotItem = true;
-            this.olvLayerGroup.UseTranslucentHotItem = true;
-            this.olvLayerGroup.View = System.Windows.Forms.View.Details;
-            this.olvLayerGroup.CellEditFinished += new BrightIdeasSoftware.CellEditEventHandler(this.olvLayerGroup_CellEditFinished);
-            this.olvLayerGroup.ItemsChanged += new System.EventHandler<BrightIdeasSoftware.ItemsChangedEventArgs>(this.olvLayerGroup_ItemsChanged);
+            this.olvLayerGroup.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.olvLayerGroup_CellValueChanged);
             // 
             // colLayerName
             // 
-            this.colLayerName.AspectName = "Name";
-            this.colLayerName.ButtonPadding = new System.Drawing.Size(10, 10);
-            this.colLayerName.CellEditUseWholeCell = true;
-            this.colLayerName.IsTileViewColumn = true;
-            this.colLayerName.Text = "Layer Name";
-            this.colLayerName.UseInitialLetterForGroup = true;
+            this.colLayerName.DataPropertyName = "Name";
+            this.colLayerName.Name = "colLayerName";
+            this.colLayerName.HeaderText = "Layer Name";
             this.colLayerName.Width = 115;
             // 
             // colLayerType
             // 
-            this.colLayerType.AspectName = "LAYTYP";
-            this.colLayerType.ButtonPadding = new System.Drawing.Size(10, 10);
-            this.colLayerType.CellEditUseWholeCell = true;
-            this.colLayerType.IsTileViewColumn = true;
-            this.colLayerType.Text = "Layer Type";
+            this.colLayerType.DataPropertyName = "LAYTYP";
+            this.colLayerType.Name = "colLayerType";
+            this.colLayerType.HeaderText = "Layer Type";
             this.colLayerType.Width = 117;
             // 
             // colLAYAVG
             // 
-            this.colLAYAVG.AspectName = "LAYAVG";
-            this.colLAYAVG.CellEditUseWholeCell = true;
-            this.colLAYAVG.Text = "LAYAVG";
-            this.colLAYAVG.ToolTipText = "Method of calculating interblock transmissivity";
+            this.colLAYAVG.DataPropertyName = "LAYAVG";
+            this.colLAYAVG.Name = "colLAYAVG";
+            this.colLAYAVG.HeaderText = "LAYAVG";
             this.colLAYAVG.Width = 139;
             // 
             // colLAYVKA
             // 
-            this.colLAYVKA.AspectName = "LAYVKA";
-            this.colLAYVKA.CellEditUseWholeCell = true;
-            this.colLAYVKA.Text = "LAYVKA";
-            this.colLAYVKA.ToolTipText = "Method of specifying vertical hydraulic conductivity";
+            this.colLAYVKA.DataPropertyName = "LAYVKA";
+            this.colLAYVKA.Name = "colLAYVKA";
+            this.colLAYVKA.HeaderText = "LAYVKA";
             this.colLAYVKA.Width = 124;
             // 
             // colCHANI
             // 
-            this.colCHANI.AspectName = "CHANI";
-            this.colCHANI.CellEditUseWholeCell = true;
-            this.colCHANI.Text = "CHANI";
-            this.colCHANI.ToolTipText = "a value for each layer that is a flag or the horizontal anisotropy";
+            this.colCHANI.DataPropertyName = "CHANI";
+            this.colCHANI.Name = "colCHANI";
+            this.colCHANI.HeaderText = "CHANI";
             this.colCHANI.Width = 107;
             // 
             // colLAYWET
             // 
-            this.colLAYWET.AspectName = "LAYWET";
-            this.colLAYWET.CellEditUseWholeCell = true;
-            this.colLAYWET.Text = "LAYWET";
-            this.colLAYWET.ToolTipText = "Indicates if wetting is active.";
+            this.colLAYWET.DataPropertyName = "LAYWET";
+            this.colLAYWET.Name = "colLAYWET";
+            this.colLAYWET.HeaderText = "LAYWET";
             this.colLAYWET.Width = 128;
             // 
             // numericUpDown1
@@ -297,18 +263,9 @@
             // 
             // olvLayersUniformProp
             // 
-            this.olvLayersUniformProp.AllColumns.Add(this.olvColumn1);
-            this.olvLayersUniformProp.AllColumns.Add(this.olvColumn7);
-            this.olvLayersUniformProp.AllColumns.Add(this.olvColumn8);
-            this.olvLayersUniformProp.AllColumns.Add(this.olvColumn9);
-            this.olvLayersUniformProp.AllColumns.Add(this.olvColumn10);
-            this.olvLayersUniformProp.AllColumns.Add(this.olvColumn11);
-            this.olvLayersUniformProp.AllColumns.Add(this.olvColumn12);
-            this.olvLayersUniformProp.AllowColumnReorder = true;
+            this.olvLayersUniformProp.AllowUserToOrderColumns = true;
             this.olvLayersUniformProp.AllowDrop = true;
-            this.olvLayersUniformProp.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
-            this.olvLayersUniformProp.CellEditUseWholeCell = false;
-            this.olvLayersUniformProp.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvLayersUniformProp.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.olvColumn1,
             this.olvColumn7,
             this.olvColumn8,
@@ -317,85 +274,66 @@
             this.olvColumn11,
             this.olvColumn12});
             this.olvLayersUniformProp.Cursor = System.Windows.Forms.Cursors.Default;
-            this.olvLayersUniformProp.DataSource = null;
             this.olvLayersUniformProp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.olvLayersUniformProp.EmptyListMsg = "";
-            this.olvLayersUniformProp.EmptyListMsgFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.olvLayersUniformProp.FullRowSelect = true;
-            this.olvLayersUniformProp.GridLines = true;
-            this.olvLayersUniformProp.GroupWithItemCountFormat = "";
-            this.olvLayersUniformProp.GroupWithItemCountSingularFormat = "";
-            this.olvLayersUniformProp.HideSelection = false;
             this.olvLayersUniformProp.Location = new System.Drawing.Point(3, 3);
             this.olvLayersUniformProp.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.olvLayersUniformProp.Name = "olvLayersUniformProp";
-            this.olvLayersUniformProp.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
-            this.olvLayersUniformProp.SelectedBackColor = System.Drawing.Color.FromArgb(214, 233, 245);
-            this.olvLayersUniformProp.SelectedForeColor = System.Drawing.Color.FromArgb(27, 90, 140);
-            this.olvLayersUniformProp.ShowCommandMenuOnRightClick = true;
-            this.olvLayersUniformProp.ShowGroups = false;
-            this.olvLayersUniformProp.ShowImagesOnSubItems = true;
-            this.olvLayersUniformProp.ShowItemToolTips = true;
+            this.olvLayersUniformProp.AllowUserToAddRows = false;
+            this.olvLayersUniformProp.AllowUserToDeleteRows = false;
+            this.olvLayersUniformProp.AutoGenerateColumns = false;
+            this.olvLayersUniformProp.RowHeadersVisible = false;
+            this.olvLayersUniformProp.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.olvLayersUniformProp.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.olvLayersUniformProp.Size = new System.Drawing.Size(747, 266);
             this.olvLayersUniformProp.TabIndex = 22;
-            this.olvLayersUniformProp.UseCellFormatEvents = true;
-            this.olvLayersUniformProp.UseCompatibleStateImageBehavior = false;
-            this.olvLayersUniformProp.UseFilterIndicator = true;
-            this.olvLayersUniformProp.UseFiltering = true;
-            this.olvLayersUniformProp.UseHotItem = true;
-            this.olvLayersUniformProp.UseTranslucentHotItem = true;
-            this.olvLayersUniformProp.View = System.Windows.Forms.View.Details;
             // 
             // olvColumn1
             // 
-            this.olvColumn1.AspectName = "Name";
-            this.olvColumn1.ButtonPadding = new System.Drawing.Size(10, 10);
-            this.olvColumn1.CellEditUseWholeCell = true;
-            this.olvColumn1.IsTileViewColumn = true;
-            this.olvColumn1.Text = "Layer Name";
-            this.olvColumn1.UseInitialLetterForGroup = true;
+            this.olvColumn1.DataPropertyName = "Name";
+            this.olvColumn1.Name = "olvColumn1";
+            this.olvColumn1.HeaderText = "Layer Name";
             this.olvColumn1.Width = 126;
             // 
             // olvColumn7
             // 
-            this.olvColumn7.AspectName = "LayerHeight";
-            this.olvColumn7.CellEditUseWholeCell = true;
-            this.olvColumn7.Text = "Layer Height";
+            this.olvColumn7.DataPropertyName = "LayerHeight";
+            this.olvColumn7.Name = "olvColumn7";
+            this.olvColumn7.HeaderText = "Layer Height";
             this.olvColumn7.Width = 109;
             // 
             // olvColumn8
             // 
-            this.olvColumn8.AspectName = "HK";
-            this.olvColumn8.CellEditUseWholeCell = true;
-            this.olvColumn8.Text = "HK";
+            this.olvColumn8.DataPropertyName = "HK";
+            this.olvColumn8.Name = "olvColumn8";
+            this.olvColumn8.HeaderText = "HK";
             this.olvColumn8.Width = 72;
             // 
             // olvColumn9
             // 
-            this.olvColumn9.AspectName = "VKA";
-            this.olvColumn9.CellEditUseWholeCell = true;
-            this.olvColumn9.Text = "VKA";
+            this.olvColumn9.DataPropertyName = "VKA";
+            this.olvColumn9.Name = "olvColumn9";
+            this.olvColumn9.HeaderText = "VKA";
             this.olvColumn9.Width = 77;
             // 
             // olvColumn10
             // 
-            this.olvColumn10.AspectName = "SY";
-            this.olvColumn10.CellEditUseWholeCell = true;
-            this.olvColumn10.Text = "SY";
+            this.olvColumn10.DataPropertyName = "SY";
+            this.olvColumn10.Name = "olvColumn10";
+            this.olvColumn10.HeaderText = "SY";
             this.olvColumn10.Width = 85;
             // 
             // olvColumn11
             // 
-            this.olvColumn11.AspectName = "SS";
-            this.olvColumn11.CellEditUseWholeCell = true;
-            this.olvColumn11.Text = "SS";
+            this.olvColumn11.DataPropertyName = "SS";
+            this.olvColumn11.Name = "olvColumn11";
+            this.olvColumn11.HeaderText = "SS";
             this.olvColumn11.Width = 97;
             // 
             // olvColumn12
             // 
-            this.olvColumn12.AspectName = "WETDRY";
-            this.olvColumn12.CellEditUseWholeCell = true;
-            this.olvColumn12.Text = "WETDRY";
+            this.olvColumn12.DataPropertyName = "WETDRY";
+            this.olvColumn12.Name = "olvColumn12";
+            this.olvColumn12.HeaderText = "WETDRY";
             this.olvColumn12.Width = 174;
             // 
             // tabPage2
@@ -560,13 +498,13 @@
 
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOk;
-        private BrightIdeasSoftware.DataListView olvLayerGroup;
-        private BrightIdeasSoftware.OLVColumn colLayerName;
-        private BrightIdeasSoftware.OLVColumn colLayerType;
-        private BrightIdeasSoftware.OLVColumn colLAYAVG;
-        private BrightIdeasSoftware.OLVColumn colLAYVKA;
-        private BrightIdeasSoftware.OLVColumn colCHANI;
-        private BrightIdeasSoftware.OLVColumn colLAYWET;
+        private System.Windows.Forms.DataGridView olvLayerGroup;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colLayerName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colLayerType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colLAYAVG;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colLAYVKA;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCHANI;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colLAYWET;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button btnAdd;
@@ -574,14 +512,14 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPageInitial;
-        private BrightIdeasSoftware.DataListView olvLayersUniformProp;
-        private BrightIdeasSoftware.OLVColumn olvColumn1;
-        private BrightIdeasSoftware.OLVColumn olvColumn7;
-        private BrightIdeasSoftware.OLVColumn olvColumn8;
-        private BrightIdeasSoftware.OLVColumn olvColumn9;
-        private BrightIdeasSoftware.OLVColumn olvColumn10;
-        private BrightIdeasSoftware.OLVColumn olvColumn11;
-        private BrightIdeasSoftware.OLVColumn olvColumn12;
+        private System.Windows.Forms.DataGridView olvLayersUniformProp;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn10;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn11;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn12;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox tbLayerHeight;

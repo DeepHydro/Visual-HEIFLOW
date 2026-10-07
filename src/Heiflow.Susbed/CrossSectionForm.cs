@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Heiflow.Controls.WinForm.Controls;
 
 namespace Heiflow.Models.Hydrodynamics.Susbed
 {
@@ -36,16 +37,16 @@ namespace Heiflow.Models.Hydrodynamics.Susbed
             }
             else
             {
-                olvMatName.DataSource = _CrossSectionPackage.CrossSections;
+                NativeList.Bind(olvMatName, _CrossSectionPackage.CrossSections);
             }
         }
-        private void olvMatName_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        private void olvMatName_ItemSelectionChanged(object sender, EventArgs e)
         {
-            _SelectedCrossSection = olvMatName.SelectedObject as CrossSection;
+            _SelectedCrossSection = NativeList.SelectedRow<CrossSection>(olvMatName);
             if (_SelectedCrossSection != null)
             {
                 winChartSection.Plot<double>(_SelectedCrossSection.Distance, _SelectedCrossSection.Elevation,
-                    _SelectedCrossSection.Name, System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline, "距离 (米)", "高程 (米)");
+                    _SelectedCrossSection.Name, System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline, "距离 (�?", "高程 (�?");
                 bindingSource1.DataSource = _SelectedCrossSection.ToDataTable();
                 dataGridView1.DataSource = bindingSource1;
             }

@@ -591,7 +591,6 @@ D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\WpfApplicationFramework
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\Heiflow.Applications.dll
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\DotSpatial.Data.dll
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\DotSpatial.Data.Forms.dll
-D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\ObjectListView.dll
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\DotSpatial.Controls.dll
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\DotSpatial.Projections.dll
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\SourceGrid.dll
@@ -621,7 +620,6 @@ D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\AForge.Math.xml
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\System.Data.SQLite.xml
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\WpfApplicationFramework.xml
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\Heiflow.Applications.pdb
-D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\ObjectListView.xml
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\SourceGrid.xml
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\DotSpatial.NetTopologySuite.xml
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Image\bin\Debug\DotSpatial.GeoAPI.xml

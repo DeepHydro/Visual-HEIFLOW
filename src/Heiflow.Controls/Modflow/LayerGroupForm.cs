@@ -40,6 +40,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Heiflow.Controls.WinForm.Controls;
 
 namespace Heiflow.Controls.WinForm.Modflow
 {
@@ -68,33 +69,29 @@ namespace Heiflow.Controls.WinForm.Modflow
                 numericUpDown1.Value = _Layers.Count;
                 numericUpDown1.ValueChanged += numericUpDown1_ValueChanged;
             }
-            olvLayerGroup.SetObjects(_Layers);
-            olvLayersUniformProp.SetObjects(_Layers);
+            BindLayers();
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             _LayerGroupManager.Initialize((int)numericUpDown1.Value);
-            olvLayerGroup.SetObjects(_Layers);
-            olvLayersUniformProp.SetObjects(_Layers);
+            BindLayers();
         }
         private void btnRemove_Click(object sender, EventArgs e)
         {
-            var layer = olvLayerGroup.SelectedObject as LayerGroup;
+            var layer = NativeList.SelectedRow<LayerGroup>(olvLayerGroup);
             if (layer != null)
                 _LayerGroupManager.Remove(layer);
-            olvLayerGroup.SetObjects(_Layers);
-            olvLayersUniformProp.SetObjects(_Layers);
+            BindLayers();
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            var index = olvLayerGroup.SelectedIndex;
+            var index = olvLayerGroup.SelectedRows.Count > 0 ? olvLayerGroup.SelectedRows[0].Index : -1;
             if (index < 0)
-                index = olvLayerGroup.Items.Count - 1;
+                index = olvLayerGroup.Rows.Count - 1;
             _LayerGroupManager.Add(index);
-            olvLayerGroup.SetObjects(_Layers);
-            olvLayersUniformProp.SetObjects(_Layers);
+            BindLayers();
         }
 
         private void btnOk_Click(object sender, EventArgs e)
@@ -109,14 +106,32 @@ namespace Heiflow.Controls.WinForm.Modflow
             this.Close();
         }
 
-        private void olvLayerGroup_ItemsChanged(object sender, BrightIdeasSoftware.ItemsChangedEventArgs e)
+        private void olvLayerGroup_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
+            _LayerGroupManager.OnItemChanged(
+                olvLayerGroup.Rows[e.RowIndex].DataBoundItem as LayerGroup,
+                olvLayerGroup.Columns[e.ColumnIndex].DataPropertyName);
         }
 
-        private void olvLayerGroup_CellEditFinished(object sender, BrightIdeasSoftware.CellEditEventArgs e)
+        private void olvLayersUniformProp_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            _LayerGroupManager.OnItemChanged(e.RowObject as LayerGroup, e.Column.AspectName);
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
+            _LayerGroupManager.OnItemChanged(
+                olvLayersUniformProp.Rows[e.RowIndex].DataBoundItem as LayerGroup,
+                olvLayersUniformProp.Columns[e.ColumnIndex].DataPropertyName);
+        }
+
+        /// <summary>Rebinds both grids. An ObservableCollection does not raise the list change
+        /// notifications a WinForms binding listens to, so rebinding is what refreshes them.</summary>
+        private void BindLayers()
+        {
+            olvLayerGroup.DataSource = null;
+            olvLayersUniformProp.DataSource = null;
+            olvLayerGroup.DataSource = _Layers;
+            olvLayersUniformProp.DataSource = _Layers;
         }
 
         private void btnSetToUniform_Click(object sender, EventArgs e)

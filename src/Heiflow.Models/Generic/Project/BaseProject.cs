@@ -641,7 +641,7 @@ namespace Heiflow.Models.Generic.Project
         public virtual void SaveBatchRunFile()
         {
             var control_file = string.IsNullOrEmpty(RelativeControlFileName) ? Name + ControlFileExtension : RelativeControlFileName;
-            var filename = Path.Combine(AbsolutePathToProjectFile, "run.bat");
+            var filename = Path.Combine(AbsolutePathToProjectFile, "run_" + ProcessModule.ToString() + ".bat");
             using (StreamWriter sw = new StreamWriter(filename))
             {
                 sw.WriteLine(string.Format("{0} {1}", ModelExeFileName, control_file));
@@ -665,7 +665,7 @@ namespace Heiflow.Models.Generic.Project
 
         protected virtual void CheckBatchRunFile()
         {
-            var filename = Path.Combine(AbsolutePathToProjectFile, "run.bat");
+            var filename = Path.Combine(AbsolutePathToProjectFile, "run_" + ProcessModule.ToString() + ".bat");
             if (File.Exists(filename))
             {
                 bool need_fix = false;

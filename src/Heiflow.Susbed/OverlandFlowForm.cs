@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Heiflow.Controls.WinForm.Controls;
 
 namespace Heiflow.Models.Hydrodynamics.Susbed
 {
@@ -28,7 +29,7 @@ namespace Heiflow.Models.Hydrodynamics.Susbed
 
       private   void OverlandFlowForm_Load(object sender, EventArgs e)
         {
-            olvTributaryPara.SetObjects(_SMWWPackage.SubCachements);
+            NativeList.Bind(olvTributaryPara, _SMWWPackage.SubCachements);
         }
 
       private void btnSave_Click(object sender, EventArgs e)

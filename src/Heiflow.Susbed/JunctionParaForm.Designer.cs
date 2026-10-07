@@ -36,39 +36,36 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.olvSections = new BrightIdeasSoftware.DataListView();
-            this.olvColumn12 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvSections = new System.Windows.Forms.DataGridView();
+            this.olvColumn12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.numericUpDownSection = new System.Windows.Forms.NumericUpDown();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.olvTributaryPara = new BrightIdeasSoftware.DataListView();
-            this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn3 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn4 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn5 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn7 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn6 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvTributaryPara = new System.Windows.Forms.DataGridView();
+            this.olvColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label3 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.olvPointSource = new BrightIdeasSoftware.DataListView();
-            this.olvColumn8 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn9 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn10 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn11 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn13 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn14 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvPointSource = new System.Windows.Forms.DataGridView();
+            this.olvColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn13 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn14 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label4 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.olvSections)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSection)).BeginInit();
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.olvTributaryPara)).BeginInit();
             this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.olvPointSource)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -158,56 +155,32 @@
             // 
             // olvSections
             // 
-            this.olvSections.AllColumns.Add(this.olvColumn12);
-            this.olvSections.AllowColumnReorder = true;
+            this.olvSections.AllowUserToOrderColumns = true;
             this.olvSections.AllowDrop = true;
             this.olvSections.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.olvSections.AutoGenerateColumns = false;
-            this.olvSections.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
-            this.olvSections.CellEditUseWholeCell = false;
-            this.olvSections.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvSections.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.olvColumn12});
             this.olvSections.Cursor = System.Windows.Forms.Cursors.Default;
-            this.olvSections.DataSource = null;
-            this.olvSections.EmptyListMsg = "";
-            this.olvSections.EmptyListMsgFont = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.olvSections.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.olvSections.FullRowSelect = true;
-            this.olvSections.GridLines = true;
-            this.olvSections.GroupWithItemCountFormat = "";
-            this.olvSections.GroupWithItemCountSingularFormat = "";
-            this.olvSections.HideSelection = false;
             this.olvSections.Location = new System.Drawing.Point(8, 45);
             this.olvSections.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.olvSections.Name = "olvSections";
-            this.olvSections.RowHeight = 20;
-            this.olvSections.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
-            this.olvSections.SelectedBackColor = System.Drawing.Color.Pink;
-            this.olvSections.SelectedForeColor = System.Drawing.Color.MidnightBlue;
-            this.olvSections.ShowCommandMenuOnRightClick = true;
-            this.olvSections.ShowGroups = false;
-            this.olvSections.ShowImagesOnSubItems = true;
-            this.olvSections.ShowItemToolTips = true;
+            this.olvSections.AllowUserToAddRows = false;
+            this.olvSections.AllowUserToDeleteRows = false;
+            this.olvSections.AutoGenerateColumns = false;
+            this.olvSections.RowHeadersVisible = false;
+            this.olvSections.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.olvSections.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.olvSections.Size = new System.Drawing.Size(629, 426);
             this.olvSections.TabIndex = 32;
-            this.olvSections.UseCellFormatEvents = true;
-            this.olvSections.UseCompatibleStateImageBehavior = false;
-            this.olvSections.UseFilterIndicator = true;
-            this.olvSections.UseFiltering = true;
-            this.olvSections.UseHotItem = true;
-            this.olvSections.UseTranslucentHotItem = true;
-            this.olvSections.View = System.Windows.Forms.View.Details;
             // 
             // olvColumn12
             // 
-            this.olvColumn12.AspectName = "NO";
-            this.olvColumn12.ButtonPadding = new System.Drawing.Size(10, 10);
-            this.olvColumn12.CellEditUseWholeCell = false;
-            this.olvColumn12.IsTileViewColumn = true;
-            this.olvColumn12.Text = "断面编号";
-            this.olvColumn12.UseInitialLetterForGroup = true;
+            this.olvColumn12.DataPropertyName = "NO";
+            this.olvColumn12.HeaderText = "断面编号";
+            this.olvColumn12.Name = "olvColumn12";
             this.olvColumn12.Width = 556;
             // 
             // label2
@@ -262,22 +235,12 @@
             // 
             // olvTributaryPara
             // 
-            this.olvTributaryPara.AllColumns.Add(this.olvColumn1);
-            this.olvTributaryPara.AllColumns.Add(this.olvColumn2);
-            this.olvTributaryPara.AllColumns.Add(this.olvColumn3);
-            this.olvTributaryPara.AllColumns.Add(this.olvColumn4);
-            this.olvTributaryPara.AllColumns.Add(this.olvColumn5);
-            this.olvTributaryPara.AllColumns.Add(this.olvColumn7);
-            this.olvTributaryPara.AllColumns.Add(this.olvColumn6);
-            this.olvTributaryPara.AllowColumnReorder = true;
+            this.olvTributaryPara.AllowUserToOrderColumns = true;
             this.olvTributaryPara.AllowDrop = true;
             this.olvTributaryPara.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.olvTributaryPara.AutoGenerateColumns = false;
-            this.olvTributaryPara.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
-            this.olvTributaryPara.CellEditUseWholeCell = false;
-            this.olvTributaryPara.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvTributaryPara.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.olvColumn1,
             this.olvColumn2,
             this.olvColumn3,
@@ -286,84 +249,67 @@
             this.olvColumn7,
             this.olvColumn6});
             this.olvTributaryPara.Cursor = System.Windows.Forms.Cursors.Default;
-            this.olvTributaryPara.DataSource = null;
-            this.olvTributaryPara.EmptyListMsg = "";
-            this.olvTributaryPara.EmptyListMsgFont = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.olvTributaryPara.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.olvTributaryPara.FullRowSelect = true;
-            this.olvTributaryPara.GridLines = true;
-            this.olvTributaryPara.GroupWithItemCountFormat = "";
-            this.olvTributaryPara.GroupWithItemCountSingularFormat = "";
-            this.olvTributaryPara.HideSelection = false;
             this.olvTributaryPara.Location = new System.Drawing.Point(8, 45);
             this.olvTributaryPara.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.olvTributaryPara.Name = "olvTributaryPara";
-            this.olvTributaryPara.RowHeight = 20;
-            this.olvTributaryPara.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
-            this.olvTributaryPara.SelectedBackColor = System.Drawing.Color.Pink;
-            this.olvTributaryPara.SelectedForeColor = System.Drawing.Color.MidnightBlue;
-            this.olvTributaryPara.ShowCommandMenuOnRightClick = true;
-            this.olvTributaryPara.ShowGroups = false;
-            this.olvTributaryPara.ShowImagesOnSubItems = true;
-            this.olvTributaryPara.ShowItemToolTips = true;
+            this.olvTributaryPara.AllowUserToAddRows = false;
+            this.olvTributaryPara.AllowUserToDeleteRows = false;
+            this.olvTributaryPara.AutoGenerateColumns = false;
+            this.olvTributaryPara.RowHeadersVisible = false;
+            this.olvTributaryPara.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.olvTributaryPara.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.olvTributaryPara.Size = new System.Drawing.Size(686, 433);
             this.olvTributaryPara.TabIndex = 31;
-            this.olvTributaryPara.UseCellFormatEvents = true;
-            this.olvTributaryPara.UseCompatibleStateImageBehavior = false;
-            this.olvTributaryPara.UseFilterIndicator = true;
-            this.olvTributaryPara.UseFiltering = true;
-            this.olvTributaryPara.UseHotItem = true;
-            this.olvTributaryPara.UseTranslucentHotItem = true;
-            this.olvTributaryPara.View = System.Windows.Forms.View.Details;
-            this.olvTributaryPara.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.olvTributaryPara_ItemSelectionChanged);
+            this.olvTributaryPara.SelectionChanged += new System.EventHandler(this.olvTributaryPara_ItemSelectionChanged);
             // 
             // olvColumn1
             // 
-            this.olvColumn1.AspectName = "NO";
-            this.olvColumn1.ButtonPadding = new System.Drawing.Size(10, 10);
-            this.olvColumn1.CellEditUseWholeCell = false;
-            this.olvColumn1.IsTileViewColumn = true;
-            this.olvColumn1.Text = "支流编号";
-            this.olvColumn1.UseInitialLetterForGroup = true;
+            this.olvColumn1.DataPropertyName = "NO";
+            this.olvColumn1.HeaderText = "支流编号";
+            this.olvColumn1.Name = "olvColumn1";
             this.olvColumn1.Width = 81;
             // 
             // olvColumn2
             // 
-            this.olvColumn2.AspectName = "MFH";
-            this.olvColumn2.ButtonPadding = new System.Drawing.Size(10, 10);
-            this.olvColumn2.CellEditUseWholeCell = false;
-            this.olvColumn2.IsTileViewColumn = true;
-            this.olvColumn2.Text = "分汇类型";
+            this.olvColumn2.DataPropertyName = "MFH";
+            this.olvColumn2.HeaderText = "分汇类型";
+            this.olvColumn2.Name = "olvColumn2";
             this.olvColumn2.Width = 91;
             // 
             // olvColumn3
             // 
-            this.olvColumn3.AspectName = "MQ";
-            this.olvColumn3.Text = "Q形式";
+            this.olvColumn3.DataPropertyName = "MQ";
+            this.olvColumn3.HeaderText = "Q形式";
+            this.olvColumn3.Name = "olvColumn3";
             this.olvColumn3.Width = 70;
             // 
             // olvColumn4
             // 
-            this.olvColumn4.AspectName = "MS";
-            this.olvColumn4.Text = "S形式";
+            this.olvColumn4.DataPropertyName = "MS";
+            this.olvColumn4.HeaderText = "S形式";
+            this.olvColumn4.Name = "olvColumn4";
             this.olvColumn4.Width = 75;
             // 
             // olvColumn5
             // 
-            this.olvColumn5.AspectName = "UpperSectionID";
-            this.olvColumn5.Text = "进口断面编号";
+            this.olvColumn5.DataPropertyName = "UpperSectionID";
+            this.olvColumn5.HeaderText = "进口断面编号";
+            this.olvColumn5.Name = "olvColumn5";
             this.olvColumn5.Width = 92;
             // 
             // olvColumn7
             // 
-            this.olvColumn7.AspectName = "LowerSectionID";
-            this.olvColumn7.Text = "出口断面编号";
+            this.olvColumn7.DataPropertyName = "LowerSectionID";
+            this.olvColumn7.HeaderText = "出口断面编号";
+            this.olvColumn7.Name = "olvColumn7";
             this.olvColumn7.Width = 98;
             // 
             // olvColumn6
             // 
-            this.olvColumn6.AspectName = "Name";
-            this.olvColumn6.Text = "入汇点名称";
+            this.olvColumn6.DataPropertyName = "Name";
+            this.olvColumn6.HeaderText = "入汇点名称";
+            this.olvColumn6.Name = "olvColumn6";
             this.olvColumn6.Width = 85;
             // 
             // label3
@@ -389,21 +335,12 @@
             // 
             // olvPointSource
             // 
-            this.olvPointSource.AllColumns.Add(this.olvColumn8);
-            this.olvPointSource.AllColumns.Add(this.olvColumn9);
-            this.olvPointSource.AllColumns.Add(this.olvColumn10);
-            this.olvPointSource.AllColumns.Add(this.olvColumn11);
-            this.olvPointSource.AllColumns.Add(this.olvColumn13);
-            this.olvPointSource.AllColumns.Add(this.olvColumn14);
-            this.olvPointSource.AllowColumnReorder = true;
+            this.olvPointSource.AllowUserToOrderColumns = true;
             this.olvPointSource.AllowDrop = true;
             this.olvPointSource.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.olvPointSource.AutoGenerateColumns = false;
-            this.olvPointSource.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
-            this.olvPointSource.CellEditUseWholeCell = false;
-            this.olvPointSource.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvPointSource.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.olvColumn8,
             this.olvColumn9,
             this.olvColumn10,
@@ -411,78 +348,60 @@
             this.olvColumn13,
             this.olvColumn14});
             this.olvPointSource.Cursor = System.Windows.Forms.Cursors.Default;
-            this.olvPointSource.DataSource = null;
-            this.olvPointSource.EmptyListMsg = "";
-            this.olvPointSource.EmptyListMsgFont = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.olvPointSource.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.olvPointSource.FullRowSelect = true;
-            this.olvPointSource.GridLines = true;
-            this.olvPointSource.GroupWithItemCountFormat = "";
-            this.olvPointSource.GroupWithItemCountSingularFormat = "";
-            this.olvPointSource.HideSelection = false;
             this.olvPointSource.Location = new System.Drawing.Point(8, 45);
             this.olvPointSource.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.olvPointSource.Name = "olvPointSource";
-            this.olvPointSource.RowHeight = 20;
-            this.olvPointSource.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
-            this.olvPointSource.SelectedBackColor = System.Drawing.Color.Pink;
-            this.olvPointSource.SelectedForeColor = System.Drawing.Color.MidnightBlue;
-            this.olvPointSource.ShowCommandMenuOnRightClick = true;
-            this.olvPointSource.ShowGroups = false;
-            this.olvPointSource.ShowImagesOnSubItems = true;
-            this.olvPointSource.ShowItemToolTips = true;
+            this.olvPointSource.AllowUserToAddRows = false;
+            this.olvPointSource.AllowUserToDeleteRows = false;
+            this.olvPointSource.AutoGenerateColumns = false;
+            this.olvPointSource.RowHeadersVisible = false;
+            this.olvPointSource.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.olvPointSource.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.olvPointSource.Size = new System.Drawing.Size(686, 433);
             this.olvPointSource.TabIndex = 33;
-            this.olvPointSource.UseCellFormatEvents = true;
-            this.olvPointSource.UseCompatibleStateImageBehavior = false;
-            this.olvPointSource.UseFilterIndicator = true;
-            this.olvPointSource.UseFiltering = true;
-            this.olvPointSource.UseHotItem = true;
-            this.olvPointSource.UseTranslucentHotItem = true;
-            this.olvPointSource.View = System.Windows.Forms.View.Details;
-            this.olvPointSource.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.olvPointSource_ItemSelectionChanged);
+            this.olvPointSource.SelectionChanged += new System.EventHandler(this.olvPointSource_ItemSelectionChanged);
             // 
             // olvColumn8
             // 
-            this.olvColumn8.AspectName = "NO";
-            this.olvColumn8.ButtonPadding = new System.Drawing.Size(10, 10);
-            this.olvColumn8.CellEditUseWholeCell = false;
-            this.olvColumn8.IsTileViewColumn = true;
-            this.olvColumn8.Text = "支流编号";
-            this.olvColumn8.UseInitialLetterForGroup = true;
+            this.olvColumn8.DataPropertyName = "NO";
+            this.olvColumn8.HeaderText = "支流编号";
+            this.olvColumn8.Name = "olvColumn8";
             this.olvColumn8.Width = 81;
             // 
             // olvColumn9
             // 
-            this.olvColumn9.AspectName = "MFH";
-            this.olvColumn9.ButtonPadding = new System.Drawing.Size(10, 10);
-            this.olvColumn9.CellEditUseWholeCell = false;
-            this.olvColumn9.IsTileViewColumn = true;
-            this.olvColumn9.Text = "分汇类型";
+            this.olvColumn9.DataPropertyName = "MFH";
+            this.olvColumn9.HeaderText = "分汇类型";
+            this.olvColumn9.Name = "olvColumn9";
             this.olvColumn9.Width = 91;
             // 
             // olvColumn10
             // 
-            this.olvColumn10.AspectName = "MQ";
-            this.olvColumn10.Text = "Q形式";
+            this.olvColumn10.DataPropertyName = "MQ";
+            this.olvColumn10.HeaderText = "Q形式";
+            this.olvColumn10.Name = "olvColumn10";
             this.olvColumn10.Width = 70;
             // 
             // olvColumn11
             // 
-            this.olvColumn11.AspectName = "MS";
-            this.olvColumn11.Text = "S形式";
+            this.olvColumn11.DataPropertyName = "MS";
+            this.olvColumn11.HeaderText = "S形式";
+            this.olvColumn11.Name = "olvColumn11";
             this.olvColumn11.Width = 75;
             // 
             // olvColumn13
             // 
-            this.olvColumn13.AspectName = "LowerSectionID";
-            this.olvColumn13.Text = "下游断面编号";
+            this.olvColumn13.DataPropertyName = "LowerSectionID";
+            this.olvColumn13.HeaderText = "下游断面编号";
+            this.olvColumn13.Name = "olvColumn13";
             this.olvColumn13.Width = 98;
             // 
             // olvColumn14
             // 
-            this.olvColumn14.AspectName = "Name";
-            this.olvColumn14.Text = "入汇点名称";
+            this.olvColumn14.DataPropertyName = "Name";
+            this.olvColumn14.HeaderText = "入汇点名称";
+            this.olvColumn14.Name = "olvColumn14";
             this.olvColumn14.Width = 85;
             // 
             // label4
@@ -510,14 +429,11 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.olvSections)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSection)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.olvTributaryPara)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.olvPointSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -535,26 +451,26 @@
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private BrightIdeasSoftware.DataListView olvTributaryPara;
-        private BrightIdeasSoftware.OLVColumn olvColumn1;
-        private BrightIdeasSoftware.OLVColumn olvColumn2;
-        private BrightIdeasSoftware.OLVColumn olvColumn3;
-        private BrightIdeasSoftware.OLVColumn olvColumn4;
-        private BrightIdeasSoftware.OLVColumn olvColumn5;
-        private BrightIdeasSoftware.OLVColumn olvColumn6;
-        private BrightIdeasSoftware.OLVColumn olvColumn7;
+        private System.Windows.Forms.DataGridView olvTributaryPara;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn7;
         private System.Windows.Forms.Button btnRemove;
         private System.Windows.Forms.Button btnAdd;
-        private BrightIdeasSoftware.DataListView olvPointSource;
-        private BrightIdeasSoftware.OLVColumn olvColumn8;
-        private BrightIdeasSoftware.OLVColumn olvColumn9;
-        private BrightIdeasSoftware.OLVColumn olvColumn10;
-        private BrightIdeasSoftware.OLVColumn olvColumn11;
-        private BrightIdeasSoftware.OLVColumn olvColumn13;
-        private BrightIdeasSoftware.OLVColumn olvColumn14;
+        private System.Windows.Forms.DataGridView olvPointSource;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn10;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn11;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn13;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn14;
         private System.Windows.Forms.Label label4;
-        private BrightIdeasSoftware.DataListView olvSections;
-        private BrightIdeasSoftware.OLVColumn olvColumn12;
+        private System.Windows.Forms.DataGridView olvSections;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn12;
 
     }
 }

@@ -39,6 +39,7 @@ using System.Collections.Generic;
 using Heiflow.Core.Data;
 using System.Linq;
 using Heiflow.Controls.WinForm.Properties;
+using Heiflow.Controls.WinForm.Controls;
 
 
 namespace Heiflow.Presentation.Controls.Project
@@ -49,6 +50,9 @@ namespace Heiflow.Presentation.Controls.Project
         private TreeModel _TreeModel;
         private IBasicModel _BasicModel;
         private List<IPackage> _PckChanged;
+        /// <summary>Set while the package list is being rebuilt, so that putting the check marks
+        /// back on is not taken for a change made by the user.</summary>
+        private bool _FillingList;
 
         public NewProjectionItemForm(IBasicModel model)
         {
@@ -107,7 +111,16 @@ namespace Heiflow.Presentation.Controls.Project
         private void treeView1_NodeMouseClick(object sender, TreeNodeAdvMouseEventArgs e)
         {
             var node = e.Node.Tag as Node;
-            this.olvSimple.SetObjects(node.Tag as IPackage[]);
+            _FillingList = true;
+            NativeList.Fill(this.olvSimple, node.Tag as IPackage[]);
+            // A plain list view does not bind the check mark, so it is put back from the packages.
+            foreach (ListViewItem item in olvSimple.Items)
+            {
+                var pck = item.Tag as IPackage;
+                if (pck != null)
+                    item.Checked = pck.IsUsed;
+            }
+            _FillingList = false;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -126,22 +139,29 @@ namespace Heiflow.Presentation.Controls.Project
             this.Close();
         }
 
-        private void olvSimple_SelectionChanged(object sender, EventArgs e)
+        private void olvSimple_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
-            var pck = olvSimple.SelectedObject as IPackage;
+            var pck = NativeList.Selected<IPackage>(olvSimple);
             if (pck != null)
                 tbModelDes.Text = pck.Description;
             else
                 tbModelDes.Text = "";
         }
 
-        private void olvSimple_SubItemChecking(object sender, BrightIdeasSoftware.SubItemCheckingEventArgs e)
+        /// <summary>The check mark says whether a package is used. A mandatory package cannot be
+        /// switched off, so its mark is put back.</summary>
+        private void olvSimple_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
-            var pck = e.RowObject as IPackage;
-            if (pck.IsMandatory)
-            {              
+            var pck = e.Item.Tag as IPackage;
+            if (pck == null || _FillingList)
+                return;
+
+            pck.IsUsed = e.Item.Checked;
+            if (pck.IsMandatory && !e.Item.Checked)
+            {
                 MessageBox.Show("This package is mandatory.", "Add Package", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                e.Canceled = true;
+                e.Item.Checked = true;
+                pck.IsUsed = true;
                 return;
             }
             if (!_PckChanged.Contains(pck))

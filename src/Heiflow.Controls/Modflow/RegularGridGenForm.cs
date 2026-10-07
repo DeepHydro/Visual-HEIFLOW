@@ -43,6 +43,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Heiflow.Controls.WinForm.Controls;
 
 namespace Heiflow.Controls.WinForm.Modflow
 {
@@ -289,7 +290,7 @@ namespace Heiflow.Controls.WinForm.Modflow
                 var mm = _Controller.Project.Model as Heiflow.Models.Integration.HeiflowModel;
                 var prms = mm.PRMSModel;
                 prms.SoilLayerManager.Generate((int)numericUpDown2.Value);
-                olvSoilLayers.SetObjects(prms.SoilLayerManager.Layers);
+                NativeList.Bind(olvSoilLayers, prms.SoilLayerManager.Layers);
             }
         }
     }

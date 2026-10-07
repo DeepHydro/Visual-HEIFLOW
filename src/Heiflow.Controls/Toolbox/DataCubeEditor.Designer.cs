@@ -33,10 +33,11 @@
             this.tabControlLeft = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.olvMatName = new BrightIdeasSoftware.DataListView();
-            this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn3 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.lvMatName = new System.Windows.Forms.ListView();
+            this.colMatName = new System.Windows.Forms.ColumnHeader();
+            this.colMatSize = new System.Windows.Forms.ColumnHeader();
+            this.colMatOwner = new System.Windows.Forms.ColumnHeader();
+            this.colMatRepeat = new System.Windows.Forms.ColumnHeader();
             this.contextMenuStrip_matname = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menu_remove = new System.Windows.Forms.ToolStripMenuItem();
             this.menu_Clear = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,11 +45,11 @@
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.btnRemove = new System.Windows.Forms.ToolStripButton();
             this.btnClear = new System.Windows.Forms.ToolStripButton();
-            this.olvVariableName = new BrightIdeasSoftware.DataListView();
-            this.olvColumn4 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvBehavior = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn6 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn7 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.dgvVariables = new System.Windows.Forms.DataGridView();
+            this.colVariableIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colBehavior = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.colConstant = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colMultiplier = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.arrayGrid = new SourceGrid.ArrayGrid();
             this.toolStripArray = new System.Windows.Forms.ToolStrip();
             this.tsLabel = new System.Windows.Forms.ToolStripLabel();
@@ -60,7 +61,6 @@
             this.btnSave = new System.Windows.Forms.ToolStripButton();
             this.btnExport = new System.Windows.Forms.ToolStripButton();
             this.btnImport = new System.Windows.Forms.ToolStripButton();
-            this.olvColumn5 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -71,10 +71,9 @@
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.olvMatName)).BeginInit();
             this.contextMenuStrip_matname.SuspendLayout();
             this.toolStrip2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.olvVariableName)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvVariables)).BeginInit();
             this.toolStripArray.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -131,92 +130,62 @@
             // 
             // splitContainer3.Panel1
             // 
-            this.splitContainer3.Panel1.Controls.Add(this.olvMatName);
+            this.splitContainer3.Panel1.Controls.Add(this.lvMatName);
             this.splitContainer3.Panel1.Controls.Add(this.toolStrip2);
             // 
             // splitContainer3.Panel2
             // 
-            this.splitContainer3.Panel2.Controls.Add(this.olvVariableName);
+            this.splitContainer3.Panel2.Controls.Add(this.dgvVariables);
             this.splitContainer3.Size = new System.Drawing.Size(292, 602);
             this.splitContainer3.SplitterDistance = 301;
             this.splitContainer3.SplitterWidth = 7;
             this.splitContainer3.TabIndex = 1;
             // 
-            // olvMatName
+            // lvMatName
             // 
-            this.olvMatName.AllColumns.Add(this.olvColumn1);
-            this.olvMatName.AllColumns.Add(this.olvColumn2);
-            this.olvMatName.AllColumns.Add(this.olvColumn3);
-            this.olvMatName.AllColumns.Add(this.olvColumn5);
-            this.olvMatName.AllowColumnReorder = true;
-            this.olvMatName.AllowDrop = true;
-            this.olvMatName.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
-            this.olvMatName.CellEditUseWholeCell = false;
-            this.olvMatName.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvColumn1,
-            this.olvColumn2,
-            this.olvColumn3,
-            this.olvColumn5});
-            this.olvMatName.ContextMenuStrip = this.contextMenuStrip_matname;
-            this.olvMatName.Cursor = System.Windows.Forms.Cursors.Default;
-            this.olvMatName.DataSource = null;
-            this.olvMatName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.olvMatName.EmptyListMsg = "";
-            this.olvMatName.EmptyListMsgFont = new System.Drawing.Font("Segoe UI", 9F);
-            this.olvMatName.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.olvMatName.FullRowSelect = true;
-            this.olvMatName.GridLines = true;
-            this.olvMatName.GroupWithItemCountFormat = "";
-            this.olvMatName.GroupWithItemCountSingularFormat = "";
-            this.olvMatName.HideSelection = false;
-            this.olvMatName.Location = new System.Drawing.Point(0, 27);
-            this.olvMatName.Margin = new System.Windows.Forms.Padding(5);
-            this.olvMatName.Name = "olvMatName";
-            this.olvMatName.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
-            this.olvMatName.SelectedBackColor = System.Drawing.Color.FromArgb(46, 123, 184);
-            this.olvMatName.SelectedForeColor = System.Drawing.Color.White;
-            this.olvMatName.ShowCommandMenuOnRightClick = true;
-            this.olvMatName.ShowGroups = false;
-            this.olvMatName.ShowImagesOnSubItems = true;
-            this.olvMatName.ShowItemToolTips = true;
-            this.olvMatName.Size = new System.Drawing.Size(292, 274);
-            this.olvMatName.TabIndex = 3;
-            this.olvMatName.UnfocusedSelectedBackColor = System.Drawing.Color.FromArgb(46, 123, 184);
-            this.olvMatName.UnfocusedSelectedForeColor = System.Drawing.Color.White;
-            this.olvMatName.UseCellFormatEvents = true;
-            this.olvMatName.UseCompatibleStateImageBehavior = false;
-            this.olvMatName.UseFilterIndicator = true;
-            this.olvMatName.UseFiltering = true;
-            this.olvMatName.UseHotItem = true;
-            this.olvMatName.UseTranslucentHotItem = true;
-            this.olvMatName.View = System.Windows.Forms.View.Details;
-            this.olvMatName.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.olvMatName_ItemSelectionChanged);
-            this.olvMatName.MouseUp += new System.Windows.Forms.MouseEventHandler(this.olvMatName_MouseUp);
+            this.lvMatName.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colMatName,
+            this.colMatSize,
+            this.colMatOwner,
+            this.colMatRepeat});
+            this.lvMatName.ContextMenuStrip = this.contextMenuStrip_matname;
+            this.lvMatName.Cursor = System.Windows.Forms.Cursors.Default;
+            this.lvMatName.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvMatName.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.lvMatName.FullRowSelect = true;
+            this.lvMatName.GridLines = true;
+            this.lvMatName.HideSelection = false;
+            this.lvMatName.Location = new System.Drawing.Point(0, 27);
+            this.lvMatName.Margin = new System.Windows.Forms.Padding(5);
+            this.lvMatName.Name = "lvMatName";
+            this.lvMatName.ShowGroups = false;
+            this.lvMatName.ShowItemToolTips = true;
+            this.lvMatName.Size = new System.Drawing.Size(292, 274);
+            this.lvMatName.TabIndex = 3;
+            this.lvMatName.UseCompatibleStateImageBehavior = false;
+            this.lvMatName.View = System.Windows.Forms.View.Details;
+            this.lvMatName.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvMatName_ItemSelectionChanged);
+            this.lvMatName.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lvMatName_MouseUp);
             // 
-            // olvColumn1
+            // colMatName
             // 
-            this.olvColumn1.AspectName = "Name";
-            this.olvColumn1.ButtonPadding = new System.Drawing.Size(10, 10);
-            this.olvColumn1.CellEditUseWholeCell = false;
-            this.olvColumn1.IsTileViewColumn = true;
-            this.olvColumn1.Text = "Name";
-            this.olvColumn1.UseInitialLetterForGroup = true;
-            this.olvColumn1.Width = 100;
+            this.colMatName.Text = "Name";
+            this.colMatName.Width = 100;
             // 
-            // olvColumn2
+            // colMatSize
             // 
-            this.olvColumn2.AspectName = "Size";
-            this.olvColumn2.ButtonPadding = new System.Drawing.Size(10, 10);
-            this.olvColumn2.CellEditUseWholeCell = false;
-            this.olvColumn2.IsTileViewColumn = true;
-            this.olvColumn2.Text = "Size";
-            this.olvColumn2.Width = 115;
+            this.colMatSize.Text = "Size";
+            this.colMatSize.Width = 115;
             // 
-            // olvColumn3
+            // colMatOwner
             // 
-            this.olvColumn3.AspectName = "Owner";
-            this.olvColumn3.Text = "Owner";
-            this.olvColumn3.Width = 83;
+            this.colMatOwner.Text = "Owner";
+            this.colMatOwner.Width = 83;
+            // 
+            // colMatRepeat
+            // 
+            this.colMatRepeat.Text = "Repeat Allowed";
+            this.colMatRepeat.Width = 90;
             // 
             // contextMenuStrip_matname
             // 
@@ -284,86 +253,58 @@
             this.btnClear.Text = "Clear work space";
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
-            // olvVariableName
+            // dgvVariables
             // 
-            this.olvVariableName.AllColumns.Add(this.olvColumn4);
-            this.olvVariableName.AllColumns.Add(this.olvBehavior);
-            this.olvVariableName.AllColumns.Add(this.olvColumn6);
-            this.olvVariableName.AllColumns.Add(this.olvColumn7);
-            this.olvVariableName.AllowColumnReorder = true;
-            this.olvVariableName.AllowDrop = true;
-            this.olvVariableName.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
-            this.olvVariableName.CellEditUseWholeCell = false;
-            this.olvVariableName.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvColumn4,
-            this.olvBehavior,
-            this.olvColumn6,
-            this.olvColumn7});
-            this.olvVariableName.Cursor = System.Windows.Forms.Cursors.Default;
-            this.olvVariableName.DataSource = null;
-            this.olvVariableName.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.olvVariableName.EmptyListMsg = "";
-            this.olvVariableName.EmptyListMsgFont = new System.Drawing.Font("Segoe UI", 9F);
-            this.olvVariableName.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.olvVariableName.FullRowSelect = true;
-            this.olvVariableName.GridLines = true;
-            this.olvVariableName.GroupWithItemCountFormat = "";
-            this.olvVariableName.GroupWithItemCountSingularFormat = "";
-            this.olvVariableName.HideSelection = false;
-            this.olvVariableName.Location = new System.Drawing.Point(0, 0);
-            this.olvVariableName.Margin = new System.Windows.Forms.Padding(5);
-            this.olvVariableName.Name = "olvVariableName";
-            this.olvVariableName.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
-            this.olvVariableName.SelectedBackColor = System.Drawing.Color.FromArgb(46, 123, 184);
-            this.olvVariableName.SelectedForeColor = System.Drawing.Color.White;
-            this.olvVariableName.ShowCommandMenuOnRightClick = true;
-            this.olvVariableName.ShowGroups = false;
-            this.olvVariableName.ShowImagesOnSubItems = true;
-            this.olvVariableName.ShowItemToolTips = true;
-            this.olvVariableName.Size = new System.Drawing.Size(292, 294);
-            this.olvVariableName.TabIndex = 2;
-            this.olvVariableName.UnfocusedSelectedBackColor = System.Drawing.Color.FromArgb(46, 123, 184);
-            this.olvVariableName.UnfocusedSelectedForeColor = System.Drawing.Color.White;
-            this.olvVariableName.UseCellFormatEvents = true;
-            this.olvVariableName.UseCompatibleStateImageBehavior = false;
-            this.olvVariableName.UseFilterIndicator = true;
-            this.olvVariableName.UseFiltering = true;
-            this.olvVariableName.UseHotItem = true;
-            this.olvVariableName.UseTranslucentHotItem = true;
-            this.olvVariableName.View = System.Windows.Forms.View.Details;
-            this.olvVariableName.CellEditFinished += new BrightIdeasSoftware.CellEditEventHandler(this.olvVariableName_CellEditFinished);
-            this.olvVariableName.CellEditFinishing += new BrightIdeasSoftware.CellEditEventHandler(this.olvVariableName_CellEditFinishing);
-            this.olvVariableName.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.olvVariableName_ItemSelectionChanged);
+            this.dgvVariables.AllowUserToAddRows = false;
+            this.dgvVariables.AllowUserToDeleteRows = false;
+            this.dgvVariables.AllowUserToOrderColumns = true;
+            this.dgvVariables.AutoGenerateColumns = false;
+            this.dgvVariables.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvVariables.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvVariables.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colVariableIndex,
+            this.colBehavior,
+            this.colConstant,
+            this.colMultiplier});
+            this.dgvVariables.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvVariables.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            this.dgvVariables.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.dgvVariables.Location = new System.Drawing.Point(0, 0);
+            this.dgvVariables.Margin = new System.Windows.Forms.Padding(5);
+            this.dgvVariables.MultiSelect = false;
+            this.dgvVariables.Name = "dgvVariables";
+            this.dgvVariables.RowHeadersVisible = false;
+            this.dgvVariables.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvVariables.Size = new System.Drawing.Size(292, 294);
+            this.dgvVariables.TabIndex = 2;
+            this.dgvVariables.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dgvVariables_CellValidating);
+            this.dgvVariables.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvVariables_CellValueChanged);
+            this.dgvVariables.SelectionChanged += new System.EventHandler(this.dgvVariables_SelectionChanged);
             // 
-            // olvColumn4
+            // colVariableIndex
             // 
-            this.olvColumn4.AspectName = "VariableIndex";
-            this.olvColumn4.IsEditable = false;
-            this.olvColumn4.Text = "Index";
-            this.olvColumn4.Width = 78;
+            this.colVariableIndex.DataPropertyName = "VariableIndex";
+            this.colVariableIndex.HeaderText = "Index";
+            this.colVariableIndex.Name = "colVariableIndex";
+            this.colVariableIndex.ReadOnly = true;
             // 
-            // olvBehavior
+            // colBehavior
             // 
-            this.olvBehavior.AspectName = "Behavior";
-            this.olvBehavior.ButtonPadding = new System.Drawing.Size(10, 10);
-            this.olvBehavior.CellEditUseWholeCell = true;
-            this.olvBehavior.IsTileViewColumn = true;
-            this.olvBehavior.Text = "Behavior";
-            this.olvBehavior.UseInitialLetterForGroup = true;
-            this.olvBehavior.Width = 89;
-            this.olvBehavior.WordWrap = true;
+            this.colBehavior.DataPropertyName = "Behavior";
+            this.colBehavior.HeaderText = "Behavior";
+            this.colBehavior.Name = "colBehavior";
             // 
-            // olvColumn6
+            // colConstant
             // 
-            this.olvColumn6.AspectName = "Constant";
-            this.olvColumn6.Text = "Constant";
-            this.olvColumn6.Width = 74;
+            this.colConstant.DataPropertyName = "Constant";
+            this.colConstant.HeaderText = "Constant";
+            this.colConstant.Name = "colConstant";
             // 
-            // olvColumn7
+            // colMultiplier
             // 
-            this.olvColumn7.AspectName = "Multiplier";
-            this.olvColumn7.Text = "Multiplier";
-            this.olvColumn7.Width = 73;
+            this.colMultiplier.DataPropertyName = "Multiplier";
+            this.colMultiplier.HeaderText = "Multiplier";
+            this.colMultiplier.Name = "colMultiplier";
             // 
             // arrayGrid
             // 
@@ -481,11 +422,6 @@
             this.btnImport.Text = "Import from an exsiting file";
             this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
             // 
-            // olvColumn5
-            // 
-            this.olvColumn5.AspectName = "RepeatAllowed";
-            this.olvColumn5.Text = "Repeat Allowed";
-            // 
             // DataCubeEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -507,11 +443,10 @@
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.olvMatName)).EndInit();
             this.contextMenuStrip_matname.ResumeLayout(false);
             this.toolStrip2.ResumeLayout(false);
             this.toolStrip2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.olvVariableName)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvVariables)).EndInit();
             this.toolStripArray.ResumeLayout(false);
             this.toolStripArray.PerformLayout();
             this.ResumeLayout(false);
@@ -524,19 +459,20 @@
         private System.Windows.Forms.TabControl tabControlLeft;
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.SplitContainer splitContainer3;
-        private BrightIdeasSoftware.DataListView olvMatName;
-        private BrightIdeasSoftware.OLVColumn olvColumn1;
-        private BrightIdeasSoftware.OLVColumn olvColumn2;
-        private BrightIdeasSoftware.OLVColumn olvColumn3;
+        private System.Windows.Forms.ListView lvMatName;
+        private System.Windows.Forms.ColumnHeader colMatName;
+        private System.Windows.Forms.ColumnHeader colMatSize;
+        private System.Windows.Forms.ColumnHeader colMatOwner;
+        private System.Windows.Forms.ColumnHeader colMatRepeat;
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripButton btnClear;
-        private BrightIdeasSoftware.DataListView olvVariableName;
-        private BrightIdeasSoftware.OLVColumn olvColumn4;
-        private BrightIdeasSoftware.OLVColumn olvBehavior;
+        private System.Windows.Forms.DataGridView dgvVariables;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colVariableIndex;
+        private System.Windows.Forms.DataGridViewComboBoxColumn colBehavior;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colConstant;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colMultiplier;
         private System.Windows.Forms.ToolStrip toolStripArray;
         private System.Windows.Forms.ToolStripButton btnSave;
-        private BrightIdeasSoftware.OLVColumn olvColumn6;
-        private BrightIdeasSoftware.OLVColumn olvColumn7;
         private SourceGrid.ArrayGrid arrayGrid;
         private System.Windows.Forms.ToolStripComboBox tsDataViewMode;
         private System.Windows.Forms.ToolStripComboBox tsSelectionMode;
@@ -551,6 +487,5 @@
         private System.Windows.Forms.ToolStripMenuItem menu_Clear;
         private System.Windows.Forms.ToolStripButton btnExport;
         private System.Windows.Forms.ToolStripButton btnImport;
-        private BrightIdeasSoftware.OLVColumn olvColumn5;
     }
 }

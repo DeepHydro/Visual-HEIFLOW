@@ -29,48 +29,33 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OverlandFlowForm));
-            this.olvTributaryPara = new BrightIdeasSoftware.DataListView();
-            this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn3 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn4 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn5 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn7 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn8 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.PervN = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn9 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn11 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn6 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvTributaryPara = new System.Windows.Forms.DataGridView();
+            this.olvColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PervN = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.olvTributaryPara)).BeginInit();
             this.SuspendLayout();
             // 
             // olvTributaryPara
             // 
-            this.olvTributaryPara.AllColumns.Add(this.olvColumn1);
-            this.olvTributaryPara.AllColumns.Add(this.olvColumn2);
-            this.olvTributaryPara.AllColumns.Add(this.olvColumn3);
-            this.olvTributaryPara.AllColumns.Add(this.olvColumn4);
-            this.olvTributaryPara.AllColumns.Add(this.olvColumn5);
-            this.olvTributaryPara.AllColumns.Add(this.olvColumn7);
-            this.olvTributaryPara.AllColumns.Add(this.olvColumn8);
-            this.olvTributaryPara.AllColumns.Add(this.PervN);
-            this.olvTributaryPara.AllColumns.Add(this.olvColumn9);
-            this.olvTributaryPara.AllColumns.Add(this.olvColumn11);
-            this.olvTributaryPara.AllColumns.Add(this.olvColumn6);
-            this.olvTributaryPara.AllowColumnReorder = true;
+            this.olvTributaryPara.AllowUserToOrderColumns = true;
             this.olvTributaryPara.AllowDrop = true;
             this.olvTributaryPara.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.olvTributaryPara.AutoGenerateColumns = false;
-            this.olvTributaryPara.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
-            this.olvTributaryPara.CellEditUseWholeCell = false;
-            this.olvTributaryPara.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvTributaryPara.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.olvColumn1,
             this.olvColumn2,
             this.olvColumn3,
@@ -83,115 +68,93 @@
             this.olvColumn11,
             this.olvColumn6});
             this.olvTributaryPara.Cursor = System.Windows.Forms.Cursors.Default;
-            this.olvTributaryPara.DataSource = null;
-            this.olvTributaryPara.EmptyListMsg = "";
-            this.olvTributaryPara.EmptyListMsgFont = new System.Drawing.Font("Comic Sans MS", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.olvTributaryPara.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.olvTributaryPara.FullRowSelect = true;
-            this.olvTributaryPara.GridLines = true;
-            this.olvTributaryPara.GroupWithItemCountFormat = "";
-            this.olvTributaryPara.GroupWithItemCountSingularFormat = "";
-            this.olvTributaryPara.HideSelection = false;
             this.olvTributaryPara.Location = new System.Drawing.Point(9, 39);
             this.olvTributaryPara.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.olvTributaryPara.Name = "olvTributaryPara";
-            this.olvTributaryPara.RowHeight = 20;
-            this.olvTributaryPara.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
-            this.olvTributaryPara.SelectedBackColor = System.Drawing.Color.Pink;
-            this.olvTributaryPara.SelectedForeColor = System.Drawing.Color.MidnightBlue;
-            this.olvTributaryPara.ShowCommandMenuOnRightClick = true;
-            this.olvTributaryPara.ShowGroups = false;
-            this.olvTributaryPara.ShowImagesOnSubItems = true;
-            this.olvTributaryPara.ShowItemToolTips = true;
+            this.olvTributaryPara.AllowUserToAddRows = false;
+            this.olvTributaryPara.AllowUserToDeleteRows = false;
+            this.olvTributaryPara.AutoGenerateColumns = false;
+            this.olvTributaryPara.RowHeadersVisible = false;
+            this.olvTributaryPara.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.olvTributaryPara.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.olvTributaryPara.Size = new System.Drawing.Size(1085, 485);
             this.olvTributaryPara.TabIndex = 32;
-            this.olvTributaryPara.UseCellFormatEvents = true;
-            this.olvTributaryPara.UseCompatibleStateImageBehavior = false;
-            this.olvTributaryPara.UseFilterIndicator = true;
-            this.olvTributaryPara.UseFiltering = true;
-            this.olvTributaryPara.UseHotItem = true;
-            this.olvTributaryPara.UseTranslucentHotItem = true;
-            this.olvTributaryPara.View = System.Windows.Forms.View.Details;
             // 
             // olvColumn1
             // 
-            this.olvColumn1.AspectName = "Name";
-            this.olvColumn1.AspectToStringFormat = "";
-            this.olvColumn1.ButtonPadding = new System.Drawing.Size(10, 10);
-            this.olvColumn1.CellEditUseWholeCell = false;
-            this.olvColumn1.IsTileViewColumn = true;
-            this.olvColumn1.Text = "子流域名称";
-            this.olvColumn1.UseInitialLetterForGroup = true;
+            this.olvColumn1.DataPropertyName = "Name";
+            this.olvColumn1.HeaderText = "子流域名称";
+            this.olvColumn1.Name = "olvColumn1";
             this.olvColumn1.Width = 81;
             // 
             // olvColumn2
             // 
-            this.olvColumn2.AspectName = "RainGage";
-            this.olvColumn2.AspectToStringFormat = "";
-            this.olvColumn2.ButtonPadding = new System.Drawing.Size(10, 10);
-            this.olvColumn2.CellEditUseWholeCell = false;
-            this.olvColumn2.IsTileViewColumn = true;
-            this.olvColumn2.Text = "雨量站编号";
+            this.olvColumn2.DataPropertyName = "RainGage";
+            this.olvColumn2.HeaderText = "雨量站编号";
+            this.olvColumn2.Name = "olvColumn2";
             this.olvColumn2.Width = 79;
             // 
             // olvColumn3
             // 
-            this.olvColumn3.AspectName = "Area";
-            this.olvColumn3.AspectToStringFormat = "";
-            this.olvColumn3.Text = "面积";
+            this.olvColumn3.DataPropertyName = "Area";
+            this.olvColumn3.HeaderText = "面积";
+            this.olvColumn3.Name = "olvColumn3";
             // 
             // olvColumn4
             // 
-            this.olvColumn4.AspectName = "Slope";
-            this.olvColumn4.AspectToStringFormat = "";
-            this.olvColumn4.Text = "坡度(%)";
+            this.olvColumn4.DataPropertyName = "Slope";
+            this.olvColumn4.HeaderText = "坡度(%)";
+            this.olvColumn4.Name = "olvColumn4";
             this.olvColumn4.Width = 69;
             // 
             // olvColumn5
             // 
-            this.olvColumn5.AspectName = "ImpervPercentage";
-            this.olvColumn5.Text = "不透水面积比例(%)";
+            this.olvColumn5.DataPropertyName = "ImpervPercentage";
+            this.olvColumn5.HeaderText = "不透水面积比例(%)";
+            this.olvColumn5.Name = "olvColumn5";
             this.olvColumn5.Width = 117;
             // 
             // olvColumn7
             // 
-            this.olvColumn7.AspectName = "N_Imperv";
-            this.olvColumn7.AspectToStringFormat = "";
-            this.olvColumn7.Text = "不透水曼宁系数";
+            this.olvColumn7.DataPropertyName = "N_Imperv";
+            this.olvColumn7.HeaderText = "不透水曼宁系数";
+            this.olvColumn7.Name = "olvColumn7";
             this.olvColumn7.Width = 106;
             // 
             // olvColumn8
             // 
-            this.olvColumn8.AspectName = "S_Imperv";
-            this.olvColumn8.AspectToStringFormat = "";
-            this.olvColumn8.Text = "不透水滞水深";
+            this.olvColumn8.DataPropertyName = "S_Imperv";
+            this.olvColumn8.HeaderText = "不透水滞水深";
+            this.olvColumn8.Name = "olvColumn8";
             this.olvColumn8.Width = 101;
             // 
             // PervN
             // 
-            this.PervN.AspectName = "N_Perv";
-            this.PervN.AspectToStringFormat = "";
-            this.PervN.Text = "透水曼宁系数";
+            this.PervN.DataPropertyName = "N_Perv";
+            this.PervN.HeaderText = "透水曼宁系数";
+            this.PervN.Name = "PervN";
             this.PervN.Width = 90;
             // 
             // olvColumn9
             // 
-            this.olvColumn9.AspectName = "S_Perv";
-            this.olvColumn9.AspectToStringFormat = "";
-            this.olvColumn9.Text = "透水滞水深";
+            this.olvColumn9.DataPropertyName = "S_Perv";
+            this.olvColumn9.HeaderText = "透水滞水深";
+            this.olvColumn9.Name = "olvColumn9";
             this.olvColumn9.Width = 75;
             // 
             // olvColumn11
             // 
-            this.olvColumn11.AspectName = "PctZero";
-            this.olvColumn11.AspectToStringFormat = "";
-            this.olvColumn11.Text = "无滞留不透水面积比例";
+            this.olvColumn11.DataPropertyName = "PctZero";
+            this.olvColumn11.HeaderText = "无滞留不透水面积比例";
+            this.olvColumn11.Name = "olvColumn11";
             this.olvColumn11.Width = 141;
             // 
             // olvColumn6
             // 
-            this.olvColumn6.AspectName = "SectionID";
-            this.olvColumn6.Text = "汇入断面编号";
+            this.olvColumn6.DataPropertyName = "SectionID";
+            this.olvColumn6.HeaderText = "汇入断面编号";
+            this.olvColumn6.Name = "olvColumn6";
             this.olvColumn6.Width = 96;
             // 
             // btnClose
@@ -260,7 +223,6 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "OverlandFlowForm";
             this.Text = "产流过程";
-            ((System.ComponentModel.ISupportInitialize)(this.olvTributaryPara)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -268,22 +230,22 @@
 
         #endregion
 
-        private BrightIdeasSoftware.DataListView olvTributaryPara;
-        private BrightIdeasSoftware.OLVColumn olvColumn1;
-        private BrightIdeasSoftware.OLVColumn olvColumn2;
-        private BrightIdeasSoftware.OLVColumn olvColumn3;
-        private BrightIdeasSoftware.OLVColumn olvColumn4;
-        private BrightIdeasSoftware.OLVColumn olvColumn5;
-        private BrightIdeasSoftware.OLVColumn olvColumn7;
-        private BrightIdeasSoftware.OLVColumn PervN;
-        private BrightIdeasSoftware.OLVColumn olvColumn8;
-        private BrightIdeasSoftware.OLVColumn olvColumn9;
-        private BrightIdeasSoftware.OLVColumn olvColumn11;
+        private System.Windows.Forms.DataGridView olvTributaryPara;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PervN;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn11;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Button btnRemove;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnSave;
-        private BrightIdeasSoftware.OLVColumn olvColumn6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn6;
         private System.Windows.Forms.Label label3;
     }
 }

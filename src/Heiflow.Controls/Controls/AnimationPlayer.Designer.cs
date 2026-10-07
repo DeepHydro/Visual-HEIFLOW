@@ -34,15 +34,10 @@
             this.cmbAnimators = new System.Windows.Forms.ToolStripComboBox();
             this.btnPlay = new System.Windows.Forms.ToolStripButton();
             this.listBox_timeline = new System.Windows.Forms.ListBox();
-            this.olvDataCubeTree = new BrightIdeasSoftware.DataTreeListView();
-            this.olvColumnState = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn3 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.tvDataCubes = new System.Windows.Forms.TreeView();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.olvDataCubeTree)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -92,72 +87,22 @@
             this.listBox_timeline.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.listBoxTimeLine_DrawItem);
             this.listBox_timeline.SelectedIndexChanged += new System.EventHandler(this.listBoxTimeLine_SelectedIndexChanged);
             // 
-            // olvDataCubeTree
+            // tvDataCubes
             // 
-            this.olvDataCubeTree.AllColumns.Add(this.olvColumnState);
-            this.olvDataCubeTree.AllColumns.Add(this.olvColumn1);
-            this.olvDataCubeTree.AllColumns.Add(this.olvColumn2);
-            this.olvDataCubeTree.AllColumns.Add(this.olvColumn3);
-            this.olvDataCubeTree.AutoGenerateColumns = false;
-            this.olvDataCubeTree.CellEditUseWholeCell = false;
-            this.olvDataCubeTree.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvColumnState,
-            this.olvColumn1,
-            this.olvColumn2,
-            this.olvColumn3});
-            this.olvDataCubeTree.Cursor = System.Windows.Forms.Cursors.Default;
-            this.olvDataCubeTree.DataSource = null;
-            this.olvDataCubeTree.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.olvDataCubeTree.FullRowSelect = true;
-            this.olvDataCubeTree.GridLines = true;
-            this.olvDataCubeTree.HideSelection = false;
-            this.olvDataCubeTree.KeyAspectName = "ID";
-            this.olvDataCubeTree.Location = new System.Drawing.Point(0, 0);
-            this.olvDataCubeTree.Margin = new System.Windows.Forms.Padding(4);
-            this.olvDataCubeTree.MultiSelect = false;
-            this.olvDataCubeTree.Name = "olvDataCubeTree";
-            this.olvDataCubeTree.ParentKeyAspectName = "ParentID";
-            this.olvDataCubeTree.RootKeyValueString = "";
-            this.olvDataCubeTree.SelectedBackColor = System.Drawing.Color.FromArgb(46, 123, 184);
-            this.olvDataCubeTree.SelectedForeColor = System.Drawing.Color.White;
-            this.olvDataCubeTree.ShowGroups = false;
-            this.olvDataCubeTree.ShowKeyColumns = false;
-            this.olvDataCubeTree.Size = new System.Drawing.Size(384, 283);
-            this.olvDataCubeTree.TabIndex = 13;
-            this.olvDataCubeTree.UnfocusedSelectedBackColor = System.Drawing.Color.FromArgb(46, 123, 184);
-            this.olvDataCubeTree.UnfocusedSelectedForeColor = System.Drawing.Color.White;
-            this.olvDataCubeTree.UseCompatibleStateImageBehavior = false;
-            this.olvDataCubeTree.UseFilterIndicator = true;
-            this.olvDataCubeTree.UseFiltering = true;
-            this.olvDataCubeTree.UseHotItem = true;
-            this.olvDataCubeTree.View = System.Windows.Forms.View.Details;
-            this.olvDataCubeTree.VirtualMode = true;
-            this.olvDataCubeTree.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.olvDataCubeTree_ItemSelectionChanged);
-            // 
-            // olvColumnState
-            // 
-            this.olvColumnState.AspectName = "";
-            this.olvColumnState.Text = "State";
-            // 
-            // olvColumn1
-            // 
-            this.olvColumn1.AspectName = "Name";
-            this.olvColumn1.Text = "Name";
-            this.olvColumn1.Width = 104;
-            // 
-            // olvColumn2
-            // 
-            this.olvColumn2.AspectName = "Size";
-            this.olvColumn2.AspectToStringFormat = "";
-            this.olvColumn2.Text = "Size";
-            this.olvColumn2.Width = 117;
-            // 
-            // olvColumn3
-            // 
-            this.olvColumn3.AspectName = "Owner";
-            this.olvColumn3.AspectToStringFormat = "";
-            this.olvColumn3.Text = "Owner";
-            this.olvColumn3.Width = 210;
+            this.tvDataCubes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tvDataCubes.FullRowSelect = true;
+            this.tvDataCubes.HideSelection = false;
+            this.tvDataCubes.ImageList = this.imageList1;
+            this.tvDataCubes.Location = new System.Drawing.Point(0, 0);
+            this.tvDataCubes.Margin = new System.Windows.Forms.Padding(4);
+            this.tvDataCubes.Name = "tvDataCubes";
+            this.tvDataCubes.ShowLines = true;
+            this.tvDataCubes.ShowNodeToolTips = true;
+            this.tvDataCubes.ShowPlusMinus = true;
+            this.tvDataCubes.ShowRootLines = true;
+            this.tvDataCubes.Size = new System.Drawing.Size(384, 283);
+            this.tvDataCubes.TabIndex = 13;
+            this.tvDataCubes.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvDataCubes_AfterSelect);
             // 
             // splitContainer1
             // 
@@ -168,7 +113,7 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.olvDataCubeTree);
+            this.splitContainer1.Panel1.Controls.Add(this.tvDataCubes);
             // 
             // splitContainer1.Panel2
             // 
@@ -196,7 +141,6 @@
             this.Size = new System.Drawing.Size(384, 594);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.olvDataCubeTree)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -212,12 +156,8 @@
         private System.Windows.Forms.ToolStripButton btnPlay;
         private System.Windows.Forms.ListBox listBox_timeline;
         private System.Windows.Forms.ToolStripComboBox cmbAnimators;
-        private BrightIdeasSoftware.DataTreeListView olvDataCubeTree;
-        private BrightIdeasSoftware.OLVColumn olvColumn1;
-        private BrightIdeasSoftware.OLVColumn olvColumn2;
-        private BrightIdeasSoftware.OLVColumn olvColumn3;
+        private System.Windows.Forms.TreeView tvDataCubes;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private BrightIdeasSoftware.OLVColumn olvColumnState;
         private System.Windows.Forms.ImageList imageList1;
 
     }

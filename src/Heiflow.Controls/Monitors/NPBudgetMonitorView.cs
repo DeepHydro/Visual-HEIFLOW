@@ -72,13 +72,12 @@ namespace Heiflow.Controls.WinForm.Display
 
             _NodeCreator = new NPBudgetNodeCreators();
             _NodeCreator.Chart = winChart1;
-            _NodeCreator.DataGrid = this.olvMassBudget;
+            _NodeCreator.DataGrid = this.tvMassBudget;
             _NodeCreator.ReportBox = this.textBoxReport;
 
             treeView1.MouseUp += treeView1_MouseUp;
             treeView1.NodeMouseClick += treeView1_NodeMouseClick;
             treeView1.NodeMouseDoubleClick += treeView1_NodeMouseDoubleClick;
-            olvMassBudget.RootKeyValue = 9999;
             this.Load += NPBudgetMonitorView_Load;
         }
 
@@ -244,7 +243,7 @@ namespace Heiflow.Controls.WinForm.Display
 
         private void ClearBudgetTable()
         {
-            olvMassBudget.DataSource = null;
+            tvMassBudget.Nodes.Clear();
         }
 
         #endregion

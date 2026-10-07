@@ -4,14 +4,14 @@ namespace Heiflow.Controls.WinForm.Display
     partial class NPBudgetMonitorView
     {
         /// <summary> 
-        /// 必需的设计器变量。
+        /// 蹇呴渶鐨勮璁″櫒鍙橀噺銆?
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary> 
-        /// 清理所有正在使用的资源。
+        /// 娓呯悊鎵€鏈夋鍦ㄤ娇鐢ㄧ殑璧勬簮銆?
         /// </summary>
-        /// <param name="disposing">如果应释放托管资源，为 true；否则为 false。</param>
+        /// <param name="disposing">濡傛灉搴旈噴鏀炬墭绠¤祫婧愶紝涓?true锛涘惁鍒欎负 false銆?/param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -21,11 +21,11 @@ namespace Heiflow.Controls.WinForm.Display
             base.Dispose(disposing);
         }
 
-        #region 组件设计器生成的代码
+        #region 缁勪欢璁捐鍣ㄧ敓鎴愮殑浠ｇ爜
 
         /// <summary> 
-        /// 设计器支持所需的方法 - 不要
-        /// 使用代码编辑器修改此方法的内容。
+        /// 璁捐鍣ㄦ敮鎸佹墍闇€鐨勬柟娉?- 涓嶈
+        /// 浣跨敤浠ｇ爜缂栬緫鍣ㄤ慨鏀规鏂规硶鐨勫唴瀹广€?
         /// </summary>
         private void InitializeComponent()
         {
@@ -46,10 +46,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabPageGraph = new System.Windows.Forms.TabPage();
             this.winChart1 = new Heiflow.Controls.WinForm.Controls.WinChart();
             this.tabPageTable = new System.Windows.Forms.TabPage();
-            this.olvMassBudget = new BrightIdeasSoftware.DataTreeListView();
-            this.olvColumnItem = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumnMass = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumnPercent = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.tvMassBudget = new System.Windows.Forms.TreeView();
             this.tabPageReport = new System.Windows.Forms.TabPage();
             this.textBoxReport = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -63,7 +60,6 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabControlMain.SuspendLayout();
             this.tabPageGraph.SuspendLayout();
             this.tabPageTable.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.olvMassBudget)).BeginInit();
             this.tabPageReport.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -200,7 +196,7 @@ namespace Heiflow.Controls.WinForm.Display
             // btnMassBudget
             // 
             this.btnMassBudget.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnMassBudget.Image = global::Heiflow.Controls.WinForm.Properties.Resources.GraphHistogram32;
+            this.btnMassBudget.Image = global::Heiflow.Controls.WinForm.Properties.Resources.MassBudget32;
             this.btnMassBudget.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnMassBudget.Name = "btnMassBudget";
             this.btnMassBudget.Size = new System.Drawing.Size(24, 24);
@@ -258,7 +254,7 @@ namespace Heiflow.Controls.WinForm.Display
             // 
             // tabPageTable
             // 
-            this.tabPageTable.Controls.Add(this.olvMassBudget);
+            this.tabPageTable.Controls.Add(this.tvMassBudget);
             this.tabPageTable.Location = new System.Drawing.Point(4, 30);
             this.tabPageTable.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPageTable.Name = "tabPageTable";
@@ -268,57 +264,16 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabPageTable.Text = "Mass Budget Table";
             this.tabPageTable.UseVisualStyleBackColor = true;
             // 
-            // olvMassBudget
+            // tvMassBudget
             // 
-            this.olvMassBudget.AllColumns.Add(this.olvColumnItem);
-            this.olvMassBudget.AllColumns.Add(this.olvColumnMass);
-            this.olvMassBudget.AllColumns.Add(this.olvColumnPercent);
-            this.olvMassBudget.AutoGenerateColumns = false;
-            this.olvMassBudget.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
-            this.olvMassBudget.CellEditUseWholeCell = false;
-            this.olvMassBudget.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvColumnItem,
-            this.olvColumnMass,
-            this.olvColumnPercent});
-            this.olvMassBudget.Cursor = System.Windows.Forms.Cursors.Default;
-            this.olvMassBudget.DataSource = null;
-            this.olvMassBudget.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.olvMassBudget.HideSelection = false;
-            this.olvMassBudget.KeyAspectName = "ID";
-            this.olvMassBudget.Location = new System.Drawing.Point(3, 4);
-            this.olvMassBudget.Margin = new System.Windows.Forms.Padding(4);
-            this.olvMassBudget.Name = "olvMassBudget";
-            this.olvMassBudget.ParentKeyAspectName = "ParentID";
-            this.olvMassBudget.RootKeyValueString = "";
-            this.olvMassBudget.ShowGroups = false;
-            this.olvMassBudget.ShowKeyColumns = false;
-            this.olvMassBudget.Size = new System.Drawing.Size(822, 598);
-            this.olvMassBudget.TabIndex = 4;
-            this.olvMassBudget.UseCompatibleStateImageBehavior = false;
-            this.olvMassBudget.UseFilterIndicator = true;
-            this.olvMassBudget.UseFiltering = true;
-            this.olvMassBudget.View = System.Windows.Forms.View.Details;
-            this.olvMassBudget.VirtualMode = true;
-            // 
-            // olvColumnItem
-            // 
-            this.olvColumnItem.AspectName = "Item";
-            this.olvColumnItem.Text = "Item";
-            this.olvColumnItem.Width = 260;
-            // 
-            // olvColumnMass
-            // 
-            this.olvColumnMass.AspectName = "Mass";
-            this.olvColumnMass.AspectToStringFormat = "{0:E4}";
-            this.olvColumnMass.Text = "Mass";
-            this.olvColumnMass.Width = 200;
-            // 
-            // olvColumnPercent
-            // 
-            this.olvColumnPercent.AspectName = "Percentage";
-            this.olvColumnPercent.AspectToStringFormat = "{0:0.00}";
-            this.olvColumnPercent.Text = "Percent of Total In (%)";
-            this.olvColumnPercent.Width = 200;
+            this.tvMassBudget.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tvMassBudget.HideSelection = false;
+            this.tvMassBudget.Location = new System.Drawing.Point(3, 4);
+            this.tvMassBudget.Margin = new System.Windows.Forms.Padding(4);
+            this.tvMassBudget.Name = "tvMassBudget";
+            this.tvMassBudget.ShowNodeToolTips = true;
+            this.tvMassBudget.Size = new System.Drawing.Size(822, 598);
+            this.tvMassBudget.TabIndex = 4;
             // 
             // tabPageReport
             // 
@@ -366,7 +321,6 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabControlMain.ResumeLayout(false);
             this.tabPageGraph.ResumeLayout(false);
             this.tabPageTable.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.olvMassBudget)).EndInit();
             this.tabPageReport.ResumeLayout(false);
             this.tabPageReport.PerformLayout();
             this.ResumeLayout(false);
@@ -392,10 +346,7 @@ namespace Heiflow.Controls.WinForm.Display
         private System.Windows.Forms.TabPage tabPageTable;
         private System.Windows.Forms.TabPage tabPageReport;
         private WinChart winChart1;
-        private BrightIdeasSoftware.DataTreeListView olvMassBudget;
-        private BrightIdeasSoftware.OLVColumn olvColumnItem;
-        private BrightIdeasSoftware.OLVColumn olvColumnMass;
-        private BrightIdeasSoftware.OLVColumn olvColumnPercent;
+        private System.Windows.Forms.TreeView tvMassBudget;
         private System.Windows.Forms.TextBox textBoxReport;
     }
 }

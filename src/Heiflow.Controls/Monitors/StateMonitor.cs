@@ -69,11 +69,10 @@ namespace Heiflow.Controls.WinForm.Display
             viewModel = new Lazy<StateMonitorViewModel>(() => ViewHelper.GetViewModel<StateMonitorViewModel>(this));
             _NodeCreator = new StateMonitorNodeCreators();
             _NodeCreator.Chart = winChart1;
-            _NodeCreator.DataGrid = this.olvDataTree;
+            _NodeCreator.DataGrid = this.tvDataTree;
             _NodeCreator.ReportBox = this.textBoxReport;
             _NodeCreator.ZonalBudgetClicked += NodeCreator_ZonalBudgetClicked;
             this.treeView1.MouseUp += treeView1_MouseUp;
-            olvDataTree.RootKeyValue = 9999;
             this.treeView1.NodeMouseClick += treeView1_NodeMouseClick;
             treeView1.NodeMouseDoubleClick += treeView1_NodeMouseDoubleClick;
             this.Load += StateMonitor_Load;

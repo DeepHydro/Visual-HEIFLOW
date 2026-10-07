@@ -34,11 +34,11 @@
             this.label2 = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOk = new System.Windows.Forms.Button();
-            this.olvLanduse = new BrightIdeasSoftware.DataListView();
-            this.colStart = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.colEnd = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.colTimeLength = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn8 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvLanduse = new System.Windows.Forms.DataGridView();
+            this.colStart = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colEnd = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTimeLength = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageLanduse = new System.Windows.Forms.TabPage();
             this.panelLU = new System.Windows.Forms.Panel();
@@ -57,13 +57,13 @@
             this.rbtnMFTime = new System.Windows.Forms.RadioButton();
             this.numericUpDownMF = new System.Windows.Forms.NumericUpDown();
             this.cmbMFSPUnit = new System.Windows.Forms.ComboBox();
-            this.olvMF = new BrightIdeasSoftware.DataListView();
-            this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColMFNumTime = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn3 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn5 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn6 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvMF = new System.Windows.Forms.DataGridView();
+            this.olvColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColMFNumTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dateTimePickerStart = new System.Windows.Forms.DateTimePicker();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -71,7 +71,6 @@
             this.tbTimeNums = new System.Windows.Forms.TextBox();
             this.dateTimePickerEnd = new System.Windows.Forms.DateTimePicker();
             this.label5 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.olvLanduse)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPageLanduse.SuspendLayout();
             this.panelLU.SuspendLayout();
@@ -79,7 +78,6 @@
             this.tabPageMF.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMF)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.olvMF)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -142,82 +140,55 @@
             // 
             // olvLanduse
             // 
-            this.olvLanduse.AllColumns.Add(this.colStart);
-            this.olvLanduse.AllColumns.Add(this.colEnd);
-            this.olvLanduse.AllColumns.Add(this.colTimeLength);
-            this.olvLanduse.AllColumns.Add(this.olvColumn8);
-            this.olvLanduse.AllowColumnReorder = true;
+            this.olvLanduse.AllowUserToOrderColumns = true;
             this.olvLanduse.AllowDrop = true;
             this.olvLanduse.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.olvLanduse.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
-            this.olvLanduse.CellEditUseWholeCell = false;
-            this.olvLanduse.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvLanduse.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colStart,
             this.colEnd,
             this.colTimeLength,
             this.olvColumn8});
             this.olvLanduse.Cursor = System.Windows.Forms.Cursors.Default;
-            this.olvLanduse.DataSource = null;
-            this.olvLanduse.EmptyListMsg = "";
-            this.olvLanduse.EmptyListMsgFont = new System.Drawing.Font("Segoe UI", 9F);
-            this.olvLanduse.FullRowSelect = true;
-            this.olvLanduse.GridLines = true;
-            this.olvLanduse.GroupWithItemCountFormat = "";
-            this.olvLanduse.GroupWithItemCountSingularFormat = "";
-            this.olvLanduse.HideSelection = false;
             this.olvLanduse.Location = new System.Drawing.Point(6, 88);
             this.olvLanduse.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.olvLanduse.Name = "olvLanduse";
-            this.olvLanduse.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
-            this.olvLanduse.SelectedBackColor = System.Drawing.Color.LightSkyBlue;
-            this.olvLanduse.SelectedForeColor = System.Drawing.Color.FromArgb(27, 90, 140);
-            this.olvLanduse.ShowCommandMenuOnRightClick = true;
-            this.olvLanduse.ShowGroups = false;
-            this.olvLanduse.ShowImagesOnSubItems = true;
-            this.olvLanduse.ShowItemToolTips = true;
+            this.olvLanduse.AllowUserToAddRows = false;
+            this.olvLanduse.AllowUserToDeleteRows = false;
+            this.olvLanduse.AutoGenerateColumns = false;
+            this.olvLanduse.RowHeadersVisible = false;
+            this.olvLanduse.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.olvLanduse.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.olvLanduse.Size = new System.Drawing.Size(723, 308);
             this.olvLanduse.TabIndex = 22;
-            this.olvLanduse.UseCellFormatEvents = true;
-            this.olvLanduse.UseCompatibleStateImageBehavior = false;
-            this.olvLanduse.UseFilterIndicator = true;
-            this.olvLanduse.UseFiltering = true;
-            this.olvLanduse.UseHotItem = true;
-            this.olvLanduse.UseTranslucentHotItem = true;
-            this.olvLanduse.View = System.Windows.Forms.View.Details;
             // 
             // colStart
             // 
-            this.colStart.AspectName = "Start";
-            this.colStart.ButtonPadding = new System.Drawing.Size(10, 10);
-            this.colStart.CellEditUseWholeCell = true;
-            this.colStart.IsTileViewColumn = true;
-            this.colStart.Text = "Start";
-            this.colStart.UseInitialLetterForGroup = true;
+            this.colStart.DataPropertyName = "Start";
+            this.colStart.HeaderText = "Start";
+            this.colStart.Name = "colStart";
             this.colStart.Width = 141;
             // 
             // colEnd
             // 
-            this.colEnd.AspectName = "End";
-            this.colEnd.ButtonPadding = new System.Drawing.Size(10, 10);
-            this.colEnd.CellEditUseWholeCell = true;
-            this.colEnd.IsTileViewColumn = true;
-            this.colEnd.Text = "End";
+            this.colEnd.DataPropertyName = "End";
+            this.colEnd.HeaderText = "End";
+            this.colEnd.Name = "colEnd";
             this.colEnd.Width = 155;
             // 
             // colTimeLength
             // 
-            this.colTimeLength.AspectName = "NumTimeSteps";
-            this.colTimeLength.CellEditUseWholeCell = true;
-            this.colTimeLength.Text = "Num Time Steps";
+            this.colTimeLength.DataPropertyName = "NumTimeSteps";
+            this.colTimeLength.HeaderText = "Num Time Steps";
+            this.colTimeLength.Name = "colTimeLength";
             this.colTimeLength.Width = 161;
             // 
             // olvColumn8
             // 
-            this.olvColumn8.AspectName = "ParameterFile";
-            this.olvColumn8.CellEditUseWholeCell = true;
-            this.olvColumn8.Text = "Parameter File";
+            this.olvColumn8.DataPropertyName = "ParameterFile";
+            this.olvColumn8.HeaderText = "Parameter File";
+            this.olvColumn8.Name = "olvColumn8";
             this.olvColumn8.Width = 340;
             // 
             // tabControl1
@@ -473,20 +444,12 @@
             // 
             // olvMF
             // 
-            this.olvMF.AllColumns.Add(this.olvColumn1);
-            this.olvMF.AllColumns.Add(this.olvColumn2);
-            this.olvMF.AllColumns.Add(this.olvColMFNumTime);
-            this.olvMF.AllColumns.Add(this.olvColumn3);
-            this.olvMF.AllColumns.Add(this.olvColumn5);
-            this.olvMF.AllColumns.Add(this.olvColumn6);
-            this.olvMF.AllowColumnReorder = true;
+            this.olvMF.AllowUserToOrderColumns = true;
             this.olvMF.AllowDrop = true;
             this.olvMF.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.olvMF.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
-            this.olvMF.CellEditUseWholeCell = false;
-            this.olvMF.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvMF.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.olvColumn1,
             this.olvColumn2,
             this.olvColMFNumTime,
@@ -494,79 +457,58 @@
             this.olvColumn5,
             this.olvColumn6});
             this.olvMF.Cursor = System.Windows.Forms.Cursors.Default;
-            this.olvMF.DataSource = null;
-            this.olvMF.EmptyListMsg = "";
-            this.olvMF.EmptyListMsgFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.olvMF.FullRowSelect = true;
-            this.olvMF.GridLines = true;
-            this.olvMF.GroupWithItemCountFormat = "";
-            this.olvMF.GroupWithItemCountSingularFormat = "";
-            this.olvMF.HideSelection = false;
             this.olvMF.Location = new System.Drawing.Point(6, 57);
             this.olvMF.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.olvMF.Name = "olvMF";
-            this.olvMF.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
-            this.olvMF.SelectedBackColor = System.Drawing.Color.LightSkyBlue;
-            this.olvMF.SelectedForeColor = System.Drawing.Color.FromArgb(27, 90, 140);
-            this.olvMF.ShowCommandMenuOnRightClick = true;
-            this.olvMF.ShowGroups = false;
-            this.olvMF.ShowImagesOnSubItems = true;
-            this.olvMF.ShowItemToolTips = true;
+            this.olvMF.AllowUserToAddRows = false;
+            this.olvMF.AllowUserToDeleteRows = false;
+            this.olvMF.AutoGenerateColumns = false;
+            this.olvMF.RowHeadersVisible = false;
+            this.olvMF.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.olvMF.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.olvMF.Size = new System.Drawing.Size(723, 338);
             this.olvMF.TabIndex = 25;
-            this.olvMF.UseCellFormatEvents = true;
-            this.olvMF.UseCompatibleStateImageBehavior = false;
-            this.olvMF.UseFilterIndicator = true;
-            this.olvMF.UseFiltering = true;
-            this.olvMF.UseHotItem = true;
-            this.olvMF.UseTranslucentHotItem = true;
-            this.olvMF.View = System.Windows.Forms.View.Details;
             // 
             // olvColumn1
             // 
-            this.olvColumn1.AspectName = "Start";
-            this.olvColumn1.ButtonPadding = new System.Drawing.Size(10, 10);
-            this.olvColumn1.CellEditUseWholeCell = true;
-            this.olvColumn1.IsTileViewColumn = true;
-            this.olvColumn1.Text = "Start";
-            this.olvColumn1.UseInitialLetterForGroup = true;
+            this.olvColumn1.DataPropertyName = "Start";
+            this.olvColumn1.HeaderText = "Start";
+            this.olvColumn1.Name = "olvColumn1";
             this.olvColumn1.Width = 121;
             // 
             // olvColumn2
             // 
-            this.olvColumn2.AspectName = "End";
-            this.olvColumn2.ButtonPadding = new System.Drawing.Size(10, 10);
-            this.olvColumn2.CellEditUseWholeCell = true;
-            this.olvColumn2.IsTileViewColumn = true;
-            this.olvColumn2.Text = "End";
+            this.olvColumn2.DataPropertyName = "End";
+            this.olvColumn2.HeaderText = "End";
+            this.olvColumn2.Name = "olvColumn2";
             this.olvColumn2.Width = 135;
             // 
             // olvColMFNumTime
             // 
-            this.olvColMFNumTime.AspectName = "NSTP";
-            this.olvColMFNumTime.CellEditUseWholeCell = true;
-            this.olvColMFNumTime.Text = "Num Time Steps";
+            this.olvColMFNumTime.DataPropertyName = "NSTP";
+            this.olvColMFNumTime.HeaderText = "Num Time Steps";
+            this.olvColMFNumTime.Name = "olvColMFNumTime";
             this.olvColMFNumTime.Width = 124;
             // 
             // olvColumn3
             // 
-            this.olvColumn3.AspectName = "Length";
-            this.olvColumn3.CellEditUseWholeCell = true;
-            this.olvColumn3.Text = "Time Length";
+            this.olvColumn3.DataPropertyName = "Length";
+            this.olvColumn3.HeaderText = "Time Length";
+            this.olvColumn3.Name = "olvColumn3";
             this.olvColumn3.Width = 137;
             // 
             // olvColumn5
             // 
-            this.olvColumn5.AspectName = "Multiplier";
-            this.olvColumn5.CellEditUseWholeCell = true;
-            this.olvColumn5.Text = "Multiplier";
+            this.olvColumn5.DataPropertyName = "Multiplier";
+            this.olvColumn5.HeaderText = "Multiplier";
+            this.olvColumn5.Name = "olvColumn5";
             this.olvColumn5.Width = 107;
             // 
             // olvColumn6
             // 
-            this.olvColumn6.AspectName = "IsSteadyState";
-            this.olvColumn6.CellEditUseWholeCell = true;
-            this.olvColumn6.Text = "Steady State";
+            this.olvColumn6.DataPropertyName = "IsSteadyState";
+            this.olvColumn6.HeaderText = "Steady State";
+            this.olvColumn6.Name = "olvColumn6";
             this.olvColumn6.Width = 107;
             // 
             // dateTimePickerStart
@@ -662,7 +604,6 @@
             this.ShowInTaskbar = false;
             this.Text = "Model Time";
             this.Load += new System.EventHandler(this.HeiflowTimeControl_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.olvLanduse)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPageLanduse.ResumeLayout(false);
             this.tabPageLanduse.PerformLayout();
@@ -673,7 +614,6 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMF)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.olvMF)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -687,10 +627,10 @@
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cmbTimeUnit;
-        private BrightIdeasSoftware.DataListView olvLanduse;
-        private BrightIdeasSoftware.OLVColumn colStart;
-        private BrightIdeasSoftware.OLVColumn colEnd;
-        private BrightIdeasSoftware.OLVColumn colTimeLength;
+        private System.Windows.Forms.DataGridView olvLanduse;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colStart;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colEnd;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colTimeLength;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPageLanduse;
         private System.Windows.Forms.TabPage tabPageMF;
@@ -700,16 +640,16 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DateTimePicker dateTimePickerEnd;
         private System.Windows.Forms.Label label5;
-        private BrightIdeasSoftware.DataListView olvMF;
-        private BrightIdeasSoftware.OLVColumn olvColumn1;
-        private BrightIdeasSoftware.OLVColumn olvColumn2;
-        private BrightIdeasSoftware.OLVColumn olvColumn3;
+        private System.Windows.Forms.DataGridView olvMF;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn3;
         private System.Windows.Forms.NumericUpDown numericUpDownMF;
         private System.Windows.Forms.TextBox tbTimeNums;
-        private BrightIdeasSoftware.OLVColumn olvColMFNumTime;
-        private BrightIdeasSoftware.OLVColumn olvColumn5;
-        private BrightIdeasSoftware.OLVColumn olvColumn6;
-        private BrightIdeasSoftware.OLVColumn olvColumn8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColMFNumTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn8;
         private System.Windows.Forms.ComboBox cmbMFSPUnit;
         private System.Windows.Forms.Button btnRefreshGlobalTime;
         private System.Windows.Forms.RadioButton rbtnMFTime;

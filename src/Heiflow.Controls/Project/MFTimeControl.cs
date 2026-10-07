@@ -56,7 +56,7 @@ namespace Heiflow.Controls.WinForm.Project
 
         private void HeiflowTimeControl_Load(object sender, EventArgs e)
         {
-            olvMF.SetObjects(_MFTimeService.StressPeriods);
+            NativeList.Bind(olvMF, _MFTimeService.StressPeriods);
 
             if (_MFTimeService.StressPeriods.Count > 0)
             {
@@ -98,7 +98,7 @@ namespace Heiflow.Controls.WinForm.Project
             _MFTimeService.CreateSP(nsp, chbHasSteadystate.Checked, dateTimePickerStart.Value);
             _MFTimeService.PopulateTimelineFromSP(dateTimePickerStart.Value);
             _MFTimeService.PopulateIOTimelineFromSP();
-            olvMF.SetObjects(_MFTimeService.StressPeriods);
+            NativeList.Bind(olvMF, _MFTimeService.StressPeriods);
         }
 
         #endregion

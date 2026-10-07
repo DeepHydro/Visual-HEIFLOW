@@ -36,6 +36,7 @@ using Heiflow.Presentation.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Forms;
@@ -46,7 +47,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
     {
         private DataCubeWorkspace _Workspace;
         private ObservableCollection<DataCubeMeta> _MatMataList;
-        private List<DCVarientMeta> _TVMataList;
+        private BindingList<DCVarientMeta> _TVMataList;
         private DCVarientMeta _SelectedDCVarientMeta;
         private DataCubeMeta _SelectedDataCubeMeta;
         public DataCubeEditor()
@@ -56,11 +57,25 @@ namespace Heiflow.Controls.WinForm.Toolbox
             _Workspace.DataSources.CollectionChanged += DataSources_CollectionChanged;
             _MatMataList = new ObservableCollection<DataCubeMeta>();
             _MatMataList.CollectionChanged += _MatMataList_CollectionChanged;
-            _TVMataList = new List<DCVarientMeta>();
+            _TVMataList = new BindingList<DCVarientMeta>();
+            // Binding once is enough: clearing and refilling the list refreshes the grid by itself.
+            dgvVariables.DataSource = _TVMataList;
+            colBehavior.DataSource = Enum.GetValues(typeof(TimeVarientFlag));
             tsSelectionMode.SelectedIndex = 0;
             tsDataViewMode.SelectedIndex = 0;
             arrayGrid.Selection.EnableMultiSelection = true;
             toolStripArray.Enabled = false;
+        }
+
+        /// <summary>The cube selected in the upper list, or null when nothing is selected.</summary>
+        private DataCubeMeta SelectedMatMeta
+        {
+            get
+            {
+                if (lvMatName.SelectedItems.Count == 0)
+                    return null;
+                return lvMatName.SelectedItems[0].Tag as DataCubeMeta;
+            }
         }
 
         public IDataCubeWorkspace Workspace
@@ -122,122 +137,101 @@ namespace Heiflow.Controls.WinForm.Toolbox
         {
             UpdateMatView();
         }
-        private void olvMatName_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        private void lvMatName_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
-            _SelectedDataCubeMeta = olvMatName.SelectedObject as DataCubeMeta;
+            _SelectedDataCubeMeta = SelectedMatMeta;
             if (_SelectedDataCubeMeta != null && _SelectedDataCubeMeta.Mat != null)
             {
                 toolStripArray.Enabled = true;
                 tsLabel.Text = string.Format("{0}", _SelectedDataCubeMeta.Name);
-                if (_SelectedDataCubeMeta.Mat.Layout == DataCubeLayout.ThreeD)
-                {
-                    if (_SelectedDataCubeMeta.Mat.Topology != null)
-                    {
-                        tsDataViewMode.Enabled = true;
-                    }
-                    else
-                    {
-                        tsDataViewMode.Enabled = false;
-                    }
-                }
-                else
-                {
-                    tsDataViewMode.Enabled = false;
-                }
+                tsDataViewMode.Enabled = _SelectedDataCubeMeta.Mat.Layout == DataCubeLayout.ThreeD
+                    && _SelectedDataCubeMeta.Mat.Topology != null;
                 UpdateVariableView(_SelectedDataCubeMeta.Mat);
-                olvVariableName.SelectedIndex = 0;
+                SelectFirstVariable();
                 btnRemove.Enabled = true;
             }
             else
             {
                 tsLabel.Text = "Empty";
-                olvVariableName.ClearObjects();
+                UpdateVariableView(null);
                 btnRemove.Enabled = false;
                 toolStripArray.Enabled = false;
             }
         }
-        private void olvMatName_MouseUp(object sender, MouseEventArgs e)
+        private void lvMatName_MouseUp(object sender, MouseEventArgs e)
         {
-            if (olvMatName.SelectedObject != null)
-            {
-                menu_remove.Enabled = true;
-                menu_Clear.Enabled = true;
-            }
-            else
-            {
-                menu_remove.Enabled = false;
-                menu_Clear.Enabled = true;
-            }
+            menu_remove.Enabled = SelectedMatMeta != null;
+            menu_Clear.Enabled = true;
         }
-        private void olvVariableName_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        private void dgvVariables_SelectionChanged(object sender, EventArgs e)
         {
-            _SelectedDCVarientMeta = olvVariableName.SelectedObject as DCVarientMeta;
+            if (dgvVariables.SelectedRows.Count == 0)
+                return;
+            _SelectedDCVarientMeta = dgvVariables.SelectedRows[0].DataBoundItem as DCVarientMeta;
             if (_SelectedDCVarientMeta != null)
             {
                 ShowDataGrid();
             }
         }
-        private void olvVariableName_CellEditFinishing(object sender, BrightIdeasSoftware.CellEditEventArgs e)
+        /// <summary>Repeat is only allowed when the zero dimension holds time and never for the
+        /// first time step.</summary>
+        private void dgvVariables_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
-            var meta = e.RowObject as DCVarientMeta;
-            if (meta != null)
+            if (dgvVariables.Columns[e.ColumnIndex].Name != colBehavior.Name || e.FormattedValue == null)
+                return;
+
+            TimeVarientFlag flag;
+            if (!Enum.TryParse(e.FormattedValue.ToString(), out flag) || flag != TimeVarientFlag.Repeat)
+                return;
+
+            var meta = dgvVariables.Rows[e.RowIndex].DataBoundItem as DCVarientMeta;
+            if (meta != null && meta.Owner != null
+                && (meta.Owner.ZeroDimension != DimensionFlag.Time || meta.VariableIndex == 0))
             {
-                if (e.Column.AspectName == "Behavior")
-                {
-                    if (e.NewValue.ToString() == TimeVarientFlag.Repeat.ToString())
-                    {
-                        if (meta.Owner.ZeroDimension != DimensionFlag.Time)
-                        {
-                            MessageBox.Show("The behavior can not be set to Repeat for the first time step");
-                            e.Cancel = true;
-                            return;
-                        }
-                        else if (meta.VariableIndex == 0)
-                        {
-                            MessageBox.Show("The behavior can not be set to Repeat for the first time step");
-                            e.Cancel = true;
-                        }
-                    }
-                }
+                MessageBox.Show("The behavior can not be set to Repeat for the first time step");
+                e.Cancel = true;
             }
         }
-        private void olvVariableName_CellEditFinished(object sender, BrightIdeasSoftware.CellEditEventArgs e)
+        /// <summary>Keeps the data cube in step with what was edited in the grid: the binding has
+        /// already written the new value onto the meta object, so it only has to be pushed on.</summary>
+        private void dgvVariables_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            var meta = e.RowObject as DCVarientMeta;
-            if (meta != null)
+            if (e.RowIndex < 0)
+                return;
+            var meta = dgvVariables.Rows[e.RowIndex].DataBoundItem as DCVarientMeta;
+            if (meta == null || meta.Owner == null)
+                return;
+
+            var index = meta.VariableIndex;
+            if (meta.Owner.Flags != null && index < meta.Owner.Flags.Length)
+                meta.Owner.Flags[index] = meta.Behavior;
+
+            if (meta.Behavior == TimeVarientFlag.Constant && meta.Owner.Constants != null
+                && index < meta.Owner.Constants.Length)
             {
-                if (e.Column.AspectName == "Behavior")
-                {
-                    if (e.NewValue.ToString() == TimeVarientFlag.Constant.ToString())
-                    {
-                        meta.Owner.Flags[meta.VariableIndex] = TimeVarientFlag.Constant;
-                        meta.Owner.Constants.SetValue((float)meta.Constant, meta.VariableIndex);       
-                    }
-                    else if (e.NewValue.ToString() == TimeVarientFlag.Individual.ToString())
-                    {
-                        meta.Owner.Flags[meta.VariableIndex] = TimeVarientFlag.Individual;
-                        meta.Owner.Multipliers[meta.VariableIndex] = (float)meta.Multiplier;
-                    }
-                    else if (e.NewValue.ToString() == TimeVarientFlag.Repeat.ToString())
-                    {
-                        meta.Owner.Flags[meta.VariableIndex] = TimeVarientFlag.Repeat;
-                    }
-                }
-                else if (e.Column.AspectName == "Constant")
-                {
-                    if (meta.Behavior == TimeVarientFlag.Constant)
-                    {
-                        meta.Owner.Constants[meta.VariableIndex] = (float) meta.Constant;
-                    }
-                }
-                else if (e.Column.AspectName == "Multiplier")
-                {
-                    if (meta.Behavior == TimeVarientFlag.Individual)
-                    {
-                        meta.Multiplier = float.Parse(e.NewValue.ToString());
-                        meta.Owner.Multipliers[meta.VariableIndex] = (float)meta.Multiplier;
-                    }
-                }
+                meta.Owner.Constants[index] = (float)meta.Constant;
+            }
+            else if (meta.Behavior == TimeVarientFlag.Individual && meta.Owner.Multipliers != null
+                && index < meta.Owner.Multipliers.Length)
+            {
+                meta.Owner.Multipliers[index] = (float)meta.Multiplier;
+            }
+        }
+        /// <summary>Shows the first variable of the cube just selected.</summary>
+        private void SelectFirstVariable()
+        {
+            if (_TVMataList.Count == 0)
+            {
+                _SelectedDCVarientMeta = null;
+                return;
+            }
+            dgvVariables.Rows[0].Selected = true;
+            // The selection event only fires once the grid has a handle, so fall back to showing
+            // the variable by hand when the grid is not on screen yet.
+            if (!ReferenceEquals(_SelectedDCVarientMeta, _TVMataList[0]))
+            {
+                _SelectedDCVarientMeta = _TVMataList[0];
+                ShowDataGrid();
             }
         }
         private void tsSelectionMode_SelectedIndexChanged(object sender, EventArgs e)
@@ -257,13 +251,13 @@ namespace Heiflow.Controls.WinForm.Toolbox
         }
         private void menu_remove_Click(object sender, EventArgs e)
         {
-            var meta = olvMatName.SelectedObject as DataCubeMeta;
+            var meta = SelectedMatMeta;
             if (meta != null && meta.Mat != null)
             {
                 Workspace.Remove(meta.Name);
                 if (Workspace.DataSources.Count == 0)
                 {
-                    olvVariableName.ClearObjects();
+                    UpdateVariableView(null);
                     arrayGrid.DataSource = null;
                 }
                 UpdateMatView();
@@ -274,7 +268,7 @@ namespace Heiflow.Controls.WinForm.Toolbox
             Workspace.Clear();
             _MatMataList.Clear();
             UpdateMatView();
-            olvVariableName.ClearObjects();
+            UpdateVariableView(null);
             arrayGrid.DataSource = null;
         }
         private void btnSave_Click(object sender, EventArgs e)
@@ -327,19 +321,30 @@ namespace Heiflow.Controls.WinForm.Toolbox
 
         private void UpdateMatView()
         {
-            olvMatName.SetObjects(_MatMataList);
+            lvMatName.BeginUpdate();
+            lvMatName.Items.Clear();
+            foreach (var meta in _MatMataList)
+            {
+                var item = new ListViewItem(new string[]
+                {
+                    meta.Name, meta.Size, meta.Owner, meta.RepeatAllowed.ToString()
+                });
+                item.Tag = meta;
+                lvMatName.Items.Add(item);
+            }
+            lvMatName.EndUpdate();
         }
 
         private void UpdateVariableView(IDataCubeObject mat)
         {
-            if (mat == null)
-            {
-                _TVMataList.Clear();
-            }
-            else
-            {
-                _TVMataList.Clear();
+            _TVMataList.Clear();
+            _SelectedDCVarientMeta = null;
 
+            if (mat != null)
+            {
+                var flags = mat.Flags;
+                var multipliers = mat.Multipliers;
+                var constants = mat.Constants;
                 int nvar = mat.Size[0];
                 for (int i = 0; i < nvar; i++)
                 {
@@ -347,15 +352,13 @@ namespace Heiflow.Controls.WinForm.Toolbox
                     {
                         // stress period or layer is used as variable
                         VariableIndex = i,
-                        Behavior = mat.Flags[i],
-                        Multiplier = mat.Multipliers[i],
-                        Constant = mat.Constants[i],
+                        Behavior = flags != null && i < flags.Length ? flags[i] : TimeVarientFlag.Individual,
+                        Multiplier = multipliers != null && i < multipliers.Length ? multipliers[i] : 0,
+                        Constant = constants != null && i < constants.Length ? constants[i] : 0,
                         Owner = mat
                     });
                 }
-
             }
-            olvVariableName.SetObjects(_TVMataList);
         }
         private void ShowDataGrid()
         {

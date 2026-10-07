@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Heiflow.Controls.WinForm.Controls;
 
 namespace Heiflow.Models.Hydrodynamics.Susbed
 {
@@ -29,32 +30,32 @@ namespace Heiflow.Models.Hydrodynamics.Susbed
 
         private void JunctionParaForm_Load(object sender, EventArgs e)
         {
-            olvTributaryPara.DataSource = _ParaPackage.Tributaries;
-            olvPointSource.DataSource = _ParaPackage.PointSources;
-            olvSections.DataSource = _ParaPackage.LL;
+            NativeList.Bind(olvTributaryPara, _ParaPackage.Tributaries);
+            NativeList.Bind(olvPointSource, _ParaPackage.PointSources);
+            NativeList.Bind(olvSections, _ParaPackage.LL);
             numericUpDownSection.ValueChanged -= this.numericUpDownSection_ValueChanged;
             numericUpDownSection.Value = _ParaPackage.MD;
             numericUpDownSection.ValueChanged += this.numericUpDownSection_ValueChanged;
         }
 
-        private void olvTributaryPara_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        private void olvTributaryPara_ItemSelectionChanged(object sender, EventArgs e)
         {
-            if (olvTributaryPara.SelectedObject != null)
+            if (NativeList.SelectedRow(olvTributaryPara) != null)
             {
                 btnRemove.Enabled = true;
-                _SelectedSourceInfo = olvTributaryPara.SelectedObject as SourceInfo;
+                _SelectedSourceInfo = NativeList.SelectedRow<SourceInfo>(olvTributaryPara);
             }
             else
             {
                 btnRemove.Enabled = false;
             }
         }
-        private void olvPointSource_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        private void olvPointSource_ItemSelectionChanged(object sender, EventArgs e)
         {
-            if (olvPointSource.SelectedObject != null)
+            if (NativeList.SelectedRow(olvPointSource) != null)
             {
                 btnRemove.Enabled = true;
-                _SelectedSourceInfo = olvPointSource.SelectedObject as SourceInfo;
+                _SelectedSourceInfo = NativeList.SelectedRow<SourceInfo>(olvPointSource);
             }
             else
             {
@@ -70,13 +71,13 @@ namespace Heiflow.Models.Hydrodynamics.Susbed
             else if (tabControl1.SelectedTab == tabPage2)
             {
                 _ParaPackage.AddSourceInfoTo(_ParaPackage.Tributaries);
-                olvTributaryPara.DataSource = _ParaPackage.Tributaries;
+                NativeList.Bind(olvTributaryPara, _ParaPackage.Tributaries);
                 _ParaPackage.NUMBR = _ParaPackage.Tributaries.Count;
             }
             else if (tabControl1.SelectedTab == tabPage3)
             {
                 _ParaPackage.AddSourceInfoTo(_ParaPackage.PointSources);
-                olvPointSource.DataSource = _ParaPackage.PointSources;
+                NativeList.Bind(olvPointSource, _ParaPackage.PointSources);
                 _ParaPackage.INODE = _ParaPackage.PointSources.Count;
             }
         }
@@ -92,13 +93,13 @@ namespace Heiflow.Models.Hydrodynamics.Susbed
             else if (tabControl1.SelectedTab == tabPage2)
             {
                 _ParaPackage.RemoveSourceInfoFrom(_SelectedSourceInfo, _ParaPackage.Tributaries);
-                olvTributaryPara.DataSource = _ParaPackage.Tributaries;
+                NativeList.Bind(olvTributaryPara, _ParaPackage.Tributaries);
                 _ParaPackage.NUMBR = _ParaPackage.Tributaries.Count;
             }
             else if (tabControl1.SelectedTab == tabPage3)
             {
                 _ParaPackage.RemoveSourceInfoFrom(_SelectedSourceInfo, _ParaPackage.PointSources);
-                olvPointSource.DataSource = _ParaPackage.PointSources;
+                NativeList.Bind(olvPointSource, _ParaPackage.PointSources);
                 _ParaPackage.INODE = _ParaPackage.PointSources.Count;
             }
         }
@@ -128,7 +129,7 @@ namespace Heiflow.Models.Hydrodynamics.Susbed
             _ParaPackage.LL.Clear();
             for (int i = 0; i < numericUpDownSection.Value + 1; i++)
                 _ParaPackage.AddSourceInfoTo(_ParaPackage.LL);
-            olvSections.DataSource = _ParaPackage.LL;
+            NativeList.Bind(olvSections, _ParaPackage.LL);
         }
 
         private void btnSave_Click(object sender, EventArgs e)

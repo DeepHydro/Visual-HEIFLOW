@@ -69,12 +69,12 @@
             this.tabPageSoil = new System.Windows.Forms.TabPage();
             this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
             this.label11 = new System.Windows.Forms.Label();
-            this.olvSoilLayers = new BrightIdeasSoftware.DataListView();
-            this.colLayerName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.colCHANI = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.colLAYWET = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvSoilLayers = new System.Windows.Forms.DataGridView();
+            this.colLayerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCHANI = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colLAYWET = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.olvColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPageAquifer = new System.Windows.Forms.TabPage();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -85,7 +85,6 @@
             this.tabControl1.SuspendLayout();
             this.tabPageSoil.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.olvSoilLayers)).BeginInit();
             this.tabPageAquifer.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -555,86 +554,60 @@
             // 
             // olvSoilLayers
             // 
-            this.olvSoilLayers.AllColumns.Add(this.colLayerName);
-            this.olvSoilLayers.AllColumns.Add(this.colCHANI);
-            this.olvSoilLayers.AllColumns.Add(this.colLAYWET);
-            this.olvSoilLayers.AllColumns.Add(this.olvColumn1);
-            this.olvSoilLayers.AllColumns.Add(this.olvColumn2);
-            this.olvSoilLayers.AllowColumnReorder = true;
+            this.olvSoilLayers.AllowUserToOrderColumns = true;
             this.olvSoilLayers.AllowDrop = true;
-            this.olvSoilLayers.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
-            this.olvSoilLayers.CellEditUseWholeCell = false;
-            this.olvSoilLayers.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.olvSoilLayers.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colLayerName,
             this.colCHANI,
             this.colLAYWET,
             this.olvColumn1,
             this.olvColumn2});
             this.olvSoilLayers.Cursor = System.Windows.Forms.Cursors.Default;
-            this.olvSoilLayers.DataSource = null;
-            this.olvSoilLayers.EmptyListMsg = "";
-            this.olvSoilLayers.EmptyListMsgFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.olvSoilLayers.FullRowSelect = true;
-            this.olvSoilLayers.GridLines = true;
-            this.olvSoilLayers.GroupWithItemCountFormat = "";
-            this.olvSoilLayers.GroupWithItemCountSingularFormat = "";
-            this.olvSoilLayers.HideSelection = false;
             this.olvSoilLayers.Location = new System.Drawing.Point(6, 58);
             this.olvSoilLayers.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.olvSoilLayers.Name = "olvSoilLayers";
-            this.olvSoilLayers.SelectColumnsOnRightClickBehaviour = BrightIdeasSoftware.ObjectListView.ColumnSelectBehaviour.Submenu;
-            this.olvSoilLayers.SelectedBackColor = System.Drawing.Color.FromArgb(214, 233, 245);
-            this.olvSoilLayers.SelectedForeColor = System.Drawing.Color.FromArgb(27, 90, 140);
-            this.olvSoilLayers.ShowCommandMenuOnRightClick = true;
-            this.olvSoilLayers.ShowGroups = false;
-            this.olvSoilLayers.ShowImagesOnSubItems = true;
-            this.olvSoilLayers.ShowItemToolTips = true;
+            this.olvSoilLayers.AllowUserToAddRows = false;
+            this.olvSoilLayers.AllowUserToDeleteRows = false;
+            this.olvSoilLayers.AutoGenerateColumns = false;
+            this.olvSoilLayers.RowHeadersVisible = false;
+            this.olvSoilLayers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.olvSoilLayers.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.olvSoilLayers.Size = new System.Drawing.Size(474, 563);
             this.olvSoilLayers.TabIndex = 27;
-            this.olvSoilLayers.UseCellFormatEvents = true;
-            this.olvSoilLayers.UseCompatibleStateImageBehavior = false;
-            this.olvSoilLayers.UseFilterIndicator = true;
-            this.olvSoilLayers.UseFiltering = true;
-            this.olvSoilLayers.UseHotItem = true;
-            this.olvSoilLayers.UseTranslucentHotItem = true;
-            this.olvSoilLayers.View = System.Windows.Forms.View.Details;
             // 
             // colLayerName
             // 
-            this.colLayerName.AspectName = "Name";
-            this.colLayerName.ButtonPadding = new System.Drawing.Size(10, 10);
-            this.colLayerName.CellEditUseWholeCell = true;
-            this.colLayerName.IsTileViewColumn = true;
-            this.colLayerName.Text = "Layer Name";
-            this.colLayerName.UseInitialLetterForGroup = true;
+            this.colLayerName.DataPropertyName = "Name";
+            this.colLayerName.HeaderText = "Layer Name";
+            this.colLayerName.Name = "colLayerName";
             this.colLayerName.Width = 100;
             // 
             // colCHANI
             // 
-            this.colCHANI.AspectName = "SoilDepth";
-            this.colCHANI.CellEditUseWholeCell = true;
-            this.colCHANI.Text = "Soil Depth";
-            this.colCHANI.ToolTipText = "a value for each layer that is a flag or the horizontal anisotropy";
+            this.colCHANI.DataPropertyName = "SoilDepth";
+            this.colCHANI.HeaderText = "Soil Depth";
+            this.colCHANI.Name = "colCHANI";
             this.colCHANI.Width = 90;
             // 
             // colLAYWET
             // 
-            this.colLAYWET.AspectName = "InitGVR";
-            this.colLAYWET.CellEditUseWholeCell = true;
-            this.colLAYWET.Text = "Init GVR";
-            this.colLAYWET.ToolTipText = "Indicates if wetting is active.";
+            this.colLAYWET.DataPropertyName = "InitGVR";
+            this.colLAYWET.HeaderText = "Init GVR";
+            this.colLAYWET.Name = "colLAYWET";
             this.colLAYWET.Width = 90;
             // 
             // olvColumn1
             // 
-            this.olvColumn1.AspectName = "InitCPR";
-            this.olvColumn1.Text = "Init CPR";
+            this.olvColumn1.DataPropertyName = "InitCPR";
+            this.olvColumn1.HeaderText = "Init CPR";
+            this.olvColumn1.Name = "olvColumn1";
             this.olvColumn1.Width = 90;
             // 
             // olvColumn2
             // 
-            this.olvColumn2.AspectName = "InitPFR";
-            this.olvColumn2.Text = "Init PFR";
+            this.olvColumn2.DataPropertyName = "InitPFR";
+            this.olvColumn2.HeaderText = "Init PFR";
+            this.olvColumn2.Name = "olvColumn2";
             this.olvColumn2.Width = 90;
             // 
             // tabPageAquifer
@@ -686,7 +659,6 @@
             this.tabPageSoil.ResumeLayout(false);
             this.tabPageSoil.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.olvSoilLayers)).EndInit();
             this.tabPageAquifer.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -735,11 +707,11 @@
         private System.Windows.Forms.TabPage tabPageAquifer;
         private System.Windows.Forms.NumericUpDown numericUpDown2;
         private System.Windows.Forms.Label label11;
-        private BrightIdeasSoftware.DataListView olvSoilLayers;
-        private BrightIdeasSoftware.OLVColumn colLayerName;
-        private BrightIdeasSoftware.OLVColumn colCHANI;
-        private BrightIdeasSoftware.OLVColumn colLAYWET;
-        private BrightIdeasSoftware.OLVColumn olvColumn1;
-        private BrightIdeasSoftware.OLVColumn olvColumn2;
+        private System.Windows.Forms.DataGridView olvSoilLayers;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colLayerName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCHANI;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colLAYWET;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn olvColumn2;
     }
 }

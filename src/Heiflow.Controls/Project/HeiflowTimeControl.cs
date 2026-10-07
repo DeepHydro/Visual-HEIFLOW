@@ -63,8 +63,8 @@ namespace Heiflow.Controls.WinForm.Project
             dateTimePickerStart.Value = _GlobalTimeService.Start;
             dateTimePickerEnd.Value = _GlobalTimeService.End;
             cmbTimeUnit.SelectedIndex = _GlobalTimeService.TimeUnit - 3;
-            olvLanduse.SetObjects(_GlobalTimeService.StressPeriods);
-            olvMF.SetObjects(_MFTimeService.StressPeriods);
+            NativeList.Bind(olvLanduse, _GlobalTimeService.StressPeriods);
+            NativeList.Bind(olvMF, _MFTimeService.StressPeriods);
 
             if(_MFTimeService.StressPeriods.Count > 0)
             {
@@ -149,7 +149,7 @@ namespace Heiflow.Controls.WinForm.Project
             }
             int nsp = (int)numericUpDownMF.Value - 1;
             _MFTimeService.InitSP(nsp, true);
-            olvMF.SetObjects(_MFTimeService.StressPeriods);
+            NativeList.Bind(olvMF, _MFTimeService.StressPeriods);
         }
         private void cmbMFSPUnit_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -160,7 +160,7 @@ namespace Heiflow.Controls.WinForm.Project
             }
             var unit = (TimeUnits)(cmbMFSPUnit.SelectedIndex + 104);
             _MFTimeService.InitSP(unit, true);
-            olvMF.SetObjects(_MFTimeService.StressPeriods);
+            NativeList.Bind(olvMF, _MFTimeService.StressPeriods);
         }
 
         private void btnRefreshMF_Click(object sender, EventArgs e)
@@ -175,7 +175,7 @@ namespace Heiflow.Controls.WinForm.Project
             {
                 _MFTimeService.InitSP(buf.ToArray(), true);
                 _MFTimeService.UpdateStressPeriodTimeLine();
-                olvMF.SetObjects(_MFTimeService.StressPeriods);
+                NativeList.Bind(olvMF, _MFTimeService.StressPeriods);
                 _needCorrectMF = false;
             }
         }
@@ -203,14 +203,14 @@ namespace Heiflow.Controls.WinForm.Project
         {
             int nsp = (int)numericUpDownLU.Value;
             _GlobalTimeService.InitSP(nsp, false);
-            olvLanduse.SetObjects(_GlobalTimeService.StressPeriods);
+            NativeList.Bind(olvLanduse, _GlobalTimeService.StressPeriods);
         }
 
         private void cmbLUTimeUnit_SelectedIndexChanged(object sender, EventArgs e)
         {
             var unit = (TimeUnits)(cmbMFSPUnit.SelectedIndex + 104);
             _GlobalTimeService.InitSP(unit, true);
-            olvLanduse.SetObjects(_GlobalTimeService.StressPeriods);
+            NativeList.Bind(olvLanduse, _GlobalTimeService.StressPeriods);
         }
 
         private void btnRefreshLU_Click(object sender, EventArgs e)
@@ -230,7 +230,7 @@ namespace Heiflow.Controls.WinForm.Project
             else
             {
                 _GlobalTimeService.InitSP(buf.ToArray(), true);
-                olvLanduse.SetObjects(_GlobalTimeService.StressPeriods);
+                NativeList.Bind(olvLanduse, _GlobalTimeService.StressPeriods);
                 _needCorrectLU = false;
             }
         }

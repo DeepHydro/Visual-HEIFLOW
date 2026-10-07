@@ -49,10 +49,7 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabPage_Report = new System.Windows.Forms.TabPage();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.olvDataTree = new BrightIdeasSoftware.DataTreeListView();
-            this.olvColumn1 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn2 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumn3 = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.tvDataTree = new System.Windows.Forms.TreeView();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tb_sz_satrejected = new System.Windows.Forms.TextBox();
             this.tb_szinfil = new System.Windows.Forms.TextBox();
@@ -120,7 +117,6 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabPage_Report.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.olvDataTree)).BeginInit();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPageReport.SuspendLayout();
@@ -343,7 +339,7 @@ namespace Heiflow.Controls.WinForm.Display
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.olvDataTree);
+            this.tabPage3.Controls.Add(this.tvDataTree);
             this.tabPage3.Location = new System.Drawing.Point(4, 39);
             this.tabPage3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage3.Name = "tabPage3";
@@ -353,57 +349,16 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabPage3.Text = "Budget Components";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // olvDataTree
+            // tvDataTree
             // 
-            this.olvDataTree.AllColumns.Add(this.olvColumn1);
-            this.olvDataTree.AllColumns.Add(this.olvColumn2);
-            this.olvDataTree.AllColumns.Add(this.olvColumn3);
-            this.olvDataTree.AutoGenerateColumns = false;
-            this.olvDataTree.CellEditActivation = BrightIdeasSoftware.ObjectListView.CellEditActivateMode.DoubleClick;
-            this.olvDataTree.CellEditUseWholeCell = false;
-            this.olvDataTree.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.olvColumn1,
-            this.olvColumn2,
-            this.olvColumn3});
-            this.olvDataTree.Cursor = System.Windows.Forms.Cursors.Default;
-            this.olvDataTree.DataSource = null;
-            this.olvDataTree.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.olvDataTree.HideSelection = false;
-            this.olvDataTree.KeyAspectName = "ID";
-            this.olvDataTree.Location = new System.Drawing.Point(3, 4);
-            this.olvDataTree.Margin = new System.Windows.Forms.Padding(4);
-            this.olvDataTree.Name = "olvDataTree";
-            this.olvDataTree.ParentKeyAspectName = "ParentID";
-            this.olvDataTree.RootKeyValueString = "";
-            this.olvDataTree.ShowGroups = false;
-            this.olvDataTree.ShowKeyColumns = false;
-            this.olvDataTree.Size = new System.Drawing.Size(1101, 614);
-            this.olvDataTree.TabIndex = 4;
-            this.olvDataTree.UseCompatibleStateImageBehavior = false;
-            this.olvDataTree.UseFilterIndicator = true;
-            this.olvDataTree.UseFiltering = true;
-            this.olvDataTree.View = System.Windows.Forms.View.Details;
-            this.olvDataTree.VirtualMode = true;
-            // 
-            // olvColumn1
-            // 
-            this.olvColumn1.AspectName = "Item";
-            this.olvColumn1.Text = "Item";
-            this.olvColumn1.Width = 154;
-            // 
-            // olvColumn2
-            // 
-            this.olvColumn2.AspectName = "Volumetric_Flow";
-            this.olvColumn2.AspectToStringFormat = "{0:E}";
-            this.olvColumn2.Text = "Volumetric Flow (cubic meter)";
-            this.olvColumn2.Width = 214;
-            // 
-            // olvColumn3
-            // 
-            this.olvColumn3.AspectName = "Water_Depth";
-            this.olvColumn3.AspectToStringFormat = "";
-            this.olvColumn3.Text = "Water Depth(mm)";
-            this.olvColumn3.Width = 210;
+            this.tvDataTree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tvDataTree.HideSelection = false;
+            this.tvDataTree.Location = new System.Drawing.Point(3, 4);
+            this.tvDataTree.Margin = new System.Windows.Forms.Padding(4);
+            this.tvDataTree.Name = "tvDataTree";
+            this.tvDataTree.ShowNodeToolTips = true;
+            this.tvDataTree.Size = new System.Drawing.Size(1101, 614);
+            this.tvDataTree.TabIndex = 4;
             // 
             // tabPage1
             // 
@@ -1027,7 +982,6 @@ namespace Heiflow.Controls.WinForm.Display
             this.tabPage_Report.ResumeLayout(false);
             this.tabControl2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.olvDataTree)).EndInit();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -1052,15 +1006,12 @@ namespace Heiflow.Controls.WinForm.Display
         private System.Windows.Forms.TabPage tabPage_Report;
         private System.Windows.Forms.TabControl tabControl2;
         private System.Windows.Forms.TabPage tabPage3;
-        private BrightIdeasSoftware.DataTreeListView olvDataTree;
+        private System.Windows.Forms.TreeView tvDataTree;
         private System.Windows.Forms.TabControl tabControl3;
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.TabPage tabPage6;
         private System.Windows.Forms.PropertyGrid propertyGrid1;
-        private BrightIdeasSoftware.OLVColumn olvColumn1;
-        private BrightIdeasSoftware.OLVColumn olvColumn2;
         private System.Windows.Forms.TabPage tabPage1;
-        private BrightIdeasSoftware.OLVColumn olvColumn3;
         private System.Windows.Forms.TextBox sfr_slow;
         private System.Windows.Forms.TextBox sat_s2g;
         private System.Windows.Forms.TextBox uzf_recharge;

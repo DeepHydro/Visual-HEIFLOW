@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Heiflow.Controls.WinForm.Controls;
 
 
 namespace Heiflow.Models.Hydrodynamics.Susbed
@@ -36,7 +37,7 @@ namespace Heiflow.Models.Hydrodynamics.Susbed
             Cursor.Current = Cursors.WaitCursor;
             if (_FlowOutPackage.Load(null) == LoadingState.Normal)
             {
-                olvMatName.DataSource = _CrossSectionPackage.CrossSections;
+                NativeList.Bind(olvMatName, _CrossSectionPackage.CrossSections);
                 colorSlider1.Minimum = 0;
                 colorSlider1.Maximum = _FlowOutPackage.NumTimes - 1;
             }
@@ -61,34 +62,34 @@ namespace Heiflow.Models.Hydrodynamics.Susbed
             string ytitle = "";
             if (this.Text == "水位过程")
             {
-                ytitle = "水位 (米)";
+                ytitle = "水位 (�?";
             }
             else
             {
-                ytitle = "流量 (立方米/秒)";
+                ytitle = "流量 (立方�?�?";
             }
-            winChart_proflie.Plot<double>(main_yy, "第" + _FlowOutPackage.Times[colorSlider1.Value]+ "天洪水演进过程", 
+            winChart_proflie.Plot<double>(main_yy, "�? + _FlowOutPackage.Times[colorSlider1.Value]+ "天洪水演进过�?, 
                 System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine, "断面", ytitle);
         }
 
-        private void olvMatName_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        private void olvMatName_ItemSelectionChanged(object sender, EventArgs e)
         {
-            _SelectedCrossSection = olvMatName.SelectedObject as CrossSection;
+            _SelectedCrossSection = NativeList.SelectedRow<CrossSection>(olvMatName);
             if (_SelectedCrossSection != null)
             {
 
                 string ytitle = "";
                 if (this.Text == "水位过程")
                 {
-                    ytitle = "水位 (米)";
+                    ytitle = "水位 (�?";
                 }
                 else
                 {
-                    ytitle = "流量 (立方米/秒)";
+                    ytitle = "流量 (立方�?�?";
                 }
                 var yy= _FlowOutPackage.GetValueAt(_SelectedCrossSection.ID - 1);
                 winChartSection.Plot<double>(_FlowOutPackage.Times.ToArray(), yy, _SelectedCrossSection.Name,
-                    System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine, "时间 (天)", ytitle);
+                    System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine, "时间 (�?", ytitle);
             }
         }
 
