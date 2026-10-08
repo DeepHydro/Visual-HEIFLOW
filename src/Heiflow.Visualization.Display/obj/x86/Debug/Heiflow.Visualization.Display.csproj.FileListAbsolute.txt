@@ -215,7 +215,6 @@ D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Display\bin\x86\Debug\He
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Display\bin\x86\Debug\DotSpatial.Data.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Display\bin\x86\Debug\DotSpatial.Data.Forms.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Display\bin\x86\Debug\ILNumerics.dll
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Display\bin\x86\Debug\ObjectListView.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Display\bin\x86\Debug\DotSpatial.Controls.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Display\bin\x86\Debug\DotSpatial.Projections.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Display\bin\x86\Debug\SourceGrid.dll
@@ -246,7 +245,6 @@ D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Display\bin\x86\Debug\Wp
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Display\bin\x86\Debug\Heiflow.Applications.pdb
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Display\bin\x86\Debug\DotSpatial.Data.pdb
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Display\bin\x86\Debug\DotSpatial.Data.Forms.pdb
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Display\bin\x86\Debug\ObjectListView.xml
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Display\bin\x86\Debug\DotSpatial.Controls.pdb
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Display\bin\x86\Debug\DotSpatial.Projections.pdb
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Display\bin\x86\Debug\SourceGrid.xml

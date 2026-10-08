@@ -118,7 +118,6 @@ D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Applications\bin\x86\Deb
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Applications\bin\x86\Debug\Heiflow.Visualization.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Applications\bin\x86\Debug\WpfApplicationFramework.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Applications\bin\x86\Debug\ILNumerics.dll
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Applications\bin\x86\Debug\ObjectListView.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Applications\bin\x86\Debug\SourceGrid.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Applications\bin\x86\Debug\DotSpatial.NetTopologySuite.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Applications\bin\x86\Debug\DotSpatial.Projections.Forms.dll
@@ -164,7 +163,6 @@ D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Applications\bin\x86\Deb
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Applications\bin\x86\Debug\DotSpatial.Projections.pdb
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Applications\bin\x86\Debug\DotSpatial.Symbology.pdb
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Applications\bin\x86\Debug\WpfApplicationFramework.xml
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Applications\bin\x86\Debug\ObjectListView.xml
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Applications\bin\x86\Debug\SourceGrid.xml
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Applications\bin\x86\Debug\DotSpatial.NetTopologySuite.xml
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Applications\bin\x86\Debug\DotSpatial.Projections.Forms.pdb

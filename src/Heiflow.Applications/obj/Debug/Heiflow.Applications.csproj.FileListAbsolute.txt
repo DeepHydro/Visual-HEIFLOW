@@ -60,9 +60,7 @@ D:\System\git\Visual-HEIFLOW\src\bin\Debug\Heiflow.Applications.dll
 D:\System\git\Visual-HEIFLOW\src\bin\Debug\Heiflow.Applications.pdb
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Applications\obj\Debug\Heiflow.Applications.dll
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Applications\obj\Debug\Heiflow.Applications.pdb
-d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Applications\obj\Debug\Heiflow.Applications.csproj.AssemblyReference.cache
-d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Applications\obj\Debug\Heiflow.Applications.csproj.CoreCompileInputs.cache
-d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Applications\obj\Debug\Heiflow..40EF13EC.Up2Date
 d:\System\git\Visual-HEIFLOW\src\Heiflow.Applications\obj\Debug\Heiflow.Applications.csproj.AssemblyReference.cache
 d:\System\git\Visual-HEIFLOW\src\Heiflow.Applications\obj\Debug\Heiflow.Applications.csproj.CoreCompileInputs.cache
 d:\System\git\Visual-HEIFLOW\src\Heiflow.Applications\obj\Debug\Heiflow..40EF13EC.Up2Date
+D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Applications\obj\Debug\Heiflow.Applications.csprojResolveAssemblyReference.cache

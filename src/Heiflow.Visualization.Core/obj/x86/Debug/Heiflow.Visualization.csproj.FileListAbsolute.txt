@@ -65,9 +65,7 @@ D:\System\git\Visual-HEIFLOW\src\bin\Visualization\Heiflow.Visualization.dll
 D:\System\git\Visual-HEIFLOW\src\bin\Visualization\Heiflow.Visualization.pdb
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\obj\x86\Debug\Heiflow.Visualization.dll
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\obj\x86\Debug\Heiflow.Visualization.pdb
-d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Core\obj\x86\Debug\Heiflow.Visualization.csproj.AssemblyReference.cache
-d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Core\obj\x86\Debug\Heiflow.Visualization.csproj.CoreCompileInputs.cache
-d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Core\obj\x86\Debug\Heiflow..B6972EF4.Up2Date
 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\obj\x86\Debug\Heiflow.Visualization.csproj.AssemblyReference.cache
 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\obj\x86\Debug\Heiflow.Visualization.csproj.CoreCompileInputs.cache
 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\obj\x86\Debug\Heiflow..B6972EF4.Up2Date
+D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Core\obj\x86\Debug\Heiflow.Visualization.csprojResolveAssemblyReference.cache

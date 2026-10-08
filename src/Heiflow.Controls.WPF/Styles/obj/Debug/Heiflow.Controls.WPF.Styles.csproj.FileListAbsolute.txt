@@ -129,7 +129,6 @@ F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls.WPF\Styles\obj\Debug\Heiflow.
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls.WPF\Styles\obj\Debug\Heiflow.Controls.WPF.Styles.pdb
 D:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Visualization\Heiflow.Controls.WPF.Styles.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Visualization\Heiflow.Controls.WPF.Styles.pdb
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls.WPF\Styles\obj\Debug\Heiflow.Controls.WPF.Styles.csprojResolveAssemblyReference.cache
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls.WPF\Styles\obj\Debug\ButtonStyles.baml
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls.WPF\Styles\obj\Debug\ComboBoxStyles.baml
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls.WPF\Styles\obj\Debug\Core\MetroWindowResources.baml
@@ -187,3 +186,6 @@ D:\System\git\Visual-HEIFLOW\src\Heiflow.Controls.WPF\Styles\obj\Debug\Heiflow.C
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Controls.WPF\Styles\obj\Debug\Heiflow.Controls.WPF.Styles.csproj.AssemblyReference.cache
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Controls.WPF\Styles\obj\Debug\Heiflow.Controls.WPF.Styles.csproj.CoreCompileInputs.cache
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Controls.WPF\Styles\obj\Debug\Heiflow..8A4FC612.Up2Date
+d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls.WPF\Styles\obj\Debug\Heiflow.Controls.WPF.Styles.csproj.AssemblyReference.cache
+d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls.WPF\Styles\obj\Debug\Heiflow.Controls.WPF.Styles.csproj.CoreCompileInputs.cache
+d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls.WPF\Styles\obj\Debug\Heiflow..8A4FC612.Up2Date

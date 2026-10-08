@@ -102,7 +102,6 @@ F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Display\obj\Debug\Heiflo
 F:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Display\obj\Debug\Heiflow.Visualization.Display.csprojResolveAssemblyReference.cache
 D:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Visualization\Heiflow.Visualization.Display.dll
 D:\System\HEIFLOW\VHF_GIT\VHF\src\bin\Visualization\Heiflow.Visualization.Display.pdb
-D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Display\obj\Debug\Heiflow.Visualization.Display.csprojResolveAssemblyReference.cache
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Display\obj\Debug\HUST.WREIS.Dot3D.VisualControl.Colorbar.resources
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Display\obj\Debug\HUST.WREIS.Dot3D.Net.Monitor.HttpHeaderForm.resources
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Display\obj\Debug\HUST.WREIS.Dot3D.Menu.LayerManagerItemInfo.resources
@@ -136,3 +135,6 @@ D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Display\obj\Debug\Heiflow
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Display\obj\Debug\Heiflow..042EFBB2.Up2Date
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Display\obj\Debug\Heiflow.Visualization.Display.dll
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Display\obj\Debug\Heiflow.Visualization.Display.pdb
+d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Display\obj\Debug\Heiflow.Visualization.Display.csproj.AssemblyReference.cache
+d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Display\obj\Debug\Heiflow.Visualization.Display.csproj.CoreCompileInputs.cache
+d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Display\obj\Debug\Heiflow..042EFBB2.Up2Date
