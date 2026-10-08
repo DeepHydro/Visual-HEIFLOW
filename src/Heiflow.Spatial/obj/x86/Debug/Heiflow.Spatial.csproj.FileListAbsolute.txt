@@ -42,6 +42,4 @@ D:\System\git\Visual-HEIFLOW\src\Heiflow.Spatial\obj\x86\Debug\Heiflow.Spatial.P
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Spatial\obj\x86\Debug\Heiflow.Spatial.csproj.GenerateResource.Cache
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Spatial\obj\x86\Debug\Heiflow.Spatial.dll
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Spatial\obj\x86\Debug\Heiflow.Spatial.pdb
-d:\System\git\Visual-HEIFLOW\src\Heiflow.Spatial\obj\x86\Debug\Heiflow.Spatial.csproj.AssemblyReference.cache
-d:\System\git\Visual-HEIFLOW\src\Heiflow.Spatial\obj\x86\Debug\Heiflow.Spatial.csproj.CoreCompileInputs.cache
-d:\System\git\Visual-HEIFLOW\src\Heiflow.Spatial\obj\x86\Debug\Heiflow..0759D3CC.Up2Date
+D:\system\git\Visual-HEIFLOW\src\Heiflow.Spatial\obj\x86\Debug\Heiflow.Spatial.csprojResolveAssemblyReference.cache
