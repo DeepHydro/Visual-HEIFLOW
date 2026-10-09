@@ -1,0 +1,7 @@
+2026-10-09 00:04:30Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-09 00:04:31Z 0      caught exception: 
+2026-10-09 00:04:31Z 0      System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 HUST.WREIS.Dot3D.Renderable.QuadTile.Initialize() 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\QuadTile\QuadTile.cs:行号 303
+   在 HUST.WREIS.Dot3D.Renderable.QuadTile.Update(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\QuadTile\QuadTile.cs:行号 348
+   在 HUST.WREIS.Dot3D.Renderable.QuadTile.Update(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\QuadTile\QuadTile.cs:行号 394
+   在 HUST.WREIS.Dot3D.Renderable.QuadTileSet.Update(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\QuadTile\QuadTileSet.cs:行号 677

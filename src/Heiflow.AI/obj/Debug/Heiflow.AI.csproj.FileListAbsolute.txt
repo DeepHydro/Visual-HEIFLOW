@@ -61,5 +61,5 @@ D:\System\git\Visual-HEIFLOW\src\bin\Debug\Heiflow.AI.dll
 D:\System\git\Visual-HEIFLOW\src\bin\Debug\Heiflow.AI.pdb
 D:\System\git\Visual-HEIFLOW\src\Heiflow.AI\obj\Debug\Heiflow.AI.dll
 D:\System\git\Visual-HEIFLOW\src\Heiflow.AI\obj\Debug\Heiflow.AI.pdb
-D:\System\git\Visual-HEIFLOW\src\Heiflow.AI\obj\Debug\Heiflow.AI.csproj.AssemblyReference.cache
-D:\System\git\Visual-HEIFLOW\src\Heiflow.AI\obj\Debug\Heiflow.AI.csproj.CoreCompileInputs.cache
+d:\System\git\Visual-HEIFLOW\src\Heiflow.AI\obj\Debug\Heiflow.AI.csproj.AssemblyReference.cache
+d:\System\git\Visual-HEIFLOW\src\Heiflow.AI\obj\Debug\Heiflow.AI.csproj.CoreCompileInputs.cache

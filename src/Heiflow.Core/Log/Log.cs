@@ -87,7 +87,7 @@ namespace Heiflow.Core
 				Directory.CreateDirectory(logPath);
 
 				// TODO: do not hardcode logfile name?
-				logFilePath = Path.Combine( logPath, "HUST.WREIS.Application.log" );
+				logFilePath = Path.Combine( logPath, "HydroEarth.log" );
 
 				logWriter = new StreamWriter(logFilePath, true);
 				logWriter.AutoFlush = true;

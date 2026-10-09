@@ -1,5 +1,7 @@
+using Heiflow.Core;
 using System;
 using System.Globalization;
+using System.Net;
 
 namespace HUST.WREIS.Dot3D.Net.Wms
 {
@@ -8,6 +10,26 @@ namespace HUST.WREIS.Dot3D.Net.Wms
 	/// </summary>
 	public class WmsImageStore : ImageStore
 	{
+		/// <summary>
+		/// Image servers are https only these days and refuse a handshake below TLS 1.2, while what a
+		/// request offers by default on a 4.5 runtime is SSL 3 and TLS 1.0, so every GetMap dies with
+		/// "Could not create SSL/TLS secure channel". It is turned on once here rather than per request,
+		/// and it is added to whatever is already set so an older protocol another download needs stays
+		/// available. See TerrariumDownloadRequest, which has the same switch for the terrain tiles.
+		/// </summary>
+		static WmsImageStore()
+		{
+			try
+			{
+				ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
+			}
+			catch (Exception caught)
+			{
+				Log.Write(Log.Levels.Warning, "WMS",
+					"TLS 1.2 could not be turned on, https tiles may fail to load: " + caught.Message);
+			}
+		}
+
 		#region Private Members
 		
 		string m_serverGetMapUrl;

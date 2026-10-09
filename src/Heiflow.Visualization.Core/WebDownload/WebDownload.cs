@@ -360,7 +360,7 @@ namespace HUST.WREIS.Dot3D.Net
 		{
             Log.Write(Log.Levels.Debug, "Starting download thread...");
 
-            Debug.Assert(Url.StartsWith("http://"));
+            //Debug.Assert(Url.StartsWith("http://"));
 			DownloadStartTime = DateTime.Now;
 			try
 			{

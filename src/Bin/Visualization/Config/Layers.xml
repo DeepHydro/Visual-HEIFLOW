@@ -38,11 +38,19 @@
 		</LatLonBoundingBox>
 	</TerrainAccessor>
 	<LayerSet Name="Base Map" ShowOnlyOneLayer="true" ShowAtStartup="true">
+	<!-- StartZoomLevel is the zoom level of the topmost tiles, and ProjectedTileSet hands it to
+	     ProjectedMapImageStore, which turns it into the Bing quad key through TileXYToQuadKey. At
+	     level 0 that loop runs no iterations at all and returns an empty string, so the request comes
+	     out as /tiles/a.jpeg?g=790 with no tile named in it and the server answers 400. The root tile
+	     therefore never arrives and the tiles below it are never built, which is why the layer stayed
+	     blank even though the service itself still answers. Every level from 1 upwards gives a key the
+	     server accepts, and 5 is what this layer was configured with before the file was trimmed to
+	     this single layer set. Do not set it back to 0. -->
 	<ProjectedTileSet ShowAtStartup="False">
 		<Name>BingSatelliteMap</Name>
 		<DistanceAboveSurface>0</DistanceAboveSurface>
 		<IconImageName>nrl.png</IconImageName>
-		<StartZoomLevel>0</StartZoomLevel>
+		<StartZoomLevel>5</StartZoomLevel>
 			<BoundingBox>
 			<North>
 				<Value>90.0</Value>
@@ -80,90 +88,6 @@
 		</ImageAccessor>
 		<TransparentColor><Red>0</Red><Green>0</Green><Blue>0</Blue></TransparentColor>
 	  </ProjectedTileSet>
-	<ProjectedTileSet ShowAtStartup="False">
-		<Name>GoogleChinaTerrainMap</Name>
-		<DistanceAboveSurface>0</DistanceAboveSurface>
-		<IconImageName>nrl.png</IconImageName>
-		<StartZoomLevel>0</StartZoomLevel>
-		<BoundingBox>
-			<North>
-				<Value>90.0</Value>
-			</North>
-			<South>
-				<Value>-90.0</Value>
-			</South>
-			<West>
-				<Value>-180.0</Value>
-			</West>
-			<East>
-				<Value>180.0</Value>
-			</East>
-		</BoundingBox>
-		<TerrainMapped>true</TerrainMapped>
-		<ImageAccessor>
-			<LevelZeroTileSizeDegrees>180</LevelZeroTileSizeDegrees>
-			<NumberLevels>20</NumberLevels>
-			<TextureSizePixels>512</TextureSizePixels>
-			<ImageFileExtension>jpeg</ImageFileExtension>
-			<SubDatasetName>none</SubDatasetName>
-			<IsDebug>False</IsDebug>
-			<IsDownloadableLayer>False</IsDownloadableLayer>
-			<ImageTileService>
-					<ServerUrl>http://worldwind25.arc.nasa.gov/tile/tile.aspx</ServerUrl>
-					<DataSetName>GoogleChinaTerrainMap</DataSetName>
-					<ServerLogoFilePath>Data\Icons\Interface\usgs.png</ServerLogoFilePath>
-					<MapProvider>GoogleChinaTerrainMap</MapProvider>
-					<CacheDirectory>GoogleChinaTerrainMap</CacheDirectory>
-					<SQLiteService>
-		  	  <DbFilePath>data\image.gmdb</DbFilePath>
-					  <ImageType>5</ImageType>
-		      </SQLiteService>
-		  </ImageTileService>		 
-		</ImageAccessor>
-		<TransparentColor><Red>0</Red><Green>0</Green><Blue>0</Blue></TransparentColor>
-	</ProjectedTileSet>
-	<ProjectedTileSet ShowAtStartup="False">
-		<Name>GoogleSatelliteMap</Name>
-		<DistanceAboveSurface>0</DistanceAboveSurface>
-		<IconImageName>nrl.png</IconImageName>
-		<StartZoomLevel>0</StartZoomLevel>
-		<BoundingBox>
-			<North>
-				<Value>90.0</Value>
-			</North>
-			<South>
-				<Value>-90.0</Value>
-			</South>
-			<West>
-				<Value>-180.0</Value>
-			</West>
-			<East>
-				<Value>180.0</Value>
-			</East>
-		</BoundingBox>
-		<TerrainMapped>true</TerrainMapped>
-		<ImageAccessor>
-			<LevelZeroTileSizeDegrees>180</LevelZeroTileSizeDegrees>
-			<NumberLevels>20</NumberLevels>
-			<TextureSizePixels>512</TextureSizePixels>
-			<ImageFileExtension>jpeg</ImageFileExtension>
-			<SubDatasetName>none</SubDatasetName>
-			<IsDebug>False</IsDebug>
-			<IsDownloadableLayer>False</IsDownloadableLayer>
-			<ImageTileService>
-					<ServerUrl>http://worldwind25.arc.nasa.gov/tile/tile.aspx</ServerUrl>
-					<DataSetName>GoogleSatelliteMap</DataSetName>
-					<ServerLogoFilePath>Data\Icons\Interface\usgs.png</ServerLogoFilePath>
-					<MapProvider>GoogleSatelliteMap</MapProvider>
-					<CacheDirectory>GoogleSatelliteMap</CacheDirectory>
-					<SQLiteService>
-		  	  <DbFilePath>data\image.gmdb</DbFilePath>
-					  <ImageType>5</ImageType>
-		      </SQLiteService>
-		  </ImageTileService>		 
-		</ImageAccessor>
-		<TransparentColor><Red>0</Red><Green>0</Green><Blue>0</Blue></TransparentColor>
-	</ProjectedTileSet>	
 	 <QuadTileSet ShowAtStartup="True">
 		<Name>Landsat7 Image</Name>
 		<IconImageName>osmlogo.png</IconImageName>
@@ -186,20 +110,31 @@
 		<TerrainMapped>true</TerrainMapped>
 		<ImageAccessor>
 			<LevelZeroTileSizeDegrees>36</LevelZeroTileSizeDegrees>
-			<NumberLevels>11</NumberLevels>
+			<NumberLevels>9</NumberLevels>
 			<TextureSizePixels>512</TextureSizePixels>
-			<ImageFileExtension>jpeg</ImageFileExtension>
+			<ImageFileExtension>png</ImageFileExtension>
 			<SubDatasetName>none</SubDatasetName>
 		  <IsDownloadableLayer>True</IsDownloadableLayer>
 			<IsDebug>False</IsDebug>
+			<!-- The NASA WorldWind WMS that served the Landsat mosaic as layer esat has been shut down and
+			     worldwind25.arc.nasa.gov no longer resolves, so every tile request came back empty and the
+			     layer showed nothing. It is pointed at NASA GIBS now, which serves the global Landsat WELD
+			     true colour composite over WMS and needs no key. WmsImageStore requests it with lower case
+			     GetMap parameters, crs=CRS:84 and a lon,lat bounding box, which is the axis order GIBS
+			     expects for that crs, and it answers with the png named in ImageFileExtension. Note that
+			     GIBS throttles bursts: too many tiles too fast get an html error instead of an image, so
+			     NumberLevels tops out at 9, where level 8 already resolves about 30 m per pixel, the
+			     resolution the composite is made at. The cascading layers below that are pure
+			     interpolation. The name has to stay Landsat7 Image, it is matched by string in
+			     SceneWindow.cs. -->
 			<WMSImageTileService>
 					<ImageFormat>image/png</ImageFormat>
-					<ServerUrl>http://worldwind25.arc.nasa.gov/wms</ServerUrl>
+					<ServerUrl>https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi</ServerUrl>
 					<Version>1.3.0</Version>
-					<LayerNames>esat</LayerNames>
+					<LayerNames>Landsat_WELD_CorrectedReflectance_TrueColor_Global_Annual</LayerNames>
 					<ServerLogoFilePath>Data\Icons\Interface\usgs.png</ServerLogoFilePath>
 					<Opacity>100</Opacity>
-					<CacheDirectory>Landsat1</CacheDirectory>
+					<CacheDirectory>LandsatWELD</CacheDirectory>
 						<SQLiteService>
 		  	      <DbFilePath>data\image.gmdb</DbFilePath>
 					     <ImageType>1</ImageType>

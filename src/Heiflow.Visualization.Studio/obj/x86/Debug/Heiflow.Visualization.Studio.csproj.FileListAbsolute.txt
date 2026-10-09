@@ -513,6 +513,4 @@ D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Studio\obj\x86\Debug\Vie
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Studio\obj\x86\Debug\Resources\LayerTreeStyles.baml
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Studio\obj\x86\Debug\Views\LayerManagerView.g.cs
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Studio\obj\x86\Debug\Views\ProgressWindow.g.cs
-d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Heiflow.Visualization.Studio.csproj.AssemblyReference.cache
-d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Heiflow.Visualization.Studio.csproj.CoreCompileInputs.cache
-d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Heiflow..FCC259DF.Up2Date
+D:\system\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Heiflow.Visualization.Studio.csprojResolveAssemblyReference.cache
