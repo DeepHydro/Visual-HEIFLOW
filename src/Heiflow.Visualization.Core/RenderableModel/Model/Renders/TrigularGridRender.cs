@@ -123,6 +123,10 @@ namespace Heiflow.Visualization.Renderable.Grid
         }
         public override void CacheColor()
         {
+            if (DataSource == null)
+            {
+                return;
+            }
             var timesteps = DataSource.Size[1];
             var prg = 0;
             DataCube<int> color = new DataCube<int>(1,timesteps, _TriangularGrid.VertexCount);
@@ -133,13 +137,20 @@ namespace Heiflow.Visualization.Renderable.Grid
             for (int t = 0; t < timesteps; t++)
             {
                 var vector = GetGridValues(DataSource, t);
+                // No array behind the variable the source is set to, which UpdateVertexColor already
+                // draws nothing for. It is the variable that decides and not the step, so there is no
+                // cache to fill here and the colours that are on screen are kept.
+                if (vector == null)
+                {
+                    return;
+                }
                 var levels = _DataColor.GetLevels(vector, ColourRampCount, ClassificationMethod);
                 cachedMaxValues[t] = vector.Max();
                 cachedMinValues[t] = vector.Min();
                 for (int i = 0; i < _TriangularGrid.VertexCount; i++)
                 {
                     var verValue = vector[i];
-                    color[0, t, i] = _DataColor.GetVertexColor(levels[i], Opacity);
+                    color[0, t, i] = _DataColor.GetVertexColor(levels[i], Opacity, InvertColor);
                 }
                 cachedStatisticsInfo[t] = MyStatisticsMath.SimpleStatistics(vector);
                 prg = (t + 1) * 100 / timesteps;
@@ -198,6 +209,16 @@ namespace Heiflow.Visualization.Renderable.Grid
 
         public override void UpdateCachedColor()
         {
+            // the cache was filled under the ramp, class count, method and opacity of that moment,
+            // once any of them moved on it has to be recomputed or the layer keeps the old colours
+            if (IsCachedColorStale)
+            {
+                CacheColor();
+                // CacheColor leaves without one while the source has no array for the variable,
+                // and calling it fresh now would stop it from being rebuilt once the array is there.
+                if (cachedColor != null)
+                    MarkCachedColorFresh();
+            }
             if (cachedColor != null)
             {
                 for (int i = 0; i < _TriangularGrid.VertexCount; i++)

@@ -186,4 +186,8 @@ D:\System\git\Visual-HEIFLOW\src\Heiflow.Controls.WPF\Styles\obj\Debug\Heiflow.C
 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls.WPF\Styles\obj\Debug\Heiflow.Controls.WPF.Styles.csproj.AssemblyReference.cache
 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls.WPF\Styles\obj\Debug\Heiflow.Controls.WPF.Styles.csproj.CoreCompileInputs.cache
 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Controls.WPF\Styles\obj\Debug\Heiflow..8A4FC612.Up2Date
-D:\system\git\Visual-HEIFLOW\src\Heiflow.Controls.WPF\Styles\obj\Debug\Heiflow.Controls.WPF.Styles.csprojResolveAssemblyReference.cache
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Controls.WPF\Styles\obj\Debug\Heiflow.Controls.WPF.Styles.csproj.AssemblyReference.cache
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Controls.WPF\Styles\obj\Debug\Heiflow.Controls.WPF.Styles.csproj.CoreCompileInputs.cache
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Controls.WPF\Styles\obj\Debug\Heiflow..8A4FC612.Up2Date
+d:\tmp\vhbuild\bin\Heiflow.Controls.WPF.Styles.dll
+d:\tmp\vhbuild\bin\Heiflow.Controls.WPF.Styles.pdb

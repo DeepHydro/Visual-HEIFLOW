@@ -59,18 +59,35 @@ namespace Heiflow.Visualization.Renderable.Grid
                 _vertexCount = vertices.Length;
                 _indexCount = indices.Length;
 
-                // Pool.Managed keeps a copy in system memory, so the buffers do not have to be rebuilt
-                // when the device is reset.
+                // The colours are rewritten on every frame of an animation, so the vertex buffer is a
+                // dynamic one that lives in the Default pool. The Managed pool it used before keeps a
+                // copy in system memory that the driver has to push to the card again after every
+                // update, and that second copy is what the playback spent its time on. Neither buffer
+                // is ever read back, so both are write only.
                 _vertexBuffer = new VertexBuffer(typeof(CustomVertex.PositionNormalColored), _vertexCount, device,
-                    Usage.None, CustomVertex.PositionNormalColored.Format, Pool.Managed);
-                _indexBuffer = new IndexBuffer(typeof(int), _indexCount, device, Usage.None, Pool.Managed);
+                    Usage.Dynamic | Usage.WriteOnly, CustomVertex.PositionNormalColored.Format, Pool.Default);
+                _indexBuffer = new IndexBuffer(typeof(int), _indexCount, device, Usage.WriteOnly, Pool.Default);
 
                 geometryChanged = true;
             }
 
-            _vertexBuffer.SetData(vertices, 0, LockFlags.None);
-            if (geometryChanged)
-                _indexBuffer.SetData(indices, 0, LockFlags.None);
+            // A buffer in the Default pool is gone once the device has been reset, and the versions
+            // above would still say nothing changed. The buffers are let go of instead, so the next
+            // frame builds them again from the renderer's arrays.
+            try
+            {
+                // Every vertex is written again, so what the buffer held is of no use and saying so
+                // keeps the driver from waiting for the card to finish reading it. The indices only
+                // move when the geometry does, so that buffer is not dynamic and is written plainly.
+                _vertexBuffer.SetData(vertices, 0, LockFlags.Discard);
+                if (geometryChanged)
+                    _indexBuffer.SetData(indices, 0, LockFlags.None);
+            }
+            catch (DeviceLostException)
+            {
+                Release();
+                return false;
+            }
 
             _source = vertices;
             _meshVersion = meshVersion;

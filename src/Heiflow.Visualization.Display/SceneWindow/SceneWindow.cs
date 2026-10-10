@@ -157,8 +157,8 @@ namespace HUST.WREIS.Dot3D
 
                 mProgressBar = new VisualControl.ProgressBar(200, 10);
 
-                captionTextFont = drawArgs.CreateFont("ËÎÌå,Arial", 8.5f, FontStyle.Bold);
-                infoTextFont = drawArgs.CreateFont("ËÎÌå,Arial", 9.0f, FontStyle.Bold);
+                captionTextFont = drawArgs.CreateFont("å®‹ä½“,Arial", 8.5f, FontStyle.Bold);
+                infoTextFont = drawArgs.CreateFont("å®‹ä½“,Arial", 9.0f, FontStyle.Bold);
                 titleTextFont = drawArgs.CreateFont("Arial", 14.0f, FontStyle.Bold);
                 infoBackgourdColor = Color.FromArgb(100, 54, 54, 54).ToArgb();
                 infoForeColor1 = Color.FromArgb(255, 255, 255, 0).ToArgb();
@@ -457,13 +457,30 @@ namespace HUST.WREIS.Dot3D
             }
         }
 
+        /// <summary>
+        /// The indexer returns null for a name that is not in the menu, and tsiViewHotPoint never is.
+        /// It is built above, but the call that would add it to the menu is commented out, together
+        /// with the drop down items that would have given it something to do, so it stays an item
+        /// that exists only as a local. Enabling has to go through here, otherwise every move over a
+        /// flag throws on that missing name and the layer logs an exception per frame.
+        /// </summary>
+        private void SetContextMenuItemEnabled(string name, bool enabled)
+        {
+            if (ContextMenuStrip == null)
+                return;
+
+            ToolStripItem item = ContextMenuStrip.Items[name];
+            if (item != null)
+                item.Enabled = enabled;
+        }
+
         private void flag_OnMouseLeaveEvent(object sender, EventArgs e)
         {
             (sender as WavingFlagLayer).ShowHighlight = false;
             mSelectedFlag = null;
-            ContextMenuStrip.Items["tsiDelHotPoint"].Enabled = false;
-            ContextMenuStrip.Items["tsiViewHotPoint"].Enabled = false;
-            ContextMenuStrip.Items["tsiViewProfile"].Enabled = false;
+            SetContextMenuItemEnabled("tsiDelHotPoint", false);
+            SetContextMenuItemEnabled("tsiViewHotPoint", false);
+            SetContextMenuItemEnabled("tsiViewProfile", false);
             isRenderFlagInfo = false;
         }
 
@@ -472,9 +489,9 @@ namespace HUST.WREIS.Dot3D
             mSelectedFlag = (sender as WavingFlagLayer);
             mSelectedFlag.ShowHighlight = true;
             mSelectedFlag.ScreenPoint = mCurrentMousePosition;
-            ContextMenuStrip.Items["tsiDelHotPoint"].Enabled = true;
-            ContextMenuStrip.Items["tsiViewHotPoint"].Enabled = true;
-            ContextMenuStrip.Items["tsiViewProfile"].Enabled = true;
+            SetContextMenuItemEnabled("tsiDelHotPoint", true);
+            SetContextMenuItemEnabled("tsiViewHotPoint", true);
+            SetContextMenuItemEnabled("tsiViewProfile", true);
             isRenderFlagInfo = true;
         }
 
@@ -1073,11 +1090,11 @@ namespace HUST.WREIS.Dot3D
             {
                 drawArgs.Present();
                 //string captionText =
-                //          "¿ÉÓÃÎÆÀíÄÚ´æ: " +
-                //           "\nÃ¿ÃëÖ¡ÊýFPS: " +
-                //          "\n±ß½çµã: " +
-                //          "\nÍßÆ¬Êý: " +
-                //          "\n»æÖÆ¶ÔÏóÊýÄ¿: ";
+                //          "å¯ç”¨çº¹ç†å†…å­˜: " +
+                //           "\næ¯ç§’å¸§æ•°FPS: " +
+                //          "\nè¾¹ç•Œç‚? " +
+                //          "\nç“¦ç‰‡æ•? " +
+                //          "\nç»˜åˆ¶å¯¹è±¡æ•°ç›®: ";
                 string captionText =
           "Memory: " +
            "\nFPS: " +
@@ -1100,10 +1117,10 @@ namespace HUST.WREIS.Dot3D
             if (ShowStatisticsInfo && StatisticsInfo!= null)
             {
                 //string captionText =
-                //          "×î´óÖµ: " + "\n" +
-                //           "×îÐ¡Öµ: " + "\n" +
-                //           "Æ½¾ùÖµ: " + "\n" +
-                //           "±ê×¼²î: ";
+                //          "æœ€å¤§å€? " + "\n" +
+                //           "æœ€å°å€? " + "\n" +
+                //           "å¹³å‡å€? " + "\n" +
+                //           "æ ‡å‡†å·? ";
                 string captionText =
                         "Maximum: " + "\n" +
                          "Minimum: " + "\n" +
@@ -1149,7 +1166,7 @@ namespace HUST.WREIS.Dot3D
                 double heading = this.drawArgs.WorldCamera.Heading.Degrees;
                 if (heading < 0)
                     heading += 360;
-                var posinfo = ResMan.GetString("PosInfo");//"¾­¶È: {0:f4}    Î³¶È: {1:f4}    º£°Î: {2}m    ·½Ïò: {3:f2}                                     ÊÓ½Çº£°Î¸ß¶È: {4}"
+                var posinfo = ResMan.GetString("PosInfo");//"ç»åº¦: {0:f4}    çº¬åº¦: {1:f4}    æµ·æ‹”: {2}m    æ–¹å‘: {3:f2}                                     è§†è§’æµ·æ‹”é«˜åº¦: {4}"
                 captionText += String.Format(posinfo,
                     this.drawArgs.WorldCamera.Longitude.Degrees,
                     this.drawArgs.WorldCamera.Latitude.Degrees,

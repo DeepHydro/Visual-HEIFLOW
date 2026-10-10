@@ -89,4 +89,6 @@ D:\System\git\Visual-HEIFLOW\src\Heiflow.Models\obj\Debug\zh-CN\Heiflow.Models.r
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Models\obj\Debug\Heiflow.Models.dll
 D:\System\git\Visual-HEIFLOW\src\Heiflow.Models\obj\Debug\Heiflow.Models.pdb
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Models\obj\Debug\Heiflow.Models.csprojResolveAssemblyReference.cache
-D:\system\git\Visual-HEIFLOW\src\Heiflow.Models\obj\Debug\Heiflow.Models.csprojResolveAssemblyReference.cache
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Models\obj\Debug\Heiflow.Models.csproj.AssemblyReference.cache
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Models\obj\Debug\Heiflow.Models.csproj.CoreCompileInputs.cache
+d:\System\git\Visual-HEIFLOW\src\Heiflow.Models\obj\Debug\Heiflow..B811C7BB.Up2Date

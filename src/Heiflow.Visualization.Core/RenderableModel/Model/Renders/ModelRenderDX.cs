@@ -30,6 +30,16 @@ namespace Heiflow.Visualization.Renderable.Grid
         protected int _ColourRampCount = 5;
         protected bool _UniqueColor = false;
         protected bool _InvertColor = false;
+        protected ClassificationMethod _ClassificationMethod = Core.Drawing.ClassificationMethod.Natural_Breaks_Jenks;
+
+        /// <summary>
+        /// Bumped by every setting that decides how a value turns into a colour. The cached colours
+        /// remember the version they were built under, so a cache built under an older scheme is
+        /// rebuilt instead of being copied over the vertices again, which is what used to leave a
+        /// cached layer showing the colours of the ramp it had before the change.
+        /// </summary>
+        protected int _SymbologyVersion;
+        protected int _CachedSymbologyVersion = -1;
         protected DataCube<int> cachedColor;
         protected float[] cachedMaxValues;
         protected float[] cachedMinValues;
@@ -254,7 +264,8 @@ namespace Heiflow.Visualization.Renderable.Grid
             {
                 if (_DataColor.ColorRamp.RampId != value)
                 {
-                    _DataColor.ColorRamp = new Ramp(value);
+                    _DataColor.ColorRamp = BuildColorRamp(value, _ColourRampCount);
+                    _SymbologyVersion++;
                     OnPropertyChanged("ColorRampID");
                 }
             }
@@ -267,6 +278,19 @@ namespace Heiflow.Visualization.Renderable.Grid
             }
         }
 
+        /// <summary>
+        /// A ramp comes out of Ramp(id) with the full set of colours it was defined with, so the
+        /// class count the user picked has to be applied to it again. Both the id and the count go
+        /// through here, which keeps the two in step, otherwise picking a ramp drops the classes
+        /// back to whatever that ramp happens to hold.
+        /// </summary>
+        protected Ramp BuildColorRamp(int rampId, int classCount)
+        {
+            var ramp = new Ramp(rampId);
+            ramp.Colors = DataColor.Resample(ramp.Colors, classCount);
+            return ramp;
+        }
+
         public int ColourRampCount
         {
             get
@@ -275,30 +299,36 @@ namespace Heiflow.Visualization.Renderable.Grid
             }
             set
             {
-                _ColourRampCount = value;
-                if (_ColourRampCount > 0)
+                if (value > 0 && _ColourRampCount != value)
                 {
-                    var localCR = new Ramp(ColorRampID);
-                    int originLen = localCR.Colors.Length;
-                    int deltaL = (int)Math.Floor((double)originLen / _ColourRampCount);
-                    System.Drawing.Color[] colors = new System.Drawing.Color[_ColourRampCount];
-                    colors[0] = localCR.Colors[0];
-                    for (int i = 1; i < _ColourRampCount - 1; i++)
-                    {
-                        colors[i] = localCR.Colors[i * deltaL];
-                    }
-                    colors[_ColourRampCount - 1] = localCR.Colors[originLen - 1];
-                    _DataColor.ColorRamp.Colors = colors;
-                    localCR = null;
+                    _ColourRampCount = value;
+                    _DataColor.ColorRamp = BuildColorRamp(ColorRampID, _ColourRampCount);
+                    _SymbologyVersion++;
                     OnPropertyChanged("ColourRampCount");
                 }
             }
         }
 
+        /// <summary>
+        /// Decides how the values are split into the classes that the ramp colours. This used to be
+        /// a plain auto property, so picking another method changed the field and nothing else, and
+        /// the colours kept coming from the method that was current when they were last computed.
+        /// </summary>
         public ClassificationMethod ClassificationMethod
         {
-            get;
-            set;
+            get
+            {
+                return _ClassificationMethod;
+            }
+            set
+            {
+                if (_ClassificationMethod != value)
+                {
+                    _ClassificationMethod = value;
+                    _SymbologyVersion++;
+                    OnPropertyChanged("ClassificationMethod");
+                }
+            }
         }
         /// <summary>
         /// 0 表示颜色完全透明，而值255 表示颜色完全不透明
@@ -312,6 +342,7 @@ namespace Heiflow.Visualization.Renderable.Grid
             set
             {
                 mOpacity = value;
+                _SymbologyVersion++;
                 OnPropertyChanged("Opacity");
             }
         }
@@ -324,6 +355,7 @@ namespace Heiflow.Visualization.Renderable.Grid
             set
             {
                 _InvertColor = value;
+                _SymbologyVersion++;
                 OnPropertyChanged("InvertColor");
             }
         }
@@ -336,6 +368,7 @@ namespace Heiflow.Visualization.Renderable.Grid
             set
             {
                 _UniqueColor = value;
+                _SymbologyVersion++;
                 OnPropertyChanged("UniqueColor");
             }
         }
@@ -451,6 +484,26 @@ namespace Heiflow.Visualization.Renderable.Grid
         public virtual void ClearCachedColor()
         {
             cachedColor = null;
+            _CachedSymbologyVersion = -1;
+        }
+
+        /// <summary>
+        /// The cached colours were computed with the ramp, the class count, the method and the
+        /// opacity that were current when the cache was filled. Once any of those moved on the
+        /// cache describes a scheme that is no longer the one on screen, and copying it over the
+        /// vertices would put the colours of the old scheme back.
+        /// </summary>
+        protected bool IsCachedColorStale
+        {
+            get { return cachedColor == null || _CachedSymbologyVersion != _SymbologyVersion; }
+        }
+
+        /// <summary>
+        /// Call once the cache has been filled under the scheme that is current now.
+        /// </summary>
+        protected void MarkCachedColorFresh()
+        {
+            _CachedSymbologyVersion = _SymbologyVersion;
         }
 
         public abstract void UpdateCachedColor();
@@ -540,6 +593,13 @@ namespace Heiflow.Visualization.Renderable.Grid
                     break;
                 case "ColourRampCount":
                     UpdateVertexColor();
+                    OnColorRampChanged();
+                    break;
+                // the legend draws the class breaks, so moving the class count or the method has to
+                // reach it the same way a new ramp does
+                case "ClassificationMethod":
+                    UpdateVertexColor();
+                    OnColorRampChanged();
                     break;
                 case "UniqueColor":
                     UpdateVertexColor();

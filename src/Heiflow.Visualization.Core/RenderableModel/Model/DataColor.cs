@@ -13,21 +13,62 @@ namespace Heiflow.Visualization.Renderable.Grid
         public  Ramp mColorRamp;
         public static int TransparentColor = Color.Transparent.ToArgb();
 
+        /// <summary>
+        /// The class count a render starts out with, before anything has been picked in the panel.
+        /// </summary>
+        public const int DefaultClassCount = 5;
+
         public DataColor()
         {
             mColorRamp = new Ramp(22);
-            var count = 5;
-            var localCR = new Ramp(22);
-            int originLen = localCR.Colors.Length;
-            int deltaL = (int)Math.Floor((double)originLen / count);
-            System.Drawing.Color[] colors = new System.Drawing.Color[count];
-            colors[0] = localCR.Colors[0];
-            for (int i = 1; i < count - 1; i++)
+            // taken out of the ramp the same way the panel takes them once a count is picked, so a
+            // layer that has not been touched is drawn with the classes it shows
+            mColorRamp.Colors = Resample(mColorRamp.Colors, DefaultClassCount);
+        }
+
+        /// <summary>
+        /// Reduces a ramp to count colours. The colours are interpolated between their neighbours
+        /// rather than picked by index, picking by index repeats colours and leaves the last class
+        /// far away from the one before it whenever the length is not a multiple of the count.
+        /// </summary>
+        public static System.Drawing.Color[] Resample(System.Drawing.Color[] source, int count)
+        {
+            if (source == null || source.Length == 0 || count <= 0)
             {
-                colors[i] = localCR.Colors[i * deltaL];
+                return source;
             }
-            colors[count - 1] = localCR.Colors[originLen - 1];
-            this.ColorRamp.Colors = colors;
+            if (count == 1)
+            {
+                return new[] { source[0] };
+            }
+            if (count == source.Length)
+            {
+                return (System.Drawing.Color[])source.Clone();
+            }
+
+            int last = source.Length - 1;
+            var result = new System.Drawing.Color[count];
+            for (int i = 0; i < count; i++)
+            {
+                double position = (double)i * last / (count - 1);
+                int lower = (int)position;
+                if (lower >= last)
+                {
+                    result[i] = source[last];
+                    continue;
+                }
+                result[i] = Interpolate(source[lower], source[lower + 1], position - lower);
+            }
+            return result;
+        }
+
+        private static System.Drawing.Color Interpolate(System.Drawing.Color from, System.Drawing.Color to, double fraction)
+        {
+            return System.Drawing.Color.FromArgb(
+                from.A + (int)((to.A - from.A) * fraction + 0.5),
+                from.R + (int)((to.R - from.R) * fraction + 0.5),
+                from.G + (int)((to.G - from.G) * fraction + 0.5),
+                from.B + (int)((to.B - from.B) * fraction + 0.5));
         }
 
         public Ramp ColorRamp
@@ -101,7 +142,10 @@ namespace Heiflow.Visualization.Renderable.Grid
             var levels = new int[array.Length];
             if (clasmethod == ClassificationMethod.Natural_Breaks_Jenks)
             {
-                var breaks = JenksFisherFloat.CreateJenksFisherBreaksArray(array, numbreaks);
+                // The classification hands back one upper edge per break and the classes are the
+                // gaps between them, so a break more than the classes asked for is what makes the
+                // count of classes come out as the count that was picked.
+                var breaks = JenksFisherFloat.CreateJenksFisherBreaksArray(array, numbreaks + 1);
                 for (int i = 0; i < array.Length; i++)
                 {
                     levels[i] = FindLevel(array[i], breaks);
@@ -111,14 +155,20 @@ namespace Heiflow.Visualization.Renderable.Grid
             {
                 if (min == max)
                     max = min + 1;
-                var colorlen = mColorRamp.Colors.Length;
+                // The classes are counted the way the other method counts them, from the count the
+                // user picked, and only then clamped to what the ramp can show. Dividing by the
+                // length of the ramp instead meant the count had no effect on this method.
+                var classes = numbreaks > 0 ? numbreaks : mColorRamp.Colors.Length;
+                if (classes > mColorRamp.Colors.Length)
+                    classes = mColorRamp.Colors.Length;
+                var scale = classes / (max - min);
                 for (int i = 0; i < array.Length; i++)
                 {
-                    levels[i] = (int)((array[i] - min) / (max - min) * colorlen - 1);
+                    levels[i] = (int)((array[i] - min) * scale);
                     if (levels[i] < 0)
                         levels[i] = 0;
-                    else if (levels[i] >= colorlen)
-                        levels[i] = colorlen - 1;
+                    else if (levels[i] >= classes)
+                        levels[i] = classes - 1;
                 }
             }
 
@@ -156,9 +206,10 @@ namespace Heiflow.Visualization.Renderable.Grid
         }
 
         /// <summary>
-        /// Index of the interval [breaks[j], breaks[j+1]) the value falls into, zero when there is none.
-        /// The breaks come out of the classification in ascending order, so the interval is found by
-        /// bisection instead of walking the whole list for every value.
+        /// Index of the interval [breaks[j], breaks[j+1]) the value falls into. The breaks come out of
+        /// the classification in ascending order, so the interval is found by bisection instead of
+        /// walking the whole list for every value. A value outside the edges ends up in the class at
+        /// that end, the lowest below the first edge and the highest at or above the last one.
         /// </summary>
         private static int FindLevel(float value, List<float> breaks)
         {
@@ -174,7 +225,11 @@ namespace Heiflow.Visualization.Renderable.Grid
                 else
                     return mid;
             }
-            return 0;
+            // Walking off the top means the value is at or above the last edge, so it belongs to the
+            // top class that high came to rest on. Falling back to zero here painted the highest
+            // values of a layer with the colour of the lowest ones. Walking off the bottom, which is
+            // a value under the first edge, is the one case that really is the first class.
+            return high < 0 ? 0 : high;
         }
 
         public int GetVertexColor(double max, double min,  double averagedValue,int alpha)

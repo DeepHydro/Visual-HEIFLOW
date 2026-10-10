@@ -73,6 +73,17 @@ namespace Heiflow.Presentation.Animation
 
         protected override void Plot(int time_index)
         {
+            // The cache carries a colour for every vertex of every step, so drawing a step is a lookup
+            // into it. Reading the values of the step again only to have the cache ignore them built an
+            // array as long as the grid on every single frame, which is what the playback spent its
+            // time on. The step is the one the cache has to be asked about, so it is set either way.
+            if (_render.UseCache)
+            {
+                _render.CurrentTimeStep = time_index;
+                _render.UpdateCachedColor();
+                return;
+            }
+
             var pck = _DataSource.DataOwner as IPackage;
             if (pck != null)
             {

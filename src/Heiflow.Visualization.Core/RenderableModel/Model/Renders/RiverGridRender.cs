@@ -201,6 +201,10 @@ namespace Heiflow.Visualization.Renderable.Grid
 
         public override void CacheColor()
         {
+            if (DataSource == null)
+            {
+                return;
+            }
             var timesteps = DataSource.Size[1];
             cachedMaxValues = new float[timesteps];
             cachedMinValues = new float[timesteps];
@@ -209,6 +213,13 @@ namespace Heiflow.Visualization.Renderable.Grid
             for (int t = 0; t < timesteps; t++)
             {
                 var vector = GetGridValues(DataSource, t);
+                // No array behind the variable the source is set to, which UpdateVertexColor already
+                // draws nothing for. It is the variable that decides and not the step, so there is no
+                // cache to fill here and the colours that are on screen are kept.
+                if (vector == null)
+                {
+                    return;
+                }
                cachedMaxValues[t] = vector.Max();
                cachedMinValues[t] = vector.Min();
                 for (int i = 0; i < vector.Length; i++)
@@ -224,20 +235,31 @@ namespace Heiflow.Visualization.Renderable.Grid
         {
             if (DataSource == null)
                 return;
-            if (cachedColor == null)
-                CacheColor();
-            for (int i = 0; i < DataSource.Size[2]; i++)
+            // the cache was filled under the ramp, class count, method and opacity of that moment,
+            // once any of them moved on it has to be recomputed or the layer keeps the old colours
+            if (IsCachedColorStale)
             {
-                var color = cachedColor[0,CurrentTimeStep,i];
-                VertexList[i * 4].Color = color;
-                VertexList[i * 4 + 1].Color = color;
-                VertexList[i * 4 + 2].Color = color;
-                VertexList[i * 4 + 3].Color = color;
+                CacheColor();
+                if (cachedColor != null)
+                    MarkCachedColorFresh();
             }
-            MaxCellValue = cachedMaxValues[CurrentTimeStep];
-            MinCellValue = cachedMinValues[CurrentTimeStep];
-            StatisticsInfo = cachedStatisticsInfo[CurrentTimeStep];
-            NotifyColorsChanged();
+            // CacheColor leaves without one while the source has no array for the variable, and
+            // there is nothing to put on the vertices until it has.
+            if (cachedColor != null)
+            {
+                for (int i = 0; i < DataSource.Size[2]; i++)
+                {
+                    var color = cachedColor[0, CurrentTimeStep, i];
+                    VertexList[i * 4].Color = color;
+                    VertexList[i * 4 + 1].Color = color;
+                    VertexList[i * 4 + 2].Color = color;
+                    VertexList[i * 4 + 3].Color = color;
+                }
+                MaxCellValue = cachedMaxValues[CurrentTimeStep];
+                MinCellValue = cachedMinValues[CurrentTimeStep];
+                StatisticsInfo = cachedStatisticsInfo[CurrentTimeStep];
+                NotifyColorsChanged();
+            }
         }
 
         public override void UpdateVertexColor()

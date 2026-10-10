@@ -271,17 +271,20 @@ namespace Heiflow.Visualization.Renderable.Grid
 
             if (GridValues != null)
             {
-                var vector = GridValues;
-                // the statistics deliver the extremes as well, they are not scanned a second time
-                StatisticsInfo = MyStatisticsMath.SimpleStatistics(vector);
-                MaxCellValue = (float)StatisticsInfo.Max;
-                MinCellValue = (float)StatisticsInfo.Min;
                 if (UseCache)
                 {
+                    // The cache carries the statistics of every step as well, so the values of the
+                    // step do not have to be scanned here to know the range it covers. Scanning them
+                    // walked the whole grid on every frame for numbers that were already stored.
                     UpdateCachedColor();
                 }
                 else
                 {
+                    var vector = GridValues;
+                    // the statistics deliver the extremes as well, they are not scanned a second time
+                    StatisticsInfo = MyStatisticsMath.SimpleStatistics(vector);
+                    MaxCellValue = (float)StatisticsInfo.Max;
+                    MinCellValue = (float)StatisticsInfo.Min;
                     if (UniqueColor)
                     {
                         var unqval = vector.Distinct().ToArray();
@@ -313,17 +316,20 @@ namespace Heiflow.Visualization.Renderable.Grid
                         for (int i = 0; i < vertexCount; i++)
                         {
                            // var verValue = _MFGrid.Topology.GetVertexValue(vector, i);
-                            VertexList[i].Color = _DataColor.GetVertexColor(levels[i], Opacity);
+                            VertexList[i].Color = _DataColor.GetVertexColor(levels[i], Opacity, InvertColor);
                         }
                     }
+                    NotifyColorsChanged();
                 }
-
-                NotifyColorsChanged();
             }
         }
 
         public override void CacheColor()
         {
+            if (DataSource == null)
+            {
+                return;
+            }
             var timesteps = DataSource.Size[1];
             var prg = 0;
             DataCube<int> color = new DataCube<int>(1, timesteps, _MFGrid.Topology.ActiveVertexCount);
@@ -333,6 +339,14 @@ namespace Heiflow.Visualization.Renderable.Grid
             for (int t = 0; t < timesteps; t++)
             {
                 var vector = GetGridValues(DataSource, t);
+                // The source can be set to a variable that has no array behind it, which is the case
+                // UpdateVertexColor already handles by drawing nothing. Whether there is one depends
+                // on the variable alone and not on the step, so if the first step has none no step
+                // will. The cache is left as it is, whatever is on screen keeps its colours.
+                if (vector == null)
+                {
+                    return;
+                }
                 cachedMaxValues[t] = vector.Max();
                 cachedMinValues[t] = vector.Min();
                 var vertext_vec = new float[_MFGrid.Topology.ActiveVertexCount];
@@ -344,7 +358,7 @@ namespace Heiflow.Visualization.Renderable.Grid
                 for (int i = 0; i < _MFGrid.Topology.ActiveVertexCount; i++)
                 {
                     //var verValue = _MFGrid.Topology.GetVertexValue(vector, i);
-                    color[0, t, i] = _DataColor.GetVertexColor(levels[i], Opacity);
+                    color[0, t, i] = _DataColor.GetVertexColor(levels[i], Opacity, InvertColor);
                 }
                 cachedStatisticsInfo[t] = MyStatisticsMath.SimpleStatistics(vector);
                 prg = (t + 1) * 100 / timesteps;
@@ -357,6 +371,16 @@ namespace Heiflow.Visualization.Renderable.Grid
 
         public override void UpdateCachedColor()
         {
+            // the cache was filled under the ramp, class count, method and opacity of that moment,
+            // once any of them moved on it has to be recomputed or the layer keeps the old colours
+            if (IsCachedColorStale)
+            {
+                CacheColor();
+                // CacheColor leaves without one while the source has no array for the variable,
+                // and calling it fresh now would stop it from being rebuilt once the array is there.
+                if (cachedColor != null)
+                    MarkCachedColorFresh();
+            }
             if (cachedColor != null)
             {
                 for (int i = 0; i < _MFGrid.Topology.ActiveVertexCount; i++)
@@ -365,6 +389,11 @@ namespace Heiflow.Visualization.Renderable.Grid
                 }
                 MaxCellValue = cachedMaxValues[CurrentTimeStep];
                 MinCellValue = cachedMinValues[CurrentTimeStep];
+                // The colours are in the vertex array now, which the device has to be told to take
+                // again. UpdateVertexColor notifies for the paths that run through it, but the
+                // animation asks for the cached colours straight away so that the values of the step
+                // are not read a second time, and those frames need it just the same.
+                NotifyColorsChanged();
             }
         }
 

@@ -286,7 +286,13 @@ namespace HUST.WREIS.Dot3D.Renderable
                 // check for missing textures.
                 if (textures != null && textures.Length > 0)
                 {
-                    for (int i = 0; i < textures.Length; i++)
+                    // A finished download calls Initialize from the download thread, while the render
+                    // thread disposes the tile, and with it the array, as soon as it leaves the view.
+                    // The length is cached and the array is tested again before every write, because
+                    // testing it once above is not enough: Dispose can run during LoadFile, and the
+                    // write below was then the first thing to touch the null and crash the layer.
+                    int storeCount = textures.Length;
+                    for (int i = 0; i < storeCount; i++)
                     {
                         Texture newTexture = QuadTileSet.ImageStores[i].LoadFile(this);
                         if (newTexture == null)
@@ -295,10 +301,22 @@ namespace HUST.WREIS.Dot3D.Renderable
                             WaitingForDownload = false;
                         }
 
-                        // not entirely sure if this is a good idea...
-                        if (textures != null && textures[i] != null)
+                        if (textures == null)
                         {
-                            textures[i].Dispose();
+                            // The tile is already gone, there is nothing to put the image in and it
+                            // has to be released here or it stays on the GPU for the rest of the run.
+                            if (newTexture != null && !newTexture.Disposed)
+                            {
+                                newTexture.Dispose();
+                            }
+                            return;
+                        }
+
+                        // Read into a local first, Dispose sets the slots to null too.
+                        Texture oldTexture = textures[i];
+                        if (oldTexture != null && !oldTexture.Disposed)
+                        {
+                            oldTexture.Dispose();
                         }
                         textures[i] = newTexture;
                     }
@@ -1000,14 +1018,18 @@ namespace HUST.WREIS.Dot3D.Renderable
 
                 Device device = DrawArgs.Device;
 
-                if (textures != null)
+                // Read the array into a local before walking it: Dispose on the other thread swaps it
+                // for null, and reading it again for the length or the slot can hit that null in the
+                // middle of the loop, which threw here every time a tile was dropped while drawing.
+                Texture[] tileTextures = textures;
+                if (tileTextures != null)
                 {
-                    for (int i = 0; i < textures.Length; i++)
+                    for (int i = 0; i < tileTextures.Length; i++)
                     {
-                        if (textures[i] == null || textures[i].Disposed)
+                        if (tileTextures[i] == null || tileTextures[i].Disposed)
                             return false;
 
-                        device.SetTexture(i, textures[i]);
+                        device.SetTexture(i, tileTextures[i]);
                     }
                 }
 
@@ -1226,7 +1248,13 @@ namespace HUST.WREIS.Dot3D.Renderable
 
                     grayscaleEffect.Technique = "RenderGrayscaleBrightness";
                     grayscaleEffect.SetValue("WorldViewProj", Matrix.Multiply(device.Transform.World, Matrix.Multiply(device.Transform.View, device.Transform.Projection)));
-                    grayscaleEffect.SetValue("Tex0", textures[0]);
+                    // A tile disposed while this draws leaves nothing to bind. The effect has not been
+                    // begun yet at this point, so dropping the tile here is safe and keeps the render
+                    // from throwing on a null array every frame the camera moves.
+                    Texture grayTexture = (textures != null && textures.Length > 0) ? textures[0] : null;
+                    if (grayTexture == null || grayTexture.Disposed)
+                        return;
+                    grayscaleEffect.SetValue("Tex0", grayTexture);
                     grayscaleEffect.SetValue("Brightness", QuadTileSet.GrayscaleBrightness);
                     float opacity = (float)QuadTileSet.Opacity / 255.0f;
                     grayscaleEffect.SetValue("Opacity", opacity);

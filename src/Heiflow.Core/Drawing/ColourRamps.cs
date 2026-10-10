@@ -134,7 +134,10 @@ namespace Heiflow.Core.Drawing
         ///</summary>
         public Ramp(int ramp_id)
         {
-            _RampId = Math.Min(Math.Max(ramp_id, RAMPS.MinId), RAMPS.RampCount);
+            // The count is how many ramps are defined, not the last index they sit at, and it is an
+            // index that the line below reads with. Clamping against the count let the id one past
+            // the end through and the read walked off the array, so the last index is the bound.
+            _RampId = Math.Min(Math.Max(ramp_id, RAMPS.MinId), RAMPS.RampStrings.Length - 1);
             _Colours = EnlistColours(RAMPS.RampStrings[_RampId]);
             _Colors = new Color[_Colours.Count];
             for (int i = 0; i < _Colours.Count; i++)

@@ -5,3 +5,73 @@
    在 HUST.WREIS.Dot3D.Renderable.QuadTile.Update(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\QuadTile\QuadTile.cs:行号 348
    在 HUST.WREIS.Dot3D.Renderable.QuadTile.Update(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\QuadTile\QuadTile.cs:行号 394
    在 HUST.WREIS.Dot3D.Renderable.QuadTileSet.Update(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\QuadTile\QuadTileSet.cs:行号 677
+2026-10-09 18:33:26Z 0      caught exception: 
+2026-10-09 18:33:26Z 0      System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 HUST.WREIS.Dot3D.Renderable.QuadTile.Initialize() 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\QuadTile\QuadTile.cs:行号 303
+   在 HUST.WREIS.Dot3D.Renderable.QuadTile.Update(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\QuadTile\QuadTile.cs:行号 348
+   在 HUST.WREIS.Dot3D.Renderable.QuadTile.Update(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\QuadTile\QuadTile.cs:行号 389
+   在 HUST.WREIS.Dot3D.Renderable.QuadTile.Update(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\QuadTile\QuadTile.cs:行号 379
+   在 HUST.WREIS.Dot3D.Renderable.QuadTile.Update(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\QuadTile\QuadTile.cs:行号 394
+   在 HUST.WREIS.Dot3D.Renderable.QuadTile.Update(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\QuadTile\QuadTile.cs:行号 394
+   在 HUST.WREIS.Dot3D.Renderable.QuadTileSet.Update(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\QuadTile\QuadTileSet.cs:行号 677
+2026-10-09 18:35:00Z 0      caught exception: 
+2026-10-09 18:35:00Z 0      System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 HUST.WREIS.Dot3D.Renderable.QuadTile.Initialize() 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\QuadTile\QuadTile.cs:行号 303
+   在 HUST.WREIS.Dot3D.Renderable.QuadTile.Update(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\QuadTile\QuadTile.cs:行号 348
+   在 HUST.WREIS.Dot3D.Renderable.QuadTile.Update(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\QuadTile\QuadTile.cs:行号 389
+   在 HUST.WREIS.Dot3D.Renderable.QuadTile.Update(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\QuadTile\QuadTile.cs:行号 394
+   在 HUST.WREIS.Dot3D.Renderable.QuadTile.Update(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\QuadTile\QuadTile.cs:行号 389
+   在 HUST.WREIS.Dot3D.Renderable.QuadTile.Update(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\QuadTile\QuadTile.cs:行号 394
+   在 HUST.WREIS.Dot3D.Renderable.QuadTileSet.Update(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\QuadTile\QuadTileSet.cs:行号 677
+2026-10-09 18:37:59Z 0 TERR The elevation of the terrain tile L1 10x8 was not read: 在 WebClient 请求期间发生异常。
+2026-10-09 18:37:59Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-09 18:38:00Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-09 18:38:01Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-09 18:38:01Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-09 18:38:02Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-09 18:38:03Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-09 18:38:03Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-09 18:38:04Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-09 18:38:04Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-09 18:38:05Z 2      WebDownload.Dispose() : download thread refuses to die, forcing Abort()
+2026-10-09 21:42:04Z 0      caught exception: 
+2026-10-09 21:42:04Z 0      System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 HUST.WREIS.Dot3D.SceneWindow.flag_OnMouseEnterEvent(Object sender, EventArgs e) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Display\SceneWindow\SceneWindow.cs:行号 476
+   在 HUST.WREIS.Dot3D.Renderable.WavingFlagLayer.Render(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\RenderableModel\WavingFlagLayer.cs:行号 271
+2026-10-09 21:42:04Z 0      caught exception: 
+2026-10-09 21:42:04Z 0      System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 HUST.WREIS.Dot3D.SceneWindow.flag_OnMouseLeaveEvent(Object sender, EventArgs e) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Display\SceneWindow\SceneWindow.cs:行号 465
+   在 HUST.WREIS.Dot3D.Renderable.WavingFlagLayer.Render(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\RenderableModel\WavingFlagLayer.cs:行号 282
+2026-10-09 21:42:05Z 0      caught exception: 
+2026-10-09 21:42:05Z 0      System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 HUST.WREIS.Dot3D.SceneWindow.flag_OnMouseEnterEvent(Object sender, EventArgs e) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Display\SceneWindow\SceneWindow.cs:行号 476
+   在 HUST.WREIS.Dot3D.Renderable.WavingFlagLayer.Render(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\RenderableModel\WavingFlagLayer.cs:行号 271
+2026-10-09 21:42:05Z 0      caught exception: 
+2026-10-09 21:42:05Z 0      System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 HUST.WREIS.Dot3D.SceneWindow.flag_OnMouseLeaveEvent(Object sender, EventArgs e) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Display\SceneWindow\SceneWindow.cs:行号 465
+   在 HUST.WREIS.Dot3D.Renderable.WavingFlagLayer.Render(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\RenderableModel\WavingFlagLayer.cs:行号 282
+2026-10-09 21:42:07Z 0      caught exception: 
+2026-10-09 21:42:07Z 0      System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 HUST.WREIS.Dot3D.SceneWindow.flag_OnMouseEnterEvent(Object sender, EventArgs e) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Display\SceneWindow\SceneWindow.cs:行号 476
+   在 HUST.WREIS.Dot3D.Renderable.WavingFlagLayer.Render(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\RenderableModel\WavingFlagLayer.cs:行号 271
+2026-10-09 21:42:08Z 0      caught exception: 
+2026-10-09 21:42:08Z 0      System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 HUST.WREIS.Dot3D.SceneWindow.flag_OnMouseLeaveEvent(Object sender, EventArgs e) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Display\SceneWindow\SceneWindow.cs:行号 465
+   在 HUST.WREIS.Dot3D.Renderable.WavingFlagLayer.Render(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\RenderableModel\WavingFlagLayer.cs:行号 282
+2026-10-09 21:42:10Z 0      caught exception: 
+2026-10-09 21:42:10Z 0      System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 HUST.WREIS.Dot3D.SceneWindow.flag_OnMouseEnterEvent(Object sender, EventArgs e) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Display\SceneWindow\SceneWindow.cs:行号 476
+   在 HUST.WREIS.Dot3D.Renderable.WavingFlagLayer.Render(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\RenderableModel\WavingFlagLayer.cs:行号 271
+2026-10-09 21:42:10Z 0      caught exception: 
+2026-10-09 21:42:10Z 0      System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 HUST.WREIS.Dot3D.SceneWindow.flag_OnMouseLeaveEvent(Object sender, EventArgs e) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Display\SceneWindow\SceneWindow.cs:行号 465
+   在 HUST.WREIS.Dot3D.Renderable.WavingFlagLayer.Render(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\RenderableModel\WavingFlagLayer.cs:行号 282
+2026-10-09 21:42:11Z 0      caught exception: 
+2026-10-09 21:42:11Z 0      System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 HUST.WREIS.Dot3D.SceneWindow.flag_OnMouseEnterEvent(Object sender, EventArgs e) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Display\SceneWindow\SceneWindow.cs:行号 476
+   在 HUST.WREIS.Dot3D.Renderable.WavingFlagLayer.Render(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\RenderableModel\WavingFlagLayer.cs:行号 271
+2026-10-09 21:42:14Z 0      caught exception: 
+2026-10-09 21:42:14Z 0      System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 HUST.WREIS.Dot3D.SceneWindow.flag_OnMouseLeaveEvent(Object sender, EventArgs e) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Display\SceneWindow\SceneWindow.cs:行号 465
+   在 HUST.WREIS.Dot3D.Renderable.WavingFlagLayer.Render(DrawArgs drawArgs) 位置 d:\System\git\Visual-HEIFLOW\src\Heiflow.Visualization.Core\RenderableModel\WavingFlagLayer.cs:行号 282
+2026-10-09 21:43:36Z 0 TERR The elevation of the terrain tile L7 813x1893 was not read: 正在中止线程。

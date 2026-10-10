@@ -38,19 +38,11 @@
 		</LatLonBoundingBox>
 	</TerrainAccessor>
 	<LayerSet Name="Base Map" ShowOnlyOneLayer="true" ShowAtStartup="true">
-	<!-- StartZoomLevel is the zoom level of the topmost tiles, and ProjectedTileSet hands it to
-	     ProjectedMapImageStore, which turns it into the Bing quad key through TileXYToQuadKey. At
-	     level 0 that loop runs no iterations at all and returns an empty string, so the request comes
-	     out as /tiles/a.jpeg?g=790 with no tile named in it and the server answers 400. The root tile
-	     therefore never arrives and the tiles below it are never built, which is why the layer stayed
-	     blank even though the service itself still answers. Every level from 1 upwards gives a key the
-	     server accepts, and 5 is what this layer was configured with before the file was trimmed to
-	     this single layer set. Do not set it back to 0. -->
 	<ProjectedTileSet ShowAtStartup="False">
 		<Name>BingSatelliteMap</Name>
 		<DistanceAboveSurface>0</DistanceAboveSurface>
 		<IconImageName>nrl.png</IconImageName>
-		<StartZoomLevel>5</StartZoomLevel>
+		<StartZoomLevel>0</StartZoomLevel>
 			<BoundingBox>
 			<North>
 				<Value>90.0</Value>
