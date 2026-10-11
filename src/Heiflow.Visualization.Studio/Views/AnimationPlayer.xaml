@@ -343,11 +343,16 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ProgressBar">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="2">
-                            <Decorator x:Name="PART_Indicator" HorizontalAlignment="Left">
-                                <Rectangle Fill="{TemplateBinding Foreground}" RadiusX="2" RadiusY="2" />
-                            </Decorator>
-                        </Border>
+                        <!-- Both named parts are what the control looks for. Without the track it has
+                             no width to scale the fill over and the fill stays empty however far the
+                             work has come, and the fill is drawn as a border rather than as a shape
+                             because a shape that is given no width draws nothing at all. -->
+                        <Grid>
+                            <Border x:Name="PART_Track" Background="{TemplateBinding Background}"
+                                    CornerRadius="2" />
+                            <Border x:Name="PART_Indicator" Background="{TemplateBinding Foreground}"
+                                    CornerRadius="2" HorizontalAlignment="Left" />
+                        </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -448,10 +453,11 @@
                     <ComboBox Grid.Row="1" Grid.Column="1" x:Name="cobAnimateVelocity" Style="{StaticResource PlayerComboBox}"
                               IsSynchronizedWithCurrentItem="False" SelectedIndex="1"
                               SelectionChanged="cobAnimateVelocity_SelectionChanged">
-                        <ComboBoxItem IsSelected="True" Content="{DynamicResource FastTxt}" Tag="50"></ComboBoxItem>
-                        <ComboBoxItem IsSelected="False" Content="{DynamicResource NormalTxt}" Tag="100"></ComboBoxItem>
-                        <ComboBoxItem IsSelected="False" Content="{DynamicResource SlowTxt}" Tag="200"></ComboBoxItem>
-                        <ComboBoxItem IsSelected="False" Content="{DynamicResource VerySlowTxt}" Tag="300"></ComboBoxItem>
+                        <ComboBoxItem IsSelected="True" Content="Very Fast" Tag="1"></ComboBoxItem>
+                        <ComboBoxItem IsSelected="False" Content="{DynamicResource FastTxt}" Tag="20"></ComboBoxItem>
+                        <ComboBoxItem IsSelected="False" Content="{DynamicResource NormalTxt}" Tag="50"></ComboBoxItem>
+                        <ComboBoxItem IsSelected="False" Content="{DynamicResource SlowTxt}" Tag="100"></ComboBoxItem>
+                        <ComboBoxItem IsSelected="False" Content="{DynamicResource VerySlowTxt}" Tag="150"></ComboBoxItem>
                     </ComboBox>
 
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="{DynamicResource AniDatesTxt}" Style="{StaticResource PlayerFieldLabel}" />

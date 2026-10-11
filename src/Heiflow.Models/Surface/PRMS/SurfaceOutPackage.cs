@@ -107,7 +107,7 @@ namespace Heiflow.Models.Surface.PRMS
             var dates = new List<DateTime>();
             for (int i = 0; i < StepsToLoad; i++)
             {
-                dates.Add(this.TimeService.Start.AddMonths(i));
+                dates.Add(this.TimeService.Start.AddDays(i));
             }
             DataCube.Variables = this.Variables;
             DataCube.Topology = (Owner.Grid as RegularGrid).Topology;

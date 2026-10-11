@@ -93,8 +93,10 @@
             </Setter>
         </Style>
 
-        <!-- The value of the bar is a percentage, IsIndeterminate is switched on for the marquee style the
-             callers ask for while they do not know yet how long the work takes. -->
+        <!-- The bar walks a short piece of itself over the track while IsIndeterminate is on, which is
+             what the window runs on, and fills from the left once a caller hands it a percentage. Both
+             named parts are drawn as borders and not as shapes, a shape that is given no width draws
+             nothing at all. -->
         <Style x:Key="PrgProgressBar" TargetType="ProgressBar">
             <Setter Property="SnapsToDevicePixels" Value="True" />
             <Setter Property="Height" Value="8" />
@@ -104,11 +106,58 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ProgressBar">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="2">
-                            <Decorator x:Name="PART_Indicator" HorizontalAlignment="Left">
-                                <Rectangle Fill="{TemplateBinding Foreground}" RadiusX="2" RadiusY="2" />
-                            </Decorator>
-                        </Border>
+                        <!-- Both named parts are what the control looks for. Without the track it has
+                             no width to scale the fill over and the fill stays empty however far the
+                             work has come, and the fill is drawn as a border rather than as a shape
+                             because a shape that is given no width draws nothing at all.
+
+                             The marquee is the fill over the whole track made see-through except for
+                             one bright stretch, and that stretch is walked from one end to the other
+                             while the length of the work is not known. The stretch is moved through
+                             the stops of the mask and not through the bar itself, so it is measured
+                             in fractions of the track and needs to know no width at all, which keeps
+                             the storyboard free of a binding. A storyboard that binds cannot be
+                             frozen, and one that cannot be frozen is refused when the style it sits
+                             in is shared across threads. -->
+                        <Grid x:Name="PART_Track">
+                            <Border Background="{TemplateBinding Background}" CornerRadius="2" />
+                            <Border x:Name="PART_Indicator" Background="{TemplateBinding Foreground}"
+                                    CornerRadius="2" HorizontalAlignment="Left" />
+                            <Border x:Name="Marquee" Background="{TemplateBinding Foreground}"
+                                    CornerRadius="2" Visibility="Collapsed">
+                                <Border.OpacityMask>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                        <GradientStop x:Name="MarqueeLead" Color="Transparent" Offset="0" />
+                                        <GradientStop x:Name="MarqueePeak" Color="White" Offset="0.2" />
+                                        <GradientStop x:Name="MarqueeTrail" Color="Transparent" Offset="0.4" />
+                                    </LinearGradientBrush>
+                                </Border.OpacityMask>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsIndeterminate" Value="True">
+                                <Setter TargetName="PART_Indicator" Property="Visibility" Value="Collapsed" />
+                                <Setter TargetName="Marquee" Property="Visibility" Value="Visible" />
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard x:Name="MarqueeRun">
+                                        <Storyboard Duration="0:0:1.4" RepeatBehavior="Forever">
+                                            <DoubleAnimation Storyboard.TargetName="MarqueeLead"
+                                                             Storyboard.TargetProperty="Offset"
+                                                             From="0" To="1" Duration="0:0:1.4" />
+                                            <DoubleAnimation Storyboard.TargetName="MarqueePeak"
+                                                             Storyboard.TargetProperty="Offset"
+                                                             From="0.2" To="1.2" Duration="0:0:1.4" />
+                                            <DoubleAnimation Storyboard.TargetName="MarqueeTrail"
+                                                             Storyboard.TargetProperty="Offset"
+                                                             From="0.4" To="1.4" Duration="0:0:1.4" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <StopStoryboard BeginStoryboardName="MarqueeRun" />
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -150,8 +199,12 @@
                 <TextBlock Grid.Row="0" x:Name="tbStatus" Text="Please wait..."
                            Foreground="{StaticResource PrgTextBrush}" FontSize="13" TextWrapping="Wrap" />
 
+                <!-- The length of a load is not known, so the bar is left on the marquee rather than on
+                     a fill that would only ever be a guess, and stays there until a caller asks for the
+                     plain bar by setting ProgressBarStyle. -->
                 <ProgressBar Grid.Row="1" x:Name="prgBar" Style="{StaticResource PrgProgressBar}"
-                             Margin="0,9,0,0" Minimum="0" Maximum="100" Value="0" />
+                             Margin="0,9,0,0" Minimum="0" Maximum="100" Value="0"
+                             IsIndeterminate="True" />
 
                 <TextBox Grid.Row="2" x:Name="txtStatus" Style="{StaticResource PrgLogBox}"
                          Margin="0,9,0,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" />

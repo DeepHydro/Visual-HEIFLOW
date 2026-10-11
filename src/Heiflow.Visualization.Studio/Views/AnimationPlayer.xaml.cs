@@ -37,7 +37,16 @@ namespace Heiflow.Visualization.Studio.Controls
         private IDataCubeAnimation _Animator;
         private DataCubeWorkspace _workspace;
         private BackgroundWorker worker;
-       
+
+        /// <summary>
+        /// Filling the cache reports for every step of the run, and a long run has thousands of them.
+        /// Only what the bar can show is handed on, and only often enough for the eye to follow, so
+        /// that the work does not spend its time painting the bar that says how far it has come.
+        /// </summary>
+        private static readonly TimeSpan ProgressInterval = TimeSpan.FromMilliseconds(60);
+        private int _lastProgress = -1;
+        private DateTime _lastProgressAt = DateTime.MinValue;
+
         public AnimationPlayer()
         {
             InitializeComponent();
@@ -87,7 +96,7 @@ namespace Heiflow.Visualization.Studio.Controls
                 (_Animator as D3DLayerAnimation).Render = render.RenderObject;
                 sliderPlayPrg.Maximum = mat.Size[1] - 1;
                 cmbDates.ItemsSource = mat.DateTimes;
-                tbAniVarName.Text = "Animated Variable: " + mat.Name;
+                tbAniVarName.Text = "Animated Variable: " + mat.Name + "[" + mat.Variables[mat.SelectedVariableIndex] + "]";
                 cmbDates.IsEnabled = true;
                 sliderPlayPrg.IsEnabled = true;
                 ChangeButtonState(true);
@@ -180,11 +189,17 @@ namespace Heiflow.Visualization.Studio.Controls
         private void ButCacheColor_Click(object sender, RoutedEventArgs e)
         {
             var render = (_Animator as D3DLayerAnimation).Render;
+            // The handlers are taken off again when the caching says it is finished, which it cannot
+            // do when it leaves early, and a second click would then report every step twice.
+            render.CachingColorProgressChanged -= render_CachingColorProgressChanged;
+            render.CachingColorFinished -= render_CachingColorFinished;
             render.CachingColorProgressChanged += render_CachingColorProgressChanged;
             render.CachingColorFinished += render_CachingColorFinished;
             butCacheColor.IsEnabled = false;
             cacheProgress.Visibility = System.Windows.Visibility.Visible;
             cacheProgress.Value = 0;
+            _lastProgress = -1;
+            _lastProgressAt = DateTime.MinValue;
             ChangeButtonState(true);
             PlayButton.IsEnabled = false;
             cmbDates.IsEnabled = false;
@@ -229,6 +244,17 @@ namespace Heiflow.Visualization.Studio.Controls
 
         private void render_CachingColorProgressChanged(object sender, int e)
         {
+            // The steps of a run are far more than the hundred marks the bar has, and most of them
+            // land on a mark that is already showing. Those are dropped here rather than being handed
+            // to the thread that paints. The last of them is always handed on, or the bar would stop
+            // short of the end.
+            if (e == _lastProgress)
+                return;
+            var now = DateTime.Now;
+            if (e < 100 && now - _lastProgressAt < ProgressInterval)
+                return;
+            _lastProgress = e;
+            _lastProgressAt = now;
             worker.ReportProgress(e);
         }
 

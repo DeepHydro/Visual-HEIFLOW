@@ -58,7 +58,7 @@ namespace Heiflow.Visualization.Studio.Controls
         private readonly BackgroundWorker worker;
         private int lastPercent;
         private string lastStatus;
-        private bool marquee;
+        private bool marquee = true;
         private DateTime lastPump = DateTime.MinValue;
 
         public event DoWorkEventHandler DoWork;

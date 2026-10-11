@@ -27,6 +27,8 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
+using Heiflow.Applications;
+using Heiflow.Controls.WinForm.Project;
 using Heiflow.Controls.WinForm.Properties;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
@@ -66,13 +68,9 @@ namespace Heiflow.Controls.WinForm.MenuItems
         public override void Initialize()
         {
             base.Initialize();
-            this.Enable(_LD, true);
-            this.Enable(_RLEASE, true);
-            this.Enable(_AN, true);
-            this.Enable(_SETAS_ACTSource, true);
-            this.Enable(_SOM, false);
-            this.Enable(_VI3, false);
-            this.Enable(_VERTPROF, true);
+            // The node is made before anything is read, so loading is all that can be done with the
+            // variable. The rest is offered once the data is behind it.
+            this.EnableOnlyLoad();
         }
 
         protected override void AttributeTable_Clicked(object sender, EventArgs e)
@@ -147,6 +145,8 @@ namespace Heiflow.Controls.WinForm.MenuItems
             else
                 dp = _Package as IDataPackage;
             var mat = dp.DataCube;
+            if (MyAppManager.Instance.AppMode == AppMode.HE)
+                mat.SelectedVariableIndex = _SelectedNode.Index;
             if (mat != null)
             {
                 var buf = _Package.Name;
@@ -233,7 +233,9 @@ namespace Heiflow.Controls.WinForm.MenuItems
                     item.Enabled = false;
                 }
                 this.Enable(_LD, true);
-                _SelectedNode.Image = Resources.UiLayer16;
+                // The data is gone, so the node goes back to the icon that says there is none and the
+                // menu goes back to the item that loads it.
+                _SelectedNode.Image = VariableIcons.NotLoaded;
                 GC.Collect();
             }
         }

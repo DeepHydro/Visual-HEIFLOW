@@ -29,6 +29,7 @@
 
 using Heiflow.Applications;
 using Heiflow.Controls.Tree;
+using Heiflow.Controls.WinForm.Project;
 using Heiflow.Controls.WinForm.Properties;
 using Heiflow.Core.Data;
 using Heiflow.Models.Generic;
@@ -190,6 +191,19 @@ namespace Heiflow.Controls.WinForm.MenuItems
             base.ProjectItem_PropertyClicked(sender, e);
         }
 
+        /// <summary>
+        /// Leaves the item that loads the data as the one that can be used, which is all that a
+        /// variable can do until its data is behind the node. The property window stays open to it
+        /// all the same, it is where the settings that say how the data is read are made, and those
+        /// are what decide what loading it brings in.
+        /// </summary>
+        protected void EnableOnlyLoad()
+        {
+            EneableAll(false);
+            Enable(_LD, true);
+            Enable(MenuProperty, true);
+        }
+
         protected virtual void LoadValues_Clicked(object sender, EventArgs e)
         {
             if (_Package is IDataPackage)
@@ -205,7 +219,9 @@ namespace Heiflow.Controls.WinForm.MenuItems
                     dp = Package as IDataPackage;
                 }
 
-                _SelectedNode.Image = Resources.UiLayer16;
+                // The data is on its way and not behind the node yet, so it keeps the icon that says
+                // there is nothing to show.
+                _SelectedNode.Image = VariableIcons.NotLoaded;
                 //if(Package.TimeService != null)
                 //    dp.Layer = Package.TimeService.CurrentGridLayer;
                 dp.Loading += dp_Loading;
@@ -260,17 +276,26 @@ namespace Heiflow.Controls.WinForm.MenuItems
             Enable(_VI3, false);
             Enable(_A2DC, false);
 
-            if (e.State == LoadingState.Normal)
+            // The icon and the menu follow the data. What can be done with the variable is offered
+            // once it is behind the node, and until then loading is all that is left.
+            var loaded = e.State == LoadingState.Normal && dp.DataCube != null;
+            if (_SelectedNode != null)
+                _SelectedNode.Image = loaded ? VariableIcons.Loaded : VariableIcons.NotLoaded;
+            if (!loaded)
+                EnableOnlyLoad();
+
+            // The icon of the node and what the menu offers changed with the data, so the tree is told
+            // to read them again. It is told from the thread that read the data.
+            OnItemChanged(this);
+
+            if (loaded)
             {
-                if (dp.DataCube != null)
-                {
-                    _ActiveDataService.Source = dp.DataCube;
-                    _ActiveDataService.Source.SelectedVariableIndex = this.VariableIndex;
-                    var grid = dp.Owner.Grid;
-                    // _ActiveDataService.SourceStatistics = dp.DataCube.SpatialMean(this.VariableIndex);
-                }
+                _ActiveDataService.Source = dp.DataCube;
+                _ActiveDataService.Source.SelectedVariableIndex = this.VariableIndex;
+                var grid = dp.Owner.Grid;
+                // _ActiveDataService.SourceStatistics = dp.DataCube.SpatialMean(this.VariableIndex);
             }
-            else
+            else if (e.State != LoadingState.Normal)
             {
                 MessageBox.Show("Failed to load. Error message: " + e.Message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
@@ -283,14 +308,10 @@ namespace Heiflow.Controls.WinForm.MenuItems
         protected void dp_ScanFailed(object sender, string e)
         {
             var dp = _Package as IDataPackage;
-            foreach (var item in _sub_menus)
-            {
-                item.Enabled = true;
-            }
-            Enable(_SOM, false);
-            Enable(_EX, false);
-            Enable(_VI3, false);
-            Enable(_A2DC, false);
+            // The scan is what finds the data to read, so failing it leaves nothing behind the node.
+            EnableOnlyLoad();
+            if (_SelectedNode != null)
+                _SelectedNode.Image = VariableIcons.NotLoaded;
 
             dp.Loading -= dp_Loading;
             dp.Loaded -= dp_Loaded;
@@ -303,10 +324,10 @@ namespace Heiflow.Controls.WinForm.MenuItems
         protected virtual void dp_LoadFailed(object sender, string e)
         {
             var dp = _Package as IDataPackage;
-            foreach (var item in _sub_menus)
-            {
-                item.Enabled = false;
-            }
+            // A load that failed leaves as little behind the node as one that was never asked for, so
+            // the menu goes back to what it offers then. Leaving the item that loads disabled, as it
+            // did, meant the settings in the property window could be changed and then not used.
+            EnableOnlyLoad();
             _ShellService.ProgressWindow.DoWork -= ProgressPanel_DoWork;
             dp.Loading -= dp_Loading;
             dp.Loaded -= dp_Loaded;

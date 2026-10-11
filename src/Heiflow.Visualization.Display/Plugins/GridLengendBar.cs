@@ -37,7 +37,10 @@ namespace HUST.WREIS.Dot3D.Display
             set
             {
                 mGrid = value;
-                lengend.RenderObject = value;
+                // The widget is made while the plugin loads and the layer can be handed over before
+                // that, so it is given to the widget only once the widget is there.
+                if (lengend != null)
+                    lengend.RenderObject = value;
             } 
         }
 
@@ -66,6 +69,10 @@ namespace HUST.WREIS.Dot3D.Display
             lengend.Location = new System.Drawing.Point(2, 2);
             lengend.ParentWidget = m_form;
             lengend.ClientSize = new System.Drawing.Size(width, height);
+            // The layer was kept aside if it arrived before the widget existed, and this is where it
+            // reaches the widget.
+            if (mGrid != null)
+                lengend.RenderObject = mGrid;
             lengend.Visible = true;
             m_form.ChildWidgets.Add(lengend);
             DrawArgs.NewRootWidget.ChildWidgets.Add(m_form);
@@ -204,7 +211,7 @@ namespace HUST.WREIS.Dot3D.Display
             try
             {
                 if(m_drawingFont == null)
-                    m_drawingFont = drawArgs.CreateFont("Arial,宋体", 8.5f, System.Drawing.FontStyle.Bold);
+                    m_drawingFont = drawArgs.CreateFont("Arial,宋体", 12f, System.Drawing.FontStyle.Bold);
 
                 if (m_Visible && RenderObject != null)
                 {
@@ -245,56 +252,80 @@ namespace HUST.WREIS.Dot3D.Display
 
         public void CreateLengendVertex()
         {
-            if (RenderObject != null)
+            if (RenderObject == null || RenderObject.ColorRamp == null)
             {
-                int colorCount = RenderObject.ColorRamp.Colors.Length;
-                float deltaY = (float)(ClientSize.Height-30) / (float)colorCount;
-
-                if (deltaY > 0)
-                {
-                    verts = new CustomVertex.TransformedColored[colorCount * 4];
-                    int colorIndex = 0;
-                    for (int i = 0; i < colorCount; i++)
-                    {
-                        if(IsInverseColorRamp)
-                            colorIndex=i;
-                        else
-                            colorIndex = colorCount - i - 1; 
-                        verts[i * 4 + 0].X = AbsoluteLocation.X + 2;
-                        verts[i * 4 + 0].Y = AbsoluteLocation.Y +15 + i * deltaY;
-                        verts[i * 4 + 0].Z = 0;
-                        verts[i * 4 + 0].Color = RenderObject.ColorRamp.Colors[colorIndex].ToArgb();
-
-                        verts[i * 4 + 1].X = AbsoluteLocation.X + 2;
-                        verts[i * 4 + 1].Y = AbsoluteLocation.Y + 15 + (i + 1.0f) * deltaY;
-                        verts[i * 4 + 1].Z = 0;
-                        verts[i * 4 + 1].Color = RenderObject.ColorRamp.Colors[colorIndex].ToArgb();
-
-                        verts[i * 4 + 2].X = AbsoluteLocation.X + ClientSize.Width;
-                        verts[i * 4 + 2].Y = AbsoluteLocation.Y + 15 + i * deltaY;
-                        verts[i * 4 + 2].Z = 0;
-                        verts[i * 4 + 2].Color = RenderObject.ColorRamp.Colors[colorIndex].ToArgb();
-
-                        verts[i * 4 + 3].X = AbsoluteLocation.X + ClientSize.Width;
-                        verts[i * 4 + 3].Y = AbsoluteLocation.Y + 15 + (i + 1.0f) * deltaY;
-                        verts[i * 4 + 3].Z = 0;
-                        verts[i * 4 + 3].Color = RenderObject.ColorRamp.Colors[colorIndex].ToArgb();
-                    }
-                }
+                // There is no ramp to show, and the corners of the last one that was built must not
+                // stay behind and be drawn as if they were still the ramp.
+                verts = null;
+                return;
             }
+
+            int colorCount = RenderObject.ColorRamp.Colors.Length;
+            // Fifteen pixels are left above the bar for the largest value and as much below it for the
+            // smallest one, which is what the text at both ends is drawn into.
+            float deltaY = (float)(ClientSize.Height - 30) / (float)colorCount;
+
+            if (deltaY <= 0 || ClientSize.Width <= 4)
+                return;
+
+            float left = AbsoluteLocation.X + 2;
+            float right = AbsoluteLocation.X + ClientSize.Width - 2;
+
+            // Two triangles for every band of the ramp, drawn as a list. A strip would carry on from
+            // the band that ends into the one that begins and make two triangles of its own across the
+            // join, so every band would be smeared into the one next to it.
+            verts = new CustomVertex.TransformedColored[colorCount * 6];
+            for (int i = 0; i < colorCount; i++)
+            {
+                int colorIndex = IsInverseColorRamp ? i : colorCount - i - 1;
+                int color = RenderObject.ColorRamp.Colors[colorIndex].ToArgb();
+                float top = AbsoluteLocation.Y + 15 + i * deltaY;
+                float bottom = AbsoluteLocation.Y + 15 + (i + 1.0f) * deltaY;
+
+                int v = i * 6;
+                SetVertex(verts, v + 0, left, top, color);
+                SetVertex(verts, v + 1, left, bottom, color);
+                SetVertex(verts, v + 2, right, top, color);
+
+                SetVertex(verts, v + 3, right, top, color);
+                SetVertex(verts, v + 4, left, bottom, color);
+                SetVertex(verts, v + 5, right, bottom, color);
+            }
+        }
+
+        /// <summary>
+        /// Writes one corner of a band. A vertex that is already in screen coordinates has to carry the
+        /// reciprocal of the homogeneous w as well, without it the corner is thrown away and nothing of
+        /// the bar reaches the screen.
+        /// </summary>
+        private static void SetVertex(CustomVertex.TransformedColored[] vertices, int index, float x, float y, int color)
+        {
+            vertices[index].X = x;
+            vertices[index].Y = y;
+            vertices[index].Z = 0;
+            vertices[index].Rhw = 1.0f;
+            vertices[index].Color = color;
         }
 
         private void RenderBackbone(DrawArgs drawArgs)
         {
+            // Nothing is built while the ramp is missing or while there is no room for the bar, and
+            // drawing would be reading corners that were never written.
+            if (verts == null || verts.Length < 3)
+                return;
 
             bool lighting = drawArgs.device.RenderState.Lighting;
             drawArgs.device.RenderState.Lighting = false;
+            // The bands are flat rectangles with no back to them, so the way their corners turn should
+            // not be what decides whether they are drawn at all.
             Cull cull = drawArgs.device.RenderState.CullMode;
-            drawArgs.device.RenderState.CullMode = Cull.CounterClockwise;
+            drawArgs.device.RenderState.CullMode = Cull.None;
 
             drawArgs.device.VertexFormat = CustomVertex.TransformedColored.Format;
             drawArgs.device.TextureState[0].ColorOperation = TextureOperation.Disable;
-            drawArgs.device.DrawUserPrimitives(PrimitiveType.TriangleStrip, verts.Length, verts);
+            // What is asked for is how many triangles there are and not how many corners, and three
+            // corners make one.
+            drawArgs.device.DrawUserPrimitives(PrimitiveType.TriangleList, verts.Length / 3, verts);
 
             drawArgs.device.RenderState.Lighting = lighting;
             drawArgs.device.RenderState.CullMode = cull;

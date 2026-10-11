@@ -65,9 +65,11 @@ namespace Heiflow.Controls.WinForm.Project
             mat_menu.Package = pck;
             (mat_menu as IVariableContextMenu).VariableIndex = atr.VariableIndex;
            
+            // Nothing has been read for the variable when the node is made, so it starts in the icon
+            // that says so, and the menu offers the item that loads it and nothing else.
             Node node_mat = new Node(item_attribute.PropertyInfo.Name)
             {
-                Image = Resources.UiLayer16,
+                Image = VariableIcons.NotLoaded,
                 Tag = mat_menu
             };
 

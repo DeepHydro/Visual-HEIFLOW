@@ -27,7 +27,10 @@ namespace Heiflow.Visualization.Renderable.Grid
         private int _RiverColor;
         public RiverGridRender(World world)
             : base(world)
-        {         
+        {
+            // This one caches the colour of every vertex and not the key it would be looked up by,
+            // so the ramp, the opacity and the inversion each call for the cache to be filled again.
+            _CacheHoldsColor = true;
             _RiverColor = System.Drawing.Color.Blue.ToArgb();
         }
 
@@ -229,6 +232,9 @@ namespace Heiflow.Visualization.Renderable.Grid
                 cachedStatisticsInfo[t] = MyStatisticsMath.SimpleStatistics(vector);
             }
             cachedColor = color;
+            // Marked here as well as by the caller that draws a step, the Create Cache button filling
+            // it on its own and then handing the playback over.
+            MarkCachedColorFresh();
         }
 
         public override void UpdateCachedColor()

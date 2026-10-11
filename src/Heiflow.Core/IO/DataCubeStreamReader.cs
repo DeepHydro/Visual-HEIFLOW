@@ -48,6 +48,28 @@ namespace Heiflow.Core.IO
         private BinaryReader _BinaryReader;
         private string _ErrorMessage = "";
 
+        /// <summary>
+        /// How many cells are read out of the file in one go. The buffer this asks for stays small, and
+        /// the read is big enough that the file is not asked for four bytes at a time.
+        /// </summary>
+        private const int CellsPerChunk = 4096;
+
+        /// <summary>
+        /// Reads until the buffer holds the count that was asked for. A read is allowed to come back
+        /// with less than that, which is what happens wherever the file system splits one up.
+        /// </summary>
+        private static void ReadFully(BinaryReader reader, byte[] buffer, int count)
+        {
+            int read = 0;
+            while (read < count)
+            {
+                int got = reader.Read(buffer, read, count - read);
+                if (got <= 0)
+                    throw new EndOfStreamException();
+                read += got;
+            }
+        }
+
         public DataCubeStreamReader(string filename)
         {
             _FileName = filename;
@@ -421,14 +443,25 @@ namespace Heiflow.Core.IO
                 if (!DataCube.IsAllocated(var_index) || DataCube.Size[1] != nstep)
                     DataCube.Allocate(var_index);
 
+                // The file holds the variables of a cell one after the other, so a cell is read as one
+                // piece and the variable that is wanted is taken out of it. Reading the four bytes
+                // before it and the four bytes after it on their own hands out an array for each of
+                // them, and on a file of gigabytes that is what turns the read into garbage collection.
+                int cellsPerChunk = Math.Min(CellsPerChunk, feaNum);
+                var chunk = new byte[cellsPerChunk * varnum * 4];
                 for (int t = 0; t < nstep; t++)
                 {
                     var buf = new float[feaNum];
-                    for (int s = 0; s < feaNum; s++)
+                    int cell = 0;
+                    while (cell < feaNum)
                     {
-                        br.ReadBytes(4 * var_index);
-                        buf[s] = br.ReadSingle() * Scale;
-                        br.ReadBytes(4 * (varnum - var_index - 1));
+                        int count = Math.Min(cellsPerChunk, feaNum - cell);
+                        ReadFully(br, chunk, count * varnum * 4);
+                        for (int c = 0; c < count; c++)
+                        {
+                            buf[cell + c] = BitConverter.ToSingle(chunk, (c * varnum + var_index) * 4) * Scale;
+                        }
+                        cell += count;
                     }
                     DataCube.ILArrays[var_index][t, ":"] = buf;
                     progress = Convert.ToInt32(t * 100 / nstep);

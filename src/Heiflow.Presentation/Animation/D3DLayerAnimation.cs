@@ -79,6 +79,9 @@ namespace Heiflow.Presentation.Animation
             // time on. The step is the one the cache has to be asked about, so it is set either way.
             if (_render.UseCache)
             {
+                // The render mixes the step the animation came from into the one it is at over the
+                // length of a step, so it has to be told how long that is.
+                _render.StepDuration = Speed;
                 _render.CurrentTimeStep = time_index;
                 _render.UpdateCachedColor();
                 return;

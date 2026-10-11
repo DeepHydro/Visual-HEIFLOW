@@ -102,16 +102,38 @@ namespace Heiflow.Visualization.Renderable.Grid
                     ? PrimitiveType.LineList
                     : PrimitiveType.TriangleList;
 
-                if (_Mesh.Update(device, vertices, indices, _RenderDX.MeshVersion, _RenderDX.ColorVersion))
+                var uploaded = _Mesh.Update(device, vertices, indices, _RenderDX.MeshVersion,
+                    _RenderDX.ColorVersion);
+
+                // The colours can be read out of textures instead of out of the vertices, and then a
+                // frame costs the one float that says how far the animation has come between two steps
+                // rather than an array as long as the grid. Whatever cannot be done that way is drawn
+                // from the vertices as it always was.
+                var shaded = uploaded && _RenderDX.DrawShaded(device, _Mesh, primitiveType,
+                    Matrix.Multiply(device.Transform.World,
+                        Matrix.Multiply(device.Transform.View, device.Transform.Projection)),
+                    Vector3.Normalize(ModelRenderScope.SunVector),
+                    World.Settings.EnableSunShading ? 1f : 0f,
+                    // The fixed pipeline puts the ambient on a vertex only while it lights it, so a
+                    // layer drawn without the sun is given white, or everything it draws would come
+                    // out darker than it did before the shader.
+                    AmbientOf(World.Settings.EnableSunShading
+                        ? World.Settings.ShadingAmbientColor
+                        : System.Drawing.Color.White));
+
+                if (!shaded)
                 {
-                    _Mesh.Draw(device, primitiveType);
-                }
-                else
-                {
-                    // no buffers, the mesh is tiny or the device could not create them
-                    int step = primitiveType == PrimitiveType.LineList ? 2 : 3;
-                    device.DrawIndexedUserPrimitives(primitiveType, 0, vertices.Length, indices.Length / step,
-                        indices, false, vertices);
+                    if (uploaded)
+                    {
+                        _Mesh.Draw(device, primitiveType);
+                    }
+                    else
+                    {
+                        // no buffers, the mesh is tiny or the device could not create them
+                        int step = primitiveType == PrimitiveType.LineList ? 2 : 3;
+                        device.DrawIndexedUserPrimitives(primitiveType, 0, vertices.Length, indices.Length / step,
+                            indices, false, vertices);
+                    }
                 }
 
                 if (HighLightSelectedCell && _RenderDX.SelectedVertexes != null && _RenderDX.SelectedVertexIndexes != null)
@@ -124,5 +146,14 @@ namespace Heiflow.Visualization.Renderable.Grid
             }
         }
 
+        /// <summary>
+        /// The ambient colour of the scene as the three numbers the shader multiplies the colour of a
+        /// vertex by. It is a colour and not one number because the fixed pipeline put a colour on a
+        /// vertex, and an ambient that is not grey would come out tinted if it were averaged.
+        /// </summary>
+        private static float[] AmbientOf(System.Drawing.Color color)
+        {
+            return new[] { color.R / 255f, color.G / 255f, color.B / 255f };
+        }
     }
 }

@@ -46,6 +46,13 @@ namespace Heiflow.Controls.WinForm.MenuItems
     public class PEContextMenu : IPEContextMenu, IPackageContextMemu
     {
         public static string MenuSeparator = "Separator";
+
+        /// <summary>
+        /// The item that opens the property window. It is one that stays enabled whatever the state of
+        /// the data behind the node is, the window being where the settings that say how the data is
+        /// read are made, which is what has to happen before it can be loaded at all.
+        /// </summary>
+        public const string MenuProperty = "Property";
         public event EventHandler ItemChanged;
         public event EventHandler RemoveItem;
         protected IMyAppManager _AppManager;
@@ -188,7 +195,7 @@ namespace Heiflow.Controls.WinForm.MenuItems
             _ProjectService = MyAppManager.Instance.CompositionContainer.GetExportedValue<IProjectService>();
             _ActiveDataService = MyAppManager.Instance.CompositionContainer.GetExportedValue<IActiveDataService>();
 
-            ContextMenuItems.Add(new ExplorerMenuItem("Property", Resources.UiTable16, ProjectItem_PropertyClicked));
+            ContextMenuItems.Add(new ExplorerMenuItem(MenuProperty, Resources.UiTable16, ProjectItem_PropertyClicked));
             AddMenuItems();
         }
 

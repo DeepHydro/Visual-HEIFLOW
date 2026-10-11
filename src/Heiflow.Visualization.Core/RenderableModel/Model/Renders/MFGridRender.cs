@@ -173,6 +173,20 @@ namespace Heiflow.Visualization.Renderable.Grid
             MaxCellValue = maxValue;
             MinCellValue = minValue;
 
+            // Where every vertex goes in the texture the steps are drawn from. The grid is laid out in
+            // rows and columns and so is the texture, so a vertex keeps its neighbours around it and
+            // the colour between two of them can be read from the texels between them.
+            _DataTextureWidth = _MFGrid.ColumnCount + 1;
+            _DataTextureHeight = _MFGrid.RowCount + 1;
+            _SmoothStepTexture = true;
+            _VertexTexel = new int[vertexCount];
+            for (int i = 0; i < vertexCount; i++)
+            {
+                var row = (int)topo.VertexAtActiveCells[i, 4];
+                var col = (int)topo.VertexAtActiveCells[i, 5];
+                _VertexTexel[i] = row * _DataTextureWidth + col;
+            }
+
             StatisticsInfo = MyStatisticsMath.SimpleStatistics(vector);
             NotifyMeshChanged();
         }
@@ -262,6 +276,19 @@ namespace Heiflow.Visualization.Renderable.Grid
         /// </summary>
         private float[] _VertexValueBuffer;
 
+        /// <summary>
+        /// The most the classes of all the steps are allowed to take. One byte is kept for every
+        /// vertex of every step, which over a long run on a fine grid comes to more memory than the
+        /// machine has.
+        /// </summary>
+        private const long MaxCachedColorBytes = 512L * 1024 * 1024;
+
+        /// <summary>
+        /// Set when the cache of this grid was found to be over that, so the layer stops trying to fill
+        /// it on every frame and the colours are made for the step on screen instead.
+        /// </summary>
+        private bool _CacheTooLarge;
+
         public override void UpdateVertexColor()
         {
             if (GridValues == null)
@@ -271,7 +298,7 @@ namespace Heiflow.Visualization.Renderable.Grid
 
             if (GridValues != null)
             {
-                if (UseCache)
+                if (UseCache && !_CacheTooLarge)
                 {
                     // The cache carries the statistics of every step as well, so the values of the
                     // step do not have to be scanned here to know the range it covers. Scanning them
@@ -311,12 +338,29 @@ namespace Heiflow.Visualization.Renderable.Grid
                         {
                             _VertexValueBuffer[i] = _MFGrid.Topology.GetVertexValue(vector, i);
                         }
-                        var levels = _DataColor.GetLevels(_VertexValueBuffer, ColourRampCount, ClassificationMethod);
-
-                        for (int i = 0; i < vertexCount; i++)
+                        if (ContinuousColor)
                         {
-                           // var verValue = _MFGrid.Topology.GetVertexValue(vector, i);
-                            VertexList[i].Color = _DataColor.GetVertexColor(levels[i], Opacity, InvertColor);
+                            // Without a cache there is no range that covers every step, so the one of
+                            // this step is what the values are scaled over. The shades are fine all the
+                            // same, only the scale under them still moves from step to step, which is
+                            // what the cache is what stops.
+                            var palette = LevelPalette;
+                            var low = (float)MinCellValue;
+                            var high = (float)(MaxCellValue > MinCellValue ? MaxCellValue : MinCellValue + 1);
+                            var scale = 255f / (high - low);
+                            for (int i = 0; i < vertexCount; i++)
+                            {
+                                VertexList[i].Color = palette[ShadeOf(_VertexValueBuffer[i] - low, scale)];
+                            }
+                        }
+                        else
+                        {
+                            var levels = _DataColor.GetLevels(_VertexValueBuffer, ColourRampCount, ClassificationMethod);
+
+                            for (int i = 0; i < vertexCount; i++)
+                            {
+                                VertexList[i].Color = _DataColor.GetVertexColor(levels[i], Opacity, InvertColor);
+                            }
                         }
                     }
                     NotifyColorsChanged();
@@ -331,11 +375,66 @@ namespace Heiflow.Visualization.Renderable.Grid
                 return;
             }
             var timesteps = DataSource.Size[1];
+            var vertexCount = _MFGrid.Topology.ActiveVertexCount;
+
+            // The class a vertex falls into is kept for every vertex of every step, one byte each, and
+            // the colour comes from the table of classes rather than being stored, which is a quarter
+            // of what an integer per vertex would have taken. Over a long run on a fine grid even that
+            // is more than the machine has, and then nothing is cached and the colours are made for
+            // the step that is being drawn. A byte holds no class beyond two hundred and fifty five,
+            // so a ramp with more classes than that is drawn without the cache as well. A shade is
+            // never above that either, so a ramp of any size can be spread over them.
+            _CacheTooLarge = (long)timesteps * vertexCount > MaxCachedColorBytes
+                || (!ContinuousColor && _DataColor.ColorRamp.Colors.Length > 256);
+            if (_CacheTooLarge)
+            {
+                cachedLevel = null;
+                return;
+            }
+
             var prg = 0;
-            DataCube<int> color = new DataCube<int>(1, timesteps, _MFGrid.Topology.ActiveVertexCount);
+            var level = new byte[(int)((long)timesteps * vertexCount)];
             cachedMaxValues = new float[timesteps];
             cachedMinValues = new float[timesteps];
             cachedStatisticsInfo = new StatisticsInfo[timesteps];
+            this.VarIndex = DataSource.SelectedVariableIndex;
+
+            // A shade means the same value on every step only when all of them are scaled over one
+            // range, and that range is not known before the last step has been read. While shades are
+            // asked for the steps are therefore walked twice, once over the extremes to find the range
+            // and once to scale the values over it, which is what doubles the cost of filling it.
+            if (ContinuousColor)
+            {
+                _ScaleMin = float.MaxValue;
+                _ScaleMax = float.MinValue;
+                for (int t = 0; t < timesteps; t++)
+                {
+                    var vector = GetGridValues(DataSource, t);
+                    if (vector == null)
+                    {
+                        return;
+                    }
+                    var min = vector.Min();
+                    var max = vector.Max();
+                    cachedMinValues[t] = min;
+                    cachedMaxValues[t] = max;
+                    if (min < _ScaleMin)
+                    {
+                        _ScaleMin = min;
+                    }
+                    if (max > _ScaleMax)
+                    {
+                        _ScaleMax = max;
+                    }
+                    prg = (t + 1) * 50 / timesteps;
+                    OnCachingColorPrgChanged(prg);
+                }
+                if (_ScaleMax <= _ScaleMin)
+                {
+                    _ScaleMax = _ScaleMin + 1;
+                }
+            }
+
             for (int t = 0; t < timesteps; t++)
             {
                 var vector = GetGridValues(DataSource, t);
@@ -347,26 +446,55 @@ namespace Heiflow.Visualization.Renderable.Grid
                 {
                     return;
                 }
-                cachedMaxValues[t] = vector.Max();
-                cachedMinValues[t] = vector.Min();
-                var vertext_vec = new float[_MFGrid.Topology.ActiveVertexCount];
-                for (int i = 0; i < _MFGrid.Topology.ActiveVertexCount; i++)
+                if (!ContinuousColor)
                 {
-                    vertext_vec[i] = _MFGrid.Topology.GetVertexValue(vector, i);
+                    cachedMaxValues[t] = vector.Max();
+                    cachedMinValues[t] = vector.Min();
                 }
-                var levels = _DataColor.GetLevels(vertext_vec, ColourRampCount, ClassificationMethod);
-                for (int i = 0; i < _MFGrid.Topology.ActiveVertexCount; i++)
+                // One array is enough for the values of every step, it is refilled rather than
+                // allocated again for each of them.
+                if (_VertexValueBuffer == null || _VertexValueBuffer.Length != vertexCount)
                 {
-                    //var verValue = _MFGrid.Topology.GetVertexValue(vector, i);
-                    color[0, t, i] = _DataColor.GetVertexColor(levels[i], Opacity, InvertColor);
+                    _VertexValueBuffer = new float[vertexCount];
+                }
+                for (int i = 0; i < vertexCount; i++)
+                {
+                    _VertexValueBuffer[i] = _MFGrid.Topology.GetVertexValue(vector, i);
+                }
+                var step = t * vertexCount;
+                if (ContinuousColor)
+                {
+                    var scale = 255f / (_ScaleMax - _ScaleMin);
+                    for (int i = 0; i < vertexCount; i++)
+                    {
+                        level[step + i] = (byte)ShadeOf(_VertexValueBuffer[i] - _ScaleMin, scale);
+                    }
+                }
+                else
+                {
+                    var levels = _DataColor.GetLevels(_VertexValueBuffer, ColourRampCount, ClassificationMethod);
+                    for (int i = 0; i < vertexCount; i++)
+                    {
+                        // A value below the lowest break comes back as a class below the first one,
+                        // and that one is coloured as the first class is.
+                        var l = levels[i];
+                        level[step + i] = (byte)(l < 0 ? 0 : l);
+                    }
                 }
                 cachedStatisticsInfo[t] = MyStatisticsMath.SimpleStatistics(vector);
-                prg = (t + 1) * 100 / timesteps;
+                prg = ContinuousColor ? 50 + (t + 1) * 50 / timesteps : (t + 1) * 100 / timesteps;
+                OnCachingColorPrgChanged(prg);
             }
             MaxCellValue = cachedMaxValues[0];
             MinCellValue = cachedMinValues[0];
             StatisticsInfo = cachedStatisticsInfo[0];
-            cachedColor = color;
+            cachedLevel = level;
+            // The cache is marked here and not only by the caller that draws a step, because the
+            // Create Cache button fills it on its own and then hands the playback over. Without this
+            // it was still stale as far as the next frame was concerned, so the step that was drawn
+            // first filled the whole cache a second time.
+            MarkCachedColorFresh();
+            OnCachingColorFinished(new EventArgs());
         }
 
         public override void UpdateCachedColor()
@@ -378,22 +506,50 @@ namespace Heiflow.Visualization.Renderable.Grid
                 CacheColor();
                 // CacheColor leaves without one while the source has no array for the variable,
                 // and calling it fresh now would stop it from being rebuilt once the array is there.
-                if (cachedColor != null)
+                if (cachedLevel != null)
                     MarkCachedColorFresh();
             }
-            if (cachedColor != null)
+            if (cachedLevel != null)
             {
-                for (int i = 0; i < _MFGrid.Topology.ActiveVertexCount; i++)
+                // The colours in the vertices are never read while the mesh is drawn from the step
+                // textures, and writing them on every step would hand the card the whole array again,
+                // which is the one thing the textures were brought in to stop.
+                if (!ShadingActive)
                 {
-                    VertexList[i].Color = cachedColor[0, CurrentTimeStep, i];
+                    // What is cached is the class of every vertex and not its colour, so the class is
+                    // turned into one through the table of the scheme that is current now.
+                    var palette = LevelPalette;
+                    var vertexCount = _MFGrid.Topology.ActiveVertexCount;
+                    var step = CurrentTimeStep * vertexCount;
+                    var last = palette.Length - 1;
+                    for (int i = 0; i < vertexCount; i++)
+                    {
+                        // A cache that could not be filled again still holds the classes of a ramp that
+                        // had more of them, and a class past the end of the table is drawn as the last
+                        // one of it.
+                        var l = cachedLevel[step + i];
+                        VertexList[i].Color = palette[l < palette.Length ? l : last];
+                    }
                 }
-                MaxCellValue = cachedMaxValues[CurrentTimeStep];
-                MinCellValue = cachedMinValues[CurrentTimeStep];
+                // What is drawn is scaled over the range of every step taken together while shades are
+                // on, so that is the range the legend has to name, or it would hand out the numbers of
+                // this step for colours that were spread over all of them.
+                if (ContinuousColor)
+                {
+                    MaxCellValue = _ScaleMax;
+                    MinCellValue = _ScaleMin;
+                }
+                else
+                {
+                    MaxCellValue = cachedMaxValues[CurrentTimeStep];
+                    MinCellValue = cachedMinValues[CurrentTimeStep];
+                }
                 // The colours are in the vertex array now, which the device has to be told to take
                 // again. UpdateVertexColor notifies for the paths that run through it, but the
                 // animation asks for the cached colours straight away so that the values of the step
                 // are not read a second time, and those frames need it just the same.
-                NotifyColorsChanged();
+                if (!ShadingActive)
+                    NotifyColorsChanged();
             }
         }
 

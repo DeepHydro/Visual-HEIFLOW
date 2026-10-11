@@ -267,6 +267,11 @@ namespace Heiflow.Visualization.Studio.Controls
         {
             if (node == null || node.Source == null)
                 return null;
+            // The data of a variable is read in the background and the menu is told when it arrives,
+            // which is not always on the thread of the tree. The row is read again here, so that what
+            // it shows and what the menu offers are the state of the moment of the click.
+            node.SyncFromSource();
+            WatchMenu(node.Source);
             var context = node.Source.Tag as IPEContextMenu;
             if (context == null || context.ContextMenuItems == null)
                 return null;
@@ -294,6 +299,23 @@ namespace Heiflow.Visualization.Studio.Controls
         }
 
         private const string PropertyMenuName = "Property";
+
+        private readonly HashSet<Heiflow.Controls.WinForm.MenuItems.PEContextMenu> _WatchedMenus =
+            new HashSet<Heiflow.Controls.WinForm.MenuItems.PEContextMenu>();
+
+        /// <summary>
+        /// The data of a variable is read in the background and its menu says when it arrives, which is
+        /// the moment the icon of the node changes. The menu is watched from the time it is opened, so
+        /// the tree reads the row again as soon as that happens. The handler runs on the thread that
+        /// read the data, so the reading of the rows is put back on the thread of the tree.
+        /// </summary>
+        private void WatchMenu(Node node)
+        {
+            var menu = node != null ? node.Tag as Heiflow.Controls.WinForm.MenuItems.PEContextMenu : null;
+            if (menu == null || !_WatchedMenus.Add(menu))
+                return;
+            menu.ItemChanged += (s, e) => Dispatcher.BeginInvoke(new Action(SyncFromSource));
+        }
 
         private MenuItem CreateMenuItem(object item, LayerNode node)
         {

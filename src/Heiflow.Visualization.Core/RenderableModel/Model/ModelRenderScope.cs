@@ -117,7 +117,10 @@ namespace Heiflow.Visualization.Renderable.Grid
             }
         }
 
-        private static Vector3 SunVector
+        /// <summary>
+        /// Where the sun is, for a caller that does the lighting itself, see ModelColor.fx.
+        /// </summary>
+        public static Vector3 SunVector
         {
             get
             {

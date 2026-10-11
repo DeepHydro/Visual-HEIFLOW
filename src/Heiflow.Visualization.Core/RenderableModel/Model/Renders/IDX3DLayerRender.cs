@@ -4,6 +4,7 @@ using Heiflow.Models.Generic.Project;
 using Heiflow.Models.Visualization;
 using Heiflow.Presentation.Controls;
 using HUST.WREIS.Dot3D.Renderable;
+using Microsoft.DirectX;
 using Microsoft.DirectX.Direct3D;
 using System;
 using System.Collections.Generic;
@@ -51,11 +52,29 @@ namespace Heiflow.Visualization.Renderable.Grid
 
         bool InvertColor { get; set; }
 
+        /// <summary>
+        /// Scale the values over one range for the whole run instead of putting them in classes, see
+        /// ModelRenderDX.ContinuousColor.
+        /// </summary>
+        bool ContinuousColor { get; set; }
+
+        /// <summary>
+        /// Let the sun and the ambient take a shade off the colours, see ModelRenderDX.ShadedLighting.
+        /// </summary>
+        bool ShadedLighting { get; set; }
+
         int Opacity { get; set; }
 
         int ColorRampID { get; set; }
 
         int ColourRampCount { get; set; }
+
+        /// <summary>
+        /// Draws the mesh with the colours read out of textures rather than out of the vertices, see
+        /// ModelRenderDX.DrawShaded. False leaves the layer to draw the mesh as it always did.
+        /// </summary>
+        bool DrawShaded(Device device, ModelMeshBuffer mesh, PrimitiveType primitiveType,
+            Matrix worldViewProjection, Vector3 sunDirection, float sunLight, float[] ambient);
         float DistanceAboveSurface { get; set; }
         ClassificationMethod ClassificationMethod { get; set; }
 

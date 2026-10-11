@@ -183,6 +183,8 @@ namespace Heiflow.Visualization.Studio.Controls
                 sliderOpacity.Value = _Render.Opacity;
                 chbUniqueColor.IsChecked = _Render.UniqueColor;
                 chbInvertColor.IsChecked = _Render.InvertColor;
+                chbContinuousColor.IsChecked = _Render.ContinuousColor;
+                chbShadedLighting.IsChecked = _Render.ShadedLighting;
             }
             finally
             {
@@ -227,6 +229,10 @@ namespace Heiflow.Visualization.Studio.Controls
             chbUniqueColor.Unchecked -= chbUniqueColor_Checked;
             chbInvertColor.Checked -= chbInvertColor_Checked;
             chbInvertColor.Unchecked -= chbInvertColor_Checked;
+            chbContinuousColor.Checked -= chbContinuousColor_Checked;
+            chbContinuousColor.Unchecked -= chbContinuousColor_Checked;
+            chbShadedLighting.Checked -= chbShadedLighting_Checked;
+            chbShadedLighting.Unchecked -= chbShadedLighting_Checked;
         }
 
         private void AttachHandlers()
@@ -240,6 +246,10 @@ namespace Heiflow.Visualization.Studio.Controls
             chbUniqueColor.Unchecked += chbUniqueColor_Checked;
             chbInvertColor.Checked += chbInvertColor_Checked;
             chbInvertColor.Unchecked += chbInvertColor_Checked;
+            chbContinuousColor.Checked += chbContinuousColor_Checked;
+            chbContinuousColor.Unchecked += chbContinuousColor_Checked;
+            chbShadedLighting.Checked += chbShadedLighting_Checked;
+            chbShadedLighting.Unchecked += chbShadedLighting_Checked;
         }
 
         private static int ReadClassCount(ComboBox combo)
@@ -261,6 +271,18 @@ namespace Heiflow.Visualization.Studio.Controls
         {
             if (_Render != null)
                 _Render.InvertColor = chbInvertColor.IsChecked.Value; 
+        }
+
+        private void chbContinuousColor_Checked(object sender, RoutedEventArgs e)
+        {
+            if (_Render != null)
+                _Render.ContinuousColor = chbContinuousColor.IsChecked.Value;
+        }
+
+        private void chbShadedLighting_Checked(object sender, RoutedEventArgs e)
+        {
+            if (_Render != null)
+                _Render.ShadedLighting = chbShadedLighting.IsChecked.Value;
         }
 
         private void cobColorRamp_SelectionChanged(object sender, SelectionChangedEventArgs e)

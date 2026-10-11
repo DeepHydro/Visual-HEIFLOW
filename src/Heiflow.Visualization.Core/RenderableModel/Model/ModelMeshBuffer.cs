@@ -26,6 +26,30 @@ namespace Heiflow.Visualization.Renderable.Grid
         private int _colorVersion = -1;
 
         /// <summary>
+        /// The buffers themselves, for a caller that draws this mesh with a shader of its own rather
+        /// than through Draw below.
+        /// </summary>
+        public VertexBuffer VertexBuffer
+        {
+            get { return _vertexBuffer; }
+        }
+
+        public IndexBuffer IndexBuffer
+        {
+            get { return _indexBuffer; }
+        }
+
+        public int VertexCount
+        {
+            get { return _vertexCount; }
+        }
+
+        public int IndexCount
+        {
+            get { return _indexCount; }
+        }
+
+        /// <summary>
         /// Uploads the mesh when it changed and returns true when it can be drawn from the buffers.
         /// </summary>
         /// <param name="device">Device the buffers belong to.</param>

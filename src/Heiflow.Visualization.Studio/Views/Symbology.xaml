@@ -421,6 +421,8 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="Current Layer Name" Style="{StaticResource SymFieldLabel}" />
@@ -461,6 +463,16 @@
                               Style="{StaticResource SymCheckBox}"
                               Unchecked="chbInvertColor_Checked" Checked="chbInvertColor_Checked"
                               Content="Invert Color" />
+                    <CheckBox Grid.Row="8" Grid.ColumnSpan="2" x:Name="chbContinuousColor" Margin="0,6,0,0"
+                              Style="{StaticResource SymCheckBox}"
+                              Unchecked="chbContinuousColor_Checked" Checked="chbContinuousColor_Checked"
+                              ToolTip="Scale the values over one range for the whole run instead of putting them in classes, so that a step changes the shade of a vertex rather than the scale underneath it."
+                              Content="Continuous Shading" />
+                    <CheckBox Grid.Row="9" Grid.ColumnSpan="2" x:Name="chbShadedLighting" Margin="0,6,0,0"
+                              Style="{StaticResource SymCheckBox}"
+                              Unchecked="chbShadedLighting_Checked" Checked="chbShadedLighting_Checked"
+                              ToolTip="Let the sun and the ambient take a shade off the colours, the way the fixed pipeline lit a layer. Off draws every colour as the ramp gives it."
+                              Content="Sun Shading" />
                 </Grid>
             </Expander>
 

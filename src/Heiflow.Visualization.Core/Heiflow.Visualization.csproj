@@ -124,6 +124,7 @@
     <Compile Include="RenderableModel\Model\Renders\ModelRenderDX.cs" />
     <Compile Include="RenderableModel\Model\IProfile.cs" />
     <Compile Include="RenderableModel\Model\ModelMeshBuffer.cs" />
+    <Compile Include="RenderableModel\Model\ModelColorShader.cs" />
     <Compile Include="RenderableModel\Model\ModelNormals.cs" />
     <Compile Include="RenderableModel\Model\ModelRenderScope.cs" />
     <Compile Include="RenderableModel\Model\Renders\IDX3DLayerRender.cs" />
@@ -228,6 +229,7 @@
     <Compile Include="TiledImage\ImageLayer.cs" />
     <Compile Include="TiledImage\ImageStore.cs" />
     <EmbeddedResource Include="Shaders\flag.fx" />
+    <EmbeddedResource Include="Shaders\ModelColor.fx" />
     <EmbeddedResource Include="Shaders\grayscale.fx" />
     <EmbeddedResource Include="Shaders\SkyFromAtmosphere.fx" />
     <EmbeddedResource Include="Shaders\SkyFromSpace.fx" />

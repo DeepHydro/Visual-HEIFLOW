@@ -451,6 +451,7 @@
     <Compile Include="ProjectExplorer\Node\VariablesFolderNodeCreator.cs" />
     <Compile Include="ProjectExplorer\Node\TimieSeriesVariableNodeCreator.cs" />
     <Compile Include="ProjectExplorer\Node\DynamicVariableNodeCreator.cs" />
+    <Compile Include="ProjectExplorer\Node\VariableIcons.cs" />
     <Compile Include="ProjectExplorer\Node\DisplayablePropertyNodeCreator.cs" />
     <Compile Include="ProjectExplorer\Node\DataPackageCollectionNodeCreator.cs" />
     <Compile Include="ProjectExplorer\Node\MapDataNodeCreator.cs" />

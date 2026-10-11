@@ -57,6 +57,13 @@ namespace Heiflow.Models.Visualization
 
         bool UseCache { get; set; }
 
+        /// <summary>
+        /// How long one step of the animation takes, in milliseconds. The render mixes the step before
+        /// into the one it is at over that length, so the animation hands the speed it plays at over
+        /// rather than making the render keep a clock of its own.
+        /// </summary>
+        int StepDuration { get; set; }
+
         void CacheColor();
         void ClearCachedColor();
 
