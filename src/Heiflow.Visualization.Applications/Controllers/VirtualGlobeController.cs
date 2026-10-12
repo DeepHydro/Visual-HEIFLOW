@@ -12,7 +12,9 @@ using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Diagnostics;
 using System.Waf.Applications;
 using System.Windows.Threading;
 
@@ -30,9 +32,15 @@ namespace Heiflow.Visualization.Applications
         private LayerService _LayerService;
         private PluginCompiler _PluginCompiler;
         private HUST.WREIS.Dot3D.SceneWindow _VirtualGlobe;
-        private DispatcherTimer _Timer3d;
         private IActiveDataService _ActiveDataService;
-        // private System.Windows.Forms.Timer _Timer3d;
+
+        /// <summary>
+        /// The frame is asked for at ApplicationIdle, which is below Input, so a drag of the mouse is
+        /// always let through and drawn on the next frame instead of waiting behind the render.
+        /// </summary>
+        private Dispatcher _Dispatcher;
+        private readonly Stopwatch _FrameClock = new Stopwatch();
+        private long _LastFrameMs;
 
         [ImportingConstructor]
         public VirtualGlobeController(VirtualGlobeViewModel vgvm, IVGSShellService shell, LayerService ls, 
@@ -51,11 +59,11 @@ namespace Heiflow.Visualization.Applications
 
         public void Initialize()
         {
-            _Timer3d = new DispatcherTimer();
-            _Timer3d.Interval = new TimeSpan(0, 0, 0, 0, 15);
-            _Timer3d.Tick += Timer3d_Tick;
+            // The scene is drawn on a frame that is asked for whenever the dispatcher has nothing more
+            // pressing to do, rather than on a timer that queues a frame behind layout, binding and
+            // animation. The priority is below Input, so dragging the globe is always let through.
+            _Dispatcher = Dispatcher.CurrentDispatcher;
             _VirtualGlobeViewModel.ViewLoaded += VirtualGlobeViewModel_ViewLoaded;
-            _VGSShellService.Timer = _Timer3d;
             _ShellViewModel.Value.ViewCommand = new DelegateCommand(OnViewCommand);
             _ShellViewModel.Value.MeasureCommand = new DelegateCommand(OnMeasureCommand);
             _ShellViewModel.Value.ScreenShotCommand = new DelegateCommand(OnScreenShotCommand);
@@ -68,7 +76,8 @@ namespace Heiflow.Visualization.Applications
 
         public void ShutDown()
         {
-            _Timer3d.Stop();
+            // The frame chain checks this and stops asking for the next one.
+            _VGSShellService.IsRenderingEnabled = false;
         }
 
         private void VirtualGlobeViewModel_ViewLoaded(object sender, EventArgs e)
@@ -84,7 +93,10 @@ namespace Heiflow.Visualization.Applications
             _VirtualGlobe.GotoLatLonAltitude(World.Settings.DefalutLatitude, World.Settings.DefalutLongitude, 19000000.0f);
             ConfigurationManager.DrawArgs = _VirtualGlobe.DrawArgs;
 
-            _Timer3d.Start();
+            _VGSShellService.IsRenderingEnabled = true;
+            _FrameClock.Restart();
+            _LastFrameMs = 0;
+            QueueFrame();
             InitializePluginCompiler();
 
             _VirtualGlobe.CurrentWorld.DefaultLayerList.FindChild("SkyGradient").IsOn = World.Settings.EnableAtmosphere;
@@ -95,17 +107,42 @@ namespace Heiflow.Visualization.Applications
             _ShellViewModel.Value.WorldSettings = World.Settings;
         }
 
-        private void Timer3d_Tick(object sender, EventArgs e)
+        /// <summary>
+        /// Asks for the next frame. It is queued below Input so that a drag, a layout and a binding all
+        /// run ahead of the render, and the chain ends by itself once rendering is switched off.
+        /// </summary>
+        private void QueueFrame()
         {
+            if (!_VGSShellService.IsRenderingEnabled || _VirtualGlobe == null || _VirtualGlobe.m_Device3d == null)
+                return;
+
+            _Dispatcher.BeginInvoke(new Action(RenderFrame), DispatcherPriority.ApplicationIdle);
+        }
+
+        /// <summary>
+        /// Draws one frame and asks for the next. SceneWindow.OnApplicationIdle is not used on purpose:
+        /// it opens with Parent.Focused, and the control has no WinForms parent under WindowsFormsHost,
+        /// so every frame threw before a thing was drawn and the exception was swallowed by its catch.
+        /// </summary>
+        private void RenderFrame()
+        {
+            if (!_VGSShellService.IsRenderingEnabled || _VirtualGlobe == null || _VirtualGlobe.m_Device3d == null)
+                return;
+
+            // ThrottleFpsHz is 50 by default. Hand the dispatcher a millisecond back rather than spin,
+            // so a click or a key that came in while waiting is not held up.
+            int frameMs = World.Settings.ThrottleFpsHz > 0 ? 1000 / World.Settings.ThrottleFpsHz : 0;
+            long now = _FrameClock.ElapsedMilliseconds;
+            if (frameMs > 0 && now - _LastFrameMs < frameMs)
+            {
+                Thread.Sleep(1);
+                QueueFrame();
+                return;
+            }
+            _LastFrameMs = now;
+
             try
             {
-                if (_VirtualGlobe.m_Device3d == null)
-                {
-                    //  e.Graphics.Clear(SystemColors.ControlColor);
-                    return;
-                }
-
-                // to prevent screen garbage when resizing
                 _VirtualGlobe.Render();
                 _VirtualGlobe.m_Device3d.Present();
             }
@@ -114,15 +151,14 @@ namespace Heiflow.Visualization.Applications
                 try
                 {
                     _VirtualGlobe.AttemptRecovery();
-                    // Our surface was lost, force re-render
-                    _VirtualGlobe.Render();
-                    _VirtualGlobe.m_Device3d.Present();
                 }
                 catch (Exception)
                 {
                     // Ignore a 2nd failure
                 }
             }
+
+            QueueFrame();
         }
 
         private void LoadDefaultLayers()

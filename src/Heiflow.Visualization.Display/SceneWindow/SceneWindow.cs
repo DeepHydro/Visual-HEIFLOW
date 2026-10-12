@@ -157,8 +157,8 @@ namespace HUST.WREIS.Dot3D
 
                 mProgressBar = new VisualControl.ProgressBar(200, 10);
 
-                captionTextFont = drawArgs.CreateFont("宋体,Arial", 8.5f, FontStyle.Bold);
-                infoTextFont = drawArgs.CreateFont("宋体,Arial", 9.0f, FontStyle.Bold);
+                captionTextFont = drawArgs.CreateFont("瀹嬩綋,Arial", 8.5f, FontStyle.Bold);
+                infoTextFont = drawArgs.CreateFont("瀹嬩綋,Arial", 9.0f, FontStyle.Bold);
                 titleTextFont = drawArgs.CreateFont("Arial", 14.0f, FontStyle.Bold);
                 infoBackgourdColor = Color.FromArgb(100, 54, 54, 54).ToArgb();
                 infoForeColor1 = Color.FromArgb(255, 255, 255, 0).ToArgb();
@@ -787,7 +787,9 @@ namespace HUST.WREIS.Dot3D
 
             try
             {
-                if (Parent.Focused && !Focused)
+                // Under WindowsFormsHost the control is never put into a WinForms parent, so Parent is
+                // null there and asking it for Focused throws before a single frame is drawn.
+                if (Parent != null && Parent.Focused && !Focused)
                     Focus();
 
                 while (IsAppStillIdle)
@@ -1090,11 +1092,11 @@ namespace HUST.WREIS.Dot3D
             {
                 drawArgs.Present();
                 //string captionText =
-                //          "可用纹理内存: " +
-                //           "\n每秒帧数FPS: " +
-                //          "\n边界�? " +
-                //          "\n瓦片�? " +
-                //          "\n绘制对象数目: ";
+                //          "鍙敤绾圭悊鍐呭瓨: " +
+                //           "\n姣忕甯ф暟FPS: " +
+                //          "\n杈圭晫鐐? " +
+                //          "\n鐡︾墖鏁? " +
+                //          "\n缁樺埗瀵硅薄鏁扮洰: ";
                 string captionText =
           "Memory: " +
            "\nFPS: " +
@@ -1117,10 +1119,10 @@ namespace HUST.WREIS.Dot3D
             if (ShowStatisticsInfo && StatisticsInfo!= null)
             {
                 //string captionText =
-                //          "最大�? " + "\n" +
-                //           "最小�? " + "\n" +
-                //           "平均�? " + "\n" +
-                //           "标准�? ";
+                //          "鏈€澶у€? " + "\n" +
+                //           "鏈€灏忓€? " + "\n" +
+                //           "骞冲潎鍊? " + "\n" +
+                //           "鏍囧噯宸? ";
                 string captionText =
                         "Maximum: " + "\n" +
                          "Minimum: " + "\n" +
@@ -1166,7 +1168,7 @@ namespace HUST.WREIS.Dot3D
                 double heading = this.drawArgs.WorldCamera.Heading.Degrees;
                 if (heading < 0)
                     heading += 360;
-                var posinfo = ResMan.GetString("PosInfo");//"经度: {0:f4}    纬度: {1:f4}    海拔: {2}m    方向: {3:f2}                                     视角海拔高度: {4}"
+                var posinfo = ResMan.GetString("PosInfo");//"缁忓害: {0:f4}    绾害: {1:f4}    娴锋嫈: {2}m    鏂瑰悜: {3:f2}                                     瑙嗚娴锋嫈楂樺害: {4}"
                 captionText += String.Format(posinfo,
                     this.drawArgs.WorldCamera.Longitude.Degrees,
                     this.drawArgs.WorldCamera.Latitude.Degrees,

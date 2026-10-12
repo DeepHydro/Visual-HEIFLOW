@@ -81,6 +81,18 @@ namespace Heiflow.Visualization.Renderable.Grid
         protected byte[] cachedLevel;
 
         /// <summary>
+        /// How many vertices one step of the cached classes takes. It is the count of active
+        /// vertices, which is not the length of the vertex array while the walls are drawn, that
+        /// one being twice as long. Left at nothing by a layer that never filled the cache, and
+        /// the mesh is then drawn from the classes of the step on screen.
+        /// </summary>
+        protected int CachedLevelStride
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// The range the shades are scaled over while ContinuousColor is on, the extremes of every
         /// step taken together, so that a shade stands for the same value on every step. Empty until
         /// the cache has been filled under that setting.
@@ -94,6 +106,56 @@ namespace Heiflow.Visualization.Renderable.Grid
         /// </summary>
         private int[] _LevelPalette;
         private int _CachedPaletteVersion = -1;
+
+        /// <summary>
+        /// The class every vertex of the step on screen falls into, one byte each, for a layer that
+        /// draws its colours out of the step textures without keeping a whole animation in the
+        /// cache. It is filled while the values of the step are classified anyway, and the shader
+        /// takes them from there, which is what keeps a frame from handing the card an array as
+        /// long as the grid only to change four bytes of every vertex of it.
+        /// </summary>
+        private byte[] _stepLevels;
+        private int _stepLevelStride;
+        private int _stepLevelVersion;
+        private int _uploadedStepLevelVersion = -1;
+
+        /// <summary>
+        /// Hands the classes of the step on screen over to the shader. Called by a layer that
+        /// classified the values of the step and would otherwise have written them into the
+        /// vertices and pushed the whole array at the card.
+        /// </summary>
+        protected void UpdateStepLevels(int[] levels, int vertexCount)
+        {
+            if (levels == null || vertexCount <= 0)
+                return;
+
+            if (_stepLevels == null || _stepLevels.Length < vertexCount)
+                _stepLevels = new byte[vertexCount];
+
+            // A value below the lowest break comes back as a class below the first one, and that
+            // one is drawn as the first class is.
+            for (int i = 0; i < vertexCount; i++)
+            {
+                var level = i < levels.Length ? levels[i] : 0;
+                _stepLevels[i] = (byte)(level < 0 ? 0 : level);
+            }
+
+            _stepLevelStride = vertexCount;
+            _stepLevelVersion++;
+        }
+
+        /// <summary>
+        /// Says that no classes of the step on screen are known, so that the mesh is drawn from the
+        /// colours in its vertices instead. A layer that looks a value up in a table of its own has
+        /// no classes to hand over, and neither does one whose values have not been read yet.
+        /// </summary>
+        protected void ClearStepLevels()
+        {
+            _stepLevels = null;
+            _stepLevelStride = 0;
+            _stepLevelVersion++;
+            _uploadedStepLevelVersion = _stepLevelVersion;
+        }
 
         protected float[] cachedMaxValues;
         protected float[] cachedMinValues;
@@ -466,6 +528,13 @@ namespace Heiflow.Visualization.Renderable.Grid
             if (!_ContinuousColor)
             {
                 _SchemeVersion++;
+                // The ramp, the class count and the method all decide where the edges of the classes
+                // fall, so breaks kept from an earlier step no longer fit the colours they would be
+                // mapped onto and have to be found again.
+                if (_DataColor != null)
+                {
+                    _DataColor.ReleaseBreaks();
+                }
             }
         }
 
@@ -560,6 +629,10 @@ namespace Heiflow.Visualization.Renderable.Grid
             set
             {
                 _DataSource = value;
+                // What was read out of the cube before is not a step of the one that is being put
+                // in its place, even under the same number.
+                _ReadStepValues = null;
+                _ReadStepIndex = -1;
                 if (DataSourceChanged != null)
                 {
                     DataSourceChanged(this, EventArgs.Empty);
@@ -685,13 +758,18 @@ namespace Heiflow.Visualization.Renderable.Grid
 
         /// <summary>
         /// Draws the mesh with the colours taken from the step textures. Returns false whenever that
-        /// cannot be done, a card without shaders, no cache to fill the textures from, or a grid that
-        /// never said where its vertices go, and the layer then draws the mesh as it always did.
+        /// cannot be done, a card without shaders, no classes to fill the textures from, or a grid
+        /// that never said where its vertices go, and the layer then draws the mesh as it always did.
         /// </summary>
         public bool DrawShaded(Device device, ModelMeshBuffer mesh, PrimitiveType primitiveType,
             Matrix worldViewProjection, Vector3 sunDirection, float sunLight, float[] ambient)
         {
-            if (!AllowShadedColors || mesh == null || _VertexTexel == null || cachedLevel == null
+            // The classes come either out of the cache, one byte for every vertex of every step, or
+            // out of the step on screen alone, which is all a layer that never filled the cache
+            // has. Without either of them there is nothing to put in the textures.
+            var stride = cachedLevel != null ? CachedLevelStride : _stepLevelStride;
+
+            if (!AllowShadedColors || mesh == null || _VertexTexel == null || stride <= 0
                 || _DataTextureWidth <= 0 || _DataTextureHeight <= 0)
             {
                 _ShadingActive = false;
@@ -707,16 +785,27 @@ namespace Heiflow.Visualization.Renderable.Grid
                 return false;
             }
 
-            var vertexCount = _VertexTexel.Length;
-
             // The step the animation came from and the one it is at. They are filled when the step
             // moves on and not on every frame, which is the whole point of the two textures.
-            if (_shadedStep != _CurrentTimeStep)
+            if (cachedLevel != null)
             {
-                var before = _CurrentTimeStep > 0 ? _CurrentTimeStep - 1 : _CurrentTimeStep;
-                _shader.UploadStep(device, cachedLevel, before, vertexCount, true);
-                _shader.UploadStep(device, cachedLevel, _CurrentTimeStep, vertexCount, false);
-                _shadedStep = _CurrentTimeStep;
+                if (_shadedStep != _CurrentTimeStep)
+                {
+                    var before = _CurrentTimeStep > 0 ? _CurrentTimeStep - 1 : _CurrentTimeStep;
+                    _shader.UploadStep(device, cachedLevel, before, stride, stride, true);
+                    _shader.UploadStep(device, cachedLevel, _CurrentTimeStep, stride, stride, false);
+                    _shadedStep = _CurrentTimeStep;
+                }
+            }
+            else if (_stepLevels != null && _uploadedStepLevelVersion != _stepLevelVersion)
+            {
+                // Only the step on screen is known, so both textures are given its classes and the
+                // mix between them has nothing left to blend. What moved on here is the classes and
+                // not the step, a layer that reclassifies on every frame handing new ones over
+                // without the step itself having changed.
+                _shader.UploadStep(device, _stepLevels, 0, stride, stride, true);
+                _shader.UploadStep(device, _stepLevels, 0, stride, stride, false);
+                _uploadedStepLevelVersion = _stepLevelVersion;
             }
 
             // The ramp only moves when the scheme behind it does.
@@ -997,9 +1086,30 @@ namespace Heiflow.Visualization.Renderable.Grid
             }
         }
 
+        /// <summary>
+        /// The values of the step that was read last, and the step and the variable they were read
+        /// for. Taking a step out of the cube splits the arguments and copies the whole of it into
+        /// an array as long as the grid, and the same step was then read again for the statistics,
+        /// for the value under the pointer and for whatever else asked for it within one frame.
+        /// </summary>
+        private float[] _ReadStepValues;
+        private int _ReadStepIndex = -1;
+        private int _ReadStepVariable = -1;
+
         public virtual float[] GetGridValues(DataCube<float> array, int timestep)
         {
-            float[] vec = DataSource.GetVector(VarIndex, timestep.ToString(), ":");
+            if (_ReadStepValues != null && _ReadStepIndex == timestep && _ReadStepVariable == VarIndex)
+            {
+                return _ReadStepValues;
+            }
+
+            var source = array != null ? array : DataSource;
+            var vec = source == null ? null : source.GetVector(VarIndex, timestep.ToString(), ":");
+
+            _ReadStepValues = vec;
+            _ReadStepIndex = vec == null ? -1 : timestep;
+            _ReadStepVariable = VarIndex;
+
             return vec;
         }
 

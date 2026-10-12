@@ -256,6 +256,7 @@ namespace Heiflow.Visualization.Renderable.Grid
             MinCellValue = cachedMinValues[0];
             StatisticsInfo = cachedStatisticsInfo[0];
             cachedLevel = level;
+            CachedLevelStride = vertexCount;
             // Marked here as well as by the caller that draws a step, the Create Cache button filling
             // it on its own and then handing the playback over.
             MarkCachedColorFresh();

@@ -97,7 +97,11 @@ namespace Heiflow.Visualization.Applications
             get;
             set;
         }
-        public DispatcherTimer Timer
+        /// <summary>
+        /// Lets the scene draw while it is set. The render loop runs whenever the dispatcher runs out
+        /// of work, so this is what stops it rather than a timer that is stopped.
+        /// </summary>
+        public bool IsRenderingEnabled
         {
             get;
             set;

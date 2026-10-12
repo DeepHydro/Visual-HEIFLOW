@@ -112,9 +112,11 @@ namespace Heiflow.Visualization.Renderable.Grid
         }
 
         /// <summary>
-        /// Result of the last classification together with the signature of the values it was made for.
+        /// Result of the last classification together with the signature of the values it was made
+        /// for. What is kept is the breaks and not the classes, so that a step mapped onto the same
+        /// breaks costs a walk over its values and nothing more.
         /// </summary>
-        private int[] _CachedLevels;
+        private List<float> _CachedBreaks;
         private int _CachedNumBreaks;
         private int _CachedColorCount;
         private float _CachedMin;
@@ -122,57 +124,102 @@ namespace Heiflow.Visualization.Renderable.Grid
         private double _CachedSum;
         private ClassificationMethod _CachedMethod = ClassificationMethod.Natural_Breaks_Jenks;
 
-        public  int[] GetLevels(float[] array, int numbreaks, ClassificationMethod clasmethod)
+        /// <summary>
+        /// Breaks the classes are mapped onto from here on, see FixBreaks. Null while the classes
+        /// follow the values they were taken from, which is what a single frame wants.
+        /// </summary>
+        private List<float> _FixedBreaks;
+
+        /// <summary>
+        /// True while a run of steps is drawn over one set of breaks, see FixBreaks.
+        /// </summary>
+        public bool HasFixedBreaks
+        {
+            get { return _FixedBreaks != null; }
+        }
+
+        /// <summary>
+        /// Keeps the breaks the values of this array are classified by, so that every step of an
+        /// animation afterwards is only mapped onto them. Two things come out of it. Classifying is
+        /// the expensive part of colouring a layer, a sort over every value and, for natural breaks,
+        /// a pass over every pair of them, and paying for that on every frame of a run is what the
+        /// playback spent its time on. And a class then covers the same range of values on every
+        /// step, where classes that move with the step they were taken from make a colour mean
+        /// something else on each of them.
+        /// </summary>
+        public void FixBreaks(float[] array, int numbreaks, ClassificationMethod clasmethod)
+        {
+            _FixedBreaks = array == null ? null : ComputeBreaks(array, numbreaks, clasmethod);
+        }
+
+        /// <summary>
+        /// Lets the classes follow the values again, which is what a single frame wants and what a
+        /// change of the ramp, of the class count or of the method has to ask for.
+        /// </summary>
+        public void ReleaseBreaks()
+        {
+            _FixedBreaks = null;
+        }
+
+        /// <summary>
+        /// Maps the values onto the breaks that were fixed before and writes the classes into an
+        /// array the caller keeps, so that a step costs no allocation either. False while no breaks
+        /// are fixed, and the caller then asks for the levels the way it always did.
+        /// </summary>
+        public bool ClassifyInto(float[] array, int[] destination)
+        {
+            if (_FixedBreaks == null || array == null || destination == null
+                || destination.Length != array.Length)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < array.Length; i++)
+                destination[i] = FindLevel(array[i], _FixedBreaks);
+
+            return true;
+        }
+
+        public int[] GetLevels(float[] array, int numbreaks, ClassificationMethod clasmethod)
+        {
+            var breaks = _FixedBreaks ?? ComputeBreaks(array, numbreaks, clasmethod);
+            var levels = new int[array.Length];
+            for (int i = 0; i < array.Length; i++)
+            {
+                levels[i] = FindLevel(array[i], breaks);
+            }
+            return levels;
+        }
+
+        /// <summary>
+        /// The edges of the classes, found from the values once and then only mapped onto. The
+        /// classification costs far more than the loop that colours the vertices afterwards, and
+        /// the render asks for the levels again whenever only the ramp, the opacity or the number
+        /// of classes changed, so the breaks are kept under the signature of the values they came
+        /// out of.
+        /// </summary>
+        private List<float> ComputeBreaks(float[] array, int numbreaks, ClassificationMethod clasmethod)
         {
             float min;
             float max;
             double sum;
             MinMaxSum(array, out min, out max, out sum);
 
-            // The classification costs far more than the loop that colours the vertices afterwards, and
-            // the render asks for the levels again whenever only the ramp, the opacity or the number of
-            // classes changed. The values are the same in that case, so the levels are reused.
-            if (_CachedLevels != null && _CachedLevels.Length == array.Length && _CachedNumBreaks == numbreaks
+            if (_CachedBreaks != null && _CachedNumBreaks == numbreaks
                 && _CachedColorCount == mColorRamp.Colors.Length && _CachedMethod == clasmethod
                 && _CachedMin == min && _CachedMax == max && _CachedSum == sum)
             {
-                return _CachedLevels;
+                return _CachedBreaks;
             }
 
-            var levels = new int[array.Length];
-            if (clasmethod == ClassificationMethod.Natural_Breaks_Jenks)
-            {
-                // The classification hands back one upper edge per break and the classes are the
-                // gaps between them, so a break more than the classes asked for is what makes the
-                // count of classes come out as the count that was picked.
-                var breaks = JenksFisherFloat.CreateJenksFisherBreaksArray(array, numbreaks + 1);
-                for (int i = 0; i < array.Length; i++)
-                {
-                    levels[i] = FindLevel(array[i], breaks);
-                }
-            }
-            else if (clasmethod == ClassificationMethod.Equal_Inteval)
-            {
-                if (min == max)
-                    max = min + 1;
-                // The classes are counted the way the other method counts them, from the count the
-                // user picked, and only then clamped to what the ramp can show. Dividing by the
-                // length of the ramp instead meant the count had no effect on this method.
-                var classes = numbreaks > 0 ? numbreaks : mColorRamp.Colors.Length;
-                if (classes > mColorRamp.Colors.Length)
-                    classes = mColorRamp.Colors.Length;
-                var scale = classes / (max - min);
-                for (int i = 0; i < array.Length; i++)
-                {
-                    levels[i] = (int)((array[i] - min) * scale);
-                    if (levels[i] < 0)
-                        levels[i] = 0;
-                    else if (levels[i] >= classes)
-                        levels[i] = classes - 1;
-                }
-            }
+            // The classification hands back one upper edge per break and the classes are the gaps
+            // between them, so a break more than the classes asked for is what makes the count of
+            // classes come out as the count that was picked.
+            var breaks = clasmethod == ClassificationMethod.Natural_Breaks_Jenks
+                ? JenksFisherFloat.CreateJenksFisherBreaksArray(array, numbreaks + 1)
+                : EqualIntervalBreaks(min, max, numbreaks);
 
-            _CachedLevels = levels;
+            _CachedBreaks = breaks;
             _CachedNumBreaks = numbreaks;
             _CachedColorCount = mColorRamp.Colors.Length;
             _CachedMin = min;
@@ -180,7 +227,31 @@ namespace Heiflow.Visualization.Renderable.Grid
             _CachedSum = sum;
             _CachedMethod = clasmethod;
 
-            return levels;
+            return breaks;
+        }
+
+        /// <summary>
+        /// Edges of classes of one width over the range the values cover. The classes are counted
+        /// the way the other method counts them, from the count the user picked, and only then
+        /// clamped to what the ramp can show. Dividing by the length of the ramp instead meant the
+        /// count had no effect on this method.
+        /// </summary>
+        private List<float> EqualIntervalBreaks(float min, float max, int numbreaks)
+        {
+            var classes = numbreaks > 0 ? numbreaks : mColorRamp.Colors.Length;
+            if (classes > mColorRamp.Colors.Length)
+                classes = mColorRamp.Colors.Length;
+            if (classes < 1)
+                classes = 1;
+            if (min == max)
+                max = min + 1;
+
+            var width = (max - min) / classes;
+            var breaks = new List<float>(classes + 1);
+            for (int i = 0; i <= classes; i++)
+                breaks.Add(min + i * width);
+
+            return breaks;
         }
 
         /// <summary>

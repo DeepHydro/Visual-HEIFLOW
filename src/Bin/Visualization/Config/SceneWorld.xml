@@ -29,7 +29,7 @@
   <LayerManagerFontStyle>Regular</LayerManagerFontStyle>
   <LayerManagerWidth>200</LayerManagerWidth>
   <AntiAliasedText>false</AntiAliasedText>
-  <ThrottleFpsHz>50</ThrottleFpsHz>
+  <ThrottleFpsHz>0</ThrottleFpsHz>
   <VSync>true</VSync>
   <ModisIconSize>60</ModisIconSize>
   <ShowFpsGraph>true</ShowFpsGraph>

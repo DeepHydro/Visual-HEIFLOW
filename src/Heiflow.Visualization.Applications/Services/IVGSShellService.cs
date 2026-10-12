@@ -3,13 +3,16 @@ using Heiflow.Presentation.Services;
 using HUST.WREIS.Dot3D;
 using HUST.WREIS.Dot3D.Display;
 using System.Collections.Generic;
-using System.Windows.Threading;
 
 namespace Heiflow.Visualization.Applications
 {
     public interface IVGSShellService : IShellService
     {
-        DispatcherTimer Timer
+        /// <summary>
+        /// Lets the scene draw while it is set. The render loop runs whenever the dispatcher runs out
+        /// of work, so this is what stops it rather than a timer that is stopped.
+        /// </summary>
+        bool IsRenderingEnabled
         {
             get;
             set;
