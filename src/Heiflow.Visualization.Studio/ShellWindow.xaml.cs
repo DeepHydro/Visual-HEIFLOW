@@ -38,7 +38,7 @@ namespace Heiflow.Visualization.Studio
 
         private void ShellWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            viewModel.Value.ShellService.Timer.Stop();
+            viewModel.Value.ShellService.IsRenderingEnabled = false;
         }
 
         private void ShellWindow_Loaded(object sender, RoutedEventArgs e)

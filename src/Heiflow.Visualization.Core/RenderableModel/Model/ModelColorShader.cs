@@ -119,14 +119,24 @@ namespace Heiflow.Visualization.Renderable.Grid
         /// decides where in the texture a vertex ends up, which is not the order the vertices come in
         /// for a grid that is laid out in rows and columns.
         /// </summary>
-        public void UploadStep(Device device, byte[] levels, int step, int vertexCount, bool before)
+        /// <param name="levels">Classes or shades, one byte for every vertex of every step.</param>
+        /// <param name="step">Which step of them to take.</param>
+        /// <param name="stride">How many vertices one step takes. It is the count of active vertices
+        /// and not the length of the vertex array, which is twice as long while the walls are drawn,
+        /// and taking that for the stride walked off the end of the levels and left the texture
+        /// with the classes of the step that was uploaded before.</param>
+        /// <param name="count">How many vertices of the step are spread over the texture.</param>
+        public void UploadStep(Device device, byte[] levels, int step, int stride, int count, bool before)
         {
             var target = before ? _stepBefore : _stepNow;
             if (_broken || target == null || levels == null || _texels == null)
                 return;
 
-            var offset = step * vertexCount;
-            if (offset < 0 || offset + vertexCount > levels.Length)
+            if (stride <= 0 || count <= 0)
+                return;
+
+            var offset = step * stride;
+            if (offset < 0 || offset + count > levels.Length)
                 return;
 
             try
@@ -134,7 +144,7 @@ namespace Heiflow.Visualization.Renderable.Grid
                 // The texels of vertices that are not active are left at the bottom of the ramp
                 // rather than keeping the class of whatever step was uploaded before.
                 Array.Clear(_texels, 0, _texels.Length);
-                for (int i = 0; i < vertexCount; i++)
+                for (int i = 0; i < count; i++)
                 {
                     var at = _texel[i];
                     if (at >= 0 && at < _texels.Length)
