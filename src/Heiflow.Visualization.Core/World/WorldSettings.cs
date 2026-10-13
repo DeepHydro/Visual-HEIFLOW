@@ -1115,7 +1115,11 @@ namespace HUST.WREIS.Dot3D
         #region 3D
 
         private Format textureFormat = Format.Dxt3;
-        private bool m_UseBelowNormalPriorityUpdateThread = false;
+        // The update thread builds tile textures and vertex buffers, and every device call it makes
+        // is marshalled to the render thread, which runs on the WPF dispatcher. At Highest priority
+        // the update thread preempted the render thread while waiting for exactly that thread, so
+        // the globe stalled for seconds. BelowNormal keeps it out of the way of the rendering.
+        private bool m_UseBelowNormalPriorityUpdateThread = true;
         private bool m_AlwaysRenderWindow = false;
 
         private bool convertDownloadedImagesToDds = true;

@@ -9,12 +9,11 @@ using Microsoft.DirectX.Direct3D;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Diagnostics;
 using System.Waf.Applications;
 using System.Windows.Threading;
 
@@ -32,15 +31,10 @@ namespace Heiflow.Visualization.Applications
         private LayerService _LayerService;
         private PluginCompiler _PluginCompiler;
         private HUST.WREIS.Dot3D.SceneWindow _VirtualGlobe;
+        private DispatcherTimer _Timer3d;
+        private bool _RenderLoopRunning = false;
         private IActiveDataService _ActiveDataService;
-
-        /// <summary>
-        /// The frame is asked for at ApplicationIdle, which is below Input, so a drag of the mouse is
-        /// always let through and drawn on the next frame instead of waiting behind the render.
-        /// </summary>
-        private Dispatcher _Dispatcher;
-        private readonly Stopwatch _FrameClock = new Stopwatch();
-        private long _LastFrameMs;
+        // private System.Windows.Forms.Timer _Timer3d;
 
         [ImportingConstructor]
         public VirtualGlobeController(VirtualGlobeViewModel vgvm, IVGSShellService shell, LayerService ls, 
@@ -59,11 +53,13 @@ namespace Heiflow.Visualization.Applications
 
         public void Initialize()
         {
-            // The scene is drawn on a frame that is asked for whenever the dispatcher has nothing more
-            // pressing to do, rather than on a timer that queues a frame behind layout, binding and
-            // animation. The priority is below Input, so dragging the globe is always let through.
-            _Dispatcher = Dispatcher.CurrentDispatcher;
+            _Timer3d = new DispatcherTimer();
+            _Timer3d.Interval = new TimeSpan(0, 0, 0, 0, 15);
+            _Timer3d.Tick += Timer3d_Tick;
             _VirtualGlobeViewModel.ViewLoaded += VirtualGlobeViewModel_ViewLoaded;
+            // The shell service no longer carries a timer, it carries this flag instead, and it
+            // turns it off when the shell closes, so the loop has to honour it.
+            _VGSShellService.IsRenderingEnabled = false;
             _ShellViewModel.Value.ViewCommand = new DelegateCommand(OnViewCommand);
             _ShellViewModel.Value.MeasureCommand = new DelegateCommand(OnMeasureCommand);
             _ShellViewModel.Value.ScreenShotCommand = new DelegateCommand(OnScreenShotCommand);
@@ -76,8 +72,10 @@ namespace Heiflow.Visualization.Applications
 
         public void ShutDown()
         {
-            // The frame chain checks this and stops asking for the next one.
+            _RenderLoopRunning = false;
             _VGSShellService.IsRenderingEnabled = false;
+            System.Windows.Media.CompositionTarget.Rendering -= OnWpfRendering;
+            _Timer3d.Stop();
         }
 
         private void VirtualGlobeViewModel_ViewLoaded(object sender, EventArgs e)
@@ -93,10 +91,15 @@ namespace Heiflow.Visualization.Applications
             _VirtualGlobe.GotoLatLonAltitude(World.Settings.DefalutLatitude, World.Settings.DefalutLongitude, 19000000.0f);
             ConfigurationManager.DrawArgs = _VirtualGlobe.DrawArgs;
 
+            // see class LayerProfiler in World.cs, remove when the profiling is done
+            if (HUST.WREIS.Dot3D.LayerProfiler.On)
+                HookUiProfiling();
+
+            _RenderLoopRunning = true;
             _VGSShellService.IsRenderingEnabled = true;
-            _FrameClock.Restart();
-            _LastFrameMs = 0;
-            QueueFrame();
+            System.Windows.Media.CompositionTarget.Rendering += OnWpfRendering;
+            // Heartbeat for when WPF stops composing, see OnWpfRendering.
+            _Timer3d.Start();
             InitializePluginCompiler();
 
             _VirtualGlobe.CurrentWorld.DefaultLayerList.FindChild("SkyGradient").IsOn = World.Settings.EnableAtmosphere;
@@ -107,58 +110,151 @@ namespace Heiflow.Visualization.Applications
             _ShellViewModel.Value.WorldSettings = World.Settings;
         }
 
-        /// <summary>
-        /// Asks for the next frame. It is queued below Input so that a drag, a layout and a binding all
-        /// run ahead of the render, and the chain ends by itself once rendering is switched off.
-        /// </summary>
-        private void QueueFrame()
-        {
-            if (!_VGSShellService.IsRenderingEnabled || _VirtualGlobe == null || _VirtualGlobe.m_Device3d == null)
-                return;
+        /// <summary>see class LayerProfiler in World.cs, remove when the profiling is done</summary>
+        static long lastFrameStartTicks = 0;
 
-            _Dispatcher.BeginInvoke(new Action(RenderFrame), DispatcherPriority.ApplicationIdle);
+        /// <summary>How far apart two CompositionTarget.Rendering ticks are, see RenderFrame.</summary>
+        static long lastWpfFrameTicks = 0;
+
+        /// <summary>see class LayerProfiler in World.cs, remove when the profiling is done</summary>
+        static long wpfFrameIntervalTicks = 0;
+
+        /// <summary>see class LayerProfiler in World.cs, remove when the profiling is done</summary>
+        static long uiOpStartTicks = 0;
+
+        /// <summary>see class LayerProfiler in World.cs, remove when the profiling is done</summary>
+        static int uiOpPriority = -1;
+
+        /// <summary>see class LayerProfiler in World.cs, remove when the profiling is done</summary>
+        static long lastCompositionTicks = 0;
+
+        /// <summary>
+        /// see class LayerProfiler in World.cs, remove when the profiling is done.
+        /// The render loop is a DispatcherTimer at Normal priority, and Normal comes after DataBind,
+        /// Render, Loaded and Input. If the shell keeps the dispatcher busy with any of those the
+        /// tick is late and the globe slows down, so every dispatcher operation is timed and filed
+        /// under its priority: 5 Input, 6 Loaded, 7 Render, 8 DataBind, 9 Normal (our tick).
+        /// </summary>
+        void HookUiProfiling()
+        {
+            Dispatcher dispatcher = Dispatcher.CurrentDispatcher;
+            dispatcher.Hooks.OperationStarted += delegate (object s, DispatcherHookEventArgs e)
+            {
+                uiOpPriority = (int)e.Operation.Priority;
+                uiOpStartTicks = Stopwatch.GetTimestamp();
+            };
+            dispatcher.Hooks.OperationCompleted += delegate (object s, DispatcherHookEventArgs e)
+            {
+                if (uiOpStartTicks == 0)
+                    return;
+                HUST.WREIS.Dot3D.LayerProfiler.RecordRender("UI dispatcher priority " + uiOpPriority,
+                    Stopwatch.GetTimestamp() - uiOpStartTicks);
+                uiOpStartTicks = 0;
+            };
+            dispatcher.Hooks.OperationAborted += delegate (object s, DispatcherHookEventArgs e)
+            {
+                uiOpStartTicks = 0;
+            };
+
+            // How often does WPF compose a frame of its own? One line per WPF frame, so ms/call is
+            // the WPF frame interval: ~16 ms means WPF is animating at 60 fps on this thread.
+            System.Windows.Media.CompositionTarget.Rendering += delegate
+            {
+                long now = Stopwatch.GetTimestamp();
+                if (lastCompositionTicks != 0)
+                    HUST.WREIS.Dot3D.LayerProfiler.RecordRender("WPF: ms between composition frames",
+                        now - lastCompositionTicks);
+                lastCompositionTicks = now;
+            };
         }
 
         /// <summary>
-        /// Draws one frame and asks for the next. SceneWindow.OnApplicationIdle is not used on purpose:
-        /// it opens with Parent.Focused, and the control has no WinForms parent under WindowsFormsHost,
-        /// so every frame threw before a thing was drawn and the exception was swallowed by its catch.
+        /// This is the real render loop. A DispatcherTimer at 15 ms managed 9 frames a second and
+        /// ComponentDispatcher.ThreadIdle managed 11, while a frame costs 4 to 30 ms: neither is
+        /// reliably woken while WPF keeps composing. CompositionTarget.Rendering is WPF's own frame
+        /// clock and does fire every time, ~55 Hz here, so that is what drives rendering now, with
+        /// the timer kept as a heartbeat for when WPF stops composing. ThrottleFpsHz caps the rate
+        /// and is checked here, so several drivers can call this without rendering twice.
         /// </summary>
+        private void OnWpfRendering(object sender, EventArgs e)
+        {
+            long now = Stopwatch.GetTimestamp();
+            if (lastWpfFrameTicks != 0)
+                wpfFrameIntervalTicks = now - lastWpfFrameTicks;
+            lastWpfFrameTicks = now;
+
+            RenderFrame();
+        }
+
+        private void Timer3d_Tick(object sender, EventArgs e)
+        {
+            RenderFrame();
+        }
+
         private void RenderFrame()
         {
-            if (!_VGSShellService.IsRenderingEnabled || _VirtualGlobe == null || _VirtualGlobe.m_Device3d == null)
+            if (!_RenderLoopRunning || !_VGSShellService.IsRenderingEnabled)
                 return;
 
-            // ThrottleFpsHz is 50 by default. Hand the dispatcher a millisecond back rather than spin,
-            // so a click or a key that came in while waiting is not held up.
-            int frameMs = World.Settings.ThrottleFpsHz > 0 ? 1000 / World.Settings.ThrottleFpsHz : 0;
-            long now = _FrameClock.ElapsedMilliseconds;
-            if (frameMs > 0 && now - _LastFrameMs < frameMs)
+            int fps = World.Settings.ThrottleFpsHz;
+            long now = Stopwatch.GetTimestamp();
+            if (fps > 0 && lastFrameStartTicks != 0)
             {
-                Thread.Sleep(1);
-                QueueFrame();
-                return;
+                // CompositionTarget.Rendering paces itself to the display, ~18 ms here, and
+                // waiting for the whole target on top of that drops every other frame: a 20 ms
+                // target with an 18 ms tick renders every 36 ms, 27 fps instead of 50. So a
+                // frame is only held back while the next tick would still arrive early.
+                long target = Stopwatch.Frequency / fps;
+                if (now - lastFrameStartTicks + wpfFrameIntervalTicks / 2 < target)
+                    return;
             }
-            _LastFrameMs = now;
 
             try
             {
+                if (_VirtualGlobe.m_Device3d == null)
+                {
+                    //  e.Graphics.Clear(SystemColors.ControlColor);
+                    return;
+                }
+
+                // see class LayerProfiler in World.cs, remove the profiling when the question is answered.
+                bool profiled = HUST.WREIS.Dot3D.LayerProfiler.On;
+                long frameStart = now;
+                if (lastFrameStartTicks != 0 && profiled)
+                    HUST.WREIS.Dot3D.LayerProfiler.RecordRender("frame: wall clock since last frame",
+                        frameStart - lastFrameStartTicks);
+                lastFrameStartTicks = frameStart;
+
+                // to prevent screen garbage when resizing
                 _VirtualGlobe.Render();
+
+                long presentStart = profiled ? Stopwatch.GetTimestamp() : 0;
                 _VirtualGlobe.m_Device3d.Present();
+                if (profiled)
+                    HUST.WREIS.Dot3D.LayerProfiler.RecordRender("device.Present (after Render)",
+                        Stopwatch.GetTimestamp() - presentStart);
+
+                // Everything measured above adds up to a few ms, yet a frame takes far longer. The
+                // rest is other work the UI thread does between frames, so time the frame itself and
+                // attribute whatever the dispatcher runs, see HookUiProfiling.
+                if (profiled)
+                    HUST.WREIS.Dot3D.LayerProfiler.RecordRender("frame: render frame total",
+                        Stopwatch.GetTimestamp() - frameStart);
             }
             catch (Exception)
             {
                 try
                 {
                     _VirtualGlobe.AttemptRecovery();
+                    // Our surface was lost, force re-render
+                    _VirtualGlobe.Render();
+                    _VirtualGlobe.m_Device3d.Present();
                 }
                 catch (Exception)
                 {
                     // Ignore a 2nd failure
                 }
             }
-
-            QueueFrame();
         }
 
         private void LoadDefaultLayers()

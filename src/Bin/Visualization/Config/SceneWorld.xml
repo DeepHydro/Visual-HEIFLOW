@@ -29,7 +29,7 @@
   <LayerManagerFontStyle>Regular</LayerManagerFontStyle>
   <LayerManagerWidth>200</LayerManagerWidth>
   <AntiAliasedText>false</AntiAliasedText>
-  <ThrottleFpsHz>0</ThrottleFpsHz>
+  <ThrottleFpsHz>50</ThrottleFpsHz>
   <VSync>true</VSync>
   <ModisIconSize>60</ModisIconSize>
   <ShowFpsGraph>true</ShowFpsGraph>
@@ -107,7 +107,7 @@
   <SunElevation>0</SunElevation>
   <SunHeading>2.2149358277107867</SunHeading>
   <SunDistance>150000000000</SunDistance>
-  <UseBelowNormalPriorityUpdateThread>false</UseBelowNormalPriorityUpdateThread>
+  <UseBelowNormalPriorityUpdateThread>true</UseBelowNormalPriorityUpdateThread>
   <FogNearFactor>2</FogNearFactor>
   <FogFarFactor>1</FogFarFactor>
   <FogColor>-3092272</FogColor>

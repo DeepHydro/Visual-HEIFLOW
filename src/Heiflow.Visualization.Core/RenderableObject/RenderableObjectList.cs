@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -205,7 +206,15 @@ namespace HUST.WREIS.Dot3D.Renderable
 
                 if (ro.IsOn)
                 {
-                    ro.Update(drawArgs);
+                    // see class LayerProfiler in World.cs, remove both when the profiling is done
+                    if (HUST.WREIS.Dot3D.LayerProfiler.On)
+                    {
+                        long updateStart = Stopwatch.GetTimestamp();
+                        ro.Update(drawArgs);
+                        HUST.WREIS.Dot3D.LayerProfiler.RecordUpdate(ro.Name, Stopwatch.GetTimestamp() - updateStart);
+                    }
+                    else
+                        ro.Update(drawArgs);
                 }
             }
         }

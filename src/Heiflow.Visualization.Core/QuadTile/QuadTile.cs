@@ -5,6 +5,7 @@ using Microsoft.DirectX.Direct3D;
 using HUST.WREIS.Dot3D.Terrain;
 using HUST.WREIS.Dot3D.Configuration;
 using System;
+using System.Diagnostics;
 using System.IO;
 using HUST.WREIS.Dot3D.Net;
 using Utility;
@@ -258,6 +259,111 @@ namespace HUST.WREIS.Dot3D.Renderable
 		public bool WaitingForDownload = false;
 		public bool IsDownloadingImage = false;
 
+        /// <summary>
+        /// How many tiles may be built during one update sweep. Every tile costs a jpeg read, a
+        /// texture upload and a vertex buffer, all of which go to the device from the update thread
+        /// and hold up the render thread while they are being marshalled. Without a budget one sweep
+        /// built 60+ tiles at once and the globe stopped for many seconds.
+        /// 0 or less switches the limit off.
+        /// </summary>
+        public static int MaxTileInitsPerSweep = 8;
+
+        static int tileInitsThisSweep = 0;
+
+        /// <summary>Call once per update sweep, before the tiles are visited.</summary>
+        public static void BeginUpdateSweep()
+        {
+            tileInitsThisSweep = 0;
+        }
+
+        /// <summary>
+        /// How many tile textures may be built during one rendered frame. Building one is a jpeg
+        /// decode plus a DXT compression plus an upload, 8 to 25 ms, and it is done on the render
+        /// thread, so it comes straight off the frame time. Two keeps a frame around 30 ms while
+        /// still filling a screen in a few seconds. 0 or less switches the limit off.
+        /// </summary>
+        public static int MaxTextureCreationsPerFrame = 2;
+
+        /// <summary>
+        /// How much of one frame may go into tile textures, in milliseconds. Counting textures is
+        /// not enough because one already costs 15 to 25 ms, so two of them make a 40 ms frame no
+        /// matter how fast the rest is. 12 builds one texture per frame and keeps the frame short;
+        /// the tiles keep coming every frame, only spread over more of them. 0 or less switches it
+        /// off, then MaxTextureCreationsPerFrame is the only limit.
+        /// </summary>
+        public static float MaxTextureMillisecondsPerFrame = 12;
+
+        static int textureCreationsThisFrame = 0;
+        static long textureBudgetStartTicks = 0;
+
+        /// <summary>Call once per rendered frame, before the tiles are drawn.</summary>
+        public static void BeginRenderFrame()
+        {
+            textureCreationsThisFrame = 0;
+            textureBudgetStartTicks = 0;
+        }
+
+        /// <summary>
+        /// The image is on disk but its texture has not been built yet. Set by the update thread,
+        /// which is not allowed to touch the device, and picked up by Render.
+        /// </summary>
+        bool m_TexturePending = false;
+
+        /// <summary>
+        /// Builds the textures of this tile. Only ever called from the render thread, see
+        /// MaxTextureCreationsPerFrame.
+        /// </summary>
+        void CreatePendingTextures()
+        {
+            m_TexturePending = false;
+
+            if (textures == null || textures.Length == 0)
+                return;
+
+            if (MaxTextureCreationsPerFrame > 0 && textureCreationsThisFrame >= MaxTextureCreationsPerFrame)
+            {
+                // Out of budget for this frame, try again in the next one.
+                m_TexturePending = true;
+                return;
+            }
+
+            long budgetNow = Stopwatch.GetTimestamp();
+            if (textureCreationsThisFrame > 0 && MaxTextureMillisecondsPerFrame > 0 &&
+                1000.0f * (budgetNow - textureBudgetStartTicks) / Stopwatch.Frequency > MaxTextureMillisecondsPerFrame)
+            {
+                // This frame has already spent its budget on textures, leave the rest for the
+                // next one, see MaxTextureMillisecondsPerFrame.
+                m_TexturePending = true;
+                return;
+            }
+
+            if (textureCreationsThisFrame == 0)
+                textureBudgetStartTicks = budgetNow;
+
+            textureCreationsThisFrame++;
+
+            // Read into a local first, Dispose sets the slots to null too.
+            int storeCount = textures.Length;
+            for (int i = 0; i < storeCount; i++)
+            {
+                Texture newTexture = QuadTileSet.ImageStores[i].LoadFile(this);
+
+                if (textures == null)
+                {
+                    // The tile is already gone, there is nothing to put the image in and it has
+                    // to be released here or it stays on the GPU for the rest of the run.
+                    if (newTexture != null && !newTexture.Disposed)
+                        newTexture.Dispose();
+                    return;
+                }
+
+                Texture oldTexture = textures[i];
+                if (oldTexture != null && !oldTexture.Disposed)
+                    oldTexture.Dispose();
+                textures[i] = newTexture;
+            }
+        }
+
 		public virtual void Initialize()
 		{
 			if (m_isResetingCache)
@@ -294,31 +400,23 @@ namespace HUST.WREIS.Dot3D.Renderable
                     int storeCount = textures.Length;
                     for (int i = 0; i < storeCount; i++)
                     {
-                        Texture newTexture = QuadTileSet.ImageStores[i].LoadFile(this);
-                        if (newTexture == null)
+                        // This runs on the update thread and must not touch the device: every
+                        // device call from here is serviced by the thread that owns the device,
+                        // which is the thread the render loop runs on, and while tiles were
+                        // arriving that blocked rendering for hundreds of ms at a time. So this
+                        // only asks whether the image is there - and queues a download when it is
+                        // not - and leaves the texture itself to CreatePendingTextures, which
+                        // Render calls on the render thread.
+                        if (QuadTileSet.ImageStores[i].IsImageAvailable(this))
+                            m_TexturePending = true;
+                        else
                         {
                             // At least one texture missing, wait for download
                             WaitingForDownload = false;
                         }
 
                         if (textures == null)
-                        {
-                            // The tile is already gone, there is nothing to put the image in and it
-                            // has to be released here or it stays on the GPU for the rest of the run.
-                            if (newTexture != null && !newTexture.Disposed)
-                            {
-                                newTexture.Dispose();
-                            }
                             return;
-                        }
-
-                        // Read into a local first, Dispose sets the slots to null too.
-                        Texture oldTexture = textures[i];
-                        if (oldTexture != null && !oldTexture.Disposed)
-                        {
-                            oldTexture.Dispose();
-                        }
-                        textures[i] = newTexture;
                     }
                 }
                 if (WaitingForDownload)
@@ -354,6 +452,10 @@ namespace HUST.WREIS.Dot3D.Renderable
 			if (m_isResetingCache)
 				return;
 
+			// see class LayerProfiler in World.cs, remove both when the profiling is done
+			if (HUST.WREIS.Dot3D.LayerProfiler.On)
+				HUST.WREIS.Dot3D.LayerProfiler.RecordUpdate("tile: Update calls", 0);
+
 				double tileSize = North - South;
 
 				if (!isInitialized)
@@ -363,6 +465,12 @@ namespace HUST.WREIS.Dot3D.Renderable
     //                        DrawArgs.Camera.Latitude, DrawArgs.Camera.Longitude) < Angle.FromDegrees(QuadTileSet.TileDrawSpread * tileSize * 1.25f)
     //&& DrawArgs.Camera.ViewFrustum.Intersects(BoundingBox)
     //                    )
+                    // Only a few tiles per sweep, the rest wait for the next one, so that the
+                    // render thread is not blocked by a burst of texture uploads. See MaxTileInitsPerSweep.
+                    if (MaxTileInitsPerSweep > 0 && tileInitsThisSweep >= MaxTileInitsPerSweep)
+                        return;
+
+                    tileInitsThisSweep++;
 						Initialize();
 				}
 
@@ -460,14 +568,29 @@ namespace HUST.WREIS.Dot3D.Renderable
 		/// </summary>
 		public virtual void CreateTileMesh()
 		{
+			// see class LayerProfiler in World.cs, remove both when the profiling is done.
+			// CreateElevatedMesh is the expensive one, it asks the terrain for 43x43 heights.
+			bool profiled = HUST.WREIS.Dot3D.LayerProfiler.On;
+			long start = profiled ? System.Diagnostics.Stopwatch.GetTimestamp() : 0;
+
 			verticalExaggeration = World.Settings.VerticalExaggeration;
 			m_CurrentOpacity = QuadTileSet.Opacity;
 			renderStruts = QuadTileSet.RenderStruts;
 
 			if (QuadTileSet.TerrainMapped && Math.Abs(verticalExaggeration) > 1e-3)
+			{
 				CreateElevatedMesh();
+				if (profiled)
+					HUST.WREIS.Dot3D.LayerProfiler.RecordUpdate("tile: CreateElevatedMesh",
+						System.Diagnostics.Stopwatch.GetTimestamp() - start);
+			}
 			else
+			{
 				CreateFlatMesh();
+				if (profiled)
+					HUST.WREIS.Dot3D.LayerProfiler.RecordUpdate("tile: CreateFlatMesh",
+						System.Diagnostics.Stopwatch.GetTimestamp() - start);
+			}
 		}
 
         /// <summary>
@@ -952,6 +1075,10 @@ namespace HUST.WREIS.Dot3D.Renderable
 		{
             try
             {
+                // The image may be on disk while its texture is not built yet, see m_TexturePending.
+                if (m_TexturePending)
+                    CreatePendingTextures();
+
                 if (!isInitialized ||
                     this.northWestVertices == null ||
                     this.northEastVertices == null ||

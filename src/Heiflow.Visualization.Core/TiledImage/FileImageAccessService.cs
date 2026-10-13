@@ -21,6 +21,50 @@ namespace HUST.WREIS.Dot3D
         {
         }
 
+        /// <summary>
+        /// Called from the update thread: finds out whether the image is on disk and queues a
+        /// download when it is not. It must not create a texture, because every device call made
+        /// from the update thread is serviced by the thread that owns the device, which is the
+        /// thread the render loop runs on, and a burst of tile downloads then blocked rendering
+        /// for hundreds of milliseconds. LoadFile does the texture, on the device thread.
+        /// </summary>
+        public bool IsImageAvailable(Renderable.QuadTile qt)
+        {
+            if (mImageStore.IsDebug == true)
+                return true;
+
+            string filePath = mImageStore.GetLocalPath(qt);
+            if (!File.Exists(filePath))
+            {
+                string badFlag = filePath + ".txt";
+                if (File.Exists(badFlag))
+                {
+                    FileInfo fi = new FileInfo(badFlag);
+                    if (DateTime.Now - fi.LastWriteTime < TimeSpan.FromDays(1))
+                    {
+                        return false;
+                    }
+                    // Timeout period elapsed, retry
+                    File.Delete(badFlag);
+                }
+
+                if (mImageStore.IsDownloadableLayer)
+                {
+                    mImageStore.QueueDownload(qt, filePath);
+                    return false;
+                }
+
+                if (mImageStore.DuplicateTexturePath == null)
+                    // No image available, neither local nor online.
+                    return false;
+
+                filePath = mImageStore.DuplicateTexturePath;
+            }
+
+            qt.ImageFilePath = filePath;
+            return true;
+        }
+
         public Microsoft.DirectX.Direct3D.Texture LoadFile(Renderable.QuadTile qt)
         {
             if (mImageStore.IsDebug == true)
@@ -29,34 +73,10 @@ namespace HUST.WREIS.Dot3D
             }
             else
             {
-                string filePath = mImageStore.GetLocalPath(qt);
-                qt.ImageFilePath = filePath;
-                if (!File.Exists(filePath))
-                {
-                    string badFlag = filePath + ".txt";
-                    if (File.Exists(badFlag))
-                    {
-                        FileInfo fi = new FileInfo(badFlag);
-                        if (DateTime.Now - fi.LastWriteTime < TimeSpan.FromDays(1))
-                        {
-                            return null;
-                        }
-                        // Timeout period elapsed, retry
-                        File.Delete(badFlag);
-                    }
+                if (!IsImageAvailable(qt))
+                    return null;
 
-                    if (mImageStore.IsDownloadableLayer)
-                    {
-                        mImageStore.QueueDownload(qt, filePath);
-                        return null;
-                    }
-
-                    if (mImageStore.DuplicateTexturePath == null)
-                        // No image available, neither local nor online.
-                        return null;
-
-                    filePath = mImageStore.DuplicateTexturePath;
-                }
+                string filePath = qt.ImageFilePath;
 
                 // Use color key
                 Texture texture = null;

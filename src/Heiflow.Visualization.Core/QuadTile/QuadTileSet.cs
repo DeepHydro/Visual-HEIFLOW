@@ -648,7 +648,9 @@ namespace HUST.WREIS.Dot3D.Renderable
             RemoveInvisibleTiles(DrawArgs.Camera);
             try
             {
-               
+                // one budget per sweep, see QuadTile.MaxTileInitsPerSweep
+                QuadTile.BeginUpdateSweep();
+
                 int middleRow = MathEngine.GetRowFromLatitude(DrawArgs.Camera.Latitude, ImageStores[0].LevelZeroTileSizeDegrees);
                 int middleCol = MathEngine.GetColFromLongitude(DrawArgs.Camera.Longitude, ImageStores[0].LevelZeroTileSizeDegrees);
 
@@ -744,6 +746,9 @@ namespace HUST.WREIS.Dot3D.Renderable
         {
             try
             {
+                // one texture budget per frame, see QuadTile.MaxTextureCreationsPerFrame
+                QuadTile.BeginRenderFrame();
+
                 lock (m_topmostTiles.SyncRoot)
                 {
                     if (m_topmostTiles.Count <= 0)

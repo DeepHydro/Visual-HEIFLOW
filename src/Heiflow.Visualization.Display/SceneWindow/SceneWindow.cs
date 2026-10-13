@@ -16,6 +16,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -157,8 +158,8 @@ namespace HUST.WREIS.Dot3D
 
                 mProgressBar = new VisualControl.ProgressBar(200, 10);
 
-                captionTextFont = drawArgs.CreateFont("瀹嬩綋,Arial", 8.5f, FontStyle.Bold);
-                infoTextFont = drawArgs.CreateFont("瀹嬩綋,Arial", 9.0f, FontStyle.Bold);
+                captionTextFont = drawArgs.CreateFont("宋体,Arial", 8.5f, FontStyle.Bold);
+                infoTextFont = drawArgs.CreateFont("宋体,Arial", 9.0f, FontStyle.Bold);
                 titleTextFont = drawArgs.CreateFont("Arial", 14.0f, FontStyle.Bold);
                 infoBackgourdColor = Color.FromArgb(100, 54, 54, 54).ToArgb();
                 infoForeColor1 = Color.FromArgb(255, 255, 255, 0).ToArgb();
@@ -787,8 +788,6 @@ namespace HUST.WREIS.Dot3D
 
             try
             {
-                // Under WindowsFormsHost the control is never put into a WinForms parent, so Parent is
-                // null there and asking it for Focused throws before a single frame is drawn.
                 if (Parent != null && Parent.Focused && !Focused)
                     Focus();
 
@@ -886,6 +885,10 @@ namespace HUST.WREIS.Dot3D
             long startTicks = 0;
             PerformanceTimer.QueryPerformanceCounter(ref startTicks);
 
+            // see class LayerProfiler in World.cs, remove both when the profiling is done
+            bool profiled = LayerProfiler.On;
+            long methodStart = profiled ? Stopwatch.GetTimestamp() : 0;
+
             try
             {
                 this.drawArgs.BeginRender();
@@ -975,8 +978,13 @@ namespace HUST.WREIS.Dot3D
                     lastFpsUpdateTime = DrawArgs.CurrentFrameStartTicks;
                 }
 
+                // see class LayerProfiler in World.cs, remove both when the profiling is done
+                long widgetStart = profiled ? Stopwatch.GetTimestamp() : 0;
                 m_RootWidget.Render(drawArgs);
                 m_NewRootWidget.Render(drawArgs);
+                if (profiled)
+                    LayerProfiler.RecordRender("SceneWindow: widgets", Stopwatch.GetTimestamp() - widgetStart);
+
                 drawArgs.device.RenderState.ZBufferEnable = false;
 
                 // 3D rendering complete, switch to 2D for UI rendering
@@ -993,10 +1001,14 @@ namespace HUST.WREIS.Dot3D
                     RenderProgressBar(ProgressPercent);
                 }
 
+                // see class LayerProfiler in World.cs, remove both when the profiling is done
+                long infoStart = profiled ? Stopwatch.GetTimestamp() : 0;
                 RenderPositionInfo();
                 RenderPerformanceInfo();
                 RenderStatisticsInfo();
                 ReanderTitle();
+                if (profiled)
+                    LayerProfiler.RecordRender("SceneWindow: text overlays", Stopwatch.GetTimestamp() - infoStart);
                 //_menuBar.Render(drawArgs);
                 //m_FpsGraph.Render(drawArgs);
                 //if (saveScreenShotFilePath != null)
@@ -1026,7 +1038,11 @@ namespace HUST.WREIS.Dot3D
                     }
                 }
 
+                // see class LayerProfiler in World.cs, remove both when the profiling is done
+                long endSceneStart = profiled ? Stopwatch.GetTimestamp() : 0;
                 m_Device3d.EndScene();
+                if (profiled)
+                    LayerProfiler.RecordRender("SceneWindow: EndScene", Stopwatch.GetTimestamp() - endSceneStart);
             }
             catch (Exception ex)
             {
@@ -1045,6 +1061,11 @@ namespace HUST.WREIS.Dot3D
                 this.drawArgs.EndRender();
             }
             drawArgs.UpdateMouseCursor(this);
+
+            // see class LayerProfiler in World.cs, remove both when the profiling is done
+            if (profiled)
+                LayerProfiler.RecordRender("SceneWindow.Render (whole method)",
+                    Stopwatch.GetTimestamp() - methodStart);
         }
 
         private int infoBackgourdColor = 0;
@@ -1092,11 +1113,11 @@ namespace HUST.WREIS.Dot3D
             {
                 drawArgs.Present();
                 //string captionText =
-                //          "鍙敤绾圭悊鍐呭瓨: " +
-                //           "\n姣忕甯ф暟FPS: " +
-                //          "\n杈圭晫鐐? " +
-                //          "\n鐡︾墖鏁? " +
-                //          "\n缁樺埗瀵硅薄鏁扮洰: ";
+                //          "闂佸憡鐟崹鎶藉极閵堝洨妫柛锔诲幗閸婄偤鏌涢幇顒佸櫣闁? " +
+                //           "\n濠殿噯绲界换鎺楋綖濡ゅ啯鏆滅憸搴ㄥ汲閻戭枛S: " +
+                //          "\n闁哄鐗嗗﹢閬嶅疾椤愶附鍊? " +
+                //          "\n闂佺儵妲勬俊鍥ㄦ櫠閺嶎厼鏋? " +
+                //          "\n缂傚倷鐒﹂敋闁糕晜顨堥埀顒傛暩椤㈠﹪鎸呴崟顖氭瀬闁规鍠楃粣? ";
                 string captionText =
           "Memory: " +
            "\nFPS: " +
@@ -1119,10 +1140,10 @@ namespace HUST.WREIS.Dot3D
             if (ShowStatisticsInfo && StatisticsInfo!= null)
             {
                 //string captionText =
-                //          "鏈€澶у€? " + "\n" +
-                //           "鏈€灏忓€? " + "\n" +
-                //           "骞冲潎鍊? " + "\n" +
-                //           "鏍囧噯宸? ";
+                //          "闂佸搫鐗冮崑鎾愁熆閸棗鍟犻崑? " + "\n" +
+                //           "闂佸搫鐗冮崑鎾绘倶韫囨挾绠伴柍? " + "\n" +
+                //           "濡ょ姷鍋涢崯鍨缚鎼淬劌纾? " + "\n" +
+                //           "闂佸搫绉村ú銈夊闯椤栨凹鍟? ";
                 string captionText =
                         "Maximum: " + "\n" +
                          "Minimum: " + "\n" +
@@ -1168,7 +1189,7 @@ namespace HUST.WREIS.Dot3D
                 double heading = this.drawArgs.WorldCamera.Heading.Degrees;
                 if (heading < 0)
                     heading += 360;
-                var posinfo = ResMan.GetString("PosInfo");//"缁忓害: {0:f4}    绾害: {1:f4}    娴锋嫈: {2}m    鏂瑰悜: {3:f2}                                     瑙嗚娴锋嫈楂樺害: {4}"
+                var posinfo = ResMan.GetString("PosInfo");//"缂傚倷绀佺换鎰偓? {0:f4}    缂備胶铏庨崜娆戔偓? {1:f4}    濠电偞鎸抽弨杈┾偓? {2}m    闂佸搫鍊婚幊鎾诲箖? {3:f2}                                     闁荤喐鐟ュΛ婊堬綖濡も偓闇夐梺鍨儏閻濇螖閸屾耽顏嗏偓? {4}"
                 captionText += String.Format(posinfo,
                     this.drawArgs.WorldCamera.Longitude.Degrees,
                     this.drawArgs.WorldCamera.Latitude.Degrees,
@@ -1461,15 +1482,22 @@ namespace HUST.WREIS.Dot3D
             {
                 try
                 {
-                    if (World.Settings.UseBelowNormalPriorityUpdateThread && m_WorkerThread.Priority == System.Threading.ThreadPriority.Normal)
+                    // The update thread builds tile textures and vertex buffers. Every device call it
+                    // makes is marshalled to the thread that owns the device, which is the WPF
+                    // dispatcher thread the render loop runs on. At Highest priority the update thread
+                    // pushed the render thread aside and then waited for exactly that thread, so the
+                    // globe froze for seconds. World.Settings.UseBelowNormalPriorityUpdateThread
+                    // decides which of the two it is, and it is honoured here instead of being
+                    // overwritten with Highest on every loop as it used to be.
+                    if (World.Settings.UseBelowNormalPriorityUpdateThread)
                     {
-                        m_WorkerThread.Priority = System.Threading.ThreadPriority.BelowNormal;
+                        if (m_WorkerThread.Priority != System.Threading.ThreadPriority.BelowNormal)
+                            m_WorkerThread.Priority = System.Threading.ThreadPriority.BelowNormal;
                     }
-                    else if (!World.Settings.UseBelowNormalPriorityUpdateThread && m_WorkerThread.Priority == System.Threading.ThreadPriority.BelowNormal)
+                    else if (m_WorkerThread.Priority != System.Threading.ThreadPriority.Highest)
                     {
-                        m_WorkerThread.Priority = System.Threading.ThreadPriority.Normal;
+                        m_WorkerThread.Priority = System.Threading.ThreadPriority.Highest;
                     }
-                    m_WorkerThread.Priority = System.Threading.ThreadPriority.Highest;
                     long startTicks = 0;
                     PerformanceTimer.QueryPerformanceCounter(ref startTicks);
 
@@ -1500,7 +1528,18 @@ namespace HUST.WREIS.Dot3D
                         foreach (var roo in ro.ChildObjects)
                         {
                             if (roo.Name == "Landsat7 Image")
-                                roo.Update(drawArgs);
+                            {
+                                // see class LayerProfiler in World.cs, remove both when the profiling is done
+                                if (LayerProfiler.On)
+                                {
+                                    long updateStart = Stopwatch.GetTimestamp();
+                                    roo.Update(drawArgs);
+                                    LayerProfiler.RecordUpdate(roo.Name + " (terrain thread)",
+                                        Stopwatch.GetTimestamp() - updateStart);
+                                }
+                                else
+                                    roo.Update(drawArgs);
+                            }
                         }
                     }
                 }

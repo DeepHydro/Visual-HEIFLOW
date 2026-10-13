@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using Microsoft.DirectX;
 using Microsoft.DirectX.Direct3D;
@@ -353,7 +355,15 @@ namespace HUST.WREIS.Dot3D
                 //        layer.Update(drawArgs);
                 //    }
                 //}
-                this.RenderableObjects.Update(drawArgs);
+                if (LayerProfiler.On)
+                {
+                    long updateStart = Stopwatch.GetTimestamp();
+                    this.RenderableObjects.Update(drawArgs);
+                    LayerProfiler.RecordUpdate("> whole tree (sub layers listed below)",
+                        Stopwatch.GetTimestamp() - updateStart);
+                }
+                else
+                    this.RenderableObjects.Update(drawArgs);
             }
             if (this.m_WorldSurfaceRenderer != null)
             {
@@ -371,6 +381,13 @@ namespace HUST.WREIS.Dot3D
                 {
                     //if (System.DateTime.Now - this.lastElevationUpdate > TimeSpan.FromMilliseconds(500))
                     //{
+                    if (LayerProfiler.On)
+                    {
+                        long elevationStart = Stopwatch.GetTimestamp();
+                        drawArgs.WorldCamera.TerrainElevation = (short)this.TerrainAccessor.GetElevationAt(drawArgs.WorldCamera.Latitude.Degrees, drawArgs.WorldCamera.Longitude.Degrees, 100.0 / drawArgs.WorldCamera.ViewRange.Degrees);
+                        LayerProfiler.RecordUpdate("TerrainAccessor.GetElevationAt", Stopwatch.GetTimestamp() - elevationStart);
+                    }
+                    else
                         drawArgs.WorldCamera.TerrainElevation = (short)this.TerrainAccessor.GetElevationAt(drawArgs.WorldCamera.Latitude.Degrees, drawArgs.WorldCamera.Longitude.Degrees, 100.0 / drawArgs.WorldCamera.ViewRange.Degrees);
                         this.lastElevationUpdate = System.DateTime.Now;
                     //}
@@ -462,12 +479,21 @@ namespace HUST.WREIS.Dot3D
 
         public override void Render(DrawArgs drawArgs)
         {
+            long renderStart = LayerProfiler.On ? Stopwatch.GetTimestamp() : 0;
             try
             {
 
                 if (m_WorldSurfaceRenderer != null && World.Settings.UseWorldSurfaceRenderer)
                 {
-                    m_WorldSurfaceRenderer.RenderSurfaceImages(drawArgs);
+                    if (LayerProfiler.On)
+                    {
+                        long surfaceStart = Stopwatch.GetTimestamp();
+                        m_WorldSurfaceRenderer.RenderSurfaceImages(drawArgs);
+                        LayerProfiler.RecordRender("WorldSurfaceRenderer.RenderSurfaceImages",
+                            Stopwatch.GetTimestamp() - surfaceStart);
+                    }
+                    else
+                        m_WorldSurfaceRenderer.RenderSurfaceImages(drawArgs);
                 }         
 
                 RenderStars(drawArgs, RenderableObjects);
@@ -492,7 +518,7 @@ namespace HUST.WREIS.Dot3D
 
                 //if (World.Settings.RenderCarsianGridOnly)
                 //{
-                //    RenderableObject ro = (DataLayerList["�ֲ�ʽ����"] as RenderableObjectList)["��������"];
+                //    RenderableObject ro = (DataLayerList["闁告帒妫楃粩宄邦嚕韫囨梻銈﹂柛?] as RenderableObjectList)["閻犱緤绱曢悾鑽ょ磾閹寸偟澹?];
                 //    if (ro != null && ro is CartesianGridLayer)
                 //    {
                 //        ro.Render(drawArgs);
@@ -527,6 +553,10 @@ namespace HUST.WREIS.Dot3D
                     if (Settings.ShowPlanetAxis)
                         this.DrawAxis(drawArgs);
                 //}
+
+                if (LayerProfiler.On)
+                    LayerProfiler.RecordRender("> whole frame (sub layers listed below)",
+                        Stopwatch.GetTimestamp() - renderStart);
             }
             catch (Exception ex)
             {
@@ -559,6 +589,8 @@ namespace HUST.WREIS.Dot3D
 
         private void Render(HUST.WREIS.Dot3D.Renderable.RenderableObject renderable, HUST.WREIS.Dot3D.Renderable.RenderPriority priority, DrawArgs drawArgs)
         {
+            //if (renderable.Name == "Grid" || renderable.Name == "River Network" || renderable.Name == "grid")
+            //    return;
             if (!renderable.IsOn || (renderable.Name != null && renderable.Name.Equals("Starfield")))
                 return;
 
@@ -566,7 +598,7 @@ namespace HUST.WREIS.Dot3D
             {
                 if (priority == HUST.WREIS.Dot3D.Renderable.RenderPriority.Icons && renderable is Icons)
                 {
-                    renderable.Render(drawArgs);
+                    RenderTimed(renderable, drawArgs);
                 }
                 else if (renderable is HUST.WREIS.Dot3D.Renderable.RenderableObjectList)
                 {
@@ -581,18 +613,35 @@ namespace HUST.WREIS.Dot3D
                 {
                     if (renderable.RenderPriority == HUST.WREIS.Dot3D.Renderable.RenderPriority.SurfaceImages || renderable.RenderPriority == HUST.WREIS.Dot3D.Renderable.RenderPriority.TerrainMappedImages)
                     {
-                        renderable.Render(drawArgs);
+                    
+                        RenderTimed(renderable, drawArgs);
                     }
                 }
                 else if (renderable.RenderPriority == priority)
                 {
-                    renderable.Render(drawArgs);
+                    RenderTimed(renderable, drawArgs);
                 }
             }
             catch (Exception ex)
             {
                 Log.Write(ex);
             }
+        }
+
+        /// <summary>
+        /// Renders one layer and gives the time it took to the layer profiler (see class LayerProfiler).
+        /// </summary>
+        private void RenderTimed(HUST.WREIS.Dot3D.Renderable.RenderableObject renderable, DrawArgs drawArgs)
+        {
+            if (!LayerProfiler.On)
+            {
+                renderable.Render(drawArgs);
+                return;
+            }
+
+            long start = Stopwatch.GetTimestamp();
+            renderable.Render(drawArgs);
+            LayerProfiler.RecordRender(renderable.Name, Stopwatch.GetTimestamp() - start);
         }
 
         private void saveRenderableState(RenderableObject ro)
@@ -736,6 +785,148 @@ namespace HUST.WREIS.Dot3D
 
             Vector3 v = MathEngine.SphericalToCartesian(lat, lon, equatorialRadius);
             return v;
+        }
+    }
+
+    /// <summary>
+    /// Temporary layer profiler. It measures every Update and every Render call the layer tree makes
+    /// and writes the slowest layers to the log every few seconds, so that the layer that makes the
+    /// globe stall can be seen instead of guessed.
+    /// Remove it again when the question is answered: delete this class, the RenderTimed calls and
+    /// the two Record lines in World.Update and RenderableObjectList.Update.
+    /// </summary>
+    public static class LayerProfiler
+    {
+        /// <summary>Switch the whole measurement off without touching the code that calls it.</summary>
+        public static bool On = true;
+
+        const int TopCount = 30;
+        static readonly TimeSpan DumpInterval = TimeSpan.FromSeconds(5);
+
+        sealed class Totals
+        {
+            public long Ticks;
+            public int Count;
+        }
+
+        // Update runs on the worker thread and Render on the render thread, so each has its own map.
+        static readonly Dictionary<string, Totals> UpdateTotals = new Dictionary<string, Totals>();
+        static readonly Dictionary<string, Totals> RenderTotals = new Dictionary<string, Totals>();
+        static readonly object UpdateLock = new object();
+        static readonly object RenderLock = new object();
+        static DateTime lastDump = DateTime.Now;
+
+        public static void RecordUpdate(string name, long ticks)
+        {
+            lock (UpdateLock)
+                Add(UpdateTotals, name, ticks);
+        }
+
+        public static void RecordRender(string name, long ticks)
+        {
+            lock (RenderLock)
+                Add(RenderTotals, name, ticks);
+
+            if (DateTime.Now - lastDump >= DumpInterval)
+                Dump();
+        }
+
+        static void Add(Dictionary<string, Totals> map, string name, long ticks)
+        {
+            if (name == null)
+                name = "(unnamed layer)";
+
+            Totals totals;
+            if (!map.TryGetValue(name, out totals))
+            {
+                totals = new Totals();
+                map[name] = totals;
+            }
+            totals.Ticks += ticks;
+            totals.Count++;
+        }
+
+        static void Dump()
+        {
+            TimeSpan interval = DateTime.Now - lastDump;
+            lastDump = DateTime.Now;
+            double seconds = interval.TotalSeconds;
+            if (seconds <= 0)
+                seconds = 1;
+
+            Log.Write(Log.Levels.Warning, "PROF", "===== layer timings over the last " +
+                seconds.ToString("0.0") + " s =====");
+            ReportGarbageCollections();
+            Report("Update", UpdateTotals, UpdateLock, seconds);
+            Report("Render", RenderTotals, RenderLock, seconds);
+        }
+
+        // Long stretches where the UI thread neither renders nor answers the dispatcher are either
+        // a blocking device call or a garbage collection. These numbers tell the two apart.
+        static int lastGen0 = -1;
+        static int lastGen1 = -1;
+        static int lastGen2 = -1;
+
+        static void ReportGarbageCollections()
+        {
+            int gen0 = GC.CollectionCount(0);
+            int gen1 = GC.CollectionCount(1);
+            int gen2 = GC.CollectionCount(2);
+
+            if (lastGen0 >= 0)
+            {
+                Log.Write(Log.Levels.Warning, "PROF", string.Format(
+                    "GC: gen0 +{0}, gen1 +{1}, gen2 +{2}, heap {3} MB",
+                    gen0 - lastGen0, gen1 - lastGen1, gen2 - lastGen2,
+                    (GC.GetTotalMemory(false) / (1024.0 * 1024.0)).ToString("0")));
+            }
+
+            lastGen0 = gen0;
+            lastGen1 = gen1;
+            lastGen2 = gen2;
+        }
+
+        static void Report(string what, Dictionary<string, Totals> map, object gate, double seconds)
+        {
+            List<KeyValuePair<string, Totals>> top;
+            long totalTicks = 0;
+            long totalCalls = 0;
+            lock (gate)
+            {
+                foreach (KeyValuePair<string, Totals> entry in map)
+                {
+                    totalTicks += entry.Value.Ticks;
+                    totalCalls += entry.Value.Count;
+                }
+                top = new List<KeyValuePair<string, Totals>>(map);
+                map.Clear();
+            }
+
+            // Amount of the wall clock the layer took: 1000 ms/s means the thread does nothing else.
+            Log.Write(Log.Levels.Warning, "PROF", string.Format("{0}: {1} calls, {2} ms total, {3} ms per second",
+                what, totalCalls, TicksToMs(totalTicks).ToString("0"),
+                (TicksToMs(totalTicks) / seconds).ToString("0")));
+
+            top.Sort(delegate(KeyValuePair<string, Totals> a, KeyValuePair<string, Totals> b)
+            {
+                return b.Value.Ticks.CompareTo(a.Value.Ticks);
+            });
+
+            for (int i = 0; i < TopCount && i < top.Count; i++)
+            {
+                KeyValuePair<string, Totals> entry = top[i];
+                Log.Write(Log.Levels.Warning, "PROF", string.Format(
+                    "    {0} | {1} ms | {2} calls | {3} ms/call",
+                    entry.Key,
+                    TicksToMs(entry.Value.Ticks).ToString("0.0"),
+                    entry.Value.Count,
+                    entry.Value.Count > 0 ? (TicksToMs(entry.Value.Ticks) / entry.Value.Count).ToString("0.00") : "-"));
+            }
+        }
+
+        static double TicksToMs(long ticks)
+        {
+            return (double)ticks * 1000.0 / Stopwatch.Frequency;
         }
     }
 
