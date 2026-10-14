@@ -303,6 +303,7 @@
                     <MenuItem Header="{DynamicResource  CurrentPosAsDefaultMenuHeader}"  x:Name="miCurrentPosAsDefault" Click="miCurrentPosAsDefault_Click"  />
                     <Separator />
                     <MenuItem Header="{DynamicResource  SaveConfigMenuHeader}"  x:Name="miSaveViewSetting"  Click="miSaveViewSetting_Click" />
+                    <MenuItem Header="{DynamicResource  SceneWorldSettingsMenuHeader}"   x:Name="miSceneWorldSettings"  Click="miSceneWorldSettings_Click" />
                 </MenuItem>
                 <MenuItem Header="{DynamicResource  DataMenuHeader}" x:Name="DataMenu"   Style="{StaticResource TopMenuItem}"  >
                     <MenuItem Header="Add Shapefile"   x:Name="miLoadShp"  Click="miLoadShp_Click" />

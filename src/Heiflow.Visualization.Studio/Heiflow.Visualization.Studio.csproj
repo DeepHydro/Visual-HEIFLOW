@@ -264,6 +264,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\SceneWorldSettingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SFRWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -331,6 +335,9 @@
     </Compile>
     <Compile Include="Views\SceneSetting.xaml.cs">
       <DependentUpon>SceneSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SceneWorldSettingsWindow.xaml.cs">
+      <DependentUpon>SceneWorldSettingsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SFRWindow.xaml.cs">
       <DependentUpon>SFRWindow.xaml</DependentUpon>

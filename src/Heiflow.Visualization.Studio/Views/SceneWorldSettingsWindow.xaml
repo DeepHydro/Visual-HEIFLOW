@@ -1,0 +1,57 @@
+<Controls:MetroWindow x:Class="Heiflow.Visualization.Studio.Views.SceneWorldSettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:wpg="clr-namespace:WPG;assembly=WPG"
+        xmlns:drawing="clr-namespace:System.Drawing;assembly=System.Drawing"
+        xmlns:local="clr-namespace:Heiflow.Visualization.Studio.Views"
+        Title="{DynamicResource SceneWorldSettingsTitle}" Height="640" Width="880"
+        WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
+    <Controls:MetroWindow.Resources>
+        <!-- The grid has no editor for System.Drawing.Color, which WorldSettings uses for its 16
+             colour settings, and falls back to a bare text box. This one keeps the text box but
+             shows the colour it stands for next to it, so a value like "255, 0, 0" or "Red" can
+             be checked while it is typed. -->
+        <local:ColorToBrushConverter x:Key="colorToBrush" />
+        <DataTemplate x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type wpg:PropertyGrid}, ResourceId={x:Type drawing:Color}}">
+            <DockPanel>
+                <Rectangle DockPanel.Dock="Right" Width="26" Height="16" Margin="4,0,0,0"
+                           Stroke="Gray" StrokeThickness="1"
+                           Fill="{Binding Path=Value, Converter={StaticResource colorToBrush}}" />
+                <TextBox Text="{Binding Path=Value, Mode=TwoWay}" IsReadOnly="{Binding Path=IsReadOnly}" />
+            </DockPanel>
+        </DataTemplate>
+    </Controls:MetroWindow.Resources>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0" Margin="0,0,0,6">
+            <TextBlock Text="{DynamicResource SceneWorldSettingsFileHeader}" VerticalAlignment="Center" Margin="0,0,8,0" />
+            <TextBlock x:Name="txtFilePath" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
+                       ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
+        </DockPanel>
+
+        <DockPanel Grid.Row="1" Margin="0,0,0,6">
+            <TextBlock Text="{DynamicResource SceneWorldSettingsFilterHeader}" VerticalAlignment="Center" Margin="0,0,8,0" />
+            <TextBox x:Name="txtFilter" TextChanged="txtFilter_TextChanged"
+                     Controls:TextBoxHelper.Watermark="{DynamicResource SceneWorldSettingsFilterWatermark}" />
+        </DockPanel>
+
+        <wpg:PropertyGrid x:Name="propertyGrid" Grid.Row="2" Categorized="True" ShowDescription="True" NameWidth="230" />
+
+        <TextBlock Grid.Row="3" Margin="0,8,0,8" TextWrapping="Wrap" Foreground="Gray"
+                   Text="{DynamicResource SceneWorldSettingsHint}" />
+
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name="btnReload" Content="{DynamicResource SceneWorldSettingsReload}" MinWidth="90" Margin="0,0,8,0" Click="btnReload_Click" />
+            <Button x:Name="btnSave" Content="{DynamicResource SceneWorldSettingsSave}" MinWidth="90" Margin="0,0,8,0" Click="btnSave_Click" />
+            <Button x:Name="btnCancel" Content="{DynamicResource SceneWorldSettingsCancel}" MinWidth="90" Click="btnCancel_Click" />
+        </StackPanel>
+    </Grid>
+</Controls:MetroWindow>

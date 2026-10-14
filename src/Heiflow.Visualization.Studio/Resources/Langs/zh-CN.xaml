@@ -35,6 +35,16 @@
 
     <s:String x:Key="ToolMenuHeader">工具(_T)</s:String>
     <s:String x:Key="D3PerfMenuHeader">3D渲染性能</s:String>
+    <s:String x:Key="SceneWorldSettingsMenuHeader">场景设置(_S)</s:String>
+    <s:String x:Key="SceneWorldSettingsTitle">场景设置 — SceneWorld.xml</s:String>
+    <s:String x:Key="SceneWorldSettingsFileHeader">配置文件</s:String>
+    <s:String x:Key="SceneWorldSettingsFilterHeader">过滤</s:String>
+    <s:String x:Key="SceneWorldSettingsFilterWatermark">按属性名筛选</s:String>
+    <s:String x:Key="SceneWorldSettingsHint">改动立即作用于当前场景，点“保存”才写入上面的文件。少数设置在创建设备时读取（例如 VSync、TextureFormat、ThrottleFpsHz），需要重启程序后生效。</s:String>
+    <s:String x:Key="SceneWorldSettingsReload">重新加载</s:String>
+    <s:String x:Key="SceneWorldSettingsSave">保存</s:String>
+    <s:String x:Key="SceneWorldSettingsCancel">取消</s:String>
+    <s:String x:Key="SceneWorldSettingsSaved">已保存到</s:String>
     <s:String x:Key="MeasureMenuHeader">测量</s:String>
     <s:String x:Key="ScreenShotMenuHeader">截屏</s:String>
     <s:String x:Key="AutoScreenShotMenuHeader">自动截屏</s:String>

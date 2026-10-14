@@ -37,6 +37,16 @@
 
     <s:String x:Key="ToolMenuHeader">Tool(_T)</s:String>
     <s:String x:Key="D3PerfMenuHeader">3D Performance</s:String>
+    <s:String x:Key="SceneWorldSettingsMenuHeader">Scene Settings(_S)</s:String>
+    <s:String x:Key="SceneWorldSettingsTitle">Scene Settings - SceneWorld.xml</s:String>
+    <s:String x:Key="SceneWorldSettingsFileHeader">Configuration file</s:String>
+    <s:String x:Key="SceneWorldSettingsFilterHeader">Filter</s:String>
+    <s:String x:Key="SceneWorldSettingsFilterWatermark">Filter by property name</s:String>
+    <s:String x:Key="SceneWorldSettingsHint">Changes take effect in the running scene at once, but only reach the file above when you press Save. A few settings are read when the device is created (VSync, TextureFormat, ThrottleFpsHz), those need the application to be restarted.</s:String>
+    <s:String x:Key="SceneWorldSettingsReload">Reload</s:String>
+    <s:String x:Key="SceneWorldSettingsSave">Save</s:String>
+    <s:String x:Key="SceneWorldSettingsCancel">Cancel</s:String>
+    <s:String x:Key="SceneWorldSettingsSaved">Saved to</s:String>
     <s:String x:Key="MeasureMenuHeader">Measure</s:String>
     <s:String x:Key="ScreenShotMenuHeader">Screen Shot</s:String>
     <s:String x:Key="ShowStatInfoMenuHeader">Model Statistics Information</s:String>

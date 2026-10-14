@@ -2,6 +2,7 @@ using Heiflow.Models.IO;
 using Heiflow.Presentation.Controls;
 using Heiflow.Visualization.Applications;
 using Heiflow.Visualization.Studio.Controls;
+using Heiflow.Visualization.Studio.Views;
 using HUST.WREIS.Dot3D;
 using MahApps.Metro.Controls;
 using Microsoft.Win32;
@@ -151,6 +152,19 @@ namespace Heiflow.Visualization.Studio
         private void miSaveViewSetting_Click(object sender, RoutedEventArgs e)
         {
             World.Settings.Save();
+        }
+
+        /// <summary>
+        /// Opens the window that edits Config\SceneWorld.xml through World.Settings, see class
+        /// SceneWorldSettingsWindow. It sits next to miSaveViewSetting because that one writes the
+        /// same file, only without showing what is in it.
+        /// </summary>
+        private void miSceneWorldSettings_Click(object sender, RoutedEventArgs e)
+        {
+            SceneWorldSettingsWindow window = new SceneWorldSettingsWindow();
+            window.ShowInTaskbar = false;
+            window.Owner = this;
+            window.ShowDialog();
         }
         private void miLoadShp_Click(object sender, RoutedEventArgs e)
         {
