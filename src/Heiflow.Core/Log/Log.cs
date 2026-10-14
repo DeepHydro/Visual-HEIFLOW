@@ -89,7 +89,13 @@ namespace Heiflow.Core
 				// TODO: do not hardcode logfile name?
 				logFilePath = Path.Combine( logPath, "HydroEarth.log" );
 
-				logWriter = new StreamWriter(logFilePath, true);
+				// The file is written at the end of, which is what opening it for appending would do,
+				// but it is opened for reading and writing and moved to the end here instead: a file
+				// opened in append mode cannot be truncated, and truncating it is what Clear does.
+				FileStream logStream = new FileStream(logFilePath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.Read);
+				logStream.Seek(0, SeekOrigin.End);
+
+				logWriter = new StreamWriter(logStream);
 				logWriter.AutoFlush = true;
 			}
 			catch (Exception caught)
@@ -116,6 +122,38 @@ namespace Heiflow.Core
 			Version ver = new Version(Application.ProductVersion);
 			//return string.Format(@"\{0}\{1}\{2}.{3}.{4}.{5}", Application.CompanyName, Application.ProductName, ver.Major, ver.Minor, ver.Build, ver.Revision);
             return Application.StartupPath + "\\Log\\";
+        }
+
+		/// <summary>
+		/// The file the log is written to, and the directory it is in.
+		/// </summary>
+		public static string LogFilePath
+		{
+			get { return logFilePath; }
+		}
+
+		public static string LogPath
+		{
+			get { return logPath; }
+		}
+
+		/// <summary>
+		/// Throws away what the log holds. The writer stays open and the file is emptied under it:
+		/// closing it would leave the threads that are logging at that very moment writing into a
+		/// disposed one, and deleting the file is not possible either while it is open.
+		/// </summary>
+		public static void Clear()
+		{
+			lock (logWriter)
+			{
+				logWriter.Flush();
+				logWriter.BaseStream.SetLength(0);
+				logWriter.BaseStream.Position = 0;
+
+				// The lock above is taken again by Write, which is allowed, and leaves a line behind
+				// saying what happened: a log that is simply empty looks like nothing was read.
+				Write(Levels.Warning, "LOG", "log cleared");
+			}
 		}
 
         public static void Write(string category, string message)

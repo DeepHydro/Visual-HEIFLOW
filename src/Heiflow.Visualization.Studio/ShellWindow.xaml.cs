@@ -166,6 +166,19 @@ namespace Heiflow.Visualization.Studio
             window.Owner = this;
             window.ShowDialog();
         }
+
+        /// <summary>
+        /// Opens the window that shows the end of Log\HydroEarth.log and clears it, see class
+        /// LogWindow. It sits next to the settings because both are there to look after what the
+        /// application leaves behind on disk.
+        /// </summary>
+        private void miLog_Click(object sender, RoutedEventArgs e)
+        {
+            LogWindow window = new LogWindow();
+            window.ShowInTaskbar = false;
+            window.Owner = this;
+            window.ShowDialog();
+        }
         private void miLoadShp_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
