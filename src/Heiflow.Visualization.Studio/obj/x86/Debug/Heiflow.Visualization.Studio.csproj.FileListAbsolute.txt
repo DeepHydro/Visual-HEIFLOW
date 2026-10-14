@@ -514,3 +514,7 @@ D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Studio\obj\x86\Debug\Res
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Studio\obj\x86\Debug\Views\LayerManagerView.g.cs
 D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Studio\obj\x86\Debug\Views\ProgressWindow.g.cs
 D:\system\git\Visual-HEIFLOW\src\Heiflow.Visualization.Studio\obj\x86\Debug\Heiflow.Visualization.Studio.csprojResolveAssemblyReference.cache
+D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Studio\obj\x86\Debug\Views\SceneWorldSettingsWindow.g.cs
+D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Studio\obj\x86\Debug\Views\SceneWorldSettingsWindow.baml
+D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Studio\obj\x86\Debug\Views\LogWindow.baml
+D:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Studio\obj\x86\Debug\Views\LogWindow.g.cs

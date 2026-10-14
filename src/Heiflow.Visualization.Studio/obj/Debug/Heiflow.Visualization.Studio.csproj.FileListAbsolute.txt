@@ -213,3 +213,7 @@ d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Studio\obj\Debug\Heiflow
 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Studio\obj\Debug\Heiflow..FCC259DF.Up2Date
 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Studio\obj\Debug\HydroEarth.exe
 d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Studio\obj\Debug\HydroEarth.pdb
+d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Studio\obj\Debug\Views\SceneWorldSettingsWindow.baml
+d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Studio\obj\Debug\Views\SceneWorldSettingsWindow.g.cs
+d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Studio\obj\Debug\Views\LogWindow.baml
+d:\System\HEIFLOW\VHF_GIT\VHF\src\Heiflow.Visualization.Studio\obj\Debug\Views\LogWindow.g.cs

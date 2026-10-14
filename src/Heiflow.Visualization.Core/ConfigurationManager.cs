@@ -805,12 +805,15 @@ namespace HUST.WREIS.Dot3D
         }
 
         /// <summary>
-        /// Which cache the tiles of a layer go into: the CacheType element of its service element if it
-        /// names one, otherwise World.Settings.TileCacheType.
+        /// Which cache the tiles of a layer go into: SQLite when the layer names a SQLiteService in
+        /// Layers.xml, whatever the setting says, because the tiles it has already downloaded are in
+        /// that database and it would find nothing in a cache directory, otherwise the CacheType
+        /// element of its service element if it names one, otherwise World.Settings.TileCacheType.
+        /// The database is the same one either way, see TileCacheDbPath.
         /// </summary>
         private static IImageStorageService GetImageStorageService(XElement serviceElement, ImageStore image)
         {
-            if (GetTileCacheType(serviceElement) == TileCacheType.SQLite)
+            if (serviceElement.Element("SQLiteService") != null || GetTileCacheType(serviceElement) == TileCacheType.SQLite)
                 return GetSQLiteService(serviceElement, image);
 
             return new FileImageAccessService(image);
