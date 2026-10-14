@@ -1,4 +1,6 @@
 *.pdb
 *.cache
 *.gmdb
+*.log
 src/Bin/Visualization/Cache/
+src/Bin/Visualization/Log/
