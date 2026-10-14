@@ -72,6 +72,26 @@ namespace HUST.WREIS.Dot3D.Renderable
 		protected CustomVertex.PositionNormalTextured[] northEastVertices;
 		protected CustomVertex.PositionNormalTextured[] southEastVertices;
 		protected short[] vertexIndexes;
+
+		/// <summary>
+		/// GPU copies of the four quadrant meshes above, and the index buffer they all share
+		/// (the quadrants have the same grid and therefore the same topology). Drawing used to
+		/// go through DrawIndexedUserPrimitives, which handed these arrays to the driver again
+		/// on every frame; the buffers are uploaded once and then only referenced.
+		/// </summary>
+		protected VertexBuffer northWestVertexBuffer;
+		protected VertexBuffer southWestVertexBuffer;
+		protected VertexBuffer northEastVertexBuffer;
+		protected VertexBuffer southEastVertexBuffer;
+		protected IndexBuffer indexBuffer;
+
+		/// <summary>
+		/// The mesh arrays above were rebuilt and the buffers have not been filled from them yet.
+		/// Same split as m_TexturePending: the update thread builds the arrays, only Render may
+		/// touch the device.
+		/// </summary>
+		protected bool m_MeshPending = false;
+
         protected Point3d localOrigin; // Add this offset to get world coordinates
 
         protected bool m_isResetingCache;
@@ -224,6 +244,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                     }
                 }
                 textures = null;
+				DisposeMeshBuffers();
 				if (northWestChild != null)
 				{
 					northWestChild.Dispose();
@@ -590,6 +611,104 @@ namespace HUST.WREIS.Dot3D.Renderable
 				if (profiled)
 					HUST.WREIS.Dot3D.LayerProfiler.RecordUpdate("tile: CreateFlatMesh",
 						System.Diagnostics.Stopwatch.GetTimestamp() - start);
+			}
+
+			// The arrays are filled in, but this runs on the update thread and the device belongs
+			// to the render thread, so the buffers are uploaded by Render instead, see m_MeshPending.
+			m_MeshPending = true;
+		}
+
+		/// <summary>
+		/// Uploads the mesh arrays into vertex and index buffers. Only ever called from Render,
+		/// see m_MeshPending.
+		/// </summary>
+		protected void CreatePendingMesh()
+		{
+			try
+			{
+				Device device = DrawArgs.Device;
+				if (device == null || northWestVertices == null || vertexIndexes == null)
+					return;
+
+				// Cleared only once the buffers really exist, so a tile whose first draw happens
+				// before its mesh is finished asks again on the next frame instead of never.
+				m_MeshPending = false;
+
+				// Drop the previous buffers first: the mesh was rebuilt, so they hold stale data.
+				DisposeMeshBuffers();
+
+				indexBuffer = CreateIndexBuffer(device, vertexIndexes);
+				northWestVertexBuffer = CreateVertexBuffer(device, northWestVertices);
+				southWestVertexBuffer = CreateVertexBuffer(device, southWestVertices);
+				northEastVertexBuffer = CreateVertexBuffer(device, northEastVertices);
+				southEastVertexBuffer = CreateVertexBuffer(device, southEastVertices);
+			}
+			catch (Exception caught)
+			{
+				// Leave the buffers null, Render then falls back to the arrays for this tile.
+				DisposeMeshBuffers();
+				Log.Write(caught);
+			}
+		}
+
+		static VertexBuffer CreateVertexBuffer(Device device, CustomVertex.PositionNormalTextured[] vertices)
+		{
+			VertexBuffer buffer = new VertexBuffer(
+				typeof(CustomVertex.PositionNormalTextured),
+				vertices.Length,
+				device,
+				Usage.None,
+				CustomVertex.PositionNormalTextured.Format,
+				Pool.Managed);
+
+			buffer.SetData(vertices, 0, LockFlags.None);
+			return buffer;
+		}
+
+		static IndexBuffer CreateIndexBuffer(Device device, short[] indices)
+		{
+			IndexBuffer buffer = new IndexBuffer(
+				typeof(short),
+				indices.Length,
+				device,
+				Usage.None,
+				Pool.Managed);
+
+			buffer.SetData(indices, 0, LockFlags.None);
+			return buffer;
+		}
+
+		protected void DisposeMeshBuffers()
+		{
+			if (northWestVertexBuffer != null)
+			{
+				if (!northWestVertexBuffer.Disposed)
+					northWestVertexBuffer.Dispose();
+				northWestVertexBuffer = null;
+			}
+			if (southWestVertexBuffer != null)
+			{
+				if (!southWestVertexBuffer.Disposed)
+					southWestVertexBuffer.Dispose();
+				southWestVertexBuffer = null;
+			}
+			if (northEastVertexBuffer != null)
+			{
+				if (!northEastVertexBuffer.Disposed)
+					northEastVertexBuffer.Dispose();
+				northEastVertexBuffer = null;
+			}
+			if (southEastVertexBuffer != null)
+			{
+				if (!southEastVertexBuffer.Disposed)
+					southEastVertexBuffer.Dispose();
+				southEastVertexBuffer = null;
+			}
+			if (indexBuffer != null)
+			{
+				if (!indexBuffer.Disposed)
+					indexBuffer.Dispose();
+				indexBuffer = null;
 			}
 		}
 
@@ -993,16 +1112,21 @@ namespace HUST.WREIS.Dot3D.Renderable
 
         private void calculate_normals(ref CustomVertex.PositionNormalTextured[] vertices, short[] indices)
         {
-            List<Vector3>[] normal_buffer = new  List<Vector3> [vertices.Length];
-            for (int i = 0; i < vertices.Length; i++)
-            {
-                normal_buffer[i] = new List<Vector3>();
-            }
+            // Accumulate the face normals into a plain array. The version this replaces handed
+            // every vertex its own List<Vector3>, which for a single tile meant two thousand
+            // lists, each grown through several reallocations, on every mesh build - and while
+            // the camera moves near the ground meshes are built continuously.
+            Vector3[] accumulatedNormals = new Vector3[vertices.Length];
+
             for (int i = 0; i < indices.Length; i += 3)
             {
-                Vector3 p1 = vertices[indices[i + 0]].Position;
-                Vector3 p2 = vertices[indices[i + 1]].Position;
-                Vector3 p3 = vertices[indices[i + 2]].Position;
+                int index0 = indices[i];
+                int index1 = indices[i + 1];
+                int index2 = indices[i + 2];
+
+                Vector3 p1 = vertices[index0].Position;
+                Vector3 p2 = vertices[index1].Position;
+                Vector3 p3 = vertices[index2].Position;
 
                 Vector3 v1 = p2 - p1;
                 Vector3 v2 = p3 - p1;
@@ -1011,25 +1135,20 @@ namespace HUST.WREIS.Dot3D.Renderable
                 normal.Normalize();
 
                 // Store the face's normal for each of the vertices that make up the face.
-                normal_buffer[indices[i + 0]].Add(normal);
-                normal_buffer[indices[i + 1]].Add(normal);
-                normal_buffer[indices[i + 2]].Add(normal);
+                accumulatedNormals[index0] += normal;
+                accumulatedNormals[index1] += normal;
+                accumulatedNormals[index2] += normal;
             }
 
-            // Now loop through each vertex vector, and avarage out all the normals stored.
+            // Normalizing the sum gives the same direction the old averaging gave, as a unit
+            // vector instead of one shortened by how much the faces around the vertex disagree.
             for (int i = 0; i < vertices.Length; ++i)
             {
-                for (int j = 0; j < normal_buffer[i].Count; ++j)
-                {
-                    Vector3 curNormal = normal_buffer[i][j];
+                if (accumulatedNormals[i] == Vector3.Empty)
+                    continue;
 
-                    if (vertices[i].Normal == Vector3.Empty)
-                        vertices[i].Normal = curNormal;
-                    else
-                        vertices[i].Normal += curNormal;
-                }
-
-                vertices[i].Normal.Multiply(1.0f / normal_buffer[i].Count);
+                vertices[i].Normal = accumulatedNormals[i];
+                vertices[i].Normal.Normalize();
             }
 
             // Adjust/Fold struts vertices using terrain border vertices positions
@@ -1078,6 +1197,10 @@ namespace HUST.WREIS.Dot3D.Renderable
                 // The image may be on disk while its texture is not built yet, see m_TexturePending.
                 if (m_TexturePending)
                     CreatePendingTextures();
+
+                // Same for the mesh: the update thread built the arrays, the buffers are made here.
+                if (m_MeshPending)
+                    CreatePendingMesh();
 
                 if (!isInitialized ||
                     this.northWestVertices == null ||
@@ -1174,13 +1297,13 @@ namespace HUST.WREIS.Dot3D.Renderable
                     for (pass = 0; pass < numpasses; pass++)
                     {
                     if (!northWestChildRendered)
-                        Render(device, northWestVertices, northWestChild);
+                        Render(device, northWestVertices, northWestVertexBuffer, northWestChild);
                     if (!southWestChildRendered)
-                        Render(device, southWestVertices, southWestChild);
+                        Render(device, southWestVertices, southWestVertexBuffer, southWestChild);
                     if (!northEastChildRendered)
-                        Render(device, northEastVertices, northEastChild);
+                        Render(device, northEastVertices, northEastVertexBuffer, northEastChild);
                     if (!southEastChildRendered)
-                        Render(device, southEastVertices, southEastChild);
+                        Render(device, southEastVertices, southEastVertexBuffer, southEastChild);
 
                     }
 
@@ -1245,7 +1368,7 @@ namespace HUST.WREIS.Dot3D.Renderable
   		/// <summary>
 		/// Render one of the 4 quadrants with optional download indicator
 		/// </summary>
-		void Render(Device device, CustomVertex.PositionNormalTextured[] verts, QuadTile child)
+		void Render(Device device, CustomVertex.PositionNormalTextured[] verts, VertexBuffer vertexBuffer, QuadTile child)
 		{
 			bool isMultitexturing = false;
 			
@@ -1277,6 +1400,17 @@ namespace HUST.WREIS.Dot3D.Renderable
 
 			if(verts != null && vertexIndexes != null)
 			{
+				// Bind the GPU buffers when there are any. The draws below fall back to the
+				// arrays when there are not, which is the case before the first upload and
+				// whenever the upload failed, so no tile is dropped because of a buffer.
+				bool usingBuffers = vertexBuffer != null && indexBuffer != null &&
+					!vertexBuffer.Disposed && !indexBuffer.Disposed;
+				if (usingBuffers)
+				{
+					device.SetStreamSource(0, vertexBuffer, 0, CustomVertex.PositionNormalTextured.StrideSize);
+					device.Indices = indexBuffer;
+				}
+
                 if (QuadTileSet.Effect != null)
                 {
                     Effect effect = QuadTileSet.Effect;
@@ -1305,8 +1439,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                          device.DrawIndexedUserPrimitives(PrimitiveType.LineStrip, 0,
                                 verts.Length, vertexIndexes.Length / 3, vertexIndexes, true, verts);
                         #else
-                            device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0,
-                                verts.Length, vertexIndexes.Length / 3, vertexIndexes, true, verts);
+                            DrawQuadrant(device, verts, vertexBuffer);
                         #endif
 
 
@@ -1359,8 +1492,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                     device.DrawIndexedUserPrimitives(PrimitiveType.LineStrip, 0,
                            verts.Length, vertexIndexes.Length / 3, vertexIndexes, true, verts);
 #else
-                         device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0,
-                        verts.Length, vertexIndexes.Length / 3, vertexIndexes, true, verts);
+                         DrawQuadrant(device, verts, vertexBuffer);
 #endif
 
 
@@ -1394,8 +1526,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                         device.DrawIndexedUserPrimitives(PrimitiveType.LineStrip, 0,
                                verts.Length, vertexIndexes.Length / 3, vertexIndexes, true, verts);
 #else
-                           device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0,
-                            verts.Length, vertexIndexes.Length / 3, vertexIndexes, true, verts);
+                           DrawQuadrant(device, verts, vertexBuffer);
 #endif
 
 
@@ -1407,6 +1538,26 @@ namespace HUST.WREIS.Dot3D.Renderable
 			}
 			if (isMultitexturing)
 				device.SetTextureStageState(1, TextureStageStates.ColorOperation, (int)TextureOperation.Disable);
+		}
+
+		/// <summary>
+		/// Draws one quadrant from its vertex buffer, or from the array when the buffer is not
+		/// there yet. Going through the buffer is the point of the whole exercise: with
+		/// DrawIndexedUserPrimitives the driver was handed the same vertices again every frame.
+		/// </summary>
+		void DrawQuadrant(Device device, CustomVertex.PositionNormalTextured[] verts, VertexBuffer vertexBuffer)
+		{
+			if (vertexBuffer != null && indexBuffer != null &&
+				!vertexBuffer.Disposed && !indexBuffer.Disposed)
+			{
+				device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0,
+					verts.Length, 0, vertexIndexes.Length / 3);
+			}
+			else
+			{
+				device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0,
+					verts.Length, vertexIndexes.Length / 3, vertexIndexes, true, verts);
+			}
 		}
 
         void device_DeviceReset(object sender, EventArgs e)
