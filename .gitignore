@@ -4,3 +4,11 @@
 *.log
 src/Bin/Visualization/Cache/
 src/Bin/Visualization/Log/
+
+# Written by Visual Studio for the machine it runs on: the solution user options, the ones of every
+# project, and .vs, which holds the browsing database and the layout of the documents that were open.
+# They differ on every machine that opens the solution and change every time it is closed.
+.vs/
+*.suo
+*.user
+*.sln.docstates
