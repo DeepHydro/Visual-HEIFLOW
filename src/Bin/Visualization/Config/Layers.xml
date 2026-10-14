@@ -46,52 +46,48 @@
 		</LatLonBoundingBox>
 	</TerrainAccessor>
 	<LayerSet Name="Base Map" ShowOnlyOneLayer="true" ShowAtStartup="true">
-		<ProjectedTileSet ShowAtStartup="False">
-			<Name>BingSatelliteMap</Name>
-			<DistanceAboveSurface>0</DistanceAboveSurface>
-			<IconImageName>nrl.png</IconImageName>
-			<StartZoomLevel>0</StartZoomLevel>
+	<ProjectedTileSet ShowAtStartup="False">
+		<Name>BingSatelliteMap</Name>
+		<DistanceAboveSurface>0</DistanceAboveSurface>
+		<IconImageName>nrl.png</IconImageName>
+		<StartZoomLevel>0</StartZoomLevel>
 			<BoundingBox>
-				<North>
-					<Value>90.0</Value>
-				</North>
-				<South>
-					<Value>-90.0</Value>
-				</South>
-				<West>
-					<Value>-180.0</Value>
-				</West>
-				<East>
-					<Value>180.0</Value>
-				</East>
-			</BoundingBox>
-			<TerrainMapped>true</TerrainMapped>
-			<ImageAccessor>
-				<LevelZeroTileSizeDegrees>180</LevelZeroTileSizeDegrees>
-				<NumberLevels>20</NumberLevels>
-				<TextureSizePixels>512</TextureSizePixels>
-				<ImageFileExtension>jpeg</ImageFileExtension>
-				<SubDatasetName>none</SubDatasetName>
-				<IsDebug>False</IsDebug>
-				<IsDownloadableLayer>False</IsDownloadableLayer>
-				<ImageTileService>
+			<North>
+				<Value>90.0</Value>
+			</North>
+			<South>
+				<Value>-90.0</Value>
+			</South>
+			<West>
+				<Value>-180.0</Value>
+			</West>
+			<East>
+				<Value>180.0</Value>
+			</East>
+		</BoundingBox>
+		<TerrainMapped>true</TerrainMapped>
+		<ImageAccessor>
+			<LevelZeroTileSizeDegrees>180</LevelZeroTileSizeDegrees>
+			<NumberLevels>20</NumberLevels>
+			<TextureSizePixels>512</TextureSizePixels>
+			<ImageFileExtension>jpeg</ImageFileExtension>
+			<SubDatasetName>none</SubDatasetName>
+			<IsDebug>False</IsDebug>
+			<IsDownloadableLayer>False</IsDownloadableLayer>
+			<ImageTileService>
 					<ServerUrl>http://worldwind25.arc.nasa.gov/tile/tile.aspx</ServerUrl>
 					<DataSetName>BingSatelliteMap</DataSetName>
 					<ServerLogoFilePath>Data\Icons\Interface\usgs.png</ServerLogoFilePath>
 					<MapProvider>BingSatelliteMap</MapProvider>
 					<CacheDirectory>BingSatelliteMap</CacheDirectory>
 					<SQLiteService>
-						<DbFilePath>data\image.gmdb</DbFilePath>
-						<ImageType>7</ImageType>
-					</SQLiteService>
-				</ImageTileService>
-			</ImageAccessor>
-			<TransparentColor>
-				<Red>0</Red>
-				<Green>0</Green>
-				<Blue>0</Blue>
-			</TransparentColor>
-		</ProjectedTileSet>
+		  	  <DbFilePath>data\image.gmdb</DbFilePath>
+					  <ImageType>7</ImageType>
+		      </SQLiteService>
+		  </ImageTileService>		 
+		</ImageAccessor>
+		<TransparentColor><Red>0</Red><Green>0</Green><Blue>0</Blue></TransparentColor>
+	  </ProjectedTileSet>
 		<QuadTileSet ShowAtStartup="True">
 			<Name>Landsat7 Image</Name>
 			<IconImageName>osmlogo.png</IconImageName>

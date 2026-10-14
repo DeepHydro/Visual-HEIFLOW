@@ -1,2 +1,0 @@
-E:\PKU\Program\VHF\Heiflow.Applications\obj\Release\Heiflow.Applications.Properties.Resources.resources
-E:\PKU\Program\VHF\Heiflow.Applications\obj\Release\Heiflow.Applications.csproj.GenerateResource.Cache

@@ -5,10 +5,89 @@
 src/Bin/Visualization/Cache/
 src/Bin/Visualization/Log/
 
+# Compiled assemblies. Note that src/Bin is the application's run directory and
+# still holds files that have to stay tracked (Resources/Images, Resources/Langs,
+# Config, the Readme and Help folders), so only the binaries are ignored here and
+# the directory itself is never ignored.
+*.dll
+
+# The *.dll.config / *.exe.config next to an assembly are copies MSBuild makes
+# from app.config, and the *.vshost.* files are the Visual Studio hosting process.
+# Both are regenerated on the next build.
+*.dll.config
+*.exe.config
+*.vshost.*
+
+# Executables this solution builds itself. It is deliberately not written as
+# *.exe: src/Bin/Debug/Models (MODFLOW, SEAWAT, VFT3D, heiflow), the TauDEM tools
+# under Taudem5Exe, External/TerrainViewer.exe and src/.nuget/NuGet.exe are third
+# party programs kept in the repository and would be lost.
+src/Bin/Visualization/HydroEarth.exe
+src/Bin/Debug/Visual Heiflow.exe
+src/Heiflow.Image/bin/Debug/Heiflow.Image.exe
+src/Heiflow.Studio/bin/Release/Visual Heiflow.exe
+src/Heiflow.Studio/bin/x64/Debug/Visual Heiflow.exe
+src/UnitTest/bin/Debug/UnitTest.exe
+src/UnitTest/bin/Release/UnitTest.exe
+src/UnitTest/bin/x64/Debug/UnitTest.exe
+
+# Third party binaries that ship with the sources and have no build step of their
+# own, so they cannot be produced again by compiling. Keep them tracked.
+!src/packages/**
+!src/DotSpatial.Plugins.AttributeDataExplorer/SupportFiles/*.dll
+!src/DotSpatial.Plugins.Taudem/Taudem5Exe/*.dll
+
+# MSBuild intermediate output: generated .cs/.g.cs/.baml/.resources files,
+# TemporaryGeneratedFile_*, .cache, and the assemblies copied into obj.
+**/obj/
+
+# Build, test and profiler output.
+*.ilk
+*.iobj
+*.ipdb
+*.meta
+*.obj
+*.pch
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tlog
+*.tmp
+*.tmp_proj
+*_wpftmp.csproj
+*.vspscc
+*.vssscc
+*.pidb
+*.svclog
+*.scc
+*.opendb
+*.VC.db
+*.VC.VC.opendb
+*.psess
+*.vsp
+*.vspx
+*.VisualState.xml
+*.coverage
+*.coveragexml
+TestResult.xml
+TestResults/
+*.trx
+
+# Windows and editor leftovers.
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
 # Written by Visual Studio for the machine it runs on: the solution user options, the ones of every
 # project, and .vs, which holds the browsing database and the layout of the documents that were open.
 # They differ on every machine that opens the solution and change every time it is closed.
 .vs/
 *.suo
 *.user
+*.userosscache
+*.userprefs
 *.sln.docstates
