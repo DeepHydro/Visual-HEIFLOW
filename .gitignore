@@ -1,3 +1,4 @@
 *.pdb
 *.cache
 *.gmdb
+src/Bin/Visualization/Cache/
