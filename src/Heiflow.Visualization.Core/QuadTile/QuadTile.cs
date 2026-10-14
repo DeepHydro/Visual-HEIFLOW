@@ -74,16 +74,21 @@ namespace HUST.WREIS.Dot3D.Renderable
 		protected short[] vertexIndexes;
 
 		/// <summary>
-		/// GPU copies of the four quadrant meshes above, and the index buffer they all share
-		/// (the quadrants have the same grid and therefore the same topology). Drawing used to
-		/// go through DrawIndexedUserPrimitives, which handed these arrays to the driver again
-		/// on every frame; the buffers are uploaded once and then only referenced.
+		/// GPU copy of the tile mesh. All four quadrants go into one buffer, one after the other,
+		/// and the index buffer holds the four ranges that address them, so a tile that has no
+		/// child covering any of its quadrants is a single draw instead of four. Drawing used to
+		/// go through DrawIndexedUserPrimitives, which handed these arrays to the driver again on
+		/// every frame; the buffers are uploaded once and then only referenced.
 		/// </summary>
-		protected VertexBuffer northWestVertexBuffer;
-		protected VertexBuffer southWestVertexBuffer;
-		protected VertexBuffer northEastVertexBuffer;
-		protected VertexBuffer southEastVertexBuffer;
+		protected VertexBuffer tileVertexBuffer;
 		protected IndexBuffer indexBuffer;
+
+		/// <summary>
+		/// How many vertices and indices one quadrant has. The four blocks in the buffers above
+		/// are this big, which is what lets a draw name a quadrant by its range.
+		/// </summary>
+		protected int m_QuadrantVertexCount;
+		protected int m_QuadrantIndexCount;
 
 		/// <summary>
 		/// The mesh arrays above were rebuilt and the buffers have not been filled from them yet.
@@ -130,8 +135,17 @@ namespace HUST.WREIS.Dot3D.Renderable
 			this.Level = level;
 			this.QuadTileSet = quadTileSet;
 
+			// Only as thick as the tile really is. That is not zero even for a flat tile: the
+			// eight corners of the box are the four corners of the tile at the inner and outer
+			// radius, and the sphere sags away from the plane they span, so a box with no slack
+			// would cut a wide tile in half. The sag is what the old fixed 300 km was standing in
+			// for, computed here from the tile's own span: about 326 km for a level 0 tile and a
+			// few centimetres for the small ones near the ground.
+			double layerRadius = quadTileSet.LayerRadius;
+			double chordSag = ChordSag(layerRadius, LatitudeSpan, LongitudeSpan);
+
 			BoundingBox = new BoundingBox((float)south, (float)north, (float)west, (float)east,
-								(float)quadTileSet.LayerRadius, (float)quadTileSet.LayerRadius + 300000f);
+								(float)layerRadius, (float)(layerRadius + chordSag + 1000));
 			//localOrigin = BoundingBox.CalculateCenter();
 			localOrigin = MathEngine.SphericalToCartesianD(CenterLatitude, CenterLongitude, quadTileSet.LayerRadius);
 
@@ -144,6 +158,18 @@ namespace HUST.WREIS.Dot3D.Renderable
 			Row = MathEngine.GetRowFromLatitude(South, North - South);
 			Col = MathEngine.GetColFromLongitude(West, North - South);
             Name = string.Format("{0}_{1}_{2}", level, Row, Col);
+		}
+
+		/// <summary>
+		/// How far the sphere drops between the middle of the tile and the plane through its four
+		/// corners. The bounding box is the box spanned by those corners, so a box with no slack
+		/// would sit below the middle of a wide tile and the frustum test would throw the tile
+		/// away even though it fills the screen.
+		/// </summary>
+		protected static double ChordSag(double layerRadius, double latitudeSpan, double longitudeSpan)
+		{
+			double maxSpan = Math.Max(latitudeSpan, longitudeSpan) * Math.PI / 180.0;
+			return layerRadius * (1.0 - Math.Cos(0.5 * maxSpan));
 		}
 
 		public virtual void ResetCache()
@@ -637,11 +663,32 @@ namespace HUST.WREIS.Dot3D.Renderable
 				// Drop the previous buffers first: the mesh was rebuilt, so they hold stale data.
 				DisposeMeshBuffers();
 
-				indexBuffer = CreateIndexBuffer(device, vertexIndexes);
-				northWestVertexBuffer = CreateVertexBuffer(device, northWestVertices);
-				southWestVertexBuffer = CreateVertexBuffer(device, southWestVertices);
-				northEastVertexBuffer = CreateVertexBuffer(device, northEastVertices);
-				southEastVertexBuffer = CreateVertexBuffer(device, southEastVertices);
+				m_QuadrantVertexCount = northWestVertices.Length;
+				m_QuadrantIndexCount = vertexIndexes.Length;
+
+				// The four quadrants are laid out one after the other, in the order the draws
+				// name them: north west, south west, north east, south east.
+				CustomVertex.PositionNormalTextured[] vertices =
+					new CustomVertex.PositionNormalTextured[4 * m_QuadrantVertexCount];
+				Array.Copy(northWestVertices, 0, vertices, 0, m_QuadrantVertexCount);
+				Array.Copy(southWestVertices, 0, vertices, m_QuadrantVertexCount, m_QuadrantVertexCount);
+				Array.Copy(northEastVertices, 0, vertices, 2 * m_QuadrantVertexCount, m_QuadrantVertexCount);
+				Array.Copy(southEastVertices, 0, vertices, 3 * m_QuadrantVertexCount, m_QuadrantVertexCount);
+
+				// One index range per quadrant, each shifted onto its own block of vertices, so
+				// drawing a quadrant is a matter of naming the range rather than of binding
+				// another buffer.
+				short[] indices = new short[4 * m_QuadrantIndexCount];
+				for (int quadrant = 0; quadrant < 4; quadrant++)
+				{
+					int indexOffset = quadrant * m_QuadrantIndexCount;
+					int vertexOffset = quadrant * m_QuadrantVertexCount;
+					for (int i = 0; i < m_QuadrantIndexCount; i++)
+						indices[indexOffset + i] = (short)(vertexIndexes[i] + vertexOffset);
+				}
+
+				tileVertexBuffer = CreateVertexBuffer(device, vertices);
+				indexBuffer = CreateIndexBuffer(device, indices);
 			}
 			catch (Exception caught)
 			{
@@ -680,29 +727,11 @@ namespace HUST.WREIS.Dot3D.Renderable
 
 		protected void DisposeMeshBuffers()
 		{
-			if (northWestVertexBuffer != null)
+			if (tileVertexBuffer != null)
 			{
-				if (!northWestVertexBuffer.Disposed)
-					northWestVertexBuffer.Dispose();
-				northWestVertexBuffer = null;
-			}
-			if (southWestVertexBuffer != null)
-			{
-				if (!southWestVertexBuffer.Disposed)
-					southWestVertexBuffer.Dispose();
-				southWestVertexBuffer = null;
-			}
-			if (northEastVertexBuffer != null)
-			{
-				if (!northEastVertexBuffer.Disposed)
-					northEastVertexBuffer.Dispose();
-				northEastVertexBuffer = null;
-			}
-			if (southEastVertexBuffer != null)
-			{
-				if (!southEastVertexBuffer.Disposed)
-					southEastVertexBuffer.Dispose();
-				southEastVertexBuffer = null;
+				if (!tileVertexBuffer.Disposed)
+					tileVertexBuffer.Dispose();
+				tileVertexBuffer = null;
 			}
 			if (indexBuffer != null)
 			{
@@ -929,8 +958,15 @@ namespace HUST.WREIS.Dot3D.Renderable
             //BoundingBox = new BoundingBox((float)South, (float)North, (float)West, (float)East,
             //    (float)layerRadius, (float)layerRadius + 10000 * this.verticalExaggeration);
 
+            // From the bottom of the struts to the highest sample of this tile, plus the sag of
+            // the chord across it, see ChordSag. This replaces a height of 30000000000 times the
+            // vertical exaggeration, which stretched the box far past the whole scene, so that
+            // every tile in the tree answered the frustum test with yes - which is why a view
+            // near the ground loaded so many of them.
+            double chordSag = ChordSag(layerRadius, LatitudeSpan, LongitudeSpan);
+
             BoundingBox = new BoundingBox((float)South, (float)North, (float)West, (float)East,
-             (float)layerRadius, (float)layerRadius + 30000000000 * this.verticalExaggeration);
+             (float)meshBaseRadius, (float)(layerRadius + maximumElevation + chordSag));
 
             QuadTileSet.IsDownloadingElevation = false;
 
@@ -1294,17 +1330,31 @@ namespace HUST.WREIS.Dot3D.Renderable
                         (float)(localOrigin.Z - drawArgs.WorldCamera.ReferenceCenter.Z)
                         );
 
+                    // One draw covers the whole tile when every quadrant is visible and none of
+                    // them carries a download indicator, which is a texture stage and so can only
+                    // be set for the draw as a whole. Otherwise they go one by one.
+                    bool anyQuadrantHidden = northWestChildRendered || southWestChildRendered ||
+                        northEastChildRendered || southEastChildRendered;
+                    bool anyIndicator = HasDownloadActivity(northWestChild) || HasDownloadActivity(southWestChild) ||
+                        HasDownloadActivity(northEastChild) || HasDownloadActivity(southEastChild);
+
                     for (pass = 0; pass < numpasses; pass++)
                     {
-                    if (!northWestChildRendered)
-                        Render(device, northWestVertices, northWestVertexBuffer, northWestChild);
-                    if (!southWestChildRendered)
-                        Render(device, southWestVertices, southWestVertexBuffer, southWestChild);
-                    if (!northEastChildRendered)
-                        Render(device, northEastVertices, northEastVertexBuffer, northEastChild);
-                    if (!southEastChildRendered)
-                        Render(device, southEastVertices, southEastVertexBuffer, southEastChild);
-
+                        if (anyQuadrantHidden || anyIndicator)
+                        {
+                            if (!northWestChildRendered)
+                                Render(device, northWestVertices, northWestChild, 0, 1);
+                            if (!southWestChildRendered)
+                                Render(device, southWestVertices, southWestChild, 1, 1);
+                            if (!northEastChildRendered)
+                                Render(device, northEastVertices, northEastChild, 2, 1);
+                            if (!southEastChildRendered)
+                                Render(device, southEastVertices, southEastChild, 3, 1);
+                        }
+                        else
+                        {
+                            Render(device, northWestVertices, null, 0, 4);
+                        }
                     }
 
                     DrawArgs.Device.Transform.World = DrawArgs.Camera.WorldMatrix;
@@ -1368,7 +1418,8 @@ namespace HUST.WREIS.Dot3D.Renderable
   		/// <summary>
 		/// Render one of the 4 quadrants with optional download indicator
 		/// </summary>
-		void Render(Device device, CustomVertex.PositionNormalTextured[] verts, VertexBuffer vertexBuffer, QuadTile child)
+		void Render(Device device, CustomVertex.PositionNormalTextured[] verts, QuadTile child,
+			int firstQuadrant, int quadrantCount)
 		{
 			bool isMultitexturing = false;
 			
@@ -1403,11 +1454,11 @@ namespace HUST.WREIS.Dot3D.Renderable
 				// Bind the GPU buffers when there are any. The draws below fall back to the
 				// arrays when there are not, which is the case before the first upload and
 				// whenever the upload failed, so no tile is dropped because of a buffer.
-				bool usingBuffers = vertexBuffer != null && indexBuffer != null &&
-					!vertexBuffer.Disposed && !indexBuffer.Disposed;
+				bool usingBuffers = tileVertexBuffer != null && indexBuffer != null &&
+					!tileVertexBuffer.Disposed && !indexBuffer.Disposed;
 				if (usingBuffers)
 				{
-					device.SetStreamSource(0, vertexBuffer, 0, CustomVertex.PositionNormalTextured.StrideSize);
+					device.SetStreamSource(0, tileVertexBuffer, 0, CustomVertex.PositionNormalTextured.StrideSize);
 					device.Indices = indexBuffer;
 				}
 
@@ -1439,7 +1490,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                          device.DrawIndexedUserPrimitives(PrimitiveType.LineStrip, 0,
                                 verts.Length, vertexIndexes.Length / 3, vertexIndexes, true, verts);
                         #else
-                            DrawQuadrant(device, verts, vertexBuffer);
+                            DrawQuadrants(device, verts, firstQuadrant, quadrantCount);
                         #endif
 
 
@@ -1492,7 +1543,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                     device.DrawIndexedUserPrimitives(PrimitiveType.LineStrip, 0,
                            verts.Length, vertexIndexes.Length / 3, vertexIndexes, true, verts);
 #else
-                         DrawQuadrant(device, verts, vertexBuffer);
+                         DrawQuadrants(device, verts, firstQuadrant, quadrantCount);
 #endif
 
 
@@ -1526,7 +1577,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                         device.DrawIndexedUserPrimitives(PrimitiveType.LineStrip, 0,
                                verts.Length, vertexIndexes.Length / 3, vertexIndexes, true, verts);
 #else
-                           DrawQuadrant(device, verts, vertexBuffer);
+                           DrawQuadrants(device, verts, firstQuadrant, quadrantCount);
 #endif
 
 
@@ -1541,23 +1592,61 @@ namespace HUST.WREIS.Dot3D.Renderable
 		}
 
 		/// <summary>
-		/// Draws one quadrant from its vertex buffer, or from the array when the buffer is not
-		/// there yet. Going through the buffer is the point of the whole exercise: with
-		/// DrawIndexedUserPrimitives the driver was handed the same vertices again every frame.
+		/// Draws the given run of quadrants, counting from north west, from the tile's vertex
+		/// buffer, or from the array when the buffer is not there yet. Going through the buffer is
+		/// the point of the whole exercise: with DrawIndexedUserPrimitives the driver was handed
+		/// the same vertices again every frame, and one quadrant per call.
 		/// </summary>
-		void DrawQuadrant(Device device, CustomVertex.PositionNormalTextured[] verts, VertexBuffer vertexBuffer)
+		void DrawQuadrants(Device device, CustomVertex.PositionNormalTextured[] verts,
+			int firstQuadrant, int quadrantCount)
 		{
-			if (vertexBuffer != null && indexBuffer != null &&
-				!vertexBuffer.Disposed && !indexBuffer.Disposed)
+			if (tileVertexBuffer != null && indexBuffer != null &&
+				!tileVertexBuffer.Disposed && !indexBuffer.Disposed)
 			{
-				device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0,
-					verts.Length, 0, vertexIndexes.Length / 3);
+				device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0,
+					firstQuadrant * m_QuadrantVertexCount,
+					quadrantCount * m_QuadrantVertexCount,
+					firstQuadrant * m_QuadrantIndexCount,
+					quadrantCount * m_QuadrantIndexCount / 3);
 			}
 			else
 			{
-				device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0,
-					verts.Length, vertexIndexes.Length / 3, vertexIndexes, true, verts);
+				// No buffer to name a range in, so fall back to the arrays and draw the quadrants
+				// one at a time. A run of them cannot be drawn from the arrays in one call, the
+				// way it can from the buffer, because they are four separate arrays.
+				for (int quadrant = firstQuadrant; quadrant < firstQuadrant + quadrantCount; quadrant++)
+				{
+					CustomVertex.PositionNormalTextured[] quadrantVertices = GetQuadrantVertices(quadrant);
+					if (quadrantVertices == null)
+						continue;
+
+					device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0,
+						quadrantVertices.Length, vertexIndexes.Length / 3, vertexIndexes, true, quadrantVertices);
+				}
 			}
+		}
+
+		CustomVertex.PositionNormalTextured[] GetQuadrantVertices(int quadrant)
+		{
+			switch (quadrant)
+			{
+				case 0: return northWestVertices;
+				case 1: return southWestVertices;
+				case 2: return northEastVertices;
+				default: return southEastVertices;
+			}
+		}
+
+		/// <summary>
+		/// True when a child tile needs the download indicator drawn over its quadrant, which has
+		/// to be set per quadrant and so rules out drawing them as one run.
+		/// </summary>
+		static bool HasDownloadActivity(QuadTile child)
+		{
+			if (child == null || !World.Settings.ShowDownloadIndicator || World.Settings.EnableSunShading)
+				return false;
+
+			return child.isDownloadingTerrain || child.WaitingForDownload;
 		}
 
         void device_DeviceReset(object sender, EventArgs e)
