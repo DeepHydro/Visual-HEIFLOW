@@ -17,6 +17,18 @@ namespace HUST.WREIS.Dot3D
 
     public enum ScaleMethod { None, Linear, StandardDeviation }
     public enum ArrowStyle { HeadOnly, LineArrow }
+
+    /// <summary>
+    /// Where the tiles of a layer are cached, see WorldSettings.TileCacheType.
+    /// </summary>
+    public enum TileCacheType
+    {
+        /// <summary>One image file per tile, in the cache directory of the layer.</summary>
+        File,
+
+        /// <summary>The tiles of a layer together in one SQLite database.</summary>
+        SQLite
+    }
     /// <summary>
     /// World user configurable settings
     /// TODO: Group settings
@@ -1095,6 +1107,32 @@ namespace HUST.WREIS.Dot3D
         {
             get { return cameraRotationSpeed; }
             set { cameraRotationSpeed = value; }
+        }
+
+        #endregion
+
+        #region Cache
+
+        // Which service a layer caches its tiles with is decided while Layers.xml is read, and that
+        // happens once, when the world is loaded, so changing any of this needs a restart.
+        private TileCacheType tileCacheType = TileCacheType.File;
+
+        [Browsable(true), Category("Cache")]
+        [Description("Where the downloaded tiles of a layer are kept. File: one image file per tile under the cache directory of the layer. SQLite: the tiles in TileCacheDbPath, the one database every layer shares. The elevation is kept in that database either way, the file cache does not hold it. Read when the world is loaded, so it needs the application to be restarted.")]
+        public TileCacheType TileCacheType
+        {
+            get { return tileCacheType; }
+            set { tileCacheType = value; }
+        }
+
+        private string tileCacheDbPath = @"data\image.gmdb";
+
+        [Browsable(true), Category("Cache")]
+        [Description("The SQLite database every layer keeps its tiles in, and the elevation with them, see TileCacheType. Inside it, a number derived from the name of the layer is what keeps the tiles of one layer from the tiles of another, so this is the only cache file there is to manage. A path that is not rooted is taken relative to the directory the application runs in. It is written to Layers.xml as well when the settings are saved. Read when the world is loaded, so it needs the application to be restarted.")]
+        public string TileCacheDbPath
+        {
+            get { return tileCacheDbPath; }
+            set { tileCacheDbPath = value; }
         }
 
         #endregion

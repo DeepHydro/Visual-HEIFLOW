@@ -25,7 +25,6 @@
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -37,18 +36,100 @@
                        ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
         </DockPanel>
 
-        <DockPanel Grid.Row="1" Margin="0,0,0,6">
-            <TextBlock Text="{DynamicResource SceneWorldSettingsFilterHeader}" VerticalAlignment="Center" Margin="0,0,8,0" />
-            <TextBox x:Name="txtFilter" TextChanged="txtFilter_TextChanged"
-                     Controls:TextBoxHelper.Watermark="{DynamicResource SceneWorldSettingsFilterWatermark}" />
-        </DockPanel>
+        <TabControl Grid.Row="1">
+            <TabItem Header="{DynamicResource SceneWorldSettingsSceneTabHeader}">
+                <Grid Margin="0,6,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
 
-        <wpg:PropertyGrid x:Name="propertyGrid" Grid.Row="2" Categorized="True" ShowDescription="True" NameWidth="230" />
+                    <DockPanel Grid.Row="0" Margin="0,0,0,6">
+                        <TextBlock Text="{DynamicResource SceneWorldSettingsFilterHeader}" VerticalAlignment="Center" Margin="0,0,8,0" />
+                        <TextBox x:Name="txtFilter" TextChanged="txtFilter_TextChanged"
+                                 Controls:TextBoxHelper.Watermark="{DynamicResource SceneWorldSettingsFilterWatermark}" />
+                    </DockPanel>
 
-        <TextBlock Grid.Row="3" Margin="0,8,0,8" TextWrapping="Wrap" Foreground="Gray"
+                    <wpg:PropertyGrid x:Name="propertyGrid" Grid.Row="1" Categorized="True" ShowDescription="True" NameWidth="230" />
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="{DynamicResource SceneWorldSettingsCacheTabHeader}">
+                <Grid x:Name="cachePanel" Margin="0,6,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- The two settings that decide where downloaded tiles end up. They are properties
+                         of World.Settings like everything in the grid on the other tab, and the panel
+                         is bound straight to that object, so they are saved with it. -->
+                    <GroupBox Grid.Row="0" Header="{DynamicResource CacheTypeGroupHeader}">
+                        <StackPanel Margin="4">
+                            <DockPanel Margin="0,2">
+                                <TextBlock Text="{DynamicResource CacheTypeLabel}" Width="130" VerticalAlignment="Center" />
+                                <ComboBox x:Name="cmbCacheType" Width="180" HorizontalAlignment="Left"
+                                          SelectedItem="{Binding Path=TileCacheType, Mode=TwoWay}" />
+                            </DockPanel>
+                            <DockPanel Margin="0,2">
+                                <TextBlock Text="{DynamicResource CacheDbPathLabel}" Width="130" VerticalAlignment="Center" />
+                                <Button x:Name="btnBrowseDb" Content="{DynamicResource CacheBrowse}" MinWidth="70"
+                                        DockPanel.Dock="Right" Margin="6,0,0,0" Click="btnBrowseDb_Click" />
+                                <TextBox x:Name="txtDbPath" Text="{Binding Path=TileCacheDbPath, Mode=TwoWay}" />
+                            </DockPanel>
+                            <TextBlock Margin="0,6,0,0" TextWrapping="Wrap" Foreground="Gray"
+                                       Text="{DynamicResource CacheTypeHint}" />
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox Grid.Row="1" Margin="0,6,0,0" Header="{DynamicResource CacheDatabaseGroupHeader}">
+                        <Grid Margin="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="130" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="{DynamicResource CacheDbLocationLabel}" VerticalAlignment="Center" />
+                            <TextBlock x:Name="txtDbLocation" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"
+                                       TextTrimming="CharacterEllipsis"
+                                       ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="{DynamicResource CacheDbSizeLabel}" VerticalAlignment="Center" />
+                            <TextBlock x:Name="txtDbSize" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" />
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="{DynamicResource CacheFileCacheSizeLabel}" VerticalAlignment="Center" />
+                            <TextBlock x:Name="txtFileCacheSize" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" />
+                        </Grid>
+                    </GroupBox>
+
+                    <TextBlock Grid.Row="2" Margin="0,8,0,0" TextWrapping="Wrap" Foreground="Gray"
+                               Text="{DynamicResource CacheClearHint}" />
+
+                    <DockPanel Grid.Row="3" Margin="0,8,0,0">
+                        <Button x:Name="btnCacheRefresh" Content="{DynamicResource CacheRefresh}" MinWidth="90"
+                                DockPanel.Dock="Left" Click="btnCacheRefresh_Click" />
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button x:Name="btnClearDatabase" Content="{DynamicResource CacheClearDatabase}" MinWidth="140"
+                                    Margin="0,0,8,0" Click="btnClearDatabase_Click" />
+                            <Button x:Name="btnClearFileCache" Content="{DynamicResource CacheClearFileCache}" MinWidth="140"
+                                    Click="btnClearFileCache_Click" />
+                        </StackPanel>
+                    </DockPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <TextBlock Grid.Row="2" Margin="0,8,0,8" TextWrapping="Wrap" Foreground="Gray"
                    Text="{DynamicResource SceneWorldSettingsHint}" />
 
-        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button x:Name="btnReload" Content="{DynamicResource SceneWorldSettingsReload}" MinWidth="90" Margin="0,0,8,0" Click="btnReload_Click" />
             <Button x:Name="btnSave" Content="{DynamicResource SceneWorldSettingsSave}" MinWidth="90" Margin="0,0,8,0" Click="btnSave_Click" />
             <Button x:Name="btnCancel" Content="{DynamicResource SceneWorldSettingsCancel}" MinWidth="90" Click="btnCancel_Click" />

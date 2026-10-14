@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.IO;
@@ -118,10 +119,13 @@ namespace HUST.WREIS.Dot3D
             try
             {
                 XElement doc = XElement.Load(filename);
+                LayersFilePath = filename;
                 string worldName = doc.Attribute("Name").Value;
                 double equatorialRadius = double.Parse(doc.Attribute("EquatorialRadius").Value);
                 World.Settings.DefalutLatitude = float.Parse(doc.Attribute("DefalutLatitude").Value);
                 World.Settings.DefalutLongitude = float.Parse(doc.Attribute("DefalutLongitude").Value);
+
+                ReadTileCache(doc);
 
                 TerrainAccessor[] terrainAccessor = GetTerrainAccessors(doc, System.IO.Path.Combine(cache.CacheDirectory, worldName));
 
@@ -170,9 +174,9 @@ namespace HUST.WREIS.Dot3D
                            terrainTileService.Element("Version").Value,
                             terrainTileService.Element("Format").Value,
                              terrainTileService.Element("SRS").Value);
-                tts.TerrainStorageService = GetSQLiteTerrainStorageService(terrainTileService);
-                if (tts.TerrainStorageService == null)
-                    tts.TerrainStorageService = new FileTerrainStorageService();
+                // The elevation goes into the database the layers share whatever TileCacheType says:
+                // FileTerrainStorageService saves nothing, so it would be downloaded again every time.
+                tts.TerrainStorageService = GetSQLiteTerrainStorageService(terrainTileService, terrainAccessorName);
                 return tts;
             }
             else
@@ -203,9 +207,9 @@ namespace HUST.WREIS.Dot3D
                      World.Settings.TerrainTileRetryInterval,
                       terrainTileService.Element("DataFormat").Value,
                        zoomOffset, maxZoom);
-            tts.TerrainStorageService = GetSQLiteTerrainStorageService(terrainTileService);
-            if (tts.TerrainStorageService == null)
-                tts.TerrainStorageService = new FileTerrainStorageService();
+            // The elevation goes into the database the layers share whatever TileCacheType says:
+            // FileTerrainStorageService saves nothing, so it would be downloaded again every time.
+            tts.TerrainStorageService = GetSQLiteTerrainStorageService(terrainTileService, terrainAccessorName);
             return tts;
         }
 
@@ -667,13 +671,8 @@ namespace HUST.WREIS.Dot3D
                     ia.IsDebug = isdebug;
                     ia.IsDownloadableLayer = isDownloadableLayer;
 
-                    ia.ImageService = GetSQLiteService(imageTileService, ia);
-
-                    if (ia.ImageService == null)
-                    {
-                        ia.ImageService = new FileImageAccessService(ia);
-                    }
-                   
+                    ia.ImageService = GetImageStorageService(imageTileService, ia);
+                  
                 }
                 // case 3: WMSImageTileService specified
                 XElement wmsImageStore = imageAccessor.Element("WMSImageTileService");
@@ -716,11 +715,7 @@ namespace HUST.WREIS.Dot3D
                     wmsLayerStore.LevelZeroTileSizeDegrees = levelZeroTileSizeDegrees;
                     wmsLayerStore.IsDebug = isdebug;
                     wmsLayerStore.IsDownloadableLayer = isDownloadableLayer;
-                    wmsLayerStore.ImageService = GetSQLiteService(wmsImageStore, wmsLayerStore);
-                    if (wmsLayerStore.ImageService == null)
-                    {
-                        wmsLayerStore.ImageService = new FileImageAccessService(wmsLayerStore);
-                    }
+                    wmsLayerStore.ImageService = GetImageStorageService(wmsImageStore, wmsLayerStore);
 
                     ia = wmsLayerStore;
                 }
@@ -741,30 +736,177 @@ namespace HUST.WREIS.Dot3D
             return ia;
         }
 
-        private static SQliteTerrainStorageService GetSQLiteTerrainStorageService(XElement parent)
+        private static SQliteTerrainStorageService GetSQLiteTerrainStorageService(XElement parent, string name)
         {
-            SQliteTerrainStorageService service = null;
-            var sQLiteService = parent.Element("SQLiteService");
-            if (sQLiteService != null)
-            {
-                string dbpath = Engine3DSettings.ApplicationDirectory + "\\" + sQLiteService.Element("DbFilePath").Value;
-                int type = sQLiteService.Element("TerrainType") != null ? int.Parse(sQLiteService.Element("TerrainType").Value) : 0;
-                service = new SQliteTerrainStorageService( dbpath, type);
-            }
-            return service;
+            return new SQliteTerrainStorageService(TileCacheDbPath(), GetTileType(parent, name, "TerrainType"));
         }
 
-        private static SQLiteImageService GetSQLiteService(XElement parent,ImageStore image)
+        private static IImageStorageService GetSQLiteService(XElement parent, ImageStore image)
         {
-            SQLiteImageService service = null;
-            var sQLiteService = parent.Element("SQLiteService");
-            if (sQLiteService != null)
+            return new SQLiteImageService(image, TileCacheDbPath(), GetTileType(parent, TileName(image), "ImageType"));
+        }
+
+        /// <summary>
+        /// The one database every layer keeps its tiles in, see World.Settings.TileCacheDbPath.
+        /// </summary>
+        public static string TileCacheDbPath()
+        {
+            string path = World.Settings.TileCacheDbPath;
+            if (string.IsNullOrWhiteSpace(path))
+                path = @"data\image.gmdb";
+
+            if (!Path.IsPathRooted(path))
+                path = Path.Combine(Engine3DSettings.ApplicationDirectory, path);
+
+            return path;
+        }
+
+        /// <summary>
+        /// The number that keeps the tiles of one layer from the tiles of another inside that database,
+        /// which is the only thing in there telling them apart. A service element that names one in
+        /// Layers.xml keeps it, so a layer that has tiles in the database already still finds them, and
+        /// a layer that does not gets a number derived from its name, see TileTypeFromName.
+        /// </summary>
+        private static int GetTileType(XElement serviceElement, string name, string elementName)
+        {
+            XElement sQLiteService = serviceElement.Element("SQLiteService");
+            if (sQLiteService != null && sQLiteService.Element(elementName) != null)
+                return int.Parse(sQLiteService.Element(elementName).Value);
+
+            return TileTypeFromName(name);
+        }
+
+        static string TileName(ImageStore image)
+        {
+            if (!string.IsNullOrEmpty(image.DataSetName))
+                return image.DataSetName;
+
+            return !string.IsNullOrEmpty(image.CacheDirectory) ?
+                new DirectoryInfo(image.CacheDirectory).Name : image.GetType().Name;
+        }
+
+        /// <summary>
+        /// A number between 1000 and 99999 for the name of a layer, hashed out here rather than taken
+        /// from string.GetHashCode(), which is not the same from one run to the next: a layer that got
+        /// a different number every time it started would not find the tiles it downloaded before.
+        /// </summary>
+        static int TileTypeFromName(string name)
+        {
+            unchecked
             {
-                string dbpath = Engine3DSettings.ApplicationDirectory + "\\" + sQLiteService.Element("DbFilePath").Value;
-                int type = sQLiteService.Element("ImageType") != null ? int.Parse(sQLiteService.Element("ImageType").Value) : 0;
-                service = new SQLiteImageService(image, dbpath,type);
+                uint hash = 2166136261;
+                foreach (char character in name)
+                {
+                    hash ^= character;
+                    hash *= 16777619;
+                }
+                return (int)(1000 + hash % 99000);
             }
-            return service;
+        }
+
+        /// <summary>
+        /// Which cache the tiles of a layer go into: the CacheType element of its service element if it
+        /// names one, otherwise World.Settings.TileCacheType.
+        /// </summary>
+        private static IImageStorageService GetImageStorageService(XElement serviceElement, ImageStore image)
+        {
+            if (GetTileCacheType(serviceElement) == TileCacheType.SQLite)
+                return GetSQLiteService(serviceElement, image);
+
+            return new FileImageAccessService(image);
+        }
+
+        private static TileCacheType GetTileCacheType(XElement serviceElement)
+        {
+            XElement cacheType = serviceElement.Element("CacheType");
+            if (cacheType != null)
+            {
+                TileCacheType parsed;
+                if (Enum.TryParse(cacheType.Value.Trim(), true, out parsed))
+                    return parsed;
+            }
+            return World.Settings.TileCacheType;
+        }
+
+        /// <summary>
+        /// Where the world was loaded from, so the tile cache settings can be written back to the same
+        /// file, see SaveTileCache.
+        /// </summary>
+        public static string LayersFilePath { get; private set; }
+
+        /// <summary>
+        /// Reads the TileCache element of Layers.xml into World.Settings. The settings window writes
+        /// that element as well as SceneWorld.xml, so both files name the same database, and the one
+        /// saved last is the one that counts.
+        /// </summary>
+        private static void ReadTileCache(XElement doc)
+        {
+            XElement tileCache = doc.Element("TileCache");
+            if (tileCache == null)
+                return;
+
+            XElement elementType = tileCache.Element("Type");
+            if (elementType != null)
+            {
+                TileCacheType parsed;
+                if (Enum.TryParse(elementType.Value.Trim(), true, out parsed))
+                    World.Settings.TileCacheType = parsed;
+            }
+
+            XElement elementPath = tileCache.Element("DbFilePath");
+            if (elementPath != null && !string.IsNullOrWhiteSpace(elementPath.Value))
+                World.Settings.TileCacheDbPath = elementPath.Value.Trim();
+        }
+
+        /// <summary>
+        /// Writes the tile cache settings to Layers.xml, so the file the layers are described in names
+        /// the same database as SceneWorld.xml, where World.Settings is saved.
+        /// </summary>
+        public static void SaveTileCache(string path)
+        {
+            XElement doc = XElement.Load(path);
+
+            XElement tileCache = doc.Element("TileCache");
+            if (tileCache == null)
+            {
+                tileCache = new XElement("TileCache");
+                doc.AddFirst(tileCache);
+            }
+
+            SetElementValue(tileCache, "Type", World.Settings.TileCacheType.ToString());
+            SetElementValue(tileCache, "DbFilePath", World.Settings.TileCacheDbPath);
+
+            // The path of every service element is updated with it, so the file does not name two
+            // databases at once. It is the TileCache element that decides now, see TileCacheDbPath,
+            // but the service element is what a reader of the file looks at first.
+            foreach (XElement service in doc.Descendants("SQLiteService"))
+            {
+                XElement dbFilePath = service.Element("DbFilePath");
+                if (dbFilePath != null)
+                    dbFilePath.Value = World.Settings.TileCacheDbPath;
+            }
+
+            // Written with the indentation the file already uses, so saving does not redo every line
+            // of it, and without a byte order mark, which it does not have either.
+            XmlWriterSettings writerSettings = new XmlWriterSettings
+            {
+                Indent = true,
+                IndentChars = "\t",
+                Encoding = new UTF8Encoding(false)
+            };
+            using (XmlWriter writer = XmlWriter.Create(path, writerSettings))
+            {
+                doc.Save(writer);
+            }
+        }
+
+        static void SetElementValue(XElement parent, string name, string value)
+        {
+            XElement element = parent.Element(name);
+            if (element == null)
+                parent.Add(new XElement(name, value));
+            else
+                element.Value = value;
         }
 
         private static BoundingBox GetBoundingBox(XElement parent)

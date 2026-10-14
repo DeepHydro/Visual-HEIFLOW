@@ -40,25 +40,44 @@ namespace HUST.WREIS.Dot3D
             mImageStore = parent;
             imageType = imagetype;
             Heiflow.Spatial.Internals.Cache.Instance.CacheLocation = ConfigurationManager.Engine3DSettings.DataPath;
-            Heiflow.Spatial.CacheProviders.SQLitePureImageCache imgcache = new Heiflow.Spatial.CacheProviders.SQLitePureImageCache()
-                  {
-                      CacheFileName = dbPath
-                  };
-            Heiflow.Spatial.Internals.Cache.Instance.ImageCache = imgcache;
+            mCache = TileCacheDb.Get(dbPath);
         }
 
         private string mDbPath;
         private ImageStore mImageStore;
         private int imageType = 0;
+        private PureImageCache mCache;
 
         public void SaveImage(MemoryStream ms, QuadTile qt)
         {
             if (ms != null)
             {
                 GPoint pt = new GPoint(qt.Row, qt.Col);
-                if(!Heiflow.Spatial.Internals.Cache.Instance.ImageCache.Exists(imageType,pt,qt.Level))
-                    Heiflow.Spatial.Internals.Cache.Instance.ImageCache.PutImageToCache(ms.ToArray(), imageType, pt, qt.Level);
+                if(!mCache.Exists(imageType,pt,qt.Level))
+                    mCache.PutImageToCache(ms.ToArray(), imageType, pt, qt.Level);
             }
+        }
+
+        /// <summary>
+        /// Reads a tile that was cached as a file before the layer was switched over to a database,
+        /// copies it into the database on the way and returns its texture, or null when there is no
+        /// such file. Without it, switching the cache over would throw away everything the layer has
+        /// already downloaded and fetch it again.
+        /// </summary>
+        private Texture LoadFromCachedFile(QuadTile qt)
+        {
+            if (string.IsNullOrEmpty(qt.ImageFilePath) || !File.Exists(qt.ImageFilePath))
+                return null;
+
+            byte[] bytes = File.ReadAllBytes(qt.ImageFilePath);
+            if (bytes.Length == 0)
+                return null;
+
+            GPoint pt = new GPoint(qt.Row, qt.Col);
+            if (!mCache.Exists(imageType, pt, qt.Level))
+                mCache.PutImageToCache(bytes, imageType, pt, qt.Level);
+
+            return ImageHelper.LoadTexture(new MemoryStream(bytes));
         }
 
         public bool IsImageAvailable(Renderable.QuadTile qt)
@@ -70,7 +89,12 @@ namespace HUST.WREIS.Dot3D
                 return true;
 
             GPoint pt = new GPoint(qt.Row, qt.Col);
-            if (Heiflow.Spatial.Internals.Cache.Instance.ImageCache.Exists(imageType, pt, qt.Level))
+            if (mCache.Exists(imageType, pt, qt.Level))
+                return true;
+
+            // A tile that is on disk from the days this layer cached to files is used as it is, see
+            // LoadFromCachedFile, so no download is queued for it either.
+            if (File.Exists(filePath))
                 return true;
 
             mImageStore.QueueDownload(qt, "");
@@ -102,7 +126,7 @@ namespace HUST.WREIS.Dot3D
 
                     if (qt.QuadTileSet.HasTransparentRange)
                     {
-                        PureImage pimage = Heiflow.Spatial.Internals.Cache.Instance.ImageCache.GetImageFromCache(imageType, pt, qt.Level);
+                        PureImage pimage = mCache.GetImageFromCache(imageType, pt, qt.Level);
                         if (profiled)
                             LayerProfiler.RecordUpdate("tile: sqlite cache read", Stopwatch.GetTimestamp() - cacheStart);
 
@@ -113,7 +137,7 @@ namespace HUST.WREIS.Dot3D
                             if (profiled)
                                 LayerProfiler.RecordUpdate("tile: texture from bytes", Stopwatch.GetTimestamp() - textureStart);
                         }
-                        else
+                        else if ((texture = LoadFromCachedFile(qt)) == null)
                         {
                             if (profiled)
                                 LayerProfiler.RecordUpdate("tile: queued download", 0);
@@ -122,7 +146,7 @@ namespace HUST.WREIS.Dot3D
                     }
                     else
                     {
-                        MemoryStream pimage = Heiflow.Spatial.Internals.Cache.Instance.ImageCache.GetImageMemoryStream(imageType, pt, qt.Level);
+                        MemoryStream pimage = mCache.GetImageMemoryStream(imageType, pt, qt.Level);
                         if (profiled)
                             LayerProfiler.RecordUpdate("tile: sqlite cache read", Stopwatch.GetTimestamp() - cacheStart);
 
@@ -133,7 +157,7 @@ namespace HUST.WREIS.Dot3D
                             if (profiled)
                                 LayerProfiler.RecordUpdate("tile: texture from bytes", Stopwatch.GetTimestamp() - textureStart);
                         }
-                        else
+                        else if ((texture = LoadFromCachedFile(qt)) == null)
                         {
                             if (profiled)
                                 LayerProfiler.RecordUpdate("tile: queued download", 0);

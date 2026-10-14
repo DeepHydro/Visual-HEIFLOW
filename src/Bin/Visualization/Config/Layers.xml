@@ -1,5 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <World Name="Earth" EquatorialRadius="6378137.0" LayerDirectory="Earth" DefalutLatitude="23.2966736" DefalutLongitude="113.151756">
+	<!-- The database every layer keeps its tiles in, and the elevation with them: this is the only
+	     cache file there is to manage. The settings window writes it, see WorldSettings.TileCacheType
+	     and WorldSettings.TileCacheDbPath in SceneWorld.xml, and it is read when the world is loaded,
+	     so the two files are kept saying the same thing. -->
+	<TileCache>
+		<Type>SQLite</Type>
+		<DbFilePath>data\image.gmdb</DbFilePath>
+	</TileCache>
 	<TerrainAccessor Name="SRTMWMS">
 		<!-- The NASA WorldWind WMS that served NASA_SRTM30_900m_Tiled as application/bil16 has been shut
 		     down, and no elevation server that is left answers a WMS request with that format, so the
@@ -18,9 +26,9 @@
 			<ZoomOffset>4</ZoomOffset>
 			<MaxZoom>15</MaxZoom>
 			<SQLiteService>
-		  	 <DbFilePath>data\image.gmdb</DbFilePath>
-				 <TerrainType>11</TerrainType>
-		  </SQLiteService>
+				<DbFilePath>data\image.gmdb</DbFilePath>
+				<TerrainType>11</TerrainType>
+			</SQLiteService>
 		</TerrariumTerrainTileService>
 		<LatLonBoundingBox>
 			<North>
@@ -38,81 +46,85 @@
 		</LatLonBoundingBox>
 	</TerrainAccessor>
 	<LayerSet Name="Base Map" ShowOnlyOneLayer="true" ShowAtStartup="true">
-	<ProjectedTileSet ShowAtStartup="False">
-		<Name>BingSatelliteMap</Name>
-		<DistanceAboveSurface>0</DistanceAboveSurface>
-		<IconImageName>nrl.png</IconImageName>
-		<StartZoomLevel>0</StartZoomLevel>
+		<ProjectedTileSet ShowAtStartup="False">
+			<Name>BingSatelliteMap</Name>
+			<DistanceAboveSurface>0</DistanceAboveSurface>
+			<IconImageName>nrl.png</IconImageName>
+			<StartZoomLevel>0</StartZoomLevel>
 			<BoundingBox>
-			<North>
-				<Value>90.0</Value>
-			</North>
-			<South>
-				<Value>-90.0</Value>
-			</South>
-			<West>
-				<Value>-180.0</Value>
-			</West>
-			<East>
-				<Value>180.0</Value>
-			</East>
-		</BoundingBox>
-		<TerrainMapped>true</TerrainMapped>
-		<ImageAccessor>
-			<LevelZeroTileSizeDegrees>180</LevelZeroTileSizeDegrees>
-			<NumberLevels>20</NumberLevels>
-			<TextureSizePixels>512</TextureSizePixels>
-			<ImageFileExtension>jpeg</ImageFileExtension>
-			<SubDatasetName>none</SubDatasetName>
-			<IsDebug>False</IsDebug>
-			<IsDownloadableLayer>False</IsDownloadableLayer>
-			<ImageTileService>
+				<North>
+					<Value>90.0</Value>
+				</North>
+				<South>
+					<Value>-90.0</Value>
+				</South>
+				<West>
+					<Value>-180.0</Value>
+				</West>
+				<East>
+					<Value>180.0</Value>
+				</East>
+			</BoundingBox>
+			<TerrainMapped>true</TerrainMapped>
+			<ImageAccessor>
+				<LevelZeroTileSizeDegrees>180</LevelZeroTileSizeDegrees>
+				<NumberLevels>20</NumberLevels>
+				<TextureSizePixels>512</TextureSizePixels>
+				<ImageFileExtension>jpeg</ImageFileExtension>
+				<SubDatasetName>none</SubDatasetName>
+				<IsDebug>False</IsDebug>
+				<IsDownloadableLayer>False</IsDownloadableLayer>
+				<ImageTileService>
 					<ServerUrl>http://worldwind25.arc.nasa.gov/tile/tile.aspx</ServerUrl>
 					<DataSetName>BingSatelliteMap</DataSetName>
 					<ServerLogoFilePath>Data\Icons\Interface\usgs.png</ServerLogoFilePath>
 					<MapProvider>BingSatelliteMap</MapProvider>
 					<CacheDirectory>BingSatelliteMap</CacheDirectory>
 					<SQLiteService>
-		  	  <DbFilePath>data\image.gmdb</DbFilePath>
-					  <ImageType>7</ImageType>
-		      </SQLiteService>
-		  </ImageTileService>		 
-		</ImageAccessor>
-		<TransparentColor><Red>0</Red><Green>0</Green><Blue>0</Blue></TransparentColor>
-	  </ProjectedTileSet>
-	 <QuadTileSet ShowAtStartup="True">
-		<Name>Landsat7 Image</Name>
-		<IconImageName>osmlogo.png</IconImageName>
-		<DistanceAboveSurface>0</DistanceAboveSurface>
-		<StartZoomLevel>5</StartZoomLevel>
-		<BoundingBox>
-			<North>
-				<Value>90.0</Value>
-			</North>
-			<South>
-				<Value>-90.0</Value>
-			</South>
-			<West>
-				<Value>-180.0</Value>
-			</West>
-			<East>
-				<Value>180.0</Value>
-			</East>
-		</BoundingBox>
-		<!-- This is what decides whether a tile mesh follows the elevation: QuadTile.CreateTileMesh
+						<DbFilePath>data\image.gmdb</DbFilePath>
+						<ImageType>7</ImageType>
+					</SQLiteService>
+				</ImageTileService>
+			</ImageAccessor>
+			<TransparentColor>
+				<Red>0</Red>
+				<Green>0</Green>
+				<Blue>0</Blue>
+			</TransparentColor>
+		</ProjectedTileSet>
+		<QuadTileSet ShowAtStartup="True">
+			<Name>Landsat7 Image</Name>
+			<IconImageName>osmlogo.png</IconImageName>
+			<DistanceAboveSurface>0</DistanceAboveSurface>
+			<StartZoomLevel>5</StartZoomLevel>
+			<BoundingBox>
+				<North>
+					<Value>90.0</Value>
+				</North>
+				<South>
+					<Value>-90.0</Value>
+				</South>
+				<West>
+					<Value>-180.0</Value>
+				</West>
+				<East>
+					<Value>180.0</Value>
+				</East>
+			</BoundingBox>
+			<!-- This is what decides whether a tile mesh follows the elevation: QuadTile.CreateTileMesh
 		     only calls CreateElevatedMesh when this is true and VerticalExaggeration is not ~0,
 		     otherwise it builds a flat mesh and the globe has no relief at all. It was switched
 		     off while the profiling was going on, keep it on. -->
-		<TerrainMapped>true</TerrainMapped>
-		<ImageAccessor>
-			<LevelZeroTileSizeDegrees>36</LevelZeroTileSizeDegrees>
-			<NumberLevels>9</NumberLevels>
-			<TextureSizePixels>512</TextureSizePixels>
-			<ImageFileExtension>jpeg</ImageFileExtension>
-			<SubDatasetName>none</SubDatasetName>
-		  <IsDownloadableLayer>True</IsDownloadableLayer>
-			<IsDebug>False</IsDebug>
-			<!-- The NASA WorldWind WMS that served the Landsat mosaic as layer esat has been shut down and
+			<TerrainMapped>true</TerrainMapped>
+			<ImageAccessor>
+				<LevelZeroTileSizeDegrees>36</LevelZeroTileSizeDegrees>
+				<NumberLevels>9</NumberLevels>
+				<TextureSizePixels>512</TextureSizePixels>
+				<ImageFileExtension>jpeg</ImageFileExtension>
+				<SubDatasetName>none</SubDatasetName>
+				<IsDownloadableLayer>True</IsDownloadableLayer>
+				<IsDebug>False</IsDebug>
+				<!-- The NASA WorldWind WMS that served the Landsat mosaic as layer esat has been shut down and
 			     worldwind25.arc.nasa.gov no longer resolves, so every tile request came back empty and the
 			     layer showed nothing. It is pointed at NASA GIBS now, which serves the global Landsat WELD
 			     true colour composite over WMS and needs no key. WmsImageStore requests it with lower case
@@ -123,7 +135,7 @@
 			     resolution the composite is made at. The cascading layers below that are pure
 			     interpolation. The name has to stay Landsat7 Image, it is matched by string in
 			     SceneWindow.cs. -->
-			<WMSImageTileService>
+				<WMSImageTileService>
 					<ImageFormat>image/jpeg</ImageFormat>
 					<ServerUrl>https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi</ServerUrl>
 					<Version>1.3.0</Version>
@@ -131,18 +143,29 @@
 					<ServerLogoFilePath>Data\Icons\Interface\usgs.png</ServerLogoFilePath>
 					<Opacity>100</Opacity>
 					<CacheDirectory>LandsatWELD</CacheDirectory>
-					<!-- No SQLiteService element on purpose: without it ConfigurationManager falls back to
-					     FileImageAccessService, so the tiles are cached as files under CacheDirectory
-					     instead of in data\image.gmdb. Every tile read and every tile written in that
-					     database opens a connection to it, and the download threads write 512x512 blobs
-					     into it all the time, so the update thread was made to wait seconds for a read
-					     (measured: "tile: sqlite cache read" up to 30 ms a call, "TerrainAccessor.
+					<!-- It follows World.Settings.TileCacheType in SceneWorld.xml, which is File: the
+					     tiles are cached as files under CacheDirectory. It used to cache them in
+					     data\image.gmdb, where every tile read and every tile written opens a
+					     connection to it, and the download threads write 512x512 blobs into it all the
+					     time, so the update thread was made to wait seconds for a read (measured:
+					     "tile: sqlite cache read" up to 30 ms a call, "TerrainAccessor.
 					     GetElevationAt", which reads the terrain out of the same database, up to 5 s).
-					     The tiles already in the database are not used any more, they are fetched again,
-					     now as jpeg, 83 KB instead of 719 KB. -->
-		  </WMSImageTileService>
-		</ImageAccessor>
-		<TransparentColor><Red>0</Red><Green>0</Green><Blue>0</Blue></TransparentColor>
-	 </QuadTileSet>
-  </LayerSet>
+					     Set TileCacheType to SQLite to put them back in the shared database: the
+					     tiles that are already on disk are read from there and copied in as they are
+					     shown, so nothing has to be downloaded twice. The number that keeps its tiles
+					     apart from the other layers in there is written down below, so it keeps them
+					     when its name is changed. -->
+					<SQLiteService>
+						<DbFilePath>data\image.gmdb</DbFilePath>
+						<ImageType>1</ImageType>
+					</SQLiteService>
+				</WMSImageTileService>
+			</ImageAccessor>
+			<TransparentColor>
+				<Red>0</Red>
+				<Green>0</Green>
+				<Blue>0</Blue>
+			</TransparentColor>
+		</QuadTileSet>
+	</LayerSet>
 </World>

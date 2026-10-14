@@ -99,6 +99,8 @@
   <CameraZoomStepKeyboard>0.15</CameraZoomStepKeyboard>
   <CameraDoubleClickZoomFactor>2</CameraDoubleClickZoomFactor>
   <CameraRotationSpeed>3.5</CameraRotationSpeed>
+  <TileCacheType>SQLite</TileCacheType>
+  <TileCacheDbPath>data\image.gmdb</TileCacheDbPath>
   <ConvertDownloadedImagesToDds>false</ConvertDownloadedImagesToDds>
   <AlwaysRenderWindow>false</AlwaysRenderWindow>
   <TextureFormat>Dxt3</TextureFormat>

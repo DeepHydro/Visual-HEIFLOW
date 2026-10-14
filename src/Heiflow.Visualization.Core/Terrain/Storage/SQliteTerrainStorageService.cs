@@ -15,11 +15,16 @@ namespace HUST.WREIS.Dot3D.Terrain
         {
             mDbPath = dbPath;
             mTerrainType = terrainType;
+            // Its own cache, not Heiflow.Spatial.Internals.Cache.Instance.ImageCache: that one is a
+            // single field for the whole process, and an image layer that opened a database later
+            // replaced it, which left the elevation being read out of the database of that layer.
+            mCache = TileCacheDb.Get(dbPath);
         }
 
         private string mDbPath;
      //   private TerrainTileService mOwner;
         private int mTerrainType = 3;
+        private PureImageCache mCache;
 
         #region ITerrainStorageService 成员
 
@@ -27,7 +32,7 @@ namespace HUST.WREIS.Dot3D.Terrain
         {
             float[,] ElevationData = new float[qt.SamplesPerTile, qt.SamplesPerTile];
             GPoint pt = new GPoint(qt.Row, qt.Col);
-            MemoryStream ms = Heiflow.Spatial.Internals.Cache.Instance.ImageCache.GetImageMemoryStream(mTerrainType, pt, qt.TargetLevel);
+            MemoryStream ms = mCache.GetImageMemoryStream(mTerrainType, pt, qt.TargetLevel);
             if (ms != null)
             {
                 BinaryReader br = new BinaryReader(ms);
@@ -65,10 +70,10 @@ namespace HUST.WREIS.Dot3D.Terrain
         public void SaveTerrain(TerrainTile qt, MemoryStream ms)
         {
             GPoint pt = new GPoint(qt.Row, qt.Col);
-            if (!Heiflow.Spatial.Internals.Cache.Instance.ImageCache.Exists(mTerrainType, pt, qt.TargetLevel) && ms != null)
+            if (!mCache.Exists(mTerrainType, pt, qt.TargetLevel) && ms != null)
             {
                 var array = ms.ToArray();
-                Heiflow.Spatial.Internals.Cache.Instance.ImageCache.PutImageToCache(array, mTerrainType, pt, qt.TargetLevel);
+                mCache.PutImageToCache(array, mTerrainType, pt, qt.TargetLevel);
                 ms.Close();
             }
         }

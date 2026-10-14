@@ -216,6 +216,8 @@
     <Compile Include="Core\DrawArgs.cs" />
     <Compile Include="Core\GeographicBoundingBox.cs" />
     <Compile Include="TiledImage\SQliteImageService.cs" />
+    <Compile Include="TiledImage\TileCacheDb.cs" />
+    <Compile Include="TiledImage\TileCacheInventory.cs" />
     <Compile Include="Tool\ExtractTerrain.cs" />
     <Compile Include="Utilities\BindingsCheck.cs" />
     <Compile Include="Utilities\DataProtection.cs" />
