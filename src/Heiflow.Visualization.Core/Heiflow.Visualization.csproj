@@ -358,4 +358,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-</Project>
+<ItemGroup><Content Include="..\packages\Heiflow.Dependencies\lib\net45\proj.dll"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content><Content Include="..\packages\Heiflow.Dependencies\lib\net45\proj2.dll"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content></ItemGroup></Project>
