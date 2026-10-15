@@ -178,11 +178,11 @@
     </Reference>
     <Reference Include="WPG, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\wpg-96133\WPG\bin\Debug\WPG.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\WPG.dll</HintPath>
     </Reference>
     <Reference Include="WPGBrushEditor, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\wpg-96133\WPG\bin\Debug\WPGBrushEditor.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\WPGBrushEditor.dll</HintPath>
     </Reference>
     <Reference Include="ZedGraph, Version=5.1.5.28844, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

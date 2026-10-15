@@ -81,7 +81,7 @@
     </Reference>
     <Reference Include="DotSpatial.NetTopologySuite, Version=1.14.2.0, Culture=neutral, PublicKeyToken=f580a05016ebada1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Bin\Debug\DotSpatial.NetTopologySuite.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.NetTopologySuite.dll</HintPath>
     </Reference>
     <Reference Include="DotSpatial.Projections, Version=2.0.0.0, Culture=neutral, PublicKeyToken=272632bddd08a38b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -135,7 +135,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Heiflow.Dependencies\lib\net45\WpfApplicationFramework.dll</HintPath>
     </Reference>
-  <Reference Include="NetCDFInterop, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"><HintPath>E:\Software\GIS\SDSlite-master\ScientificDataSet\bin\Debug\NetCDFInterop.dll</HintPath></Reference><Reference Include="ScientificDataSet, Version=1.4.0.0, Culture=neutral, processorArchitecture=AMD64"><HintPath>E:\Software\GIS\SDSlite-master\ScientificDataSet\bin\Debug\ScientificDataSet.dll</HintPath></Reference></ItemGroup>
+  <Reference Include="NetCDFInterop, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"><HintPath>..\packages\Heiflow.Dependencies\lib\net45\NetCDFInterop.dll</HintPath></Reference><Reference Include="ScientificDataSet, Version=1.4.0.0, Culture=neutral, processorArchitecture=AMD64"><HintPath>..\packages\Heiflow.Dependencies\lib\net45\ScientificDataSet.dll</HintPath></Reference></ItemGroup>
   <ItemGroup>
     <Compile Include="Climate\WeatherGeneratorForm.cs">
       <SubType>Form</SubType>

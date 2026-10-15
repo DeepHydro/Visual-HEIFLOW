@@ -41,7 +41,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.GeoAPI">
-      <HintPath>..\Bin\Debug\DotSpatial.GeoAPI.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.GeoAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />

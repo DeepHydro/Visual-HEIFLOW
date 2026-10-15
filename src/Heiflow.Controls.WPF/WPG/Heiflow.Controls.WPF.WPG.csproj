@@ -92,7 +92,7 @@
     </Reference>
     <Reference Include="WPGBrushEditor, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\WPGBrushEditor.dll</HintPath>
+      <HintPath>..\..\packages\Heiflow.Dependencies\lib\net45\WPGBrushEditor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

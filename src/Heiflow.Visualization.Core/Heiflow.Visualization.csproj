@@ -45,19 +45,19 @@
       <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Controls.dll</HintPath>
     </Reference>
     <Reference Include="DotSpatial.Data">
-      <HintPath>..\Bin\Debug\DotSpatial.Data.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DotSpatial.GeoAPI, Version=1.7.4.0, Culture=neutral, PublicKeyToken=a1a0da7def465678, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Bin\Debug\DotSpatial.GeoAPI.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.GeoAPI.dll</HintPath>
     </Reference>
     <Reference Include="DotSpatial.Projections">
       <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Projections.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\Bin\Debug\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="mapscript_csharp, Version=1.0.3671.21478, Culture=neutral, PublicKeyToken=80087771edd02926">
       <SpecificVersion>False</SpecificVersion>

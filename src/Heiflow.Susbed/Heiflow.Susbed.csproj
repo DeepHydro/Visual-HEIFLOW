@@ -38,7 +38,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.Data">
-      <HintPath>..\Bin\Debug\DotSpatial.Data.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Data.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.Symbology">
