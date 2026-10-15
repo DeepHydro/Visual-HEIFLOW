@@ -50,7 +50,7 @@
 		<Name>BingSatelliteMap</Name>
 		<DistanceAboveSurface>0</DistanceAboveSurface>
 		<IconImageName>nrl.png</IconImageName>
-		<StartZoomLevel>0</StartZoomLevel>
+		<StartZoomLevel>1</StartZoomLevel>
 			<BoundingBox>
 			<North>
 				<Value>90.0</Value>

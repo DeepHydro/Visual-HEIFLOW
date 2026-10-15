@@ -112,7 +112,12 @@ namespace HUST.WREIS.Dot3D.Renderable
              RemoveInvisibleTiles(DrawArgs.Camera);
              try
              {
-                 RectLatLng rectLatlng = new RectLatLng(m_south, m_west, m_east - m_west, m_north - m_south);
+                 // The first argument is the top edge, not the bottom one, see RectLatLng.FromLTRB:
+                 // it takes the northern latitude and measures the height downwards from it. Given the
+                 // southern edge instead, the rectangle reaches from there down and out of the range of
+                 // the projection, and the tile list then covers only the southernmost row, so most of
+                 // the layer is never built.
+                 RectLatLng rectLatlng = new RectLatLng(m_north, m_west, m_east - m_west, m_north - m_south);
                  List<GPoint> topPoints = projection.GetAreaTileList(rectLatlng, StartZoomLevel, 0);
 
                  foreach (GPoint gp in topPoints)
@@ -145,17 +150,18 @@ namespace HUST.WREIS.Dot3D.Renderable
                          lock (m_topmostTiles.SyncRoot)
                          {
                              if (!m_topmostTiles.ContainsKey(key))
-                                 m_topmostTiles.Add(key, qt);
-                         }
-                         //qt.Update(drawArgs);
-                     //}
-                 }
-             }
-             catch (Exception caught)
-             {
-                 Log.Write(caught);
-             }
-         }
+                                    m_topmostTiles.Add(key, qt);
+                             }
+                             //qt.Update(drawArgs);
+                             //}
+                    //}
+                }
+            }
+            catch (Exception caught)
+            {
+                Log.Write(caught);
+            }
+        }
 
         public LatLngRect GetLatLngBounds(int row, int col, int level)
         {
