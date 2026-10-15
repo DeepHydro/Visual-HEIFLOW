@@ -87,10 +87,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Symbology.dll</HintPath>
     </Reference>
-    <Reference Include="Heiflow.Spatial, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Bin\Debug\Heiflow.Spatial.dll</HintPath>
-    </Reference>
+    
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.5.452, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Heiflow.Dependencies\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
@@ -508,4 +505,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-</Project>
+<ItemGroup></ItemGroup><ItemGroup><ProjectReference Include="..\Heiflow.Spatial\Heiflow.Spatial.csproj"><Project>{2A3C4415-B678-4826-97D8-E25E6E63B088}</Project><Name>Heiflow.Spatial</Name></ProjectReference></ItemGroup></Project>
