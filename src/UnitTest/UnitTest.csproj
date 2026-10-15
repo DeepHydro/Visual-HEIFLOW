@@ -56,7 +56,7 @@
       <HintPath>..\External Libraries\treeviewadv-code-98\Aga.Controls\bin\Debug\Aga.Controls.dll</HintPath>
     </Reference>
     <Reference Include="DotSpatial.Data">
-      <HintPath>..\External Libraries\dotspatial-75706\Trunk\bin\Debug\DotSpatial.Data.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Data.dll</HintPath>
     </Reference>
     <Reference Include="gdalconst_csharp">
       <HintPath>D:\Program Files (x86)\FWTools2.4.7\csharp\gdalconst_csharp.dll</HintPath>
@@ -69,13 +69,13 @@
     </Reference>
     <Reference Include="ILNumerics, Version=3.2.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\External Libraries\ILNumerics_CommunityEdition_v3.2.2.0\obj\Debug\ILNumerics.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\ILNumerics.dll</HintPath>
     </Reference>
     <Reference Include="mapscript_csharp">
-      <HintPath>D:\Program Files (x86)\FWTools2.4.7\csharp\mapscript_csharp.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\mapscript_csharp.dll</HintPath>
     </Reference>
     <Reference Include="MathNet.Numerics">
-      <HintPath>..\..\..\Library\Math\mathnet-numerics-master\out\lib-debug\Net40\MathNet.Numerics.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="ogr_csharp">
       <HintPath>D:\Program Files (x86)\FWTools2.4.7\csharp\ogr_csharp.dll</HintPath>

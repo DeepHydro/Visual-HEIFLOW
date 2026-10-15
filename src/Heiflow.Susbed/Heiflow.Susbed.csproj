@@ -34,7 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DotSpatial.Controls">
-      <HintPath>..\Bin\Debug\DotSpatial.Controls.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Controls.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.Data">
@@ -42,7 +42,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.Symbology">
-      <HintPath>..\Bin\Debug\DotSpatial.Symbology.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Symbology.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="SourceGrid">

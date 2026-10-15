@@ -55,36 +55,29 @@
     <AssemblyOriginatorKeyFile>vhf.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DevExpress.Data.v12.1, Version=12.1.12.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Printing.v12.1.Core, Version=12.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Utils.v12.1, Version=12.1.12.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraEditors.v12.1, Version=12.1.12.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\bin\Debug\DevExpress.XtraEditors.v12.1.dll</HintPath>
-    </Reference>
     <Reference Include="DotSpatial.Controls">
-      <HintPath>..\External Libraries\dotspatial-75706\Trunk\bin\Debug\DotSpatial.Controls.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Controls.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.Data">
-      <HintPath>..\External Libraries\dotspatial-75706\Trunk\bin\Debug\DotSpatial.Data.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Data.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.Data.Forms">
-      <HintPath>..\External Libraries\dotspatial-75706\Trunk\bin\Debug\DotSpatial.Data.Forms.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Data.Forms.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.Extensions">
-      <HintPath>..\External Libraries\dotspatial-75706\Trunk\bin\Debug\DotSpatial.Extensions.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.GeoAPI, Version=1.7.4.0, Culture=neutral, PublicKeyToken=a1a0da7def465678, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.GeoAPI.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.GeoAPI.dll</HintPath>
     </Reference>
     <Reference Include="DotSpatial.Modeling.Forms, Version=1.7.0.0, Culture=neutral, PublicKeyToken=712bef29a31a9354, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Bin\Debug\DotSpatial.Modeling.Forms.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Modeling.Forms.dll</HintPath>
     </Reference>
     <Reference Include="DotSpatial.NetTopologySuite, Version=1.14.2.0, Culture=neutral, PublicKeyToken=f580a05016ebada1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -92,40 +85,34 @@
     </Reference>
     <Reference Include="DotSpatial.Projections, Version=2.0.0.0, Culture=neutral, PublicKeyToken=272632bddd08a38b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Projections.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Projections.dll</HintPath>
     </Reference>
     <Reference Include="DotSpatial.Projections.Forms, Version=1.7.0.0, Culture=neutral, PublicKeyToken=52099474f11b7ff0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Bin\Debug\DotSpatial.Projections.Forms.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Projections.Forms.dll</HintPath>
     </Reference>
     <Reference Include="DotSpatial.Serialization, Version=1.7.0.0, Culture=neutral, PublicKeyToken=441f200f827611e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\External Libraries\dotspatial-75706\Trunk\bin\Debug\DotSpatial.Serialization.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Serialization.dll</HintPath>
     </Reference>
     <Reference Include="DotSpatial.Symbology">
-      <HintPath>..\External Libraries\dotspatial-75706\Trunk\bin\Debug\DotSpatial.Symbology.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Symbology.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.Symbology.Forms, Version=1.7.0.0, Culture=neutral, PublicKeyToken=0544cdeefb662382, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\bin\Debug\DotSpatial.Symbology.Forms.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Symbology.Forms.dll</HintPath>
     </Reference>
     <Reference Include="Heiflow.Visualization.Display">
       <HintPath>..\Heiflow.Visualization.Display\obj\Debug\Heiflow.Visualization.Display.dll</HintPath>
     </Reference>
     <Reference Include="ILNumerics, Version=3.2.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\External Libraries\ILNumerics_CommunityEdition_v3.2.2.0\bin\Debug\ILNumerics.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\ILNumerics.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="NetCDFInterop, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\Software\GIS\SDSlite-master\ScientificDataSet\bin\Debug\NetCDFInterop.dll</HintPath>
-    </Reference>
-    <Reference Include="ScientificDataSet, Version=1.4.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\Software\GIS\SDSlite-master\ScientificDataSet\bin\Debug\ScientificDataSet.dll</HintPath>
-    </Reference>
+    
+    
     <Reference Include="SourceGrid">
       <HintPath>..\packages\SourceGrid_4_40_src\SourceGrid\bin\Debug\SourceGrid.dll</HintPath>
     </Reference>
@@ -146,9 +133,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="WpfApplicationFramework, Version=3.2.0.450, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\External Libraries\WpfApplicationFramework\WpfApplicationFramework\Output\Debug\WpfApplicationFramework.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\WpfApplicationFramework.dll</HintPath>
     </Reference>
-  </ItemGroup>
+  <Reference Include="NetCDFInterop, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"><HintPath>E:\Software\GIS\SDSlite-master\ScientificDataSet\bin\Debug\NetCDFInterop.dll</HintPath></Reference><Reference Include="ScientificDataSet, Version=1.4.0.0, Culture=neutral, processorArchitecture=AMD64"><HintPath>E:\Software\GIS\SDSlite-master\ScientificDataSet\bin\Debug\ScientificDataSet.dll</HintPath></Reference></ItemGroup>
   <ItemGroup>
     <Compile Include="Climate\WeatherGeneratorForm.cs">
       <SubType>Form</SubType>

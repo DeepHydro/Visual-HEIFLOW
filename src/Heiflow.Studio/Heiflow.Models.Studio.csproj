@@ -103,48 +103,48 @@
   <ItemGroup>
     <Reference Include="DevExpress.Data.v12.1, Version=12.1.12.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\External Libraries\dotspatial-75706\Trunk\bin\Debug\DevExpress.Data.v12.1.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DevExpress.Data.v12.1.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Printing.v12.1.Core, Version=12.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\External Libraries\dotspatial-75706\Trunk\bin\Debug\DevExpress.Printing.v12.1.Core.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DevExpress.Printing.v12.1.Core.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Utils.v12.1, Version=12.1.12.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\External Libraries\dotspatial-75706\Trunk\bin\Debug\DevExpress.Utils.v12.1.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DevExpress.Utils.v12.1.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraBars.v12.1, Version=12.1.12.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\External Libraries\dotspatial-75706\Trunk\bin\Debug\DevExpress.XtraBars.v12.1.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DevExpress.XtraBars.v12.1.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraEditors.v12.1, Version=12.1.12.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\External Libraries\dotspatial-75706\Trunk\bin\Debug\DevExpress.XtraEditors.v12.1.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DevExpress.XtraEditors.v12.1.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.XtraLayout.v12.1">
-      <HintPath>..\External Libraries\dotspatial-75706\Trunk\bin\Debug\DevExpress.XtraLayout.v12.1.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DevExpress.XtraLayout.v12.1.dll</HintPath>
     </Reference>
     <Reference Include="DotSpatial.Controls, Version=2.0.0.0, Culture=neutral, PublicKeyToken=4d9e49339a7d240c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Controls.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Controls.dll</HintPath>
     </Reference>
     <Reference Include="DotSpatial.Data, Version=1.6.0.0, Culture=neutral, PublicKeyToken=c29dbf30e059ca9d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\External Libraries\dotspatial-75706\Trunk\bin\Debug\DotSpatial.Data.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Data.dll</HintPath>
     </Reference>
     <Reference Include="DotSpatial.Data.Forms, Version=1.7.0.0, Culture=neutral, PublicKeyToken=53ab5a198378d4c1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\External Libraries\dotspatial-75706\Trunk\bin\Debug\DotSpatial.Data.Forms.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Data.Forms.dll</HintPath>
     </Reference>
     <Reference Include="DotSpatial.Extensions">
-      <HintPath>..\External Libraries\dotspatial-75706\Trunk\bin\Debug\DotSpatial.Extensions.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="DotSpatial.Modeling.Forms, Version=1.7.0.0, Culture=neutral, PublicKeyToken=712bef29a31a9354, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Bin\Debug\DotSpatial.Modeling.Forms.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Modeling.Forms.dll</HintPath>
     </Reference>
     <Reference Include="DotSpatial.Symbology">
-      <HintPath>..\External Libraries\dotspatial-75706\Trunk\bin\Debug\DotSpatial.Symbology.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Symbology.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -154,7 +154,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="WpfApplicationFramework">
-      <HintPath>..\External Libraries\WpfApplicationFramework\WpfApplicationFramework\Output\Debug\WpfApplicationFramework.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\WpfApplicationFramework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

@@ -58,31 +58,31 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DevExpress.Data.v12.1">
-      <HintPath>..\Bin\Debug\DevExpress.Data.v12.1.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DevExpress.Data.v12.1.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DevExpress.Utils.v12.1">
-      <HintPath>..\Bin\Debug\DevExpress.Utils.v12.1.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DevExpress.Utils.v12.1.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DevExpress.XtraBars.v12.1">
-      <HintPath>..\Bin\Debug\DevExpress.XtraBars.v12.1.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DevExpress.XtraBars.v12.1.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DevExpress.XtraEditors.v12.1">
-      <HintPath>..\Bin\Debug\DevExpress.XtraEditors.v12.1.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DevExpress.XtraEditors.v12.1.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DevExpress.XtraGrid.v12.1">
-      <HintPath>..\Bin\Debug\DevExpress.XtraGrid.v12.1.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DevExpress.XtraGrid.v12.1.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DevExpress.XtraLayout.v12.1">
-      <HintPath>..\Bin\Debug\DevExpress.XtraLayout.v12.1.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DevExpress.XtraLayout.v12.1.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.Controls">
-      <HintPath>..\Bin\Debug\DotSpatial.Controls.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Controls.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.Data">
@@ -90,11 +90,11 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.Data.Forms">
-      <HintPath>..\Bin\Debug\DotSpatial.Data.Forms.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Data.Forms.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.Extensions">
-      <HintPath>..\Bin\Debug\DotSpatial.Extensions.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.GeoAPI">
@@ -102,7 +102,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.Modeling.Forms">
-      <HintPath>..\Bin\Debug\DotSpatial.Modeling.Forms.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Modeling.Forms.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.NetTopologySuite">
@@ -110,7 +110,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.Symbology">
-      <HintPath>..\Bin\Debug\DotSpatial.Symbology.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Symbology.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -121,7 +121,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="WpfApplicationFramework">
-      <HintPath>..\Bin\Debug\WpfApplicationFramework.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\WpfApplicationFramework.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>

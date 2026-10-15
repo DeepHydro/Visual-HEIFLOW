@@ -45,26 +45,26 @@
   <ItemGroup>
     <Reference Include="DotSpatial.Data, Version=1.7.0.0, Culture=neutral, PublicKeyToken=c29dbf30e059ca9d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.Data.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Data.dll</HintPath>
     </Reference>
     <Reference Include="DotSpatial.GeoAPI">
-      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.GeoAPI.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.GeoAPI.dll</HintPath>
     </Reference>
     <Reference Include="DotSpatial.NetTopologySuite">
-      <HintPath>..\DotSpatial-master\Source\bin\Debug\DotSpatial.NetTopologySuite.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.NetTopologySuite.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.5.452, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Bin\Debug\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="ILNumerics, Version=3.2.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\External Libraries\ILNumerics_CommunityEdition_v3.2.2.0\bin\Debug\ILNumerics.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\ILNumerics.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Bin\Debug\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />

@@ -39,7 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DotSpatial.Analysis">
-      <HintPath>..\Bin\Debug\DotSpatial.Analysis.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Analysis.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.Data">
@@ -51,7 +51,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.Projections">
-      <HintPath>..\Bin\Debug\DotSpatial.Projections.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Projections.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Heiflow.Presentation">

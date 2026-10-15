@@ -34,24 +34,24 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DevExpress.Data.v12.1">
-      <HintPath>..\Bin\Debug\DevExpress.Data.v12.1.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DevExpress.Data.v12.1.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DevExpress.Utils.v12.1">
-      <HintPath>..\Bin\Debug\DevExpress.Utils.v12.1.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DevExpress.Utils.v12.1.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DevExpress.XtraBars.v12.1">
-      <HintPath>..\Bin\Debug\DevExpress.XtraBars.v12.1.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DevExpress.XtraBars.v12.1.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DevExpress.XtraEditors.v12.1">
-      <HintPath>..\Bin\Debug\DevExpress.XtraEditors.v12.1.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DevExpress.XtraEditors.v12.1.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="DotSpatial.Extensions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=4d9e49339a7d240c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Bin\Debug\DotSpatial.Extensions.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Extensions.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />

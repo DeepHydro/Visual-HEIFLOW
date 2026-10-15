@@ -42,7 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DotSpatial.Controls">
-      <HintPath>..\Bin\Debug\DotSpatial.Controls.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Controls.dll</HintPath>
     </Reference>
     <Reference Include="DotSpatial.Data">
       <HintPath>..\Bin\Debug\DotSpatial.Data.dll</HintPath>
@@ -53,7 +53,7 @@
       <HintPath>..\Bin\Debug\DotSpatial.GeoAPI.dll</HintPath>
     </Reference>
     <Reference Include="DotSpatial.Projections">
-      <HintPath>..\Bin\Debug\DotSpatial.Projections.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\DotSpatial.Projections.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
@@ -61,7 +61,7 @@
     </Reference>
     <Reference Include="mapscript_csharp, Version=1.0.3671.21478, Culture=neutral, PublicKeyToken=80087771edd02926">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\Program Files (x86)\FWTools2.4.7\csharp\mapscript_csharp.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\mapscript_csharp.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <SpecificVersion>False</SpecificVersion>
@@ -87,7 +87,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="ProjNet, Version=1.2.3432.30659, Culture=neutral, PublicKeyToken=a1f5bdcd9c6f5740, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Bin\Visualization\ProjNet.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\ProjNet.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -103,7 +103,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Tao.OpenGl.Glu">
-      <HintPath>..\PluginSDK\bin\Debug\Tao.OpenGl.Glu.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\Tao.OpenGl.Glu.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>

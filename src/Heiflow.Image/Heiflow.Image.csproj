@@ -58,26 +58,26 @@
   <ItemGroup>
     <Reference Include="AForge.Imaging, Version=2.2.5.0, Culture=neutral, PublicKeyToken=ba8ddea9676ca48b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\Program Files (x86)\AForge.NET\Framework\Release\AForge.Imaging.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\AForge.Imaging.dll</HintPath>
     </Reference>
     <Reference Include="AForge.Math, Version=2.2.5.0, Culture=neutral, PublicKeyToken=abba2e25397ee8c9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\Program Files (x86)\AForge.NET\Framework\Release\AForge.Math.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\AForge.Math.dll</HintPath>
     </Reference>
     <Reference Include="GMap.NET.Core">
-      <HintPath>..\..\..\GIS\greatmaps_68b2effa78c1\Demo.WindowsForms\bin\Debug\GMap.NET.Core.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\GMap.NET.Core.dll</HintPath>
     </Reference>
     <Reference Include="GMap.NET.WindowsForms">
-      <HintPath>..\..\..\GIS\greatmaps_68b2effa78c1\Demo.WindowsForms\bin\Debug\GMap.NET.WindowsForms.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\GMap.NET.WindowsForms.dll</HintPath>
     </Reference>
     <Reference Include="ILNumerics, Version=3.2.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Bin\Debug\ILNumerics.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\ILNumerics.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SQLite">
-      <HintPath>..\Bin\Debug\System.Data.SQLite.DLL</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />

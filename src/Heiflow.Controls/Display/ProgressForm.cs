@@ -27,7 +27,6 @@
 // but so that the author(s) of the file have the Copyright.
 //
 
-using DevExpress.XtraSplashScreen;
 using Heiflow.Applications;
 using Heiflow.Models.UI;
 using Heiflow.Presentation.Controls;

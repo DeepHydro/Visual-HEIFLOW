@@ -87,7 +87,7 @@
     <Reference Include="WindowsBase" />
     <Reference Include="ZedGraph, Version=5.1.5.28844, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Bin\Visualization\ZedGraph.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\ZedGraph.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
