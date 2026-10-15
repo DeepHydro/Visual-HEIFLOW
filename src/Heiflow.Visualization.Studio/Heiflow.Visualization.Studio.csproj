@@ -111,7 +111,7 @@
       <HintPath>..\packages\Heiflow.Dependencies\lib\net45\ILNumerics.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro">
-      <HintPath>..\packages\MahApps.Metro-master\MahApps.Metro\bin\Debug\MahApps.Metro.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="mapscript_csharp, Version=1.0.3671.21478, Culture=neutral, PublicKeyToken=80087771edd02926">
       <SpecificVersion>False</SpecificVersion>
