@@ -63,6 +63,15 @@ namespace HUST.WREIS.Dot3D.Renderable
         protected Camera.CameraBase m_camera;
         protected GeoImageDownloadRequest[] m_activeDownloads = new GeoImageDownloadRequest[20];
         protected DateTime[] m_downloadStarted = new DateTime[20];
+
+        /// <summary>
+        /// How long a tile download may hold its slot before it is given up on, see
+        /// ServiceDownloadQueue. Long enough that a slow server still gets its tiles through: a tile
+        /// is a few tens of kilobytes, so a download that has not finished in a minute is not
+        /// getting anywhere.
+        /// </summary>
+        protected static readonly TimeSpan MaxDownloadTime = TimeSpan.FromSeconds(60);
+
         protected TimeSpan m_connectionWaitTime = TimeSpan.FromMinutes(2);
         protected DateTime m_connectionWaitStart;
         protected bool m_isConnectionWaiting;
@@ -1010,7 +1019,17 @@ namespace HUST.WREIS.Dot3D.Renderable
                     if (m_activeDownloads[i] == null)
                         continue;
 
-                    if (!m_activeDownloads[i].IsComplete)
+                    // A download that never finishes keeps its slot for good, and a new one is only
+                    // started where a slot is free, so as many stalled downloads as the world runs
+                    // at once are enough to stop the layer from ever being given another tile. That
+                    // is what a tile server does to it when it stops answering a request instead of
+                    // refusing it: the thread sits in the read until the request times out, which
+                    // takes minutes, and nothing else is fetched in the meantime. m_downloadStarted
+                    // is filled in below but was never read, so there was nothing to free a slot
+                    // that its download had stopped making progress on. A download still running
+                    // after this long is given up on and its slot handed to the next request.
+                    if (!m_activeDownloads[i].IsComplete &&
+                        DateTime.Now.Subtract(m_downloadStarted[i]) < MaxDownloadTime)
                         continue;
 
                     m_activeDownloads[i].Cancel();
