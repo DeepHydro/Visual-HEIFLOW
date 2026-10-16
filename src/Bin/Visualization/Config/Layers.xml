@@ -16,7 +16,13 @@
 		     old service filled, so the tiles that were downloaded from the old server are still used.
 		     ServerUrl is a format string of the zoom, the column and the row of the tile. -->
 		<TerrariumTerrainTileService>
-			<ServerUrl>https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{0}/{1}/{2}.png</ServerUrl>
+			<!-- Same bucket and same files as s3.amazonaws.com/elevation-tiles-prod, addressed
+			     with the bucket in the host name instead of in the path. Measured from this
+			     machine the two are not equally fast: the path form took 3581 ms for one tile
+			     and this one 1093 ms, and at that speed a tile that needs a batch of terrain
+			     tiles never gets built. The server is not unreachable, it is slow, which is
+			     why the terrain looked dead and the elevation readout stopped. -->
+			<ServerUrl>https://elevation-tiles-prod.s3.amazonaws.com/terrarium/{0}/{1}/{2}.png</ServerUrl>
 			<DataSetName>TerrariumTerrain</DataSetName>
 			<LevelZeroTileSizeDegrees>20</LevelZeroTileSizeDegrees>
 			<NumberLevels>12</NumberLevels>
@@ -79,16 +85,17 @@
 					<Value>180.0</Value>
 				</East>
 			</BoundingBox>
-			<!-- Whether this layer's mesh follows the elevation instead of sitting on the sphere.
-			     True makes it depend on the terrain tiles from s3.amazonaws.com, which are
-			     failing here ("The elevation of the terrain tile L4 93x237 was not read"), and
-			     only about 200 are cached in image.gmdb (Type 11), far too few to cover the
-			     earth. Where none is available the mesh is built without the heights it asked
-			     for, and that is one thing that has made this layer draw nothing over parts of
-			     the globe. False removes the dependency and puts the tiles on the sphere, which
-			     is where a mercator image belongs; try it first if tiles go missing somewhere.
-			     The value is set by hand and left as found. -->
-			<TerrainMapped>True</TerrainMapped>
+			<!-- False, and verified by experiment: on True this layer went blank and would not
+			     refine past level 10, on False it draws and refines to the deepest level.
+			     True builds a tile through CreateElevatedMesh, which asks the terrain for
+			     43x43 heights and waits for them, and a terrain tile took 1.1 to 3.5 s to
+			     fetch from s3.amazonaws.com when this was measured - the server answers, it
+			     is just slow - so the mesh waited instead of being drawn. Only about 200
+			     terrain tiles are cached in image.gmdb (Type 11), far too few to cover the
+			     earth. False uses CreateFlatMesh and needs no terrain at all. It is also the
+			     right setting for a mercator image, which is flat by nature. Try True again
+			     once the terrain tiles have had time to accumulate in the cache. -->
+			<TerrainMapped>False</TerrainMapped>
 			<ImageAccessor>
 				<LevelZeroTileSizeDegrees>180</LevelZeroTileSizeDegrees>
 				<NumberLevels>20</NumberLevels>

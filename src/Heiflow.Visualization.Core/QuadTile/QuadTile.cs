@@ -135,17 +135,8 @@ namespace HUST.WREIS.Dot3D.Renderable
 			this.Level = level;
 			this.QuadTileSet = quadTileSet;
 
-			// Only as thick as the tile really is. That is not zero even for a flat tile: the
-			// eight corners of the box are the four corners of the tile at the inner and outer
-			// radius, and the sphere sags away from the plane they span, so a box with no slack
-			// would cut a wide tile in half. The sag is what the old fixed 300 km was standing in
-			// for, computed here from the tile's own span: about 326 km for a level 0 tile and a
-			// few centimetres for the small ones near the ground.
-			double layerRadius = quadTileSet.LayerRadius;
-			double chordSag = ChordSag(layerRadius, LatitudeSpan, LongitudeSpan);
-
 			BoundingBox = new BoundingBox((float)south, (float)north, (float)west, (float)east,
-								(float)(layerRadius - chordSag - BoundingBoxSlack), (float)(layerRadius + chordSag + BoundingBoxSlack));
+								(float)quadTileSet.LayerRadius, (float)quadTileSet.LayerRadius + 300000f);
 			//localOrigin = BoundingBox.CalculateCenter();
 			localOrigin = MathEngine.SphericalToCartesianD(CenterLatitude, CenterLongitude, quadTileSet.LayerRadius);
 

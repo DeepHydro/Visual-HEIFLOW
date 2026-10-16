@@ -38,25 +38,8 @@ namespace HUST.WREIS.Dot3D.Renderable
             LatitudeSpan = Math.Abs(North - South);
             LongitudeSpan = Math.Abs(East - West);
 
-            // As in QuadTile: the box is spanned by the four corners of the tile, the sphere
-            // sags away from the plane through them, and that sag is all the slack the box
-            // needs. It replaces a height of 30000000000 times the vertical exaggeration,
-            // which stretched the box past the whole scene, so that every tile in this tree
-            // answered the frustum test with yes.
-            // The vertices sit on the sphere, but between two of them the mesh is a straight
-            // triangle, and that triangle cuts inside the sphere. So the drawn surface reaches
-            // from LayerRadius down to LayerRadius minus the sag of the chord, and the box has
-            // to allow the sag both ways - allowing it only outwards left the tile's own
-            // geometry outside its own box, and a tile whose box fails the frustum test takes
-            // its whole subtree with it, which gave this layer patches of blank ground that
-            // moved with the view and with latitude. The sag is what separates it from a plain
-            // QuadTileSet: at StartZoomLevel 5 a tile spans 5.6 degrees and the sag is about
-            // 7 km, but at StartZoomLevel 1 it spans 180 degrees and the sag is thousands.
-            double layerRadius = quadTileSet.LayerRadius;
-            double chordSag = ChordSag(layerRadius, LatitudeSpan, LongitudeSpan);
-
             BoundingBox = new BoundingBox((float)south, (float)north, (float)west, (float)east,
-                                (float)(layerRadius - chordSag - BoundingBoxSlack), (float)(layerRadius + chordSag + BoundingBoxSlack));
+                                (float)quadTileSet.LayerRadius,(float)quadTileSet.LayerRadius + 30000000000*World.Settings.VerticalExaggeration);
             //localOrigin = BoundingBox.CalculateCenter();
             localOrigin = MathEngine.SphericalToCartesianD(CenterLatitude, CenterLongitude, quadTileSet.LayerRadius);
 
