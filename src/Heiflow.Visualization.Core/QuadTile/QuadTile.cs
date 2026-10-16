@@ -145,7 +145,7 @@ namespace HUST.WREIS.Dot3D.Renderable
 			double chordSag = ChordSag(layerRadius, LatitudeSpan, LongitudeSpan);
 
 			BoundingBox = new BoundingBox((float)south, (float)north, (float)west, (float)east,
-								(float)layerRadius, (float)(layerRadius + chordSag + 1000));
+								(float)(layerRadius - chordSag - BoundingBoxSlack), (float)(layerRadius + chordSag + BoundingBoxSlack));
 			//localOrigin = BoundingBox.CalculateCenter();
 			localOrigin = MathEngine.SphericalToCartesianD(CenterLatitude, CenterLongitude, quadTileSet.LayerRadius);
 
@@ -313,7 +313,27 @@ namespace HUST.WREIS.Dot3D.Renderable
         /// built 60+ tiles at once and the globe stopped for many seconds.
         /// 0 or less switches the limit off.
         /// </summary>
-        public static int MaxTileInitsPerSweep = 8;
+        public static int MaxTileInitsPerSweep = 16;
+
+        /// <summary>
+        /// Vertical slack added above and below a tile's bounding box, on top of the sag of the
+        /// chord across it, see ChordSag. The box has to hold the mesh, and the camera can sit
+        /// inside it, and a box made only as thick as the tile turned out to be too tight: from
+        /// about 110 km up the layer stopped being drawn altogether. This is deliberately
+        /// generous where the old fixed height was absurd - 30 km here against 30000000000
+        /// metres there - so the box still culls, it just no longer shaves the ground off.
+        ///
+        /// Do not shrink this to be tidy. The tile mesh is built at a fixed LayerRadius, a
+        /// sphere, while the ground is an ellipsoid whose equatorial radius exceeds its polar
+        /// radius by 21.4 km; the gap between the two is widest at low latitudes. At 1 km the
+        /// real position of a tile below about 28 degrees north fell outside its own bounding
+        /// box, and looking straight down - where that gap lies along the view direction and
+        /// decides whether the box meets the frustum at all - the tile was culled, leaving a
+        /// blank patch that came back the moment the camera was tilted: the oblique view
+        /// crosses the box instead of meeting it end on. 30 km is past the flattening, and is
+        /// still 0.5% of the earth's radius, so the box keeps culling.
+        /// </summary>
+        public static double BoundingBoxSlack = 30000;
 
         static int tileInitsThisSweep = 0;
 
@@ -325,20 +345,26 @@ namespace HUST.WREIS.Dot3D.Renderable
 
         /// <summary>
         /// How many tile textures may be built during one rendered frame. Building one is a jpeg
-        /// decode plus a DXT compression plus an upload, 8 to 25 ms, and it is done on the render
-        /// thread, so it comes straight off the frame time. Two keeps a frame around 30 ms while
-        /// still filling a screen in a few seconds. 0 or less switches the limit off.
+        /// decode plus a DXT compression plus an upload, measured at 10.84 ms here, and it is done
+        /// on the render thread, so it comes straight off the frame time. Two was too slow to keep
+        /// up with a zoom in: the tree refines every frame, the new children wait for textures that
+        /// arrive two a frame, and until one does the parent draws its own coarser image - which a
+        /// few tens of kilometres up is a level 1 tile stretched over the screen, and reads as no
+        /// image at all. Eight, with the time budget below still doing the real limiting.
+        /// 0 or less switches the limit off.
         /// </summary>
-        public static int MaxTextureCreationsPerFrame = 2;
+        public static int MaxTextureCreationsPerFrame = 8;
 
         /// <summary>
         /// How much of one frame may go into tile textures, in milliseconds. Counting textures is
         /// not enough because one already costs 15 to 25 ms, so two of them make a 40 ms frame no
-        /// matter how fast the rest is. 12 builds one texture per frame and keeps the frame short;
-        /// the tiles keep coming every frame, only spread over more of them. 0 or less switches it
-        /// off, then MaxTextureCreationsPerFrame is the only limit.
+        /// matter how fast the rest is. 12 let one texture through a frame, which is what made a
+        /// zoom in look like the layer had stopped drawing, see MaxTextureCreationsPerFrame. 60
+        /// makes room for about three, so a screen fills in a few seconds instead of tens, and it
+        /// only bites while tiles are actually arriving. 0 or less switches it off, then
+        /// MaxTextureCreationsPerFrame is the only limit.
         /// </summary>
-        public static float MaxTextureMillisecondsPerFrame = 12;
+        public static float MaxTextureMillisecondsPerFrame = 30;
 
         static int textureCreationsThisFrame = 0;
         static long textureBudgetStartTicks = 0;
@@ -499,11 +525,7 @@ namespace HUST.WREIS.Dot3D.Renderable
 			if (m_isResetingCache)
 				return;
 
-			// see class LayerProfiler in World.cs, remove both when the profiling is done
-			if (HUST.WREIS.Dot3D.LayerProfiler.On)
-				HUST.WREIS.Dot3D.LayerProfiler.RecordUpdate("tile: Update calls", 0);
-
-				double tileSize = North - South;
+			double tileSize = North - South;
 
 				if (!isInitialized)
 				{
@@ -615,11 +637,6 @@ namespace HUST.WREIS.Dot3D.Renderable
 		/// </summary>
 		public virtual void CreateTileMesh()
 		{
-			// see class LayerProfiler in World.cs, remove both when the profiling is done.
-			// CreateElevatedMesh is the expensive one, it asks the terrain for 43x43 heights.
-			bool profiled = HUST.WREIS.Dot3D.LayerProfiler.On;
-			long start = profiled ? System.Diagnostics.Stopwatch.GetTimestamp() : 0;
-
 			verticalExaggeration = World.Settings.VerticalExaggeration;
 			m_CurrentOpacity = QuadTileSet.Opacity;
 			renderStruts = QuadTileSet.RenderStruts;
@@ -627,16 +644,10 @@ namespace HUST.WREIS.Dot3D.Renderable
 			if (QuadTileSet.TerrainMapped && Math.Abs(verticalExaggeration) > 1e-3)
 			{
 				CreateElevatedMesh();
-				if (profiled)
-					HUST.WREIS.Dot3D.LayerProfiler.RecordUpdate("tile: CreateElevatedMesh",
-						System.Diagnostics.Stopwatch.GetTimestamp() - start);
 			}
 			else
 			{
 				CreateFlatMesh();
-				if (profiled)
-					HUST.WREIS.Dot3D.LayerProfiler.RecordUpdate("tile: CreateFlatMesh",
-						System.Diagnostics.Stopwatch.GetTimestamp() - start);
 			}
 
 			// The arrays are filled in, but this runs on the update thread and the device belongs
@@ -744,6 +755,20 @@ namespace HUST.WREIS.Dot3D.Renderable
         /// <summary>
         /// Builds a flat mesh (no terrain)
         /// </summary>
+        /// <summary>
+        /// Where a row of the mesh falls in the tile image, v running from 0 at the north edge
+        /// to 1 at the south edge. Evenly in latitude by default, which is what an image in
+        /// plate carree wants. A layer whose tiles are in web mercator overrides it, see
+        /// ProjectedQuadTile: there the rows of the image are evenly spaced in projected
+        /// metres, and spreading them evenly in latitude instead drags the image polewards.
+        /// Only the texture coordinate is changed, never the position of the vertex, so the
+        /// terrain samples underneath stay where they were sampled.
+        /// </summary>
+        protected virtual double TextureVForLatitude(double latitude)
+        {
+            return (North - latitude) / LatitudeSpan;
+        }
+
         protected virtual void CreateFlatMesh()
         {
             double layerRadius = (double)QuadTileSet.LayerRadius;
@@ -791,7 +816,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                     northWestVertices[baseIndex].Y = (float)(radCosLat * sinLon[j] - localOrigin.Y);
                     northWestVertices[baseIndex].Z = (float)(layerRadius * sinLat - localOrigin.Z);
                     northWestVertices[baseIndex].Tu = (float)(j * scaleFactor);
-                    northWestVertices[baseIndex].Tv = (float)(i * scaleFactor);
+                    northWestVertices[baseIndex].Tv = (float)TextureVForLatitude(angle / Degrees2Radians);
                     northWestVertices[baseIndex].Normal = new Vector3(northWestVertices[baseIndex].X + (float)localOrigin.X, northWestVertices[baseIndex].Y + (float)localOrigin.Y, northWestVertices[baseIndex].Z + (float)localOrigin.Z);
                     northWestVertices[baseIndex].Normal.Normalize();
 
@@ -814,7 +839,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                     southWestVertices[baseIndex].Y = (float)(radCosLat * sinLon[j] - localOrigin.Y);
                     southWestVertices[baseIndex].Z = (float)(layerRadius * sinLat - localOrigin.Z);
                     southWestVertices[baseIndex].Tu = (float)(j * scaleFactor);
-                    southWestVertices[baseIndex].Tv = (float)((i + thisVertexCount) * scaleFactor);
+                    southWestVertices[baseIndex].Tv = (float)TextureVForLatitude(angle / Degrees2Radians);
                     southWestVertices[baseIndex].Normal = new Vector3(southWestVertices[baseIndex].X + (float)localOrigin.X, southWestVertices[baseIndex].Y + (float)localOrigin.Y, southWestVertices[baseIndex].Z + (float)localOrigin.Z);
                     southWestVertices[baseIndex].Normal.Normalize();
 
@@ -849,7 +874,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                     northEastVertices[baseIndex].Y = (float)(radCosLat * sinLon[j] - localOrigin.Y);
                     northEastVertices[baseIndex].Z = (float)(layerRadius * sinLat - localOrigin.Z);
                     northEastVertices[baseIndex].Tu = (float)((j + thisVertexCount) * scaleFactor);
-                    northEastVertices[baseIndex].Tv = (float)(i * scaleFactor);
+                    northEastVertices[baseIndex].Tv = (float)TextureVForLatitude(angle / Degrees2Radians);
                     northEastVertices[baseIndex].Normal = new Vector3(northEastVertices[baseIndex].X + (float)localOrigin.X, northEastVertices[baseIndex].Y + (float)localOrigin.Y, northEastVertices[baseIndex].Z + (float)localOrigin.Z);
                     northEastVertices[baseIndex].Normal.Normalize();
 
@@ -873,7 +898,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                     southEastVertices[baseIndex].Y = (float)(radCosLat * sinLon[j] - localOrigin.Y);
                     southEastVertices[baseIndex].Z = (float)(layerRadius * sinLat - localOrigin.Z);
                     southEastVertices[baseIndex].Tu = (float)((j + thisVertexCount) * scaleFactor);
-                    southEastVertices[baseIndex].Tv = (float)((i + thisVertexCount) * scaleFactor);
+                    southEastVertices[baseIndex].Tv = (float)TextureVForLatitude(angle / Degrees2Radians);
                     southEastVertices[baseIndex].Normal = new Vector3(southEastVertices[baseIndex].X + (float)localOrigin.X, southEastVertices[baseIndex].Y + (float)localOrigin.Y, southEastVertices[baseIndex].Z + (float)localOrigin.Z);
                     southEastVertices[baseIndex].Normal.Normalize();
 
@@ -966,7 +991,7 @@ namespace HUST.WREIS.Dot3D.Renderable
             double chordSag = ChordSag(layerRadius, LatitudeSpan, LongitudeSpan);
 
             BoundingBox = new BoundingBox((float)South, (float)North, (float)West, (float)East,
-             (float)meshBaseRadius, (float)(layerRadius + maximumElevation + chordSag));
+             (float)(meshBaseRadius - BoundingBoxSlack), (float)(layerRadius + maximumElevation + chordSag + BoundingBoxSlack));
 
             QuadTileSet.IsDownloadingElevation = false;
 
@@ -1129,7 +1154,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                     else
                     {
                         vertices[vertexIndex].Tu = TuOffset + (float)longitudeFactor;
-                        vertices[vertexIndex].Tv = TvOffset + (float)latitudeFactor;
+                        vertices[vertexIndex].Tv = (float)TextureVForLatitude(latitude * 180.0 / Math.PI);
                     }
 
                     // Convert from spherical (radians) to cartesian
@@ -1243,11 +1268,15 @@ namespace HUST.WREIS.Dot3D.Renderable
                     this.northEastVertices == null ||
                     this.southEastVertices == null ||
                     this.southWestVertices == null)
+                {
                     return false;
+                }
                 if (this.Level != 0)
                 {
                     if (!DrawArgs.Camera.ViewFrustum.Intersects(BoundingBox))
+                    {
                         return false;
+                    }
                 }
 
                 bool northWestChildRendered = false;
@@ -1307,16 +1336,26 @@ namespace HUST.WREIS.Dot3D.Renderable
                 // Read the array into a local before walking it: Dispose on the other thread swaps it
                 // for null, and reading it again for the length or the slot can hit that null in the
                 // middle of the loop, which threw here every time a tile was dropped while drawing.
+                // A tile whose texture has not arrived yet must not claim its quadrant, or the
+                // parent stops drawing its own coarser image there and the quadrant is filled
+                // with an untextured mesh instead. That is what a layer still downloading its
+                // tiles showed as soon as it was zoomed into: the coarse image disappeared and
+                // nothing came back until every descendant had downloaded. Reporting false
+                // here keeps the parent drawing, which is the usual way a quadtree refines.
                 Texture[] tileTextures = textures;
-                if (tileTextures != null)
+                if (tileTextures == null)
                 {
-                    for (int i = 0; i < tileTextures.Length; i++)
-                    {
-                        if (tileTextures[i] == null || tileTextures[i].Disposed)
-                            return false;
+                    return false;
+                }
 
-                        device.SetTexture(i, tileTextures[i]);
+                for (int i = 0; i < tileTextures.Length; i++)
+                {
+                    if (tileTextures[i] == null || tileTextures[i].Disposed)
+                    {
+                        return false;
                     }
+
+                    device.SetTexture(i, tileTextures[i]);
                 }
 
                 drawArgs.numberTilesDrawn++;
@@ -1361,9 +1400,14 @@ namespace HUST.WREIS.Dot3D.Renderable
 
                 return true;
             }
-            catch (DirectXException)
+            catch (DirectXException caught)
             {
-
+                // This used to swallow the failure outright. A tile that gets this far has a mesh,
+                // a texture and has passed the frustum test, so it is already counted as drawn,
+                // and the parent then stops drawing its own quadrant for it - which is how a
+                // layer can report thousands of tiles drawn and still put nothing on the screen.
+                Log.Write(Log.Levels.Warning, "QTILE",
+                    "Draw of tile " + Name + " L" + Level + " failed: " + caught.Message);
             }
 			return false;
 		}

@@ -38,8 +38,25 @@ namespace HUST.WREIS.Dot3D.Renderable
             LatitudeSpan = Math.Abs(North - South);
             LongitudeSpan = Math.Abs(East - West);
 
+            // As in QuadTile: the box is spanned by the four corners of the tile, the sphere
+            // sags away from the plane through them, and that sag is all the slack the box
+            // needs. It replaces a height of 30000000000 times the vertical exaggeration,
+            // which stretched the box past the whole scene, so that every tile in this tree
+            // answered the frustum test with yes.
+            // The vertices sit on the sphere, but between two of them the mesh is a straight
+            // triangle, and that triangle cuts inside the sphere. So the drawn surface reaches
+            // from LayerRadius down to LayerRadius minus the sag of the chord, and the box has
+            // to allow the sag both ways - allowing it only outwards left the tile's own
+            // geometry outside its own box, and a tile whose box fails the frustum test takes
+            // its whole subtree with it, which gave this layer patches of blank ground that
+            // moved with the view and with latitude. The sag is what separates it from a plain
+            // QuadTileSet: at StartZoomLevel 5 a tile spans 5.6 degrees and the sag is about
+            // 7 km, but at StartZoomLevel 1 it spans 180 degrees and the sag is thousands.
+            double layerRadius = quadTileSet.LayerRadius;
+            double chordSag = ChordSag(layerRadius, LatitudeSpan, LongitudeSpan);
+
             BoundingBox = new BoundingBox((float)south, (float)north, (float)west, (float)east,
-                                (float)quadTileSet.LayerRadius,(float)quadTileSet.LayerRadius + 30000000000*World.Settings.VerticalExaggeration);
+                                (float)(layerRadius - chordSag - BoundingBoxSlack), (float)(layerRadius + chordSag + BoundingBoxSlack));
             //localOrigin = BoundingBox.CalculateCenter();
             localOrigin = MathEngine.SphericalToCartesianD(CenterLatitude, CenterLongitude, quadTileSet.LayerRadius);
 
@@ -50,6 +67,44 @@ namespace HUST.WREIS.Dot3D.Renderable
             localOrigin.Z = (float)(Math.Round(localOrigin.Z / 100000) * 100000);
 
             TileSet = quadTileSet as ProjectedTileSet;         
+        }
+
+        /// <summary>
+        /// The tiles of this layer are in web mercator, so the rows of the image are evenly
+        /// spaced in projected metres and not in latitude. Asking the projection where a
+        /// latitude falls inside the tile is what keeps the image on the ground: on a level 1
+        /// tile, which covers the quarter of the globe between the equator and 85 degrees, the
+        /// middle row of the image belongs at 66 degrees of latitude and not at 42, so laying
+        /// the rows out evenly in latitude shifted the image by thousands of kilometres.
+        /// </summary>
+        protected override double TextureVForLatitude(double latitude)
+        {
+            double northY = MercatorY(North);
+            double southY = MercatorY(South);
+            double span = northY - southY;
+            if (span == 0)
+                return 0;
+
+            return (northY - MercatorY(latitude)) / span;
+        }
+
+        /// <summary>
+        /// Where a latitude sits in the projected metres of a mercator map. The unit cancels
+        /// out, only the ratio between two of these is used. Clipped the way the projection
+        /// that produced the tiles clips, so that a tile edge at the limit asks for the same
+        /// row the image has.
+        /// </summary>
+        static double MercatorY(double latitude)
+        {
+            const double maxLatitude = 85.0511287798066;
+            double phi = latitude;
+            if (phi > maxLatitude)
+                phi = maxLatitude;
+            if (phi < -maxLatitude)
+                phi = -maxLatitude;
+
+            phi = phi * Math.PI / 180.0;
+            return Math.Log(Math.Tan(Math.PI / 4.0 + phi / 2.0));
         }
 
         public override void ComputeChildren(DrawArgs drawArgs)

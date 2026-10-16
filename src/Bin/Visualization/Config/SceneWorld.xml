@@ -50,21 +50,21 @@
   <ElevateCameraLookatPoint>true</ElevateCameraLookatPoint>
   <CameraResetsAtStartup>false</CameraResetsAtStartup>
   <CameraLatitude>
-    <Radians>0.40660364548710914</Radians>
-    <Degrees>23.296672821044897</Degrees>
+    <Radians>0.40660364419770667</Radians>
+    <Degrees>23.296672747167577</Degrees>
   </CameraLatitude>
   <CameraLongitude>
-    <Radians>1.9748707016157272</Radians>
-    <Degrees>113.1517562866209</Degrees>
+    <Radians>1.9748706922374413</Radians>
+    <Degrees>113.15175574928469</Degrees>
   </CameraLongitude>
-  <CameraAltitude>10659984.935102888</CameraAltitude>
+  <CameraAltitude>18999999.969037078</CameraAltitude>
   <CameraHeading>
-    <Radians>0.066196561943110618</Radians>
-    <Degrees>3.7927836176165624</Degrees>
+    <Radians>-0.025541269747406972</Radians>
+    <Degrees>-1.4634069599315898</Degrees>
   </CameraHeading>
   <CameraTilt>
-    <Radians>1.8414230424638058E-57</Radians>
-    <Degrees>1.0550576863131545E-55</Degrees>
+    <Radians>3.6474049812090618E-33</Radians>
+    <Degrees>2.0898091159827256E-31</Degrees>
   </CameraTilt>
   <DefalutLatitude>23.2966728</DefalutLatitude>
   <DefalutLongitude>113.151756</DefalutLongitude>
@@ -75,7 +75,7 @@
   <CameraIsPointGoto>false</CameraIsPointGoto>
   <CameraSmooth>true</CameraSmooth>
   <CameraHasInertia>true</CameraHasInertia>
-  <CameraSlerpPercentage>0.35</CameraSlerpPercentage>
+  <CameraSlerpPercentage>0.05</CameraSlerpPercentage>
   <CameraHasMomentum>false</CameraHasMomentum>
   <CameraTwistLock>true</CameraTwistLock>
   <CameraBankLock>false</CameraBankLock>
@@ -115,7 +115,7 @@
   <FogColor>-3092272</FogColor>
   <MinSamplesPerDegree>3</MinSamplesPerDegree>
   <UseWorldSurfaceRenderer>true</UseWorldSurfaceRenderer>
-  <VerticalExaggeration>7</VerticalExaggeration>
+  <VerticalExaggeration>3</VerticalExaggeration>
   <MeasureLineLinearColorXml>-65536</MeasureLineLinearColorXml>
   <MeasureLineGroundColorXml>-570360064</MeasureLineGroundColorXml>
   <MeasureShowGroundTrack>false</MeasureShowGroundTrack>

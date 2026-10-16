@@ -120,47 +120,27 @@ namespace HUST.WREIS.Dot3D
                     // Use color key
                     GPoint pt = new GPoint(qt.Row, qt.Col);
 
-                    // see class LayerProfiler in World.cs, remove both when the profiling is done
-                    bool profiled = LayerProfiler.On;
-                    long cacheStart = profiled ? Stopwatch.GetTimestamp() : 0;
-
                     if (qt.QuadTileSet.HasTransparentRange)
                     {
                         PureImage pimage = mCache.GetImageFromCache(imageType, pt, qt.Level);
-                        if (profiled)
-                            LayerProfiler.RecordUpdate("tile: sqlite cache read", Stopwatch.GetTimestamp() - cacheStart);
-
                         if (pimage != null)
                         {
-                            long textureStart = profiled ? Stopwatch.GetTimestamp() : 0;
                             texture = ImageHelper.LoadTexture(pimage.Data);
-                            if (profiled)
-                                LayerProfiler.RecordUpdate("tile: texture from bytes", Stopwatch.GetTimestamp() - textureStart);
                         }
                         else if ((texture = LoadFromCachedFile(qt)) == null)
                         {
-                            if (profiled)
-                                LayerProfiler.RecordUpdate("tile: queued download", 0);
                             mImageStore.QueueDownload(qt, filePath);
                         }
                     }
                     else
                     {
                         MemoryStream pimage = mCache.GetImageMemoryStream(imageType, pt, qt.Level);
-                        if (profiled)
-                            LayerProfiler.RecordUpdate("tile: sqlite cache read", Stopwatch.GetTimestamp() - cacheStart);
-
                         if (pimage != null)
                         {
-                            long textureStart = profiled ? Stopwatch.GetTimestamp() : 0;
                             texture = ImageHelper.LoadTexture(pimage);
-                            if (profiled)
-                                LayerProfiler.RecordUpdate("tile: texture from bytes", Stopwatch.GetTimestamp() - textureStart);
                         }
                         else if ((texture = LoadFromCachedFile(qt)) == null)
                         {
-                            if (profiled)
-                                LayerProfiler.RecordUpdate("tile: queued download", 0);
                             mImageStore.QueueDownload(qt, "");
                         }
                     }

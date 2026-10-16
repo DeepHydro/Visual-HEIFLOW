@@ -645,7 +645,12 @@ namespace HUST.WREIS.Dot3D
                 if (imageTileService != null)
                 {
                     string mapProvider = imageTileService.Element("MapProvider").Value;
-                    string serverUrl = imageTileService.Element("ServerUrl").Value;
+                    // Only the NLT store below addresses a server of its own. Every other
+                    // provider builds its tile urls from the provider name and the tile
+                    // position, so for them this element is a leftover from the WorldWind
+                    // layers that pointed at worldwind25.arc.nasa.gov, and it may be left out.
+                    XElement serverUrlElement = imageTileService.Element("ServerUrl");
+                    string serverUrl = serverUrlElement != null ? serverUrlElement.Value : null;
                     string dataSetName = imageTileService.Element("DataSetName").Value;
                     string localCache = imageTileService.Element("CacheDirectory").Value;
                     string serverLogoFilePath = imageTileService.Element("ServerLogoFilePath").Value;

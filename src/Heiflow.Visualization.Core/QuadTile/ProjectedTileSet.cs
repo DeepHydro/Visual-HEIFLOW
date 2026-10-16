@@ -112,6 +112,14 @@ namespace HUST.WREIS.Dot3D.Renderable
              RemoveInvisibleTiles(DrawArgs.Camera);
              try
              {
+                 // One budget per sweep, see QuadTile.MaxTileInitsPerSweep. The counter is static and
+                 // shared by every layer, and QuadTileSet.Update is the only other caller of this. A
+                 // projected layer that left the call out therefore kept adding to a total that
+                 // nothing cleared: after the first eight tiles the budget was spent for good and no
+                 // tile of this layer was ever initialized again, so the layer kept downloading tiles
+                 // it never turned into textures and drew nothing beyond the few it started with.
+                 QuadTile.BeginUpdateSweep();
+
                  // The first argument is the top edge, not the bottom one, see RectLatLng.FromLTRB:
                  // it takes the northern latitude and measures the height downwards from it. Given the
                  // southern edge instead, the rectangle reaches from there down and out of the range of
@@ -152,7 +160,15 @@ namespace HUST.WREIS.Dot3D.Renderable
                              if (!m_topmostTiles.ContainsKey(key))
                                     m_topmostTiles.Add(key, qt);
                              }
-                             //qt.Update(drawArgs);
+                             // The update has to happen in the sweep that created the tile. Left to
+                            // the next sweep it never ran: every sweep starts by removing the tiles
+                            // the frustum does not intersect, so a tile that had just been built and
+                            // then judged invisible was disposed before anything asked it to
+                            // initialize. It was rebuilt as new on the following sweep and thrown
+                            // away again, and the layer kept a set of topmost tiles that were never
+                            // updated at all - no tile counts, nothing drawn, which is what zooming
+                            // below about 80 km looked like.
+                            qt.Update(drawArgs);
                              //}
                     //}
                 }

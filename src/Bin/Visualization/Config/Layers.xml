@@ -46,48 +46,89 @@
 		</LatLonBoundingBox>
 	</TerrainAccessor>
 	<LayerSet Name="Base Map" ShowOnlyOneLayer="true" ShowAtStartup="true">
-	<ProjectedTileSet ShowAtStartup="False">
-		<Name>BingSatelliteMap</Name>
-		<DistanceAboveSurface>0</DistanceAboveSurface>
-		<IconImageName>nrl.png</IconImageName>
-		<StartZoomLevel>1</StartZoomLevel>
+		<ProjectedTileSet ShowAtStartup="False">
+			<Name>BingSatelliteMap</Name>
+			<!-- Metres added to the equatorial radius at which this layer's tiles are drawn, see
+			     ImageLayer: layerRadius = EquatorialRadius + distanceAboveSurface. 0 puts them
+			     at exactly that radius. 1000 was tried on the theory that the mesh and whatever
+			     else is drawn at that radius were fighting over the same depth value; it made no
+			     difference that could be seen, and the value is left at 0. Worth a few hundred
+			     metres here if tiles ever look buried while the counts say they are drawn. -->
+			<DistanceAboveSurface>0</DistanceAboveSurface>
+			<IconImageName>nrl.png</IconImageName>
+			<!-- Keep at 1. This is the level of the topmost tiles, and a topmost tile is disposed
+			     as soon as ViewRange passes 5.25 times its own size, see QuadTile.Update. At 5 a
+			     tile spans 5.3 degrees, so any view wider than about 56 degrees threw the whole
+			     set away: it was rebuilt and discarded again every frame, which showed up as one
+			     patch of image that never changed, on a frame rate that had gone with it. Raising
+			     this does not make the coarse fallback any better, it just makes the tree fall
+			     apart; the texture budget in QuadTile is what decides how long the coarse image
+			     is on screen. -->
+			<StartZoomLevel>1</StartZoomLevel>
 			<BoundingBox>
-			<North>
-				<Value>90.0</Value>
-			</North>
-			<South>
-				<Value>-90.0</Value>
-			</South>
-			<West>
-				<Value>-180.0</Value>
-			</West>
-			<East>
-				<Value>180.0</Value>
-			</East>
-		</BoundingBox>
-		<TerrainMapped>true</TerrainMapped>
-		<ImageAccessor>
-			<LevelZeroTileSizeDegrees>180</LevelZeroTileSizeDegrees>
-			<NumberLevels>20</NumberLevels>
-			<TextureSizePixels>512</TextureSizePixels>
-			<ImageFileExtension>jpeg</ImageFileExtension>
-			<SubDatasetName>none</SubDatasetName>
-			<IsDebug>False</IsDebug>
-			<IsDownloadableLayer>False</IsDownloadableLayer>
-			<ImageTileService>
-					<ServerUrl>http://worldwind25.arc.nasa.gov/tile/tile.aspx</ServerUrl>
+				<North>
+					<Value>90.0</Value>
+				</North>
+				<South>
+					<Value>-90.0</Value>
+				</South>
+				<West>
+					<Value>-180.0</Value>
+				</West>
+				<East>
+					<Value>180.0</Value>
+				</East>
+			</BoundingBox>
+			<!-- Whether this layer's mesh follows the elevation instead of sitting on the sphere.
+			     True makes it depend on the terrain tiles from s3.amazonaws.com, which are
+			     failing here ("The elevation of the terrain tile L4 93x237 was not read"), and
+			     only about 200 are cached in image.gmdb (Type 11), far too few to cover the
+			     earth. Where none is available the mesh is built without the heights it asked
+			     for, and that is one thing that has made this layer draw nothing over parts of
+			     the globe. False removes the dependency and puts the tiles on the sphere, which
+			     is where a mercator image belongs; try it first if tiles go missing somewhere.
+			     The value is set by hand and left as found. -->
+			<TerrainMapped>True</TerrainMapped>
+			<ImageAccessor>
+				<LevelZeroTileSizeDegrees>180</LevelZeroTileSizeDegrees>
+				<NumberLevels>20</NumberLevels>
+				<TextureSizePixels>512</TextureSizePixels>
+				<ImageFileExtension>jpeg</ImageFileExtension>
+				<SubDatasetName>none</SubDatasetName>
+				<!-- False. With this on the layer does not draw the satellite image at all: it
+				     returns GenerateDebugTexture instead (SQliteImageService.LoadFile) and reports
+				     every tile as already available, so nothing is ever fetched. It is a debugging
+				     aid that replaces the imagery, turn it on only to read the tile level. -->
+				<IsDebug>False</IsDebug>
+				<!-- True, it was False. With downloading off the layer can only draw what is
+				     already in data\image.gmdb, and that holds no more than a few dozen tiles at
+				     any one zoom for this layer - Type 7 has 87 tiles at zoom 9, where covering
+				     the globe takes a quarter of a million. So on zooming in the tiles in view
+				     are absent, nothing is fetched to fill them in, every child falls back to its
+				     parent, and what is left on screen is the four level 1 tiles stretched over
+				     the view: a patch of flat colour that never changes. -->
+				<IsDownloadableLayer>True</IsDownloadableLayer>
+				<ImageTileService>
+					<!-- No ServerUrl: the tiles are addressed by the BingSatelliteMap provider
+					     below, which builds a virtualearth.net url from the tile position. The
+					     WorldWind server that used to stand here has been shut down, it is the
+					     same one that left the Landsat layer blank. -->
 					<DataSetName>BingSatelliteMap</DataSetName>
 					<ServerLogoFilePath>Data\Icons\Interface\usgs.png</ServerLogoFilePath>
 					<MapProvider>BingSatelliteMap</MapProvider>
 					<CacheDirectory>BingSatelliteMap</CacheDirectory>
 					<SQLiteService>
-		  	  <DbFilePath>data\image.gmdb</DbFilePath>
-					  <ImageType>7</ImageType>
-		      </SQLiteService>
-		  </ImageTileService>		 
-		</ImageAccessor>
-		<TransparentColor><Red>0</Red><Green>0</Green><Blue>0</Blue></TransparentColor>
-	  </ProjectedTileSet>
+						<DbFilePath>data\image.gmdb</DbFilePath>
+						<ImageType>7</ImageType>
+					</SQLiteService>
+				</ImageTileService>
+			</ImageAccessor>
+			<TransparentColor>
+				<Red>0</Red>
+				<Green>0</Green>
+				<Blue>0</Blue>
+			</TransparentColor>
+		</ProjectedTileSet>
 		<QuadTileSet ShowAtStartup="True">
 			<Name>Landsat7 Image</Name>
 			<IconImageName>osmlogo.png</IconImageName>
@@ -143,9 +184,9 @@
 					     tiles are cached as files under CacheDirectory. It used to cache them in
 					     data\image.gmdb, where every tile read and every tile written opens a
 					     connection to it, and the download threads write 512x512 blobs into it all the
-					     time, so the update thread was made to wait seconds for a read (measured:
-					     "tile: sqlite cache read" up to 30 ms a call, "TerrainAccessor.
-					     GetElevationAt", which reads the terrain out of the same database, up to 5 s).
+					     time, 					     so the update thread was made to wait seconds for a read (measured: a tile
+					     read out of that database took up to 30 ms a call, and TerrainAccessor.
+					     GetElevationAt, which reads the terrain out of the same database, up to 5 s).
 					     Set TileCacheType to SQLite to put them back in the shared database: the
 					     tiles that are already on disk are read from there and copied in as they are
 					     shown, so nothing has to be downloaded twice. The number that keeps its tiles

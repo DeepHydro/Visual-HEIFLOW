@@ -271,18 +271,12 @@ namespace HUST.WREIS.Dot3D
 				// Image is already DDS
 				return;
 
-            // see class LayerProfiler in World.cs, remove both when the profiling is done
-            long convertStart = LayerProfiler.On ? Stopwatch.GetTimestamp() : 0;
-
 			// User has selected to convert downloaded images to DDS
 			string convertedPath = Path.Combine(
 				Path.GetDirectoryName(filePath),
 				Path.GetFileNameWithoutExtension(filePath)+".dds");
 
 			TextureLoader.Save(convertedPath, ImageFileFormat.Dds, texture );
-
-            if (LayerProfiler.On)
-                LayerProfiler.RecordUpdate("tile: ConvertImage to DDS", Stopwatch.GetTimestamp() - convertStart);
 
 			// Delete the old file
 			try
@@ -306,15 +300,7 @@ namespace HUST.WREIS.Dot3D
 
 		public virtual Texture LoadFile(QuadTile qt)
 		{
-            // see class LayerProfiler in World.cs, remove both when the profiling is done
-            if (!LayerProfiler.On)
-                return ImageService.LoadFile(qt);
-
-            long loadStart = Stopwatch.GetTimestamp();
-            Texture texture = ImageService.LoadFile(qt);
-            // This runs on the render thread now, see QuadTile.CreatePendingTextures.
-            LayerProfiler.RecordRender("tile: LoadFile (all of it)", Stopwatch.GetTimestamp() - loadStart);
-            return texture;
+            return ImageService.LoadFile(qt);
 		}
 
         public Texture GenerateDebugTexture(QuadTile qt)

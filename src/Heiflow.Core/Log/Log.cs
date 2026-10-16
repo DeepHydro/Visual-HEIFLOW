@@ -188,15 +188,15 @@ namespace Heiflow.Core
                             message);
 
 #if DEBUG
-                        System.Diagnostics.Debug.WriteLine(
-                            string.Format("HydroEarth" +
-                            //".{0} [{1}]"+
-                            ": {2} {3} {4}", 
-                                System.Threading.Thread.CurrentThread.Name,
-                                System.Threading.Thread.CurrentThread.ManagedThreadId,
-                                level,
-                                category.PadRight(4, ' ').Substring(0, 4),
-                                message));
+                        //System.Diagnostics.Debug.WriteLine(
+                        //    string.Format("HydroEarth" +
+                        //    //".{0} [{1}]"+
+                        //    ": {2} {3} {4}", 
+                        //        System.Threading.Thread.CurrentThread.Name,
+                        //        System.Threading.Thread.CurrentThread.ManagedThreadId,
+                        //        level,
+                        //        category.PadRight(4, ' ').Substring(0, 4),
+                        //        message));
 #endif
                         logWriter.WriteLine(logLine);
                     }

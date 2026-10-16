@@ -1552,7 +1552,12 @@ namespace HUST.WREIS.Dot3D
         #region Layers
         public System.Collections.ArrayList loadedLayers = new System.Collections.ArrayList();
         private bool useDefaultLayerStates = true;
-        private int maxSimultaneousDownloads = 1;
+        // One at a time made a working layer look broken: a missing tile is fetched, and only once
+        // it has been decoded and written to the cache is the next one started, so filling a view
+        // that needs some dozens of tiles took minutes, and for all that time the coarse parent
+        // tiles were the only thing that could be drawn - which is what "the image will not show
+        // up below this altitude" looked like. Eight is inside the twenty this is capped at.
+        private int maxSimultaneousDownloads = 8;
 
         [Browsable(true), Category("Layers")]
         public bool UseDefaultLayerStates

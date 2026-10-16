@@ -276,7 +276,7 @@ namespace HUST.WREIS.Dot3D.Terrain
             return (1.0 - Math.Log(Math.Tan(rad) + 1.0 / Math.Cos(rad)) / Math.PI) / 2.0 * TilePixels * count;
         }
 
-        private static long Key(int x, int y)
+        private new static long Key(int x, int y)
         {
             return ((long)x << 32) | (uint)y;
         }
