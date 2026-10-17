@@ -27,10 +27,13 @@ namespace Heiflow.Visualization.Renderable.Grid
                 if (DataSource is DataCube<float>)
                 {
                     var vec = new float[DataSource.Size[1]];
+                    // A variable of this kind of grid is kept for the vertices of it and not for the
+                    // triangles, so the series is read for the vertex the cell was picked on and not
+                    // for the number of the cell, which runs past the end of the source.
                     var id = (int)VertexID[0];
                     for (int t = 0; t < DataSource.Size[1]; t++)
                     {
-                        vec[t] = DataSource[Render.VarIndex, t,id];
+                        vec[t] = DataSource[Render.VarIndex, t, id];
                     }
                     return vec;
                 }

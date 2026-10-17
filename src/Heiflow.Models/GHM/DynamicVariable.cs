@@ -31,6 +31,8 @@ namespace Heiflow.Models.GHM
         {
             _progess = progess;
             DataCubeStreamReader dr = new DataCubeStreamReader(this.FullPath);
+            dr.Scan();
+            dr.MaxTimeStep = 72;
             dr.Loading += dr_Loading;
             dr.LoadFailed += dr_LoadFailed;
             dr.DataCubeLoaded += dr_DataCubeLoaded;

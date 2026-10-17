@@ -67,6 +67,7 @@
                 </MenuItem>
                 <MenuItem Header="{DynamicResource  DataMenuHeader}" x:Name="DataMenu"    >
                     <MenuItem Header="Add Vector"   x:Name="miLoadShp"  Click="miLoadShp_Click"/>
+                    <MenuItem Header="Add Water Body"   x:Name="miLoadWater"  Click="miLoadWater_Click"/>
                     <MenuItem Header="Add Raster"   x:Name="miLoadRater"  Click="miLoadRaster_Click"/>
                     <MenuItem Header="Add 3D Model"   x:Name="miLoad3DModel"  Click="miLoad3DModel_Click"/>
                     <Separator />

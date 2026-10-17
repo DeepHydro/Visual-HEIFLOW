@@ -27,6 +27,13 @@ namespace Heiflow.Visualization.Renderable.Grid
         int[] VertexIndexList { get; }
 
         /// <summary>
+        /// Two indices for every edge of the mesh, for a layer that is drawn as a wire frame. Null for
+        /// a render that keeps none, and the layer then draws the indices of the triangles as lines,
+        /// which is how it was done before.
+        /// </summary>
+        int[] LineIndexList { get; }
+
+        /// <summary>
         /// Bumped whenever the geometry is rebuilt, the layers upload the buffers again when it changed.
         /// </summary>
         int MeshVersion { get; }

@@ -9,6 +9,7 @@ using Microsoft.DirectX;
 using Microsoft.DirectX.Direct3D;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,70 +39,191 @@ namespace Heiflow.Visualization.Renderable.Grid
             set;
         }
 
+        /// <summary>
+        /// The values the mesh is coloured with, one for every triangle of every step of the file.
+        /// The name of that file is handed over by the importer, see ModelLayerImporter, and without
+        /// reading it here the render has no source at all: the cache stayed empty however often it
+        /// was asked for, and the mesh kept the colours of the heights while the animation played.
+        /// Every step of the file is taken, which is what the cache and the playback need, and not
+        /// only the one step a vector layer draws, see TriganularVectorRender.
+        /// </summary>
+        public override void LoadDataSource(string filename)
+        {
+            var ghm = Project != null ? Project.Model as GHModel : null;
+            if (ghm == null || ghm.Project == null || string.IsNullOrEmpty(filename) || !File.Exists(filename))
+            {
+                return;
+            }
+
+            var provider = ghm.Project.DataCubeFileFactory.Select(filename);
+            if (provider != null)
+            {
+                DataSource = provider.Provide(filename);
+            }
+        }
+
         public override void Initilize()
         {
+            // The ramp of colours and the opacity the mesh is coloured with are the ones the base
+            // class sets, so it is called before the mesh is built and not after it, or the first
+            // colours would be made with a ramp of no classes and an opacity of nothing at all.
+            base.Initilize();
             _TriangularGrid = _Project.Model.Grid as TriangularGrid;
             CreatMeshes();
-            base.Initilize();
+        }
+
+        /// <summary>
+        /// How many triangles the grid holds. A variable of this grid is kept for its vertices and
+        /// not for its triangles, but a source that keeps one for every triangle is still spread over
+        /// the vertices round it, so the count of them is kept as well, see NodeValues.
+        /// </summary>
+        private int _CellCount;
+
+        /// <summary>
+        /// How many vertices the mesh is drawn with, which is every vertex of the grid once and not
+        /// three for every triangle. A value is kept for a vertex and not for a triangle, and it is
+        /// the vertices that are coloured: the card spreads the colour of the three of a triangle
+        /// over the face between them, which is how a field of values is drawn on this kind of grid.
+        /// </summary>
+        private int _NodeCount;
+
+        /// <summary>
+        /// The texel of a step is read at the vertex and not at the pixel. The vertices of this grid
+        /// are only numbered, so a texture coordinate found between two corners of a triangle runs
+        /// over thousands of texels that have nothing to do with it, and a face would come out filled
+        /// with stripes of colours belonging all over the grid. The shader for such a grid reads the
+        /// texel of the vertex itself, see ModelColorNodes.fx, and hands the pixel shader the colour
+        /// of the ramp, which is spread over the triangle the way the fixed pipeline spread the
+        /// colour of a vertex. A card that cannot run it stays on the vertices, see
+        /// ModelColorShader.SupportsShaders.
+        /// </summary>
+        protected override bool StepTexturePerVertex
+        {
+            get { return true; }
         }
 
         public override void CreatMeshes()
         {
             Grid = _TriangularGrid;
             double radius = 0;
-             _elev = _TriangularGrid.Elevations.GetVector(0, "0", ":");
-            GridValues = _elev;
-            float maxValue = _elev.Max();
-            float minValue = _elev.Min();
-            float verValue = 0;
-            _VertexList = new CustomVertex.PositionNormalColored[_TriangularGrid.VertexCount];
-            var levels = _DataColor.GetLevels(_elev, ColourRampCount, ClassificationMethod);
+            _elev = _TriangularGrid.Elevations.GetVector(0, "0", ":");
 
-            for (int i = 0; i < _TriangularGrid.VertexCount; i++)
+            var vertexCount = _TriangularGrid.VertexCount;
+            _NodeCount = vertexCount;
+
+            var topology = _TriangularGrid.Topology;
+            _CellCount = topology != null && topology.VertexIndices != null
+                ? Math.Min(_TriangularGrid.ActiveCellCount, topology.VertexIndices.Length)
+                : 0;
+
+            // The heights the mesh is coloured by before the values of a variable are read. They are
+            // kept for the vertices, and where that array does not cover the grid the height of the
+            // vertex itself is taken, which is what the mesh file holds for it.
+            var elev = _elev != null && _elev.Length >= vertexCount
+                ? _elev
+                : (from v in _TriangularGrid.Vertex select (float)v.Z).ToArray();
+            GridValues = elev;
+            float maxValue = elev.Length > 0 ? elev.Max() : 0;
+            float minValue = elev.Length > 0 ? elev.Min() : 0;
+
+            _VertexList = new CustomVertex.PositionNormalColored[vertexCount];
+            var levels = _DataColor.GetLevels(elev, ColourRampCount, ClassificationMethod);
+
+            for (int i = 0; i < vertexCount; i++)
             {
-                verValue = (float)_TriangularGrid.Vertex[i].Z;
-                radius = this.EquatorialRadius + (verValue +RenderableObject.DistanceAboveSurface) * World.Settings.VerticalExaggeration ;
-              Vector3 curNode = MathEngine.SphericalToCartesian(_TriangularGrid.Vertex[i].Y, _TriangularGrid.Vertex[i].X, radius);
+                var verValue = (float)_TriangularGrid.Vertex[i].Z;
+                radius = this.EquatorialRadius + (verValue + RenderableObject.DistanceAboveSurface) * World.Settings.VerticalExaggeration;
+                Vector3 curNode = MathEngine.SphericalToCartesian(_TriangularGrid.Vertex[i].Y, _TriangularGrid.Vertex[i].X, radius);
                 VertexList[i] = new CustomVertex.PositionNormalColored()
                 {
                     X = curNode.X,
                     Y = curNode.Y,
-                    Z = curNode.Z,
-                    Nx = (float)_TriangularGrid.Vertex[i].Y,
-                    Ny = (float)_TriangularGrid.Vertex[i].X,
-                    Nz = verValue * World.Settings.VerticalExaggeration
+                    Z = curNode.Z
                 };
                 _VertexList[i].Color = _DataColor.GetVertexColor(levels[i], Opacity);
             }
 
-            var latList = from  v in _TriangularGrid.Vertex select v.Y;
+            var latList = from v in _TriangularGrid.Vertex select v.Y;
             var lngList = from v in _TriangularGrid.Vertex select v.X;
-            BBox = new Envelope(latList.Min(), latList.Max(), lngList.Min(), lngList.Max());
 
-            _VertexIndexList = new int[_TriangularGrid.ActiveCellCount * 3];
-            for (int i = 0; i < _TriangularGrid.ActiveCellCount; i++)
+            // An envelope is asked for as west, east, south and north, longitude first and latitude
+            // second. The vertices of the grid hold them the other way about, and an envelope built
+            // that way round holds nothing, so the layer would never be flown to.
+            BBox = new Envelope(lngList.Min(), lngList.Max(), latList.Min(), latList.Max());
+
+            _VertexIndexList = new int[_CellCount * 3];
+            _LineIndexList = new int[_CellCount * 6];
+            var line = 0;
+            for (int i = 0; i < _CellCount; i++)
             {
-                int id0 = (int)_TriangularGrid.Topology.VertexIndices[i][0];
-                int id1 = (int)_TriangularGrid.Topology.VertexIndices[i][1];
-                int id2 = (int)_TriangularGrid.Topology.VertexIndices[i][2];
+                int id0 = (int)topology.VertexIndices[i][0];
+                int id1 = (int)topology.VertexIndices[i][1];
+                int id2 = (int)topology.VertexIndices[i][2];
+
+                // One triangle that names a vertex the grid does not have takes the whole draw call
+                // with it, the card throws away everything it was handed rather than reading past
+                // the end of the buffer, and not one triangle of the grid would come up. Such a one
+                // is made into a triangle of no area instead, which is drawn as nothing at all.
+                if (id0 < 0 || id0 >= vertexCount || id1 < 0 || id1 >= vertexCount
+                    || id2 < 0 || id2 >= vertexCount)
+                {
+                    _VertexIndexList[i * 3] = 0;
+                    _VertexIndexList[i * 3 + 1] = 0;
+                    _VertexIndexList[i * 3 + 2] = 0;
+                    continue;
+                }
 
                 _VertexIndexList[i * 3] = id0;
                 _VertexIndexList[i * 3 + 1] = id1;
                 _VertexIndexList[i * 3 + 2] = id2;
+
+                // The three edges of the triangle, which is what a wire frame is made of. An edge
+                // between two triangles is drawn twice, once by each of them, which is nothing next
+                // to the lines a wire frame used to be drawn with.
+                _LineIndexList[line++] = id0;
+                _LineIndexList[line++] = id1;
+                _LineIndexList[line++] = id1;
+                _LineIndexList[line++] = id2;
+                _LineIndexList[line++] = id2;
+                _LineIndexList[line++] = id0;
             }
 
-            // This grid has no shape to lay the texture out in, the vertices are only numbered, so the
-            // texture is a strip as wide as a texture may be and as high as it takes to hold them all,
-            // and a vertex is the texel of its own number.
-            var vertexCount = _TriangularGrid.VertexCount;
+            // A triangle that had to be left out leaves its edge behind as two lines of no length,
+            // and a buffer shorter than the one the card was told about draws nothing at all, so the
+            // rest of it is cut off.
+            if (line != _LineIndexList.Length)
+            {
+                var edges = new int[line];
+                Array.Copy(_LineIndexList, edges, line);
+                _LineIndexList = edges;
+            }
+
+            // The normals come off the triangles, and the vertices of one are shared with the ones
+            // next to it, so what a vertex is given is the mean of the triangles round it. That is
+            // what draws a field that runs smoothly over the grid, which is what a value kept for a
+            // vertex asks for.
+            CalculateNormals(ref _VertexList, _VertexIndexList);
+
+            // This grid has no shape to lay the texture out in, the vertices are only numbered, so
+            // the texture is a strip as wide as a texture may be and as high as it takes to hold
+            // them all, and a vertex is the texel of its own number.
             _DataTextureWidth = Math.Min(vertexCount, MaxStepTextureWidth);
-            _DataTextureHeight = (vertexCount + _DataTextureWidth - 1) / _DataTextureWidth;
+            _DataTextureHeight = _DataTextureWidth > 0
+                ? (vertexCount + _DataTextureWidth - 1) / _DataTextureWidth
+                : 0;
             _SmoothStepTexture = false;
             _VertexTexel = new int[vertexCount];
             for (int i = 0; i < vertexCount; i++)
             {
                 _VertexTexel[i] = i;
             }
+
+            MaxCellValue = maxValue;
+            MinCellValue = minValue;
+
+            // The geometry is new, so the layer has to hand it to the card again, see
+            // ModelRenderDX.MeshVersion.
+            NotifyMeshChanged();
         }
 
         public override float GetCellValue(int p1, int p2)
@@ -147,6 +269,62 @@ namespace Heiflow.Visualization.Renderable.Grid
         /// </summary>
         private bool _CacheTooLarge;
 
+        /// <summary>
+        /// The values of one step as one for every vertex of the grid, which is what the mesh is
+        /// coloured by. A variable of this kind of grid is kept for the vertices and not for the
+        /// triangles of it, so an array that holds one for every vertex is taken as it comes.
+        ///
+        /// A source that keeps one for every triangle instead is spread over the vertices round it,
+        /// the way the vertices of a regular grid are given the mean of the cells that touch them,
+        /// see MFGridRender.
+        ///
+        /// Nothing comes back from an array that is neither the one nor the other, a source that was
+        /// read for another grid, and there is then nothing to colour the mesh from.
+        /// </summary>
+        private float[] NodeValues(float[] vector)
+        {
+            if (vector == null || _TriangularGrid == null || _NodeCount <= 0)
+            {
+                return null;
+            }
+
+            var vertexCount = _TriangularGrid.VertexCount;
+            if (vector.Length == vertexCount)
+            {
+                return vector;
+            }
+
+            var topology = _TriangularGrid.Topology;
+            if (topology == null || topology.NodeConnectedCells == null || vector.Length < _CellCount)
+            {
+                // Neither one for every vertex nor one for every triangle, a source that was read
+                // for another grid. There is nothing here to colour the mesh from.
+                return null;
+            }
+
+            var values = new float[vertexCount];
+            for (int i = 0; i < vertexCount; i++)
+            {
+                var cells = i < topology.NodeConnectedCells.Length ? topology.NodeConnectedCells[i] : null;
+                if (cells == null || cells.Length == 0)
+                {
+                    continue;
+                }
+
+                var sum = 0.0;
+                for (int c = 0; c < cells.Length; c++)
+                {
+                    var cell = (int)cells[c];
+                    if (cell >= 0 && cell < vector.Length)
+                    {
+                        sum += vector[cell];
+                    }
+                }
+                values[i] = (float)(sum / cells.Length);
+            }
+            return values;
+        }
+
         public override void CacheColor()
         {
             if (DataSource == null)
@@ -154,7 +332,15 @@ namespace Heiflow.Visualization.Renderable.Grid
                 return;
             }
             var timesteps = DataSource.Size[1];
-            var vertexCount = _TriangularGrid.VertexCount;
+            var vertexCount = _NodeCount;
+            if (vertexCount <= 0)
+            {
+                return;
+            }
+
+            // The variable the cache is filled for is the one the source is set to, which is the one
+            // the animation draws, and not whichever one the render happens to hold, see MFGridRender.
+            this.VarIndex = DataSource.SelectedVariableIndex;
 
             // The class a vertex falls into is kept for every vertex of every step, one byte each, and
             // the colour comes from the table of classes rather than being stored, which is a quarter
@@ -187,7 +373,7 @@ namespace Heiflow.Visualization.Renderable.Grid
                 _ScaleMax = float.MinValue;
                 for (int t = 0; t < timesteps; t++)
                 {
-                    var vector = GetGridValues(DataSource, t);
+                    var vector = NodeValues(GetGridValues(DataSource, t));
                     if (vector == null)
                     {
                         return;
@@ -215,7 +401,7 @@ namespace Heiflow.Visualization.Renderable.Grid
 
             for (int t = 0; t < timesteps; t++)
             {
-                var vector = GetGridValues(DataSource, t);
+                var vector = NodeValues(GetGridValues(DataSource, t));
                 // No array behind the variable the source is set to, which UpdateVertexColor already
                 // draws nothing for. It is the variable that decides and not the step, so there is no
                 // cache to fill here and the colours that are on screen are kept.
@@ -267,10 +453,14 @@ namespace Heiflow.Visualization.Renderable.Grid
         {
             if (GridValues == null)
             {
-                GridValues = GetGridValues(DataSource, CurrentTimeStep);
+                GridValues = NodeValues(GetGridValues(DataSource, CurrentTimeStep));
             }
 
-            if (GridValues != null)
+            // One value for every vertex, whichever way the source keeps them, see NodeValues. The
+            // cache is filled out of the same numbers, so the two agree.
+            var vector = NodeValues(GridValues);
+
+            if (vector != null)
             {
                 if (UseCache && !_CacheTooLarge)
                 {
@@ -278,7 +468,6 @@ namespace Heiflow.Visualization.Renderable.Grid
                 }
                 else
                 {
-                    var vector = GridValues;
                     MaxCellValue = vector.Max();
                     MinCellValue = vector.Min();
                     StatisticsInfo = MyStatisticsMath.SimpleStatistics(vector);
@@ -286,7 +475,7 @@ namespace Heiflow.Visualization.Renderable.Grid
                     {
                         var unqval = vector.Distinct().ToArray();
                         var dic = DataColor.ProduceColorDic<float>(unqval);
-                        for (int i = 0; i < _TriangularGrid.VertexCount; i++)
+                        for (int i = 0; i < _NodeCount; i++)
                         {
                             VertexList[i].Color = dic[vector[i]].ToArgb();
                         }
@@ -301,7 +490,7 @@ namespace Heiflow.Visualization.Renderable.Grid
                         var low = (float)MinCellValue;
                         var high = (float)(MaxCellValue > MinCellValue ? MaxCellValue : MinCellValue + 1);
                         var scale = 255f / (high - low);
-                        for (int i = 0; i < _TriangularGrid.VertexCount; i++)
+                        for (int i = 0; i < _NodeCount; i++)
                         {
                             VertexList[i].Color = palette[ShadeOf(vector[i] - low, scale)];
                         }
@@ -311,7 +500,7 @@ namespace Heiflow.Visualization.Renderable.Grid
                         MaxCellValue = vector.Max();
                         MinCellValue = vector.Min();
                         var levels = _DataColor.GetLevels(vector, ColourRampCount, ClassificationMethod);
-                        for (int i = 0; i < _TriangularGrid.VertexCount; i++)
+                        for (int i = 0; i < _NodeCount; i++)
                         {
                             VertexList[i].Color = _DataColor.GetVertexColor(levels[i], Opacity, InvertColor);
                         }
@@ -344,9 +533,18 @@ namespace Heiflow.Visualization.Renderable.Grid
                     // What is cached is the class of every vertex and not its colour, so the class is
                     // turned into one through the table of the scheme that is current now.
                     var palette = LevelPalette;
-                    var vertexCount = _TriangularGrid.VertexCount;
+                    var vertexCount = _NodeCount;
                     var step = CurrentTimeStep * vertexCount;
                     var last = palette.Length - 1;
+
+                    // A cache that was filled before the mesh was rebuilt holds fewer classes than
+                    // there are vertices now, and one that runs out is left with the colours that
+                    // are on the mesh rather than walking past the end of it.
+                    if (step + vertexCount > cachedLevel.Length)
+                    {
+                        vertexCount = Math.Max(0, cachedLevel.Length - step);
+                    }
+
                     for (int i = 0; i < vertexCount; i++)
                     {
                         // A cache that could not be filled again still holds the classes of a ramp that

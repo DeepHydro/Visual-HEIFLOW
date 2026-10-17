@@ -22,6 +22,11 @@ namespace Heiflow.Visualization.Renderable.Grid
         protected CustomVertex.PositionNormalColored[] _VertexList;
         protected int[] _VertexIndexList;
 
+        /// <summary>
+        /// Two indices for every edge of the mesh, see LineIndexList.
+        /// </summary>
+        protected int[] _LineIndexList;
+
         protected float _VerticalExaggeration = 3;
         protected Point3d localOrigin; // Add this offset to get world coordinates
         public int[] SelectedVertexIndexes { get; set; }
@@ -292,6 +297,22 @@ namespace Heiflow.Visualization.Renderable.Grid
             get
             {
                 return _VertexIndexList;
+            }
+        }
+
+        /// <summary>
+        /// The indices that draw the edges of the mesh, two for a line, which is what a layer shown as
+        /// a wire frame asks for. The indices of the triangles cannot be handed to a line list: the
+        /// card takes them two by two, so the last corner of one triangle is joined to the first of the
+        /// next and what should be an edge comes out as a line across the grid, in a different colour
+        /// at either end. A render that keeps no edges of its own leaves this null, and the layer then
+        /// draws the indices of the triangles as it always did.
+        /// </summary>
+        public int[] LineIndexList
+        {
+            get
+            {
+                return _LineIndexList;
             }
         }
 
@@ -748,10 +769,44 @@ namespace Heiflow.Visualization.Renderable.Grid
         private int _rampVersion = -1;
 
         /// <summary>
+        /// The cache the two step textures were filled from. A cache that is filled again arrives as
+        /// a new array holding other classes under the very same step, which is what the Create Cache
+        /// button does while the step the picture is at never moves on. The step alone is therefore
+        /// not enough to go by and the array is watched as well, or the shader would go on reading
+        /// the classes of the cache that came before.
+        /// </summary>
+        private byte[] _shadedLevels;
+
+        /// <summary>
         /// Off sends every layer back to the fixed pipeline, which is how a shader that misbehaves on
         /// one card is told apart from a shader that is wrong everywhere.
         /// </summary>
         public static bool AllowShadedColors = true;
+
+        /// <summary>
+        /// Whether the colours may be read out of the textures rather than out of the vertices. The
+        /// textures carry one shade for a vertex, so a render that puts a vertex on more than one
+        /// face and wants a different shade on each of them has to keep the colour on the vertex,
+        /// see MFGridRender.Skirt.
+        /// </summary>
+        protected virtual bool ShadedColorsAllowed
+        {
+            get { return true; }
+        }
+
+        /// <summary>
+        /// Whether the texel of a vertex has to be read in the vertex shader rather than in the pixel
+        /// one, see ModelColorNodes.fx. A grid whose vertices are only numbered says yes: a coordinate
+        /// found between two of its corners runs over texels that belong anywhere but between them.
+        /// A grid laid out in rows and columns says no, and the pixel shader keeps finding the cell
+        /// between two corners there, which is what it has always done.
+        /// </summary>
+        protected virtual bool StepTexturePerVertex
+        {
+            get { return false; }
+        }
+
+
 
         /// <summary>
         private static readonly float[] WhiteAmbient = { 1f, 1f, 1f };
@@ -769,15 +824,15 @@ namespace Heiflow.Visualization.Renderable.Grid
             // has. Without either of them there is nothing to put in the textures.
             var stride = cachedLevel != null ? CachedLevelStride : _stepLevelStride;
 
-            if (!AllowShadedColors || mesh == null || _VertexTexel == null || stride <= 0
-                || _DataTextureWidth <= 0 || _DataTextureHeight <= 0)
+            if (!AllowShadedColors || !ShadedColorsAllowed || mesh == null || _VertexTexel == null
+                || stride <= 0 || _DataTextureWidth <= 0 || _DataTextureHeight <= 0)
             {
                 _ShadingActive = false;
                 return false;
             }
 
             if (_shader == null)
-                _shader = new ModelColorShader();
+                _shader = new ModelColorShader(StepTexturePerVertex);
 
             if (!_shader.Ensure(device, _VertexTexel, _DataTextureWidth, _DataTextureHeight))
             {
@@ -789,12 +844,13 @@ namespace Heiflow.Visualization.Renderable.Grid
             // moves on and not on every frame, which is the whole point of the two textures.
             if (cachedLevel != null)
             {
-                if (_shadedStep != _CurrentTimeStep)
+                if (_shadedStep != _CurrentTimeStep || !ReferenceEquals(_shadedLevels, cachedLevel))
                 {
                     var before = _CurrentTimeStep > 0 ? _CurrentTimeStep - 1 : _CurrentTimeStep;
                     _shader.UploadStep(device, cachedLevel, before, stride, stride, true);
                     _shader.UploadStep(device, cachedLevel, _CurrentTimeStep, stride, stride, false);
                     _shadedStep = _CurrentTimeStep;
+                    _shadedLevels = cachedLevel;
                 }
             }
             else if (_stepLevels != null && _uploadedStepLevelVersion != _stepLevelVersion)
@@ -888,6 +944,10 @@ namespace Heiflow.Visualization.Renderable.Grid
             cachedColor = null;
             cachedLevel = null;
             _CachedSchemeVersion = -1;
+            // Nothing is left to fill the step textures from, so what they hold is dropped as well
+            // and the mesh goes back to the colours in its vertices.
+            _shadedLevels = null;
+            _shadedStep = -1;
         }
 
         /// <summary>

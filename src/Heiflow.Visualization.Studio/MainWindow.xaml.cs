@@ -572,6 +572,26 @@ namespace Heiflow.Visualization.Studio
                 SceneWindow.CurrentWorld.DataLayerList.Add(ly);
             }
         }
+
+        /// <summary>
+        /// The same shapefile as Add Vector takes, drawn as water with waves running across it, see
+        /// WaterSurfaceLayer. A shapefile of lines or of points is drawn the way it always is.
+        /// </summary>
+        private void miLoadWater_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "shape file|*.shp";
+            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                ShapeFeatureProvider layer = new ShapeFeatureProvider();
+                layer.WaterSurface = true;
+                // Water lies on its own level and not ten metres above the ground, which is what a
+                // vector is given so that it does not sink into the terrain.
+                layer.DistanceAboveSurface = 0;
+                var ly = layer.Load(ofd.FileName, SceneWindow.CurrentWorld);
+                SceneWindow.CurrentWorld.DataLayerList.Add(ly);
+            }
+        }
         private void miLoadRaster_Click(object sender, RoutedEventArgs e)
         {
             //OpenFileDialog ofd = new OpenFileDialog();

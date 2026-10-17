@@ -24,6 +24,7 @@ namespace Heiflow.Models.GHM
             TimeInteval = 86400;
             LoadAllVars = false;
             _ValueAsDepth = false;
+            AsDepth = "Ture";
         }
 
         [Browsable(false)]

@@ -187,6 +187,14 @@ namespace Heiflow.Visualization.Studio
                 viewModel.Value.LoadShpFile.Execute(dialog.FileName);
             }
         }
+        private void miLoadWater_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            if (dialog.ShowDialog().Value)
+            {
+                viewModel.Value.LoadWaterFile.Execute(dialog.FileName);
+            }
+        }
         private void miLoad3DModel_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();

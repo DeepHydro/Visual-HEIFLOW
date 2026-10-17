@@ -16,6 +16,44 @@ using GeoAPI.Geometries;
 
 namespace Heiflow.Visualization.Renderable.Grid
 {
+    /// <summary>
+    /// How much of the third dimension a grid is drawn with, which is what makes it a sheet or a
+    /// body. The top of a layer is drawn either way, the difference is how far the walls that hang
+    /// off it reach down.
+    /// </summary>
+    public enum GridSkirt
+    {
+        /// <summary>
+        /// The top of the layer on its own, which is a sheet.
+        /// </summary>
+        Flat = 0,
+
+        /// <summary>
+        /// Down to the top of the layer below, which is a body one layer thick.
+        /// </summary>
+        Layer = 1,
+
+        /// <summary>
+        /// Down to the floor of the model, which is a body as thick as the whole of it.
+        /// </summary>
+        Model = 2,
+
+        /// <summary>
+        /// Every layer of the model, one face on the top of each, so that the grid is a stack of
+        /// them rather than one sheet.
+        /// </summary>
+        Layers = 3,
+
+        /// <summary>
+        /// The top of the layer as it is drawn on its own, and the walls around the outside of the
+        /// model under it: down the sides of the outermost cells to the floor of the model, which
+        /// is the shape of the whole of it. Nothing of the inside is given a wall of its own, and
+        /// only the vertices on the outside are given the two a wall stands on, so it is a body of
+        /// the same shape as the model for a small part of what a body costs.
+        /// </summary>
+        Boundary = 4,
+    }
+
     public class MFGridRender : ModelRenderDX
     {
         protected CellVertexIndices[] _CellVertexIndicesList;
@@ -64,8 +102,45 @@ namespace Heiflow.Visualization.Renderable.Grid
 
         private MFGrid _PlanGrid;
         private MFGrid _IndexGrid;
-        private bool _IndexSkirt;
+        private GridSkirt _IndexSkirt;
+        private int _IndexFaces;
         private int _IndexCellCount;
+
+        /// <summary>
+        /// How many faces the grid was last drawn with, and how many vertices one of them takes. A
+        /// colour is put on every one of the faces a vertex has, see SetVertexColor.
+        /// </summary>
+        private int _FaceCount = 1;
+        private int _FaceVertices;
+
+        /// <summary>
+        /// The vertices of the grid the walls around the outside stand on, and the sides of it as
+        /// pairs of them. They are filled for the boundary alone and hold far less than the grid
+        /// does: the outside of it and nothing of the inside.
+        /// </summary>
+        private int[] _BoundaryVertices;
+        private int[] _BoundaryEdges;
+
+        /// <summary>
+        /// Where every vertex of the grid is on the outside, -1 for the ones no wall stands on. It
+        /// is what a colour is put on the walls with when the step moves on.
+        /// </summary>
+        private int[] _BoundarySlots;
+
+        /// <summary>
+        /// Where the vertices of the walls start in the mesh, and how many stand on the top of one,
+        /// see CreatMeshes. Both are nothing but the outside of the grid, far less than it is.
+        /// </summary>
+        private int _WallVertexOffset;
+        private int _WallVertexCount;
+
+        /// <summary>
+        /// The most vertices a grid of stacked layers is drawn with. A face is a copy of every
+        /// vertex of the grid, so a model of many layers on a fine grid would ask for more of them
+        /// than a card should be handed, and every stride-th interface is drawn instead, see
+        /// LayerStride.
+        /// </summary>
+        private const int MaxFaceVertices = 400000;
 
         public MFGridRender(World world)
             : base(world)
@@ -122,26 +197,56 @@ namespace Heiflow.Visualization.Renderable.Grid
         }
 
         /// <summary>
-        /// Draw the sides of the layer as well as its top, from the top of it down to the top of the one
-        /// below, so that a layer seen from the side is a body rather than a sheet. It doubles the
-        /// vertices of the mesh, so it is off until it is asked for.
+        /// How much of the third dimension the grid is drawn with: the top of the layer on its own,
+        /// the walls down to the layer below, or the walls down to the floor of the model. The walls
+        /// double the vertices of the mesh, so a sheet is what is drawn until a body is asked for.
+        /// </summary>
+        public GridSkirt Skirt
+        {
+            get
+            {
+                return _Skirt;
+            }
+            set
+            {
+                if (_Skirt == value)
+                    return;
+
+                _Skirt = value;
+                CreatMeshes();
+            }
+        }
+        private GridSkirt _Skirt = GridSkirt.Flat;
+
+        /// <summary>
+        /// Whether walls are hung off the top at all, which is what every kind but a sheet has in
+        /// common.
         /// </summary>
         public bool LayerSkirt
         {
             get
             {
-                return _LayerSkirt;
+                return _Skirt != GridSkirt.Flat;
             }
             set
             {
-                if (_LayerSkirt != value)
-                {
-                    _LayerSkirt = value;
-                    CreatMeshes();
-                }
+                Skirt = value ? GridSkirt.Layer : GridSkirt.Flat;
             }
         }
-        private bool _LayerSkirt = false;
+
+        /// <summary>
+        /// The step textures are filled by walking the vertices of the grid and asking the mesh
+        /// where each of them goes in the texture, one texel for one vertex of the grid and in that
+        /// order. A stack of layers holds no such thing: a vertex of it is on every face of the
+        /// stack and the textures carry one shade for all of them. A stack is therefore drawn from
+        /// the colours on its vertices instead.
+        /// </summary>
+        protected override bool ShadedColorsAllowed
+        {
+            get { return _Skirt != GridSkirt.Layers; }
+        }
+
+
 
         public override void CreatMeshes()
         {
@@ -171,17 +276,6 @@ namespace Heiflow.Visualization.Renderable.Grid
             ComputeLocalOrigin(GCSConverter.Longitude, GCSConverter.Latitude);
             Grid.BBoxCentroid = new Coordinate(GCSConverter.Longitude, GCSConverter.Latitude);
 
-            // Where every vertex sits in the plane, and the corners and the indices that follow from
-            // that. None of them moves when the layer or the exaggeration does, so all of them are
-            // worked out once and are only read from then on.
-            EnsurePlan(topo, vertexCount);
-            EnsureIndices(topo, cellCount);
-
-            double layerRadius = EquatorialRadius + RenderableObject.DistanceAboveSurface * World.Settings.VerticalExaggeration;
-            float exaggeration = World.Settings.VerticalExaggeration;
-            int total = _LayerSkirt ? vertexCount * 2 : vertexCount;
-            var vertexList = new CustomVertex.PositionNormalColored[total];
-
             if (_VertexValueBuffer == null || _VertexValueBuffer.Length != vertexCount)
             {
                 _VertexValueBuffer = new float[vertexCount];
@@ -190,44 +284,71 @@ namespace Heiflow.Visualization.Renderable.Grid
             {
                 _VertexValueBuffer[i] = topo.GetVertexValue(vector, i);
             }
+
+            // What the grid is drawn as: one face on its own, or a face with a foot to hang walls
+            // off, or one on the top of every layer. Each of them is a copy of every vertex of the
+            // grid at the height of its own interface.
+            var faces = SkirtFaces(topo, vertexCount, vector,
+                (float)StatisticsInfo.Min, (float)StatisticsInfo.Max);
+            int faceCount = faces.Length;
+
+            // Where every vertex sits in the plane, and the corners and the indices that follow from
+            // that. None of them moves when the layer or the exaggeration does, so all of them are
+            // worked out once and are only read from then on.
+            EnsurePlan(topo, vertexCount);
+            EnsureIndices(topo, cellCount, faceCount);
+
+            double layerRadius = EquatorialRadius + RenderableObject.DistanceAboveSurface * World.Settings.VerticalExaggeration;
+            float exaggeration = World.Settings.VerticalExaggeration;
             var levels = _DataColor.GetLevels(_VertexValueBuffer, ColourRampCount, ClassificationMethod);
 
-            for (int i = 0; i < vertexCount; i++)
-            {
-                float verValue = _VertexValueBuffer[i];
-                double radius = layerRadius + (verValue + this.DistanceAboveSurface) * exaggeration;
-                Vector3 curNode = MathEngine.SphericalToCartesian(_VertexLat[i], _VertexLng[i], radius);
-                vertexList[i].X = curNode.X;
-                vertexList[i].Y = curNode.Y;
-                vertexList[i].Z = curNode.Z;
-                vertexList[i].Nx = (float)_VertexLng[i];
-                vertexList[i].Ny = (float)_VertexLat[i];
-                vertexList[i].Nz = verValue * exaggeration;
-                vertexList[i].Color = _DataColor.GetVertexColor(levels[i], Opacity);
-            }
+            // Every face is the grid as it is on its own interface, taken down or up along the
+            // radius and nowhere else. It carries the colour of the values the layer is drawn for,
+            // and a face further down is that colour taken a shade darker, so that the layers of a
+            // stack can be told apart where they meet.
+            // The walls of the boundary are the only thing besides the sheet, and only the vertices
+            // they stand on are given a foot: two copies of those, one on the top and one on the
+            // floor, where a body would give a foot to every vertex of the grid.
+            bool boundary = _Skirt == GridSkirt.Boundary;
+            int walls = boundary ? _BoundaryVertices.Length : 0;
+            int total = vertexCount * faceCount + walls * 2;
+            var vertexList = new CustomVertex.PositionNormalColored[total];
 
-            if (_LayerSkirt)
+            for (int face = 0; face < faceCount; face++)
             {
-                // The foot of every vertex, at the top of the layer below. It is a copy of the top
-                // vertices taken down to their own height, and it takes its colour from the vertex
-                // above it, so the walls are of the layer they hold up.
-                var bottom = BottomVertexValues(topo, vertexCount, vector,
-                    (float)StatisticsInfo.Min, (float)StatisticsInfo.Max);
+                var height = faces[face];
+                int at = face * vertexCount;
+
                 for (int i = 0; i < vertexCount; i++)
                 {
-                    int j = vertexCount + i;
-                    float verValue = bottom[i];
-                    double radius = layerRadius + (verValue + this.DistanceAboveSurface) * exaggeration;
-                    Vector3 curNode = MathEngine.SphericalToCartesian(_VertexLat[i], _VertexLng[i], radius);
-                    vertexList[j].X = curNode.X;
-                    vertexList[j].Y = curNode.Y;
-                    vertexList[j].Z = curNode.Z;
-                    vertexList[j].Nx = (float)_VertexLng[i];
-                    vertexList[j].Ny = (float)_VertexLat[i];
-                    vertexList[j].Nz = verValue * exaggeration;
-                    vertexList[j].Color = vertexList[i].Color;
+                    PlaceVertex(vertexList, at + i, i, height[i],
+                        FaceShade(_DataColor.GetVertexColor(levels[i], Opacity), face),
+                        layerRadius, exaggeration);
                 }
             }
+
+            _WallVertexOffset = vertexCount * faceCount;
+            _WallVertexCount = walls;
+
+            if (boundary)
+            {
+                var topFace = faces[0];
+                var floor = BoundaryFloor(topo, topFace);
+                int feet = _WallVertexOffset;
+
+                for (int i = 0; i < walls; i++)
+                {
+                    int vertex = _BoundaryVertices[i];
+                    var color = _DataColor.GetVertexColor(levels[vertex], Opacity);
+
+                    PlaceVertex(vertexList, feet + i, vertex, topFace[vertex], color, layerRadius, exaggeration);
+                    PlaceVertex(vertexList, feet + walls + i, vertex, floor[i],
+                        FaceShade(color, 1), layerRadius, exaggeration);
+                }
+            }
+
+            _FaceCount = faceCount;
+            _FaceVertices = vertexCount;
 
             GCSConverter.ToLatLon(_MFGrid.BBox.MinX, _MFGrid.BBox.MaxY);
             double west = GCSConverter.Longitude;
@@ -239,36 +360,30 @@ namespace Heiflow.Visualization.Renderable.Grid
             BBox = new Envelope(west, east, sourth, north);
             _MFGrid.CentralPoint = new DataCube<float>(3, 0, cellCount);
 
+            // Out of the corners of the cell and out of the heights of the top, which is where the
+            // centre of a cell is whichever shape the grid is drawn as.
+            var surface = faces[0];
             for (int i = 0; i < cellCount; i++)
             {
                 int id1 = _CellCorners[i * 4];
                 int id2 = _CellCorners[i * 4 + 1];
                 int id3 = _CellCorners[i * 4 + 2];
                 int id4 = _CellCorners[i * 4 + 3];
-                _MFGrid.CentralPoint[0, 0, i] = (vertexList[id1].Nx + vertexList[id2].Nx) * 0.5f;
-                _MFGrid.CentralPoint[1, 0, i] = (vertexList[id1].Ny + vertexList[id2].Ny) * 0.5f;
+                _MFGrid.CentralPoint[0, 0, i] = (float)(_VertexLng[id1] + _VertexLng[id2]) * 0.5f;
+                _MFGrid.CentralPoint[1, 0, i] = (float)(_VertexLat[id1] + _VertexLat[id2]) * 0.5f;
                 // Each of the four corners once. The height used to be taken over the third of them
                 // twice and over the fourth one not at all.
-                _MFGrid.CentralPoint[2, 0, i] = (vertexList[id1].Nz + vertexList[id2].Nz
-                    + vertexList[id3].Nz + vertexList[id4].Nz) * 0.25f / exaggeration;
+                _MFGrid.CentralPoint[2, 0, i] = (surface[id1] + surface[id2]
+                    + surface[id3] + surface[id4]) * 0.25f;
             }
 
-            // The normals come off the top faces alone, or a vertex of the top would be given the
-            // normal of a wall hanging off it and the layer would be lit as though it were folded.
-            CalculateNormals(ref vertexList, _TopIndexList);
-
-            if (_LayerSkirt)
-            {
-                // A foot is lit the way the vertex above it is, or a wall would come out of the
-                // normals as black, which is what a normal of no length at all is drawn as.
-                for (int i = 0; i < vertexCount; i++)
-                {
-                    int j = vertexCount + i;
-                    vertexList[j].Nx = vertexList[i].Nx;
-                    vertexList[j].Ny = vertexList[i].Ny;
-                    vertexList[j].Nz = vertexList[i].Nz;
-                }
-            }
+            // The normals come off the faces alone, or a vertex would be given the normal of a wall
+            // hanging off it and the grid would be lit as though it were folded. Every face is in
+            // the list, so a foot is lit the way the face it holds up is rather than coming out of
+            // the normals as black, which is what a normal of no length at all is drawn as. The
+            // walls of the boundary hold vertices of their own and none of the sheet, so they are
+            // taken in as well and are lit off themselves.
+            CalculateNormals(ref vertexList, boundary ? _VertexIndexList : _TopIndexList);
 
             _VertexList = vertexList;
 
@@ -279,19 +394,101 @@ namespace Heiflow.Visualization.Renderable.Grid
             _DataTextureHeight = _MFGrid.RowCount + 1;
             _SmoothStepTexture = true;
             _VertexTexel = new int[total];
+
             for (int i = 0; i < vertexCount; i++)
             {
-                var row = (int)topo.VertexAtActiveCells[i, 4];
-                var col = (int)topo.VertexAtActiveCells[i, 5];
-                var texel = row * _DataTextureWidth + col;
-                _VertexTexel[i] = texel;
-                if (_LayerSkirt)
+                var texel = TexelOf(topo, i);
+
+                // The same place in the texture for the vertex on every face, which is what puts the
+                // values of the step on all of them.
+                for (int face = 0; face < faceCount; face++)
                 {
-                    _VertexTexel[vertexCount + i] = texel;
+                    _VertexTexel[face * vertexCount + i] = texel;
+                }
+            }
+
+            // The two ends of a wall of the boundary are the vertex of the grid it stands on, so
+            // they read the same place in the texture as it does.
+            if (boundary)
+            {
+                int feet = vertexCount * faceCount;
+
+                for (int i = 0; i < walls; i++)
+                {
+                    var texel = TexelOf(topo, _BoundaryVertices[i]);
+                    _VertexTexel[feet + i] = texel;
+                    _VertexTexel[feet + walls + i] = texel;
                 }
             }
 
             NotifyMeshChanged();
+        }
+
+        /// <summary>
+        /// Puts a vertex of the grid into the mesh at the place given, at the height given. The
+        /// radius is the only thing that moves it, the row and the column it stands on were worked
+        /// out once, see EnsurePlan.
+        /// </summary>
+        private void PlaceVertex(CustomVertex.PositionNormalColored[] vertexList, int at, int vertex,
+            float height, int color, double layerRadius, float exaggeration)
+        {
+            double radius = layerRadius + (height + this.DistanceAboveSurface) * exaggeration;
+            Vector3 curNode = MathEngine.SphericalToCartesian(_VertexLat[vertex], _VertexLng[vertex], radius);
+            vertexList[at].X = curNode.X;
+            vertexList[at].Y = curNode.Y;
+            vertexList[at].Z = curNode.Z;
+            vertexList[at].Nx = (float)_VertexLng[vertex];
+            vertexList[at].Ny = (float)_VertexLat[vertex];
+            vertexList[at].Nz = height * exaggeration;
+            vertexList[at].Color = color;
+        }
+
+        /// <summary>
+        /// Builds the line drawn around the outside of the model while the boundary is asked for:
+        /// along the top of the outermost cells, down the sides of them and along the floor of the
+        /// model, which is what shows how thick the whole of it is. Only the vertices on the outside
+        /// come into it, so the line costs next to nothing beside the sheet it is drawn over.
+        /// </summary>
+        /// <summary>
+        /// How high the floor of the model is under every vertex the walls stand on. It is the last
+        /// interface the model holds a height for, and where there is none the wall is left as deep
+        /// as the top it hangs off.
+        /// </summary>
+        private float[] BoundaryFloor(RegularGridTopology topo, float[] surface)
+        {
+            int count = _BoundaryVertices.Length;
+            var floor = new float[count];
+            var elevations = _MFGrid.Elevations;
+
+            if (elevations != null && elevations.Size[0] > 1)
+            {
+                var cells = elevations.GetVector(elevations.Size[0] - 1, "0", ":");
+                if (cells != null)
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        floor[i] = topo.GetVertexValue(cells, _BoundaryVertices[i]);
+                    }
+                    return floor;
+                }
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                floor[i] = surface[_BoundaryVertices[i]];
+            }
+            return floor;
+        }
+
+        /// <summary>
+        /// Where a vertex goes in the texture the steps are drawn from, out of the row and the
+        /// column it stands on.
+        /// </summary>
+        private int TexelOf(RegularGridTopology topo, int vertex)
+        {
+            var row = (int)topo.VertexAtActiveCells[vertex, 4];
+            var col = (int)topo.VertexAtActiveCells[vertex, 5];
+            return row * _DataTextureWidth + col;
         }
 
         /// <summary>
@@ -338,22 +535,41 @@ namespace Heiflow.Visualization.Renderable.Grid
         }
 
         /// <summary>
-        /// Builds the indices of the top faces and, while the walls are asked for, of the walls. They
-        /// follow from the rows, the columns and which cells are active, none of which moves when the
-        /// layer or the exaggeration does, so the array is built once and handed out again.
+        /// Builds the indices of the faces and of the walls that hang between them. They follow from
+        /// the rows, the columns, which cells are active and how many faces there are, none of which
+        /// moves when the layer or the exaggeration does, so the array is built once and handed out
+        /// again.
         /// </summary>
-        private void EnsureIndices(RegularGridTopology topo, int cellCount)
+        private void EnsureIndices(RegularGridTopology topo, int cellCount, int faceCount)
         {
-            if (_IndexGrid == _MFGrid && _VertexIndexList != null && _IndexSkirt == _LayerSkirt
-                && _IndexCellCount == cellCount)
+            // The same grid in two shapes asks for two different arrays even where the number of
+            // faces is the one thing they have in common, a stack of layers and the walls around it.
+            if (_IndexGrid == _MFGrid && _VertexIndexList != null && _IndexFaces == faceCount
+                && _IndexCellCount == cellCount && _IndexSkirt == _Skirt)
                 return;
 
             int row = _MFGrid.RowCount;
             int col = _MFGrid.ColumnCount;
-            int foot = _LayerSkirt ? topo.ActiveVertexCount : 0;
-            var top = new int[cellCount * 6];
+            int stride = topo.ActiveVertexCount;
+            bool boundary = _Skirt == GridSkirt.Boundary;
+            // The sheet is drawn whichever shape is asked for, the boundary is one with a line around
+            // the outside of the model over it.
+            var top = new int[cellCount * 6 * faceCount];
             var corners = new int[cellCount * 4];
             var walls = new List<int>();
+
+            // The walls around the outside are all the mesh holds, so the vertices are counted out
+            // as the walls are, and only the ones a wall stands on are given a place in it.
+            var edges = boundary ? new List<int>() : null;
+            var used = boundary ? new List<int>() : null;
+            var remap = boundary ? new int[stride] : null;
+            if (remap != null)
+            {
+                for (int i = 0; i < stride; i++)
+                {
+                    remap[i] = -1;
+                }
+            }
 
             _SerialIndexAt = new int[row, col];
             for (int r = 0; r < row; r++)
@@ -377,12 +593,8 @@ namespace Heiflow.Visualization.Renderable.Grid
                     corners[i * 4 + 1] = topo.CellVertex[i, 2];
                     corners[i * 4 + 2] = topo.CellVertex[i, 3];
                     corners[i * 4 + 3] = topo.CellVertex[i, 4];
-                    top[i * 6] = corners[i * 4];
-                    top[i * 6 + 1] = corners[i * 4 + 1];
-                    top[i * 6 + 2] = corners[i * 4 + 3];
-                    top[i * 6 + 3] = corners[i * 4 + 3];
-                    top[i * 6 + 4] = corners[i * 4 + 1];
-                    top[i * 6 + 5] = corners[i * 4 + 2];
+                    AddFace(top, cellCount, i, faceCount, stride,
+                        corners[i * 4], corners[i * 4 + 1], corners[i * 4 + 2], corners[i * 4 + 3]);
                     continue;
                 }
 
@@ -403,40 +615,135 @@ namespace Heiflow.Visualization.Renderable.Grid
                 corners[i * 4 + 2] = id3;
                 corners[i * 4 + 3] = id4;
 
-                top[i * 6] = id1;
-                top[i * 6 + 1] = id2;
-                top[i * 6 + 2] = id4;
+                AddFace(top, cellCount, i, faceCount, stride, id1, id2, id3, id4);
 
-                top[i * 6 + 3] = id4;
-                top[i * 6 + 4] = id2;
-                top[i * 6 + 5] = id3;
-
-                if (_LayerSkirt)
+                // A wall is hung on every side of the cell that no other active cell is pressed
+                // against, which is the outside of the grid and the edge of every hole in it, and
+                // between two faces there is one: the side of the layer between them. The two
+                // corners of a side are given in the order that turns the wall to face out.
+                // While the boundary is asked for, the sides the line runs along are kept as they
+                // are found, and the mesh itself is left as the sheet is.
+                if (boundary)
                 {
-                    // A wall is hung on every side of the cell that no other active cell is pressed
-                    // against, which is the outside of the grid and the edge of every hole in it. The
-                    // two corners of a side are given in the order that turns the wall to face out.
                     if (!IsCellActive(r - 1, c))
-                        AddWall(walls, id1, id2, foot);
+                        AddEdge(edges, used, remap, id1, id2);
                     if (!IsCellActive(r + 1, c))
-                        AddWall(walls, id3, id4, foot);
+                        AddEdge(edges, used, remap, id3, id4);
                     if (!IsCellActive(r, c - 1))
-                        AddWall(walls, id4, id1, foot);
+                        AddEdge(edges, used, remap, id4, id1);
                     if (!IsCellActive(r, c + 1))
-                        AddWall(walls, id2, id3, foot);
+                        AddEdge(edges, used, remap, id2, id3);
+                }
+                else
+                {
+                    for (int face = 0; face + 1 < faceCount; face++)
+                    {
+                        int at = face * stride;
+                        if (!IsCellActive(r - 1, c))
+                            AddWall(walls, id1 + at, id2 + at, stride);
+                        if (!IsCellActive(r + 1, c))
+                            AddWall(walls, id3 + at, id4 + at, stride);
+                        if (!IsCellActive(r, c - 1))
+                            AddWall(walls, id4 + at, id1 + at, stride);
+                        if (!IsCellActive(r, c + 1))
+                            AddWall(walls, id2 + at, id3 + at, stride);
+                    }
                 }
             }
 
-            _TopIndexList = top;
             _CellCorners = corners;
-            _VertexIndexList = walls.Count > 0 ? top.Concat(walls).ToArray() : top;
+
+            if (boundary)
+            {
+                int count = used.Count;
+
+                // The walls stand on copies of the vertices of the outside rather than on the sheet
+                // itself, so they can be lit off themselves and the sheet is left alone. One copy on
+                // the top and one on the floor, both behind the sheet in the mesh, and the foot of a
+                // wall is as far on again as there are vertices on the top, see CreatMeshes.
+                int at = stride * faceCount;
+                for (int i = 0; i < edges.Count; i += 2)
+                {
+                    AddWall(walls, at + edges[i], at + edges[i + 1], count);
+                }
+
+                _BoundaryVertices = used.ToArray();
+                _BoundaryEdges = edges.ToArray();
+                _BoundarySlots = remap;
+                _TopIndexList = top;
+                _VertexIndexList = walls.Count > 0 ? top.Concat(walls).ToArray() : top;
+            }
+            else
+            {
+                _BoundaryVertices = null;
+                _BoundaryEdges = null;
+                _BoundarySlots = null;
+                _TopIndexList = top;
+                _VertexIndexList = walls.Count > 0 ? top.Concat(walls).ToArray() : top;
+            }
+
             _IndexGrid = _MFGrid;
-            _IndexSkirt = _LayerSkirt;
+            _IndexSkirt = _Skirt;
+            _IndexFaces = faceCount;
             _IndexCellCount = cellCount;
         }
 
         /// <summary>
-        /// Two triangles from the two corners of a side of a cell down to the feet below them.
+        /// One side of a wall of the boundary, as the two vertices of the grid it stands on. A
+        /// vertex is given its place in the mesh the first time a side asks for it. A corner the
+        /// topology has no vertex for leaves the side out: there is nothing to hang a wall on.
+        /// </summary>
+        private static void AddEdge(List<int> edges, List<int> used, int[] remap, int p, int q)
+        {
+            int at1 = VertexSlot(used, remap, p);
+            int at2 = VertexSlot(used, remap, q);
+            if (at1 < 0 || at2 < 0)
+                return;
+
+            edges.Add(at1);
+            edges.Add(at2);
+        }
+
+        private static int VertexSlot(List<int> used, int[] remap, int vertex)
+        {
+            // A corner that is not one of the vertices of the grid, and one the table does not hold
+            // a place for at all, are both left out rather than asked for.
+            if (vertex < 0 || vertex >= remap.Length)
+                return -1;
+
+            int at = remap[vertex];
+            if (at < 0)
+            {
+                at = used.Count;
+                remap[vertex] = at;
+                used.Add(vertex);
+            }
+            return at;
+        }
+
+        /// <summary>
+        /// Two triangles of a cell, written for every face of the grid. The four corners are the
+        /// ones of the first face, the others are the same corners a whole face further on.
+        /// </summary>
+        private static void AddFace(int[] top, int cellCount, int cell, int faceCount, int stride,
+            int id1, int id2, int id3, int id4)
+        {
+            for (int face = 0; face < faceCount; face++)
+            {
+                int at = (face * cellCount + cell) * 6;
+                int off = face * stride;
+                top[at] = id1 + off;
+                top[at + 1] = id2 + off;
+                top[at + 2] = id4 + off;
+
+                top[at + 3] = id4 + off;
+                top[at + 4] = id2 + off;
+                top[at + 5] = id3 + off;
+            }
+        }
+
+        /// <summary>
+        /// Two triangles from the two corners of a side of a cell down to the corners below them.
         /// </summary>
         private static void AddWall(List<int> walls, int p, int q, int foot)
         {
@@ -500,49 +807,159 @@ namespace Heiflow.Visualization.Renderable.Grid
         }
 
         /// <summary>
-        /// The height of the foot of every vertex, which is the top of the layer below. The last layer
-        /// has nothing below it, so it is given the thickness of the one above.
+        /// The height of every vertex of every face the grid is drawn with, one array of them to a
+        /// face and the first of them the one the walls hang off.
+        ///
+        /// Elevations holds the interfaces and not the layers, one more of them than there are
+        /// layers: the first is the top of the model, the one after a layer is the floor of it, and
+        /// the last is the floor of the model, which is what SFRPackage walks when it lays the
+        /// layers out, `Elevations[l + 1] = Elevations[l] - height[l]`. So a foot is the floor of the
+        /// layer that is drawn, or the floor of the whole model where the whole of it is asked for,
+        /// and every layer at once is a face on every one of them. Where no floor is held, the
+        /// thickness of the layer above is taken instead.
         /// </summary>
-        private float[] BottomVertexValues(RegularGridTopology topo, int vertexCount, float[] top,
+        private float[][] SkirtFaces(RegularGridTopology topo, int vertexCount, float[] top,
             float minValue, float maxValue)
         {
             var elevations = _MFGrid.Elevations;
             int layer = ModelService.CurrentGridLayer;
-            float[] below = null;
-            if (layer + 1 < elevations.Size[0])
-                below = elevations.GetVector(layer + 1, "0", ":");
 
-            if (below == null)
+            if (_Skirt == GridSkirt.Layers)
             {
-                float thickness = 0;
-                if (layer > 0)
+                // A face on every interface, or on as many of them as the vertices allow.
+                int interfaces = elevations.Size[0];
+                int stride = LayerStride(interfaces, vertexCount);
+                var stack = new List<float[]>();
+                for (int i = 0; i < interfaces; i += stride)
                 {
-                    var above = elevations.GetVector(layer - 1, "0", ":");
-                    float sum = 0;
-                    int n = 0;
-                    for (int i = 0; i < top.Length && i < above.Length; i++)
-                    {
-                        float d = above[i] - top[i];
-                        if (d > 0)
-                        {
-                            sum += d;
-                            n++;
-                        }
-                    }
-                    thickness = n > 0 ? sum / n : 0;
+                    var face = FaceVertexValues(topo, vertexCount, elevations, i);
+                    if (face != null)
+                        stack.Add(face);
                 }
-                if (thickness <= 0)
-                    thickness = Math.Abs(maxValue - minValue) * 0.1f;
-
-                below = new float[top.Length];
-                for (int i = 0; i < top.Length; i++)
-                    below[i] = top[i] - thickness;
+                if ((interfaces - 1) % stride != 0)
+                {
+                    var floor = FaceVertexValues(topo, vertexCount, elevations, interfaces - 1);
+                    if (floor != null)
+                        stack.Add(floor);
+                }
+                return stack.Count > 0 ? stack.ToArray()
+                    : new[] { InterfaceVertexValues(topo, vertexCount, top) };
             }
 
+            var values = new List<float[]> { InterfaceVertexValues(topo, vertexCount, top) };
+
+            // A sheet is the one face and nothing else, and so is the boundary: it is the sheet with
+            // a line around the outside of the model over it, and the line is built on its own, see
+            // BuildBoundaryWire. The other two take a second face, which is where the walls stop:
+            // the floor of the layer that is drawn, or the floor of the whole model.
+            if (_Skirt == GridSkirt.Flat || _Skirt == GridSkirt.Boundary)
+                return values.ToArray();
+
+            int bottom = _Skirt == GridSkirt.Model ? elevations.Size[0] - 1 : layer + 1;
+            var foot = bottom > layer && bottom < elevations.Size[0]
+                ? FaceVertexValues(topo, vertexCount, elevations, bottom) : null;
+
+            values.Add(foot != null ? foot
+                : EstimatedFootValues(topo, vertexCount, elevations, top, minValue, maxValue, layer));
+            return values.ToArray();
+        }
+
+        /// <summary>
+        /// The height of every vertex of one interface of the model, turned out of the heights of
+        /// the cells the way the mesh wants them. Nothing comes back where the interface is not
+        /// held.
+        /// </summary>
+        private static float[] FaceVertexValues(RegularGridTopology topo, int vertexCount,
+            DataCube<float> elevations, int face)
+        {
+            var vector = elevations.GetVector(face, "0", ":");
+            return vector != null ? InterfaceVertexValues(topo, vertexCount, vector) : null;
+        }
+
+        /// <summary>
+        /// The height of every vertex out of the heights of the cells it stands between.
+        /// </summary>
+        private static float[] InterfaceVertexValues(RegularGridTopology topo, int vertexCount, float[] cells)
+        {
             var values = new float[vertexCount];
             for (int i = 0; i < vertexCount; i++)
-                values[i] = topo.GetVertexValue(below, i);
+            {
+                values[i] = topo.GetVertexValue(cells, i);
+            }
             return values;
+        }
+
+        /// <summary>
+        /// Where a layer is the last one and no floor is held under it, the floor is put a layer's
+        /// thickness down: the thickness of the one above where that is known, and a tenth of the
+        /// span of the values where it is not.
+        /// </summary>
+        private static float[] EstimatedFootValues(RegularGridTopology topo, int vertexCount,
+            DataCube<float> elevations, float[] top, float minValue, float maxValue, int layer)
+        {
+            float thickness = 0;
+            if (layer > 0)
+            {
+                var above = elevations.GetVector(layer - 1, "0", ":");
+                float sum = 0;
+                int n = 0;
+                for (int i = 0; i < top.Length && above != null && i < above.Length; i++)
+                {
+                    float d = above[i] - top[i];
+                    if (d > 0)
+                    {
+                        sum += d;
+                        n++;
+                    }
+                }
+                thickness = n > 0 ? sum / n : 0;
+            }
+            if (thickness <= 0)
+                thickness = Math.Abs(maxValue - minValue) * 0.1f;
+
+            var values = InterfaceVertexValues(topo, vertexCount, top);
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] -= thickness;
+            }
+            return values;
+        }
+
+        /// <summary>
+        /// How many interfaces of the model are skipped between two faces of a stack. A face is a
+        /// copy of every vertex of the grid, so a model of many layers on a fine grid would ask for
+        /// more of them than a card should be handed, and one face is then put on every stride-th
+        /// interface instead.
+        /// </summary>
+        private static int LayerStride(int interfaces, int vertexCount)
+        {
+            if (vertexCount <= 0)
+                return 1;
+
+            int stride = 1;
+            while (stride < interfaces
+                && (long)((interfaces + stride - 1) / stride) * vertexCount > MaxFaceVertices)
+            {
+                stride++;
+            }
+            return stride;
+        }
+
+        /// <summary>
+        /// The colour of a vertex on a face, taken a shade darker the further down the face lies, so
+        /// that the layers of a stack can be told apart where they meet.
+        /// </summary>
+        private static int FaceShade(int color, int face)
+        {
+            if (face <= 0)
+                return color;
+
+            float dim = Math.Max(0.45f, 1f - 0.07f * face);
+            int alpha = (color >> 24) & 0xFF;
+            int red = (int)(((color >> 16) & 0xFF) * dim);
+            int green = (int)(((color >> 8) & 0xFF) * dim);
+            int blue = (int)((color & 0xFF) * dim);
+            return (alpha << 24) | (red << 16) | (green << 8) | blue;
         }
 
         public override float GetCellValue(int row, int col)
@@ -571,23 +988,43 @@ namespace Heiflow.Visualization.Renderable.Grid
         }
 
         /// <summary>
-        /// Puts a colour on a vertex, and on the foot below it while the walls are drawn, so that a wall
-        /// keeps the colour of the top it holds up.
+        /// Puts a colour on a vertex, on every face of it, so that a wall keeps the colour of the
+        /// face it holds up and a stack is one colour down through its layers.
         /// </summary>
         private void SetVertexColor(int i, int color)
         {
             if (i < 0 || i >= _VertexList.Length)
                 return;
 
-            _VertexList[i].Color = color;
+            // Every face is a whole copy of the grid, one behind the other, so the vertex is at the
+            // same place in each of them. A sheet has one face and is the vertex itself.
+            int faces = _FaceCount > 0 ? _FaceCount : 1;
+            int stride = _FaceVertices > 0 ? _FaceVertices : _VertexList.Length;
 
-            // The feet are the second half of the array, in the same order as the vertices above them.
-            if (_LayerSkirt)
+            for (int face = 0; face < faces; face++)
             {
-                int foot = _VertexList.Length / 2 + i;
-                if (foot < _VertexList.Length)
-                    _VertexList[foot].Color = color;
+                int at = face * stride + i;
+                if (at < _VertexList.Length)
+                    _VertexList[at].Color = FaceShade(color, face);
             }
+
+            // A wall of the boundary keeps the colour of the vertex of the grid it stands on, on
+            // the copy on the top and a shade darker on the one on the floor, which is the way a
+            // body is drawn as well.
+            if (_BoundarySlots == null || _WallVertexCount == 0 || i >= _BoundarySlots.Length)
+                return;
+
+            int slot = _BoundarySlots[i];
+            if (slot < 0)
+                return;
+
+            int onTop = _WallVertexOffset + slot;
+            if (onTop < _VertexList.Length)
+                _VertexList[onTop].Color = color;
+
+            int foot = onTop + _WallVertexCount;
+            if (foot < _VertexList.Length)
+                _VertexList[foot].Color = FaceShade(color, 1);
         }
 
         /// <summary>

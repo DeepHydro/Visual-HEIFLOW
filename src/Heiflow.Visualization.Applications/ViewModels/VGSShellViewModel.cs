@@ -19,6 +19,7 @@ namespace Heiflow.Visualization.Applications
         private ICommand _ClearProject;
         private ICommand _Exit;
         private ICommand _LoadShpFile;
+        private ICommand _LoadWaterFile;
         private ICommand _LoadRasterFile;
         private ICommand _Load3DModel;
         private ICommand _LoadODM;
@@ -132,6 +133,22 @@ namespace Heiflow.Visualization.Applications
             set
             {
                 SetProperty(ref _LoadShpFile, value);
+            }
+        }
+
+        /// <summary>
+        /// A polygon shapefile loaded as water rather than as a flat sheet of one colour, see
+        /// WaterSurfaceLayer.
+        /// </summary>
+        public ICommand LoadWaterFile
+        {
+            get
+            {
+                return _LoadWaterFile;
+            }
+            set
+            {
+                SetProperty(ref _LoadWaterFile, value);
             }
         }
 

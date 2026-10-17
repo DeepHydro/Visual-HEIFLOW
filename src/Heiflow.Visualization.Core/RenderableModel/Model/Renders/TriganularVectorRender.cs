@@ -59,7 +59,6 @@ namespace Heiflow.Visualization.Renderable.Grid
                 return;
 
             double maxValue = 0, minValue = 0, avValue = 0;
-            int index = 0;
             double radius = EquatorialRadius + RenderableObject.DistanceAboveSurface * World.Settings.VerticalExaggeration;
             double tanAngle = Math.Tan(_VectorStyle.ArrowAngle);
 
@@ -67,8 +66,6 @@ namespace Heiflow.Visualization.Renderable.Grid
             int colorIndex = _VectorStyle.ArrowColor;
             var metric_array = DataSource.GetVector(0, CurrentTimeStep.ToString(), ":");
             var anl_array = DataSource.GetVector(1, CurrentTimeStep.ToString(), ":");
-            var rawlen = metric_array.Length;
-            var newlen = (int)System.Math.Floor((double)rawlen / _VectorStyle.TileCount);
 
             maxValue = metric_array.Max();
             minValue = metric_array.Min();
@@ -76,46 +73,73 @@ namespace Heiflow.Visualization.Renderable.Grid
             var std = MyStatisticsMath.StandardDeviation(metric_array);
             var levels = _DataColor.GetLevels(metric_array, this.ColourRampCount, this.ClassificationMethod);
 
-            for (int l = 0; l < newlen; l++)
+            // An arrow is written for every active cell of the grid, not only for the cells the tile
+            // count keeps. The count decides which of them have a length: every tileCount-th cell is
+            // drawn, the cells in between get an arrow whose four points sit on their own centre,
+            // which is three lines of no length and so draws nothing. Writing every cell is what lets
+            // a larger count take hold, a cell the new count leaves out used to keep the arrow the
+            // count before it had given it, so only part of the grid answered the setting.
+            int tileCount = Math.Max(1, _VectorStyle.TileCount);
+            int cellCount = _VertexList.Length / 4;
+
+            for (int c = 0; c < cellCount; c++)
             {
-                var newindex = l * _VectorStyle.TileCount;
-                headSize = _VectorStyle.ScaleHeadSize(metric_array[newindex], maxValue, minValue, avValue, std);
-                if (_VectorStyle.AutoColor)
+                bool hasData = c < metric_array.Length && c < anl_array.Length;
+                if (_VectorStyle.AutoColor && hasData)
                 {
-                    colorIndex = _DataColor.GetVertexColor(levels[newindex],Opacity);
+                    colorIndex = _DataColor.GetVertexColor(levels[c],Opacity);
                 }
 
-                double angle = anl_array[newindex];// +MathEngine.PIHalf;
+                double angle = hasData ? anl_array[c] : 0;
 
-                double centralLon = MathEngine.DegreesToRadians(_TriangularGrid.Centroids[newindex].X);
-                double centralLat = MathEngine.DegreesToRadians(_TriangularGrid.Centroids[newindex].Y);
-                double centralZ = radius + _TriangularGrid.Centroids[newindex].Z * VerticalExaggeration;
+                double centralLon = MathEngine.DegreesToRadians(_TriangularGrid.Centroids[c].X);
+                double centralLat = MathEngine.DegreesToRadians(_TriangularGrid.Centroids[c].Y);
+                double centralZ = radius + _TriangularGrid.Centroids[c].Z * VerticalExaggeration;
+                Point3d center = MathEngine.SphericalRadianToCartesianD(centralLat, centralLon, centralZ);
 
-                Heiflow.Spatial.Geography.Point mp1 = Geodesic.GetPointFromHeading(centralLon, centralLat, headSize, angle);
-                Point3d p31 = MathEngine.SphericalRadianToCartesianD(mp1.Y, mp1.X, centralZ);
-                double x1 = p31.X;
-                double y1 = p31.Y;
-                double z1 = p31.Z;
+                double x1 = center.X;
+                double y1 = center.Y;
+                double z1 = center.Z;
+                double x2 = center.X;
+                double y2 = center.Y;
+                double z2 = center.Z;
+                double x3 = center.X;
+                double y3 = center.Y;
+                double z3 = center.Z;
+                double x4 = center.X;
+                double y4 = center.Y;
+                double z4 = center.Z;
 
-                double r1 = headSize * tanAngle * _VectorStyle.Dehisce;
+                if (hasData && c % tileCount == 0)
+                {
+                    headSize = _VectorStyle.ScaleHeadSize(metric_array[c], maxValue, minValue, avValue, std);
 
-                Heiflow.Spatial.Geography.Point mp2 = Geodesic.GetPointFromHeading(centralLon, centralLat, r1, angle - MathEngine.PIHalf);
-                Point3d p32 = MathEngine.SphericalRadianToCartesianD(mp2.Y, mp2.X, centralZ);
-                double x2 = p32.X;
-                double y2 = p32.Y;
-                double z2 = p32.Z;
+                    Heiflow.Spatial.Geography.Point mp1 = Geodesic.GetPointFromHeading(centralLon, centralLat, headSize, angle);
+                    Point3d p31 = MathEngine.SphericalRadianToCartesianD(mp1.Y, mp1.X, centralZ);
+                    x1 = p31.X;
+                    y1 = p31.Y;
+                    z1 = p31.Z;
 
-                Heiflow.Spatial.Geography.Point mp3 = Geodesic.GetPointFromHeading(centralLon, centralLat, r1, angle + MathEngine.PIHalf);
-                Point3d p33 = MathEngine.SphericalRadianToCartesianD(mp3.Y, mp3.X, centralZ);
-                double x3 = p33.X;
-                double y3 = p33.Y;
-                double z3 = p33.Z;
+                    double r1 = headSize * tanAngle * _VectorStyle.Dehisce;
 
-                Heiflow.Spatial.Geography.Point mp4 = Geodesic.GetPointFromHeading(centralLon, centralLat, headSize * _VectorStyle.TailSize, angle + Math.PI);
-                Point3d p34 = MathEngine.SphericalRadianToCartesianD(mp4.Y, mp4.X, centralZ);
-                double x4 = p34.X;
-                double y4 = p34.Y;
-                double z4 = p34.Z;
+                    Heiflow.Spatial.Geography.Point mp2 = Geodesic.GetPointFromHeading(centralLon, centralLat, r1, angle - MathEngine.PIHalf);
+                    Point3d p32 = MathEngine.SphericalRadianToCartesianD(mp2.Y, mp2.X, centralZ);
+                    x2 = p32.X;
+                    y2 = p32.Y;
+                    z2 = p32.Z;
+
+                    Heiflow.Spatial.Geography.Point mp3 = Geodesic.GetPointFromHeading(centralLon, centralLat, r1, angle + MathEngine.PIHalf);
+                    Point3d p33 = MathEngine.SphericalRadianToCartesianD(mp3.Y, mp3.X, centralZ);
+                    x3 = p33.X;
+                    y3 = p33.Y;
+                    z3 = p33.Z;
+
+                    Heiflow.Spatial.Geography.Point mp4 = Geodesic.GetPointFromHeading(centralLon, centralLat, headSize * _VectorStyle.TailSize, angle + Math.PI);
+                    Point3d p34 = MathEngine.SphericalRadianToCartesianD(mp4.Y, mp4.X, centralZ);
+                    x4 = p34.X;
+                    y4 = p34.Y;
+                    z4 = p34.Z;
+                }
 
                 CustomVertex.PositionNormalColored p1 = new CustomVertex.PositionNormalColored()
                 {
@@ -149,17 +173,16 @@ namespace Heiflow.Visualization.Renderable.Grid
                 p3.Color = colorIndex;
                 p4.Color = colorIndex;
 
-                _VertexList[index * 4 + 0] = p1;
-                _VertexList[index * 4 + 1] = p2;
-                _VertexList[index * 4 + 2] = p3;
-                _VertexList[index * 4 + 3] = p4;
-                _VertexIndexList[index * 6 + 0] = index * 4;
-                _VertexIndexList[index * 6 + 1] = index * 4 + 1;
-                _VertexIndexList[index * 6 + 2] = index * 4;
-                _VertexIndexList[index * 6 + 3] = index * 4 + 2;
-                _VertexIndexList[index * 6 + 4] = index * 4;
-                _VertexIndexList[index * 6 + 5] = index * 4 + 3;
-                index++;
+                _VertexList[c * 4 + 0] = p1;
+                _VertexList[c * 4 + 1] = p2;
+                _VertexList[c * 4 + 2] = p3;
+                _VertexList[c * 4 + 3] = p4;
+                _VertexIndexList[c * 6 + 0] = c * 4;
+                _VertexIndexList[c * 6 + 1] = c * 4 + 1;
+                _VertexIndexList[c * 6 + 2] = c * 4;
+                _VertexIndexList[c * 6 + 3] = c * 4 + 2;
+                _VertexIndexList[c * 6 + 4] = c * 4;
+                _VertexIndexList[c * 6 + 5] = c * 4 + 3;
             }
 
             CalculateNormals(ref _VertexList, _VertexIndexList);

@@ -69,6 +69,7 @@ namespace Heiflow.Visualization.Applications
         {
             _ShellService.LayerManager = _LayerManagerViewModel.View;
             ShellViewModel.LoadShpFile = new DelegateCommand(LoadShpFile);
+            ShellViewModel.LoadWaterFile = new DelegateCommand(LoadWaterFile);
             ShellViewModel.LoadRasterFile = new DelegateCommand(LoadRasterFile);
             ShellViewModel.Load3DModel = new DelegateCommand(Load3DModel);
             ShellViewModel.LoadODM = new DelegateCommand(LoadODM);
@@ -115,6 +116,29 @@ namespace Heiflow.Visualization.Applications
         {
             _ShellService.SelectPanel(DockPanelNames.PropertyPanel);
             _ShellService.PropertyView.SelectedObject = e;
+        }
+
+        /// <summary>
+        /// The same shapefile LoadShpFile takes, drawn as water with waves running across it, see
+        /// WaterSurfaceLayer. A shapefile of lines or of points is drawn the way it always is.
+        /// </summary>
+        private void LoadWaterFile(object para)
+        {
+            ShapeFeatureProvider provider = new ShapeFeatureProvider();
+            provider.WaterSurface = true;
+            // Water lies on its own level and not ten metres above the ground, which is what a
+            // vector is given so that it does not sink into the terrain.
+            provider.DistanceAboveSurface = 0;
+            var ro = provider.Load(para.ToString(), _ShellService.VirtualGlobeView.VirtualGlobe.CurrentWorld);
+            if (_VGSProjectService.Project != null)
+            {
+                _LayerService.CoverageLayerGroup.Add(ro);
+            }
+            else
+            {
+                _LayerService.RootLayers.Add(ro);
+            }
+            Refresh(null);
         }
 
         private void LoadShpFile(object para)

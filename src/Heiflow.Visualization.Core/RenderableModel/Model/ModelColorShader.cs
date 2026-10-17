@@ -26,6 +26,16 @@ namespace Heiflow.Visualization.Renderable.Grid
         private const string TechniqueNameSmooth = "RenderModelColorSmooth";
         private const string ResourceName = "Heiflow.Visualization.Shaders.ModelColor.fx";
 
+        private const string NodeTechniqueName = "RenderModelColorNodes";
+        private const string NodeResourceName = "Heiflow.Visualization.Shaders.ModelColorNodes.fx";
+
+        /// <summary>
+        /// Which of the two effects this one is. The one for a grid laid out in rows and columns reads
+        /// the texel in the pixel shader, the one for a grid whose vertices are only numbered reads it
+        /// in the vertex shader, see the two files under Shaders.
+        /// </summary>
+        private readonly bool _nodes;
+
         private Effect _effect;
         private VertexDeclaration _declaration;
         private VertexBuffer _uvBuffer;
@@ -45,6 +55,24 @@ namespace Heiflow.Visualization.Renderable.Grid
 
         private bool _broken;
         private bool _watchingDevice;
+
+        /// <summary>
+        /// The one for a grid laid out in rows and columns, where a coordinate found between two
+        /// corners names the cell between them.
+        /// </summary>
+        public ModelColorShader()
+            : this(false)
+        {
+        }
+
+        /// <summary>
+        /// Makes one for a grid whose vertices are only numbered, which has to read the texel of the
+        /// vertex in the vertex shader, see ModelColorNodes.fx.
+        /// </summary>
+        public ModelColorShader(bool nodes)
+        {
+            _nodes = nodes;
+        }
 
         /// <summary>
         /// True while the layer can be drawn through the shader.
@@ -143,8 +171,13 @@ namespace Heiflow.Visualization.Renderable.Grid
             {
                 // The texels of vertices that are not active are left at the bottom of the ramp
                 // rather than keeping the class of whatever step was uploaded before.
+                // The mesh says where every vertex of the grid goes in the texture, so there are as
+                // many of those as the grid has vertices and no more. A mesh that holds fewer than
+                // that, one that only keeps the vertices it draws, cannot fill the texture from a
+                // walk over the grid, and the colours are then left in the vertices.
+                int spread = Math.Min(count, _texel.Length);
                 Array.Clear(_texels, 0, _texels.Length);
-                for (int i = 0; i < count; i++)
+                for (int i = 0; i < spread; i++)
                 {
                     var at = _texel[i];
                     if (at >= 0 && at < _texels.Length)
@@ -201,7 +234,10 @@ namespace Heiflow.Visualization.Renderable.Grid
 
             try
             {
-                _effect.Technique = smooth ? TechniqueNameSmooth : TechniqueName;
+                // A grid whose vertices are only numbered has the one technique: the texel is read at
+                // the vertex, so there is nothing for a smooth sampler to mix in.
+                _effect.Technique = _nodes ? NodeTechniqueName
+                    : (smooth ? TechniqueNameSmooth : TechniqueName);
                 _effect.SetValue("WorldViewProjection", worldViewProjection);
                 // A float3 is handed over as three floats. The overload that takes a vector is the one
                 // for a texture, and the compiler picks it for a Vector3 before it complains.
@@ -243,17 +279,27 @@ namespace Heiflow.Visualization.Renderable.Grid
             }
         }
 
-        private static bool SupportsShaders(Device device)
+        private bool SupportsShaders(Device device)
         {
             var caps = device.DeviceCaps;
+
+            // The texel of a vertex is read in the vertex shader, which no version before the third
+            // one lets a shader do. A card that stops at the second is left on the fixed pipeline,
+            // where the colours are written on the vertices instead.
+            if (_nodes)
+            {
+                return caps.VertexShaderVersion >= new Version(3, 0)
+                    && caps.PixelShaderVersion >= new Version(3, 0);
+            }
+
             return caps.VertexShaderVersion >= new Version(2, 0)
                 && caps.PixelShaderVersion >= new Version(2, 0);
         }
 
-        private static Effect Load(Device device)
+        private Effect Load(Device device)
         {
             var assembly = Assembly.GetExecutingAssembly();
-            using (var stream = assembly.GetManifestResourceStream(ResourceName))
+            using (var stream = assembly.GetManifestResourceStream(_nodes ? NodeResourceName : ResourceName))
             {
                 if (stream == null)
                     return null;

@@ -476,9 +476,13 @@
                 </Grid>
             </Expander>
 
-            <Expander x:Name="expVelocity" Style="{StaticResource SymExpander}">
+            <!-- The shape of the grid itself. Only a grid layer has one to give it. -->
+            <Expander x:Name="expGrid" Style="{StaticResource SymExpander}"
+                      IsEnabled="{Binding IsModelGrid, RelativeSource={RelativeSource AncestorType=UserControl}}">
                 <Expander.Header>
-                    <TextBlock Text="Vector" Style="{StaticResource SymGroupTitle}" />
+                    <TextBlock Text="Grid" Style="{StaticResource SymGroupTitle}"
+                               ToolTipService.ShowOnDisabled="True"
+                               ToolTip="How the grid of the model is drawn. The group is switched off for a layer that has no grid." />
                 </Expander.Header>
                 <Grid Margin="11,9,11,11">
                     <Grid.ColumnDefinitions>
@@ -486,6 +490,46 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Grid Shape" Style="{StaticResource SymFieldLabel}"
+                               ToolTip="How much of the third dimension the grid is drawn with." />
+                    <ComboBox Grid.Row="0" Grid.Column="1" x:Name="cobGridShape" Style="{StaticResource SymComboBox}"
+                              IsSynchronizedWithCurrentItem="False" SelectedIndex="0"
+                              SelectionChanged="cobGridShape_SelectionChanged"
+                              ToolTip="Flat draws the top of the layer as a sheet. Layer hangs walls off it down to the floor of that layer, so that a layer is a body one layer thick. Model hangs them down to the floor of the model, so that the whole of it is one body. Layers draws a face on the top of every layer, so that the grid is a stack of them. Boundary draws the sheet and hangs walls off the outside of it, down to the floor of the model, and gives a foot to no vertex but the ones on the outside, which is what a body costs a small part of.">
+                        <ComboBoxItem>Flat</ComboBoxItem>
+                        <ComboBoxItem>Layer</ComboBoxItem>
+                        <ComboBoxItem>Model</ComboBoxItem>
+                        <ComboBoxItem>Layers</ComboBoxItem>
+                        <ComboBoxItem>Boundary</ComboBoxItem>
+                    </ComboBox>
+                </Grid>
+            </Expander>
+
+            <!-- Only a vector layer has anything for this group to say, so it is switched off for every
+                 other kind of layer rather than left looking like it would change something. -->
+            <Expander x:Name="expVelocity" Style="{StaticResource SymExpander}"
+                      IsEnabled="{Binding IsVectorLayer, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                <Expander.Header>
+                    <!-- The title says why the group is greyed out, which a hint on the whole group
+                         would not: the header is what the pointer comes to rest on. -->
+                    <TextBlock Text="Vector" Style="{StaticResource SymGroupTitle}"
+                               ToolTipService.ShowOnDisabled="True"
+                               ToolTip="How a vector layer is drawn: the arrows on the cells, or the lines traced through the flow. The group is switched off for every other kind of layer." />
+                </Expander.Header>
+                <Grid Margin="11,9,11,11">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" MinWidth="92" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -526,7 +570,65 @@
                         <ComboBoxItem>3</ComboBoxItem>
                     </ComboBox>
 
-                    <Button Grid.Row="4" Grid.ColumnSpan="2" x:Name="btnVelocityStyleProperty" Margin="0,9,0,0"
+                    <CheckBox Grid.Row="4" Grid.ColumnSpan="2" x:Name="chbStreamlines" Margin="0,8,0,0"
+                              Style="{StaticResource SymCheckBox}"
+                              Unchecked="chbStreamlines_Checked" Checked="chbStreamlines_Checked"
+                              ToolTip="Draw a line traced through the flow instead of an arrow on every cell. The dashes that run along the lines are drawn by Streamline.fx, and the tile count says how far apart the lines start."
+                              Content="Streamlines" />
+
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Line Width" Style="{StaticResource SymFieldLabel}"
+                               IsEnabled="{Binding IsChecked, ElementName=chbStreamlines}"
+                               ToolTip="How wide a line is drawn, in pixels." />
+                    <ComboBox Grid.Row="5" Grid.Column="1" x:Name="cobStreamlineWidth" Style="{StaticResource SymComboBox}"
+                              IsSynchronizedWithCurrentItem="False" SelectedIndex="1"
+                              IsEnabled="{Binding IsChecked, ElementName=chbStreamlines}"
+                              SelectionChanged="cobStreamlineWidth_SelectionChanged">
+                        <ComboBoxItem>1</ComboBoxItem>
+                        <ComboBoxItem>2</ComboBoxItem>
+                        <ComboBoxItem>3</ComboBoxItem>
+                        <ComboBoxItem>4</ComboBoxItem>
+                    </ComboBox>
+
+                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Flow Speed" Style="{StaticResource SymFieldLabel}"
+                               IsEnabled="{Binding IsChecked, ElementName=chbStreamlines}"
+                               ToolTip="How fast a dash runs along a line, in cells of the grid a second." />
+                    <ComboBox Grid.Row="6" Grid.Column="1" x:Name="cobFlowSpeed" Style="{StaticResource SymComboBox}"
+                              IsSynchronizedWithCurrentItem="False" SelectedIndex="1"
+                              IsEnabled="{Binding IsChecked, ElementName=chbStreamlines}"
+                              SelectionChanged="cobFlowSpeed_SelectionChanged">
+                        <ComboBoxItem>1</ComboBoxItem>
+                        <ComboBoxItem>2</ComboBoxItem>
+                        <ComboBoxItem>4</ComboBoxItem>
+                        <ComboBoxItem>8</ComboBoxItem>
+                    </ComboBox>
+
+                    <TextBlock Grid.Row="7" Grid.Column="0" Text="Fade Time" Style="{StaticResource SymFieldLabel}"
+                               IsEnabled="{Binding IsChecked, ElementName=chbStreamlines}"
+                               ToolTip="How long a dash stays lit behind its head, in seconds. A longer time leaves a longer trail." />
+                    <ComboBox Grid.Row="7" Grid.Column="1" x:Name="cobFadeTime" Style="{StaticResource SymComboBox}"
+                              IsSynchronizedWithCurrentItem="False" SelectedIndex="1"
+                              IsEnabled="{Binding IsChecked, ElementName=chbStreamlines}"
+                              SelectionChanged="cobFadeTime_SelectionChanged">
+                        <ComboBoxItem>1</ComboBoxItem>
+                        <ComboBoxItem>2.5</ComboBoxItem>
+                        <ComboBoxItem>5</ComboBoxItem>
+                        <ComboBoxItem>10</ComboBoxItem>
+                    </ComboBox>
+
+                    <TextBlock Grid.Row="8" Grid.Column="0" Text="Line Spacing" Style="{StaticResource SymFieldLabel}"
+                               IsEnabled="{Binding IsChecked, ElementName=chbStreamlines}"
+                               ToolTip="How many cells a line keeps clear around itself. A line stops where another one already runs within this many cells, so that two lines neither lie over each other nor cross. Off lets them run where they will." />
+                    <ComboBox Grid.Row="8" Grid.Column="1" x:Name="cobStreamlineSpacing" Style="{StaticResource SymComboBox}"
+                              IsSynchronizedWithCurrentItem="False" SelectedIndex="1"
+                              IsEnabled="{Binding IsChecked, ElementName=chbStreamlines}"
+                              SelectionChanged="cobStreamlineSpacing_SelectionChanged">
+                        <ComboBoxItem>Off</ComboBoxItem>
+                        <ComboBoxItem>1</ComboBoxItem>
+                        <ComboBoxItem>2</ComboBoxItem>
+                        <ComboBoxItem>3</ComboBoxItem>
+                    </ComboBox>
+
+                    <Button Grid.Row="9" Grid.ColumnSpan="2" x:Name="btnVelocityStyleProperty" Margin="0,9,0,0"
                             Style="{StaticResource SymButton}" Content="{DynamicResource MoreTxt}"
                             Click="btnVelocityStyleProperty_Click" Visibility="Collapsed" />
                 </Grid>

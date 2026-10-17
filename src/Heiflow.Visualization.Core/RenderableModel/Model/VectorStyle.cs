@@ -27,6 +27,18 @@ namespace Heiflow.Visualization.Renderable.Grid
             _TailSize = 1.5;
             _Dehisce = 0.6;
             _TileCount = 3;
+
+            // A line through the flow instead of an arrow on every cell, see Streamline.fx. The
+            // tile count is what says how far apart the lines start, so it is shared with the
+            // arrows rather than kept twice.
+            ShowStreamlines = false;
+            StreamlineSteps = 16;
+            StreamlineSmooth = 4;
+            StreamlineSpacing = 1;
+            StreamlineWidth = 2f;
+            FlowSpeed = 2f;
+            FadeTime = 2.5f;
+            DashCells = 6f;
         }
         private Color mArrowColor;
         private bool _AutoColor;
@@ -37,6 +49,13 @@ namespace Heiflow.Visualization.Renderable.Grid
         private double _Dehisce;
         public event EventHandler StyleChanged;
         private int _TileCount;
+        private bool _ShowStreamlines;
+        private int _StreamlineSteps;
+        private int _StreamlineSmooth;
+        private int _StreamlineSpacing;
+        private float _StreamlineWidth;
+        private float _FlowSpeed;
+        private float _FadeTime;
 
         [Browsable(true), Category("Head")]
         public double HeadSize
@@ -162,6 +181,142 @@ namespace Heiflow.Visualization.Renderable.Grid
                 OnStyleChanged();
             }
         }
+
+        /// <summary>
+        /// Draw a line traced through the flow instead of an arrow on a cell. The mesh then holds
+        /// lines and is drawn through Streamline.fx, which runs dashes along them.
+        /// </summary>
+        [Browsable(false), Category("Behavior")]
+        public bool ShowStreamlines
+        {
+            get
+            {
+                return _ShowStreamlines;
+            }
+            set
+            {
+                _ShowStreamlines = value;
+                OnStyleChanged();
+            }
+        }
+
+        /// <summary>
+        /// How many cells one line is traced through, which is how long it gets.
+        /// </summary>
+        [Category("Behavior")]
+        public int StreamlineSteps
+        {
+            get
+            {
+                return _StreamlineSteps;
+            }
+            set
+            {
+                _StreamlineSteps = Math.Max(1, value);
+                OnStyleChanged();
+            }
+        }
+
+        /// <summary>
+        /// How many points a line is cut into for every cell it crosses. The trace itself walks from
+        /// cell to cell, which is what makes it a chain of straight pieces, and these are the points
+        /// a curve is put through to take the corners off it. One point per cell draws the chain as
+        /// it is, four draws a curve that no longer shows where a cell ended.
+        /// </summary>
+        [Category("Behavior")]
+        public int StreamlineSmooth
+        {
+            get
+            {
+                return _StreamlineSmooth;
+            }
+            set
+            {
+                _StreamlineSmooth = Math.Max(1, Math.Min(12, value));
+                OnStyleChanged();
+            }
+        }
+
+        /// <summary>
+        /// How many cells a line keeps clear around itself. A line stops where another one already
+        /// runs within this many cells, and none is started where one is that close, so that two
+        /// lines neither lie over each other nor cross. Zero asks for no room at all and lets the
+        /// lines run where they will, which is how they were drawn before.
+        /// </summary>
+        [Category("Behavior")]
+        public int StreamlineSpacing
+        {
+            get
+            {
+                return _StreamlineSpacing;
+            }
+            set
+            {
+                _StreamlineSpacing = Math.Max(0, Math.Min(4, value));
+                OnStyleChanged();
+            }
+        }
+
+        /// <summary>
+        /// How wide a line is drawn, in pixels. A line is a ribbon of two triangles a vertex wide
+        /// rather than a line list, because a card is free to ignore the width of a line, and most
+        /// of them do.
+        /// </summary>
+        [Category("Behavior")]
+        public float StreamlineWidth
+        {
+            get
+            {
+                return _StreamlineWidth;
+            }
+            set
+            {
+                _StreamlineWidth = Math.Max(1f, Math.Min(12f, value));
+                OnStyleChanged();
+            }
+        }
+
+        /// <summary>
+        /// How fast a dash runs along a line, in cells of the grid per second.
+        /// </summary>
+        [Category("Behavior")]
+        public float FlowSpeed
+        {
+            get
+            {
+                return _FlowSpeed;
+            }
+            set
+            {
+                _FlowSpeed = Math.Max(0f, value);
+                OnStyleChanged();
+            }
+        }
+
+        /// <summary>
+        /// How long a dash stays lit behind its head, in seconds. A longer time leaves a longer
+        /// trail, and a dash is gone where it has run its course.
+        /// </summary>
+        [Category("Behavior")]
+        public float FadeTime
+        {
+            get
+            {
+                return _FadeTime;
+            }
+            set
+            {
+                _FadeTime = Math.Max(0.1f, value);
+                OnStyleChanged();
+            }
+        }
+
+        /// <summary>
+        /// How many cells of a line are left dark between the trail of one dash and the head of the
+        /// next, turned into metres by the grid it is drawn on.
+        /// </summary>
+        [Category("Behavior")]
+        public float DashCells { get; set; }
 
         [Category("Behavior")]
         public int StandardDevisionNumber { get; set; }

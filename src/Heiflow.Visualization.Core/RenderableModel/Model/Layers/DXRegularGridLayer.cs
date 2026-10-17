@@ -85,8 +85,8 @@ namespace Heiflow.Visualization.Renderable.Grid
                 return;
 
             var vertices = _RenderDX.VertexList;
-            var indices = _RenderDX.VertexIndexList;
-            if (vertices == null || indices == null || vertices.Length == 0 || indices.Length == 0)
+            var triangles = _RenderDX.VertexIndexList;
+            if (vertices == null || triangles == null || vertices.Length == 0 || triangles.Length == 0)
                 return;
 
             Device device = DrawArgs.Device;
@@ -101,6 +101,17 @@ namespace Heiflow.Visualization.Renderable.Grid
                 var primitiveType = MeshType == Renderable.Grid.MeshType.Line
                     ? PrimitiveType.LineList
                     : PrimitiveType.TriangleList;
+
+                // A line list takes its indices two by two, so the three corners of a triangle cannot
+                // be handed to it: the last corner of one would be joined to the first of the next and
+                // the line between them would run across the grid. A render that knows the edges of its
+                // mesh keeps them for exactly this, see ModelRenderDX.LineIndexList.
+                var indices = primitiveType == PrimitiveType.LineList
+                    ? (_RenderDX.LineIndexList ?? triangles)
+                    : triangles;
+
+                if (indices.Length == 0)
+                    return;
 
                 var uploaded = _Mesh.Update(device, vertices, indices, _RenderDX.MeshVersion,
                     _RenderDX.ColorVersion);

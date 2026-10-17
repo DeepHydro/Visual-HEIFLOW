@@ -22,6 +22,7 @@ namespace Heiflow.Visualization.Renderable.Grid
         private int _indexCount;
 
         private CustomVertex.PositionNormalColored[] _source;
+        private int[] _indexSource;
         private int _meshVersion = -1;
         private int _colorVersion = -1;
 
@@ -67,8 +68,12 @@ namespace Heiflow.Visualization.Renderable.Grid
             }
 
             // The arrays are replaced whenever the mesh is rebuilt, the versions catch changes that are
-            // written into the same arrays, for example a new time step.
-            bool geometryChanged = !ReferenceEquals(_source, vertices) || _meshVersion != meshVersion;
+            // written into the same arrays, for example a new time step. The index array is watched as
+            // well because a layer that is shown as a wire frame draws other indices over the very
+            // same vertices, and that is a change no version announces.
+            bool geometryChanged = !ReferenceEquals(_source, vertices)
+                || !ReferenceEquals(_indexSource, indices)
+                || _meshVersion != meshVersion;
             bool colorChanged = _colorVersion != colorVersion;
 
             if (!geometryChanged && !colorChanged)
@@ -114,6 +119,7 @@ namespace Heiflow.Visualization.Renderable.Grid
             }
 
             _source = vertices;
+            _indexSource = indices;
             _meshVersion = meshVersion;
             _colorVersion = colorVersion;
 

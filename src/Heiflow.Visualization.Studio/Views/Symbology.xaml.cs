@@ -45,6 +45,35 @@ namespace Heiflow.Visualization.Studio.Controls
         /// </summary>
         private const int DefaultRampId = 22;
 
+        /// <summary>
+        /// True while the layer the panel is on is a vector layer, which is the only kind of layer
+        /// the vector group has anything to say about. It is what the group is enabled by in the
+        /// markup, see expVelocity, and it is set every time another layer is put on the panel.
+        /// </summary>
+        public static readonly DependencyProperty IsVectorLayerProperty =
+            DependencyProperty.Register("IsVectorLayer", typeof(bool), typeof(Symbology),
+                new PropertyMetadata(false));
+
+        public bool IsVectorLayer
+        {
+            get { return (bool)GetValue(IsVectorLayerProperty); }
+            set { SetValue(IsVectorLayerProperty, value); }
+        }
+
+        /// <summary>
+        /// True while the layer the panel is on is drawn from a MODFLOW grid, which is the only one
+        /// that has a shape to set, see expGrid.
+        /// </summary>
+        public static readonly DependencyProperty IsModelGridProperty =
+            DependencyProperty.Register("IsModelGrid", typeof(bool), typeof(Symbology),
+                new PropertyMetadata(false));
+
+        public bool IsModelGrid
+        {
+            get { return (bool)GetValue(IsModelGridProperty); }
+            set { SetValue(IsModelGridProperty, value); }
+        }
+
         public Symbology()
         {
             InitializeComponent();
@@ -170,6 +199,14 @@ namespace Heiflow.Visualization.Studio.Controls
         /// </summary>
         private void SyncControlsToRender()
         {
+            // A layer that draws no flow has no arrow and no line to set, and one that is not drawn
+            // from a grid has no shape to give it, so the groups that set them are greyed out. Done
+            // before the controls are filled, they are filled from the same render either way.
+            IsVectorLayer = _Render is IVectorRender;
+            // The one that draws a flow is a grid render as well, but it draws arrows and lines
+            // where the grid would be and no face of it, so the shape does nothing there.
+            IsModelGrid = _Render is MFGridRender && !(_Render is MFVectorRender);
+
             if (_Render == null)
                 return;
 
@@ -185,6 +222,29 @@ namespace Heiflow.Visualization.Studio.Controls
                 chbInvertColor.IsChecked = _Render.InvertColor;
                 chbContinuousColor.IsChecked = _Render.ContinuousColor;
                 chbShadedLighting.IsChecked = _Render.ShadedLighting;
+
+                // How much of the third dimension the grid is drawn with, read back the same way
+                // the tile count is, so the panel opens on what the layer is drawn as.
+                var grid = _Render as MFGridRender;
+                if (grid != null && !(_Render is MFVectorRender))
+                    cobGridShape.SelectedIndex = Math.Max(0, Math.Min(
+                        cobGridShape.Items.Count - 1, (int)grid.Skirt));
+
+                // The tile count is the one vector property the panel shows, so it is read back as
+                // well. Left out of this, the combo kept the count it was opened with while the
+                // render drew with its own, and the setting only reached the layer once it was
+                // picked again by hand.
+                var vector = _Render as IVectorRender;
+                if (vector != null)
+                {
+                    SelectComboBoxValue(cobTileCount, vector.Style.TileCount);
+                    chbStreamlines.IsChecked = vector.Style.ShowStreamlines;
+                    SelectComboBoxNumber(cobStreamlineWidth, vector.Style.StreamlineWidth);
+                    SelectComboBoxNumber(cobFlowSpeed, vector.Style.FlowSpeed);
+                    SelectComboBoxNumber(cobFadeTime, vector.Style.FadeTime);
+                    cobStreamlineSpacing.SelectedIndex = Math.Max(0, Math.Min(
+                        cobStreamlineSpacing.Items.Count - 1, vector.Style.StreamlineSpacing));
+                }
             }
             finally
             {
@@ -199,19 +259,46 @@ namespace Heiflow.Visualization.Studio.Controls
                 cobColorRamp.SelectedIndex = index;
         }
 
-        private void SelectClassCount(int classCount)
+        /// <summary>
+        /// Puts a combo whose entries are numbers on the entry that reads as the value. The combo is
+        /// left where it is when no entry reads as it.
+        /// </summary>
+        private static void SelectComboBoxValue(ComboBox combo, int value)
         {
-            for (int i = 0; i < cobColorRampCount.Items.Count; i++)
+            for (int i = 0; i < combo.Items.Count; i++)
             {
-                var item = cobColorRampCount.Items[i] as ComboBoxItem;
-                int value;
+                var item = combo.Items[i] as ComboBoxItem;
+                int entry;
                 if (item != null && item.Content != null
-                    && int.TryParse(item.Content.ToString(), out value) && value == classCount)
+                    && int.TryParse(item.Content.ToString(), out entry) && entry == value)
                 {
-                    cobColorRampCount.SelectedIndex = i;
+                    combo.SelectedIndex = i;
                     return;
                 }
             }
+        }
+
+        /// <summary>
+        /// The same for a value that is not a whole number, which is what a fade time is.
+        /// </summary>
+        private static void SelectComboBoxNumber(ComboBox combo, double value)
+        {
+            for (int i = 0; i < combo.Items.Count; i++)
+            {
+                var item = combo.Items[i] as ComboBoxItem;
+                double entry;
+                if (item != null && item.Content != null
+                    && double.TryParse(item.Content.ToString(), out entry) && Math.Abs(entry - value) < 0.001)
+                {
+                    combo.SelectedIndex = i;
+                    return;
+                }
+            }
+        }
+
+        private void SelectClassCount(int classCount)
+        {
+            SelectComboBoxValue(cobColorRampCount, classCount);
         }
 
         /// <summary>
@@ -224,6 +311,11 @@ namespace Heiflow.Visualization.Studio.Controls
             cobColorRampCount.SelectionChanged -= cobColorRampCount_SelectionChanged;
             cobClassMethod.SelectionChanged -= CobClassMethod_SelectionChanged;
             cobTileCount.SelectionChanged -= cobTileCount_SelectionChanged;
+            cobGridShape.SelectionChanged -= cobGridShape_SelectionChanged;
+            cobStreamlineWidth.SelectionChanged -= cobStreamlineWidth_SelectionChanged;
+            cobFlowSpeed.SelectionChanged -= cobFlowSpeed_SelectionChanged;
+            cobFadeTime.SelectionChanged -= cobFadeTime_SelectionChanged;
+            cobStreamlineSpacing.SelectionChanged -= cobStreamlineSpacing_SelectionChanged;
             sliderOpacity.ValueChanged -= sliderOpacity_ValueChanged;
             chbUniqueColor.Checked -= chbUniqueColor_Checked;
             chbUniqueColor.Unchecked -= chbUniqueColor_Checked;
@@ -233,6 +325,8 @@ namespace Heiflow.Visualization.Studio.Controls
             chbContinuousColor.Unchecked -= chbContinuousColor_Checked;
             chbShadedLighting.Checked -= chbShadedLighting_Checked;
             chbShadedLighting.Unchecked -= chbShadedLighting_Checked;
+            chbStreamlines.Checked -= chbStreamlines_Checked;
+            chbStreamlines.Unchecked -= chbStreamlines_Checked;
         }
 
         private void AttachHandlers()
@@ -241,6 +335,11 @@ namespace Heiflow.Visualization.Studio.Controls
             cobColorRampCount.SelectionChanged += cobColorRampCount_SelectionChanged;
             cobClassMethod.SelectionChanged += CobClassMethod_SelectionChanged;
             cobTileCount.SelectionChanged += cobTileCount_SelectionChanged;
+            cobGridShape.SelectionChanged += cobGridShape_SelectionChanged;
+            cobStreamlineWidth.SelectionChanged += cobStreamlineWidth_SelectionChanged;
+            cobFlowSpeed.SelectionChanged += cobFlowSpeed_SelectionChanged;
+            cobFadeTime.SelectionChanged += cobFadeTime_SelectionChanged;
+            cobStreamlineSpacing.SelectionChanged += cobStreamlineSpacing_SelectionChanged;
             sliderOpacity.ValueChanged += sliderOpacity_ValueChanged;
             chbUniqueColor.Checked += chbUniqueColor_Checked;
             chbUniqueColor.Unchecked += chbUniqueColor_Checked;
@@ -250,6 +349,8 @@ namespace Heiflow.Visualization.Studio.Controls
             chbContinuousColor.Unchecked += chbContinuousColor_Checked;
             chbShadedLighting.Checked += chbShadedLighting_Checked;
             chbShadedLighting.Unchecked += chbShadedLighting_Checked;
+            chbStreamlines.Checked += chbStreamlines_Checked;
+            chbStreamlines.Unchecked += chbStreamlines_Checked;
         }
 
         private static int ReadClassCount(ComboBox combo)
@@ -259,6 +360,20 @@ namespace Heiflow.Visualization.Studio.Controls
             if (item != null && item.Content != null && int.TryParse(item.Content.ToString(), out value))
                 return value;
             return 0;
+        }
+
+        /// <summary>
+        /// The shape the grid is drawn with. The entries are written in the order of GridSkirt, so
+        /// the one that was picked is the value itself.
+        /// </summary>
+        private void cobGridShape_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var grid = _Render as MFGridRender;
+            if (grid != null && cobGridShape.SelectedIndex >= 0
+                && cobGridShape.SelectedIndex <= (int)GridSkirt.Boundary)
+            {
+                grid.Skirt = (GridSkirt)cobGridShape.SelectedIndex;
+            }
         }
 
         private void chbUniqueColor_Checked(object sender, RoutedEventArgs e)
@@ -373,6 +488,13 @@ namespace Heiflow.Visualization.Studio.Controls
             }
         }
 
+        private void chbStreamlines_Checked(object sender, RoutedEventArgs e)
+        {
+            var vector = _Render as IVectorRender;
+            if (vector != null)
+                vector.Style.ShowStreamlines = chbStreamlines.IsChecked.Value;
+        }
+
         private void btnVelocityStyleProperty_Click(object sender, RoutedEventArgs e)
         {
             var vector = _Render as IVectorRender;
@@ -395,6 +517,51 @@ namespace Heiflow.Visualization.Studio.Controls
                         vector.Style.TileCount = tileCount;
                 }
             }
+        }
+
+        /// <summary>
+        /// The number written on the entry of a combo that is picked, or the value handed over when
+        /// the entry does not read as one, which is the one the render is drawing with.
+        /// </summary>
+        private static float ReadSelectedNumber(ComboBox combo, float kept)
+        {
+            var item = combo.SelectedItem as ComboBoxItem;
+            double value;
+            if (item != null && item.Content != null && double.TryParse(item.Content.ToString(), out value))
+                return (float)value;
+            return kept;
+        }
+
+        private void cobStreamlineWidth_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var vector = _Render as IVectorRender;
+            if (vector != null)
+                vector.Style.StreamlineWidth = ReadSelectedNumber(cobStreamlineWidth, vector.Style.StreamlineWidth);
+        }
+
+        private void cobFlowSpeed_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var vector = _Render as IVectorRender;
+            if (vector != null)
+                vector.Style.FlowSpeed = ReadSelectedNumber(cobFlowSpeed, vector.Style.FlowSpeed);
+        }
+
+        private void cobFadeTime_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var vector = _Render as IVectorRender;
+            if (vector != null)
+                vector.Style.FadeTime = ReadSelectedNumber(cobFadeTime, vector.Style.FadeTime);
+        }
+
+        /// <summary>
+        /// The spacing is written on the combo as a number of cells, apart from the first entry,
+        /// which says that no room is kept at all.
+        /// </summary>
+        private void cobStreamlineSpacing_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var vector = _Render as IVectorRender;
+            if (vector != null && cobStreamlineSpacing.SelectedIndex >= 0)
+                vector.Style.StreamlineSpacing = cobStreamlineSpacing.SelectedIndex;
         }
 
     }

@@ -1,3 +1,4 @@
+using Heiflow.Visualization.RenderableModel.Model.Renders;
 using HUST.WREIS.Dot3D;
 using Microsoft.DirectX;
 using Microsoft.DirectX.Direct3D;
@@ -15,6 +16,17 @@ namespace Heiflow.Visualization.Renderable.Grid
         /// Vertex and index buffer of the arrows of _RenderDX.
         /// </summary>
         private readonly ModelMeshBuffer _Mesh = new ModelMeshBuffer();
+
+        /// <summary>
+        /// Draws the mesh as a flow that runs along the lines of it, see Shaders/Streamline.fx.
+        /// </summary>
+        private StreamlineShader _Streamline;
+
+        /// <summary>
+        /// Where the flow started, the clock the dashes are moved by. It belongs to the layer rather
+        /// than to the frame, so that a line stays where it ran to when the frame before left it.
+        /// </summary>
+        private readonly DateTime _FlowStarted = DateTime.UtcNow;
 
         public DXVectorLayer()
         {
@@ -65,6 +77,13 @@ namespace Heiflow.Visualization.Renderable.Grid
 
             Device device = DrawArgs.Device;
 
+            // The mesh holds an arrow on a cell while the arrows are drawn, three lines each, and a
+            // ribbon of two triangles for every piece of a line while the lines are. The fallback the
+            // shader leaves behind has to ask for the one the mesh is holding.
+            var lines = _RenderDX is IStreamlineRender && ((IStreamlineRender)_RenderDX).StreamlinesActive;
+            var primitiveType = lines ? PrimitiveType.TriangleList : PrimitiveType.LineList;
+            var perPrimitive = lines ? 3 : 2;
+
             using (ModelRenderScope.Begin(device, drawArgs, FillMode, !World.Settings.EnableHighPerfomance))
             {
                 if (RenderObject.VerticalExaggeration != World.Settings.VerticalExaggeration)
@@ -74,18 +93,66 @@ namespace Heiflow.Visualization.Renderable.Grid
 
                 if (_Mesh.Update(device, vertices, indices, _RenderDX.MeshVersion, _RenderDX.ColorVersion))
                 {
-                    _Mesh.Draw(device, PrimitiveType.LineList);
+                    if (!DrawStreamlines(device))
+                        _Mesh.Draw(device, primitiveType);
                 }
                 else
                 {
-                    device.DrawIndexedUserPrimitives(PrimitiveType.LineList, 0, vertices.Length, indices.Length / 2,
+                    device.DrawIndexedUserPrimitives(primitiveType, 0, vertices.Length, indices.Length / perPrimitive,
                         indices, false, vertices);
                 }
             }
         }
 
+        /// <summary>
+        /// Draws the mesh through Streamline.fx while it holds lines traced through the flow, and
+        /// says false while it holds arrows or the shader cannot be had, which leaves the caller to
+        /// draw it the way it always did.
+        /// </summary>
+        private bool DrawStreamlines(Device device)
+        {
+            var flow = _RenderDX as IStreamlineRender;
+            if (flow == null || !flow.StreamlinesActive || flow.StreamlineFlow == null)
+                return false;
+
+            try
+            {
+                if (_Streamline == null)
+                    _Streamline = new StreamlineShader();
+
+                if (!_Streamline.Ensure(device, flow.StreamlineFlow, _RenderDX.MeshVersion))
+                    return false;
+
+                var worldViewProjection = Matrix.Multiply(device.Transform.World,
+                    Matrix.Multiply(device.Transform.View, device.Transform.Projection));
+
+                var look = flow.Look;
+
+                // How far the head of a dash has run since the layer started to draw, folded into
+                // the distance between two heads. Only what is left of that division is handed over,
+                // a head that has run for hours would leave too few digits of a float for the
+                // fraction to mean anything.
+                var seconds = (DateTime.UtcNow - _FlowStarted).TotalSeconds;
+                var head = (float)((seconds * flow.FlowSpeed) % look.Spacing);
+                if (head < 0)
+                    head += look.Spacing;
+
+                return _Streamline.Draw(device, _Mesh, worldViewProjection, look, head,
+                    _RenderDX.Opacity / 255f);
+            }
+            catch (DirectXException)
+            {
+                return false;
+            }
+        }
+
         public override void Dispose()
         {
+            if (_Streamline != null)
+            {
+                _Streamline.Dispose();
+                _Streamline = null;
+            }
             _Mesh.Dispose();
         }
 
