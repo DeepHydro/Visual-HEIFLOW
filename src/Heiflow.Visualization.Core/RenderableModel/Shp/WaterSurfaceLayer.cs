@@ -4,7 +4,6 @@ using GeoAPI.Geometries;
 using Heiflow.Core;
 using Heiflow.Visualization.Renderable.Grid;
 using HUST.WREIS.Dot3D;
-using HUST.WREIS.Dot3D.Core;
 using Microsoft.DirectX;
 using Microsoft.DirectX.Direct3D;
 using System;
@@ -19,10 +18,11 @@ namespace Heiflow.Visualization.Renderable
     /// </summary>
     /// <remarks>
     /// The polygons of a shapefile hold far too few corners to carry a wave, a lake being some tens
-    /// of them, so every triangle the outline is cut into is split into four again and again until
-    /// its sides are short enough. The corners the splitting makes are shared through a lookup, or
-    /// the waves of two triangles next to each other would not meet and the sheet would come apart
-    /// along the seams.
+    /// of them, so a grid of squares is laid over the outline and every square the water reaches is
+    /// cut into two triangles, see MeshBuilder. The triangles of a grid are all of one size, where
+    /// the outline cut up on its own comes out in triangles of every size and shape. The corners the
+    /// grid makes are shared through a lookup, or the waves of two triangles next to each other
+    /// would not meet and the sheet would come apart along the seams.
     ///
     /// The texture coordinates are metres east and north of the middle of the polygon rather than
     /// the row and the column of a corner, so a wave is the same size on a lake of any shape and
@@ -38,17 +38,15 @@ namespace Heiflow.Visualization.Renderable
         private const double MetreOfLongitude = 111320.0;
 
         /// <summary>
-        /// How often a triangle may be split in two along its sides, and how many corners the whole
-        /// sheet may hold. Both are here so that a long coastline cannot ask for the whole memory of
-        /// the machine.
+        /// How many corners the sheet of one polygon may hold. A long coastline would ask for more
+        /// than the machine has to give, so the squares of the grid grow until the water fits in them
+        /// rather than the sheet growing without end.
         /// </summary>
-        private const int MaxDepth = 9;
-        private const int MaxVertices = 90000;
+        private const int MaxVertices = 10000;
 
         private readonly WaterShader _Shader = new WaterShader();
         private readonly List<WaterBody> _Bodies = new List<WaterBody>();
         private readonly DateTime _Started = DateTime.UtcNow;
-
         public WaterSurfaceLayer(string filename, World parentWorld, Color waterColor)
             : base("Water surface", parentWorld)
         {
@@ -96,8 +94,10 @@ namespace Heiflow.Visualization.Renderable
         }
 
         /// <summary>
-        /// How long the side of a triangle may be, in metres. A wave needs a few triangles to run
-        /// over, so it follows from the length of one, and it is what keeps the sheet small enough.
+        /// How long the side of a square of the grid is, in metres, and with it the side of every
+        /// triangle of the sheet. A wave needs a few triangles to run over, so it follows from the
+        /// length of one, and it is what keeps the sheet small enough. A water too wide for the sheet
+        /// the card will take gets squares larger than these rather than no water at all.
         /// </summary>
         public double MeshEdge
         {
@@ -144,34 +144,43 @@ namespace Heiflow.Visualization.Renderable
                 for (int n = 0; n < shapes; n++)
                 {
                     var shape = _IFeatureSet.ShapeIndices[n];
-                    int start = shape.Parts[0].StartIndex;
-                    int end = shape.Parts[shape.Parts.Count - 1].EndIndex;
-                    int points = end - start + 1;
-                    if (points < 3)
-                        continue;
+                    var level = LevelOf(n);
 
-                    var ring = new Coordinate[points];
-                    var xy = new double[2];
-                    var z = new double[1];
-
-                    for (int i = start; i <= end; i++)
+                    // Every ring of the polygon is cut up on its own. Read as one long ring, which is
+                    // what the first corner of the first to the last corner of the last gave, the end
+                    // of one ring is joined to the start of the next and the ring crosses itself,
+                    // which is a shape the cutting cannot finish.
+                    for (int part = 0; part < shape.Parts.Count; part++)
                     {
-                        xy[0] = vertices[2 * i];
-                        xy[1] = vertices[2 * i + 1];
+                        int start = shape.Parts[part].StartIndex;
+                        int end = shape.Parts[part].EndIndex;
+                        int points = end - start + 1;
+                        if (points < 3)
+                            continue;
 
-                        // The shapefile is read where it lies, and a projected one is turned into
-                        // longitude and latitude, which is what the globe is drawn from.
-                        if (!latlon)
+                        var ring = new Coordinate[points];
+                        var xy = new double[2];
+                        var z = new double[1];
+
+                        for (int i = start; i <= end; i++)
                         {
-                            Reproject.ReprojectPoints(xy, z, _IFeatureSet.Projection, wgs84, 0, 1);
+                            xy[0] = vertices[2 * i];
+                            xy[1] = vertices[2 * i + 1];
+
+                            // The shapefile is read where it lies, and a projected one is turned into
+                            // longitude and latitude, which is what the globe is drawn from.
+                            if (!latlon)
+                            {
+                                Reproject.ReprojectPoints(xy, z, _IFeatureSet.Projection, wgs84, 0, 1);
+                            }
+
+                            ring[i - start] = new Coordinate(xy[0], xy[1]);
                         }
 
-                        ring[i - start] = new Coordinate(xy[0], xy[1]);
+                        var body = BuildBody(ring, level);
+                        if (body != null)
+                            _Bodies.Add(body);
                     }
-
-                    var body = BuildBody(ring, LevelOf(n));
-                    if (body != null)
-                        _Bodies.Add(body);
                 }
 
                 DataTable = _IFeatureSet.DataTable;
@@ -254,21 +263,21 @@ namespace Heiflow.Visualization.Renderable
             }
 
             var mesh = new MeshBuilder(MeshEdge, MaxVertices);
-
-            // The outline is cut into triangles where it lies, and each of those is cut into four
-            // again, in metres east and north of the middle of the polygon.
-            var triangles = new TriPolygon(ring).Triangulate();
             double eastOfLongitude = MetreOfLongitude * Math.Cos(MathEngine.DegreesToRadians(lat0));
 
-            foreach (var triangle in triangles)
+            // The outline in metres east and north of the middle of it, which is the sheet is laid
+            // out in. Cutting the outline into triangles of its own gave slivers of every size, and
+            // cutting those in four again left them slivers still, which is what the waves were
+            // running so badly over.
+            var outlineEast = new double[ring.Length];
+            var outlineNorth = new double[ring.Length];
+            for (int i = 0; i < ring.Length; i++)
             {
-                var corners = triangle.Points;
-                mesh.Split(
-                    (corners[0].X - lon0) * eastOfLongitude, (corners[0].Y - lat0) * MetreOfLatitude,
-                    (corners[1].X - lon0) * eastOfLongitude, (corners[1].Y - lat0) * MetreOfLatitude,
-                    (corners[2].X - lon0) * eastOfLongitude, (corners[2].Y - lat0) * MetreOfLatitude,
-                    0);
+                outlineEast[i] = (ring[i].X - lon0) * eastOfLongitude;
+                outlineNorth[i] = (ring[i].Y - lat0) * MetreOfLatitude;
             }
+
+            mesh.Fill(outlineEast, outlineNorth);
 
             if (mesh.VertexCount < 3 || mesh.IndexCount < 3)
                 return null;
@@ -350,7 +359,11 @@ namespace Heiflow.Visualization.Renderable
                     parameters.WorldViewProjection = Matrix.Multiply(device.Transform.World,
                         Matrix.Multiply(device.Transform.View, device.Transform.Projection));
                     parameters.EyePosition = drawArgs.WorldCamera.Position;
-                    parameters.SunDirection = ModelRenderScope.SunVector;
+                    // Where the sun stands is given as a place in the sky, which is a hundred and
+                    // fifty million kilometres away, and the shader wants no more than which way to
+                    // look for it. It is straightened here, once for the frame, the pixel shader
+                    // having no room to do it for every pixel.
+                    parameters.SunDirection = Vector3.Normalize(ModelRenderScope.SunVector);
 
                     // A float runs out of the seconds it can tell apart, so the clock of the water
                     // is taken round once an hour. Nothing of the waves shows the seam.
@@ -498,12 +511,23 @@ namespace Heiflow.Visualization.Renderable
         /// A corner two triangles share is one corner and not two, or the waves of the two would not
         /// meet along the side they have in common.
         /// </summary>
+        /// <remarks>
+        /// A grid of squares is laid over the outline, and every square the water reaches is cut into
+        /// two triangles. The squares are all of one size, so the triangles are too: a wave finds the
+        /// same room to run over on every one of them, which is what the outline of a polygon cut up
+        /// on its own could never give, its triangles coming out long and thin and of every size.
+        ///
+        /// Along the shore a square reaches past the outline, and the corners of it that lie outside
+        /// are drawn onto the outline itself, onto the nearest point of it, so the edge of the water
+        /// follows the shore instead of running in steps.
+        /// </remarks>
         private sealed class MeshBuilder
         {
             private readonly Dictionary<long, int> _lookup = new Dictionary<long, int>();
             private readonly List<double> _east = new List<double>();
             private readonly List<double> _north = new List<double>();
             private readonly List<int> _indices = new List<int>();
+            private readonly List<double> _crossings = new List<double>();
             private readonly double _edge;
             private readonly int _most;
 
@@ -535,37 +559,132 @@ namespace Heiflow.Visualization.Renderable
             }
 
             /// <summary>
-            /// Cuts a triangle into four while its sides are longer than a wave needs, and keeps it
-            /// as it is when they are not, or when the sheet has grown as big as it may.
+            /// Lays the grid over the outline, given in metres east and north of the middle of it, and
+            /// cuts every square the water reaches into two triangles.
             /// </summary>
-            public void Split(double ax, double ay, double bx, double by, double cx, double cy, int depth)
+            public void Fill(double[] outlineEast, double[] outlineNorth)
             {
-                if (depth >= MaxDepth || _east.Count + 3 > _most || LongestSide(ax, ay, bx, by, cx, cy) <= _edge)
-                {
-                    Add(ax, ay, bx, by, cx, cy);
+                int corners = outlineEast.Length;
+                if (corners < 3)
                     return;
+
+                double minEast = outlineEast[0];
+                double maxEast = outlineEast[0];
+                double minNorth = outlineNorth[0];
+                double maxNorth = outlineNorth[0];
+
+                for (int i = 1; i < corners; i++)
+                {
+                    if (outlineEast[i] < minEast) minEast = outlineEast[i];
+                    if (outlineEast[i] > maxEast) maxEast = outlineEast[i];
+                    if (outlineNorth[i] < minNorth) minNorth = outlineNorth[i];
+                    if (outlineNorth[i] > maxNorth) maxNorth = outlineNorth[i];
                 }
 
-                double abx = (ax + bx) * 0.5;
-                double aby = (ay + by) * 0.5;
-                double bcx = (bx + cx) * 0.5;
-                double bcy = (by + cy) * 0.5;
-                double cax = (cx + ax) * 0.5;
-                double cay = (cy + ay) * 0.5;
+                double wide = maxEast - minEast;
+                double high = maxNorth - minNorth;
+                if (wide <= 0.0 || high <= 0.0)
+                    return;
 
-                // The four triangles keep the way the one they came from turns, so the sheet is lit
-                // from the same side all over.
-                Split(ax, ay, abx, aby, cax, cay, depth + 1);
-                Split(abx, aby, bx, by, bcx, bcy, depth + 1);
-                Split(cax, cay, bcx, bcy, cx, cy, depth + 1);
-                Split(abx, aby, bcx, bcy, cax, cay, depth + 1);
+                // A square is as small as a wave needs it to be, and never so small that the sheet
+                // outgrows what it may hold: a sea would ask for more corners than the card will
+                // take, so the squares grow until the water fits rather than the sheet being cut off
+                // half way through.
+                double step = Math.Max(_edge, Math.Sqrt((wide * high) / _most));
+
+                int columns = (int)(wide / step) + 1;
+                int rows = (int)(high / step) + 1;
+                if (columns < 1)
+                    columns = 1;
+                if (rows < 1)
+                    rows = 1;
+
+                // Which corners of the grid lie in the water, one row at a time. Where the line of a
+                // row crosses the outline is worked out once for the whole row, and a corner is in
+                // the water when an odd number of crossings lie to the west of it.
+                var wet = new bool[(columns + 1) * (rows + 1)];
+                for (int j = 0; j <= rows; j++)
+                {
+                    double north = minNorth + j * step;
+                    Crossings(outlineEast, outlineNorth, north, _crossings);
+
+                    for (int i = 0; i <= columns; i++)
+                    {
+                        wet[j * (columns + 1) + i] = Inside(minEast + i * step);
+                    }
+                }
+
+                for (int j = 0; j < rows; j++)
+                {
+                    for (int i = 0; i < columns; i++)
+                    {
+                        if (_east.Count + 4 > _most)
+                            return;
+
+                        int at = j * (columns + 1) + i;
+                        bool reaches = wet[at] || wet[at + 1] || wet[at + columns + 1]
+                            || wet[at + columns + 2];
+
+                        // A square none of whose corners is in the water can still be crossed by a
+                        // strip of it too narrow to hold a corner, so the middle of the square is
+                        // asked as well.
+                        if (!reaches)
+                        {
+                            Crossings(outlineEast, outlineNorth, minNorth + (j + 0.5) * step, _crossings);
+                            if (!Inside(minEast + (i + 0.5) * step))
+                                continue;
+                        }
+
+                        double west = minEast + i * step;
+                        double south = minNorth + j * step;
+
+                        // The two corners of the square that lie outside the water are drawn onto the
+                        // outline, and a corner that is in it stays where the grid put it.
+                        int corner00 = Place(outlineEast, outlineNorth, west, south, wet[at]);
+                        int corner10 = Place(outlineEast, outlineNorth, west + step, south, wet[at + 1]);
+                        int corner11 = Place(outlineEast, outlineNorth, west + step, south + step,
+                            wet[at + columns + 2]);
+                        int corner01 = Place(outlineEast, outlineNorth, west, south + step,
+                            wet[at + columns + 1]);
+
+                        // The square is cut along one of its two diagonals, and which one it is
+                        // changes from square to square: cut the same way all over, the sheet is
+                        // stiffer across the diagonal than along it, and the water is seen to lean.
+                        if (((i + j) % 2) == 0)
+                        {
+                            Add(corner00, corner10, corner11);
+                            Add(corner00, corner11, corner01);
+                        }
+                        else
+                        {
+                            Add(corner10, corner11, corner01);
+                            Add(corner10, corner01, corner00);
+                        }
+                    }
+                }
             }
 
-            private void Add(double ax, double ay, double bx, double by, double cx, double cy)
+            /// <summary>
+            /// One corner of the sheet: the corner of the square it is, or the nearest point of the
+            /// outline when the square reaches past the water there.
+            /// </summary>
+            private int Place(double[] outlineEast, double[] outlineNorth, double east, double north,
+                bool wet)
             {
-                _indices.Add(Corner(ax, ay));
-                _indices.Add(Corner(bx, by));
-                _indices.Add(Corner(cx, cy));
+                if (wet)
+                    return Corner(east, north);
+
+                double onEast = east;
+                double onNorth = north;
+                Nearest(outlineEast, outlineNorth, east, north, ref onEast, ref onNorth);
+                return Corner(onEast, onNorth);
+            }
+
+            private void Add(int a, int b, int c)
+            {
+                _indices.Add(a);
+                _indices.Add(b);
+                _indices.Add(c);
             }
 
             private int Corner(double east, double north)
@@ -586,12 +705,93 @@ namespace Heiflow.Visualization.Renderable
                 return at;
             }
 
-            private static double LongestSide(double ax, double ay, double bx, double by, double cx, double cy)
+            /// <summary>
+            /// Where a line running east and west at this north crosses the outline. The crossings of
+            /// one row are what tells whether a corner of the grid lies in the water.
+            /// </summary>
+            private void Crossings(double[] outlineEast, double[] outlineNorth, double north,
+                List<double> at)
             {
-                double ab = (bx - ax) * (bx - ax) + (by - ay) * (by - ay);
-                double bc = (cx - bx) * (cx - bx) + (cy - by) * (cy - by);
-                double ca = (ax - cx) * (ax - cx) + (ay - cy) * (ay - cy);
-                return Math.Sqrt(Math.Max(ab, Math.Max(bc, ca)));
+                at.Clear();
+
+                int corners = outlineEast.Length;
+                for (int i = 0; i < corners; i++)
+                {
+                    int next = (i + 1) % corners;
+                    double south = outlineNorth[i];
+                    double over = outlineNorth[next];
+
+                    // A corner the line runs through is counted on one side of it only, and a side
+                    // lying along the line not at all, or the count on the far side would come out
+                    // odd where it should be even.
+                    if ((south <= north && over > north) || (over <= north && south > north))
+                    {
+                        double part = (north - south) / (over - south);
+                        at.Add(outlineEast[i] + part * (outlineEast[next] - outlineEast[i]));
+                    }
+                }
+
+                at.Sort();
+            }
+
+            /// <summary>
+            /// Whether an odd number of the crossings of the row, which Crossings filled, lie to the
+            /// west of this east. Odd means the point is in the water.
+            /// </summary>
+            private bool Inside(double east)
+            {
+                int west = 0;
+                for (int i = 0; i < _crossings.Count; i++)
+                {
+                    if (_crossings[i] < east)
+                        west++;
+                }
+
+                return (west % 2) == 1;
+            }
+
+            /// <summary>
+            /// The point of the outline nearest to one outside the water, which is where a corner of
+            /// the grid is drawn to when the square it belongs to reaches past the shore.
+            /// </summary>
+            private static void Nearest(double[] outlineEast, double[] outlineNorth, double east,
+                double north, ref double onEast, ref double onNorth)
+            {
+                int corners = outlineEast.Length;
+                double closest = double.MaxValue;
+
+                for (int i = 0; i < corners; i++)
+                {
+                    int next = (i + 1) % corners;
+
+                    double ax = outlineEast[i];
+                    double ay = outlineNorth[i];
+                    double sideEast = outlineEast[next] - ax;
+                    double sideNorth = outlineNorth[next] - ay;
+
+                    double length = sideEast * sideEast + sideNorth * sideNorth;
+                    double part = length > 0.0
+                        ? ((east - ax) * sideEast + (north - ay) * sideNorth) / length
+                        : 0.0;
+
+                    if (part < 0.0)
+                        part = 0.0;
+                    else if (part > 1.0)
+                        part = 1.0;
+
+                    double hereEast = ax + part * sideEast;
+                    double hereNorth = ay + part * sideNorth;
+
+                    double away = (hereEast - east) * (hereEast - east)
+                        + (hereNorth - north) * (hereNorth - north);
+
+                    if (away < closest)
+                    {
+                        closest = away;
+                        onEast = hereEast;
+                        onNorth = hereNorth;
+                    }
+                }
             }
         }
     }

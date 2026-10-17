@@ -20,6 +20,7 @@ namespace Heiflow.Visualization.Applications
         private ICommand _Exit;
         private ICommand _LoadShpFile;
         private ICommand _LoadWaterFile;
+        private ICommand _LoadGridWater;
         private ICommand _LoadRasterFile;
         private ICommand _Load3DModel;
         private ICommand _LoadODM;
@@ -149,6 +150,23 @@ namespace Heiflow.Visualization.Applications
             set
             {
                 SetProperty(ref _LoadWaterFile, value);
+            }
+        }
+
+        /// <summary>
+        /// The triangular grid of the model drawn once more as a sheet of water, a copy of it and not
+        /// the grid itself, so the two are two layers and not one, see TriangularWaterLayer. It asks
+        /// for no file: the grid is the one of the model of the project that is open.
+        /// </summary>
+        public ICommand LoadGridWater
+        {
+            get
+            {
+                return _LoadGridWater;
+            }
+            set
+            {
+                SetProperty(ref _LoadGridWater, value);
             }
         }
 

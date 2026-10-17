@@ -195,6 +195,10 @@ namespace Heiflow.Visualization.Studio
                 viewModel.Value.LoadWaterFile.Execute(dialog.FileName);
             }
         }
+        private void miLoadGridWater_Click(object sender, RoutedEventArgs e)
+        {
+            viewModel.Value.LoadGridWater.Execute(null);
+        }
         private void miLoad3DModel_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();

@@ -1,4 +1,5 @@
 ﻿using Heiflow.Core.Data.ODM;
+using Heiflow.Models.Generic;
 using Heiflow.Presentation.Controls;
 using Heiflow.Visualization.Project;
 using Heiflow.Visualization.Renderable;
@@ -70,6 +71,7 @@ namespace Heiflow.Visualization.Applications
             _ShellService.LayerManager = _LayerManagerViewModel.View;
             ShellViewModel.LoadShpFile = new DelegateCommand(LoadShpFile);
             ShellViewModel.LoadWaterFile = new DelegateCommand(LoadWaterFile);
+            ShellViewModel.LoadGridWater = new DelegateCommand(LoadGridWater);
             ShellViewModel.LoadRasterFile = new DelegateCommand(LoadRasterFile);
             ShellViewModel.Load3DModel = new DelegateCommand(Load3DModel);
             ShellViewModel.LoadODM = new DelegateCommand(LoadODM);
@@ -137,6 +139,49 @@ namespace Heiflow.Visualization.Applications
             else
             {
                 _LayerService.RootLayers.Add(ro);
+            }
+            Refresh(null);
+        }
+
+        /// <summary>
+        /// The triangular grid of the model of the project that is open, drawn once more as a sheet
+        /// of water with waves running across it, see TriangularWaterLayer.
+        ///
+        /// It is a copy of the grid and not the grid itself, the geometry being read out of the model
+        /// and kept by the new layer, so the mesh the model is drawn with is left as it is and the
+        /// water is a layer of its own beside it. No file is asked for, the grid being the one the
+        /// model already holds.
+        /// </summary>
+        private void LoadGridWater(object para)
+        {
+            var project = _VGSProjectService.Project;
+            var grid = project != null && project.Model != null
+                ? project.Model.Grid as TriangularGrid
+                : null;
+            if (grid == null)
+            {
+                // Nothing at all happens without a word otherwise, and a click on the menu that
+                // brings up nothing looks like a menu that is broken.
+                Heiflow.Core.Log.Write(Heiflow.Core.Log.Levels.Warning, "WATR",
+                    "There is no triangular grid to draw as water: either no project is open, or the"
+                    + " grid of the model of it is not a triangular one.");
+                return;
+            }
+
+            var world = _ShellService.VirtualGlobeView.VirtualGlobe.CurrentWorld;
+            var layer = new Heiflow.Visualization.Renderable.Grid.TriangularWaterLayer(
+                "Water surface", world, grid);
+            // Water lies on its own level and not ten metres above the ground, which is what a
+            // vector is given so that it does not sink into the terrain.
+            layer.DistanceAboveSurface = 0;
+
+            if (_LayerService.ModelLayerGroup != null)
+            {
+                _LayerService.ModelLayerGroup.Add(layer);
+            }
+            else
+            {
+                _LayerService.RootLayers.Add(layer);
             }
             Refresh(null);
         }

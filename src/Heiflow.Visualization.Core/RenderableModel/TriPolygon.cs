@@ -261,8 +261,10 @@ namespace HUST.WREIS.Dot3D.Core
         }
 
         #region "Triangulation"
-        // Find the indexes of three points that form an "ear."
-        private void FindEar(ref int A, ref int B, ref int C)
+        // Find the indexes of three points that form an "ear." False when the polygon has none,
+        // which is what a ring that crosses itself, or one whose corners lie on top of one another,
+        // comes to. The three are then left at -1 and the caller cuts the sharpest corner instead.
+        private bool TryFindEar(out int A, out int B, out int C)
         {
             int nuPoints = Points.Length;
 
@@ -271,41 +273,77 @@ namespace HUST.WREIS.Dot3D.Core
                 B = (A + 1) % nuPoints;
                 C = (B + 1) % nuPoints;
 
-                if (FormsEar(Points, A, B, C)) return;
+                if (FormsEar(Points, A, B, C)) return true;
             }
 
-            // We should never get here because there should
-            // always be at least two ears.
-            Debug.Assert(false);
+            A = -1;
+            B = -1;
+            C = -1;
+            return false;
+        }
+
+        // The corner that sticks out the furthest. A polygon that has no ear left to cut, one that
+        // crosses itself above all, still has to have a corner taken away or the cutting would never
+        // end, and this is the one that does the least harm.
+        private int SharpestCorner()
+        {
+            int nuPoints = Points.Length;
+            if (nuPoints < 3)
+                return -1;
+
+            int sharpest = 0;
+            double best = double.MaxValue;
+
+            for (int i = 0; i < nuPoints; i++)
+            {
+                int a = (i - 1 + nuPoints) % nuPoints;
+                int c = (i + 1) % nuPoints;
+
+                double angle = GetAngle(
+                    Points[a].X, Points[a].Y,
+                    Points[i].X, Points[i].Y,
+                    Points[c].X, Points[c].Y);
+
+                if (angle < best)
+                {
+                    best = angle;
+                    sharpest = i;
+                }
+            }
+
+            return sharpest;
         }
 
         // Return True if the three points form an ear.
         private static bool FormsEar(Coordinate[] points, int A, int B, int C)
         {
             // See if the angle ABC is concave.
-            if (GetAngle(
+            double angle = GetAngle(
                 points[A].X, points[A].Y,
                 points[B].X, points[B].Y,
-                points[C].X, points[C].Y) > 0)
+                points[C].X, points[C].Y);
+
+            if (angle > 0)
             {
                 // This is a concave corner so the triangle
                 // cannot be an ear.
                 return false;
             }
 
-            // Make the triangle A, B, C.
-            Triangle triangle = new Triangle(
-                points[A], points[B], points[C]);
+            // A corner that lies on the line between the two beside it makes a triangle of no area,
+            // and it is left alone: cutting it off takes a corner away without filling anything.
+            if (Math.Abs(angle) < 1e-12)
+                return false;
 
-            // Check the other points to see 
+            // Check the other points to see
             // if they lie in triangle A, B, C.
             for (int i = 0; i < points.Length; i++)
             {
                 if ((i != A) && (i != B) && (i != C))
                 {
-                    if (triangle.PointInPolygon(points[i].X, points[i].Y))
+                    if (InsideTriangle(points, A, B, C, points[i]))
                     {
-                        // This point is in the triangle 
+                        // This point is in the triangle
                         // do this is not an ear.
                         return false;
                     }
@@ -316,18 +354,57 @@ namespace HUST.WREIS.Dot3D.Core
             return true;
         }
 
+        // Whether a point lies within the triangle, and well within it: a corner that sits on one of
+        // the sides, which a ring of a shapefile is full of, is outside. The old test counted those
+        // as inside, and a ring whose corners lie on a line had every ear refused, which left the
+        // cutting with no corner it could take and the whole triangulation with nothing to show.
+        private static bool InsideTriangle(Coordinate[] points, int A, int B, int C, Coordinate point)
+        {
+            double ab = CrossProductLength(
+                points[A].X, points[A].Y, points[B].X, points[B].Y, point.X, point.Y);
+            double bc = CrossProductLength(
+                points[B].X, points[B].Y, points[C].X, points[C].Y, point.X, point.Y);
+            double ca = CrossProductLength(
+                points[C].X, points[C].Y, points[A].X, points[A].Y, point.X, point.Y);
+
+            double area = CrossProductLength(
+                points[A].X, points[A].Y, points[B].X, points[B].Y, points[C].X, points[C].Y);
+
+            // A corner of no size has no inside, and a corner that sits on a side is kept out by the
+            // margin, which is a thousandth of the triangle itself.
+            double margin = Math.Abs(area) * 1e-3;
+            if (margin <= 0.0)
+                return false;
+
+            if (area > 0.0)
+                return ab > margin && bc > margin && ca > margin;
+
+            return ab < -margin && bc < -margin && ca < -margin;
+        }
+
         // Remove an ear from the polygon and
-        // add it to the triangles array.
+        // add it to the triangles array. A polygon that has no ear left, which is what one that
+        // crosses itself comes to, has its sharpest corner cut off instead, so a corner is taken
+        // away on every turn of the loop and the cutting always comes to an end.
         private void RemoveEar(List<Triangle> triangles)
         {
             // Find an ear.
-            int A = 0, B = 0, C = 0;
-            FindEar(ref A, ref B, ref C);
+            int A, B, C;
+            if (TryFindEar(out A, out B, out C))
+            {
+                triangles.Add(new Triangle(Points[A], Points[B], Points[C]));
+                RemovePointFromArray(B);
+                return;
+            }
 
-            // Create a new triangle for the ear.
-            triangles.Add(new Triangle(Points[A], Points[B], Points[C]));
+            B = SharpestCorner();
+            if (B < 0)
+                return;
 
-            // Remove the ear from the polygon.
+            int before = (B - 1 + Points.Length) % Points.Length;
+            int after = (B + 1) % Points.Length;
+
+            triangles.Add(new Triangle(Points[before], Points[B], Points[after]));
             RemovePointFromArray(B);
         }
 
@@ -354,11 +431,21 @@ namespace HUST.WREIS.Dot3D.Core
             // Make a scratch polygon.
             TriPolygon pgon = new TriPolygon(pts);
 
+            // A corner that lies on the one before it, and the corner that closes the ring by sitting
+            // on the first one again, are dropped: a side of no length carries no ear, and the
+            // cutting used to run off the end of the ring looking for one.
+            pgon.Points = Clean(pgon.Points);
+
             // Orient the polygon clockwise.
             pgon.OrientPolygonClockwise();
 
             // Make room for the triangles.
             List<Triangle> triangles = new List<Triangle>();
+
+            // A ring of fewer than three corners that are not on top of one another is no polygon at
+            // all, and no triangles come of it.
+            if (pgon.Points.Length < 3)
+                return triangles;
 
             // While the copy of the polygon has more than
             // three points, remove an ear.
@@ -372,6 +459,37 @@ namespace HUST.WREIS.Dot3D.Core
             triangles.Add(new Triangle(pgon.Points[0], pgon.Points[1], pgon.Points[2]));
 
             return triangles;
+        }
+
+        // The ring without the corners that sit on the one before them, and without the one that
+        // closes it by sitting on the first again.
+        private static Coordinate[] Clean(Coordinate[] points)
+        {
+            var kept = new List<Coordinate>(points.Length);
+
+            foreach (var point in points)
+            {
+                if (point == null)
+                    continue;
+
+                if (kept.Count > 0 && Same(kept[kept.Count - 1], point))
+                    continue;
+
+                kept.Add(point);
+            }
+
+            if (kept.Count > 1 && Same(kept[0], kept[kept.Count - 1]))
+                kept.RemoveAt(kept.Count - 1);
+
+            return kept.ToArray();
+        }
+
+        // Whether two corners are the same one. A tenth of a micron apart is closer than two corners
+        // of a lake ever come on purpose, and a projected ring turned into longitude and latitude
+        // lands the same corner twice a hair apart rather than on top of itself.
+        private static bool Same(Coordinate a, Coordinate b)
+        {
+            return Math.Abs(a.X - b.X) < 1e-12 && Math.Abs(a.Y - b.Y) < 1e-12;
         }
         #endregion // Triangulation
 

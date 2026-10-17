@@ -210,6 +210,10 @@ namespace Heiflow.Visualization.Renderable
         {
             var water = new WaterSurfaceLayer(filename, world, color);
             water.WaterLevel = WaterLevel;
+            // A lake that carries no level of its own is laid in the hollow it lies in, which is what
+            // the ground under its outline is. Without it the water stands at the datum, and on high
+            // ground that is under the terrain, where nothing of it is ever seen.
+            water.AutoTerrainHeight = true;
             water.WaveHeight = WaveHeight;
             water.WaveLength = WaveLength;
             water.WaveSpeed = WaveSpeed;

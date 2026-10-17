@@ -140,6 +140,7 @@
     <Compile Include="RenderableModel\Model\Renders\TrigularGridRender.cs" />
     <Compile Include="RenderableModel\Model\Layers\DXVectorLayer.cs" />
     <Compile Include="RenderableModel\Model\TriangularCell.cs" />
+    <Compile Include="RenderableModel\Model\TriangularWaterLayer.cs" />
     <Compile Include="RenderableModel\Providers\FlagFeatureProvider.cs" />
     <Compile Include="RenderableModel\RenderableModelObject.cs" />
     <Compile Include="RenderableModel\Providers\IRenderableProvider.cs" />

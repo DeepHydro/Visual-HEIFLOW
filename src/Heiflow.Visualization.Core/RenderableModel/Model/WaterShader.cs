@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using Heiflow.Core;
 using Microsoft.DirectX;
 using Microsoft.DirectX.Direct3D;
 
@@ -102,10 +103,18 @@ namespace Heiflow.Visualization.Renderable.Grid
                 }
 
                 _effect = Load(device);
+
+                // A card that will not take the shader is remembered as one. Left unremembered, the
+                // next frame asks for it again, and the one after that, and every one of those asks
+                // is a shader compiled from scratch: the water came out flat and the whole picture
+                // ran at a frame every third of a second, which is how it was found.
+                if (_effect == null)
+                    _broken = true;
             }
             catch (DirectXException)
             {
                 _effect = null;
+                _broken = true;
             }
         }
 
@@ -180,10 +189,37 @@ namespace Heiflow.Visualization.Renderable.Grid
             using (var stream = assembly.GetManifestResourceStream(ResourceName))
             {
                 if (stream == null)
+                {
+                    Log.Write(Log.Levels.Error, "WATR", "The water shader is not in the assembly: " + ResourceName);
                     return null;
+                }
 
                 string errors;
-                return Effect.FromStream(device, stream, null, null, ShaderFlags.None, null, out errors);
+
+                try
+                {
+                    var effect = Effect.FromStream(device, stream, null, null, ShaderFlags.None, null,
+                        out errors);
+
+                    // What the compiler says is written down. It used to be thrown away, and a
+                    // shader the card would not take then failed without a word, and the water
+                    // came up flat with nothing anywhere to say why.
+                    if (effect == null)
+                    {
+                        Log.Write(Log.Levels.Error, "WATR", "The water shader would not compile: " + errors);
+                        return null;
+                    }
+
+                    if (!string.IsNullOrEmpty(errors))
+                        Log.Write(Log.Levels.Warning, "WATR", "The water shader compiled with this to say: " + errors);
+
+                    return effect;
+                }
+                catch (DirectXException ex)
+                {
+                    Log.Write(Log.Levels.Error, "WATR", "The water shader would not compile: " + ex.Message);
+                    return null;
+                }
             }
         }
 
