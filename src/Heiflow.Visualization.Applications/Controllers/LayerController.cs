@@ -94,16 +94,40 @@ namespace Heiflow.Visualization.Applications
             _LayerService.RootLayers = world.DataLayerList;
         }
 
+        /// <summary>
+        /// Takes the layer the layer manager points at out of the scene. The layers that may go are the
+        /// ones put into the Feature Layers group, which is where the layers added to the project go;
+        /// the rest of the scene, the terrain and the model among it, belongs to nobody's choice. The
+        /// entry of the layer in the project goes with it, so that saving the project afterwards does
+        /// not write the layer back into it.
+        /// </summary>
         private void Remove(object obj)
         {
-           // var ro = obj as RenderableObject;
-            //if (ro != null && ro.ParentList.Name == "Coverage")
-            //{
+            var ro = obj as RenderableObject;
+            if (ro == null)
+                return;
 
-            //    _LayerService.ModelLayerGroup.Remove(ro);
-            //    ro.Dispose();
-            //}
+            var project = _VGSProjectService.Project as Heiflow3DProject;
+            var features = _LayerService.FeatureLayerGroup;
+            if (features != null && !_LayerService.IsInFeatureLayerGroup(ro))
+                return;
+
+            var provider = _LayerService.ProviderOf(ro);
+            var owner = ro.ParentList;
+            if (owner != null)
+                owner.Remove(ro);
+            else if (features != null)
+                features.Remove(ro);
+
+            if (project != null)
+            {
+                project.RemoveProvider(provider);
+                _LayerService.ForgetProvider(ro);
+            }
+            Refresh(null);
         }
+
+
         private void Refresh(object obj)
         {
             (_ShellService.LayerManager as ILayerManagerView).Refresh();
@@ -132,14 +156,7 @@ namespace Heiflow.Visualization.Applications
             // vector is given so that it does not sink into the terrain.
             provider.DistanceAboveSurface = 0;
             var ro = provider.Load(para.ToString(), _ShellService.VirtualGlobeView.VirtualGlobe.CurrentWorld);
-            if (_VGSProjectService.Project != null)
-            {
-                _LayerService.CoverageLayerGroup.Add(ro);
-            }
-            else
-            {
-                _LayerService.RootLayers.Add(ro);
-            }
+            AddLayer(ro, provider, para.ToString());
             Refresh(null);
         }
 
@@ -190,15 +207,39 @@ namespace Heiflow.Visualization.Applications
         {
             ShapeFeatureProvider provider = new ShapeFeatureProvider();
             var ro = provider.Load(para.ToString(), _ShellService.VirtualGlobeView.VirtualGlobe.CurrentWorld);
-            if(_VGSProjectService.Project != null)
+            AddLayer(ro, provider, para.ToString());
+            Refresh(null);
+        }
+
+        /// <summary>
+        /// Puts a layer that has just been loaded into the scene, and, a 3D project being open, into
+        /// the project as well, so that saving the project writes the layer into the project file and
+        /// opening the project brings the layer back. The file of the layer is kept as a path relative
+        /// to the project file, and the way the layer is drawn goes into the project with it.
+        /// </summary>
+        private void AddLayer(RenderableObject ro, ShapeFeatureProvider provider, string fileName)
+        {
+            var project = _VGSProjectService.Project as Heiflow3DProject;
+            if (project != null)
             {
-                _LayerService.CoverageLayerGroup.Add(ro);
+                provider.BaseDirectory = project.AbsolutePathToProjectFile;
+                provider.RelativeFileName = project.ToRelativeFileName(fileName);
+                provider.ShowAtStartup = true;
+                provider.IsOn = true;
+                project.AddShapeFeatureProvider(provider);
+                _LayerService.RememberProvider(ro, provider);
+            }
+            if (ro == null)
+                return;
+
+            if (_VGSProjectService.Project != null && _LayerService.FeatureLayerGroup != null)
+            {
+                _LayerService.FeatureLayerGroup.Add(ro);
             }
             else
             {
                 _LayerService.RootLayers.Add(ro);
             }
-            Refresh(null);
         }
 
         private void Load3DModel(object para)
@@ -207,7 +248,7 @@ namespace Heiflow.Visualization.Applications
             var ro = provider.Load(para.ToString(), _ShellService.VirtualGlobeView.VirtualGlobe.CurrentWorld);
             if (_VGSProjectService.Project != null)
             {
-                _LayerService.CoverageLayerGroup.Add(ro);
+                _LayerService.FeatureLayerGroup.Add(ro);
             }
             else
             {

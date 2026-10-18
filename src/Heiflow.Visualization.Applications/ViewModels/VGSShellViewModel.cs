@@ -16,6 +16,7 @@ namespace Heiflow.Visualization.Applications
         private IVGSShellService _ShellService;
         private VGSProjectService _VGSProjectService;
         private ICommand _OpenProject;
+        private ICommand _SaveProject;
         private ICommand _ClearProject;
         private ICommand _Exit;
         private ICommand _LoadShpFile;
@@ -67,6 +68,21 @@ namespace Heiflow.Visualization.Applications
             set
             {
                 SetProperty(ref _OpenProject, value);
+            }
+        }
+        /// <summary>
+        /// Writes the project that is open back to the file it was opened from, the layers added to
+        /// it since then included.
+        /// </summary>
+        public ICommand SaveProject
+        {
+            get
+            {
+                return _SaveProject;
+            }
+            set
+            {
+                SetProperty(ref _SaveProject, value);
             }
         }
         public ICommand ClearProject

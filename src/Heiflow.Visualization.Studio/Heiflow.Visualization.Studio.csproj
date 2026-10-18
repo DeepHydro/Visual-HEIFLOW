@@ -368,6 +368,8 @@
     <Compile Include="Views\ProjectExplorer.xaml.cs">
       <DependentUpon>ProjectExplorer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\FileDialogFilters.cs" />
+    <Compile Include="Views\RasterDrawing.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

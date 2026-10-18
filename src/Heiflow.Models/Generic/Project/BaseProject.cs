@@ -205,6 +205,10 @@ namespace Heiflow.Models.Generic.Project
         {
             get
             {
+                // A project drawn in three dimensions carries no map, and there is no full name to
+                // give for a map that is not there.
+                if (string.IsNullOrEmpty(_RelativeMapFileName))
+                    return null;
                 if (DirectoryHelper.IsRelativePath(_RelativeMapFileName))
                     return Path.GetFullPath(Path.Combine(AbsolutePathToProjectFile, _RelativeMapFileName));
                 else

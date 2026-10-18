@@ -123,8 +123,8 @@
                       Click="AttrTableItem_Click" />
             <MenuItem x:Name="SymbologyItem" Header="Symbology" Style="{StaticResource LayerMenuItem}"
                       Click="SymbologyItem_Click" />
-            <MenuItem x:Name="RemoveLayerItem" Header="{DynamicResource Remove}" Style="{StaticResource LayerMenuItem}"
-                      Click="RemoveLayerItem_Click" Visibility="Collapsed" />
+            <MenuItem Name="RemoveLayerItem" Header="{DynamicResource Remove}" Style="{StaticResource LayerMenuItem}"
+                      Click="RemoveLayerItem_Click" />
             <MenuItem x:Name="PropertyLayerItem" Header="{DynamicResource PropMenuHeader}" Style="{StaticResource LayerMenuItem}"
                       Click="PropertyLayerItem_Click" />
         </ContextMenu>
@@ -151,6 +151,7 @@
                 <TreeView Grid.Row="1" x:Name="treeView1" Margin="4" Style="{StaticResource LayerTreeViewStyle}"
                           ItemContainerStyle="{StaticResource LayerItemStyle}"
                           SelectedItemChanged="LayerTree_SelectedItemChanged" PreviewMouseRightButtonDown="LayerTree_PreviewMouseRightButtonDown"
+                          ContextMenuOpening="LayerTree_ContextMenuOpening"
                           ContextMenu="{StaticResource LayerContextMenu}">
                     <TreeView.ItemTemplate>
                         <HierarchicalDataTemplate ItemsSource="{Binding Path=Children, Mode=OneWay}">

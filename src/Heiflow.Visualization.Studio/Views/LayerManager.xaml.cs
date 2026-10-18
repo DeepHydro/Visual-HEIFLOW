@@ -115,6 +115,18 @@ namespace Heiflow.Visualization.Studio.Controls
         {
             if (item == null || item.Source == null || depth > MaxSyncDepth)
                 return;
+            // A layer that carries thousands of children, one icon per point of a shapefile among them,
+            // asks for those children not to be listed: a row of the tree for each of them costs far
+            // more than it ever gives back, the tree being copied afresh every few seconds, and nobody
+            // reads through such a list, the records being reached through the attribute table of the
+            // layer instead. The test comes before the children are copied, the copy being the part
+            // that takes the time.
+            if (!item.Source.ShowChildrenInLayerManager)
+            {
+                if (item.Children.Count > 0)
+                    item.Children.Clear();
+                return;
+            }
             var snapshot = TryCopy(item.Source.ChildObjects);
             if (snapshot == null)
                 return;
@@ -173,14 +185,60 @@ namespace Heiflow.Visualization.Studio.Controls
         {
             var item = treeView1.SelectedItem as LayerItem;
             _SelectedLayer = item != null ? item.Source : null;
-            // the attribute table is only available for layers that carry a data table
+            UpdateMenuItems();
+        }
+
+        /// <summary>
+        /// Every item of the menu is given its state again as the menu opens, and as often as the
+        /// selection moves. The menu is one instance kept in the resources and not one per node, so
+        /// what suits the layer pointed at cannot be written into the markup.
+        /// </summary>
+        private void LayerTree_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            UpdateMenuItems();
+        }
+
+        private void UpdateMenuItems()
+        {
             var menu = treeView1.ContextMenu;
-            if (menu != null)
+            if (menu == null)
+                return;
+            foreach (var mi in menu.Items.OfType<MenuItem>())
             {
-                var attrItem = menu.Items.OfType<MenuItem>().FirstOrDefault(m => m.Name == "AttrTableItem");
-                if (attrItem != null)
-                    attrItem.IsEnabled = _SelectedLayer != null && _SelectedLayer.DataTable != null;
+                // The names of items of a menu that lives in the resources never reach the name scope,
+                // hence the lookup by the Name property, which is set in the markup as plain text.
+                if (mi.Name == "AttrTableItem")
+                {
+                    // the attribute table is only available for layers that carry a data table
+                    mi.IsEnabled = _SelectedLayer != null && _SelectedLayer.DataTable != null;
+                }
+                else if (mi.Name == "RemoveLayerItem")
+                {
+                    mi.Visibility = CanRemove(_SelectedLayer) ? Visibility.Visible : Visibility.Collapsed;
+                }
             }
+        }
+
+        /// <summary>
+        /// Only the layers of the Feature Layers group may be taken out: those are the ones the user put
+        /// in, a shapefile or a water body added to the project. The rest of the scene, the terrain and
+        /// the model, is not the user's to remove.
+        /// </summary>
+        private bool CanRemove(RenderableObject layer)
+        {
+            if (layer == null)
+                return false;
+            LayerManagerViewModel vm;
+            try
+            {
+                vm = viewModel.Value;
+            }
+            catch
+            {
+                // the view model is not composed yet
+                return false;
+            }
+            return vm != null && vm.LayerService != null && vm.LayerService.IsInFeatureLayerGroup(layer);
         }
 
         /// <summary>

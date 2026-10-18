@@ -110,7 +110,7 @@ namespace Heiflow.Visualization.Studio
         private void OpenPrj_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "project file|*.ihmx";
+            dialog.Filter = FileDialogFilters.Project;
             if (viewModel.Value.ProjectService.Project != null)
             {
                 if(MessageBox.Show("A project has been opened, do you want to open another project?", "Open Project",
@@ -181,7 +181,10 @@ namespace Heiflow.Visualization.Studio
         }
         private void miLoadShp_Click(object sender, RoutedEventArgs e)
         {
+            // Without a filter the dialog offers every file of the folder, and the layer service is then
+            // handed a file it cannot read.
             OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = FileDialogFilters.Shapefile + "|" + FileDialogFilters.AllFiles;
             if (dialog.ShowDialog().Value)
             {
                 viewModel.Value.LoadShpFile.Execute(dialog.FileName);
@@ -189,7 +192,9 @@ namespace Heiflow.Visualization.Studio
         }
         private void miLoadWater_Click(object sender, RoutedEventArgs e)
         {
+            // Water is drawn out of a polygon shapefile, hence the same filter as Add Shapefile takes.
             OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = FileDialogFilters.Shapefile + "|" + FileDialogFilters.AllFiles;
             if (dialog.ShowDialog().Value)
             {
                 viewModel.Value.LoadWaterFile.Execute(dialog.FileName);
@@ -202,6 +207,7 @@ namespace Heiflow.Visualization.Studio
         private void miLoad3DModel_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = FileDialogFilters.ThreeDModel;
             if (dialog.ShowDialog().Value)
             {
                 viewModel.Value.Load3DModel.Execute(dialog.FileName);
@@ -210,6 +216,7 @@ namespace Heiflow.Visualization.Studio
         private void miLoadODM_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = FileDialogFilters.AccessDatabase;
             if (dialog.ShowDialog().Value)
             {
                 viewModel.Value.LoadODM.Execute(dialog.FileName);
@@ -230,7 +237,8 @@ namespace Heiflow.Visualization.Studio
         private void miScreenShot_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog ofd = new SaveFileDialog();
-            ofd.Filter = "bmp file | *.bmp | jpg file | *.jpg| png file(*.png) | *.png";
+            ofd.Filter = FileDialogFilters.Image;
+            ofd.AddExtension = true;
             if (ofd.ShowDialog().Value)
             {
                 viewModel.Value.ScreenShotCommand.Execute(ofd.FileName);

@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using Microsoft.DirectX.Direct3D;
 using System.Data;
 using Heiflow.Visualization.Renderable.Grid;
+using System.Xml.Serialization;
 
 namespace HUST.WREIS.Dot3D.Renderable
 {
@@ -59,6 +60,7 @@ namespace HUST.WREIS.Dot3D.Renderable
         protected bool _AutoTerrainHeight = false;
         protected MeshType _MeshType = MeshType.Polygon;
         protected double _verticalExaggeration;
+        protected bool _ShowChildrenInLayerManager = true;
 
         #region Properties
         
@@ -104,6 +106,21 @@ namespace HUST.WREIS.Dot3D.Renderable
         {
             get { return m_IsExpanded; }
             set { m_IsExpanded = value; }
+        }
+
+        /// <summary>
+        /// Whether the layer manager opens a branch for the children of this layer. A layer may carry
+        /// thousands of children, one icon per point of a shapefile among them, and the tree cannot
+        /// afford to build a row for each of those, so a layer of that kind sets this to false and is
+        /// shown as the single row it is. It belongs to the layer and not to the project file, hence it
+        /// is left out of the serialization.
+        /// </summary>
+        [XmlIgnore]
+        [Browsable(false)]
+        public virtual bool ShowChildrenInLayerManager
+        {
+            get { return _ShowChildrenInLayerManager; }
+            set { _ShowChildrenInLayerManager = value; }
         }
 
         /// <summary>
@@ -414,7 +431,7 @@ namespace HUST.WREIS.Dot3D.Renderable
         }
         #endregion
 
-        #region INotifyPropertyChanged ≥…‘±
+        #region INotifyPropertyChanged ÊàêÂëò
         protected BitmapImage m_icon = null;
         [Browsable(false)]
         public BitmapImage Icon

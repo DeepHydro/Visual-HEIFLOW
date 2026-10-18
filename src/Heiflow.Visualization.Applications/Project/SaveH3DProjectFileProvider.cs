@@ -16,15 +16,29 @@ namespace Heiflow.Visualization.Project
           
         }
 
+        /// <summary>
+        /// Writes the project to its file. The project is written to a file of its own beside it
+        /// first and copied over afterwards, so that a project that fails on the way out is left as
+        /// it was and not half written.
+        /// </summary>
         public void Save(string fileName, IProject project)
         {
-            if (project != null)
+            var prj = project as Heiflow3DProject;
+            if (prj == null)
+                return;
+
+            var directory = Path.GetDirectoryName(fileName);
+            if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
+                Directory.CreateDirectory(directory);
+
+            var tempFile = fileName + ".tmp";
+            XmlSerializer xs = new XmlSerializer(typeof(Heiflow3DProject));
+            using (Stream stream = new FileStream(tempFile, FileMode.Create, FileAccess.Write, FileShare.Read))
             {
-                XmlSerializer xs = new XmlSerializer(typeof(Heiflow3DProject));
-                Stream stream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.Read);
-                xs.Serialize(stream, project);
-                stream.Close();
+                xs.Serialize(stream, prj);
             }
+            File.Copy(tempFile, fileName, true);
+            File.Delete(tempFile);
         }
 
         public  string FileTypeDescription

@@ -20,10 +20,66 @@ namespace Heiflow.Visualization.Applications
     [Export]
     public class LayerService
     {
+        /// <summary>
+        /// Which entry of the project file each layer of the scene came from. A layer is drawn by a
+        /// renderable object and written to the project file by a provider, and nothing else carries
+        /// the way from one to the other, so taking a layer out of the scene would otherwise leave its
+        /// entry behind and the project would bring it back the next time it is opened.
+        /// </summary>
+        private readonly Dictionary<RenderableObject, RenderableProvider> _Providers
+            = new Dictionary<RenderableObject, RenderableProvider>();
 
         public LayerService()
         {
 
+        }
+
+        public void RememberProvider(RenderableObject layer, RenderableProvider provider)
+        {
+            if (layer == null || provider == null)
+                return;
+            lock (_Providers)
+            {
+                _Providers[layer] = provider;
+            }
+        }
+
+        public RenderableProvider ProviderOf(RenderableObject layer)
+        {
+            if (layer == null)
+                return null;
+            lock (_Providers)
+            {
+                RenderableProvider provider;
+                return _Providers.TryGetValue(layer, out provider) ? provider : null;
+            }
+        }
+
+        public void ForgetProvider(RenderableObject layer)
+        {
+            if (layer == null)
+                return;
+            lock (_Providers)
+            {
+                _Providers.Remove(layer);
+            }
+        }
+
+        /// <summary>
+        /// True for a layer that hangs in the Feature Layers group, or in a group within it. Those are
+        /// the layers put into the project by hand, an added shapefile or water body among them, and
+        /// being put in by hand is what makes a layer one that may be taken out again.
+        /// </summary>
+        public bool IsInFeatureLayerGroup(RenderableObject layer)
+        {
+            if (layer == null || FeatureLayerGroup == null)
+                return false;
+            for (RenderableObjectList list = layer.ParentList; list != null; list = list.ParentList)
+            {
+                if (ReferenceEquals(list, FeatureLayerGroup))
+                    return true;
+            }
+            return false;
         }
 
         public RenderableSitesLayer SitesLayer
@@ -50,7 +106,13 @@ namespace Heiflow.Visualization.Applications
             set;
         }
 
-        public RenderableObjectList CoverageLayerGroup
+        /// <summary>
+        /// The layers that are read out of files belonging to the project: the shapefiles and the water
+        /// bodies added to it, the flags among them, together with whatever else the project file
+        /// carries. In the layer manager they hang under the group of the same name, the other group
+        /// being the one that carries the layers of the model being simulated.
+        /// </summary>
+        public RenderableObjectList FeatureLayerGroup
         {
             get;
             set;
@@ -74,12 +136,14 @@ namespace Heiflow.Visualization.Applications
         public void Clear()
         {
             Layers.Remove(ModelLayerGroup);
-            Layers.Remove(CoverageLayerGroup);
+            Layers.Remove(FeatureLayerGroup);
             SitesLayer.SiteIcons.RemoveAll();
         }
 
         private void LoadShpFile(Heiflow3DProject prj, World world)
         {
+            if (prj.ShapeFeatureProvider == null)
+                return;
             foreach (var ly in prj.ShapeFeatureProvider)
             {        
                 string filename = "";
@@ -96,9 +160,12 @@ namespace Heiflow.Visualization.Applications
                     //ly.FullFileName = filename;
                     var ro = ly.Load(filename, world);
                     ro.RenderPriority = RenderPriority.SurfaceImages;
-                    CoverageLayerGroup.Add(ro);
+                    FeatureLayerGroup.Add(ro);
+                    RememberProvider(ro, ly);
                 }
             }
+            if (prj.FlagFeatureProvider == null)
+                return;
             foreach (var ly in prj.FlagFeatureProvider)
             {
                 string filename = "";
@@ -115,7 +182,8 @@ namespace Heiflow.Visualization.Applications
                 //    ly.FullFileName = filename;
                     var ro = ly.Load(filename, world);
                     ro.RenderPriority = RenderPriority.Icons;
-                    CoverageLayerGroup.Add(ro);
+                    FeatureLayerGroup.Add(ro);
+                    RememberProvider(ro, ly);
                 }
             }
         }
@@ -141,6 +209,8 @@ namespace Heiflow.Visualization.Applications
         }
         private void Load3DModel(Heiflow3DProject prj, World world)
         {
+            if (prj.ModelFeatureProvider == null)
+                return;
             foreach (var ly in prj.ModelFeatureProvider)
             {
                 string filename = "";
@@ -156,13 +226,16 @@ namespace Heiflow.Visualization.Applications
                 {
                   //  ly.FullFileName = filename;
                     var ro = ly.Load(filename, world);
-                    CoverageLayerGroup.Add(ro);
+                    FeatureLayerGroup.Add(ro);
+                    RememberProvider(ro, ly);
                 }
             }
         }
 
         private void LoadODM(Heiflow3DProject prj, World world)
         {
+            if (prj.ODMProvider == null)
+                return;
             foreach (var ly in prj.ODMProvider)
             {
                 string filename = "";

@@ -270,6 +270,7 @@
                 <Menu DockPanel.Dock="Left" SnapsToDevicePixels="True" Margin="0" Style="{StaticResource ShellTopMenu}">
                 <MenuItem Header="{DynamicResource FileMenuHeader}"  x:Name="NewMenu"  Style="{StaticResource TopMenuItem}" >
                     <MenuItem  Header="{DynamicResource OpenPrjMenuHeader}"  x:Name="miLoadHeiflow"    Click="OpenPrj_Click" />
+                    <MenuItem Header="Save Project"  x:Name="miSaveProject"  Command="{Binding SaveProject}" />
                     <Separator />
                     <MenuItem Header="{DynamicResource LanguageMenuHeader}"  >
                         <MenuItem Header="{DynamicResource EnglishMenuHeader}"  />

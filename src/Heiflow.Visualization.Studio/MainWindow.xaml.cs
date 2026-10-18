@@ -376,9 +376,13 @@ namespace Heiflow.Visualization.Studio
         #region Menu
         private void FileLoadHeiflow_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "project file|*.ihmx";
-            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            // The dialogs of this window are the ones of WPF, Microsoft.Win32.OpenFileDialog, and not
+            // the Windows Forms ones: the latter carry their own message loop and their own controls,
+            // which sit ill in a WPF window. The two have a class of the same name, so the one meant is
+            // written out in full here.
+            var ofd = new Microsoft.Win32.OpenFileDialog();
+            ofd.Filter = FileDialogFilters.Project;
+            if (ofd.ShowDialog() == true)
             {
                 //_ProjectManager.SerializationManager.ProjectOpened += SerializationManager_ProjectOpend;
                 //_ProjectManager.SerializationManager.OpenProject(ofd.FileName);
@@ -563,9 +567,9 @@ namespace Heiflow.Visualization.Studio
 
         private void miLoadShp_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "shape file|*.shp";
-            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            var ofd = new Microsoft.Win32.OpenFileDialog();
+            ofd.Filter = FileDialogFilters.Shapefile + "|" + FileDialogFilters.AllFiles;
+            if (ofd.ShowDialog() == true)
             {
                 ShapeFeatureProvider layer = new ShapeFeatureProvider();
                 var ly = layer.Load(ofd.FileName, SceneWindow.CurrentWorld);
@@ -579,9 +583,9 @@ namespace Heiflow.Visualization.Studio
         /// </summary>
         private void miLoadWater_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "shape file|*.shp";
-            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            var ofd = new Microsoft.Win32.OpenFileDialog();
+            ofd.Filter = FileDialogFilters.Shapefile + "|" + FileDialogFilters.AllFiles;
+            if (ofd.ShowDialog() == true)
             {
                 ShapeFeatureProvider layer = new ShapeFeatureProvider();
                 layer.WaterSurface = true;
@@ -594,29 +598,54 @@ namespace Heiflow.Visualization.Studio
         }
         private void miLoadRaster_Click(object sender, RoutedEventArgs e)
         {
-            //OpenFileDialog ofd = new OpenFileDialog();
-            //GdalRasterProvider gp = new GdalRasterProvider();
-            //ofd.Filter = gp.DialogReadFilter;
-            //if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            //{
-            //    string name = Path.GetFileNameWithoutExtension(ofd.FileName);
-            //    RenderableRasterProvider provider = new RenderableRasterProvider();
-            //    var ras = provider.Load(ofd.FileName, SceneWindow.CurrentWorld);
-            //    SceneWindow.CurrentWorld.DataLayerList.ChildObjects.Add(ras);
-            //    RefreshLayerManager();
+            var ofd = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = FileDialogFilters.Raster,
+                Title = "Choose the raster file to draw on the scene"
+            };
+            if (ofd.ShowDialog() == true)
+            {
+                AddRasterLayer(ofd.FileName);
+            }
+        }
 
-                //var prj = VisAppManager.Default.ProjectManager.Project as Heiflow3DProject;
-                //if (prj != null)
-                //{
-                //    if (prj.RenderableRasterProvider == null)
-                //        prj.RenderableRasterProvider = new List<RenderableRasterProvider>();
-                //    if (!prj.RenderableRasterProvider.Contains(provider))
-                //    {
-                //        prj.RenderableRasterProvider.Add(provider);
-                //    }
-                //    provider.RelativeFileName = provider.GetRelativeFileName(prj.AbsolutePathToProjectFile, provider.FullFileName);
-                //}
-            //}
+        /// <summary>
+        /// Draws a raster file on the ground of the scene. What comes out of the file is a picture and
+        /// the patch of ground it belongs to, see RasterDrawing, and those two are what an ImageLayer
+        /// stretches over that patch: the picture as its texture, its four sides as the four sides of
+        /// the layer. No altitude above the ground is given, so the picture lies on the terrain, and
+        /// following the terrain as well, which is what the terrain accessor of the world is handed
+        /// over for.
+        /// </summary>
+        private void AddRasterLayer(string fileName)
+        {
+            var world = SceneWindow != null ? SceneWindow.CurrentWorld : null;
+            if (world == null)
+            {
+                System.Windows.MessageBox.Show("The scene is not ready to take a layer yet.",
+                    "3D Scene", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            string whyNot;
+            var drawing = RasterDrawing.Load(fileName, out whyNot);
+            if (drawing == null)
+            {
+                System.Windows.MessageBox.Show("The file was not drawn. " + whyNot,
+                    "Add Raster", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var layer = new ImageLayer(Path.GetFileNameWithoutExtension(fileName), world, 0,
+                drawing.BitmapFile, drawing.South, drawing.North, drawing.West, drawing.East,
+                1.0, world.TerrainAccessor)
+            {
+                RenderPriority = RenderPriority.SurfaceImages,
+                IsOn = true,
+                IconImagePath = _Settings.IconPath + "DefaultLayerIcon.png"
+            };
+            world.DataLayerList.ChildObjects.Insert(0, layer);
+            RefreshLayerManager();
         }
         private void miLoad3DModel_Click(object sender, RoutedEventArgs e)
         {
@@ -625,9 +654,9 @@ namespace Heiflow.Visualization.Studio
         }
         private void miLoadODM_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Access Database|*.mdb";
-            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            var ofd = new Microsoft.Win32.OpenFileDialog();
+            ofd.Filter = FileDialogFilters.AccessDatabase;
+            if (ofd.ShowDialog() == true)
             {
                 //var prj = VisAppManager.Default.ProjectManager.Project as Heiflow3DProject;
                 //if (prj != null)
@@ -668,29 +697,34 @@ namespace Heiflow.Visualization.Studio
                     miMeasure.IsChecked = (_PluginCompiler["MeasureTool"] as MeasureTool).IsOn;
                     break;
                 case "miScreenShot":
-                    SaveFileDialog ofd = new SaveFileDialog();
-                    ofd.Filter = "bmp file | *.bmp | jpg file | *.jpg| png file(*.png) | *.png";
+                    // WPF's own save dialog, so that SaveScreenshot is handed a name the picker chose
+                    // through it, and not one out of the Windows Forms dialog it used before.
+                    var ofd = new Microsoft.Win32.SaveFileDialog();
+                    ofd.Filter = FileDialogFilters.Image;
+                    ofd.AddExtension = true;
 
-                    if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    if (ofd.ShowDialog() == true)
                     {
                         sceneWindow.SaveScreenshot(ofd.FileName);
                     }
                     break;
                 case "miExtractTerrain":
                     ExtractTerrain terrain = new ExtractTerrain();
-                    OpenFileDialog ofdlg = new OpenFileDialog();
-                    ofdlg.Filter = "shp file|*.shp";
-                    if (ofdlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    var ofdlg = new Microsoft.Win32.OpenFileDialog();
+                    ofdlg.Filter = FileDialogFilters.Shapefile;
+                    if (ofdlg.ShowDialog() == true)
                     {
                         terrain.ExtractTo(ofdlg.FileName);
                     }
                     break;
                 case "miExtractMike":
-                   OpenFileDialog ofdlg1 = new OpenFileDialog();
-                   ofdlg1.Filter = "dbf file|*.dbf";
+                   var ofdlg1 = new Microsoft.Win32.OpenFileDialog();
+                   ofdlg1.Filter = FileDialogFilters.DbfTable;
+                   // Several files go into one MIKE export, hence Multiselect: the names come back as an
+                   // array on FileNames, FileName being only the first of them.
                    ofdlg1.Multiselect = true;
-                   if (ofdlg1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                    {
+                   if (ofdlg1.ShowDialog() == true)
+                   {
                         MikeShpProvider mike = new MikeShpProvider();
                         string ac_file = ofdlg1.FileNames[0].Replace(".dbf", ".ac");
                         //mike.Export(VisAppManager.Default.SelectedRender.Grid as ITriangularGrid, ac_file, ofdlg1.FileNames, new int[] { 1, 2 });

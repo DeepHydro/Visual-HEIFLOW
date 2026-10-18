@@ -28,6 +28,7 @@ namespace Heiflow.Visualization.Applications
         private readonly VGSShellViewModel _ShellViewModel;
         private readonly IPackageService _PackageService;
         private readonly IPackageUIService _PackageUIService;
+        private DelegateCommand _SaveProjectCommand;
 
         [ImportingConstructor]
         public VGSProjectController(VGSProjectService prjservice, IVGSShellService shellservice, VGSShellViewModel shellViewModel,
@@ -53,6 +54,10 @@ namespace Heiflow.Visualization.Applications
                   im.ShellService = _ShellService;
               }
               _ShellViewModel.OpenProject = new DelegateCommand(OpenProject);
+              _SaveProjectCommand = new DelegateCommand(SaveProject, CanSaveProject);
+              // A command says nothing of its own accord about whether it may be run, so the Save
+              // item of the menu is told again when a project is opened, closed or saved.
+              _ShellViewModel.SaveProject = _SaveProjectCommand;
               _ShellViewModel.ClearProject = new DelegateCommand(ClearProject);
               _ShellViewModel.PackageUIService = _PackageUIService;
               _ProjectService.Serializer.ProjectOpened += Serializer_ProjectOpened;
@@ -76,9 +81,48 @@ namespace Heiflow.Visualization.Applications
            
           }
 
+          /// <summary>
+          /// A project can be saved when one is open and the file it came from is known, which is
+          /// where saving puts it back.
+          /// </summary>
+          private bool CanSaveProject(object arg)
+          {
+              var project = _ProjectService.Project;
+              return project != null && !string.IsNullOrEmpty(project.FullProjectFileName);
+          }
+
+          /// <summary>
+          /// Writes the project back to its own file. The layers that were added to it since it was
+          /// opened, a shapefile or a water body among them, go into the file with it, and are
+          /// loaded again the next time the project is opened.
+          /// </summary>
+          private void SaveProject(object arg)
+          {
+              if (!CanSaveProject(arg))
+              {
+                  Heiflow.Core.Log.Write(Heiflow.Core.Log.Levels.Warning, "PRJ",
+                      "There is no project open to save, or the file it was opened from is not known.");
+                  return;
+              }
+              var project = _ProjectService.Project;
+              try
+              {
+                  _ProjectSerialization.Save(project.FullProjectFileName, project);
+                  _SaveProjectCommand.RaiseCanExecuteChanged();
+              }
+              catch (Exception ex)
+              {
+                  Heiflow.Core.Log.Write(Heiflow.Core.Log.Levels.Error, "PRJ",
+                      "The project could not be saved: " + ex.Message);
+                  if (_ShellService.ProgressWindow != null)
+                      _ShellService.ProgressWindow.Progress("Failed to save project. Error: " + ex.Message);
+              }
+          }
+
           private void Serializer_ProjectOpened(object sender, bool e)
           {        
               _ProjectService.Project = _ProjectSerialization.CurrentProject;
+              _SaveProjectCommand.RaiseCanExecuteChanged();
               _ShellService.ProjectExplorerView.ProjectExplorer.AddProject(_ProjectService.Project);
               BatchBindUI();
               ModelService.ProjectDirectory = _ProjectService.Project.AbsolutePathToProjectFile;
@@ -88,7 +132,10 @@ namespace Heiflow.Visualization.Applications
                   RenderPriority = RenderPriority.LinePaths
               };
 
-              _LayerService.CoverageLayerGroup = new HUST.WREIS.Dot3D.Renderable.RenderableObjectList("Coverage")
+              // The two groups the project puts its layers into: the layers of the model being
+              // simulated under the name of the project, and everything read out of a file belonging
+              // to it, a shapefile or a water body among them, under Feature Layers.
+              _LayerService.FeatureLayerGroup = new HUST.WREIS.Dot3D.Renderable.RenderableObjectList("Feature Layers")
               {
                   RenderPriority = RenderPriority.LinePaths
               };
@@ -99,7 +146,7 @@ namespace Heiflow.Visualization.Applications
 
               _VirtualGlobeViewModel.Value.VirtualGlobe.DX3DLayers = _ProjectService.DX3DLayers;
               world.DataLayerList.Add(_LayerService.ModelLayerGroup);
-              world.DataLayerList.Add(_LayerService.CoverageLayerGroup);
+              world.DataLayerList.Add(_LayerService.FeatureLayerGroup);
 
               (_ShellService.LayerManager as ILayerManagerView).Refresh();
 

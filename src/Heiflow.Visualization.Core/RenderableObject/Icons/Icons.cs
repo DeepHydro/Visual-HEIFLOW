@@ -55,6 +55,14 @@ namespace HUST.WREIS.Dot3D.Renderable
         }
 
         /// <summary>
+        /// What this layer draws is one icon per record: a point of a shapefile, a site of a database.
+        /// There are too many of those for the layer manager to put a row under the layer for each of
+        /// them, so the layer comes out as one row and no branch. A single instance that really is
+        /// wanted open can be given true again after it has been made.
+        /// </summary>
+        public override bool ShowChildrenInLayerManager { get; set; }
+
+        /// <summary>
         /// Adds an icon to this layer. Deprecated.
         /// </summary>
         public void AddIcon(Icon icon)
