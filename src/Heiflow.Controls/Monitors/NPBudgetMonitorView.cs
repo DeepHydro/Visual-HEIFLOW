@@ -89,7 +89,8 @@ namespace Heiflow.Controls.WinForm.Display
 
         #region IView 实现
 
-        public void Show()
+        // 实现 IView.Show()；与基类 Control.Show() 同名，用 new 显式声明是有意隐藏，避免 CS0108 警告。
+        public new void Show()
         {
         }
 
