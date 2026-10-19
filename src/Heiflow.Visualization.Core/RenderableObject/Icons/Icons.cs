@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Diagnostics;
 using System.Drawing;
@@ -6,8 +6,12 @@ using System.Windows.Forms;
 using System.IO;
 using System.Net;
 
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+using SharpDX;
+using Point = System.Drawing.Point;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D.Renderable
 {
@@ -196,7 +200,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                 if (GetTexture(icon) == null)
                 {
                     // Label only 
-                    icon.SelectionRectangle = drawArgs.defaultDrawingFont.MeasureString(null, icon.Name, DrawTextFormat.None, 0);
+                    icon.SelectionRectangle = drawArgs.defaultDrawingFont.MeasureString(null, icon.Name, (FontDrawFlags)0, 0);
                 }
                 else
                 {
@@ -420,7 +424,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                 return;
 
             // Check icons for within "visual" range
-            double distanceToIcon = Vector3.Length(icon.Position - drawArgs.WorldCamera.Position);
+            double distanceToIcon = (icon.Position - drawArgs.WorldCamera.Position).Length();
             if (distanceToIcon > icon.MaximumDisplayDistance)
                 return;
             if (distanceToIcon < icon.MinimumDisplayDistance)
@@ -445,7 +449,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                 if (description != null)
                 {
                     // Render description field
-                    DrawTextFormat format = DrawTextFormat.NoClip | DrawTextFormat.WordBreak | DrawTextFormat.Top;
+                    FontDrawFlags format = FontDrawFlags.NoClip | FontDrawFlags.WordBreak | FontDrawFlags.Top;
                     int left = 10;
                     //if (World.Settings.showLayerManager)
                     //    left += World.Settings.layerManagerWidth;
@@ -501,7 +505,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                             labelWidth,
                             drawArgs.screenHeight);
 
-                        drawArgs.defaultDrawingFont.DrawText(m_sprite, icon.Name, rect, DrawTextFormat.Center, color);
+                        drawArgs.defaultDrawingFont.DrawText(m_sprite, icon.Name, rect, FontDrawFlags.Center, color);
                     }
                     else
                     {
@@ -517,7 +521,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                             labelWidth,
                             drawArgs.screenHeight);
 
-                        drawArgs.defaultDrawingFont.DrawText(m_sprite, icon.Name, rect, DrawTextFormat.WordBreak, color);
+                        drawArgs.defaultDrawingFont.DrawText(m_sprite, icon.Name, rect, FontDrawFlags.WordBreak, color);
                     }
                 }
             }
@@ -535,7 +539,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                 m_sprite.Transform *= Matrix.Translation(projectedPoint.X, projectedPoint.Y, 0);
                 m_sprite.Draw(iconTexture.Texture,
                     new Vector3(iconTexture.Width >> 1, iconTexture.Height >> 1, 0),
-                    Vector3.Empty,
+                    Vector3.Zero,
                     color);
 
                 // Reset transform to prepare for text rendering later

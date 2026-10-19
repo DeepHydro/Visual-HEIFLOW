@@ -204,6 +204,17 @@ namespace Heiflow.Visualization.Studio
         {
             viewModel.Value.LoadGridWater.Execute(null);
         }
+        private void miLoadRaster_Click(object sender, RoutedEventArgs e)
+        {
+            // A raster comes as a grid of numbers, GeoTIFF among them, or as a picture that carries a
+            // world file beside it saying where it lies, see RasterDrawing for both.
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = FileDialogFilters.Raster;
+            if (dialog.ShowDialog().Value)
+            {
+                viewModel.Value.LoadRasterFile.Execute(dialog.FileName);
+            }
+        }
         private void miLoad3DModel_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();

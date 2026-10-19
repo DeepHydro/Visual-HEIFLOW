@@ -1,9 +1,12 @@
 using System;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using HUST.WREIS.Dot3D;
 
-/*namespace HUST.WREIS.Dot3D.NewWidgets
+/*using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+
+namespace HUST.WREIS.Dot3D.NewWidgets
 {
 	/// <summary>
 	/// Summary description for Widgets

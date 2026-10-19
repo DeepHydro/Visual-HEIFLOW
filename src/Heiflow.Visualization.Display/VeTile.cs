@@ -1,4 +1,4 @@
-﻿#define Offset
+#define Offset
 using System;
 using System.IO;
 using System.Drawing;
@@ -13,9 +13,6 @@ using System.Threading;
 using System.Text;
 using System.Text.RegularExpressions;
 
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-
 using HUST.WREIS.Dot3D;
 using HUST.WREIS.Dot3D.Net;
 using HUST.WREIS.Dot3D.Renderable;
@@ -23,6 +20,13 @@ using HUST.WREIS.Dot3D.Terrain;
 using Heiflow.Spatial;
 using Heiflow.Core;
 
+
+using SharpDX;
+using Point = System.Drawing.Point;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D
 {
@@ -626,13 +630,13 @@ namespace HUST.WREIS.Dot3D
                 {
                     Vector3 curNormal = (Vector3)normal_buffer[i][j];
 
-                    if (vertices[i].Normal == Vector3.Empty)
+                    if (vertices[i].Normal == Vector3.Zero)
                         vertices[i].Normal = curNormal;
                     else
                         vertices[i].Normal += curNormal;
                 }
 
-                vertices[i].Normal.Multiply(1.0f / normal_buffer[i].Count);
+                vertices[i].Normal = Vector3.Multiply(vertices[i].Normal, 1.0f / normal_buffer[i].Count);
             }
         }
 
@@ -723,26 +727,26 @@ namespace HUST.WREIS.Dot3D
                     //setup device to render textures
                     if (disableZbuffer)
                     {
-                        if (drawArgs.device.RenderState.ZBufferEnable)
-                            drawArgs.device.RenderState.ZBufferEnable = false;
+                        if (drawArgs.device.GetRenderStateBool(RenderState.ZEnable))
+                            drawArgs.device.SetRenderState(RenderState.ZEnable, false);
                     }
                     else
                     {
-                        if (!drawArgs.device.RenderState.ZBufferEnable)
-                            drawArgs.device.RenderState.ZBufferEnable = true;
+                        if (!drawArgs.device.GetRenderStateBool(RenderState.ZEnable))
+                            drawArgs.device.SetRenderState(RenderState.ZEnable, true);
                     }
                     drawArgs.device.VertexFormat = CustomVertex.PositionNormalTextured.Format;
-                    drawArgs.device.TextureState[0].ColorOperation = TextureOperation.SelectArg1;
-                    drawArgs.device.TextureState[0].ColorArgument1 = TextureArgument.TextureColor;
-                    drawArgs.device.TextureState[0].AlphaOperation = TextureOperation.SelectArg1;
-                    drawArgs.device.TextureState[0].AlphaArgument1 = TextureArgument.TextureColor;
+                    drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.SelectArg1);
+                    drawArgs.device.SetTextureStageState(0, TextureStage.ColorArg1, TextureArgument.Texture);
+                    drawArgs.device.SetTextureStageState(0, TextureStage.AlphaOperation, TextureOperation.SelectArg1);
+                    drawArgs.device.SetTextureStageState(0, TextureStage.AlphaArg1, TextureArgument.Texture);
 
                     // Set up for shading 
                     if (World.Settings.EnableSunShading)
                     {
-                        drawArgs.device.TextureState[0].ColorOperation = TextureOperation.Modulate;
-                        drawArgs.device.TextureState[0].ColorArgument1 = TextureArgument.Diffuse;
-                        drawArgs.device.TextureState[0].ColorArgument2 = TextureArgument.TextureColor;
+                        drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Modulate);
+                        drawArgs.device.SetTextureStageState(0, TextureStage.ColorArg1, TextureArgument.Diffuse);
+                        drawArgs.device.SetTextureStageState(0, TextureStage.ColorArg2, TextureArgument.Texture);
                     }
 
                     //save index to tiles not downloaded yet
@@ -770,27 +774,27 @@ namespace HUST.WREIS.Dot3D
 
                             drawArgs.device.SetTexture(0, veTile.Texture);
 #if Offset
-                            DrawArgs.Device.Transform.World = Matrix.Translation(
+                            DrawArgs.Device.SetTransform(TransformState.World, Matrix.Translation(
                  (float)(veTile.localOrigin.X - drawArgs.WorldCamera.ReferenceCenter.X),
                  (float)(veTile.localOrigin.Y - drawArgs.WorldCamera.ReferenceCenter.Y),
                  (float)(veTile.localOrigin.Z - drawArgs.WorldCamera.ReferenceCenter.Z)
-                 );
+                 ));
                             drawArgs.device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0,
-                             veTile.Vertices.Length, veTile.Indices.Length / 3, veTile.Indices, true, veTile.Vertices);
+                             veTile.Vertices.Length, veTile.Indices.Length / 3, veTile.Indices, Format.Index16, veTile.Vertices);
 
-                            DrawArgs.Device.Transform.World = DrawArgs.Camera.WorldMatrix;
+                            DrawArgs.Device.SetTransform(TransformState.World, DrawArgs.Camera.WorldMatrix);
 #else
                                  drawArgs.device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0,
-                             veTile.Vertices.Length, veTile.Indices.Length / 3, veTile.Indices, true, veTile.Vertices);
+                             veTile.Vertices.Length, veTile.Indices.Length / 3, veTile.Indices, Format.Index16, veTile.Vertices);
 #endif
 
                         }
                     }
 
                     //now render the downloading tiles
-                    drawArgs.device.RenderState.ZBufferEnable = false;
+                    drawArgs.device.SetRenderState(RenderState.ZEnable, false);
                     drawArgs.device.VertexFormat = CustomVertex.PositionColored.Format;
-                    drawArgs.device.TextureState[0].ColorOperation = TextureOperation.Disable;
+                    drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
 
                     int tileIndex;
                     for (int i = 0; i < notDownloadedIter; i++)
@@ -801,14 +805,14 @@ namespace HUST.WREIS.Dot3D
                         veTile.RenderDownloadRectangle(drawArgs);
                     }
 
-                    drawArgs.device.TextureState[0].ColorOperation = TextureOperation.SelectArg1;
+                    drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.SelectArg1);
                     drawArgs.device.VertexFormat = CustomVertex.PositionTextured.Format;
-                    drawArgs.device.RenderState.ZBufferEnable = true;
+                    drawArgs.device.SetRenderState(RenderState.ZEnable, true);
 
                     // Turn back light on if needed
                     if (World.Settings.EnableSunShading)
                     {
-                        drawArgs.device.RenderState.Lighting = true;
+                        drawArgs.device.SetRenderState(RenderState.Lighting, true);
                     }
 
                 }
@@ -821,7 +825,7 @@ namespace HUST.WREIS.Dot3D
             finally
             {
                 if (disableZbuffer)
-                    drawArgs.device.RenderState.ZBufferEnable = true;
+                    drawArgs.device.SetRenderState(RenderState.ZEnable, true);
             }
         }
 
@@ -863,16 +867,16 @@ namespace HUST.WREIS.Dot3D
         {
 
             // camera jitter fix
-            drawArgs.device.Transform.World = Matrix.Translation(
+            drawArgs.device.SetTransform(TransformState.World, Matrix.Translation(
                    (float)-drawArgs.WorldCamera.ReferenceCenter.X,
                 (float)-drawArgs.WorldCamera.ReferenceCenter.Y,
                 (float)-drawArgs.WorldCamera.ReferenceCenter.Z
-            );
+            ));
 
             drawArgs.device.DrawUserPrimitives(PrimitiveType.LineStrip, 4, downloadRectangle);
 
             // camera jitter fix
-            drawArgs.device.Transform.World = drawArgs.WorldCamera.WorldMatrix;
+            drawArgs.device.SetTransform(TransformState.World, drawArgs.WorldCamera.WorldMatrix);
         }
     }
 }

@@ -2,13 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.DirectX.Direct3D;
-using Microsoft.DirectX;
+
 using HUST.WREIS.Dot3D;
 using Heiflow.Core.MyMath;
 using Heiflow.Core.Drawing;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Subsurface;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace Heiflow.Visualization.Renderable.Grid
 {

@@ -1,5 +1,4 @@
-﻿using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using System.Windows.Forms;
 using HUST.WREIS.Dot3D.Renderable;
 using HUST.WREIS.Dot3D.Camera;
@@ -8,6 +7,12 @@ using System.IO;
 using System;
 using System.Drawing;
 using System.Globalization;
+
+using SharpDX;
+using Point = System.Drawing.Point;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D
 {
@@ -112,48 +117,44 @@ namespace HUST.WREIS.Dot3D
 
 
             // if(camera.Altitude < 500e3) return;
-            if (drawArgs.device.RenderState.Lighting)
+            if (drawArgs.device.GetRenderStateBool(RenderState.Lighting))
             {
-                drawArgs.device.RenderState.Lighting = false;
-                drawArgs.device.RenderState.Ambient = World.Settings.StandardAmbientColor;
+                drawArgs.device.SetRenderState(RenderState.Lighting, false);
+                drawArgs.device.SetRenderState(RenderState.Ambient, World.Settings.StandardAmbientColor.ToArgb());
             }
 
             // save world and projection transform
-            Matrix origWorld = device.Transform.World;
-            Matrix origProjection = device.Transform.Projection;
+            Matrix origWorld = device.GetTransform(TransformState.World);
+            Matrix origProjection = device.GetTransform(TransformState.Projection);
 
             // Save fog status
-            bool origFog = device.RenderState.FogEnable;
-            device.RenderState.FogEnable = false;
+            bool origFog = device.GetRenderStateBool(RenderState.FogEnable);
+            device.SetRenderState(RenderState.FogEnable, false);
 
             // Set new projection (to avoid being clipped) - probably better ways of doing this?
             float aspectRatio = (float)device.Viewport.Width / device.Viewport.Height;
-            device.Transform.Projection = Matrix.PerspectiveFovRH((float)camera.Fov.Radians, aspectRatio, (float)(0.5f * sphereRadius), (float)(2.0f * sphereRadius));
+            device.SetTransform(TransformState.Projection, Matrix.PerspectiveFovRH((float)camera.Fov.Radians, aspectRatio, (float)(0.5f * sphereRadius), (float)(2.0f * sphereRadius)));
 
 
             // This is where we can rotate the star dome to acomodate time and seasons
-            drawArgs.device.Transform.World = Matrix.Translation(
+            drawArgs.device.SetTransform(TransformState.World, Matrix.Translation(
                 (float)-drawArgs.WorldCamera.ReferenceCenter.X,
                 (float)-drawArgs.WorldCamera.ReferenceCenter.Y,
                 (float)-drawArgs.WorldCamera.ReferenceCenter.Z
-                );
+                ));
 
 
-            drawArgs.device.Transform.World *= Matrix.RotationZ(
-                (float)(TimeKeeper.CurrentTimeUtc.Hour +
-                TimeKeeper.CurrentTimeUtc.Minute / 60.0 +
-                TimeKeeper.CurrentTimeUtc.Second / 3600.0 +
-                TimeKeeper.CurrentTimeUtc.Millisecond / 3600000.0) / 24.0f * (float)(-2 * Math.PI));
+            
 
             // Render textured flares if set
             if (showFlares)
             {
                 device.SetTexture(0, texture);
-                device.TextureState[0].AlphaOperation = TextureOperation.SelectArg1;
-                device.TextureState[0].AlphaArgument1 = TextureArgument.TextureColor;
-                device.TextureState[0].ColorOperation = TextureOperation.Modulate;
-                device.TextureState[0].ColorArgument1 = TextureArgument.TextureColor;
-                device.TextureState[0].ColorArgument2 = TextureArgument.Diffuse;
+                device.SetTextureStageState(0, TextureStage.AlphaOperation, TextureOperation.SelectArg1);
+                device.SetTextureStageState(0, TextureStage.AlphaArg1, TextureArgument.Texture);
+                device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Modulate);
+                device.SetTextureStageState(0, TextureStage.ColorArg1, TextureArgument.Texture);
+                device.SetTextureStageState(0, TextureStage.ColorArg2, TextureArgument.Diffuse);
                 device.VertexFormat = CustomVertex.PositionTextured.Format;
                 FlareMesh.DrawSubset(0);
             }
@@ -161,18 +162,18 @@ namespace HUST.WREIS.Dot3D
             // draw StarListVB
             device.SetTexture(0, null);
             device.VertexFormat = CustomVertex.PositionColored.Format;
-            device.TextureState[0].AlphaOperation = TextureOperation.SelectArg1;
-            device.TextureState[0].AlphaArgument1 = TextureArgument.Diffuse;
-            device.TextureState[0].ColorOperation = TextureOperation.SelectArg1;
-            device.TextureState[0].ColorArgument1 = TextureArgument.Diffuse;
+            device.SetTextureStageState(0, TextureStage.AlphaOperation, TextureOperation.SelectArg1);
+            device.SetTextureStageState(0, TextureStage.AlphaArg1, TextureArgument.Diffuse);
+            device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.SelectArg1);
+            device.SetTextureStageState(0, TextureStage.ColorArg1, TextureArgument.Diffuse);
 
-            device.SetStreamSource(0, StarListVB, 0);
+            device.SetStreamSource(0, StarListVB, 0, CustomVertex.PositionColored.StrideSize);
             device.DrawPrimitives(PrimitiveType.PointList, 0, StarCount);
 
             // Restore device states
-            device.Transform.World = origWorld;
-            device.Transform.Projection = origProjection;
-            device.RenderState.FogEnable = origFog;
+            device.SetTransform(TransformState.World, origWorld);
+            device.SetTransform(TransformState.Projection, origProjection);
+            device.SetRenderState(RenderState.FogEnable, origFog);
 
         }
 
@@ -244,11 +245,7 @@ namespace HUST.WREIS.Dot3D
 
             // Create vertex buffer for stars
             int idx = 0;
-            StarListVB = new VertexBuffer(typeof(CustomVertex.PositionColored),
-                StarCount, drawArgs.device,
-                Usage.Points | Usage.WriteOnly,
-                CustomVertex.PositionColored.Format,
-                Pool.Managed);
+            StarListVB = new VertexBuffer(drawArgs.device, StarCount * CustomVertex.PositionColored.StrideSize, Usage.Points | Usage.WriteOnly, CustomVertex.PositionColored.Format, Pool.Managed);
             CustomVertex.PositionColored[] verts = new CustomVertex.PositionColored[StarCount];
 
             // Create mesh for flares
@@ -257,11 +254,11 @@ namespace HUST.WREIS.Dot3D
             Vector3 v;
             int numVertices = 4 * FlareCount;
             int numFaces = 2 * FlareCount;
-            FlareMesh = new Mesh(numFaces, numVertices, MeshFlags.Managed, CustomVertex.PositionTextured.Format, drawArgs.device);
+            FlareMesh = NativeD3DX.CreateMesh(numFaces, numVertices, MeshFlags.Managed, CustomVertex.PositionTextured.Format, drawArgs.device);
             // Get the original mesh's vertex buffer.
             int[] ranks = new int[1];
-            ranks[0] = FlareMesh.NumberVertices;
-            System.Array arr = FlareMesh.VertexBuffer.Lock(0, typeof(CustomVertex.PositionTextured), LockFlags.None, ranks);
+            ranks[0] = NativeD3DX.GetVertexCount(FlareMesh);
+            DataStream arr = FlareMesh.VertexBuffer.Lock(0, ranks[0] * CustomVertex.PositionTextured.StrideSize, LockFlags.None);
 
             // Now process star data and build vertex list and flare mesh
             double longitude = 0;
@@ -338,8 +335,8 @@ namespace HUST.WREIS.Dot3D
                         Vector3 perp2 = Vector3.Cross(perp1, v);
                         perp1.Normalize();
                         perp2.Normalize();
-                        perp1.Scale((float)l);
-                        perp2.Scale((float)l);
+                        Vector3.Multiply(perp1, (float)l);
+                        Vector3.Multiply(perp2, (float)l);
                         Vector3 v1;
 
                         //v = MathEngine.SphericalToCartesian( latitude + l, longitude - l, sphereRadius);			
@@ -348,28 +345,28 @@ namespace HUST.WREIS.Dot3D
                         pnt.Position = new Vector3(v1.X, v1.Y, v1.Z);
                         pnt.Tu = 0;
                         pnt.Tv = 0;
-                        arr.SetValue(pnt, vertIndex++);
+                        arr.Write(pnt);;
                         //v = MathEngine.SphericalToCartesian( latitude + l, longitude + l, sphereRadius);			
                         v1 = v + perp1 + perp2;
                         pnt = new CustomVertex.PositionTextured();
                         pnt.Position = new Vector3(v1.X, v1.Y, v1.Z);
                         pnt.Tu = 1;
                         pnt.Tv = 0;
-                        arr.SetValue(pnt, vertIndex++);
+                        arr.Write(pnt);;
                         //v = MathEngine.SphericalToCartesian( latitude - l, longitude - l, sphereRadius);			
                         v1 = v - perp1 - perp2;
                         pnt = new CustomVertex.PositionTextured();
                         pnt.Position = new Vector3(v1.X, v1.Y, v1.Z);
                         pnt.Tu = 0;
                         pnt.Tv = 1;
-                        arr.SetValue(pnt, vertIndex++);
+                        arr.Write(pnt);;
                         //v = MathEngine.SphericalToCartesian( latitude - l, longitude + l, sphereRadius);			
                         v1 = v - perp1 + perp2;
                         pnt = new CustomVertex.PositionTextured();
                         pnt.Position = new Vector3(v1.X, v1.Y, v1.Z);
                         pnt.Tu = 1;
                         pnt.Tv = 1;
-                        arr.SetValue(pnt, vertIndex++);
+                        arr.Write(pnt);;
                     }
 
 
@@ -386,19 +383,19 @@ namespace HUST.WREIS.Dot3D
             // Set flare mesh indices
             FlareMesh.VertexBuffer.Unlock();
             ranks[0] = numFaces * 3;
-            arr = FlareMesh.LockIndexBuffer(typeof(short), LockFlags.None, ranks);
+            arr = FlareMesh.IndexBuffer.Lock(0, 0, LockFlags.None);
             vertIndex = 0;
             for (int flare = 0; flare < FlareCount; flare++)
             {
                 short v1 = (short)(flare * 4);
-                arr.SetValue(v1, vertIndex++);
-                arr.SetValue((short)(v1 + 1), vertIndex++);
-                arr.SetValue((short)(v1 + 2), vertIndex++);
-                arr.SetValue((short)(v1 + 1), vertIndex++);
-                arr.SetValue((short)(v1 + 3), vertIndex++);
-                arr.SetValue((short)(v1 + 2), vertIndex++);
+                arr.Write(v1);;
+                arr.Write((short)(v1 + 1));;
+                arr.Write((short)(v1 + 2));;
+                arr.Write((short)(v1 + 1));;
+                arr.Write((short)(v1 + 3));;
+                arr.Write((short)(v1 + 2));;
             }
-            FlareMesh.IndexBuffer.SetData(arr, 0, LockFlags.None);
+            FlareMesh.UnlockIndexBuffer();
             FlareMesh.UnlockIndexBuffer();
         }
 
@@ -641,12 +638,12 @@ namespace HUST.WREIS.Dot3D
             int numFaces = slices * stacks * 2;
             int indexCount = numFaces * 3;
 
-            Mesh mesh = new Mesh(numFaces, numVertices, MeshFlags.Managed, CustomVertex.PositionColored.Format, device);
+            Mesh mesh = NativeD3DX.CreateMesh(numFaces, numVertices, MeshFlags.Managed, CustomVertex.PositionColored.Format, device);
 
             // Get the original sphere's vertex buffer.
             int[] ranks = new int[1];
-            ranks[0] = mesh.NumberVertices;
-            System.Array arr = mesh.VertexBuffer.Lock(0, typeof(CustomVertex.PositionColored), LockFlags.None, ranks);
+            ranks[0] = NativeD3DX.GetVertexCount(mesh);
+            DataStream arr = mesh.VertexBuffer.Lock(0, ranks[0] * CustomVertex.PositionColored.StrideSize, LockFlags.None);
 
             // Set the vertex buffer
             int vertIndex = 0;
@@ -664,13 +661,13 @@ namespace HUST.WREIS.Dot3D
                     pnt.Color = Color.Black.ToArgb();
                     //pnt.Tu = (float)slice/slices;
                     //pnt.Tv = 1.0f-(float)stack/stacks;
-                    arr.SetValue(pnt, vertIndex++);
+                    arr.Write(pnt);;
                 }
             }
 
             mesh.VertexBuffer.Unlock();
             ranks[0] = indexCount;
-            arr = mesh.LockIndexBuffer(typeof(short), LockFlags.None, ranks);
+            arr = mesh.IndexBuffer.Lock(0, 0, LockFlags.None);
             int i = 0;
             short bottomVertex = 0;
             short topVertex = 0;
@@ -680,18 +677,18 @@ namespace HUST.WREIS.Dot3D
                 topVertex = (short)(bottomVertex + slices + 1);
                 for (int y = 0; y < slices; y++)
                 {
-                    arr.SetValue(bottomVertex, i++);
-                    arr.SetValue((short)(topVertex + 1), i++);
-                    arr.SetValue(topVertex, i++);
-                    arr.SetValue(bottomVertex, i++);
-                    arr.SetValue((short)(bottomVertex + 1), i++);
-                    arr.SetValue((short)(topVertex + 1), i++);
+                    arr.Write(bottomVertex);;
+                    arr.Write((short)(topVertex + 1));;
+                    arr.Write(topVertex);;
+                    arr.Write(bottomVertex);;
+                    arr.Write((short)(bottomVertex + 1));;
+                    arr.Write((short)(topVertex + 1));;
                     bottomVertex++;
                     topVertex++;
                 }
             }
-            mesh.IndexBuffer.SetData(arr, 0, LockFlags.None);
-            //mesh.ComputeNormals();
+            mesh.UnlockIndexBuffer();
+            //NativeD3DX.ComputeNormals(mesh);
 
             return mesh;
         }

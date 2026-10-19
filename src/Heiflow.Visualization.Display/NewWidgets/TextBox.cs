@@ -1,6 +1,9 @@
 using System;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
+using SharpDX;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D.NewWidgets
 {
@@ -262,7 +265,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 						System.Drawing.Rectangle rect = drawArgs.defaultDrawingFont.MeasureString(
 							null,
 							displayText.Substring(0, i).Replace(" ", "I"),
-							DrawTextFormat.None,
+							(FontDrawFlags)0,
 							m_ForeColor);
 
 						if(!startXFound && startX <= rect.Width)
@@ -303,7 +306,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 					null,
 					m_Text,
 					new System.Drawing.Rectangle(AbsoluteLocation.X, AbsoluteLocation.Y, m_Size.Width, m_Size.Height),
-					DrawTextFormat.NoClip,
+					FontDrawFlags.NoClip,
 					m_ForeColor);
 
 				if(System.DateTime.Now.Millisecond < 500)
@@ -313,7 +316,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 					System.Drawing.Rectangle spaceRect = drawArgs.defaultDrawingFont.MeasureString(
 						null,
 						space,
-						DrawTextFormat.None,
+						(FontDrawFlags)0,
 						m_ForeColor);
 
 					space = "W";
@@ -321,7 +324,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 					System.Drawing.Rectangle spaceRect1 = drawArgs.defaultDrawingFont.MeasureString(
 						null,
 						space,
-						DrawTextFormat.None,
+						(FontDrawFlags)0,
 						m_ForeColor);
 
 					int spaceWidth = spaceRect.Width - spaceRect1.Width;
@@ -339,7 +342,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 								System.Drawing.Rectangle rect = drawArgs.defaultDrawingFont.MeasureString(
 									null,
 									displayText.Substring(0, i).Replace(" ", "i"),
-									DrawTextFormat.None,
+									(FontDrawFlags)0,
 									m_ForeColor);
 
 								if(m_LastMouseClickPosition.X <= rect.Width)
@@ -359,13 +362,13 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 						System.Drawing.Rectangle caretRect = drawArgs.defaultDrawingFont.MeasureString(
 							null,
 							caretText,
-							DrawTextFormat.None,
+							(FontDrawFlags)0,
 							m_ForeColor);
 
 						System.Drawing.Rectangle textRect = drawArgs.defaultDrawingFont.MeasureString(
 							null,
 							displayText.Substring(0, m_CaretPos),
-							DrawTextFormat.None,
+							(FontDrawFlags)0,
 							m_ForeColor);
 
 						int caretOffset = 0;
@@ -379,7 +382,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 							caretText,
 							new System.Drawing.Rectangle(
 							AbsoluteLocation.X + textRect.Width - caretRect.Width / 2 + caretOffset, AbsoluteLocation.Y, m_Size.Width, m_Size.Height),
-							DrawTextFormat.NoClip,
+							FontDrawFlags.NoClip,
 							System.Drawing.Color.Cyan);//m_ForeColor);
 					}
 				}

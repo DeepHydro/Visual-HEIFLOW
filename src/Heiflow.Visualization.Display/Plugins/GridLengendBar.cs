@@ -1,16 +1,18 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
 
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-
 using HUST.WREIS.Dot3D.NewWidgets;
 using ZedGraph;
 using Heiflow.Visualization.Renderable.Grid;
 using Heiflow.Core;
+
+using SharpDX;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D.Display
 {
@@ -190,7 +192,7 @@ namespace HUST.WREIS.Dot3D.Display
                 if (m_drawingFont != null)
                 {
                     m_drawingFont.Dispose();
-                    m_drawingFont = new Font(DrawArgs.Device, m_localFont);
+                    m_drawingFont = FontFactory.Create(DrawArgs.Device, m_localFont);
                 }
             }
         }
@@ -217,28 +219,28 @@ namespace HUST.WREIS.Dot3D.Display
                 {
                     if (m_localFont != null && m_drawingFont == null)
                     {
-                        m_drawingFont = new Font(drawArgs.device, m_localFont);
+                        m_drawingFont = FontFactory.Create(drawArgs.device, m_localFont);
                     }
 
-                      DrawTextFormat drawTextFormat = DrawTextFormat.VerticalCenter;
+                      FontDrawFlags FontDrawFlags = FontDrawFlags.VerticalCenter;
 
 
-                    drawArgs.device.TextureState[0].ColorOperation = TextureOperation.SelectArg1;
-                    drawArgs.device.TextureState[0].ColorArgument1 = TextureArgument.Diffuse;
-                    drawArgs.device.TextureState[0].AlphaOperation = TextureOperation.SelectArg1;
-                    drawArgs.device.TextureState[0].AlphaArgument1 = TextureArgument.Diffuse;
+                    drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.SelectArg1);
+                    drawArgs.device.SetTextureStageState(0, TextureStage.ColorArg1, TextureArgument.Diffuse);
+                    drawArgs.device.SetTextureStageState(0, TextureStage.AlphaOperation, TextureOperation.SelectArg1);
+                    drawArgs.device.SetTextureStageState(0, TextureStage.AlphaArg1, TextureArgument.Diffuse);
 
                     m_drawingFont.DrawText(
                         null,
                             _RenderObject.MaxCellValue.ToString("0.000"),
                         new System.Drawing.Rectangle(AbsoluteLocation.X + 2, AbsoluteLocation.Y, m_Size.Width, 15),
-                        drawTextFormat,
+                        FontDrawFlags,
                         m_ForeColor);
                     m_drawingFont.DrawText(
                       null,
                       _RenderObject.MinCellValue.ToString("0.000"),
                       new System.Drawing.Rectangle(AbsoluteLocation.X + 2, AbsoluteLocation.Y + m_Size.Height -15, m_Size.Width, 15),
-                      drawTextFormat,
+                      FontDrawFlags,
                       m_ForeColor);
                    // CreateLengendVertex();
                     RenderBackbone(drawArgs);
@@ -314,21 +316,21 @@ namespace HUST.WREIS.Dot3D.Display
             if (verts == null || verts.Length < 3)
                 return;
 
-            bool lighting = drawArgs.device.RenderState.Lighting;
-            drawArgs.device.RenderState.Lighting = false;
+            bool lighting = drawArgs.device.GetRenderStateBool(RenderState.Lighting);
+            drawArgs.device.SetRenderState(RenderState.Lighting, false);
             // The bands are flat rectangles with no back to them, so the way their corners turn should
             // not be what decides whether they are drawn at all.
-            Cull cull = drawArgs.device.RenderState.CullMode;
-            drawArgs.device.RenderState.CullMode = Cull.None;
+            Cull cull = drawArgs.device.GetRenderStateEnum<Cull>(RenderState.CullMode);
+            drawArgs.device.SetRenderState(RenderState.CullMode, (int)(Cull.None));
 
             drawArgs.device.VertexFormat = CustomVertex.TransformedColored.Format;
-            drawArgs.device.TextureState[0].ColorOperation = TextureOperation.Disable;
+            drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
             // What is asked for is how many triangles there are and not how many corners, and three
             // corners make one.
             drawArgs.device.DrawUserPrimitives(PrimitiveType.TriangleList, verts.Length / 3, verts);
 
-            drawArgs.device.RenderState.Lighting = lighting;
-            drawArgs.device.RenderState.CullMode = cull;
+            drawArgs.device.SetRenderState(RenderState.Lighting, lighting);
+            drawArgs.device.SetRenderState(RenderState.CullMode, cull);
         }
 
 

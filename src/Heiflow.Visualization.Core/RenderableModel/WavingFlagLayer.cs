@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using System.Text;
 using HUST.WREIS.Dot3D;
 using Utility;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using Heiflow.Core;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D.Renderable
 {
@@ -110,7 +113,7 @@ namespace HUST.WREIS.Dot3D.Renderable
         
         public override void Dispose()
         {
-            if (m_texture != null && !m_texture.Disposed)
+            if (m_texture != null && !m_texture.IsDisposed)
             {
                 m_texture.Dispose();
                 m_texture = null;
@@ -173,9 +176,9 @@ namespace HUST.WREIS.Dot3D.Renderable
 
         private void renderHighlight(DrawArgs drawArgs)
         {
-            bool lighting = drawArgs.device.RenderState.Lighting;
-            drawArgs.device.RenderState.ZBufferEnable = true;
-            drawArgs.device.RenderState.Lighting = false;
+            bool lighting = drawArgs.device.GetRenderStateBool(RenderState.Lighting);
+            drawArgs.device.SetRenderState(RenderState.ZEnable, true);
+            drawArgs.device.SetRenderState(RenderState.Lighting, false);
             if (m_highlightVertices == null)
             {
                 m_highlightVertices = new CustomVertex.PositionColoredTextured[4];
@@ -202,10 +205,10 @@ namespace HUST.WREIS.Dot3D.Renderable
             }
             if (HighlightTexture == null)
                 HighlightTexture = ImageHelper.LoadTexture(highlightTexturePath);
-            drawArgs.device.Transform.World = Matrix.RotationY((float)MathEngine.DegreesToRadians(90));
-            drawArgs.device.Transform.World *= Matrix.Scaling(World.Settings.VerticalExaggeration * ScaleX, World.Settings.VerticalExaggeration * ScaleY, World.Settings.VerticalExaggeration * ScaleZ);
-            drawArgs.device.Transform.World *= Matrix.RotationY((float)-MathEngine.DegreesToRadians(m_latitude));
-            drawArgs.device.Transform.World *= Matrix.RotationZ((float)MathEngine.DegreesToRadians(m_longitude));
+            drawArgs.device.SetTransform(TransformState.World, Matrix.RotationY((float)MathEngine.DegreesToRadians(90)));
+            
+            
+            
             var ele = World.TerrainAccessor.GetElevationAt(m_latitude, m_longitude) * World.Settings.VerticalExaggeration;
             Vector3 surfacePos = MathEngine.SphericalToCartesian(m_latitude, m_longitude, World.EquatorialRadius + ele + DistanceAboveSurface);
             Vector3 rc = new Vector3(
@@ -214,17 +217,17 @@ namespace HUST.WREIS.Dot3D.Renderable
                 (float)drawArgs.WorldCamera.ReferenceCenter.Z
                 );
 
-            drawArgs.device.Transform.World *= Matrix.Translation(surfacePos - rc);
-            drawArgs.device.TextureState[0].ColorOperation = TextureOperation.SelectArg1;
-            drawArgs.device.TextureState[0].ColorArgument1 = TextureArgument.TextureColor;
-            drawArgs.device.TextureState[0].AlphaArgument1 = TextureArgument.TextureColor;
-            drawArgs.device.TextureState[0].AlphaOperation = TextureOperation.SelectArg1;
-            drawArgs.device.RenderState.ZBufferEnable = false;
+            
+            drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.SelectArg1);
+            drawArgs.device.SetTextureStageState(0, TextureStage.ColorArg1, TextureArgument.Texture);
+            drawArgs.device.SetTextureStageState(0, TextureStage.AlphaArg1, TextureArgument.Texture);
+            drawArgs.device.SetTextureStageState(0, TextureStage.AlphaOperation, TextureOperation.SelectArg1);
+            drawArgs.device.SetRenderState(RenderState.ZEnable, false);
             drawArgs.device.SetTexture(0, HighlightTexture);
             drawArgs.device.VertexFormat = CustomVertex.PositionColoredTextured.Format;
             drawArgs.device.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, m_highlightVertices);
-            drawArgs.device.RenderState.ZBufferEnable = true;
-            drawArgs.device.RenderState.Lighting = lighting;
+            drawArgs.device.SetRenderState(RenderState.ZEnable, true);
+            drawArgs.device.SetRenderState(RenderState.Lighting, lighting);
         }
      
         public override void Render(DrawArgs drawArgs)
@@ -243,11 +246,11 @@ namespace HUST.WREIS.Dot3D.Renderable
                     Bar3D.Render(drawArgs);
                     offset = Bar3D.RenderedHeight;
                 }
-                Cull cull = drawArgs.device.RenderState.CullMode;
-                drawArgs.device.RenderState.CullMode = Cull.None;
-                drawArgs.device.RenderState.ZBufferEnable = true;
-                drawArgs.device.TextureState[0].ColorOperation = TextureOperation.SelectArg1;
-                drawArgs.device.TextureState[0].ColorArgument1 = TextureArgument.TextureColor;
+                Cull cull = drawArgs.device.GetRenderStateEnum<Cull>(RenderState.CullMode);
+                drawArgs.device.SetRenderState(RenderState.CullMode, (int)(Cull.None));
+                drawArgs.device.SetRenderState(RenderState.ZEnable, true);
+                drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.SelectArg1);
+                drawArgs.device.SetTextureStageState(0, TextureStage.ColorArg1, TextureArgument.Texture);
                  var ele = World.TerrainAccessor.GetElevationAt(m_latitude,m_longitude) * World.Settings.VerticalExaggeration;
                  Vector3 surfacePos = MathEngine.SphericalToCartesian(m_latitude, m_longitude, World.EquatorialRadius + ele + DistanceAboveSurface);
                 Vector3 rc = new Vector3(
@@ -283,11 +286,11 @@ namespace HUST.WREIS.Dot3D.Renderable
                         }
                     }
                 }
-                drawArgs.device.RenderState.CullMode = Cull.None;
+                drawArgs.device.SetRenderState(RenderState.CullMode, (int)(Cull.None));
                 if (ShowHighlight)
                     renderHighlight(drawArgs);
                 RenderFlag(drawArgs, offset);
-                drawArgs.device.RenderState.CullMode = cull;
+                drawArgs.device.SetRenderState(RenderState.CullMode, cull);
             }
             catch (Exception ex)
             {
@@ -302,13 +305,13 @@ namespace HUST.WREIS.Dot3D.Renderable
                 string outerrors = "";
                 System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
                 Stream effectStream = assembly.GetManifestResourceStream("Heiflow.Visualization.Shaders.flag.fx");
-                m_effect = Effect.FromStream(drawArgs.device, effectStream, null, null, ShaderFlags.None, null, out outerrors);
+                m_effect = ShaderLoader.FromStream(drawArgs.device, effectStream, ShaderFlags.None, null, out outerrors);
                 if (outerrors != null && outerrors.Length > 0)
                     Log.Write(Log.Levels.Error, outerrors);
             }
             if (m_vertexBuffer == null)
             {
-                drawArgs.device.DeviceReset += new EventHandler(device_DeviceReset);
+                DeviceEvents.AddDeviceResetHandler(drawArgs.device, device_DeviceReset);
                 device_DeviceReset(drawArgs.device, null);
             }
             if (m_flagPoleVertices == null)
@@ -325,27 +328,27 @@ namespace HUST.WREIS.Dot3D.Renderable
                 (float)drawArgs.WorldCamera.ReferenceCenter.Z
 
                 );
-            drawArgs.device.Transform.World = Matrix.Scaling(World.Settings.VerticalExaggeration * ScaleX * 0.01f, World.Settings.VerticalExaggeration * ScaleY * 0.01f, -World.Settings.VerticalExaggeration * 2 * ScaleZ);
-            drawArgs.device.Transform.World *= Matrix.RotationY((float)-MathEngine.DegreesToRadians(90));
-            drawArgs.device.Transform.World *= Matrix.RotationY((float)-MathEngine.DegreesToRadians(m_latitude));
-            drawArgs.device.Transform.World *= Matrix.RotationZ((float)MathEngine.DegreesToRadians(m_longitude));
-            drawArgs.device.Transform.World *= Matrix.Translation(surfacePos - rc);
+            drawArgs.device.SetTransform(TransformState.World, Matrix.Scaling(World.Settings.VerticalExaggeration * ScaleX * 0.01f, World.Settings.VerticalExaggeration * ScaleY * 0.01f, -World.Settings.VerticalExaggeration * 2 * ScaleZ));
+            
+            
+            
+            
             drawArgs.device.VertexFormat = CustomVertex.PositionColored.Format;
-            drawArgs.device.TextureState[0].ColorOperation = TextureOperation.SelectArg1;
-            drawArgs.device.TextureState[0].ColorArgument1 = TextureArgument.Diffuse;
-            drawArgs.device.TextureState[0].AlphaArgument1 = TextureArgument.Diffuse;
-            drawArgs.device.TextureState[0].AlphaOperation = TextureOperation.SelectArg1;
-            drawArgs.device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0, m_flagPoleVertices.Length, m_flagPoleIndices.Length / 3, m_flagPoleIndices, true, m_flagPoleVertices);
-            drawArgs.device.DrawIndexedUserPrimitives(PrimitiveType.LineList, 0, m_outlineFlagPoleVertices.Length, m_outlineFlagPoleIndices.Length / 2, m_outlineFlagPoleIndices, true, m_outlineFlagPoleVertices);
+            drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.SelectArg1);
+            drawArgs.device.SetTextureStageState(0, TextureStage.ColorArg1, TextureArgument.Diffuse);
+            drawArgs.device.SetTextureStageState(0, TextureStage.AlphaArg1, TextureArgument.Diffuse);
+            drawArgs.device.SetTextureStageState(0, TextureStage.AlphaOperation, TextureOperation.SelectArg1);
+            drawArgs.device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0, m_flagPoleVertices.Length, m_flagPoleIndices.Length / 3, m_flagPoleIndices, Format.Index16, m_flagPoleVertices);
+            drawArgs.device.DrawIndexedUserPrimitives(PrimitiveType.LineList, 0, m_outlineFlagPoleVertices.Length, m_outlineFlagPoleIndices.Length / 2, m_outlineFlagPoleIndices, Format.Index16, m_outlineFlagPoleVertices);
             m_angle += .04f;
             if (m_angle > 360)
                 m_angle = 0;
             drawArgs.device.VertexFormat = CustomVertex.PositionNormalTextured.Format;
-            drawArgs.device.Transform.World = Matrix.Scaling(World.Settings.VerticalExaggeration * ScaleX, World.Settings.VerticalExaggeration * ScaleY, World.Settings.VerticalExaggeration * ScaleZ);
-            drawArgs.device.Transform.World *= Matrix.RotationY((float)-MathEngine.DegreesToRadians(m_latitude));
-            drawArgs.device.Transform.World *= Matrix.RotationZ((float)MathEngine.DegreesToRadians(m_longitude));
-            drawArgs.device.Transform.World *= Matrix.Translation(pos - rc);
-            Matrix worldViewProj = drawArgs.device.Transform.World * drawArgs.device.Transform.View * drawArgs.device.Transform.Projection;
+            drawArgs.device.SetTransform(TransformState.World, Matrix.Scaling(World.Settings.VerticalExaggeration * ScaleX, World.Settings.VerticalExaggeration * ScaleY, World.Settings.VerticalExaggeration * ScaleZ));
+            
+            
+            
+            Matrix worldViewProj = (Matrix)drawArgs.device.GetTransform(TransformState.World) * (Matrix)drawArgs.device.GetTransform(TransformState.View) * (Matrix)drawArgs.device.GetTransform(TransformState.Projection);
             System.DateTime currentTime = TimeKeeper.CurrentTimeUtc;
             Point3d sunPosition = SunCalculator.GetGeocentricPosition(currentTime);
             Vector3 sunVector = new Vector3(
@@ -355,18 +358,18 @@ namespace HUST.WREIS.Dot3D.Renderable
             m_effect.Technique = "VertexAndPixelShader";
             m_effect.SetValue("angle", (float)m_angle);
             m_effect.SetValue("attentuation", Attentuation);
-            m_effect.SetValue("World", drawArgs.device.Transform.World);
-            m_effect.SetValue("View", drawArgs.device.Transform.View);
-            m_effect.SetValue("Projection", drawArgs.device.Transform.Projection);
-            m_effect.SetValue("Tex0", m_texture);
+            m_effect.SetValue("World", drawArgs.device.GetTransform(TransformState.World));
+            m_effect.SetValue("View", drawArgs.device.GetTransform(TransformState.View));
+            m_effect.SetValue("Projection", drawArgs.device.GetTransform(TransformState.Projection));
+            m_effect.SetTexture("Tex0", m_texture);
             m_effect.SetValue("lightDir", new Vector4(sunVector.X, sunVector.Y, sunVector.Z, 0));
             drawArgs.device.Indices = m_indexBuffer;
-            drawArgs.device.SetStreamSource(0, m_vertexBuffer, 0);
+            drawArgs.device.SetStreamSource(0, m_vertexBuffer, 0, CustomVertex.PositionNormalTextured.StrideSize);
             int numPasses = m_effect.Begin(0);
             for (int i = 0; i < numPasses; i++)
             {
                 m_effect.BeginPass(i);
-                drawArgs.device.DrawIndexedPrimitives(
+                drawArgs.device.DrawIndexedPrimitive(
                     PrimitiveType.TriangleList,
                     0,
                     0,
@@ -377,8 +380,8 @@ namespace HUST.WREIS.Dot3D.Renderable
             }
             m_effect.End();
             drawArgs.device.Indices = null;
-            drawArgs.device.Transform.World = drawArgs.WorldCamera.WorldMatrix;
-            drawArgs.device.Transform.View = drawArgs.WorldCamera.ViewMatrix;
+            drawArgs.device.SetTransform(TransformState.World, drawArgs.WorldCamera.WorldMatrix);
+            drawArgs.device.SetTransform(TransformState.View, drawArgs.WorldCamera.ViewMatrix);
         }
 
         private void CreateFlagPole(Device device)
@@ -485,20 +488,9 @@ namespace HUST.WREIS.Dot3D.Renderable
         private void device_DeviceReset(object sender, EventArgs e)
         {
             Device device = (Device)sender;
-            m_vertexBuffer = new VertexBuffer(
-                typeof(CustomVertex.PositionNormalTextured),
-                m_vertices.Length,
-                device,
-                0,
-                CustomVertex.PositionNormalTextured.Format,
-                Pool.Default);
+            m_vertexBuffer = new VertexBuffer(device, m_vertices.Length * CustomVertex.PositionNormalTextured.StrideSize, 0, CustomVertex.PositionNormalTextured.Format, Pool.Default);
             m_vertexBuffer.SetData(m_vertices, 0, LockFlags.NoOverwrite | LockFlags.Discard);
-            m_indexBuffer = new IndexBuffer(
-                typeof(short),
-                m_indices.Length,
-                device,
-                0,
-                Pool.Default);
+            m_indexBuffer = new IndexBuffer(device, (int)(m_indices.Length) * 2, 0, Pool.Default, false);
             m_indexBuffer.SetData(m_indices, 0, LockFlags.NoOverwrite | LockFlags.Discard);
         }
     }

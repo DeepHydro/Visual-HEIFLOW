@@ -8,7 +8,7 @@ using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace Heiflow.Visualization.Studio
+namespace Heiflow.Visualization.Renderable
 {
     /// <summary>
     /// A raster file read out into the two things a layer of the scene is made of: a bitmap file that
@@ -209,8 +209,7 @@ namespace Heiflow.Visualization.Studio
 
         /// <summary>
         /// Walks the grid twice, once to find the smallest and the largest value of it, which is what
-        /// decides how the values are coloured, and once to colour them. Note that this raster, unlike
-        /// a picture, starts at its northern side and not at its southern one.
+        /// decides how the values are coloured, and once to colour them.
         /// </summary>
         private static void ReadRange(IRaster raster, int rows, int columns, double noData, out double lowest, out double highest)
         {

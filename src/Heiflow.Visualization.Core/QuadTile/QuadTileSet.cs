@@ -1,5 +1,4 @@
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using HUST.WREIS.Dot3D;
 using HUST.WREIS.Dot3D.Camera;
 using HUST.WREIS.Dot3D.Configuration;
@@ -8,6 +7,8 @@ using HUST.WREIS.Dot3D.Terrain;
 using HUST.WREIS.Dot3D.VisualControl;
 using System;
 using System.IO;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 using System.ComponentModel;
 using System.Collections;
 using System.Drawing;
@@ -15,6 +16,12 @@ using System.Collections.Generic;
 using Utility;
 using Heiflow.Core; 
 
+
+using SharpDX;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D.Renderable
 {
@@ -44,7 +51,7 @@ namespace HUST.WREIS.Dot3D.Renderable
         protected ProgressBar progressBar;
 
         protected Blend m_sourceBlend = Blend.BlendFactor;
-        protected Blend m_destinationBlend = Blend.InvBlendFactor;
+        protected Blend m_destinationBlend = Blend.InverseBlendFactor;
 
         // If this value equals CurrentFrameStartTicks the Z buffer needs to be cleared
         protected static long lastRenderTime;
@@ -617,7 +624,7 @@ namespace HUST.WREIS.Dot3D.Renderable
             if (m_effectPath != null && m_effect == null)
             {
                 string errs = string.Empty;
-                m_effect = Effect.FromFile(DrawArgs.Device, m_effectPath, null, "", ShaderFlags.None, m_effectPool, out errs);
+                m_effect = ShaderLoader.FromFile(DrawArgs.Device, m_effectPath, ShaderFlags.None, m_effectPool, out errs);
 
                 if (errs != null && errs != string.Empty)
                 {
@@ -771,7 +778,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                     // terrain mapped layers to avoid Z buffer fighting
                     //if (lastRenderTime == DrawArgs.CurrentFrameStartTicks)
                     device.Clear(ClearFlags.ZBuffer, 0, 1.0f, 0);
-                    device.RenderState.ZBufferEnable = true;
+                    device.SetRenderState(RenderState.ZEnable, true);
                     lastRenderTime = DrawArgs.CurrentFrameStartTicks;
 
                     if (!World.Settings.EnableSunShading)
@@ -779,37 +786,37 @@ namespace HUST.WREIS.Dot3D.Renderable
                         // Set the render states for rendering of quad tiles.
                         // Any quad tile rendering code that adjusts the state should restore it to below values afterwards.
                         device.VertexFormat = CustomVertex.PositionNormalTextured.Format;
-                        device.SetTextureStageState(0, TextureStageStates.ColorOperation, (int)TextureOperation.SelectArg1);
-                        device.SetTextureStageState(0, TextureStageStates.ColorArgument1, (int)TextureArgument.TextureColor);
-                        device.SetTextureStageState(0, TextureStageStates.AlphaArgument1, (int)TextureArgument.TextureColor);
-                        device.SetTextureStageState(0, TextureStageStates.AlphaOperation, (int)TextureOperation.SelectArg1);
+                        device.SetTextureStageState(0, TextureStage.ColorOperation, (int)TextureOperation.SelectArg1);
+                        device.SetTextureStageState(0, TextureStage.ColorArg1, (int)TextureArgument.Texture);
+                        device.SetTextureStageState(0, TextureStage.AlphaArg1, (int)TextureArgument.Texture);
+                        device.SetTextureStageState(0, TextureStage.AlphaOperation, (int)TextureOperation.SelectArg1);
 
                         // Be prepared for multi-texturing
-                        device.SetTextureStageState(1, TextureStageStates.ColorArgument2, (int)TextureArgument.Current);
-                        device.SetTextureStageState(1, TextureStageStates.ColorArgument1, (int)TextureArgument.TextureColor);
-                        device.SetTextureStageState(1, TextureStageStates.TextureCoordinateIndex, 0);
+                        device.SetTextureStageState(1, TextureStage.ColorArg2, (int)TextureArgument.Current);
+                        device.SetTextureStageState(1, TextureStage.ColorArg1, (int)TextureArgument.Texture);
+                        device.SetTextureStageState(1, TextureStage.TexCoordIndex, 0);
                     }
                     device.VertexFormat = CustomVertex.PositionNormalTextured.Format;
-                    FillMode fillmode = device.RenderState.FillMode;
-                   device.RenderState.FillMode = FillMode;
+                    FillMode fillmode = device.GetRenderStateEnum<FillMode>(RenderState.FillMode);
+                   device.SetRenderState(RenderState.FillMode, FillMode);
 
                     foreach (QuadTile qt in m_topmostTiles.Values)
                         qt.Render(drawArgs);
 
                     // Restore device states
-                    device.SetTextureStageState(1, TextureStageStates.TextureCoordinateIndex, 1);
+                    device.SetTextureStageState(1, TextureStage.TexCoordIndex, 1);
 
                     if (m_renderPriority < RenderPriority.TerrainMappedImages)
-                        device.RenderState.ZBufferEnable = true;
+                        device.SetRenderState(RenderState.ZEnable, true);
 
                     //if (m_opacity < 255 || EnableColorKeying)
                     //{
                     //    // Restore alpha blend state
-                    //    device.RenderState.SourceBlend = Blend.SourceAlpha;
-                    //    device.RenderState.DestinationBlend = Blend.InvSourceAlpha;
+                    //    device.SetRenderState(RenderState.SourceBlend, (int)(Blend.SourceAlpha));
+                    //    device.SetRenderState(RenderState.DestinationBlend, (int)(Blend.InverseSourceAlpha));
                     //}
 
-                    device.RenderState.FillMode = fillmode;
+                    device.SetRenderState(RenderState.FillMode, fillmode);
                 }
             }
             catch(Exception ex)
@@ -853,7 +860,7 @@ namespace HUST.WREIS.Dot3D.Renderable
             if (progressBar == null)
                 progressBar = new ProgressBar(150, 10);
             progressBar.Draw(drawArgs, projectedPoint.X, projectedPoint.Y + 24, request.ProgressPercent, World.Settings.DownloadProgressColor.ToArgb());
-            DrawArgs.Device.RenderState.ZBufferEnable = true;
+            DrawArgs.Device.SetRenderState(RenderState.ZEnable, true);
 
             // Render server logo
             if (ServerLogoFilePath == null)
@@ -1120,7 +1127,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                 g.DrawRectangle(pen, padding, mid + padding, width, width);
                 g.DrawRectangle(pen, mid + padding, mid + padding, width, width);
 
-                Texture texture = new Texture(device, i, Usage.None, Pool.Managed);
+                Texture texture = TextureFactory.FromBitmap(device, i, Usage.None, Pool.Managed);
                 return texture;
             }
         }

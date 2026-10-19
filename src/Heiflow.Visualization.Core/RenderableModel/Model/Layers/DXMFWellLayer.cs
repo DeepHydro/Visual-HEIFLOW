@@ -1,12 +1,15 @@
 using HUST.WREIS.Dot3D;
 using HUST.WREIS.Dot3D.Renderable;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace Heiflow.Visualization.Renderable.Grid
 {

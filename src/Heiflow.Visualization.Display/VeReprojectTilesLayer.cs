@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Drawing;
 using System.Collections;
@@ -12,15 +12,18 @@ using System.Threading;
 using System.Text;
 using System.Text.RegularExpressions;
 
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-
 using HUST.WREIS.Dot3D;
 using HUST.WREIS.Dot3D.Net;
 using HUST.WREIS.Dot3D.Renderable;
 using HUST.WREIS.Dot3D.Terrain;
 using Heiflow.Spatial;
 using Heiflow.Core;
+
+using SharpDX;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D
 {
@@ -592,11 +595,11 @@ namespace HUST.WREIS.Dot3D
                     //}
 
                     // camera jitter fix
-                    drawArgs.device.Transform.World = Matrix.Translation(
+                    drawArgs.device.SetTransform(TransformState.World, Matrix.Translation(
                            (float)-drawArgs.WorldCamera.ReferenceCenter.X,
                         (float)-drawArgs.WorldCamera.ReferenceCenter.Y,
                         (float)-drawArgs.WorldCamera.ReferenceCenter.Z
-                    );
+                    ));
 
                     // Clear ZBuffer between layers (as in WW)
                     drawArgs.device.Clear(ClearFlags.ZBuffer, 0, 1.0f, 0);
@@ -605,7 +608,7 @@ namespace HUST.WREIS.Dot3D
                     VeTile.Render(drawArgs, disableZBuffer, veTiles);
 
                     //camera jitter fix
-                    drawArgs.device.Transform.World = drawArgs.WorldCamera.WorldMatrix;
+                    drawArgs.device.SetTransform(TransformState.World, drawArgs.WorldCamera.WorldMatrix);
                 }
 
                 //else pushpins only
@@ -634,7 +637,7 @@ namespace HUST.WREIS.Dot3D
             if (progressBar == null)
                 progressBar = new ProgressBar(40, 4);
             progressBar.Draw(drawArgs, projectedPoint.X, projectedPoint.Y + 24, request.ProgressPercent, World.Settings.DownloadProgressColor.ToArgb());
-            DrawArgs.Device.RenderState.ZBufferEnable = true;
+            DrawArgs.Device.SetRenderState(RenderState.ZEnable, true);
             */
             // Render server logo
 
@@ -716,7 +719,7 @@ namespace HUST.WREIS.Dot3D
                         if (p.Longitude <= lon1 && p.Longitude >= lon2)
                         {
                             projectedPoint = MathEngine.SphericalToCartesian((float)p.Latitude, (float)p.Longitude, (float)earthRadius + 100);
-                            projectedPoint.Project(drawArgs.device.Viewport, drawArgs.WorldCamera.ProjectionMatrix, drawArgs.WorldCamera.ViewMatrix, drawArgs.WorldCamera.WorldMatrix);
+                            projectedPoint = ((Viewport)drawArgs.device.Viewport).Project(projectedPoint, drawArgs.WorldCamera.WorldMatrix, drawArgs.WorldCamera.ViewMatrix, drawArgs.WorldCamera.ProjectionMatrix);
 
                             sprite.Begin(SpriteFlags.AlphaBlend);
                             sprite.Transform = Matrix.Transformation2D(new Vector2(0.0f, 0.0f),

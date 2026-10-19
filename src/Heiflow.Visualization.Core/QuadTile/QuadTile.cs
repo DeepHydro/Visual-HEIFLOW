@@ -1,7 +1,5 @@
 //#define LOD
 
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
 using HUST.WREIS.Dot3D.Terrain;
 using HUST.WREIS.Dot3D.Configuration;
 using System;
@@ -15,6 +13,13 @@ using System.Collections.Generic;
 using Heiflow.Core;
 using Heiflow.Core.MyMath;
 using Heiflow.Spatial.Geography;
+
+using SharpDX;
+using Point = System.Drawing.Point;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D.Renderable
 {
@@ -253,7 +258,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                 {
                     for (int i = 0; i < textures.Length; i++)
                     {
-                        if (textures[i] != null && !textures[i].Disposed)
+                        if (textures[i] != null && !textures[i].IsDisposed)
                         {
                             textures[i].Dispose();
                             textures[i] = null;
@@ -416,13 +421,13 @@ namespace HUST.WREIS.Dot3D.Renderable
                 {
                     // The tile is already gone, there is nothing to put the image in and it has
                     // to be released here or it stays on the GPU for the rest of the run.
-                    if (newTexture != null && !newTexture.Disposed)
+                    if (newTexture != null && !newTexture.IsDisposed)
                         newTexture.Dispose();
                     return;
                 }
 
                 Texture oldTexture = textures[i];
-                if (oldTexture != null && !oldTexture.Disposed)
+                if (oldTexture != null && !oldTexture.IsDisposed)
                     oldTexture.Dispose();
                 textures[i] = newTexture;
             }
@@ -702,13 +707,7 @@ namespace HUST.WREIS.Dot3D.Renderable
 
 		static VertexBuffer CreateVertexBuffer(Device device, CustomVertex.PositionNormalTextured[] vertices)
 		{
-			VertexBuffer buffer = new VertexBuffer(
-				typeof(CustomVertex.PositionNormalTextured),
-				vertices.Length,
-				device,
-				Usage.None,
-				CustomVertex.PositionNormalTextured.Format,
-				Pool.Managed);
+			VertexBuffer buffer = new VertexBuffer(device, vertices.Length * CustomVertex.PositionNormalTextured.StrideSize, Usage.None, CustomVertex.PositionNormalTextured.Format, Pool.Managed);
 
 			buffer.SetData(vertices, 0, LockFlags.None);
 			return buffer;
@@ -716,12 +715,7 @@ namespace HUST.WREIS.Dot3D.Renderable
 
 		static IndexBuffer CreateIndexBuffer(Device device, short[] indices)
 		{
-			IndexBuffer buffer = new IndexBuffer(
-				typeof(short),
-				indices.Length,
-				device,
-				Usage.None,
-				Pool.Managed);
+			IndexBuffer buffer = new IndexBuffer(device, (int)(indices.Length) * 2, Usage.None, Pool.Managed, false);
 
 			buffer.SetData(indices, 0, LockFlags.None);
 			return buffer;
@@ -731,13 +725,13 @@ namespace HUST.WREIS.Dot3D.Renderable
 		{
 			if (tileVertexBuffer != null)
 			{
-				if (!tileVertexBuffer.Disposed)
+				if (!tileVertexBuffer.IsDisposed)
 					tileVertexBuffer.Dispose();
 				tileVertexBuffer = null;
 			}
 			if (indexBuffer != null)
 			{
-				if (!indexBuffer.Disposed)
+				if (!indexBuffer.IsDisposed)
 					indexBuffer.Dispose();
 				indexBuffer = null;
 			}
@@ -1196,7 +1190,7 @@ namespace HUST.WREIS.Dot3D.Renderable
             // vector instead of one shortened by how much the faces around the vertex disagree.
             for (int i = 0; i < vertices.Length; ++i)
             {
-                if (accumulatedNormals[i] == Vector3.Empty)
+                if (accumulatedNormals[i] == Vector3.Zero)
                     continue;
 
                 vertices[i].Normal = accumulatedNormals[i];
@@ -1313,7 +1307,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                         System.Drawing.Rectangle rect = new System.Drawing.Rectangle(  (int)projectedPoint.X - 100, (int)projectedPoint.Y,
                             200,  200);
 
-                        drawArgs.defaultDrawingFont.DrawText(null,  ImageFilePath, rect, DrawTextFormat.WordBreak, System.Drawing.Color.Red);
+                        drawArgs.defaultDrawingFont.DrawText(null,  ImageFilePath, rect, FontDrawFlags.WordBreak, System.Drawing.Color.Red);
                     }
                 }
 
@@ -1341,7 +1335,7 @@ namespace HUST.WREIS.Dot3D.Renderable
 
                 for (int i = 0; i < tileTextures.Length; i++)
                 {
-                    if (tileTextures[i] == null || tileTextures[i].Disposed)
+                    if (tileTextures[i] == null || tileTextures[i].IsDisposed)
                     {
                         return false;
                     }
@@ -1354,11 +1348,11 @@ namespace HUST.WREIS.Dot3D.Renderable
                 int numpasses = 1;
                 int pass;
 
-                    DrawArgs.Device.Transform.World = Matrix.Translation(
+                    DrawArgs.Device.SetTransform(TransformState.World, Matrix.Translation(
                         (float)(localOrigin.X - drawArgs.WorldCamera.ReferenceCenter.X),
                         (float)(localOrigin.Y - drawArgs.WorldCamera.ReferenceCenter.Y),
                         (float)(localOrigin.Z - drawArgs.WorldCamera.ReferenceCenter.Z)
-                        );
+                        ));
 
                     // One draw covers the whole tile when every quadrant is visible and none of
                     // them carries a download indicator, which is a texture stage and so can only
@@ -1387,11 +1381,11 @@ namespace HUST.WREIS.Dot3D.Renderable
                         }
                     }
 
-                    DrawArgs.Device.Transform.World = DrawArgs.Camera.WorldMatrix;
+                    DrawArgs.Device.SetTransform(TransformState.World, DrawArgs.Camera.WorldMatrix);
 
                 return true;
             }
-            catch (DirectXException caught)
+            catch (SharpDXException caught)
             {
                 // This used to swallow the failure outright. A tile that gets this far has a mesh,
                 // a texture and has passed the frustum test, so it is already counted as drawn,
@@ -1441,13 +1435,13 @@ namespace HUST.WREIS.Dot3D.Renderable
 			downloadRectangle[4].Z = downloadRectangle[0].Z;
 			downloadRectangle[4].Color = color;
 
-			drawArgs.device.RenderState.ZBufferEnable = false;
+			drawArgs.device.SetRenderState(RenderState.ZEnable, false);
 			drawArgs.device.VertexFormat = CustomVertex.PositionColored.Format;
-			drawArgs.device.TextureState[0].ColorOperation = TextureOperation.Disable;
+			drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
 			drawArgs.device.DrawUserPrimitives(PrimitiveType.LineStrip, 4, downloadRectangle);
-			drawArgs.device.TextureState[0].ColorOperation = TextureOperation.SelectArg1;
+			drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.SelectArg1);
 			drawArgs.device.VertexFormat = CustomVertex.PositionNormalTextured.Format;
-			drawArgs.device.RenderState.ZBufferEnable = true;
+			drawArgs.device.SetRenderState(RenderState.ZEnable, true);
 		}
 
   		/// <summary>
@@ -1482,7 +1476,7 @@ namespace HUST.WREIS.Dot3D.Renderable
 			}
 			
 			if (isMultitexturing)
-				device.SetTextureStageState(1, TextureStageStates.ColorOperation, (int)TextureOperation.BlendTextureAlpha);
+				device.SetTextureStageState(1, TextureStage.ColorOperation, (int)TextureOperation.BlendTextureAlpha);
 
 			if(verts != null && vertexIndexes != null)
 			{
@@ -1490,7 +1484,7 @@ namespace HUST.WREIS.Dot3D.Renderable
 				// arrays when there are not, which is the case before the first upload and
 				// whenever the upload failed, so no tile is dropped because of a buffer.
 				bool usingBuffers = tileVertexBuffer != null && indexBuffer != null &&
-					!tileVertexBuffer.Disposed && !indexBuffer.Disposed;
+					!tileVertexBuffer.IsDisposed && !indexBuffer.IsDisposed;
 				if (usingBuffers)
 				{
 					device.SetStreamSource(0, tileVertexBuffer, 0, CustomVertex.PositionNormalTextured.StrideSize);
@@ -1503,11 +1497,11 @@ namespace HUST.WREIS.Dot3D.Renderable
 
                     // FIXME: just use the first technique for now
                     effect.Technique = effect.GetTechnique(0);
-                    effect.SetValue("WorldViewProj", Matrix.Multiply(device.Transform.World, Matrix.Multiply(device.Transform.View, device.Transform.Projection)));
+                    effect.SetValue("WorldViewProj", Matrix.Multiply(device.GetTransform(TransformState.World), Matrix.Multiply(device.GetTransform(TransformState.View), device.GetTransform(TransformState.Projection))));
                     try
                     {
-                        effect.SetValue("Tex0", textures[0]);
-                        effect.SetValue("Tex1", textures[1]);
+                        effect.SetTexture("Tex0", textures[0]);
+                        effect.SetTexture("Tex1", textures[1]);
                         effect.SetValue("Brightness", QuadTileSet.GrayscaleBrightness);
                         float opacity = (float)QuadTileSet.Opacity / 255.0f;
                         effect.SetValue("Opacity", opacity);
@@ -1523,7 +1517,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                         effect.BeginPass(i);
                         #if LOD
                          device.DrawIndexedUserPrimitives(PrimitiveType.LineStrip, 0,
-                                verts.Length, vertexIndexes.Length / 3, vertexIndexes, true, verts);
+                                verts.Length, vertexIndexes.Length / 3, vertexIndexes, Format.Index16, verts);
                         #else
                             DrawQuadrants(device, verts, firstQuadrant, quadrantCount);
                         #endif
@@ -1534,7 +1528,7 @@ namespace HUST.WREIS.Dot3D.Renderable
 
                     effect.End();
                 }
-                else if (!QuadTileSet.RenderGrayscale || (device.DeviceCaps.PixelShaderVersion.Major < 1))
+                else if (!QuadTileSet.RenderGrayscale || (device.Capabilities.PixelShaderVersion.Major < 1))
                 {
                     if (World.Settings.EnableSunShading)
                     {
@@ -1544,39 +1538,39 @@ namespace HUST.WREIS.Dot3D.Renderable
                             (float)sunPosition.Y,
                             (float)sunPosition.Z);
 
-                        device.RenderState.Lighting = true;
+                        device.SetRenderState(RenderState.Lighting, true);
                         Material material = new Material();
-                        material.Diffuse = System.Drawing.Color.White;
-                        material.Ambient = System.Drawing.Color.White;
+                        material.Diffuse = ColorUtil.ToColor4(System.Drawing.Color.White);
+                        material.Ambient = ColorUtil.ToColor4(System.Drawing.Color.White);
 
                         device.Material = material;
-                        device.RenderState.AmbientColor = World.Settings.ShadingAmbientColor.ToArgb();
-                        device.RenderState.NormalizeNormals = true;
-                        device.RenderState.AlphaBlendEnable = true;
+                        device.SetRenderState(RenderState.Ambient, World.Settings.ShadingAmbientColor.ToArgb());
+                        device.SetRenderState(RenderState.NormalizeNormals, true);
+                        device.SetRenderState(RenderState.AlphaBlendEnable, true);
 
-                        device.Lights[0].Enabled = true;
-                        device.Lights[0].Type = LightType.Directional;
-                        device.Lights[0].Diffuse = System.Drawing.Color.White;
-                        device.Lights[0].Direction = sunVector;
+                        LightHub.Get(device, 0).Enabled = true;
+                        LightHub.Get(device, 0).Type = LightType.Directional;
+                        LightHub.Get(device, 0).Diffuse = ColorUtil.ToColor4(System.Drawing.Color.White);
+                        LightHub.Get(device, 0).Direction = sunVector;
 
-                        device.TextureState[0].ColorOperation = TextureOperation.Modulate;
-                        device.TextureState[0].ColorArgument1 = TextureArgument.Diffuse;
-                        device.TextureState[0].ColorArgument2 = TextureArgument.TextureColor;
+                        device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Modulate);
+                        device.SetTextureStageState(0, TextureStage.ColorArg1, TextureArgument.Diffuse);
+                        device.SetTextureStageState(0, TextureStage.ColorArg2, TextureArgument.Texture);
                     }
                     else
                     {
-                        device.RenderState.Lighting = false;
-                        device.RenderState.Ambient = World.Settings.StandardAmbientColor;
+                        device.SetRenderState(RenderState.Lighting, false);
+                        device.SetRenderState(RenderState.Ambient, World.Settings.StandardAmbientColor.ToArgb());
                     }
 
-                    device.RenderState.TextureFactor = System.Drawing.Color.FromArgb(m_CurrentOpacity, 0, 0, 0).ToArgb();
-                    device.TextureState[0].AlphaOperation = TextureOperation.BlendFactorAlpha;
-                    device.TextureState[0].AlphaArgument1 = TextureArgument.TextureColor;
-                    device.TextureState[0].AlphaArgument2 = TextureArgument.TFactor;
+                    device.SetRenderState(RenderState.TextureFactor, System.Drawing.Color.FromArgb(m_CurrentOpacity, 0, 0, 0).ToArgb());
+                    device.SetTextureStageState(0, TextureStage.AlphaOperation, TextureOperation.BlendFactorAlpha);
+                    device.SetTextureStageState(0, TextureStage.AlphaArg1, TextureArgument.Texture);
+                    device.SetTextureStageState(0, TextureStage.AlphaArg2, TextureArgument.TFactor);
 
 #if LOD
                     device.DrawIndexedUserPrimitives(PrimitiveType.LineStrip, 0,
-                           verts.Length, vertexIndexes.Length / 3, vertexIndexes, true, verts);
+                           verts.Length, vertexIndexes.Length / 3, vertexIndexes, Format.Index16, verts);
 #else
                          DrawQuadrants(device, verts, firstQuadrant, quadrantCount);
 #endif
@@ -1587,19 +1581,19 @@ namespace HUST.WREIS.Dot3D.Renderable
                 {
                     if (grayscaleEffect == null)
                     {
-                        device.DeviceReset += new EventHandler(device_DeviceReset);
+                        DeviceEvents.AddDeviceResetHandler(device, device_DeviceReset);
                         device_DeviceReset(device, null);
                     }
 
                     grayscaleEffect.Technique = "RenderGrayscaleBrightness";
-                    grayscaleEffect.SetValue("WorldViewProj", Matrix.Multiply(device.Transform.World, Matrix.Multiply(device.Transform.View, device.Transform.Projection)));
+                    grayscaleEffect.SetValue("WorldViewProj", Matrix.Multiply(device.GetTransform(TransformState.World), Matrix.Multiply(device.GetTransform(TransformState.View), device.GetTransform(TransformState.Projection))));
                     // A tile disposed while this draws leaves nothing to bind. The effect has not been
                     // begun yet at this point, so dropping the tile here is safe and keeps the render
                     // from throwing on a null array every frame the camera moves.
                     Texture grayTexture = (textures != null && textures.Length > 0) ? textures[0] : null;
-                    if (grayTexture == null || grayTexture.Disposed)
+                    if (grayTexture == null || grayTexture.IsDisposed)
                         return;
-                    grayscaleEffect.SetValue("Tex0", grayTexture);
+                    grayscaleEffect.SetTexture("Tex0", grayTexture);
                     grayscaleEffect.SetValue("Brightness", QuadTileSet.GrayscaleBrightness);
                     float opacity = (float)QuadTileSet.Opacity / 255.0f;
                     grayscaleEffect.SetValue("Opacity", opacity);
@@ -1610,7 +1604,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                         grayscaleEffect.BeginPass(i);
 #if LOD
                         device.DrawIndexedUserPrimitives(PrimitiveType.LineStrip, 0,
-                               verts.Length, vertexIndexes.Length / 3, vertexIndexes, true, verts);
+                               verts.Length, vertexIndexes.Length / 3, vertexIndexes, Format.Index16, verts);
 #else
                            DrawQuadrants(device, verts, firstQuadrant, quadrantCount);
 #endif
@@ -1623,7 +1617,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                 }
 			}
 			if (isMultitexturing)
-				device.SetTextureStageState(1, TextureStageStates.ColorOperation, (int)TextureOperation.Disable);
+				device.SetTextureStageState(1, TextureStage.ColorOperation, (int)TextureOperation.Disable);
 		}
 
 		/// <summary>
@@ -1636,9 +1630,9 @@ namespace HUST.WREIS.Dot3D.Renderable
 			int firstQuadrant, int quadrantCount)
 		{
 			if (tileVertexBuffer != null && indexBuffer != null &&
-				!tileVertexBuffer.Disposed && !indexBuffer.Disposed)
+				!tileVertexBuffer.IsDisposed && !indexBuffer.IsDisposed)
 			{
-				device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0,
+				device.DrawIndexedPrimitive(PrimitiveType.TriangleList, 0,
 					firstQuadrant * m_QuadrantVertexCount,
 					quadrantCount * m_QuadrantVertexCount,
 					firstQuadrant * m_QuadrantIndexCount,
@@ -1656,7 +1650,7 @@ namespace HUST.WREIS.Dot3D.Renderable
 						continue;
 
 					device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0,
-						quadrantVertices.Length, vertexIndexes.Length / 3, vertexIndexes, true, quadrantVertices);
+						quadrantVertices.Length, vertexIndexes.Length / 3, vertexIndexes, Format.Index16, quadrantVertices);
 				}
 			}
 		}
@@ -1696,14 +1690,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                 Stream stream = assembly.GetManifestResourceStream("Heiflow.Visualization.Shaders.grayscale.fx");
                 
                 grayscaleEffect =
-                    Effect.FromStream(
-                    device,
-                    stream,
-                    null,
-                    null,
-                    ShaderFlags.None,
-                    null,
-                    out outerrors);
+                    ShaderLoader.FromStream(device, stream, ShaderFlags.None, null, out outerrors);
 
                 if (outerrors != null && outerrors.Length > 0)
                     Log.Write(Log.Levels.Error, outerrors);

@@ -2,8 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using HUST.WREIS.Dot3D.Renderable;
 using HUST.WREIS.Dot3D;
 using HUST.WREIS.Dot3D.Configuration;
@@ -12,6 +11,12 @@ using Utility;
 using System.Drawing;
 using HUST.WREIS.Dot3D.Camera;
 using Heiflow.Core;
+
+using SharpDX;
+using Point = System.Drawing.Point;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D
 {
@@ -309,15 +314,15 @@ namespace HUST.WREIS.Dot3D
             axis[1].Color = System.Drawing.Color.Pink.ToArgb();
 
             drawArgs.device.VertexFormat = CustomVertex.PositionColored.Format;
-            drawArgs.device.TextureState[0].ColorOperation = TextureOperation.Disable;
-            drawArgs.device.Transform.World = Matrix.Translation(
+            drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
+            drawArgs.device.SetTransform(TransformState.World, Matrix.Translation(
                 (float)-drawArgs.WorldCamera.ReferenceCenter.X,
                 (float)-drawArgs.WorldCamera.ReferenceCenter.Y,
                 (float)-drawArgs.WorldCamera.ReferenceCenter.Z
-                );
+                ));
 
             drawArgs.device.DrawUserPrimitives(PrimitiveType.LineStrip, 1, axis);
-            drawArgs.device.Transform.World = drawArgs.WorldCamera.WorldMatrix;
+            drawArgs.device.SetTransform(TransformState.World, drawArgs.WorldCamera.WorldMatrix);
 
         }
 
@@ -462,7 +467,7 @@ namespace HUST.WREIS.Dot3D
             m_sprite.Transform *= Matrix.Translation(projectedPoint.X, projectedPoint.Y, 0);
             m_sprite.Draw(m_sunTexture,
                 new Vector3(m_sunSurfaceDescription.Width >> 1, m_sunSurfaceDescription.Height >> 1, 0),
-                Vector3.Empty,
+                Vector3.Zero,
                 System.Drawing.Color.FromArgb(253, 253, 200).ToArgb());
 
             // Reset transform to prepare for text rendering later
@@ -505,15 +510,15 @@ namespace HUST.WREIS.Dot3D
                     double distToCenterOfPlanet = (drawArgs.WorldCamera.Altitude + equatorialRadius);
                     double tangentalDistance = Math.Sqrt(distToCenterOfPlanet * distToCenterOfPlanet - equatorialRadius * equatorialRadius);
                     double amosphereThickness = Math.Sqrt(m_outerSphere.m_radius * m_outerSphere.m_radius + equatorialRadius * equatorialRadius);
-                    Matrix proj = drawArgs.device.Transform.Projection;
-                    drawArgs.device.Transform.Projection = Matrix.PerspectiveFovRH((float)drawArgs.WorldCamera.Fov.Radians, aspectRatio, zNear, (float)(tangentalDistance + amosphereThickness));
-                    drawArgs.device.RenderState.ZBufferEnable = false;
-                    drawArgs.device.RenderState.CullMode = Cull.CounterClockwise;
+                    Matrix proj = drawArgs.device.GetTransform(TransformState.Projection);
+                    drawArgs.device.SetTransform(TransformState.Projection, Matrix.PerspectiveFovRH((float)drawArgs.WorldCamera.Fov.Radians, aspectRatio, zNear, (float)(tangentalDistance + amosphereThickness)));
+                    drawArgs.device.SetRenderState(RenderState.ZEnable, false);
+                    drawArgs.device.SetRenderState(RenderState.CullMode, (int)(Cull.Counterclockwise));
                     m_outerSphere.Render(drawArgs);
-                    drawArgs.device.RenderState.CullMode = Cull.Clockwise;
-                    drawArgs.device.RenderState.ZBufferEnable = true;
+                    drawArgs.device.SetRenderState(RenderState.CullMode, (int)(Cull.Clockwise));
+                    drawArgs.device.SetRenderState(RenderState.ZEnable, true);
 
-                    drawArgs.device.Transform.Projection = proj;
+                    drawArgs.device.SetTransform(TransformState.Projection, proj);
                 }
 
                 //if (World.Settings.RenderCarsianGridOnly)

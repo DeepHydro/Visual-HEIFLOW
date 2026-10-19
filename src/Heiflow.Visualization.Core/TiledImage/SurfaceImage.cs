@@ -1,7 +1,9 @@
 using System;
 using System.IO;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D
 {
@@ -118,7 +120,7 @@ namespace HUST.WREIS.Dot3D
 
 		public void Dispose()
 		{
-		/*	if(m_Texture != null && !m_Texture.Disposed)
+		/*	if(m_Texture != null && !m_Texture.IsDisposed)
 			{
 				m_Texture.Dispose();
 				m_Texture = null;

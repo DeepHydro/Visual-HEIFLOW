@@ -1,4 +1,4 @@
-﻿using Microsoft.DirectX.Direct3D;
+
 using HUST.WREIS.Dot3D.Net.Wms;
 using HUST.WREIS.Dot3D.Renderable;
 using System;
@@ -9,6 +9,11 @@ using Utility;
 using Heiflow.Spatial;
 using Heiflow.Spatial.MapProviders;
 
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D
 {

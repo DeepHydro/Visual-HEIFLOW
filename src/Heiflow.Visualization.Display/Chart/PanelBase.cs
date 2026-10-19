@@ -1,12 +1,21 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using HUST.WREIS.Dot3D.Menu;
-using Microsoft.DirectX.Direct3D;
+
 using HUST.WREIS.Dot3D.Widgets;
+
+using SharpDX;
+using Point = System.Drawing.Point;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Utilities = HUST.WREIS.Dot3D.Widgets.Utilities;
+using Font = SharpDX.Direct3D9.Font;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D.Display
 {
@@ -35,7 +44,7 @@ namespace HUST.WREIS.Dot3D.Display
         public Color LabelColor = Color.White;
         public Color GraphBoxColor = Color.White;
         public bool useDoubleBuffer = false;
-        public Microsoft.DirectX.Direct3D.Font legendFont;
+        public Font legendFont;
 
         private List<DataSource> sources = new List<DataSource>();
 
@@ -574,7 +583,7 @@ namespace HUST.WREIS.Dot3D.Display
 
         private void DrawLine(DrawArgs drawArgs, CustomVertex.TransformedColored[] m_Verts)
         {
-            drawArgs.device.TextureState[0].ColorOperation = TextureOperation.Disable;
+            drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
             drawArgs.device.VertexFormat = CustomVertex.TransformedColored.Format;
 
             drawArgs.device.VertexFormat = CustomVertex.TransformedColored.Format;
@@ -750,7 +759,7 @@ namespace HUST.WREIS.Dot3D.Display
                     null,
                     source.Name,
                     rect,
-                    DrawTextFormat.Left,//drawTextFormat,
+                    FontDrawFlags.Left,//FontDrawFlags,
                     m_ForeColor);
             }
             else
@@ -759,7 +768,7 @@ namespace HUST.WREIS.Dot3D.Display
                     null,
                     source.Name,
                     rect,
-                    DrawTextFormat.Left,
+                    FontDrawFlags.Left,
                     m_ForeColor);
             }
         }
@@ -810,21 +819,21 @@ namespace HUST.WREIS.Dot3D.Display
                                 , XLabColor.ToArgb());
                                 // g.DrawLine(pen, x, GraphCaptionLineHeight + offset_y + source.CurGraphHeight - 14, x, GraphCaptionLineHeight + offset_y + source.CurGraphHeight);
                                 // g.DrawString(value, legendFont, b, new PointF((int)(0.5f + x + offset_x + 4), GraphCaptionLineHeight + offset_y + source.CurGraphHeight - 14));
-                                System.Drawing.Rectangle txtrect = m_drawingFont.MeasureString(m_sprite, value, DrawTextFormat.Center, m_ForeColor);
+                                System.Drawing.Rectangle txtrect = m_drawingFont.MeasureString(m_sprite, value, FontDrawFlags.Center, m_ForeColor);
                                 System.Drawing.Rectangle rect = new System.Drawing.Rectangle((int)(0.5 + x + offset_x + 4), (int)(GraphCaptionLineHeight + offset_y + source.CurGraphHeight - 14)
                                     , txtrect.Width, txtrect.Height);
 
-                                m_drawingFont.DrawText(m_sprite, value, rect, DrawTextFormat.Left, m_ForeColor);
+                                m_drawingFont.DrawText(m_sprite, value, rect, FontDrawFlags.Left, m_ForeColor);
                             }
                             else
                             {
-                                System.Drawing.Rectangle txtrect = m_drawingFont.MeasureString(m_sprite, value, DrawTextFormat.Center, m_ForeColor);
+                                System.Drawing.Rectangle txtrect = m_drawingFont.MeasureString(m_sprite, value, FontDrawFlags.Center, m_ForeColor);
                                 System.Drawing.Rectangle rect = new System.Drawing.Rectangle((int)(.5f + x + offset_x + 4 - txtrect.Width / 2),
                                     (int)(GraphCaptionLineHeight + offset_y + source.CurGraphHeight - 14)
                                     , txtrect.Width, txtrect.Height);
                                 //SizeF dim = g.MeasureString(value, legendFont);
                                 //  g.DrawString(value, legendFont, b, new PointF((int)(0.5f + x + offset_x + 4 - dim.Width / 2), GraphCaptionLineHeight + offset_y + source.CurGraphHeight - 14));
-                                m_drawingFont.DrawText(m_sprite, value, rect, DrawTextFormat.Left, m_ForeColor);
+                                m_drawingFont.DrawText(m_sprite, value, rect, FontDrawFlags.Left, m_ForeColor);
 
                             }
                         }
@@ -857,11 +866,11 @@ namespace HUST.WREIS.Dot3D.Display
 
                       //  SizeF dim = g.MeasureString(value, legendFont);
                      //   g.DrawString(value, legendFont, b, new PointF((int)offset_x - dim.Width, (int)(offset_y + y0 + 0.5f + dim.Height / 2)));
-                        System.Drawing.Rectangle txtrect = m_drawingFont.MeasureString(m_sprite, value, DrawTextFormat.Center, m_ForeColor);
+                        System.Drawing.Rectangle txtrect = m_drawingFont.MeasureString(m_sprite, value, FontDrawFlags.Center, m_ForeColor);
                         System.Drawing.Rectangle rect = new System.Drawing.Rectangle((int)(offset_x - txtrect.Width),
                             (int)(offset_y + y0 + 0.5f + txtrect.Height / 2)
                             , txtrect.Width, txtrect.Height);
-                        m_drawingFont.DrawText(null, value, rect, DrawTextFormat.Left, m_ForeColor);
+                        m_drawingFont.DrawText(null, value, rect, FontDrawFlags.Left, m_ForeColor);
 
                         float GridDistY = source.grid_distance_y;
 
@@ -893,11 +902,11 @@ namespace HUST.WREIS.Dot3D.Display
                              //   dim = g.MeasureString(value, legendFont);
                              //   g.DrawString(value, legendFont, b, new PointF((int)offset_x - dim.Width, (int)(offset_y + y1 + 0.5f + dim.Height / 2)));
 
-                                txtrect = m_drawingFont.MeasureString(m_sprite, value, DrawTextFormat.Center, m_ForeColor);
+                                txtrect = m_drawingFont.MeasureString(m_sprite, value, FontDrawFlags.Center, m_ForeColor);
                                 rect = new System.Drawing.Rectangle((int)(offset_x - txtrect.Width),
                                     (int)(offset_y + y1 + 0.5f + txtrect.Height / 2)
                                     , txtrect.Width, txtrect.Height);
-                                m_drawingFont.DrawText(null, value, rect, DrawTextFormat.Left, m_ForeColor);
+                                m_drawingFont.DrawText(null, value, rect, FontDrawFlags.Left, m_ForeColor);
                             }
                         }
 
@@ -916,11 +925,11 @@ namespace HUST.WREIS.Dot3D.Display
 
                            //     dim = g.MeasureString(value, legendFont);
                            //     g.DrawString(value, legendFont, b, new PointF((int)offset_x - dim.Width, (int)(offset_y + y2 + 0.5f + dim.Height / 2)));
-                                txtrect = m_drawingFont.MeasureString(m_sprite, value, DrawTextFormat.Center, m_ForeColor);
+                                txtrect = m_drawingFont.MeasureString(m_sprite, value, FontDrawFlags.Center, m_ForeColor);
                                 rect = new System.Drawing.Rectangle((int)(offset_x - txtrect.Width),
                                     (int)(offset_y + y2 + 0.5f + txtrect.Height / 2)
                                     , txtrect.Width, txtrect.Height);
-                                m_drawingFont.DrawText(null, value, rect, DrawTextFormat.Left, m_ForeColor);
+                                m_drawingFont.DrawText(null, value, rect, FontDrawFlags.Left, m_ForeColor);
                             }
                         }
                     }
@@ -969,7 +978,7 @@ namespace HUST.WREIS.Dot3D.Display
         bool m_Enabled = true;
         HUST.WREIS.Dot3D.NewWidgets.IWidget m_ParentWidget = null;
         System.Drawing.Color m_ForeColor = System.Drawing.Color.White;
-        Microsoft.DirectX.Direct3D.Font m_drawingFont = null;
+        Font m_drawingFont = null;
         /// <summary>
         /// CountHeight property value
         /// </summary>

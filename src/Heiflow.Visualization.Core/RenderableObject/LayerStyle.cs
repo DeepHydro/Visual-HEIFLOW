@@ -1,10 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.DirectX.Direct3D;
+
 using HUST.WREIS.Dot3D.Renderable;
 
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D
 {
@@ -13,7 +17,7 @@ namespace HUST.WREIS.Dot3D
     {
         public LayerStyle(RenderableObject ro)
         {
-            FillMode = Microsoft.DirectX.Direct3D.FillMode.Solid;
+            FillMode = FillMode.Solid;
             Opacity = 255;
             mRenderableObject = ro;
         }

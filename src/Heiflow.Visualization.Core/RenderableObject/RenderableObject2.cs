@@ -6,11 +6,16 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml;
 using System.Linq;
-using Microsoft.DirectX;
+
 using HUST.WREIS.Dot3D.Menu;
 using HUST.WREIS.Dot3D.VisualControl;
 using System.Windows.Media.Imaging;
 using System.Collections.Generic;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D.Renderable
 {
@@ -524,7 +529,7 @@ namespace HUST.WREIS.Dot3D.Renderable
 
 		#endregion
 
-        #region INotifyPropertyChanged ³ÉÔ±
+        #region INotifyPropertyChanged ï¿½ï¿½Ô±
         protected BitmapImage m_icon = null;
 
         public BitmapImage Icon

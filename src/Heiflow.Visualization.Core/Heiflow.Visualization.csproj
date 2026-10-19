@@ -1,8 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{FD13AB2F-63FF-4A41-B133-B308553C5180}</ProjectGuid>
@@ -14,6 +14,7 @@
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -35,6 +36,27 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Visualization\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
@@ -63,25 +85,20 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Heiflow.Dependencies\lib\net45\mapscript_csharp.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+    <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Windows\Microsoft.NET\DirectX for Managed Code\1.0.2902.0\Microsoft.DirectX.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\SharpDX.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.DirectX.Diagnostics, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+    <Reference Include="SharpDX.Direct3D9, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Windows\Microsoft.NET\DirectX for Managed Code\1.0.2902.0\Microsoft.DirectX.Diagnostics.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\SharpDX.Direct3D9.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.DirectX.Direct3D, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+    <Reference Include="SharpDX.Mathematics, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Windows\Microsoft.NET\DirectX for Managed Code\1.0.2902.0\Microsoft.DirectX.Direct3D.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.DirectX.Direct3DX, Version=1.0.2910.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Windows\Microsoft.NET\DirectX for Managed Code\1.0.2908.0\Microsoft.DirectX.Direct3DX.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.DirectX.DirectDraw, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Windows\Microsoft.NET\DirectX for Managed Code\1.0.2902.0\Microsoft.DirectX.DirectDraw.dll</HintPath>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\SharpDX.Mathematics.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.VisualC" />
     <Reference Include="PresentationCore" />
@@ -111,6 +128,13 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="DirectX\CustomVertex.cs" />
+    <Compile Include="DirectX\DeviceExtensions.cs" />
+    <Compile Include="DirectX\Loaders.cs" />
+    <Compile Include="DirectX\NativeD3DX.cs" />
+    <Compile Include="DirectX\RenderExtensions.cs" />
+    <Compile Include="DirectX\FontFactory.cs" />
+    <Compile Include="DirectX\TextureFactory.cs" />
     <Compile Include="Controls\IMemu.cs" />
     <Compile Include="Geometry\Triangulation\AnalyticGeometryException.cs" />
     <Compile Include="Geometry\Triangulation\CLine.cs" />
@@ -145,6 +169,7 @@
     <Compile Include="RenderableModel\RenderableModelObject.cs" />
     <Compile Include="RenderableModel\Providers\IRenderableProvider.cs" />
     <Compile Include="RenderableModel\IRenderableRaster.cs" />
+    <Compile Include="RenderableModel\RasterDrawing.cs" />
     <Compile Include="RenderableModel\MediaColor.cs" />
     <Compile Include="RenderableModel\Providers\IRenderableRasterProvider.cs" />
     <Compile Include="RenderableModel\Providers\ModelFeatureProvider.cs" />

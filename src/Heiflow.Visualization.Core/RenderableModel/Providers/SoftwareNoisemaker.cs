@@ -1,12 +1,18 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Collections.Generic;
 using System.Text;
 using HUST.WREIS.Dot3D;
 using Utility;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using System.Runtime.InteropServices;
+
+using SharpDX;
+using Point = System.Drawing.Point;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D.Renderable
 {
@@ -445,7 +451,8 @@ namespace HUST.WREIS.Dot3D.Renderable
 
             // create z/stencil-buffer
             Bitmap bp = new Bitmap(nmapsize_x, nmapsize_x);
-            depthstencil = new Surface(device, bp, Pool.Default);
+            var __ds = new Texture(device, bp.Width, bp.Height, 1, Usage.DepthStencil, Format.D16, Pool.Default);
+            depthstencil = __ds.GetSurfaceLevel(0);
         }
 
         void upload_noise()
@@ -458,7 +465,7 @@ namespace HUST.WREIS.Dot3D.Renderable
             {
                 int offset = np_size_sq * t;
                 // upload the first level
-                GraphicsStream gs = packed_noise_texture[t].LockRectangle(0, locked, LockFlags.None);
+                DataStream gs = packed_noise_texture[t].LockRectangle(0, locked, LockFlags.None);
                 data = new int[gs.Length];
                 for (int i = 0; i < data.Length; i++)
                 {
@@ -532,14 +539,14 @@ namespace HUST.WREIS.Dot3D.Renderable
       //      hmap_effect.SetValue("scale", prm.parames[(int)pParameters.p_fScale].fData);
 
             //device.SetTexture(
-    //        hmap_effect.SetValue("noise0", packed_noise_texture[0]);
-       //     hmap_effect.SetValue("noise1", packed_noise_texture[1]);
+    //        hmap_effect.SetTexture("noise0", packed_noise_texture[0]);
+       //     hmap_effect.SetTexture("noise1", packed_noise_texture[1]);
 
             device.SetRenderTarget(0, target);
             //device.SetDepthStencilSurface( depthstencil );
             //device.Clear( 0, NULL,D3DCLEAR_TARGET, D3DCOLOR_XRGB(255,128,28), 1.0f, 0 );
-            device.SetRenderState(RenderStates.ZEnable, false);
-            device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, sizeX * sizeY, 0, 2 * (sizeX - 1) * (sizeY - 1));
+            device.SetRenderState(RenderState.ZEnable, false);
+            device.DrawIndexedPrimitive(PrimitiveType.TriangleList, 0, 0, sizeX * sizeY, 0, 2 * (sizeX - 1) * (sizeY - 1));
      //       hmap_effect.EndPass();
      //       hmap_effect.End();
 
@@ -557,12 +564,12 @@ namespace HUST.WREIS.Dot3D.Renderable
             //nmap_effect.SetValue("corner11", t_corners3);
             //nmap_effect.SetValue("amplitude", 2 * prm.parames[(int)pParameters.p_fStrength].fData);
             //nmap_effect.SetValue("hmap", heightmap);
-            //device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, sizeX * sizeY, 0, 2 * (sizeX - 1) * (sizeY - 1));
+            //device.DrawIndexedPrimitive(PrimitiveType.TriangleList, 0, 0, sizeX * sizeY, 0, 2 * (sizeX - 1) * (sizeY - 1));
             //nmap_effect.EndPass();
             //nmap_effect.End();
 
             // restore the device
-            device.SetRenderState(RenderStates.ZEnable, true);
+            device.SetRenderState(RenderState.ZEnable, true);
             device.SetRenderTarget(0, bb);
          //   device.SetRenderTarget(1,old_depthstencil);
 

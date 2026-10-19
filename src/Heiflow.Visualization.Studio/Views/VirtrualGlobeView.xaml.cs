@@ -1,18 +1,21 @@
-﻿using Heiflow.Core;
+using Heiflow.Core;
 using Heiflow.Core.Plugin;
 using Heiflow.Visualization.Applications;
 using HUST.WREIS.Dot3D;
 using HUST.WREIS.Dot3D.Display;
 using HUST.WREIS.Dot3D.Display.Plugins;
 using HUST.WREIS.Dot3D.Renderable;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using System;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Waf.Applications;
 using System.Windows;
 
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace Heiflow.Visualization.Studio.Views
 {

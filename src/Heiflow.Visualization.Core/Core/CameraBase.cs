@@ -1,8 +1,11 @@
 using System;
 using System.Globalization;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using HUST.WREIS.Dot3D;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D.Camera
 {
@@ -262,7 +265,7 @@ namespace HUST.WREIS.Dot3D.Camera
 				_latitude.Degrees,
 				_longitude.Degrees,
 				WorldRadius),
-				Vector3.Empty,
+				Vector3.Zero,
 				new Vector3(0,0,1));
 
 			m_absoluteViewMatrix *= Matrix.RotationYawPitchRoll(
@@ -449,9 +452,9 @@ namespace HUST.WREIS.Dot3D.Camera
 
 			ComputeProjectionMatrix(viewPort);
 			ComputeViewMatrix();
-			device.Transform.Projection = m_ProjectionMatrix;
-			device.Transform.View = m_ViewMatrix;
-			device.Transform.World = m_WorldMatrix;
+			device.SetTransform(TransformState.Projection, m_ProjectionMatrix);
+			device.SetTransform(TransformState.View, m_ViewMatrix);
+			device.SetTransform(TransformState.World, m_WorldMatrix);
 	
 			ViewFrustum.Update(
 				Matrix.Multiply(m_absoluteWorldMatrix,
@@ -628,14 +631,14 @@ namespace HUST.WREIS.Dot3D.Camera
 			Vector3 v1 = new Vector3();
 			v1.X = screenX;
 			v1.Y = screenY;
-			v1.Z = viewPort.MinZ;
-			v1.Unproject(viewPort, m_absoluteProjectionMatrix, m_absoluteViewMatrix, m_absoluteWorldMatrix);
+			v1.Z = viewPort.MinDepth;
+			v1 = viewPort.Unproject(v1, m_absoluteWorldMatrix, m_absoluteViewMatrix, m_absoluteProjectionMatrix);
 
 			Vector3 v2 = new Vector3();
 			v2.X = screenX;
 			v2.Y = screenY;
-			v2.Z = viewPort.MaxZ;
-			v2.Unproject(viewPort, m_absoluteProjectionMatrix, m_absoluteViewMatrix, m_absoluteWorldMatrix);
+			v2.Z = viewPort.MaxDepth;
+			v2 = viewPort.Unproject(v2, m_absoluteWorldMatrix, m_absoluteViewMatrix, m_absoluteProjectionMatrix);
 
 			Point3d p1 = new Point3d(v1.X, v1.Y, v1.Z);
 			Point3d p2 = new Point3d(v2.X, v2.Y, v2.Z);
@@ -678,14 +681,14 @@ namespace HUST.WREIS.Dot3D.Camera
             Vector3 v1 = new Vector3();
             v1.X = screenX;
             v1.Y = screenY;
-            v1.Z = viewPort.MinZ;
-            v1.Unproject(viewPort, m_absoluteProjectionMatrix, m_absoluteViewMatrix, m_absoluteWorldMatrix);
+            v1.Z = viewPort.MinDepth;
+            v1 = viewPort.Unproject(v1, m_absoluteWorldMatrix, m_absoluteViewMatrix, m_absoluteProjectionMatrix);
 
             Vector3 v2 = new Vector3();
             v2.X = screenX;
             v2.Y = screenY;
-            v2.Z = viewPort.MaxZ;
-            v2.Unproject(viewPort, m_absoluteProjectionMatrix, m_absoluteViewMatrix, m_absoluteWorldMatrix);
+            v2.Z = viewPort.MaxDepth;
+            v2 = viewPort.Unproject(v2, m_absoluteWorldMatrix, m_absoluteViewMatrix, m_absoluteProjectionMatrix);
 
             Point3d p1 = new Point3d(v1.X, v1.Y, v1.Z);
             Point3d p2 = new Point3d(v2.X, v2.Y, v2.Z);
@@ -899,7 +902,7 @@ namespace HUST.WREIS.Dot3D.Camera
 		/// <returns>Point in screen space</returns>
 		public Vector3 Project( Vector3 point )
 		{
-			point.Project( viewPort, m_ProjectionMatrix, m_ViewMatrix, m_WorldMatrix);
+			point = viewPort.Project(point, m_WorldMatrix, m_ViewMatrix, m_ProjectionMatrix);
 			return point;
 		}
 

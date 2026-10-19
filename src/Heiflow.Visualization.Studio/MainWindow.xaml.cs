@@ -14,8 +14,7 @@ using HUST.WREIS.Dot3D.Display.Plugins;
 using HUST.WREIS.Dot3D.Renderable;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,6 +23,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using Utility;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace Heiflow.Visualization.Studio
 {
@@ -349,7 +352,7 @@ namespace Heiflow.Visualization.Studio
                 sceneWindow.Render();
                 sceneWindow.m_Device3d.Present();
             }
-            catch (DeviceLostException)
+            catch (SharpDXException)
             {
                 try
                 {
@@ -358,7 +361,7 @@ namespace Heiflow.Visualization.Studio
                     sceneWindow.Render();
                     sceneWindow.m_Device3d.Present();
                 }
-                catch (DirectXException)
+                catch (SharpDXException)
                 {
                     // Ignore a 2nd failure
                 }

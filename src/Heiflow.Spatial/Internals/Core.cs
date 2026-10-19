@@ -1,4 +1,4 @@
-﻿//
+//
 // The Visual HEIFLOW License
 //
 // Copyright (c) 2015-2018 Yong Tian, SUSTech, Shenzhen, China. All rights reserved.
@@ -400,11 +400,8 @@ namespace Heiflow.Spatial.Internals
 
       // windows forms or wpf
     //  internal string SystemType;
-      internal static readonly Guid SessionIdGuid = Guid.NewGuid();
       internal static readonly Guid CompanyIdGuid = new Guid("3E35F098-CE43-4F82-9E9D-05C8B1046A45");
       internal static readonly Guid ApplicationIdGuid = new Guid("FF328040-77B0-4546-ACF3-7C6EC0827BBB");
-      internal static volatile bool AnalyticsStartDone = false;
-      internal static volatile bool AnalyticsStopDone = false;
       internal static int instances = 0;
 
       BackgroundWorker invalidator;
@@ -431,91 +428,6 @@ namespace Heiflow.Spatial.Internals
             invalidator.DoWork += new DoWorkEventHandler(invalidatorWatch);
             invalidator.RunWorkerAsync();
 
-            if(x == 1)
-            {
-#if !DEBUG
-#if !PocketPC
-            // in case there a few controls in one app
-            if(!AnalyticsStartDone && !GMaps.Instance.DisableCodeplexAnalyticsPing)
-            {
-               AnalyticsStartDone = true;
-
-               // send start ping to codeplex Analytics service
-               ThreadPool.QueueUserWorkItem(new WaitCallback(delegate(object o)
-               {
-                  try
-                  {
-                     using(Analytics.MessagingServiceV2 s = new Analytics.MessagingServiceV2())
-                     {
-                        if(GMapProvider.WebProxy != null)
-                        {
-                           s.Proxy = GMapProvider.WebProxy;
-                           s.PreAuthenticate = true;
-                        }
-
-                        Analytics.MessageCache info = new Analytics.MessageCache();
-                        {
-                           FillAnalyticsInfo(info);
-
-                           info.Messages = new Analytics.Message[2];
-
-                           Analytics.ApplicationLifeCycle alc = new Analytics.ApplicationLifeCycle();
-                           {
-                              alc.Id = Guid.NewGuid();
-                              alc.SessionId = SessionIdGuid;
-                              alc.TimeStampUtc = DateTime.UtcNow;
-
-                              alc.Event = new Heiflow.Spatial.Analytics.EventInformation();
-                              {
-                                 alc.Event.Code = "Application.Start";
-                                 alc.Event.PrivacySetting = Heiflow.Spatial.Analytics.PrivacySettings.SupportOptout;
-                              }
-
-                              alc.Binary = new Analytics.BinaryInformation();
-                              {
-                                 System.Reflection.AssemblyName app = System.Reflection.Assembly.GetEntryAssembly().GetName();
-                                 alc.Binary.Name = app.Name;
-                                 alc.Binary.Version = app.Version.ToString();
-                              }
-
-                              alc.Host = new Heiflow.Spatial.Analytics.HostInfo();
-                              {
-                                 alc.Host.RuntimeVersion = Environment.Version.ToString();
-                              }
-
-                              alc.Host.OS = new Heiflow.Spatial.Analytics.OSInformation();
-                              {
-                                 alc.Host.OS.OsName = Environment.OSVersion.VersionString;
-                              }
-                           }
-                           info.Messages[0] = alc;
-
-                           Analytics.SessionLifeCycle slc = new Analytics.SessionLifeCycle();
-                           {
-                              slc.Id = Guid.NewGuid();
-                              slc.SessionId = SessionIdGuid;
-                              slc.TimeStampUtc = DateTime.UtcNow;
-
-                              slc.Event = new Heiflow.Spatial.Analytics.EventInformation();
-                              {
-                                 slc.Event.Code = "Session.Start";
-                                 slc.Event.PrivacySetting = Heiflow.Spatial.Analytics.PrivacySettings.SupportOptout;
-                              }
-                           }
-                           info.Messages[1] = slc;
-                        }
-                        s.Publish(info);
-                     }
-                  }
-                  catch(Exception ex)
-                  {
-                     Debug.WriteLine("Analytics Start: " + ex.ToString());
-                  }
-               }));
-            }
-#endif
-#endif
-            }
          }
          return invalidator;
       }
@@ -558,86 +470,6 @@ namespace Heiflow.Spatial.Internals
             GMaps.Instance.noMapInstances = true;
             GMaps.Instance.WaitForCache.Set();
 
-#if !DEBUG
-#if !PocketPC
-         // send end ping to codeplex Analytics service
-         try
-         {
-            if(!AnalyticsStopDone && !GMaps.Instance.DisableCodeplexAnalyticsPing)
-            {
-               AnalyticsStopDone = true;
-
-               using(Analytics.MessagingServiceV2 s = new Analytics.MessagingServiceV2())
-               {
-                  s.Timeout = 5 * 1000;
-
-                  if(GMapProvider.WebProxy != null)
-                  {
-                     s.Proxy = GMapProvider.WebProxy;
-                     s.PreAuthenticate = true;
-                  }
-
-                  Analytics.MessageCache info = new Analytics.MessageCache();
-                  {
-                     FillAnalyticsInfo(info);
-
-                     info.Messages = new Analytics.Message[2];
-
-                     Analytics.SessionLifeCycle slc = new Analytics.SessionLifeCycle();
-                     {
-                        slc.Id = Guid.NewGuid();
-                        slc.SessionId = SessionIdGuid;
-                        slc.TimeStampUtc = DateTime.UtcNow;
-
-                        slc.Event = new Heiflow.Spatial.Analytics.EventInformation();
-                        {
-                           slc.Event.Code = "Session.Stop";
-                           slc.Event.PrivacySetting = Heiflow.Spatial.Analytics.PrivacySettings.SupportOptout;
-                        }
-                     }
-                     info.Messages[0] = slc;
-
-                     Analytics.ApplicationLifeCycle alc = new Analytics.ApplicationLifeCycle();
-                     {
-                        alc.Id = Guid.NewGuid();
-                        alc.SessionId = SessionIdGuid;
-                        alc.TimeStampUtc = DateTime.UtcNow;
-
-                        alc.Event = new Heiflow.Spatial.Analytics.EventInformation();
-                        {
-                           alc.Event.Code = "Application.Stop";
-                           alc.Event.PrivacySetting = Heiflow.Spatial.Analytics.PrivacySettings.SupportOptout;
-                        }
-
-                        alc.Binary = new Analytics.BinaryInformation();
-                        {
-                           System.Reflection.AssemblyName app = System.Reflection.Assembly.GetEntryAssembly().GetName();
-                           alc.Binary.Name = app.Name;
-                           alc.Binary.Version = app.Version.ToString();
-                        }
-
-                        alc.Host = new Heiflow.Spatial.Analytics.HostInfo();
-                        {
-                           alc.Host.RuntimeVersion = Environment.Version.ToString();
-                        }
-
-                        alc.Host.OS = new Heiflow.Spatial.Analytics.OSInformation();
-                        {
-                           alc.Host.OS.OsName = Environment.OSVersion.VersionString;
-                        }
-                     }
-                     info.Messages[1] = alc;
-                  }
-                  s.Publish(info);
-               }
-            }
-         }
-         catch(Exception ex)
-         {
-            Debug.WriteLine("Analytics Stop: " + ex.ToString());
-         }
-#endif
-#endif
          }
       }
 

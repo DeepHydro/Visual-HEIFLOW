@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Drawing;
-using Microsoft.DirectX.Direct3D;
-using Microsoft.DirectX;
+
 using System.ComponentModel;
 using Heiflow.Models.Subsurface;
 using Heiflow.Core.MyMath;
@@ -14,6 +13,12 @@ using HUST.WREIS.Dot3D;
 using Heiflow.Core.Data;
 using Heiflow.Visualization.RenderableModel.Model.Renders;
 
+
+using SharpDX;
+using Point = System.Drawing.Point;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace Heiflow.Visualization.Renderable.Grid
 {

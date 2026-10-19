@@ -1,9 +1,11 @@
 using System;
 using HUST.WREIS.Dot3D;
 
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
 using Heiflow.Core;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D
 {
@@ -193,7 +195,7 @@ namespace HUST.WREIS.Dot3D
 
 		public override void Dispose()
 		{
-			if(m_texture != null && !m_texture.Disposed)
+			if(m_texture != null && !m_texture.IsDisposed)
 			{
 				m_texture.Dispose();
 				m_texture = null;
@@ -484,8 +486,8 @@ namespace HUST.WREIS.Dot3D
 				if(m_lineString != null)
 					return;
 
-				Cull currentCull = drawArgs.device.RenderState.CullMode;
-				drawArgs.device.RenderState.CullMode = Cull.None;
+				Cull currentCull = drawArgs.device.GetRenderStateEnum<Cull>(RenderState.CullMode);
+				drawArgs.device.SetRenderState(RenderState.CullMode, (int)(Cull.None));
 			
 				Vector3 rc = new Vector3(
 					(float)drawArgs.WorldCamera.ReferenceCenter.X,
@@ -493,26 +495,26 @@ namespace HUST.WREIS.Dot3D
 					(float)drawArgs.WorldCamera.ReferenceCenter.Z
 					);
 
-				drawArgs.device.Transform.World = Matrix.Translation(
+				drawArgs.device.SetTransform(TransformState.World, Matrix.Translation(
 					(float)-drawArgs.WorldCamera.ReferenceCenter.X,
 					(float)-drawArgs.WorldCamera.ReferenceCenter.Y,
 					(float)-drawArgs.WorldCamera.ReferenceCenter.Z
-					);
+					));
 
 				if(m_wallVertices != null)
 				{
-					drawArgs.device.RenderState.ZBufferEnable = true;
+					drawArgs.device.SetRenderState(RenderState.ZEnable, true);
 					
-					if(m_texture != null && !m_texture.Disposed)
+					if(m_texture != null && !m_texture.IsDisposed)
 					{
 						drawArgs.device.SetTexture(0, m_texture);
-						drawArgs.device.TextureState[0].AlphaOperation = TextureOperation.Modulate;
-						drawArgs.device.TextureState[0].ColorOperation = TextureOperation.Add;
-						drawArgs.device.TextureState[0].AlphaArgument1 = TextureArgument.TextureColor;
+						drawArgs.device.SetTextureStageState(0, TextureStage.AlphaOperation, TextureOperation.Modulate);
+						drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Add);
+						drawArgs.device.SetTextureStageState(0, TextureStage.AlphaArg1, TextureArgument.Texture);
 					}
 					else
 					{
-						drawArgs.device.TextureState[0].ColorOperation = TextureOperation.Disable;
+						drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
 					}
 					
 					drawArgs.device.VertexFormat = CustomVertex.PositionColoredTextured.Format;
@@ -522,7 +524,7 @@ namespace HUST.WREIS.Dot3D
 					if(m_outline)
 					{
 
-						drawArgs.device.TextureState[0].ColorOperation = TextureOperation.Disable;
+						drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
 						drawArgs.device.VertexFormat = CustomVertex.PositionColored.Format;
 						drawArgs.device.DrawUserPrimitives(PrimitiveType.LineStrip, m_topVertices.Length - 1, m_topVertices);
 						
@@ -536,13 +538,13 @@ namespace HUST.WREIS.Dot3D
 				}
 				else
 				{
-					drawArgs.device.TextureState[0].ColorOperation = TextureOperation.Disable;
+					drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
 					drawArgs.device.VertexFormat = CustomVertex.PositionColored.Format;
 					drawArgs.device.DrawUserPrimitives(PrimitiveType.LineStrip, m_topVertices.Length - 1, m_topVertices);
 				}
 
-				drawArgs.device.Transform.World = drawArgs.WorldCamera.WorldMatrix;
-				drawArgs.device.RenderState.CullMode = currentCull;
+				drawArgs.device.SetTransform(TransformState.World, drawArgs.WorldCamera.WorldMatrix);
+				drawArgs.device.SetRenderState(RenderState.CullMode, currentCull);
 			}
 			catch(Exception ex)
 			{

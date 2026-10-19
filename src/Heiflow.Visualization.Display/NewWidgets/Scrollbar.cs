@@ -1,4 +1,9 @@
 using System;
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Font = SharpDX.Direct3D9.Font;
+using Color = System.Drawing.Color;
 using System.Collections.Generic;
 using System.Text;
 
@@ -210,7 +215,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
         {
         }
 
-        Microsoft.DirectX.Vector2[] m_outlinePoints = new Microsoft.DirectX.Vector2[5];
+        Vector2[] m_outlinePoints = new Vector2[5];
 
 		public void Render(DrawArgs drawArgs)
         {

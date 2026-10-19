@@ -6,15 +6,21 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml;
 using System.Linq;
-using Microsoft.DirectX;
+
 using HUST.WREIS.Dot3D.Menu;
 using HUST.WREIS.Dot3D.VisualControl;
 using System.Windows.Media.Imaging;
 using System.Collections.Generic;
-using Microsoft.DirectX.Direct3D;
+
 using System.Data;
 using Heiflow.Visualization.Renderable.Grid;
 using System.Xml.Serialization;
+
+using SharpDX;
+using Point = System.Drawing.Point;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D.Renderable
 {
@@ -464,7 +470,7 @@ namespace HUST.WREIS.Dot3D.Renderable
         {
             m_iconImagePath = ConfigurationManager.Engine3DSettings.IconPath + "DefaultLayerIcon.png";
             mTag = "RenderableObject";
-            FillMode = Microsoft.DirectX.Direct3D.FillMode.Solid;
+            FillMode = FillMode.Solid;
         }
         /// <summary>
         /// Initializes a new instance of the <see cref= "T:HUST.WREIS.Dot3D.Renderable.RenderableObject"/> class.
@@ -475,7 +481,7 @@ namespace HUST.WREIS.Dot3D.Renderable
             this.name = name;
             m_iconImagePath = ConfigurationManager.Engine3DSettings.IconPath + "DefaultLayerIcon.png";
             mTag = "RenderableObject";
-            FillMode = Microsoft.DirectX.Direct3D.FillMode.Solid;
+            FillMode = FillMode.Solid;
         }
 
         protected RenderableObject(string name, World parentWorld)
@@ -484,7 +490,7 @@ namespace HUST.WREIS.Dot3D.Renderable
             this.m_world = parentWorld;
             m_iconImagePath = ConfigurationManager.Engine3DSettings.IconPath + "DefaultLayerIcon.png";
             mTag = "RenderableObject";
-            FillMode = Microsoft.DirectX.Direct3D.FillMode.Solid;
+            FillMode = FillMode.Solid;
         }
 
         /// <summary>
@@ -499,7 +505,7 @@ namespace HUST.WREIS.Dot3D.Renderable
             this.position = position;
             this.orientation = orientation;
             m_iconImagePath = ConfigurationManager.Engine3DSettings.IconPath + "DefaultLayerIcon.png";
-            FillMode = Microsoft.DirectX.Direct3D.FillMode.Solid;
+            FillMode = FillMode.Solid;
         }
         #endregion
 

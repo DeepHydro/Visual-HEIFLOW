@@ -5,14 +5,17 @@ using Heiflow.Models.Generic;
 using Heiflow.Models.GHM;
 using Heiflow.Spatial.Geography;
 using HUST.WREIS.Dot3D;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace Heiflow.Visualization.Renderable.Grid
 {

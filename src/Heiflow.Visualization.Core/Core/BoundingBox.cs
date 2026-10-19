@@ -1,7 +1,10 @@
 using System;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using HUST.WREIS.Dot3D.Camera;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D
 {
@@ -51,13 +54,13 @@ namespace HUST.WREIS.Dot3D
 			float scale = radius2 / radius1;
 			this.corners = new Vector3[8];
 			this.corners[0] = MathEngine.SphericalToCartesian(south, west, radius1);
-			this.corners[1] = Vector3.Scale(this.corners[0], scale);
+			this.corners[1] = Vector3.Multiply(this.corners[0], scale);
 			this.corners[2] = MathEngine.SphericalToCartesian(south, east, radius1);
-			this.corners[3] = Vector3.Scale(this.corners[2], scale);
+			this.corners[3] = Vector3.Multiply(this.corners[2], scale);
 			this.corners[4] = MathEngine.SphericalToCartesian(north, west, radius1);
-			this.corners[5] = Vector3.Scale(this.corners[4], scale);
+			this.corners[5] = Vector3.Multiply(this.corners[4], scale);
 			this.corners[6] = MathEngine.SphericalToCartesian(north, east, radius1);
-			this.corners[7] = Vector3.Scale(this.corners[6], scale);
+			this.corners[7] = Vector3.Multiply(this.corners[6], scale);
 
             South = south;
             North = north;
@@ -86,7 +89,7 @@ namespace HUST.WREIS.Dot3D
 				res += corner;
 			}
 
-			res.Scale(1.0f / corners.Length);
+			Vector3.Multiply(res, 1.0f / corners.Length);
 			return res;
 		}
 
@@ -104,8 +107,8 @@ namespace HUST.WREIS.Dot3D
 			Vector3 ac = Vector3.Subtract(c,a);
 			Vector3 ad = Vector3.Subtract(d,a);
 
-			float tri1SqArea = Vector3.Cross(ab,ac).LengthSq(); 
-			float tri2SqArea = Vector3.Cross(ad,ac).LengthSq(); 
+			float tri1SqArea = Vector3.Cross(ab,ac).LengthSquared(); 
+			float tri2SqArea = Vector3.Cross(ad,ac).LengthSquared(); 
 			// Real area = (sqrt(tri1SqArea)+sqrt(tri2SqArea))/2 but we're only interested in relative size
 			return tri1SqArea + tri2SqArea; 
 		}

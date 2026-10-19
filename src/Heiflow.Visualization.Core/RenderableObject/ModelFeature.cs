@@ -4,10 +4,13 @@ using System.Drawing;
 using HUST.WREIS.Dot3D;
 using System.Xml;
 
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
 using Utility;
 using Heiflow.Core;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D.Renderable
 {
@@ -57,7 +60,7 @@ namespace HUST.WREIS.Dot3D.Renderable
 		/// </summary>
 		bool IsVisible(HUST.WREIS.Dot3D.Camera.CameraBase camera)
 		{
-			if(worldXyz == Vector3.Empty)
+			if(worldXyz == Vector3.Zero)
 				worldXyz = MathEngine.SphericalToCartesian(Latitude, Longitude, camera.WorldRadius );
 			return camera.ViewFrustum.ContainsPoint(worldXyz);
 		}
@@ -83,50 +86,46 @@ namespace HUST.WREIS.Dot3D.Renderable
 
 			if(!isInitialized)
 				return;
-            drawArgs.device.RenderState.ZBufferEnable = true;
-			drawArgs.device.RenderState.CullMode = Cull.None;
-			drawArgs.device.RenderState.Lighting = true;
-			drawArgs.device.RenderState.AmbientColor = 0x808080;
-			drawArgs.device.RenderState.NormalizeNormals = true;
+            drawArgs.device.SetRenderState(RenderState.ZEnable, true);
+			drawArgs.device.SetRenderState(RenderState.CullMode, (int)(Cull.None));
+			drawArgs.device.SetRenderState(RenderState.Lighting, true);
+			drawArgs.device.SetRenderState(RenderState.Ambient, 0x808080);
+			drawArgs.device.SetRenderState(RenderState.NormalizeNormals, true);
 			
-			drawArgs.device.Lights[0].Diffuse = Color.FromArgb(255, 255, 255);
-			drawArgs.device.Lights[0].Type = LightType.Directional; 
-			drawArgs.device.Lights[0].Direction = new Vector3(1f,1f,1f);
-			drawArgs.device.Lights[0].Enabled = true; 
+			LightHub.Get(drawArgs.device, 0).Diffuse = ColorUtil.ToColor4(Color.FromArgb(255, 255, 255));
+			LightHub.Get(drawArgs.device, 0).Type = LightType.Directional; 
+			LightHub.Get(drawArgs.device, 0).Direction = new Vector3(1f,1f,1f);
+			LightHub.Get(drawArgs.device, 0).Enabled = true; 
 
-			drawArgs.device.SamplerState[0].AddressU = TextureAddress.Wrap;
-			drawArgs.device.SamplerState[0].AddressV = TextureAddress.Wrap;
+			drawArgs.device.SetSamplerState(0, SamplerState.AddressU, TextureAddress.Wrap);
+			drawArgs.device.SetSamplerState(0, SamplerState.AddressV, TextureAddress.Wrap);
 
-			drawArgs.device.RenderState.AlphaBlendEnable = true;
-			drawArgs.device.TextureState[0].ColorArgument1 = TextureArgument.TextureColor;
-			drawArgs.device.TextureState[0].ColorOperation = TextureOperation.SelectArg1;
+			drawArgs.device.SetRenderState(RenderState.AlphaBlendEnable, true);
+			drawArgs.device.SetTextureStageState(0, TextureStage.ColorArg1, TextureArgument.Texture);
+			drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.SelectArg1);
 
 			// Put the light somewhere up in space
-			drawArgs.device.Lights[0].Position = new Vector3(
+			LightHub.Get(drawArgs.device, 0).Position = new Vector3(
 				(float)worldXyz.X*2f,
 				(float)worldXyz.Y*1f,
 				(float)worldXyz.Z*1.5f);
 
-            Matrix currentWorld = drawArgs.device.Transform.World;
-            drawArgs.device.Transform.World = Matrix.RotationX((float)MathEngine.DegreesToRadians(Rotx));
-            drawArgs.device.Transform.World *= Matrix.RotationZ((float)MathEngine.DegreesToRadians(Roty));
-            drawArgs.device.Transform.World *= Matrix.RotationZ((float)MathEngine.DegreesToRadians(Rotz));
-            drawArgs.device.Transform.World *= Matrix.Scaling(Scale, Scale, Scale);
+            Matrix currentWorld = drawArgs.device.GetTransform(TransformState.World);
+            drawArgs.device.SetTransform(TransformState.World, Matrix.RotationX((float)MathEngine.DegreesToRadians(Rotx)));
+            
+            
+            
 
             // Move the mesh to desired location on earth
             //if (isVertExaggerable == true)
             //    vertExaggeration = World.Settings.VerticalExaggeration;
             //else vertExaggeration = 1;
-            //drawArgs.device.Transform.World *= Matrix.Translation(0, 0, (float)drawArgs.WorldCamera.WorldRadius + (currentElevation * Convert.ToInt16(isElevationRelative2Ground) + Altitude) * vertExaggeration);
-            //drawArgs.device.Transform.World *= Matrix.RotationY((float)MathEngine.DegreesToRadians(90 - Latitude));
-            //drawArgs.device.Transform.World *= Matrix.RotationZ((float)MathEngine.DegreesToRadians(Longitude));
+            //
+            //
+            //
 
 
-            //drawArgs.device.Transform.World *= Matrix.Translation(
-            //    (float)-drawArgs.WorldCamera.ReferenceCenter.X,
-            //    (float)-drawArgs.WorldCamera.ReferenceCenter.Y,
-            //    (float)-drawArgs.WorldCamera.ReferenceCenter.Z
-            //    );
+            //
 
             if (isVertExaggerable == true)
                 vertExaggeration = World.Settings.VerticalExaggeration;
@@ -138,38 +137,34 @@ namespace HUST.WREIS.Dot3D.Renderable
                                 radius * Math.Sin(MathEngine.DegreesToRadians(Latitude)));
             Point3d refPosition = absPosition - drawArgs.WorldCamera.ReferenceCenter;
 
-            drawArgs.device.Transform.World *= Matrix.RotationY((float)MathEngine.DegreesToRadians(90 - Latitude));
-            drawArgs.device.Transform.World *= Matrix.RotationZ((float)MathEngine.DegreesToRadians(Longitude));
-            drawArgs.device.Transform.World *= Matrix.Translation((float)refPosition.X, (float)refPosition.Y, (float)refPosition.Z); 
+            
+            
+             
 
-            // 2.Éè±¸Í¶Ó°±ä»»¾ØÕó   
-            // Ä£ÐÍ×ÔÉíµÄÐý×ªºÍËõ·Å   
-            //Matrix currentWorld = drawArgs.device.Transform.World;
-            //drawArgs.device.Transform.World = Matrix.RotationX((float)MathEngine.DegreesToRadians(Rotx));
-            //drawArgs.device.Transform.World *= Matrix.RotationZ((float)MathEngine.DegreesToRadians(Roty));
-            //drawArgs.device.Transform.World *= Matrix.RotationZ((float)MathEngine.DegreesToRadians(Rotz));
-            //drawArgs.device.Transform.World *= Matrix.Scaling(Scale, Scale, Scale);
+            // 2.ï¿½è±¸Í¶Ó°ï¿½ä»»ï¿½ï¿½ï¿½ï¿½   
+            // Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½   
+            //Matrix currentWorld = drawArgs.device.GetTransform(TransformState.World);
+            //drawArgs.device.SetTransform(TransformState.World, Matrix.RotationX((float)MathEngine.DegreesToRadians(Rotx)));
+            //
+            //
+            //
 
-            //// ½«Ä£ÐÍÒÆÖÁµØÇòÏàÓ¦Î»ÖÃ   
+            //// ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦Î»ï¿½ï¿½   
             //// Move the mesh to desired location on earth   
             //if (isVertExaggerable == true)
             //    vertExaggeration = World.Settings.VerticalExaggeration;
             //else vertExaggeration = 1;
-            //drawArgs.device.Transform.World *= Matrix.Translation(0, 0, (float)drawArgs.WorldCamera.WorldRadius + (currentElevation * Convert.ToInt16(isElevationRelative2Ground) + Altitude) * vertExaggeration);
-            //drawArgs.device.Transform.World *= Matrix.RotationY((float)MathEngine.DegreesToRadians(90 - Latitude));
-            //drawArgs.device.Transform.World *= Matrix.RotationZ((float)MathEngine.DegreesToRadians(Longitude));
+            //
+            //
+            //
 
-            //// ½«Éè±¸ÓëÏà»úµÄÏà¶ÔÖÐÐÄÅä×¼   
-            //drawArgs.device.Transform.World *= Matrix.Translation(
-            //    (float)-drawArgs.WorldCamera.ReferenceCenter.X,
-            //    (float)-drawArgs.WorldCamera.ReferenceCenter.Y,
-            //    (float)-drawArgs.WorldCamera.ReferenceCenter.Z
-            //    );  
+            //// ï¿½ï¿½ï¿½è±¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¼   
+            //  
 
             int i = 0;
             try
             {
-                // 3.»æÖÆÄ£ÐÍ   
+                // 3.ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½   
                 for ( i = 0; i < meshMaterials.Length; i++)
                 {
                     // Set the material and texture for this subset
@@ -187,8 +182,8 @@ namespace HUST.WREIS.Dot3D.Renderable
                 throw new Exception(this.name + ":meshMaterials length" + meshMaterials.Length + ";meshTextures length:" + meshTextures .Length+ "; current index:" + i);
             }
 
-			drawArgs.device.Transform.World = currentWorld;
-			drawArgs.device.RenderState.Lighting = false;
+			drawArgs.device.SetTransform(TransformState.World, currentWorld);
+			drawArgs.device.SetRenderState(RenderState.Lighting, false);
 		}
 	
 		
@@ -208,7 +203,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                 else if(meshFileName.EndsWith(".dae")||meshFileName.EndsWith(".xml"))
                     LoadColladaMesh(drawArgs);
                 if (mesh == null)
-                    throw new InvalidMeshException();
+                    throw new SharpDXException();
 				
 				vertExaggeration = World.Settings.VerticalExaggeration;
 				if (isElevationRelative2Ground==true)
@@ -229,10 +224,10 @@ namespace HUST.WREIS.Dot3D.Renderable
         /// </summary>
         private void LoadDirectXMesh(DrawArgs drawArgs)
         {
-            ExtendedMaterial[] materials;
-			//GraphicsStream adj;
-            //drawArgs.device.RenderState.ZBufferEnable = true;
-			mesh = Mesh.FromFile(meshFileName, MeshFlags.Managed, drawArgs.device, out materials );
+            Heiflow.Visualization.DirectX.ExtendedMaterial[] materials;
+			//DataStream adj;
+            //drawArgs.device.SetRenderState(RenderState.ZEnable, true);
+			mesh = NativeD3DX.LoadMeshFromX(drawArgs.device, meshFileName, MeshFlags.Managed, out materials);
 
 			// Extract the material properties and texture names.
 			meshTextures  = new Texture[materials.Length];					

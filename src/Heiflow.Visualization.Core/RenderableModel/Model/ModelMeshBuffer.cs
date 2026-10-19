@@ -1,6 +1,8 @@
 using System;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace Heiflow.Visualization.Renderable.Grid
 {
@@ -93,9 +95,10 @@ namespace Heiflow.Visualization.Renderable.Grid
                 // copy in system memory that the driver has to push to the card again after every
                 // update, and that second copy is what the playback spent its time on. Neither buffer
                 // is ever read back, so both are write only.
-                _vertexBuffer = new VertexBuffer(typeof(CustomVertex.PositionNormalColored), _vertexCount, device,
+                _vertexBuffer = new VertexBuffer(device,
+                    _vertexCount * CustomVertex.PositionNormalColored.StrideSize,
                     Usage.Dynamic | Usage.WriteOnly, CustomVertex.PositionNormalColored.Format, Pool.Default);
-                _indexBuffer = new IndexBuffer(typeof(int), _indexCount, device, Usage.WriteOnly, Pool.Default);
+                _indexBuffer = new IndexBuffer(device, (int)(_indexCount) * 4, Usage.WriteOnly, Pool.Default, true);
 
                 geometryChanged = true;
             }
@@ -112,7 +115,7 @@ namespace Heiflow.Visualization.Renderable.Grid
                 if (geometryChanged)
                     _indexBuffer.SetData(indices, 0, LockFlags.None);
             }
-            catch (DeviceLostException)
+            catch (SharpDXException)
             {
                 Release();
                 return false;
@@ -136,10 +139,10 @@ namespace Heiflow.Visualization.Renderable.Grid
 
             int verticesPerPrimitive = primitiveType == PrimitiveType.LineList ? 2 : 3;
 
-            device.SetStreamSource(0, _vertexBuffer, 0);
+            device.SetStreamSource(0, _vertexBuffer, 0, CustomVertex.PositionNormalColored.StrideSize);
             device.Indices = _indexBuffer;
             device.VertexFormat = CustomVertex.PositionNormalColored.Format;
-            device.DrawIndexedPrimitives(primitiveType, 0, 0, _vertexCount, 0, _indexCount / verticesPerPrimitive);
+            device.DrawIndexedPrimitive(primitiveType, 0, 0, _vertexCount, 0, _indexCount / verticesPerPrimitive);
             device.Indices = null;
         }
 

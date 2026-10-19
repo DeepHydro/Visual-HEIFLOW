@@ -1,14 +1,19 @@
-﻿using DotSpatial.Data;
+using DotSpatial.Data;
 using Heiflow.Core.Drawing;
 using HUST.WREIS.Dot3D;
 using HUST.WREIS.Dot3D.Renderable;
-using Microsoft.DirectX.Direct3D;
+
 using System;
 using System.ComponentModel;
 //using System.Drawing;
 using System.IO;
 using System.Windows.Media;
 using System.Xml.Serialization;
+
+using SharpDX;
+using Color = System.Drawing.Color;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace Heiflow.Visualization.Renderable
 {
@@ -20,7 +25,7 @@ namespace Heiflow.Visualization.Renderable
             IsOn = true;
             CoordinateSystem = "WGS84";
             FeatureColor  = "Blue";
-            FillMode = Microsoft.DirectX.Direct3D.FillMode.Solid;
+            FillMode = FillMode.Solid;
             Opacity = 255;
             DistanceAboveSurface = 10;
             MinimumDisplayAltitude = 0;
@@ -145,7 +150,7 @@ namespace Heiflow.Visualization.Renderable
             {
                 if (FeatureColor != "" && FeatureColor != null)
                 {
-                    mcolor = (Color)ColorConverter.ConvertFromString(FeatureColor);
+                    mcolor = (System.Windows.Media.Color)ColorConverter.ConvertFromString(FeatureColor);
                     color = System.Drawing.Color.FromArgb(mcolor.R, mcolor.G, mcolor.B);
                 }
             }
@@ -243,7 +248,7 @@ namespace Heiflow.Visualization.Renderable
 
             try
             {
-                var media = (Color)ColorConverter.ConvertFromString(text);
+                var media = (System.Windows.Media.Color)ColorConverter.ConvertFromString(text);
                 return System.Drawing.Color.FromArgb(media.R, media.G, media.B);
             }
             catch

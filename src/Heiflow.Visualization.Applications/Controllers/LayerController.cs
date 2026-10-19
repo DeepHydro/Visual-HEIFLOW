@@ -267,9 +267,54 @@ namespace Heiflow.Visualization.Applications
                 _LayerService.SitesLayer.ShowSites(sites);
             }
         }
+        /// <summary>
+        /// Draws a raster file, a GeoTIFF or a picture with a world file among them, on the ground of
+        /// the scene. What comes out of the file is a picture and the patch of ground it belongs to,
+        /// see RasterDrawing, and those two are what an ImageLayer stretches over that patch: the
+        /// picture as its texture, its four sides as the four sides of the layer. It is given no
+        /// altitude above the ground, and it is handed the terrain accessor of the world, so it lies
+        /// on the terrain and follows it.
+        ///
+        /// Unlike the other layers that are added, a raster is not written into the project file: no
+        /// provider of the project draws one yet, and a layer put into the project without a provider
+        /// would come back as nothing the next time the project is opened. The layer is therefore one
+        /// of the session, and goes when the scene goes.
+        /// </summary>
         private void LoadRasterFile(object para)
         {
+            var fileName = para as string;
+            if (string.IsNullOrEmpty(fileName))
+                return;
 
+            string whyNot;
+            var drawing = RasterDrawing.Load(fileName, out whyNot);
+            if (drawing == null)
+            {
+                // The menu is the only way in, and a click on it that brings up nothing looks like a
+                // menu that is broken, hence the word in the log.
+                Heiflow.Core.Log.Write(Heiflow.Core.Log.Levels.Warning, "RAST",
+                    "The raster was not drawn. " + whyNot);
+                return;
+            }
+
+            var world = _ShellService.VirtualGlobeView.VirtualGlobe.CurrentWorld;
+            var layer = new ImageLayer(Path.GetFileNameWithoutExtension(fileName), world, 0,
+                drawing.BitmapFile, drawing.South, drawing.North, drawing.West, drawing.East,
+                1.0, world.TerrainAccessor)
+            {
+                RenderPriority = RenderPriority.SurfaceImages,
+                IsOn = true
+            };
+
+            if (_VGSProjectService.Project != null && _LayerService.FeatureLayerGroup != null)
+            {
+                _LayerService.FeatureLayerGroup.Add(layer);
+            }
+            else
+            {
+                _LayerService.RootLayers.Add(layer);
+            }
+            Refresh(null);
         }
     }
 }

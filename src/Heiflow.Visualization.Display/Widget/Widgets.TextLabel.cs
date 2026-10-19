@@ -1,7 +1,11 @@
 using System;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using Heiflow.Core.Plugin;
+
+using SharpDX;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D.Widgets
 {
@@ -176,7 +180,7 @@ namespace HUST.WREIS.Dot3D.Widgets
 					null,
 					m_Text,
 					new System.Drawing.Rectangle(AbsoluteLocation.X, AbsoluteLocation.Y, m_Size.Width, m_Size.Height),
-					DrawTextFormat.NoClip,
+					FontDrawFlags.NoClip,
 					m_ForeColor);
 			}
 				

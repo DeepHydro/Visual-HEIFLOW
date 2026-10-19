@@ -1,8 +1,10 @@
 using System;
 using System.Reflection;
 using Heiflow.Core;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace Heiflow.Visualization.Renderable.Grid
 {
@@ -111,7 +113,7 @@ namespace Heiflow.Visualization.Renderable.Grid
                 if (_effect == null)
                     _broken = true;
             }
-            catch (DirectXException)
+            catch (SharpDXException)
             {
                 _effect = null;
                 _broken = true;
@@ -159,7 +161,7 @@ namespace Heiflow.Visualization.Renderable.Grid
                 for (int pass = 0; pass < passes; pass++)
                 {
                     _effect.BeginPass(pass);
-                    device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, vertexCount, 0,
+                    device.DrawIndexedPrimitive(PrimitiveType.TriangleList, 0, 0, vertexCount, 0,
                         indexCount / 3);
                     _effect.EndPass();
                 }
@@ -168,7 +170,7 @@ namespace Heiflow.Visualization.Renderable.Grid
                 device.Indices = null;
                 return true;
             }
-            catch (DirectXException)
+            catch (SharpDXException)
             {
                 // The device is gone, the shader goes with it and is loaded again once it is back.
                 _effect = null;
@@ -178,7 +180,7 @@ namespace Heiflow.Visualization.Renderable.Grid
 
         private static bool SupportsShaders(Device device)
         {
-            var caps = device.DeviceCaps;
+            var caps = device.Capabilities;
             return caps.VertexShaderVersion >= new Version(2, 0)
                 && caps.PixelShaderVersion >= new Version(2, 0);
         }
@@ -198,8 +200,7 @@ namespace Heiflow.Visualization.Renderable.Grid
 
                 try
                 {
-                    var effect = Effect.FromStream(device, stream, null, null, ShaderFlags.None, null,
-                        out errors);
+                    var effect = ShaderLoader.FromStream(device, stream, ShaderFlags.None, null, out errors);
 
                     // What the compiler says is written down. It used to be thrown away, and a
                     // shader the card would not take then failed without a word, and the water
@@ -215,7 +216,7 @@ namespace Heiflow.Visualization.Renderable.Grid
 
                     return effect;
                 }
-                catch (DirectXException ex)
+                catch (SharpDXException ex)
                 {
                     Log.Write(Log.Levels.Error, "WATR", "The water shader would not compile: " + ex.Message);
                     return null;

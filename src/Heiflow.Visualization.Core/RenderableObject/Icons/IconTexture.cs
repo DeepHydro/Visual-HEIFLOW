@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Diagnostics;
 using System.Drawing;
@@ -6,8 +6,10 @@ using System.Windows.Forms;
 using System.IO;
 using System.Net;
 
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D.Renderable
 {
@@ -95,12 +97,12 @@ namespace HUST.WREIS.Dot3D.Renderable
 		protected void LoadImage(Device device, Image image)
 		{
 			Width = (int)Math.Round(Math.Pow(2, (int)(Math.Ceiling(Math.Log(image.Width)/Math.Log(2)))));
-			if(Width>device.DeviceCaps.MaxTextureWidth)
-				Width = device.DeviceCaps.MaxTextureWidth;
+			if(Width>device.Capabilities.MaxTextureWidth)
+				Width = device.Capabilities.MaxTextureWidth;
 
 			Height = (int)Math.Round(Math.Pow(2, (int)(Math.Ceiling(Math.Log(image.Height)/Math.Log(2)))));
-			if(Height>device.DeviceCaps.MaxTextureHeight)
-				Height = device.DeviceCaps.MaxTextureHeight;
+			if(Height>device.Capabilities.MaxTextureHeight)
+				Height = device.Capabilities.MaxTextureHeight;
 
 			using(Bitmap textureSource = new Bitmap(Width, Height))
 			using(Graphics g = Graphics.FromImage(textureSource))
@@ -108,7 +110,7 @@ namespace HUST.WREIS.Dot3D.Renderable
 				g.DrawImage(image, 0,0,Width,Height);
 				if(Texture!=null)
 					Texture.Dispose();
-				Texture = new Texture(device, textureSource, Usage.None, Pool.Managed);
+				Texture = TextureFactory.FromBitmap(device, textureSource, Usage.None, Pool.Managed);
 			}
 		}
 

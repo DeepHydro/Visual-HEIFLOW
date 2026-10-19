@@ -1,11 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using HUST.WREIS.Dot3D;
 using Utility;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using System.Drawing;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D.Renderable
 {
@@ -140,8 +144,8 @@ namespace HUST.WREIS.Dot3D.Renderable
 
         private void RenderBar(DrawArgs drawArgs)
         {
-            bool lighting = drawArgs.device.RenderState.Lighting;
-            drawArgs.device.RenderState.Lighting = false;
+            bool lighting = drawArgs.device.GetRenderStateBool(RenderState.Lighting);
+            drawArgs.device.SetRenderState(RenderState.Lighting, false);
             var ele = World.TerrainAccessor.GetElevationAt(m_latitude, m_longitude) * World.Settings.VerticalExaggeration;
             Vector3 surfacePos = MathEngine.SphericalToCartesian(m_latitude, m_longitude, World.EquatorialRadius + ele);
             Vector3 rc = new Vector3(
@@ -158,28 +162,28 @@ namespace HUST.WREIS.Dot3D.Renderable
   
             if(mesh == null)
             {
-                mesh = Mesh.Cylinder(drawArgs.device, 10000, 10000, 10000, 50, 50);
+                mesh = NativeD3DX.CreateCylinder(drawArgs.device, 10000, 10000, 10000, 50, 50);
             }
 
             translation = Matrix.Translation(surfacePos - rc);
 
-            drawArgs.device.Transform.World *= Matrix.RotationY((float)-MathEngine.DegreesToRadians(90));
-            drawArgs.device.Transform.World *= Matrix.RotationY((float)-MathEngine.DegreesToRadians(m_latitude));
-            drawArgs.device.Transform.World *= Matrix.RotationZ((float)MathEngine.DegreesToRadians(m_longitude));
-            drawArgs.device.Transform.World *= translation;
+            
+            
+            
+            
             //drawArgs.device.VertexFormat = CustomVertex.PositionColored.Format;
-            //drawArgs.device.TextureState[0].ColorOperation = TextureOperation.SelectArg1;
-            //drawArgs.device.TextureState[0].ColorArgument1 = TextureArgument.Diffuse;
-            //drawArgs.device.TextureState[0].AlphaArgument1 = TextureArgument.Diffuse;
-            //drawArgs.device.TextureState[0].AlphaOperation = TextureOperation.SelectArg1;
-            drawArgs.device.RenderState.Lighting = true;
+            //drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.SelectArg1);
+            //drawArgs.device.SetTextureStageState(0, TextureStage.ColorArg1, TextureArgument.Diffuse);
+            //drawArgs.device.SetTextureStageState(0, TextureStage.AlphaArg1, TextureArgument.Diffuse);
+            //drawArgs.device.SetTextureStageState(0, TextureStage.AlphaOperation, TextureOperation.SelectArg1);
+            drawArgs.device.SetRenderState(RenderState.Lighting, true);
             Material boxMaterial = new Material();
-            boxMaterial.Ambient = Color.Red;
-            boxMaterial.Diffuse = Color.Red;
+            boxMaterial.Ambient = ColorUtil.ToColor4(Color.Red);
+            boxMaterial.Diffuse = ColorUtil.ToColor4(Color.Red);
             drawArgs.device.Material = boxMaterial;
             mesh.DrawSubset(0);
 
-            drawArgs.device.RenderState.Lighting = lighting;
+            drawArgs.device.SetRenderState(RenderState.Lighting, lighting);
         }
     }
 }

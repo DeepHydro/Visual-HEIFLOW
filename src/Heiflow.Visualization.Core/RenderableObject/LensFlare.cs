@@ -11,8 +11,7 @@
 //----------------------------------------------------------------------------
 // This file is in the Public Domain, and comes with no warranty. 
 //
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using System;
 using System.IO;
 using System.Drawing;
@@ -20,6 +19,12 @@ using System.Windows.Forms;
 using System.Globalization;
 using HUST.WREIS.Dot3D;
 using HUST.WREIS.Dot3D.Renderable;
+
+using SharpDX;
+using Point = System.Drawing.Point;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D
 {
@@ -47,7 +52,7 @@ namespace HUST.WREIS.Dot3D
         	public float[] m_flareOpacities;
 
             public LensFlareEffect(string pluginDirectory)
-                : base("Lens Flare", Vector3.Empty, Quaternion.Identity)
+                : base("Lens Flare", Vector3.Zero, Quaternion.Identity)
 		{
             	//	this.plugin = plugin;
 		//	this.ww = app;
@@ -195,15 +200,15 @@ namespace HUST.WREIS.Dot3D
             if(!Angle.IsNaN(prLon) || !Angle.IsNaN(prLat))
                 return;
             
-            BlendOperation abo = drawArgs.device.RenderState.AlphaBlendOperation;
-            Blend sb = drawArgs.device.RenderState.SourceBlend;
-            Blend db = drawArgs.device.RenderState.DestinationBlend;
+            BlendOperation abo = drawArgs.device.GetRenderStateEnum<BlendOperation>(RenderState.BlendOperation);
+            Blend sb = drawArgs.device.GetRenderStateEnum<Blend>(RenderState.SourceBlend);
+            Blend db = drawArgs.device.GetRenderStateEnum<Blend>(RenderState.DestinationBlend);
 
 			m_sprite.Begin(SpriteFlags.AlphaBlend);
 
-            drawArgs.device.RenderState.AlphaBlendOperation = BlendOperation.Add;
-            drawArgs.device.RenderState.SourceBlend = Blend.SourceAlpha;
-            drawArgs.device.RenderState.DestinationBlend = Blend.One;
+            drawArgs.device.SetRenderState(RenderState.BlendOperation, (int)(BlendOperation.Add));
+            drawArgs.device.SetRenderState(RenderState.SourceBlend, (int)(Blend.SourceAlpha));
+            drawArgs.device.SetRenderState(RenderState.DestinationBlend, (int)(Blend.One));
 
             int m_flareWidth = 144;
             int m_flareHeight = 144;
@@ -222,7 +227,7 @@ namespace HUST.WREIS.Dot3D
     			m_sprite.Transform *= Matrix.Translation(sunScreen + m_flarePositions[flare] * flareDir);
     			m_sprite.Draw(m_flareTextures[flare],
     				new Vector3(m_flareSurfaceDescription.Width >> 1, m_flareSurfaceDescription.Height >> 1, 0),
-    				Vector3.Empty,
+    				Vector3.Zero,
     				System.Drawing.Color.FromArgb((int)m_flareOpacities[flare],253, 253, 253).ToArgb());
             }
 
@@ -230,9 +235,9 @@ namespace HUST.WREIS.Dot3D
 			m_sprite.Transform = Matrix.Identity;
 			m_sprite.End();
 
-            drawArgs.device.RenderState.AlphaBlendOperation = abo;
-            drawArgs.device.RenderState.SourceBlend = sb;
-            drawArgs.device.RenderState.DestinationBlend = db;
+            drawArgs.device.SetRenderState(RenderState.BlendOperation, abo);
+            drawArgs.device.SetRenderState(RenderState.SourceBlend, sb);
+            drawArgs.device.SetRenderState(RenderState.DestinationBlend, db);
         }
 
 		/// <summary>

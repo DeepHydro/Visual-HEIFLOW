@@ -1,13 +1,16 @@
-﻿using System;
+using System;
 using System.IO;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using HUST.WREIS.Dot3D.Renderable;
 using HUST.WREIS.Dot3D;
 using HUST.WREIS.Dot3D.Configuration;
 using HUST.WREIS.Dot3D.Terrain;
 using Utility;
 using Heiflow.Core;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D
 {
@@ -111,7 +114,7 @@ namespace HUST.WREIS.Dot3D
         }
         System.Collections.Generic.List<MeshSubset> m_meshList = new System.Collections.Generic.List<MeshSubset>();
 
-        Vector3 m_lastSunPosition = Vector3.Empty;
+        Vector3 m_lastSunPosition = Vector3.Zero;
 
         System.Threading.Thread m_backgroundThread = null;
         bool active = false;
@@ -187,7 +190,7 @@ namespace HUST.WREIS.Dot3D
         {
             if (m_backgroundThread == null)
             {
-                if (drawArgs.device.DeviceCaps.PixelShaderVersion.Major >= 2)
+                if (drawArgs.device.Capabilities.PixelShaderVersion.Major >= 2)
                 {
                     m_canDoShaders = true;
                 }
@@ -584,12 +587,13 @@ namespace HUST.WREIS.Dot3D
             camHead = MathEngine.RadiansToDegrees(camHead);
             double startLon = -camHead - 180 + (lonSpan / 2);
 
-            Mesh mesh = new Mesh(numFaces, numVertices, MeshFlags.Managed, CustomVertex.PositionColored.Format, device);
+            Mesh mesh = NativeD3DX.CreateMesh(numFaces, numVertices, MeshFlags.Managed, CustomVertex.PositionColored.Format, device);
 
             // Get the original sphere's vertex buffer.
             int[] ranks = new int[1];
-            ranks[0] = mesh.NumberVertices;
-            System.Array arr = mesh.VertexBuffer.Lock(0, typeof(CustomVertex.PositionColored), LockFlags.None, ranks);
+            ranks[0] = NativeD3DX.GetVertexCount(mesh);
+            System.Array arr = null;
+            DataStream vertexData = mesh.VertexBuffer.Lock(0, ranks[0] * CustomVertex.PositionColored.StrideSize, LockFlags.None);
 
             // Set the vertex buffer
             int vertIndex = 0;
@@ -604,12 +608,12 @@ namespace HUST.WREIS.Dot3D
                 pnt = new CustomVertex.PositionColored();
                 double longitude = startLon - ((float)slice / slices * lonSpan);
                 v = MathEngine.SphericalToCartesian(latitude, longitude, radius);
-                v.TransformCoordinate(SkyGradientTrans);
+                v = Vector3.TransformCoordinate(v, SkyGradientTrans);
                 pnt.X = v.X;
                 pnt.Y = v.Y;
                 pnt.Z = v.Z;
                 pnt.Color = System.Drawing.Color.FromArgb(0, 0, 0, 0).ToArgb();
-                arr.SetValue(pnt, vertIndex++);
+                vertexData.Write(pnt);
             }
             // stacks and slices
             for (int stack = 1; stack < stacks; stack++)
@@ -628,12 +632,12 @@ namespace HUST.WREIS.Dot3D
                     pnt = new CustomVertex.PositionColored();
                     double longitude = startLon - ((float)slice / slices * lonSpan);
                     v = MathEngine.SphericalToCartesian(latitude, longitude, radius);
-                    v.TransformCoordinate(SkyGradientTrans);
+                    v = Vector3.TransformCoordinate(v, SkyGradientTrans);
                     pnt.X = v.X;
                     pnt.Y = v.Y;
                     pnt.Z = v.Z;
                     pnt.Color = getAtmosphereColor(drawArgs, pnt);
-                    arr.SetValue(pnt, vertIndex++);
+                    vertexData.Write(pnt);
                 }
             }
             // top fade
@@ -643,17 +647,17 @@ namespace HUST.WREIS.Dot3D
                 pnt = new CustomVertex.PositionColored();
                 double longitude = startLon - ((float)slice / slices * lonSpan);
                 v = MathEngine.SphericalToCartesian(latitude, longitude, radius);
-                v.TransformCoordinate(SkyGradientTrans);
+                v = Vector3.TransformCoordinate(v, SkyGradientTrans);
                 pnt.X = v.X;
                 pnt.Y = v.Y;
                 pnt.Z = v.Z;
                 pnt.Color = System.Drawing.Color.FromArgb(0, 0, 0, 0).ToArgb();
-                arr.SetValue(pnt, vertIndex++);
+                vertexData.Write(pnt);
             }
 
             mesh.VertexBuffer.Unlock();
             ranks[0] = indexCount;
-            arr = mesh.LockIndexBuffer(typeof(short), LockFlags.None, ranks);
+            DataStream indexData = mesh.IndexBuffer.Lock(0, 0, LockFlags.None);
             int i = 0;
             short bottomVertex = 0;
             short topVertex = 0;
@@ -665,18 +669,18 @@ namespace HUST.WREIS.Dot3D
                 topVertex = (short)(bottomVertex + slices + 1);
                 for (int y = 0; y < slices; y++)
                 {
-                    arr.SetValue(bottomVertex, i++);
-                    arr.SetValue((short)(topVertex + 1), i++);
-                    arr.SetValue(topVertex, i++);
-                    arr.SetValue(bottomVertex, i++);
-                    arr.SetValue((short)(bottomVertex + 1), i++);
-                    arr.SetValue((short)(topVertex + 1), i++);
+                    indexData.Write((short)bottomVertex);
+                    indexData.Write((short)(topVertex + 1));
+                    indexData.Write((short)topVertex);
+                    indexData.Write((short)bottomVertex);
+                    indexData.Write((short)(bottomVertex + 1));
+                    indexData.Write((short)(topVertex + 1));
                     bottomVertex++;
                     topVertex++;
                 }
             }
 
-            mesh.IndexBuffer.SetData(arr, 0, LockFlags.None);
+            mesh.UnlockIndexBuffer();
 
             return mesh;
         }
@@ -742,7 +746,7 @@ namespace HUST.WREIS.Dot3D
 
                     if (skyFromSpaceEffect == null)
                     {
-                        drawArgs.device.DeviceReset += new EventHandler(device_DeviceReset);
+                        DeviceEvents.AddDeviceResetHandler(drawArgs.device, device_DeviceReset);
                         device_DeviceReset(drawArgs.device, null);
                     }
 
@@ -751,23 +755,23 @@ namespace HUST.WREIS.Dot3D
                     vCamera.Z = drawArgs.WorldCamera.Position.Z;
 
                     drawArgs.device.VertexFormat = CustomVertex.PositionColored.Format;
-                    drawArgs.device.TextureState[0].ColorOperation = TextureOperation.Disable;
-                    if (drawArgs.device.RenderState.Lighting)
-                        drawArgs.device.RenderState.Lighting = false;
+                    drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
+                    if (drawArgs.device.GetRenderStateBool(RenderState.Lighting))
+                        drawArgs.device.SetRenderState(RenderState.Lighting, false);
 
-                    drawArgs.device.Transform.World = Matrix.Translation(
+                    drawArgs.device.SetTransform(TransformState.World, Matrix.Translation(
                         (float)-drawArgs.WorldCamera.ReferenceCenter.X,
                         (float)-drawArgs.WorldCamera.ReferenceCenter.Y,
                         (float)-drawArgs.WorldCamera.ReferenceCenter.Z
-                        );
+                        ));
 
                     bool doHighResolution = (drawArgs.WorldCamera.Altitude < 300000);
 
                     Frustum frustum = new Frustum();
 
                     frustum.Update(
-                        Matrix.Multiply(drawArgs.device.Transform.World,
-                        Matrix.Multiply(drawArgs.device.Transform.View, drawArgs.device.Transform.Projection)));
+                        Matrix.Multiply(drawArgs.device.GetTransform(TransformState.World),
+                        Matrix.Multiply(drawArgs.device.GetTransform(TransformState.View), drawArgs.device.GetTransform(TransformState.Projection))));
 
                     if (!World.Settings.ForceCpuAtmosphere && m_canDoShaders)
                     {
@@ -782,10 +786,10 @@ namespace HUST.WREIS.Dot3D
                         shader.Technique = "Sky";
                         shader.SetValue("v3CameraPos", new Vector4(vCamera.X, vCamera.Y, vCamera.Z, 0));
                         shader.SetValue("v3LightPos", Vector4.Normalize(new Vector4(m_vLightDirection.X, m_vLightDirection.Y, m_vLightDirection.Z, 0)));
-                        shader.SetValue("WorldViewProj", Matrix.Multiply(drawArgs.device.Transform.World, Matrix.Multiply(drawArgs.device.Transform.View, drawArgs.device.Transform.Projection)));
+                        shader.SetValue("WorldViewProj", Matrix.Multiply(drawArgs.device.GetTransform(TransformState.World), Matrix.Multiply(drawArgs.device.GetTransform(TransformState.View), drawArgs.device.GetTransform(TransformState.Projection))));
                         shader.SetValue("v3InvWavelength", new Vector4(1.0f / m_fWavelength4[0], 1.0f / m_fWavelength4[1], 1.0f / m_fWavelength4[2], 0));
                         shader.SetValue("fCameraHeight", vCamera.Length());
-                        shader.SetValue("fCameraHeight2", vCamera.LengthSq());
+                        shader.SetValue("fCameraHeight2", vCamera.LengthSquared());
                         shader.SetValue("fInnerRadius", m_fInnerRadius);
                         shader.SetValue("fInnerRadius2", m_fInnerRadius * m_fInnerRadius);
                         shader.SetValue("fOuterRadius", m_fOuterRadius);
@@ -812,9 +816,9 @@ namespace HUST.WREIS.Dot3D
                             {
                                 shader.BeginPass(j);
                                 if (doHighResolution)
-                                    drawArgs.device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0, m_meshList[i].HigherResolutionVertices.Length, m_indicesHighResolution.Length / 3, m_indicesHighResolution, true, m_meshList[i].HigherResolutionVertices);
+                                    drawArgs.device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0, m_meshList[i].HigherResolutionVertices.Length, m_indicesHighResolution.Length / 3, m_indicesHighResolution, Format.Index16, m_meshList[i].HigherResolutionVertices);
                                 else
-                                    drawArgs.device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0, m_meshList[i].Vertices.Length, m_indices.Length / 3, m_indices, true, m_meshList[i].Vertices);
+                                    drawArgs.device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0, m_meshList[i].Vertices.Length, m_indices.Length / 3, m_indices, Format.Index16, m_meshList[i].Vertices);
                                 shader.EndPass();
                             }
                             shader.End();
@@ -829,19 +833,19 @@ namespace HUST.WREIS.Dot3D
 
                             UpdateColor(drawArgs, m_meshList[i], doHighResolution);
                             if (doHighResolution)
-                                drawArgs.device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0, m_meshList[i].HigherResolutionVertices.Length, m_indicesHighResolution.Length / 3, m_indicesHighResolution, true, m_meshList[i].HigherResolutionVertices);
+                                drawArgs.device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0, m_meshList[i].HigherResolutionVertices.Length, m_indicesHighResolution.Length / 3, m_indicesHighResolution, Format.Index16, m_meshList[i].HigherResolutionVertices);
                             else
-                                drawArgs.device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0, m_meshList[i].Vertices.Length, m_indices.Length / 3, m_indices, true, m_meshList[i].Vertices);
+                                drawArgs.device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0, m_meshList[i].Vertices.Length, m_indices.Length / 3, m_indices, Format.Index16, m_meshList[i].Vertices);
                             
                         } */
                         // Update Sun
                         UpdateLightVector();
                         // Use SkyGradient geometry
                         UpdateSkyMesh(drawArgs, horizonSpan);
-                        drawArgs.device.RenderState.CullMode = Cull.Clockwise;
+                        drawArgs.device.SetRenderState(RenderState.CullMode, (int)(Cull.Clockwise));
                         skyMesh.DrawSubset(0);
                     }
-                    drawArgs.device.Transform.World = drawArgs.WorldCamera.WorldMatrix;
+                    drawArgs.device.SetTransform(TransformState.World, drawArgs.WorldCamera.WorldMatrix);
                 }
             }
             catch (Exception ex)
@@ -904,14 +908,7 @@ namespace HUST.WREIS.Dot3D
                 Stream skyFromSpaceStream = assembly.GetManifestResourceStream("Heiflow.Visualization.Shaders.SkyFromSpace.fx");
 
                 skyFromSpaceEffect =
-                    Effect.FromStream(
-                    device,
-                    skyFromSpaceStream,
-                    null,
-                    null,
-                    ShaderFlags.None,
-                    null,
-                    out outerrors);
+                    ShaderLoader.FromStream(device, skyFromSpaceStream, ShaderFlags.None, null, out outerrors);
 
                 if (outerrors != null && outerrors.Length > 0)
                     Log.Write(Log.Levels.Error, outerrors);
@@ -919,14 +916,7 @@ namespace HUST.WREIS.Dot3D
                 Stream skyFromAtmosphereStream = assembly.GetManifestResourceStream("Heiflow.Visualization.Shaders.SkyFromAtmosphere.fx");
 
                 skyFromAtmosphere =
-                    Effect.FromStream(
-                    device,
-                    skyFromAtmosphereStream,
-                    null,
-                    null,
-                    ShaderFlags.None,
-                    null,
-                    out outerrors);
+                    ShaderLoader.FromStream(device, skyFromAtmosphereStream, ShaderFlags.None, null, out outerrors);
 
                 if (outerrors != null && outerrors.Length > 0)
                     Log.Write(Log.Levels.Error, outerrors);

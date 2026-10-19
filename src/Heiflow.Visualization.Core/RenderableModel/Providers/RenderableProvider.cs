@@ -1,4 +1,4 @@
-﻿using Heiflow.Core.IO;
+using Heiflow.Core.IO;
 using Heiflow.Core.Utility;
 using HUST.WREIS.Dot3D;
 using HUST.WREIS.Dot3D.Renderable;
@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace Heiflow.Visualization.Renderable
 {
@@ -57,7 +59,7 @@ namespace Heiflow.Visualization.Renderable
             set;
         }
         [XmlIgnore]
-        public Microsoft.DirectX.Direct3D.FillMode FillMode
+        public FillMode FillMode
         {
             get;
             set;

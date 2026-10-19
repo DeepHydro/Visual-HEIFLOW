@@ -1,9 +1,12 @@
 using System;
 using System.IO;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using Utility;
 using Heiflow.Core;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D.Renderable
 {
@@ -14,7 +17,7 @@ namespace HUST.WREIS.Dot3D.Renderable
 	{
 		Mesh mesh;
 		string meshFilePath;
-		ExtendedMaterial[] materials;
+		Heiflow.Visualization.DirectX.ExtendedMaterial[] materials;
 		Material[] meshMaterials;
 
 		float lat;
@@ -45,8 +48,7 @@ namespace HUST.WREIS.Dot3D.Renderable
 		{
 			try
 			{
-				GraphicsStream adj;
-				this.mesh = Mesh.FromFile(this.meshFilePath, MeshFlags.Managed, drawArgs.device, out adj, out this.materials );
+				this.mesh = NativeD3DX.LoadMeshFromX(drawArgs.device, this.meshFilePath, MeshFlags.Managed, out this.materials);
 				this.meshMaterials = new Material[this.materials.Length];
 				//using(StreamWriter sw = new StreamWriter("mat.txt", true, System.Text.Encoding.ASCII))
 			{
@@ -58,7 +60,7 @@ namespace HUST.WREIS.Dot3D.Renderable
 				}
 			}
 
-				//this.mesh.ComputeNormals();
+				//NativeD3DX.ComputeNormals(this.mesh);
 			}
 			catch(Exception caught)
 			{
@@ -87,28 +89,28 @@ namespace HUST.WREIS.Dot3D.Renderable
 		public override void Render(DrawArgs drawArgs)
 		{
 //			Vector3 here = MathEngine.SphericalToCartesian(drawArgs.WorldCamera.Latitude, drawArgs.WorldCamera.Longitude, this.layerRadius);
-			Matrix currentWorld = drawArgs.device.Transform.World;
-			drawArgs.device.RenderState.Lighting = true;
-			drawArgs.device.RenderState.ZBufferEnable = true;
-			drawArgs.device.Lights[0].Diffuse = System.Drawing.Color.White; 
-			drawArgs.device.Lights[0].Type = LightType.Point; 
-			drawArgs.device.Lights[0].Range = 100000;
-			drawArgs.device.Lights[0].Position = new Vector3(this.layerRadius, 0, 0);
-			drawArgs.device.Lights[0].Enabled = true ; 
+			Matrix currentWorld = drawArgs.device.GetTransform(TransformState.World);
+			drawArgs.device.SetRenderState(RenderState.Lighting, true);
+			drawArgs.device.SetRenderState(RenderState.ZEnable, true);
+			LightHub.Get(drawArgs.device, 0).Diffuse = ColorUtil.ToColor4(System.Drawing.Color.White); 
+			LightHub.Get(drawArgs.device, 0).Type = LightType.Point; 
+			LightHub.Get(drawArgs.device, 0).Range = 100000;
+			LightHub.Get(drawArgs.device, 0).Position = new Vector3(this.layerRadius, 0, 0);
+			LightHub.Get(drawArgs.device, 0).Enabled = true ; 
 
-			drawArgs.device.RenderState.CullMode = Cull.None;
-			drawArgs.device.Transform.World = Matrix.Identity;
-			drawArgs.device.Transform.World *= Matrix.Scaling(this.scaleFactor, this.scaleFactor, this.scaleFactor);
-			//drawArgs.device.Transform.World *= Matrix.RotationX(MathEngine.RadiansToDegrees(90));
-			drawArgs.device.Transform.World *= Matrix.Translation(0,0,-this.layerRadius);
+			drawArgs.device.SetRenderState(RenderState.CullMode, (int)(Cull.None));
+			drawArgs.device.SetTransform(TransformState.World, Matrix.Identity);
 			
-			drawArgs.device.Transform.World *= Matrix.RotationY((float)MathEngine.DegreesToRadians(90-this.lat));
-			drawArgs.device.Transform.World *= Matrix.RotationZ((float)MathEngine.DegreesToRadians(180+this.lon));
+			//
 			
-			//drawArgs.device.Transform.World *= Matrix.RotationQuaternion(drawArgs.WorldCamera.CurrentOrientation);
+			
+			
+			
+			
+			//
 		
-			drawArgs.device.TextureState[0].ColorOperation = TextureOperation.Disable;
-			drawArgs.device.RenderState.NormalizeNormals = true;
+			drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
+			drawArgs.device.SetRenderState(RenderState.NormalizeNormals, true);
 		
 			
 			for( int i = 0; i < this.meshMaterials.Length; i++ )
@@ -117,9 +119,9 @@ namespace HUST.WREIS.Dot3D.Renderable
 				this.mesh.DrawSubset(i);
 			}
 			
-			drawArgs.device.Transform.World = currentWorld;
-			drawArgs.device.RenderState.CullMode = Cull.Clockwise;
-			drawArgs.device.RenderState.Lighting = false;
+			drawArgs.device.SetTransform(TransformState.World, currentWorld);
+			drawArgs.device.SetRenderState(RenderState.CullMode, (int)(Cull.Clockwise));
+			drawArgs.device.SetRenderState(RenderState.Lighting, false);
 		}
 	}
 }

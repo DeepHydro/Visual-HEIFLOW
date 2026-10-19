@@ -2,14 +2,19 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-
 using HUST.WREIS.Dot3D;
 using HUST.WREIS.Dot3D.Renderable;
 
 using System.Runtime.InteropServices;
 using System.IO;
+
+using SharpDX;
+using Point = System.Drawing.Point;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Font = SharpDX.Direct3D9.Font;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D.NewWidgets
 {
@@ -241,10 +246,10 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 		/// </summary>
 		protected bool m_renderBody = true;
 
-		protected Microsoft.DirectX.Direct3D.Font m_TextFont; 
-		protected Microsoft.DirectX.Direct3D.Font m_TitleFont; 
-		protected Microsoft.DirectX.Direct3D.Font m_wingdingsFont;
-		protected Microsoft.DirectX.Direct3D.Font m_worldwinddingsFont;
+		protected Font m_TextFont; 
+		protected Font m_TitleFont; 
+		protected Font m_wingdingsFont;
+		protected Font m_worldwinddingsFont;
 
 		/// <summary>
 		/// Region around widget that counts for grabbing when trying to resize the widget.
@@ -344,7 +349,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 
 		#region Properties
 
-		public Microsoft.DirectX.Direct3D.Font TextFont
+		public Font TextFont
 		{
 			get { return m_TextFont; }
 			set { m_TextFont = value; }
@@ -941,17 +946,17 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 			if (m_TitleFont == null)
 			{
 				System.Drawing.Font localHeaderFont = new System.Drawing.Font("Arial", 8.0f, FontStyle.Bold);
-				m_TitleFont = new Microsoft.DirectX.Direct3D.Font(drawArgs.device, localHeaderFont);
+				m_TitleFont = FontFactory.Create(drawArgs.device, localHeaderFont);
 
 				System.Drawing.Font wingdings = new System.Drawing.Font("Wingdings", 12.0f);
-				m_wingdingsFont = new Microsoft.DirectX.Direct3D.Font(drawArgs.device, wingdings);
+				m_wingdingsFont = FontFactory.Create(drawArgs.device, wingdings);
 
                 //AddFontResource(Path.Combine(Application.StartupPath, "World Wind Dings 1.04.ttf"));
                 //System.Drawing.Text.PrivateFontCollection fpc = new System.Drawing.Text.PrivateFontCollection();
                 //fpc.AddFontFile(Path.Combine(Application.StartupPath, "World Wind Dings 1.04.ttf"));
                 //System.Drawing.Font m_worldwinddings = new System.Drawing.Font(fpc.Families[0], 12.0f);
-                System.Drawing.Font m_worldwinddings = new System.Drawing.Font("Wingdings,Arial,ËÎÌå", 8.0f);
-                m_worldwinddingsFont = new Microsoft.DirectX.Direct3D.Font(drawArgs.device, m_worldwinddings);
+                System.Drawing.Font m_worldwinddings = new System.Drawing.Font("Wingdings,Arial,ï¿½ï¿½ï¿½ï¿½", 8.0f);
+                m_worldwinddingsFont = FontFactory.Create(drawArgs.device, m_worldwinddings);
 			}
 
 			m_TextFont = drawArgs.defaultDrawingFont;
@@ -1072,7 +1077,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
                     Rectangle nameBounds = m_TitleFont.MeasureString(
                         null,
                         m_name,
-                        DrawTextFormat.None,
+                        (FontDrawFlags)0,
                         0);
 
                     int widthLeft = m_size.Width - 20;  // account for close box
@@ -1081,7 +1086,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
                         null,
                         m_name,
                         new System.Drawing.Rectangle(this.AbsoluteLocation.X + 2, this.AbsoluteLocation.Y + 2, widthLeft, m_currHeaderHeight),
-                        DrawTextFormat.None,
+                        (FontDrawFlags)0,
                         m_TextColor.ToArgb());
 
 
@@ -1096,7 +1101,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
                                 null,
                                 Text,
                                 new System.Drawing.Rectangle(this.AbsoluteLocation.X + 10 + nameBounds.Width, this.AbsoluteLocation.Y, widthLeft, m_currHeaderHeight),
-                                DrawTextFormat.None,
+                                (FontDrawFlags)0,
                                 m_TextColor.ToArgb());
                         }
                     }
@@ -1105,7 +1110,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
                         null,
                         "X",
                         new System.Drawing.Rectangle(this.AbsoluteLocation.X + m_size.Width - 18, this.AbsoluteLocation.Y, 20, m_currHeaderHeight),
-                        DrawTextFormat.None,
+                        (FontDrawFlags)0,
                         m_TextColor.ToArgb());
 
                     // Render border

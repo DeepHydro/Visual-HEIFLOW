@@ -3,9 +3,6 @@ using System.IO;
 using System.Collections;
 using System.Diagnostics;
 
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-
 //using GeometryUtility;
 //using PolygonCuttingEar;
 
@@ -13,6 +10,10 @@ using Tao.OpenGl;
 using Utility;
 using System.Collections.Generic;
 using Heiflow.Core;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D
 {
@@ -516,24 +517,24 @@ namespace HUST.WREIS.Dot3D
 			{
                 if (IsOn)
                 {
-                    Cull currentCull = drawArgs.device.RenderState.CullMode;
-                    drawArgs.device.RenderState.CullMode = Cull.None;
+                    Cull currentCull = drawArgs.device.GetRenderStateEnum<Cull>(RenderState.CullMode);
+                    drawArgs.device.SetRenderState(RenderState.CullMode, (int)(Cull.None));
 
-                    FillMode fillmode = drawArgs.device.RenderState.FillMode;
-                    drawArgs.device.RenderState.FillMode =  FillMode;
+                    FillMode fillmode = drawArgs.device.GetRenderStateEnum<FillMode>(RenderState.FillMode);
+                    drawArgs.device.SetRenderState(RenderState.FillMode, FillMode);
 
-                    drawArgs.device.RenderState.ZBufferEnable = true;
-                    drawArgs.device.Transform.World = Matrix.Translation(
+                    drawArgs.device.SetRenderState(RenderState.ZEnable, true);
+                    drawArgs.device.SetTransform(TransformState.World, Matrix.Translation(
                         (float)-drawArgs.WorldCamera.ReferenceCenter.X,
                         (float)-drawArgs.WorldCamera.ReferenceCenter.Y,
                         (float)-drawArgs.WorldCamera.ReferenceCenter.Z
-                        );
+                        ));
 
                     //if(m_vertices != null)
                     if (primList.Count > 0)
                     {
                         drawArgs.device.VertexFormat = CustomVertex.PositionNormalColored.Format;
-                        drawArgs.device.TextureState[0].ColorOperation = TextureOperation.Disable;
+                        drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
                         for (int i = 0; i < primList.Count; i++)
                         {
                             int vertexCount = 0;
@@ -561,9 +562,9 @@ namespace HUST.WREIS.Dot3D
                         }
                     }
 
-                    drawArgs.device.Transform.World = drawArgs.WorldCamera.WorldMatrix;
-                    drawArgs.device.RenderState.CullMode = currentCull;
-                    drawArgs.device.RenderState.FillMode = fillmode;
+                    drawArgs.device.SetTransform(TransformState.World, drawArgs.WorldCamera.WorldMatrix);
+                    drawArgs.device.SetRenderState(RenderState.CullMode, currentCull);
+                    drawArgs.device.SetRenderState(RenderState.FillMode, fillmode);
                 }
 			}
 			catch(Exception ex)

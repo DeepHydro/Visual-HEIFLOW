@@ -1,11 +1,11 @@
-﻿using Heiflow.Core;
+using Heiflow.Core;
 using Heiflow.Core.Plugin;
 using Heiflow.Presentation.Services;
 using HUST.WREIS.Dot3D;
 using HUST.WREIS.Dot3D.Display;
 using HUST.WREIS.Dot3D.Display.Plugins;
 using HUST.WREIS.Dot3D.Renderable;
-using Microsoft.DirectX.Direct3D;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -16,6 +16,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Waf.Applications;
 using System.Windows.Threading;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace Heiflow.Visualization.Applications
 {

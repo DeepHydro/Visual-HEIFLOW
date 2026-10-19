@@ -5,10 +5,13 @@ using System.Collections;
 using System.Windows.Forms;
 using System.IO;
 
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-
 using HUST.WREIS.Dot3D.Renderable;
+
+using SharpDX;
+using Point = System.Drawing.Point;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D.NewWidgets
 {
@@ -345,7 +348,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 				m_sprite.Transform *= Matrix.Translation(AbsoluteLocation.X+m_size.Width/2, AbsoluteLocation.Y+m_size.Height/2, 0);
 				m_sprite.Draw( m_iconTexture.Texture,
 					new Vector3(m_iconTexture.Width>>1, m_iconTexture.Height>>1,0),
-					Vector3.Empty,
+					Vector3.Zero,
 					m_normalColor );
 				m_sprite.Transform = Matrix.Identity;
 				m_sprite.End();

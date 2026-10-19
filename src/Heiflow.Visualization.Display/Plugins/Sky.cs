@@ -12,8 +12,6 @@
 // 1.0 June 15, 2005	First version, one bitmap
 //----------------------------------------------------------------------------
 
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
 using System.Windows.Forms;
 
 using System.IO;
@@ -22,6 +20,10 @@ using HUST.WREIS.Dot3D.Renderable;
 using HUST.WREIS.Dot3D.Camera;
 using Utility;
 using Heiflow.Core;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D.Display.Plugins
 {
@@ -156,16 +158,16 @@ namespace HUST.WREIS.Dot3D.Display.Plugins
 			Mesh skyMesh = TexturedDome(device, (float)domeRadius, 24, 12);
 			// set texture
 			device.SetTexture(0,texture);
-			device.TextureState[0].ColorOperation = TextureOperation.BlendCurrentAlpha;
-                	drawArgs.device.TextureState[0].ColorArgument1 = TextureArgument.TextureColor;
-                	drawArgs.device.TextureState[0].ColorArgument2 = TextureArgument.Diffuse;
-                	drawArgs.device.TextureState[0].AlphaOperation = TextureOperation.SelectArg1;
-                	drawArgs.device.TextureState[0].AlphaArgument1 = TextureArgument.TextureColor;
+			device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.BlendCurrentAlpha);
+                	drawArgs.device.SetTextureStageState(0, TextureStage.ColorArg1, TextureArgument.Texture);
+                	drawArgs.device.SetTextureStageState(0, TextureStage.ColorArg2, TextureArgument.Diffuse);
+                	drawArgs.device.SetTextureStageState(0, TextureStage.AlphaOperation, TextureOperation.SelectArg1);
+                	drawArgs.device.SetTextureStageState(0, TextureStage.AlphaArg1, TextureArgument.Texture);
  			device.VertexFormat = CustomVertex.PositionTextured.Format;
 			
 			// save world and projection transform
-			Matrix origWorld = device.Transform.World;
-			Matrix origProjection = device.Transform.Projection;
+			Matrix origWorld = device.GetTransform(TransformState.World);
+			Matrix origProjection = device.GetTransform(TransformState.Projection);
 
 			// move sky dome
 			Matrix skyTrans;
@@ -176,26 +178,26 @@ namespace HUST.WREIS.Dot3D.Display.Plugins
 			skyTrans = Matrix.Multiply(skyTrans, Matrix.RotationY(-(float)camLat.Radians+(float)Math.PI/2));
 			skyTrans = Matrix.Multiply(skyTrans, Matrix.RotationZ((float)camLon.Radians));
 
-			device.Transform.World = skyTrans;
+			device.SetTransform(TransformState.World, skyTrans);
 
 			// Recenter world
 			Recenter(drawArgs);
 			
 			// Save fog status
-			bool origFog = device.RenderState.FogEnable;
-			device.RenderState.FogEnable = false;
+			bool origFog = device.GetRenderStateBool(RenderState.FogEnable);
+			device.SetRenderState(RenderState.FogEnable, false);
 
 			// Set new one (to avoid being clipped) - probably better ways of doing this?
 			float aspectRatio =  (float)device.Viewport.Width / device.Viewport.Height;
-			device.Transform.Projection = Matrix.PerspectiveFovRH((float)camera.Fov.Radians, aspectRatio, 1, float.MaxValue );
+			device.SetTransform(TransformState.Projection, Matrix.PerspectiveFovRH((float)camera.Fov.Radians, aspectRatio, 1, float.MaxValue ));
 
 			// draw
 			skyMesh.DrawSubset(0);
 
 			// Restore device states
-			device.Transform.World = origWorld;
-			device.Transform.Projection = origProjection;
-			device.RenderState.FogEnable = origFog;
+			device.SetTransform(TransformState.World, origWorld);
+			device.SetTransform(TransformState.Projection, origProjection);
+			device.SetRenderState(RenderState.FogEnable, origFog);
 			// dispose of sky - for now
 			skyMesh.Dispose();
 		}
@@ -203,11 +205,7 @@ namespace HUST.WREIS.Dot3D.Display.Plugins
 		// Recenter world projection in WW 1.4
 		public void Recenter(DrawArgs drawArgs) 
         {
-			drawArgs.device.Transform.World *= Matrix.Translation(
-   				(float)-drawArgs.WorldCamera.ReferenceCenter.X,
-   				(float)-drawArgs.WorldCamera.ReferenceCenter.Y,
-   				(float)-drawArgs.WorldCamera.ReferenceCenter.Z
-   				);
+			
 		}
 
 		/// <summary>
@@ -436,12 +434,12 @@ namespace HUST.WREIS.Dot3D.Display.Plugins
 			int numFaces	= slices*stacks*2;
 			int indexCount	= numFaces * 3;
 
-			Mesh mesh = new Mesh(numFaces,numVertices,MeshFlags.Managed,CustomVertex.PositionNormalTextured.Format,device);
+			Mesh mesh = NativeD3DX.CreateMesh(numFaces,numVertices,MeshFlags.Managed,CustomVertex.PositionNormalTextured.Format,device);
 
 			// Get the original sphere's vertex buffer.
 			int [] ranks = new int[1];
-			ranks[0] = mesh.NumberVertices;
-			System.Array arr = mesh.VertexBuffer.Lock(0,typeof(CustomVertex.PositionNormalTextured),LockFlags.None,ranks);
+			ranks[0] = NativeD3DX.GetVertexCount(mesh);
+			DataStream arr = mesh.VertexBuffer.Lock(0, ranks[0] * CustomVertex.PositionNormalTextured.StrideSize, LockFlags.None);
 
 			// Set the vertex buffer
 			int vertIndex=0;
@@ -458,13 +456,13 @@ namespace HUST.WREIS.Dot3D.Display.Plugins
 					pnt.Z = v.Z;
 					pnt.Tu = (float)slice/slices;
 					pnt.Tv = 1.0f-(float)stack/stacks;
-					arr.SetValue(pnt,vertIndex++);
+					arr.Write(pnt);;
 				}
 			}
 
 			mesh.VertexBuffer.Unlock();
 			ranks[0]=indexCount;
-			arr = mesh.LockIndexBuffer(typeof(short),LockFlags.None,ranks);
+			arr = mesh.IndexBuffer.Lock(0, 0, LockFlags.None);
 			int i=0;
 			short bottomVertex = 0;
 			short topVertex = 0;
@@ -474,18 +472,18 @@ namespace HUST.WREIS.Dot3D.Display.Plugins
 				topVertex = (short)(bottomVertex + slices + 1);
 				for(int y=0;y<slices;y++)
 				{
-					arr.SetValue(bottomVertex,i++);
-					arr.SetValue((short)(topVertex+1),i++);
-					arr.SetValue(topVertex,i++);
-					arr.SetValue(bottomVertex,i++);
-					arr.SetValue((short)(bottomVertex+1),i++);
-					arr.SetValue((short)(topVertex+1),i++);
+					arr.Write(bottomVertex);;
+					arr.Write((short)(topVertex+1));;
+					arr.Write(topVertex);;
+					arr.Write(bottomVertex);;
+					arr.Write((short)(bottomVertex+1));;
+					arr.Write((short)(topVertex+1));;
 					bottomVertex++;
 					topVertex++;
 				}
 			}
-			mesh.IndexBuffer.SetData(arr,0,LockFlags.None);
-			mesh.ComputeNormals();
+			mesh.UnlockIndexBuffer();
+			NativeD3DX.ComputeNormals(mesh);
 
 			return mesh;
 		}

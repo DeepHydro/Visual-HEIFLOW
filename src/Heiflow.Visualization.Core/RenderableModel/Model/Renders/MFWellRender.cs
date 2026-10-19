@@ -3,11 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HUST.WREIS.Dot3D;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using Heiflow.Models.Generic;
 using Heiflow.Presentation.Controls;
 using GeoAPI.Geometries;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace Heiflow.Visualization.Renderable.Grid
 {

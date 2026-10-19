@@ -1,9 +1,12 @@
 using System;
 using System.Linq;
-using Microsoft.DirectX.Direct3D;
-using Microsoft.DirectX;
+
 using HUST.WREIS.Dot3D.Menu;
 using HUST.WREIS.Dot3D;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D
 {
@@ -108,7 +111,7 @@ namespace HUST.WREIS.Dot3D
             Name = "LineGraph";
 		}
 
-		CustomVertex.TransformedColored[] m_Verts = new Microsoft.DirectX.Direct3D.CustomVertex.TransformedColored[0];
+		CustomVertex.TransformedColored[] m_Verts = new CustomVertex.TransformedColored[0];
 
 		public void Render(DrawArgs drawArgs)
 		{
@@ -141,7 +144,7 @@ namespace HUST.WREIS.Dot3D
 				}
 			}
 
-			drawArgs.device.TextureState[0].ColorOperation = TextureOperation.Disable;
+			drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
 			drawArgs.device.VertexFormat = CustomVertex.TransformedColored.Format;
 
 			drawArgs.device.VertexFormat = CustomVertex.TransformedColored.Format;
@@ -169,7 +172,7 @@ namespace HUST.WREIS.Dot3D
         /// </summary>
         protected bool m_countWidth = true;
 
-        #region IWidget ³ÉÔ±
+        #region IWidget ï¿½ï¿½Ô±
 
         public string Name
         {

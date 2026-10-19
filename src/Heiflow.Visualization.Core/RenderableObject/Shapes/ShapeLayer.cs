@@ -1,10 +1,13 @@
 using System;
 using System.IO;
 using System.Collections;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using Utility;
 using Heiflow.Core;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D.Renderable
 {

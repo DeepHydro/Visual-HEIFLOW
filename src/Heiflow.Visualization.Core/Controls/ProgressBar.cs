@@ -1,8 +1,12 @@
 using System;
 using System.Drawing;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using HUST.WREIS.Dot3D;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D.VisualControl
 {
@@ -11,11 +15,11 @@ namespace HUST.WREIS.Dot3D.VisualControl
 	/// </summary>
 	public class ProgressBar
 	{
-		CustomVertex.TransformedColored[] progressBarOutline = new Microsoft.DirectX.Direct3D.CustomVertex.TransformedColored[5];
-		CustomVertex.TransformedColored[] progressBarBackground = new Microsoft.DirectX.Direct3D.CustomVertex.TransformedColored[4];
-		CustomVertex.TransformedColored[] progressBarShadow = new Microsoft.DirectX.Direct3D.CustomVertex.TransformedColored[4];
-		CustomVertex.TransformedColored[] progressBar = new Microsoft.DirectX.Direct3D.CustomVertex.TransformedColored[4];
-		CustomVertex.TransformedColored[] progressRight = new Microsoft.DirectX.Direct3D.CustomVertex.TransformedColored[4];
+		CustomVertex.TransformedColored[] progressBarOutline = new CustomVertex.TransformedColored[5];
+		CustomVertex.TransformedColored[] progressBarBackground = new CustomVertex.TransformedColored[4];
+		CustomVertex.TransformedColored[] progressBarShadow = new CustomVertex.TransformedColored[4];
+		CustomVertex.TransformedColored[] progressBar = new CustomVertex.TransformedColored[4];
+		CustomVertex.TransformedColored[] progressRight = new CustomVertex.TransformedColored[4];
 		float x;
 		float y;
 		float width;
@@ -173,7 +177,7 @@ namespace HUST.WREIS.Dot3D.VisualControl
 			progressRight[3].Y = y + halfHeight;
 
 			drawArgs.device.VertexFormat = CustomVertex.TransformedColored.Format;
-			drawArgs.device.TextureState[0].ColorOperation = TextureOperation.Disable;
+			drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
 			drawArgs.device.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, progressBar);
 			drawArgs.device.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, progressRight);
 			drawArgs.device.DrawUserPrimitives(PrimitiveType.LineStrip, 4, progressBarOutline);

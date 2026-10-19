@@ -1,12 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using HUST.WREIS.Dot3D.NewWidgets;
 using Heiflow.Core;
 
 
+
+using SharpDX;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D.Display
 {
@@ -22,10 +26,10 @@ namespace HUST.WREIS.Dot3D.Display
 
         public override void Load()
         {
-            m_form = new FormWidget("±ÈÀý³ß");
+            m_form = new FormWidget("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
             m_form.Location = new System.Drawing.Point(DrawArgs.ParentControl.Width - 170, DrawArgs.ParentControl.Height - 55);
             m_form.ClientSize = new System.Drawing.Size(150, 60);
-            m_form.Text = "±ÈÀý³ß";
+            m_form.Text = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
             m_form.BackgroundColor = World.Settings.WidgetBackgroundColor;
             m_form.ParentWidget = DrawArgs.NewRootWidget;
             m_form.AutoHideHeader = true;
@@ -123,7 +127,7 @@ namespace HUST.WREIS.Dot3D.Display
                 if (m_drawingFont != null)
                 {
                     m_drawingFont.Dispose();
-                    m_drawingFont = new Font(DrawArgs.Device, m_localFont);
+                    m_drawingFont = FontFactory.Create(DrawArgs.Device, m_localFont);
                 }
             }
         }
@@ -309,10 +313,10 @@ namespace HUST.WREIS.Dot3D.Display
                 {
                     if (m_localFont != null && m_drawingFont == null)
                     {
-                        m_drawingFont = new Font(drawArgs.device, m_localFont);
+                        m_drawingFont = FontFactory.Create(drawArgs.device, m_localFont);
                     }
 
-                    DrawTextFormat drawTextFormat = DrawTextFormat.Center;
+                    FontDrawFlags FontDrawFlags = FontDrawFlags.Center;
 
                     Angle startLatitude = Angle.NaN;
                     Angle startLongitude = Angle.NaN;
@@ -352,10 +356,10 @@ namespace HUST.WREIS.Dot3D.Display
                         }
                     }
 
-                    drawArgs.device.TextureState[0].ColorOperation = TextureOperation.SelectArg1;
-                    drawArgs.device.TextureState[0].ColorArgument1 = TextureArgument.Diffuse;
-                    drawArgs.device.TextureState[0].AlphaOperation = TextureOperation.SelectArg1;
-                    drawArgs.device.TextureState[0].AlphaArgument1 = TextureArgument.Diffuse;
+                    drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.SelectArg1);
+                    drawArgs.device.SetTextureStageState(0, TextureStage.ColorArg1, TextureArgument.Diffuse);
+                    drawArgs.device.SetTextureStageState(0, TextureStage.AlphaOperation, TextureOperation.SelectArg1);
+                    drawArgs.device.SetTextureStageState(0, TextureStage.AlphaArg1, TextureArgument.Diffuse);
 
                     
                     renderBackbone(drawArgs);
@@ -366,7 +370,7 @@ namespace HUST.WREIS.Dot3D.Display
                             null,
                             displayString,
                             new System.Drawing.Rectangle(AbsoluteLocation.X, AbsoluteLocation.Y, m_Size.Width, m_Size.Height),
-                            drawTextFormat,
+                            FontDrawFlags,
                             m_ForeColor);
                     }
                     else
@@ -375,7 +379,7 @@ namespace HUST.WREIS.Dot3D.Display
                             null,
                             displayString,
                             new System.Drawing.Rectangle(AbsoluteLocation.X, AbsoluteLocation.Y, m_Size.Width, m_Size.Height),
-                            drawTextFormat,
+                            FontDrawFlags,
                             m_ForeColor);
                     }
                 }

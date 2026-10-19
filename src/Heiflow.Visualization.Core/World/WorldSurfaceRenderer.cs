@@ -1,9 +1,12 @@
 using System;
 using System.IO;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using Utility;
 using Heiflow.Core;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D
 {
@@ -150,7 +153,7 @@ namespace HUST.WREIS.Dot3D
 				RenderSurfaceSize,
 				Format.X8R8G8B8,
 				true,
-				DepthFormat.D16);
+				Format.D16);
 		}
 
 		public void RemoveSurfaceImage(string imageResource)
@@ -189,10 +192,10 @@ namespace HUST.WREIS.Dot3D
 			m_Initialized = false;
 			if(m_Device != null)
 			{
-				m_Device.DeviceReset -= new EventHandler(OnDeviceReset);
+				DeviceEvents.RemoveDeviceResetHandler(m_Device, OnDeviceReset);
 			}
 
-			if(m_Rts != null && !m_Rts.Disposed)
+			if(m_Rts != null && !m_Rts.IsDisposed)
 			{
 				m_Rts.Dispose();
 			}
@@ -205,7 +208,7 @@ namespace HUST.WREIS.Dot3D
 
 		public void Initialize(DrawArgs drawArgs)
 		{
-		//	drawArgs.device.DeviceReset += new EventHandler(OnDeviceReset);
+		//	DeviceEvents.AddDeviceResetHandler(drawArgs.device, OnDeviceReset);
 		//	OnDeviceReset(drawArgs.device, null);
 			foreach(SurfaceTile st in m_RootSurfaceTiles)
 			{
@@ -241,7 +244,7 @@ namespace HUST.WREIS.Dot3D
 		{
 			if(this.m_Rts == null)
 			{
-				drawArgs.device.DeviceReset += new EventHandler(OnDeviceReset);
+				DeviceEvents.AddDeviceResetHandler(drawArgs.device, OnDeviceReset);
 				OnDeviceReset(drawArgs.device, null);
 			}
 			if(!m_Initialized)

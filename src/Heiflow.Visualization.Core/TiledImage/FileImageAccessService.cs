@@ -1,10 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using Microsoft.DirectX.Direct3D;
+
 using HUST.WREIS.Dot3D.Renderable;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D
 {
@@ -65,7 +69,7 @@ namespace HUST.WREIS.Dot3D
             return true;
         }
 
-        public Microsoft.DirectX.Direct3D.Texture LoadFile(Renderable.QuadTile qt)
+        public Texture LoadFile(Renderable.QuadTile qt)
         {
             if (mImageStore.IsDebug == true)
             {

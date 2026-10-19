@@ -1,6 +1,9 @@
 using System;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
+using SharpDX;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D.Renderable
 {
@@ -102,15 +105,15 @@ namespace HUST.WREIS.Dot3D.Renderable
 
             float offsetDegrees = (float)drawArgs.WorldCamera.TrueViewRange.Degrees / 6;
 
-            drawArgs.device.RenderState.ZBufferEnable = useZBuffer;
+            drawArgs.device.SetRenderState(RenderState.ZEnable, useZBuffer);
 
-            drawArgs.device.TextureState[0].ColorOperation = TextureOperation.Disable;
+            drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
             drawArgs.device.VertexFormat = CustomVertex.PositionColored.Format;
-            drawArgs.device.Transform.World = Matrix.Translation(
+            drawArgs.device.SetTransform(TransformState.World, Matrix.Translation(
                     (float)-drawArgs.WorldCamera.ReferenceCenter.X,
                     (float)-drawArgs.WorldCamera.ReferenceCenter.Y,
                     (float)-drawArgs.WorldCamera.ReferenceCenter.Z
-                    );
+                    ));
 
             Vector3 referenceCenter = new Vector3(
                     (float)drawArgs.WorldCamera.ReferenceCenter.X,
@@ -118,7 +121,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                     (float)drawArgs.WorldCamera.ReferenceCenter.Z);
 
             // Turn off light
-            if (World.Settings.EnableSunShading) drawArgs.device.RenderState.Lighting = false;
+            if (World.Settings.EnableSunShading) drawArgs.device.SetRenderState(RenderState.Lighting, false);
 
             // Draw longitudes
             for (float longitude = MinVisibleLongitude; longitude < MaxVisibleLongitude; longitude += LongitudeInterval)
@@ -209,11 +212,11 @@ namespace HUST.WREIS.Dot3D.Renderable
                 RenderTropicLines(drawArgs);
 
             // Restore state
-            drawArgs.device.Transform.World = drawArgs.WorldCamera.WorldMatrix;
+            drawArgs.device.SetTransform(TransformState.World, drawArgs.WorldCamera.WorldMatrix);
             if (!useZBuffer)
                 // Reset Z buffer setting
-                drawArgs.device.RenderState.ZBufferEnable = true;
-            if (World.Settings.EnableSunShading) drawArgs.device.RenderState.Lighting = true;
+                drawArgs.device.SetRenderState(RenderState.ZEnable, true);
+            if (World.Settings.EnableSunShading) drawArgs.device.SetRenderState(RenderState.Lighting, true);
         }
 
         public override void Initialize(DrawArgs drawArgs)
@@ -288,7 +291,7 @@ namespace HUST.WREIS.Dot3D.Renderable
             if (drawArgs.WorldCamera.ViewFrustum.ContainsPoint(t1))
             {
                 t1 = drawArgs.WorldCamera.Project(t1 - referenceCenter);
-                drawArgs.defaultDrawingFont.DrawText(null, label, new System.Drawing.Rectangle((int)t1.X, (int)t1.Y, drawArgs.screenWidth, drawArgs.screenHeight), DrawTextFormat.NoClip, World.Settings.TropicLinesColor);
+                drawArgs.defaultDrawingFont.DrawText(null, label, new System.Drawing.Rectangle((int)t1.X, (int)t1.Y, drawArgs.screenWidth, drawArgs.screenHeight), FontDrawFlags.NoClip, World.Settings.TropicLinesColor);
             }
         }
 

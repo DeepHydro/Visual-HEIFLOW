@@ -1,12 +1,15 @@
 using System;
 using System.Collections;
 using System.IO;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using HUST.WREIS.Dot3D;
 using HUST.WREIS.Dot3D.Terrain;
 using Utility;
 using Heiflow.Core;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D.Renderable
 {
@@ -300,7 +303,7 @@ namespace HUST.WREIS.Dot3D.Renderable
 					Load();
 
 				if(linePoints != null)
-					if((lastUpdatedPosition - drawArgs.WorldCamera.Position).LengthSq() < 10*10) // Update if camera moved more than 10 meters
+					if((lastUpdatedPosition - drawArgs.WorldCamera.Position).LengthSquared() < 10*10) // Update if camera moved more than 10 meters
 						if(Math.Abs(this.verticalExaggeration - World.Settings.VerticalExaggeration) < 0.01)
 							// Already loaded and up-to-date
 							return;
@@ -308,9 +311,9 @@ namespace HUST.WREIS.Dot3D.Renderable
 				verticalExaggeration = World.Settings.VerticalExaggeration;
 
 				ArrayList renderablePoints = new ArrayList();
-				Vector3 lastPointProjected = Vector3.Empty;
+				Vector3 lastPointProjected = Vector3.Zero;
 				Vector3 currentPointProjected;
-				Vector3 currentPointXyz = Vector3.Empty;
+				Vector3 currentPointXyz = Vector3.Zero;
 
                 Vector3 rc = new Vector3(
                     (float)drawArgs.WorldCamera.ReferenceCenter.X,
@@ -403,17 +406,17 @@ namespace HUST.WREIS.Dot3D.Renderable
 				drawArgs.numBoundariesDrawn++;
 
 				drawArgs.device.VertexFormat = CustomVertex.PositionColored.Format;
-				drawArgs.device.TextureState[0].ColorOperation = TextureOperation.Disable;
+				drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
 
-				drawArgs.device.Transform.World = Matrix.Translation(
+				drawArgs.device.SetTransform(TransformState.World, Matrix.Translation(
 					(float)-drawArgs.WorldCamera.ReferenceCenter.X,
 					(float)-drawArgs.WorldCamera.ReferenceCenter.Y,
 					(float)-drawArgs.WorldCamera.ReferenceCenter.Z
-					);
+					));
 
 				
 				drawArgs.device.DrawUserPrimitives( PrimitiveType.LineStrip, this.linePoints.Length - 1, this.linePoints );
-				drawArgs.device.Transform.World = drawArgs.WorldCamera.WorldMatrix;
+				drawArgs.device.SetTransform(TransformState.World, drawArgs.WorldCamera.WorldMatrix);
 			}
 			catch
 			{

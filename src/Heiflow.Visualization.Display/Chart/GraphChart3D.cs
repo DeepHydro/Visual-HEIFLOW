@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,13 +6,21 @@ using HUST.WREIS.Dot3D.NewWidgets;
 using ZedGraph;
 using System.Drawing;
 using System.IO;
-using Microsoft.DirectX.Direct3D;
+
 using HUST.WREIS.Dot3D.Display.Properties;
 using HUST.WREIS.Dot3D.Display.Plugins;
 using System.Data;
 using Heiflow.Visualization.Renderable.Grid;
 using Heiflow.Core.Data;
 
+
+using SharpDX;
+using Point = System.Drawing.Point;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using RectangleF = System.Drawing.RectangleF;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D.Display
 {
@@ -505,7 +513,7 @@ namespace HUST.WREIS.Dot3D.Display
                 // Texture texture = TextureLoader.FromStream(DrawArgs.Device, imageStream, 0, 0,
                 //         1, Usage.None, Format.Dxt5, Pool.Managed, Filter.Box, Filter.Box, 0);
                 // mPbox.ImageSource = imageStream;
-                mPbox.ImageTexture = new Texture(DrawArgs.Device, mBitmap, Usage.None, Pool.Managed);
+                mPbox.ImageTexture = TextureFactory.FromBitmap(DrawArgs.Device, mBitmap, Usage.None, Pool.Managed);
             }
         }
 

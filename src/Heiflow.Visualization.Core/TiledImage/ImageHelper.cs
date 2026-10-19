@@ -1,4 +1,4 @@
-using Microsoft.DirectX.Direct3D;
+
 using HUST.WREIS.Dot3D.Configuration;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -9,6 +9,12 @@ using System.IO;
 using System.Windows.Forms;
 using Utility;
 using Heiflow.Core;
+
+using SharpDX;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D
 {
@@ -59,7 +65,7 @@ namespace HUST.WREIS.Dot3D
 			}
 			catch
 			{
-				throw new Microsoft.DirectX.Direct3D.InvalidDataException(string.Format("Error reading image file '{0}'.", textureFileName));
+				throw new InvalidDataException(string.Format("Error reading image file '{0}'.", textureFileName));
 			}
 		}
 
@@ -170,7 +176,7 @@ namespace HUST.WREIS.Dot3D
             transparentImage.UnlockBits(dstInfo);
             image.UnlockBits(srcInfo);
 
-            return new Texture(DrawArgs.Device, transparentImage, Usage.None, Pool.Managed);
+            return TextureFactory.FromBitmap(DrawArgs.Device, transparentImage, Usage.None, Pool.Managed);
         }
 
         public static Texture LoadTexture(string textureFileName,  Device device)
@@ -191,7 +197,7 @@ namespace HUST.WREIS.Dot3D
             //    ImageLockMode.WriteOnly,
             //    PixelFormat.Format32bppArgb);
 
-            return new Texture(device, image, Usage.None, Pool.Managed);
+            return TextureFactory.FromBitmap(device, image, Usage.None, Pool.Managed);
         }
 
 		/// <summary>
@@ -219,7 +225,7 @@ namespace HUST.WREIS.Dot3D
 
 				return texture;
 			}
-			catch (Microsoft.DirectX.Direct3D.InvalidDataException)
+			catch (InvalidDataException)
 			{
 			}
 
@@ -230,13 +236,13 @@ namespace HUST.WREIS.Dot3D
 				// TODO: Support color keying.  See: System.Drawing.Imaging.ImageAttributes
 				using (Bitmap image = (Bitmap)Image.FromStream(textureStream))
 				{
-					Texture texture = new Texture(DrawArgs.Device, image, Usage.None, Pool.Managed);
+					Texture texture = TextureFactory.FromBitmap(DrawArgs.Device, image, Usage.None, Pool.Managed);
 					return texture;
 				}
 			}
 			catch
 			{
-				throw new Microsoft.DirectX.Direct3D.InvalidDataException("Error reading image stream.");
+				throw new InvalidDataException("Error reading image stream.");
 			}
 		}
 
@@ -296,7 +302,7 @@ namespace HUST.WREIS.Dot3D
 
 			// Make a replacement warning texture with a red cross over.
 			using (Bitmap bitmap = CreateDefaultImage())
-				return new Texture(DrawArgs.Device, bitmap, 0, Pool.Managed);
+				return TextureFactory.FromBitmap(DrawArgs.Device, bitmap, 0, Pool.Managed);
 		}
 
 		/// <summary>
@@ -382,7 +388,7 @@ namespace HUST.WREIS.Dot3D
 				if (eraseOriginal)
 					File.Delete(originalImagePath);
 			}
-			catch (Microsoft.DirectX.Direct3D.InvalidDataException)
+			catch (InvalidDataException)
 			{
 				throw new ApplicationException(string.Format("Failed to load image data from {0}.", originalImagePath));
 			}
@@ -407,7 +413,7 @@ namespace HUST.WREIS.Dot3D
 								 Filter.Box | Filter.DitherDiffusion, Filter.None, 0))
 					TextureLoader.Save(outputDdsPath, ImageFileFormat.Dds, t);
 			}
-			catch (Microsoft.DirectX.Direct3D.InvalidDataException)
+			catch (InvalidDataException)
 			{
 				throw new ApplicationException("Failed to load image data from stream.");
 			}

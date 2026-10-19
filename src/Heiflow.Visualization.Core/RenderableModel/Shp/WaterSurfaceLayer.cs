@@ -4,11 +4,16 @@ using GeoAPI.Geometries;
 using Heiflow.Core;
 using Heiflow.Visualization.Renderable.Grid;
 using HUST.WREIS.Dot3D;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+
+using SharpDX;
+using Point = System.Drawing.Point;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace Heiflow.Visualization.Renderable
 {
@@ -344,20 +349,20 @@ namespace Heiflow.Visualization.Renderable
             {
                 // The water is drawn through, so the blending the fixed pipeline was left with is
                 // put back when the layer is done with it.
-                bool blending = device.RenderState.AlphaBlendEnable;
-                var source = device.RenderState.SourceBlend;
-                var destination = device.RenderState.DestinationBlend;
-                device.RenderState.AlphaBlendEnable = true;
-                device.RenderState.SourceBlend = Blend.SourceAlpha;
-                device.RenderState.DestinationBlend = Blend.InvSourceAlpha;
+                bool blending = device.GetRenderStateBool(RenderState.AlphaBlendEnable);
+                var source = device.GetRenderState(RenderState.SourceBlend);
+                var destination = device.GetRenderState(RenderState.DestinationBlend);
+                device.SetRenderState(RenderState.AlphaBlendEnable, true);
+                device.SetRenderState(RenderState.SourceBlend, (int)(Blend.SourceAlpha));
+                device.SetRenderState(RenderState.DestinationBlend, (int)(Blend.InverseSourceAlpha));
 
                 try
                 {
                     _Shader.Ensure(device);
 
                     var parameters = new WaterParameters();
-                    parameters.WorldViewProjection = Matrix.Multiply(device.Transform.World,
-                        Matrix.Multiply(device.Transform.View, device.Transform.Projection));
+                    parameters.WorldViewProjection = Matrix.Multiply(device.GetTransform(TransformState.World),
+                        Matrix.Multiply(device.GetTransform(TransformState.View), device.GetTransform(TransformState.Projection)));
                     parameters.EyePosition = drawArgs.WorldCamera.Position;
                     // Where the sun stands is given as a place in the sky, which is a hundred and
                     // fifty million kilometres away, and the shader wants no more than which way to
@@ -394,7 +399,7 @@ namespace Heiflow.Visualization.Renderable
                         }
                     }
                 }
-                catch (DeviceLostException)
+                catch (SharpDXException)
                 {
                     // The buffers go with the card, and both are made again on the next frame.
                     foreach (var body in _Bodies)
@@ -408,9 +413,9 @@ namespace Heiflow.Visualization.Renderable
                 }
                 finally
                 {
-                    device.RenderState.AlphaBlendEnable = blending;
-                    device.RenderState.SourceBlend = source;
-                    device.RenderState.DestinationBlend = destination;
+                    device.SetRenderState(RenderState.AlphaBlendEnable, blending);
+                    device.SetRenderState(RenderState.SourceBlend, source);
+                    device.SetRenderState(RenderState.DestinationBlend, destination);
                 }
             }
         }
@@ -420,25 +425,25 @@ namespace Heiflow.Visualization.Renderable
         /// </summary>
         private void DrawFlat(Device device, WaterBody body)
         {
-            bool lighting = device.RenderState.Lighting;
-            Color ambient = device.RenderState.Ambient;
+            bool lighting = device.GetRenderStateBool(RenderState.Lighting);
+            Color ambient = device.GetRenderStateColor(RenderState.Ambient);
 
             var material = new Material();
-            material.Diffuse = ShallowColor;
-            material.Ambient = ShallowColor;
+            material.Diffuse = ColorUtil.ToColor4(ShallowColor);
+            material.Ambient = ColorUtil.ToColor4(ShallowColor);
 
-            device.RenderState.Lighting = true;
-            device.RenderState.Ambient = Color.White;
+            device.SetRenderState(RenderState.Lighting, true);
+            device.SetRenderState(RenderState.Ambient, Color.White.ToArgb());
             device.Material = material;
             device.VertexFormat = CustomVertex.PositionNormalTextured.Format;
             device.SetStreamSource(0, body.VertexBuffer, 0, CustomVertex.PositionNormalTextured.StrideSize);
             device.Indices = body.IndexBuffer;
-            device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, body.VertexCount, 0,
+            device.DrawIndexedPrimitive(PrimitiveType.TriangleList, 0, 0, body.VertexCount, 0,
                 body.IndexCount / 3);
             device.Indices = null;
 
-            device.RenderState.Ambient = ambient;
-            device.RenderState.Lighting = lighting;
+            device.SetRenderState(RenderState.Ambient, ambient.ToArgb());
+            device.SetRenderState(RenderState.Lighting, lighting);
         }
 
         private static float[] FloatsOf(Color color)
@@ -483,11 +488,10 @@ namespace Heiflow.Visualization.Renderable
                 if (OnCard || device == null || Vertices == null || Triangles == null)
                     return;
 
-                VertexBuffer = new VertexBuffer(typeof(CustomVertex.PositionNormalTextured), Vertices.Length,
-                    device, Usage.WriteOnly, CustomVertex.PositionNormalTextured.Format, Pool.Default);
+                VertexBuffer = new VertexBuffer(device, Vertices.Length * CustomVertex.PositionNormalTextured.StrideSize, Usage.WriteOnly, CustomVertex.PositionNormalTextured.Format, Pool.Default);
                 VertexBuffer.SetData(Vertices, 0, LockFlags.None);
 
-                IndexBuffer = new IndexBuffer(typeof(int), Triangles.Length, device, Usage.WriteOnly, Pool.Default);
+                IndexBuffer = new IndexBuffer(device, (int)(Triangles.Length) * 4, Usage.WriteOnly, Pool.Default, true);
                 IndexBuffer.SetData(Triangles, 0, LockFlags.None);
             }
 

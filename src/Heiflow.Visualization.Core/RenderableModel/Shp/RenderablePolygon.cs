@@ -1,18 +1,21 @@
-﻿using DotSpatial.Data;
+using DotSpatial.Data;
 using DotSpatial.Projections;
 using GeoAPI.Geometries;
 using Heiflow.Core;
 using Heiflow.Visualization.Geometry.Triangulation;
 using HUST.WREIS.Dot3D;
 using HUST.WREIS.Dot3D.Core;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using ProjNet.CoordinateSystems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace Heiflow.Visualization.Renderable
 {
@@ -168,29 +171,29 @@ namespace Heiflow.Visualization.Renderable
                 Device device = DrawArgs.Device;
                 if (!World.Settings.EnableHighPerfomance)
                     device.Clear(ClearFlags.ZBuffer, 0, 1.0f, 0);
-                device.RenderState.ZBufferEnable = true;
+                device.SetRenderState(RenderState.ZEnable, true);
 
-                Cull currentCull = drawArgs.device.RenderState.CullMode;
-                drawArgs.device.RenderState.CullMode = Cull.None;
+                Cull currentCull = drawArgs.device.GetRenderStateEnum<Cull>(RenderState.CullMode);
+                drawArgs.device.SetRenderState(RenderState.CullMode, (int)(Cull.None));
 
-                drawArgs.device.Transform.World = Matrix.Translation(
+                drawArgs.device.SetTransform(TransformState.World, Matrix.Translation(
                     (float)-drawArgs.WorldCamera.ReferenceCenter.X,
                     (float)-drawArgs.WorldCamera.ReferenceCenter.Y,
                     (float)-drawArgs.WorldCamera.ReferenceCenter.Z
-                    );
+                    ));
 
 
-                drawArgs.device.TextureState[0].ColorOperation = TextureOperation.Disable;
+                drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
                 drawArgs.device.VertexFormat = CustomVertex.PositionColored.Format;
 
                 for (int n = 0; n < _Vertices.Length; n++)
                 {
                     drawArgs.device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0, _Vertices[n].Length, _VertexIndexLists[n].Length / 3,
-               _VertexIndexLists[n], false, _Vertices[n]);
+               _VertexIndexLists[n], Format.Index32, _Vertices[n]);
                 }
 
-                drawArgs.device.Transform.World = drawArgs.WorldCamera.WorldMatrix;
-                drawArgs.device.RenderState.CullMode = currentCull;
+                drawArgs.device.SetTransform(TransformState.World, drawArgs.WorldCamera.WorldMatrix);
+                drawArgs.device.SetRenderState(RenderState.CullMode, currentCull);
             }
             catch (Exception ex)
             {

@@ -1,7 +1,9 @@
 using System;
 using System.IO;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D.Renderable
 {
@@ -111,8 +113,8 @@ namespace HUST.WREIS.Dot3D.Renderable
 			if(this.isInitialized)
 			{
 				drawArgs.device.VertexFormat = CustomVertex.PositionColored.Format;
-				drawArgs.device.TextureState[0].ColorOperation = TextureOperation.Disable;
-				drawArgs.device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0, this._vertices.Length,this._indices.Length / 3, this._indices, false, this._vertices);
+				drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
+				drawArgs.device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0, this._vertices.Length,this._indices.Length / 3, this._indices, Format.Index32, this._vertices);
 			}
 		}
 

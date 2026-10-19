@@ -1,11 +1,14 @@
 using System;
 using System.Globalization;
 using System.IO;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using HUST.WREIS.Dot3D;
 using Utility;
 using Heiflow.Core;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D.Renderable
 {
@@ -243,7 +246,7 @@ namespace HUST.WREIS.Dot3D.Renderable
 
 				Vector3 newPoint = MathEngine.SphericalToCartesian(latitude, longitude, this._parentWorld.EquatorialRadius + this.verticalExaggeration * heightAboveSurface );
 				newLine[newLine.Length - 1].Color = this.lineColor;
-				newLine[newLine.Length - 1] = new Microsoft.DirectX.Direct3D.CustomVertex.PositionColored(newPoint.X, newPoint.Y, newPoint.Z, System.Drawing.Color.Red.ToArgb());
+				newLine[newLine.Length - 1] = new CustomVertex.PositionColored(newPoint.X, newPoint.Y, newPoint.Z, System.Drawing.Color.Red.ToArgb());
 			
 				//Need to build path if points are spread too far apart
 
@@ -262,7 +265,7 @@ namespace HUST.WREIS.Dot3D.Renderable
 
 					//Vector3 newPoint = MathEngine.SphericalToCartesian(latitude, longitude, this._parentWorld.EquatorialRadius + this.verticalExaggeration * heightAboveSurface );
 					newLine[newLine.Length - 1].Color = this.lineColor;
-					newLine[newLine.Length - 1] = new Microsoft.DirectX.Direct3D.CustomVertex.PositionColored(newPoint.X, newPoint.Y, newPoint.Z, System.Drawing.Color.Red.ToArgb());
+					newLine[newLine.Length - 1] = new CustomVertex.PositionColored(newPoint.X, newPoint.Y, newPoint.Z, System.Drawing.Color.Red.ToArgb());
 			
 					//Need to build path if points are spread too far apart
 
@@ -347,16 +350,16 @@ namespace HUST.WREIS.Dot3D.Renderable
 					if(this.linePoints != null)
 					{
 						drawArgs.device.VertexFormat = CustomVertex.PositionColored.Format;
-						drawArgs.device.TextureState[0].ColorOperation = TextureOperation.Disable;
+						drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
 
-						drawArgs.device.Transform.World = Matrix.Translation(
+						drawArgs.device.SetTransform(TransformState.World, Matrix.Translation(
 							(float)-drawArgs.WorldCamera.ReferenceCenter.X,
 							(float)-drawArgs.WorldCamera.ReferenceCenter.Y,
 							(float)-drawArgs.WorldCamera.ReferenceCenter.Z
-							);
+							));
 
 						drawArgs.device.DrawUserPrimitives(PrimitiveType.LineStrip, this.linePoints.Length - 1, this.linePoints);
-						drawArgs.device.Transform.World = drawArgs.WorldCamera.WorldMatrix;
+						drawArgs.device.SetTransform(TransformState.World, drawArgs.WorldCamera.WorldMatrix);
 					}
 				}
 			}

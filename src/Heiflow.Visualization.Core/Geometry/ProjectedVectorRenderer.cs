@@ -1,3 +1,5 @@
+using Heiflow.Visualization.DirectX;
+using SharpDX.Direct3D9;
 using System;
 using Utility;
 using System.Collections.Generic;
@@ -157,7 +159,7 @@ namespace HUST.WREIS.Dot3D
 
 		public void Render(DrawArgs drawArgs)
 		{
-			drawArgs.device.Clear(Microsoft.DirectX.Direct3D.ClearFlags.ZBuffer, 0, 1.0f, 0);
+			drawArgs.device.Clear(ClearFlags.ZBuffer, 0, 1.0f, 0);
 
 			foreach(ProjectedVectorTile tile in m_rootTiles)
 				tile.Render(drawArgs);

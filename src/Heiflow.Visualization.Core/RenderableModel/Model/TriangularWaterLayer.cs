@@ -2,11 +2,15 @@ using Heiflow.Core;
 using Heiflow.Models.Generic;
 using HUST.WREIS.Dot3D;
 using HUST.WREIS.Dot3D.Renderable;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using System;
 using System.ComponentModel;
 using System.Drawing;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace Heiflow.Visualization.Renderable.Grid
 {
@@ -336,11 +340,10 @@ namespace Heiflow.Visualization.Renderable.Grid
 
             try
             {
-                _VertexBuffer = new VertexBuffer(typeof(CustomVertex.PositionNormalTextured), _Vertices.Length,
-                    device, Usage.WriteOnly, CustomVertex.PositionNormalTextured.Format, Pool.Default);
+                _VertexBuffer = new VertexBuffer(device, _Vertices.Length * CustomVertex.PositionNormalTextured.StrideSize, Usage.WriteOnly, CustomVertex.PositionNormalTextured.Format, Pool.Default);
                 _VertexBuffer.SetData(_Vertices, 0, LockFlags.None);
 
-                _IndexBuffer = new IndexBuffer(typeof(int), _Indices.Length, device, Usage.WriteOnly, Pool.Default);
+                _IndexBuffer = new IndexBuffer(device, (int)(_Indices.Length) * 4, Usage.WriteOnly, Pool.Default, true);
                 _IndexBuffer.SetData(_Indices, 0, LockFlags.None);
             }
             catch (Exception ex)
@@ -382,12 +385,12 @@ namespace Heiflow.Visualization.Renderable.Grid
             {
                 // The water is drawn through, so the blending the fixed pipeline was left with is
                 // put back when the layer is done with it.
-                bool blending = device.RenderState.AlphaBlendEnable;
-                var source = device.RenderState.SourceBlend;
-                var destination = device.RenderState.DestinationBlend;
-                device.RenderState.AlphaBlendEnable = true;
-                device.RenderState.SourceBlend = Blend.SourceAlpha;
-                device.RenderState.DestinationBlend = Blend.InvSourceAlpha;
+                bool blending = device.GetRenderStateBool(RenderState.AlphaBlendEnable);
+                var source = device.GetRenderState(RenderState.SourceBlend);
+                var destination = device.GetRenderState(RenderState.DestinationBlend);
+                device.SetRenderState(RenderState.AlphaBlendEnable, true);
+                device.SetRenderState(RenderState.SourceBlend, (int)(Blend.SourceAlpha));
+                device.SetRenderState(RenderState.DestinationBlend, (int)(Blend.InverseSourceAlpha));
 
                 try
                 {
@@ -398,8 +401,8 @@ namespace Heiflow.Visualization.Renderable.Grid
                     _Shader.Ensure(device);
 
                     var parameters = new WaterParameters();
-                    parameters.WorldViewProjection = Matrix.Multiply(device.Transform.World,
-                        Matrix.Multiply(device.Transform.View, device.Transform.Projection));
+                    parameters.WorldViewProjection = Matrix.Multiply(device.GetTransform(TransformState.World),
+                        Matrix.Multiply(device.GetTransform(TransformState.View), device.GetTransform(TransformState.Projection)));
                     parameters.EyePosition = drawArgs.WorldCamera.Position;
                     // Where the sun stands is given as a place in the sky, and the shader wants no
                     // more than which way to look for it. It is straightened here, once for the
@@ -427,7 +430,7 @@ namespace Heiflow.Visualization.Renderable.Grid
                         DrawFlat(device);
                     }
                 }
-                catch (DeviceLostException)
+                catch (SharpDXException)
                 {
                     // The buffers go with the card, and both are made again on the next frame.
                     Release();
@@ -438,9 +441,9 @@ namespace Heiflow.Visualization.Renderable.Grid
                 }
                 finally
                 {
-                    device.RenderState.AlphaBlendEnable = blending;
-                    device.RenderState.SourceBlend = source;
-                    device.RenderState.DestinationBlend = destination;
+                    device.SetRenderState(RenderState.AlphaBlendEnable, blending);
+                    device.SetRenderState(RenderState.SourceBlend, source);
+                    device.SetRenderState(RenderState.DestinationBlend, destination);
                 }
             }
         }
@@ -450,25 +453,25 @@ namespace Heiflow.Visualization.Renderable.Grid
         /// </summary>
         private void DrawFlat(Device device)
         {
-            bool lighting = device.RenderState.Lighting;
-            Color ambient = device.RenderState.Ambient;
+            bool lighting = device.GetRenderStateBool(RenderState.Lighting);
+            Color ambient = device.GetRenderStateColor(RenderState.Ambient);
 
             var material = new Material();
-            material.Diffuse = Faded(ShallowColor);
-            material.Ambient = Faded(ShallowColor);
+            material.Diffuse = ColorUtil.ToColor4(Faded(ShallowColor));
+            material.Ambient = ColorUtil.ToColor4(Faded(ShallowColor));
 
-            device.RenderState.Lighting = true;
-            device.RenderState.Ambient = Color.White;
+            device.SetRenderState(RenderState.Lighting, true);
+            device.SetRenderState(RenderState.Ambient, Color.White.ToArgb());
             device.Material = material;
             device.VertexFormat = CustomVertex.PositionNormalTextured.Format;
             device.SetStreamSource(0, _VertexBuffer, 0, CustomVertex.PositionNormalTextured.StrideSize);
             device.Indices = _IndexBuffer;
-            device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, _Vertices.Length, 0,
+            device.DrawIndexedPrimitive(PrimitiveType.TriangleList, 0, 0, _Vertices.Length, 0,
                 _Indices.Length / 3);
             device.Indices = null;
 
-            device.RenderState.Ambient = ambient;
-            device.RenderState.Lighting = lighting;
+            device.SetRenderState(RenderState.Ambient, ambient.ToArgb());
+            device.SetRenderState(RenderState.Lighting, lighting);
         }
 
         private static float[] FloatsOf(Color color)

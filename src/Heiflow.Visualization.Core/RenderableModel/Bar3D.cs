@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using HUST.WREIS.Dot3D;
 using Utility;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D.Renderable
 {
@@ -138,9 +140,9 @@ namespace HUST.WREIS.Dot3D.Renderable
 
         private void RenderBar(DrawArgs drawArgs)
         {
-            bool lighting = drawArgs.device.RenderState.Lighting;
-            drawArgs.device.RenderState.Lighting = false;
-            drawArgs.device.RenderState.ZBufferEnable = true;
+            bool lighting = drawArgs.device.GetRenderStateBool(RenderState.Lighting);
+            drawArgs.device.SetRenderState(RenderState.Lighting, false);
+            drawArgs.device.SetRenderState(RenderState.ZEnable, true);
             Matrix translation = Matrix.Translation(
                     (float)(m_cartesianPoint.X - drawArgs.WorldCamera.ReferenceCenter.X),
                     (float)(m_cartesianPoint.Y - drawArgs.WorldCamera.ReferenceCenter.Y),
@@ -167,7 +169,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                     UpdateColor(m_currentPercent);
                 }
                 RenderedHeight = m_currentPercent * World.Settings.VerticalExaggeration * m_height;
-                drawArgs.device.Transform.World = Matrix.Scaling(m_scaleX, m_scaleY, (float)-m_currentPercent * World.Settings.VerticalExaggeration * (float)m_height);
+                drawArgs.device.SetTransform(TransformState.World, Matrix.Scaling(m_scaleX, m_scaleY, (float)-m_currentPercent * World.Settings.VerticalExaggeration * (float)m_height));
             }
             else
             {
@@ -176,20 +178,20 @@ namespace HUST.WREIS.Dot3D.Renderable
                     UpdateColor(m_color);
                 }
                 RenderedHeight = m_height * World.Settings.VerticalExaggeration;
-                drawArgs.device.Transform.World = Matrix.Scaling(m_scaleX, m_scaleY, (float)-m_height * World.Settings.VerticalExaggeration);
+                drawArgs.device.SetTransform(TransformState.World, Matrix.Scaling(m_scaleX, m_scaleY, (float)-m_height * World.Settings.VerticalExaggeration));
             }
-            drawArgs.device.Transform.World *= Matrix.RotationY((float)-MathEngine.DegreesToRadians(90));
-            drawArgs.device.Transform.World *= Matrix.RotationY((float)-MathEngine.DegreesToRadians(m_latitude));
-            drawArgs.device.Transform.World *= Matrix.RotationZ((float)MathEngine.DegreesToRadians(m_longitude));
-            drawArgs.device.Transform.World *= translation;
+            
+            
+            
+            
             drawArgs.device.VertexFormat = CustomVertex.PositionColored.Format;
-            drawArgs.device.TextureState[0].ColorOperation = TextureOperation.SelectArg1;
-            drawArgs.device.TextureState[0].ColorArgument1 = TextureArgument.Diffuse;
-            drawArgs.device.TextureState[0].AlphaArgument1 = TextureArgument.Diffuse;
-            drawArgs.device.TextureState[0].AlphaOperation = TextureOperation.SelectArg1;
-            drawArgs.device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0, m_extrudeVertices.Length, m_extrudeIndices.Length / 3, m_extrudeIndices, true, m_extrudeVertices);
-            drawArgs.device.DrawIndexedUserPrimitives(PrimitiveType.LineList, 0, m_outlineVertices.Length, m_outlineIndices.Length / 2, m_outlineIndices, true, m_outlineVertices);
-            drawArgs.device.RenderState.Lighting = lighting;
+            drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.SelectArg1);
+            drawArgs.device.SetTextureStageState(0, TextureStage.ColorArg1, TextureArgument.Diffuse);
+            drawArgs.device.SetTextureStageState(0, TextureStage.AlphaArg1, TextureArgument.Diffuse);
+            drawArgs.device.SetTextureStageState(0, TextureStage.AlphaOperation, TextureOperation.SelectArg1);
+            drawArgs.device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0, m_extrudeVertices.Length, m_extrudeIndices.Length / 3, m_extrudeIndices, Format.Index16, m_extrudeVertices);
+            drawArgs.device.DrawIndexedUserPrimitives(PrimitiveType.LineList, 0, m_outlineVertices.Length, m_outlineIndices.Length / 2, m_outlineIndices, Format.Index16, m_outlineVertices);
+            drawArgs.device.SetRenderState(RenderState.Lighting, lighting);
         }
         private System.Drawing.Color getColor(double percent)
         {

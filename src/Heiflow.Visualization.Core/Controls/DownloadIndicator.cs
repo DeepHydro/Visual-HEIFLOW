@@ -1,11 +1,16 @@
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using System;
 using System.IO;
 using System.Drawing;
 using HUST.WREIS.Dot3D;
 using HUST.WREIS.Dot3D.Net;
 using HUST.WREIS.Dot3D.Renderable;
+
+using SharpDX;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D.VisualControl
 {
@@ -88,7 +93,7 @@ namespace HUST.WREIS.Dot3D.VisualControl
 			m_sprite.Transform *= Matrix.Translation(m_renderPosition.X, m_renderPosition.Y, 0);
 			m_sprite.Draw( logoAccessor.ServerLogo,
 				new Vector3(logoAccessor.ServerLogoSize.Width>>1, logoAccessor.ServerLogoSize.Height>>1, 0),
-				Vector3.Empty,
+				Vector3.Zero,
 				World.Settings.downloadLogoColor );
 
 			m_sprite.End();

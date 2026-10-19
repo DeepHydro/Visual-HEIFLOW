@@ -1,13 +1,16 @@
 using Heiflow.Models.Generic;
 using HUST.WREIS.Dot3D;
 using HUST.WREIS.Dot3D.Renderable;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace Heiflow.Visualization.Renderable.Grid
 {
@@ -44,7 +47,7 @@ namespace Heiflow.Visualization.Renderable.Grid
                         continue;
 
                     device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0, pf.VertexList.Length,
-                        pf.VertexIndexList.Length / 3, pf.VertexIndexList, false, pf.VertexList);
+                        pf.VertexIndexList.Length / 3, pf.VertexIndexList, Format.Index32, pf.VertexList);
                 }
             }
         }

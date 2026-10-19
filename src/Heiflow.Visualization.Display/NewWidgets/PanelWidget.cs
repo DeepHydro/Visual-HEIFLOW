@@ -3,11 +3,16 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-
 using HUST.WREIS.Dot3D;
 using HUST.WREIS.Dot3D.Renderable;
+
+using SharpDX;
+using Point = System.Drawing.Point;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Font = SharpDX.Direct3D9.Font;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D.NewWidgets
 {
@@ -157,10 +162,10 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 		/// </summary>
 		protected bool m_renderBody = true;
 
-		protected Microsoft.DirectX.Direct3D.Font m_TextFont; 
-		protected Microsoft.DirectX.Direct3D.Font m_TitleFont; 
-		protected Microsoft.DirectX.Direct3D.Font m_wingdingsFont;
-		protected Microsoft.DirectX.Direct3D.Font m_worldwinddingsFont;
+		protected Font m_TextFont; 
+		protected Font m_TitleFont; 
+		protected Font m_wingdingsFont;
+		protected Font m_worldwinddingsFont;
 
 		protected Vector2[] m_OutlineVertsHeader = new Vector2[5];
 		protected Vector2[] m_OutlineVerts = new Vector2[5];
@@ -193,7 +198,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 
 		#region Properties
 
-		public Microsoft.DirectX.Direct3D.Font TextFont
+		public Font TextFont
 		{
 			get { return m_TextFont; }
 			set { m_TextFont = value; }
@@ -560,13 +565,13 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 			if (m_TitleFont == null)
 			{
 				System.Drawing.Font localHeaderFont = new System.Drawing.Font("Arial", 12.0f, FontStyle.Italic | FontStyle.Bold);
-				m_TitleFont = new Microsoft.DirectX.Direct3D.Font(drawArgs.device, localHeaderFont);
+				m_TitleFont = FontFactory.Create(drawArgs.device, localHeaderFont);
 
 				System.Drawing.Font wingdings = new System.Drawing.Font("Wingdings", 12.0f);
-				m_wingdingsFont = new Microsoft.DirectX.Direct3D.Font(drawArgs.device, wingdings);
+				m_wingdingsFont = FontFactory.Create(drawArgs.device, wingdings);
 
                 System.Drawing.Font worldwinddings = new System.Drawing.Font("World Wind Dings", 12.0f);
-				m_worldwinddingsFont = new Microsoft.DirectX.Direct3D.Font(drawArgs.device, worldwinddings);
+				m_worldwinddingsFont = FontFactory.Create(drawArgs.device, worldwinddings);
 			}
 
 			m_TextFont = drawArgs.defaultDrawingFont;
@@ -617,7 +622,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 				Rectangle nameBounds = m_TitleFont.MeasureString(
 					null,
 					m_name,
-					DrawTextFormat.None,
+					(FontDrawFlags)0,
 					0);
 
 				int widthLeft = m_size.Width; 
@@ -626,7 +631,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 					null,
 					m_name,
 					new System.Drawing.Rectangle(this.AbsoluteLocation.X + 2, this.AbsoluteLocation.Y + 2, widthLeft, m_currHeaderHeight),
-					DrawTextFormat.None,
+					(FontDrawFlags)0,
 					m_TextColor.ToArgb());
 
 
@@ -641,7 +646,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 							null,
 							Text,
 							new System.Drawing.Rectangle(this.AbsoluteLocation.X + 10 + nameBounds.Width, this.AbsoluteLocation.Y + 3, widthLeft, m_currHeaderHeight),
-							DrawTextFormat.None,
+							(FontDrawFlags)0,
 							m_TextColor.ToArgb());
 					}
 				}

@@ -12,10 +12,10 @@
 // Copyright (c) 2005 The Johns Hopkins University. 
 //
 // This software was developed at The Johns Hopkins University/Applied 
-// Physics Laboratory (“JHU/APL? that is the author thereof under the 
-// “work made for hire?provisions of the copyright law.  Permission is 
+// Physics Laboratory (ï¿½JHU/APL? that is the author thereof under the 
+// ï¿½work made for hire?provisions of the copyright law.  Permission is 
 // hereby granted, free of charge, to any person obtaining a copy of this 
-// software and associated documentation (the “Software?, to use the 
+// software and associated documentation (the ï¿½Software?, to use the 
 // Software without restriction, including without limitation the rights 
 // to copy, modify, merge, publish, distribute, sublicense, and/or sell 
 // copies of the Software, and to permit others to do so, subject to the 
@@ -45,11 +45,15 @@ using System;
 using System.Drawing;
 using System.Collections;
 
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-
 using HUST.WREIS.Dot3D;
 using HUST.WREIS.Dot3D.Renderable;
+
+using SharpDX;
+using Point = System.Drawing.Point;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D.NewWidgets
 {
@@ -129,7 +133,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 						null,
 						(this.m_isExpanded ? "L" : "A"),
 						bounds,
-						DrawTextFormat.None,
+						(FontDrawFlags)0,
 						color);
 				}
 				#endregion Draw arrow
@@ -155,7 +159,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 					null,
 					checkSymbol,
 					bounds,
-					DrawTextFormat.NoClip,
+					FontDrawFlags.NoClip,
 					color);
 
 				#endregion draw checkbox
@@ -164,7 +168,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 
 				// compute the length based on name length 
 				// TODO: Do this only when the name changes
-				Rectangle stringBounds = drawArgs.defaultDrawingFont.MeasureString(null, Name, DrawTextFormat.NoClip, 0);
+				Rectangle stringBounds = drawArgs.defaultDrawingFont.MeasureString(null, Name, FontDrawFlags.NoClip, 0);
 				m_size.Width = NODE_ARROW_SIZE + NODE_CHECKBOX_SIZE + 5 + stringBounds.Width;
 				m_ConsumedSize.Width = m_size.Width;
 
@@ -176,7 +180,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 					null,
 					Name,
 					bounds,
-					DrawTextFormat.None,
+					(FontDrawFlags)0,
 					color);
 
 				#endregion Draw name

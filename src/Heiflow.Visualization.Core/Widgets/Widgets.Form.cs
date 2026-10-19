@@ -1,12 +1,16 @@
 using System;
 using System.IO;
 using System.Collections;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using System.Runtime.InteropServices;
 using HUST.WREIS.Dot3D;
 using Heiflow.Visualization.Controls;
 using Heiflow.Core.Plugin;
+
+using SharpDX;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D.Widgets
 {
@@ -35,8 +39,8 @@ namespace HUST.WREIS.Dot3D.Widgets
 		int m_HeaderHeight = 20;
 
 		System.Drawing.Color m_TextColor = System.Drawing.Color.GhostWhite;
-		Microsoft.DirectX.Direct3D.Font m_WorldWindDingsFont = null;
-		Microsoft.DirectX.Direct3D.Font m_TextFont = null;
+		Font m_WorldWindDingsFont = null;
+		Font m_TextFont = null;
 
         bool m_HideHeader = false;
 		bool m_AutoHideHeader = false;
@@ -66,7 +70,7 @@ namespace HUST.WREIS.Dot3D.Widgets
             set { m_HideHeader = value; }
         }
 
-		public Microsoft.DirectX.Direct3D.Font TextFont
+		public Font TextFont
 		{
 			get
 			{
@@ -292,7 +296,7 @@ namespace HUST.WREIS.Dot3D.Widgets
 			if(m_TextFont == null)
 			{
 				System.Drawing.Font localHeaderFont = new System.Drawing.Font("Arial", 12.0f, System.Drawing.FontStyle.Italic | System.Drawing.FontStyle.Bold);
-				m_TextFont = new Microsoft.DirectX.Direct3D.Font(drawArgs.device, localHeaderFont);
+				m_TextFont = FontFactory.Create(drawArgs.device, localHeaderFont);
 			}
 
 			if(m_WorldWindDingsFont == null)
@@ -302,7 +306,7 @@ namespace HUST.WREIS.Dot3D.Widgets
                 fpc.AddFontFile(Path.Combine(System.Windows.Forms.Application.StartupPath, "font.ttf"));
 				System.Drawing.Font worldwinddings = new System.Drawing.Font(fpc.Families[0], 12.0f);
 			
-				m_WorldWindDingsFont = new Microsoft.DirectX.Direct3D.Font(drawArgs.device, worldwinddings);
+				m_WorldWindDingsFont = FontFactory.Create(drawArgs.device, worldwinddings);
 			}
 
 			if(DrawArgs.LastMousePosition.X > AbsoluteLocation.X - resizeBuffer &&
@@ -388,14 +392,14 @@ namespace HUST.WREIS.Dot3D.Widgets
 					null,
 					m_Text,
                     new System.Drawing.Rectangle(ClientLocation.X + 2, ClientLocation.Y, m_Size.Width, m_HeaderHeight),
-					DrawTextFormat.None,
+					(FontDrawFlags)0,
 					m_TextColor.ToArgb());
 
 				m_WorldWindDingsFont.DrawText(
 					null,
 					"X",
                     new System.Drawing.Rectangle(ClientLocation.X + m_Size.Width - 15, ClientLocation.Y + 2, m_Size.Width, m_Size.Height),
-					DrawTextFormat.NoClip,
+					FontDrawFlags.NoClip,
 					System.Drawing.Color.White.ToArgb());
 
 				m_OutlineVertsHeader[0].X = AbsoluteLocation.X;

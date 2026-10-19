@@ -2,13 +2,19 @@ using System;
 using System.Collections;
 using System.Drawing;
 using System.IO;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using ICSharpCode.SharpZipLib.Zip;
 using Utility;
 using System.Linq;
 using System.Collections.Generic;
 using Heiflow.Core;
+
+using SharpDX;
+using Point = System.Drawing.Point;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D
 {
@@ -242,11 +248,11 @@ namespace HUST.WREIS.Dot3D
 		public override void Dispose()
 		{
             //isInitialized = false;
-            //if(m_IconTexture != null && !m_IconTexture.Disposed)
+            //if(m_IconTexture != null && !m_IconTexture.IsDisposed)
             //{
             //    m_IconTexture.Dispose();
             //}
-            //if(m_Sprite != null && !m_Sprite.Disposed)
+            //if(m_Sprite != null && !m_Sprite.IsDisposed)
             //{
             //    m_Sprite.Dispose();
             //}
@@ -421,14 +427,14 @@ namespace HUST.WREIS.Dot3D
 				{
 					drawArgs.device.VertexFormat = CustomVertex.PositionColored.Format;
 						
-					float curPointSize = drawArgs.device.RenderState.PointSize;
+					float curPointSize = drawArgs.device.GetRenderState(RenderState.PointSize);
 						
-					drawArgs.device.RenderState.PointSize = 5.0f;
-					drawArgs.device.RenderState.ZBufferEnable = false;
-					CustomVertex.PositionColored[] verts = new Microsoft.DirectX.Direct3D.CustomVertex.PositionColored[1];
+					drawArgs.device.SetRenderState(RenderState.PointSize, 5.0f);
+					drawArgs.device.SetRenderState(RenderState.ZEnable, false);
+					CustomVertex.PositionColored[] verts = new CustomVertex.PositionColored[1];
 					Vector3 camPoint = MathEngine.SphericalToCartesian(drawArgs.WorldCamera.Latitude.Degrees, drawArgs.WorldCamera.Longitude.Degrees, m_ShapeTileArgs.LayerRadius);
 					
-					drawArgs.device.Transform.World = Matrix.Translation(-referenceCenter);
+					drawArgs.device.SetTransform(TransformState.World, Matrix.Translation(-referenceCenter));
 					foreach(Vector3 v in m_PointList)
 					{
 						if(Vector3.Subtract(v, camPoint).Length() < m_ShapeTileArgs.LayerRadius)
@@ -438,14 +444,14 @@ namespace HUST.WREIS.Dot3D
 							verts[0].Y = v.Y;
 							verts[0].Z = v.Z;
 
-							drawArgs.device.TextureState[0].ColorOperation = TextureOperation.Disable;
+							drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
 							drawArgs.device.DrawUserPrimitives(PrimitiveType.PointList, 1, verts);
 						}
 					}
 
-					drawArgs.device.Transform.World = drawArgs.WorldCamera.WorldMatrix;
-					drawArgs.device.RenderState.PointSize = curPointSize;
-					drawArgs.device.RenderState.ZBufferEnable = true;
+					drawArgs.device.SetTransform(TransformState.World, drawArgs.WorldCamera.WorldMatrix);
+					drawArgs.device.SetRenderState(RenderState.PointSize, curPointSize);
+					drawArgs.device.SetRenderState(RenderState.ZEnable, true);
 				}
 
 				if(m_LabelList.Count > 0)
@@ -475,7 +481,7 @@ namespace HUST.WREIS.Dot3D
 							if(description!=null)
 							{
 								// Render description field
-								DrawTextFormat format = DrawTextFormat.NoClip | DrawTextFormat.WordBreak | DrawTextFormat.Bottom;
+								FontDrawFlags format = FontDrawFlags.NoClip | FontDrawFlags.WordBreak | FontDrawFlags.Bottom;
 								int left = 10;
 								if(World.Settings.showLayerManager)
 									left += World.Settings.layerManagerWidth;
@@ -523,7 +529,7 @@ namespace HUST.WREIS.Dot3D
 							m_Sprite.Transform *= Matrix.Translation(projectedPoint.X, projectedPoint.Y, 0);
 							m_Sprite.Draw( m_IconTexture,
 								new Vector3( m_IconWidth>>1, m_IconHeight>>1,0),
-								Vector3.Empty,
+								Vector3.Zero,
 								iconColor.ToArgb() );
 				
 							// Reset transform to prepare for text rendering later
@@ -547,7 +553,7 @@ namespace HUST.WREIS.Dot3D
 										labelWidth, 
 										drawArgs.screenHeight );
 
-									drawArgs.defaultDrawingFont.DrawText(m_Sprite, p.Tag.ToString(), rect, DrawTextFormat.Center, m_ShapeTileArgs.LabelColor);
+									drawArgs.defaultDrawingFont.DrawText(m_Sprite, p.Tag.ToString(), rect, FontDrawFlags.Center, m_ShapeTileArgs.LabelColor);
 								}
 								else
 								{
@@ -563,7 +569,7 @@ namespace HUST.WREIS.Dot3D
 										labelWidth, 
 										drawArgs.screenHeight );
 
-									drawArgs.defaultDrawingFont.DrawText(m_Sprite, p.Tag.ToString(), rect, DrawTextFormat.WordBreak, m_ShapeTileArgs.LabelColor);
+									drawArgs.defaultDrawingFont.DrawText(m_Sprite, p.Tag.ToString(), rect, FontDrawFlags.WordBreak, m_ShapeTileArgs.LabelColor);
 								}
 							}
 						}

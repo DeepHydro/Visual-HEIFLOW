@@ -1,6 +1,10 @@
 using System;
-using Microsoft.DirectX;
+
 using HUST.WREIS.Dot3D;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D
 {
@@ -84,7 +88,7 @@ namespace HUST.WREIS.Dot3D
             sunTrans *= Matrix.Translation(0, 0, pos.X);                // radius pos
             sunTrans *= Matrix.RotationY((float)Math.PI / 2 - pos.Y);   // lat pos
             sunTrans *= Matrix.RotationZ(pos.Z);                        // lon pos
-            sun.TransformCoordinate(sunTrans);
+            Vector3.TransformCoordinate(sun, sunTrans);
             return new Point3d(-sun.X, -sun.Y, -sun.Z);
         }
 	}

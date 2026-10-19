@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using Heiflow.Visualization.DirectX;
 namespace Heiflow.Visualization.Renderable.Grid
 {
     public  interface IProfile
@@ -11,6 +12,6 @@ namespace Heiflow.Visualization.Renderable.Grid
         int RowIndex { get; set; }
         double ScaleFactor { get; set; }
         int[] VertexIndexList { get; }
-        Microsoft.DirectX.Direct3D.CustomVertex.PositionNormalColored[] VertexList { get; }
+        CustomVertex.PositionNormalColored[] VertexList { get; }
     }
 }

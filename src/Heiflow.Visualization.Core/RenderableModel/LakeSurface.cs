@@ -1,12 +1,13 @@
-﻿using System;
+using System;
 
 using System.Collections.Generic;
 using System.Text;
 using HUST.WREIS.Dot3D;
 using Utility;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
 
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D.Renderable
 {
@@ -52,7 +53,7 @@ namespace HUST.WREIS.Dot3D.Renderable
         public SeaSurface(Vector3 position, Vector3 normal, int size_x, int size_y, string name, World parentWorld, SeaParameter para)
             : base(name, parentWorld)
         {
-            plane = Plane.FromPointNormal(position, normal);
+            plane = new Plane(position, normal);
             normal.Normalize();
 
             // calculate the u and v-vectors
@@ -128,8 +129,8 @@ namespace HUST.WREIS.Dot3D.Renderable
 
         private void set_displacement_amplitude(float amplitude)
         {
-            upper_bound = Plane.FromPointNormal((pos + amplitude * normal), normal);
-            lower_bound = Plane.FromPointNormal((pos - amplitude * normal), normal);
+            upper_bound = new Plane((pos + amplitude * normal), normal);
+            lower_bound = new Plane((pos - amplitude * normal), normal);
         }
 
         /// <summary>
@@ -141,13 +142,13 @@ namespace HUST.WREIS.Dot3D.Renderable
             // create the vertexbuffer used in the softwaremode (it can be empty as it'll be memcpy-ed to)
             SOFTWARESURFACEVERTEX ver = new SOFTWARESURFACEVERTEX();
             int size = gridsize_x * gridsize_y * System.Runtime.InteropServices.Marshal.SizeOf(ver);
-            surf_software_vertices = new VertexBuffer(device, size, Usage.Dynamic, VertexFormats.Normal, Pool.Default);
+            surf_software_vertices = new VertexBuffer(device, size, Usage.Dynamic, VertexFormat.Normal, Pool.Default);
 
             int num1 = (gridsize_x - 1) * (gridsize_y - 1);
-            surf_indicies = new IndexBuffer(typeof(int), num1, device, Usage.WriteOnly, Pool.Default);
+            surf_indicies = new IndexBuffer(device, (int)(num1) * 4, Usage.WriteOnly, Pool.Default, true);
             //    (device,size1, Usage.WriteOnly, Pool.Default,false);
 
-            int[] indexbuffer = (int[])surf_indicies.Lock(0, 0);
+            int[] indexbuffer = new int[num1 * 6];
             int i = 0;
 
             for (int v = 0; v < gridsize_y - 1; v++)
@@ -165,7 +166,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                     indexbuffer[i++] = (v + 1) * gridsize_x + u + 1;
                 }
             }
-            surf_indicies.Unlock();
+            surf_indicies.SetData(indexbuffer, 0, LockFlags.None);
             return true;
         }
 

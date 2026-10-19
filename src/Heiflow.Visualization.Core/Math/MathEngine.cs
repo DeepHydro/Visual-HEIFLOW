@@ -1,5 +1,8 @@
 using System;
-using Microsoft.DirectX;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D
 {
@@ -330,7 +333,7 @@ namespace HUST.WREIS.Dot3D
 		/// <returns>The shortest distance between the point and the plane.</returns>
 		public static float DistancePlaneToPoint(Plane p, Vector3 v)
 		{
-			return p.A * v.X + p.B * v.Y + p.C + v.Z + p.D;
+			return p.Normal.X * v.X + p.Normal.Y * v.Y + p.Normal.Z + v.Z + p.D;
 		}
 
 		/// <summary>

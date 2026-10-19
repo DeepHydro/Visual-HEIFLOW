@@ -1,8 +1,11 @@
 using System;
 using System.Drawing;
 using HUST.WREIS.Dot3D;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D.Camera
 {

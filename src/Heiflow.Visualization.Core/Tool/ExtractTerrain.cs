@@ -1,4 +1,4 @@
-﻿using DotSpatial.Data;
+using DotSpatial.Data;
 using HUST.WREIS.Dot3D;
 using System;
 using System.Collections.Generic;

@@ -1,6 +1,9 @@
 using System;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
+using SharpDX;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D.NewWidgets
 {
@@ -56,7 +59,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
                 if (m_drawingFont != null)
                 {
                     m_drawingFont.Dispose();
-                    m_drawingFont = new Font(DrawArgs.Device, m_localFont);
+                    m_drawingFont = FontFactory.Create(DrawArgs.Device, m_localFont);
                 }
             }
         }
@@ -251,21 +254,21 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 			{
                 if (m_localFont != null && m_drawingFont == null)
                 {
-                    m_drawingFont = new Font(drawArgs.device, m_localFont);
+                    m_drawingFont = FontFactory.Create(drawArgs.device, m_localFont);
                 }
 
-                DrawTextFormat drawTextFormat = (WordBreak ? DrawTextFormat.WordBreak : DrawTextFormat.SingleLine);
+                FontDrawFlags FontDrawFlags = (WordBreak ? FontDrawFlags.WordBreak : FontDrawFlags.SingleLine);
 
                 switch(this.Alignment)
                 {
                     case Alignment.Left:
-                        drawTextFormat |= DrawTextFormat.Left;
+                        FontDrawFlags |= FontDrawFlags.Left;
                         break;
                     case Alignment.Center:
-                        drawTextFormat |= DrawTextFormat.Center;
+                        FontDrawFlags |= FontDrawFlags.Center;
                         break;
                     case Alignment.Right:
-                        drawTextFormat |= DrawTextFormat.Right;
+                        FontDrawFlags |= FontDrawFlags.Right;
                         break;
                 }
 
@@ -275,7 +278,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
                         null,
                         m_Text,
                         new System.Drawing.Rectangle(AbsoluteLocation.X, AbsoluteLocation.Y, m_Size.Width, m_Size.Height),
-                        drawTextFormat,
+                        FontDrawFlags,
                         m_ForeColor);
                 }
                 else
@@ -284,7 +287,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
                         null,
                         m_Text,
                         new System.Drawing.Rectangle(AbsoluteLocation.X, AbsoluteLocation.Y, m_Size.Width, m_Size.Height),
-                        drawTextFormat,
+                        FontDrawFlags,
                         m_ForeColor);
                 }
 			}

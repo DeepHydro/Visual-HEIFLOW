@@ -1,10 +1,16 @@
-using Microsoft.DirectX.Direct3D;
+
 using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Design;
 using System.Xml.Serialization;
 using HUST.WREIS.Dot3D.Configuration;
+
+using SharpDX;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D
 {

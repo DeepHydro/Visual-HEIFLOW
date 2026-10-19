@@ -12,10 +12,10 @@
 // Copyright (c) 2006 The Johns Hopkins University. 
 //
 // This software was developed at The Johns Hopkins University/Applied 
-// Physics Laboratory (“JHU/APL? that is the author thereof under the 
-// “work made for hire?provisions of the copyright law.  Permission is 
+// Physics Laboratory (ï¿½JHU/APL? that is the author thereof under the 
+// ï¿½work made for hire?provisions of the copyright law.  Permission is 
 // hereby granted, free of charge, to any person obtaining a copy of this 
-// software and associated documentation (the “Software?, to use the 
+// software and associated documentation (the ï¿½Software?, to use the 
 // Software without restriction, including without limitation the rights 
 // to copy, modify, merge, publish, distribute, sublicense, and/or sell 
 // copies of the Software, and to permit others to do so, subject to the 
@@ -44,10 +44,15 @@
 using System;
 using System.Drawing;
 
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-
 using HUST.WREIS.Dot3D;
+
+using SharpDX;
+using Point = System.Drawing.Point;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Font = SharpDX.Direct3D9.Font;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D.NewWidgets
 {
@@ -65,7 +70,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 		object m_tag = null;
 		System.Drawing.Color m_ForeColor = System.Drawing.Color.White;
 		string m_name = "";
-		DrawTextFormat m_Format = DrawTextFormat.NoClip;
+		FontDrawFlags m_Format = FontDrawFlags.NoClip;
 
 		protected int m_borderWidth = 5;
 
@@ -128,7 +133,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 			}
 		}
 
-		public DrawTextFormat Format
+		public FontDrawFlags Format
 		{
 			get { return m_Format; }
 			set { m_Format = value; }
@@ -283,7 +288,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 
 		public void ComputeAutoSize (DrawArgs drawArgs)
 		{
-			Microsoft.DirectX.Direct3D.Font font = drawArgs.defaultDrawingFont;
+			Font font = drawArgs.defaultDrawingFont;
 			if(font==null)
 				font = drawArgs.CreateFont( "", 10 );
 			Rectangle bounds = font.MeasureString(null, m_Text, m_Format, 0);

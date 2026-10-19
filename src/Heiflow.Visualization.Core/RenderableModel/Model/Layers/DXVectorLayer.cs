@@ -1,12 +1,15 @@
 using Heiflow.Visualization.RenderableModel.Model.Renders;
 using HUST.WREIS.Dot3D;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace Heiflow.Visualization.Renderable.Grid
 {
@@ -99,7 +102,7 @@ namespace Heiflow.Visualization.Renderable.Grid
                 else
                 {
                     device.DrawIndexedUserPrimitives(primitiveType, 0, vertices.Length, indices.Length / perPrimitive,
-                        indices, false, vertices);
+                        indices, Format.Index32, vertices);
                 }
             }
         }
@@ -123,8 +126,8 @@ namespace Heiflow.Visualization.Renderable.Grid
                 if (!_Streamline.Ensure(device, flow.StreamlineFlow, _RenderDX.MeshVersion))
                     return false;
 
-                var worldViewProjection = Matrix.Multiply(device.Transform.World,
-                    Matrix.Multiply(device.Transform.View, device.Transform.Projection));
+                var worldViewProjection = Matrix.Multiply(device.GetTransform(TransformState.World),
+                    Matrix.Multiply(device.GetTransform(TransformState.View), device.GetTransform(TransformState.Projection)));
 
                 var look = flow.Look;
 
@@ -140,7 +143,7 @@ namespace Heiflow.Visualization.Renderable.Grid
                 return _Streamline.Draw(device, _Mesh, worldViewProjection, look, head,
                     _RenderDX.Opacity / 255f);
             }
-            catch (DirectXException)
+            catch (SharpDXException)
             {
                 return false;
             }

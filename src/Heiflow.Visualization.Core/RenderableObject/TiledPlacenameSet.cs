@@ -1,11 +1,15 @@
 using System;
 using System.Collections;
 using System.IO;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using HUST.WREIS.Dot3D;
 using Utility;
 using Heiflow.Core;
+
+using SharpDX;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D.Renderable
 {
@@ -41,7 +45,7 @@ namespace HUST.WREIS.Dot3D.Renderable
 		protected Texture m_iconTexture;
 		protected System.Drawing.Rectangle m_spriteSize;
 		protected FontDescription m_fontDescription;
-		protected DrawTextFormat m_textFormat = DrawTextFormat.None;
+		protected FontDrawFlags m_textFormat = (FontDrawFlags)0;
 		
 		protected static int IconWidth = 48;
 		protected static int IconHeight = 48;
@@ -319,7 +323,7 @@ namespace HUST.WREIS.Dot3D.Renderable
 						elevation = (float)m_parentWorld.TerrainAccessor.GetElevationAt(lat, lon);
 					float altitude = (float)(m_parentWorld.EquatorialRadius + World.Settings.VerticalExaggeration * m_altitude + World.Settings.VerticalExaggeration * elevation);
 					pn.cartesianPoint = MathEngine.SphericalToCartesian(lat, lon, altitude);
-					float distanceSq = Vector3.LengthSq(pn.cartesianPoint - drawArgs.WorldCamera.Position);
+					float distanceSq = (pn.cartesianPoint - drawArgs.WorldCamera.Position).LengthSquared();
 					if(distanceSq > m_maximumDistanceSq)
 						continue;
 					if(distanceSq < m_minimumDistanceSq)
@@ -362,7 +366,7 @@ namespace HUST.WREIS.Dot3D.Renderable
 					for(int index=0; index<m_placeNames.Length; index++)
 					{
 						Vector3 v = m_placeNames[index].cartesianPoint;
-						float distanceSquared = Vector3.LengthSq(v-cameraPosition);
+						float distanceSquared = (v-cameraPosition).LengthSquared();
 						if(distanceSquared > m_maximumDistanceSq)
 							continue;
 
@@ -543,7 +547,7 @@ namespace HUST.WREIS.Dot3D.Renderable
 			newPlacename.Name = name;
 			newPlacename.Lat = lat;
 			newPlacename.Lon = lon;
-			newPlacename.cartesianPoint = Vector3.Empty;
+			newPlacename.cartesianPoint = Vector3.Zero;
 			newPlacename.ID = this.dataFilename + "_" + m_placeNames.Count.ToString();
 			newPlacename.metaData = null;
 			m_placeNames.Add(newPlacename);
@@ -556,7 +560,7 @@ namespace HUST.WREIS.Dot3D.Renderable
 			newPlacename.Lat = lat;
 			newPlacename.Lon = lon;
 			newPlacename.metaData = metaData;
-			newPlacename.cartesianPoint = Vector3.Empty;
+			newPlacename.cartesianPoint = Vector3.Zero;
 			newPlacename.ID = this.dataFilename + "_" + m_placeNames.Count.ToString();
 			m_placeNames.Add(newPlacename);
 		}

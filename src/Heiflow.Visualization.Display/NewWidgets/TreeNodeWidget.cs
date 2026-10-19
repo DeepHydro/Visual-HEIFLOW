@@ -12,10 +12,10 @@
 // Copyright (c) 2005 The Johns Hopkins University. 
 //
 // This software was developed at The Johns Hopkins University/Applied 
-// Physics Laboratory (“JHU/APL? that is the author thereof under the 
-// “work made for hire?provisions of the copyright law.  Permission is 
+// Physics Laboratory (ï¿½JHU/APL? that is the author thereof under the 
+// ï¿½work made for hire?provisions of the copyright law.  Permission is 
 // hereby granted, free of charge, to any person obtaining a copy of this 
-// software and associated documentation (the “Software?, to use the 
+// software and associated documentation (the ï¿½Software?, to use the 
 // Software without restriction, including without limitation the rights 
 // to copy, modify, merge, publish, distribute, sublicense, and/or sell 
 // copies of the Software, and to permit others to do so, subject to the 
@@ -47,11 +47,15 @@ using System.Collections;
 using System.Windows.Forms;
 using System.IO;
 
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
-
 using HUST.WREIS.Dot3D;
 using HUST.WREIS.Dot3D.Renderable;
+
+using SharpDX;
+using Point = System.Drawing.Point;
+using SharpDX.Direct3D9;
+using Font = SharpDX.Direct3D9.Font;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D.NewWidgets
 {
@@ -159,9 +163,9 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 		protected bool m_enableCheck = true;
 
 		// fonts to use in render
-		protected static Microsoft.DirectX.Direct3D.Font m_drawingFont;
-		protected static Microsoft.DirectX.Direct3D.Font m_wingdingsFont;
-		protected static Microsoft.DirectX.Direct3D.Font m_worldwinddingsFont;
+		protected static Font m_drawingFont;
+		protected static Font m_wingdingsFont;
+		protected static Font m_worldwinddingsFont;
 
 		protected int m_xOffset = 0;
 
@@ -399,13 +403,13 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 			if (m_drawingFont == null)
 			{
 				System.Drawing.Font localHeaderFont = new System.Drawing.Font("Arial", 12.0f, FontStyle.Italic | FontStyle.Bold);
-				m_drawingFont = new Microsoft.DirectX.Direct3D.Font(drawArgs.device, localHeaderFont);
+				m_drawingFont = FontFactory.Create(drawArgs.device, localHeaderFont);
 
 				System.Drawing.Font wingdings = new System.Drawing.Font("Wingdings", 12.0f);
-				m_wingdingsFont = new Microsoft.DirectX.Direct3D.Font(drawArgs.device, wingdings);
+				m_wingdingsFont = FontFactory.Create(drawArgs.device, wingdings);
 
                 System.Drawing.Font worldwinddings = new System.Drawing.Font("World Wind Dings", 12.0f);
-				m_worldwinddingsFont = new Microsoft.DirectX.Direct3D.Font(drawArgs.device, worldwinddings);
+				m_worldwinddingsFont = FontFactory.Create(drawArgs.device, worldwinddings);
 			}
 
 			// Initialize icon if any

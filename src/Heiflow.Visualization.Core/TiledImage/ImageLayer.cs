@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using System.IO;
 using System.Diagnostics;
 using HUST.WREIS.Dot3D.Net;
@@ -11,6 +10,11 @@ using HUST.WREIS.Dot3D.VisualControl;
 using Utility;
 using System.ComponentModel;
 using Heiflow.Core;
+
+using SharpDX;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D.Renderable
 {
@@ -666,18 +670,18 @@ namespace HUST.WREIS.Dot3D.Renderable
 				{
 					Vector3 curNormal = (Vector3)normal_buffer[i][j];
 					
-					if(vertices[i].Normal == Vector3.Empty)
+					if(vertices[i].Normal == Vector3.Zero)
 						vertices[i].Normal = curNormal;
 					else
 						vertices[i].Normal += curNormal;
 				}
     
-				vertices[i].Normal.Multiply(1.0f / normal_buffer[i].Count);
+				vertices[i].Normal = Vector3.Multiply(vertices[i].Normal, 1.0f / normal_buffer[i].Count);
 			}
 		}
 
 		//Blend m_sourceBlend = Blend.BlendFactor;
-		//Blend m_destinationBlend = Blend.InvBlendFactor;
+		//Blend m_destinationBlend = Blend.InverseBlendFactor;
   
 		/// <summary>
 		/// Draws the layer
@@ -700,42 +704,42 @@ namespace HUST.WREIS.Dot3D.Renderable
 
 				if(this._disableZbuffer)
 				{
-					if(drawArgs.device.RenderState.ZBufferEnable)
-						drawArgs.device.RenderState.ZBufferEnable = false;
+					if (drawArgs.device.GetRenderStateBool(RenderState.ZEnable))
+						drawArgs.device.SetRenderState(RenderState.ZEnable, false);
 				}
 				else
 				{
-					if(!drawArgs.device.RenderState.ZBufferEnable)
-						drawArgs.device.RenderState.ZBufferEnable = true;
+					if (!drawArgs.device.GetRenderStateBool(RenderState.ZEnable))
+						drawArgs.device.SetRenderState(RenderState.ZEnable, true);
 				}
 
-				drawArgs.device.RenderState.ZBufferEnable = true;
+				drawArgs.device.SetRenderState(RenderState.ZEnable, true);
 				drawArgs.device.Clear(ClearFlags.ZBuffer, 0, 1.0f, 0);
 
-			/*	if (m_opacity < 255 && device.DeviceCaps.DestinationBlendCaps.SupportsBlendFactor)
+			/*	if (m_opacity < 255 && device.Capabilities.DestinationBlendCaps.SupportsBlendFactor)
 				{
 					// Blend
-					device.RenderState.AlphaBlendEnable = true;
-					device.RenderState.SourceBlend = m_sourceBlend;
-					device.RenderState.DestinationBlend = m_destinationBlend;
+					device.SetRenderState(RenderState.AlphaBlendEnable, true);
+					device.SetRenderState(RenderState.SourceBlend, m_sourceBlend);
+					device.SetRenderState(RenderState.DestinationBlend, m_destinationBlend);
 					// Set Red, Green and Blue = opacity
-					device.RenderState.BlendFactorColor = (m_opacity << 16) | (m_opacity << 8) | m_opacity;
+					device.SetRenderState(RenderState.BlendFactor, (m_opacity << 16) | (m_opacity << 8) | m_opacity);
 				}*/
-			//	else if (EnableColorKeying && device.DeviceCaps.TextureCaps.SupportsAlpha)
+			//	else if (EnableColorKeying && device.Capabilities.TextureCaps.SupportsAlpha)
 			//	{
-			//		device.RenderState.AlphaBlendEnable = true;
-			//		device.RenderState.SourceBlend = Blend.SourceAlpha;
-			//		device.RenderState.DestinationBlend = Blend.InvSourceAlpha;
+			//		device.SetRenderState(RenderState.AlphaBlendEnable, true);
+			//		device.SetRenderState(RenderState.SourceBlend, (int)(Blend.SourceAlpha));
+			//		device.SetRenderState(RenderState.DestinationBlend, (int)(Blend.InverseSourceAlpha));
 			//	}
 
-                drawArgs.device.Transform.World = Matrix.Translation(
+                drawArgs.device.SetTransform(TransformState.World, Matrix.Translation(
                         (float)-drawArgs.WorldCamera.ReferenceCenter.X,
                         (float)-drawArgs.WorldCamera.ReferenceCenter.Y,
                         (float)-drawArgs.WorldCamera.ReferenceCenter.Z
-                        );
+                        ));
                 device.VertexFormat = CustomVertex.PositionNormalTextured.Format;
 
-                if (!RenderGrayscale || (device.DeviceCaps.PixelShaderVersion.Major < 1))
+                if (!RenderGrayscale || (device.Capabilities.PixelShaderVersion.Major < 1))
                 {
                     if (World.Settings.EnableSunShading)
                     {
@@ -745,43 +749,43 @@ namespace HUST.WREIS.Dot3D.Renderable
                             (float)sunPosition.Y,
                             (float)sunPosition.Z);
 
-                        device.RenderState.Lighting = true;
+                        device.SetRenderState(RenderState.Lighting, true);
                         Material material = new Material();
-                        material.Diffuse = System.Drawing.Color.White;
-                        material.Ambient = System.Drawing.Color.White;
+                        material.Diffuse = ColorUtil.ToColor4(System.Drawing.Color.White);
+                        material.Ambient = ColorUtil.ToColor4(System.Drawing.Color.White);
 
                         device.Material = material;
-                        device.RenderState.AmbientColor = World.Settings.ShadingAmbientColor.ToArgb();
-                        device.RenderState.NormalizeNormals = true;
-                        device.RenderState.AlphaBlendEnable = true;
+                        device.SetRenderState(RenderState.Ambient, World.Settings.ShadingAmbientColor.ToArgb());
+                        device.SetRenderState(RenderState.NormalizeNormals, true);
+                        device.SetRenderState(RenderState.AlphaBlendEnable, true);
 
-                        device.Lights[0].Enabled = true;
-                        device.Lights[0].Type = LightType.Directional;
-                        device.Lights[0].Diffuse = System.Drawing.Color.White;
-                        device.Lights[0].Direction = sunVector;
+                        LightHub.Get(device, 0).Enabled = true;
+                        LightHub.Get(device, 0).Type = LightType.Directional;
+                        LightHub.Get(device, 0).Diffuse = ColorUtil.ToColor4(System.Drawing.Color.White);
+                        LightHub.Get(device, 0).Direction = sunVector;
 
-                        device.TextureState[0].ColorOperation = TextureOperation.Modulate;
-                        device.TextureState[0].ColorArgument1 = TextureArgument.Diffuse;
-                        device.TextureState[0].ColorArgument2 = TextureArgument.TextureColor;
+                        device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Modulate);
+                        device.SetTextureStageState(0, TextureStage.ColorArg1, TextureArgument.Diffuse);
+                        device.SetTextureStageState(0, TextureStage.ColorArg2, TextureArgument.Texture);
                     }
                     else
                     {
-                        device.RenderState.Lighting = false;
-                        device.RenderState.Ambient = World.Settings.StandardAmbientColor;
+                        device.SetRenderState(RenderState.Lighting, false);
+                        device.SetRenderState(RenderState.Ambient, World.Settings.StandardAmbientColor.ToArgb());
 
-                        drawArgs.device.TextureState[0].ColorOperation = TextureOperation.SelectArg1;
-                        drawArgs.device.TextureState[0].ColorArgument1 = TextureArgument.TextureColor;
+                        drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.SelectArg1);
+                        drawArgs.device.SetTextureStageState(0, TextureStage.ColorArg1, TextureArgument.Texture);
                     }
 
-                    device.RenderState.TextureFactor = System.Drawing.Color.FromArgb(m_opacity, 0, 0, 0).ToArgb();
-                    device.TextureState[0].AlphaOperation = TextureOperation.BlendFactorAlpha;
-                    device.TextureState[0].AlphaArgument1 = TextureArgument.TextureColor;
-                    device.TextureState[0].AlphaArgument2 = TextureArgument.TFactor;
+                    device.SetRenderState(RenderState.TextureFactor, System.Drawing.Color.FromArgb(m_opacity, 0, 0, 0).ToArgb());
+                    device.SetTextureStageState(0, TextureStage.AlphaOperation, TextureOperation.BlendFactorAlpha);
+                    device.SetTextureStageState(0, TextureStage.AlphaArg1, TextureArgument.Texture);
+                    device.SetTextureStageState(0, TextureStage.AlphaArg2, TextureArgument.TFactor);
 
                     drawArgs.device.VertexFormat = CustomVertex.PositionNormalTextured.Format;
 
                     drawArgs.device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0,
-                        vertices.Length, indices.Length / 3, indices, true, vertices);
+                        vertices.Length, indices.Length / 3, indices, Format.Index16, vertices);
 
                     
                 }
@@ -789,13 +793,13 @@ namespace HUST.WREIS.Dot3D.Renderable
                 {
                     if (grayscaleEffect == null)
                     {
-                        device.DeviceReset += new EventHandler(device_DeviceReset);
+                        DeviceEvents.AddDeviceResetHandler(device, device_DeviceReset);
                         device_DeviceReset(device, null);
                     }
 
                     grayscaleEffect.Technique = "RenderGrayscaleBrightness";
-                    grayscaleEffect.SetValue("WorldViewProj", Matrix.Multiply(device.Transform.World, Matrix.Multiply(device.Transform.View, device.Transform.Projection)));
-                    grayscaleEffect.SetValue("Tex0", texture);
+                    grayscaleEffect.SetValue("WorldViewProj", Matrix.Multiply(device.GetTransform(TransformState.World), Matrix.Multiply(device.GetTransform(TransformState.View), device.GetTransform(TransformState.Projection))));
+                    grayscaleEffect.SetTexture("Tex0", texture);
                     grayscaleEffect.SetValue("Brightness", GrayscaleBrightness);
                     float opacity = (float)m_opacity / 255.0f;
                     grayscaleEffect.SetValue("Opacity", opacity);
@@ -806,7 +810,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                         grayscaleEffect.BeginPass(i);
 
                         drawArgs.device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0,
-                        vertices.Length, indices.Length / 3, indices, true, vertices);
+                        vertices.Length, indices.Length / 3, indices, Format.Index16, vertices);
 
                         grayscaleEffect.EndPass();
                     }
@@ -814,7 +818,7 @@ namespace HUST.WREIS.Dot3D.Renderable
                     grayscaleEffect.End();
                 }
 
-                drawArgs.device.Transform.World = drawArgs.WorldCamera.WorldMatrix;
+                drawArgs.device.SetTransform(TransformState.World, drawArgs.WorldCamera.WorldMatrix);
 				
 			}
 			finally
@@ -822,12 +826,12 @@ namespace HUST.WREIS.Dot3D.Renderable
 				if (m_opacity < 255)
 				{
 					// Restore alpha blend state
-					device.RenderState.SourceBlend = Blend.SourceAlpha;
-					device.RenderState.DestinationBlend = Blend.InvSourceAlpha;
+					device.SetRenderState(RenderState.SourceBlend, (int)(Blend.SourceAlpha));
+					device.SetRenderState(RenderState.DestinationBlend, (int)(Blend.InverseSourceAlpha));
 				}
 
 				if(this._disableZbuffer)
-					drawArgs.device.RenderState.ZBufferEnable = true;
+					drawArgs.device.SetRenderState(RenderState.ZEnable, true);
 			}
 		}
 
@@ -836,14 +840,7 @@ namespace HUST.WREIS.Dot3D.Renderable
             Device device = (Device)sender;
 
             string outerrors = "";
-            grayscaleEffect = Effect.FromFile(
-                device,
-                "shaders\\grayscale.fx",
-                null,
-                null,
-                ShaderFlags.None,
-                null,
-                out outerrors);
+            grayscaleEffect = ShaderLoader.FromFile(device, "shaders\\grayscale.fx", ShaderFlags.None, null, out outerrors);
 
             if (outerrors != null && outerrors.Length > 0)
                 Log.Write(Log.Levels.Error, outerrors);
@@ -852,13 +849,13 @@ namespace HUST.WREIS.Dot3D.Renderable
 		protected virtual void RenderProgress(DrawArgs drawArgs)
 		{
 
-			drawArgs.device.Transform.World = Matrix.Translation(
+			drawArgs.device.SetTransform(TransformState.World, Matrix.Translation(
 				(float)-drawArgs.WorldCamera.ReferenceCenter.X,
 				(float)-drawArgs.WorldCamera.ReferenceCenter.Y,
 				(float)-drawArgs.WorldCamera.ReferenceCenter.Z
-			);
+			));
 
-			device.RenderState.ZBufferEnable = false;
+			device.SetRenderState(RenderState.ZEnable, false);
 			double centerLat = 0.5 * (maxLat + minLat);
 			double centerLon = 0.5 * (maxLon + minLon);
 
@@ -868,7 +865,7 @@ namespace HUST.WREIS.Dot3D.Renderable
 				MathEngine.SphericalDistanceDegrees(centerLat, centerLon, drawArgs.WorldCamera.Latitude.Degrees, drawArgs.WorldCamera.Longitude.Degrees) < 2 * drawArgs.WorldCamera.ViewRange.Degrees
 				)
 			{
-				v.Project(drawArgs.device.Viewport, drawArgs.device.Transform.Projection, drawArgs.device.Transform.View, drawArgs.device.Transform.World);
+				v = ((Viewport)drawArgs.device.Viewport).Project(v, drawArgs.device.GetTransform(TransformState.World), drawArgs.device.GetTransform(TransformState.View), drawArgs.device.GetTransform(TransformState.Projection));
 
 				MenuUtils.DrawBox((int)v.X, (int)v.Y, 200, 40, 0.0f, progressBarBackColor, drawArgs.device);
 				Vector2[] boxOutline = new Vector2[5];
@@ -892,12 +889,12 @@ namespace HUST.WREIS.Dot3D.Renderable
 				drawArgs.defaultDrawingFont.DrawText(null,
 					"Downloading Remote Image...",
 					new System.Drawing.Rectangle((int)v.X + 5, (int)v.Y + 5, 200, 50),
-					DrawTextFormat.NoClip, textColor);
+					FontDrawFlags.NoClip, textColor);
 
 				DrawProgressBar(drawArgs, v.X + 100, v.Y + 30, 180, 10, World.Settings.DownloadProgressColor.ToArgb());
 			}
-			device.RenderState.ZBufferEnable = true;
-			drawArgs.device.Transform.World = drawArgs.WorldCamera.WorldMatrix;
+			device.SetRenderState(RenderState.ZEnable, true);
+			drawArgs.device.SetTransform(TransformState.World, drawArgs.WorldCamera.WorldMatrix);
 		}
 
 		/// <summary>
@@ -933,7 +930,7 @@ namespace HUST.WREIS.Dot3D.Renderable
 			progressBarOutline[4].Color = color;
 
 			drawArgs.device.VertexFormat = CustomVertex.TransformedColored.Format;
-			drawArgs.device.TextureState[0].ColorOperation = TextureOperation.Disable;
+			drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
 			drawArgs.device.DrawUserPrimitives(PrimitiveType.LineStrip, 4, progressBarOutline);
 				
 			int barlength = (int)(this.downloadPercent * 2 * halfWidth);

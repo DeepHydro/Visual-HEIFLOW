@@ -1,3 +1,6 @@
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 using System;
 using System.Reflection;
 using System.Text;
@@ -131,8 +134,8 @@ namespace HUST.WREIS.Dot3D
 
                 World newWorld = new World(
                         worldName,
-                        new Microsoft.DirectX.Vector3(0, 0, 0),
-                        new Microsoft.DirectX.Quaternion(0, 0, 0, 0),
+                        new Vector3(0, 0, 0),
+                        new Quaternion(0, 0, 0, 0),
                         equatorialRadius,
                         cache.CacheDirectory,
                         (terrainAccessor != null ? terrainAccessor[0] : null)//TODO: Oops, World should be able to handle an array of terrainAccessors

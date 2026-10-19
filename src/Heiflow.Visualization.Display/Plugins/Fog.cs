@@ -10,8 +10,6 @@
 // 1.0 June 15, 2005	First version
 //----------------------------------------------------------------------------
 
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
 using System.Windows.Forms;
 using System.Drawing;
 
@@ -22,6 +20,12 @@ using HUST.WREIS.Dot3D.Renderable;
 using HUST.WREIS.Dot3D;
 using HUST.WREIS.Dot3D.Camera;
 using Utility;
+
+using SharpDX;
+using Point = System.Drawing.Point;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D.Display.Plugins
 {
@@ -99,13 +103,13 @@ namespace HUST.WREIS.Dot3D.Display.Plugins
 
 			// Set fog params
 			float a = (float)camera.Altitude;
-            //device.RenderState.ZBufferEnable = true;
-            //device.RenderState.Ambient = Color.FromArgb(255, 200, 200, 200);
-			device.RenderState.FogEnable = true;
-			device.RenderState.FogColor = Color.FromArgb(World.Settings.FogColor);
-			device.RenderState.FogTableMode = FogMode.Linear;
-            device.RenderState.FogStart = a * World.Settings.FogNearFactor;
-            device.RenderState.FogEnd = a * World.Settings.FogFarFactor; ;
+            //device.SetRenderState(RenderState.ZEnable, true);
+            //device.SetRenderState(RenderState.Ambient, Color.FromArgb(255, 200, 200, 200).ToArgb());
+			device.SetRenderState(RenderState.FogEnable, true);
+			device.SetRenderState(RenderState.FogColor, Color.FromArgb(World.Settings.FogColor).ToArgb());
+			device.SetRenderState(RenderState.FogTableMode, (int)(FogMode.Linear));
+            device.SetRenderState(RenderState.FogStart, a * World.Settings.FogNearFactor);
+            device.SetRenderState(RenderState.FogEnd, a * World.Settings.FogFarFactor); ;
 		}
 
 		/// <summary>

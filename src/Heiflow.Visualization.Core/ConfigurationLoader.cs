@@ -11,6 +11,10 @@ using HUST.WREIS.Dot3D.Renderable;
 using System.Globalization;
 using Utility;
 using Heiflow.Core;
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D
 {
@@ -111,8 +115,8 @@ namespace HUST.WREIS.Dot3D
 
                     World newWorld = new World(
                         worldName,
-                        new Microsoft.DirectX.Vector3(0, 0, 0),
-                        new Microsoft.DirectX.Quaternion(0, 0, 0, 0),
+                        new Vector3(0, 0, 0),
+                        new Quaternion(0, 0, 0, 0),
                         equatorialRadius,
                         cache.CacheDirectory,
                         (terrainAccessor != null ? terrainAccessor[0] : null)//TODO: Oops, World should be able to handle an array of terrainAccessors
@@ -191,8 +195,8 @@ namespace HUST.WREIS.Dot3D
 
                     World newWorld = new World(
                         worldName,
-                        new Microsoft.DirectX.Vector3(0, 0, 0),
-                        new Microsoft.DirectX.Quaternion(0, 0, 0, 0),
+                        new Vector3(0, 0, 0),
+                        new Quaternion(0, 0, 0, 0),
                         equatorialRadius,
                         cache.CacheDirectory,
                         (terrainAccessor != null ? terrainAccessor[0] : null)//TODO: Oops, World should be able to handle an array of terrainAccessors
@@ -1493,9 +1497,9 @@ namespace HUST.WREIS.Dot3D
 			return System.Drawing.Color.FromArgb(a, r, g, b);
 		}
 
-		private static Microsoft.DirectX.Direct3D.FontDescription getDisplayFont(XPathNodeIterator iter)
+		private static FontDescription getDisplayFont(XPathNodeIterator iter)
 		{
-			Microsoft.DirectX.Direct3D.FontDescription fd = new Microsoft.DirectX.Direct3D.FontDescription();
+			FontDescription fd = new FontDescription();
 			
 			if(iter.MoveNext())
 			{
@@ -1515,19 +1519,19 @@ namespace HUST.WREIS.Dot3D
 					{
 						bool isBold = ParseBool(isBoldString);
 						if(isBold)
-							fd.Weight = Microsoft.DirectX.Direct3D.FontWeight.Bold;
+							fd.Weight = FontWeight.Bold;
 					}
 
 					if(isItalicString != null)
 					{
 						bool isItalic = ParseBool(isItalicString);
 						if(isItalic)
-							fd.IsItalic = isItalic;
+							fd.Italic = isItalic;
 					}
 				}
 				else
 				{
-					fd.Weight = Microsoft.DirectX.Direct3D.FontWeight.Regular;
+					fd.Weight = FontWeight.Regular;
 				}
 			}
 			
@@ -1557,7 +1561,7 @@ namespace HUST.WREIS.Dot3D
 					string winColorName = getInnerTextFromFirstChild(iter.Current.Select("WinColorName"));
 					string iconFilePath = getInnerTextFromFirstChild(iter.Current.Select("IconFilePath"));
 
-					Microsoft.DirectX.Direct3D.FontDescription fd = getDisplayFont(iter.Current.Select("DisplayFont"));
+					FontDescription fd = getDisplayFont(iter.Current.Select("DisplayFont"));
 
 					System.Drawing.Color c = System.Drawing.Color.White;
 
@@ -1649,7 +1653,7 @@ namespace HUST.WREIS.Dot3D
                     string winColorName = getInnerTextFromFirstChild(iter.Current.Select("WinColorName"));
                     string iconFilePath = getInnerTextFromFirstChild(iter.Current.Select("IconFilePath"));
 
-                    Microsoft.DirectX.Direct3D.FontDescription fd = getDisplayFont(iter.Current.Select("DisplayFont"));
+                    FontDescription fd = getDisplayFont(iter.Current.Select("DisplayFont"));
 
                     System.Drawing.Color c = System.Drawing.Color.White;
 

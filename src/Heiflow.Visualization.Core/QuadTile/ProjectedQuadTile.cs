@@ -1,10 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
 
 using HUST.WREIS.Dot3D.Terrain;
 using HUST.WREIS.Dot3D.Configuration;
@@ -15,6 +13,11 @@ using System.Drawing;
 using System.Collections;
 using Heiflow.Spatial;
 
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D.Renderable
 {

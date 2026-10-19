@@ -1,8 +1,7 @@
 using System;
 using System.Collections;
 using System.Drawing;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using System.IO;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -13,6 +12,14 @@ using Utility;
 using Heiflow.Visualization.Controls;
 using Heiflow.Core;
 using Heiflow.Core.Plugin;
+
+using SharpDX;
+using Point = System.Drawing.Point;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Font = SharpDX.Direct3D9.Font;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D.Menu
 {
@@ -123,7 +130,7 @@ namespace HUST.WREIS.Dot3D.Menu
 				}
 			}
 
-			DrawTextFormat format = DrawTextFormat.NoClip | DrawTextFormat.Center | DrawTextFormat.WordBreak;
+			FontDrawFlags format = FontDrawFlags.NoClip | FontDrawFlags.Center | FontDrawFlags.WordBreak;
 			int halfWidth = (int)(SelectedSize*0.75);
 			Rectangle rect = new System.Drawing.Rectangle(
 				x-halfWidth+1,
@@ -222,15 +229,15 @@ namespace HUST.WREIS.Dot3D.Menu
 			float scaleHeight = (float)buttonHeight / this._iconTextureSize.Height;
 
 			sprite.Transform = Matrix.Transformation2D(
-				Vector2.Empty, 0.0f, 
+				Vector2.Zero, 0.0f, 
 				new Vector2(scaleWidth, scaleHeight),
-				Vector2.Empty,
+				Vector2.Zero,
 				0.0f, 
 				new Vector2(centerX, centerY));
 
 			sprite.Draw( t, 
 				new Vector3(this._iconTextureSize.Width / 2.0f, this._iconTextureSize.Height / 2.0f, 0), 
-				Vector3.Empty, 
+				Vector3.Zero, 
 				color);
 		}
 
@@ -518,12 +525,12 @@ namespace HUST.WREIS.Dot3D.Menu
 		int rightBorder=1;
 		int topBorder=25;
 		int bottomBorder=1;
-		Microsoft.DirectX.Direct3D.Font headerFont;
-		Microsoft.DirectX.Direct3D.Font itemFont;
-		Microsoft.DirectX.Direct3D.Font wingdingsFont;
-		Microsoft.DirectX.Direct3D.Font worldwinddingsFont;
+		Font headerFont;
+		Font itemFont;
+		Font wingdingsFont;
+		Font worldwinddingsFont;
 		ArrayList _itemList = new ArrayList();
-		Microsoft.DirectX.Vector2[] scrollbarLine = new Vector2[2];	
+		Vector2[] scrollbarLine = new Vector2[2];	
 		public ContextMenu ContextMenu;
 
 		/// <summary>
@@ -833,16 +840,16 @@ namespace HUST.WREIS.Dot3D.Menu
 
 					// TODO: Fix wingdings menu problems
 					System.Drawing.Font localHeaderFont = new System.Drawing.Font("Arial", 12.0f, FontStyle.Italic | FontStyle.Bold);
-					headerFont = new Microsoft.DirectX.Direct3D.Font(drawArgs.device, localHeaderFont);
+					headerFont = FontFactory.Create(drawArgs.device, localHeaderFont);
 
 					System.Drawing.Font wingdings = new System.Drawing.Font("Wingdings", 12.0f);
-					wingdingsFont = new Microsoft.DirectX.Direct3D.Font(drawArgs.device, wingdings);
+					wingdingsFont = FontFactory.Create(drawArgs.device, wingdings);
 
                     AddFontResource(Path.Combine(Application.StartupPath, "font.ttf"));
 					System.Drawing.Text.PrivateFontCollection fpc = new System.Drawing.Text.PrivateFontCollection();
                     fpc.AddFontFile(Path.Combine(Application.StartupPath, "font.ttf"));
 					System.Drawing.Font worldwinddings = new System.Drawing.Font(fpc.Families[0], 12.0f);
-					worldwinddingsFont = new Microsoft.DirectX.Direct3D.Font(drawArgs.device, worldwinddings);
+					worldwinddingsFont = FontFactory.Create(drawArgs.device, worldwinddings);
 				}
 
 				this.updateList();
@@ -851,7 +858,7 @@ namespace HUST.WREIS.Dot3D.Menu
 					null,
 					"X",
 					new System.Drawing.Rectangle(this.Right - 16, this.Top + 2, 20, topBorder),
-					DrawTextFormat.None,
+					(FontDrawFlags)0,
 					TextColor);
 
 				int numItems = GetNumberOfUncollapsedItems();
@@ -906,9 +913,9 @@ namespace HUST.WREIS.Dot3D.Menu
 				this.headerFont.DrawText(
 					null, "Layer Manager",
 					new System.Drawing.Rectangle( Left+5, Top+1, Width, topBorder-2 ),
-					DrawTextFormat.VerticalCenter, TextColor);
+					FontDrawFlags.VerticalCenter, TextColor);
 
-				Microsoft.DirectX.Vector2[] headerLinePoints = new Microsoft.DirectX.Vector2[2];
+				Vector2[] headerLinePoints = new Vector2[2];
 				headerLinePoints[0].X = this.Left;
 				headerLinePoints[0].Y = this.Top + topBorder - 1;
 
@@ -1007,7 +1014,7 @@ namespace HUST.WREIS.Dot3D.Menu
 			{
 				System.Drawing.Rectangle rect = drawArgs.defaultDrawingFont.MeasureString(
 					null,
-					this.m_renderableObject.Name, DrawTextFormat.None, System.Drawing.Color.White.ToArgb());
+					this.m_renderableObject.Name, (FontDrawFlags)0, System.Drawing.Color.White.ToArgb());
 
 				int height = rect.Height;
 				
@@ -1212,9 +1219,9 @@ namespace HUST.WREIS.Dot3D.Menu
 			int lastConsumedHeight = 20;
 			
 			public int Render(DrawArgs drawArgs, int x, int y, int yOffset, int width, int height, 
-				Microsoft.DirectX.Direct3D.Font drawingFont,
-				Microsoft.DirectX.Direct3D.Font wingdingsFont,
-				Microsoft.DirectX.Direct3D.Font worldwinddingsFont, 
+				Font drawingFont,
+				Font wingdingsFont,
+				Font worldwinddingsFont, 
 				LayerMenuItem mouseOverItem)
 			{
 				if(ParentControl == null)
@@ -1228,7 +1235,7 @@ namespace HUST.WREIS.Dot3D.Menu
 				
 				System.Drawing.Rectangle textRect = drawingFont.MeasureString(null,
 					m_renderableObject.Name,
-					DrawTextFormat.None,
+					(FontDrawFlags)0,
 					System.Drawing.Color.White.ToArgb());
 
 				consumedHeight = textRect.Height;
@@ -1272,7 +1279,7 @@ namespace HUST.WREIS.Dot3D.Menu
 								null,
 								(this.isExpanded ? "L" : "A"),
 								new System.Drawing.Rectangle(x + this._itemXOffset, _y, this._expandArrowXSize, height),
-								DrawTextFormat.None,
+								(FontDrawFlags)0,
 								color );
 						}
 					}
@@ -1293,7 +1300,7 @@ namespace HUST.WREIS.Dot3D.Menu
 							_y,
 							this._checkBoxXOffset,
 							height),
-							DrawTextFormat.NoClip,
+							FontDrawFlags.NoClip,
 							color );
 
 
@@ -1305,7 +1312,7 @@ namespace HUST.WREIS.Dot3D.Menu
 						_y,
 						width - (this._itemXOffset + this._expandArrowXSize + this._checkBoxXOffset),
 						height),
-						DrawTextFormat.None,
+						(FontDrawFlags)0,
 						color );
 
 					if(m_renderableObject.Description != null && m_renderableObject.Description.Length > 0 && !(m_renderableObject is HUST.WREIS.Dot3D.Renderable.Icon))
@@ -1318,7 +1325,7 @@ namespace HUST.WREIS.Dot3D.Menu
 								_y + textRect.Height,
 								width - (_itemXOffset + _expandArrowXSize + _checkBoxXOffset),
 								height),
-							DrawTextFormat.WordBreak,
+							FontDrawFlags.WordBreak,
 							System.Drawing.Color.Gray.ToArgb());
 					}
 
@@ -1979,9 +1986,9 @@ namespace HUST.WREIS.Dot3D.Menu
 							enabledChevron[1].Z = 0.0f;
 							
 							drawArgs.device.VertexFormat = CustomVertex.TransformedColored.Format;
-							drawArgs.device.TextureState[0].ColorOperation = TextureOperation.Disable;
+							drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
 							drawArgs.device.DrawUserPrimitives(PrimitiveType.TriangleList, 1, enabledChevron);
-							drawArgs.device.TextureState[0].ColorOperation = TextureOperation.SelectArg1;
+							drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.SelectArg1);
 						}
 
 						button.RenderEnabledIcon(
@@ -2045,7 +2052,7 @@ namespace HUST.WREIS.Dot3D.Menu
 				lineVerts[i].Color = color;
 			}
 
-			device.TextureState[0].ColorOperation = TextureOperation.Disable;
+			device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
 			device.VertexFormat = CustomVertex.TransformedColored.Format;
 
 			device.DrawUserPrimitives(PrimitiveType.LineStrip, lineVerts.Length - 1, lineVerts);
@@ -2075,7 +2082,7 @@ namespace HUST.WREIS.Dot3D.Menu
 			verts[3].Color = color;
 
 			device.VertexFormat = CustomVertex.TransformedColored.Format;
-			device.TextureState[0].ColorOperation = TextureOperation.Disable;
+			device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
 			device.DrawUserPrimitives(PrimitiveType.TriangleStrip, verts.Length - 2, verts);
 		}
 
@@ -2099,7 +2106,7 @@ namespace HUST.WREIS.Dot3D.Menu
 			}
 
 			device.VertexFormat = CustomVertex.TransformedColored.Format;
-			device.TextureState[0].ColorOperation = TextureOperation.Disable;
+			device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
 			device.DrawUserPrimitives(PrimitiveType.TriangleFan, verts.Length - 2, verts);
 		}
 	}

@@ -5,13 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using Heiflow.Core.Hydrology;
 using Heiflow.Models.Subsurface;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using Heiflow.Spatial;
 using Heiflow.Core.MyMath;
 using HUST.WREIS.Dot3D;
 using Heiflow.Core.Data;
 using GeoAPI.Geometries;
+
+using SharpDX;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace Heiflow.Visualization.Renderable.Grid
 {

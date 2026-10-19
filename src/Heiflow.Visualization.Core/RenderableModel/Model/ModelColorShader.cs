@@ -1,8 +1,10 @@
 using System;
 using System.IO;
 using System.Reflection;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace Heiflow.Visualization.Renderable.Grid
 {
@@ -97,7 +99,7 @@ namespace Heiflow.Visualization.Renderable.Grid
                 {
                     // A reset throws the buffers and the effect away, and the versions of the mesh
                     // would still say nothing changed, so everything is let go of and built again.
-                    device.DeviceReset += OnDeviceReset;
+                    DeviceEvents.AddDeviceResetHandler(device, OnDeviceReset);
                     _watchingDevice = true;
                 }
 
@@ -135,7 +137,7 @@ namespace Heiflow.Visualization.Renderable.Grid
                 return _stepBefore != null && _stepNow != null && _uvBuffer != null
                     && _declaration != null && _ramp != null;
             }
-            catch (DirectXException)
+            catch (SharpDXException)
             {
                 _broken = true;
                 return false;
@@ -185,7 +187,7 @@ namespace Heiflow.Visualization.Renderable.Grid
                 }
                 Write(target, _texels, _width, _height);
             }
-            catch (DirectXException)
+            catch (SharpDXException)
             {
                 _broken = true;
             }
@@ -205,8 +207,7 @@ namespace Heiflow.Visualization.Renderable.Grid
 
             try
             {
-                int pitch;
-                var stream = _ramp.LockRectangle(0, LockFlags.None, out pitch);
+                DataStream stream; var __rectstream = _ramp.LockRectangle(0, LockFlags.None, out stream); int pitch = __rectstream.Pitch;
                 try
                 {
                     stream.Write(bytes, 0, bytes.Length);
@@ -216,7 +217,7 @@ namespace Heiflow.Visualization.Renderable.Grid
                     _ramp.UnlockRectangle(0);
                 }
             }
-            catch (DirectXException)
+            catch (SharpDXException)
             {
                 _broken = true;
             }
@@ -246,9 +247,9 @@ namespace Heiflow.Visualization.Renderable.Grid
                 _effect.SetValue("Ambient", ambient);
                 _effect.SetValue("Opacity", opacity);
                 _effect.SetValue("Blend", blend);
-                _effect.SetValue("StepBefore", _stepBefore);
-                _effect.SetValue("StepNow", _stepNow);
-                _effect.SetValue("Ramp", _ramp);
+                _effect.SetTexture("StepBefore", _stepBefore);
+                _effect.SetTexture("StepNow", _stepNow);
+                _effect.SetTexture("Ramp", _ramp);
 
                 var verticesPerPrimitive = primitiveType == PrimitiveType.LineList ? 2 : 3;
 
@@ -261,7 +262,7 @@ namespace Heiflow.Visualization.Renderable.Grid
                 for (int pass = 0; pass < passes; pass++)
                 {
                     _effect.BeginPass(pass);
-                    device.DrawIndexedPrimitives(primitiveType, 0, 0, vertexCount, 0,
+                    device.DrawIndexedPrimitive(primitiveType, 0, 0, vertexCount, 0,
                         indexCount / verticesPerPrimitive);
                     _effect.EndPass();
                 }
@@ -272,7 +273,7 @@ namespace Heiflow.Visualization.Renderable.Grid
                 device.Indices = null;
                 return true;
             }
-            catch (DirectXException)
+            catch (SharpDXException)
             {
                 _broken = true;
                 return false;
@@ -281,7 +282,7 @@ namespace Heiflow.Visualization.Renderable.Grid
 
         private bool SupportsShaders(Device device)
         {
-            var caps = device.DeviceCaps;
+            var caps = device.Capabilities;
 
             // The texel of a vertex is read in the vertex shader, which no version before the third
             // one lets a shader do. A card that stops at the second is left on the fixed pipeline,
@@ -305,7 +306,7 @@ namespace Heiflow.Visualization.Renderable.Grid
                     return null;
 
                 string errors;
-                return Effect.FromStream(device, stream, null, null, ShaderFlags.None, null, out errors);
+                return ShaderLoader.FromStream(device, stream, ShaderFlags.None, null, out errors);
             }
         }
 
@@ -328,12 +329,11 @@ namespace Heiflow.Visualization.Renderable.Grid
                 uv[i * 2 + 1] = ((at / width) + 0.5f) / height;
             }
 
-            var buffer = new VertexBuffer(typeof(float), uv.Length, device, Usage.None,
-                VertexFormats.None, Pool.Managed);
+            var buffer = new VertexBuffer(device, uv.Length * 4, Usage.None, VertexFormat.None, Pool.Managed);
             var stream = buffer.Lock(0, 0, LockFlags.None);
             try
             {
-                stream.Write(uv);
+                stream.WriteRange(uv);
             }
             finally
             {
@@ -366,8 +366,7 @@ namespace Heiflow.Visualization.Renderable.Grid
 
         private static void Write(Texture texture, byte[] texels, int width, int height)
         {
-            int pitch;
-            var stream = texture.LockRectangle(0, LockFlags.None, out pitch);
+            DataStream stream; var __rectstream = texture.LockRectangle(0, LockFlags.None, out stream); int pitch = __rectstream.Pitch;
             try
             {
                 for (int y = 0; y < height; y++)

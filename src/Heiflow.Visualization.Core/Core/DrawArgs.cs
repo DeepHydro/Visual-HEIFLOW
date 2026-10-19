@@ -3,8 +3,7 @@ using System.Diagnostics;
 using System.Collections;
 using System.IO;
 using System.Net;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using HUST.WREIS.Dot3D.Camera;
 using HUST.WREIS.Dot3D;
 using HUST.WREIS.Dot3D.Net;
@@ -12,6 +11,10 @@ using Utility;
 using Heiflow.Visualization.Controls;
 using Heiflow.Core;
 using Heiflow.Core.Plugin;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D
 {
@@ -127,7 +130,7 @@ namespace HUST.WREIS.Dot3D
 				defaultDrawingFont = CreateFont( "", 10 );
 
 			defaultSubTitleFont = new System.Drawing.Font("Ariel", 8.0f);
-			defaultSubTitleDrawingFont = new Font(device, defaultSubTitleFont);
+			defaultSubTitleDrawingFont = FontFactory.Create(device, defaultSubTitleFont);
 			if(defaultSubTitleDrawingFont==null)
 				defaultSubTitleDrawingFont = CreateFont( "", 8 );
 			
@@ -144,7 +147,7 @@ namespace HUST.WREIS.Dot3D
 			PresentParameters presentParameters = new PresentParameters();
 			presentParameters.Windowed = true;
 			presentParameters.SwapEffect = SwapEffect.Discard;
-			presentParameters.AutoDepthStencilFormat = DepthFormat.D16;
+			presentParameters.AutoDepthStencilFormat = Format.D16;
 			presentParameters.EnableAutoDepthStencil = true;
 
 			m_ReferenceForm = new System.Windows.Forms.Control("Reference", 0,0,1,1);
@@ -159,50 +162,50 @@ namespace HUST.WREIS.Dot3D
 			catch
 			{
 				// User probably needs to upgrade DirectX or install a 3D capable graphics adapter
-				throw new NotAvailableException();
+				throw new SharpDXException();
 			}
 
 	//		DeviceType dType = DeviceType.Reference;
 
 			CreateFlags flags = CreateFlags.SoftwareVertexProcessing;
 
-			flags |= CreateFlags.MultiThreaded | CreateFlags.FpuPreserve;
+			flags |= CreateFlags.Multithreaded | CreateFlags.FpuPreserve;
 		}
 
 		private void OnDeviceReset(object sender, EventArgs e)
 		{
 			// Can we use anisotropic texture minify filter?
-			if( m_Device3dReference.DeviceCaps.TextureFilterCaps.SupportsMinifyAnisotropic)
+			if( (m_Device3dReference.Capabilities.TextureFilterCaps & FilterCaps.MinAnisotropic) != 0)
 			{
-				m_Device3dReference.SamplerState[0].MinFilter = TextureFilter.Anisotropic;
+				m_Device3dReference.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.Anisotropic);
 			}
-			else if( m_Device3dReference.DeviceCaps.TextureFilterCaps.SupportsMinifyLinear)
+			else if( (m_Device3dReference.Capabilities.TextureFilterCaps & FilterCaps.MinLinear) != 0)
 			{
-				m_Device3dReference.SamplerState[0].MinFilter = TextureFilter.Linear;
+				m_Device3dReference.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.Linear);
 			}
 
 			// What about magnify filter?
-			if( m_Device3dReference.DeviceCaps.TextureFilterCaps.SupportsMagnifyAnisotropic )
+			if( (m_Device3dReference.Capabilities.TextureFilterCaps & FilterCaps.MagAnisotropic) != 0 )
 			{
-				m_Device3dReference.SamplerState[0].MagFilter = TextureFilter.Anisotropic;
+				m_Device3dReference.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.Anisotropic);
 			}
-			else if( m_Device3dReference.DeviceCaps.TextureFilterCaps.SupportsMagnifyLinear )
+			else if( (m_Device3dReference.Capabilities.TextureFilterCaps & FilterCaps.MagLinear) != 0 )
 			{
-				m_Device3dReference.SamplerState[0].MagFilter = TextureFilter.Linear;
+				m_Device3dReference.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.Linear);
 			}
 
-			m_Device3dReference.SamplerState[0].AddressU = TextureAddress.Clamp;
-			m_Device3dReference.SamplerState[0].AddressV = TextureAddress.Clamp;
+			m_Device3dReference.SetSamplerState(0, SamplerState.AddressU, TextureAddress.Clamp);
+			m_Device3dReference.SetSamplerState(0, SamplerState.AddressV, TextureAddress.Clamp);
 
-			m_Device3dReference.RenderState.Clipping = true;
-			m_Device3dReference.RenderState.CullMode = Cull.Clockwise;
-			m_Device3dReference.RenderState.Lighting = false;
-			m_Device3dReference.RenderState.Ambient = System.Drawing.Color.FromArgb(0x40, 0x40, 0x40);
+			m_Device3dReference.SetRenderState(RenderState.Clipping, true);
+			m_Device3dReference.SetRenderState(RenderState.CullMode, (int)(Cull.Clockwise));
+			m_Device3dReference.SetRenderState(RenderState.Lighting, false);
+			m_Device3dReference.SetRenderState(RenderState.Ambient, System.Drawing.Color.FromArgb(0x40, 0x40, 0x40).ToArgb());
 
-			m_Device3dReference.RenderState.ZBufferEnable = true;
-			m_Device3dReference.RenderState.AlphaBlendEnable = true;
-			m_Device3dReference.RenderState.SourceBlend = Blend.SourceAlpha;
-			m_Device3dReference.RenderState.DestinationBlend = Blend.InvSourceAlpha;
+			m_Device3dReference.SetRenderState(RenderState.ZEnable, true);
+			m_Device3dReference.SetRenderState(RenderState.AlphaBlendEnable, true);
+			m_Device3dReference.SetRenderState(RenderState.SourceBlend, (int)(Blend.SourceAlpha));
+			m_Device3dReference.SetRenderState(RenderState.DestinationBlend, (int)(Blend.InverseSourceAlpha));
 		}
 
 		Device m_Device3dReference = null;
@@ -264,10 +267,10 @@ namespace HUST.WREIS.Dot3D
 				if(style == System.Drawing.FontStyle.Regular)
 					return CreateFont( description );
 				if((style & System.Drawing.FontStyle.Italic) != 0)
-					description.IsItalic = true;
+					description.Italic = true;
 				if((style & System.Drawing.FontStyle.Bold) != 0)
 					description.Weight = FontWeight.Heavy;
-                description.Quality = FontQuality.AntiAliased;
+                description.Quality = FontQuality.Antialiased;
 				return CreateFont( description );
 			}
 			catch

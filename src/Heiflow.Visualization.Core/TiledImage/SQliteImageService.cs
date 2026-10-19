@@ -1,20 +1,25 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using Microsoft.DirectX.Direct3D;
+
 using System.IO;
 using System.Drawing;
 using System.Collections;
 using HUST.WREIS.Dot3D.Renderable;
 using Heiflow.Spatial;
 
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
+
 namespace HUST.WREIS.Dot3D
 {
     public interface IImageStorageService
     {
-        Microsoft.DirectX.Direct3D.Texture LoadFile(Renderable.QuadTile qt);
+        Texture LoadFile(Renderable.QuadTile qt);
 
         /// <summary>
         /// Is the image for this tile there, and if it is not, has a download been queued for it?
@@ -101,7 +106,7 @@ namespace HUST.WREIS.Dot3D
             return false;
         }
 
-        public Microsoft.DirectX.Direct3D.Texture LoadFile(Renderable.QuadTile qt)
+        public Texture LoadFile(Renderable.QuadTile qt)
         {
             Texture texture = null;
             string filePath = mImageStore.GetLocalPath(qt);

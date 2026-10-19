@@ -1,6 +1,8 @@
 using System;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D
 {
@@ -35,23 +37,23 @@ namespace HUST.WREIS.Dot3D
 
 			float scale = radius2 / radius1;
 			corners[0] = MathEngine.SphericalToCartesian(south, west, radius1);
-			corners[1] = Vector3.Scale(corners[0], scale);
+			corners[1] = Vector3.Multiply(corners[0], scale);
 			corners[2] = MathEngine.SphericalToCartesian(south, east, radius1);
-			corners[3] = Vector3.Scale(corners[2], scale);
+			corners[3] = Vector3.Multiply(corners[2], scale);
 			corners[4] = MathEngine.SphericalToCartesian(north, west, radius1);
-			corners[5] = Vector3.Scale(corners[4], scale);
+			corners[5] = Vector3.Multiply(corners[4], scale);
 			corners[6] = MathEngine.SphericalToCartesian(north, east, radius1);
-			corners[7] = Vector3.Scale(corners[6], scale);
+			corners[7] = Vector3.Multiply(corners[6], scale);
 
 			//Find the center.  In this case, we'll simply average the coordinates. 
 			foreach(Vector3 v in corners)
 				Center += v;
-			Center.Scale(1/CornerCount);
+			Vector3.Multiply(Center, 1/CornerCount);
 
 			//Loop through the coordinates and find the maximum distance from the center.  This is the radius.		
 			foreach(Vector3 v in corners)
 			{
-				float distSq = Vector3.Subtract(v,Center).LengthSq();
+				float distSq = Vector3.Subtract(v,Center).LengthSquared();
 				if (distSq > Radius)
 					Radius = distSq;
 			}

@@ -1,6 +1,8 @@
 using System;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D
 {
@@ -74,7 +76,7 @@ namespace HUST.WREIS.Dot3D
 		{
 			foreach(Plane p in this.planes)
 			{
-				float distancePlaneToPoint = p.A * c.Center.X + p.B * c.Center.Y + p.C * c.Center.Z + p.D;
+				float distancePlaneToPoint = p.Normal.X * c.Center.X + p.Normal.Y * c.Center.Y + p.Normal.Z * c.Center.Z + p.D;
 				if(distancePlaneToPoint < -c.Radius)
 					// More than 1 radius outside the plane = outside
 					return false;
@@ -92,7 +94,7 @@ namespace HUST.WREIS.Dot3D
 		public bool ContainsPoint(Vector3 v)
 		{
 			foreach(Plane p in this.planes)
-				if(Vector3.Dot(new Vector3(p.A, p.B, p.C), v) + p.D < 0)
+				if(Vector3.Dot(new Vector3(p.Normal.X, p.Normal.Y, p.Normal.Z), v) + p.D < 0)
 					return false;
 
 			return true;
@@ -114,7 +116,7 @@ namespace HUST.WREIS.Dot3D
 				// TODO: Modify bounding box and only check 2 corners.
 				for(int i = 0; i < 8; i++)
 				{
-					if(Vector3.Dot(new Vector3(p.A,p.B,p.C), bb.corners[i]) + p.D < 0)
+					if(Vector3.Dot(new Vector3(p.Normal.X,p.Normal.Y,p.Normal.Z), bb.corners[i]) + p.D < 0)
 					{
 						iPtIn = 0;
 						--iInCount;
@@ -141,7 +143,7 @@ namespace HUST.WREIS.Dot3D
 		{
 			foreach(Plane p in this.planes)
 			{
-				Vector3 v = new Vector3(p.A,p.B,p.C);
+				Vector3 v = new Vector3(p.Normal.X,p.Normal.Y,p.Normal.Z);
 				bool isInside = false;
 				// TODO: Modify bounding box and only check 2 corners.
 				for(int i = 0; i < 8; i++)

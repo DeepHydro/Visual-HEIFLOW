@@ -2,12 +2,17 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Threading;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using HUST.WREIS.Dot3D.Net;
 using HUST.WREIS.Dot3D.Terrain;
 using Utility;
 using Heiflow.Core;
+
+using SharpDX;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D.Renderable
 {
@@ -263,8 +268,8 @@ namespace HUST.WREIS.Dot3D.Renderable
 		int iconSize;
 		DrawArgs drawArgs;
 		TerrainAccessor _terrainAccessor;
-		CustomVertex.TransformedColored[] progressBar = new Microsoft.DirectX.Direct3D.CustomVertex.TransformedColored[4];
-		CustomVertex.TransformedColored[] progressBarOutline = new Microsoft.DirectX.Direct3D.CustomVertex.TransformedColored[5];
+		CustomVertex.TransformedColored[] progressBar = new CustomVertex.TransformedColored[4];
+		CustomVertex.TransformedColored[] progressBarOutline = new CustomVertex.TransformedColored[5];
 		static int progressDefaultColor =  System.Drawing.Color.Red.ToArgb();
 		static int progressColorLoading = System.Drawing.Color.CornflowerBlue.ToArgb();
 		static int progressColorConversion = System.Drawing.Color.YellowGreen.ToArgb();
@@ -518,7 +523,7 @@ namespace HUST.WREIS.Dot3D.Renderable
 					this.imageLayer.DisableZBuffer = true;
 
 				this.imageLayer.Render(drawArgs);
-				drawArgs.defaultDrawingFont.DrawText(null,this.caption, new System.Drawing.Rectangle(10, drawArgs.screenHeight - 50, drawArgs.screenWidth - 10, 50), DrawTextFormat.NoClip | DrawTextFormat.WordBreak, bottomLeftTextColor );
+				drawArgs.defaultDrawingFont.DrawText(null,this.caption, new System.Drawing.Rectangle(10, drawArgs.screenHeight - 50, drawArgs.screenWidth - 10, 50), FontDrawFlags.NoClip | FontDrawFlags.WordBreak, bottomLeftTextColor );
 				return;
 			}
 
@@ -582,7 +587,7 @@ namespace HUST.WREIS.Dot3D.Renderable
 			{
 				drawArgs.defaultDrawingFont.DrawText(null, this.caption, 
 					new Rectangle((int)projectedPoint.X + halfIconWidth + 5, (int)projectedPoint.Y - halfIconHeight, drawArgs.screenWidth, drawArgs.screenHeight),
-					DrawTextFormat.WordBreak | DrawTextFormat.NoClip,
+					FontDrawFlags.WordBreak | FontDrawFlags.NoClip,
 					System.Drawing.Color.White.ToArgb());
 			}
 
@@ -619,7 +624,7 @@ namespace HUST.WREIS.Dot3D.Renderable
 				progressBarOutline[4].Color = progressColor;
 
 				drawArgs.device.VertexFormat = CustomVertex.TransformedColored.Format;
-				drawArgs.device.TextureState[0].ColorOperation = TextureOperation.Disable;
+				drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
 				drawArgs.device.DrawUserPrimitives(PrimitiveType.LineStrip, 4, progressBarOutline);
 				
 				int barlength = (int)(downloadProgress * 2 * halfIconWidth);

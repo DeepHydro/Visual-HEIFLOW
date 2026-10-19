@@ -1,7 +1,9 @@
 using System;
 using HUST.WREIS.Dot3D;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace Heiflow.Visualization.Renderable.Grid
 {
@@ -16,7 +18,7 @@ namespace Heiflow.Visualization.Renderable.Grid
     /// </remarks>
     public struct ModelRenderScope : IDisposable
     {
-        private static Material _material;
+        private static Material? _material;
         private static Vector3 _sunVector;
         private static DateTime _sunTime;
         private static bool _sunVectorKnown;
@@ -43,25 +45,25 @@ namespace Heiflow.Visualization.Renderable.Grid
             var scope = new ModelRenderScope();
             scope._device = device;
             scope._drawArgs = drawArgs;
-            scope._cullMode = device.RenderState.CullMode;
-            scope._fillMode = device.RenderState.FillMode;
+            scope._cullMode = device.GetRenderStateEnum<Cull>(RenderState.CullMode);
+            scope._fillMode = device.GetRenderStateEnum<FillMode>(RenderState.FillMode);
 
             if (clearDepthBuffer)
                 ClearDepthBuffer(device);
 
-            device.RenderState.ZBufferEnable = true;
+            device.SetRenderState(RenderState.ZEnable, true);
             device.VertexFormat = CustomVertex.PositionNormalColored.Format;
-            device.TextureState[0].ColorOperation = TextureOperation.Disable;
+            device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
 
-            device.Transform.World = Matrix.Translation(
+            device.SetTransform(TransformState.World, Matrix.Translation(
                 (float)(-drawArgs.WorldCamera.ReferenceCenter.X),
                 (float)(-drawArgs.WorldCamera.ReferenceCenter.Y),
-                (float)(-drawArgs.WorldCamera.ReferenceCenter.Z));
+                (float)(-drawArgs.WorldCamera.ReferenceCenter.Z)));
 
             ApplyLighting(device);
 
-            device.RenderState.CullMode = Cull.None;
-            device.RenderState.FillMode = fillMode;
+            device.SetRenderState(RenderState.CullMode, (int)(Cull.None));
+            device.SetRenderState(RenderState.FillMode, fillMode);
 
             return scope;
         }
@@ -74,32 +76,32 @@ namespace Heiflow.Visualization.Renderable.Grid
             if (_device == null)
                 return;
 
-            _device.RenderState.FillMode = _fillMode;
-            _device.RenderState.CullMode = _cullMode;
+            _device.SetRenderState(RenderState.FillMode, _fillMode);
+            _device.SetRenderState(RenderState.CullMode, _cullMode);
 
             if (_drawArgs != null && _drawArgs.WorldCamera != null)
-                _device.Transform.World = _drawArgs.WorldCamera.WorldMatrix;
+                _device.SetTransform(TransformState.World, _drawArgs.WorldCamera.WorldMatrix);
         }
 
         private static void ApplyLighting(Device device)
         {
             if (World.Settings.EnableSunShading)
             {
-                device.RenderState.Lighting = true;
+                device.SetRenderState(RenderState.Lighting, true);
                 device.Material = SharedMaterial;
-                device.RenderState.AmbientColor = World.Settings.ShadingAmbientColor.ToArgb();
-                device.RenderState.NormalizeNormals = true;
-                device.RenderState.AlphaBlendEnable = true;
+                device.SetRenderState(RenderState.Ambient, World.Settings.ShadingAmbientColor.ToArgb());
+                device.SetRenderState(RenderState.NormalizeNormals, true);
+                device.SetRenderState(RenderState.AlphaBlendEnable, true);
 
-                device.Lights[0].Enabled = true;
-                device.Lights[0].Type = LightType.Directional;
-                device.Lights[0].Diffuse = System.Drawing.Color.White;
-                device.Lights[0].Direction = SunVector;
+                LightHub.Get(device, 0).Enabled = true;
+                LightHub.Get(device, 0).Type = LightType.Directional;
+                LightHub.Get(device, 0).Diffuse = ColorUtil.ToColor4(System.Drawing.Color.White);
+                LightHub.Get(device, 0).Direction = SunVector;
             }
             else
             {
-                device.RenderState.Lighting = false;
-                device.RenderState.Ambient = World.Settings.StandardAmbientColor;
+                device.SetRenderState(RenderState.Lighting, false);
+                device.SetRenderState(RenderState.Ambient, World.Settings.StandardAmbientColor.ToArgb());
             }
         }
 
@@ -107,13 +109,14 @@ namespace Heiflow.Visualization.Renderable.Grid
         {
             get
             {
-                if (_material == null)
+                if (!_material.HasValue)
                 {
-                    _material = new Material();
-                    _material.Diffuse = System.Drawing.Color.White;
-                    _material.Ambient = System.Drawing.Color.White;
+                    var created = new Material();
+                    created.Diffuse = ColorUtil.ToColor4(System.Drawing.Color.White);
+                    created.Ambient = ColorUtil.ToColor4(System.Drawing.Color.White);
+                    _material = created;
                 }
-                return _material;
+                return _material.Value;
             }
         }
 

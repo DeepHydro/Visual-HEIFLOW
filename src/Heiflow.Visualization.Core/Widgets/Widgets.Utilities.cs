@@ -1,8 +1,11 @@
 using System;
 using System.Windows.Forms;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using HUST.WREIS.Dot3D;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D.Widgets
 {
@@ -24,7 +27,7 @@ namespace HUST.WREIS.Dot3D.Widgets
 					lineVerts[i].Color = color;
 				}
 
-				device.TextureState[0].ColorOperation = TextureOperation.Disable;
+				device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
 				device.VertexFormat = CustomVertex.TransformedColored.Format;
 
 				device.DrawUserPrimitives(PrimitiveType.LineStrip, lineVerts.Length - 1, lineVerts);
@@ -54,7 +57,7 @@ namespace HUST.WREIS.Dot3D.Widgets
 				verts[3].Color = color;
 
 				device.VertexFormat = CustomVertex.TransformedColored.Format;
-				device.TextureState[0].ColorOperation = TextureOperation.Disable;
+				device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
 				device.DrawUserPrimitives(PrimitiveType.TriangleStrip, verts.Length - 2, verts);
 			}
 
@@ -78,7 +81,7 @@ namespace HUST.WREIS.Dot3D.Widgets
 				}
 
 				device.VertexFormat = CustomVertex.TransformedColored.Format;
-				device.TextureState[0].ColorOperation = TextureOperation.Disable;
+				device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
 				device.DrawUserPrimitives(PrimitiveType.TriangleFan, verts.Length - 2, verts);
 			}
 

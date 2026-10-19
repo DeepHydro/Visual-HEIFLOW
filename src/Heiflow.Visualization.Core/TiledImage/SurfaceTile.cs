@@ -1,10 +1,13 @@
 using System;
 using System.IO;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using HUST.WREIS.Dot3D;
 using Utility;
 using Heiflow.Core;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D
 {
@@ -73,7 +76,7 @@ namespace HUST.WREIS.Dot3D
 				m_ParentWorldSurfaceRenderer.ParentWorld.EquatorialRadius + m_ParentWorldSurfaceRenderer.DistanceAboveSeaLevel);
 
 			Vector3 v0 = new Vector3((float)v.X, (float)v.Y, (float)v.Z);
-			Vector3 v1 = Vector3.Scale(v0, scale);
+			Vector3 v1 = Vector3.Multiply(v0, scale);
 
 			v = MathEngine.SphericalToCartesian(
 				Angle.FromDegrees(south),
@@ -81,7 +84,7 @@ namespace HUST.WREIS.Dot3D
 				m_ParentWorldSurfaceRenderer.ParentWorld.EquatorialRadius + m_ParentWorldSurfaceRenderer.DistanceAboveSeaLevel);
 
 			Vector3 v2 = new Vector3((float)v.X, (float)v.Y, (float)v.Z);
-			Vector3 v3 = Vector3.Scale(v2, scale);
+			Vector3 v3 = Vector3.Multiply(v2, scale);
 
 			v = MathEngine.SphericalToCartesian(
 				Angle.FromDegrees(north),
@@ -89,7 +92,7 @@ namespace HUST.WREIS.Dot3D
 				m_ParentWorldSurfaceRenderer.ParentWorld.EquatorialRadius + m_ParentWorldSurfaceRenderer.DistanceAboveSeaLevel);
 
 			Vector3 v4 = new Vector3((float)v.X, (float)v.Y, (float)v.Z);
-			Vector3 v5 = Vector3.Scale(v4, scale);
+			Vector3 v5 = Vector3.Multiply(v4, scale);
 
 			v = MathEngine.SphericalToCartesian(
 				Angle.FromDegrees(north),
@@ -97,7 +100,7 @@ namespace HUST.WREIS.Dot3D
 				m_ParentWorldSurfaceRenderer.ParentWorld.EquatorialRadius + m_ParentWorldSurfaceRenderer.DistanceAboveSeaLevel);
 
 			Vector3 v6 = new Vector3((float)v.X, (float)v.Y, (float)v.Z);
-			Vector3 v7 = Vector3.Scale(v6, scale);
+			Vector3 v7 = Vector3.Multiply(v6, scale);
 			
 			m_BoundingBox = new BoundingBox(v0, v1, v2, v3, v4, v5, v6, v7);
 
@@ -154,12 +157,12 @@ namespace HUST.WREIS.Dot3D
 
 		private void OnDeviceDispose(object sender, EventArgs e)
 		{
-			if(m_RenderTexture != null && !m_RenderTexture.Disposed)
+			if(m_RenderTexture != null && !m_RenderTexture.IsDisposed)
 			{
 				m_RenderTexture.Dispose();
 			}
 
-		/*	if(m_RenderSurface != null && !m_RenderSurface.Disposed)
+		/*	if(m_RenderSurface != null && !m_RenderSurface.IsDisposed)
 			{
 				m_RenderSurface.Dispose();
 			}*/
@@ -222,7 +225,7 @@ namespace HUST.WREIS.Dot3D
 		{
 			if(m_RenderTexture == null)
 			{
-				drawArgs.device.DeviceReset += new EventHandler(OnDeviceReset);
+				DeviceEvents.AddDeviceResetHandler(drawArgs.device, OnDeviceReset);
 				OnDeviceReset(drawArgs.device, null);
 			}
 		
@@ -232,7 +235,7 @@ namespace HUST.WREIS.Dot3D
 			
 			if(drawArgs.RenderWireFrame)
 			{
-				drawArgs.device.RenderState.FillMode = FillMode.Solid;
+				drawArgs.device.SetRenderState(RenderState.FillMode, (int)(FillMode.Solid));
 			}
 			using(Surface renderSurface = m_RenderTexture.GetSurfaceLevel(0))
 			{
@@ -240,7 +243,7 @@ namespace HUST.WREIS.Dot3D
 					drawArgs.device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, System.Drawing.Color.Black, 1.0f, 0);
 
 					drawArgs.device.VertexFormat = CustomVertex.TransformedColoredTextured.Format;
-					drawArgs.device.RenderState.ZBufferEnable = false;
+					drawArgs.device.SetRenderState(RenderState.ZEnable, false);
 
 					double latRange = m_North - m_South;
 					double lonRange = m_East - m_West;
@@ -253,7 +256,7 @@ namespace HUST.WREIS.Dot3D
 					
 							if(currentSurfaceImage == null || 
 								currentSurfaceImage.ImageTexture == null || 
-								currentSurfaceImage.ImageTexture.Disposed || 
+								currentSurfaceImage.ImageTexture.IsDisposed || 
 								!currentSurfaceImage.Enabled ||
 								(currentSurfaceImage.North > m_North && currentSurfaceImage.South >= m_North) ||
 								(currentSurfaceImage.North <= m_South && currentSurfaceImage.South < m_South) ||
@@ -306,41 +309,41 @@ namespace HUST.WREIS.Dot3D
 								currentSurfaceImage.ParentRenderable.Opacity,
 								0,0,0).ToArgb();
 						
-							drawArgs.device.RenderState.AlphaBlendEnable = true;
-							drawArgs.device.RenderState.SourceBlend = Blend.SourceAlpha;
-							drawArgs.device.RenderState.DestinationBlend = Blend.InvSourceAlpha;
+							drawArgs.device.SetRenderState(RenderState.AlphaBlendEnable, true);
+							drawArgs.device.SetRenderState(RenderState.SourceBlend, (int)(Blend.SourceAlpha));
+							drawArgs.device.SetRenderState(RenderState.DestinationBlend, (int)(Blend.InverseSourceAlpha));
 
-							drawArgs.device.SamplerState[0].BorderColor = System.Drawing.Color.FromArgb(0,0,0,0);
-							drawArgs.device.SamplerState[1].BorderColor = System.Drawing.Color.FromArgb(0,0,0,0);
+							drawArgs.device.SetSamplerState(0, SamplerState.BorderColor, System.Drawing.Color.FromArgb(0,0,0,0).ToArgb());
+							drawArgs.device.SetSamplerState(1, SamplerState.BorderColor, System.Drawing.Color.FromArgb(0,0,0,0).ToArgb());
 							drawArgs.device.SetTexture(0, currentSurfaceImage.ImageTexture);
 							drawArgs.device.SetTexture(1, currentSurfaceImage.ImageTexture);
-							drawArgs.device.TextureState[1].TextureCoordinateIndex = 0;
+							drawArgs.device.SetTextureStageState(1, TextureStage.TexCoordIndex, 0);
 							
-							drawArgs.device.SamplerState[0].MinFilter = TextureFilter.Linear;
-							drawArgs.device.SamplerState[0].MagFilter = TextureFilter.Linear;
-							drawArgs.device.SamplerState[0].AddressU = TextureAddress.Clamp;
-							drawArgs.device.SamplerState[0].AddressV = TextureAddress.Clamp;
+							drawArgs.device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.Linear);
+							drawArgs.device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.Linear);
+							drawArgs.device.SetSamplerState(0, SamplerState.AddressU, TextureAddress.Clamp);
+							drawArgs.device.SetSamplerState(0, SamplerState.AddressV, TextureAddress.Clamp);
 					
-							drawArgs.device.SamplerState[1].MinFilter = TextureFilter.Point;
-							drawArgs.device.SamplerState[1].MagFilter = TextureFilter.Point;
-							drawArgs.device.SamplerState[1].AddressU = TextureAddress.Border;
-							drawArgs.device.SamplerState[1].AddressV = TextureAddress.Border;
+							drawArgs.device.SetSamplerState(1, SamplerState.MinFilter, TextureFilter.Point);
+							drawArgs.device.SetSamplerState(1, SamplerState.MagFilter, TextureFilter.Point);
+							drawArgs.device.SetSamplerState(1, SamplerState.AddressU, TextureAddress.Border);
+							drawArgs.device.SetSamplerState(1, SamplerState.AddressV, TextureAddress.Border);
 
-							drawArgs.device.TextureState[0].ColorOperation = TextureOperation.SelectArg1;
-							drawArgs.device.TextureState[0].ColorArgument1 = TextureArgument.TextureColor;
-							drawArgs.device.TextureState[0].ColorArgument2 = TextureArgument.Diffuse;
-							drawArgs.device.TextureState[0].AlphaOperation = TextureOperation.Modulate;
-							drawArgs.device.TextureState[0].AlphaArgument1 = TextureArgument.Diffuse;
-							drawArgs.device.TextureState[0].AlphaArgument2 = TextureArgument.TextureColor;
+							drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.SelectArg1);
+							drawArgs.device.SetTextureStageState(0, TextureStage.ColorArg1, TextureArgument.Texture);
+							drawArgs.device.SetTextureStageState(0, TextureStage.ColorArg2, TextureArgument.Diffuse);
+							drawArgs.device.SetTextureStageState(0, TextureStage.AlphaOperation, TextureOperation.Modulate);
+							drawArgs.device.SetTextureStageState(0, TextureStage.AlphaArg1, TextureArgument.Diffuse);
+							drawArgs.device.SetTextureStageState(0, TextureStage.AlphaArg2, TextureArgument.Texture);
 
-							drawArgs.device.TextureState[1].ColorOperation = TextureOperation.SelectArg1;						
-							drawArgs.device.TextureState[1].ColorArgument1 = TextureArgument.Current;
-							drawArgs.device.TextureState[1].AlphaOperation = TextureOperation.Modulate;
-							drawArgs.device.TextureState[1].AlphaArgument1 = TextureArgument.TextureColor;
-							drawArgs.device.TextureState[1].AlphaArgument2 = TextureArgument.Diffuse;
+							drawArgs.device.SetTextureStageState(1, TextureStage.ColorOperation, TextureOperation.SelectArg1);						
+							drawArgs.device.SetTextureStageState(1, TextureStage.ColorArg1, TextureArgument.Current);
+							drawArgs.device.SetTextureStageState(1, TextureStage.AlphaOperation, TextureOperation.Modulate);
+							drawArgs.device.SetTextureStageState(1, TextureStage.AlphaArg1, TextureArgument.Texture);
+							drawArgs.device.SetTextureStageState(1, TextureStage.AlphaArg2, TextureArgument.Diffuse);
 							
-							drawArgs.device.TextureState[2].ColorOperation = TextureOperation.Disable;
-							drawArgs.device.TextureState[2].AlphaOperation = TextureOperation.Disable;
+							drawArgs.device.SetTextureStageState(2, TextureStage.ColorOperation, TextureOperation.Disable);
+							drawArgs.device.SetTextureStageState(2, TextureStage.AlphaOperation, TextureOperation.Disable);
 
 							drawArgs.device.DrawUserPrimitives(
 								PrimitiveType.TriangleStrip,
@@ -350,16 +353,16 @@ namespace HUST.WREIS.Dot3D
 							drawArgs.device.SetTexture(0, null);
 							drawArgs.device.SetTexture(1, null);
 
-                            drawArgs.device.SetTextureStageState(1, TextureStageStates.TextureCoordinateIndex, 1);
+                            drawArgs.device.SetTextureStageState(1, TextureStage.TexCoordIndex, 1);
 						}
 						m_ParentWorldSurfaceRenderer.RenderToSurface.EndScene(Filter.Box);
-						drawArgs.device.RenderState.ZBufferEnable = true;
+						drawArgs.device.SetRenderState(RenderState.ZEnable, true);
 					}
 			}
 
 			if(drawArgs.RenderWireFrame)
 			{
-				drawArgs.device.RenderState.FillMode = FillMode.WireFrame;
+				drawArgs.device.SetRenderState(RenderState.FillMode, (int)(FillMode.Wireframe));
 			}
 			m_LastUpdate = System.DateTime.Now;
 			m_RequiresUpdate = false;
@@ -939,8 +942,8 @@ namespace HUST.WREIS.Dot3D
 
 			if(m_Device != null)
 			{
-				m_Device.DeviceReset -= new EventHandler(OnDeviceReset);
-				m_Device.Disposing -= new EventHandler(OnDeviceDispose);
+				DeviceEvents.RemoveDeviceResetHandler(m_Device, OnDeviceReset);
+				m_Device.Disposing -= OnDeviceDispose;
 				
 				OnDeviceDispose(m_Device, null);
 			}
@@ -1001,13 +1004,13 @@ namespace HUST.WREIS.Dot3D
 				{
 					Vector3 curNormal = (Vector3)normal_buffer[i][j];
 					
-					if(vertices[i].Normal == Vector3.Empty)
+					if(vertices[i].Normal == Vector3.Zero)
 						vertices[i].Normal = curNormal;
 					else
 						vertices[i].Normal += curNormal;
 				}
     
-				vertices[i].Normal.Multiply(1.0f / normal_buffer[i].Count);
+				vertices[i].Normal = Vector3.Multiply(vertices[i].Normal, 1.0f / normal_buffer[i].Count);
 				
 			}
 		}
@@ -1033,7 +1036,7 @@ namespace HUST.WREIS.Dot3D
 				!drawArgs.WorldCamera.ViewFrustum.Intersects(m_BoundingBox) ||
 				m_DynamicTexture == null //||
 				//m_RenderTexture == null ||
-				//m_RenderTexture.Disposed
+				//m_RenderTexture.IsDisposed
 				)
 			{
 			//	if(m_Level == 0)
@@ -1069,7 +1072,7 @@ namespace HUST.WREIS.Dot3D
 					{
 						if(currentSurfaceImage == null || 
 							currentSurfaceImage.ImageTexture == null || 
-							currentSurfaceImage.ImageTexture.Disposed || 
+							currentSurfaceImage.ImageTexture.IsDisposed || 
 							!currentSurfaceImage.Enabled ||
 							(currentSurfaceImage.North > m_North && currentSurfaceImage.South >= m_North) ||
 							(currentSurfaceImage.North <= m_South && currentSurfaceImage.South < m_South) ||
@@ -1184,19 +1187,19 @@ namespace HUST.WREIS.Dot3D
 					return;
 				
 				drawArgs.device.VertexFormat = CustomVertex.PositionNormalTextured.Format;
-				drawArgs.device.TextureState[0].AlphaOperation = TextureOperation.SelectArg1;
-				drawArgs.device.TextureState[0].AlphaArgument1 = TextureArgument.TextureColor;
-				drawArgs.device.TextureState[0].ColorOperation = TextureOperation.SelectArg1;
-				drawArgs.device.TextureState[1].ColorOperation = TextureOperation.Disable;
-				drawArgs.device.TextureState[1].AlphaOperation = TextureOperation.Disable;
-				drawArgs.device.RenderState.ZBufferEnable = true;
+				drawArgs.device.SetTextureStageState(0, TextureStage.AlphaOperation, TextureOperation.SelectArg1);
+				drawArgs.device.SetTextureStageState(0, TextureStage.AlphaArg1, TextureArgument.Texture);
+				drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.SelectArg1);
+				drawArgs.device.SetTextureStageState(1, TextureStage.ColorOperation, TextureOperation.Disable);
+				drawArgs.device.SetTextureStageState(1, TextureStage.AlphaOperation, TextureOperation.Disable);
+				drawArgs.device.SetRenderState(RenderState.ZEnable, true);
 				
 				drawArgs.device.SetTexture(0, m_RenderTexture);
 
-				drawArgs.device.SamplerState[0].MinFilter = TextureFilter.Linear;
-				drawArgs.device.SamplerState[0].MagFilter = TextureFilter.Linear;
-				drawArgs.device.SamplerState[0].AddressU = TextureAddress.Clamp;
-				drawArgs.device.SamplerState[0].AddressV = TextureAddress.Clamp;
+				drawArgs.device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.Linear);
+				drawArgs.device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.Linear);
+				drawArgs.device.SetSamplerState(0, SamplerState.AddressU, TextureAddress.Clamp);
+				drawArgs.device.SetSamplerState(0, SamplerState.AddressV, TextureAddress.Clamp);
 
 				if(!nwRendered && m_DynamicTexture.nwVerts != null)
 				{
@@ -1206,8 +1209,7 @@ namespace HUST.WREIS.Dot3D
 						m_DynamicTexture.nwVerts.Length,
 						(m_NwIndices != null ? m_NwIndices.Length / 3 : m_IndicesElevated.Length / 3),
 						(m_NwIndices != null ? m_NwIndices : m_IndicesElevated),
-						true,
-						m_DynamicTexture.nwVerts);
+						Format.Index16, m_DynamicTexture.nwVerts);
 				}
 	
 				if(!neRendered && m_DynamicTexture.neVerts != null)
@@ -1218,8 +1220,7 @@ namespace HUST.WREIS.Dot3D
 						m_DynamicTexture.neVerts.Length,
 						(m_NeIndices != null ? m_NeIndices.Length / 3 : m_IndicesElevated.Length / 3),
 						(m_NeIndices != null ? m_NeIndices : m_IndicesElevated),
-						true,
-						m_DynamicTexture.neVerts);
+						Format.Index16, m_DynamicTexture.neVerts);
 				}	
 
 				if(!swRendered && m_DynamicTexture.swVerts != null)
@@ -1230,8 +1231,7 @@ namespace HUST.WREIS.Dot3D
 						m_DynamicTexture.nwVerts.Length,
 						(m_SwIndices != null ? m_SwIndices.Length / 3 : m_IndicesElevated.Length / 3),
 						(m_SwIndices != null ? m_SwIndices : m_IndicesElevated),
-						true,
-						m_DynamicTexture.swVerts);
+						Format.Index16, m_DynamicTexture.swVerts);
 				}	
 						
 				if(!seRendered && m_DynamicTexture.seVerts != null)
@@ -1242,8 +1242,7 @@ namespace HUST.WREIS.Dot3D
 						m_DynamicTexture.seVerts.Length,
 						(m_SeIndices != null ? m_SeIndices.Length / 3 : m_IndicesElevated.Length / 3),
 						(m_SeIndices != null ? m_SeIndices : m_IndicesElevated),
-						true,
-						m_DynamicTexture.seVerts);
+						Format.Index16, m_DynamicTexture.seVerts);
 				}
 			}
 			catch(System.Threading.ThreadAbortException)

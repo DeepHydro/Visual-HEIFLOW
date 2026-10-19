@@ -2,8 +2,10 @@ using System;
 using System.IO;
 using System.Reflection;
 using Heiflow.Visualization.RenderableModel.Model.Renders;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace Heiflow.Visualization.Renderable.Grid
 {
@@ -80,7 +82,7 @@ namespace Heiflow.Visualization.Renderable.Grid
                 {
                     // A reset throws the buffer and the effect away, and the geometry would still
                     // say nothing changed, so everything is let go of and built again.
-                    device.DeviceReset += OnDeviceReset;
+                    DeviceEvents.AddDeviceResetHandler(device, OnDeviceReset);
                     _watchingDevice = true;
                 }
 
@@ -121,7 +123,7 @@ namespace Heiflow.Visualization.Renderable.Grid
 
                 return _declaration != null && _flowBuffer != null;
             }
-            catch (DirectXException)
+            catch (SharpDXException)
             {
                 _broken = true;
                 return false;
@@ -158,9 +160,9 @@ namespace Heiflow.Visualization.Renderable.Grid
             const float slowest = 0.45f;
 
             var viewportSize = new float[2] { viewport.Width, viewport.Height };
-            var blend = device.RenderState.AlphaBlendEnable;
-            var source = device.RenderState.SourceBlend;
-            var destination = device.RenderState.DestinationBlend;
+            var blend = device.GetRenderState(RenderState.AlphaBlendEnable);
+            var source = device.GetRenderState(RenderState.SourceBlend);
+            var destination = device.GetRenderState(RenderState.DestinationBlend);
 
             try
             {
@@ -179,9 +181,9 @@ namespace Heiflow.Visualization.Renderable.Grid
 
                 // The dashes fade out along their trail, which the fixed pipeline only asks for while
                 // the sun is switched on, so the blend is put on here and taken off again.
-                device.RenderState.AlphaBlendEnable = true;
-                device.RenderState.SourceBlend = Blend.SourceAlpha;
-                device.RenderState.DestinationBlend = Blend.InvSourceAlpha;
+                device.SetRenderState(RenderState.AlphaBlendEnable, true);
+                device.SetRenderState(RenderState.SourceBlend, (int)(Blend.SourceAlpha));
+                device.SetRenderState(RenderState.DestinationBlend, (int)(Blend.InverseSourceAlpha));
 
                 device.VertexDeclaration = _declaration;
                 device.SetStreamSource(0, mesh.VertexBuffer, 0, CustomVertex.PositionNormalColored.StrideSize);
@@ -192,7 +194,7 @@ namespace Heiflow.Visualization.Renderable.Grid
                 for (int pass = 0; pass < passes; pass++)
                 {
                     _effect.BeginPass(pass);
-                    device.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, mesh.VertexCount, 0,
+                    device.DrawIndexedPrimitive(PrimitiveType.TriangleList, 0, 0, mesh.VertexCount, 0,
                         mesh.IndexCount / 3);
                     _effect.EndPass();
                 }
@@ -200,7 +202,7 @@ namespace Heiflow.Visualization.Renderable.Grid
 
                 return true;
             }
-            catch (DirectXException)
+            catch (SharpDXException)
             {
                 _broken = true;
                 return false;
@@ -210,15 +212,15 @@ namespace Heiflow.Visualization.Renderable.Grid
                 device.SetStreamSource(1, null, 0, 0);
                 device.VertexDeclaration = null;
                 device.Indices = null;
-                device.RenderState.AlphaBlendEnable = blend;
-                device.RenderState.SourceBlend = source;
-                device.RenderState.DestinationBlend = destination;
+                device.SetRenderState(RenderState.AlphaBlendEnable, blend);
+                device.SetRenderState(RenderState.SourceBlend, source);
+                device.SetRenderState(RenderState.DestinationBlend, destination);
             }
         }
 
         private static bool SupportsShaders(Device device)
         {
-            var caps = device.DeviceCaps;
+            var caps = device.Capabilities;
             return caps.VertexShaderVersion >= new Version(2, 0)
                 && caps.PixelShaderVersion >= new Version(2, 0);
         }
@@ -232,13 +234,13 @@ namespace Heiflow.Visualization.Renderable.Grid
                     return null;
 
                 string errors;
-                return Effect.FromStream(device, stream, null, null, ShaderFlags.None, null, out errors);
+                return ShaderLoader.FromStream(device, stream, ShaderFlags.None, null, out errors);
             }
         }
 
         private static VertexBuffer CreateFlow(Device device, int count)
         {
-            return new VertexBuffer(typeof(float), count, device, Usage.None, VertexFormats.None, Pool.Managed);
+            return new VertexBuffer(device, count * 4, Usage.None, VertexFormat.None, Pool.Managed);
         }
 
         private static void Upload(VertexBuffer buffer, float[] flow)
@@ -246,7 +248,7 @@ namespace Heiflow.Visualization.Renderable.Grid
             var stream = buffer.Lock(0, 0, LockFlags.None);
             try
             {
-                stream.Write(flow);
+                stream.WriteRange(flow);
             }
             finally
             {

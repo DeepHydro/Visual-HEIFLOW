@@ -2,8 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using System.ComponentModel;
 using System.Collections;
 using HUST.WREIS.Dot3D.Renderable;
@@ -11,6 +10,10 @@ using Heiflow.Visualization.Renderable;
 using HUST.WREIS.Dot3D;
 using Heiflow.Models.Generic;
 using Heiflow.Models.Visualization;
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+
 namespace Heiflow.Visualization.Renderable.Grid
 {
     public enum MeshType { Line, Polygon }
@@ -121,8 +124,8 @@ namespace Heiflow.Visualization.Renderable.Grid
                 // rather than an array as long as the grid. Whatever cannot be done that way is drawn
                 // from the vertices as it always was.
                 var shaded = uploaded && _RenderDX.DrawShaded(device, _Mesh, primitiveType,
-                    Matrix.Multiply(device.Transform.World,
-                        Matrix.Multiply(device.Transform.View, device.Transform.Projection)),
+                    Matrix.Multiply(device.GetTransform(TransformState.World),
+                        Matrix.Multiply(device.GetTransform(TransformState.View), device.GetTransform(TransformState.Projection))),
                     Vector3.Normalize(ModelRenderScope.SunVector),
                     World.Settings.EnableSunShading ? 1f : 0f,
                     // The fixed pipeline puts the ambient on a vertex only while it lights it, so a
@@ -143,16 +146,16 @@ namespace Heiflow.Visualization.Renderable.Grid
                         // no buffers, the mesh is tiny or the device could not create them
                         int step = primitiveType == PrimitiveType.LineList ? 2 : 3;
                         device.DrawIndexedUserPrimitives(primitiveType, 0, vertices.Length, indices.Length / step,
-                            indices, false, vertices);
+                            indices, Format.Index32, vertices);
                     }
                 }
 
                 if (HighLightSelectedCell && _RenderDX.SelectedVertexes != null && _RenderDX.SelectedVertexIndexes != null)
                 {
-                    device.RenderState.CullMode = Cull.None;
+                    device.SetRenderState(RenderState.CullMode, (int)(Cull.None));
                     device.VertexFormat = CustomVertex.PositionColored.Format;
                     device.DrawIndexedUserPrimitives(PrimitiveType.TriangleList, 0, _RenderDX.SelectedVertexes.Length,
-                         _RenderDX.SelectedVertexIndexes.Length / 3, _RenderDX.SelectedVertexIndexes, false, _RenderDX.SelectedVertexes);
+                         _RenderDX.SelectedVertexIndexes.Length / 3, _RenderDX.SelectedVertexIndexes, Format.Index32, _RenderDX.SelectedVertexes);
                 }
             }
         }

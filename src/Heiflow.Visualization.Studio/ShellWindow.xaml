@@ -311,7 +311,7 @@
                     <MenuItem Header="Add Shapefile"   x:Name="miLoadShp"  Click="miLoadShp_Click" />
                     <MenuItem Header="Add Water Body"   x:Name="miLoadWater"  Click="miLoadWater_Click" />
                     <MenuItem Header="Add Water Surface"   x:Name="miLoadGridWater"  Click="miLoadGridWater_Click" />
-                    <MenuItem Header="Add Raster"   x:Name="miLoadRater" Visibility="Collapsed"  />
+                    <MenuItem Header="Add Raster"   x:Name="miLoadRater"  Click="miLoadRaster_Click" />
                     <MenuItem Header="Add 3D Model"   x:Name="miLoad3DModel"  Click="miLoad3DModel_Click" />
                     <Separator />
                     <MenuItem Header="Load ODM Database"   x:Name="miLoadODM" Click="miLoadODM_Click" />

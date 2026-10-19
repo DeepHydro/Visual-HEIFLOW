@@ -10,8 +10,7 @@ using HUST.WREIS.Dot3D.Display.Properties;
 using HUST.WREIS.Dot3D.Interop;
 using HUST.WREIS.Dot3D.Menu;
 using HUST.WREIS.Dot3D.Renderable;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,6 +25,14 @@ using System.Windows.Forms;
 using System.Linq;
 using Heiflow.Presentation.Services;
 using Heiflow.Presentation.Controls;
+
+using SharpDX;
+using Point = System.Drawing.Point;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Font = SharpDX.Direct3D9.Font;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D
 {
@@ -58,9 +65,9 @@ namespace HUST.WREIS.Dot3D
         public Point mouseDownStartPosition = Point.Empty;
         public bool renderWireFrame;
         public System.Timers.Timer m_FpsTimer = new System.Timers.Timer(250);
-        Microsoft.DirectX.Direct3D.Font captionTextFont;
-        Microsoft.DirectX.Direct3D.Font infoTextFont;
-        Microsoft.DirectX.Direct3D.Font titleTextFont;
+        Font captionTextFont;
+        Font infoTextFont;
+        Font titleTextFont;
         private HUST.WREIS.Dot3D.VisualControl.ProgressBar mProgressBar;
         private LineGraph m_FpsGraph = new LineGraph();
         private const int positionAlphaStep = 20;
@@ -128,6 +135,12 @@ namespace HUST.WREIS.Dot3D
         /// <summary>
         /// Initializes a new instance of the <see cref= "T:HUST.WREIS.Dot3D.WorldWindow"/> class.
         /// </summary>
+        /// <summary>
+        /// 跟踪 BeginScene/EndScene 是否配对。绘制中途抛异常会跳过 EndScene，而 D3D 不允许
+        /// 嵌套 BeginScene，不检测就会在后续每一帧拿到 D3DERR_INVALIDCALL 并永久白屏。
+        /// </summary>
+        private bool _sceneOpened = false;
+
         public SceneWindow()
         {
             this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.Opaque, true);
@@ -158,8 +171,8 @@ namespace HUST.WREIS.Dot3D
 
                 mProgressBar = new VisualControl.ProgressBar(200, 10);
 
-                captionTextFont = drawArgs.CreateFont("宋体,Arial", 8.5f, FontStyle.Bold);
-                infoTextFont = drawArgs.CreateFont("宋体,Arial", 9.0f, FontStyle.Bold);
+                captionTextFont = drawArgs.CreateFont("鐎瑰缍?Arial", 8.5f, FontStyle.Bold);
+                infoTextFont = drawArgs.CreateFont("鐎瑰缍?Arial", 9.0f, FontStyle.Bold);
                 titleTextFont = drawArgs.CreateFont("Arial", 14.0f, FontStyle.Bold);
                 infoBackgourdColor = Color.FromArgb(100, 54, 54, 54).ToArgb();
                 infoForeColor1 = Color.FromArgb(255, 255, 255, 0).ToArgb();
@@ -168,14 +181,9 @@ namespace HUST.WREIS.Dot3D
                 ShowTitleInfo = true;
 
             }
-            catch (InvalidCallException caught)
+            catch (SharpDXException caught)
             {
-                throw new InvalidCallException(
-                    "Unable to locate a compatible graphics adapter. Make sure you are running the latest version of DirectX.", caught);
-            }
-            catch (NotAvailableException caught)
-            {
-                throw new NotAvailableException(
+                throw new SharpDXException(
                     "Unable to locate a compatible graphics adapter. Make sure you are running the latest version of DirectX.", caught);
             }
         }
@@ -505,7 +513,7 @@ namespace HUST.WREIS.Dot3D
 
                 string captionText = str1 + c.ToString() + "\n";
                 captionText += str2 + c.CurrentValue.ToString("0.0000");
-                DrawTextFormat dtf = DrawTextFormat.NoClip | DrawTextFormat.WordBreak | DrawTextFormat.Left;
+                FontDrawFlags dtf = FontDrawFlags.NoClip | FontDrawFlags.WordBreak | FontDrawFlags.Left;
                 int x = mSelectedFlag.ScreenPoint.X;
                 int y = mSelectedFlag.ScreenPoint.Y;
                 Rectangle textRect = Rectangle.FromLTRB(x + 10, y + 10, x + 200, y + 100);
@@ -763,11 +771,11 @@ namespace HUST.WREIS.Dot3D
 
             try
             {
-                using (Surface backbuffer = m_Device3d.GetBackBuffer(0, 0, BackBufferType.Mono))
-                    SurfaceLoader.Save(saveScreenShotFilePath, saveScreenShotImageFileFormat, backbuffer);
+                using (Surface backbuffer = m_Device3d.GetBackBuffer(0, 0))
+                    NativeD3DX.SaveSurfaceToFile(backbuffer, saveScreenShotFilePath, saveScreenShotImageFileFormat);
                 saveScreenShotFilePath = null;
             }
-            catch (InvalidCallException caught)
+            catch (SharpDXException caught)
             {
                 MessageBox.Show(caught.Message, "Screenshot save failed.", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -822,7 +830,7 @@ namespace HUST.WREIS.Dot3D
                     drawArgs.Present();
                 }
             }
-            catch (DeviceLostException)
+            catch (SharpDXException)
             {
                 AttemptRecovery();
             }
@@ -855,7 +863,7 @@ namespace HUST.WREIS.Dot3D
                 Render();
                 m_Device3d.Present();
             }
-            catch (DeviceLostException)
+            catch (SharpDXException)
             {
                 try
                 {
@@ -866,7 +874,7 @@ namespace HUST.WREIS.Dot3D
 
                     m_Device3d.Present();
                 }
-                catch (DirectXException)
+                catch (SharpDXException)
                 {
                     // Ignore a 2nd failure
                 }
@@ -891,6 +899,10 @@ namespace HUST.WREIS.Dot3D
 
             try
             {
+                // 宿主控件尺寸可能已经变化（WPF 的 WindowsFormsHost 未必给出 WinForms 的 Resize 事件），
+                // 所以每帧都兜底校验一次后备缓冲尺寸。开销只是一次 GetBackBuffer 描述查询。
+                bool deviceRecreated = this.EnsureDeviceSizeMatches();
+
                 this.drawArgs.BeginRender();
 
                 // Render the sky according to view - example, close to earth, render sky blue, render space as black
@@ -914,6 +926,15 @@ namespace HUST.WREIS.Dot3D
                 }*/
 
                 m_Device3d.Clear(ClearFlags.Target | ClearFlags.ZBuffer, backgroundColor, 1.0f, 0);
+
+                if (deviceRecreated)
+                {
+                    // 这一帧设备刚 Reset 过，Pool.Default 里的顶点缓冲、纹理、Sprite 等都已失效，
+                    // 继续绘制只会用上死资源（首帧的 EndScene 报 D3DERR_INVALIDCALL 就是这个原因）。
+                    // 本帧到此为止，已清出一个干净画面，下一帧再完整渲染。
+                    // finally 里的 EndRender 会照常执行，BeginScene 未开启所以无需配对。
+                    return;
+                }
 
                 if (m_World == null)
                 {
@@ -954,13 +975,25 @@ namespace HUST.WREIS.Dot3D
 
                 this.drawArgs.WorldCamera.Update(m_Device3d);
 
+                if (_sceneOpened)
+                {
+                    // 上一帧的 BeginScene 之后没能走到 EndScene（绘制中途抛异常会跳过它）。
+                    // D3D 不允许嵌套 BeginScene，不先把未闭合的场景收尾的话，
+                    // 这一帧就会拿到 D3DERR_INVALIDCALL，并且后面的 Present 永远执行不到，
+                    // 最终表现为持续白屏。这里做一次兜底收尾。
+                    try { m_Device3d.EndScene(); }
+                    catch (SharpDXException) { }
+                    _sceneOpened = false;
+                }
+
                 m_Device3d.BeginScene();
+                _sceneOpened = true;
 
                 // Set fill mode
                 if (renderWireFrame)
-                    m_Device3d.RenderState.FillMode = FillMode.WireFrame;
+                    m_Device3d.SetRenderState(RenderState.FillMode, (int)(FillMode.Wireframe));
                 else
-                    m_Device3d.RenderState.FillMode = FillMode.Solid;
+                    m_Device3d.SetRenderState(RenderState.FillMode, (int)(FillMode.Solid));
 
                 drawArgs.RenderWireFrame = renderWireFrame;
 
@@ -985,16 +1018,16 @@ namespace HUST.WREIS.Dot3D
                 if (profiled)
                     LayerProfiler.RecordRender("SceneWindow: widgets", Stopwatch.GetTimestamp() - widgetStart);
 
-                drawArgs.device.RenderState.ZBufferEnable = false;
+                drawArgs.device.SetRenderState(RenderState.ZEnable, false);
 
                 // 3D rendering complete, switch to 2D for UI rendering
 
                 // Restore normal fill mode
                 if (renderWireFrame)
-                    m_Device3d.RenderState.FillMode = FillMode.Solid;
+                    m_Device3d.SetRenderState(RenderState.FillMode, (int)(FillMode.Solid));
 
                 // Disable fog for UI
-                m_Device3d.RenderState.FogEnable = false;
+                m_Device3d.SetRenderState(RenderState.FogEnable, false);
 
                 if (ProgressPercent > 0.0f)
                 {
@@ -1029,7 +1062,7 @@ namespace HUST.WREIS.Dot3D
                             int yPos = (int)Math.Round(dm.Y * this.Height);
                             Rectangle posRect = new Rectangle(xPos, yPos, this.Width, this.Height);
                             this.drawArgs.defaultDrawingFont.DrawText(null, dm.Message, posRect,
-                                DrawTextFormat.NoClip | DrawTextFormat.WordBreak, Color.White);
+                                FontDrawFlags.NoClip | FontDrawFlags.WordBreak, Color.White);
                         }
                     }
                     catch (Exception)
@@ -1041,6 +1074,7 @@ namespace HUST.WREIS.Dot3D
                 // see class LayerProfiler in World.cs, remove both when the profiling is done
                 long endSceneStart = profiled ? Stopwatch.GetTimestamp() : 0;
                 m_Device3d.EndScene();
+                _sceneOpened = false;
                 if (profiled)
                     LayerProfiler.RecordRender("SceneWindow: EndScene", Stopwatch.GetTimestamp() - endSceneStart);
             }
@@ -1078,7 +1112,7 @@ namespace HUST.WREIS.Dot3D
         private int infoRowHeight = 200;
         private int infoMargin = 5;
         private int infoPadding = 10;
-        DrawTextFormat dtf = DrawTextFormat.NoClip | DrawTextFormat.WordBreak | DrawTextFormat.Left;
+        FontDrawFlags dtf = FontDrawFlags.NoClip | FontDrawFlags.WordBreak | FontDrawFlags.Left;
 
         private void RenderInfoCell(int col, int row, string text, int textColor)
         {
@@ -1113,11 +1147,11 @@ namespace HUST.WREIS.Dot3D
             {
                 drawArgs.Present();
                 //string captionText =
-                //          "闂佸憡鐟崹鎶藉极閵堝洨妫柛锔诲幗閸婄偤鏌涢幇顒佸櫣闁? " +
-                //           "\n濠殿噯绲界换鎺楋綖濡ゅ啯鏆滅憸搴ㄥ汲閻戭枛S: " +
-                //          "\n闁哄鐗嗗﹢閬嶅疾椤愶附鍊? " +
-                //          "\n闂佺儵妲勬俊鍥ㄦ櫠閺嶎厼鏋? " +
-                //          "\n缂傚倷鐒﹂敋闁糕晜顨堥埀顒傛暩椤㈠﹪鎸呴崟顖氭瀬闁规鍠楃粣? ";
+                //          "闂傚倷绀侀幉锟犳偡椤栫偛鍨傞柟鎯版閺嬩線鏌曢崼婵囧窛婵☆偒鍨堕弻娑㈡晜鐠囨彃绠洪梺绋匡功閸嬨倝寮诲☉銏犵疀妞ゆ帊绀佸▍锝夋⒑? " +
+                //           "\n濠电姵顔栭崳顖滃緤閻ｅ本宕查柟鐑橆殣缂嶆牗淇婇妶鍛殲闁哄棙绮庨幉鍛婃償閵娿儲杈堥梺缁樺焾閺嬫奔: " +
+                //          "\n闂備礁鎼ˇ顖炴偋閸℃鑰块梺顒€绉撮悿鐐亜閹板爼妾柛? " +
+                //          "\n闂傚倷鑳堕崕闈浳ｉ崟顑跨箚闁搞儯鍔嶅▍鐘绘煛瀹ュ骸骞栭柡? " +
+                //          "\n缂傚倸鍊搁崐鐑芥倿閿曞倹鏅梻浣虹《閺呮粓銆冮崼銉ョ劦妞ゆ帒鍊归弳鈺傘亜閵忕媴韬柟绋挎嚇瀹曠喖顢涘顓犫偓顒勬⒑鐟欏嫷鍟忛柛鐘愁殘缁? ";
                 string captionText =
           "Memory: " +
            "\nFPS: " +
@@ -1140,10 +1174,10 @@ namespace HUST.WREIS.Dot3D
             if (ShowStatisticsInfo && StatisticsInfo!= null)
             {
                 //string captionText =
-                //          "闂佸搫鐗冮崑鎾愁熆閸棗鍟犻崑? " + "\n" +
-                //           "闂佸搫鐗冮崑鎾绘倶韫囨挾绠伴柍? " + "\n" +
-                //           "濡ょ姷鍋涢崯鍨缚鎼淬劌纾? " + "\n" +
-                //           "闂佸搫绉村ú銈夊闯椤栨凹鍟? ";
+                //          "闂傚倷绀侀幖顐︽偋閸愵喖纾婚柟鐐墯閻斿棝鏌涢銏☆棞闁哥喓濞€瀹? " + "\n" +
+                //           "闂傚倷绀侀幖顐︽偋閸愵喖纾婚柟鍓х帛閸婂爼鐓崶銊﹀暗缂佺姳鍗抽弻? " + "\n" +
+                //           "濠德板€楁慨鐑藉磻濞戙垹鐤柛顭戝枑缂傛岸骞栧ǎ顒€濡肩痪? " + "\n" +
+                //           "闂傚倷绀侀幖顐ょ矓閺夋嚚娲Χ婢跺﹪妫峰銈嗙墬閸戝綊宕? ";
                 string captionText =
                         "Maximum: " + "\n" +
                          "Minimum: " + "\n" +
@@ -1189,7 +1223,7 @@ namespace HUST.WREIS.Dot3D
                 double heading = this.drawArgs.WorldCamera.Heading.Degrees;
                 if (heading < 0)
                     heading += 360;
-                var posinfo = ResMan.GetString("PosInfo");//"缂傚倷绀佺换鎰偓? {0:f4}    缂備胶铏庨崜娆戔偓? {1:f4}    濠电偞鎸抽弨杈┾偓? {2}m    闂佸搫鍊婚幊鎾诲箖? {3:f2}                                     闁荤喐鐟ュΛ婊堬綖濡も偓闇夐梺鍨儏閻濇螖閸屾耽顏嗏偓? {4}"
+                var posinfo = ResMan.GetString("PosInfo");//"缂傚倸鍊搁崐椋庣矆娴ｇ儤宕查柟閭﹀枓閸? {0:f4}    缂傚倸鍊烽懗鍫曟惞鎼淬劌绀堟繛鍡樺灍閸? {1:f4}    濠电姷鏁搁崑鐐哄箰閹惰棄缁╅弶鍫氭杹閸? {2}m    闂傚倷绀侀幖顐﹀磹婵犳艾绠犻柟鎹愵嚙缁? {3:f2}                                     闂備浇宕甸崰鎰版偡閵夈儙娑橆煥閸剛绋忓┑掳鍊愰崑鎾绘婢舵劖鈷戦柛顭戝櫘閸庡繘鏌ｅ┑鍥舵當閾绘牠鏌涚仦鎹愨偓浠嬵敂閸″繐浜? {4}"
                 captionText += String.Format(posinfo,
                     this.drawArgs.WorldCamera.Longitude.Degrees,
                     this.drawArgs.WorldCamera.Latitude.Degrees,
@@ -1210,7 +1244,7 @@ namespace HUST.WREIS.Dot3D
                         "\n" + TimeKeeper.CurrentTimeUtc.ToLocalTime().ToLongTimeString();
 
                 captionText = captionText.Trim();
-                DrawTextFormat dtf = DrawTextFormat.NoClip | DrawTextFormat.WordBreak | DrawTextFormat.Center;
+                FontDrawFlags dtf = FontDrawFlags.NoClip | FontDrawFlags.WordBreak | FontDrawFlags.Center;
                 int x = 7;
                 int y = _menuBar != null && World.Settings.ShowToolbar ? 65 : this.Height - 14;
                 Rectangle textRect = Rectangle.FromLTRB(x, y, this.Width - 8, this.Height - 4);
@@ -1285,16 +1319,13 @@ namespace HUST.WREIS.Dot3D
             {
                 m_Device3d.TestCooperativeLevel();
             }
-            catch (DeviceLostException)
-            {
-            }
-            catch (DeviceNotResetException)
+            catch (SharpDXException)
             {
                 try
                 {
                     m_Device3d.Reset(m_presentParams);
                 }
-                catch (DeviceLostException)
+                catch (SharpDXException)
                 {
                     // If it's still lost or lost again, just do
                     // nothing
@@ -1362,6 +1393,63 @@ namespace HUST.WREIS.Dot3D
         }
 
         /// <summary>
+        /// MDX 的 Device.DeviceResizing 机制会在宿主控件尺寸变化时自动重建后备缓冲；
+        /// SharpDX 没有这套机制，设备会一直停留在构造时的尺寸。
+        /// SceneWindow 构造函数把控件设成 1x1 后才创建设备，因此这里必须显式跟随，
+        /// 否则后备缓冲永远 1x1，Clear 之后所有绘制都会失败，最终表现为白屏。
+        /// </summary>
+        /// <returns>是否执行了 Reset</returns>
+        private bool EnsureDeviceSizeMatches()
+        {
+            if (m_Device3d == null || ReferenceEquals(m_presentParams, null))
+                return false;
+            if (this.Width <= 0 || this.Height <= 0)
+                return false;
+
+            int currentWidth, currentHeight;
+            try
+            {
+                using (Surface backbuffer = m_Device3d.GetBackBuffer(0, 0))
+                {
+                    currentWidth = backbuffer.Description.Width;
+                    currentHeight = backbuffer.Description.Height;
+                }
+            }
+            catch (SharpDXException)
+            {
+                return false;
+            }
+
+            if (currentWidth == this.Width && currentHeight == this.Height)
+                return false;
+
+            try
+            {
+                m_Device3d.Reset(m_presentParams);
+
+                // 原 MDX DeviceResizing 处理器的职责：同步屏幕尺寸
+                this.drawArgs.screenWidth = this.Width;
+                this.drawArgs.screenHeight = this.Height;
+
+                // Reset 会销毁 Pool.Default 中的资源，通知各图层重建
+                Heiflow.Visualization.DirectX.DeviceEvents.RaiseDeviceReset(m_Device3d);
+                return true;
+            }
+            catch (SharpDXException)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>尺寸变化时立刻同步后备缓冲，代替 MDX 的自动 DeviceResizing。</summary>
+        protected override void OnClientSizeChanged(EventArgs e)
+        {
+            base.OnClientSizeChanged(e);
+            try { this.EnsureDeviceSizeMatches(); }
+            catch { /* 设备可能尚未创建 */ }
+        }
+
+        /// <summary>
         /// Returns true if executing in Design mode (inside IDE)
         /// </summary>
         /// <returns></returns>
@@ -1378,7 +1466,7 @@ namespace HUST.WREIS.Dot3D
 
             m_presentParams.Windowed = true;
             m_presentParams.SwapEffect = SwapEffect.Discard;
-            m_presentParams.AutoDepthStencilFormat = DepthFormat.D16;
+            m_presentParams.AutoDepthStencilFormat = Format.D16;
             m_presentParams.EnableAutoDepthStencil = true;
 
             if (!World.Settings.VSync)
@@ -1394,12 +1482,12 @@ namespace HUST.WREIS.Dot3D
             catch
             {
                 // User probably needs to upgrade DirectX or install a 3D capable graphics adapter
-                throw new NotAvailableException();
+                throw new SharpDXException(SharpDX.Result.Fail);
             }
 
             DeviceType dType = DeviceType.Hardware;
 
-            foreach (AdapterInformation ai in Manager.Adapters)
+            foreach (Heiflow.Visualization.DirectX.AdapterInformation ai in Manager.Adapters)
             {
                 if (ai.Information.Description.IndexOf("NVPerfHUD") >= 0)
                 {
@@ -1410,66 +1498,65 @@ namespace HUST.WREIS.Dot3D
             CreateFlags flags = CreateFlags.SoftwareVertexProcessing;
 
             // Check to see if we can use a pure hardware m_Device3d
-            Caps caps = Manager.GetDeviceCaps(adapterOrdinal, DeviceType.Hardware);
+            var caps = Manager.GetDeviceCaps(adapterOrdinal, DeviceType.Hardware);
 
             // Do we support hardware vertex processing?
-            if (caps.DeviceCaps.SupportsHardwareTransformAndLight)
+            if ((caps.DeviceCaps & DeviceCaps.HWTransformAndLight) != 0)
                 //	// Replace the software vertex processing
                 flags = CreateFlags.HardwareVertexProcessing;
 
             // Use multi-threading for now - TODO: See if the code can be changed such that this isn't necessary (Texture Loading for example)
-            flags |= CreateFlags.MultiThreaded | CreateFlags.FpuPreserve;
+            flags |= CreateFlags.Multithreaded | CreateFlags.FpuPreserve;
 
             try
             {
                 // Create our m_Device3d
-                m_Device3d = new Device(adapterOrdinal, dType, this, flags, m_presentParams);
+                m_Device3d = DeviceFactory.Create(adapterOrdinal, dType, this, flags, m_presentParams);
             }
-            catch (Microsoft.DirectX.DirectXException)
+            catch (SharpDXException)
             {
                 throw new NotSupportedException("Unable to create the Direct3D m_Device3d.");
             }
 
             // Hook the m_Device3d reset event
-            m_Device3d.DeviceReset += new EventHandler(OnDeviceReset);
-            m_Device3d.DeviceResizing += new CancelEventHandler(m_Device3d_DeviceResizing);
+            DeviceEvents.AddDeviceResetHandler(m_Device3d, OnDeviceReset);
             OnDeviceReset(m_Device3d, null);
         }
 
         private void OnDeviceReset(object sender, EventArgs e)
         {
             // Can we use anisotropic texture minify filter?
-            if (m_Device3d.DeviceCaps.TextureFilterCaps.SupportsMinifyAnisotropic)
+            if ((m_Device3d.Capabilities.TextureFilterCaps & FilterCaps.MinAnisotropic) != 0)
             {
-                m_Device3d.SamplerState[0].MinFilter = TextureFilter.Anisotropic;
+                m_Device3d.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.Anisotropic);
             }
-            else if (m_Device3d.DeviceCaps.TextureFilterCaps.SupportsMinifyLinear)
+            else if ((m_Device3d.Capabilities.TextureFilterCaps & FilterCaps.MinLinear) != 0)
             {
-                m_Device3d.SamplerState[0].MinFilter = TextureFilter.Linear;
+                m_Device3d.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.Linear);
             }
 
             // What about magnify filter?
-            if (m_Device3d.DeviceCaps.TextureFilterCaps.SupportsMagnifyAnisotropic)
+            if ((m_Device3d.Capabilities.TextureFilterCaps & FilterCaps.MagAnisotropic) != 0)
             {
-                m_Device3d.SamplerState[0].MagFilter = TextureFilter.Anisotropic;
+                m_Device3d.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.Anisotropic);
             }
-            else if (m_Device3d.DeviceCaps.TextureFilterCaps.SupportsMagnifyLinear)
+            else if ((m_Device3d.Capabilities.TextureFilterCaps & FilterCaps.MagLinear) != 0)
             {
-                m_Device3d.SamplerState[0].MagFilter = TextureFilter.Linear;
+                m_Device3d.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.Linear);
             }
 
-            m_Device3d.SamplerState[0].AddressU = TextureAddress.Clamp;
-            m_Device3d.SamplerState[0].AddressV = TextureAddress.Clamp;
+            m_Device3d.SetSamplerState(0, SamplerState.AddressU, TextureAddress.Clamp);
+            m_Device3d.SetSamplerState(0, SamplerState.AddressV, TextureAddress.Clamp);
 
-            m_Device3d.RenderState.Clipping = true;
-            m_Device3d.RenderState.CullMode = Cull.Clockwise;
-            m_Device3d.RenderState.Lighting = false;
-            m_Device3d.RenderState.Ambient = World.Settings.StandardAmbientColor;
+            m_Device3d.SetRenderState(RenderState.Clipping, true);
+            m_Device3d.SetRenderState(RenderState.CullMode, (int)(Cull.Clockwise));
+            m_Device3d.SetRenderState(RenderState.Lighting, false);
+            m_Device3d.SetRenderState(RenderState.Ambient, World.Settings.StandardAmbientColor.ToArgb());
 
-            m_Device3d.RenderState.ZBufferEnable = true;
-            m_Device3d.RenderState.AlphaBlendEnable = true;
-            m_Device3d.RenderState.SourceBlend = Blend.SourceAlpha;
-            m_Device3d.RenderState.DestinationBlend = Blend.InvSourceAlpha;
+            m_Device3d.SetRenderState(RenderState.ZEnable, true);
+            m_Device3d.SetRenderState(RenderState.AlphaBlendEnable, true);
+            m_Device3d.SetRenderState(RenderState.SourceBlend, (int)(Blend.SourceAlpha));
+            m_Device3d.SetRenderState(RenderState.DestinationBlend, (int)(Blend.InverseSourceAlpha));
         }
 
         /// <summary>

@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Microsoft.DirectX.Direct3D;
-using Microsoft.DirectX;
+
 using HUST.WREIS.Dot3D;
 using Heiflow.Core.Drawing;
 using Heiflow.Models.Subsurface;
@@ -14,6 +13,10 @@ using Heiflow.Presentation.Controls;
 using Heiflow.Models.Generic.Project;
 using GeoAPI.Geometries;
 using Heiflow.Models.Visualization;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace Heiflow.Visualization.Renderable.Grid
 {

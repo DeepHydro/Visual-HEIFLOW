@@ -1,8 +1,12 @@
-﻿using HUST.WREIS.Dot3D.Renderable;
-using Microsoft.DirectX;
+using HUST.WREIS.Dot3D.Renderable;
+
 using System;
 using System.ComponentModel;
 using System.Windows.Forms;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D
 {

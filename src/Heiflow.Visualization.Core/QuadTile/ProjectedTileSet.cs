@@ -1,12 +1,17 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Utility;
-using Microsoft.DirectX.Direct3D;
+
 using Heiflow.Spatial;
 using Heiflow.Spatial.Projections;
 using Heiflow.Core;
+
+using SharpDX;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D.Renderable
 { 
@@ -75,7 +80,7 @@ namespace HUST.WREIS.Dot3D.Renderable
              if (m_effectPath != null && m_effect == null)
              {
                  string errs = string.Empty;
-                 m_effect = Effect.FromFile(DrawArgs.Device, m_effectPath, null, "", ShaderFlags.None, m_effectPool, out errs);
+                 m_effect = ShaderLoader.FromFile(DrawArgs.Device, m_effectPath, ShaderFlags.None, m_effectPool, out errs);
 
                  if (errs != null && errs != string.Empty)
                  {

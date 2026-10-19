@@ -1,5 +1,4 @@
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using System.Windows.Forms;
 using HUST.WREIS.Dot3D.Renderable;
 using HUST.WREIS.Dot3D.Camera;
@@ -7,6 +6,12 @@ using HUST.WREIS.Dot3D;
 using System.IO;
 using System.Drawing;
 using System;
+
+using SharpDX;
+using Point = System.Drawing.Point;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace Murris.Plugins
 {
@@ -186,12 +191,12 @@ namespace Murris.Plugins
 
                        // set texture to null
                        device.SetTexture(0,null);
-                       device.TextureState[0].ColorOperation = TextureOperation.BlendCurrentAlpha;
+                       device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.BlendCurrentAlpha);
                        device.VertexFormat = CustomVertex.PositionColored.Format;
 
                        // save world and projection transform
-                       Matrix origWorld = device.Transform.World;
-                       Matrix origProjection = device.Transform.Projection;
+                       Matrix origWorld = device.GetTransform(TransformState.World);
+                       Matrix origProjection = device.GetTransform(TransformState.Projection);
 
                        // move SkyGradient dome
                        Matrix SkyGradientTrans;
@@ -202,29 +207,29 @@ namespace Murris.Plugins
                        SkyGradientTrans = Matrix.Multiply(SkyGradientTrans, Matrix.RotationY(-camLat+(float)Math.PI/2));
                        SkyGradientTrans = Matrix.Multiply(SkyGradientTrans, Matrix.RotationZ(camLon));
 
-                       device.Transform.World = SkyGradientTrans;
+                       device.SetTransform(TransformState.World, SkyGradientTrans);
 
                        // Recenter
                        Recenter(drawArgs);
 
                        // Save fog status
-                       bool origFog = device.RenderState.FogEnable;
-                       device.RenderState.FogEnable = false;
+                       bool origFog = device.GetRenderStateBool(RenderState.FogEnable);
+                       device.SetRenderState(RenderState.FogEnable, false);
 
                        // Set new one (to avoid being clipped) - probably better ways of doing this?
                        float aspectRatio =  (float)device.Viewport.Width / device.Viewport.Height;
-                       device.Transform.Projection = Matrix.PerspectiveFovRH((float)camera.Fov.Radians, aspectRatio, 1, float.MaxValue );
+                       device.SetTransform(TransformState.Projection, Matrix.PerspectiveFovRH((float)camera.Fov.Radians, aspectRatio, 1, float.MaxValue ));
 
                        // draw
-                       //device.RenderState.FillMode = FillMode.WireFrame;
+                       //device.SetRenderState(RenderState.FillMode, (int)(FillMode.Wireframe));
                        mesh.DrawSubset(0);
 
                        // Restore device states
-                       device.RenderState.FillMode = FillMode.Solid;
-                       device.Transform.World = origWorld;
-                       device.Transform.Projection = origProjection;
-                       device.RenderState.FogEnable = origFog;
-                       device.RenderState.ZBufferEnable = true;
+                       device.SetRenderState(RenderState.FillMode, (int)(FillMode.Solid));
+                       device.SetTransform(TransformState.World, origWorld);
+                       device.SetTransform(TransformState.Projection, origProjection);
+                       device.SetRenderState(RenderState.FogEnable, origFog);
+                       device.SetRenderState(RenderState.ZEnable, true);
 
                        // Fog effect
                        if(useFog)
@@ -232,22 +237,18 @@ namespace Murris.Plugins
                                // Compute distance to horizon and camera altitude
                                double tangentalDistance  = Math.Sqrt( distToCenterOfPlanet*distToCenterOfPlanet - camera.WorldRadius*camera.WorldRadius);
                                float a = (float)camera.Altitude;
-                               device.RenderState.FogEnable = true;
-                               device.RenderState.FogColor = horizonColor;
-                               device.RenderState.FogTableMode = FogMode.Linear;
-                               device.RenderState.FogStart = a * nearFactor;
-                               device.RenderState.FogEnd = (float)tangentalDistance * farFactor;
+                               device.SetRenderState(RenderState.FogEnable, true);
+                               device.SetRenderState(RenderState.FogColor, horizonColor.ToArgb());
+                               device.SetRenderState(RenderState.FogTableMode, (int)(FogMode.Linear));
+                               device.SetRenderState(RenderState.FogStart, a * nearFactor);
+                               device.SetRenderState(RenderState.FogEnd, (float)tangentalDistance * farFactor);
                        }
 
                }
 
                // Recenter world projection in WW 1.4
                public void Recenter(DrawArgs drawArgs) {
-                       drawArgs.device.Transform.World *= Matrix.Translation(
-                               (float)-drawArgs.WorldCamera.ReferenceCenter.X,
-                               (float)-drawArgs.WorldCamera.ReferenceCenter.Y,
-                               (float)-drawArgs.WorldCamera.ReferenceCenter.Z
-                               );
+                       
                }
 
                /// <summary>
@@ -472,18 +473,18 @@ namespace Murris.Plugins
                /// Number of faces     :slices*stacks*2
                /// Number of Indexes   : Number of faces * 3;
                /// </remarks>
-               private Mesh ColoredSphere(Microsoft.DirectX.Direct3D.Device device, float radius, double startLat, double endLat, int slices, int stacks)
+               private Mesh ColoredSphere(Device device, float radius, double startLat, double endLat, int slices, int stacks)
                {
                        int numVertices = (slices+1)*(stacks+1);
                        int numFaces    = slices*stacks*2;
                        int indexCount  = numFaces * 3;
 
-                       Mesh mesh = new Mesh(numFaces,numVertices,MeshFlags.Managed,CustomVertex.PositionColored.Format,device);
+                       Mesh mesh = NativeD3DX.CreateMesh(numFaces,numVertices,MeshFlags.Managed,CustomVertex.PositionColored.Format,device);
 
                        // Get the original sphere's vertex buffer.
                        int [] ranks = new int[1];
-                       ranks[0] = mesh.NumberVertices;
-                       System.Array arr = mesh.VertexBuffer.Lock(0,typeof(CustomVertex.PositionColored),LockFlags.None,ranks);
+                       ranks[0] = NativeD3DX.GetVertexCount(mesh);
+                       DataStream arr = mesh.VertexBuffer.Lock(0, ranks[0] * CustomVertex.PositionColored.StrideSize, LockFlags.None);
 
                        // Set the vertex buffer
                        int vertIndex=0;
@@ -502,7 +503,7 @@ namespace Murris.Plugins
                                pnt.Y = v.Y;
                                pnt.Z = v.Z;
                                pnt.Color = Color.FromArgb(255, horizonColor.R, horizonColor.G, horizonColor.B).ToArgb();
-                               arr.SetValue(pnt,vertIndex++);
+                               arr.Write(pnt);;
                        }
                        // stacks and slices
                        for(int stack = 1; stack < stacks; stack++)
@@ -529,7 +530,7 @@ namespace Murris.Plugins
                                                (int)(horizonColor.R * colorFactorH + zenithColor.R * colorFactorZ),
                                                (int)(horizonColor.G * colorFactorH + zenithColor.G * colorFactorZ),
                                                (int)(horizonColor.B * colorFactorH + zenithColor.B * colorFactorZ)).ToArgb();
-                                       arr.SetValue(pnt,vertIndex++);
+                                       arr.Write(pnt);;
                                }
                        }
                        // top fade
@@ -543,12 +544,12 @@ namespace Murris.Plugins
                                pnt.Y = v.Y;
                                pnt.Z = v.Z;
                                pnt.Color = Color.FromArgb(0, zenithColor.R, zenithColor.G, zenithColor.B).ToArgb();
-                               arr.SetValue(pnt,vertIndex++);
+                               arr.Write(pnt);;
                        }
 
                        mesh.VertexBuffer.Unlock();
                        ranks[0]=indexCount;
-                       arr = mesh.LockIndexBuffer(typeof(short),LockFlags.None,ranks);
+                       arr = mesh.IndexBuffer.Lock(0, 0, LockFlags.None);
                        int i=0;
                        short bottomVertex = 0;
                        short topVertex = 0;
@@ -560,19 +561,19 @@ namespace Murris.Plugins
                                topVertex = (short)(bottomVertex + slices + 1);
                                for(int y = 0; y < slices; y++)
                                {
-                                       arr.SetValue(bottomVertex,i++);
-                                       arr.SetValue((short)(topVertex+1),i++);
-                                       arr.SetValue(topVertex,i++);
-                                       arr.SetValue(bottomVertex,i++);
-                                       arr.SetValue((short)(bottomVertex+1),i++);
-                                       arr.SetValue((short)(topVertex+1),i++);
+                                       arr.Write(bottomVertex);;
+                                       arr.Write((short)(topVertex+1));;
+                                       arr.Write(topVertex);;
+                                       arr.Write(bottomVertex);;
+                                       arr.Write((short)(bottomVertex+1));;
+                                       arr.Write((short)(topVertex+1));;
                                        bottomVertex++;
                                        topVertex++;
                                }
                        }
 
-                       mesh.IndexBuffer.SetData(arr,0,LockFlags.None);
-                       //mesh.ComputeNormals();
+                       mesh.UnlockIndexBuffer();
+                       //NativeD3DX.ComputeNormals(mesh);
 
                        return mesh;
                }

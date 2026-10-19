@@ -1,11 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using HUST.WREIS.Dot3D.NewWidgets;
 using HUST.WREIS.Dot3D;
 using Heiflow.Core;
+
+using SharpDX;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D.Display.Plugins
 {
@@ -127,7 +131,7 @@ namespace HUST.WREIS.Dot3D.Display.Plugins
                 if (m_drawingFont != null)
                 {
                     m_drawingFont.Dispose();
-                    m_drawingFont = new Font(DrawArgs.Device, m_localFont);
+                    m_drawingFont = FontFactory.Create(DrawArgs.Device, m_localFont);
                 }
             }
         }
@@ -321,24 +325,24 @@ namespace HUST.WREIS.Dot3D.Display.Plugins
 
                     if (m_localFont != null && m_drawingFont == null)
                     {
-                        m_drawingFont = new Font(drawArgs.device, m_localFont);
+                        m_drawingFont = FontFactory.Create(drawArgs.device, m_localFont);
                     }
 
                     string displayString = string.Format("{0:f0}", drawArgs.WorldCamera.Heading.Degrees);
-                    //DrawTextFormat drawTextFormat = DrawTextFormat.Center | DrawTextFormat.VerticalCenter;
+                    //FontDrawFlags FontDrawFlags = FontDrawFlags.Center | FontDrawFlags.VerticalCenter;
 
-                    drawArgs.device.RenderState.ZBufferEnable = false;
-                    drawArgs.device.TextureState[0].ColorOperation = TextureOperation.SelectArg1;
-                    drawArgs.device.TextureState[0].ColorArgument1 = TextureArgument.Diffuse;
-                    drawArgs.device.TextureState[0].AlphaOperation = TextureOperation.SelectArg1;
-                    drawArgs.device.TextureState[0].AlphaArgument1 = TextureArgument.Diffuse;
+                    drawArgs.device.SetRenderState(RenderState.ZEnable, false);
+                    drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.SelectArg1);
+                    drawArgs.device.SetTextureStageState(0, TextureStage.ColorArg1, TextureArgument.Diffuse);
+                    drawArgs.device.SetTextureStageState(0, TextureStage.AlphaOperation, TextureOperation.SelectArg1);
+                    drawArgs.device.SetTextureStageState(0, TextureStage.AlphaArg1, TextureArgument.Diffuse);
 
                     viewport.X = AbsoluteLocation.X;
                     viewport.Y = AbsoluteLocation.Y;
                     viewport.Width = (drawArgs.device.Viewport.Width < m_Size.Width ? drawArgs.device.Viewport.Width : m_Size.Width);
                     viewport.Height = (drawArgs.device.Viewport.Height < m_Size.Height ? drawArgs.device.Viewport.Height : m_Size.Height);
-                    viewport.MinZ = drawArgs.WorldCamera.Viewport.MinZ;
-                    viewport.MaxZ = drawArgs.WorldCamera.Viewport.MaxZ;
+                    viewport.MinDepth = drawArgs.WorldCamera.Viewport.MinDepth;
+                    viewport.MaxDepth = drawArgs.WorldCamera.Viewport.MaxDepth;
 
                     Viewport savedViewport = drawArgs.device.Viewport;
                     //drawArgs.device.Viewport = viewport;
@@ -357,7 +361,7 @@ namespace HUST.WREIS.Dot3D.Display.Plugins
                             null,
                             displayString,
                             rect,
-                            DrawTextFormat.Left,//drawTextFormat,
+                            FontDrawFlags.Left,//FontDrawFlags,
                             m_ForeColor);
                     }
                     else
@@ -366,7 +370,7 @@ namespace HUST.WREIS.Dot3D.Display.Plugins
                             null,
                             displayString,
                             rect,
-                            DrawTextFormat.Left,
+                            FontDrawFlags.Left,
                             m_ForeColor);
                     }
 
@@ -519,35 +523,35 @@ namespace HUST.WREIS.Dot3D.Display.Plugins
             if (m_compassVertices == null)
                 CreateBitmapVertices(drawArgs);
 
-            drawArgs.device.Transform.World = Matrix.RotationZ((float)drawArgs.WorldCamera.Heading.Radians);
-            drawArgs.device.Transform.World *= Matrix.RotationX(0.7f * (float)drawArgs.WorldCamera.Tilt.Radians);
+            drawArgs.device.SetTransform(TransformState.World, Matrix.RotationZ((float)drawArgs.WorldCamera.Heading.Radians));
+            
 
-            drawArgs.device.Transform.View = Matrix.LookAtLH(
+            drawArgs.device.SetTransform(TransformState.View, Matrix.LookAtLH(
                 new Vector3(0, 0, -1.5f),
                 new Vector3(0, 0, 0),
-                new Vector3(0, 1, 0));
+                new Vector3(0, 1, 0)));
 
-            bool lighting = drawArgs.device.RenderState.Lighting;
-            drawArgs.device.RenderState.Lighting = false;
-            drawArgs.device.Transform.Projection = Matrix.PerspectiveFovLH(0.45f * (float)Math.PI, (float)m_Size.Width / (float)m_Size.Height, 0.0f, 10.0f);
-            Cull cull = drawArgs.device.RenderState.CullMode;
-            drawArgs.device.RenderState.CullMode = Cull.None;
+            bool lighting = drawArgs.device.GetRenderStateBool(RenderState.Lighting);
+            drawArgs.device.SetRenderState(RenderState.Lighting, false);
+            drawArgs.device.SetTransform(TransformState.Projection, Matrix.PerspectiveFovLH(0.45f * (float)Math.PI, (float)m_Size.Width / (float)m_Size.Height, 0.0f, 10.0f));
+            Cull cull = drawArgs.device.GetRenderStateEnum<Cull>(RenderState.CullMode);
+            drawArgs.device.SetRenderState(RenderState.CullMode, (int)(Cull.None));
 
             drawArgs.device.VertexFormat = CustomVertex.PositionColoredTextured.Format;
-            drawArgs.device.TextureState[0].ColorOperation = TextureOperation.Modulate;
-            drawArgs.device.TextureState[0].ColorArgument1 = TextureArgument.Diffuse;
-            drawArgs.device.TextureState[0].ColorArgument2 = TextureArgument.TextureColor;
-            drawArgs.device.TextureState[0].AlphaOperation = TextureOperation.Modulate;
-            drawArgs.device.TextureState[0].AlphaArgument1 = TextureArgument.Diffuse;
-            drawArgs.device.TextureState[0].AlphaArgument2 = TextureArgument.TextureColor;
+            drawArgs.device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Modulate);
+            drawArgs.device.SetTextureStageState(0, TextureStage.ColorArg1, TextureArgument.Diffuse);
+            drawArgs.device.SetTextureStageState(0, TextureStage.ColorArg2, TextureArgument.Texture);
+            drawArgs.device.SetTextureStageState(0, TextureStage.AlphaOperation, TextureOperation.Modulate);
+            drawArgs.device.SetTextureStageState(0, TextureStage.AlphaArg1, TextureArgument.Diffuse);
+            drawArgs.device.SetTextureStageState(0, TextureStage.AlphaArg2, TextureArgument.Texture);
             drawArgs.device.SetTexture(0, m_compassTexture);
             drawArgs.device.DrawUserPrimitives(PrimitiveType.TriangleStrip, m_compassVertices.Length - 2, m_compassVertices);
 
-            drawArgs.device.RenderState.Lighting = lighting;
-            drawArgs.device.RenderState.CullMode = cull;
-            drawArgs.device.Transform.World = drawArgs.WorldCamera.WorldMatrix;
-            drawArgs.device.Transform.View = drawArgs.WorldCamera.ViewMatrix;
-            drawArgs.device.Transform.Projection = drawArgs.WorldCamera.ProjectionMatrix;
+            drawArgs.device.SetRenderState(RenderState.Lighting, lighting);
+            drawArgs.device.SetRenderState(RenderState.CullMode, cull);
+            drawArgs.device.SetTransform(TransformState.World, drawArgs.WorldCamera.WorldMatrix);
+            drawArgs.device.SetTransform(TransformState.View, drawArgs.WorldCamera.ViewMatrix);
+            drawArgs.device.SetTransform(TransformState.Projection, drawArgs.WorldCamera.ProjectionMatrix);
         }
     }
 

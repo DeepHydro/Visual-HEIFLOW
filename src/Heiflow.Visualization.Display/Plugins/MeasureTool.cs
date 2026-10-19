@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,12 +7,18 @@ using System.IO;
 using System.Diagnostics;
 using System.Drawing;
 using System.Xml.Serialization;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using System.Windows.Forms;
 using System.Xml;
 using HUST.WREIS.Dot3D.Renderable;
 
+
+using SharpDX;
+using Point = System.Drawing.Point;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
+using Color = System.Drawing.Color;
 
 namespace HUST.WREIS.Dot3D.Display
 {
@@ -462,7 +468,7 @@ namespace HUST.WREIS.Dot3D.Display
 				return;
 
 			// Turn off light
-			if (World.Settings.EnableSunShading) drawArgs.device.RenderState.Lighting = false;
+			if (World.Settings.EnableSunShading) drawArgs.device.SetRenderState(RenderState.Lighting, false);
 
 			// Check that textures are initialised
 			if(!isInitialized)
@@ -482,8 +488,8 @@ namespace HUST.WREIS.Dot3D.Display
 				return;
 
 			Device device = drawArgs.device;
-			device.RenderState.ZBufferEnable = false;
-			device.TextureState[0].ColorOperation = TextureOperation.Disable;
+			device.SetRenderState(RenderState.ZEnable, false);
+			device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
 			device.VertexFormat = CustomVertex.PositionColored.Format;
 
 			
@@ -498,19 +504,19 @@ namespace HUST.WREIS.Dot3D.Display
 
 
 			// Draw the info rect
-			device.TextureState[0].ColorOperation = TextureOperation.SelectArg1;
+			device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.SelectArg1);
 			device.SetTexture(0,m_texture);
 			device.VertexFormat = CustomVertex.TransformedColoredTextured.Format;
 			device.DrawUserPrimitives(PrimitiveType.TriangleStrip, 2, rect);
 
-			device.TextureState[0].ColorOperation = TextureOperation.Disable;
+			device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
 
 			device.DrawUserPrimitives(PrimitiveType.LineStrip, 2, rectLineConnection);
 			device.DrawUserPrimitives(PrimitiveType.LineStrip, rectFrame.Length-1, rectFrame);
-			drawArgs.defaultDrawingFont.DrawText(null, labelText, labelTextRect, DrawTextFormat.None, 0xff << 24);
+			drawArgs.defaultDrawingFont.DrawText(null, labelText, labelTextRect, (FontDrawFlags)0, 0xff << 24);
 
-			device.RenderState.ZBufferEnable = true;
-			if (World.Settings.EnableSunShading) drawArgs.device.RenderState.Lighting = true;
+			device.SetRenderState(RenderState.ZEnable, true);
+			if (World.Settings.EnableSunShading) drawArgs.device.SetRenderState(RenderState.Lighting, true);
 
 		}
 
@@ -583,7 +589,7 @@ namespace HUST.WREIS.Dot3D.Display
 			}
 			labelText += string.Format("\nDirection: {0:f1}", Azimuth.Degrees );
 
-			labelTextRect = m_drawArgs.defaultDrawingFont.MeasureString(null, labelText, DrawTextFormat.None, 0);
+			labelTextRect = m_drawArgs.defaultDrawingFont.MeasureString(null, labelText, (FontDrawFlags)0, 0);
 			
 			Rectangle tsize = labelTextRect;
 			const int xPad = 4;
@@ -641,7 +647,7 @@ namespace HUST.WREIS.Dot3D.Display
 			Vector3 vCap  = Vector3.Cross(a,b);
 			vCap.Normalize();
 			const int lineCapSize = 6;
-			vCap.Scale( (float)m_drawArgs.WorldCamera.Distance/750f*lineCapSize );
+			Vector3.Multiply(vCap, (float)m_drawArgs.WorldCamera.Distance/750f*lineCapSize);
 
 			Vector3 worldXyzStart = new Vector3( measureLine[0].X, measureLine[0].Y, measureLine[0].Z );
 			Vector3 va = Vector3.Add( worldXyzStart, vCap );
@@ -666,14 +672,14 @@ namespace HUST.WREIS.Dot3D.Display
 				measureLine[beforeLast].X,
 				measureLine[beforeLast].Y,
 				measureLine[beforeLast].Z );
-			vCap.Subtract(worldXyzEnd);
+			vCap = Vector3.Subtract(vCap, worldXyzEnd);
 			vCap.Normalize();
-			vCap.Scale( (float)(m_drawArgs.WorldCamera.Distance/750f*lineCapSize) );
+			vCap = Vector3.Multiply(vCap, (float)(m_drawArgs.WorldCamera.Distance/750f*lineCapSize));
 
 			vb = va = Vector3.Add( worldXyzEnd , vCap );
 			const float arrowHeadAngle = 0.25f*(float)Math.PI;
-			va.TransformCoordinate( Matrix.RotationAxis( worldXyzEnd, (float)Math.PI+arrowHeadAngle ));
-			vb.TransformCoordinate( Matrix.RotationAxis( worldXyzEnd, arrowHeadAngle));
+			va = Vector3.TransformCoordinate(va, Matrix.RotationAxis( worldXyzEnd, (float)Math.PI+arrowHeadAngle ));
+			vb = Vector3.TransformCoordinate(vb, Matrix.RotationAxis( worldXyzEnd, arrowHeadAngle));
 
 			endPoint[0].X = va.X;
 			endPoint[0].Y = va.Y;
@@ -683,8 +689,8 @@ namespace HUST.WREIS.Dot3D.Display
 			endPoint[1].Z = vb.Z;
 
 			Matrix rotate90 = Matrix.RotationAxis( worldXyzEnd, (float)Math.PI*0.5f );
-			va.TransformCoordinate( rotate90 );
-			vb.TransformCoordinate( rotate90 );
+			va = Vector3.TransformCoordinate(va, rotate90);
+			vb = Vector3.TransformCoordinate(vb, rotate90);
 
 			endPoint[2].X = va.X;
 			endPoint[2].Y = va.Y;
@@ -1043,15 +1049,15 @@ namespace HUST.WREIS.Dot3D.Display
 					(float)drawArgs.WorldCamera.ReferenceCenter.Y,
 					(float)drawArgs.WorldCamera.ReferenceCenter.Z);
 
-				drawArgs.device.Transform.World = Matrix.Translation(
+				drawArgs.device.SetTransform(TransformState.World, Matrix.Translation(
 					-referenceCenter
-					);
+					));
 
 				if(World.Settings.MeasureShowGroundTrack && IsGroundTrackValid)
 					drawArgs.device.DrawUserPrimitives(PrimitiveType.LineStrip, GroundTrackLine.Length-1, GroundTrackLine);
 				drawArgs.device.DrawUserPrimitives(PrimitiveType.LineStrip, LinearTrackLine.Length-1, LinearTrackLine);
 
-				drawArgs.device.Transform.World = drawArgs.WorldCamera.WorldMatrix;
+				drawArgs.device.SetTransform(TransformState.World, drawArgs.WorldCamera.WorldMatrix);
 
 				if(!drawArgs.WorldCamera.ViewFrustum.ContainsPoint(WorldXyzMid))
 					// Label is invisible
@@ -1084,12 +1090,12 @@ namespace HUST.WREIS.Dot3D.Display
 					circle[i].Color = World.Settings.MeasureLineLinearColorXml;;
 				}
 				drawArgs.device.VertexFormat = CustomVertex.TransformedColored.Format;
-				drawArgs.device.Transform.World = Matrix.Translation(
+				drawArgs.device.SetTransform(TransformState.World, Matrix.Translation(
 					referenceCenter
-					);
+					));
 
 				drawArgs.device.DrawUserPrimitives(PrimitiveType.LineStrip, circle.Length-1, circle);
-				drawArgs.device.Transform.World = drawArgs.WorldCamera.WorldMatrix;
+				drawArgs.device.SetTransform(TransformState.World, drawArgs.WorldCamera.WorldMatrix);
 				drawArgs.device.VertexFormat = CustomVertex.PositionColored.Format;
 			}
 
@@ -1160,7 +1166,7 @@ namespace HUST.WREIS.Dot3D.Display
 					GroundTrackLine[i].Color = World.Settings.MeasureLineLinearColorXml;;
 				}
 
-				Vector3 last = Vector3.Empty;
+				Vector3 last = Vector3.Zero;
 				double trackLength = 0;
 
 				// Build 3D Line and calculate distance

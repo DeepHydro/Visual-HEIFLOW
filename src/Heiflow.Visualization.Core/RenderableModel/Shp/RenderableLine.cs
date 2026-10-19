@@ -1,16 +1,19 @@
-﻿using DotSpatial.Data;
+using DotSpatial.Data;
 using DotSpatial.Projections;
 using Heiflow.Core;
 using HUST.WREIS.Dot3D;
 using HUST.WREIS.Dot3D.Renderable;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using SharpDX;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace Heiflow.Visualization.Renderable
 {
@@ -155,15 +158,15 @@ namespace Heiflow.Visualization.Renderable
                 Device device = DrawArgs.Device;
                 if (!World.Settings.EnableHighPerfomance)
                     device.Clear(ClearFlags.ZBuffer, 0, 1.0f, 0);
-                device.RenderState.ZBufferEnable = true;
+                device.SetRenderState(RenderState.ZEnable, true);
                 device.VertexFormat = CustomVertex.PositionNormalColored.Format;
-                device.TextureState[0].ColorOperation = TextureOperation.Disable;
+                device.SetTextureStageState(0, TextureStage.ColorOperation, TextureOperation.Disable);
 
-                device.Transform.World = Matrix.Translation(
+                device.SetTransform(TransformState.World, Matrix.Translation(
                 (float)(-drawArgs.WorldCamera.ReferenceCenter.X),
                 (float)(-drawArgs.WorldCamera.ReferenceCenter.Y),
                 (float)(-drawArgs.WorldCamera.ReferenceCenter.Z)
-                );
+                ));
 
                 if (World.Settings.EnableSunShading)
                 {
@@ -173,37 +176,37 @@ namespace Heiflow.Visualization.Renderable
                         (float)sunPosition.Y,
                         (float)sunPosition.Z);
 
-                    device.RenderState.Lighting = true;
+                    device.SetRenderState(RenderState.Lighting, true);
                     Material material = new Material();
-                    material.Diffuse = System.Drawing.Color.White;
-                    material.Ambient = System.Drawing.Color.White;
+                    material.Diffuse = ColorUtil.ToColor4(System.Drawing.Color.White);
+                    material.Ambient = ColorUtil.ToColor4(System.Drawing.Color.White);
 
                     device.Material = material;
-                    device.RenderState.AmbientColor = World.Settings.ShadingAmbientColor.ToArgb();
-                    device.RenderState.NormalizeNormals = true;
-                    device.RenderState.AlphaBlendEnable = true;
+                    device.SetRenderState(RenderState.Ambient, World.Settings.ShadingAmbientColor.ToArgb());
+                    device.SetRenderState(RenderState.NormalizeNormals, true);
+                    device.SetRenderState(RenderState.AlphaBlendEnable, true);
 
-                    device.Lights[0].Enabled = true;
-                    device.Lights[0].Type = LightType.Directional;
-                    device.Lights[0].Diffuse = System.Drawing.Color.White;
-                    device.Lights[0].Direction = sunVector;
+                    LightHub.Get(device, 0).Enabled = true;
+                    LightHub.Get(device, 0).Type = LightType.Directional;
+                    LightHub.Get(device, 0).Diffuse = ColorUtil.ToColor4(System.Drawing.Color.White);
+                    LightHub.Get(device, 0).Direction = sunVector;
                 }
                 else
                 {
-                    device.RenderState.Lighting = false;
-                    device.RenderState.Ambient = World.Settings.StandardAmbientColor;
+                    device.SetRenderState(RenderState.Lighting, false);
+                    device.SetRenderState(RenderState.Ambient, World.Settings.StandardAmbientColor.ToArgb());
                 }
 
-                Cull currentCull = drawArgs.device.RenderState.CullMode;
-                drawArgs.device.RenderState.CullMode = Cull.Clockwise;
-                FillMode fillmode = device.RenderState.FillMode;
-                device.RenderState.FillMode =  Microsoft.DirectX.Direct3D.FillMode.Solid;
+                Cull currentCull = drawArgs.device.GetRenderStateEnum<Cull>(RenderState.CullMode);
+                drawArgs.device.SetRenderState(RenderState.CullMode, (int)(Cull.Clockwise));
+                FillMode fillmode = device.GetRenderStateEnum<FillMode>(RenderState.FillMode);
+                device.SetRenderState(RenderState.FillMode, FillMode.Solid);
 
-                drawArgs.device.DrawIndexedUserPrimitives(PrimitiveType.LineList, 0, _VertexList.Length, _nLine,_VertexIndexList, false, _VertexList);
+                drawArgs.device.DrawIndexedUserPrimitives(PrimitiveType.LineList, 0, _VertexList.Length, _nLine,_VertexIndexList, Format.Index32, _VertexList);
 
-                device.RenderState.FillMode = fillmode;
-                drawArgs.device.RenderState.CullMode = currentCull;
-                drawArgs.device.Transform.World = drawArgs.WorldCamera.WorldMatrix;
+                device.SetRenderState(RenderState.FillMode, fillmode);
+                drawArgs.device.SetRenderState(RenderState.CullMode, currentCull);
+                drawArgs.device.SetTransform(TransformState.World, drawArgs.WorldCamera.WorldMatrix);
             }
             catch (Exception ex)
             {

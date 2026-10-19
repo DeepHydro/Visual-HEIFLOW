@@ -1,11 +1,15 @@
 using System;
 using System.Diagnostics;
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
+
 using Utility;
 using System.Windows.Forms;
 using System.IO;
 using Heiflow.Core;
+
+using SharpDX;
+using Rectangle = System.Drawing.Rectangle;
+using SharpDX.Direct3D9;
+using Heiflow.Visualization.DirectX;
 
 namespace HUST.WREIS.Dot3D.NewWidgets
 {
@@ -385,7 +389,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 						null,
 						displayText,
 						new System.Drawing.Rectangle(AbsoluteLocation.X, AbsoluteLocation.Y, m_Size.Width, m_Size.Height),
-						DrawTextFormat.None,
+						(FontDrawFlags)0,
 						m_ForeColor);
 				}
 
@@ -393,7 +397,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 				{
 					drawArgs.device.SetTexture(0, m_ImageTexture);
 							
-					drawArgs.device.RenderState.ZBufferEnable = false;
+					drawArgs.device.SetRenderState(RenderState.ZEnable, false);
 
 					System.Drawing.Point ul = new System.Drawing.Point(AbsoluteLocation.X, AbsoluteLocation.Y);
 					System.Drawing.Point ur = new System.Drawing.Point(AbsoluteLocation.X + m_Size.Width, AbsoluteLocation.Y);
@@ -411,7 +415,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
 					m_sprite.Transform *= Matrix.Translation(0.5f * (ul.X + ur.X), 0.5f * (ur.Y + lr.Y), 0);
 					m_sprite.Draw( m_ImageTexture,
 						new Vector3(m_surfaceDescription.Width / 2, m_surfaceDescription.Height / 2,0),
-						Vector3.Empty,
+						Vector3.Zero,
 						System.Drawing.Color.FromArgb(m_Opacity, 255, 255, 255).ToArgb()
 						);
 				
@@ -495,7 +499,7 @@ namespace HUST.WREIS.Dot3D.NewWidgets
                     m_SaveFilePath = m_ImageUri;
                 }
 
-                if (m_ImageTexture != null && !m_ImageTexture.Disposed)
+                if (m_ImageTexture != null && !m_ImageTexture.IsDisposed)
                 {
                     m_ImageTexture.Dispose();
                     m_ImageTexture = null;
