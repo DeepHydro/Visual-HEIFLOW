@@ -299,6 +299,8 @@
                     <MenuItem Header="{DynamicResource  ShowScalebarMenuHeader}"  x:Name="miShowScaleBar" IsCheckable="True"  IsChecked="True"  Click="ViewMenuItem_Click" />
                     <MenuItem Header="{DynamicResource  ShowLengendMenuHeader}"   x:Name="miGridLengend" IsCheckable="True"  IsChecked="False" Click="ViewMenuItem_Click"  />
                     <MenuItem Header="Monitor"   x:Name="miMonitor" IsCheckable="True"  IsChecked="False" Click="ViewMenuItem_Click"  />
+                    <!-- 联网抓取 NASA FIRMS 的 MODIS 活跃火点，图标点击后按需下载 NASA GIBS 影像 -->
+                    <MenuItem Header="MODIS Active Fires"  x:Name="miModisFires" IsCheckable="True"  IsChecked="False" Click="miModisFires_Click" />
                     <Separator />
                     <MenuItem Header="{DynamicResource  DefaultPosMenuHeader}"  x:Name="miGotoDefault"   Click="miGotoDefault_Click" />
                     <MenuItem Header="{DynamicResource  CurrentPosAsDefaultMenuHeader}"  x:Name="miCurrentPosAsDefault" Click="miCurrentPosAsDefault_Click"  />

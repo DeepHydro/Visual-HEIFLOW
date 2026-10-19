@@ -218,6 +218,7 @@
     <Compile Include="Core\Cache.cs" />
     <Compile Include="Core\CameraBase.cs" />
     <Compile Include="RenderableObject\DownloadableImageFromIconSet.cs" />
+    <Compile Include="RenderableObject\ModisHotspotLayer.cs" />
     <Compile Include="Core\DrawArgs.cs" />
     <Compile Include="Core\GeographicBoundingBox.cs" />
     <Compile Include="TiledImage\SQliteImageService.cs" />

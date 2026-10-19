@@ -4,11 +4,13 @@ using Heiflow.Visualization.Applications;
 using Heiflow.Visualization.Studio.Controls;
 using Heiflow.Visualization.Studio.Views;
 using HUST.WREIS.Dot3D;
+using HUST.WREIS.Dot3D.Renderable;
 using MahApps.Metro.Controls;
 using Microsoft.Win32;
 using System;
 using System.ComponentModel.Composition;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Waf.Applications;
 using System.Windows;
 
@@ -135,6 +137,72 @@ namespace Heiflow.Visualization.Studio
         {
             System.Windows.Controls.MenuItem item = sender as System.Windows.Controls.MenuItem;
             viewModel.Value.ViewCommand.Execute(item.Name);
+        }
+
+        /// <summary>
+        /// View → MODIS Active Fires 图层。勾选时联网抓取 NASA FIRMS 火点，
+        /// 取消勾选时移除图层。点击图标才会按需下载对应的 NASA GIBS 影像。
+        /// </summary>
+        private DownloadableImageFromIconSet modisFiresLayer;
+
+        private async void miModisFires_Click(object sender, RoutedEventArgs e)
+        {
+            var item = sender as System.Windows.Controls.MenuItem;
+            if (item == null)
+                return;
+
+            var globe = viewModel.Value.ShellService.VirtualGlobeView.VirtualGlobe;
+            var world = globe.DrawArgs.CurrentWorld;
+            if (world == null)
+            {
+                System.Windows.MessageBox.Show("场景尚未加载完成，无法添加 MODIS 图层。", "MODIS Active Fires",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+                item.IsChecked = false;
+                return;
+            }
+
+            // 取消勾选：移除图层
+            if (!item.IsChecked)
+            {
+                if (modisFiresLayer != null)
+                {
+                    world.RenderableObjects.Remove(modisFiresLayer);
+                    modisFiresLayer = null;
+                }
+                return;
+            }
+
+            // 勾选：后台抓取 FIRMS 火点后再构建图层
+            try
+            {
+                item.IsEnabled = false;
+                var hotspots = await Task.Run(() => ModisHotspotLayer.FetchHotspots());
+
+                if (hotspots.Count == 0)
+                {
+                    System.Windows.MessageBox.Show("未获取到任何火点数据。", "MODIS Active Fires",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+                    item.IsChecked = false;
+                    return;
+                }
+
+                string iconFile = System.IO.Path.Combine(
+                    ConfigurationManager.Engine3DSettings.IconPath, "modis-fire.png");
+
+                modisFiresLayer = ModisHotspotLayer.Build(world, globe.DrawArgs, hotspots,
+                    iconFile, ConfigurationManager.Engine3DSettings.CachePath);
+                world.RenderableObjects.Add(modisFiresLayer);
+            }
+            catch (Exception ex)
+            {
+                item.IsChecked = false;
+                System.Windows.MessageBox.Show("获取 MODIS 火点失败：\r\n" + ex.Message, "MODIS Active Fires",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            finally
+            {
+                item.IsEnabled = true;
+            }
         }
         private void miGotoDefault_Click(object sender, RoutedEventArgs e)
         {
