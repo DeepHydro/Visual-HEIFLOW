@@ -133,12 +133,12 @@ namespace Heiflow.Controls.WinForm.Project
 
         private void rbtnMFTime_CheckedChanged(object sender, EventArgs e)
         {
-            cmbMFSPUnit.Enabled = rbtnMFTime.Checked;
+            //cmbMFSPUnit.Enabled = rbtnMFTime.Checked;
         }
 
         private void rbtnMFNum_CheckedChanged(object sender, EventArgs e)
         {
-            numericUpDownMF.Enabled = rbtnMFNum.Checked;
+            //numericUpDownMF.Enabled = rbtnMFNum.Checked;
         }
         private void numericUpDownMF_ValueChanged(object sender, EventArgs e)
         {
