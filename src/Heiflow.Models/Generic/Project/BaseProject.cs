@@ -737,7 +737,7 @@ namespace Heiflow.Models.Generic.Project
                 sw.WriteLine("\t<RenderPriority>LinePaths</RenderPriority>");
                 sw.WriteLine("\t<IsOn>false</IsOn>");
                 sw.WriteLine("\t<IsSelectable>false</IsSelectable>");
-                sw.WriteLine("\t<RelativeFileName>.\\database\\odm.accdb</RelativeFileName>");
+                sw.WriteLine("\t<RelativeFileName>.\\database\\odm.db</RelativeFileName>");
                 sw.WriteLine("\t<ShowAtStartup>false</ShowAtStartup>");
                 sw.WriteLine("</ODMProvider>");
 

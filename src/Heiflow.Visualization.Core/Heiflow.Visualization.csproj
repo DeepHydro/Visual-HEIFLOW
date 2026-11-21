@@ -129,6 +129,7 @@
     <Compile Include="RenderableModel\Model\WaterShader.cs" />
     <Compile Include="RenderableModel\Model\ModelNormals.cs" />
     <Compile Include="RenderableModel\Model\ModelRenderScope.cs" />
+    <Compile Include="RenderableModel\Model\ModelGridClipper.cs" />
     <Compile Include="RenderableModel\Model\StreamlineShader.cs" />
     <Compile Include="RenderableModel\Model\Renders\IDX3DLayerRender.cs" />
     <Compile Include="RenderableModel\Model\Layers\IDX3DLayer.cs" />

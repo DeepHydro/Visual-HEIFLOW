@@ -100,11 +100,11 @@ namespace Heiflow.Core.Data.ODM
                     _Message += string.Format("Error found in row {0}: {1}\n", i, dr["datavalue"]);
                     temp = 0;
                 }
-                sql = string.Format("select * from DataValues where SiteID={0} and VariableID = {1} and DateTimeUTC= #{2}#",
+                sql = string.Format("select * from DataValues where SiteID={0} and VariableID = {1} and DateTimeUTC= '{2}'",
                     dr["SiteID"], dr["VariableID"], ((DateTime)dr["DateTimeUTC"]).ToString("yyyy/MM/dd"));
                 if (ODMDB.Exists(sql))
                 {
-                    sql = string.Format("update DataValues set datavalue={0} where SiteID={1} and variableid={2} and datetimeutc=#{3}#",
+                    sql = string.Format("update DataValues set datavalue={0} where SiteID={1} and variableid={2} and datetimeutc='{3}'",
                         temp, dr["SiteID"], dr["VariableID"],
                         ((DateTime)dr["DateTimeUTC"]).ToString("yyyy/MM/dd HH:mm:ss")
                          );
@@ -112,7 +112,7 @@ namespace Heiflow.Core.Data.ODM
                 }
                 else
                 {
-                    sql = string.Format("insert into DataValues (SiteID,VariableID,DateTimeUTC,DataValue)  values ({0}, {1},  #{2}#,{3})",
+                    sql = string.Format("insert into DataValues (SiteID,VariableID,DateTimeUTC,DataValue)  values ({0}, {1},  '{2}',{3})",
                         dr["SiteID"],
                         dr["VariableID"],
                         ((DateTime)dr["DateTimeUTC"]).ToString("yyyy/MM/dd HH:mm:ss"),
@@ -151,7 +151,7 @@ namespace Heiflow.Core.Data.ODM
                     var sql = string.Format("select * from SeriesCatalog where SiteID={0} and VariableID = {1}", site_id, var_id);
                     if (ODMDB.Exists(sql))
                     {
-                        sql = string.Format("delete * from SeriesCatalog where SiteID={0} and VariableID = {1}", site_id, var_id);
+                        sql = string.Format("delete from SeriesCatalog where SiteID={0} and VariableID = {1}", site_id, var_id);
                         ODMDB.CreateNonQueryCommand(sql);
                     }
 
@@ -160,7 +160,7 @@ namespace Heiflow.Core.Data.ODM
                     if (dt_cata != null)
                     {
                         var dates = from r in dt_cata.AsEnumerable() select r.Field<DateTime>("DateTimeUTC");
-                        sql = string.Format("insert into SeriesCatalog (SiteID,VariableID,BeginDateTime,EndDateTime,ValueCount)  values ({0}, {1},  #{2}#, #{3}#, {4})",
+                        sql = string.Format("insert into SeriesCatalog (SiteID,VariableID,BeginDateTime,EndDateTime,ValueCount)  values ({0}, {1},  '{2}', '{3}', {4})",
                         site_id, var_id, dates.Min().ToString("yyyy/MM/dd"), dates.Max().ToString("yyyy/MM/dd"), dates.Count());
                         ODMDB.CreateNonQueryCommand(sql);
                     }

@@ -41,7 +41,8 @@ namespace Heiflow.Models.Surface.PRMS
                 SoilLayer layer = new SoilLayer()
                 {
                     LayerIndex = i,
-                    SoilDepth = i
+                    SoilDepth = i,
+                    Name = "Soil Layer " + (i+1).ToString()
                 };
                 _Layers.Add(layer);
             }

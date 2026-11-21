@@ -280,7 +280,7 @@ namespace Heiflow.Core.Data
                 foreach (DateTime t in ts.DateTimes)
                 {
                     string insertcmd = "";
-                    if (mDbase.DBKind == DBkind.Access2003 || mDbase.DBKind == DBkind.Access2007)
+                    if (mDbase.DBKind == DBkind.Access2003 || mDbase.DBKind == DBkind.Access2007 || mDbase.DBKind == DBkind.SQLite)
                     {
                         insertcmd = "insert into " + Configuration.DataValuesTableName + " (DataValue,DateTimeUTC,SiteID,VariableID) values(" + ts[0,i,0]
                             + ",'" + t + "'," + siteID + "," + variableID + ")";
@@ -304,7 +304,7 @@ namespace Heiflow.Core.Data
             foreach (INumericalSeriesPair p in pairs)
             {
                 string insertcmd = "";
-                if (mDbase.DBKind == DBkind.Access2003 || mDbase.DBKind == DBkind.Access2007)
+                if (mDbase.DBKind == DBkind.Access2003 || mDbase.DBKind == DBkind.Access2007 || mDbase.DBKind == DBkind.SQLite)
                 {
                     insertcmd = "insert into " + Configuration.DataValuesTableName + " (DataValue,DateTimeUTC,SiteID,VariableID) values(" + p.Value
                         + ",'" + p.DateTime + "'," + siteID + "," + variableID + ")";

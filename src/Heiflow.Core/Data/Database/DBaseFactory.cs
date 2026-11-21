@@ -63,6 +63,9 @@ namespace Heiflow.Core.Data
                 case DbOptKind.SqlClient:
                     oledbOptDbase = new SqlServerDatabase(info);
                     break;
+                case DbOptKind.SQLiteClient:
+                    oledbOptDbase = new SQLiteDatabase(info);
+                    break;
 #if UseOracle
                case DbOptKind.OracleClient:
                     oralclientOptDbase = new OracleDbase(info);
@@ -72,12 +75,12 @@ namespace Heiflow.Core.Data
                     break;
             }
             IDBase result = null;
-            if (optkind == DbOptKind.Oledb)
+            if (oledbOptDbase != null)
             {
-                result= oledbOptDbase;
+                result = oledbOptDbase;
             }
 #if UseOracle
-            else
+            else if (oralclientOptDbase != null)
             {
                 result = oralclientOptDbase;
             }

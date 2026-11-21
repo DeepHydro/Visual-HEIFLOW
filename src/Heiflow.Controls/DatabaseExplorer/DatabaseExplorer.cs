@@ -155,7 +155,7 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
                     if (MessageBox.Show(msg, "Database Connection", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
                         OpenFileDialog form = new OpenFileDialog();
-                        form.Filter = "access 2007-2013 file|*.accdb|access 2003 file |*.mdb";
+                        form.Filter = "SQLite database file|*.db;*.sqlite;*.db3";
                         if (form.ShowDialog() == DialogResult.OK)
                         {
                             viewModel.Value.ODMSource.DatabaseFilePath = form.FileName;
@@ -185,7 +185,7 @@ namespace Heiflow.Controls.WinForm.DatabaseExplorer
             else
             {
                 OpenFileDialog form = new OpenFileDialog();
-                form.Filter = "access 2007-2013 file|*.accdb|access 2003 file |*.mdb";
+                form.Filter = "SQLite database file|*.db;*.sqlite;*.db3";
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     ODMSource odm = new ODMSource();

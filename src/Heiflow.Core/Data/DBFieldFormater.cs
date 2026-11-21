@@ -61,6 +61,10 @@ namespace Heiflow.Core.Data
            {
                str = fieldName + ">=#" + start.ToString() + "# and " + fieldName + "<=#" + end.ToString() + "#";
            }
+           else if (dbkind == DBkind.SQLite)
+           {
+               str = fieldName + ">='" + start.ToString("yyyy/MM/dd HH:mm:ss") + "' and " + fieldName + "<='" + end.ToString("yyyy/MM/dd HH:mm:ss") + "'";
+           }
            return str;
        }
     }

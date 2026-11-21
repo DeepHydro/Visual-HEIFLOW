@@ -60,6 +60,9 @@ namespace Heiflow.Visualization.Renderable.Grid
 
             ApplyLighting(device);
 
+            // 必须在世界矩阵设好之后调用：裁剪平面的常数按这个平移折算（见 ModelGridClipper.Apply）。
+            ModelGridClipper.Apply(device);
+
             device.RenderState.CullMode = Cull.None;
             device.RenderState.FillMode = fillMode;
 
@@ -76,6 +79,7 @@ namespace Heiflow.Visualization.Renderable.Grid
 
             _device.RenderState.FillMode = _fillMode;
             _device.RenderState.CullMode = _cullMode;
+            ModelGridClipper.Reset(_device);
 
             if (_drawArgs != null && _drawArgs.WorldCamera != null)
                 _device.Transform.World = _drawArgs.WorldCamera.WorldMatrix;

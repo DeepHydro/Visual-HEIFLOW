@@ -35,6 +35,9 @@ namespace Heiflow.Visualization.Studio
         /// <summary>Observation databases of the ODM kind, kept in Access.</summary>
         public const string AccessDatabase = "Access database (*.mdb)|*.mdb";
 
+        /// <summary>Observation databases of the ODM kind, kept in SQLite.</summary>
+        public const string SQLiteDatabase = "SQLite database (*.db;*.sqlite;*.db3)|*.db;*.sqlite;*.db3";
+
         /// <summary>Attribute tables of a shapefile on their own.</summary>
         public const string DbfTable = "dBASE table (*.dbf)|*.dbf";
 

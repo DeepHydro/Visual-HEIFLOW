@@ -36,8 +36,8 @@ using System.Xml.Serialization;
 
 namespace Heiflow.Core
 {
-    public enum DBkind { Oracle, Access2003, Access2007,Access2013, Sqlserver, Excel };
-    public enum DbOptKind { Oledb, OracleClient,SqlClient };
+    public enum DBkind { Oracle, Access2003, Access2007,Access2013, Sqlserver, Excel, SQLite };
+    public enum DbOptKind { Oledb, OracleClient,SqlClient, SQLiteClient };
     [Serializable]
     public class DBConnectInfo
     {

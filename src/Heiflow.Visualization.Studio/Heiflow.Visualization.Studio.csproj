@@ -136,7 +136,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.SQLite, Version=1.0.74.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
+    <Reference Include="System.Data.SQLite, Version=1.0.90.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Heiflow.Dependencies\lib\net45\System.Data.SQLite.dll</HintPath>
     </Reference>
@@ -206,6 +206,9 @@
     <Compile Include="Views\SiteWindow.xaml.cs">
       <DependentUpon>SiteWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\GridClipWindow.xaml.cs">
+      <DependentUpon>GridClipWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SymbologyWindow.xaml.cs">
       <DependentUpon>SymbologyWindow.xaml</DependentUpon>
     </Compile>
@@ -265,6 +268,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SceneWorldSettingsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GridClipWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

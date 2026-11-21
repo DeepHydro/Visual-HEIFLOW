@@ -127,6 +127,14 @@ namespace Heiflow.Controls.WinForm.Controls
                     list.Add(item);
                 source = list;
             }
+
+            // The DataSource setter compares references and silently ignores a re-assignment of
+            // the very same collection. Managers usually refill one shared ObservableCollection
+            // instead of creating a new one, so without this reset a repeated Bind would leave
+            // the grid showing stale rows. ObservableCollection does not raise IBindingList
+            // events, hence the grid cannot follow the changes on its own.
+            //if (ReferenceEquals(grid.DataSource, source))
+            //    grid.DataSource = null;
             grid.DataSource = source;
         }
     }

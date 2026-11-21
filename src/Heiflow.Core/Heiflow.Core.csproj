@@ -76,6 +76,10 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.90.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Heiflow.Dependencies\lib\net45\System.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -287,6 +291,7 @@
     <Compile Include="Data\Database\OleDBase.cs" />
     <Compile Include="Data\Database\OracleDbase.cs" />
     <Compile Include="Data\Database\SqlServerDatabase.cs" />
+    <Compile Include="Data\Database\SQLiteDatabase.cs" />
     <Compile Include="DataDriven\Schema\CalibrationDataSelection.cs" />
     <Compile Include="DataDriven\Schema\CalibrationSchema.cs" />
     <Compile Include="DataDriven\Schema\DiagramApplication.cs" />

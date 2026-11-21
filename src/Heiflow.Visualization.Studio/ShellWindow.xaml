@@ -307,6 +307,7 @@
                     <Separator />
                     <MenuItem Header="{DynamicResource  SaveConfigMenuHeader}"  x:Name="miSaveViewSetting"  Click="miSaveViewSetting_Click" />
                     <MenuItem Header="{DynamicResource  SceneWorldSettingsMenuHeader}"   x:Name="miSceneWorldSettings"  Click="miSceneWorldSettings_Click" />
+                    <MenuItem Header="模型网格剖切"   x:Name="miGridClip"  Click="miGridClip_Click" />
                     <MenuItem Header="{DynamicResource  LogWindowMenuHeader}"   x:Name="miLog"  Click="miLog_Click" />
                 </MenuItem>
                 <MenuItem Header="{DynamicResource  DataMenuHeader}" x:Name="DataMenu"   Style="{StaticResource TopMenuItem}"  >

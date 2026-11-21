@@ -417,17 +417,17 @@ namespace Heiflow.Models.Integration
 
         private void NewDatabase()
         {
-            string odmfile = Path.Combine(Application.StartupPath, "Data\\ODM.accdb");
+            string odmfile = Path.Combine(Application.StartupPath, "Data\\ODM.db");
             string odm_templ_file = Path.Combine(Application.StartupPath, "Data\\template.xlsx");
 
-            string local_odmfile = Path.Combine(Project.DatabaseDirectory, "ODM.accdb");
+            string local_odmfile = Path.Combine(Project.DatabaseDirectory, "ODM.db");
             string local_templfile = Path.Combine(Project.DatabaseDirectory, "template.xlsx");
             File.Copy(odmfile, local_odmfile, true);
             File.Copy(odm_templ_file, local_templfile, true);
 
             Project.ODMSource = new Core.Data.ODM.ODMSource()
             {
-                DatabaseFilePath = "Database\\ODM.accdb",
+                DatabaseFilePath = "Database\\ODM.db",
                 Name = Project.Name
             };
         }

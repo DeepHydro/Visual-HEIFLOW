@@ -247,6 +247,18 @@ namespace Heiflow.Visualization.Studio
             window.Owner = this;
             window.ShowDialog();
         }
+
+        /// <summary>
+        /// 打开模型网格剖切窗口。非模态，滑块一动场景就跟着重绘（见 ModelRenderScope 里的
+        /// ModelGridClipper.Apply）。
+        /// </summary>
+        private void miGridClip_Click(object sender, RoutedEventArgs e)
+        {
+            GridClipWindow window = new GridClipWindow(viewModel.Value.ProjectService);
+            window.ShowInTaskbar = false;
+            window.Owner = this;
+            window.Show();
+        }
         private void miLoadShp_Click(object sender, RoutedEventArgs e)
         {
             // Without a filter the dialog offers every file of the folder, and the layer service is then
@@ -284,7 +296,7 @@ namespace Heiflow.Visualization.Studio
         private void miLoadODM_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = FileDialogFilters.AccessDatabase;
+            dialog.Filter = FileDialogFilters.SQLiteDatabase;
             if (dialog.ShowDialog().Value)
             {
                 viewModel.Value.LoadODM.Execute(dialog.FileName);

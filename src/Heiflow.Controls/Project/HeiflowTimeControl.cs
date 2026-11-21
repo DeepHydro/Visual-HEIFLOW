@@ -53,6 +53,7 @@ namespace Heiflow.Controls.WinForm.Project
         public HeiflowTimeControl(TimeService global, TimeService mf)
         {
             InitializeComponent();
+            olvMF.AutoGenerateColumns = true;
             _GlobalTimeService = global;
             _MFTimeService = mf;
             this.tabControl1.SelectedTab = this.tabPageMF;
@@ -133,12 +134,12 @@ namespace Heiflow.Controls.WinForm.Project
 
         private void rbtnMFTime_CheckedChanged(object sender, EventArgs e)
         {
-            //cmbMFSPUnit.Enabled = rbtnMFTime.Checked;
+            cmbMFSPUnit.Enabled = rbtnMFTime.Checked;
         }
 
         private void rbtnMFNum_CheckedChanged(object sender, EventArgs e)
         {
-            //numericUpDownMF.Enabled = rbtnMFNum.Checked;
+            numericUpDownMF.Enabled = rbtnMFNum.Checked;
         }
         private void numericUpDownMF_ValueChanged(object sender, EventArgs e)
         {

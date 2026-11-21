@@ -655,7 +655,7 @@ namespace Heiflow.Visualization.Studio
         private void miLoadODM_Click(object sender, RoutedEventArgs e)
         {
             var ofd = new Microsoft.Win32.OpenFileDialog();
-            ofd.Filter = FileDialogFilters.AccessDatabase;
+            ofd.Filter = FileDialogFilters.SQLiteDatabase;
             if (ofd.ShowDialog() == true)
             {
                 //var prj = VisAppManager.Default.ProjectManager.Project as Heiflow3DProject;
